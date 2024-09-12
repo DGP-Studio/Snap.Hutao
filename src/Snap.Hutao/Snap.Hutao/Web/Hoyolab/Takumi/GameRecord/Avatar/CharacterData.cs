@@ -5,39 +5,29 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
-/// <summary>
-/// 角色 POST 数据
-/// </summary>
 internal sealed class CharacterData
 {
-    /// <summary>
-    /// 构造一个新的角色 POST 数据
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="characterIds">角色id</param>
-    [SuppressMessage("", "SH002")]
-    public CharacterData(PlayerUid uid, IEnumerable<AvatarId> characterIds)
+    public CharacterData(PlayerUid uid)
     {
-        CharacterIds = characterIds;
         Uid = uid.Value;
         Server = uid.Region;
     }
 
-    /// <summary>
-    /// 角色id
-    /// </summary>
-    [JsonPropertyName("character_ids")]
-    public IEnumerable<AvatarId> CharacterIds { get; }
+    public CharacterData(PlayerUid uid, List<AvatarId> characterIds)
+        : this(uid)
+    {
+        CharacterIds = characterIds;
+    }
 
-    /// <summary>
-    /// uid
-    /// </summary>
+    [JsonPropertyName("sort_type")]
+    public uint SortType { get; } = 1;
+
+    [JsonPropertyName("character_ids")]
+    public List<AvatarId>? CharacterIds { get; }
+
     [JsonPropertyName("role_id")]
     public string Uid { get; } = default!;
 
-    /// <summary>
-    /// 服务器
-    /// </summary>
     [JsonPropertyName("server")]
     public Region Server { get; }
 }

@@ -7,7 +7,6 @@ namespace Snap.Hutao.Core.Setting;
 /// 设置键
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1124")]
 internal static class SettingKeys
 {
     #region MainWindow
@@ -23,6 +22,7 @@ internal static class SettingKeys
     #endregion
 
     #region Application
+    public const string LastVersion = "LastVersion";
     public const string LaunchTimes = "LaunchTimes";
     public const string DataFolderPath = "DataFolderPath";
     public const string Major1Minor10Revision0GuideState = "Major1Minor10Revision0GuideState1";
@@ -64,6 +64,10 @@ internal static class SettingKeys
     public const string OverrideElevationRequirement = "OverrideElevationRequirement";
     public const string OverrideUpdateVersionComparison = "OverrideUpdateVersionComparison";
     public const string OverridePackageConvertDirectoryPermissionsRequirement = "OverridePackageConvertDirectoryPermissionsRequirement";
+    public const string OverridePhysicalDriverType = "OverridePhysicalDriverType";
+    public const string PhysicalDriverIsAlwaysSolidState = "PhysicalDriverIsAlwaysSolidState";
+    public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
+    public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
     #endregion
 
     #region Obsolete

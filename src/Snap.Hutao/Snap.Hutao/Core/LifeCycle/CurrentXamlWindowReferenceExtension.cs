@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Core.LifeCycle;

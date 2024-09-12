@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  DocumentLink  -->
+    <x:String x:Key="DocumentLink_BugReport">https://hut.ao/statements/bug-report.html</x:String>
+    <x:String x:Key="DocumentLink_Home">https://hut.ao</x:String>
+    <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html</x:String>
+    <x:String x:Key="DocumentLink_Translate">https://translate.hut.ao</x:String>
+    <x:String x:Key="DocumentLink_Loopback">https://hut.ao/zh/advanced/FAQ.html#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86%E4%BD%BF%E7%94%A8%E8%83%A1%E6%A1%83%E5%B7%A5%E5%85%B7%E7%AE%B1</x:String>
+
+    <!--  Other  -->
+    <x:String x:Key="HolographicHat_GetToken_Release">https://github.com/HolographicHat/GetToken/releases/latest</x:String>
+    <x:String x:Key="Sponsor_Afadian">https://afdian.net/a/DismissedLight</x:String>
+    <x:String x:Key="IconGame">https://launcher-webstatic.mihoyo.com/launcher-public/2024/04/15/9ebf1bc5af2d83ca5fca21adb49cf341_2571779162329842818.png</x:String>
+
+    <!--  AvatarCard  -->
+    <x:String x:Key="UI_AvatarIcon_Costume_Card">https://api.snapgenshin.com/static/raw/AvatarCard/UI_AvatarIcon_Costume_Card.png</x:String>
+
+    <!--  Bg  -->
+    <x:String x:Key="UI_Icon_Intee_Explore_1">https://api.snapgenshin.com/static/raw/Bg/UI_Icon_Intee_Explore_1.png</x:String>
+    <x:String x:Key="UI_ImgSign_ItemIcon">https://api.snapgenshin.com/static/raw/Bg/UI_ImgSign_ItemIcon.png</x:String>
+    <x:String x:Key="UI_ItemIcon_None">https://api.snapgenshin.com/static/raw/Bg/UI_ItemIcon_None.png</x:String>
+
+    <!--  Mark  -->
+    <x:String x:Key="UI_MarkQuest_Events_Proce">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Events_Proce.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Events_Start">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Events_Start.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Main_Proce">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Main_Proce.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Main_Start">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Main_Start.png</x:String>
+    <x:String x:Key="UI_MarkTower">https://api.snapgenshin.com/static/raw/Mark/UI_MarkTower.png</x:String>
+
+    <!--  ItemIcon  -->
+    <x:String x:Key="UI_ItemIcon_201">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_201.png</x:String>
+    <x:String x:Key="UI_ItemIcon_204">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_204.png</x:String>
+    <x:String x:Key="UI_ItemIcon_210">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_210.png</x:String>
+    <x:String x:Key="UI_ItemIcon_220021">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_220021.png</x:String>
+
+    <!--  EmotionIcon  -->
+    <x:String x:Key="UI_EmotionIcon25">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon25.png</x:String>
+    <x:String x:Key="UI_EmotionIcon52">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon52.png</x:String>
+    <x:String x:Key="UI_EmotionIcon71">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon71.png</x:String>
+    <x:String x:Key="UI_EmotionIcon89">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon89.png</x:String>
+    <x:String x:Key="UI_EmotionIcon250">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon250.png</x:String>
+    <x:String x:Key="UI_EmotionIcon271">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon271.png</x:String>
+    <x:String x:Key="UI_EmotionIcon272">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon272.png</x:String>
+    <x:String x:Key="UI_EmotionIcon293">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon293.png</x:String>
+    <x:String x:Key="UI_EmotionIcon433">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon433.png</x:String>
+    <x:String x:Key="UI_EmotionIcon445">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon445.png</x:String>
+</ResourceDictionary>

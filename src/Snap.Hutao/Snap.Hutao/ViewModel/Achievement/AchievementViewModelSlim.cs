@@ -4,25 +4,19 @@
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.UI.Xaml.View.Page;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-/// <summary>
-/// 简化的成就视图模型
-/// </summary>
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]
-internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<View.Page.AchievementPage>
+internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<AchievementPage>
 {
     private List<AchievementStatistics>? statisticsList;
 
-    /// <summary>
-    /// 统计列表
-    /// </summary>
     public List<AchievementStatistics>? StatisticsList { get => statisticsList; set => SetProperty(ref statisticsList, value); }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async Task LoadAsync()
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {

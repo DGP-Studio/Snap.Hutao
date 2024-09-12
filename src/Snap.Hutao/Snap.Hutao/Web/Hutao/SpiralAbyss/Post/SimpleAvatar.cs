@@ -6,22 +6,14 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 
-/// <summary>
-/// 角色详情 角色
-/// </summary>
-[HighQuality]
 internal sealed class SimpleAvatar
 {
-    /// <summary>
-    /// 构造一个新的角色详情 角色
-    /// </summary>
-    /// <param name="character">角色</param>
-    public SimpleAvatar(Character character)
+    public SimpleAvatar(DetailedCharacter character)
     {
-        AvatarId = character.Id;
+        AvatarId = character.Base.Id;
         WeaponId = character.Weapon.Id;
-        ReliquarySetIds = character.Reliquaries.Select(r => r.ReliquarySet.Id);
-        ActivedConstellationNumber = character.ActivedConstellationNum;
+        ReliquarySetIds = character.Relics.Select(r => r.ReliquarySet.Id);
+        ActivedConstellationNumber = character.Base.ActivedConstellationNum;
     }
 
     /// <summary>
@@ -37,7 +29,7 @@ internal sealed class SimpleAvatar
     /// <summary>
     /// 圣遗物套装Id
     /// </summary>
-    public IEnumerable<int> ReliquarySetIds { get; set; } = default!;
+    public IEnumerable<ReliquarySetId> ReliquarySetIds { get; set; } = default!;
 
     /// <summary>
     /// 命座

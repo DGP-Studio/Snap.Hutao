@@ -10,7 +10,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell.PropertiesSystem;
 
 [SupportedOSPlatform("windows6.0.6000")]
-internal unsafe readonly struct IPropertyChangeArray
+internal readonly unsafe struct IPropertyChangeArray
 {
     public readonly Vftbl* ThisPtr;
 

@@ -1,22 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Weapon;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 战斗属性与初始值
-/// </summary>
-internal sealed class PropertyCurveValue
+internal sealed class PropertyCurveValue : IMappingFrom<PropertyCurveValue, WeaponTypeValue>
 {
-    /// <summary>
-    /// 构造一个新的战斗属性与初始值
-    /// </summary>
-    /// <param name="property">战斗属性</param>
-    /// <param name="type">类型</param>
-    /// <param name="value">初始值</param>
     public PropertyCurveValue(FightProperty property, GrowCurveType type, float value)
     {
         Property = property;
@@ -29,18 +22,14 @@ internal sealed class PropertyCurveValue
     {
     }
 
-    /// <summary>
-    /// 战斗属性值
-    /// </summary>
     public FightProperty Property { get; }
 
-    /// <summary>
-    /// 曲线类型
-    /// </summary>
     public GrowCurveType Type { get; }
 
-    /// <summary>
-    /// 初始值
-    /// </summary>
     public float Value { get; }
+
+    public static PropertyCurveValue From(WeaponTypeValue curveInfo)
+    {
+        return new(curveInfo.Type, curveInfo.Value, curveInfo.InitValue);
+    }
 }

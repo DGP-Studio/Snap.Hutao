@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.User;
 
 internal interface IUserServiceUnsafe
 {
-    ValueTask UnsafeRemoveUsersAsync();
+    ValueTask UnsafeRemoveAllUsersAsync();
 }

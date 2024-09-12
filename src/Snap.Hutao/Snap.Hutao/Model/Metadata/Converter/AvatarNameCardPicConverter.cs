@@ -1,15 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
+using Snap.Hutao.UI.Xaml.Data.Converter;
+using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-/// <summary>
-/// 角色名片转换器
-/// </summary>
-[HighQuality]
-internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
+internal sealed partial class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
 {
     public static Uri AvatarToUri(Avatar.Avatar? avatar)
     {
@@ -19,10 +16,9 @@ internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?
         }
 
         string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);
-        return Web.HutaoEndpoints.StaticRaw("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png").ToUri();
+        return StaticResourcesEndpoints.StaticRaw("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png").ToUri();
     }
 
-    /// <inheritdoc/>
     public override Uri Convert(Avatar.Avatar? avatar)
     {
         return AvatarToUri(avatar);

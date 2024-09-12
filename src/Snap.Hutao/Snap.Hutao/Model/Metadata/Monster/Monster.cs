@@ -4,13 +4,14 @@
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.Model.Metadata.Monster;
 
 /// <summary>
 /// 敌对生物
 /// </summary>
-internal sealed class Monster
+internal sealed partial class Monster : IAdvancedCollectionViewItem
 {
     internal const uint MaxLevel = 100;
 

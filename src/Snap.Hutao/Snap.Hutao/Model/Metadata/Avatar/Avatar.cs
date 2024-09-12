@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.ViewModel.Wiki;
@@ -19,7 +20,8 @@ internal partial class Avatar : INameQualityAccess,
     ISummaryItemConvertible,
     IItemConvertible,
     ICalculableSource<ICalculableAvatar>,
-    ICultivationItemsAccess
+    ICultivationItemsAccess,
+    IAdvancedCollectionViewItem
 {
     public AvatarId Id { get; set; }
 

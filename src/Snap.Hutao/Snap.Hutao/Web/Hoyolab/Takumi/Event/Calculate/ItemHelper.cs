@@ -10,24 +10,17 @@ internal static class ItemHelper
 {
     public static List<Item> Merge(List<Item>? left, List<Item>? right)
     {
-        if (left.IsNullOrEmpty() && right.IsNullOrEmpty())
+        return (left, right) switch
         {
-            return [];
-        }
+            ([_, ..], [_, ..]) => MergeNotEmpty(left, right),
+            ([_, ..], null or []) => left,
+            (null or [], [_, ..]) => right,
+            _ => [],
+        };
+    }
 
-        if (left.IsNullOrEmpty() && !right.IsNullOrEmpty())
-        {
-            return right;
-        }
-
-        if (right.IsNullOrEmpty() && !left.IsNullOrEmpty())
-        {
-            return left;
-        }
-
-        ArgumentNullException.ThrowIfNull(left);
-        ArgumentNullException.ThrowIfNull(right);
-
+    private static List<Item> MergeNotEmpty(List<Item> left, List<Item> right)
+    {
         List<Item> result = new(left.Count + right.Count);
         result.AddRange(left);
 

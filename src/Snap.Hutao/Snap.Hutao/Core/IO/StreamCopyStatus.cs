@@ -3,7 +3,18 @@
 
 namespace Snap.Hutao.Core.IO;
 
-/// <summary>
-/// 流复制状态
-/// </summary>
-internal sealed record StreamCopyStatus(long BytesCopied, long TotalBytes);
+internal sealed class StreamCopyStatus
+{
+    public StreamCopyStatus(long bytesReadSinceLastReport, long bytesReadSinceCopyStart, long totalBytes)
+    {
+        BytesReadSinceLastReport = bytesReadSinceLastReport;
+        BytesReadSinceCopyStart = bytesReadSinceCopyStart;
+        TotalBytes = totalBytes;
+    }
+
+    public long BytesReadSinceLastReport { get; }
+
+    public long BytesReadSinceCopyStart { get; }
+
+    public long TotalBytes { get; }
+}

@@ -5,7 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
-internal unsafe readonly struct SUBCLASSPROC
+internal readonly unsafe struct SUBCLASSPROC
 {
     [SuppressMessage("", "IDE0052")]
     private readonly delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, nuint, nuint, LRESULT> value;

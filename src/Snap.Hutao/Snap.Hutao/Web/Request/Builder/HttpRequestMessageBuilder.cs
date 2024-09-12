@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
-internal class HttpRequestMessageBuilder :
+internal sealed class HttpRequestMessageBuilder :
     IBuilder,
     IHttpRequestMessageBuilder,
     IHttpHeadersBuilder<HttpHeaders>,
@@ -22,12 +22,14 @@ internal class HttpRequestMessageBuilder :
     IHttpMethodBuilder
 {
     private readonly HttpContentSerializer httpContentSerializer;
+    private readonly IServiceProvider serviceProvider;
     private HttpRequestMessage httpRequestMessage;
 
-    public HttpRequestMessageBuilder(HttpContentSerializer httpContentSerializer, HttpRequestMessage? httpRequestMessage = default)
+    public HttpRequestMessageBuilder(IServiceProvider serviceProvider, HttpContentSerializer httpContentSerializer, HttpRequestMessage? httpRequestMessage = default)
     {
+        this.serviceProvider = serviceProvider;
         this.httpContentSerializer = httpContentSerializer;
-        this.httpRequestMessage = httpRequestMessage ?? new HttpRequestMessage();
+        this.httpRequestMessage = httpRequestMessage ?? new();
     }
 
     public HttpRequestMessage HttpRequestMessage
@@ -39,6 +41,8 @@ internal class HttpRequestMessageBuilder :
             httpRequestMessage = value;
         }
     }
+
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
 
     public HttpContentSerializer HttpContentSerializer { get => httpContentSerializer; }
 

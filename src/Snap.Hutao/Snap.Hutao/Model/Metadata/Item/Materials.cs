@@ -6,9 +6,6 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Item;
 
-/// <summary>
-/// 材料表
-/// </summary>
 internal static class Materials
 {
     public static FrozenSet<MaterialId> MondayThursdayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
@@ -28,6 +25,9 @@ internal static class Materials
         104338U,
         104339U,
         104340U, // 「公平」
+        104347U,
+        104348U,
+        104349U, // 「角逐」
         114001U,
         114002U,
         114003U,
@@ -48,6 +48,10 @@ internal static class Materials
         114050U,
         114051U,
         114052U, // 悠古弦音
+        114061U,
+        114062U,
+        114063U,
+        114064U, // 贡祭炽心
     ]);
 
     public static FrozenSet<MaterialId> TuesdayFridayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
@@ -67,6 +71,9 @@ internal static class Materials
         104341U,
         104342U,
         104343U, // 「正义」
+        104350U,
+        104351U,
+        104352U, // 「焚燔」
         114005U,
         114006U,
         114007U,
@@ -87,6 +94,10 @@ internal static class Materials
         114054U,
         114055U,
         114056U, // 纯圣露滴
+        114065U,
+        114066U,
+        114067U,
+        114068U, // 谵妄圣主
     ]);
 
     public static FrozenSet<MaterialId> WednesdaySaturdayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
@@ -106,6 +117,9 @@ internal static class Materials
         104344U,
         104345U,
         104346U, // 「秩序」
+        104353U,
+        104354U,
+        104355U, // 「纷争」
         114009U,
         114010U,
         114011U,
@@ -126,5 +140,9 @@ internal static class Materials
         114058U,
         114059U,
         114060U, // 无垢之海
+        114069U,
+        114070U,
+        114071U,
+        114072U, // 神合秘烟
     ]);
 }

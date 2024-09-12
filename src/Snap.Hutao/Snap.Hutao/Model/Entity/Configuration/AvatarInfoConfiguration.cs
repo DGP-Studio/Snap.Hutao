@@ -3,20 +3,17 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 namespace Snap.Hutao.Model.Entity.Configuration;
 
-/// <summary>
-/// 角色信息配置
-/// </summary>
-[HighQuality]
 internal sealed class AvatarInfoConfiguration : IEntityTypeConfiguration<AvatarInfo>
 {
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<AvatarInfo> builder)
     {
-        builder.Property(e => e.Info)
+        builder.Property(e => e.Info2)
             .HasColumnType(SqliteTypeNames.Text)
-            .HasConversion<JsonTextValueConverter<Web.Enka.Model.AvatarInfo>>();
+            .HasConversion<JsonTextValueConverter<DetailedCharacter>>();
     }
 }

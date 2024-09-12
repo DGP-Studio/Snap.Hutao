@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -27,14 +27,14 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, uint level)
     {
         LevelParameters<SkillLevel, float> param = from.Parameters.Single(param => param.Level == level);
-        return new LevelParameters<string, ParameterDescription>($"Lv.{param.Level.Value}", GetParameterDescription(from.Descriptions, param.Parameters));
+        return new LevelParameters<string, ParameterDescription>(LevelFormat.Format(param.Level), GetParameterDescription(from.Descriptions, param.Parameters));
     }
 
     /// <inheritdoc/>
     public override List<LevelParameters<string, ParameterDescription>> Convert(DescriptionsParameters from)
     {
         List<LevelParameters<string, ParameterDescription>> parameters = from.Parameters
-            .SelectList(param => new LevelParameters<string, ParameterDescription>($"Lv.{param.Level.Value}", GetParameterDescription(from.Descriptions, param.Parameters)));
+            .SelectList(param => new LevelParameters<string, ParameterDescription>(LevelFormat.Format(param.Level), GetParameterDescription(from.Descriptions, param.Parameters)));
 
         return parameters;
     }

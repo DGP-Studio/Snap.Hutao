@@ -7,22 +7,18 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-/// <summary>
-/// 绑定成就分类
-/// </summary>
-[HighQuality]
-internal sealed class AchievementGoalView : ObservableObject, INameIcon, IMappingFrom<AchievementGoalView, AchievementGoal>
+internal sealed partial class AchievementGoalView : ObservableObject,
+    INameIcon,
+    IAdvancedCollectionViewItem,
+    IMappingFrom<AchievementGoalView, AchievementGoal>
 {
     private double finishPercent;
     private string? finishDescription;
 
-    /// <summary>
-    /// 构造一个新的成就分类
-    /// </summary>
-    /// <param name="goal">分类</param>
     private AchievementGoalView(AchievementGoal goal)
     {
         Id = goal.Id;
@@ -31,34 +27,16 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon, IMappin
         Icon = AchievementIconConverter.IconNameToUri(goal.Icon);
     }
 
-    /// <summary>
-    /// Id
-    /// </summary>
     public AchievementGoalId Id { get; }
 
-    /// <summary>
-    /// 排序顺序
-    /// </summary>
     public uint Order { get; }
 
-    /// <summary>
-    /// 名称
-    /// </summary>
     public string Name { get; }
 
-    /// <summary>
-    /// 图标
-    /// </summary>
     public Uri Icon { get; }
 
-    /// <summary>
-    /// 完成百分比
-    /// </summary>
     public double FinishPercent { get => finishPercent; set => SetProperty(ref finishPercent, value); }
 
-    /// <summary>
-    /// 完成百分比描述
-    /// </summary>
     public string? FinishDescription { get => finishDescription; set => SetProperty(ref finishDescription, value); }
 
     public static AchievementGoalView From(AchievementGoal source)
@@ -66,10 +44,6 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon, IMappin
         return new(source);
     }
 
-    /// <summary>
-    /// 更新进度
-    /// </summary>
-    /// <param name="statistics">统计</param>
     public void UpdateFinishDescriptionAndPercent(AchievementGoalStatistics statistics)
     {
         FinishDescription = AchievementStatistics.Format(statistics.Finished, statistics.TotalCount, out double finishPercent);

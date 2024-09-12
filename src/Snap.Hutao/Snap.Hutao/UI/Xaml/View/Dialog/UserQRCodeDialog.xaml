@@ -1,0 +1,21 @@
+<ContentDialog
+    x:Class="Snap.Hutao.UI.Xaml.View.Dialog.UserQRCodeDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogQRCodeTitle}"
+    CloseButtonCommand="{x:Bind CancelCommand}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    DefaultButton="Close"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <Image
+            Width="320"
+            Height="320"
+            Source="{x:Bind QRCodeSource, Mode=OneWay}"/>
+    </StackPanel>
+</ContentDialog>

@@ -1,13 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using System.Buffers;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
-internal sealed class GameScreenCaptureMemoryPool : MemoryPool<byte>
+internal sealed partial class GameScreenCaptureMemoryPool : MemoryPool<byte>
 {
     private static readonly LazySlim<GameScreenCaptureMemoryPool> LazyShared = new(() => new());
 
@@ -57,7 +56,7 @@ internal sealed class GameScreenCaptureMemoryPool : MemoryPool<byte>
         }
     }
 
-    internal sealed class GameScreenCaptureBuffer : IMemoryOwner<byte>
+    internal sealed partial class GameScreenCaptureBuffer : IMemoryOwner<byte>
     {
         private readonly GameScreenCaptureMemoryPool pool;
         private readonly byte[] buffer;

@@ -18,7 +18,7 @@ internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbys
         IndexValue = floor.Index;
         Disorders = floor.Descriptions;
 
-        Levels = context.IdLevelGroupMap[floor.LevelGroupId].SortBy(l => l.Index).SelectList(l => LevelView.From(l, context));
+        Levels = context.IdListTowerLevelMap[floor.LevelGroupId].SortBy(l => l.Index).SelectList(l => LevelView.From(l, context));
     }
 
     public bool Engaged { get; private set; }
@@ -52,7 +52,7 @@ internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbys
         return new(floor, context);
     }
 
-    public void WithSpiralAbyssFloor(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor floor, SpiralAbyssMetadataContext context)
+    public void WithSpiralAbyssFloor(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor floor, SpiralAbyssMetadataContext context)
     {
         SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
         Star = floor.Star;

@@ -3,7 +3,6 @@
 
 using Google.OrTools.LinearSolver;
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Abstraction;

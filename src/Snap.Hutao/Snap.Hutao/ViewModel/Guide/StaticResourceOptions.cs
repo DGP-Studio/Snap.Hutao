@@ -10,7 +10,7 @@ using Snap.Hutao.Web.Hutao;
 namespace Snap.Hutao.ViewModel.Guide;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class StaticResourceOptions : ObservableObject
+internal sealed partial class StaticResourceOptions : ObservableObject
 {
     private readonly List<NameValue<StaticResourceQuality>> imageQualities = CollectionsNameValue.FromEnum<StaticResourceQuality>(q => q.GetLocalizedDescription());
     private readonly List<NameValue<StaticResourceArchive>> imageArchives = CollectionsNameValue.FromEnum<StaticResourceArchive>(a => a.GetLocalizedDescription());

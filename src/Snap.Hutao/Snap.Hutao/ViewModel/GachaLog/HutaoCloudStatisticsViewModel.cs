@@ -23,7 +23,7 @@ internal sealed partial class HutaoCloudStatisticsViewModel : Abstraction.ViewMo
 
     public HutaoStatistics? Statistics { get => statistics; set => SetProperty(ref statistics, value); }
 
-    protected override async Task OpenUIAsync()
+    protected override async Task LoadAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
         (bool isOk, HutaoStatistics statistics) = await hutaoCloudService.GetCurrentEventStatisticsAsync().ConfigureAwait(false);

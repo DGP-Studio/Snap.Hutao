@@ -14,10 +14,17 @@ internal sealed class GameFileSystem
     private string? gameDirectory;
     private string? gameConfigFilePath;
     private string? pcGameSDKFilePath;
+    private GameAudioSystem? gameAudioSystem;
 
     public GameFileSystem(string gameFilePath)
     {
         this.gameFilePath = gameFilePath;
+    }
+
+    public GameFileSystem(string gameFilePath, GameAudioSystem gameAudioSystem)
+    {
+        this.gameFilePath = gameFilePath;
+        this.gameAudioSystem = gameAudioSystem;
     }
 
     public string GameFilePath { get => gameFilePath; }
@@ -41,4 +48,12 @@ internal sealed class GameFileSystem
     public string ScreenShotDirectory { get => Path.Combine(GameDirectory, "ScreenShot"); }
 
     public string DataDirectory { get => Path.Combine(GameDirectory, LaunchScheme.ExecutableIsOversea(GameFileName) ? GameConstants.GenshinImpactData : GameConstants.YuanShenData); }
+
+    public string ScriptVersionFilePath { get => Path.Combine(DataDirectory, "Persistent", "ScriptVersion"); }
+
+    public string ChunksDirectory { get => Path.Combine(GameDirectory, "chunks"); }
+
+    public string PredownloadStatusPath { get => Path.Combine(ChunksDirectory, "snap_hutao_predownload_status.json"); }
+
+    public GameAudioSystem GameAudioSystem { get => gameAudioSystem ??= new(GameFilePath); }
 }

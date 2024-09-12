@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
@@ -15,10 +16,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 祈愿统计工厂
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaStatisticsFactory))]
 internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
@@ -41,37 +38,37 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         15401U, 15402U, 15403U, 15405U
     ]);
 
-    private readonly HomaGachaLogClient homaGachaLogClient;
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly AppOptions options;
 
     /// <inheritdoc/>
-    public async ValueTask<GachaStatistics> CreateAsync(List<Model.Entity.GachaItem> items, GachaLogServiceMetadataContext context)
+    public async ValueTask<GachaStatistics> CreateAsync(List<Model.Entity.GachaItem> items, GachaLogServiceMetadataContext metadata)
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        List<HistoryWishBuilder> historyWishBuilders = context.GachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, context));
-        return CreateCore(taskContext, homaGachaLogClient, items, historyWishBuilders, context, options);
+        List<HistoryWishBuilder> historyWishBuilders = metadata.GachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, metadata));
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
+            GachaStatisticsFactoryContext context = new(taskContext, homaGachaLogClient, items, historyWishBuilders, metadata, options);
+            return CreateCore(context);
+        }
     }
 
-    private static GachaStatistics CreateCore(
-        ITaskContext taskContext,
-        HomaGachaLogClient gachaLogClient,
-        List<Model.Entity.GachaItem> items,
-        List<HistoryWishBuilder> historyWishBuilders,
-        GachaLogServiceMetadataContext context,
-        AppOptions appOptions)
+    private static GachaStatistics CreateCore(GachaStatisticsFactoryContext context)
     {
-        TypedWishSummaryBuilderContext standardContext = TypedWishSummaryBuilderContext.StandardWish(taskContext, gachaLogClient);
+        TypedWishSummaryBuilderContext standardContext = TypedWishSummaryBuilderContext.StandardWish(context.TaskContext, context.GachaLogClient);
         TypedWishSummaryBuilder standardWishBuilder = new(standardContext);
 
-        TypedWishSummaryBuilderContext avatarContext = TypedWishSummaryBuilderContext.AvatarEventWish(taskContext, gachaLogClient);
+        TypedWishSummaryBuilderContext avatarContext = TypedWishSummaryBuilderContext.AvatarEventWish(context.TaskContext, context.GachaLogClient);
         TypedWishSummaryBuilder avatarWishBuilder = new(avatarContext);
 
-        TypedWishSummaryBuilderContext weaponContext = TypedWishSummaryBuilderContext.WeaponEventWish(taskContext, gachaLogClient);
+        TypedWishSummaryBuilderContext weaponContext = TypedWishSummaryBuilderContext.WeaponEventWish(context.TaskContext, context.GachaLogClient);
         TypedWishSummaryBuilder weaponWishBuilder = new(weaponContext);
 
-        TypedWishSummaryBuilderContext chronicledContext = TypedWishSummaryBuilderContext.ChronicledWish(taskContext, gachaLogClient);
+        TypedWishSummaryBuilderContext chronicledContext = TypedWishSummaryBuilderContext.ChronicledWish(context.TaskContext, context.GachaLogClient);
         TypedWishSummaryBuilder chronicledWishBuilder = new(chronicledContext);
 
         Dictionary<Avatar, int> orangeAvatarCounter = [];
@@ -80,31 +77,31 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<Weapon, int> purpleWeaponCounter = [];
         Dictionary<Weapon, int> blueWeaponCounter = [];
 
-        if (appOptions.IsUnobtainedWishItemVisible)
+        if (context.IsUnobtainedWishItemVisible)
         {
-            orangeAvatarCounter = context.IdAvatarMap.Values
+            orangeAvatarCounter = context.Metadata.IdAvatarMap.Values
                 .Where(avatar => avatar.Quality == QualityType.QUALITY_ORANGE)
                 .ToDictionary(avatar => avatar, _ => 0);
-            purpleAvatarCounter = context.IdAvatarMap.Values
+            purpleAvatarCounter = context.Metadata.IdAvatarMap.Values
                .Where(avatar => avatar.Quality == QualityType.QUALITY_PURPLE)
                .ToDictionary(avatar => avatar, _ => 0);
-            orangeWeaponCounter = context.IdWeaponMap.Values
+            orangeWeaponCounter = context.Metadata.IdWeaponMap.Values
                .Where(weapon => weapon.Quality == QualityType.QUALITY_ORANGE)
                .ToDictionary(weapon => weapon, _ => 0);
 
             HashSet<Weapon> purpleWeapons = [];
             foreach (uint weaponId in PurpleStandardWeaponIdsSet)
             {
-                purpleWeapons.Add(context.IdWeaponMap[weaponId]);
+                purpleWeapons.Add(context.Metadata.GetWeapon(weaponId));
             }
 
-            foreach (GachaEvent gachaEvent in context.GachaEvents)
+            foreach (GachaEvent gachaEvent in context.Metadata.GachaEvents)
             {
                 if (gachaEvent.Type is GachaType.ActivityWeapon)
                 {
                     foreach (uint weaponId in gachaEvent.UpPurpleList)
                     {
-                        purpleWeapons.Add(context.IdWeaponMap[weaponId]);
+                        purpleWeapons.Add(context.Metadata.GetWeapon(weaponId));
                     }
                 }
             }
@@ -112,7 +109,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             HashSet<Weapon> blueWeapons = [];
             foreach (uint weaponId in BlueStandardWeaponIdsSet)
             {
-                blueWeapons.Add(context.IdWeaponMap[weaponId]);
+                blueWeapons.Add(context.Metadata.GetWeapon(weaponId));
             }
 
             purpleWeaponCounter = purpleWeapons.ToDictionary(weapon => weapon, _ => 0);
@@ -120,13 +117,12 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         }
 
         // Pre group builders
-        Dictionary<GachaType, List<HistoryWishBuilder>> historyWishBuilderMap = historyWishBuilders
+        Dictionary<GachaType, List<HistoryWishBuilder>> historyWishBuilderMap = context.HistoryWishBuilders
             .GroupBy(b => b.ConfigType)
             .ToDictionary(g => g.Key, g => g.ToList().SortBy(b => b.From));
 
         // Items are ordered by precise time, first is oldest
-        // 'ref' is not allowed here because we have lambda below
-        foreach (ref readonly Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
+        foreach (ref readonly Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(context.Items))
         {
             // Find target history wish to operate. // banner.From <= item.Time <= banner.To
             Model.Entity.GachaItem pinned = item;
@@ -138,17 +134,17 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             {
                 case 8U:
                     {
-                        Avatar avatar = context.GetAvatar(item.ItemId);
+                        Avatar avatar = context.Metadata.GetAvatar(item.ItemId);
 
                         bool isUp = false;
                         switch (avatar.Quality)
                         {
                             case QualityType.QUALITY_ORANGE:
-                                orangeAvatarCounter.IncreaseOne(avatar);
+                                orangeAvatarCounter.IncreaseByOne(avatar);
                                 isUp = targetHistoryWishBuilder?.IncreaseOrange(avatar) ?? false;
                                 break;
                             case QualityType.QUALITY_PURPLE:
-                                purpleAvatarCounter.IncreaseOne(avatar);
+                                purpleAvatarCounter.IncreaseByOne(avatar);
                                 targetHistoryWishBuilder?.IncreasePurple(avatar);
                                 break;
                             default:
@@ -164,22 +160,22 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 
                 case 5U:
                     {
-                        Weapon weapon = context.IdWeaponMap[item.ItemId];
+                        Weapon weapon = context.Metadata.GetWeapon(item.ItemId);
 
                         bool isUp = false;
                         switch (weapon.RankLevel)
                         {
                             case QualityType.QUALITY_ORANGE:
                                 isUp = targetHistoryWishBuilder?.IncreaseOrange(weapon) ?? false;
-                                orangeWeaponCounter.IncreaseOne(weapon);
+                                orangeWeaponCounter.IncreaseByOne(weapon);
                                 break;
                             case QualityType.QUALITY_PURPLE:
                                 targetHistoryWishBuilder?.IncreasePurple(weapon);
-                                purpleWeaponCounter.IncreaseOne(weapon);
+                                purpleWeaponCounter.IncreaseByOne(weapon);
                                 break;
                             case QualityType.QUALITY_BLUE:
                                 targetHistoryWishBuilder?.IncreaseBlue(weapon);
-                                blueWeaponCounter.IncreaseOne(weapon);
+                                blueWeaponCounter.IncreaseByOne(weapon);
                                 break;
                             default:
                                 break;
@@ -201,15 +197,17 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 
         AsyncBarrier barrier = new(4);
 
+        List<HistoryWish> historyWishes = context.HistoryWishBuilders
+            .Where(b => context.IsEmptyHistoryWishVisible || !b.IsEmpty)
+            .OrderByDescending(builder => builder.From)
+            .ThenBy(builder => builder.ConfigType, GachaTypeComparer.Shared)
+            .Select(builder => builder.ToHistoryWish())
+            .ToList();
+
         return new()
         {
             // history
-            HistoryWishes = historyWishBuilders
-                .Where(b => appOptions.IsEmptyHistoryWishVisible || (!b.IsEmpty))
-                .OrderByDescending(builder => builder.From)
-                .ThenBy(builder => builder.ConfigType, GachaTypeComparer.Shared)
-                .Select(builder => builder.ToHistoryWish())
-                .ToList(),
+            HistoryWishes = historyWishes.ToAdvancedCollectionView(),
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),

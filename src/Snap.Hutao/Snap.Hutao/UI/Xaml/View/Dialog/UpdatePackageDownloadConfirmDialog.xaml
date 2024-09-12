@@ -1,0 +1,39 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.UI.Xaml.View.Dialog.UpdatePackageDownloadConfirmDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    DefaultButton="Primary"
+    PrimaryButtonText="{shuxm:ResourceString Name=ViewDialogUpdatePackagePrimaryText}"
+    Style="{ThemeResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="16">
+        <TextBlock>
+            <Run Text="{shuxm:ResourceString Name=ViewTitileUpdatePackageDownloadContent}"/>
+            <Hyperlink NavigateUri="https://hut.ao/statements/update-log.html">
+                <Run Text="{shuxm:ResourceString Name=ViewDialogUpdatePackageDownloadUpdatelogLinkContent}"/>
+            </Hyperlink>
+            <!--  We leave a Run here to prevent the Hyperlink Stretch  -->
+            <Run/>
+        </TextBlock>
+
+        <ListView
+            Header="{shuxm:ResourceString Name=ViewDialogUpdatePackageMirrorHeader}"
+            ItemsSource="{x:Bind Mirrors}"
+            SelectedItem="{x:Bind SelectedItem}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding MirrorName}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackPanel>
+</ContentDialog>

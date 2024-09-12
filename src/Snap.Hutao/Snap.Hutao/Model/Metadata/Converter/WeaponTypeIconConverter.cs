@@ -1,18 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.UI.Xaml.Data.Converter;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-/// <summary>
-/// 元素名称图标转换器
-/// </summary>
-[HighQuality]
-internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
+internal sealed partial class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
 {
     private static readonly FrozenDictionary<string, WeaponType> LocalizedNameToWeaponType = FrozenDictionary.ToFrozenDictionary(
     [
@@ -28,11 +25,6 @@ internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
         return WeaponTypeToIconUri(LocalizedNameToWeaponType.GetValueOrDefault(weaponTypeName));
     }
 
-    /// <summary>
-    /// 将武器类型转换为图标链接
-    /// </summary>
-    /// <param name="type">武器类型</param>
-    /// <returns>图标链接</returns>
     public static Uri WeaponTypeToIconUri(WeaponType type)
     {
         string weapon = type switch
@@ -45,10 +37,9 @@ internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
             _ => throw HutaoException.NotSupported(),
         };
 
-        return Web.HutaoEndpoints.StaticRaw("Skill", $"Skill_A_{weapon}.png").ToUri();
+        return StaticResourcesEndpoints.StaticRaw("Skill", $"Skill_A_{weapon}.png").ToUri();
     }
 
-    /// <inheritdoc/>
     public override Uri Convert(WeaponType from)
     {
         return WeaponTypeToIconUri(from);

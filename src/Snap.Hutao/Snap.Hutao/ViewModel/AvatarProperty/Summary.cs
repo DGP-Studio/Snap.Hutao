@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.UI.Xaml.Data;
+
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
@@ -9,13 +11,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [HighQuality]
 internal sealed class Summary
 {
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public List<AvatarView> Avatars { get; set; } = default!;
+    public AdvancedCollectionView<AvatarView> Avatars { get; set; } = default!;
 
-    /// <summary>
-    /// 服务器消息
-    /// </summary>
     public string Message { get; set; } = default!;
 }

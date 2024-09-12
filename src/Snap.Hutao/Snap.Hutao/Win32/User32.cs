@@ -11,7 +11,6 @@ using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
-[SuppressMessage("", "SH002")]
 [SuppressMessage("", "SA1313")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class User32
@@ -22,7 +21,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL ClientToScreen(HWND hWnd, POINT* lpPoint);
+    public static extern unsafe BOOL ClientToScreen(HWND hWnd, POINT* lpPoint);
 
     public static unsafe BOOL ClientToScreen(HWND hWnd, ref POINT point)
     {
@@ -34,7 +33,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [AllowNull] PCWSTR lpClassName, [AllowNull] PCWSTR lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [AllowNull] HWND hWndParent, [AllowNull] HMENU hMenu, [AllowNull] HINSTANCE hInstance, [AllowNull] void* lpParam);
+    public static extern unsafe HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [AllowNull] PCWSTR lpClassName, [AllowNull] PCWSTR lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [AllowNull] HWND hWndParent, [AllowNull] HMENU hMenu, [AllowNull] HINSTANCE hInstance, [AllowNull] void* lpParam);
 
     public static unsafe HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [AllowNull] string className, [AllowNull] string windowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [AllowNull] HWND hWndParent, [AllowNull] HMENU hMenu, [AllowNull] HINSTANCE hInstance, [AllowNull] void* lpParam)
     {
@@ -57,7 +56,11 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL EqualRect(RECT* lprc1, RECT* lprc2);
+    public static extern BOOL EnableWindow([In] HWND hWnd, [In] BOOL bEnable);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern unsafe BOOL EqualRect(RECT* lprc1, RECT* lprc2);
 
     [DebuggerStepThrough]
     public static unsafe BOOL EqualRect(ref readonly RECT rc1, ref readonly RECT rc2)
@@ -89,7 +92,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL GetClientRect(HWND hWnd, RECT* lpRect);
+    public static extern unsafe BOOL GetClientRect(HWND hWnd, RECT* lpRect);
 
     public static unsafe BOOL GetClientRect(HWND hWnd, out RECT rect)
     {
@@ -117,7 +120,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL GetWindowPlacement(HWND hWnd, WINDOWPLACEMENT* lpwndpl);
+    public static extern unsafe BOOL GetWindowPlacement(HWND hWnd, WINDOWPLACEMENT* lpwndpl);
 
     [DebuggerStepThrough]
     public static unsafe BOOL GetWindowPlacement(HWND hWnd, ref WINDOWPLACEMENT wndpl)
@@ -130,7 +133,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL GetWindowRect(HWND hWnd, RECT* lpRect);
+    public static extern unsafe BOOL GetWindowRect(HWND hWnd, RECT* lpRect);
 
     [DebuggerStepThrough]
     public static unsafe BOOL GetWindowRect(HWND hWnd, out RECT rect)
@@ -143,7 +146,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] uint* lpdwProcessId);
+    public static extern unsafe uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] uint* lpdwProcessId);
 
     [DebuggerStepThrough]
     public static unsafe uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] out uint dwProcessId)
@@ -156,7 +159,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL IntersectRect([Out] RECT* lprcDst, RECT* lprcSrc1, RECT* lprcSrc2);
+    public static extern unsafe BOOL IntersectRect([Out] RECT* lprcDst, RECT* lprcSrc1, RECT* lprcSrc2);
 
     public static unsafe BOOL IntersectRect(out RECT rcDst, ref readonly RECT rcSrc1, ref readonly RECT rcSrc2)
     {
@@ -182,7 +185,11 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern ushort RegisterClassW(WNDCLASSW* lpWndClass);
+    public static extern BOOL PostThreadMessageW(uint idThread, uint Msg, WPARAM wParam, LPARAM lParam);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern unsafe ushort RegisterClassW(WNDCLASSW* lpWndClass);
 
     public static unsafe ushort RegisterClassW(ref readonly WNDCLASSW lpWndClass)
     {
@@ -227,7 +234,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern uint SendInput(uint cInputs, INPUT* pInputs, int cbSize);
+    public static extern unsafe uint SendInput(uint cInputs, INPUT* pInputs, int cbSize);
 
     [DebuggerStepThrough]
     public static unsafe uint SendInput(ReadOnlySpan<INPUT> inputs, int cbSize)
@@ -262,6 +269,10 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern nint SetWindowLongPtrW(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern HHOOK SetWindowsHookExW(WINDOWS_HOOK_ID idHook, HOOKPROC lpfn, [AllowNull] HINSTANCE hmod, uint dwThreadId);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]

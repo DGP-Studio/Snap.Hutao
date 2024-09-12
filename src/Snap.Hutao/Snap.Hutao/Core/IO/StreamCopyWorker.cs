@@ -1,36 +1,36 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Diagnostics;
 using System.Buffers;
 using System.IO;
+using System.Threading.RateLimiting;
+using Snap.Hutao.Core.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO;
 
-internal sealed class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
+internal delegate TStatus StreamCopyStatusFactory<TStatus>(long bytesReadSinceLastReport, long bytesReadSinceCopyStart);
+
+internal sealed partial class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
 {
     public StreamCopyWorker(Stream source, Stream destination, long totalBytes, int bufferSize = 81920)
-        : base(source, destination, bytes => new StreamCopyStatus(bytes, totalBytes), bufferSize)
+        : base(source, destination, (lastReport, copyStart) => new StreamCopyStatus(lastReport, copyStart, totalBytes), bufferSize)
     {
     }
 }
 
 [SuppressMessage("", "SA1402")]
-internal class StreamCopyWorker<TStatus>
+internal partial class StreamCopyWorker<TStatus> : IDisposable
 {
+#pragma warning disable CA2213
     private readonly Stream source;
     private readonly Stream destination;
-    private readonly int bufferSize;
-    private readonly Func<long, TStatus> statusFactory;
+#pragma warning restore CA2213
 
-    /// <summary>
-    /// 创建一个新的流复制器
-    /// </summary>
-    /// <param name="source">源</param>
-    /// <param name="destination">目标</param>
-    /// <param name="statusFactory">状态工厂</param>
-    /// <param name="bufferSize">字节尺寸</param>
-    public StreamCopyWorker(Stream source, Stream destination, Func<long, TStatus> statusFactory, int bufferSize = 81920)
+    private readonly int bufferSize;
+    private readonly StreamCopyStatusFactory<TStatus> statusFactory;
+    private readonly TokenBucketRateLimiter progressReportRateLimiter;
+
+    public StreamCopyWorker(Stream source, Stream destination, StreamCopyStatusFactory<TStatus> statusFactory, int bufferSize = 81920)
     {
         Verify.Operation(source.CanRead, "Source Stream can't read");
         Verify.Operation(destination.CanWrite, "Destination Stream can't write");
@@ -39,18 +39,15 @@ internal class StreamCopyWorker<TStatus>
         this.destination = destination;
         this.statusFactory = statusFactory;
         this.bufferSize = bufferSize;
+
+        progressReportRateLimiter = ProgressReportRateLimiter.Create(1000);
     }
 
-    /// <summary>
-    /// 异步复制
-    /// </summary>
-    /// <param name="progress">进度</param>
-    /// <returns>任务</returns>
-    public async ValueTask CopyAsync(IProgress<TStatus> progress)
+    public async ValueTask CopyAsync(IProgress<TStatus> progress, CancellationToken token = default)
     {
-        ValueStopwatch stopwatch = ValueStopwatch.StartNew();
+        long bytesReadSinceCopyStart = 0;
+        long bytesReadSinceLastReport = 0;
 
-        long totalBytesRead = 0;
         int bytesRead;
 
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
@@ -59,23 +56,72 @@ internal class StreamCopyWorker<TStatus>
 
             do
             {
-                bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
+                bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(false);
                 if (bytesRead is 0)
                 {
-                    progress.Report(statusFactory(totalBytesRead));
+                    progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
                     break;
                 }
 
-                await destination.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
+                await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
 
-                totalBytesRead += bytesRead;
-                if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000)
+                bytesReadSinceCopyStart += bytesRead;
+                bytesReadSinceLastReport += bytesRead;
+
+                if (progressReportRateLimiter.AttemptAcquire().IsAcquired)
                 {
-                    progress.Report(statusFactory(totalBytesRead));
-                    stopwatch = ValueStopwatch.StartNew();
+                    progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
+                    bytesReadSinceLastReport = 0;
                 }
             }
             while (bytesRead > 0);
         }
+    }
+
+    public async ValueTask CopyAsync(TokenBucketRateLimiter rateLimiter, IProgress<TStatus> progress, CancellationToken token = default)
+    {
+        long bytesReadSinceCopyStart = 0;
+        long bytesReadSinceLastReport = 0;
+
+        int bytesRead;
+
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
+        {
+            Memory<byte> buffer = memoryOwner.Memory;
+
+            do
+            {
+                if (!rateLimiter.TryAcquire(buffer.Length, out int bytesToRead, out TimeSpan retryAfter))
+                {
+                    await Task.Delay(retryAfter, token).ConfigureAwait(false);
+                    continue;
+                }
+
+                bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(false);
+                if (bytesRead is 0)
+                {
+                    progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
+                    break;
+                }
+
+                rateLimiter.Replenish(bytesToRead - bytesRead);
+                await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
+
+                bytesReadSinceCopyStart += bytesRead;
+                bytesReadSinceLastReport += bytesRead;
+
+                if (progressReportRateLimiter.AttemptAcquire().IsAcquired)
+                {
+                    progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
+                    bytesReadSinceLastReport = 0;
+                }
+            }
+            while (true);
+        }
+    }
+
+    public void Dispose()
+    {
+        progressReportRateLimiter.Dispose();
     }
 }

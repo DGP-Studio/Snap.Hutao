@@ -9,7 +9,13 @@ internal readonly struct HMODULE
 {
     public readonly nint Value;
 
-    public static unsafe implicit operator HMODULE(nint value) => *(HMODULE*)&value;
+    public static unsafe implicit operator HMODULE(nint value)
+    {
+        return *(HMODULE*)&value;
+    }
 
-    public static unsafe implicit operator nint(HMODULE module) => *(nint*)&module;
+    public static unsafe implicit operator nint(HMODULE module)
+    {
+        return *(nint*)&module;
+    }
 }

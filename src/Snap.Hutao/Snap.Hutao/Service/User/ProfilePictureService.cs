@@ -15,16 +15,18 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IProfilePictureService))]
 internal sealed partial class ProfilePictureService : IProfilePictureService
 {
-    private readonly IUidProfilePictureDbService uidProfilePictureDbService;
+    private readonly IUidProfilePictureRepository uidProfilePictureRepository;
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+
+    private readonly object syncRoot = new();
 
     public async ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default)
     {
         foreach (UserGameRole userGameRole in user.UserGameRoles)
         {
-            if (await uidProfilePictureDbService.SingleUidProfilePictureOrDefaultByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false) is { } profilePicture)
+            if (uidProfilePictureRepository.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid) is { } profilePicture)
             {
                 if (await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false))
                 {
@@ -49,12 +51,17 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
                 ?? await enkaClient.GetPlayerInfoAsync(userGameRole, token).ConfigureAwait(false);
         }
 
-        if (enkaResponse is { PlayerInfo: { } playerInfo })
+        if (enkaResponse is { PlayerInfo.ProfilePicture: { } innerProfilePicture })
         {
-            UidProfilePicture profilePicture = UidProfilePicture.From(userGameRole, playerInfo.ProfilePicture);
+            UidProfilePicture profilePicture = UidProfilePicture.From(userGameRole, innerProfilePicture);
 
-            await uidProfilePictureDbService.DeleteUidProfilePictureByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false);
-            await uidProfilePictureDbService.UpdateUidProfilePictureAsync(profilePicture, token).ConfigureAwait(false);
+            // We don't use DbTransaction here because it's rather complicated
+            // to handle transaction over multiple DbContext
+            lock (syncRoot)
+            {
+                uidProfilePictureRepository.DeleteUidProfilePictureByUid(userGameRole.GameUid);
+                uidProfilePictureRepository.UpdateUidProfilePicture(profilePicture);
+            }
 
             await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
         }

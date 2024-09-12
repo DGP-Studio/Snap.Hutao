@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
-using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +14,9 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("users")]
-internal sealed class User : ISelectable, IReorderable, IMappingFrom<User, Cookie, bool>
+internal sealed class User : ISelectable,
+    IReorderable,
+    IMappingFrom<User, Cookie, bool>
 {
     /// <summary>
     /// 内部Id

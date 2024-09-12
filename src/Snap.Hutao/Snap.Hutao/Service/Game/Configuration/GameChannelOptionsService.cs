@@ -30,14 +30,25 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
             gameConfigurationFileService.Restore(gameFileSystem.GameConfigFilePath);
         }
 
+        if (!File.Exists(gameFileSystem.ScriptVersionFilePath))
+        {
+            // Try to fix ScriptVersion by reading game_version from the configuration file
+            // Will check the configuration file first
+            // If the configuration file and ScriptVersion file are both missing, the game content is corrupted
+            if (!gameFileSystem.TryFixScriptVersion())
+            {
+                return ChannelOptions.GameContentCorrupted(gameFileSystem.GameDirectory);
+            }
+        }
+
         if (!File.Exists(gameFileSystem.GameConfigFilePath))
         {
             return ChannelOptions.ConfigurationFileNotFound(gameFileSystem.GameConfigFilePath);
         }
 
         List<IniParameter> parameters = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).OfType<IniParameter>().ToList();
-        string? channel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.ChannelName)?.Value;
-        string? subChannel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.SubChannelName)?.Value;
+        string? channel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.ChannelName)?.Value;
+        string? subChannel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.SubChannelName)?.Value;
 
         return new(channel, subChannel, isOversea);
     }

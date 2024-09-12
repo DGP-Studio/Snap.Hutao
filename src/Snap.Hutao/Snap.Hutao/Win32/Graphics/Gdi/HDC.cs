@@ -11,10 +11,19 @@ internal readonly struct HDC
 
     public readonly nint Value;
 
-    public static unsafe implicit operator HDC(nint value) => *(HDC*)&value;
+    public static unsafe implicit operator HDC(nint value)
+    {
+        return *(HDC*)&value;
+    }
 
-    public static unsafe bool operator ==(HDC left, HDC right) => *(nint*)&left == *(nint*)&right;
+    public static unsafe bool operator ==(HDC left, HDC right)
+    {
+        return *(nint*)&left == *(nint*)&right;
+    }
 
-    public static unsafe bool operator !=(HDC left, HDC right) => *(nint*)&left != *(nint*)&right;
+    public static unsafe bool operator !=(HDC left, HDC right)
+    {
+        return *(nint*)&left != *(nint*)&right;
+    }
 }
 #pragma warning restore CS0660, CS0661

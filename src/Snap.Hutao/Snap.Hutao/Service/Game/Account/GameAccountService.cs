@@ -6,7 +6,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game.Account;
@@ -16,14 +16,20 @@ namespace Snap.Hutao.Service.Game.Account;
 internal sealed partial class GameAccountService : IGameAccountService
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IGameDbService gameDbService;
+    private readonly IGameRepository gameRepository;
     private readonly ITaskContext taskContext;
 
     private ObservableReorderableDbCollection<GameAccount>? gameAccounts;
 
-    public ObservableReorderableDbCollection<GameAccount> GameAccountCollection
+    public async ValueTask<ObservableReorderableDbCollection<GameAccount>> GetGameAccountCollectionAsync()
     {
-        get => gameAccounts ??= gameDbService.GetGameAccountCollection();
+        if (gameAccounts is null)
+        {
+            await taskContext.SwitchToBackgroundAsync();
+            gameAccounts = gameRepository.GetGameAccountCollection();
+        }
+
+        return gameAccounts;
     }
 
     public async ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType schemeType)
@@ -53,7 +59,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
                 // sync database
                 await taskContext.SwitchToBackgroundAsync();
-                await gameDbService.AddGameAccountAsync(account).ConfigureAwait(false);
+                gameRepository.AddGameAccount(account);
 
                 // sync cache
                 await taskContext.SwitchToMainThreadAsync();
@@ -88,10 +94,13 @@ internal sealed partial class GameAccountService : IGameAccountService
         return RegistryInterop.Set(account);
     }
 
-    public void AttachGameAccountToUid(GameAccount gameAccount, string uid)
+    public async ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid)
     {
+        await taskContext.SwitchToMainThreadAsync();
         gameAccount.UpdateAttachUid(uid);
-        gameDbService.UpdateGameAccount(gameAccount);
+
+        await taskContext.SwitchToBackgroundAsync();
+        gameRepository.UpdateGameAccount(gameAccount);
     }
 
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
@@ -106,7 +115,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
             // sync database
             await taskContext.SwitchToBackgroundAsync();
-            await gameDbService.UpdateGameAccountAsync(gameAccount).ConfigureAwait(false);
+            gameRepository.UpdateGameAccount(gameAccount);
         }
     }
 
@@ -118,7 +127,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         gameAccounts.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
-        await gameDbService.RemoveGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);
+        gameRepository.RemoveGameAccountById(gameAccount.InnerId);
     }
 
     private static GameAccount? SingleGameAccountOrDefault(ObservableCollection<GameAccount> gameAccounts, string registrySdk)

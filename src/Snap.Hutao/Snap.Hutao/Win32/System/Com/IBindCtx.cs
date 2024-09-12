@@ -9,7 +9,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.System.Com;
 
 [SupportedOSPlatform("windows5.0")]
-internal unsafe readonly struct IBindCtx
+internal readonly unsafe struct IBindCtx
 {
     public readonly Vftbl* ThisPtr;
 

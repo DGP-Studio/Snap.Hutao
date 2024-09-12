@@ -10,13 +10,12 @@ using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
-[SuppressMessage("", "SH002")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Shell32
 {
     [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
-    public static unsafe extern HRESULT SHCreateItemFromParsingName(PCWSTR pszPath, [AllowNull] IBindCtx pbc, Guid* riid, void** ppv);
+    public static extern unsafe HRESULT SHCreateItemFromParsingName(PCWSTR pszPath, [AllowNull] IBindCtx pbc, Guid* riid, void** ppv);
 
     [DebuggerStepThrough]
     public static unsafe HRESULT SHCreateItemFromParsingName<T>(ReadOnlySpan<char> szPath, [AllowNull] IBindCtx pbc, ref readonly Guid riid, out T* pv)
@@ -36,7 +35,7 @@ internal static class Shell32
 
     [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.1")]
-    public static unsafe extern HRESULT Shell_NotifyIconGetRect(NOTIFYICONIDENTIFIER* identifier, RECT* iconLocation);
+    public static extern unsafe HRESULT Shell_NotifyIconGetRect(NOTIFYICONIDENTIFIER* identifier, RECT* iconLocation);
 
     public static unsafe HRESULT Shell_NotifyIconGetRect(ref readonly NOTIFYICONIDENTIFIER identifier, out RECT iconLocation)
     {
@@ -51,7 +50,7 @@ internal static class Shell32
 
     [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL Shell_NotifyIconW(NOTIFY_ICON_MESSAGE dwMessage, NOTIFYICONDATAW* lpData);
+    public static extern unsafe BOOL Shell_NotifyIconW(NOTIFY_ICON_MESSAGE dwMessage, NOTIFYICONDATAW* lpData);
 
     public static unsafe BOOL Shell_NotifyIconW(NOTIFY_ICON_MESSAGE dwMessage, ref readonly NOTIFYICONDATAW data)
     {

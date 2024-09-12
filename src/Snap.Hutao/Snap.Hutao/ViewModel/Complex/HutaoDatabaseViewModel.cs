@@ -1,16 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-/// <summary>
-/// 胡桃数据库视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
@@ -59,7 +54,7 @@ internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
     public Overview? Overview { get => overview; set => SetProperty(ref overview, value); }
 
     /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async Task InitializeAsync()
     {
         if (await hutaoCache.InitializeForSpiralAbyssViewAsync().ConfigureAwait(false))
         {

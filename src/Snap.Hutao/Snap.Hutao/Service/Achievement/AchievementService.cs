@@ -8,47 +8,36 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Achievement;
-using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
-    private readonly ScopedDbCurrent<AchievementArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
-    private readonly AchievementDbBulkOperation achievementDbBulkOperation;
-    private readonly IAchievementDbService achievementDbService;
+    private readonly AchievementRepositoryOperation achievementDbBulkOperation;
+    private readonly IAchievementRepository achievementRepository;
+    private readonly IServiceProvider serviceProvider;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<AchievementArchive>? archiveCollection;
+    private AdvancedDbCollectionView<AchievementArchive>? archives;
 
-    public AchievementArchive? CurrentArchive
+    public async ValueTask<IAdvancedDbCollectionView<AchievementArchive>> GetArchivesAsync(CancellationToken token = default)
     {
-        get => dbCurrent.Current;
-        set => dbCurrent.Current = value;
-    }
-
-    public ObservableCollection<AchievementArchive> ArchiveCollection
-    {
-        get
+        if (archives is null)
         {
-            if (archiveCollection is null)
-            {
-                archiveCollection = achievementDbService.GetAchievementArchiveCollection();
-                CurrentArchive = archiveCollection.SelectedOrDefault();
-            }
-
-            return archiveCollection;
+            await taskContext.SwitchToBackgroundAsync();
+            archives = new(achievementRepository.GetAchievementArchiveCollection(), serviceProvider);
         }
+
+        return archives;
     }
 
     public List<AchievementView> GetAchievementViewList(AchievementArchive archive, AchievementServiceMetadataContext context)
     {
-        Dictionary<AchievementId, EntityAchievement> entities = achievementDbService.GetAchievementMapByArchiveId(archive.InnerId);
+        Dictionary<AchievementId, EntityAchievement> entities = achievementRepository.GetAchievementMapByArchiveId(archive.InnerId);
 
         return context.Achievements.SelectList(meta =>
         {
@@ -59,7 +48,7 @@ internal sealed partial class AchievementService : IAchievementService
 
     public void SaveAchievement(AchievementView achievement)
     {
-        achievementDbService.OverwriteAchievement(achievement.Entity);
+        achievementRepository.OverwriteAchievement(achievement.Entity);
     }
 
     public async ValueTask<ArchiveAddResultKind> AddArchiveAsync(AchievementArchive newArchive)
@@ -69,35 +58,31 @@ internal sealed partial class AchievementService : IAchievementService
             return ArchiveAddResultKind.InvalidName;
         }
 
-        ArgumentNullException.ThrowIfNull(archiveCollection);
+        ArgumentNullException.ThrowIfNull(archives);
 
-        if (archiveCollection.Any(a => a.Name == newArchive.Name))
+        if (archives.SourceCollection.Any(a => a.Name == newArchive.Name))
         {
             return ArchiveAddResultKind.AlreadyExists;
         }
 
-        // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archiveCollection.Add(newArchive);
-
-        // Sync database
-        await taskContext.SwitchToBackgroundAsync();
-        CurrentArchive = newArchive;
+        archives.Add(newArchive);
+        archives.MoveCurrentTo(newArchive);
 
         return ArchiveAddResultKind.Added;
     }
 
     public async ValueTask RemoveArchiveAsync(AchievementArchive archive)
     {
-        ArgumentNullException.ThrowIfNull(archiveCollection);
+        ArgumentNullException.ThrowIfNull(archives);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archiveCollection.Remove(archive);
+        archives.Remove(archive);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await achievementDbService.RemoveAchievementArchiveAsync(archive).ConfigureAwait(false);
+        achievementRepository.RemoveAchievementArchive(archive);
     }
 
     public async ValueTask<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, List<UIAFItem> list, ImportStrategyKind strategy)
@@ -136,9 +121,7 @@ internal sealed partial class AchievementService : IAchievementService
     public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<EntityAchievement> entities = await achievementDbService
-            .GetAchievementListByArchiveIdAsync(archive.InnerId)
-            .ConfigureAwait(false);
+        List<EntityAchievement> entities = achievementRepository.GetAchievementListByArchiveId(archive.InnerId);
         List<UIAFItem> list = entities.SelectList(UIAFItem.From);
 
         return new()

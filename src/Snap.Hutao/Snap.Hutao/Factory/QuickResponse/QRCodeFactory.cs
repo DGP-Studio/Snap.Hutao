@@ -3,7 +3,7 @@
 
 using QRCoder;
 
-namespace Snap.Hutao.Factory.QrCode;
+namespace Snap.Hutao.Factory.QuickResponse;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IQRCodeFactory))]

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -16,24 +17,10 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 internal sealed partial class CalculateClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly ILogger<CalculateClient> logger;
+
     private readonly HttpClient httpClient;
-
-    [Obsolete("Use BatchComputeAsync instead")]
-    public async ValueTask<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
-    {
-        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(user.IsOversea ? ApiOsEndpoints.CalculateCompute : ApiEndpoints.CalculateCompute)
-            .SetUserCookieAndFpHeader(user, CookieType.Cookie)
-            .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
-            .PostJson(delta);
-
-        Response<Consumption>? resp = await builder
-            .SendAsync<Response<Consumption>>(httpClient, logger, token)
-            .ConfigureAwait(false);
-
-        return Response.Response.DefaultIfNull(resp);
-    }
 
     public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, AvatarPromotionDelta delta, bool syncInventory = false, CancellationToken token = default)
     {
@@ -49,10 +36,12 @@ internal sealed partial class CalculateClient
             Uid = syncInventory ? userAndUid.Uid.ToString() : default!,
         };
 
+        IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(userAndUid.IsOversea);
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CalculateBatchCompute)
+            .SetRequestUri(apiEndpoints.CalculateBatchCompute())
             .SetUserCookieAndFpHeader(userAndUid.User, CookieType.Cookie)
-            .SetReferer(userAndUid.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(userAndUid.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
             .PostJson(data);
 
         Response<BatchConsumption>? resp = await builder
@@ -70,14 +59,16 @@ internal sealed partial class CalculateClient
         List<Avatar> avatars = [];
         Response<ListWrapper<Avatar>>? resp;
 
+        IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(userAndUid.IsOversea);
+
         do
         {
             filter.Page = currentPage++;
 
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-                .SetRequestUri(userAndUid.User.IsOversea ? ApiOsEndpoints.CalculateSyncAvatarList : ApiEndpoints.CalculateSyncAvatarList)
+                .SetRequestUri(apiEndpoints.CalculateSyncAvatarList())
                 .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
-                .SetReferer(userAndUid.User.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
+                .SetReferer(userAndUid.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
                 .PostJson(filter);
 
             resp = await builder
@@ -103,14 +94,12 @@ internal sealed partial class CalculateClient
 
     public async ValueTask<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
     {
-        string url = userAndUid.User.IsOversea
-            ? ApiOsEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value)
-            : ApiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value);
+        IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(userAndUid.IsOversea);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(apiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
-            .SetReferer(userAndUid.User.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(userAndUid.User.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
             .Get();
 
         Response<AvatarDetail>? resp = await builder
@@ -122,10 +111,12 @@ internal sealed partial class CalculateClient
 
     public async ValueTask<Response<FurnitureListWrapper>> FurnitureBlueprintAsync(Model.Entity.User user, string shareCode, CancellationToken token)
     {
+        IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(user.IsOversea);
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CalculateFurnitureBlueprint(shareCode))
+            .SetRequestUri(apiEndpoints.CalculateFurnitureBlueprint(shareCode))
             .SetUserCookieAndFpHeader(user, CookieType.CookieToken)
-            .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(user.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
             .Get();
 
         Response<FurnitureListWrapper>? resp = await builder
@@ -139,10 +130,11 @@ internal sealed partial class CalculateClient
     {
         ListWrapper<IdCount> data = new() { List = items.Select(i => new IdCount { Id = i.Id, Count = i.Num }).ToList() };
 
+        IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(user.IsOversea);
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CalculateFurnitureCompute)
+            .SetRequestUri(apiEndpoints.CalculateFurnitureCompute())
             .SetUserCookieAndFpHeader(user, CookieType.CookieToken)
-            .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(user.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
             .PostJson(data);
 
         Response<ListWrapper<Item>>? resp = await builder

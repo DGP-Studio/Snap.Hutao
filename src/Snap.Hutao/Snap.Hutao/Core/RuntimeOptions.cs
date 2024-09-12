@@ -3,13 +3,13 @@
 
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
+using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
-using Windows.UI.Notifications;
 
 namespace Snap.Hutao.Core;
 
@@ -82,13 +82,12 @@ internal sealed class RuntimeOptions
     });
 
     private readonly LazySlim<string> lazyLocalCache = new(() => ApplicationData.Current.LocalCacheFolder.Path);
-    private readonly LazySlim<string> lazyInstalledLocation = new(() => Package.Current.InstalledLocation.Path);
     private readonly LazySlim<string> lazyFamilyName = new(() => Package.Current.Id.FamilyName);
 
     private readonly LazySlim<bool> lazyToastAvailable = new(() =>
     {
         ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
-        return taskContext.InvokeOnMainThread(() => ToastNotificationManager.CreateToastNotifier().Setting is NotificationSetting.Enabled);
+        return taskContext.InvokeOnMainThread(() => AppNotificationManager.Default.Setting is AppNotificationSetting.Enabled);
     });
 
     public RuntimeOptions()
@@ -99,8 +98,6 @@ internal sealed class RuntimeOptions
     public Version Version { get => lazyVersionAndUserAgent.Value.Version; }
 
     public string UserAgent { get => lazyVersionAndUserAgent.Value.UserAgent; }
-
-    public string InstalledLocation { get => lazyInstalledLocation.Value; }
 
     public string DataFolder { get => lazyDataFolder.Value; }
 

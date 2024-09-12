@@ -6,7 +6,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
-internal interface IAvatarViewBuilder : IBuilder, IScoreAccess
+internal interface IAvatarViewBuilder : IBuilder
 {
     AvatarView View { get; }
 }

@@ -4,31 +4,22 @@
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-/// <summary>
-/// 战斗属性格式化
-/// </summary>
 internal static class FightPropertyFormat
 {
-    /// <summary>
-    /// 格式化名称与值
-    /// </summary>
-    /// <param name="property">属性</param>
-    /// <param name="value">值</param>
-    /// <returns>对</returns>
     public static NameValue<string> ToNameValue(FightProperty property, float value)
     {
         return new(property.GetLocalizedDescription(), FormatValue(property, value));
     }
 
-    /// <summary>
-    /// 格式化名称与描述
-    /// </summary>
-    /// <param name="property">属性</param>
-    /// <param name="value">值</param>
-    /// <returns>对</returns>
+    public static NameValue<string> ToNameValue(ReliquaryProperty baseProperty)
+    {
+        return new(baseProperty.PropertyType.GetLocalizedDescription(), baseProperty.Value);
+    }
+
     public static NameDescription ToNameDescription(FightProperty property, float value)
     {
         return new(property.GetLocalizedDescription(), FormatValue(property, value));
@@ -43,12 +34,14 @@ internal static class FightPropertyFormat
         };
     }
 
-    /// <summary>
-    /// 格式化无绿字的角色属性
-    /// </summary>
-    /// <param name="property">战斗属性</param>
-    /// <param name="value">值</param>
-    /// <returns>对2</returns>
+    public static AvatarProperty ToAvatarProperty(BaseProperty baseProperty)
+    {
+        FightProperty property = baseProperty.PropertyType;
+        string name = property.GetLocalizedDescription();
+
+        return new(baseProperty.PropertyType, name, baseProperty.Base, baseProperty.Add);
+    }
+
     public static AvatarProperty ToAvatarProperty(FightProperty property, float value)
     {
         string name = property.GetLocalizedDescription();
@@ -57,12 +50,6 @@ internal static class FightPropertyFormat
         return new(property, name, FormatValue(method, value));
     }
 
-    /// <summary>
-    /// 格式化无绿字的角色属性
-    /// </summary>
-    /// <param name="property">战斗属性</param>
-    /// <param name="fightPropMap">战斗属性映射</param>
-    /// <returns>对2</returns>
     public static AvatarProperty ToAvatarProperty(FightProperty property, Dictionary<FightProperty, float> fightPropMap)
     {
         string name = property.GetLocalizedDescription();
@@ -73,13 +60,6 @@ internal static class FightPropertyFormat
         return new(property, name, FormatValue(method, value));
     }
 
-    /// <summary>
-    /// 格式化有绿字的角色属性
-    /// </summary>
-    /// <param name="property">战斗属性</param>
-    /// <param name="baseValue">白字</param>
-    /// <param name="addValue">绿字</param>
-    /// <returns>对2</returns>
     public static AvatarProperty ToAvatarProperty(FightProperty property, float baseValue, float addValue)
     {
         string name = property.GetLocalizedDescription();
@@ -91,23 +71,11 @@ internal static class FightPropertyFormat
         return new(property, name, value, addedValue);
     }
 
-    /// <summary>
-    /// 格式化战斗属性
-    /// </summary>
-    /// <param name="property">战斗属性</param>
-    /// <param name="value">值</param>
-    /// <returns>格式化的值</returns>
     public static string FormatValue(FightProperty property, float value)
     {
         return FormatValue(property.GetFormatMethod(), value);
     }
 
-    /// <summary>
-    /// 格式化战斗属性
-    /// </summary>
-    /// <param name="method">格式化方法</param>
-    /// <param name="value">值</param>
-    /// <returns>格式化的值</returns>
     public static string FormatValue(FormatMethod method, float value)
     {
         return method switch

@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Request.Builder;
@@ -19,12 +21,14 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<GameRecordClient> logger;
+    [FromKeyed(ApiEndpointsKind.Oversea)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordDailyNote(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordDailyNote(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
@@ -40,7 +44,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     public async ValueTask<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordIndex(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordIndex(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
@@ -53,10 +57,10 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
+    public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, ScheduleType schedule, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
@@ -69,19 +73,40 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<Character>>> GetCharacterListAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordCharacter)
+            .SetRequestUri(apiEndpoints.GameRecordCharacterList())
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
+            .PostJson(new CharacterData(userAndUid.Uid));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
-        Response<CharacterWrapper>? resp = await builder
-            .SendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
+        Response<ListWrapper<Character>>? resp = await builder
+            .SendAsync<Response<ListWrapper<Character>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<ListWrapper<DetailedCharacter>>> GetCharacterDetailAsync(UserAndUid userAndUid, List<AvatarId> characterIds, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordCharacterDetail())
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .PostJson(new CharacterData(userAndUid.Uid, characterIds));
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
+
+        Response<ListWrapper<DetailedCharacter>>? resp = await builder
+            .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
+    {
+        return ValueTask.FromException<Response<RoleCombat.RoleCombat>>(new NotSupportedException());
     }
 }

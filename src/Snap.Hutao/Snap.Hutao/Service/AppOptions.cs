@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.BackgroundImage;
+using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Service;
@@ -76,24 +76,12 @@ internal sealed partial class AppOptions : DbStoreOptions
     public Region Region
     {
         get => GetOption(ref region, SettingEntry.AnnouncementRegion, v => Region.FromRegionString(v), Region.CNGF01).Value;
-        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, value => value.ToStringOrEmpty());
+        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, v => v.ToStringOrEmpty());
     }
 
     public string GeetestCustomCompositeUrl
     {
         get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
-    }
-
-    private static T? EnumParse<T>(string input)
-        where T : struct, Enum
-    {
-        return Enum.Parse<T>(input);
-    }
-
-    private static string EnumToStringOrEmpty<T>(T? input)
-        where T : struct, Enum
-    {
-        return input.ToStringOrEmpty();
     }
 }

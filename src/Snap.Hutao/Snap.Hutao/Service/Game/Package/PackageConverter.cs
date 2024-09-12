@@ -70,7 +70,7 @@ internal sealed partial class PackageConverter
 
         // Step 2
         List<PackageItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).ToList();
-        diffOperations.SortBy(i => i.Type);
+        diffOperations.SortBy(i => i.Kind);
 
         // Step 3
         await PrepareCacheFilesAsync(diffOperations, context, progress).ConfigureAwait(false);
@@ -81,31 +81,21 @@ internal sealed partial class PackageConverter
 
     public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameChannelSDK? channelSDK, DeprecatedFilesWrapper? deprecatedFiles, string gameFolder)
     {
-        string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
-        string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
+        // Just try to delete these files, always download from server when needed
+        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, "sdk_pkg_version"));
 
-        string sdkVersionBackup = Path.Combine(gameFolder, "sdk_pkg_version.backup");
-        string sdkVersion = Path.Combine(gameFolder, "sdk_pkg_version");
-
-        // Only bilibili's sdk is not null
         if (channelSDK is not null)
         {
             using (Stream sdkWebStream = await httpClient.GetStreamAsync(channelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
             {
                 ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
             }
-
-            if (File.Exists(sdkDllBackup) && File.Exists(sdkVersionBackup))
-            {
-                File.Delete(sdkDllBackup);
-                File.Delete(sdkVersionBackup);
-            }
-        }
-        else
-        {
-            // backup
-            FileOperation.Move(sdkDll, sdkDllBackup, true);
-            FileOperation.Move(sdkVersion, sdkVersionBackup, true);
         }
 
         if (deprecatedFiles is not null)
@@ -127,7 +117,7 @@ internal sealed partial class PackageConverter
                 if (!(remoteItem.FileSize == localItem.FileSize && remoteItem.Md5.Equals(localItem.Md5, StringComparison.OrdinalIgnoreCase)))
                 {
                     // 本地发现了同名且不同 MD5 的项，需要替换为服务器上的项
-                    yield return new(PackageItemOperationType.Replace, remoteItem, localItem);
+                    yield return new(PackageItemOperationKind.Replace, remoteItem, localItem);
                 }
 
                 // 同名同MD5，跳过
@@ -136,13 +126,13 @@ internal sealed partial class PackageConverter
             else
             {
                 // 本地没有发现同名项
-                yield return new(PackageItemOperationType.Add, remoteItem, remoteItem);
+                yield return new(PackageItemOperationKind.Add, remoteItem, remoteItem);
             }
         }
 
         foreach ((_, VersionItem localItem) in local)
         {
-            yield return new(PackageItemOperationType.Backup, localItem, localItem);
+            yield return new(PackageItemOperationKind.Backup, localItem, localItem);
         }
     }
 
@@ -188,9 +178,16 @@ internal sealed partial class PackageConverter
 
     private async ValueTask<RelativePathVersionItemDictionary> GetLocalItemsAsync(string gameFolder)
     {
-        using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, PackageVersion)))
+        try
         {
-            return await GetVersionItemsAsync(localSteam).ConfigureAwait(false);
+            using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, PackageVersion)))
+            {
+                return await GetVersionItemsAsync(localSteam).ConfigureAwait(false);
+            }
+        }
+        catch (JsonException ex)
+        {
+            throw HutaoException.Throw(SH.ServiceGamePackageReadLocalPackageVerionFailed, ex);
         }
     }
 
@@ -198,12 +195,12 @@ internal sealed partial class PackageConverter
     {
         foreach (PackageItemOperationInfo info in operations)
         {
-            switch (info.Type)
+            switch (info.Kind)
             {
-                case PackageItemOperationType.Backup:
+                case PackageItemOperationKind.Backup:
                     continue;
-                case PackageItemOperationType.Replace:
-                case PackageItemOperationType.Add:
+                case PackageItemOperationKind.Replace:
+                case PackageItemOperationKind.Add:
                     await SkipOrDownloadAsync(info, context, progress).ConfigureAwait(false);
                     break;
             }
@@ -244,7 +241,7 @@ internal sealed partial class PackageConverter
             StatusFactory = (bytesRead, totalBytes) => new(remoteName, bytesRead, totalBytes),
         };
 
-        using (HttpShardCopyWorker<PackageConvertStatus> worker = await HttpShardCopyWorker<PackageConvertStatus>.CreateAsync(options).ConfigureAwait(false))
+        using (IHttpShardCopyWorker<PackageConvertStatus> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
         {
             try
             {
@@ -269,11 +266,11 @@ internal sealed partial class PackageConverter
         // 执行下载与移动操作
         foreach (PackageItemOperationInfo info in operations)
         {
-            (bool moveToBackup, bool moveToTarget) = info.Type switch
+            (bool moveToBackup, bool moveToTarget) = info.Kind switch
             {
-                PackageItemOperationType.Backup => (true, false),
-                PackageItemOperationType.Replace => (true, true),
-                PackageItemOperationType.Add => (false, true),
+                PackageItemOperationKind.Backup => (true, false),
+                PackageItemOperationKind.Replace => (true, true),
+                PackageItemOperationKind.Add => (false, true),
                 _ => (false, false),
             };
 
@@ -314,7 +311,7 @@ internal sealed partial class PackageConverter
         try
         {
             progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRenameFormat(context.FromDataFolderName, context.ToDataFolderName)));
-            DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
+            DirectoryOperation.TryMove(context.FromDataFolder, context.ToDataFolder);
         }
         catch (IOException ex)
         {

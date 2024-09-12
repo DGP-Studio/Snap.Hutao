@@ -1,0 +1,39 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock">
+
+    <Style BasedOn="{StaticResource DefaultRateDeltaTextBlockStyle}" TargetType="shuxct:RateDeltaTextBlock"/>
+
+    <Style x:Key="DefaultRateDeltaTextBlockStyle" TargetType="shuxct:RateDeltaTextBlock">
+        <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shuxct:RateDeltaTextBlock">
+                    <TextBlock
+                        x:Name="RootTextBlock"
+                        Foreground="{TemplateBinding Foreground}"
+                        Style="{TemplateBinding TextStyle}"
+                        Text="{TemplateBinding Text}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="NoValue"/>
+                                <VisualState x:Name="PositiveValue">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootTextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NegativeValue">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootTextBlock.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="TextStyle" Value="{StaticResource BodyTextBlockStyle}"/>
+    </Style>
+</ResourceDictionary>

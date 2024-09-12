@@ -1,67 +1,36 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Concurrent;
+
 namespace Snap.Hutao.Core.Threading;
 
-/// <summary>
-/// An asynchronous barrier that blocks the signaler until all other participants have signaled.
-/// FIFO
-/// </summary>
-internal class AsyncBarrier
+// https://devblogs.microsoft.com/pfxteam/building-async-coordination-primitives-part-4-asyncbarrier/
+[SuppressMessage("", "SH003")]
+internal sealed class AsyncBarrier
 {
-    /// <summary>
-    /// The number of participants being synchronized.
-    /// </summary>
     private readonly int participantCount;
+    private int remainingParticipants;
+    private ConcurrentStack<TaskCompletionSource> waiters = [];
 
-    /// <summary>
-    /// The set of participants who have reached the barrier, with their awaiters that can resume those participants.
-    /// </summary>
-    private readonly Queue<TaskCompletionSource> waiters;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AsyncBarrier"/> class.
-    /// </summary>
-    /// <param name="participants">The number of participants.</param>
-    public AsyncBarrier(int participants)
+    public AsyncBarrier(int participantCount)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(participants, "Participants of AsyncBarrier must be greater than 0");
-        participantCount = participants;
-
-        // Allocate the stack so no resizing is necessary.
-        // We don't need space for the last participant, since we never have to store it.
-        waiters = new Queue<TaskCompletionSource>(participants - 1);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(participantCount);
+        remainingParticipants = this.participantCount = participantCount;
     }
 
-    /// <summary>
-    /// Signals that a participant is ready, and returns a Task
-    /// that completes when all other participants have also signaled ready.
-    /// </summary>
-    /// <returns>A Task, which will complete (or may already be completed) when the last participant calls this method.</returns>
-    [SuppressMessage("", "SH007")]
-    public ValueTask SignalAndWaitAsync()
+    public Task SignalAndWaitAsync()
     {
-        lock (waiters)
+        TaskCompletionSource tcs = new();
+        waiters.Push(tcs);
+        if (Interlocked.Decrement(ref remainingParticipants) == 0)
         {
-            if (waiters.Count + 1 == participantCount)
-            {
-                // This is the last one we were waiting for.
-                // Unleash everyone that preceded this one.
-                while (waiters.Count > 0)
-                {
-                    _ = Task.Factory.StartNew(state => ((TaskCompletionSource)state!).SetResult(), waiters.Dequeue(), default, TaskCreationOptions.None, TaskScheduler.Default);
-                }
-
-                // And allow this one to continue immediately.
-                return ValueTask.CompletedTask;
-            }
-            else
-            {
-                // We need more folks. So suspend this caller.
-                TaskCompletionSource tcs = new();
-                waiters.Enqueue(tcs);
-                return tcs.Task.AsValueTask();
-            }
+            remainingParticipants = participantCount;
+            ConcurrentStack<TaskCompletionSource> waiters = this.waiters;
+            this.waiters = [];
+            Parallel.ForEach(waiters, w => w.SetResult());
         }
+
+        return tcs.Task;
     }
 }

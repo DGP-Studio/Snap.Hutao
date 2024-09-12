@@ -8,7 +8,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
 [SupportedOSPlatform("windows6.1")]
-internal unsafe readonly struct ID3D11Texture1D
+internal readonly unsafe struct ID3D11Texture1D
 {
     public readonly Vftbl* ThisPtr;
 

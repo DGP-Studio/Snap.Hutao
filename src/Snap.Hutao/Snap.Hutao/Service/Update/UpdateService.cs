@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
@@ -11,8 +11,8 @@ using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
-using Windows.Storage;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -32,7 +32,7 @@ internal sealed partial class UpdateService : IUpdateService
             await taskContext.SwitchToBackgroundAsync();
 
             HutaoInfrastructureClient infrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            HutaoResponse<HutaoVersionInformation> response = await infrastructureClient.GetHutaoVersionInfomationAsync(token).ConfigureAwait(false);
+            HutaoResponse<HutaoPackageInformation> response = await infrastructureClient.GetHutaoVersionInfomationAsync(token).ConfigureAwait(false);
 
             CheckUpdateResult checkUpdateResult = new();
 
@@ -44,7 +44,7 @@ internal sealed partial class UpdateService : IUpdateService
             else
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
-                checkUpdateResult.HutaoVersionInformation = response.Data;
+                checkUpdateResult.PackageInformation = response.Data;
             }
 
             string msixPath = GetUpdatePackagePath();
@@ -52,7 +52,7 @@ internal sealed partial class UpdateService : IUpdateService
             if (!LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false))
             {
                 // Launched in an updated version
-                if (scope.ServiceProvider.GetRequiredService<RuntimeOptions>().Version >= checkUpdateResult.HutaoVersionInformation.Version)
+                if (scope.ServiceProvider.GetRequiredService<RuntimeOptions>().Version >= checkUpdateResult.PackageInformation.Version)
                 {
                     if (File.Exists(msixPath))
                     {
@@ -64,9 +64,9 @@ internal sealed partial class UpdateService : IUpdateService
                 }
             }
 
-            progress.Report(new(checkUpdateResult.HutaoVersionInformation.Version.ToString(), 0, 0));
+            progress.Report(new(checkUpdateResult.PackageInformation.Version.ToString(), 0, 0));
 
-            if (checkUpdateResult.HutaoVersionInformation.Sha256 is not { Length: > 0 } sha256)
+            if (checkUpdateResult.PackageInformation.Validation is not { Length: > 0 } sha256)
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.VersionApiInvalidSha256;
                 return checkUpdateResult;
@@ -82,20 +82,17 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    public ValueTask<bool> DownloadUpdateAsync(CheckUpdateResult checkUpdateResult, IProgress<UpdateStatus> progress, CancellationToken token = default)
+    public ValueTask<bool> DownloadUpdateAsync(HutaoSelectedMirrorInformation mirrorInformation, IProgress<UpdateStatus> progress, CancellationToken token = default)
     {
-        ArgumentNullException.ThrowIfNull(checkUpdateResult.HutaoVersionInformation);
-        return DownloadUpdatePackageAsync(checkUpdateResult.HutaoVersionInformation, GetUpdatePackagePath(), progress, token);
+        return DownloadUpdatePackageAsync(mirrorInformation, GetUpdatePackagePath(), progress, token);
     }
 
-    public async ValueTask<LaunchUpdaterResult> LaunchUpdaterAsync()
+    public LaunchUpdaterResult LaunchUpdater()
     {
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         string updaterTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
 
-        Uri updaterSourceUri = $"ms-appx:///{UpdaterFilename}".ToUri();
-        StorageFile updaterFile = await StorageFile.GetFileFromApplicationUriAsync(updaterSourceUri);
-        await updaterFile.OverwriteCopyAsync(updaterTargetPath).ConfigureAwait(false);
+        File.Copy(InstalledLocation.GetAbsolutePath(UpdaterFilename), updaterTargetPath, true);
 
         string commandLine = new CommandLineBuilder()
             .Append("--package-path", GetUpdatePackagePath(runtimeOptions))
@@ -133,37 +130,72 @@ internal sealed partial class UpdateService : IUpdateService
         return runtimeOptions.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
     }
 
-    private async ValueTask<bool> DownloadUpdatePackageAsync(HutaoVersionInformation versionInformation, string filePath, IProgress<UpdateStatus> progress, CancellationToken token = default)
+    private async ValueTask<bool> DownloadUpdatePackageAsync(HutaoSelectedMirrorInformation mirrorInformation, string filePath, IProgress<UpdateStatus> progress, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        using IServiceScope scope = serviceProvider.CreateScope();
+        using HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
+
+        HutaoPackageMirror mirror = mirrorInformation.Mirror;
+        string version = mirrorInformation.Version.ToString();
+
+        try
         {
-            using (HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>())
+            using HttpResponseMessage responseMessage = await httpClient.GetAsync(mirror.Url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+            long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
+            using Stream webStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+            switch (mirror.MirrorType)
             {
-                string version = versionInformation.Version.ToString();
-                foreach (string url in versionInformation.Urls)
-                {
-                    HttpShardCopyWorkerOptions<UpdateStatus> options = new()
+                case HutaoPackageMirrorType.Direct:
+                    using (FileStream fileStream = File.Create(filePath))
                     {
-                        HttpClient = httpClient,
-                        SourceUrl = url,
-                        DestinationFilePath = filePath,
-                        MaxDegreeOfParallelism = Math.Clamp(Environment.ProcessorCount, 2, 6),
-                        StatusFactory = (bytesRead, totalBytes) => new UpdateStatus(version, bytesRead, totalBytes),
-                    };
-
-                    using (HttpShardCopyWorker<UpdateStatus> worker = await HttpShardCopyWorker<UpdateStatus>.CreateAsync(options).ConfigureAwait(false))
-                    {
-                        await worker.CopyAsync(progress, token).ConfigureAwait(false);
+                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, (_, bytesRead) => new UpdateStatus(version, bytesRead, totalBytes)))
+                        {
+                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
+                        }
                     }
 
-                    string? remoteHash = versionInformation.Sha256;
-                    ArgumentNullException.ThrowIfNull(remoteHash);
-                    if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
+                    break;
+                case HutaoPackageMirrorType.Archive:
+                    using (TempFileStream tempFileStream = new(FileMode.Create, FileAccess.ReadWrite))
                     {
-                        return true;
+                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, tempFileStream, (_, bytesRead) => new UpdateStatus(version, bytesRead, totalBytes)))
+                        {
+                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
+                        }
+
+                        using ZipArchive archive = new(tempFileStream);
+                        foreach (ZipArchiveEntry entry in archive.Entries)
+                        {
+                            if (!entry.FullName.EndsWith(".msix", StringComparison.OrdinalIgnoreCase))
+                            {
+                                continue;
+                            }
+
+                            using Stream entryStream = entry.Open();
+                            using FileStream fileStream = File.Create(filePath);
+                            await entryStream.CopyToAsync(fileStream, token).ConfigureAwait(false);
+                            break;
+                        }
                     }
-                }
+
+                    break;
             }
+
+            if (!File.Exists(filePath))
+            {
+                return false;
+            }
+
+            string? remoteHash = mirrorInformation.Validation;
+            ArgumentNullException.ThrowIfNull(remoteHash);
+            if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+        catch
+        {
         }
 
         return false;

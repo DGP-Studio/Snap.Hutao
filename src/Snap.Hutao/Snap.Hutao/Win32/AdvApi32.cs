@@ -9,14 +9,13 @@ using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
-[SuppressMessage("", "SH002")]
 [SuppressMessage("", "SA1313")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class AdvApi32
 {
     [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL ConvertSidToStringSidW(PSID Sid, PWSTR* StringSid);
+    public static extern unsafe BOOL ConvertSidToStringSidW(PSID Sid, PWSTR* StringSid);
 
     public static unsafe BOOL ConvertSidToStringSidW(PSID Sid, out PWSTR StringSid)
     {
@@ -28,7 +27,7 @@ internal static class AdvApi32
 
     [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL ConvertStringSidToSidW(PCWSTR StringSid, PSID* Sid);
+    public static extern unsafe BOOL ConvertStringSidToSidW(PCWSTR StringSid, PSID* Sid);
 
     public static unsafe BOOL ConvertStringSidToSidW(ReadOnlySpan<char> StringSid, out PSID Sid)
     {
@@ -55,7 +54,7 @@ internal static class AdvApi32
 
     [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern WIN32_ERROR RegOpenKeyExW(HKEY hKey, [AllowNull] PCWSTR lpSubKey, [AllowNull] uint ulOptions, REG_SAM_FLAGS samDesired, HKEY* phkResult);
+    public static extern unsafe WIN32_ERROR RegOpenKeyExW(HKEY hKey, [AllowNull] PCWSTR lpSubKey, [AllowNull] uint ulOptions, REG_SAM_FLAGS samDesired, HKEY* phkResult);
 
     [DebuggerStepThrough]
     public static unsafe WIN32_ERROR RegOpenKeyExW(HKEY hKey, ReadOnlySpan<char> subKey, uint ulOptions, REG_SAM_FLAGS samDesired, out HKEY hkResult)

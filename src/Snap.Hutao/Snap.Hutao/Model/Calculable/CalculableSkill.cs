@@ -13,11 +13,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
 
-/// <summary>
-/// 可计算的技能
-/// </summary>
-[HighQuality]
-internal sealed class CalculableSkill
+internal sealed partial class CalculableSkill
     : ObservableObject,
     ICalculableSkill,
     IMappingFrom<CalculableSkill, ProudableSkill, SkillType>,
@@ -49,32 +45,24 @@ internal sealed class CalculableSkill
         Quality = QualityType.QUALITY_NONE;
     }
 
-    /// <inheritdoc/>
     public SkillGroupId GroupId { get; }
 
-    /// <inheritdoc/>
     public uint LevelMin { get; }
 
-    /// <inheritdoc/>
     public uint LevelMax { get; }
 
-    /// <inheritdoc/>
     public string Name { get; }
 
-    /// <inheritdoc/>
     public Uri Icon { get; }
 
-    /// <inheritdoc/>
     public QualityType Quality { get; }
 
-    /// <inheritdoc/>
     public uint LevelCurrent
     {
         get => LocalSetting.Get(SettingKeyCurrentFromSkillType(type), LevelMin);
         set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromSkillType(type), v));
     }
 
-    /// <inheritdoc/>
     public uint LevelTarget
     {
         get => LocalSetting.Get(SettingKeyTargetFromSkillType(type), LevelMax);
@@ -91,7 +79,7 @@ internal sealed class CalculableSkill
         return new(source, type);
     }
 
-    public static string SettingKeyCurrentFromSkillType(SkillType type)
+    private static string SettingKeyCurrentFromSkillType(SkillType type)
     {
         return type switch
         {
@@ -102,7 +90,7 @@ internal sealed class CalculableSkill
         };
     }
 
-    public static string SettingKeyTargetFromSkillType(SkillType type)
+    private static string SettingKeyTargetFromSkillType(SkillType type)
     {
         return type switch
         {

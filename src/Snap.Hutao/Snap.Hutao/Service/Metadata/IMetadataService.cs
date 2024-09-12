@@ -13,7 +13,7 @@ internal interface IMetadataService
 {
     IMemoryCache MemoryCache { get; }
 
-    ValueTask<T> FromCacheOrFileAsync<T>(string fileName, CancellationToken token)
+    ValueTask<List<T>> FromCacheOrFileAsync<T>(MetadataFileStrategy strategy, CancellationToken token)
         where T : class;
 
     /// <summary>

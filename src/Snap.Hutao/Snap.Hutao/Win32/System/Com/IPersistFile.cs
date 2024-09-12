@@ -22,7 +22,6 @@ internal unsafe struct IPersistFile
         }
     }
 
-    [SuppressMessage("", "SH002")]
     public HRESULT Save(ReadOnlySpan<char> szFileName, bool fRemember)
     {
         fixed (char* pszFileName = szFileName)

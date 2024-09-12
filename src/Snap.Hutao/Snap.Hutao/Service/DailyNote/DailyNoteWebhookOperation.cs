@@ -19,7 +19,7 @@ internal sealed partial class DailyNoteWebhookOperation
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask TryPostDailyNoteToWebhookAsync(PlayerUid playerUid, WebDailyNote dailyNote, CancellationToken token = default)
+    public void TryPostDailyNoteToWebhook(PlayerUid playerUid, WebDailyNote dailyNote)
     {
         string? targetUrl = dailyNoteOptions.WebhookUrl;
         if (string.IsNullOrEmpty(targetUrl) || !Uri.TryCreate(targetUrl, UriKind.Absolute, out Uri? targetUri))
@@ -32,6 +32,6 @@ internal sealed partial class DailyNoteWebhookOperation
             .SetHeader("x-uid", $"{playerUid}")
             .PostJson(dailyNote);
 
-        await builder.SendAsync(httpClient, logger, token).ConfigureAwait(false);
+        builder.Send(httpClient, logger);
     }
 }

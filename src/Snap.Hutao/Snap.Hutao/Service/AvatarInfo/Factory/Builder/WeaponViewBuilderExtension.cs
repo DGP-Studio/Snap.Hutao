@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction.Extension;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -37,13 +37,18 @@ internal static class WeaponViewBuilderExtension
         return builder.SetDescription<TBuilder, WeaponView>(description);
     }
 
+    public static TBuilder SetEquipType<TBuilder>(this TBuilder builder, EquipType equipType)
+        where TBuilder : IWeaponViewBuilder
+    {
+        return builder.SetEquipType<TBuilder, WeaponView>(equipType);
+    }
+
     public static TBuilder SetIcon<TBuilder>(this TBuilder builder, Uri icon)
         where TBuilder : IWeaponViewBuilder
     {
         return builder.SetIcon<TBuilder, WeaponView>(icon);
     }
 
-    [SuppressMessage("", "SH002")]
     public static TBuilder SetId<TBuilder>(this TBuilder builder, WeaponId id)
         where TBuilder : IWeaponViewBuilder
     {
@@ -68,7 +73,7 @@ internal static class WeaponViewBuilderExtension
         return builder.SetMainProperty(mainStat is not null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : NameValueDefaults.String);
     }
 
-    public static TBuilder SetMainProperty<TBuilder>(this TBuilder builder, NameValue<string> mainProperty)
+    public static TBuilder SetMainProperty<TBuilder>(this TBuilder builder, NameValue<string>? mainProperty)
         where TBuilder : IWeaponViewBuilder
     {
         return builder.SetMainProperty<TBuilder, WeaponView>(mainProperty);
@@ -86,7 +91,7 @@ internal static class WeaponViewBuilderExtension
         return builder.SetQuality<TBuilder, WeaponView>(quality);
     }
 
-    public static TBuilder SetSubProperty<TBuilder>(this TBuilder builder, NameDescription subProperty)
+    public static TBuilder SetSubProperty<TBuilder>(this TBuilder builder, NameValue<string>? subProperty)
         where TBuilder : IWeaponViewBuilder
     {
         return builder.Configure(b => b.View.SubProperty = subProperty);

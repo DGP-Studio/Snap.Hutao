@@ -13,15 +13,22 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class DirectoryOperation
 {
-    public static bool Move(string sourceDirName, string destDirName)
+    public static bool TryMove(string sourceDirName, string destDirName)
     {
         if (!Directory.Exists(sourceDirName))
         {
             return false;
         }
 
-        FileSystem.MoveDirectory(sourceDirName, destDirName, true);
-        return true;
+        try
+        {
+            FileSystem.MoveDirectory(sourceDirName, destDirName, true);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public static unsafe bool UnsafeRename(string path, string name, FILEOPERATION_FLAGS flags = FILEOPERATION_FLAGS.FOF_ALLOWUNDO | FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR)

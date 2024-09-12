@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Frozen;
@@ -17,7 +18,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-internal sealed class DownloadSummary : ObservableObject
+internal sealed partial class DownloadSummary : ObservableObject
 {
     private static readonly FrozenSet<string?> AllowedMediaTypes = FrozenSet.ToFrozenSet<string?>(
     [
@@ -49,7 +50,7 @@ internal sealed class DownloadSummary : ObservableObject
         this.serviceProvider = serviceProvider;
 
         this.fileName = fileName;
-        fileUrl = Web.HutaoEndpoints.StaticZip(fileName);
+        fileUrl = StaticResourcesEndpoints.StaticZip(fileName);
 
         progress = serviceProvider.GetRequiredService<IProgressFactory>().CreateForMainThread<StreamCopyStatus>(UpdateProgressStatus);
     }
@@ -95,7 +96,11 @@ internal sealed class DownloadSummary : ObservableObject
                             {
                                 using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
                                 {
-                                    await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
+                                    using (StreamCopyWorker worker = new(content, temp, contentLength))
+                                    {
+                                        await worker.CopyAsync(progress).ConfigureAwait(false);
+                                    }
+
                                     ExtractFiles(temp);
                                     await taskContext.SwitchToMainThreadAsync();
                                     ProgressValue = 1;
@@ -131,8 +136,8 @@ internal sealed class DownloadSummary : ObservableObject
 
     private void UpdateProgressStatus(StreamCopyStatus status)
     {
-        Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-        ProgressValue = status.TotalBytes is 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
+        Description = $"{Converters.ToFileSizeString(status.BytesReadSinceCopyStart)}/{Converters.ToFileSizeString(status.TotalBytes)}";
+        ProgressValue = status.TotalBytes is 0 ? 0 : (double)status.BytesReadSinceCopyStart / status.TotalBytes;
     }
 
     private void ExtractFiles(Stream stream)

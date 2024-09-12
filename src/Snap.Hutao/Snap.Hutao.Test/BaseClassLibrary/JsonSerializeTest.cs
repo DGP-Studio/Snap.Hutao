@@ -13,19 +13,19 @@ public sealed class JsonSerializeTest
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
     };
 
-    private const string SmapleObjectJson = """
+    private const string SampleObjectJson = """
         {
             "A" :1
         }
         """;
 
-    private const string SmapleEmptyStringObjectJson = """
+    private const string SampleEmptyStringObjectJson = """
         {
             "A" : ""
         }
         """;
 
-    private const string SmapleNumberKeyDictionaryJson = """
+    private const string SampleNumberKeyDictionaryJson = """
         {
             "111" : "12",
             "222" : "34"
@@ -35,7 +35,7 @@ public sealed class JsonSerializeTest
     [TestMethod]
     public void DelegatePropertyCanSerialize()
     {
-        SampleDelegatePropertyClass sample = JsonSerializer.Deserialize<SampleDelegatePropertyClass>(SmapleObjectJson)!;
+        SampleDelegatePropertyClass sample = JsonSerializer.Deserialize<SampleDelegatePropertyClass>(SampleObjectJson)!;
         Assert.AreEqual(sample.B, 1);
     }
 
@@ -43,14 +43,23 @@ public sealed class JsonSerializeTest
     [ExpectedException(typeof(JsonException))]
     public void EmptyStringCannotSerializeAsNumber()
     {
-        SampleStringReadWriteNumberPropertyClass sample = JsonSerializer.Deserialize<SampleStringReadWriteNumberPropertyClass>(SmapleEmptyStringObjectJson)!;
+        SampleStringReadWriteNumberPropertyClass sample = JsonSerializer.Deserialize<SampleStringReadWriteNumberPropertyClass>(SampleEmptyStringObjectJson)!;
         Assert.AreEqual(sample.A, 0);
+    }
+
+    [TestMethod]
+    public void EmptyStringCanSerializeAsUri()
+    {
+        SampleEmptyUriClass sample = JsonSerializer.Deserialize<SampleEmptyUriClass>(SampleEmptyStringObjectJson)!;
+        Uri.TryCreate("", UriKind.RelativeOrAbsolute, out Uri? value);
+        Console.WriteLine(value);
+        Assert.AreEqual(sample.A, value);
     }
 
     [TestMethod]
     public void NumberStringKeyCanSerializeAsKey()
     {
-        Dictionary<int, string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, AlowStringNumberOptions)!;
+        Dictionary<int, string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SampleNumberKeyDictionaryJson, AlowStringNumberOptions)!;
         Assert.AreEqual(sample[111], "12");
     }
 
@@ -80,6 +89,19 @@ public sealed class JsonSerializeTest
         Assert.AreEqual(result, """{"A":1,"B":2}""");
     }
 
+    [TestMethod]
+    public void LowercaseStringCanDeserializeAsEnum()
+    {
+        string source = """
+            {
+              "Value": "a"
+            }
+            """;
+
+        SampleClassHoldEnum sample = JsonSerializer.Deserialize<SampleClassHoldEnum>(source)!;
+        Assert.AreEqual(sample.Value, SampleEnum.A);
+    }
+
     private sealed class SampleDelegatePropertyClass
     {
         public int A { get => B; set => B = value; }
@@ -92,6 +114,11 @@ public sealed class JsonSerializeTest
         public int A { get; set; }
     }
 
+    private sealed class SampleEmptyUriClass
+    {
+        public Uri A { get; set; } = default!;
+    }
+
     private sealed class SampleByteArrayPropertyClass
     {
         public byte[]? Array { get; set; }
@@ -102,6 +129,18 @@ public sealed class JsonSerializeTest
         public int A { get; set; }
 
         public int B { get; set; }
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    private enum SampleEnum
+    {
+        A,
+        B,
+    }
+
+    private sealed class SampleClassHoldEnum
+    {
+        public SampleEnum Value { get; set; }
     }
 
     [JsonDerivedType(typeof(SampleClassImplementedInterface))]

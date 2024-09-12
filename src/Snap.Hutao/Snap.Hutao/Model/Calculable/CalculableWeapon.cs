@@ -12,20 +12,12 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
 
-/// <summary>
-/// 可计算武器
-/// </summary>
-[HighQuality]
-internal sealed class CalculableWeapon
+internal sealed partial class CalculableWeapon
     : ObservableObject,
     ICalculableWeapon,
     IMappingFrom<CalculableWeapon, Weapon>,
     IMappingFrom<CalculableWeapon, WeaponView>
 {
-    /// <summary>
-    /// 构造一个新的可计算武器
-    /// </summary>
-    /// <param name="weapon">武器</param>
     private CalculableWeapon(Weapon weapon)
     {
         WeaponId = weapon.Id;
@@ -39,10 +31,6 @@ internal sealed class CalculableWeapon
         LevelTarget = LevelMax;
     }
 
-    /// <summary>
-    /// 构造一个新的可计算武器
-    /// </summary>
-    /// <param name="weapon">武器</param>
     private CalculableWeapon(WeaponView weapon)
     {
         WeaponId = weapon.Id;
@@ -56,32 +44,24 @@ internal sealed class CalculableWeapon
         LevelTarget = LevelMax;
     }
 
-    /// <inheritdoc/>
     public WeaponId WeaponId { get; }
 
-    /// <inheritdoc/>
     public uint LevelMin { get; }
 
-    /// <inheritdoc/>
     public uint LevelMax { get; }
 
-    /// <inheritdoc/>
     public string Name { get; }
 
-    /// <inheritdoc/>
     public Uri Icon { get; }
 
-    /// <inheritdoc/>
     public QualityType Quality { get; }
 
-    /// <inheritdoc/>
     public uint LevelCurrent
     {
         get => LocalSetting.Get(SettingKeyCurrentFromQualityType(Quality), LevelMin);
         set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromQualityType(Quality), v));
     }
 
-    /// <inheritdoc/>
     public uint LevelTarget
     {
         get => LocalSetting.Get(SettingKeyTargetFromQualityType(Quality), LevelMax);
@@ -98,14 +78,14 @@ internal sealed class CalculableWeapon
         return new(source);
     }
 
-    public static string SettingKeyCurrentFromQualityType(QualityType quality)
+    private static string SettingKeyCurrentFromQualityType(QualityType quality)
     {
         return quality >= QualityType.QUALITY_BLUE
             ? SettingKeys.CultivationWeapon90LevelCurrent
             : SettingKeys.CultivationWeapon70LevelCurrent;
     }
 
-    public static string SettingKeyTargetFromQualityType(QualityType quality)
+    private static string SettingKeyTargetFromQualityType(QualityType quality)
     {
         return quality >= QualityType.QUALITY_BLUE
             ? SettingKeys.CultivationWeapon90LevelTarget

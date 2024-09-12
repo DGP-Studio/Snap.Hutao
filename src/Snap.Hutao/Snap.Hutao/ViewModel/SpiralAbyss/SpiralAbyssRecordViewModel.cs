@@ -4,77 +4,64 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Message;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
-using Snap.Hutao.View.Page;
+using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
-using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-/// <summary>
-/// 深渊记录视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
+internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly HutaoSpiralAbyssClient spiralAbyssClient;
     private readonly INavigationService navigationService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
 
-    private ObservableCollection<SpiralAbyssView>? spiralAbyssEntries;
-    private SpiralAbyssView? selectedView;
+    private AdvancedCollectionView<SpiralAbyssView>? spiralAbyssEntries;
 
     /// <summary>
     /// 深渊记录
     /// </summary>
-    public ObservableCollection<SpiralAbyssView>? SpiralAbyssEntries { get => spiralAbyssEntries; set => SetProperty(ref spiralAbyssEntries, value); }
-
-    /// <summary>
-    /// 选中的深渊信息
-    /// </summary>
-    public SpiralAbyssView? SelectedView { get => selectedView; set => SetProperty(ref selectedView, value); }
+    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries { get => spiralAbyssEntries; set => SetProperty(ref spiralAbyssEntries, value); }
 
     public HutaoDatabaseViewModel HutaoDatabaseViewModel { get => hutaoDatabaseViewModel; }
 
-    /// <inheritdoc/>
-    public void Receive(UserChangedMessage message)
+    public void Receive(UserAndUidChangedMessage message)
     {
-        if (UserAndUid.TryFromUser(message.NewValue, out UserAndUid? userAndUid))
+        if (message.UserAndUid is { } userAndUid)
         {
-            UpdateSpiralAbyssCollectionAsync(userAndUid).SafeForget();
+            _ = UpdateSpiralAbyssCollectionAsync(userAndUid);
         }
         else
         {
-            SelectedView = null;
+            SpiralAbyssEntries?.MoveCurrentTo(default);
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await spiralAbyssRecordService.InitializeAsync().ConfigureAwait(false))
         {
-            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
             {
                 await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
-                return true;
             }
             else
             {
@@ -82,28 +69,32 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             }
         }
 
-        return false;
+        return true;
     }
 
-    private async ValueTask UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
+    [SuppressMessage("", "SH003")]
+    private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
-        ObservableCollection<SpiralAbyssView>? collection = null;
+        ObservableCollection<SpiralAbyssView> collection;
         try
         {
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 collection = await spiralAbyssRecordService
                     .GetSpiralAbyssViewCollectionAsync(userAndUid)
                     .ConfigureAwait(false);
             }
+
+            AdvancedCollectionView<SpiralAbyssView> spiralAbyssEntries = collection.ToAdvancedCollectionView();
+
+            await taskContext.SwitchToMainThreadAsync();
+            SpiralAbyssEntries = spiralAbyssEntries;
+            SpiralAbyssEntries.MoveCurrentTo(SpiralAbyssEntries.SourceCollection.FirstOrDefault(s => s.Engaged));
         }
         catch (OperationCanceledException)
         {
+            return;
         }
-
-        await taskContext.SwitchToMainThreadAsync();
-        SpiralAbyssEntries = collection;
-        SelectedView = SpiralAbyssEntries?.FirstOrDefault(s => s.Engaged);
     }
 
     [Command("RefreshCommand")]
@@ -111,11 +102,11 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     {
         if (SpiralAbyssEntries is not null)
         {
-            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
             {
                 try
                 {
-                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
                         await spiralAbyssRecordService
                             .RefreshSpiralAbyssAsync(userAndUid)
@@ -127,7 +118,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
-                SelectedView = SpiralAbyssEntries.FirstOrDefault(s => s.Engaged);
+                SpiralAbyssEntries.MoveCurrentTo(SpiralAbyssEntries.SourceCollection.FirstOrDefault(s => s.Engaged));
             }
         }
     }
@@ -135,7 +126,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [Command("UploadSpiralAbyssRecordCommand")]
     private async Task UploadSpiralAbyssRecordAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             if (!hutaoUserOptions.IsLoggedIn)
             {
@@ -160,23 +151,21 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 }
             }
 
-            SimpleRecord? record = await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
-            if (record is not null)
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+                HutaoSpiralAbyssClient spiralAbyssClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+                if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
+                {
+                    Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
 
-                if (response is { ReturnCode: 0 })
-                {
                     if (response is ILocalizableResponse localizableResponse)
                     {
-                        infoBarService.Success(localizableResponse.GetLocalizationMessage());
-                    }
-                }
-                else
-                {
-                    if (response is ILocalizableResponse localizableResponse)
-                    {
-                        infoBarService.Warning(localizableResponse.GetLocalizationMessage());
+                        infoBarService.PrepareInfoBarAndShow(builder =>
+                        {
+                            builder
+                            .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
+                            .SetMessage(localizableResponse.GetLocalizationMessage());
+                        });
                     }
                 }
             }

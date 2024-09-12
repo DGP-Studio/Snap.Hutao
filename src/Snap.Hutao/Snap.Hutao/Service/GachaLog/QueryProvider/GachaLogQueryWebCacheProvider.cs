@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Service.Game;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,22 +12,14 @@ using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
-/// <summary>
-/// 浏览器缓存方法
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.WebCache)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
+    private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IGameServiceFacade gameService;
     private readonly CultureOptions cultureOptions;
 
-    /// <summary>
-    /// 获取缓存文件路径
-    /// </summary>
-    /// <param name="path">游戏路径</param>
-    /// <returns>缓存文件路径</returns>
     public static string GetCacheFile(string path)
     {
         string exeName = Path.GetFileName(path);
@@ -62,7 +54,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
 
         if (!isOk || string.IsNullOrEmpty(path))
         {
-            return new(false, SH.ServiceGachaLogUrlProviderCachePathInvalid);
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCachePathInvalid));
         }
 
         string cacheFile = GetCacheFile(path);
@@ -70,32 +62,30 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         {
             if (!tempFile.TryGetValue(out TempFile file))
             {
-                string unescaped = Regex.Unescape(SH.ServiceGachaLogUrlProviderCachePathNotFound);
-                return new(false, string.Format(CultureInfo.CurrentCulture, unescaped, cacheFile));
+                return new(false, GachaLogQuery.Invalid(SH.FormatServiceGachaLogUrlProviderCachePathNotFound(cacheFile)));
             }
 
             using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using (MemoryStream memoryStream = new())
+                using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
                 {
-                    await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
                     string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));
 
                     if (string.IsNullOrEmpty(result))
                     {
-                        return new(false, SH.ServiceGachaLogUrlProviderCacheUrlNotFound);
+                        return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCacheUrlNotFound));
                     }
 
                     NameValueCollection query = HttpUtility.ParseQueryString(result.TrimEnd("#/log"));
                     string? queryLanguageCode = query["lang"];
 
-                    if (cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
+                    if (!cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
                     {
-                        return new(true, new(result));
+                        string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
+                        return new(false, GachaLogQuery.Invalid(message));
                     }
 
-                    string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
-                    return new(false, message);
+                    return new(true, new(result));
                 }
             }
         }

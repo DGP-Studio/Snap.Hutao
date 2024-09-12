@@ -52,7 +52,7 @@ internal sealed class BattleView : IMappingFrom<BattleView, TowerLevel, uint, Sp
         return new(level, index, context);
     }
 
-    public void WithSpiralAbyssBattle(Battle battle, SpiralAbyssMetadataContext context)
+    public void WithSpiralAbyssBattle(SpiralAbyssBattle battle, SpiralAbyssMetadataContext context)
     {
         Time = $"{DateTimeOffset.FromUnixTimeSeconds(battle.Timestamp).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
         Avatars = battle.Avatars.SelectList(a => AvatarView.From(context.IdAvatarMap[a.Id]));

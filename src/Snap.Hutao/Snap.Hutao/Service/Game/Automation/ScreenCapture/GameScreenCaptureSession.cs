@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.UI;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
 using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
@@ -20,7 +20,7 @@ using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
-internal sealed class GameScreenCaptureSession : IDisposable
+internal sealed partial class GameScreenCaptureSession : IDisposable
 {
     private static readonly Half ByteMaxValue = 255;
 
@@ -36,7 +36,6 @@ internal sealed class GameScreenCaptureSession : IDisposable
 
     private bool isDisposed;
 
-    [SuppressMessage("", "SH002")]
     public unsafe GameScreenCaptureSession(GameScreenCaptureContext captureContext, ILogger logger)
     {
         this.captureContext = captureContext;

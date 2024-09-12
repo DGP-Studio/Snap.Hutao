@@ -42,6 +42,9 @@ internal sealed partial class SettingEntry
     public const string LaunchIsScreenHeightEnabled = "Launch.IsScreenHeightEnabled";
     public const string LaunchUnlockFps = "Launch.UnlockFps";
     public const string LaunchTargetFps = "Launch.TargetFps";
+    public const string LaunchTargetFov = "Launch.TargetFov";
+    public const string LaunchDisableFog = "Launch.DisableFog";
+    public const string LaunchLoopAdjustFpsOnly = "Launch.LoopAdjustFpsOnly";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
     public const string LaunchIsUseCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
@@ -49,6 +52,9 @@ internal sealed partial class SettingEntry
     public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
     public const string LaunchUseBetterGenshinImpactAutomation = "Launch.UseBetterGenshinImpactAutomation";
     public const string LaunchSetDiscordActivityWhenPlaying = "Launch.SetDiscordActivityWhenPlaying";
+
+    [Obsolete("不再区分解锁器类型，统一使用注入")]
+    public const string LaunchUnlockerKind = "Launch.UnlockerKind";
 
     [Obsolete("不再支持多开")]
     public const string MultipleInstances = "Launch.MultipleInstances";

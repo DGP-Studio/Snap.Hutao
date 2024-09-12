@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
-using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Database.Abstraction;
+using Snap.Hutao.UI.Xaml.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +14,9 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("gacha_archives")]
-internal sealed partial class GachaArchive : ISelectable, IMappingFrom<GachaArchive, string>
+internal sealed partial class GachaArchive : ISelectable,
+    IAdvancedCollectionViewItem,
+    IMappingFrom<GachaArchive, string>
 {
     /// <summary>
     /// 内部Id

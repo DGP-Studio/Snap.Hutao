@@ -1,37 +1,44 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game.Automation.ScreenCapture;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
+using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel;
 
-/// <summary>
-/// 测试视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
-    private readonly HutaoAsAServiceClient homaAsAServiceClient;
-    private readonly IInfoBarService infoBarService;
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
+    private readonly IGameScreenCaptureService gameScreenCaptureService;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
     private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
-    private readonly IGameScreenCaptureService gameScreenCaptureService;
 
     private UploadAnnouncement announcement = new();
 
@@ -93,6 +100,63 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    public bool OverrideHardDriveType
+    {
+        get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.OverridePhysicalDriverType, value);
+            OnPropertyChanged();
+        }
+    }
+
+    public bool OverrideHardDriveTypeIsSolidState
+    {
+        get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
+        }
+    }
+
+    public bool AlwaysIsFirstRunAfterUpdate
+    {
+        get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
+        }
+    }
+
+    public bool AlphaBuildUseCNPatchEndpoint
+    {
+        get => LocalSetting.Get(SettingKeys.AlphaBuildUseCNPatchEndpoint, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AlphaBuildUseCNPatchEndpoint, value);
+        }
+    }
+
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
@@ -103,6 +167,14 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private static void ThrowTestException()
     {
         HutaoException.Throw("Test Exception");
+    }
+
+    [Command("FileOperationRenameCommand")]
+    private static void FileOperationRename()
+    {
+        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string source = Path.Combine(desktop, "TestFolder");
+        DirectoryOperation.UnsafeRename(source, "TestFolder1");
     }
 
     [Command("ResetMainWindowSizeCommand")]
@@ -118,24 +190,32 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("UploadAnnouncementCommand")]
     private async Task UploadAnnouncementAsync()
     {
-        Web.Response.Response response = await homaAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
-        if (response.IsOk())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            infoBarService.Success(response.Message);
-            await taskContext.SwitchToMainThreadAsync();
-            Announcement = new();
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Web.Response.Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
+            if (response.IsOk())
+            {
+                infoBarService.Success(response.Message);
+                await taskContext.SwitchToMainThreadAsync();
+                Announcement = new();
+            }
         }
     }
 
     [Command("CompensationGachaLogServiceTimeCommand")]
     private async Task CompensationGachaLogServiceTimeAsync()
     {
-        Web.Response.Response response = await homaAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
-        if (response.IsOk())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            infoBarService.Success(response.Message);
-            await taskContext.SwitchToMainThreadAsync();
-            Announcement = new();
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Web.Response.Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
+            if (response.IsOk())
+            {
+                infoBarService.Success(response.Message);
+                await taskContext.SwitchToMainThreadAsync();
+                Announcement = new();
+            }
         }
     }
 
@@ -158,18 +238,80 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             {
                 while (true)
                 {
-                    await session.RequestFrameAsync();
-                    await Task.Delay(1000);
+                    await session.RequestFrameAsync().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
             }
         }
     }
 
-    [Command("FileOperationRenameCommand")]
-    private void FileOperationRename()
+    [Command("SendRandomInfoBarNotificationCommand")]
+    private void SendRandomInfoBarNotification()
     {
-        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        string source = Path.Combine(desktop, "TestFolder");
-        DirectoryOperation.UnsafeRename(source, "TestFolder1");
+        infoBarService.PrepareInfoBarAndShow(builder => builder
+            .SetSeverity((InfoBarSeverity)System.Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
+            .SetTitle("Lorem ipsum dolor sit amet")
+            .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
+    }
+
+    [Command("CheckPathBelongsToSSDCommand")]
+    private void CheckPathBelongsToSSD()
+    {
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile("Pick any file!", default);
+        if (isOk)
+        {
+            bool isSolidState = PhysicalDriver.DangerousGetIsSolidState(file);
+            infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
+        }
+    }
+
+    [Command("TestHttpShardDownload")]
+    private async Task TestHttpShardDownloadAsync()
+    {
+        using (HttpClient httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
+        {
+            HttpShardCopyWorkerOptions<Core.Void> options = new()
+            {
+                HttpClient = httpClient,
+                SourceUrl = "https://ghproxy.qhy04.cc/https://github.com/DGP-Studio/Snap.Hutao/releases/download/1.11.0/Snap.Hutao.1.11.0.msix",
+                DestinationFilePath = "D://test.file",
+                StatusFactory = (bytesRead, totalBytes) => default,
+            };
+
+            Progress<Core.Void> progress = new();
+
+            using (IHttpShardCopyWorker<Core.Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
+            {
+                await worker.CopyAsync(progress).ConfigureAwait(false);
+            }
+        }
+
+        string result = await SHA256.HashFileAsync("D://test.file").ConfigureAwait(false);
+        logger.LogInformation("File SHA256: {SHA256}", result);
+    }
+
+    [Command("RunCodeCommand")]
+    private async Task RunCodeAsync()
+    {
+        try
+        {
+            string script = """
+                return 1 + 1;
+                """;
+            object? result = await CSharpScript.EvaluateAsync(script, ScriptOptions.Default).ConfigureAwait(false);
+            logger.LogInformation("Run Code Result: '{Result}'", result);
+        }
+        catch (CompilationErrorException ex)
+        {
+            logger.LogCritical(ex, "Compilation Error");
+        }
+    }
+
+    [Command("GPOWindowTestCommand")]
+    private void GPOWindowTest()
+    {
+        GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
+        GamePackageOperationViewModel dataContext = (GamePackageOperationViewModel)window.DataContext;
+        dataContext.TestProgress();
     }
 }

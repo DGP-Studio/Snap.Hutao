@@ -5,17 +5,13 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Service.Hutao;
-using Snap.Hutao.View.Card;
-using Snap.Hutao.View.Card.Primitive;
+using Snap.Hutao.UI.Xaml.Control.Card;
+using Snap.Hutao.UI.Xaml.View.Card;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Home;
 
-/// <summary>
-/// 公告视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
@@ -32,56 +28,49 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     private ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? hutaoAnnouncements;
     private List<CardReference>? cards;
 
-    /// <summary>
-    /// 公告
-    /// </summary>
     public AnnouncementWrapper? Announcement { get => announcement; set => SetProperty(ref announcement, value); }
 
     public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get => hutaoAnnouncements; set => SetProperty(ref hutaoAnnouncements, value); }
 
-    /// <summary>
-    /// 用户选项
-    /// </summary>
     public HutaoUserOptions HutaoUserOptions { get => hutaoUserOptions; }
 
-    /// <summary>
-    /// 欢迎语
-    /// </summary>
     public string GreetingText { get => greetingText; set => SetProperty(ref greetingText, value); }
 
     public List<CardReference>? Cards { get => cards; set => SetProperty(ref cards, value); }
 
-    protected override ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         InitializeDashboard();
-        InitializeInGameAnnouncementAsync().SafeForget();
-        InitializeHutaoAnnouncementAsync().SafeForget();
+        _ = InitializeInGameAnnouncementAsync();
+        _ = InitializeHutaoAnnouncementAsync();
         UpdateGreetingText();
         return ValueTask.FromResult(true);
     }
 
-    private async ValueTask InitializeInGameAnnouncementAsync()
+    [SuppressMessage("", "SH003")]
+    private async Task InitializeInGameAnnouncementAsync()
     {
         try
         {
             AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
-            DeferContentLoader.Load("GameAnnouncementPivot");
+            DeferContentLoader?.Load("GameAnnouncementPivot");
         }
         catch (OperationCanceledException)
         {
         }
     }
 
-    private async ValueTask InitializeHutaoAnnouncementAsync()
+    [SuppressMessage("", "SH003")]
+    private async Task InitializeHutaoAnnouncementAsync()
     {
         try
         {
             ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync().ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             HutaoAnnouncements = hutaoAnnouncements;
-            DeferContentLoader.Load("HutaoAnnouncementControl");
+            DeferContentLoader?.Load("HutaoAnnouncementControl");
         }
         catch (OperationCanceledException)
         {

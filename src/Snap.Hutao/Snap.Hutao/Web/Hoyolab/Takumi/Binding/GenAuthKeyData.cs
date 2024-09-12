@@ -19,7 +19,6 @@ internal sealed class GenAuthKeyData
     /// <param name="authAppId">AppId</param>
     /// <param name="gameBiz">游戏代号</param>
     /// <param name="uid">uid</param>
-    [SuppressMessage("", "SH002")]
     public GenAuthKeyData(string authAppId, string gameBiz, PlayerUid uid)
     {
         AuthAppId = authAppId;
@@ -57,7 +56,6 @@ internal sealed class GenAuthKeyData
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>验证密钥提交数据</returns>
-    [SuppressMessage("", "SH002")]
     public static GenAuthKeyData CreateForWebViewGacha(PlayerUid uid)
     {
         return new("webview_gacha", "hk4e_cn", uid);

@@ -86,7 +86,7 @@ body:
       label: 发生了什么？
       description: |
         详细的描述问题发生前后的行为，以便我们解决问题。**如果你的问题涉及程序崩溃，你应当检查 Windows 事件查看器，并将相关的 `.Net 错误`详情附上**
-        如果你无法找到该日志，请下载并运行[诊断工具](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.DiagTools.exe)，它将转储问题日志至工具运行目录中的 `Snap.Hutao Error Log.txt`
+        如果你无法找到该日志，请下载并运行[诊断工具](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.Diagnostic.Tooling.exe)，它将转储问题日志至工具运行目录中的 `Snap.Hutao Error Log.txt`
     validations:
       required: true
 

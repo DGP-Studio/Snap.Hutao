@@ -5,7 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
-internal unsafe readonly struct WNDPROC
+internal readonly unsafe struct WNDPROC
 {
     [SuppressMessage("", "IDE0052")]
     private readonly delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT> value;

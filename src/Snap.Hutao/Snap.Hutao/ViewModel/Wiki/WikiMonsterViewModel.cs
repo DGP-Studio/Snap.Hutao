@@ -1,18 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 怪物资料视图模型
-/// </summary>
 [Injection(InjectAs.Scoped)]
 [ConstructorGenerated]
 internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
@@ -21,35 +18,31 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView<Monster>? monsters;
-    private Monster? selected;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
 
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public AdvancedCollectionView<Monster>? Monsters { get => monsters; set => SetProperty(ref monsters, value); }
-
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public Monster? Selected
+    public AdvancedCollectionView<Monster>? Monsters
     {
-        get => selected; set
+        get => monsters;
+        set
         {
-            if (SetProperty(ref selected, value))
+            if (monsters is not null)
             {
-                UpdateBaseValueInfo(value);
+                monsters.CurrentChanged -= OnCurrentMonsterChanged;
+            }
+
+            SetProperty(ref monsters, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentMonsterChanged;
             }
         }
     }
 
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -66,11 +59,13 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
                 List<Monster> ordered = monsters.SortBy(m => m.RelationshipId.Value);
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
+                    AdvancedCollectionView<Monster> monstersView = ordered.ToAdvancedCollectionView();
+
                     await taskContext.SwitchToMainThreadAsync();
-                    Monsters = new(ordered, true);
-                    Selected = Monsters.View.ElementAtOrDefault(0);
+                    Monsters = monstersView;
+                    Monsters.MoveCurrentToFirstOrDefault();
                 }
 
                 return true;
@@ -81,6 +76,11 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         }
 
         return false;
+    }
+
+    private void OnCurrentMonsterChanged(object? sender, object? e)
+    {
+        UpdateBaseValueInfo(Monsters?.CurrentItem);
     }
 
     private void UpdateBaseValueInfo(Monster? monster)

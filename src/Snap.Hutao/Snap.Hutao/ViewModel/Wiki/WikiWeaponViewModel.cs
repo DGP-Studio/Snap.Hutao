@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.AutoSuggestBox;
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
@@ -19,36 +17,31 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
-using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
+using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 武器资料视图模型
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly CalculateClient calculateClient;
     private readonly ICultivationService cultivationService;
     private readonly ITaskContext taskContext;
     private readonly IMetadataService metadataService;
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
     private AdvancedCollectionView<Weapon>? weapons;
-    private Weapon? selected;
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
@@ -56,33 +49,27 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private List<Promote>? promotes;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public AdvancedCollectionView<Weapon>? Weapons { get => weapons; set => SetProperty(ref weapons, value); }
-
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public Weapon? Selected
+    public AdvancedCollectionView<Weapon>? Weapons
     {
-        get => selected; set
+        get => weapons;
+        set
         {
-            if (SetProperty(ref selected, value))
+            if (weapons is not null)
             {
-                UpdateBaseValueInfo(value);
+                weapons.CurrentChanged -= OnCurrentWeaponChanged;
+            }
+
+            SetProperty(ref weapons, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentWeaponChanged;
             }
         }
     }
 
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    /// <summary>
-    /// 保存的筛选标志
-    /// </summary>
     public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
@@ -90,7 +77,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
     /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -107,12 +94,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
-                    await taskContext.SwitchToMainThreadAsync();
+                    AdvancedCollectionView<Weapon> weaponsView = list.ToAdvancedCollectionView();
 
-                    Weapons = new(list, true);
-                    Selected = Weapons.View.ElementAtOrDefault(0);
+                    await taskContext.SwitchToMainThreadAsync();
+                    Weapons = weaponsView;
+                    Weapons.MoveCurrentToFirstOrDefault();
                 }
 
                 FilterTokens = [];
@@ -124,11 +112,20 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                     .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
                     .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
                 ]);
+
+                return true;
             }
             catch (OperationCanceledException)
             {
             }
         }
+
+        return false;
+    }
+
+    private void OnCurrentWeaponChanged(object? sender, object? e)
+    {
+        UpdateBaseValueInfo(Weapons?.CurrentItem);
     }
 
     private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
@@ -153,7 +150,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -161,16 +158,19 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         CalculableOptions options = new(null, weapon.ToCalculable());
         CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-        (bool isOk, CalculateAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
         if (!isOk)
         {
             return;
         }
 
-        Response<CalculateBatchConsumption> response = await calculateClient
-            .BatchComputeAsync(userAndUid, delta)
-            .ConfigureAwait(false);
+        Response<CalculateBatchConsumption> response;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+            response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+        }
 
         if (!response.IsOk())
         {
@@ -178,20 +178,32 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
 
         CalculateBatchConsumption batchConsumption = response.Data;
-        LevelInformation levelInformation = LevelInformation.From(delta);
+        LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);
         try
         {
-            bool saved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, batchConsumption.OverallConsume, levelInformation)
-                .ConfigureAwait(false);
+            InputConsumption input = new()
+            {
+                Type = CultivateType.Weapon,
+                ItemId = weapon.Id,
+                Items = batchConsumption.OverallConsume,
+                LevelInformation = levelInformation,
+                Strategy = deltaOptions.Strategy,
+            };
 
-            if (saved)
+            switch (await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false))
             {
-                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                case ConsumptionSaveResultKind.NoProject:
+                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                    break;
+                case ConsumptionSaveResultKind.Skipped:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint);
+                    break;
+                case ConsumptionSaveResultKind.NoItem:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint);
+                    break;
+                case ConsumptionSaveResultKind.Added:
+                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                    break;
             }
         }
         catch (HutaoException ex)
@@ -210,8 +222,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         ArgumentNullException.ThrowIfNull(promotes);
         Dictionary<PromoteLevel, Promote> weaponPromoteMap = promotes.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
-        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves
-            .SelectList(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, curveInfo.InitValue));
+        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves.SelectList(PropertyCurveValue.From);
 
         ArgumentNullException.ThrowIfNull(levelWeaponCurveMap);
         BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap, weaponPromoteMap);
@@ -225,26 +236,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (FilterTokens.IsNullOrEmpty())
+        if (FilterTokens is null or [])
         {
             Weapons.Filter = default!;
         }
         else
         {
             Weapons.Filter = WeaponFilter.Compile(FilterTokens);
-        }
-
-        if (Selected is not null && Weapons.Contains(Selected))
-        {
-            return;
-        }
-
-        try
-        {
-            Weapons.MoveCurrentToFirst();
-        }
-        catch (COMException)
-        {
         }
     }
 }

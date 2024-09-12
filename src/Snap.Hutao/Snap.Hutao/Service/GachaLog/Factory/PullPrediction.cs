@@ -22,7 +22,8 @@ internal sealed class PullPrediction
         this.context = context;
     }
 
-    public async ValueTask PredictAsync(AsyncBarrier barrier)
+    [SuppressMessage("", "SH003")]
+    public async Task PredictAsync(AsyncBarrier barrier)
     {
         await context.TaskContext.SwitchToBackgroundAsync();
         Response<GachaDistribution> response = await context.GetGachaDistributionAsync().ConfigureAwait(false);

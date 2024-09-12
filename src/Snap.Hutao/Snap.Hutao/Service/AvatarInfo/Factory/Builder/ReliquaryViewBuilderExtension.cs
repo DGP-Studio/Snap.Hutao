@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction.Extension;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.ViewModel.AvatarProperty;
@@ -20,6 +20,12 @@ internal static class ReliquaryViewBuilderExtension
         where TBuilder : IReliquaryViewBuilder
     {
         return builder.SetDescription<TBuilder, ReliquaryView>(description);
+    }
+
+    public static TBuilder SetEquipType<TBuilder>(this TBuilder builder, EquipType equipType)
+        where TBuilder : IReliquaryViewBuilder
+    {
+        return builder.SetEquipType<TBuilder, ReliquaryView>(equipType);
     }
 
     public static TBuilder SetIcon<TBuilder>(this TBuilder builder, Uri icon)
@@ -46,21 +52,15 @@ internal static class ReliquaryViewBuilderExtension
         return builder.SetName<TBuilder, ReliquaryView>(name);
     }
 
-    public static TBuilder SetPrimarySubProperties<TBuilder>(this TBuilder builder, List<ReliquarySubProperty> primarySubProperties)
-        where TBuilder : IReliquaryViewBuilder
-    {
-        return builder.Configure(b => b.View.PrimarySubProperties = primarySubProperties);
-    }
-
     public static TBuilder SetQuality<TBuilder>(this TBuilder builder, QualityType quality)
         where TBuilder : IReliquaryViewBuilder
     {
         return builder.SetQuality<TBuilder, ReliquaryView>(quality);
     }
 
-    public static TBuilder SetSecondarySubProperties<TBuilder>(this TBuilder builder, List<ReliquarySubProperty> secondarySubProperties)
+    public static TBuilder SetSetName<TBuilder>(this TBuilder builder, string setName)
         where TBuilder : IReliquaryViewBuilder
     {
-        return builder.Configure(b => b.View.SecondarySubProperties = secondarySubProperties);
+        return builder.Configure(b => b.View.SetName = setName);
     }
 }

@@ -9,7 +9,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Windowing;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
@@ -43,10 +42,6 @@ public sealed partial class App : Application
     private readonly IAppActivation activation;
     private readonly ILogger<App> logger;
 
-    /// <summary>
-    /// Initializes the singleton application object.
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
     public App(IServiceProvider serviceProvider)
     {
         // Load app resource
@@ -60,11 +55,10 @@ public sealed partial class App : Application
 
     public new void Exit()
     {
-        XamlLifetime.ApplicationExiting = true;
+        XamlApplicationLifetime.Exiting = true;
         base.Exit();
     }
 
-    /// <inheritdoc/>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         try

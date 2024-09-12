@@ -4,21 +4,17 @@
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-/// <summary>
-/// 简述工厂
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(ISummaryFactory))]
 internal sealed partial class SummaryFactory : ISummaryFactory
 {
     private readonly IMetadataService metadataService;
 
-    /// <inheritdoc/>
     public async ValueTask<Summary> CreateAsync(IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token)
     {
         SummaryFactoryMetadataContext context = await metadataService
@@ -26,7 +22,7 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             .ConfigureAwait(false);
 
         IOrderedEnumerable<AvatarView> avatars = avatarInfos
-            .Where(a => !AvatarIds.IsPlayer(a.Info.AvatarId))
+            .Where(a => a.Info2 is not null && !AvatarIds.IsPlayer(a.Info2.Base.Id))
             .Select(a => SummaryAvatarFactory.Create(context, a))
             .OrderByDescending(a => a.Quality)
             .ThenByDescending(a => a.LevelNumber)
@@ -34,9 +30,11 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             .ThenBy(a => a.Weapon?.WeaponType)
             .ThenByDescending(a => a.FetterLevel);
 
+        IList<AvatarView> views = [.. avatars];
+
         return new()
         {
-            Avatars = [.. avatars],
+            Avatars = views.ToAdvancedCollectionView(),
         };
     }
 }

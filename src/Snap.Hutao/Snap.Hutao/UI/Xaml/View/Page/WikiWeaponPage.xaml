@@ -1,0 +1,419 @@
+﻿<shuxc:ScopedPage
+    x:Class="Snap.Hutao.UI.Xaml.View.Page.WikiWeaponPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
+    xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
+    d:DataContext="{d:DesignInstance Type=shvw:WikiWeaponViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Page.Resources>
+        <DataTemplate x:Key="PropertyDataTemplate">
+            <shuxvs:DescParamComboBox
+                HorizontalAlignment="Stretch"
+                PreferredSelectedIndex="13"
+                Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TokenTemplate">
+            <Grid Height="22" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Ellipse
+                    Grid.Column="0"
+                    Width="12"
+                    Height="12"
+                    Margin="1,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    Visibility="{Binding Quality, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="{Binding Quality}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <shuxci:CachedImage
+                    Grid.Column="0"
+                    Width="20"
+                    Height="20"
+                    Margin="-5,2,9,0"
+                    ShowAsMonoChrome="True"
+                    Source="{Binding IconUri, Mode=OneWay}"
+                    Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                <shuxci:CachedImage
+                    Grid.Column="0"
+                    Width="20"
+                    Height="20"
+                    Margin="-4,0,8,0"
+                    Source="{Binding SideIconUri, Mode=OneWay}"
+                    Visibility="{Binding SideIconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Height="20"
+                    VerticalAlignment="Center"
+                    Text="{Binding Value}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="WeaponListTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <shuxci:CachedImage
+                    Grid.Column="0"
+                    Width="48"
+                    Height="48"
+                    Margin="0,0,12,6"
+                    Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Name}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CultivationItemTemplate">
+            <shuxcc:HorizontalCard>
+                <shuxcc:HorizontalCard.Left>
+                    <shuxc:ItemIcon
+                        Width="40"
+                        Height="40"
+                        Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}"
+                        Quality="{Binding RankLevel}"/>
+                </shuxcc:HorizontalCard.Left>
+                <shuxcc:HorizontalCard.Right>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}"/>
+                </shuxcc:HorizontalCard.Right>
+            </shuxcc:HorizontalCard>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AffixPivotHeaderTemplate">
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AffixPivotItemTemplate">
+            <shuxct:DescriptionTextBlock Margin="16,8,0,0" Description="{Binding Description}">
+                <shuxct:DescriptionTextBlock.Resources>
+                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </shuxct:DescriptionTextBlock.Resources>
+            </shuxct:DescriptionTextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CollocationTemplate">
+            <shuxcc:HorizontalCard>
+                <shuxcc:HorizontalCard.Left>
+                    <shuxc:ItemIcon
+                        Width="48"
+                        Height="48"
+                        Icon="{Binding Icon}"
+                        Quality="{Binding Quality}"/>
+                </shuxcc:HorizontalCard.Left>
+                <shuxcc:HorizontalCard.Right>
+                    <StackPanel Margin="8,0,0,0" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding Name}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Rate}"/>
+                            <shuxct:RateDeltaTextBlock
+                                Opacity="0.7"
+                                Text="{Binding RateDelta}"
+                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </shuxcc:HorizontalCard.Right>
+            </shuxcc:HorizontalCard>
+        </DataTemplate>
+
+        <DataTemplate x:Key="WeaponGridTemplate">
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Text="{Binding Name}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
+        </DataTemplate>
+    </Page.Resources>
+
+    <shuxc:StandardView ShowCondition="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolConverter}}">
+        <shuxc:StandardView.EmptyContent>
+            <shuxc:Loading IsLoading="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
+        </shuxc:StandardView.EmptyContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border Style="{ThemeResource AcrylicSecondaryBorderCardStyle}">
+                    <CommandBar
+                        BorderBrush="{x:Null}"
+                        BorderThickness="0"
+                        DefaultLabelPosition="Right">
+                        <CommandBar.Content>
+                            <shuxc:LayoutSwitch
+                                x:Name="ItemsPanelSelector"
+                                Margin="6,8,0,0"
+                                LocalSettingKeySuffixForCurrent="WikiWeaponPage.Weapons"/>
+                        </CommandBar.Content>
+                        <AppBarElementContainer>
+                            <shuxca:AutoSuggestTokenBox
+                                x:Name="WeaponSuggestBox"
+                                Width="600"
+                                Height="44"
+                                Margin="6,-2,6,6"
+                                HorizontalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                AvailableTokens="{Binding AvailableTokens}"
+                                FilterCommand="{Binding FilterCommand}"
+                                ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
+                                MaximumTokens="5"
+                                PlaceholderText="{shuxm:ResourceString Name=ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder}"
+                                QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
+                                Style="{StaticResource DefaultAutoSuggestTokenBoxStyle}"
+                                SuggestedItemTemplate="{StaticResource TokenTemplate}"
+                                SuggestedItemsSource="{Binding AvailableTokens.Values}"
+                                Text="{Binding FilterToken, Mode=TwoWay}"
+                                TokenItemTemplate="{StaticResource TokenTemplate}"/>
+                        </AppBarElementContainer>
+                        <AppBarButton
+                            Command="{Binding CultivateCommand}"
+                            CommandParameter="{Binding Weapons.CurrentItem}"
+                            Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"
+                            Label="{shuxm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
+                    </CommandBar>
+                </Border>
+            </Border>
+
+            <cwc:SwitchPresenter
+                Grid.Row="1"
+                ContentTransitions="{ThemeResource EntranceThemeTransitions}"
+                Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                <cwc:Case Value="List">
+                    <Border Margin="16,0,16,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <SplitView
+                                DisplayMode="Inline"
+                                IsPaneOpen="True"
+                                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
+                                PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+                                <SplitView.Pane>
+                                    <ListView
+                                        Grid.Row="1"
+                                        Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                        ItemTemplate="{StaticResource WeaponListTemplate}"
+                                        ItemsSource="{Binding Weapons}"
+                                        SelectedItem="{Binding Weapons.CurrentItem, Mode=TwoWay}"
+                                        SelectionMode="Single">
+                                        <mxi:Interaction.Behaviors>
+                                            <shuxb:SelectedItemInViewBehavior/>
+                                        </mxi:Interaction.Behaviors>
+                                    </ListView>
+                                </SplitView.Pane>
+                                <SplitView.Content>
+                                    <Grid>
+                                        <StackPanel VerticalAlignment="Center" Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                                            <shuxci:CachedImage
+                                                Height="120"
+                                                MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                                Source="{StaticResource UI_EmotionIcon89}"/>
+                                            <TextBlock
+                                                Margin="0,5,0,21"
+                                                HorizontalAlignment="Center"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
+                                        </StackPanel>
+                                        <ScrollViewer Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                            <StackPanel Padding="16" Spacing="16">
+                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                    <Border.Background>
+                                                        <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>
+                                                    </Border.Background>
+                                                    <cwc:ConstrainedBox AspectRatio="2048:1024">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+
+                                                            <Grid Grid.ColumnSpan="2">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="176*"/>
+                                                                    <ColumnDefinition Width="848*"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <shuxci:CachedImage
+                                                                    Grid.Column="1"
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Stretch"
+                                                                    Source="{Binding Weapons.CurrentItem.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
+                                                            </Grid>
+                                                            <ScrollViewer
+                                                                Grid.Column="0"
+                                                                Margin="16"
+                                                                VerticalScrollBarVisibility="Hidden">
+                                                                <StackPanel Spacing="16">
+                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                        <shuxcc:VerticalCard.Top>
+                                                                            <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
+                                                                        </shuxcc:VerticalCard.Top>
+                                                                        <shuxcc:VerticalCard.Bottom>
+                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
+                                                                        </shuxcc:VerticalCard.Bottom>
+                                                                    </shuxcc:VerticalCard>
+                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                        <shuxcc:VerticalCard.Top>
+                                                                            <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
+                                                                        </shuxcc:VerticalCard.Top>
+                                                                        <shuxcc:VerticalCard.Bottom>
+                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
+                                                                        </shuxcc:VerticalCard.Bottom>
+                                                                    </shuxcc:VerticalCard>
+                                                                </StackPanel>
+                                                            </ScrollViewer>
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                Margin="16"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Bottom"
+                                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                                Text="{Binding Weapons.CurrentItem.Name}"/>
+                                                        </Grid>
+                                                    </cwc:ConstrainedBox>
+                                                </Border>
+
+                                                <TextBlock
+                                                    Margin="1,0,0,0"
+                                                    Text="{Binding Weapons.CurrentItem.Description}"
+                                                    TextWrapping="Wrap"/>
+                                                <shuxvs:BaseValueSlider
+                                                    HorizontalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
+
+
+                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                    <StackPanel Spacing="16">
+                                                        <TextBlock
+                                                            Margin="0,0,0,0"
+                                                            Style="{StaticResource BaseTextBlockStyle}"
+                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
+                                                        <ScrollViewer>
+                                                            <ItemsRepeater ItemTemplate="{StaticResource CultivationItemTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CultivationItemsView}">
+                                                                <ItemsRepeater.Layout>
+                                                                    <UniformGridLayout
+                                                                        ItemsJustification="Start"
+                                                                        ItemsStretch="Fill"
+                                                                        MaximumRowsOrColumns="3"
+                                                                        MinColumnSpacing="8"
+                                                                        MinRowSpacing="8"/>
+                                                                </ItemsRepeater.Layout>
+                                                            </ItemsRepeater>
+                                                        </ScrollViewer>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                    <StackPanel Spacing="16" Visibility="{Binding Weapons.CurrentItem.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Weapons.CurrentItem.Affix.Name}"/>
+                                                        <Pivot
+                                                            Margin="-16,-16,0,0"
+                                                            HeaderTemplate="{StaticResource AffixPivotHeaderTemplate}"
+                                                            ItemTemplate="{StaticResource AffixPivotItemTemplate}"
+                                                            ItemsSource="{Binding Weapons.CurrentItem.Affix.Descriptions}"/>
+                                                    </StackPanel>
+                                                </Border>
+
+
+                                                <Border
+                                                    Padding="16"
+                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Visibility="{Binding Weapons.CurrentItem.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    <StackPanel Spacing="16">
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
+                                                        <ItemsControl ItemTemplate="{StaticResource CollocationTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CollocationView.Avatars}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwc:UniformGrid
+                                                                        ColumnSpacing="8"
+                                                                        Columns="3"
+                                                                        RowSpacing="8"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </SplitView.Content>
+                            </SplitView>
+                        </Border>
+                    </Border>
+                </cwc:Case>
+                <cwc:Case Value="Grid">
+                    <Border Margin="16,0,16,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <Grid Padding="16,16,4,4">
+                                <StackPanel VerticalAlignment="Center" Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                                    <shuxci:CachedImage
+                                        Height="120"
+                                        MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                        Source="{StaticResource UI_EmotionIcon89}"/>
+                                    <TextBlock
+                                        Margin="0,5,0,21"
+                                        HorizontalAlignment="Center"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
+                                </StackPanel>
+                                <GridView
+                                    Padding="16,16,4,4"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
+                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                    ItemTemplate="{StaticResource WeaponGridTemplate}"
+                                    ItemsSource="{Binding Weapons}"
+                                    SelectedItem="{Binding Weapons.CurrentItem, Mode=TwoWay}"
+                                    SelectionMode="Single"
+                                    Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                    <mxi:Interaction.Behaviors>
+                                        <shuxb:SelectedItemInViewBehavior/>
+                                    </mxi:Interaction.Behaviors>
+                                </GridView>
+                            </Grid>
+                        </Border>
+                    </Border>
+                </cwc:Case>
+            </cwc:SwitchPresenter>
+
+        </Grid>
+    </shuxc:StandardView>
+</shuxc:ScopedPage>

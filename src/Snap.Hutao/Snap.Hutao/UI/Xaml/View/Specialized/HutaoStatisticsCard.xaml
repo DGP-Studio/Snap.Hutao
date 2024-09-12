@@ -1,0 +1,111 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.UI.Xaml.View.Specialized.HutaoStatisticsCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
+    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+    d:DataContext="{d:DesignInstance shvg:HutaoWishSummary}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="GridTemplate" d:DataType="shvg:StatisticsItem">
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <shuxc:ItemIcon
+                        shux:FrameworkElementHelper.SquareLength="40"
+                        Icon="{Binding Icon}"
+                        Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding Count}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            cw:UIElementExtensions.ClipToBounds="True"
+            CornerRadius="{StaticResource ControlCornerRadiusTop}"
+            Style="{ThemeResource GridCardStyle}">
+            <cwc:ConstrainedBox
+                Margin="-1"
+                HorizontalAlignment="Center"
+                AspectRatio="1080:533"
+                CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                <shuxci:CachedImage Source="{Binding Event.Banner}" Stretch="UniformToFill"/>
+            </cwc:ConstrainedBox>
+            <Border
+                Margin="-1"
+                Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"
+                IsHitTestVisible="False"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="16,0,12,16">
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Foreground="{ThemeResource UpPullColorBrush}"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpText}"
+                    Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding UpItems}"
+                    Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Foreground="{ThemeResource OrangeColorBrush}"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                    Visibility="{Binding OrangeItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding OrangeItems}"
+                    Visibility="{Binding OrangeItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Foreground="{ThemeResource PurpleColorBrush}"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                    Visibility="{Binding PurpleItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding PurpleItems}"
+                    Visibility="{Binding PurpleItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Foreground="{ThemeResource BlueColorBrush}"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"
+                    Visibility="{Binding BlueItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding BlueItems}"
+                    Visibility="{Binding BlueItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

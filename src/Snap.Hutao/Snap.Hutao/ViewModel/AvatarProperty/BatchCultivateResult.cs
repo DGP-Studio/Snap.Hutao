@@ -7,5 +7,4 @@ internal struct BatchCultivateResult
 {
     public int SucceedCount;
     public int SkippedCount;
-    public bool Interrupted;
 }

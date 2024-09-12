@@ -3,16 +3,19 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Security;
+using Snap.Hutao.Win32.Storage.FileSystem;
 using Snap.Hutao.Win32.System.Console;
+using Snap.Hutao.Win32.System.IO;
 using Snap.Hutao.Win32.System.LibraryLoader;
+using Snap.Hutao.Win32.System.Memory;
 using Snap.Hutao.Win32.System.ProcessStatus;
+using Snap.Hutao.Win32.System.Threading;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
-[SuppressMessage("", "SH002")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Kernel32
 {
@@ -25,7 +28,7 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern HANDLE CreateEventW([AllowNull] SECURITY_ATTRIBUTES* lpEventAttributes, BOOL bManualReset, BOOL bInitialState, [AllowNull] PCWSTR lpName);
+    public static extern unsafe HANDLE CreateEventW([AllowNull] SECURITY_ATTRIBUTES* lpEventAttributes, BOOL bManualReset, BOOL bInitialState, [AllowNull] PCWSTR lpName);
 
     [DebuggerStepThrough]
     public static unsafe HANDLE CreateEventW(ref readonly SECURITY_ATTRIBUTES eventAttributes, BOOL bManualReset, BOOL bInitialState, [AllowNull] ReadOnlySpan<char> name)
@@ -40,6 +43,14 @@ internal static class Kernel32
     }
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern HANDLE CreateFileW(PCWSTR lpFileName, uint dwDesiredAccess, FILE_SHARE_MODE dwShareMode, [AllowNull] SECURITY_ATTRIBUTES* lpSecurityAttributes, FILE_CREATION_DISPOSITION dwCreationDisposition, FILE_FLAGS_AND_ATTRIBUTES dwFlagsAndAttributes, [AllowNull] HANDLE hTemplateFile);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [AllowNull] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL FreeConsole();
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
@@ -47,9 +58,8 @@ internal static class Kernel32
     public static extern BOOL FreeLibrary(HMODULE hLibModule);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static unsafe extern BOOL GetConsoleMode(HANDLE hConsoleHandle, CONSOLE_MODE* lpMode);
+    public static extern unsafe BOOL GetConsoleMode(HANDLE hConsoleHandle, CONSOLE_MODE* lpMode);
 
-    [SuppressMessage("", "SH002")]
     [DebuggerStepThrough]
     public static unsafe BOOL GetConsoleMode(HANDLE hConsoleHandle, out CONSOLE_MODE mode)
     {
@@ -64,10 +74,18 @@ internal static class Kernel32
     public static extern WIN32_ERROR GetLastError();
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern HANDLE GetProcessHeap();
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern HANDLE GetStdHandle(STD_HANDLE nStdHandle);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static unsafe extern BOOL K32EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, uint cb, uint* lpcbNeeded);
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern unsafe BOOL HeapFree(HANDLE hHeap, HEAP_FLAGS dwFlags, [AllowNull] void* lpMem);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    public static extern unsafe BOOL K32EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, uint cb, uint* lpcbNeeded);
 
     [DebuggerStepThrough]
     public static unsafe BOOL K32EnumProcessModules(HANDLE hProcess, Span<HMODULE> hModules, out uint cbNeeded)
@@ -94,7 +112,7 @@ internal static class Kernel32
     }
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static unsafe extern BOOL K32GetModuleInformation(HANDLE hProcess, HMODULE hModule, MODULEINFO* lpmodinfo, uint cb);
+    public static extern unsafe BOOL K32GetModuleInformation(HANDLE hProcess, HMODULE hModule, MODULEINFO* lpmodinfo, uint cb);
 
     [DebuggerStepThrough]
     public static unsafe BOOL K32GetModuleInformation(HANDLE hProcess, HMODULE hModule, out MODULEINFO modinfo)
@@ -120,7 +138,11 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL ReadProcessMemory(HANDLE hProcess, void* lpBaseAddress, void* lpBuffer, nuint nSize, [MaybeNull] nuint* lpNumberOfBytesRead);
+    public static extern HANDLE OpenProcess(PROCESS_ACCESS_RIGHTS dwDesiredAccess, BOOL bInheritHandle, uint dwProcessId);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern unsafe BOOL ReadProcessMemory(HANDLE hProcess, void* lpBaseAddress, void* lpBuffer, nuint nSize, [MaybeNull] nuint* lpNumberOfBytesRead);
 
     [DebuggerStepThrough]
     public static unsafe BOOL ReadProcessMemory(HANDLE hProcess, void* lpBaseAddress, Span<byte> buffer, [MaybeNull] out nuint numberOfBytesRead)
@@ -168,7 +190,7 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL WriteProcessMemory(HANDLE hProcess, void* lpBaseAddress, void* lpBuffer, nuint nSize, nuint* lpNumberOfBytesWritten);
+    public static extern unsafe BOOL WriteProcessMemory(HANDLE hProcess, void* lpBaseAddress, void* lpBuffer, nuint nSize, nuint* lpNumberOfBytesWritten);
 
     [DebuggerStepThrough]
     public static unsafe BOOL WriteProcessMemory(HANDLE hProcess, void* lpBaseAddress, ReadOnlySpan<byte> buffer, out nuint numberOfBytesWritten)

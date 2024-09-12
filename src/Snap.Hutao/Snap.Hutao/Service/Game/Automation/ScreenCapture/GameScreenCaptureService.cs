@@ -30,7 +30,6 @@ internal sealed partial class GameScreenCaptureService : IGameScreenCaptureServi
         return true;
     }
 
-    [SuppressMessage("", "SH002")]
     public unsafe bool TryStartCapture(HWND hwnd, bool preview, [NotNullWhen(true)] out GameScreenCaptureSession? session)
     {
         session = default;

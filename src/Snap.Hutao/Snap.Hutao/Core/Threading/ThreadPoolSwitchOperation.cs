@@ -6,49 +6,36 @@ using Snap.Hutao.Core.Threading.Abstraction;
 
 namespace Snap.Hutao.Core.Threading;
 
-/// <summary>
-/// 线程池切换操作
-/// 等待此类型对象后上下文会被切换至线程池线程
-/// </summary>
 internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, ICriticalAwaiter
 {
     private static readonly WaitCallback WaitCallbackRunAction = RunAction;
     private readonly DispatcherQueue dispatherQueue;
 
-    /// <summary>
-    /// 构造一个新的线程池切换操作
-    /// </summary>
-    /// <param name="dispatherQueue">主线程队列</param>
     public ThreadPoolSwitchOperation(DispatcherQueue dispatherQueue)
     {
         this.dispatherQueue = dispatherQueue;
     }
 
-    /// <inheritdoc/>
     public bool IsCompleted
     {
-        // 如果已经处于后台就不再切换新的线程
+        // Only yields when we are on the DispatcherQueue thread.
         get => !dispatherQueue.HasThreadAccess;
     }
 
-    /// <inheritdoc/>
     public ThreadPoolSwitchOperation GetAwaiter()
     {
         return this;
     }
 
-    /// <inheritdoc/>
     public void GetResult()
     {
     }
 
-    /// <inheritdoc/>
     public void OnCompleted(Action continuation)
     {
         QueueContinuation(continuation, true);
     }
 
-    /// <inheritdoc/>
     public void UnsafeOnCompleted(Action continuation)
     {
         QueueContinuation(continuation, false);

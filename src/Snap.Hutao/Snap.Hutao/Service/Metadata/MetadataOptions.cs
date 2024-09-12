@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using System.IO;
 
 namespace Snap.Hutao.Service.Metadata;
@@ -10,6 +11,7 @@ namespace Snap.Hutao.Service.Metadata;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class MetadataOptions
 {
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
 
@@ -44,13 +46,13 @@ internal sealed partial class MetadataOptions
         }
     }
 
-    public string GetLocalizedLocalFile(string fileNameWithExtension)
+    public string GetLocalizedLocalPath(string fileNameWithExtension)
     {
         return Path.Combine(LocalizedDataFolder, fileNameWithExtension);
     }
 
     public string GetLocalizedRemoteFile(string fileNameWithExtension)
     {
-        return Web.HutaoEndpoints.Metadata(cultureOptions.LocaleName, fileNameWithExtension);
+        return hutaoEndpointsFactory.Create().Metadata(cultureOptions.LocaleName, fileNameWithExtension);
     }
 }

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.AutoSuggestBox;
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
@@ -19,22 +17,17 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
-using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
+using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 角色资料视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
@@ -44,12 +37,11 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
-    private readonly CalculateClient calculateClient;
     private readonly IUserService userService;
 
     private AdvancedCollectionView<Avatar>? avatars;
-    private Avatar? selected;
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
@@ -57,40 +49,34 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private List<Promote>? promotes;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public AdvancedCollectionView<Avatar>? Avatars { get => avatars; set => SetProperty(ref avatars, value); }
-
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public Avatar? Selected
+    public AdvancedCollectionView<Avatar>? Avatars
     {
-        get => selected; set
+        get => avatars;
+        set
         {
-            if (SetProperty(ref selected, value))
+            if (Avatars is not null)
             {
-                UpdateBaseValueInfo(value);
+                Avatars.CurrentChanged -= OnCurrentAvatarChanged;
+            }
+
+            SetProperty(ref avatars, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentAvatarChanged;
             }
         }
     }
 
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    /// <summary>
-    /// 保存的筛选标志
-    /// </summary>
     public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -108,11 +94,13 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                 await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
+                    AdvancedCollectionView<Avatar> avatarsView = list.ToAdvancedCollectionView();
+
                     await taskContext.SwitchToMainThreadAsync();
-                    Avatars = new(list, true);
-                    Selected = Avatars.View.ElementAtOrDefault(0);
+                    Avatars = avatarsView;
+                    Avatars.MoveCurrentToFirstOrDefault();
                 }
 
                 FilterTokens = [];
@@ -135,6 +123,11 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         return false;
+    }
+
+    private void OnCurrentAvatarChanged(object? sender, object? e)
+    {
+        UpdateBaseValueInfo(Avatars?.CurrentItem);
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, Dictionary<MaterialId, Material> idMaterialMap)
@@ -162,7 +155,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -170,16 +163,19 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         CalculableOptions options = new(avatar.ToCalculable(), null);
         CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-        (bool isOk, CalculateAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
         if (!isOk)
         {
             return;
         }
 
-        Response<CalculateBatchConsumption> response = await calculateClient
-            .BatchComputeAsync(userAndUid, delta)
-            .ConfigureAwait(false);
+        Response<CalculateBatchConsumption> response;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+            response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+        }
 
         if (!response.IsOk())
         {
@@ -187,20 +183,32 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         CalculateBatchConsumption batchConsumption = response.Data;
-        LevelInformation levelInformation = LevelInformation.From(delta);
+        LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);
         try
         {
-            bool saved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, batchConsumption.OverallConsume, levelInformation)
-                .ConfigureAwait(false);
+            InputConsumption input = new()
+            {
+                Type = CultivateType.AvatarAndSkill,
+                ItemId = avatar.Id,
+                Items = batchConsumption.OverallConsume,
+                LevelInformation = levelInformation,
+                Strategy = deltaOptions.Strategy,
+            };
 
-            if (saved)
+            switch (await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false))
             {
-                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                case ConsumptionSaveResultKind.NoProject:
+                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                    break;
+                case ConsumptionSaveResultKind.Skipped:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint);
+                    break;
+                case ConsumptionSaveResultKind.NoItem:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint);
+                    break;
+                case ConsumptionSaveResultKind.Added:
+                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                    break;
             }
         }
         catch (HutaoException ex)
@@ -242,26 +250,13 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (FilterTokens.IsNullOrEmpty())
+        if (FilterTokens is null or [])
         {
             Avatars.Filter = default!;
         }
         else
         {
             Avatars.Filter = AvatarFilter.Compile(FilterTokens);
-        }
-
-        if (Selected is not null && Avatars.Contains(Selected))
-        {
-            return;
-        }
-
-        try
-        {
-            Avatars.MoveCurrentToFirst();
-        }
-        catch (COMException)
-        {
         }
     }
 }

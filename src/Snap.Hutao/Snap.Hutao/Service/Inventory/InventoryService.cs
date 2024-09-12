@@ -8,7 +8,6 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Cultivation;
-using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
 
@@ -20,7 +19,7 @@ internal sealed partial class InventoryService : IInventoryService
 {
     private readonly MinimalPromotionDelta minimalPromotionDelta;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IInventoryDbService inventoryDbService;
+    private readonly IInventoryRepository inventoryRepository;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
@@ -28,7 +27,7 @@ internal sealed partial class InventoryService : IInventoryService
     public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
-        List<InventoryItem> entities = inventoryDbService.GetInventoryItemListByProjectId(projectId);
+        List<InventoryItem> entities = inventoryRepository.GetInventoryItemListByProjectId(projectId);
 
         List<InventoryItemView> results = [];
         foreach (Material meta in context.EnumerateInventoryMaterial())
@@ -43,7 +42,7 @@ internal sealed partial class InventoryService : IInventoryService
     /// <inheritdoc/>
     public void SaveInventoryItem(InventoryItemView item)
     {
-        inventoryDbService.UpdateInventoryItem(item.Entity);
+        inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
     /// <inheritdoc/>
@@ -54,7 +53,7 @@ internal sealed partial class InventoryService : IInventoryService
         BatchConsumption? batchConsumption = default;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
             {
                 infoBarService.Warning(SH.MustSelectUserAndUid);
                 return;
@@ -76,8 +75,8 @@ internal sealed partial class InventoryService : IInventoryService
 
         if (batchConsumption is { OverallConsume: { } items })
         {
-            await inventoryDbService.RemoveInventoryItemRangeByProjectIdAsync(project.InnerId).ConfigureAwait(false);
-            await inventoryDbService.AddInventoryItemRangeByProjectIdAsync(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum)))).ConfigureAwait(false);
+            inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
+            inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
         }
     }
 }

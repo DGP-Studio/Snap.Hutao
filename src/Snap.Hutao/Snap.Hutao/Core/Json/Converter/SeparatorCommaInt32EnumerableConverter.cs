@@ -6,15 +6,11 @@ using System.Globalization;
 
 namespace Snap.Hutao.Core.Json.Converter;
 
-/// <summary>
-/// 逗号分隔列表转换器
-/// </summary>
 [HighQuality]
 internal sealed class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEnumerable<int>>
 {
     private const char Comma = ',';
 
-    /// <inheritdoc/>
     public override IEnumerable<int> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.GetString() is { } source)
@@ -25,7 +21,6 @@ internal sealed class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEn
         return [];
     }
 
-    /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, IEnumerable<int> value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(string.Join(Comma, value));

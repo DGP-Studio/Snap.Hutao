@@ -47,10 +47,10 @@ internal sealed partial class RegistryWatcher : IDisposable
         this.valueChangedCallback = valueChangedCallback;
     }
 
-    public void Start()
+    public void Start(ILogger logger)
     {
         ObjectDisposedException.ThrowIf(disposed, this);
-        WatchAsync(cancellationTokenSource.Token).SafeForget();
+        WatchAsync(cancellationTokenSource.Token).SafeForget(logger);
     }
 
     public void Dispose()

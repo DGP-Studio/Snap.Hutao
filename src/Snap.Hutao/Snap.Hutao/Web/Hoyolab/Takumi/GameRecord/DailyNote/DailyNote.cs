@@ -7,7 +7,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 /// 实时便笺
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1124")]
 internal sealed class DailyNote : DailyNoteCommon
 {
     #region Binding
@@ -27,8 +26,8 @@ internal sealed class DailyNote : DailyNoteCommon
                 return SH.WebDailyNoteResinRecoveryCompleted;
             }
 
-            DateTime reach = DateTime.Now.AddSeconds(ResinRecoveryTime);
-            int totalDays = (reach - DateTime.Today).Days;
+            System.DateTime reach = System.DateTime.Now.AddSeconds(ResinRecoveryTime);
+            int totalDays = (reach - System.DateTime.Today).Days;
             string day = totalDays switch
             {
                 0 => SH.WebDailyNoteRecoveryTimeDay0,
@@ -83,8 +82,8 @@ internal sealed class DailyNote : DailyNoteCommon
     {
         get
         {
-            DateTime reach = DateTime.Now.AddSeconds(HomeCoinRecoveryTime);
-            int totalDays = (reach - DateTime.Today).Days;
+            System.DateTime reach = System.DateTime.Now.AddSeconds(HomeCoinRecoveryTime);
+            int totalDays = (reach - System.DateTime.Today).Days;
             string day = totalDays switch
             {
                 0 => SH.WebDailyNoteRecoveryTimeDay0,

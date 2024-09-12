@@ -22,4 +22,20 @@ internal sealed class DailyTask
 
     [JsonPropertyName("attendance_visible")]
     public bool AttendanceVisible { get; set; }
+
+    [JsonPropertyName("stored_attendance")]
+    public double StoredAttendance { get; set; }
+
+    [JsonPropertyName("stored_attendance_refresh_countdown")]
+    public int StoredAttendanceRefreshCountdown { get; set; }
+
+    [JsonIgnore]
+    public string StoredAttendanceRefreshCountdownFormat
+    {
+        get
+        {
+            TimeSpan timeSpan = TimeSpan.FromSeconds(StoredAttendanceRefreshCountdown);
+            return SH.FormatWebDailyNoteStoredAttendanceRefreshCountdown(timeSpan);
+        }
+    }
 }

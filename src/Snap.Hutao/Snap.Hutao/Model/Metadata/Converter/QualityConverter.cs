@@ -1,18 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.UI.Xaml.Data.Converter;
+using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-/// <summary>
-/// 物品等级转换器
-/// </summary>
-[HighQuality]
-internal sealed class QualityConverter : ValueConverter<QualityType, Uri>
+internal sealed partial class QualityConverter : ValueConverter<QualityType, Uri>
 {
-    /// <inheritdoc/>
     public override Uri Convert(QualityType from)
     {
         string name = Enum.GetName(from) ?? from.ToString();
@@ -21,6 +17,6 @@ internal sealed class QualityConverter : ValueConverter<QualityType, Uri>
             name = "QUALITY_RED";
         }
 
-        return Web.HutaoEndpoints.StaticRaw("Bg", $"UI_{name}.png").ToUri();
+        return StaticResourcesEndpoints.StaticRaw("Bg", $"UI_{name}.png").ToUri();
     }
 }

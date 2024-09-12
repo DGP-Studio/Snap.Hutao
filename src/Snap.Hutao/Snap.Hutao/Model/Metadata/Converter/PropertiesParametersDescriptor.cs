@@ -1,18 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-/// <summary>
-/// 基础属性翻译器
-/// </summary>
-[HighQuality]
-internal sealed class PropertiesParametersDescriptor : ValueConverter<PropertiesParameters, List<LevelParameters<string, ParameterDescription>>?>
+internal sealed partial class PropertiesParametersDescriptor : ValueConverter<PropertiesParameters, List<LevelParameters<string, ParameterDescription>>?>
 {
-    /// <inheritdoc/>
     public override List<LevelParameters<string, ParameterDescription>> Convert(PropertiesParameters from)
     {
         return from.Parameters.SelectList(param => new LevelParameters<string, ParameterDescription>()

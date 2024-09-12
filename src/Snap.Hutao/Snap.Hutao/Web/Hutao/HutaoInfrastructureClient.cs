@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -15,6 +16,7 @@ namespace Snap.Hutao.Web.Hutao;
 internal sealed partial class HutaoInfrastructureClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoInfrastructureClient> logger;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
@@ -22,7 +24,7 @@ internal sealed partial class HutaoInfrastructureClient
     public async ValueTask<HutaoResponse<StaticResourceSizeInformation>> GetStaticSizeAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StaticSize)
+            .SetRequestUri(StaticResourcesEndpoints.StaticSize())
             .Get();
 
         HutaoResponse<StaticResourceSizeInformation>? resp = await builder.SendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, logger, token).ConfigureAwait(false);
@@ -32,28 +34,28 @@ internal sealed partial class HutaoInfrastructureClient
     public async ValueTask<HutaoResponse<IPInformation>> GetIPInformationAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.Ip)
+            .SetRequestUri(hutaoEndpointsFactory.Create().Ip())
             .Get();
 
         HutaoResponse<IPInformation>? resp = await builder.SendAsync<HutaoResponse<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<HutaoVersionInformation>> GetHutaoVersionInfomationAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<HutaoPackageInformation>> GetHutaoVersionInfomationAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PatchSnapHutao)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PatchSnapHutao())
             .SetHeader("x-hutao-device-id", runtimeOptions.DeviceId)
             .Get();
 
-        HutaoResponse<HutaoVersionInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<HutaoPackageInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoPackageInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
     public async ValueTask<HutaoResponse<YaeVersionInformation>> GetYaeVersionInformationAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PatchYaeAchievement)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PatchYaeAchievement())
             .Get();
 
         HutaoResponse<YaeVersionInformation>? resp = await builder.SendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);

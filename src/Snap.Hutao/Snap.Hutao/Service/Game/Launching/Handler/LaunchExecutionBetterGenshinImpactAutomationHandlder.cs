@@ -27,7 +27,7 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandlder : ILa
             {
                 context.Logger.LogInformation("Waiting game window to be ready");
 
-                SpinWait.SpinUntil(() => context.Process.MainWindowHandle != IntPtr.Zero);
+                SpinWait.SpinUntil(() => context.Process.MainWindowHandle is not 0);
             }
             catch (InvalidOperationException)
             {

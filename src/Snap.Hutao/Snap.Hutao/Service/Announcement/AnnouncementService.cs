@@ -1,6 +1,7 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using AngleSharp;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Announcement;
@@ -14,8 +15,6 @@ using WebAnnouncement = Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement.Announce
 
 namespace Snap.Hutao.Service;
 
-/// <inheritdoc/>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
@@ -23,6 +22,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private const string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly ILogger<AnnouncementService> logger;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
 
@@ -70,12 +70,19 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // 将活动公告置于前方
         wrapper.List.Reverse();
 
-        PreprocessAnnouncements(contentMap, wrapper.List, new(wrapper.TimeZone, 0, 0));
+        PreprocessAnnouncements(contentMap, wrapper.List);
+        try
+        {
+            await AdjustAnnouncementTimeAsync(wrapper.List, new(wrapper.TimeZone, 0, 0)).ConfigureAwait(false);
+        }
+        catch
+        {
+        }
 
         return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
     }
 
-    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers, in TimeSpan offset)
+    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
     {
         // 将公告内容联入公告列表
         foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
@@ -85,8 +92,6 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 item.Content = contentMap.GetValueOrDefault(item.AnnId, string.Empty);
             }
         }
-
-        AdjustAnnouncementTime(announcementListWrappers, offset);
 
         foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
@@ -103,7 +108,10 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         }
     }
 
-    private static void AdjustAnnouncementTime(List<AnnouncementListWrapper> announcementListWrappers, in TimeSpan offset)
+    [GeneratedRegex("(\\d\\.\\d)")]
+    private static partial Regex VersionRegex();
+
+    private async ValueTask AdjustAnnouncementTimeAsync(List<AnnouncementListWrapper> announcementListWrappers, TimeSpan offset)
     {
         // 活动公告
         List<WebAnnouncement> activities = announcementListWrappers
@@ -115,17 +123,16 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             .Single(wrapper => wrapper.TypeId == 2)
             .List;
 
+        // "x.x" -> DTO
         Dictionary<string, DateTimeOffset> versionStartTimes = [];
+
+        IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
         // 更新公告
         if (announcements.SingleOrDefault(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title)) is { } versionUpdate)
         {
-            if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionUpdateMatch)
-            {
-                return;
-            }
-
-            DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdateMatch.Groups[1].ValueSpan, offset);
+            string time = await AnnouncementHtmlVisitor.VisitAnnouncementAsync(context, versionUpdate.Content).ConfigureAwait(false);
+            DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(time, offset);
             versionStartTimes.TryAdd(VersionRegex().Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
         }
 
@@ -141,7 +148,13 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             versionStartTimes.TryAdd(VersionRegex().Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
         }
 
-        foreach (ref readonly WebAnnouncement announcement in CollectionsMarshal.AsSpan(activities))
+        foreach (WebAnnouncement announcement in activities)
+        {
+            string text = await AnnouncementHtmlVisitor.VisitActivityAsync(context, announcement.Content).ConfigureAwait(false);
+            logger.LogInformation("{Title} '{Time}'", announcement.Subtitle, text);
+        }
+
+        foreach (WebAnnouncement announcement in activities)
         {
             DateTimeOffset versionStartTime;
 
@@ -159,6 +172,13 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
             {
                 if (versionStartTimes.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
+                    continue;
+                }
+
+                if (versionStartTimes.TryGetValue(persistent.Groups[2].Value, out versionStartTime))
                 {
                     announcement.StartTime = versionStartTime;
                     announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
@@ -208,7 +228,4 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             announcement.EndTime = max;
         }
     }
-
-    [GeneratedRegex("(\\d\\.\\d)")]
-    private static partial Regex VersionRegex();
 }

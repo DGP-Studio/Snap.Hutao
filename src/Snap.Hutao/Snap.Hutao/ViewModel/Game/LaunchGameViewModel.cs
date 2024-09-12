@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
@@ -15,6 +13,8 @@ using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Collections.Immutable;
@@ -35,13 +35,15 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public const string DesiredUid = nameof(DesiredUid);
 
+    private readonly GamePackageInstallViewModel gamePackageInstallViewModel;
+    private readonly GamePackageViewModel gamePackageViewModel;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchGameShared launchGameShared;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly RuntimeOptions runtimeOptions;
-    private readonly HoyoPlayClient hoyoPlayClient;
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
@@ -67,13 +69,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public AppOptions AppOptions { get => appOptions; }
 
+    public GamePackageInstallViewModel GamePackageInstallViewModel { get => gamePackageInstallViewModel; }
+
+    public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
+
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
-    [AlsoAsyncSets(nameof(GamePackage), nameof(GameAccountsView))]
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
-        set => SetSelectedSchemeAsync(value).SafeForget();
+        set => _ = SetSelectedSchemeAsync(value);
     }
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
@@ -89,20 +94,24 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             if (SetProperty(ref gamePathSelectedAndValid, value) && value)
             {
-                RefreshUIAsync().SafeForget();
+                _ = RefreshUIAsync();
             }
 
-            async ValueTask RefreshUIAsync()
+            [SuppressMessage("", "SH003")]
+            async Task RefreshUIAsync()
             {
                 try
                 {
-                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
                         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
 
                         await taskContext.SwitchToMainThreadAsync();
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
                         TrySetGameAccountByDesiredUid();
+
+                        // TODO: refine calling
+                        await GamePackageViewModel.LoadCommand.ExecuteAsync(default).ConfigureAwait(false);
 
                         // Try set to the current account.
                         if (SelectedScheme is not null)
@@ -125,7 +134,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             void TrySetGameAccountByDesiredUid()
             {
                 // Sync uid, almost never hit, so we are not so care about performance
-                if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
+                if (memoryCache.TryRemove(DesiredUid, out object? uidObj) && uidObj is string uid)
                 {
                     ArgumentNullException.ThrowIfNull(GameAccountsView);
 
@@ -171,7 +180,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    protected override ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         ImmutableList<GamePathEntry> gamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
         SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, entry);
@@ -241,16 +250,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [Command("AttachGameAccountCommand")]
-    private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
+    private async Task AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
     {
         if (gameAccount is null)
         {
             return;
         }
 
-        if (userService.Current?.SelectedUserGameRole is { } role)
+        if (await userService.GetCurrentUidAsync().ConfigureAwait(false) is { } uid)
         {
-            gameService.AttachGameAccountToUid(gameAccount, role.GameUid);
+            await gameService.AttachGameAccountToUidAsync(gameAccount, uid).ConfigureAwait(false);
         }
         else
         {
@@ -292,7 +301,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
     }
 
-    private async ValueTask SetSelectedSchemeAsync(LaunchScheme? value)
+    [SuppressMessage("", "SH003")]
+    private async Task SetSelectedSchemeAsync(LaunchScheme? value)
     {
         if (SetProperty(ref selectedScheme, value, nameof(SelectedScheme)))
         {
@@ -301,10 +311,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             SelectedGameAccount = default;
 
             await UpdateGameAccountsViewAsync().ConfigureAwait(false);
-            UpdateGamePackageAsync(value).SafeForget();
+            _ = UpdateGamePackageAsync(value);
         }
 
-        async ValueTask UpdateGamePackageAsync(LaunchScheme? scheme)
+        [SuppressMessage("", "SH003")]
+        async Task UpdateGamePackageAsync(LaunchScheme? scheme)
         {
             if (scheme is null)
             {
@@ -312,9 +323,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            Web.Response.Response<GamePackagesWrapper> response = await hoyoPlayClient
-                .GetPackagesAsync(scheme)
-                .ConfigureAwait(false);
+            Web.Response.Response<GamePackagesWrapper> response;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+                response = await hoyoPlayClient.GetPackagesAsync(scheme).ConfigureAwait(false);
+            }
 
             if (response.IsOk())
             {
@@ -326,13 +340,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         async ValueTask UpdateGameAccountsViewAsync()
         {
             gameAccountFilter = new(SelectedScheme?.GetSchemeType());
-            ObservableReorderableDbCollection<GameAccount> accounts = gameService.GameAccountCollection;
+            ObservableReorderableDbCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
+            AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
 
             await taskContext.SwitchToMainThreadAsync();
-            GameAccountsView = new(accounts, true)
-            {
-                Filter = gameAccountFilter.Filter,
-            };
+            GameAccountsView = accountsView;
         }
     }
 }

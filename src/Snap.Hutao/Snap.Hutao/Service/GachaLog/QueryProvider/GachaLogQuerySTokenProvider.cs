@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.User;
-using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
@@ -15,7 +14,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.SToken)]
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
     private readonly BindingClient2 bindingClient2;
@@ -25,29 +24,25 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            if (userAndUid.User.IsOversea)
-            {
-                return new(false, SH.ServiceGachaLogUrlProviderStokenUnsupported);
-            }
-
-            GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
-            Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
-
-            if (authkeyResponse.IsOk())
-            {
-                return new(true, new(ComposeQueryString(data, authkeyResponse.Data, cultureOptions.LanguageCode)));
-            }
-            else
-            {
-                return new(false, SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed);
-            }
+            return new(false, GachaLogQuery.Invalid(SH.MustSelectUserAndUid));
         }
-        else
+
+        if (userAndUid.User.IsOversea)
         {
-            return new(false, SH.MustSelectUserAndUid);
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderStokenUnsupported));
         }
+
+        GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
+        Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
+
+        if (!authkeyResponse.IsOk())
+        {
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed));
+        }
+
+        return new(true, new(ComposeQueryString(data, authkeyResponse.Data, cultureOptions.LanguageCode)));
     }
 
     private static string ComposeQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)

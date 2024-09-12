@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Abstraction;
 
-internal interface IAppInfrastructureService
+internal interface IAppInfrastructureService : IAppService
 {
     IServiceProvider ServiceProvider { get; }
 }

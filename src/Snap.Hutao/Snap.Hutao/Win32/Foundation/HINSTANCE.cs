@@ -8,4 +8,9 @@ namespace Snap.Hutao.Win32.Foundation;
 internal readonly struct HINSTANCE
 {
     public readonly nint Value;
+
+    public static unsafe implicit operator HINSTANCE(HANDLE value)
+    {
+        return *(HINSTANCE*)&value;
+    }
 }

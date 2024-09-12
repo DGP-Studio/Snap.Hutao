@@ -9,7 +9,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.System.Com;
 
 [SupportedOSPlatform("windows5.0")]
-internal unsafe readonly struct IMoniker
+internal readonly unsafe struct IMoniker
 {
     public readonly Vftbl* ThisPtr;
 

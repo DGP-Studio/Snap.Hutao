@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.UI.Xaml.Data;
+
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
@@ -32,7 +34,7 @@ internal sealed class GachaStatistics
     /// <summary>
     /// 历史卡池
     /// </summary>
-    public List<HistoryWish> HistoryWishes { get; set; } = default!;
+    public AdvancedCollectionView<HistoryWish> HistoryWishes { get; set; } = default!;
 
     /// <summary>
     /// 五星角色

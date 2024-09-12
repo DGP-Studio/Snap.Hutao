@@ -10,7 +10,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows6.0.6000")]
-internal unsafe readonly struct IFileOperationProgressSink
+internal readonly unsafe struct IFileOperationProgressSink
 {
     public readonly Vftbl* ThisPtr;
 

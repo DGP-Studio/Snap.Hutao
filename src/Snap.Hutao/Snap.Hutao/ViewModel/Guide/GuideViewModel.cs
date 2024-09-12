@@ -56,7 +56,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             else if (state is GuideState.StaticResourceBegin)
             {
                 (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionStaticResourceBegin, false);
-                DownloadStaticResourceAsync().SafeForget();
+                _ = DownloadStaticResourceAsync();
             }
             else if (state is GuideState.Completed)
             {
@@ -167,7 +167,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         set => SetProperty(ref downloadSummaries, value);
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         HutaoInfrastructureClient hutaoInfrastructureClient = serviceProvider.GetRequiredService<HutaoInfrastructureClient>();
         HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
@@ -191,7 +191,8 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         IsNextOrCompleteButtonEnabled = IsTermOfServiceAgreed && IsPrivacyPolicyAgreed && IsIssueReportAgreed && IsOpenSourceLicenseAgreed;
     }
 
-    private async ValueTask DownloadStaticResourceAsync()
+    [SuppressMessage("", "SH003")]
+    private async Task DownloadStaticResourceAsync()
     {
         DownloadSummaries = StaticResource
             .GetUnfulfilledCategorySet()

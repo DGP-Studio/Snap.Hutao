@@ -16,11 +16,8 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game;
 
-/// <summary>
-/// 启动游戏选项
-/// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed class LaunchOptions : DbStoreOptions
+internal sealed partial class LaunchOptions : DbStoreOptions
 {
     private readonly int primaryScreenWidth;
     private readonly int primaryScreenHeight;
@@ -39,6 +36,9 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? isScreenHeightEnabled;
     private bool? unlockFps;
     private int? targetFps;
+    private float? targetFov;
+    private bool? disableFog;
+    private bool? loopAdjustFpsOnly;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private bool? isUseCloudThirdPartyMobile;
@@ -57,6 +57,64 @@ internal sealed class LaunchOptions : DbStoreOptions
 
         InitializeMonitors(Monitors);
         InitializeScreenFps(out primaryScreenFps);
+
+        // Batch initialization, boost up performance
+        InitializeOptions(entry => entry.Key.StartsWith("Launch."), (key, value) =>
+        {
+            _ = key switch
+            {
+                SettingEntry.LaunchIsLaunchOptionsEnabled => InitializeBooleanValue(ref isEnabled, value),
+                SettingEntry.LaunchIsFullScreen => InitializeBooleanValue(ref isFullScreen, value),
+                SettingEntry.LaunchIsBorderless => InitializeBooleanValue(ref isBorderless, value),
+                SettingEntry.LaunchIsExclusive => InitializeBooleanValue(ref isExclusive, value),
+                SettingEntry.LaunchScreenWidth => InitializeInt32Value(ref screenWidth, value),
+                SettingEntry.LaunchIsScreenWidthEnabled => InitializeBooleanValue(ref isScreenWidthEnabled, value),
+                SettingEntry.LaunchScreenHeight => InitializeInt32Value(ref screenHeight, value),
+                SettingEntry.LaunchIsScreenHeightEnabled => InitializeBooleanValue(ref isScreenHeightEnabled, value),
+                SettingEntry.LaunchUnlockFps => InitializeBooleanValue(ref unlockFps, value),
+                SettingEntry.LaunchTargetFps => InitializeInt32Value(ref targetFps, value),
+                SettingEntry.LaunchTargetFov => InitializeFloatValue(ref targetFov, value),
+                SettingEntry.LaunchDisableFog => InitializeBooleanValue(ref disableFog, value),
+                SettingEntry.LaunchIsMonitorEnabled => InitializeBooleanValue(ref isMonitorEnabled, value),
+                SettingEntry.LaunchIsUseCloudThirdPartyMobile => InitializeBooleanValue(ref isUseCloudThirdPartyMobile, value),
+                SettingEntry.LaunchIsWindowsHDREnabled => InitializeBooleanValue(ref isWindowsHDREnabled, value),
+                SettingEntry.LaunchUseStarwardPlayTimeStatistics => InitializeBooleanValue(ref useStarwardPlayTimeStatistics, value),
+                SettingEntry.LaunchUseBetterGenshinImpactAutomation => InitializeBooleanValue(ref useBetterGenshinImpactAutomation, value),
+                SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeBooleanValue(ref setDiscordActivityWhenPlaying, value),
+                SettingEntry.LaunchLoopAdjustFpsOnly => InitializeBooleanValue(ref loopAdjustFpsOnly, value),
+                _ => default,
+            };
+        });
+
+        static Core.Void InitializeBooleanValue(ref bool? storage, string? value)
+        {
+            if (value is not null)
+            {
+                storage = bool.Parse(value);
+            }
+
+            return default;
+        }
+
+        static Core.Void InitializeInt32Value(ref int? storage, string? value)
+        {
+            if (value is not null)
+            {
+                storage = int.Parse(value, CultureInfo.InvariantCulture);
+            }
+
+            return default;
+        }
+
+        static Core.Void InitializeFloatValue(ref float? storage, string? value)
+        {
+            if (value is not null)
+            {
+                storage = float.Parse(value, CultureInfo.InvariantCulture);
+            }
+
+            return default;
+        }
 
         static void InitializeMonitors(List<NameValue<int>> monitors)
         {
@@ -104,13 +162,7 @@ internal sealed class LaunchOptions : DbStoreOptions
         // Because DbStoreOptions can't detect collection change, We use
         // ImmutableList to imply that the whole list needs to be replaced
         get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableList<GamePathEntry>>(raw), []);
-        set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, value => JsonSerializer.Serialize(value));
-    }
-
-    public bool IsEnabled
-    {
-        get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, false);
-        set => SetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, value);
+        set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, v => JsonSerializer.Serialize(v));
     }
 
     public bool IsAdvancedLaunchOptionsEnabled
@@ -119,9 +171,16 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
     }
 
+    #region Launch Prefixed Options
+    public bool IsEnabled
+    {
+        get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, true);
+        set => SetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, value);
+    }
+
     public bool IsFullScreen
     {
-        get => GetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen);
+        get => GetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen, false);
         set => SetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen, value);
     }
 
@@ -173,10 +232,26 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref targetFps, SettingEntry.LaunchTargetFps, value);
     }
 
-    public List<NameValue<int>> Monitors { get; } = [];
+    public float TargetFov
+    {
+        get => GetOption(ref targetFov, SettingEntry.LaunchTargetFov, 45f);
+        set => SetOption(ref targetFov, SettingEntry.LaunchTargetFov, value);
+    }
 
-    [AllowNull]
-    public NameValue<int> Monitor
+    public bool DisableFog
+    {
+        get => GetOption(ref disableFog, SettingEntry.LaunchDisableFog, false);
+        set => SetOption(ref disableFog, SettingEntry.LaunchDisableFog, value);
+    }
+
+    public bool LoopAdjustFpsOnly
+    {
+        get => GetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, true);
+        set => SetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, value);
+    }
+
+    [NotNull]
+    public NameValue<int>? Monitor
     {
         get
         {
@@ -215,6 +290,27 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
     }
 
+    public bool UseStarwardPlayTimeStatistics
+    {
+        get => GetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, false);
+        set => SetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, value);
+    }
+
+    public bool UseBetterGenshinImpactAutomation
+    {
+        get => GetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, false);
+        set => SetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, value);
+    }
+
+    public bool SetDiscordActivityWhenPlaying
+    {
+        get => GetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, true);
+        set => SetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
+    }
+    #endregion
+
+    public List<NameValue<int>> Monitors { get; } = [];
+
     public List<AspectRatio> AspectRatios { get; } =
     [
         new(3840, 2160),
@@ -234,23 +330,5 @@ internal sealed class LaunchOptions : DbStoreOptions
                 (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }
         }
-    }
-
-    public bool UseStarwardPlayTimeStatistics
-    {
-        get => GetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, false);
-        set => SetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, value);
-    }
-
-    public bool UseBetterGenshinImpactAutomation
-    {
-        get => GetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, false);
-        set => SetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, value);
-    }
-
-    public bool SetDiscordActivityWhenPlaying
-    {
-        get => GetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, true);
-        set => SetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
     }
 }

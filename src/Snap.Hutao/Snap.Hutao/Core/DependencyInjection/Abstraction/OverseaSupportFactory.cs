@@ -20,7 +20,7 @@ internal abstract class OverseaSupportFactory<TClient, TClientCN, TClientOS> : I
         this.serviceProvider = serviceProvider;
     }
 
-    public TClient Create(bool isOversea)
+    public virtual TClient Create(bool isOversea)
     {
         return isOversea
             ? serviceProvider.GetRequiredService<TClientOS>()

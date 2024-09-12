@@ -7,5 +7,8 @@ internal readonly struct LPARAM
 {
     public readonly nint Value;
 
-    public static unsafe implicit operator void*(LPARAM value) => *(void**)&value;
+    public static unsafe implicit operator void*(LPARAM value)
+    {
+        return *(void**)&value;
+    }
 }

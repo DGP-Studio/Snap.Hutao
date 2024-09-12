@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="Snap.Hutao.UI.Xaml.View.Page.LoginMihoyoUserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid Loaded="OnRootLoaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="12">
+                <TextBlock Text="{shuxm:ResourceString Name=ViewPageLoginMihoyoUserTitle}"/>
+                <TextBlock Text="{shuxm:ResourceString Name=ViewPageLoginMihoyoUserDescription}"/>
+            </StackPanel>
+            <Button
+                Grid.Column="1"
+                Margin="12"
+                Command="{x:Bind HandleCurrentCookieCommand}"
+                Content="{shuxm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
+        </Grid>
+        <WebView2 x:Name="WebView" Grid.Row="2"/>
+    </Grid>
+
+</Page>

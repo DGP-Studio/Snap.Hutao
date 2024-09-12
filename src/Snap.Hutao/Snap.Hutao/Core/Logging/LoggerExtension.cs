@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Snap.Hutao.Core.Logging;
 
-[SuppressMessage("", "SH002")]
 internal static class LoggerExtension
 {
     public static void LogColorizedDebug(this ILogger logger, Exception? exception, LogMessage message, params LogArgument[] args)

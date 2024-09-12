@@ -49,43 +49,43 @@ internal sealed class SpiralAbyss
     /// 出战次数
     /// </summary>
     [JsonPropertyName("reveal_rank")]
-    public List<Rank> RevealRank { get; set; } = default!;
+    public List<SpiralAbyssRank> RevealRank { get; set; } = default!;
 
     /// <summary>
     /// 击破次数
     /// </summary>
     [JsonPropertyName("defeat_rank")]
-    public List<Rank> DefeatRank { get; set; } = default!;
+    public List<SpiralAbyssRank> DefeatRank { get; set; } = default!;
 
     /// <summary>
     /// 最强一击
     /// </summary>
     [JsonPropertyName("damage_rank")]
-    public List<Rank> DamageRank { get; set; } = default!;
+    public List<SpiralAbyssRank> DamageRank { get; set; } = default!;
 
     /// <summary>
     /// 承受伤害
     /// </summary>
     [JsonPropertyName("take_damage_rank")]
-    public List<Rank> TakeDamageRank { get; set; } = default!;
+    public List<SpiralAbyssRank> TakeDamageRank { get; set; } = default!;
 
     /// <summary>
     /// 元素战技
     /// </summary>
     [JsonPropertyName("normal_skill_rank")]
-    public List<Rank> NormalSkillRank { get; set; } = default!;
+    public List<SpiralAbyssRank> NormalSkillRank { get; set; } = default!;
 
     /// <summary>
     /// 元素爆发
     /// </summary>
     [JsonPropertyName("energy_skill_rank")]
-    public List<Rank> EnergySkillRank { get; set; } = default!;
+    public List<SpiralAbyssRank> EnergySkillRank { get; set; } = default!;
 
     /// <summary>
     /// 层信息
     /// </summary>
     [JsonPropertyName("floors")]
-    public List<Floor> Floors { get; set; } = default!;
+    public List<SpiralAbyssFloor> Floors { get; set; } = default!;
 
     /// <summary>
     /// 共获得渊星

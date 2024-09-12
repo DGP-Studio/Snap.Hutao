@@ -18,7 +18,6 @@ internal sealed class NotifySuppressionContext : INotifySuppressionContext
 
     public DailyNoteEntry Entry { get => entry; }
 
-    [SuppressMessage("", "SH002")]
     public void Add(DailyNoteNotifyInfo info)
     {
         infos.Add(info);

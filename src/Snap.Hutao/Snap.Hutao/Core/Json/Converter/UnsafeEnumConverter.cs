@@ -6,10 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Json.Converter;
 
-/// <summary>
-/// 枚举转换器
-/// </summary>
-/// <typeparam name="TEnum">枚举的类型</typeparam>
 [HighQuality]
 internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
     where TEnum : struct, Enum
@@ -19,18 +15,12 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
     private readonly JsonSerializeType readAs;
     private readonly JsonSerializeType writeAs;
 
-    /// <summary>
-    /// 构造一个新的枚举转换器
-    /// </summary>
-    /// <param name="readAs">读取</param>
-    /// <param name="writeAs">写入</param>
     public UnsafeEnumConverter(JsonSerializeType readAs, JsonSerializeType writeAs)
     {
         this.readAs = readAs;
         this.writeAs = writeAs;
     }
 
-    /// <inheritdoc/>
     public override TEnum Read(ref Utf8JsonReader reader, Type typeToConverTEnum, JsonSerializerOptions options)
     {
         if (readAs == JsonSerializeType.Number)
@@ -40,19 +30,18 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
 
         if (reader.GetString() is { } str)
         {
-            return Enum.Parse<TEnum>(str);
+            return Enum.Parse<TEnum>(str, ignoreCase: true);
         }
 
         throw new JsonException();
     }
 
-    /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
     {
         switch (writeAs)
         {
             case JsonSerializeType.Number:
-                WriteEnumValue(writer, value, enumTypeCode);
+                WriteNumberValue(writer, value, enumTypeCode);
                 break;
             case JsonSerializeType.NumberString:
                 writer.WriteStringValue(value.ToString("D"));
@@ -123,7 +112,7 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
         throw new JsonException();
     }
 
-    private static void WriteEnumValue(Utf8JsonWriter writer, TEnum value, TypeCode typeCode)
+    private static void WriteNumberValue(Utf8JsonWriter writer, TEnum value, TypeCode typeCode)
     {
         switch (typeCode)
         {

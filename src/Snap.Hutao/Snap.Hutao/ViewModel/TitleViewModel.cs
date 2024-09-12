@@ -2,15 +2,19 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Windowing.HotKey;
+using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Xaml.Behavior.Action;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
+using Snap.Hutao.Web.Hutao;
 using System.Globalization;
 using System.Text;
 
@@ -20,6 +24,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
+    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
@@ -56,10 +61,23 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     public UpdateStatus? UpdateStatus { get => updateStatus; set => SetProperty(ref updateStatus, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
+        ShowUpdateLogWindowAfterUpdate();
         await DoCheckUpdateAsync().ConfigureAwait(false);
         return true;
+    }
+
+    private void ShowUpdateLogWindowAfterUpdate()
+    {
+        if (LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false) || XamlApplicationLifetime.IsFirstRunAfterUpdate)
+        {
+            XamlApplicationLifetime.IsFirstRunAfterUpdate = false;
+            new ShowWebView2WindowAction()
+            {
+                ContentProvider = new UpdateLogContentProvider(),
+            }.ShowAt(currentXamlWindowReference.GetXamlRoot());
+        }
     }
 
     private async ValueTask DoCheckUpdateAsync()
@@ -76,11 +94,23 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
 
             dialog.Title = SH.FormatViewTitileUpdatePackageDownloadTitle(UpdateStatus?.Version);
+            dialog.Mirrors = checkUpdateResult.PackageInformation?.Mirrors;
+            dialog.SelectedItem = dialog.Mirrors?.FirstOrDefault();
 
-            if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+            (bool isOk, HutaoPackageMirror? mirror) = await dialog.GetSelectedMirrorAsync().ConfigureAwait(false);
+
+            if (isOk && mirror is not null)
             {
+                ArgumentNullException.ThrowIfNull(checkUpdateResult.PackageInformation);
+                HutaoSelectedMirrorInformation mirrorInformation = new()
+                {
+                    Mirror = mirror,
+                    Validation = checkUpdateResult.PackageInformation.Validation,
+                    Version = checkUpdateResult.PackageInformation.Version,
+                };
+
                 // This method will set CheckUpdateResult.Kind to NeedInstall if download success
-                if (!await DownloadPackageAsync(progress, checkUpdateResult).ConfigureAwait(false))
+                if (!await DownloadPackageAsync(progress, mirrorInformation, checkUpdateResult).ConfigureAwait(false))
                 {
                     infoBarService.Warning(SH.ViewTitileUpdatePackageDownloadFailedMessage);
                     return;
@@ -99,7 +129,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
             if (installUpdateUserConsentResult is ContentDialogResult.Primary)
             {
-                LaunchUpdaterResult launchUpdaterResult = await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+                LaunchUpdaterResult launchUpdaterResult = updateService.LaunchUpdater();
                 if (launchUpdaterResult.IsSuccess)
                 {
                     ContentDialog contentDialog = await contentDialogFactory
@@ -120,12 +150,12 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         UpdateStatus = null;
     }
 
-    private async ValueTask<bool> DownloadPackageAsync(IProgress<UpdateStatus> progress, CheckUpdateResult checkUpdateResult)
+    private async ValueTask<bool> DownloadPackageAsync(IProgress<UpdateStatus> progress, HutaoSelectedMirrorInformation mirrorInformation, CheckUpdateResult checkUpdateResult)
     {
         bool downloadSuccess = true;
         try
         {
-            if (await updateService.DownloadUpdateAsync(checkUpdateResult, progress).ConfigureAwait(false))
+            if (await updateService.DownloadUpdateAsync(mirrorInformation, progress).ConfigureAwait(false))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.NeedInstall;
             }

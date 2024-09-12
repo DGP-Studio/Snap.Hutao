@@ -10,7 +10,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
 [SupportedOSPlatform("windows8.0")]
-internal unsafe readonly struct IDXGIFactory2
+internal readonly unsafe struct IDXGIFactory2
 {
     public readonly Vftbl* ThisPtr;
 

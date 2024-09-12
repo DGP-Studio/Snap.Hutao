@@ -8,7 +8,9 @@ namespace Snap.Hutao.Core.IO.Hashing;
 /// <summary>
 /// 摘要
 /// </summary>
-[HighQuality]
+#if NET9_0_OR_GREATER
+[Obsolete("Use CryptographicOperations.HashData()")]
+#endif
 internal static class MD5
 {
     /// <summary>
@@ -34,6 +36,12 @@ internal static class MD5
     public static async ValueTask<string> HashAsync(Stream stream, CancellationToken token = default)
     {
         byte[] bytes = await System.Security.Cryptography.MD5.HashDataAsync(stream, token).ConfigureAwait(false);
+        return Convert.ToHexString(bytes);
+    }
+
+    public static string Hash(ReadOnlySpan<byte> input)
+    {
+        byte[] bytes = System.Security.Cryptography.MD5.HashData(input);
         return Convert.ToHexString(bytes);
     }
 }

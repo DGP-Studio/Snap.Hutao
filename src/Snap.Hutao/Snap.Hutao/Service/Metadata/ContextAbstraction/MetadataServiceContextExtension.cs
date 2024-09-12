@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -11,6 +12,7 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal static class MetadataServiceContextExtension
 {
+    [SuppressMessage("", "CA1506")]
     public static async ValueTask<TContext> GetContextAsync<TContext>(this IMetadataService metadataService, CancellationToken token = default)
         where TContext : IMetadataContext, new()
     {
@@ -64,11 +66,36 @@ internal static class MetadataServiceContextExtension
             if (context is IMetadataDictionaryIdAvatarSource dictionaryIdAvatarSource)
             {
                 dictionaryIdAvatarSource.IdAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+
+                if (context is IMetadataDictionaryIdAvatarWithPlayersSource)
+                {
+                    dictionaryIdAvatarSource.IdAvatarMap = AvatarIds.WithPlayers(dictionaryIdAvatarSource.IdAvatarMap);
+                }
+            }
+
+            if (context is IMetadataDictionaryIdDictionaryLevelAvatarPromoteSource dictionaryIdDictionaryLevelAvatarPromoteSource)
+            {
+                dictionaryIdDictionaryLevelAvatarPromoteSource.IdDictionaryAvatarLevelPromoteMap = await metadataService.GetIdToAvatarPromoteGroupMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdDictionaryLevelWeaponPromoteSource dictionaryIdDictionaryLevelWeaponPromoteSource)
+            {
+                dictionaryIdDictionaryLevelWeaponPromoteSource.IdDictionaryWeaponLevelPromoteMap = await metadataService.GetIdToWeaponPromoteGroupMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdListTowerLevelSource dictionaryIdListTowerLevelSource)
+            {
+                dictionaryIdListTowerLevelSource.IdListTowerLevelMap = await metadataService.GetGroupIdToTowerLevelGroupMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdMaterialSource dictionaryIdMaterialSource)
             {
                 dictionaryIdMaterialSource.IdMaterialMap = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdMonsterSource dictionaryIdMonsterSource)
+            {
+                dictionaryIdMonsterSource.IdMonsterMap = await metadataService.GetRelationshipIdToMonsterMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdReliquarySource dictionaryIdReliquarySource)
@@ -86,14 +113,44 @@ internal static class MetadataServiceContextExtension
                 dictionaryIdReliquaryMainPropertySource.IdReliquaryMainPropertyMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataDictionaryIdReliquarySetSource dictionaryIdReliquarySetSource)
+            {
+                dictionaryIdReliquarySetSource.IdReliquarySetMap = await metadataService.GetIdToReliquarySetMapAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataDictionaryIdReliquarySubAffixSource dictionaryIdReliquarySubAffixSource)
             {
                 dictionaryIdReliquarySubAffixSource.IdReliquarySubAffixMap = await metadataService.GetIdToReliquarySubAffixMapAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataDictionaryIdTowerFloorSource dictionaryIdTowerFloorSource)
+            {
+                dictionaryIdTowerFloorSource.IdTowerFloorMap = await metadataService.GetIdToTowerFloorMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdTowerScheduleSource dictionaryIdTowerScheduleSource)
+            {
+                dictionaryIdTowerScheduleSource.IdTowerScheduleMap = await metadataService.GetIdToTowerScheduleMapAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataDictionaryIdWeaponSource dictionaryIdWeaponSource)
             {
                 dictionaryIdWeaponSource.IdWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryLevelAvaterGrowCurveSource levelAvaterGrowCurveSource)
+            {
+                levelAvaterGrowCurveSource.LevelDictionaryAvatarGrowCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryLevelMonsterGrowCurveSource monsterGrowCurveSource)
+            {
+                monsterGrowCurveSource.LevelDictionaryMonsterGrowCurveMap = await metadataService.GetLevelToMonsterCurveMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryLevelWeaponGrowCurveSource weaponGrowCurveSource)
+            {
+                weaponGrowCurveSource.LevelDictionaryWeaponGrowCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryNameAvatarSource dictionaryNameAvatarSource)
@@ -115,7 +172,6 @@ internal static class MetadataServiceContextExtension
         return context;
     }
 
-#pragma warning disable SH002
     public static IEnumerable<Material> EnumerateInventoryMaterial(this IMetadataListMaterialSource context)
     {
         return context.Materials.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id, MaterialIdComparer.Shared);
@@ -145,5 +201,4 @@ internal static class MetadataServiceContextExtension
     {
         return context.NameWeaponMap[name];
     }
-#pragma warning restore SH002
 }

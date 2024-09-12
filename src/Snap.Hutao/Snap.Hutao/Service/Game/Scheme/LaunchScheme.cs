@@ -55,7 +55,6 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
         };
     }
 
-    [SuppressMessage("", "SH002")]
     public bool Equals(ChannelOptions other)
     {
         return Channel == other.Channel && SubChannel == other.SubChannel && IsOversea == other.IsOversea;

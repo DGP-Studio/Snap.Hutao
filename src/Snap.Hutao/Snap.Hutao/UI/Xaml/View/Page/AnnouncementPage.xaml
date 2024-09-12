@@ -1,0 +1,259 @@
+﻿<shuxc:ScopedPage
+    x:Class="Snap.Hutao.UI.Xaml.View.Page.AnnouncementPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
+    xmlns:cww="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
+    xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
+    xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
+    d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+    <shuxc:ScopedPage.Resources>
+        <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
+
+        <DataTemplate x:Key="AnnouncementTemplate">
+            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{StaticResource AcrylicBorderCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <!--  Image Layer  -->
+                        <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                            <Grid>
+                                <Border
+                                    x:Name="ImageZoomBorder"
+                                    VerticalAlignment="Top"
+                                    cw:VisualExtensions.NormalizedCenterPoint="0.5">
+                                    <cww:ConstrainedBox
+                                        Margin="-4"
+                                        AspectRatio="1080:390"
+                                        CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                                        <shuxci:CachedImage
+                                            VerticalAlignment="Center"
+                                            PlaceholderMargin="16"
+                                            PlaceholderSource="{StaticResource UI_EmotionIcon271}"
+                                            Source="{Binding Banner}"
+                                            Stretch="UniformToFill"/>
+                                    </cww:ConstrainedBox>
+                                    <cwa:Explicit.Animations>
+                                        <cwa:AnimationSet x:Name="ImageZoomInAnimation">
+                                            <shuxma:ImageZoomInAnimation/>
+                                        </cwa:AnimationSet>
+                                        <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
+                                            <shuxma:ImageZoomOutAnimation/>
+                                        </cwa:AnimationSet>
+                                    </cwa:Explicit.Animations>
+                                </Border>
+                                <Border Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}" IsHitTestVisible="False"/>
+                            </Grid>
+                        </Border>
+                        <!--  Time Description  -->
+                        <Border
+                            Grid.Row="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ProgressBar
+                                MinHeight="2"
+                                VerticalAlignment="Bottom"
+                                Background="Transparent"
+                                CornerRadius="0"
+                                Maximum="1"
+                                Value="{Binding TimePercent, Mode=OneWay}"/>
+                        </Border>
+                        <!--  General Description  -->
+                        <Border Grid.Row="1">
+                            <StackPanel Margin="4" VerticalAlignment="Bottom">
+                                <TextBlock
+                                    Margin="4,6,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                    Text="{Binding Subtitle}"
+                                    TextTrimming="WordEllipsis"
+                                    TextWrapping="NoWrap"/>
+
+                                <TextBlock
+                                    Margin="4,6,0,0"
+                                    Opacity="0.6"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding Title}"
+                                    TextTrimming="WordEllipsis"
+                                    TextWrapping="NoWrap"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,4,0,4"
+                                        FontSize="10"
+                                        Opacity="0.4"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding TimeFormatted}"
+                                        TextWrapping="NoWrap"/>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="4,4,4,4"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="10"
+                                        Opacity="0.8"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding TimeDescription}"
+                                        Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <mxi:Interaction.Behaviors>
+                        <mxic:EventTriggerBehavior EventName="Tapped">
+                            <shuxba:ShowWebView2WindowAction>
+                                <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                    <shuxvww:AnnouncementWebView2ContentProvider Announcement="{Binding}"/>
+                                </shuxba:ShowWebView2WindowAction.ContentProvider>
+                            </shuxba:ShowWebView2WindowAction>
+                        </mxic:EventTriggerBehavior>
+                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                            <shuxba:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomInAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
+                        </mxic:EventTriggerBehavior>
+                        <mxic:EventTriggerBehavior EventName="PointerExited">
+                            <shuxba:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomOutAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
+                        </mxic:EventTriggerBehavior>
+                    </mxi:Interaction.Behaviors>
+                </Border>
+            </ItemContainer>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
+            <ScrollViewer>
+                <ItemsRepeater
+                    Margin="16,16,16,16"
+                    HorizontalAlignment="Stretch"
+                    ItemTemplate="{StaticResource AnnouncementTemplate}"
+                    ItemsSource="{Binding List}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            ItemsJustification="Start"
+                            ItemsStretch="Fill"
+                            MinColumnSpacing="12"
+                            MinItemWidth="300"
+                            MinRowSpacing="12"/>
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </ScrollViewer>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HutaoAnnouncementTemplate">
+            <InfoBar
+                Title="{Binding Title}"
+                Margin="0,0,0,0"
+                shuxc:InfoBarHelper.IsTextSelectionEnabled="True"
+                CloseButtonCommand="{Binding DismissCommand}"
+                CloseButtonCommandParameter="{Binding}"
+                IsOpen="True"
+                Message="{Binding Content}"
+                Severity="{Binding Severity}">
+                <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                    <HyperlinkButton Content="{shuxm:ResourceString Name=ViewPageAnnouncementViewDetails}" NavigateUri="{Binding Link}"/>
+                    <TextBlock
+                        Margin="8,0,0,2"
+                        VerticalAlignment="Center"
+                        Opacity="0.7"
+                        Text="{Binding UpdateTimeFormatted}"/>
+                </StackPanel>
+            </InfoBar>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CardTemplate" x:DataType="shuxcc:CardReference">
+            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <ItemContainer.Resources>
+                    <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
+                </ItemContainer.Resources>
+
+                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <ContentControl HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>
+                </Border>
+            </ItemContainer>
+        </DataTemplate>
+    </shuxc:ScopedPage.Resources>
+
+    <Grid>
+        <ScrollViewer Padding="0" Style="{StaticResource DefaultScrollViewerStyle}">
+            <StackPanel Padding="16" Spacing="16">
+                <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                        <TextBlock
+                            Margin="16,8"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{Binding GreetingText}"/>
+                    </Border>
+                </Border>
+
+                <ItemsControl
+                    x:Name="HutaoAnnouncementControl"
+                    x:Load="False"
+                    ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
+                    ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
+                    ItemsSource="{Binding HutaoAnnouncements}"
+                    Transitions="{ThemeResource EntranceThemeTransitions}"
+                    Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+
+                <!--  ItemsRepeater will behave abnormal if no direct scrollhost wrapping it  -->
+                <ScrollViewer CanContentRenderOutsideBounds="True">
+                    <ItemsRepeater
+                        HorizontalAlignment="Stretch"
+                        ItemTemplate="{StaticResource CardTemplate}"
+                        ItemsSource="{Binding Cards, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsJustification="Start"
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="12"
+                                MinItemHeight="180"
+                                MinItemWidth="300"
+                                MinRowSpacing="12"
+                                Orientation="Horizontal"/>
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </ScrollViewer>
+
+                <Pivot
+                    x:Name="GameAnnouncementPivot"
+                    Margin="-16"
+                    x:Load="False"
+                    Style="{ThemeResource CardPivotStyle}"
+                    Transitions="{ThemeResource EntranceThemeTransitions}">
+                    <PivotItem
+                        Content="{Binding Announcement.List[0]}"
+                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                        Header="{shuxm:ResourceString Name=ViewPageAnnouncementActivity}"/>
+                    <PivotItem
+                        Content="{Binding Announcement.List[1]}"
+                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                        Header="{shuxm:ResourceString Name=ViewPageAnnouncementGame}"/>
+                </Pivot>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</shuxc:ScopedPage>

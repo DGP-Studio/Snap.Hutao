@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
@@ -61,33 +60,63 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
     }
 
-    public async ValueTask<T> FromCacheOrFileAsync<T>(string fileName, CancellationToken token)
+    public async ValueTask<List<T>> FromCacheOrFileAsync<T>(MetadataFileStrategy strategy, CancellationToken token)
         where T : class
     {
         Verify.Operation(isInitialized, SH.ServiceMetadataNotInitialized);
-        string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}";
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{strategy.Name}";
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
             ArgumentNullException.ThrowIfNull(value);
-            return (T)value;
+            return (List<T>)value;
         }
 
-        string path = metadataOptions.GetLocalizedLocalFile($"{fileName}.json");
-        if (File.Exists(path))
+        return strategy.IsScattered
+            ? await FromCacheOrScatteredFile<T>(strategy, cacheKey, token).ConfigureAwait(false)
+            : await FromCacheOrSingleFile<T>(strategy, cacheKey, token).ConfigureAwait(false);
+    }
+
+    private async ValueTask<List<T>> FromCacheOrSingleFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
+        where T : class
+    {
+        string path = metadataOptions.GetLocalizedLocalPath($"{strategy.Name}.json");
+        if (!File.Exists(path))
         {
-            using (Stream fileStream = File.OpenRead(path))
+            FileNotFoundException exception = new(SH.ServiceMetadataFileNotFound, strategy.Name);
+            throw HutaoException.Throw(SH.ServiceMetadataFileNotFound, exception);
+        }
+
+        using (Stream fileStream = File.OpenRead(path))
+        {
+            List<T>? result = await JsonSerializer.DeserializeAsync<List<T>>(fileStream, options, token).ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(result);
+            return memoryCache.Set(cacheKey, result);
+        }
+    }
+
+    private async ValueTask<List<T>> FromCacheOrScatteredFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
+        where T : class
+    {
+        string path = metadataOptions.GetLocalizedLocalPath(strategy.Name);
+        if (!Directory.Exists(path))
+        {
+            DirectoryNotFoundException exception = new(SH.ServiceMetadataFileNotFound);
+            throw HutaoException.Throw(SH.ServiceMetadataFileNotFound, exception);
+        }
+
+        List<T> results = [];
+        foreach (string file in Directory.GetFiles(path, "*.json"))
+        {
+            using (Stream fileStream = File.OpenRead(file))
             {
                 T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
                 ArgumentNullException.ThrowIfNull(result);
-                return memoryCache.Set(cacheKey, result);
+                results.Add(result);
             }
         }
-        else
-        {
-            FileNotFoundException exception = new(SH.ServiceMetadataFileNotFound, fileName);
-            throw HutaoException.Throw(SH.ServiceMetadataFileNotFound, exception);
-        }
+
+        return memoryCache.Set(cacheKey, results);
     }
 
     private async ValueTask<bool> DownloadMetadataDescriptionFileAndCheckAsync(CancellationToken token)
@@ -105,7 +134,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         await CheckMetadataSourceFilesAsync(metadataFileHashs, token).ConfigureAwait(false);
 
         // save metadataFile
-        using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalFile(MetaFileName)))
+        using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName)))
         {
             await JsonSerializer
                 .SerializeAsync(metaFileStream, metadataFileHashs, options, token)
@@ -166,7 +195,11 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         {
             (string fileName, string md5) = pair;
             string fileFullName = $"{fileName}.json";
-            string fileFullPath = metadataOptions.GetLocalizedLocalFile(fileFullName);
+            string fileFullPath = metadataOptions.GetLocalizedLocalPath(fileFullName);
+            if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
 
             bool skip = false;
             if (File.Exists(fileFullPath))
@@ -184,28 +217,32 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private async ValueTask DownloadMetadataSourceFilesAsync(string fileFullName, CancellationToken token)
     {
-        Stream sourceStream;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
             {
-                sourceStream = await httpClient
-                    .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        // Write stream while convert LF to CRLF
-        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(metadataOptions.GetLocalizedLocalFile(fileFullName))))
-        {
-            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-            {
-                await readerWriter.WriteAsync(line).ConfigureAwait(false);
-
-                if (!readerWriter.Reader.EndOfStream)
+                using (HttpRequestMessage message = new(HttpMethod.Get, metadataOptions.GetLocalizedRemoteFile(fileFullName)))
                 {
-                    await readerWriter.WriteAsync(StringLiterals.CRLF).ConfigureAwait(false);
+                    // We have too much line endings now, should cache the response.
+                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                    {
+                        Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+                        // Write stream while convert LF to CRLF
+                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(metadataOptions.GetLocalizedLocalPath(fileFullName))))
+                        {
+                            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
+                            {
+                                await readerWriter.WriteAsync(line).ConfigureAwait(false);
+
+                                if (!readerWriter.Reader.EndOfStream)
+                                {
+                                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

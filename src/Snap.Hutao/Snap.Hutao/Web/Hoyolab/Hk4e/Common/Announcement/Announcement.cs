@@ -7,7 +7,6 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// 公告
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1124")]
 internal sealed class Announcement : AnnouncementContent
 {
     #region Binding

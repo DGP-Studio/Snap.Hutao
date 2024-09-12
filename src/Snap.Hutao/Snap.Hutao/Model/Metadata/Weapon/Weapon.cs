@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 
@@ -18,7 +19,8 @@ internal sealed partial class Weapon : INameQualityAccess,
     ISummaryItemConvertible,
     IItemConvertible,
     ICalculableSource<ICalculableWeapon>,
-    ICultivationItemsAccess
+    ICultivationItemsAccess,
+    IAdvancedCollectionViewItem
 {
     public WeaponId Id { get; set; }
 

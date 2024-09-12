@@ -1,0 +1,140 @@
+﻿<Button
+    x:Class="Snap.Hutao.UI.Xaml.View.Card.DailyNoteCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shme="using:Snap.Hutao.Model.Entity"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
+    Padding="0"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    d:DataContext="{d:DesignInstance shvd:DailyNoteViewModelSlim}"
+    Background="Transparent"
+    BorderBrush="{x:Null}"
+    BorderThickness="0"
+    Command="{Binding NavigateCommand}"
+    Style="{ThemeResource DefaultButtonStyle}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Button.Resources>
+        <DataTemplate x:Key="DailyNoteTemplate" x:DataType="shme:DailyNoteEntry">
+            <Grid
+                Margin="12"
+                ColumnSpacing="6"
+                RowSpacing="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding Uid}"/>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding RefreshTimeFormatted}"/>
+
+                <shuxcc:CardBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    IconSquareLength="64"
+                    ImageSource="{StaticResource UI_ItemIcon_210}"
+                    IsDotVisible="{Binding ResinNotifySuppressed}"
+                    Text="{Binding DailyNote.ResinFormatted}"/>
+
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    RowSpacing="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <shuxcc:CardBlock
+                        Grid.Row="0"
+                        ImageSource="{StaticResource UI_ItemIcon_204}"
+                        IsDotVisible="{Binding HomeCoinNotifySuppressed}"
+                        Text="{Binding DailyNote.HomeCoinFormatted}"/>
+                    <shuxcc:CardBlock
+                        Grid.Row="1"
+                        ImageSource="{StaticResource UI_MarkQuest_Events_Proce}"
+                        IsDotVisible="{Binding DailyTaskNotifySuppressed}"
+                        Text="{Binding DailyNote.TaskFormatted}"/>
+                </Grid>
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    RowSpacing="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <shuxcc:CardBlock
+                        Grid.Row="0"
+                        ImageSource="{StaticResource UI_MarkTower}"
+                        Text="{Binding DailyNote.ResinDiscountFormatted}"/>
+                    <shuxcc:CardBlock
+                        Grid.Row="1"
+                        ImageSource="{StaticResource UI_ItemIcon_220021}"
+                        IsDotVisible="{Binding TransformerNotifySuppressed}"
+                        Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted}"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </Button.Resources>
+
+    <Grid>
+        <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Visibility="{Binding DailyNoteEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                <FlipView
+                    x:Name="RootFlipView"
+                    Background="{x:Null}"
+                    ItemTemplate="{StaticResource DailyNoteTemplate}"
+                    ItemsSource="{Binding DailyNoteEntries}"/>
+
+                <PipsPager
+                    Height="16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    NumberOfPages="{Binding DailyNoteEntries.Count}"
+                    SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"/>
+            </Grid>
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Visibility="{Binding DailyNoteEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                <Image
+                    Width="80"
+                    Height="80"
+                    Source="ms-appx:///Resource/Navigation/DailyNote.png"/>
+                <TextBlock HorizontalAlignment="Center" Text="{shuxm:ResourceString Name=ViewDailyNoteHeader}"/>
+            </StackPanel>
+        </Grid>
+
+        <shuxc:Loading IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}" Style="{ThemeResource DefaultLoadingCardStyle}"/>
+    </Grid>
+</Button>
