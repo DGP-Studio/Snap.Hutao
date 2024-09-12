@@ -125,6 +125,12 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.Quality = quality);
     }
 
+    public static TBuilder SetRecommendedReliquaryProperties<TBuilder>(this TBuilder builder, List<string> properties)
+        where TBuilder : IAvatarViewBuilder
+    {
+        return builder.Configure(b => b.View.RecommendedReliquaryProperties = properties);
+    }
+
     public static TBuilder SetReliquaries<TBuilder>(this TBuilder builder, List<ReliquaryView> reliquaries)
         where TBuilder : IAvatarViewBuilder
     {
