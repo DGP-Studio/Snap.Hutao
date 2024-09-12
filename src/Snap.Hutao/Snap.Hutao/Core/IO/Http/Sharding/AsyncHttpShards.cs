@@ -115,7 +115,7 @@ internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
                 current = current.Next;
             }
 
-            shards = builder.ToImmutableArray();
+            shards = builder.ToImmutable();
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]

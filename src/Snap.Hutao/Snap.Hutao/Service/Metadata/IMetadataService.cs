@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -13,12 +14,8 @@ internal interface IMetadataService
 {
     IMemoryCache MemoryCache { get; }
 
-    ValueTask<List<T>> FromCacheOrFileAsync<T>(MetadataFileStrategy strategy, CancellationToken token)
+    ValueTask<ImmutableArray<T>> FromCacheOrFileAsync<T>(MetadataFileStrategy strategy, CancellationToken token)
         where T : class;
 
-    /// <summary>
-    /// 异步初始化服务，尝试更新元数据
-    /// </summary>
-    /// <returns>初始化是否成功</returns>
     ValueTask<bool> InitializeAsync();
 }

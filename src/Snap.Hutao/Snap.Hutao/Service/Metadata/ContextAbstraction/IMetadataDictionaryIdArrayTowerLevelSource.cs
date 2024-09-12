@@ -3,10 +3,11 @@
 
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
-internal interface IMetadataDictionaryIdListTowerLevelSource
+internal interface IMetadataDictionaryIdArrayTowerLevelSource
 {
-    Dictionary<TowerLevelGroupId, List<TowerLevel>> IdListTowerLevelMap { get; set; }
+    ImmutableDictionary<TowerLevelGroupId, ImmutableArray<TowerLevel>> IdArrayTowerLevelMap { get; set; }
 }

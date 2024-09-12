@@ -3,15 +3,16 @@
 
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using System.Collections.Immutable;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
 internal sealed class AchievementServiceMetadataContext : IMetadataContext,
-    IMetadataListAchievementSource,
+    IMetadataArrayAchievementSource,
     IMetadataDictionaryIdAchievementSource
 {
-    public List<MetadataAchievement> Achievements { get; set; } = default!;
+    public ImmutableArray<MetadataAchievement> Achievements { get; set; } = default!;
 
-    public Dictionary<AchievementId, MetadataAchievement> IdAchievementMap { get; set; } = default!;
+    public ImmutableDictionary<AchievementId, MetadataAchievement> IdAchievementMap { get; set; } = default!;
 }

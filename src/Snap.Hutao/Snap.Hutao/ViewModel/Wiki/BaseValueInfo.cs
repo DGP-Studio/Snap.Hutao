@@ -7,20 +7,21 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
 internal sealed partial class BaseValueInfo : ObservableObject
 {
     private readonly List<PropertyCurveValue> propValues;
-    private readonly Dictionary<Level, Dictionary<GrowCurveType, float>> growCurveMap;
-    private readonly Dictionary<PromoteLevel, Promote>? promoteMap;
+    private readonly ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> growCurveMap;
+    private readonly IReadOnlyDictionary<PromoteLevel, Promote>? promoteMap;
 
     private uint currentLevel;
     private List<NameValue<string>> values = default!;
     private bool promoted = true;
 
-    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, Dictionary<Level, Dictionary<GrowCurveType, float>> growCurveMap, Dictionary<PromoteLevel, Promote>? promoteMap = null)
+    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> growCurveMap, IReadOnlyDictionary<PromoteLevel, Promote>? promoteMap = null)
     {
         this.propValues = propValues;
         this.growCurveMap = growCurveMap;

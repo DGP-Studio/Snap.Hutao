@@ -3,10 +3,11 @@
 
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdDictionaryLevelWeaponPromoteSource
 {
-    Dictionary<PromoteId, Dictionary<PromoteLevel, Promote>> IdDictionaryWeaponLevelPromoteMap { get; set; }
+    ImmutableDictionary<PromoteId, ImmutableDictionary<PromoteLevel, Promote>> IdDictionaryWeaponLevelPromoteMap { get; set; }
 }

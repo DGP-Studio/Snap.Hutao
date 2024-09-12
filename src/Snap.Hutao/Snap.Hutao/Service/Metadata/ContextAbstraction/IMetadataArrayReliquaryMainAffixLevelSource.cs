@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Reliquary;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
-internal interface IMetadataListReliquaryMainAffixLevelSource
+internal interface IMetadataArrayReliquaryMainAffixLevelSource
 {
-    List<ReliquaryMainAffixLevel> ReliquaryMainAffixLevels { get; set; }
+    ImmutableArray<ReliquaryMainAffixLevel> ReliquaryMainAffixLevels { get; set; }
 }

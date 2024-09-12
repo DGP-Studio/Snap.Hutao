@@ -15,6 +15,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
@@ -132,11 +133,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            List<MetadataAchievementGoal> goals = await scopeContext.MetadataService
+            ImmutableArray<MetadataAchievementGoal> goals = await scopeContext.MetadataService
                 .GetAchievementGoalListAsync(CancellationToken)
                 .ConfigureAwait(false);
 
-            sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From).ToAdvancedCollectionView();
+            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().ToAdvancedCollectionView();
         }
 
         IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);

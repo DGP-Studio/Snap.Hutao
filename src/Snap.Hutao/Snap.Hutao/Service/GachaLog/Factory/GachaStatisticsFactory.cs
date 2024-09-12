@@ -47,7 +47,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        List<HistoryWishBuilder> historyWishBuilders = metadata.GachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, metadata));
+        List<HistoryWishBuilder> historyWishBuilders = metadata.GachaEvents.Select(gachaEvent => new HistoryWishBuilder(gachaEvent, metadata)).ToList();
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

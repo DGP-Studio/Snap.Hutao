@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -14,7 +15,7 @@ namespace Snap.Hutao.ViewModel.Complex;
 /// </summary>
 internal sealed class ReliquarySetView : RateAndDelta
 {
-    public ReliquarySetView(Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap, ItemRate<ReliquarySets, double> setRate, ItemRate<ReliquarySets, double>? lastSetRate)
+    public ReliquarySetView(ImmutableDictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap, ItemRate<ReliquarySets, double> setRate, ItemRate<ReliquarySets, double>? lastSetRate)
         : base(setRate.Rate, lastSetRate?.Rate)
     {
         ReliquarySets sets = setRate.Item;

@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.User;
 
 internal class UserMetadataContext : IUserMetadataContext
 {
-    public List<ProfilePicture> ProfilePictures { get; set; } = default!;
+    public ImmutableArray<ProfilePicture> ProfilePictures { get; set; } = default!;
 }

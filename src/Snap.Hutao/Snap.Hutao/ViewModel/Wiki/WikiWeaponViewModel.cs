@@ -22,6 +22,7 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -45,8 +46,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
-    private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
-    private List<Promote>? promotes;
+    private ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>? levelWeaponCurveMap;
+    private ImmutableArray<Promote> promotes;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public AdvancedCollectionView<Weapon>? Weapons
@@ -85,12 +86,10 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             {
                 levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
                 promotes = await metadataService.GetWeaponPromoteListAsync().ConfigureAwait(false);
-                Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
+                ImmutableDictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
 
-                List<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
-                IEnumerable<Weapon> sorted = weapons
-                    .OrderByDescending(weapon => weapon.Sort);
-                List<Weapon> list = [.. sorted];
+                ImmutableArray<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
+                List<Weapon> list = weapons.OrderByDescending(weapon => weapon.Sort).ToList();
 
                 await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
@@ -128,7 +127,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         UpdateBaseValueInfo(Weapons?.CurrentItem);
     }
 
-    private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
+    private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, ImmutableDictionary<MaterialId, Material> idMaterialMap)
     {
         if (await hutaoCache.InitializeForWikiWeaponViewAsync().ConfigureAwait(false))
         {

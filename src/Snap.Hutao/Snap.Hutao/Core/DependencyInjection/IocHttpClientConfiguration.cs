@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Request;
 using System.Net.Http;
 
 namespace Snap.Hutao.Core.DependencyInjection;

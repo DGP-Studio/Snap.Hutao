@@ -18,7 +18,7 @@ internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbys
         IndexValue = floor.Index;
         Disorders = floor.Descriptions;
 
-        Levels = context.IdListTowerLevelMap[floor.LevelGroupId].SortBy(l => l.Index).SelectList(l => LevelView.From(l, context));
+        Levels = context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.From(l, context)).ToList();
     }
 
     public bool Engaged { get; private set; }

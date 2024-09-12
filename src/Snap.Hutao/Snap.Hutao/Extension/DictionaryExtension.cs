@@ -64,14 +64,14 @@ internal static class DictionaryExtension
     }
 
     [Pure]
-    public static Dictionary<TKey, TValue> ToDictionaryIgnoringDuplicateKeys<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector)
+    public static Dictionary<TKey, TValue> ToDictionaryIgnoringDuplicateKeys<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         where TKey : notnull
     {
         Dictionary<TKey, TValue> dictionary = [];
 
         foreach (TSource value in source)
         {
-            dictionary[keySelector(value)] = elementSelector(value);
+            dictionary[keySelector(value)] = valueSelector(value);
         }
 
         return dictionary;

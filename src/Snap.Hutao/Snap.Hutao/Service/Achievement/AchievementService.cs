@@ -38,12 +38,14 @@ internal sealed partial class AchievementService : IAchievementService
     public List<AchievementView> GetAchievementViewList(AchievementArchive archive, AchievementServiceMetadataContext context)
     {
         Dictionary<AchievementId, EntityAchievement> entities = achievementRepository.GetAchievementMapByArchiveId(archive.InnerId);
-
-        return context.Achievements.SelectList(meta =>
+        List<AchievementView> results = [];
+        foreach (ref readonly Model.Metadata.Achievement.Achievement meta in context.Achievements.AsSpan())
         {
             EntityAchievement entity = entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id);
-            return new AchievementView(entity, meta);
-        });
+            results.Add(new AchievementView(entity, meta));
+        }
+
+        return results;
     }
 
     public void SaveAchievement(AchievementView achievement)

@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.UI.Xaml.Data;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -19,7 +20,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     private AdvancedCollectionView<Monster>? monsters;
     private BaseValueInfo? baseValueInfo;
-    private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
+    private ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>? levelMonsterCurveMap;
 
     public AdvancedCollectionView<Monster>? Monsters
     {
@@ -50,14 +51,14 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
             {
                 levelMonsterCurveMap = await metadataService.GetLevelToMonsterCurveMapAsync().ConfigureAwait(false);
 
-                List<Monster> monsters = await metadataService.GetMonsterListAsync().ConfigureAwait(false);
-                Dictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync().ConfigureAwait(false);
+                ImmutableArray<Monster> monsters = await metadataService.GetMonsterListAsync().ConfigureAwait(false);
+                ImmutableDictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync().ConfigureAwait(false);
                 foreach (Monster monster in monsters)
                 {
                     monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i, Material.Default));
                 }
 
-                List<Monster> ordered = monsters.SortBy(m => m.RelationshipId.Value);
+                List<Monster> ordered = monsters.OrderBy(m => m.RelationshipId.Value).ToList();
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {

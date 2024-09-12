@@ -3,11 +3,12 @@
 
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
 internal class DailyNoteMetadataContext : IMetadataContext,
-    IMetadataListChapterSource
+    IMetadataArrayChapterSource
 {
-    public List<Chapter> Chapters { get; set; } = default!;
+    public ImmutableArray<Chapter> Chapters { get; set; } = default!;
 }

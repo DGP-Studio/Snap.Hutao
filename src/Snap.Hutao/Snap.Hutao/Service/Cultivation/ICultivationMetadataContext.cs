@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 namespace Snap.Hutao.Service.Cultivation;
 
 internal interface ICultivationMetadataContext : IMetadataContext,
-    IMetadataListMaterialSource,
+    IMetadataArrayMaterialSource,
     IMetadataDictionaryIdMaterialSource,
     IMetadataDictionaryIdAvatarSource,
     IMetadataDictionaryIdWeaponSource

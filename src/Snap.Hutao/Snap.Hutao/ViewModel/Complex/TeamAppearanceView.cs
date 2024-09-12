@@ -4,39 +4,22 @@
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-/// <summary>
-/// 队伍排行
-/// </summary>
-[HighQuality]
 internal sealed class TeamAppearanceView
 {
-    /// <summary>
-    /// 构造一个新的队伍排行
-    /// </summary>
-    /// <param name="teamRank">队伍排行</param>
-    /// <param name="idAvatarMap">映射</param>
-    public TeamAppearanceView(TeamAppearance teamRank, Dictionary<AvatarId, Avatar> idAvatarMap)
+    public TeamAppearanceView(TeamAppearance teamRank, ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
         Floor = SH.FormatModelBindingHutaoComplexRankFloor(teamRank.Floor);
         Up = teamRank.Up.SelectList((teamRate, index) => new Team(teamRate, idAvatarMap, index + 1));
         Down = teamRank.Down.SelectList((teamRate, index) => new Team(teamRate, idAvatarMap, index + 1));
     }
 
-    /// <summary>
-    /// 层数
-    /// </summary>
     public string Floor { get; }
 
-    /// <summary>
-    /// 上半阵容
-    /// </summary>
     public List<Team> Up { get; }
 
-    /// <summary>
-    /// 下半阵容
-    /// </summary>
     public List<Team> Down { get; }
 }
