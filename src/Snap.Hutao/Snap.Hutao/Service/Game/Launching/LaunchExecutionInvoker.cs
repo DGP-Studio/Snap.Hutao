@@ -32,18 +32,18 @@ internal sealed class LaunchExecutionInvoker
 
     public async ValueTask<LaunchExecutionResult> InvokeAsync(LaunchExecutionContext context)
     {
-        await RecursiveInvokeHandlerAsync(context).ConfigureAwait(false);
+        await RecursiveInvokeHandlerAsync(context, 0).ConfigureAwait(false);
         return context.Result;
     }
 
-    private async ValueTask<LaunchExecutionContext> RecursiveInvokeHandlerAsync(LaunchExecutionContext context)
+    private async ValueTask<LaunchExecutionContext> RecursiveInvokeHandlerAsync(LaunchExecutionContext context, int index)
     {
         if (handlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
         {
             string typeName = TypeNameHelper.GetTypeDisplayName(handler, false);
-            context.Logger.LogInformation("Handler [{Handler}] begin execution", typeName);
-            await handler.OnExecutionAsync(context, () => RecursiveInvokeHandlerAsync(context)).ConfigureAwait(false);
-            context.Logger.LogInformation("Handler [{Handler}] end execution", typeName);
+            context.Logger.LogInformation("Handler {Index} [{Handler}] begin execution", index, typeName);
+            await handler.OnExecutionAsync(context, () => RecursiveInvokeHandlerAsync(context, index + 1)).ConfigureAwait(false);
+            context.Logger.LogInformation("Handler {Index} [{Handler}] end execution", index, typeName);
         }
 
         return context;

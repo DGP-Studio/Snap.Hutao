@@ -32,7 +32,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             {
                 if (await unlocker.UnlockAsync(context.CancellationToken).ConfigureAwait(false))
                 {
-                    unlocker.PostUnlockAsync(context.CancellationToken).SafeForget(context.Logger);
+                   await Task.WhenAll(unlocker.PostUnlockAsync(context.CancellationToken).AsTask(), next().AsTask()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -41,8 +41,6 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             }
             catch (Exception ex)
             {
-                context.Logger.LogCritical(ex, "Unlocking FPS failed");
-
                 context.Result.Kind = LaunchExecutionResultKind.GameFpsUnlockingFailed;
                 context.Result.ErrorMessage = ex.Message;
 
@@ -51,7 +49,10 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
                 return;
             }
         }
-
-        await next().ConfigureAwait(false);
+        else
+        {
+            context.Logger.LogInformation("Unlock FPS skipped");
+            await next().ConfigureAwait(false);
+        }
     }
 }
