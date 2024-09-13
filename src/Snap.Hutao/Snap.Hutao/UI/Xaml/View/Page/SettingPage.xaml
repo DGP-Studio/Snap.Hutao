@@ -588,6 +588,30 @@
                         </Border>
                     </Border>
 
+                    <!--  下载  -->
+                    <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding Download}">
+                        <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="下载"/>
+                                <cwc:SettingsCard
+                                    Description="0 代表不限速"
+                                    Header="速度限制"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEBD3;}">
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                        <NumberBox
+                                            VerticalAlignment="Center"
+                                            AcceptsExpression="False"
+                                            Value="{Binding BytesPerSecondLimit, Mode=TwoWay}"/>
+                                        <TextBlock VerticalAlignment="Center" Text="KB/s"/>
+                                    </StackPanel>
+                                </cwc:SettingsCard>
+                            </StackPanel>
+                        </Border>
+                    </Border>
+
                     <!--  危险功能  -->
                     <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding DangerousFeature}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">

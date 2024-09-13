@@ -10,6 +10,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
+    private const string ZeroBytesPerSecondSpeed = "0 bytes/s";
     private const string UnknownRemainingTime = "--:--:--";
 
     private readonly ILogger<GamePackageOperationViewModel> logger;
@@ -28,9 +29,9 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private bool isFinished;
 
     private string title = SH.UIXamlViewSpecializedSophonProgressDefault;
-    private string downloadSpeed = "0 bytes/s";
+    private string downloadSpeed = ZeroBytesPerSecondSpeed;
     private string downloadRemainingTime = UnknownRemainingTime;
-    private string installSpeed = "0 bytes/s";
+    private string installSpeed = ZeroBytesPerSecondSpeed;
     private string installRemainingTime = UnknownRemainingTime;
 
     public GamePackageOperationViewModel(IServiceProvider serviceProvider)
@@ -168,7 +169,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     private async ValueTask PeriodicRefreshUIAsync()
     {
-        using (PeriodicTimer timer = new(new(TimeSpan.TicksPerSecond)))
+        using (PeriodicTimer timer = new(TimeSpan.FromSeconds(1)))
         {
             do
             {
