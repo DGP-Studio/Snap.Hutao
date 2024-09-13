@@ -32,8 +32,8 @@ internal sealed partial class StreamCopySpeedLimiter
         TokenBucketRateLimiterOptions options = new()
         {
             TokenLimit = bytesPerSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            TokensPerPeriod = bytesPerSecond,
+            ReplenishmentPeriod = TimeSpan.FromMilliseconds(100),
+            TokensPerPeriod = bytesPerSecond / 10,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true,
         };

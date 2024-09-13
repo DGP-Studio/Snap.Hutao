@@ -7,6 +7,7 @@ using Snap.Hutao.Service.Game.Package.Advanced;
 
 namespace Snap.Hutao.ViewModel.Game;
 
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
@@ -33,15 +34,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private string downloadRemainingTime = UnknownRemainingTime;
     private string installSpeed = ZeroBytesPerSecondSpeed;
     private string installRemainingTime = UnknownRemainingTime;
-
-    public GamePackageOperationViewModel(IServiceProvider serviceProvider)
-    {
-        logger = serviceProvider.GetRequiredService<ILogger<GamePackageOperationViewModel>>();
-        gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-
-        PeriodicRefreshUIAsync().SafeForget(logger);
-    }
 
     public string Title { get => title; private set => SetProperty(ref title, value); }
 
@@ -97,6 +89,12 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         InstallRemainingTime = "19:19:810";
         InstallTotalChunks = 191981;
         RefreshUI();
+    }
+
+    protected override ValueTask<bool> InitializeOverrideAsync()
+    {
+        PeriodicRefreshUIAsync().SafeForget(logger);
+        return ValueTask.FromResult(true);
     }
 
     private void UpdateProgress(GamePackageOperationReport.Update update)
@@ -174,7 +172,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             do
             {
                 taskContext.InvokeOnMainThread(RefreshCore);
-                await timer.WaitForNextTickAsync().ConfigureAwait(false);
+                await timer.WaitForNextTickAsync().ConfigureAwait(true);
             }
             while (!IsFinished);
         }

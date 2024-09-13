@@ -5,6 +5,7 @@ using CommunityToolkit.Common;
 using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
 using System.Net.Http;
+using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -15,15 +16,17 @@ internal readonly struct GamePackageServiceContext
     public readonly ParallelOptions ParallelOptions;
     public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
     public readonly HttpClient HttpClient;
+    public readonly TokenBucketRateLimiter RateLimiter;
 
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient)
+    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, TokenBucketRateLimiter rateLimiter)
     {
         Operation = operation;
         Progress = progress;
         ParallelOptions = parallelOptions;
         HttpClient = httpClient;
+        RateLimiter = rateLimiter;
     }
 
     public CancellationToken CancellationToken { get => ParallelOptions.CancellationToken; }

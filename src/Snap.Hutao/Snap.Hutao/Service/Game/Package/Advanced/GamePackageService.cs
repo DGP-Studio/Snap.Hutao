@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
@@ -28,6 +29,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 {
     public const string HttpClientName = "SophonChunkRateLimited";
 
+    private readonly StreamCopySpeedLimiter streamCopySpeedLimiter;
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly ILogger<GamePackageService> logger;
@@ -60,7 +62,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
         {
-            GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient);
+            GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, streamCopySpeedLimiter.RateLimiter);
 
             Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
             {
