@@ -2007,7 +2007,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
-    <value>仅委托成就</value>
+    <value>実績のみ委任する</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>クリップボードからインポート</value>
