@@ -592,10 +592,10 @@
                     <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding Download}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="下载"/>
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingDownloadHeader}"/>
                                 <cwc:SettingsCard
-                                    Description="0 代表不限速"
-                                    Header="速度限制"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingSpeedLimitDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingSpeedLimitHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEBD3;}">
                                     <StackPanel
                                         VerticalAlignment="Center"

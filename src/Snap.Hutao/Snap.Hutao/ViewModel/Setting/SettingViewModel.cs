@@ -40,9 +40,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public SettingGameViewModel Game { get => gameViewModel; }
 
-    public SettingDownloadViewModel Download { get => downloadViewModel; }
-
     public SettingGachaLogViewModel GachaLog { get => gachaLogViewModel; }
+
+    public SettingDownloadViewModel Download { get => downloadViewModel; }
 
     public SettingDangerousFeatureViewModel DangerousFeature { get => dangerousFeatureViewModel; }
 
