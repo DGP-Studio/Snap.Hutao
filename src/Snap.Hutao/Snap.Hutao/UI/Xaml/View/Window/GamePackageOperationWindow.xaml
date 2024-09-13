@@ -12,7 +12,7 @@
     mc:Ignorable="d">
     <Grid x:Name="RootGrid" d:DataContext="{d:DesignInstance shvg:GamePackageOperationViewModel}">
         <mxi:Interaction.Behaviors>
-            <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+            <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding PeriodicRefreshUICommand}"/>
         </mxi:Interaction.Behaviors>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

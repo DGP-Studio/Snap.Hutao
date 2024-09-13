@@ -91,12 +91,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         RefreshUI();
     }
 
-    protected override ValueTask<bool> InitializeOverrideAsync()
-    {
-        PeriodicRefreshUIAsync().SafeForget(logger);
-        return ValueTask.FromResult(true);
-    }
-
     private void UpdateProgress(GamePackageOperationReport.Update update)
     {
         _ = update switch
@@ -165,7 +159,8 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         OnPropertyChanged(nameof(InstallFileName));
     }
 
-    private async ValueTask PeriodicRefreshUIAsync()
+    [Command("PeriodicRefreshUICommand")]
+    private async Task PeriodicRefreshUIAsync()
     {
         using (PeriodicTimer timer = new(TimeSpan.FromSeconds(1)))
         {
