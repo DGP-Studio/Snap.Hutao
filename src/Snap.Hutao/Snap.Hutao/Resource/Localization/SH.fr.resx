@@ -2006,6 +2006,9 @@
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>Exporter</value>
   </data>
+  <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
+    <value>仅委托成就</value>
+  </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>从剪贴板导入</value>
   </data>
