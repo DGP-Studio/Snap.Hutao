@@ -66,8 +66,6 @@
 
     <Grid Name="VisibilityRoot" Visibility="Collapsed">
 
-        <Border Background="{ThemeResource SmokeFillColorDefaultBrush}"/>
-
         <Border
             x:Name="ShowButtonBorder"
             Margin="16"
