@@ -328,6 +328,11 @@
                             Icon="{shuxm:FontIcon Glyph=&#xE8CB;}"
                             IsChecked="{Binding IsUncompletedItemsFirst, Mode=TwoWay}"
                             Label="{shuxm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
+                        <AppBarToggleButton
+                            Command="{Binding FilterDailyQuestSwitchCommand}"
+                            Icon="{shuxm:FontIcon Glyph=&#xE8ED;}"
+                            IsChecked="{Binding OnlyShowDailyQuestItems, Mode=TwoWay}"
+                            Label="{shuxm:ResourceString Name=ViewPageAchievementFilterDailyQuestItems}"/>
                     </CommandBar>
                 </Grid>
             </Border>

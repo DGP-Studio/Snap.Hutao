@@ -31,7 +31,7 @@ internal enum QuestType : uint
     DQ,
 
     /// <summary>
-    /// Indescribable Quest 不可描述的任务?
+    /// Interval Quest 间隔任务?
     /// </summary>
     IQ,
 

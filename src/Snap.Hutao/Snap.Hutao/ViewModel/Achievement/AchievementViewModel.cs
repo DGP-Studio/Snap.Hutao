@@ -40,6 +40,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private IAdvancedDbCollectionView<EntityArchive>? archives;
 
     private bool isUncompletedItemsFirst = true;
+    private bool onlyShowDailyQuestItems;
     private string searchText = string.Empty;
     private string? finishDescription;
 
@@ -97,6 +98,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         get => isUncompletedItemsFirst;
         set => SetProperty(ref isUncompletedItemsFirst, value);
+    }
+
+    public bool OnlyShowDailyQuestItems
+    {
+        get => onlyShowDailyQuestItems;
+        set => SetProperty(ref onlyShowDailyQuestItems, value);
     }
 
     public string? FinishDescription
@@ -374,28 +381,31 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("SearchAchievementCommand")]
     private void UpdateAchievementsFilterBySearch(string? search)
     {
-        if (Achievements is null)
+        if (Achievements is null || AchievementGoals is null)
         {
             return;
         }
 
-        AchievementGoals?.MoveCurrentTo(default);
+        AchievementGoals.MoveCurrentTo(default);
 
         if (string.IsNullOrEmpty(search))
         {
             Achievements.Filter = default!;
+            AchievementGoals.Filter = default!;
             return;
         }
 
         if (uint.TryParse(search, out uint achievementId))
         {
             Achievements.Filter = view => view.Inner.Id == achievementId;
+            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
             return;
         }
 
         if (VersionRegex().IsMatch(search))
         {
             Achievements.Filter = view => view.Inner.Version == search;
+            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
             return;
         }
 
@@ -404,6 +414,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
                 || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
         };
+        AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
     }
 
     [Command("SaveAchievementCommand")]
@@ -416,5 +427,25 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         scopeContext.AchievementService.SaveAchievement(achievement);
         AchievementFinishPercent.Update(this);
+    }
+
+    [Command("FilterDailyQuestSwitchCommand")]
+    private void UpdateAchievementsFilterByDailyQuest()
+    {
+        if (Achievements is null || AchievementGoals is null)
+        {
+            return;
+        }
+
+        if (OnlyShowDailyQuestItems)
+        {
+            Achievements.Filter = (AchievementView view) => view.Inner.IsDailyQuest;
+            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+        }
+        else
+        {
+            Achievements.Filter = default!;
+            AchievementGoals.Filter = default!;
+        }
     }
 }
