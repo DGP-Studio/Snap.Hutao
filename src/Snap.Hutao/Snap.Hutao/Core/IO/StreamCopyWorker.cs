@@ -98,13 +98,13 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
                 }
 
                 bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(false);
+                rateLimiter.Replenish(bytesToRead - bytesRead);
                 if (bytesRead is 0)
                 {
                     progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
                     break;
                 }
 
-                rateLimiter.Replenish(bytesToRead - bytesRead);
                 await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
 
                 bytesReadSinceCopyStart += bytesRead;
