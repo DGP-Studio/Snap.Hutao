@@ -331,7 +331,7 @@
                         <AppBarToggleButton
                             Command="{Binding FilterDailyQuestSwitchCommand}"
                             Icon="{shuxm:FontIcon Glyph=&#xE8ED;}"
-                            IsChecked="{Binding OnlyShowDailyQuestItems, Mode=TwoWay}"
+                            IsChecked="{Binding FilterDailyQuestItems, Mode=TwoWay}"
                             Label="{shuxm:ResourceString Name=ViewPageAchievementFilterDailyQuestItems}"/>
                     </CommandBar>
                 </Grid>

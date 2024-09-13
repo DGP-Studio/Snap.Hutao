@@ -40,7 +40,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private IAdvancedDbCollectionView<EntityArchive>? archives;
 
     private bool isUncompletedItemsFirst = true;
-    private bool onlyShowDailyQuestItems;
+    private bool filterDailyQuestItems;
     private string searchText = string.Empty;
     private string? finishDescription;
 
@@ -100,10 +100,10 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         set => SetProperty(ref isUncompletedItemsFirst, value);
     }
 
-    public bool OnlyShowDailyQuestItems
+    public bool FilterDailyQuestItems
     {
-        get => onlyShowDailyQuestItems;
-        set => SetProperty(ref onlyShowDailyQuestItems, value);
+        get => filterDailyQuestItems;
+        set => SetProperty(ref filterDailyQuestItems, value);
     }
 
     public string? FinishDescription
@@ -437,7 +437,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        if (OnlyShowDailyQuestItems)
+        if (FilterDailyQuestItems)
         {
             Achievements.Filter = (AchievementView view) => view.Inner.IsDailyQuest;
             AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
