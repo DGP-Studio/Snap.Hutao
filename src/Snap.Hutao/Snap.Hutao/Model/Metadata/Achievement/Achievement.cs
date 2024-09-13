@@ -55,4 +55,9 @@ internal sealed class Achievement
     /// 版本
     /// </summary>
     public string Version { get; set; } = default!;
+
+    /// <summary>
+    /// 是否为委托成就
+    /// </summary>
+    public bool IsDailyQuest { get; set; }
 }
