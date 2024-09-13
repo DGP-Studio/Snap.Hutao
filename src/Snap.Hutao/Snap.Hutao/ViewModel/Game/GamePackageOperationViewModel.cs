@@ -2,23 +2,20 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
-using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Package.Advanced;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
     private const string UnknownRemainingTime = "--:--:--";
 
-    private readonly object syncRoot = new();
-
+    private readonly ILogger<GamePackageOperationViewModel> logger;
     private readonly IGamePackageService gamePackageService;
+    private readonly ITaskContext taskContext;
 
-    private ValueStopwatch stopwatch;
     private long bytesDownloadedSinceLastUpdate;
     private long totalBytesDownloaded;
     private long bytesInstalledSinceLastUpdate;
@@ -31,10 +28,19 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private bool isFinished;
 
     private string title = SH.UIXamlViewSpecializedSophonProgressDefault;
-    private string downloadSpeed = "0 B/s";
+    private string downloadSpeed = "0 bytes/s";
     private string downloadRemainingTime = UnknownRemainingTime;
-    private string installSpeed = "0 B/s";
+    private string installSpeed = "0 bytes/s";
     private string installRemainingTime = UnknownRemainingTime;
+
+    public GamePackageOperationViewModel(IServiceProvider serviceProvider)
+    {
+        logger = serviceProvider.GetRequiredService<ILogger<GamePackageOperationViewModel>>();
+        gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
+        PeriodicRefreshUIAsync().SafeForget(logger);
+    }
 
     public string Title { get => title; private set => SetProperty(ref title, value); }
 
@@ -100,44 +106,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             GamePackageOperationReport.Install install => UpdateInstallProgress(install),
             _ => throw HutaoException.NotSupported(),
         };
-
-        if (stopwatch.GetElapsedTime().TotalMilliseconds < 1000)
-        {
-            return;
-        }
-
-        lock (syncRoot)
-        {
-            TimeSpan elapsedTime = stopwatch.GetElapsedTime();
-            if (elapsedTime.TotalMilliseconds < 1000)
-            {
-                return;
-            }
-
-            {
-                long bytesDownloadedPerSecond = (long)(bytesDownloadedSinceLastUpdate / elapsedTime.TotalSeconds);
-                DownloadSpeed = $"{Converters.ToFileSizeString(bytesDownloadedPerSecond),8}/s";
-                DownloadRemainingTime = bytesDownloadedPerSecond is 0
-                    ? UnknownRemainingTime
-                    : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesDownloaded) / bytesDownloadedPerSecond):hh\\:mm\\:ss}";
-
-                bytesDownloadedSinceLastUpdate = 0;
-            }
-
-            {
-                long bytesInstalledPerSecond = (long)(bytesInstalledSinceLastUpdate / elapsedTime.TotalSeconds);
-                InstallSpeed = $"{Converters.ToFileSizeString(bytesInstalledPerSecond),8}/s";
-                InstallRemainingTime = bytesInstalledPerSecond is 0
-                    ? UnknownRemainingTime
-                    : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesInstalled) / bytesInstalledPerSecond):hh\\:mm\\:ss}";
-
-                bytesInstalledSinceLastUpdate = 0;
-            }
-
-            RefreshUI();
-
-            stopwatch = ValueStopwatch.StartNew();
-        }
     }
 
     private Core.Void UpdateDownloadProgress(GamePackageOperationReport.Download download)
@@ -160,8 +128,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     private void ResetProgress(GamePackageOperationReport.Reset reset)
     {
-        stopwatch = ValueStopwatch.StartNew();
-
         downloadedChunks = 0;
         installedChunks = 0;
         totalBytesDownloaded = 0;
@@ -198,6 +164,41 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         OnPropertyChanged(nameof(InstalledChunks));
         OnPropertyChanged(nameof(DownloadFileName));
         OnPropertyChanged(nameof(InstallFileName));
+    }
+
+    private async ValueTask PeriodicRefreshUIAsync()
+    {
+        using (PeriodicTimer timer = new(new(TimeSpan.TicksPerSecond)))
+        {
+            do
+            {
+                taskContext.InvokeOnMainThread(RefreshCore);
+                await timer.WaitForNextTickAsync().ConfigureAwait(false);
+            }
+            while (!IsFinished);
+        }
+
+        void RefreshCore()
+        {
+            long bytesDownloadedPerSecond = bytesDownloadedSinceLastUpdate;
+            long bytesInstalledPerSecond = bytesInstalledSinceLastUpdate;
+
+            DownloadSpeed = $"{Converters.ToFileSizeString(bytesDownloadedPerSecond),8}/s";
+            DownloadRemainingTime = bytesDownloadedPerSecond is 0
+                ? UnknownRemainingTime
+                : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesDownloaded) / bytesDownloadedPerSecond):hh\\:mm\\:ss}";
+
+            bytesDownloadedSinceLastUpdate = 0;
+
+            InstallSpeed = $"{Converters.ToFileSizeString(bytesInstalledPerSecond),8}/s";
+            InstallRemainingTime = bytesInstalledPerSecond is 0
+                ? UnknownRemainingTime
+                : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesInstalled) / bytesInstalledPerSecond):hh\\:mm\\:ss}";
+
+            bytesInstalledSinceLastUpdate = 0;
+
+            RefreshUI();
+        }
     }
 
     [Command("CancelCommand")]
