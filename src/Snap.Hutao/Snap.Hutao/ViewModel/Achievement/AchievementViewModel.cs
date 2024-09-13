@@ -112,6 +112,39 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         set => SetProperty(ref finishDescription, value);
     }
 
+    private Predicate<AchievementView>? AchievementsBaseFilter
+    {
+        get
+        {
+            if (Achievements is null)
+            {
+                return null;
+            }
+
+            return FilterDailyQuestItems
+                ? view => view.Inner.IsDailyQuest
+                : null;
+        }
+    }
+
+    private Predicate<AchievementGoalView>? AchievementGoalsBaseFilter
+    {
+        get
+        {
+            if (Achievements is null || AchievementGoals is null)
+            {
+                return null;
+            }
+
+            if (Achievements.Filter is null)
+            {
+                return null;
+            }
+
+            return goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+        }
+    }
+
     /// <inheritdoc/>
     public async ValueTask<bool> ReceiveAsync(INavigationData data)
     {
@@ -369,12 +402,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         if (goal is null)
         {
-            Achievements.Filter = default!;
+            Achievements.Filter = AchievementsBaseFilter;
         }
         else
         {
             Model.Primitive.AchievementGoalId goalId = goal.Id;
-            Achievements.Filter = (AchievementView view) => view.Inner.Goal == goalId;
+            Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true) && view.Inner.Goal == goalId;
         }
     }
 
@@ -390,31 +423,29 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         if (string.IsNullOrEmpty(search))
         {
-            Achievements.Filter = default!;
-            AchievementGoals.Filter = default!;
+            Achievements.Filter = AchievementsBaseFilter;
+            AchievementGoals.Filter = AchievementGoalsBaseFilter;
             return;
         }
 
         if (uint.TryParse(search, out uint achievementId))
         {
-            Achievements.Filter = view => view.Inner.Id == achievementId;
-            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+            Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true) && view.Inner.Id == achievementId;
+            AchievementGoals.Filter = AchievementGoalsBaseFilter;
             return;
         }
 
         if (VersionRegex().IsMatch(search))
         {
-            Achievements.Filter = view => view.Inner.Version == search;
-            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+            Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true) && view.Inner.Version == search;
+            AchievementGoals.Filter = AchievementGoalsBaseFilter;
             return;
         }
 
-        Achievements.Filter = view =>
-        {
-            return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
-                || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
-        };
-        AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+        Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true)
+            && (view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+            || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase));
+        AchievementGoals.Filter = AchievementGoalsBaseFilter;
     }
 
     [Command("SaveAchievementCommand")]
@@ -437,15 +468,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        if (FilterDailyQuestItems)
-        {
-            Achievements.Filter = (AchievementView view) => view.Inner.IsDailyQuest;
-            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
-        }
-        else
-        {
-            Achievements.Filter = default!;
-            AchievementGoals.Filter = default!;
-        }
+        Achievements.Filter = AchievementsBaseFilter;
+        AchievementGoals.Filter = AchievementGoalsBaseFilter;
     }
 }
