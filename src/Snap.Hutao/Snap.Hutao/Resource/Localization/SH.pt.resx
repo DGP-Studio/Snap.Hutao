@@ -2792,6 +2792,9 @@
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>IP do dispositivo</value>
   </data>
+  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
+    <value>下载</value>
+  </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>O modo administrador alterará a disponibilidade e o comportamento de alguns recursos</value>
   </data>
@@ -2977,6 +2980,12 @@
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Experiência Shell</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
+    <value>0 代表不限速</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
+    <value>下载速度限制</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Apoiar o Snap Hutao</value>
