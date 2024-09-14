@@ -367,15 +367,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        if (goal is null)
-        {
-            Achievements.Filter = default!;
-        }
-        else
-        {
-            Model.Primitive.AchievementGoalId goalId = goal.Id;
-            Achievements.Filter = (AchievementView view) => view.Inner.Goal == goalId;
-        }
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
     }
 
     [Command("SearchAchievementCommand")]
@@ -390,31 +382,27 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         if (string.IsNullOrEmpty(search))
         {
-            Achievements.Filter = default!;
-            AchievementGoals.Filter = default!;
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (uint.TryParse(search, out uint achievementId))
         {
-            Achievements.Filter = view => view.Inner.Id == achievementId;
-            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, achievementId);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (VersionRegex().IsMatch(search))
         {
-            Achievements.Filter = view => view.Inner.Version == search;
-            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+            Achievements.Filter = AchievementFilter.CompileForVersion(FilterDailyQuestItems, search);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
-        Achievements.Filter = view =>
-        {
-            return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
-                || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
-        };
-        AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
+        Achievements.Filter = AchievementFilter.CompileForTitleOrDescription(FilterDailyQuestItems, search);
+        AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
     }
 
     [Command("SaveAchievementCommand")]
@@ -437,15 +425,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        if (FilterDailyQuestItems)
-        {
-            Achievements.Filter = (AchievementView view) => view.Inner.IsDailyQuest;
-            AchievementGoals.Filter = goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
-        }
-        else
-        {
-            Achievements.Filter = default!;
-            AchievementGoals.Filter = default!;
-        }
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
+        AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
     }
 }
