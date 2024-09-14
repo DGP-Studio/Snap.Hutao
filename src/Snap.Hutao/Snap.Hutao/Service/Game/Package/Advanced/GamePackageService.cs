@@ -1,10 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Scheme;
@@ -18,6 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -49,7 +52,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         ParallelOptions options = new()
         {
             CancellationToken = operationCts.Token,
-            MaxDegreeOfParallelism = Environment.ProcessorCount - 2,
+            MaxDegreeOfParallelism = Environment.ProcessorCount,
         };
 
         await taskContext.SwitchToMainThreadAsync();
@@ -60,35 +63,38 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
         {
-            GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient);
+            using (NotifyPropertyChangedBox<AppOptions, TokenBucketRateLimiter?> limiterBox = StreamCopyRateLimiter.GetOrCreate(serviceProvider))
+            {
+                GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiterBox);
 
-            Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
-            {
-                GamePackageOperationKind.Install => InstallAsync,
-                GamePackageOperationKind.Verify => VerifyAndRepairAsync,
-                GamePackageOperationKind.Update => UpdateAsync,
-                GamePackageOperationKind.Predownload => PredownloadAsync,
-                _ => context => ValueTask.FromException(HutaoException.NotSupported()),
-            };
+                Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
+                {
+                    GamePackageOperationKind.Install => InstallAsync,
+                    GamePackageOperationKind.Verify => VerifyAndRepairAsync,
+                    GamePackageOperationKind.Update => UpdateAsync,
+                    GamePackageOperationKind.Predownload => PredownloadAsync,
+                    _ => context => ValueTask.FromException(HutaoException.NotSupported()),
+                };
 
-            try
-            {
-                await operation(serviceContext).ConfigureAwait(false);
-                return true;
-            }
-            catch (OperationCanceledException)
-            {
-                return false;
-            }
-            catch (Exception ex)
-            {
-                logger.LogCritical(ex, "Unexpected exception while exeuting game package operation");
-                return false;
-            }
-            finally
-            {
-                logger.LogDebug("Operation completed");
-                operationTcs.TrySetResult();
+                try
+                {
+                    await operation(serviceContext).ConfigureAwait(false);
+                    return true;
+                }
+                catch (OperationCanceledException)
+                {
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    logger.LogCritical(ex, "Unexpected exception while exeuting game package operation");
+                    return false;
+                }
+                finally
+                {
+                    logger.LogDebug("Operation completed");
+                    operationTcs.TrySetResult();
+                }
             }
         }
     }
@@ -294,6 +300,8 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
+
+        context.Operation.GameFileSystem.UpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
 
         if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
         {

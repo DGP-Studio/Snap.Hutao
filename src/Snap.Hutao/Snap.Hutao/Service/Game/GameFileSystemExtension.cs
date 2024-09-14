@@ -56,6 +56,14 @@ internal static class GameFileSystemExtension
         File.WriteAllText(gameFileSystem.GameConfigFilePath, content);
     }
 
+    public static void UpdateConfigurationFile(this GameFileSystem gameFileSystem, string version)
+    {
+        List<IniElement> ini = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath);
+        IniParameter gameVersion = (IniParameter)ini.Single(e => e is IniParameter { Key: "game_version" });
+        gameVersion.Set(version);
+        IniSerializer.SerializeToFile(gameFileSystem.GameConfigFilePath, ini);
+    }
+
     public static bool TryFixConfigurationFile(this GameFileSystem gameFileSystem, LaunchScheme launchScheme)
     {
         if (!File.Exists(gameFileSystem.ScriptVersionFilePath))

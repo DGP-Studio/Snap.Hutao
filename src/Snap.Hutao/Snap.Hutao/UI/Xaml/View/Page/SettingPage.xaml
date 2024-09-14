@@ -541,6 +541,22 @@
                                     Header="{shuxm:ResourceString Name=ViewPageSettingDeleteCacheHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE74D;}"
                                     IsClickEnabled="True"/>
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingSpeedLimitDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingSpeedLimitHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEBD3;}">
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                        <NumberBox
+                                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                            VerticalAlignment="Center"
+                                            AcceptsExpression="False"
+                                            Value="{Binding KiloBytesPerSecondLimit, Mode=TwoWay}"/>
+                                        <TextBlock VerticalAlignment="Center" Text="KB/s (1MB = 1024KB)"/>
+                                    </StackPanel>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </Border>
                     </Border>

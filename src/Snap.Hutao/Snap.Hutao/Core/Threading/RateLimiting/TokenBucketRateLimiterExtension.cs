@@ -14,6 +14,7 @@ internal static class TokenBucketRateLimiterExtension
         lock (PrivateGetLock(rateLimiter))
         {
             acquired = (int)Math.Min(permits, PrivateGetTokenCount(rateLimiter));
+
             RateLimitLease lease = rateLimiter.AttemptAcquire(acquired);
             lease.TryGetMetadata(MetadataName.RetryAfter, out retryAfter);
             return lease.IsAcquired;

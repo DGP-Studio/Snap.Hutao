@@ -222,7 +222,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 {
                     using (StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0, sophonChunk.AssetChunk.ChunkName)))
                     {
-                        await worker.CopyAsync(context.Progress, token).ConfigureAwait(false);
+                        await worker.CopyAsync(context.StreamCopyRateLimiter, context.Progress, token).ConfigureAwait(false);
 
                         fileStream.Position = 0;
                         string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);

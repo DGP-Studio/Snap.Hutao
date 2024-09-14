@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
-using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using System.Collections.Frozen;
+using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -12,17 +13,27 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
-    private const string UnknownRemainingTime = "--:--:--";
+    private const string ZeroBytesPerSecondSpeed = "0 bytes/s";
+    private const string UnknownRemainingTime = "99:59:59";
 
-    private readonly object syncRoot = new();
+    private static readonly TimeSpan ProgressTimeout = TimeSpan.FromSeconds(5);
 
+    private readonly FrozenDictionary<GamePackageOperationReportKind, object> syncRoots = new Dictionary<GamePackageOperationReportKind, object>()
+    {
+        [GamePackageOperationReportKind.Download] = new(),
+        [GamePackageOperationReportKind.Install] = new(),
+    }.ToFrozenDictionary();
+
+    private readonly ILogger<GamePackageOperationViewModel> logger;
     private readonly IGamePackageService gamePackageService;
+    private readonly ITaskContext taskContext;
 
-    private ValueStopwatch stopwatch;
     private long bytesDownloadedSinceLastUpdate;
     private long totalBytesDownloaded;
+    private long bytesDownloadedLastRefreshTime;
     private long bytesInstalledSinceLastUpdate;
     private long totalBytesInstalled;
+    private long bytesInstalledLastRefreshTime;
     private long contentLength;
     private int downloadedChunks;
     private int installedChunks;
@@ -31,9 +42,9 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private bool isFinished;
 
     private string title = SH.UIXamlViewSpecializedSophonProgressDefault;
-    private string downloadSpeed = "0 B/s";
+    private string downloadSpeed = ZeroBytesPerSecondSpeed;
     private string downloadRemainingTime = UnknownRemainingTime;
-    private string installSpeed = "0 B/s";
+    private string installSpeed = ZeroBytesPerSecondSpeed;
     private string installRemainingTime = UnknownRemainingTime;
 
     public string Title { get => title; private set => SetProperty(ref title, value); }
@@ -94,80 +105,87 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     private void UpdateProgress(GamePackageOperationReport.Update update)
     {
-        _ = update switch
+        long current = Stopwatch.GetTimestamp();
+        lock (syncRoots[update.Kind])
         {
-            GamePackageOperationReport.Download download => UpdateDownloadProgress(download),
-            GamePackageOperationReport.Install install => UpdateInstallProgress(install),
-            _ => throw HutaoException.NotSupported(),
-        };
-
-        if (stopwatch.GetElapsedTime().TotalMilliseconds < 1000)
-        {
-            return;
-        }
-
-        lock (syncRoot)
-        {
-            TimeSpan elapsedTime = stopwatch.GetElapsedTime();
-            if (elapsedTime.TotalMilliseconds < 1000)
+            switch (update)
             {
-                return;
-            }
+                case GamePackageOperationReport.Download download:
+                    {
+                        UpdateDownloadProgress(download);
+                        TimeSpan elapsedTime = Stopwatch.GetElapsedTime(bytesDownloadedLastRefreshTime);
+                        if (elapsedTime.TotalMilliseconds < 1000)
+                        {
+                            return;
+                        }
 
-            {
-                long bytesDownloadedPerSecond = (long)(bytesDownloadedSinceLastUpdate / elapsedTime.TotalSeconds);
-                DownloadSpeed = $"{Converters.ToFileSizeString(bytesDownloadedPerSecond),8}/s";
-                DownloadRemainingTime = bytesDownloadedPerSecond is 0
-                    ? UnknownRemainingTime
-                    : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesDownloaded) / bytesDownloadedPerSecond):hh\\:mm\\:ss}";
+                        bytesDownloadedLastRefreshTime = current;
+                        long bytesDownloadedPerSecond = (long)(bytesDownloadedSinceLastUpdate / elapsedTime.TotalSeconds);
+                        DownloadSpeed = $"{Converters.ToFileSizeString(bytesDownloadedPerSecond),8}/s";
+                        logger.LogInformation("Download Info: [{Bytes}KB|{Duration}|{Speed}]", bytesDownloadedSinceLastUpdate / 1024D, elapsedTime, DownloadSpeed);
+                        DownloadRemainingTime = bytesDownloadedPerSecond is 0
+                            ? UnknownRemainingTime
+                            : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesDownloaded) / bytesDownloadedPerSecond):hh\\:mm\\:ss}";
 
-                bytesDownloadedSinceLastUpdate = 0;
-            }
+                        bytesDownloadedSinceLastUpdate = 0;
+                    }
 
-            {
-                long bytesInstalledPerSecond = (long)(bytesInstalledSinceLastUpdate / elapsedTime.TotalSeconds);
-                InstallSpeed = $"{Converters.ToFileSizeString(bytesInstalledPerSecond),8}/s";
-                InstallRemainingTime = bytesInstalledPerSecond is 0
-                    ? UnknownRemainingTime
-                    : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesInstalled) / bytesInstalledPerSecond):hh\\:mm\\:ss}";
+                    break;
+                case GamePackageOperationReport.Install install:
+                    {
+                        UpdateInstallProgress(install);
+                        TimeSpan elapsedTime = Stopwatch.GetElapsedTime(bytesInstalledLastRefreshTime);
+                        if (elapsedTime.TotalMilliseconds < 1000)
+                        {
+                            return;
+                        }
 
-                bytesInstalledSinceLastUpdate = 0;
+                        bytesInstalledLastRefreshTime = current;
+                        long bytesInstalledPerSecond = (long)(bytesInstalledSinceLastUpdate / elapsedTime.TotalSeconds);
+                        InstallSpeed = $"{Converters.ToFileSizeString(bytesInstalledPerSecond),8}/s";
+                        InstallRemainingTime = bytesInstalledPerSecond is 0
+                            ? UnknownRemainingTime
+                            : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesInstalled) / bytesInstalledPerSecond):hh\\:mm\\:ss}";
+
+                        bytesInstalledSinceLastUpdate = 0;
+                    }
+
+                    break;
+                default:
+                    HutaoException.NotSupported();
+                    break;
             }
 
             RefreshUI();
-
-            stopwatch = ValueStopwatch.StartNew();
         }
     }
 
-    private Core.Void UpdateDownloadProgress(GamePackageOperationReport.Download download)
+    private void UpdateDownloadProgress(GamePackageOperationReport.Download download)
     {
-        Interlocked.Add(ref totalBytesDownloaded, download.BytesRead);
-        Interlocked.Add(ref bytesDownloadedSinceLastUpdate, download.BytesRead);
-        Interlocked.Add(ref downloadedChunks, download.Chunks);
+        totalBytesDownloaded += download.BytesRead;
+        bytesDownloadedSinceLastUpdate += download.BytesRead;
+        downloadedChunks += download.Chunks;
         DownloadFileName = download.FileName;
-        return default;
     }
 
-    private Core.Void UpdateInstallProgress(GamePackageOperationReport.Install install)
+    private void UpdateInstallProgress(GamePackageOperationReport.Install install)
     {
-        Interlocked.Add(ref totalBytesInstalled, install.BytesRead);
-        Interlocked.Add(ref bytesInstalledSinceLastUpdate, install.BytesRead);
-        Interlocked.Add(ref installedChunks, install.Chunks);
+        totalBytesInstalled += install.BytesRead;
+        bytesInstalledSinceLastUpdate += install.BytesRead;
+        installedChunks += install.Chunks;
         InstallFileName = install.FileName;
-        return default;
     }
 
     private void ResetProgress(GamePackageOperationReport.Reset reset)
     {
-        stopwatch = ValueStopwatch.StartNew();
-
         downloadedChunks = 0;
         installedChunks = 0;
         totalBytesDownloaded = 0;
         bytesDownloadedSinceLastUpdate = 0;
+        bytesDownloadedLastRefreshTime = Stopwatch.GetTimestamp();
         totalBytesInstalled = 0;
         bytesInstalledSinceLastUpdate = 0;
+        bytesInstalledLastRefreshTime = Stopwatch.GetTimestamp();
         contentLength = reset.ContentLength;
         DownloadTotalChunks = reset.DownloadTotalChunks;
         DownloadFileName = default!;
@@ -200,8 +218,46 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         OnPropertyChanged(nameof(InstallFileName));
     }
 
+    [Command("PeriodicRefreshUICommand")]
+    private async Task PeriodicRefreshUIAsync()
+    {
+        using (PeriodicTimer timer = new(TimeSpan.FromSeconds(5)))
+        {
+            do
+            {
+                RefreshCore();
+                await timer.WaitForNextTickAsync(CancellationToken).ConfigureAwait(false);
+            }
+            while (!IsFinished && !CancellationToken.IsCancellationRequested);
+        }
+
+        void RefreshCore()
+        {
+            TimeSpan elapsedTimeSinceLastDownloadReport = Stopwatch.GetElapsedTime(bytesDownloadedLastRefreshTime);
+            TimeSpan elapsedTimeSinceLastInstallReport = Stopwatch.GetElapsedTime(bytesInstalledLastRefreshTime);
+
+            if (elapsedTimeSinceLastDownloadReport > ProgressTimeout)
+            {
+                taskContext.InvokeOnMainThread(() =>
+                {
+                    DownloadSpeed = ZeroBytesPerSecondSpeed;
+                    DownloadRemainingTime = UnknownRemainingTime;
+                });
+            }
+
+            if (elapsedTimeSinceLastInstallReport > ProgressTimeout)
+            {
+                taskContext.InvokeOnMainThread(() =>
+                {
+                    InstallSpeed = ZeroBytesPerSecondSpeed;
+                    InstallRemainingTime = UnknownRemainingTime;
+                });
+            }
+        }
+    }
+
     [Command("CancelCommand")]
-    private async Task Cancel()
+    private async Task CancelAsync()
     {
         Title = SH.ViewModelGamePakcageOperationCancelling;
         await gamePackageService.CancelOperationAsync().ConfigureAwait(true);
