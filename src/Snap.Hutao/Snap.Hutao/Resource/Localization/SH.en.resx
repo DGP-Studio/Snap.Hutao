@@ -2792,6 +2792,9 @@
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>Device IP</value>
   </data>
+  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
+    <value>Download</value>
+  </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>Administrator mode will change some features' availability and behaviors</value>
   </data>
@@ -2977,6 +2980,12 @@
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell Experience</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
+    <value>0 for unlimited speed</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
+    <value>Download speed limit</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Sponsor Snap Hutao</value>
