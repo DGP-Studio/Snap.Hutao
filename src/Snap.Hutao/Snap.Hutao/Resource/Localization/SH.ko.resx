@@ -2792,6 +2792,9 @@
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>设备 IP</value>
   </data>
+  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>管理员模式会影响部分功能的可用性与行为</value>
   </data>
@@ -2977,6 +2980,12 @@
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 体验</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
+    <value>0 代表不限速</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
+    <value>下载速度限制</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>우리에게 후원하세요!</value>
