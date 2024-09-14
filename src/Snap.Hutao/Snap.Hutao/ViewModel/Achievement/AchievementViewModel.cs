@@ -112,39 +112,6 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         set => SetProperty(ref finishDescription, value);
     }
 
-    private Predicate<AchievementView>? AchievementsBaseFilter
-    {
-        get
-        {
-            if (Achievements is null)
-            {
-                return null;
-            }
-
-            return FilterDailyQuestItems
-                ? view => view.Inner.IsDailyQuest
-                : null;
-        }
-    }
-
-    private Predicate<AchievementGoalView>? AchievementGoalsBaseFilter
-    {
-        get
-        {
-            if (Achievements is null || AchievementGoals is null)
-            {
-                return null;
-            }
-
-            if (Achievements.Filter is null)
-            {
-                return null;
-            }
-
-            return goal => Achievements.View.FirstOrDefault(view => view.Inner.Goal == goal.Id) is not null;
-        }
-    }
-
     /// <inheritdoc/>
     public async ValueTask<bool> ReceiveAsync(INavigationData data)
     {
@@ -400,15 +367,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        if (goal is null)
-        {
-            Achievements.Filter = AchievementsBaseFilter;
-        }
-        else
-        {
-            Model.Primitive.AchievementGoalId goalId = goal.Id;
-            Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true) && view.Inner.Goal == goalId;
-        }
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
     }
 
     [Command("SearchAchievementCommand")]
@@ -423,29 +382,27 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         if (string.IsNullOrEmpty(search))
         {
-            Achievements.Filter = AchievementsBaseFilter;
-            AchievementGoals.Filter = AchievementGoalsBaseFilter;
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (uint.TryParse(search, out uint achievementId))
         {
-            Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true) && view.Inner.Id == achievementId;
-            AchievementGoals.Filter = AchievementGoalsBaseFilter;
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, achievementId);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (VersionRegex().IsMatch(search))
         {
-            Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true) && view.Inner.Version == search;
-            AchievementGoals.Filter = AchievementGoalsBaseFilter;
+            Achievements.Filter = AchievementFilter.CompileForVersion(FilterDailyQuestItems, search);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
-        Achievements.Filter = view => (AchievementsBaseFilter?.Invoke(view) ?? true)
-            && (view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
-            || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase));
-        AchievementGoals.Filter = AchievementGoalsBaseFilter;
+        Achievements.Filter = AchievementFilter.CompileForTitleOrDescription(FilterDailyQuestItems, search);
+        AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
     }
 
     [Command("SaveAchievementCommand")]
@@ -468,7 +425,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        Achievements.Filter = AchievementsBaseFilter;
-        AchievementGoals.Filter = AchievementGoalsBaseFilter;
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
+        AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
     }
 }
