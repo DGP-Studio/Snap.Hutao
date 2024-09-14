@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
@@ -14,6 +15,13 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 {
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
+    private readonly AppOptions appOptions;
+
+    public int KiloBytesPerSecondLimit
+    {
+        get => appOptions.DownloadSpeedLimitPerSecondInKiloByte;
+        set => appOptions.DownloadSpeedLimitPerSecondInKiloByte = value;
+    }
 
     [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()

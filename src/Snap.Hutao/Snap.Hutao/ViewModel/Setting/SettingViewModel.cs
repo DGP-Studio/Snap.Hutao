@@ -15,7 +15,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly SettingAppearanceViewModel appearanceViewModel;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly SettingGachaLogViewModel gachaLogViewModel;
-    private readonly SettingDownloadViewModel downloadViewModel;
     private readonly SettingGeetestViewModel geetestViewModel;
     private readonly SettingStorageViewModel storageViewModel;
     private readonly SettingHotKeyViewModel hotKeyViewModel;
@@ -41,8 +40,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public SettingGameViewModel Game { get => gameViewModel; }
 
     public SettingGachaLogViewModel GachaLog { get => gachaLogViewModel; }
-
-    public SettingDownloadViewModel Download { get => downloadViewModel; }
 
     public SettingDangerousFeatureViewModel DangerousFeature { get => dangerousFeatureViewModel; }
 

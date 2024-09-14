@@ -2985,7 +2985,7 @@
     <value>0 代表不限速</value>
   </data>
   <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
-    <value>速度限制</value>
+    <value>下载速度限制</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>赞助我们</value>

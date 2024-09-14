@@ -24,7 +24,7 @@ internal sealed partial class SettingEntry
 
     public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
 
-    public const string DownloadBytesPerSecondLimit = "DownloadBytesPerSecondLimit";
+    public const string DownloadSpeedLimitPerSecondInKiloByte = "DownloadSpeedLimitPerSecondInKiloByte";
 
     public const string DailyNoteIsAutoRefreshEnabled = "DailyNote.IsAutoRefreshEnabled";
     public const string DailyNoteRefreshSeconds = "DailyNote.RefreshSeconds";
