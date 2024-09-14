@@ -4,6 +4,7 @@
 using CommunityToolkit.Common;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -20,8 +21,10 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     private long bytesDownloadedSinceLastUpdate;
     private long totalBytesDownloaded;
+    private long bytesDownloadedLastRefreshTime;
     private long bytesInstalledSinceLastUpdate;
     private long totalBytesInstalled;
+    private long bytesInstalledLastRefreshTime;
     private long contentLength;
     private int downloadedChunks;
     private int installedChunks;
@@ -101,7 +104,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         };
     }
 
-    private Core.Void UpdateDownloadProgress(GamePackageOperationReport.Download download)
+    private Void UpdateDownloadProgress(GamePackageOperationReport.Download download)
     {
         Interlocked.Add(ref totalBytesDownloaded, download.BytesRead);
         Interlocked.Add(ref bytesDownloadedSinceLastUpdate, download.BytesRead);
@@ -110,7 +113,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         return default;
     }
 
-    private Core.Void UpdateInstallProgress(GamePackageOperationReport.Install install)
+    private Void UpdateInstallProgress(GamePackageOperationReport.Install install)
     {
         Interlocked.Add(ref totalBytesInstalled, install.BytesRead);
         Interlocked.Add(ref bytesInstalledSinceLastUpdate, install.BytesRead);
@@ -125,8 +128,10 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         installedChunks = 0;
         totalBytesDownloaded = 0;
         bytesDownloadedSinceLastUpdate = 0;
+        bytesDownloadedLastRefreshTime = Stopwatch.GetTimestamp();
         totalBytesInstalled = 0;
         bytesInstalledSinceLastUpdate = 0;
+        bytesInstalledLastRefreshTime = Stopwatch.GetTimestamp();
         contentLength = reset.ContentLength;
         DownloadTotalChunks = reset.DownloadTotalChunks;
         DownloadFileName = default!;
@@ -174,22 +179,23 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
         void RefreshCore()
         {
-            long bytesDownloadedPerSecond = bytesDownloadedSinceLastUpdate;
-            long bytesInstalledPerSecond = bytesInstalledSinceLastUpdate;
+            long currentTime = Stopwatch.GetTimestamp();
+
+            long bytesDownloadedPerSecond = bytesDownloadedSinceLastUpdate * TimeSpan.TicksPerSecond / (currentTime - bytesDownloadedLastRefreshTime);
+            long bytesInstalledPerSecond = bytesInstalledSinceLastUpdate * TimeSpan.TicksPerSecond / (currentTime - bytesInstalledLastRefreshTime);
+
+            bytesDownloadedLastRefreshTime = bytesInstalledLastRefreshTime = currentTime;
+            bytesDownloadedSinceLastUpdate = bytesInstalledSinceLastUpdate = 0;
 
             DownloadSpeed = $"{Converters.ToFileSizeString(bytesDownloadedPerSecond),8}/s";
             DownloadRemainingTime = bytesDownloadedPerSecond is 0
                 ? UnknownRemainingTime
                 : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesDownloaded) / bytesDownloadedPerSecond):hh\\:mm\\:ss}";
 
-            bytesDownloadedSinceLastUpdate = 0;
-
             InstallSpeed = $"{Converters.ToFileSizeString(bytesInstalledPerSecond),8}/s";
             InstallRemainingTime = bytesInstalledPerSecond is 0
                 ? UnknownRemainingTime
                 : $"{TimeSpan.FromSeconds((double)(contentLength - totalBytesInstalled) / bytesInstalledPerSecond):hh\\:mm\\:ss}";
-
-            bytesInstalledSinceLastUpdate = 0;
 
             RefreshUI();
         }
