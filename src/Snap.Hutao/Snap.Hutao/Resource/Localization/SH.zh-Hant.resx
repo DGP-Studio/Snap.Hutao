@@ -2982,7 +2982,7 @@
     <value>Shell 體驗</value>
   </data>
   <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
-    <value>0代表不限速</value>
+    <value>0 代表不限速</value>
   </data>
   <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
     <value>下載速度限制</value>
