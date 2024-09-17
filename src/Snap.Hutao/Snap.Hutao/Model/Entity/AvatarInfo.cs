@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("avatar_infos")]
-internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, DetailedCharacter>
+internal sealed class AvatarInfo
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -14,9 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("gacha_archives")]
-internal sealed partial class GachaArchive : ISelectable,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<GachaArchive, string>
+internal sealed partial class GachaArchive : ISelectable, IAdvancedCollectionViewItem
 {
     /// <summary>
     /// 内部Id

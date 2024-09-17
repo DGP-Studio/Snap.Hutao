@@ -9,9 +9,11 @@ using Snap.Hutao.UI;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Win32.System.WinRT;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
+using ThemeFile = (Microsoft.UI.Xaml.ElementTheme, Snap.Hutao.Core.IO.ValueFile);
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -19,7 +21,7 @@ namespace Snap.Hutao.Core.Caching;
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
-    private readonly AsyncKeyedLock<ElementThemeValueFile> themeFileLocks = new();
+    private readonly AsyncKeyedLock<ThemeFile> themeFileLocks = new();
     private readonly AsyncKeyedLock<string> downloadLocks = new();
 
     private readonly IImageCacheDownloadOperation downloadOperation;
@@ -64,7 +66,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             }
         }
 
-        RemoveCore(filesToDelete);
+        RemoveCore(CollectionsMarshal.AsSpan(filesToDelete));
     }
 
     public ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri)
@@ -85,7 +87,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             return themeOrDefaultFilePath;
         }
 
-        using (await themeFileLocks.LockAsync(new(theme, fileName)).ConfigureAwait(false))
+        using (await themeFileLocks.LockAsync((theme, fileName)).ConfigureAwait(false))
         {
             // If the file already exists, we don't need to download it again
             if (!IsFileInvalid(defaultFilePath))
@@ -105,9 +107,8 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
                 logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
                 await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
+                return themeOrDefaultFilePath;
             }
-
-            return themeOrDefaultFilePath;
         }
     }
 
@@ -153,7 +154,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                     {
                         IMemoryBufferByteAccess byteAccess = reference.As<IMemoryBufferByteAccess>();
                         byte value = theme is ElementTheme.Light ? (byte)0x00 : (byte)0xFF;
-                        ConvertToMonoChrome(byteAccess, value);
+                        SyncConvertToMonoChrome(byteAccess, value);
                     }
                 }
 
@@ -168,7 +169,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
         return;
 
-        static void ConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
+        static void SyncConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
         {
             byteAccess.GetBuffer(out Span<Rgba32> span);
             foreach (ref Rgba32 pixel in span)
@@ -179,9 +180,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
     }
 
-    private void RemoveCore(IEnumerable<string> filePaths)
+    private void RemoveCore(ReadOnlySpan<string> filePaths)
     {
-        foreach (string filePath in filePaths)
+        foreach (ref readonly string filePath in filePaths)
         {
             try
             {

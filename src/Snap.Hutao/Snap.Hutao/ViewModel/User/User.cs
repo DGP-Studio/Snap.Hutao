@@ -16,7 +16,6 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 namespace Snap.Hutao.ViewModel.User;
 
 internal sealed partial class User : IEntityAccess<EntityUser>,
-    IMappingFrom<User, EntityUser, IServiceProvider>,
     ISelectable,
     IAdvancedCollectionViewItem
 {

@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_entry_level_informations")]
-internal sealed class CultivateEntryLevelInformation : IMappingFrom<CultivateEntryLevelInformation, Guid, CultivateType, LevelInformation>
+internal sealed class CultivateEntryLevelInformation
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

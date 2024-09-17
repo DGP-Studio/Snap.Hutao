@@ -10,7 +10,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 层视图
 /// </summary>
 [HighQuality]
-internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbyssMetadataContext>
+internal sealed class FloorView
 {
     public FloorView(TowerFloor floor, SpiralAbyssMetadataContext context)
     {

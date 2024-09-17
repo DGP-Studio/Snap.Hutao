@@ -20,8 +20,7 @@ namespace Snap.Hutao.Model.Entity;
 internal sealed partial class GameAccount : ObservableObject,
     IAppDbEntity,
     IReorderable,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<GameAccount, string, string, SchemeType>
+    IAdvancedCollectionViewItem
 {
     /// <summary>
     /// 内部Id

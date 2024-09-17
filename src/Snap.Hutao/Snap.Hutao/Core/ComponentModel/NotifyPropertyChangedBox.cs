@@ -24,11 +24,7 @@ internal sealed partial class NotifyPropertyChangedBox<TNotifyPropertyChanged, T
     public void Dispose()
     {
         notifyPropertyChanged.PropertyChanged -= OnPropertyChanged;
-
-        if (Value is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
+        (Value as IDisposable)?.Dispose();
     }
 
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs args)
@@ -38,11 +34,7 @@ internal sealed partial class NotifyPropertyChangedBox<TNotifyPropertyChanged, T
             return;
         }
 
-        if (Value is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
-
+        (Value as IDisposable)?.Dispose();
         Value = valueAccessor(notifyPropertyChanged);
     }
 }

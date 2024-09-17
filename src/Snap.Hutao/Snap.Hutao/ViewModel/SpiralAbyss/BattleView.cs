@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 上下半视图
 /// </summary>
 [HighQuality]
-internal sealed class BattleView : IMappingFrom<BattleView, TowerLevel, uint, SpiralAbyssMetadataContext>
+internal sealed class BattleView
 {
     private BattleView(TowerLevel towerLevel, uint battleIndex, SpiralAbyssMetadataContext context)
     {

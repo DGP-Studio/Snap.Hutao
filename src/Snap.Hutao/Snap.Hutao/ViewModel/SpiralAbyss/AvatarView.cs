@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 角色视图
 /// </summary>
 [HighQuality]
-internal class AvatarView : INameIconSide, IMappingFrom<AvatarView, Avatar>
+internal class AvatarView : INameIconSide
 {
     /// <summary>
     /// 构造一个新的角色视图

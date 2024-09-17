@@ -13,11 +13,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
 
-internal sealed partial class CalculableSkill
-    : ObservableObject,
-    ICalculableSkill,
-    IMappingFrom<CalculableSkill, ProudableSkill, SkillType>,
-    IMappingFrom<CalculableSkill, SkillView, SkillType>
+internal sealed partial class CalculableSkill : ObservableObject, ICalculableSkill
 {
     private readonly SkillType type;
 

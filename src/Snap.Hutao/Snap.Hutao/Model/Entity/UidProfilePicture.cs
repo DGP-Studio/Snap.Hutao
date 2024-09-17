@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("uid_profile_pictures")]
-internal sealed class UidProfilePicture : IMappingFrom<UidProfilePicture, PlayerUid, ProfilePicture>
+internal sealed class UidProfilePicture
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

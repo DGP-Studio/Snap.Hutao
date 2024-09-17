@@ -10,7 +10,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 间视图
 /// </summary>
 [HighQuality]
-internal sealed class LevelView : IMappingFrom<LevelView, TowerLevel, SpiralAbyssMetadataContext>
+internal sealed class LevelView
 {
     private LevelView(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
     {

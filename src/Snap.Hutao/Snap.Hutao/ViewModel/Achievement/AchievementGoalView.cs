@@ -13,8 +13,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 internal sealed partial class AchievementGoalView : ObservableObject,
     INameIcon,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<AchievementGoalView, AchievementGoal>
+    IAdvancedCollectionViewItem
 {
     private double finishPercent;
     private string? finishDescription;

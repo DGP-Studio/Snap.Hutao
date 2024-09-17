@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// UIAF格式的信息
 /// </summary>
 [HighQuality]
-internal sealed class UIAFInfo : IMappingFrom<UIAFInfo, RuntimeOptions>
+internal sealed class UIAFInfo
 {
     /// <summary>
     /// 导出的 App 名称

@@ -8,7 +8,7 @@ using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
-internal sealed class Hk4eItem : IMappingFrom<Hk4eItem, GachaItem>
+internal sealed class Hk4eItem
 {
     [JsonPropertyName("uigf_gacha_type")]
     [JsonEnum(JsonEnumSerializeType.NumberString)]

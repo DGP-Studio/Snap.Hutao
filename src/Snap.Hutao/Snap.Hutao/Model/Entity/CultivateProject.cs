@@ -11,8 +11,7 @@ namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_projects")]
 internal sealed partial class CultivateProject : ISelectable,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<CultivateProject, string>
+    IAdvancedCollectionViewItem
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

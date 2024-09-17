@@ -10,7 +10,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMonster, Model.Metadata.Monster.Monster>
+internal sealed class MonsterView : INameIcon
 {
     private MonsterView(in MonsterRelationshipId id)
     {

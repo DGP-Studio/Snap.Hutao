@@ -54,11 +54,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
-            foreach (ref readonly TEntity item in CollectionsMarshal.AsSpan((List<TEntity>)Items))
-            {
-                dbSet.UpdateAndSave(item);
-            }
+            appDbContext.Set<TEntity>().UpdateRangeAndSave(Items);
         }
     }
 }
@@ -108,12 +104,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
-            foreach (ref readonly TEntityAccess item in CollectionsMarshal.AsSpan((List<TEntityAccess>)Items))
-            {
-                dbSet.UpdateAndSave(item.Entity);
-            }
+            appDbContext.Set<TEntity>().UpdateRangeAndSave(Items.Select(i => i.Entity));
         }
     }
 }

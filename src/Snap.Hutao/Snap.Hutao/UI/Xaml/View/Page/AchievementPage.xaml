@@ -275,6 +275,7 @@
                                 <AutoSuggestBox.TextBoxStyle>
                                     <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
                                         <Setter Property="IsSpellCheckEnabled" Value="False"/>
+                                        <Setter Property="Padding" Value="10,1,0,0"/>
                                     </Style>
                                 </AutoSuggestBox.TextBoxStyle>
                                 <mxi:Interaction.Behaviors>

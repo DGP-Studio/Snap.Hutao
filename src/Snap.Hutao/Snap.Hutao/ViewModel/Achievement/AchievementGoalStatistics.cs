@@ -10,7 +10,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 成就分类统计
 /// </summary>
 [HighQuality]
-internal struct AchievementGoalStatistics : IMappingFrom<AchievementGoalStatistics, BindingAchievementGoal>
+internal struct AchievementGoalStatistics
 {
     /// <summary>
     /// 成就分类

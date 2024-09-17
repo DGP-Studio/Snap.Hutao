@@ -8,7 +8,7 @@ using Snap.Hutao.Model.Metadata.Weapon;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-internal sealed class PropertyCurveValue : IMappingFrom<PropertyCurveValue, WeaponTypeValue>
+internal sealed class PropertyCurveValue
 {
     public PropertyCurveValue(FightProperty property, GrowCurveType type, float value)
     {

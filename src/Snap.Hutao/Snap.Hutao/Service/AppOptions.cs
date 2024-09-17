@@ -92,4 +92,3 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
     }
 }
-
