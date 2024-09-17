@@ -7,7 +7,9 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.Shell.Common;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using WinRT;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.Ole32;
 using static Snap.Hutao.Win32.Shell32;
@@ -31,7 +33,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
             FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
         pFileDialog->SetOptions(options);
-        SetDesktopAsStartupFolder(pFileDialog);
+        SetDesktopAsStartupFolder(*pFileDialog);
 
         if (!string.IsNullOrEmpty(defaultFileName))
         {
@@ -45,7 +47,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
         if (filters is { Length: > 0 })
         {
-            SetFileTypes(pFileDialog, filters);
+            SetFileTypes(*pFileDialog, filters);
         }
 
         HRESULT res = pFileDialog->Show(currentWindowReference.GetWindowHandle());
@@ -77,58 +79,62 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
     public unsafe ValueResult<bool, ValueFile> SaveFile(string? title, string? defaultFileName, (string Name, string Type)[]? filters)
     {
-        HRESULT hr = CoCreateInstance(in FileSaveDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileDialog.IID, out IFileDialog* pFileDialog);
+        HRESULT hr = CoCreateInstance(in FileSaveDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileDialog.IID, out ObjectReference<IFileDialog.Vftbl> fileDialog);
         Marshal.ThrowExceptionForHR(hr);
 
-        FILEOPENDIALOGOPTIONS options =
-            FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
-            FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
-            FILEOPENDIALOGOPTIONS.FOS_STRICTFILETYPES |
-            FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
-
-        pFileDialog->SetOptions(options);
-        SetDesktopAsStartupFolder(pFileDialog);
-
-        if (!string.IsNullOrEmpty(defaultFileName))
+        using (fileDialog)
         {
-            pFileDialog->SetFileName(defaultFileName);
-        }
+            FILEOPENDIALOGOPTIONS options =
+                FILEOPENDIALOGOPTIONS.FOS_OVERWRITEPROMPT |
+                FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
+                FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
+                FILEOPENDIALOGOPTIONS.FOS_STRICTFILETYPES |
+                FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-        if (!string.IsNullOrEmpty(title))
-        {
-            pFileDialog->SetTitle(title);
-        }
+            fileDialog.Vftbl.SetOptions(options);
+            SetDesktopAsStartupFolder(fileDialog.Vftbl);
 
-        if (filters is { Length: > 0 })
-        {
-            SetFileTypes(pFileDialog, filters);
-        }
+            if (!string.IsNullOrEmpty(defaultFileName))
+            {
+                fileDialog.Vftbl.SetFileName(defaultFileName);
+            }
 
-        HRESULT res = pFileDialog->Show(currentWindowReference.GetWindowHandle());
-        if (res == HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_CANCELLED))
-        {
-            return new(false, default);
-        }
-        else
-        {
-            Marshal.ThrowExceptionForHR(res);
-        }
+            if (!string.IsNullOrEmpty(title))
+            {
+                fileDialog.Vftbl.SetTitle(title);
+            }
 
-        pFileDialog->GetResult(out IShellItem* pShellItem);
+            if (filters is { Length: > 0 })
+            {
+                SetFileTypes(fileDialog.Vftbl, filters);
+            }
 
-        PWSTR displayName = default;
-        string file;
-        try
-        {
-            pShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out displayName);
-            file = new(displayName);
-        }
-        finally
-        {
-            CoTaskMemFree(displayName);
-        }
+            HRESULT res = fileDialog.Vftbl.Show(currentWindowReference.GetWindowHandle());
+            if (res == HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_CANCELLED))
+            {
+                return new(false, default);
+            }
+            else
+            {
+                Marshal.ThrowExceptionForHR(res);
+            }
 
-        return new(true, file);
+            fileDialog.Vftbl.GetResult(out IShellItem* pShellItem);
+
+            PWSTR displayName = default;
+            string file;
+            try
+            {
+                pShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out displayName);
+                file = new(displayName);
+            }
+            finally
+            {
+                CoTaskMemFree(displayName);
+            }
+
+            return new(true, file);
+        }
     }
 
     public unsafe ValueResult<bool, string> PickFolder(string? title)
@@ -143,7 +149,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
             FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
         pFileDialog->SetOptions(options);
-        SetDesktopAsStartupFolder(pFileDialog);
+        SetDesktopAsStartupFolder(*pFileDialog);
 
         if (!string.IsNullOrEmpty(title))
         {
@@ -177,7 +183,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
         return new(true, file);
     }
 
-    private static unsafe void SetFileTypes(IFileDialog* pFileDialog, (string Name, string Type)[] filters)
+    private static unsafe void SetFileTypes(IFileDialog pFileDialog, (string Name, string Type)[] filters)
     {
         List<nint> unmanagedStringPtrs = new(filters.Length * 2);
         List<COMDLG_FILTERSPEC> filterSpecs = new(filters.Length);
@@ -193,7 +199,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
             filterSpecs.Add(spec);
         }
 
-        pFileDialog->SetFileTypes(CollectionsMarshal.AsSpan(filterSpecs));
+        pFileDialog.SetFileTypes(CollectionsMarshal.AsSpan(filterSpecs));
 
         foreach (ref readonly nint ptr in CollectionsMarshal.AsSpan(unmanagedStringPtrs))
         {
@@ -201,11 +207,11 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
         }
     }
 
-    private static unsafe void SetDesktopAsStartupFolder(IFileDialog* pFileDialog)
+    private static unsafe void SetDesktopAsStartupFolder(IFileDialog pFileDialog)
     {
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         HRESULT hr = SHCreateItemFromParsingName(desktopPath, default, in IShellItem.IID, out IShellItem* pShellItem);
         Marshal.ThrowExceptionForHR(hr);
-        pFileDialog->SetFolder(pShellItem);
+        pFileDialog.SetFolder(pShellItem);
     }
 }

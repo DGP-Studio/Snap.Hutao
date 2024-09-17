@@ -4,8 +4,10 @@
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
 
 namespace Snap.Hutao.Win32;
 
@@ -29,6 +31,22 @@ internal static class Ole32
                 {
                     return CoCreateInstance(rclsid, pUnkOuter, dwClsContext, riid, (void**)ppv);
                 }
+            }
+        }
+    }
+
+    [DebuggerStepThrough]
+    public static unsafe HRESULT CoCreateInstance<T>(ref readonly Guid clsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, ref readonly Guid iid, out ObjectReference<T> v)
+        where T : unmanaged
+    {
+        fixed (Guid* rclsid = &clsid)
+        {
+            fixed (Guid* riid = &iid)
+            {
+                T* pv = default;
+                HRESULT hr = CoCreateInstance(rclsid, pUnkOuter, dwClsContext, riid, (void**)&pv);
+                v = ObjectReference<T>.Attach(ref Unsafe.AsRef<nint>(&pv), iid);
+                return hr;
             }
         }
     }
