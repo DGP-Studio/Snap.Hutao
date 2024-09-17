@@ -288,10 +288,10 @@
 
                         <AppBarElementContainer>
                             <shuxc:SizeRestrictedContentControl Margin="2,6,3,6">
-                                <!--  SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"  -->
                                 <ComboBox
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Archives, Mode=OneWay}"
+                                    SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"
                                     Style="{ThemeResource CommandBarComboBoxStyle}"/>
                             </shuxc:SizeRestrictedContentControl>
                         </AppBarElementContainer>
