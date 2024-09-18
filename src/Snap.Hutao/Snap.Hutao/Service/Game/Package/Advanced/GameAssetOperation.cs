@@ -193,7 +193,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         await MergeAssetAsync(context, asset).ConfigureAwait(false);
     }
 
-    protected async ValueTask DownloadChunkAsync(GamePackageServiceContext context, SophonChunk sophonChunk)
+    protected static async ValueTask DownloadChunkAsync(GamePackageServiceContext context, SophonChunk sophonChunk)
     {
         CancellationToken token = context.CancellationToken;
 

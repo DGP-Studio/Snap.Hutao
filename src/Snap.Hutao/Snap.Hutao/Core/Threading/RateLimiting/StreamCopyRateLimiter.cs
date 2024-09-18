@@ -11,10 +11,12 @@ internal static class StreamCopyRateLimiter
 {
     private const double ReplenishmentCountPerSecond = 20;
 
-    public static NotifyPropertyChangedBox<AppOptions, TokenBucketRateLimiter?> GetOrCreate(IServiceProvider serviceProvider)
+    public static NotifyPropertyChangedBox<AppOptions, TokenBucketRateLimiter?> Create(IServiceProvider serviceProvider)
     {
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+#pragma warning disable CA2000
         return new(CreateCore(appOptions), appOptions, nameof(AppOptions.DownloadSpeedLimitPerSecondInKiloByte), CreateCore);
+#pragma warning restore CA2000
     }
 
     private static TokenBucketRateLimiter? CreateCore(AppOptions appOptions)

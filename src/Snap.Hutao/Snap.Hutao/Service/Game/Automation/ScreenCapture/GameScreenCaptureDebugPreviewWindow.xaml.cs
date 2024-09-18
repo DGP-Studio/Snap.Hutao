@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
 internal sealed partial class GameScreenCaptureDebugPreviewWindow : Window
 {
-    private unsafe ObjectReference<IDXGISwapChain1.Vftbl>? swapChain1 = default;
+    private ObjectReference<IDXGISwapChain1.Vftbl>? swapChain1;
 
     public GameScreenCaptureDebugPreviewWindow()
     {
