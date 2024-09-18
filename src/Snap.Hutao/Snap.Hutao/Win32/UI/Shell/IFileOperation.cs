@@ -7,6 +7,8 @@ using Snap.Hutao.Win32.UI.Shell.PropertiesSystem;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -29,25 +31,25 @@ internal unsafe struct IFileOperation
         return ThisPtr->SetOperationFlags((IFileOperation*)Unsafe.AsPointer(ref this), dwOperationFlags);
     }
 
-    public HRESULT RenameItem(IShellItem* psiItem, ReadOnlySpan<char> szNewName, IFileOperationProgressSink* pfopsItem)
+    public HRESULT RenameItem(ObjectReference<IShellItem.Vftbl> siItem, ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
     {
         fixed (char* pszNewName = szNewName)
         {
-            return ThisPtr->RenameItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, pszNewName, pfopsItem);
+            return ThisPtr->RenameItem((IFileOperation*)Unsafe.AsPointer(ref this), (IShellItem*)siItem.ThisPtr, pszNewName, (IFileOperationProgressSink*)(fopsItem?.ThisPtr ?? 0));
         }
     }
 
-    public HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] ReadOnlySpan<char> szNewName, IFileOperationProgressSink* pfopsItem)
+    public HRESULT MoveItem(IShellItem* psiItem, ObjectReference<IShellItem.Vftbl> siDestinationFolder, [AllowNull] ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
     {
         fixed (char* pszNewName = szNewName)
         {
-            return ThisPtr->MoveItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, psiDestinationFolder, pszNewName, pfopsItem);
+            return ThisPtr->MoveItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, (IShellItem*)siDestinationFolder.ThisPtr, pszNewName, (IFileOperationProgressSink*)(fopsItem?.ThisPtr ?? 0));
         }
     }
 
-    public HRESULT DeleteItem(IShellItem* psiItem, IFileOperationProgressSink* pfopsItem)
+    public HRESULT DeleteItem(IShellItem* psiItem, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
     {
-        return ThisPtr->DeleteItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, pfopsItem);
+        return ThisPtr->DeleteItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, (IFileOperationProgressSink*)(fopsItem?.ThisPtr ?? 0));
     }
 
     public HRESULT PerformOperations()
@@ -57,7 +59,7 @@ internal unsafe struct IFileOperation
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IFileOperation*, IFileOperationProgressSink*, uint*, HRESULT> Advise;
         internal readonly delegate* unmanaged[Stdcall]<IFileOperation*, uint, HRESULT> Unadvise;
         internal readonly delegate* unmanaged[Stdcall]<IFileOperation*, FILEOPERATION_FLAGS, HRESULT> SetOperationFlags;

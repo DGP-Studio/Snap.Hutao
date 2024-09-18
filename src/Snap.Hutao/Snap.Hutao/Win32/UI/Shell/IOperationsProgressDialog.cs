@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell.PropertiesSystem;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -26,7 +26,7 @@ internal readonly unsafe struct IOperationsProgressDialog
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IOperationsProgressDialog*, HWND, uint, HRESULT> StartProgressDialog;
         internal readonly delegate* unmanaged[Stdcall]<IOperationsProgressDialog*, HRESULT> StopProgressDialog;
         internal readonly delegate* unmanaged[Stdcall]<IOperationsProgressDialog*, SPACTION, HRESULT> SetOperation;

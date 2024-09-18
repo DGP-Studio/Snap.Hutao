@@ -6,6 +6,7 @@ using Snap.Hutao.Win32.UI.Shell.Common;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -23,27 +24,12 @@ internal unsafe struct IFileDialog
         }
     }
 
-    public HRESULT Show([AllowNull] HWND hwndOwner)
+    public HRESULT GetResult(out ObjectReference<IShellItem.Vftbl> si)
     {
-        return ThisPtr->IModalWindowVftbl.Show((IModalWindow*)Unsafe.AsPointer(ref this), hwndOwner);
-    }
-
-    public HRESULT SetFileTypes(ReadOnlySpan<COMDLG_FILTERSPEC> filterSpecs)
-    {
-        fixed (COMDLG_FILTERSPEC* rgFilterSpec = filterSpecs)
-        {
-            return ThisPtr->SetFileTypes((IFileDialog*)Unsafe.AsPointer(ref this), (uint)filterSpecs.Length, rgFilterSpec);
-        }
-    }
-
-    public HRESULT SetOptions(FILEOPENDIALOGOPTIONS fos)
-    {
-        return ThisPtr->SetOptions((IFileDialog*)Unsafe.AsPointer(ref this), fos);
-    }
-
-    public HRESULT SetFolder(IShellItem* si)
-    {
-        return ThisPtr->SetFolder((IFileDialog*)Unsafe.AsPointer(ref this), si);
+        IShellItem* psi = default;
+        HRESULT hr = ThisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), &psi);
+        si = ObjectReference<IShellItem.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&psi), IShellItem.IID);
+        return hr;
     }
 
     public HRESULT SetFileName(string szName)
@@ -54,6 +40,24 @@ internal unsafe struct IFileDialog
         }
     }
 
+    public HRESULT SetFileTypes(ReadOnlySpan<COMDLG_FILTERSPEC> filterSpecs)
+    {
+        fixed (COMDLG_FILTERSPEC* rgFilterSpec = filterSpecs)
+        {
+            return ThisPtr->SetFileTypes((IFileDialog*)Unsafe.AsPointer(ref this), (uint)filterSpecs.Length, rgFilterSpec);
+        }
+    }
+
+    public HRESULT SetFolder(ObjectReference<IShellItem.Vftbl> si)
+    {
+        return ThisPtr->SetFolder((IFileDialog*)Unsafe.AsPointer(ref this), (IShellItem*)si.ThisPtr);
+    }
+
+    public HRESULT SetOptions(FILEOPENDIALOGOPTIONS fos)
+    {
+        return ThisPtr->SetOptions((IFileDialog*)Unsafe.AsPointer(ref this), fos);
+    }
+
     public HRESULT SetTitle(string szTitle)
     {
         fixed (char* pszTitle = szTitle)
@@ -62,12 +66,9 @@ internal unsafe struct IFileDialog
         }
     }
 
-    public HRESULT GetResult(out IShellItem* psi)
+    public HRESULT Show([AllowNull] HWND hwndOwner)
     {
-        fixed (IShellItem** ppsi = &psi)
-        {
-            return ThisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), ppsi);
-        }
+        return ThisPtr->IModalWindowVftbl.Show((IModalWindow*)Unsafe.AsPointer(ref this), hwndOwner);
     }
 
     internal readonly struct Vftbl

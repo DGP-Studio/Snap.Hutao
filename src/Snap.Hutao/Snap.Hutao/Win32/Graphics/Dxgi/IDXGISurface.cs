@@ -4,6 +4,7 @@
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
@@ -20,15 +21,15 @@ internal unsafe struct IDXGISurface
         }
     }
 
-    public HRESULT GetDevice<T>(ref readonly Guid iid, out T* pDevice)
-        where T : unmanaged
+    public HRESULT GetDevice<TVftbl>(ref readonly Guid iid, out ObjectReference<TVftbl> device)
+        where TVftbl : unmanaged
     {
         fixed (Guid* riid = &iid)
         {
-            fixed (T** ppDevice = &pDevice)
-            {
-                return ThisPtr->IDXGIDeviceSubObjectVftbl.GetDevice((IDXGIDeviceSubObject*)Unsafe.AsPointer(ref this), riid, (void**)ppDevice);
-            }
+            TVftbl** pDevice;
+            HRESULT hr = ThisPtr->IDXGIDeviceSubObjectVftbl.GetDevice((IDXGIDeviceSubObject*)Unsafe.AsPointer(ref this), riid, (void**)&pDevice);
+            device = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pDevice), iid);
+            return hr;
         }
     }
 

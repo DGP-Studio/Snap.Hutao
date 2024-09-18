@@ -5,6 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
@@ -21,31 +22,31 @@ internal unsafe struct IDXGIFactory6
         }
     }
 
-    public unsafe HRESULT CreateSwapChainForComposition(IUnknown* pDevice, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, IDXGIOutput* pRestrictToOutput, out IDXGISwapChain1* pSwapChain)
+    public unsafe HRESULT CreateSwapChainForComposition(IObjectReference device, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, ObjectReference<IDXGIOutput.Vftbl>? restrictToOutput, out ObjectReference<IDXGISwapChain1.Vftbl> swapChain)
     {
         fixed (DXGI_SWAP_CHAIN_DESC1* pDesc = &desc)
         {
-            fixed (IDXGISwapChain1** ppSwapChain = &pSwapChain)
-            {
-                return ThisPtr->IDXGIFactory5Vftbl
-                    .IDXGIFactory4Vftbl
-                    .IDXGIFactory3Vftbl
-                    .IDXGIFactory2Vftbl
-                    .CreateSwapChainForComposition((IDXGIFactory2*)Unsafe.AsPointer(ref this), pDevice, pDesc, pRestrictToOutput, ppSwapChain);
-            }
+            IDXGISwapChain1* pSwapChain = default;
+            HRESULT hr = ThisPtr->IDXGIFactory5Vftbl
+                .IDXGIFactory4Vftbl
+                .IDXGIFactory3Vftbl
+                .IDXGIFactory2Vftbl
+                .CreateSwapChainForComposition((IDXGIFactory2*)Unsafe.AsPointer(ref this), (IUnknown*)device.ThisPtr, pDesc, (IDXGIOutput*)(restrictToOutput?.ThisPtr ?? 0), &pSwapChain);
+            swapChain = ObjectReference<IDXGISwapChain1.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&pSwapChain), IDXGISwapChain1.IID);
+            return hr;
         }
     }
 
     [SuppressMessage("", "SA1313")]
-    public HRESULT EnumAdapterByGpuPreference<T>(uint Adapter, DXGI_GPU_PREFERENCE GpuPreference, ref readonly Guid iid, out T* pvAdapter)
-        where T : unmanaged
+    public HRESULT EnumAdapterByGpuPreference<TVftbl>(uint Adapter, DXGI_GPU_PREFERENCE GpuPreference, ref readonly Guid iid, out ObjectReference<TVftbl> vAdapter)
+        where TVftbl : unmanaged
     {
         fixed (Guid* riid = &iid)
         {
-            fixed (T** ppvAdapter = &pvAdapter)
-            {
-                return ThisPtr->EnumAdapterByGpuPreference((IDXGIFactory6*)Unsafe.AsPointer(ref this), Adapter, GpuPreference, riid, (void**)ppvAdapter);
-            }
+            TVftbl** pvAdapter = default;
+            HRESULT hr = ThisPtr->EnumAdapterByGpuPreference((IDXGIFactory6*)Unsafe.AsPointer(ref this), Adapter, GpuPreference, riid, (void**)&pvAdapter);
+            vAdapter = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pvAdapter), iid);
+            return hr;
         }
     }
 

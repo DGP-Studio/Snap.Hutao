@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;

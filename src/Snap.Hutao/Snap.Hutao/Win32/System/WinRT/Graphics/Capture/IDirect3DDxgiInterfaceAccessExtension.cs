@@ -2,20 +2,22 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
+using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 
 internal static class IDirect3DDxgiInterfaceAccessExtension
 {
-    public static unsafe HRESULT GetInterface<T>(this IDirect3DDxgiInterfaceAccess access, ref readonly Guid iid, out T* p)
-        where T : unmanaged
+    public static unsafe HRESULT GetInterface<TVftbl>(this IDirect3DDxgiInterfaceAccess access, ref readonly Guid iid, out ObjectReference<TVftbl> i)
+        where TVftbl : unmanaged
     {
         fixed (Guid* riid = &iid)
         {
-            fixed (T** pp = &p)
-            {
-                return access.GetInterface(riid, (void**)pp);
-            }
+            TVftbl** p = default;
+            HRESULT hr = access.GetInterface(riid, (void**)&p);
+            i = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&p), iid);
+            return hr;
         }
     }
 }

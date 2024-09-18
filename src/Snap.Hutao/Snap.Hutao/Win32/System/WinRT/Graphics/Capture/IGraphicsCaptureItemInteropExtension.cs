@@ -26,9 +26,9 @@ internal static class IGraphicsCaptureItemInteropExtension
     {
         void* resultPtr = default;
         HRESULT retVal;
-        fixed (Guid* riid2 = &IGraphicsCaptureItem.IID)
+        fixed (Guid* riid = &IGraphicsCaptureItem.IID)
         {
-            retVal = interop.CreateForMonitor(monitor, riid2, &resultPtr);
+            retVal = interop.CreateForMonitor(monitor, riid, &resultPtr);
         }
 
         result = GraphicsCaptureItem.FromAbi((nint)resultPtr);

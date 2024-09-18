@@ -7,14 +7,15 @@ using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
 using Snap.Hutao.Win32.Graphics.Gdi;
-using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.DirectX.Direct3D11;
+using WinRT;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.DwmApi;
 using static Snap.Hutao.Win32.Gdi32;
+using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
@@ -40,12 +41,12 @@ internal struct GameScreenCaptureContext : IDisposable
 
     private readonly HWND hwnd;
 
-    private unsafe IDXGIFactory6* factory;
-    private unsafe IDXGIAdapter* adapter;
-    private unsafe ID3D11Device* d3d11Device;
-    private unsafe IDXGIDevice* dxgiDevice;
+    private unsafe ObjectReference<IDXGIFactory6.Vftbl> factory = default!;
+    private unsafe ObjectReference<IDXGIAdapter.Vftbl> adapter = default!;
+    private unsafe ObjectReference<ID3D11Device.Vftbl> d3d11Device = default!;
+    private unsafe ObjectReference<IDXGIDevice.Vftbl> dxgiDevice = default!;
     private IDirect3DDevice? direct3DDevice;
-    private unsafe IDXGISwapChain1* swapChain;
+    private unsafe ObjectReference<IDXGISwapChain1.Vftbl> swapChain = default!;
 
     private unsafe GameScreenCaptureContext(HWND hwnd, bool preview)
     {
@@ -69,12 +70,12 @@ internal struct GameScreenCaptureContext : IDisposable
             return new(GameScreenCaptureContextCreationResultKind.EnumAdapterByGpuPreferenceFailed, hr);
         }
 
-        if (!DirectX.TryCreateD3D11Device(default, D3d11CreateDeviceFlag, out context.d3d11Device, out hr))
+        if (!DirectX.TryCreateD3D11Device(default!, D3d11CreateDeviceFlag, out context.d3d11Device, out hr))
         {
             return new(GameScreenCaptureContextCreationResultKind.D3D11CreateDeviceFailed, hr);
         }
 
-        if (!DirectX.TryAsDXGIDevice(context.d3d11Device, out context.dxgiDevice, out hr))
+        if (!SUCCEEDED(context.d3d11Device.TryAs(IDXGIDevice.IID, out context.dxgiDevice)))
         {
             return new(GameScreenCaptureContextCreationResultKind.D3D11DeviceQueryDXGIDeviceFailed, hr);
         }
@@ -168,15 +169,20 @@ internal struct GameScreenCaptureContext : IDisposable
     {
         if (PreviewEnabled && window is not null)
         {
-            window.UpdateSwapChain(null);
+            window.UpdateSwapChain(default);
             window.Close();
         }
     }
 
     public readonly unsafe void Dispose()
     {
-        IUnknownMarshal.Release(factory);
-        IUnknownMarshal.Release(swapChain);
+        factory?.Dispose();
+        adapter?.Dispose();
+
+        dxgiDevice?.Dispose();
+        d3d11Device?.Dispose();
+
+        swapChain?.Dispose();
     }
 
     private static (DirectXPixelFormat WinRTFormat, DXGI_FORMAT DXFormat) DeterminePixelFormat(HWND hwnd)

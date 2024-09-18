@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;

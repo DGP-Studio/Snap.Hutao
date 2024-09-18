@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using BindingAchievementGoal = Snap.Hutao.ViewModel.Achievement.AchievementGoalView;
 
 namespace Snap.Hutao.ViewModel.Achievement;

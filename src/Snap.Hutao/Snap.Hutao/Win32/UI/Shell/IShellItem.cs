@@ -7,6 +7,7 @@ using Snap.Hutao.Win32.System.SystemServices;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -34,7 +35,7 @@ internal unsafe struct IShellItem
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IShellItem*, IBindCtx*, Guid*, Guid*, void**, HRESULT> BindToHandler;
         internal readonly delegate* unmanaged[Stdcall]<IShellItem*, IShellItem**, HRESULT> GetParent;
         internal readonly delegate* unmanaged[Stdcall]<IShellItem*, SIGDN, PWSTR*, HRESULT> GetDisplayName;
