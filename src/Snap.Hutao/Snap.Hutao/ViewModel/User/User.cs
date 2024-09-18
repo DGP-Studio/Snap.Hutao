@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;

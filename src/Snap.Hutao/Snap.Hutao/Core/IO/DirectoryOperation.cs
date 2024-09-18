@@ -5,6 +5,7 @@ using Microsoft.VisualBasic.FileIO;
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using System.IO;
+using WinRT;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.Ole32;
 using static Snap.Hutao.Win32.Shell32;
@@ -33,26 +34,27 @@ internal static class DirectoryOperation
 
     public static unsafe bool UnsafeRename(string path, string name, FILEOPERATION_FLAGS flags = FILEOPERATION_FLAGS.FOF_ALLOWUNDO | FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR)
     {
-        bool result = false;
-
-        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
+        if (!SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out ObjectReference<IFileOperation.Vftbl> fileOperation)))
         {
-            if (SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out IShellItem* pShellItem)))
-            {
-                pFileOperation->SetOperationFlags(flags);
-                pFileOperation->RenameItem(pShellItem, name, default);
-
-                if (SUCCEEDED(pFileOperation->PerformOperations()))
-                {
-                    result = true;
-                }
-
-                IUnknownMarshal.Release(pShellItem);
-            }
-
-            IUnknownMarshal.Release(pFileOperation);
+            return false;
         }
 
-        return result;
+        using (fileOperation)
+        {
+            IFileOperation* pFileOperation = (IFileOperation*)fileOperation.ThisPtr;
+
+            if (!SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> shellItem)))
+            {
+                return false;
+            }
+
+            using (shellItem)
+            {
+                pFileOperation->SetOperationFlags(flags);
+                pFileOperation->RenameItem(shellItem, name, default!);
+
+                return SUCCEEDED(pFileOperation->PerformOperations());
+            }
+        }
     }
 }

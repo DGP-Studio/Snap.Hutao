@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -25,7 +25,7 @@ internal readonly unsafe struct IShellItemFilter
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IShellItemFilter*, IShellItem*, HRESULT> IncludeItem;
         internal readonly delegate* unmanaged[Stdcall]<IShellItemFilter*, IShellItem*, uint*, HRESULT> GetEnumFlagsForItem;
     }

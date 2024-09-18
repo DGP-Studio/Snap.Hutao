@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.IO;
+using WinRT;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.Ole32;
 
@@ -38,33 +38,35 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
     private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath, string elevatedLauncherPath)
     {
-        bool result = false;
-
-        // DO NOT revert if condition, COM interfaces need to be released properly
-        HRESULT hr = CoCreateInstance(in ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IShellLinkW.IID, out IShellLinkW* pShellLink);
-        if (SUCCEEDED(hr))
+        if (!SUCCEEDED(CoCreateInstance(in ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IShellLinkW.IID, out ObjectReference<IShellLinkW.Vftbl> shellLink)))
         {
+            return false;
+        }
+
+        using (shellLink)
+        {
+            IShellLinkW* pShellLink = (IShellLinkW*)shellLink.ThisPtr;
+
             pShellLink->SetPath(elevatedLauncherPath);
             pShellLink->SetArguments(runtimeOptions.FamilyName);
             pShellLink->SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
             pShellLink->SetIconLocation(targetLogoPath, 0);
 
-            if (SUCCEEDED(IUnknownMarshal.QueryInterface(pShellLink, in IPersistFile.IID, out IPersistFile* pPersistFile)))
+            if (!SUCCEEDED(shellLink.TryAs(IPersistFile.IID, out ObjectReference<IPersistFile.Vftbl> persistFile)))
             {
+                persistFile?.Dispose();
+                return false;
+            }
+
+            using (persistFile)
+            {
+                IPersistFile* pPersistFile = (IPersistFile*)persistFile.ThisPtr;
+
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
 
-                if (SUCCEEDED(pPersistFile->Save(target, false)))
-                {
-                    result = true;
-                }
-
-                IUnknownMarshal.Release(pPersistFile);
+                return SUCCEEDED(pPersistFile->Save(target, false));
             }
-
-            IUnknownMarshal.Release(pShellLink);
         }
-
-        return result;
     }
 }

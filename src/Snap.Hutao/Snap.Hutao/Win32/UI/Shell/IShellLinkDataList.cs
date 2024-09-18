@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -38,7 +38,7 @@ internal unsafe struct IShellLinkDataList
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IShellLinkDataList*, void*, HRESULT> AddDataBlock;
         internal readonly delegate* unmanaged[Stdcall]<IShellLinkDataList*, uint, void**, HRESULT> CopyDataBlock;
         internal readonly delegate* unmanaged[Stdcall]<IShellLinkDataList*, uint, HRESULT> RemoveDataBlock;

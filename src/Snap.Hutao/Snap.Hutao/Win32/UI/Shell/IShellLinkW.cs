@@ -3,12 +3,12 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Storage.FileSystem;
-using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell.Common;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -57,7 +57,7 @@ internal unsafe struct IShellLinkW
 
     internal readonly unsafe struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IShellLinkW*, PWSTR, int, WIN32_FIND_DATAW*, uint, HRESULT> GetPath;
         internal readonly delegate* unmanaged[Stdcall]<IShellLinkW*, ITEMIDLIST**, HRESULT> GetIDList;
         internal readonly delegate* unmanaged[Stdcall]<IShellLinkW*, ITEMIDLIST*, HRESULT> SetIDList;

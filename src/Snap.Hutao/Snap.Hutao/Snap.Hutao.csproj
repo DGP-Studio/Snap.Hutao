@@ -150,7 +150,6 @@
     <None Remove="Resource\Navigation\WikiWeapon.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="Resource\WelcomeView_Background.png" />
-    <None Remove="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml" />
     <None Remove="stylecop.json" />
     <None Remove="UI\Xaml\View\Dialog\LaunchGameInstallGameDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\UIGFExportDialog.xaml" />
@@ -382,11 +381,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\Control\StandardView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

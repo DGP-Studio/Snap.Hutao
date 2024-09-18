@@ -7,6 +7,7 @@ using Snap.Hutao.Win32.Graphics.Dxgi.Common;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
@@ -25,32 +26,32 @@ internal unsafe struct ID3D11DeviceContext
     }
 
     [SuppressMessage("", "SA1313")]
-    public HRESULT Map(ID3D11Resource* pResource, uint Subresource, D3D11_MAP MapType, uint MapFlags, [MaybeNull] out D3D11_MAPPED_SUBRESOURCE mappedResource)
+    public HRESULT Map(ObjectReference<ID3D11Resource.Vftbl> resource, uint Subresource, D3D11_MAP MapType, uint MapFlags, [MaybeNull] out D3D11_MAPPED_SUBRESOURCE mappedResource)
     {
         fixed (D3D11_MAPPED_SUBRESOURCE* pMappedResource = &mappedResource)
         {
-            return ThisPtr->Map((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pResource, Subresource, MapType, MapFlags, pMappedResource);
+            return ThisPtr->Map((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), (ID3D11Resource*)resource.ThisPtr, Subresource, MapType, MapFlags, pMappedResource);
         }
     }
 
     [SuppressMessage("", "SA1313")]
-    public void Unmap(ID3D11Resource* pResource, uint Subresource)
+    public void Unmap(ObjectReference<ID3D11Resource.Vftbl> resource, uint Subresource)
     {
-        ThisPtr->Unmap((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pResource, Subresource);
+        ThisPtr->Unmap((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), (ID3D11Resource*)resource.ThisPtr, Subresource);
     }
 
     [SuppressMessage("", "SA1313")]
-    public unsafe void CopySubresourceRegion(ID3D11Resource* pDstResource, uint DstSubresource, uint DstX, uint DstY, uint DstZ, ID3D11Resource* pSrcResource, uint SrcSubresource, [AllowNull] ref readonly D3D11_BOX srcBox)
+    public unsafe void CopySubresourceRegion(ObjectReference<ID3D11Resource.Vftbl> dstResource, uint DstSubresource, uint DstX, uint DstY, uint DstZ, ObjectReference<ID3D11Resource.Vftbl> srcResource, uint SrcSubresource, [AllowNull] ref readonly D3D11_BOX srcBox)
     {
         fixed (D3D11_BOX* pSrcBox = &srcBox)
         {
-            ThisPtr->CopySubresourceRegion((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pDstResource, DstSubresource, DstX, DstY, DstZ, pSrcResource, SrcSubresource, pSrcBox);
+            ThisPtr->CopySubresourceRegion((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), (ID3D11Resource*)dstResource.ThisPtr, DstSubresource, DstX, DstY, DstZ, (ID3D11Resource*)srcResource.ThisPtr, SrcSubresource, pSrcBox);
         }
     }
 
-    public void CopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource)
+    public void CopyResource(ObjectReference<ID3D11Resource.Vftbl> dstResource, ObjectReference<ID3D11Resource.Vftbl> srcResource)
     {
-        ThisPtr->CopyResource((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pDstResource, pSrcResource);
+        ThisPtr->CopyResource((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), (ID3D11Resource*)dstResource.ThisPtr, (ID3D11Resource*)srcResource.ThisPtr);
     }
 
     internal readonly struct Vftbl

@@ -6,6 +6,7 @@ using Snap.Hutao.Win32.UI.Shell.Common;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -23,12 +24,12 @@ internal unsafe struct IFileDialog
         }
     }
 
-    public HRESULT GetResult(out IShellItem* psi)
+    public HRESULT GetResult(out ObjectReference<IShellItem.Vftbl> si)
     {
-        fixed (IShellItem** ppsi = &psi)
-        {
-            return ThisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), ppsi);
-        }
+        IShellItem* psi = default;
+        HRESULT hr = ThisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), &psi);
+        si = ObjectReference<IShellItem.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&psi), IShellItem.IID);
+        return hr;
     }
 
     public HRESULT SetFileName(string szName)
@@ -47,9 +48,9 @@ internal unsafe struct IFileDialog
         }
     }
 
-    public HRESULT SetFolder(IShellItem* si)
+    public HRESULT SetFolder(ObjectReference<IShellItem.Vftbl> si)
     {
-        return ThisPtr->SetFolder((IFileDialog*)Unsafe.AsPointer(ref this), si);
+        return ThisPtr->SetFolder((IFileDialog*)Unsafe.AsPointer(ref this), (IShellItem*)si.ThisPtr);
     }
 
     public HRESULT SetOptions(FILEOPENDIALOGOPTIONS fos)

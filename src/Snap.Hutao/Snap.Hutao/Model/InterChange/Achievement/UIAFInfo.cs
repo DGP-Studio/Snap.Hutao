@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Abstraction;
 
 namespace Snap.Hutao.Model.InterChange.Achievement;
 

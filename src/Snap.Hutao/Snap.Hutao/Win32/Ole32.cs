@@ -11,7 +11,6 @@ using WinRT;
 
 namespace Snap.Hutao.Win32;
 
-// [SuppressMessage("", "SH002")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Ole32
 {
@@ -20,32 +19,16 @@ internal static class Ole32
     public static extern unsafe HRESULT CoCreateInstance(Guid* rclsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, Guid* riid, void** ppv);
 
     [DebuggerStepThrough]
-    public static unsafe HRESULT CoCreateInstance<T>(ref readonly Guid clsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, ref readonly Guid iid, out T* pv)
-        where T : unmanaged
+    public static unsafe HRESULT CoCreateInstance<TVftbl>(ref readonly Guid clsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, ref readonly Guid iid, out ObjectReference<TVftbl> v)
+        where TVftbl : unmanaged
     {
         fixed (Guid* rclsid = &clsid)
         {
             fixed (Guid* riid = &iid)
             {
-                fixed (T** ppv = &pv)
-                {
-                    return CoCreateInstance(rclsid, pUnkOuter, dwClsContext, riid, (void**)ppv);
-                }
-            }
-        }
-    }
-
-    [DebuggerStepThrough]
-    public static unsafe HRESULT CoCreateInstance<T>(ref readonly Guid clsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, ref readonly Guid iid, out ObjectReference<T> v)
-        where T : unmanaged
-    {
-        fixed (Guid* rclsid = &clsid)
-        {
-            fixed (Guid* riid = &iid)
-            {
-                T* pv = default;
+                TVftbl** pv = default;
                 HRESULT hr = CoCreateInstance(rclsid, pUnkOuter, dwClsContext, riid, (void**)&pv);
-                v = ObjectReference<T>.Attach(ref Unsafe.AsRef<nint>(&pv), iid);
+                v = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pv), iid);
                 return hr;
             }
         }

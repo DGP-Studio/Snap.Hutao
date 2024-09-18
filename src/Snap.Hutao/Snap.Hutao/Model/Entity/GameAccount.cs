@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.Entity.Primitive;

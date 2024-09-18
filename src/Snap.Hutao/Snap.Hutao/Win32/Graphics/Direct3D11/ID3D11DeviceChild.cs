@@ -6,6 +6,7 @@ using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
@@ -25,7 +26,7 @@ internal readonly unsafe struct ID3D11DeviceChild
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<ID3D11DeviceChild*, ID3D11Device**, void> GetDevice;
         internal readonly delegate* unmanaged[Stdcall]<ID3D11DeviceChild*, Guid*, uint*, void*, HRESULT> GetPrivateData;
         internal readonly delegate* unmanaged[Stdcall]<ID3D11DeviceChild*, Guid*, uint, void*, HRESULT> SetPrivateData;
