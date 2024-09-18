@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Extension;
 
-/// <summary>
-/// <see cref="DateTimeOffset"/> 扩展
-/// </summary>
-[HighQuality]
 internal static class DateTimeOffsetExtension
 {
     public static readonly DateTimeOffset DatebaseDefaultTime = new(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0));

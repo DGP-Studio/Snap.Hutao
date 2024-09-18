@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -20,7 +21,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
 
-    private Dictionary<AvatarId, Avatar>? idAvatarExtendedMap;
+    private ImmutableDictionary<AvatarId, Avatar>? idAvatarExtendedMap;
 
     private TaskCompletionSource<bool>? databaseViewModelTaskSource;
     private TaskCompletionSource<bool>? wikiAvatarViewModelTaskSource;
@@ -50,7 +51,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         databaseViewModelTaskSource = new();
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
+            ImmutableDictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
             List<Task> tasks =
             [
                 AvatarAppearanceRankAsync(idAvatarMap),
@@ -81,9 +82,9 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         wikiAvatarViewModelTaskSource = new();
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
-            Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-            Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetExtendedEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
+            ImmutableDictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
+            ImmutableDictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
+            ImmutableDictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetExtendedEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
             await AvatarCollocationsAsync(idAvatarMap, idWeaponMap, idReliquarySetMap).ConfigureAwait(false);
 
             wikiAvatarViewModelTaskSource.TrySetResult(true);
@@ -105,7 +106,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         wikiWeaponViewModelTaskSource = new();
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
+            ImmutableDictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
             await WeaponCollocationsAsync(idAvatarMap).ConfigureAwait(false);
 
             wikiWeaponViewModelTaskSource.TrySetResult(true);
@@ -142,18 +143,21 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         }
     }
 
-    private async ValueTask<Dictionary<AvatarId, Avatar>> GetIdAvatarMapExtendedAsync()
+    private async ValueTask<ImmutableDictionary<AvatarId, Avatar>> GetIdAvatarMapExtendedAsync()
     {
         if (idAvatarExtendedMap is null)
         {
-            Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
+            ImmutableDictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             idAvatarExtendedMap = AvatarIds.WithPlayers(idAvatarMap);
         }
 
         return idAvatarExtendedMap;
     }
 
-    private async ValueTask AvatarCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap, Dictionary<WeaponId, Weapon> idWeaponMap, Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
+    private async ValueTask AvatarCollocationsAsync(
+        ImmutableDictionary<AvatarId, Avatar> idAvatarMap,
+        ImmutableDictionary<WeaponId, Weapon> idWeaponMap,
+        ImmutableDictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
     {
         List<AvatarCollocation> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -172,7 +176,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         }).ToDictionary(a => a.AvatarId);
     }
 
-    private async ValueTask WeaponCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
+    private async ValueTask WeaponCollocationsAsync(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<WeaponCollocation> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -190,7 +194,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task AvatarAppearanceRankAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
+    private async Task AvatarAppearanceRankAsync(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarAppearanceRank> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -208,7 +212,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task AvatarUsageRanksAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
+    private async Task AvatarUsageRanksAsync(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarUsageRank> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -226,7 +230,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task AvatarConstellationInfosAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
+    private async Task AvatarConstellationInfosAsync(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarConstellationInfo> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -243,7 +247,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task TeamAppearancesAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
+    private async Task TeamAppearancesAsync(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<TeamAppearance> teamAppearancesRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())

@@ -12,10 +12,10 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
 {
     private readonly TypeCode enumTypeCode = Type.GetTypeCode(typeof(TEnum));
 
-    private readonly JsonSerializeType readAs;
-    private readonly JsonSerializeType writeAs;
+    private readonly JsonEnumSerializeType readAs;
+    private readonly JsonEnumSerializeType writeAs;
 
-    public UnsafeEnumConverter(JsonSerializeType readAs, JsonSerializeType writeAs)
+    public UnsafeEnumConverter(JsonEnumSerializeType readAs, JsonEnumSerializeType writeAs)
     {
         this.readAs = readAs;
         this.writeAs = writeAs;
@@ -23,7 +23,7 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
 
     public override TEnum Read(ref Utf8JsonReader reader, Type typeToConverTEnum, JsonSerializerOptions options)
     {
-        if (readAs == JsonSerializeType.Number)
+        if (readAs == JsonEnumSerializeType.Number)
         {
             return GetEnum(ref reader, enumTypeCode);
         }
@@ -40,10 +40,10 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
     {
         switch (writeAs)
         {
-            case JsonSerializeType.Number:
+            case JsonEnumSerializeType.Number:
                 WriteNumberValue(writer, value, enumTypeCode);
                 break;
-            case JsonSerializeType.NumberString:
+            case JsonEnumSerializeType.NumberString:
                 writer.WriteStringValue(value.ToString("D"));
                 break;
             default:

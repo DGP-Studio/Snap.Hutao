@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Item;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
-internal interface IMetadataListMaterialSource
+internal interface IMetadataArrayMaterialSource
 {
-    List<Material> Materials { get; set; }
+    ImmutableArray<Material> Materials { get; set; }
 }

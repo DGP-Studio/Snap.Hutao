@@ -6,10 +6,6 @@ using System.IO;
 
 namespace Snap.Hutao.Core.IO;
 
-/// <summary>
-/// 封装一个临时文件
-/// </summary>
-[HighQuality]
 internal readonly struct TempFile : IDisposable
 {
     public readonly string Path;

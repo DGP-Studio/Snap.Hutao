@@ -15,6 +15,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
@@ -39,6 +40,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private IAdvancedDbCollectionView<EntityArchive>? archives;
 
     private bool isUncompletedItemsFirst = true;
+    private bool filterDailyQuestItems;
     private string searchText = string.Empty;
     private string? finishDescription;
 
@@ -98,6 +100,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         set => SetProperty(ref isUncompletedItemsFirst, value);
     }
 
+    public bool FilterDailyQuestItems
+    {
+        get => filterDailyQuestItems;
+        set => SetProperty(ref filterDailyQuestItems, value);
+    }
+
     public string? FinishDescription
     {
         get => finishDescription;
@@ -132,11 +140,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            List<MetadataAchievementGoal> goals = await scopeContext.MetadataService
+            ImmutableArray<MetadataAchievementGoal> goals = await scopeContext.MetadataService
                 .GetAchievementGoalListAsync(CancellationToken)
                 .ConfigureAwait(false);
 
-            sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From).ToAdvancedCollectionView();
+            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().ToAdvancedCollectionView();
         }
 
         IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);
@@ -359,50 +367,42 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        if (goal is null)
-        {
-            Achievements.Filter = default!;
-        }
-        else
-        {
-            Model.Primitive.AchievementGoalId goalId = goal.Id;
-            Achievements.Filter = (AchievementView view) => view.Inner.Goal == goalId;
-        }
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, goal);
     }
 
     [Command("SearchAchievementCommand")]
     private void UpdateAchievementsFilterBySearch(string? search)
     {
-        if (Achievements is null)
+        if (Achievements is null || AchievementGoals is null)
         {
             return;
         }
 
-        AchievementGoals?.MoveCurrentTo(default);
+        AchievementGoals.MoveCurrentTo(default);
 
         if (string.IsNullOrEmpty(search))
         {
-            Achievements.Filter = default!;
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (uint.TryParse(search, out uint achievementId))
         {
-            Achievements.Filter = view => view.Inner.Id == achievementId;
+            Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems, achievementId);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
         if (VersionRegex().IsMatch(search))
         {
-            Achievements.Filter = view => view.Inner.Version == search;
+            Achievements.Filter = AchievementFilter.CompileForVersion(FilterDailyQuestItems, search);
+            AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
             return;
         }
 
-        Achievements.Filter = view =>
-        {
-            return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
-                || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
-        };
+        Achievements.Filter = AchievementFilter.CompileForTitleOrDescription(FilterDailyQuestItems, search);
+        AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
     }
 
     [Command("SaveAchievementCommand")]
@@ -415,5 +415,17 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         scopeContext.AchievementService.SaveAchievement(achievement);
         AchievementFinishPercent.Update(this);
+    }
+
+    [Command("FilterDailyQuestSwitchCommand")]
+    private void UpdateAchievementsFilterByDailyQuest()
+    {
+        if (Achievements is null || AchievementGoals is null)
+        {
+            return;
+        }
+
+        Achievements.Filter = AchievementFilter.Compile(FilterDailyQuestItems);
+        AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);
     }
 }

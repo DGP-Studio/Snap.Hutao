@@ -6,10 +6,6 @@ using System.Text;
 
 namespace Snap.Hutao.Extension;
 
-/// <summary>
-/// <see cref="StringBuilder"/> 扩展方法
-/// </summary>
-[HighQuality]
 internal static class StringBuilderExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

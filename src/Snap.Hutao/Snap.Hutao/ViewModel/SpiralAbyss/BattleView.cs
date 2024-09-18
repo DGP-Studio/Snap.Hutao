@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
@@ -12,7 +11,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 上下半视图
 /// </summary>
 [HighQuality]
-internal sealed class BattleView : IMappingFrom<BattleView, TowerLevel, uint, SpiralAbyssMetadataContext>
+internal sealed class BattleView
 {
     private BattleView(TowerLevel towerLevel, uint battleIndex, SpiralAbyssMetadataContext context)
     {

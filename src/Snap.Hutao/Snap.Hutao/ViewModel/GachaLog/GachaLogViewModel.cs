@@ -163,7 +163,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         ContentDialogScope hideToken;
         try
         {
-            hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+            hideToken = await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false);
         }
         catch (COMException ex)
         {

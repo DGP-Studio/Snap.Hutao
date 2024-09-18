@@ -3,6 +3,7 @@
 
 using System.Buffers;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.RateLimiting;
 using Snap.Hutao.Core.Threading.RateLimiting;
 
@@ -78,7 +79,7 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
         }
     }
 
-    public async ValueTask CopyAsync(TokenBucketRateLimiter rateLimiter, IProgress<TStatus> progress, CancellationToken token = default)
+    public async ValueTask CopyAsync(StrongBox<TokenBucketRateLimiter?> rateLimiterBox, IProgress<TStatus> progress, CancellationToken token = default)
     {
         long bytesReadSinceCopyStart = 0;
         long bytesReadSinceLastReport = 0;
@@ -91,20 +92,28 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
 
             do
             {
-                if (!rateLimiter.TryAcquire(buffer.Length, out int bytesToRead, out TimeSpan retryAfter))
+                if (rateLimiterBox.Value is { } rateLimiter)
                 {
-                    await Task.Delay(retryAfter, token).ConfigureAwait(false);
-                    continue;
+                    if (!rateLimiter.TryAcquire(buffer.Length, out int bytesToRead, out TimeSpan retryAfter))
+                    {
+                        await Task.Delay(retryAfter, token).ConfigureAwait(false);
+                        continue;
+                    }
+
+                    bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(false);
+                    rateLimiter.Replenish(bytesToRead - bytesRead);
+                }
+                else
+                {
+                    bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(false);
                 }
 
-                bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(false);
                 if (bytesRead is 0)
                 {
                     progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
                     break;
                 }
 
-                rateLimiter.Replenish(bytesToRead - bytesRead);
                 await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
 
                 bytesReadSinceCopyStart += bytesRead;

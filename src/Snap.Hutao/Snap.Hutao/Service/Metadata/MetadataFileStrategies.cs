@@ -18,7 +18,6 @@ internal static class MetadataFileStrategies
     public static readonly MetadataFileStrategy MonsterCurve = new("MonsterCurve");
     public static readonly MetadataFileStrategy ProfilePicture = new("ProfilePicture");
     public static readonly MetadataFileStrategy Reliquary = new("Reliquary");
-    public static readonly MetadataFileStrategy ReliquaryAffixWeight = new("ReliquaryAffixWeight");
     public static readonly MetadataFileStrategy ReliquaryMainAffix = new("ReliquaryMainAffix");
     public static readonly MetadataFileStrategy ReliquaryMainAffixLevel = new("ReliquaryMainAffixLevel");
     public static readonly MetadataFileStrategy ReliquarySet = new("ReliquarySet");

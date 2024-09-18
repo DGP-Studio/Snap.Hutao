@@ -35,9 +35,8 @@ internal sealed class RuntimeOptions
         // Fallback to MyDocuments
         string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-#if RELEASE
-        // 将测试版与正式版的文件目录分离
-        string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
+#if IS_ALPHA_BUILD
+        string folderName = "HutaoAlpha";
 #else
         // 使得迁移能正常生成
         string folderName = "Hutao";

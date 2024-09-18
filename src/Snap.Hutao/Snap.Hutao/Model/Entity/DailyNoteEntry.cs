@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.ViewModel.DailyNote;
 using Snap.Hutao.ViewModel.User;
@@ -18,7 +17,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("daily_notes")]
-internal sealed partial class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteEntry, UserAndUid>, IAppDbEntity
+internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
 {
     /// <summary>
     /// 内部Id

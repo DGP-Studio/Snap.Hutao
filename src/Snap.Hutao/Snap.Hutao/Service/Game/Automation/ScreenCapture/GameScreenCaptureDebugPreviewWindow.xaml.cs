@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
 internal sealed partial class GameScreenCaptureDebugPreviewWindow : Window
 {
-    private unsafe IDXGISwapChain1* swapChain1;
+    private ObjectReference<IDXGISwapChain1.Vftbl>? swapChain1;
 
     public GameScreenCaptureDebugPreviewWindow()
     {
@@ -28,20 +28,31 @@ internal sealed partial class GameScreenCaptureDebugPreviewWindow : Window
         this.InitializeController(Ioc.Default);
     }
 
-    public unsafe void UpdateSwapChain(IDXGISwapChain1* swapChain1)
+    public unsafe void UpdateSwapChain(ObjectReference<IDXGISwapChain1.Vftbl>? swapChain1)
     {
         this.swapChain1 = swapChain1;
         ISwapChainPanelNative native = Presenter.As<IInspectable>().ObjRef.AsInterface<ISwapChainPanelNative>();
-        native.SetSwapChain((IDXGISwapChain*)swapChain1);
+        native.SetSwapChain((IDXGISwapChain*)(swapChain1?.ThisPtr ?? 0));
     }
 
-    public unsafe void UnsafeUpdatePreview(ID3D11Device* device, IDirect3DSurface surface)
+    public unsafe void UnsafeUpdatePreview(ObjectReference<ID3D11Device.Vftbl> device, IDirect3DSurface surface)
     {
+        ArgumentNullException.ThrowIfNull(swapChain1);
+
         IDirect3DDxgiInterfaceAccess access = surface.As<IDirect3DDxgiInterfaceAccess>();
-        swapChain1->GetBuffer(0, in ID3D11Texture2D.IID, out ID3D11Texture2D* buffer);
-        device->GetImmediateContext(out ID3D11DeviceContext* deviceContext);
-        access.GetInterface(in ID3D11Resource.IID, out ID3D11Resource* resource);
-        deviceContext->CopyResource((ID3D11Resource*)buffer, resource);
-        swapChain1->Present(0, default);
+        ((IDXGISwapChain1*)swapChain1.ThisPtr)->GetBuffer(0, in ID3D11Texture2D.IID, out ObjectReference<ID3D11Texture2D.Vftbl> buffer);
+        using (buffer)
+        {
+            ((ID3D11Device*)device.ThisPtr)->GetImmediateContext(out ObjectReference<ID3D11DeviceContext.Vftbl> deviceContext);
+            using (deviceContext)
+            {
+                access.GetInterface(in ID3D11Resource.IID, out ObjectReference<ID3D11Resource.Vftbl> resource);
+                using (resource)
+                {
+                    ((ID3D11DeviceContext*)deviceContext.ThisPtr)->CopyResource(buffer.As<ID3D11Resource.Vftbl>(ID3D11Resource.IID), resource);
+                    ((IDXGISwapChain1*)swapChain1.ThisPtr)->Present(0, default);
+                }
+            }
+        }
     }
 }

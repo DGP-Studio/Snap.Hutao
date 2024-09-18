@@ -43,9 +43,9 @@ internal sealed partial class ZstandardDecompressionStream : Stream
         }
         else
         {
-            nuint size = ZSTD_DStreamInSize();
-            ZstandardException.ThrowIfError(size);
-            inputBufferSize = (int)size;
+            nuint autoSize = ZSTD_DStreamInSize();
+            ZstandardException.ThrowIfError(autoSize);
+            inputBufferSize = (int)autoSize;
         }
 
         inputBufferMemoryOwner = MemoryPool<byte>.Shared.Rent(inputBufferSize);
@@ -111,7 +111,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
         return ReadInternalAsync(buffer, token);
     }
 
-    public override unsafe Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken token = default)
+    public override unsafe Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken token)
     {
         CheckParamsValid(buffer, offset, count);
         ObjectDisposedException.ThrowIf(decompressStreamContext is null, this);

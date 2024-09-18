@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -20,8 +19,7 @@ namespace Snap.Hutao.Model.Entity;
 internal sealed partial class GameAccount : ObservableObject,
     IAppDbEntity,
     IReorderable,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<GameAccount, string, string, SchemeType>
+    IAdvancedCollectionViewItem
 {
     /// <summary>
     /// 内部Id

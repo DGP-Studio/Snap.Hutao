@@ -5,9 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Snap.Hutao.Extension;
 
-/// <summary>
-/// 内存缓存拓展
-/// </summary>
 internal static class MemoryCacheExtension
 {
     public static bool TryRemove(this IMemoryCache memoryCache, string key, out object? value)

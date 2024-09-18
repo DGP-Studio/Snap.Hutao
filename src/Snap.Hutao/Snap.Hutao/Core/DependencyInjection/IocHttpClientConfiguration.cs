@@ -2,15 +2,12 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO.Http.Proxy;
+using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
 using System.Net.Http;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
-/// <summary>
-/// <see cref="Ioc"/> 与 <see cref="HttpClient"/> 配置
-/// </summary>
-[HighQuality]
 internal static partial class IocHttpClientConfiguration
 {
     private const string ApplicationJson = "application/json";
@@ -21,16 +18,29 @@ internal static partial class IocHttpClientConfiguration
             .ConfigureHttpClientDefaults(clientBuilder =>
             {
                 clientBuilder
-                    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler())
+                    .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler())
                     .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
                     {
-                        HttpClientHandler clientHandler = (HttpClientHandler)handler;
-                        clientHandler.AllowAutoRedirect = true;
-                        clientHandler.UseProxy = true;
-                        clientHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
+                        SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
+                        typedHandler.AllowAutoRedirect = true;
+                        typedHandler.UseProxy = true;
+                        typedHandler.MaxConnectionsPerServer = 16;
+                        typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
                     });
             })
             .AddHttpClients();
+
+        services
+            .AddHttpClient(GamePackageService.HttpClientName)
+            .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
+            {
+                SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
+                typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
+                typedHandler.AllowAutoRedirect = true;
+                typedHandler.UseProxy = true;
+                typedHandler.MaxConnectionsPerServer = 16;
+                typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
+            });
 
         return services;
     }

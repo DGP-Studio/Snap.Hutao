@@ -20,7 +20,6 @@ using System.Text;
 namespace Snap.Hutao.Web.Bridge;
 
 [HighQuality]
-[SuppressMessage("", "CA1001")]
 internal class MiHoYoJSBridgeFacade
 {
     private const string InitializeJsInterfaceScript = """
@@ -76,7 +75,7 @@ internal class MiHoYoJSBridgeFacade
         document.addEventListener('mousedown', mouseDownListener);
         """;
 
-    private readonly SemaphoreSlim webMessageSemaphore = new(1);
+    private readonly AsyncLock webMessageLock = new();
     private readonly Guid bridgeId = Guid.NewGuid();
     private readonly UserAndUid userAndUid;
 
@@ -406,7 +405,7 @@ internal class MiHoYoJSBridgeFacade
 
         ArgumentNullException.ThrowIfNull(param);
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
-        using (await webMessageSemaphore.EnterAsync().ConfigureAwait(false))
+        using (await webMessageLock.LockAsync().ConfigureAwait(false))
         {
             IJsBridgeResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
 

@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
-internal interface IMetadataListProfilePictureSource
+internal interface IMetadataArrayProfilePictureSource
 {
-    List<ProfilePicture> ProfilePictures { get; set; }
+    ImmutableArray<ProfilePicture> ProfilePictures { get; set; }
 }

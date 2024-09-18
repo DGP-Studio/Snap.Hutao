@@ -7,8 +7,5 @@ namespace Snap.Hutao.Core.LifeCycle;
 
 internal interface ICurrentXamlWindowReference
 {
-    /// <summary>
-    /// Only set in WindowController
-    /// </summary>
     public Window? Window { get; set; }
 }

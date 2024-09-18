@@ -12,7 +12,7 @@ internal sealed class AsyncLock
 
     public AsyncLock()
     {
-        semaphore = new AsyncSemaphore(1);
+        semaphore = new AsyncSemaphore(1, 1);
         releaser = Task.FromResult(new Releaser(this));
     }
 
@@ -34,7 +34,7 @@ internal sealed class AsyncLock
 
         public readonly void Dispose()
         {
-            toRelease?.semaphore.Release();
+            toRelease.semaphore.Release();
         }
     }
 }

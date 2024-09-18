@@ -4,16 +4,13 @@
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using System.IO;
+using WinRT;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.Ole32;
 using static Snap.Hutao.Win32.Shell32;
 
 namespace Snap.Hutao.Core.IO;
 
-/// <summary>
-/// 文件操作
-/// </summary>
-[HighQuality]
 internal static class FileOperation
 {
     /// <summary>
@@ -72,54 +69,65 @@ internal static class FileOperation
 
     public static unsafe bool UnsafeDelete(string path)
     {
-        bool result = false;
-
-        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
+        if (!SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out ObjectReference<IFileOperation.Vftbl> fileOperation)))
         {
-            if (SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out IShellItem* pShellItem)))
-            {
-                pFileOperation->DeleteItem(pShellItem, default);
-
-                if (SUCCEEDED(pFileOperation->PerformOperations()))
-                {
-                    result = true;
-                }
-
-                IUnknownMarshal.Release(pShellItem);
-            }
-
-            IUnknownMarshal.Release(pFileOperation);
+            return false;
         }
 
-        return result;
+        using (fileOperation)
+        {
+            IFileOperation* pFileOperation = (IFileOperation*)fileOperation.ThisPtr;
+
+            if (!SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> shellItem)))
+            {
+                return false;
+            }
+
+            using (shellItem)
+            {
+                IShellItem* pShellItem = (IShellItem*)shellItem.ThisPtr;
+
+                pFileOperation->DeleteItem(pShellItem, default!);
+
+                return SUCCEEDED(pFileOperation->PerformOperations());
+            }
+        }
     }
 
     public static unsafe bool UnsafeMove(string sourceFileName, string destFileName)
     {
-        bool result = false;
-
-        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
+        if (!SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out ObjectReference<IFileOperation.Vftbl> fileOperation)))
         {
-            if (SUCCEEDED(SHCreateItemFromParsingName(sourceFileName, default, in IShellItem.IID, out IShellItem* pSourceShellItem)))
-            {
-                if (SUCCEEDED(SHCreateItemFromParsingName(destFileName, default, in IShellItem.IID, out IShellItem* pDestShellItem)))
-                {
-                    pFileOperation->MoveItem(pSourceShellItem, pDestShellItem, default, default);
-
-                    if (SUCCEEDED(pFileOperation->PerformOperations()))
-                    {
-                        result = true;
-                    }
-
-                    IUnknownMarshal.Release(pDestShellItem);
-                }
-
-                IUnknownMarshal.Release(pSourceShellItem);
-            }
-
-            IUnknownMarshal.Release(pFileOperation);
+            return false;
         }
 
-        return result;
+        using (fileOperation)
+        {
+            IFileOperation* pFileOperation = (IFileOperation*)fileOperation.ThisPtr;
+
+            if (!SUCCEEDED(SHCreateItemFromParsingName(sourceFileName, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> sourceShellItem)))
+            {
+                return false;
+            }
+
+            using (sourceShellItem)
+            {
+                IShellItem* pSourceShellItem = (IShellItem*)sourceShellItem.ThisPtr;
+
+                if (!SUCCEEDED(SHCreateItemFromParsingName(destFileName, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> destShellItem)))
+                {
+                    return false;
+                }
+
+                using (destShellItem)
+                {
+                    IShellItem* pDestShellItem = (IShellItem*)destShellItem.ThisPtr;
+
+                    pFileOperation->MoveItem(pSourceShellItem, destShellItem, default, default!);
+
+                    return SUCCEEDED(pFileOperation->PerformOperations());
+                }
+            }
+        }
     }
 }

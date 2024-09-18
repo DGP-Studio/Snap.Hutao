@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-internal sealed class BattleWave : IMappingFrom<BattleWave, TowerWave, SpiralAbyssMetadataContext>
+internal sealed class BattleWave
 {
     private BattleWave(TowerWave towerWave, SpiralAbyssMetadataContext context)
     {

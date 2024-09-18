@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Metadata.Tower;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
@@ -10,7 +9,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 间视图
 /// </summary>
 [HighQuality]
-internal sealed class LevelView : IMappingFrom<LevelView, TowerLevel, SpiralAbyssMetadataContext>
+internal sealed class LevelView
 {
     private LevelView(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
     {

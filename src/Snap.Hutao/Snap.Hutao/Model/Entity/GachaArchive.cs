@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.UI.Xaml.Data;
 using System.ComponentModel.DataAnnotations;
@@ -14,9 +13,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("gacha_archives")]
-internal sealed partial class GachaArchive : ISelectable,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<GachaArchive, string>
+internal sealed partial class GachaArchive : ISelectable, IAdvancedCollectionViewItem
 {
     /// <summary>
     /// 内部Id

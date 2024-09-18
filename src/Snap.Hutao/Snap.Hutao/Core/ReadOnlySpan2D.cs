@@ -10,13 +10,11 @@ internal readonly ref struct ReadOnlySpan2D<T>
     where T : unmanaged
 {
     private readonly ref T reference;
-    private readonly int length;
     private readonly int columns;
 
-    public unsafe ReadOnlySpan2D(void* pointer, int length, int columns)
+    public unsafe ReadOnlySpan2D(void* pointer, int columns)
     {
-        reference = ref *(T*)pointer;
-        this.length = length;
+        reference = ref Unsafe.AsRef<T>(pointer);
         this.columns = columns;
     }
 

@@ -2,13 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata;
 
-/// <summary>
-/// 角色ID
-/// </summary>
-[HighQuality]
 internal static class AvatarIds
 {
     // 此处的变量名称以 UI_AvatarIcon 为准
@@ -107,40 +104,31 @@ internal static class AvatarIds
     public static readonly AvatarId Kinich = 10000101;
     public static readonly AvatarId Mualani = 10000102;
 
-    /// <summary>
-    /// 检查该角色是否为主角
-    /// </summary>
-    /// <param name="avatarId">角色Id</param>
-    /// <returns>角色是否为主角</returns>
     public static bool IsPlayer(in AvatarId avatarId)
     {
         return avatarId == PlayerBoy || avatarId == PlayerGirl;
     }
 
-    /// <summary>
-    /// 复制一个映射并加入旅行者的基本信息
-    /// </summary>
-    /// <param name="idAvatarMap">映射</param>
-    /// <returns>加入旅行者基本信息的映射</returns>
-    public static Dictionary<AvatarId, Avatar.Avatar> WithPlayers(Dictionary<AvatarId, Avatar.Avatar> idAvatarMap)
+    public static ImmutableDictionary<AvatarId, Avatar.Avatar> WithPlayers(ImmutableDictionary<AvatarId, Avatar.Avatar> idAvatarMap)
     {
-        return new(idAvatarMap)
-        {
-            [PlayerBoy] = new()
-            {
-                Name = SH.ModelMetadataAvatarPlayerName,
-                Icon = "UI_AvatarIcon_PlayerBoy",
-                SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
-                Quality = Intrinsic.QualityType.QUALITY_ORANGE,
-            },
+        ImmutableDictionary<AvatarId, Avatar.Avatar>.Builder builder = ImmutableDictionary.CreateBuilder<AvatarId, Avatar.Avatar>();
 
-            [PlayerGirl] = new()
-            {
-                Name = SH.ModelMetadataAvatarPlayerName,
-                Icon = "UI_AvatarIcon_PlayerGirl",
-                SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
-                Quality = Intrinsic.QualityType.QUALITY_ORANGE,
-            },
-        };
+        builder.AddRange(idAvatarMap);
+        builder.Add(PlayerBoy, new()
+        {
+            Name = SH.ModelMetadataAvatarPlayerName,
+            Icon = "UI_AvatarIcon_PlayerBoy",
+            SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
+            Quality = Intrinsic.QualityType.QUALITY_ORANGE,
+        });
+        builder.Add(PlayerGirl, new()
+        {
+            Name = SH.ModelMetadataAvatarPlayerName,
+            Icon = "UI_AvatarIcon_PlayerGirl",
+            SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
+            Quality = Intrinsic.QualityType.QUALITY_ORANGE,
+        });
+
+        return builder.ToImmutable();
     }
 }

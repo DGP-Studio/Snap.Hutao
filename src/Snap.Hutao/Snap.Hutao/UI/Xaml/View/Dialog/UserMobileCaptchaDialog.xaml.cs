@@ -4,12 +4,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using System.Text;
 using System.Text.RegularExpressions;
+using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -136,6 +138,22 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
 
     [GeneratedRegex(@"\d{11}")]
     private static partial Regex MobilePhoneRegex();
+
+    private void OnTextKeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key is VirtualKey.Enter)
+        {
+            e.Handled = true;
+        }
+    }
+
+    private void OnTextKeyUp(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key is VirtualKey.Enter)
+        {
+            e.Handled = true;
+        }
+    }
 
     private sealed class Aigis
     {

@@ -22,7 +22,7 @@ public sealed class HttpClientTest
                 {
                     using (HttpResponseMessage response = httpClient.Send(request))
                     {
-                        _ = 1;
+                        _ = response;
                     }
                 }
             }

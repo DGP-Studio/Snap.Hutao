@@ -39,7 +39,7 @@ internal sealed class SummaryAvatarFactory
         return new SummaryAvatarFactory(context, avatarInfo).Create();
     }
 
-    public AvatarView Create()
+    public unsafe AvatarView Create()
     {
         MetadataAvatar avatar = context.IdAvatarMap[character.Base.Id];
         ProcessConstellations(avatar.SkillDepot, character.Constellations, out List<SkillId> activatedConstellations, out Dictionary<SkillId, SkillLevel> extraLevels);
@@ -53,9 +53,10 @@ internal sealed class SummaryAvatarFactory
             .SetConstellations(avatar.SkillDepot.Talents, activatedConstellations)
             .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents(), character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
             .SetFetterLevel(character.Base.Fetter)
-            .SetProperties(character.SelectedProperties.SortBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).SelectList(FightPropertyFormat.ToAvatarProperty))
+            .SetProperties(character.SelectedProperties.SortBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).SelectList(&FightPropertyFormat.ToAvatarProperty))
             .SetLevelNumber(character.Base.Level)
             .SetWeapon(CreateWeapon(character.Weapon))
+            .SetRecommendedReliquaryProperties(character.RecommendRelicProperty.RecommendProperties.SubPropertyList.SelectList(&FightPropertyExtension.GetLocalizedDescription))
             .SetReliquaries(character.Relics.SelectList(relic => SummaryReliquaryFactory.Create(context, relic)))
             .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)

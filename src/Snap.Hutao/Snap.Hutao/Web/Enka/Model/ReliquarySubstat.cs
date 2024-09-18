@@ -16,6 +16,6 @@ internal class ReliquarySubstat : Stat
     /// 增加属性
     /// </summary>
     [JsonPropertyName("appendPropId")]
-    [JsonEnum(JsonSerializeType.String)]
+    [JsonEnum(JsonEnumSerializeType.String)]
     public FightProperty AppendPropId { get; set; }
 }

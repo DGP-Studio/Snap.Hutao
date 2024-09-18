@@ -18,7 +18,7 @@ internal static class PhysicalDriver
     // From Microsoft.VisualStudio.Setup.Services.DiskInfo
     // Check if the driver is trim enabled and not incurs seek penalty.
     // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#physical-disks-and-volumes
-    public static unsafe bool DangerousGetIsSolidState(string path)
+    public static bool DangerousGetIsSolidState(string path)
     {
         if (LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false))
         {

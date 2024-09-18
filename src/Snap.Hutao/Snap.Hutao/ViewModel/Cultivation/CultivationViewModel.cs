@@ -18,16 +18,11 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-/// <summary>
-/// 养成视图模型
-/// </summary>
-[HighQuality]
+[SuppressMessage("", "CA1001")]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
-    private readonly ConcurrentCancellationTokenSource statisticsCancellationTokenSource = new();
-
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CultivationViewModel> logger;
@@ -36,6 +31,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+
+    private CancellationTokenSource statisticsCancellationTokenSource = new();
 
     private AdvancedDbCollectionView<CultivateProject>? projects;
     private List<InventoryItemView>? inventoryItems;
@@ -233,7 +230,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
                 .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationRefreshInventoryProgress)
                 .ConfigureAwait(false);
 
-            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
             {
                 await inventoryService.RefreshInventoryAsync(Projects.CurrentItem).ConfigureAwait(false);
 
@@ -252,7 +249,9 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToBackgroundAsync();
 
-        CancellationToken token = statisticsCancellationTokenSource.Register();
+        statisticsCancellationTokenSource.Cancel();
+        statisticsCancellationTokenSource = new();
+        CancellationToken token = statisticsCancellationTokenSource.Token;
         ObservableCollection<StatisticsCultivateItem> statistics;
         try
         {

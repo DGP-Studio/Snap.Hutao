@@ -37,6 +37,8 @@
                 <TextBox
                     Grid.Column="2"
                     CornerRadius="0,4,4,0"
+                    KeyDown="OnTextKeyDown"
+                    KeyUp="OnTextKeyUp"
                     PlaceholderText="{shuxm:ResourceString Name=ViewDialogUserMobileCaptchaMobileHint}"
                     Text="{x:Bind Mobile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
@@ -48,6 +50,8 @@
         </Grid>
 
         <PasswordBox
+            KeyDown="OnTextKeyDown"
+            KeyUp="OnTextKeyUp"
             Password="{x:Bind Captcha, Mode=TwoWay}"
             PasswordChar="*"
             PlaceholderText="{shuxm:ResourceString Name=ViewDialogUserMobileCaptchaCaptchaHint}"/>

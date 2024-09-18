@@ -34,6 +34,8 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         }
     }
 
+    public ITaskContext TaskContext { get => taskContext; }
+
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
     {
         await taskContext.SwitchToMainThreadAsync();
@@ -48,7 +50,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             RequestedTheme = appOptions.ElementTheme,
         };
 
-        return await dialog.ShowAsync();
+        return await EnqueueAndShowAsync(dialog).ConfigureAwait(false);
     }
 
     public async ValueTask<ContentDialogResult> CreateForConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close)
@@ -66,7 +68,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             RequestedTheme = appOptions.ElementTheme,
         };
 
-        return await dialog.ShowAsync();
+        return await EnqueueAndShowAsync(dialog).ConfigureAwait(false);
     }
 
     public async ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync(string title)
@@ -107,20 +109,23 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     }
 
     [SuppressMessage("", "SH003")]
-    public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
+    [SuppressMessage("", "SH100")]
+    public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = default)
     {
-        TaskCompletionSource<ContentDialogResult> dialogShowCompletionSource = new();
+        TaskCompletionSource<ContentDialogResult> dialogResultSource = new();
 
         dialogQueue.Enqueue(async () =>
         {
             try
             {
+                await taskContext.SwitchToMainThreadAsync();
+                dialogShowSource?.TrySetResult();
                 ContentDialogResult result = await contentDialog.ShowAsync();
-                dialogShowCompletionSource.SetResult(result);
+                dialogResultSource.SetResult(result);
             }
             catch (Exception ex)
             {
-                dialogShowCompletionSource.SetException(ex);
+                dialogResultSource.SetException(ex);
             }
             finally
             {
@@ -133,7 +138,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             ShowNextDialog();
         }
 
-        return dialogShowCompletionSource.Task;
+        return dialogResultSource.Task;
 
         Task ShowNextDialog()
         {

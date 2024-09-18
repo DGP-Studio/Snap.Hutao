@@ -41,6 +41,13 @@ internal static class DbSetExtension
         return dbSet.SaveChangesAndClearChangeTracker();
     }
 
+    public static int UpdateRangeAndSave<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entity)
+        where TEntity : class
+    {
+        dbSet.UpdateRange(entity);
+        return dbSet.SaveChangesAndClearChangeTracker();
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int SaveChangesAndClearChangeTracker<TEntity>(this DbSet<TEntity> dbSet)
         where TEntity : class

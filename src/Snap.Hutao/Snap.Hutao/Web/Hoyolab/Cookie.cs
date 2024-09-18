@@ -3,6 +3,7 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -102,6 +103,30 @@ internal sealed partial class Cookie
 
     public override string ToString()
     {
-        return inner.JoinToString(';', (builder, key, value) => builder.Append(key).Append('=').Append(value));
+        StringBuilder resultBuilder = new();
+
+        IEnumerator<KeyValuePair<string, string>> enumerator = inner.GetEnumerator();
+        if (!enumerator.MoveNext())
+        {
+            return string.Empty;
+        }
+
+        KeyValuePair<string, string> first = enumerator.Current;
+        resultBuilder.Append(first.Key).Append('=').Append(first.Value);
+
+        if (!enumerator.MoveNext())
+        {
+            return resultBuilder.ToString();
+        }
+
+        do
+        {
+            resultBuilder.Append(';');
+            KeyValuePair<string, string> current = enumerator.Current;
+            resultBuilder.Append(current.Key).Append('=').Append(current.Value);
+        }
+        while (enumerator.MoveNext());
+
+        return resultBuilder.ToString();
     }
 }

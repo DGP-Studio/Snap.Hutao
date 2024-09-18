@@ -12,9 +12,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Abstraction;
 
-/// <summary>
-/// 数据库存储选项的设置
-/// </summary>
 [ConstructorGenerated]
 internal abstract partial class DbStoreOptions : ObservableObject
 {

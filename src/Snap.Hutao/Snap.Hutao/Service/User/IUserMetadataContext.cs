@@ -6,4 +6,4 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 namespace Snap.Hutao.Service.User;
 
 internal interface IUserMetadataContext : IMetadataContext,
-    IMetadataListProfilePictureSource;
+    IMetadataArrayProfilePictureSource;

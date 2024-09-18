@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
 using System.ComponentModel.DataAnnotations;
@@ -14,9 +13,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("users")]
-internal sealed class User : ISelectable,
-    IReorderable,
-    IMappingFrom<User, Cookie, bool>
+internal sealed class User : ISelectable, IReorderable
 {
     /// <summary>
     /// 内部Id

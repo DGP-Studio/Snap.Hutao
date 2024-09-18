@@ -37,7 +37,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
             IProgress<PackageConvertStatus> convertProgress = progressFactory.CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
 
-            using (await dialog.BlockAsync(context.TaskContext).ConfigureAwait(false))
+            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
             {
                 if (!await EnsureGameResourceAsync(context, gameFileSystem, convertProgress).ConfigureAwait(false))
                 {

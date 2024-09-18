@@ -13,6 +13,8 @@ internal interface IContentDialogFactory
 {
     bool IsDialogShowing { get; }
 
+    ITaskContext TaskContext { get; }
+
     /// <summary>
     /// 异步确认
     /// </summary>
@@ -44,5 +46,5 @@ internal interface IContentDialogFactory
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
 
     [SuppressMessage("", "SH003")]
-    Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog);
+    Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = default);
 }

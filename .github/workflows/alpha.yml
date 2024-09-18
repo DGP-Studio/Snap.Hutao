@@ -28,53 +28,27 @@ on:
       - '**.resx'
 
 jobs:
-  build:
-    runs-on: self-hosted
+  select-runner:
+    runs-on: ubuntu-latest
+    outputs:
+      runner: ${{ steps.select_runner.outputs.runner }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0
-
-      - name: Cake
-        id: cake
-        shell: pwsh
-        run: dotnet tool restore && dotnet cake
-        env:
-          VERSION_API_TOKEN: ${{ secrets.VERSION_API_TOKEN }}
-          CERTIFICATE: ${{ secrets.CERTIFICATE }}
-          PW: ${{ secrets.PW }}
-
-      - name: Upload signed msix
-        if: success() && github.event_name != 'pull_request'
-        uses: actions/upload-artifact@v4
-        with:
-          name: Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}
-          path: ${{ github.workspace }}/src/output/Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}.msix
-
-      - name: Add summary
-        if: success() && github.event_name != 'pull_request'
-        shell: pwsh
+      - name: Select runner
+        id: select_runner
         run: |
-          $summary = "
-          > [!WARNING]
-          > 该版本是由 CI 程序自动打包生成的 `Alpha` 测试版本，**仅供开发者测试使用**
+          runner_id=36
+          runner_status=$(curl -s -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${{ secrets.RUNNER_CHECK_TOKEN }}" https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id | jq -r '.status')
+          if [ "$runner_status" == "online" ]; then
+            runner=self-hosted
+          else
+            runner=windows-latest
+          fi
+          echo "$runner is selected"
+          echo "runner=$runner" >> $GITHUB_OUTPUT
 
-          > [!TIP]
-          > 普通用户请 [点击这里](https://github.com/DGP-Studio/Snap.Hutao/releases/latest/) 下载最新的稳定版本
-
-          > [!IMPORTANT]
-          > 请先安装 **[DGP_Studio_CA.crt](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate-ca/DGP_Studio_CA.crt)** 到 **受信任的根证书颁发机构** 以安装测试版安装包
-          "
-
-          echo $summary >> $Env:GITHUB_STEP_SUMMARY
-  fallback_build:
-    runs-on: windows-latest
-    needs: build
-    if: failure()
+  build:
+    needs: select-runner
+    runs-on: ${{ needs.select-runner.outputs.runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -83,6 +57,15 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0
+
+      - name: Cache NuGet packages
+        if: ${{ needs.select-runner.outputs.runner == 'windows-latest' }}
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/Snap.Hutao.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Cake
         id: cake

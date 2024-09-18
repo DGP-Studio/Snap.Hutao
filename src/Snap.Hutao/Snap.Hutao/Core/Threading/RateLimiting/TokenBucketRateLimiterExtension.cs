@@ -11,10 +11,13 @@ internal static class TokenBucketRateLimiterExtension
     // IMPORTANT: acquired can be none 0 values if false is returned
     public static bool TryAcquire(this TokenBucketRateLimiter rateLimiter, int permits, out int acquired, out TimeSpan retryAfter)
     {
-        acquired = Math.Min(permits, (int)Volatile.Read(ref PrivateGetTokenCount(rateLimiter)));
         lock (PrivateGetLock(rateLimiter))
         {
-            return rateLimiter.AttemptAcquire(acquired).TryGetMetadata(MetadataName.RetryAfter, out retryAfter);
+            acquired = (int)Math.Min(permits, PrivateGetTokenCount(rateLimiter));
+
+            RateLimitLease lease = rateLimiter.AttemptAcquire(acquired);
+            lease.TryGetMetadata(MetadataName.RetryAfter, out retryAfter);
+            return lease.IsAcquired;
         }
     }
 
@@ -28,7 +31,7 @@ internal static class TokenBucketRateLimiterExtension
         lock (PrivateGetLock(rateLimiter))
         {
             ref double tokenCount = ref PrivateGetTokenCount(rateLimiter);
-            Volatile.Write(ref tokenCount, Math.Min(PrivateGetOptions(rateLimiter).TokenLimit, Volatile.Read(ref tokenCount) + permits));
+            tokenCount = Math.Min(PrivateGetOptions(rateLimiter).TokenLimit, tokenCount + permits);
         }
     }
 

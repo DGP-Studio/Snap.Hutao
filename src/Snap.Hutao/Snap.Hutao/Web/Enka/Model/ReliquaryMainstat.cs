@@ -16,6 +16,6 @@ internal sealed class ReliquaryMainstat : Stat
     /// Equipment Append Property Name.
     /// </summary>
     [JsonPropertyName("mainPropId")]
-    [JsonEnum(JsonSerializeType.String)]
+    [JsonEnum(JsonEnumSerializeType.String)]
     public FightProperty MainPropId { get; set; }
 }

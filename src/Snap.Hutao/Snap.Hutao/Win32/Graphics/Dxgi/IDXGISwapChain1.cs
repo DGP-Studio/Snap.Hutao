@@ -5,6 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using WinRT;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
@@ -27,15 +28,15 @@ internal unsafe struct IDXGISwapChain1
         return ThisPtr->IDXGISwapChainVftbl.Present((IDXGISwapChain*)Unsafe.AsPointer(ref this), SyncInterval, Flags);
     }
 
-    public HRESULT GetBuffer<T>(uint Buffer, ref readonly Guid iid, out T* pSurface)
-        where T : unmanaged
+    public HRESULT GetBuffer<TVftbl>(uint Buffer, ref readonly Guid iid, out ObjectReference<TVftbl> surface)
+        where TVftbl : unmanaged
     {
         fixed (Guid* riid = &iid)
         {
-            fixed (T** ppSurface = &pSurface)
-            {
-                return ThisPtr->IDXGISwapChainVftbl.GetBuffer((IDXGISwapChain*)Unsafe.AsPointer(ref this), Buffer, riid, (void**)ppSurface);
-            }
+            TVftbl** pSurface = default;
+            HRESULT hr = ThisPtr->IDXGISwapChainVftbl.GetBuffer((IDXGISwapChain*)Unsafe.AsPointer(ref this), Buffer, riid, (void**)&pSurface);
+            surface = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pSurface), iid);
+            return hr;
         }
     }
 

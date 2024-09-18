@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -13,8 +12,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 internal sealed partial class AchievementGoalView : ObservableObject,
     INameIcon,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<AchievementGoalView, AchievementGoal>
+    IAdvancedCollectionViewItem
 {
     private double finishPercent;
     private string? finishDescription;

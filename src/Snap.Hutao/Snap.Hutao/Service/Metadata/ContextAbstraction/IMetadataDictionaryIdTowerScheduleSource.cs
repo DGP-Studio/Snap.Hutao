@@ -3,10 +3,11 @@
 
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdTowerScheduleSource
 {
-    Dictionary<TowerScheduleId, TowerSchedule> IdTowerScheduleMap { get; set; }
+    ImmutableDictionary<TowerScheduleId, TowerSchedule> IdTowerScheduleMap { get; set; }
 }

@@ -5,6 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
@@ -23,7 +24,7 @@ internal readonly unsafe struct IDXGIObject
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IDXGIObject*, Guid*, uint, void*, HRESULT> SetPrivateData;
         internal readonly delegate* unmanaged[Stdcall]<IDXGIObject*, Guid*, IUnknown*, HRESULT> SetPrivateDataInterface;
         internal readonly delegate* unmanaged[Stdcall]<IDXGIObject*, Guid*, uint*, void*, HRESULT> GetPrivateData;

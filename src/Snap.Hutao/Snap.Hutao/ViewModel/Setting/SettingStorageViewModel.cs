@@ -83,7 +83,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             .CreateForIndeterminateProgressAsync(SH.ViewModelSettingResetStaticResourceProgress)
             .ConfigureAwait(false);
 
-        await using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+        await using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
         {
             await taskContext.SwitchToBackgroundAsync();
             StaticResource.FailAll();

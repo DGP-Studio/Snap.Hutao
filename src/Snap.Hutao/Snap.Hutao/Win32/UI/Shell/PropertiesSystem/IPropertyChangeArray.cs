@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell.PropertiesSystem;
 
@@ -25,7 +25,7 @@ internal readonly unsafe struct IPropertyChangeArray
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IPropertyChangeArray*, uint*, HRESULT> GetCount;
         internal readonly delegate* unmanaged[Stdcall]<IPropertyChangeArray*, uint, Guid*, void**, HRESULT> GetAt;
         internal readonly delegate* unmanaged[Stdcall]<IPropertyChangeArray*, uint, IPropertyChange*, HRESULT> InsertAt;

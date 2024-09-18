@@ -1,10 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Scheme;
@@ -18,6 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -26,8 +29,11 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 [SuppressMessage("", "CA1001")]
 internal sealed partial class GamePackageService : IGamePackageService
 {
+    public const string HttpClientName = "SophonChunkRateLimited";
+
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IHttpClientFactory httpClientFactory;
+    private readonly ILogger<GamePackageService> logger;
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IProgressFactory progressFactory;
     private readonly IServiceProvider serviceProvider;
@@ -54,29 +60,42 @@ internal sealed partial class GamePackageService : IGamePackageService
         IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(((GamePackageOperationViewModel)window.DataContext).HandleProgressUpdate);
 
         await taskContext.SwitchToBackgroundAsync();
-        GamePackageServiceContext serviceContext = new(operationContext, progress, options);
 
-        Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
+        using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
         {
-            GamePackageOperationKind.Install => InstallAsync,
-            GamePackageOperationKind.Verify => VerifyAndRepairAsync,
-            GamePackageOperationKind.Update => UpdateAsync,
-            GamePackageOperationKind.Predownload => PredownloadAsync,
-            _ => context => ValueTask.FromException(HutaoException.NotSupported()),
-        };
+            using (NotifyPropertyChangedBox<AppOptions, TokenBucketRateLimiter?> limiterBox = StreamCopyRateLimiter.Create(serviceProvider))
+            {
+                GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiterBox);
 
-        try
-        {
-            await operation(serviceContext).ConfigureAwait(false);
-            return true;
-        }
-        catch (OperationCanceledException)
-        {
-            return false;
-        }
-        finally
-        {
-            operationTcs.TrySetResult();
+                Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
+                {
+                    GamePackageOperationKind.Install => InstallAsync,
+                    GamePackageOperationKind.Verify => VerifyAndRepairAsync,
+                    GamePackageOperationKind.Update => UpdateAsync,
+                    GamePackageOperationKind.Predownload => PredownloadAsync,
+                    _ => context => ValueTask.FromException(HutaoException.NotSupported()),
+                };
+
+                try
+                {
+                    await operation(serviceContext).ConfigureAwait(false);
+                    return true;
+                }
+                catch (OperationCanceledException)
+                {
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    logger.LogCritical(ex, "Unexpected exception while exeuting game package operation");
+                    return false;
+                }
+                finally
+                {
+                    logger.LogDebug("Operation completed");
+                    operationTcs.TrySetResult();
+                }
+            }
         }
     }
 
@@ -144,7 +163,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         foreach (string name in names)
         {
-            context.DuplicatedChunkNames.Add(name);
+            context.DuplicatedChunkNames.TryAdd(name, default);
         }
     }
 
@@ -282,6 +301,8 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
 
+        context.Operation.GameFileSystem.UpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
+
         if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
         {
             Directory.Delete(context.Operation.ProxiedChunksDirectory, true);
@@ -368,20 +389,17 @@ internal sealed partial class GamePackageService : IGamePackageService
             totalBytes += sophonManifest.Stats.UncompressedSize;
             string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
 
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            using (Stream rawManifestStream = await context.HttpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
             {
-                using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
+                using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
                 {
-                    using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
+                    using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                     {
-                        using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
+                        string manifestMd5 = await MD5.HashAsync(inMemoryManifestStream, token).ConfigureAwait(false);
+                        if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
                         {
-                            string manifestMd5 = await MD5.HashAsync(inMemoryManifestStream, token).ConfigureAwait(false);
-                            if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
-                            {
-                                inMemoryManifestStream.Position = 0;
-                                decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
-                            }
+                            inMemoryManifestStream.Position = 0;
+                            decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
                         }
                     }
                 }

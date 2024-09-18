@@ -17,15 +17,13 @@ namespace Snap.Hutao.Core.IO.Http.Loopback;
 internal sealed unsafe partial class LoopbackManager : ObservableObject
 {
     private readonly RuntimeOptions runtimeOptions;
-    private readonly ITaskContext taskContext;
 
-    private readonly string hutaoContainerStringSID = default!;
+    private readonly string hutaoContainerStringSID;
     private bool isLoopbackEnabled;
 
     public LoopbackManager(IServiceProvider serviceProvider)
     {
         runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
         Initialize(out hutaoContainerStringSID);
     }
@@ -48,9 +46,9 @@ internal sealed unsafe partial class LoopbackManager : ObservableObject
         IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig(CollectionsMarshal.AsSpan(sids)) is WIN32_ERROR.ERROR_SUCCESS;
     }
 
-    private void Initialize(out string hutaoContainerStringSID)
+    private void Initialize(out string containerStringSID)
     {
-        hutaoContainerStringSID = string.Empty;
+        containerStringSID = string.Empty;
 
         INET_FIREWALL_APP_CONTAINER* pContainers = default;
         try
@@ -64,7 +62,7 @@ internal sealed unsafe partial class LoopbackManager : ObservableObject
                 if (appContainerName.Equals(runtimeOptions.FamilyName, StringComparison.Ordinal))
                 {
                     ConvertSidToStringSidW(pContainer->appContainerSid, out PWSTR stringSid);
-                    hutaoContainerStringSID = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();
+                    containerStringSID = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();
                     break;
                 }
             }
@@ -86,7 +84,7 @@ internal sealed unsafe partial class LoopbackManager : ObservableObject
             {
                 ConvertSidToStringSidW((pSids + i)->Sid, out PWSTR stringSid);
                 ReadOnlySpan<char> stringSidSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid);
-                if (stringSidSpan.Equals(hutaoContainerStringSID, StringComparison.Ordinal))
+                if (stringSidSpan.Equals(containerStringSID, StringComparison.Ordinal))
                 {
                     IsLoopbackEnabled = true;
                     break;

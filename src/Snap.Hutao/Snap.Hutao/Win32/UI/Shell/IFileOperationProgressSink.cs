@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
@@ -25,7 +25,7 @@ internal readonly unsafe struct IFileOperationProgressSink
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IFileOperationProgressSink*, HRESULT> StartOperations;
         internal readonly delegate* unmanaged[Stdcall]<IFileOperationProgressSink*, HRESULT, HRESULT> FinishOperations;
         internal readonly delegate* unmanaged[Stdcall]<IFileOperationProgressSink*, uint, IShellItem*, PCWSTR, HRESULT> PreRenameItem;

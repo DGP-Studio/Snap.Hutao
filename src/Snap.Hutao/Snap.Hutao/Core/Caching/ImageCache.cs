@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Win32.System.WinRT;
-using System.Collections.Concurrent;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
+using ThemeFile = (Microsoft.UI.Xaml.ElementTheme, Snap.Hutao.Core.IO.ValueFile);
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -21,8 +21,8 @@ namespace Snap.Hutao.Core.Caching;
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
-    private readonly ConcurrentDictionary<ElementThemeValueFile, Task> themefileTasks = [];
-    private readonly ConcurrentDictionary<string, Task> downloadTasks = [];
+    private readonly AsyncKeyedLock<ThemeFile> themeFileLocks = new();
+    private readonly AsyncKeyedLock<string> downloadLocks = new();
 
     private readonly IImageCacheDownloadOperation downloadOperation;
     private readonly IServiceProvider serviceProvider;
@@ -46,7 +46,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         Remove([uriForCachedItem]);
     }
 
-    public void Remove(in ReadOnlySpan<Uri> uriForCachedItems)
+    public void Remove(ReadOnlySpan<Uri> uriForCachedItems)
     {
         if (uriForCachedItems.Length <= 0)
         {
@@ -66,7 +66,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             }
         }
 
-        RemoveCore(filesToDelete);
+        RemoveCore(CollectionsMarshal.AsSpan(filesToDelete));
     }
 
     public ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri)
@@ -87,62 +87,28 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             return themeOrDefaultFilePath;
         }
 
-        ElementThemeValueFile key = new(fileName, theme);
-
-        // To prevent re-entrancy, always try add first, and if add failed, we try to get the task
-        TaskCompletionSource themeFileTcs = new();
-        if (themefileTasks.TryAdd(key, themeFileTcs.Task))
+        using (await themeFileLocks.LockAsync((theme, fileName)).ConfigureAwait(false))
         {
-            try
+            // If the file already exists, we don't need to download it again
+            if (!IsFileInvalid(defaultFilePath))
             {
-                if (!IsFileInvalid(defaultFilePath))
-                {
-                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                    return themeOrDefaultFilePath;
-                }
-
-                TaskCompletionSource downloadTcs = new();
-                if (downloadTasks.TryAdd(fileName, downloadTcs.Task))
-                {
-                    try
-                    {
-                        logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
-                        await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
-                    }
-                    finally
-                    {
-                        downloadTcs.TrySetResult();
-                        downloadTasks.TryRemove(fileName, out _);
-                    }
-                }
-                else if (downloadTasks.TryGetValue(fileName, out Task? task))
-                {
-                    logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", (uri, ConsoleColor.Cyan));
-                    await task.ConfigureAwait(false);
-                }
-
-                if (!IsFileInvalid(defaultFilePath))
-                {
-                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                    return themeOrDefaultFilePath;
-                }
-
+                await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
                 return themeOrDefaultFilePath;
             }
-            finally
+
+            using (await downloadLocks.LockAsync(fileName).ConfigureAwait(false))
             {
-                themeFileTcs.TrySetResult();
-                themefileTasks.TryRemove(key, out _);
+                // File may be downloaded by another thread
+                if (!IsFileInvalid(defaultFilePath))
+                {
+                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    return themeOrDefaultFilePath;
+                }
+
+                logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
+                await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
+                return themeOrDefaultFilePath;
             }
-        }
-        else if (themefileTasks.TryGetValue(key, out Task? themeTask))
-        {
-            await themeTask.ConfigureAwait(false);
-            return themeOrDefaultFilePath;
-        }
-        else
-        {
-            throw HutaoException.InvalidOperation("The task should not be null.");
         }
     }
 
@@ -188,7 +154,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                     {
                         IMemoryBufferByteAccess byteAccess = reference.As<IMemoryBufferByteAccess>();
                         byte value = theme is ElementTheme.Light ? (byte)0x00 : (byte)0xFF;
-                        ConvertToMonoChrome(byteAccess, value);
+                        SyncConvertToMonoChrome(byteAccess, value);
                     }
                 }
 
@@ -201,7 +167,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             }
         }
 
-        static void ConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
+        return;
+
+        static void SyncConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
         {
             byteAccess.GetBuffer(out Span<Rgba32> span);
             foreach (ref Rgba32 pixel in span)
@@ -212,9 +180,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
     }
 
-    private void RemoveCore(IEnumerable<string> filePaths)
+    private void RemoveCore(ReadOnlySpan<string> filePaths)
     {
-        foreach (string filePath in filePaths)
+        foreach (ref readonly string filePath in filePaths)
         {
             try
             {

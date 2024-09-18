@@ -19,7 +19,7 @@ internal sealed partial class ConsoleWindowLifeTime : IDisposable
 
     private readonly bool consoleWindowAllocated;
 
-    public ConsoleWindowLifeTime()
+    public ConsoleWindowLifeTime(IServiceProvider serviceProvider)
     {
         if (LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, DebugModeEnabled))
         {
@@ -33,7 +33,14 @@ internal sealed partial class ConsoleWindowLifeTime : IDisposable
                     SetConsoleMode(inputHandle, mode);
                 }
 
-                SetConsoleTitleW("Snap Hutao Debug Console");
+                if (serviceProvider.GetRequiredService<RuntimeOptions>().IsElevated)
+                {
+                    SetConsoleTitleW("Snap Hutao Debug Console [Administrator]");
+                }
+                else
+                {
+                    SetConsoleTitleW("Snap Hutao Debug Console");
+                }
             }
         }
     }

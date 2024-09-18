@@ -3,32 +3,20 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata;
 
-/// <summary>
-/// 生长曲线
-/// </summary>
-[HighQuality]
 internal sealed class GrowCurve
 {
-    private Dictionary<GrowCurveType, float>? map;
+    private ImmutableDictionary<GrowCurveType, float>? map;
 
-    /// <summary>
-    /// 等级
-    /// </summary>
     public Level Level { get; set; }
 
-    /// <summary>
-    /// 曲线 值相乘
-    /// </summary>
     public List<TypeValue<GrowCurveType, float>> Curves { get; set; } = default!;
 
-    /// <summary>
-    /// 曲线映射
-    /// </summary>
-    public Dictionary<GrowCurveType, float> Map
+    public ImmutableDictionary<GrowCurveType, float> Map
     {
-        get => map ??= Curves.ToDictionary(v => v.Type, v => v.Value);
+        get => map ??= Curves.ToImmutableDictionary(v => v.Type, v => v.Value);
     }
 }

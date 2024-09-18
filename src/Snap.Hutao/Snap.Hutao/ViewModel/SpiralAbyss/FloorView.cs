@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Metadata.Tower;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
@@ -10,7 +9,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 层视图
 /// </summary>
 [HighQuality]
-internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbyssMetadataContext>
+internal sealed class FloorView
 {
     public FloorView(TowerFloor floor, SpiralAbyssMetadataContext context)
     {
@@ -18,7 +17,7 @@ internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbys
         IndexValue = floor.Index;
         Disorders = floor.Descriptions;
 
-        Levels = context.IdListTowerLevelMap[floor.LevelGroupId].SortBy(l => l.Index).SelectList(l => LevelView.From(l, context));
+        Levels = context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.From(l, context)).ToList();
     }
 
     public bool Engaged { get; private set; }

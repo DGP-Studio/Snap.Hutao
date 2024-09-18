@@ -7,10 +7,6 @@ using Windows.ApplicationModel.Activation;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-/// <summary>
-/// <see cref="AppActivationArguments"/> 扩展
-/// </summary>
-[HighQuality]
 internal static class AppActivationArgumentsExtensions
 {
     public static bool TryGetProtocolActivatedUri(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out Uri? uri)

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.UI.Xaml.Data;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +10,7 @@ namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_projects")]
 internal sealed partial class CultivateProject : ISelectable,
-    IAdvancedCollectionViewItem,
-    IMappingFrom<CultivateProject, string>
+    IAdvancedCollectionViewItem
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

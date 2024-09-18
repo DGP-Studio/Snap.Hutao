@@ -11,8 +11,8 @@ namespace Snap.Hutao.Extension;
 internal static class DictionaryExtension
 {
     public static void DecreaseByValue<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
-    where TKey : notnull
-    where TValue : struct, ISubtractionOperators<TValue, TValue, TValue>
+        where TKey : notnull
+        where TValue : struct, ISubtractionOperators<TValue, TValue, TValue>
     {
         // ref the value, so that we can manipulate it outside the dict.
         ref TValue current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
@@ -64,14 +64,14 @@ internal static class DictionaryExtension
     }
 
     [Pure]
-    public static Dictionary<TKey, TValue> ToDictionaryIgnoringDuplicateKeys<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector)
+    public static Dictionary<TKey, TValue> ToDictionaryIgnoringDuplicateKeys<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         where TKey : notnull
     {
         Dictionary<TKey, TValue> dictionary = [];
 
         foreach (TSource value in source)
         {
-            dictionary[keySelector(value)] = elementSelector(value);
+            dictionary[keySelector(value)] = valueSelector(value);
         }
 
         return dictionary;

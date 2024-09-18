@@ -98,14 +98,14 @@ internal static class LoggerExtension
         ConsoleColor? messageForeground = message.ForegroundColor;
         ConsoleColor? messageBackground = message.BackgroundColor;
 
-        if (messageForeground.HasValue)
+        if (messageForeground.TryGetValue(out ConsoleColor messageForegroundValue))
         {
-            resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(messageForeground.Value, true));
+            resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(messageForegroundValue, true));
         }
 
-        if (messageBackground.HasValue)
+        if (messageBackground.TryGetValue(out ConsoleColor messageBackgroundValue))
         {
-            resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(messageBackground.Value, false));
+            resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(messageBackgroundValue, false));
         }
 
         ReadOnlySpan<LogArgument> argSpan = args.AsSpan();
@@ -119,14 +119,14 @@ internal static class LoggerExtension
                 ref readonly LogArgument arg = ref argSpan[argIndex];
                 outArgs[argIndex] = arg.Argument;
                 argIndex++;
-                if (arg.ForegroundColor.HasValue)
+                if (arg.ForegroundColor.TryGetValue(out ConsoleColor foregroundColorValue))
                 {
-                    resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(arg.ForegroundColor.Value, true));
+                    resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(foregroundColorValue, true));
                 }
 
-                if (arg.BackgroundColor.HasValue)
+                if (arg.BackgroundColor.TryGetValue(out ConsoleColor backgroundColorValue))
                 {
-                    resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(arg.BackgroundColor.Value, false));
+                    resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.FromConsoleColor(backgroundColorValue, false));
                 }
 
                 int closingIndex = messageSpan[index..].IndexOf('}');

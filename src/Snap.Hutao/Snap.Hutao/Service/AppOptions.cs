@@ -23,6 +23,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private BackgroundImageType? backgroundImageType;
     private Region? region;
     private string? geetestCustomCompositeUrl;
+    private int? downloadSpeedLimitPerSecondInKiloByte;
 
     public bool IsNotifyIconEnabled
     {
@@ -83,5 +84,11 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
+    }
+
+    public int DownloadSpeedLimitPerSecondInKiloByte
+    {
+        get => GetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, 0);
+        set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
     }
 }

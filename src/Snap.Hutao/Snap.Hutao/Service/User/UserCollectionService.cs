@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.User;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserCollectionService))]
-internal sealed partial class UserCollectionService : IUserCollectionService, IDisposable
+internal sealed partial class UserCollectionService : IUserCollectionService
 {
     private readonly IUserInitializationService userInitializationService;
     private readonly IServiceProvider serviceProvider;
@@ -20,7 +20,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
-    private readonly SemaphoreSlim throttler = new(1);
+    private readonly AsyncLock locker = new();
 
     private AdvancedDbCollectionView<BindingUser, EntityUser>? users;
 
@@ -28,7 +28,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     {
         // Force run in background thread, otherwise will cause reentrance
         await taskContext.SwitchToBackgroundAsync();
-        using (await throttler.EnterAsync().ConfigureAwait(false))
+        using (await locker.LockAsync().ConfigureAwait(false))
         {
             if (users is null)
             {
@@ -87,11 +87,6 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
         ArgumentNullException.ThrowIfNull(newUser.UserInfo);
         return new(UserOptionResult.Added, newUser.UserInfo.Uid);
-    }
-
-    public void Dispose()
-    {
-        throttler.Dispose();
     }
 
     private void OnCurrentUserChanged(object? sender, object? args)

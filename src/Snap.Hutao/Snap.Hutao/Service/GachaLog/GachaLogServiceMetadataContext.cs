@@ -10,37 +10,35 @@ using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-/// <summary>
-/// 祈愿记录服务上下文
-/// </summary>
 internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
     IMetadataSupportInitialization,
-    IMetadataListGachaEventSource,
+    IMetadataArrayGachaEventSource,
     IMetadataDictionaryIdAvatarSource,
     IMetadataDictionaryIdWeaponSource,
     IMetadataDictionaryNameAvatarSource,
     IMetadataDictionaryNameWeaponSource
 {
-    public Dictionary<string, Item> ItemCache { get; set; } = [];
+    private readonly Dictionary<string, Item> itemCache = [];
 
-    public List<GachaEvent> GachaEvents { get; set; } = default!;
+    public ImmutableArray<GachaEvent> GachaEvents { get; set; } = default!;
 
-    public Dictionary<AvatarId, Avatar> IdAvatarMap { get; set; } = default!;
+    public ImmutableDictionary<AvatarId, Avatar> IdAvatarMap { get; set; } = default!;
 
-    public Dictionary<WeaponId, Weapon> IdWeaponMap { get; set; } = default!;
+    public ImmutableDictionary<WeaponId, Weapon> IdWeaponMap { get; set; } = default!;
 
-    public Dictionary<string, Avatar> NameAvatarMap { get; set; } = default!;
+    public ImmutableDictionary<string, Avatar> NameAvatarMap { get; set; } = default!;
 
-    public Dictionary<string, Weapon> NameWeaponMap { get; set; } = default!;
+    public ImmutableDictionary<string, Weapon> NameWeaponMap { get; set; } = default!;
 
     public bool IsInitialized { get; set; }
 
     public Item GetItemByNameAndType(string name, string type)
     {
-        if (!ItemCache.TryGetValue(name, out Item? result))
+        if (!itemCache.TryGetValue(name, out Item? result))
         {
             if (type == SH.ModelInterchangeUIGFItemTypeAvatar)
             {
@@ -53,7 +51,7 @@ internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
             }
 
             ArgumentNullException.ThrowIfNull(result);
-            ItemCache[name] = result;
+            itemCache[name] = result;
         }
 
         return result;

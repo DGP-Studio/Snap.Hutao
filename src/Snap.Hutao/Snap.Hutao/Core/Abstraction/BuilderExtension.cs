@@ -19,6 +19,16 @@ internal static class BuilderExtension
     }
 
     [DebuggerStepThrough]
+    public static unsafe T Configure<T>(this T builder, delegate*<T, void> configure)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(configure);
+
+        configure(builder);
+        return builder;
+    }
+
+    [DebuggerStepThrough]
     public static T If<T>(this T builder, bool condition, Action<T> action)
         where T : IBuilder
     {
@@ -34,7 +44,29 @@ internal static class BuilderExtension
     }
 
     [DebuggerStepThrough]
+    public static unsafe T If<T>(this T builder, bool condition, delegate*<T, void> action)
+        where T : IBuilder
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(action);
+
+        if (condition)
+        {
+            action(builder);
+        }
+
+        return builder;
+    }
+
+    [DebuggerStepThrough]
     public static T IfNot<T>(this T builder, bool condition, Action<T> action)
+        where T : IBuilder
+    {
+        return builder.If(!condition, action);
+    }
+
+    [DebuggerStepThrough]
+    public static unsafe T IfNot<T>(this T builder, bool condition, delegate*<T, void> action)
         where T : IBuilder
     {
         return builder.If(!condition, action);

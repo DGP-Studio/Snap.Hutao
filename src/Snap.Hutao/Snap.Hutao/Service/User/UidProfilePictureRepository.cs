@@ -16,7 +16,15 @@ internal sealed partial class UidProfilePictureRepository : IUidProfilePictureRe
 
     public UidProfilePicture? SingleUidProfilePictureOrDefaultByUid(string uid)
     {
-        return this.Query(query => query.SingleOrDefault(n => n.Uid == uid));
+        try
+        {
+            return this.Query(query => query.SingleOrDefault(n => n.Uid == uid));
+        }
+        catch
+        {
+            this.Delete(n => n.Uid == uid);
+            return default;
+        }
     }
 
     public void UpdateUidProfilePicture(UidProfilePicture profilePicture)

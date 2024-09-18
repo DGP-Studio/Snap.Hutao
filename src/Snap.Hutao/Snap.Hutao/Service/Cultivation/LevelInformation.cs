@@ -1,12 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-internal sealed class LevelInformation : IMappingFrom<LevelInformation, AvatarPromotionDelta>
+internal sealed class LevelInformation
 {
     public uint AvatarLevelFrom { get; private set; }
 

@@ -8,6 +8,8 @@ using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
+using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
@@ -25,31 +27,30 @@ internal unsafe struct ID3D11Device
         }
     }
 
-    public HRESULT CreateTexture2D(ref readonly D3D11_TEXTURE2D_DESC desc, [AllowNull] ref readonly D3D11_SUBRESOURCE_DATA initialData, [MaybeNull] out ID3D11Texture2D* pTexture2D)
+    public HRESULT CreateTexture2D(ref readonly D3D11_TEXTURE2D_DESC desc, [AllowNull] ref readonly D3D11_SUBRESOURCE_DATA initialData, out ObjectReference<ID3D11Texture2D.Vftbl> texture2D)
     {
         fixed (D3D11_TEXTURE2D_DESC* pDesc = &desc)
         {
             fixed (D3D11_SUBRESOURCE_DATA* pInitialData = &initialData)
             {
-                fixed (ID3D11Texture2D** ppTexture2D = &pTexture2D)
-                {
-                    return ThisPtr->CreateTexture2D((ID3D11Device*)Unsafe.AsPointer(ref this), pDesc, pInitialData, ppTexture2D);
-                }
+                ID3D11Texture2D* pTexture2D = default;
+                HRESULT hr = ThisPtr->CreateTexture2D((ID3D11Device*)Unsafe.AsPointer(ref this), pDesc, pInitialData, &pTexture2D);
+                texture2D = ObjectReference<ID3D11Texture2D.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&pTexture2D), ID3D11Texture2D.IID);
+                return hr;
             }
         }
     }
 
-    public void GetImmediateContext(out ID3D11DeviceContext* pImmediateContext)
+    public void GetImmediateContext(out ObjectReference<ID3D11DeviceContext.Vftbl> immediateContext)
     {
-        fixed (ID3D11DeviceContext** ppImmediateContext = &pImmediateContext)
-        {
-            ThisPtr->GetImmediateContext((ID3D11Device*)Unsafe.AsPointer(ref this), ppImmediateContext);
-        }
+        ID3D11DeviceContext* pImmediateContext = default;
+        ThisPtr->GetImmediateContext((ID3D11Device*)Unsafe.AsPointer(ref this), &pImmediateContext);
+        immediateContext = ObjectReference<ID3D11DeviceContext.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&pImmediateContext), ID3D11DeviceContext.IID);
     }
 
     internal readonly struct Vftbl
     {
-        internal readonly IUnknown.Vftbl IUnknownVftbl;
+        internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<ID3D11Device*, D3D11_BUFFER_DESC*, D3D11_SUBRESOURCE_DATA*, ID3D11Buffer**, HRESULT> CreateBuffer;
         internal readonly delegate* unmanaged[Stdcall]<ID3D11Device*, D3D11_TEXTURE1D_DESC*, D3D11_SUBRESOURCE_DATA*, ID3D11Texture1D**, HRESULT> CreateTexture1D;
         internal readonly delegate* unmanaged[Stdcall]<ID3D11Device*, D3D11_TEXTURE2D_DESC*, D3D11_SUBRESOURCE_DATA*, ID3D11Texture2D**, HRESULT> CreateTexture2D;

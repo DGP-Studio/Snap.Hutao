@@ -48,18 +48,13 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     /// </summary>
     internal ICommand RetrieveCommand { get; set; }
 
-    /// <summary>
-    /// 异步获取祈愿记录
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <returns>祈愿记录</returns>
     internal async ValueTask<ValueResult<bool, Guid>> RetrieveAsync(string uid)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogRetrieveFromHutaoCloudProgress)
             .ConfigureAwait(false);
 
-        using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+        using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
         {
             return await hutaoCloudService.RetrieveGachaArchiveIdAsync(uid).ConfigureAwait(false);
         }
@@ -90,7 +85,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             bool isOk;
             string message;
 
-            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
             {
                 (isOk, message) = await hutaoCloudService.UploadGachaItemsAsync(gachaArchive).ConfigureAwait(false);
             }

@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
+using System.Collections.Immutable;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
@@ -13,7 +14,7 @@ internal sealed class DailyNoteArchonQuestView
 {
     private readonly WebDailyNote? dailyNote;
 
-    private DailyNoteArchonQuestView(WebDailyNote? dailyNote, List<Chapter> chapters)
+    private DailyNoteArchonQuestView(WebDailyNote? dailyNote, ImmutableArray<Chapter> chapters)
     {
         this.dailyNote = dailyNote;
         Ids = chapters
@@ -63,7 +64,7 @@ internal sealed class DailyNoteArchonQuestView
         }
     }
 
-    public static DailyNoteArchonQuestView Create(WebDailyNote? dailyNote, List<Chapter> chapters)
+    public static DailyNoteArchonQuestView Create(WebDailyNote? dailyNote, ImmutableArray<Chapter> chapters)
     {
         return new(dailyNote, chapters);
     }

@@ -1,13 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
-internal sealed class UserAndUid : IMappingFrom<UserAndUid, EntityUser, PlayerUid>
+internal sealed class UserAndUid
 {
     public UserAndUid(EntityUser user, in PlayerUid role)
     {

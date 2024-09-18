@@ -3,10 +3,11 @@
 
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdMonsterSource
 {
-    Dictionary<MonsterRelationshipId, Monster> IdMonsterMap { get; set; }
+    ImmutableDictionary<MonsterRelationshipId, Monster> IdMonsterMap { get; set; }
 }

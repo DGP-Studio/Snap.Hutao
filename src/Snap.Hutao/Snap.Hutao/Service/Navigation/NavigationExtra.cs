@@ -27,9 +27,10 @@ internal sealed class NavigationExtra : INavigationData, INavigationAwaiter
     public object? Data { get; set; }
 
     /// <inheritdoc/>
-    public ValueTask WaitForCompletionAsync()
+    [SuppressMessage("", "SH003")]
+    public Task WaitForCompletionAsync()
     {
-        return navigationCompletedTaskCompletionSource.Task.AsValueTask();
+        return navigationCompletedTaskCompletionSource.Task;
     }
 
     /// <inheritdoc/>

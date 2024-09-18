@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
@@ -38,7 +37,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
     private static List<TEntity> AdjustIndex(List<TEntity> list)
     {
         Span<TEntity> span = CollectionsMarshal.AsSpan(list);
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < span.Length; i++)
         {
             ref readonly TEntity item = ref span[i];
             item.Index = i;
@@ -54,11 +53,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
-            foreach (ref readonly TEntity item in CollectionsMarshal.AsSpan((List<TEntity>)Items))
-            {
-                dbSet.UpdateAndSave(item);
-            }
+            appDbContext.Set<TEntity>().UpdateRangeAndSave(Items);
         }
     }
 }
@@ -92,7 +87,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
     private static List<TEntityAccess> AdjustIndex(List<TEntityAccess> list)
     {
         Span<TEntityAccess> span = CollectionsMarshal.AsSpan(list);
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < span.Length; i++)
         {
             ref readonly TEntityAccess item = ref span[i];
             item.Entity.Index = i;
@@ -108,12 +103,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
-            foreach (ref readonly TEntityAccess item in CollectionsMarshal.AsSpan((List<TEntityAccess>)Items))
-            {
-                dbSet.UpdateAndSave(item.Entity);
-            }
+            appDbContext.Set<TEntity>().UpdateRangeAndSave(Items.Select(i => i.Entity));
         }
     }
 }

@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
 
 namespace Snap.Hutao.Win32;
 
@@ -15,15 +17,15 @@ internal static class Dxgi
     [SupportedOSPlatform("windows8.1")]
     public static extern unsafe HRESULT CreateDXGIFactory2(uint Flags, Guid* riid, void** ppFactory);
 
-    public static unsafe HRESULT CreateDXGIFactory2<T>(uint Flags, ref readonly Guid iid, out T* pFactory)
-        where T : unmanaged
+    public static unsafe HRESULT CreateDXGIFactory2<TVftbl>(uint Flags, ref readonly Guid iid, out ObjectReference<TVftbl> factory)
+        where TVftbl : unmanaged
     {
         fixed (Guid* riid = &iid)
         {
-            fixed (T** ppFactory = &pFactory)
-            {
-                return CreateDXGIFactory2(Flags, riid, (void**)ppFactory);
-            }
+            TVftbl** pFactory = default;
+            HRESULT hr = CreateDXGIFactory2(Flags, riid, (void**)&pFactory);
+            factory = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pFactory), iid);
+            return hr;
         }
     }
 }

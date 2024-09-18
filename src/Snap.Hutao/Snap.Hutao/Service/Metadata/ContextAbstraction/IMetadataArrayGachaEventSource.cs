@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
-internal interface IMetadataListGachaEventSource
+internal interface IMetadataArrayGachaEventSource
 {
-    List<GachaEvent> GachaEvents { get; set; }
+    ImmutableArray<GachaEvent> GachaEvents { get; set; }
 }

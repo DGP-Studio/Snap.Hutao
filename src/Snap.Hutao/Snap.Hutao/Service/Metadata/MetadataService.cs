@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
+using System.Collections.Immutable;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -16,10 +17,6 @@ using System.Net.Http.Json;
 
 namespace Snap.Hutao.Service.Metadata;
 
-/// <summary>
-/// 元数据服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
@@ -60,7 +57,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
     }
 
-    public async ValueTask<List<T>> FromCacheOrFileAsync<T>(MetadataFileStrategy strategy, CancellationToken token)
+    public async ValueTask<ImmutableArray<T>> FromCacheOrFileAsync<T>(MetadataFileStrategy strategy, CancellationToken token)
         where T : class
     {
         Verify.Operation(isInitialized, SH.ServiceMetadataNotInitialized);
@@ -69,7 +66,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
             ArgumentNullException.ThrowIfNull(value);
-            return (List<T>)value;
+            return (ImmutableArray<T>)value;
         }
 
         return strategy.IsScattered
@@ -77,7 +74,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             : await FromCacheOrSingleFile<T>(strategy, cacheKey, token).ConfigureAwait(false);
     }
 
-    private async ValueTask<List<T>> FromCacheOrSingleFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
+    private async ValueTask<ImmutableArray<T>> FromCacheOrSingleFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
         where T : class
     {
         string path = metadataOptions.GetLocalizedLocalPath($"{strategy.Name}.json");
@@ -89,13 +86,13 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
         using (Stream fileStream = File.OpenRead(path))
         {
-            List<T>? result = await JsonSerializer.DeserializeAsync<List<T>>(fileStream, options, token).ConfigureAwait(false);
+            ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
             ArgumentNullException.ThrowIfNull(result);
             return memoryCache.Set(cacheKey, result);
         }
     }
 
-    private async ValueTask<List<T>> FromCacheOrScatteredFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
+    private async ValueTask<ImmutableArray<T>> FromCacheOrScatteredFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
         where T : class
     {
         string path = metadataOptions.GetLocalizedLocalPath(strategy.Name);
@@ -105,7 +102,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             throw HutaoException.Throw(SH.ServiceMetadataFileNotFound, exception);
         }
 
-        List<T> results = [];
+        ImmutableArray<T>.Builder results = ImmutableArray.CreateBuilder<T>();
         foreach (string file in Directory.GetFiles(path, "*.json"))
         {
             using (Stream fileStream = File.OpenRead(file))
@@ -116,7 +113,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             }
         }
 
-        return memoryCache.Set(cacheKey, results);
+        return memoryCache.Set(cacheKey, results.ToImmutable());
     }
 
     private async ValueTask<bool> DownloadMetadataDescriptionFileAndCheckAsync(CancellationToken token)
@@ -144,9 +141,9 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         return true;
     }
 
-    private async ValueTask<Dictionary<string, string>?> DownloadMetadataDescriptionFileAsync(CancellationToken token)
+    private async ValueTask<ImmutableDictionary<string, string>?> DownloadMetadataDescriptionFileAsync(CancellationToken token)
     {
-        Dictionary<string, string>? metadataFileHashs;
+        ImmutableDictionary<string, string>? metadataFileHashs;
         try
         {
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
@@ -156,7 +153,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 {
                     // Download meta check file
                     metadataFileHashs = await httpClient
-                        .GetFromJsonAsync<Dictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
+                        .GetFromJsonAsync<ImmutableDictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
                         .ConfigureAwait(false);
                 }
             }
@@ -182,18 +179,19 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             }
             else
             {
-                infoBarService.Error(SH.FormatServiceMetadataHttpRequestFailed(ex.StatusCode, ex.HttpRequestError));
+                infoBarService.Error(ex, SH.FormatServiceMetadataHttpRequestFailed(ex.StatusCode, ex.HttpRequestError));
             }
 
             return default;
         }
     }
 
-    private ValueTask CheckMetadataSourceFilesAsync(Dictionary<string, string> metaMd5Map, CancellationToken token)
+    [SuppressMessage("", "SH003")]
+    private Task CheckMetadataSourceFilesAsync(ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
     {
-        return Parallel.ForEachAsync(metaMd5Map, token, async (pair, token) =>
+        return Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
-            (string fileName, string md5) = pair;
+            (string fileName, string hash) = pair;
             string fileFullName = $"{fileName}.json";
             string fileFullPath = metadataOptions.GetLocalizedLocalPath(fileFullName);
             if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
@@ -204,7 +202,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             bool skip = false;
             if (File.Exists(fileFullPath))
             {
-                skip = md5 == await XXH64.HashFileAsync(fileFullPath, token).ConfigureAwait(false);
+                skip = hash == await XXH64.HashFileAsync(fileFullPath, token).ConfigureAwait(false);
             }
 
             if (!skip)
@@ -212,7 +210,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 logger.LogInformation("{Hash} of {File} not matched, begin downloading", nameof(XXH64), fileFullName);
                 await DownloadMetadataSourceFilesAsync(fileFullName, token).ConfigureAwait(false);
             }
-        }).AsValueTask();
+        });
     }
 
     private async ValueTask DownloadMetadataSourceFilesAsync(string fileFullName, CancellationToken token)

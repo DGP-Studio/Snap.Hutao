@@ -11,9 +11,10 @@ internal static class CollectionExtension
     public static int RemoveWhere<T>(this Collection<T> collection, Func<T, bool> shouldRemovePredicate)
     {
         int count = 0;
-        foreach (T item in collection.ToList())
+        T[] array = [.. collection];
+        foreach (ref readonly T item in array.AsSpan())
         {
-            if (shouldRemovePredicate.Invoke(item))
+            if (shouldRemovePredicate(item))
             {
                 collection.Remove(item);
                 count++;

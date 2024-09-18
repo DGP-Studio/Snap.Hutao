@@ -3,10 +3,11 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryLevelWeaponGrowCurveSource
 {
-    Dictionary<Level, Dictionary<GrowCurveType, float>> LevelDictionaryWeaponGrowCurveMap { get; set; }
+    ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> LevelDictionaryWeaponGrowCurveMap { get; set; }
 }

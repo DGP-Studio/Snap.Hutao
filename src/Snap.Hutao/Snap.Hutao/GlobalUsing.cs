@@ -31,3 +31,4 @@ global using System.Windows.Input;
 
 // Snap.Hutao
 global using FromKeyed = Snap.Hutao.Core.DependencyInjection.Annotation.FromKeyedServicesAttribute;
+global using Void = Snap.Hutao.Core.Void;

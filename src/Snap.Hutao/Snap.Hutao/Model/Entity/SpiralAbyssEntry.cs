@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.Abstraction;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,8 +12,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("spiral_abysses")]
-internal sealed partial class SpiralAbyssEntry : ObservableObject,
-    IMappingFrom<SpiralAbyssEntry, string, Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss>
+internal sealed partial class SpiralAbyssEntry : ObservableObject
 {
     /// <summary>
     /// 内部Id

@@ -5,10 +5,6 @@ using System.IO;
 
 namespace Snap.Hutao.Core.IO.Ini;
 
-/// <summary>
-/// Ini 序列化器
-/// </summary>
-[HighQuality]
 internal static class IniSerializer
 {
     public static List<IniElement> DeserializeFromFile(string filePath)
@@ -46,6 +42,8 @@ internal static class IniSerializer
     private static List<IniElement> DeserializeCore(StreamReader reader)
     {
         List<IniElement> results = [];
+        IniSection? currentSection = default;
+
         while (reader.ReadLine() is { } line)
         {
             if (string.IsNullOrEmpty(line))
@@ -57,17 +55,23 @@ internal static class IniSerializer
 
             if (lineSpan[0] is '[')
             {
-                results.Add(new IniSection(lineSpan[1..^1].ToString()));
+                IniSection section = new(lineSpan[1..^1].ToString());
+                results.Add(section);
+                currentSection = section;
             }
 
             if (lineSpan[0] is ';')
             {
-                results.Add(new IniComment(lineSpan[1..].ToString()));
+                IniComment comment = new(lineSpan[1..].ToString());
+                results.Add(comment);
+                currentSection?.Children.Add(comment);
             }
 
             if (lineSpan.TrySplitIntoTwo('=', out ReadOnlySpan<char> left, out ReadOnlySpan<char> right))
             {
-                results.Add(new IniParameter(left.Trim().ToString(), right.Trim().ToString()));
+                IniParameter parameter = new(left.Trim().ToString(), right.Trim().ToString());
+                results.Add(parameter);
+                currentSection?.Children.Add(parameter);
             }
         }
 

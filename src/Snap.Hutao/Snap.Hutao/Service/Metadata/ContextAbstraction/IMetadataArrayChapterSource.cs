@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
-internal interface IMetadataListChapterSource
+internal interface IMetadataArrayChapterSource
 {
-    List<Chapter> Chapters { get; set; }
+    ImmutableArray<Chapter> Chapters { get; set; }
 }

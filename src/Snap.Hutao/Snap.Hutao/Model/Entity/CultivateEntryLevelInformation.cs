@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Cultivation;
@@ -11,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_entry_level_informations")]
-internal sealed class CultivateEntryLevelInformation : IMappingFrom<CultivateEntryLevelInformation, Guid, CultivateType, LevelInformation>
+internal sealed class CultivateEntryLevelInformation
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

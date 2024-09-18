@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -12,7 +11,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 角色视图
 /// </summary>
 [HighQuality]
-internal class AvatarView : INameIconSide, IMappingFrom<AvatarView, Avatar>
+internal class AvatarView : INameIconSide
 {
     /// <summary>
     /// 构造一个新的角色视图

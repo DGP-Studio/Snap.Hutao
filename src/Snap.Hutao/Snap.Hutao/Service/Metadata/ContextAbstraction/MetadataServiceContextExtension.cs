@@ -12,45 +12,46 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal static class MetadataServiceContextExtension
 {
+    [SuppressMessage("", "CA1502")]
     [SuppressMessage("", "CA1506")]
     public static async ValueTask<TContext> GetContextAsync<TContext>(this IMetadataService metadataService, CancellationToken token = default)
         where TContext : IMetadataContext, new()
     {
         TContext context = new();
 
-        // List
+        // Array
         {
-            if (context is IMetadataListAchievementSource listAchievementSource)
+            if (context is IMetadataArrayAchievementSource listAchievementSource)
             {
                 listAchievementSource.Achievements = await metadataService.GetAchievementListAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataListChapterSource listChapterSource)
+            if (context is IMetadataArrayChapterSource listChapterSource)
             {
                 listChapterSource.Chapters = await metadataService.GetChapterListAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataListGachaEventSource listGachaEventSource)
+            if (context is IMetadataArrayGachaEventSource listGachaEventSource)
             {
                 listGachaEventSource.GachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataListMaterialSource listMaterialSource)
+            if (context is IMetadataArrayMaterialSource listMaterialSource)
             {
                 listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataListProfilePictureSource dictionaryIdProfilePictureSource)
+            if (context is IMetadataArrayProfilePictureSource dictionaryIdProfilePictureSource)
             {
                 dictionaryIdProfilePictureSource.ProfilePictures = await metadataService.GetProfilePictureListAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataListReliquaryMainAffixLevelSource listReliquaryMainAffixLevelSource)
+            if (context is IMetadataArrayReliquaryMainAffixLevelSource listReliquaryMainAffixLevelSource)
             {
                 listReliquaryMainAffixLevelSource.ReliquaryMainAffixLevels = await metadataService.GetReliquaryMainAffixLevelListAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataListReliquarySource listReliquarySource)
+            if (context is IMetadataArrayReliquarySource listReliquarySource)
             {
                 listReliquarySource.Reliquaries = await metadataService.GetReliquaryListAsync(token).ConfigureAwait(false);
             }
@@ -83,9 +84,9 @@ internal static class MetadataServiceContextExtension
                 dictionaryIdDictionaryLevelWeaponPromoteSource.IdDictionaryWeaponLevelPromoteMap = await metadataService.GetIdToWeaponPromoteGroupMapAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataDictionaryIdListTowerLevelSource dictionaryIdListTowerLevelSource)
+            if (context is IMetadataDictionaryIdArrayTowerLevelSource dictionaryIdListTowerLevelSource)
             {
-                dictionaryIdListTowerLevelSource.IdListTowerLevelMap = await metadataService.GetGroupIdToTowerLevelGroupMapAsync(token).ConfigureAwait(false);
+                dictionaryIdListTowerLevelSource.IdArrayTowerLevelMap = await metadataService.GetGroupIdToTowerLevelGroupMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdMaterialSource dictionaryIdMaterialSource)
@@ -101,11 +102,6 @@ internal static class MetadataServiceContextExtension
             if (context is IMetadataDictionaryIdReliquarySource dictionaryIdReliquarySource)
             {
                 dictionaryIdReliquarySource.IdReliquaryMap = await metadataService.GetIdToReliquaryMapAsync(token).ConfigureAwait(false);
-            }
-
-            if (context is IMetadataDictionaryIdReliquaryAffixWeightSource dictionaryIdReliquaryAffixWeightSource)
-            {
-                dictionaryIdReliquaryAffixWeightSource.IdReliquaryAffixWeightMap = await metadataService.GetIdToReliquaryAffixWeightMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdReliquaryMainPropertySource dictionaryIdReliquaryMainPropertySource)
@@ -172,7 +168,7 @@ internal static class MetadataServiceContextExtension
         return context;
     }
 
-    public static IEnumerable<Material> EnumerateInventoryMaterial(this IMetadataListMaterialSource context)
+    public static IEnumerable<Material> EnumerateInventoryMaterial(this IMetadataArrayMaterialSource context)
     {
         return context.Materials.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id, MaterialIdComparer.Shared);
     }

@@ -1,9 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryNameAvatarSource
 {
-    Dictionary<string, Model.Metadata.Avatar.Avatar> NameAvatarMap { get; set; }
+    ImmutableDictionary<string, Model.Metadata.Avatar.Avatar> NameAvatarMap { get; set; }
 }

@@ -16,6 +16,7 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hutao;
 using System.Globalization;
+using System.IO;
 using System.Text;
 
 namespace Snap.Hutao.ViewModel;
@@ -64,6 +65,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         ShowUpdateLogWindowAfterUpdate();
+        NotifyIfDateFolderHasReparsePoint();
         await DoCheckUpdateAsync().ConfigureAwait(false);
         return true;
     }
@@ -135,7 +137,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
                     ContentDialog contentDialog = await contentDialogFactory
                         .CreateForIndeterminateProgressAsync(SH.ViewTitleUpdatePackageInstallingContent)
                         .ConfigureAwait(false);
-                    using (await contentDialog.BlockAsync(taskContext).ConfigureAwait(false))
+                    using (await contentDialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
                     {
                         if (launchUpdaterResult.Process is { } updater)
                         {
@@ -170,5 +172,13 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
 
         return downloadSuccess;
+    }
+
+    private void NotifyIfDateFolderHasReparsePoint()
+    {
+        if (new DirectoryInfo(runtimeOptions.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
+        {
+            infoBarService.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(runtimeOptions.DataFolder));
+        }
     }
 }

@@ -8,12 +8,25 @@ namespace Snap.Hutao.Core.Threading;
 internal sealed class AsyncSemaphore
 {
     private readonly Queue<TaskCompletionSource> waiters = [];
+    private readonly int maxCount;
     private int currentCount;
 
-    public AsyncSemaphore(int initialCount)
+    public AsyncSemaphore(int initialCount, int maxCount = int.MaxValue)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(initialCount);
         currentCount = initialCount;
+        this.maxCount = maxCount;
+    }
+
+    public int CurrentCount
+    {
+        get
+        {
+            lock (waiters)
+            {
+                return currentCount;
+            }
+        }
     }
 
     public Task WaitAsync()
@@ -45,7 +58,7 @@ internal sealed class AsyncSemaphore
             }
             else
             {
-                ++currentCount;
+                currentCount = Math.Min(currentCount + 1, maxCount);
             }
         }
 

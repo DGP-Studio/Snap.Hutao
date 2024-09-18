@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using System.Buffers;
 using System.IO;
@@ -22,24 +21,13 @@ internal static class HttpShardCopyWorker
 [SuppressMessage("", "SA1402")]
 internal sealed partial class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
 {
-    private readonly HttpClient httpClient;
-    private readonly string sourceUrl;
-    private readonly StreamCopyStatusFactory<TStatus> statusFactory;
-    private readonly long contentLength;
-    private readonly int bufferSize;
-    private readonly SafeFileHandle destFileHandle;
-    private readonly int maxDegreeOfParallelism;
+    private readonly HttpShardCopyWorkerOptions<TStatus> options;
     private readonly TokenBucketRateLimiter progressReportRateLimiter;
 
     public HttpShardCopyWorker(HttpShardCopyWorkerOptions<TStatus> options)
     {
-        httpClient = options.HttpClient;
-        sourceUrl = options.SourceUrl;
-        statusFactory = options.StatusFactory;
-        contentLength = options.ContentLength;
-        bufferSize = options.BufferSize;
-        destFileHandle = options.GetFileHandle();
-        maxDegreeOfParallelism = options.MaxDegreeOfParallelism;
+        options.MakeReadOnly();
+        this.options = options;
 
         progressReportRateLimiter = ProgressReportRateLimiter.Create(500);
     }
@@ -47,82 +35,82 @@ internal sealed partial class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorke
     [SuppressMessage("", "SH003")]
     public Task CopyAsync(IProgress<TStatus> progress, CancellationToken token = default)
     {
-        PrivateShardProgress shardProgress = new(progress, statusFactory, contentLength);
+        PrivateShardProgress shardProgress = new(progress, options.StatusFactory, options.ContentLength);
         ParallelOptions parallelOptions = new()
         {
-            MaxDegreeOfParallelism = maxDegreeOfParallelism,
+            MaxDegreeOfParallelism = options.MaxDegreeOfParallelism,
         };
 
-        long minimumLength = Math.Max(bufferSize * maxDegreeOfParallelism, contentLength / (maxDegreeOfParallelism * 4));
-        return Parallel.ForEachAsync(new AsyncHttpShards(contentLength, minimumLength), parallelOptions, (shard, token) => CopyShardAsync(shard, shardProgress, token));
-
-        async ValueTask CopyShardAsync(IHttpShard shard, IProgress<PrivateShardStatus> progress, CancellationToken token)
-        {
-            HttpRequestMessage request = new(HttpMethod.Get, sourceUrl)
-            {
-                Headers = { Range = new(shard.Start, shard.End), },
-            };
-
-            using (request)
-            {
-                using (HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
-                    using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
-                    {
-                        Memory<byte> buffer = memoryOwner.Memory;
-                        using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
-                        {
-                            int bytesReadSinceLastReport = 0;
-                            do
-                            {
-                                using (await shard.ReaderWriterLock.ReaderLockAsync().ConfigureAwait(false))
-                                {
-                                    if (shard.BytesRead >= shard.End - shard.Start)
-                                    {
-                                        break;
-                                    }
-
-                                    bool report = true;
-                                    try
-                                    {
-                                        int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
-                                        if (bytesRead <= 0)
-                                        {
-                                            break;
-                                        }
-
-                                        await RandomAccess.WriteAsync(destFileHandle, buffer[..bytesRead], shard.Start + shard.BytesRead, token).ConfigureAwait(false);
-
-                                        shard.BytesRead += bytesRead;
-                                        bytesReadSinceLastReport += bytesRead;
-                                        if (!progressReportRateLimiter.AttemptAcquire().IsAcquired)
-                                        {
-                                            report = false;
-                                        }
-                                    }
-                                    finally
-                                    {
-                                        if (report)
-                                        {
-                                            progress.Report(new(bytesReadSinceLastReport));
-                                            bytesReadSinceLastReport = 0;
-                                        }
-                                    }
-                                }
-                            }
-                            while (true);
-                        }
-                    }
-                }
-            }
-        }
+        long minimumLength = Math.Max(options.BufferSize * options.MaxDegreeOfParallelism, options.ContentLength / (options.MaxDegreeOfParallelism * 4));
+        return Parallel.ForEachAsync(new AsyncHttpShards(options.ContentLength, minimumLength), parallelOptions, (shard, token) => CopyShardAsync(shard, shardProgress, token));
     }
 
     public void Dispose()
     {
-        destFileHandle.Dispose();
+        options.DestinationFileHandle.Dispose();
         progressReportRateLimiter.Dispose();
+    }
+
+    private async ValueTask CopyShardAsync(IHttpShard shard, IProgress<PrivateShardStatus> progress, CancellationToken token)
+    {
+        HttpRequestMessage request = new(HttpMethod.Get, options.SourceUrl)
+        {
+            Headers = { Range = new(shard.Start, shard.End), },
+        };
+
+        using (request)
+        {
+            using (HttpResponseMessage response = await options.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+            {
+                response.EnsureSuccessStatusCode();
+                using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(options.BufferSize))
+                {
+                    Memory<byte> buffer = memoryOwner.Memory;
+                    using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                    {
+                        int bytesReadSinceLastReport = 0;
+                        do
+                        {
+                            using (await shard.ReaderWriterLock.ReaderLockAsync().ConfigureAwait(false))
+                            {
+                                if (shard.BytesRead >= shard.End - shard.Start)
+                                {
+                                    break;
+                                }
+
+                                bool report = true;
+                                try
+                                {
+                                    int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
+                                    if (bytesRead <= 0)
+                                    {
+                                        break;
+                                    }
+
+                                    await RandomAccess.WriteAsync(options.DestinationFileHandle, buffer[..bytesRead], shard.Start + shard.BytesRead, token).ConfigureAwait(false);
+
+                                    shard.BytesRead += bytesRead;
+                                    bytesReadSinceLastReport += bytesRead;
+                                    if (!progressReportRateLimiter.AttemptAcquire().IsAcquired)
+                                    {
+                                        report = false;
+                                    }
+                                }
+                                finally
+                                {
+                                    if (report)
+                                    {
+                                        progress.Report(new(bytesReadSinceLastReport));
+                                        bytesReadSinceLastReport = 0;
+                                    }
+                                }
+                            }
+                        }
+                        while (true);
+                    }
+                }
+            }
+        }
     }
 
     private sealed class PrivateShardStatus

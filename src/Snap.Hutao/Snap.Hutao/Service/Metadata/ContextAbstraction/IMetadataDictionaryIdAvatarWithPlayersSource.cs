@@ -3,6 +3,4 @@
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
-internal interface IMetadataDictionaryIdAvatarWithPlayersSource : IMetadataDictionaryIdAvatarSource
-{
-}
+internal interface IMetadataDictionaryIdAvatarWithPlayersSource : IMetadataDictionaryIdAvatarSource;

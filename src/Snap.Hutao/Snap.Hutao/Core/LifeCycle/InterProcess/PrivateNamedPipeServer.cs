@@ -16,7 +16,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     private readonly ILogger<PrivateNamedPipeServer> logger;
 
     private readonly CancellationTokenSource serverTokenSource = new();
-    private readonly SemaphoreSlim serverSemaphore = new(1);
+    private readonly AsyncLock serverLock = new();
 
     private readonly NamedPipeServerStream serverStream;
 
@@ -50,16 +50,14 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     public void Dispose()
     {
         serverTokenSource.Cancel();
-        serverSemaphore.Wait();
-        serverSemaphore.Dispose();
+        using AsyncLock.Releaser discard = serverLock.LockAsync().GetAwaiter().GetResult();
         serverTokenSource.Dispose();
-
         serverStream.Dispose();
     }
 
     public async ValueTask RunAsync()
     {
-        using (await serverSemaphore.EnterAsync(serverTokenSource.Token).ConfigureAwait(false))
+        using (await serverLock.LockAsync().ConfigureAwait(false))
         {
             while (!serverTokenSource.IsCancellationRequested)
             {

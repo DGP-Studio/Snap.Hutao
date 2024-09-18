@@ -82,7 +82,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);
 
-                using (await dialog.BlockAsync(scopeContext.TaskContext).ConfigureAwait(false))
+                using (await dialog.BlockAsync(scopeContext.ContentDialogFactory).ConfigureAwait(false))
                 {
                     summaryResult = await scopeContext.AvatarInfoService
                         .GetSummaryAsync(userAndUid, option, token)
@@ -203,7 +203,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             .ConfigureAwait(false);
 
         BatchCultivateResult result = default;
-        using (await progressDialog.BlockAsync(scopeContext.TaskContext).ConfigureAwait(false))
+        using (await progressDialog.BlockAsync(scopeContext.ContentDialogFactory).ConfigureAwait(false))
         {
             List<CalculatorAvatarPromotionDelta> deltas = [];
             foreach (AvatarView avatar in avatars)

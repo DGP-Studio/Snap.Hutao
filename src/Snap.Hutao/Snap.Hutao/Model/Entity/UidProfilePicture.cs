@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("uid_profile_pictures")]
-internal sealed class UidProfilePicture : IMappingFrom<UidProfilePicture, PlayerUid, ProfilePicture>
+internal sealed class UidProfilePicture
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

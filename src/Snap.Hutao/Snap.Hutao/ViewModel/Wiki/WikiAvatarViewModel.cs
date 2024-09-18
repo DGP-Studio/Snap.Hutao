@@ -22,6 +22,7 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -45,8 +46,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
-    private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
-    private List<Promote>? promotes;
+    private ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>? levelAvatarCurveMap;
+    private ImmutableArray<Promote> promotes;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public AdvancedCollectionView<Avatar>? Avatars
@@ -85,8 +86,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 levelAvatarCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync().ConfigureAwait(false);
                 promotes = await metadataService.GetAvatarPromoteListAsync().ConfigureAwait(false);
 
-                Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
-                List<Avatar> avatars = await metadataService.GetAvatarListAsync().ConfigureAwait(false);
+                ImmutableDictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
+                ImmutableArray<Avatar> avatars = await metadataService.GetAvatarListAsync().ConfigureAwait(false);
                 IOrderedEnumerable<Avatar> sorted = avatars
                     .OrderByDescending(avatar => avatar.BeginTime)
                     .ThenByDescending(avatar => avatar.Sort);
@@ -130,7 +131,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         UpdateBaseValueInfo(Avatars?.CurrentItem);
     }
 
-    private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, Dictionary<MaterialId, Material> idMaterialMap)
+    private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, ImmutableDictionary<MaterialId, Material> idMaterialMap)
     {
         if (!await hutaoCache.InitializeForWikiAvatarViewAsync().ConfigureAwait(false))
         {
@@ -225,7 +226,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(promotes);
         Dictionary<PromoteLevel, Promote> avatarPromoteMap = promotes.Where(p => p.Id == avatar.PromoteId).ToDictionary(p => p.Level);
         Dictionary<FightProperty, GrowCurveType> avatarGrowCurve = avatar.GrowCurves.ToDictionary(g => g.Type, g => g.Value);
         FightProperty promoteProperty = avatarPromoteMap[0].AddProperties.Last().Type;

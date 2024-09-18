@@ -123,6 +123,7 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock
+                                    IsTextSelectionEnabled="True"
                                     Text="{Binding Inner.Title}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
@@ -136,6 +137,7 @@
                                     </Border.Background>
                                     <TextBlock
                                         FontSize="10"
+                                        IsTextSelectionEnabled="True"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding Inner.Version}"
                                         TextTrimming="CharacterEllipsis"
@@ -275,6 +277,7 @@
                                 <AutoSuggestBox.TextBoxStyle>
                                     <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
                                         <Setter Property="IsSpellCheckEnabled" Value="False"/>
+                                        <Setter Property="Padding" Value="10,1,0,0"/>
                                     </Style>
                                 </AutoSuggestBox.TextBoxStyle>
                                 <mxi:Interaction.Behaviors>
@@ -287,10 +290,10 @@
 
                         <AppBarElementContainer>
                             <shuxc:SizeRestrictedContentControl Margin="2,6,3,6">
-                                <!--  SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"  -->
                                 <ComboBox
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Archives, Mode=OneWay}"
+                                    SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"
                                     Style="{ThemeResource CommandBarComboBoxStyle}"/>
                             </shuxc:SizeRestrictedContentControl>
                         </AppBarElementContainer>
@@ -328,6 +331,11 @@
                             Icon="{shuxm:FontIcon Glyph=&#xE8CB;}"
                             IsChecked="{Binding IsUncompletedItemsFirst, Mode=TwoWay}"
                             Label="{shuxm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
+                        <AppBarToggleButton
+                            Command="{Binding FilterDailyQuestSwitchCommand}"
+                            Icon="{shuxm:FontIcon Glyph=&#xE8ED;}"
+                            IsChecked="{Binding FilterDailyQuestItems, Mode=TwoWay}"
+                            Label="{shuxm:ResourceString Name=ViewPageAchievementFilterDailyQuestItems}"/>
                     </CommandBar>
                 </Grid>
             </Border>
