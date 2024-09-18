@@ -1145,6 +1145,18 @@
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>輸入的 Cookie 無法獲取使用者資訊</value>
   </data>
+  <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
+    <value>追加属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
+    <value>理之冠主属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
+    <value>空之杯主属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
+    <value>时之沙主属性推荐</value>
+  </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>複製圖像</value>
   </data>
