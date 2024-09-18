@@ -1152,10 +1152,10 @@
     <value>分類群の主の思想</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
-    <value>空之杯主属性推荐</value>
+    <value>空のマグカップの推奨事項です。</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
-    <value>时之沙主属性推荐</value>
+    <value>時の沙主属性推奨</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>画像をコピー</value>
