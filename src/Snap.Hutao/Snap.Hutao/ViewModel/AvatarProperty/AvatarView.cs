@@ -29,7 +29,7 @@ internal sealed partial class AvatarView : INameIconSide,
 
     public WeaponView? Weapon { get; set; }
 
-    public List<string> RecommendedReliquaryProperties { get; set; } = default!;
+    public RecommandPropertiesView RecommendedProperties { get; set; } = default!;
 
     public List<ReliquaryView> Reliquaries { get; set; } = default!;
 

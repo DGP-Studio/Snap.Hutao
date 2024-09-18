@@ -50,6 +50,13 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        <Image
+            Grid.RowSpan="2"
+            MaxWidth="480"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Opacity="0.20"
+            Source="ms-appx:///Resource/WelcomeView_Background.png"/>
         <cwc:SwitchPresenter ContentTransitions="{ThemeResource EntranceThemeTransitions}" Value="{Binding State, Mode=OneWay}">
             <cwc:Case Value="{shuxm:UInt32 Value=0}">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
