@@ -123,6 +123,7 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock
+                                    IsTextSelectionEnabled="True"
                                     Text="{Binding Inner.Title}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
@@ -136,6 +137,7 @@
                                     </Border.Background>
                                     <TextBlock
                                         FontSize="10"
+                                        IsTextSelectionEnabled="True"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding Inner.Version}"
                                         TextTrimming="CharacterEllipsis"
