@@ -2,7 +2,8 @@ version: 1.0.{build}
 branches:
   only:
     - "release"
-build_cloud: HUTAO-ACTIONS
+# build_cloud: HUTAO-ACTIONS
+build_cloud: GCE
 image: Visual Studio 2022
 clone_depth: 3
 clone_folder: C:\Users\Public\appveyor\Snap.Hutao
