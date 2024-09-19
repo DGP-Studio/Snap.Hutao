@@ -22,7 +22,7 @@ internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
         this.Add(new()
         {
             Key = key,
-            ExpireTime = DateTimeOffset.UtcNow.Add(expire),
+            ExpireTime = DateTimeOffset.Now.Add(expire),
             Value = JsonSerializer.Serialize(data, jsonSerializerOptions),
         });
     }
