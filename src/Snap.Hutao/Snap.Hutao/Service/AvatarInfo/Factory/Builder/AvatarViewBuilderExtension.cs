@@ -8,7 +8,6 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using System.Collections.Immutable;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
 using MetadataSkill = Snap.Hutao.Model.Metadata.Avatar.Skill;

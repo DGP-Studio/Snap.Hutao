@@ -36,15 +36,18 @@ internal static class DirectX
 
     public static unsafe bool TryCreateDirect3D11Device(ObjectReference<IDXGIDevice.Vftbl> dxgiDevice, [NotNullWhen(true)] out IDirect3DDevice? direct3DDevice, out HRESULT hr)
     {
-        hr = CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, out IInspectable inspectable);
+        hr = CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, out ObjectReference<IInspectable.Vftbl> inspectable);
         if (FAILED(hr))
         {
             direct3DDevice = default;
             return false;
         }
 
-        direct3DDevice = inspectable.ObjRef.AsInterface<IDirect3DDevice>();
-        return true;
+        using (inspectable)
+        {
+            direct3DDevice = inspectable.AsInterface<IDirect3DDevice>();
+            return true;
+        }
     }
 
     public static unsafe bool TryCreateSwapChainForComposition(ObjectReference<IDXGIFactory6.Vftbl> factory, ObjectReference<ID3D11Device.Vftbl> device, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, out ObjectReference<IDXGISwapChain1.Vftbl> swapChain, out HRESULT hr)

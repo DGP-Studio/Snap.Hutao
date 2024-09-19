@@ -47,7 +47,7 @@ internal partial class Avatar : INameQualityAccess,
 
     public AvatarBaseValue BaseValue { get; set; } = default!;
 
-    public List<TypeValue<FightProperty, GrowCurveType>> GrowCurves { get; set; } = default!;
+    public TypeValueCollection<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
 
     public SkillDepot SkillDepot { get; set; } = default!;
 

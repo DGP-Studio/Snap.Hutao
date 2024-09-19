@@ -21,11 +21,11 @@ internal static class D3d11
     public static extern unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(IDXGIDevice* dxgiDevice, System.WinRT.IInspectable** graphicsDevice);
 
     [DebuggerStepThrough]
-    public static unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(ObjectReference<IDXGIDevice.Vftbl> dxgiDevice, out IInspectable graphicsDevice)
+    public static unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(ObjectReference<IDXGIDevice.Vftbl> dxgiDevice, out ObjectReference<IInspectable.Vftbl> graphicsDevice)
     {
         System.WinRT.IInspectable* pGraphicsDevice = default;
         HRESULT hr = CreateDirect3D11DeviceFromDXGIDevice((IDXGIDevice*)dxgiDevice.ThisPtr, &pGraphicsDevice);
-        graphicsDevice = new(ObjectReference<IUnknownVftbl>.Attach(ref Unsafe.AsRef<nint>(&pGraphicsDevice), IID.IID_IInspectable));
+        graphicsDevice = ObjectReference<IInspectable.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&pGraphicsDevice), IID.IID_IInspectable);
         return hr;
     }
 

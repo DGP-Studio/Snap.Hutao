@@ -34,8 +34,8 @@ internal sealed partial class MinimalPromotionDelta
 
         List<ICultivationItemsAccess> cultivationItemsEntryList =
         [
-            .. (await metadataService.GetAvatarListAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
-            .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
+            .. (await metadataService.GetAvatarArrayAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
+            .. (await metadataService.GetWeaponArrayAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
         ];
 
         List<ICultivationItemsAccess> minimal;

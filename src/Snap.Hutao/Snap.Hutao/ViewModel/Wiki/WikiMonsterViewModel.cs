@@ -1,11 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
 using System.Collections.Immutable;
 
@@ -19,8 +18,8 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView<Monster>? monsters;
+    private WikiMonsterMetadataContext metadataContext;
     private BaseValueInfo? baseValueInfo;
-    private ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>? levelMonsterCurveMap;
 
     public AdvancedCollectionView<Monster>? Monsters
     {
@@ -49,16 +48,14 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         {
             try
             {
-                levelMonsterCurveMap = await metadataService.GetLevelToMonsterCurveMapAsync().ConfigureAwait(false);
+                metadataContext = await metadataService.GetContextAsync<WikiMonsterMetadataContext>().ConfigureAwait(false);
 
-                ImmutableArray<Monster> monsters = await metadataService.GetMonsterListAsync().ConfigureAwait(false);
-                ImmutableDictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync().ConfigureAwait(false);
-                foreach (Monster monster in monsters)
+                foreach (Monster monster in metadataContext.Monsters)
                 {
-                    monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i, Material.Default));
+                    monster.DropsView ??= monster.Drops?.SelectList(i => metadataContext.IdDisplayItemAndMaterialMap.GetValueOrDefault(i, Material.Default));
                 }
 
-                List<Monster> ordered = monsters.OrderBy(m => m.RelationshipId.Value).ToList();
+                List<Monster> ordered = metadataContext.Monsters.OrderBy(m => m.RelationshipId.Value).ToList();
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
@@ -86,17 +83,15 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     private void UpdateBaseValueInfo(Monster? monster)
     {
-        if (monster is null)
+        if (monster is null || metadataContext is null)
         {
             BaseValueInfo = null;
+            return;
         }
-        else
-        {
-            List<PropertyCurveValue> propertyCurveValues = monster.GrowCurves
-                .SelectList(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, monster.BaseValue.GetValue(curveInfo.Type)));
 
-            ArgumentNullException.ThrowIfNull(levelMonsterCurveMap);
-            BaseValueInfo = new(Monster.MaxLevel, propertyCurveValues, levelMonsterCurveMap);
-        }
+        BaseValueInfo = new(
+            Monster.MaxLevel,
+            monster.GrowCurves.SelectList(info => new PropertyCurveValue(info.Type, info.Value, monster.BaseValue.GetValue(info.Type))),
+            metadataContext.LevelDictionaryMonsterGrowCurveMap);
     }
 }

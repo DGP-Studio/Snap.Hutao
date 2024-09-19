@@ -141,7 +141,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
             ImmutableArray<MetadataAchievementGoal> goals = await scopeContext.MetadataService
-                .GetAchievementGoalListAsync(CancellationToken)
+                .GetAchievementGoalArrayAsync(CancellationToken)
                 .ConfigureAwait(false);
 
             sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().ToAdvancedCollectionView();

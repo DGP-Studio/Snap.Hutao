@@ -30,26 +30,26 @@ internal sealed class SummaryReliquaryFactory
 
     public ReliquaryView Create()
     {
-        MetadataReliquary reliquary = metadataContext.IdReliquaryMap[this.reliquary.Id];
-        MetadataReliquarySet reliquarySet = metadataContext.IdReliquarySetMap[reliquary.SetId];
+        MetadataReliquary metaReliquary = metadataContext.IdReliquaryMap[this.reliquary.Id];
+        MetadataReliquarySet metaReliquarySet = metadataContext.IdReliquarySetMap[metaReliquary.SetId];
 
         ReliquaryViewBuilder reliquaryViewBuilder = new ReliquaryViewBuilder()
-            .SetName(reliquary.Name)
-            .SetIcon(RelicIconConverter.IconNameToUri(reliquary.Icon))
-            .SetDescription(reliquary.Description)
-            .SetLevel($"+{this.reliquary.Level}")
-            .SetQuality(reliquary.RankLevel)
-            .SetEquipType(reliquary.EquipType)
-            .SetSetName(reliquarySet.Name)
+            .SetName(metaReliquary.Name)
+            .SetIcon(RelicIconConverter.IconNameToUri(metaReliquary.Icon))
+            .SetDescription(metaReliquary.Description)
+            .SetLevel($"+{reliquary.Level}")
+            .SetQuality(metaReliquary.RankLevel)
+            .SetEquipType(metaReliquary.EquipType)
+            .SetSetName(metaReliquarySet.Name)
             .SetMainProperty(FightPropertyFormat.ToNameValue(this.reliquary.MainProperty))
-            .SetComposedSubProperties(this.reliquary.SubPropertyList.SelectList(CreateSubProperty));
+            .SetComposedSubProperties(reliquary.SubPropertyList.SelectList(CreateSubProperty));
 
         return reliquaryViewBuilder.View;
     }
 
-    private ReliquaryComposedSubProperty CreateSubProperty(ReliquaryProperty property)
+    private static ReliquaryComposedSubProperty CreateSubProperty(ReliquaryProperty property)
     {
-        return new ReliquaryComposedSubProperty(property.PropertyType, property.Value)
+        return new(property.PropertyType, property.Value)
         {
             EnhancedCount = property.Times + 1,
         };

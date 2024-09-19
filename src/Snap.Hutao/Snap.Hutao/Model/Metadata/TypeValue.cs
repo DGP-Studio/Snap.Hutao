@@ -3,31 +3,27 @@
 
 namespace Snap.Hutao.Model.Metadata;
 
-/// <summary>
-/// 类型与值
-/// </summary>
-/// <typeparam name="TType">类型</typeparam>
-/// <typeparam name="TValue">值</typeparam>
 internal class TypeValue<TType, TValue>
 {
-    /// <summary>
-    /// 构造一个新的类型与值
-    /// </summary>
-    /// <param name="type">类型</param>
-    /// <param name="value">值</param>
     public TypeValue(TType type, TValue value)
     {
         Type = type;
         Value = value;
     }
 
-    /// <summary>
-    /// 类型
-    /// </summary>
-    public TType Type { get; set; }
+    public TType Type { get; }
 
-    /// <summary>
-    /// 值
-    /// </summary>
-    public TValue Value { get; set; }
+    public TValue Value { get; }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is TypeValue<TType, TValue> value
+            && EqualityComparer<TType>.Default.Equals(Type, value.Type)
+            && EqualityComparer<TValue>.Default.Equals(Value, value.Value);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Type, Value);
+    }
 }

@@ -21,39 +21,54 @@ internal static class MetadataServiceContextExtension
 
         // Array
         {
-            if (context is IMetadataArrayAchievementSource listAchievementSource)
+            if (context is IMetadataArrayAchievementSource arrayAchievementSource)
             {
-                listAchievementSource.Achievements = await metadataService.GetAchievementListAsync(token).ConfigureAwait(false);
+                arrayAchievementSource.Achievements = await metadataService.GetAchievementArrayAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataArrayChapterSource listChapterSource)
+            if (context is IMetadataArrayAvatarSource arrayAvatarSource)
             {
-                listChapterSource.Chapters = await metadataService.GetChapterListAsync(token).ConfigureAwait(false);
+                arrayAvatarSource.Avatars = await metadataService.GetAvatarArrayAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataArrayGachaEventSource listGachaEventSource)
+            if (context is IMetadataArrayChapterSource arrayChapterSource)
             {
-                listGachaEventSource.GachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
+                arrayChapterSource.Chapters = await metadataService.GetChapterArrayAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataArrayMaterialSource listMaterialSource)
+            if (context is IMetadataArrayGachaEventSource arrayGachaEventSource)
             {
-                listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
+                arrayGachaEventSource.GachaEvents = await metadataService.GetGachaEventArrayAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataArrayProfilePictureSource dictionaryIdProfilePictureSource)
+            if (context is IMetadataArrayMaterialSource arrayMaterialSource)
             {
-                dictionaryIdProfilePictureSource.ProfilePictures = await metadataService.GetProfilePictureListAsync(token).ConfigureAwait(false);
+                arrayMaterialSource.Materials = await metadataService.GetMaterialArrayAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataArrayReliquaryMainAffixLevelSource listReliquaryMainAffixLevelSource)
+            if (context is IMetadataArrayMonsterSource arrayMonsterSource)
             {
-                listReliquaryMainAffixLevelSource.ReliquaryMainAffixLevels = await metadataService.GetReliquaryMainAffixLevelListAsync(token).ConfigureAwait(false);
+                arrayMonsterSource.Monsters = await metadataService.GetMonsterArrayAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataArrayReliquarySource listReliquarySource)
+            if (context is IMetadataArrayProfilePictureSource arrayProfilePictureSource)
             {
-                listReliquarySource.Reliquaries = await metadataService.GetReliquaryListAsync(token).ConfigureAwait(false);
+                arrayProfilePictureSource.ProfilePictures = await metadataService.GetProfilePictureArrayAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataArrayReliquaryMainAffixLevelSource arrayReliquaryMainAffixLevelSource)
+            {
+                arrayReliquaryMainAffixLevelSource.ReliquaryMainAffixLevels = await metadataService.GetReliquaryMainAffixLevelArrayAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataArrayReliquarySource arrayReliquarySource)
+            {
+                arrayReliquarySource.Reliquaries = await metadataService.GetReliquaryArrayAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataArrayWeaponSource arrayWeaponSource)
+            {
+                arrayWeaponSource.Weapons = await metadataService.GetWeaponArrayAsync(token).ConfigureAwait(false);
             }
         }
 
@@ -87,6 +102,11 @@ internal static class MetadataServiceContextExtension
             if (context is IMetadataDictionaryIdArrayTowerLevelSource dictionaryIdListTowerLevelSource)
             {
                 dictionaryIdListTowerLevelSource.IdArrayTowerLevelMap = await metadataService.GetGroupIdToTowerLevelGroupMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdDisplayItemAndMaterialSource dictionaryIdDisplayItemAndMaterialSource)
+            {
+                dictionaryIdDisplayItemAndMaterialSource.IdDisplayItemAndMaterialMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdMaterialSource dictionaryIdMaterialSource)

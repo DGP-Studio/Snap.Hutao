@@ -69,7 +69,7 @@ internal sealed unsafe partial class LoopbackManager : ObservableObject
         }
         finally
         {
-            // This function returns 1 rather than 0 specfied in the document.
+            // This function returns 1 rather than 0 specified in the document.
             _ = NetworkIsolationFreeAppContainers(pContainers);
         }
 
@@ -93,9 +93,12 @@ internal sealed unsafe partial class LoopbackManager : ObservableObject
         }
         finally
         {
-            for (uint index = 0; index < count; index++)
+            if (pSids is not null)
             {
-                HeapFree(GetProcessHeap(), 0, pSids[index].Sid);
+                for (uint index = 0; index < count; index++)
+                {
+                    HeapFree(GetProcessHeap(), 0, pSids[index].Sid);
+                }
             }
 
             HeapFree(GetProcessHeap(), 0, pSids);

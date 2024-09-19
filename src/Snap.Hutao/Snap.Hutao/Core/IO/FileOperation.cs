@@ -121,8 +121,6 @@ internal static class FileOperation
 
                 using (destShellItem)
                 {
-                    IShellItem* pDestShellItem = (IShellItem*)destShellItem.ThisPtr;
-
                     pFileOperation->MoveItem(pSourceShellItem, destShellItem, default, default!);
 
                     return SUCCEEDED(pFileOperation->PerformOperations());

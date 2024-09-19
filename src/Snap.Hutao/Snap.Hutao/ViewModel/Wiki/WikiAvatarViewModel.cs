@@ -5,7 +5,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -15,6 +14,7 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
@@ -46,8 +46,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
-    private ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>? levelAvatarCurveMap;
-    private ImmutableArray<Promote> promotes;
+    private WikiAvatarMetadataContext? metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public AdvancedCollectionView<Avatar>? Avatars
@@ -79,48 +78,47 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            try
+            return false;
+        }
+
+        try
+        {
+            metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>().ConfigureAwait(false);
+
+            List<Avatar> list = metadataContext.Avatars
+                .OrderByDescending(avatar => avatar.BeginTime)
+                .ThenByDescending(avatar => avatar.Sort)
+                .ToList();
+
+            await CombineComplexDataAsync(list, metadataContext).ConfigureAwait(false);
+
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                levelAvatarCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync().ConfigureAwait(false);
-                promotes = await metadataService.GetAvatarPromoteListAsync().ConfigureAwait(false);
+                AdvancedCollectionView<Avatar> avatarsView = list.ToAdvancedCollectionView();
 
-                ImmutableDictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
-                ImmutableArray<Avatar> avatars = await metadataService.GetAvatarListAsync().ConfigureAwait(false);
-                IOrderedEnumerable<Avatar> sorted = avatars
-                    .OrderByDescending(avatar => avatar.BeginTime)
-                    .ThenByDescending(avatar => avatar.Sort);
-                List<Avatar> list = [.. sorted];
-
-                await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
-
-                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-                {
-                    AdvancedCollectionView<Avatar> avatarsView = list.ToAdvancedCollectionView();
-
-                    await taskContext.SwitchToMainThreadAsync();
-                    Avatars = avatarsView;
-                    Avatars.MoveCurrentToFirstOrDefault();
-                }
-
-                FilterTokens = [];
-
-                availableTokens = FrozenDictionary.ToFrozenDictionary(
-                [
-                    .. avatars.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
-                    .. IntrinsicFrozen.AssociationTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.AssociationType, nv.Name, (int)nv.Value, iconUri: AssociationTypeIconConverter.AssociationTypeToIconUri(nv.Value)))),
-                    .. IntrinsicFrozen.BodyTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.BodyType, nv.Name, (int)nv.Value))),
-                    .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToIconUri(nv.Name)))),
-                    .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
-                    .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
-                ]);
-
-                return true;
+                await taskContext.SwitchToMainThreadAsync();
+                Avatars = avatarsView;
+                Avatars.MoveCurrentToFirstOrDefault();
             }
-            catch (OperationCanceledException)
-            {
-            }
+
+            FilterTokens = [];
+
+            availableTokens = FrozenDictionary.ToFrozenDictionary(
+            [
+                .. list.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
+                .. IntrinsicFrozen.AssociationTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.AssociationType, nv.Name, (int)nv.Value, iconUri: AssociationTypeIconConverter.AssociationTypeToIconUri(nv.Value)))),
+                .. IntrinsicFrozen.BodyTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.BodyType, nv.Name, (int)nv.Value))),
+                .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToIconUri(nv.Name)))),
+                .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
+                .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
+            ]);
+
+            return true;
+        }
+        catch (OperationCanceledException)
+        {
         }
 
         return false;
@@ -131,7 +129,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         UpdateBaseValueInfo(Avatars?.CurrentItem);
     }
 
-    private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, ImmutableDictionary<MaterialId, Material> idMaterialMap)
+    private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
     {
         if (!await hutaoCache.InitializeForWikiAvatarViewAsync().ConfigureAwait(false))
         {
@@ -143,8 +141,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         foreach (Avatar avatar in avatars)
         {
             avatar.CollocationView = hutaoCache.AvatarCollocations.GetValueOrDefault(avatar.Id);
-            avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, idMaterialMap);
-            avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => idMaterialMap.GetValueOrDefault(i, Material.Default));
+            avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, context.IdMaterialMap);
+            avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default));
         }
     }
 
@@ -196,21 +194,14 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 Strategy = deltaOptions.Strategy,
             };
 
-            switch (await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false))
+            _ = await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false) switch
             {
-                case ConsumptionSaveResultKind.NoProject:
-                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                    break;
-                case ConsumptionSaveResultKind.Skipped:
-                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint);
-                    break;
-                case ConsumptionSaveResultKind.NoItem:
-                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint);
-                    break;
-                case ConsumptionSaveResultKind.Added:
-                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-                    break;
-            }
+                ConsumptionSaveResultKind.NoProject => infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
+                ConsumptionSaveResultKind.Skipped => infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+                ConsumptionSaveResultKind.NoItem => infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+                ConsumptionSaveResultKind.Added => infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+                _ => default,
+            };
         }
         catch (HutaoException ex)
         {
@@ -220,26 +211,17 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     private void UpdateBaseValueInfo(Avatar? avatar)
     {
-        if (avatar is null)
+        if (avatar is null || metadataContext is null)
         {
             BaseValueInfo = null;
             return;
         }
 
-        Dictionary<PromoteLevel, Promote> avatarPromoteMap = promotes.Where(p => p.Id == avatar.PromoteId).ToDictionary(p => p.Level);
-        Dictionary<FightProperty, GrowCurveType> avatarGrowCurve = avatar.GrowCurves.ToDictionary(g => g.Type, g => g.Value);
-        FightProperty promoteProperty = avatarPromoteMap[0].AddProperties.Last().Type;
-
-        List<PropertyCurveValue> propertyCurveValues =
-        [
-            new(FightProperty.FIGHT_PROP_BASE_HP, avatarGrowCurve, avatar.BaseValue),
-            new(FightProperty.FIGHT_PROP_BASE_ATTACK, avatarGrowCurve, avatar.BaseValue),
-            new(FightProperty.FIGHT_PROP_BASE_DEFENSE, avatarGrowCurve, avatar.BaseValue),
-            new(promoteProperty, avatarGrowCurve, avatar.BaseValue),
-        ];
-
-        ArgumentNullException.ThrowIfNull(levelAvatarCurveMap);
-        BaseValueInfo = new(avatar.MaxLevel, propertyCurveValues, levelAvatarCurveMap, avatarPromoteMap);
+        BaseValueInfo = new(
+            avatar.MaxLevel,
+            avatar.GrowCurves.Select(info => new PropertyCurveValue(info.Type, info.Value, avatar.BaseValue.GetValue(info.Type))).ToList(),
+            metadataContext.LevelDictionaryAvatarGrowCurveMap,
+            metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId]);
     }
 
     [Command("FilterCommand")]
