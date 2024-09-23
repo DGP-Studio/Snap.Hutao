@@ -31,6 +31,7 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
         {
             presenter.IsResizable = false;
             presenter.IsMaximizable = false;
+            presenter.SetBorderAndTitleBar(false, false);
         }
 
         this.InitializeController(serviceProvider);
