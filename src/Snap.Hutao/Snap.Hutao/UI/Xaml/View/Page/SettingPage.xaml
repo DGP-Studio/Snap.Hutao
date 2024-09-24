@@ -511,6 +511,12 @@
                                                 OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
                                                 OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
                                         </cwc:SettingsCard>
+                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemCalendarHeader}">
+                                            <ToggleSwitch
+                                                IsOn="{Binding HomeCardOptions.IsHomeCardCalendarPresented, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                        </cwc:SettingsCard>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                                 <cwc:SettingsCard

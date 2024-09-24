@@ -2867,6 +2867,9 @@
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>成就管理</value>
   </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日历</value>
+  </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>实时便笺</value>
   </data>

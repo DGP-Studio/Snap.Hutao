@@ -130,6 +130,11 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             result.Add(new() { Card = new DailyNoteCard() });
         }
 
+        if (LocalSetting.Get(SettingKeys.IsHomeCardCalendarPresented, true))
+        {
+            result.Add(new() { Card = new CalendarCard() });
+        }
+
         Cards = result;
     }
 }
