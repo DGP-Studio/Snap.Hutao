@@ -1145,6 +1145,18 @@
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Can't get user information with entered Cookie</value>
   </data>
+  <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
+    <value>Append Attribute Recommendation</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
+    <value>Rational Champion Attribute Recommendations</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
+    <value>Empty Grail Property Recommendation</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
+    <value>Sand Properties Recommendations</value>
+  </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>Copy Image</value>
   </data>
@@ -1811,6 +1823,9 @@
   <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
     <value>Cancelled</value>
   </data>
+  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+    <value>Canceling</value>
+  </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
     <value>Installation completed</value>
   </data>
@@ -1931,6 +1946,9 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Failed to save game path</value>
   </data>
+  <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
+    <value>The current data directory `{0}' contains one or more reanalytics points (Reparse points) that may cause some data folders to work properly. Please go to set the change path</value>
+  </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>Export failed</value>
   </data>
@@ -1999,6 +2017,9 @@
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>Export</value>
+  </data>
+  <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
+    <value>Charged achievements only</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Import from Clipboard</value>
@@ -2783,6 +2804,9 @@
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>Device IP</value>
   </data>
+  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
+    <value>Download</value>
+  </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>Administrator mode will change some features' availability and behaviors</value>
   </data>
@@ -2969,6 +2993,12 @@
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell Experience</value>
   </data>
+  <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
+    <value>0 for unlimited speed</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
+    <value>Download speed limit</value>
+  </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Sponsor Snap Hutao</value>
   </data>
@@ -3004,6 +3034,9 @@
   </data>
   <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
+    <value>Upgrade earlier version of UIGF files</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>Display Undrawn Items in "Wish Export - Characters" and "Wish Export - Weapons"</value>

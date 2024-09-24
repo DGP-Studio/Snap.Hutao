@@ -148,10 +148,10 @@
     <value>Aucun résultat trouvé</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
-    <value>删除</value>
+    <value>Supprimer</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
-    <value>选择全部</value>
+    <value>Tout sélectionner</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Uri invalide</value>
@@ -199,16 +199,16 @@
     <value>Échec de l'enregistrement de [{0}] en touche de raccourci [{1}]</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Quitter</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>Lanceur de jeu</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao fonctionne en arrière-plan.</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Fenêtré</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Sombre</value>
@@ -268,10 +268,10 @@
     <value>Les meilleures invocations {0}</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
-    <value>{0} invocations</value>
+    <value>{0} Invocations</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
-    <value>第 {0} 层</value>
+    <value>Floor {0}</value>
   </data>
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
     <value>Niveau {0}</value>
@@ -286,51 +286,51 @@
     <value>Chinois</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
-    <value>国际服</value>
+    <value>Global</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
-    <value>网络异常</value>
+    <value>Erreur réseau</value>
   </data>
   <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
-    <value>尚未刷新</value>
+    <value>Non rafraîchie</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>刷新于 {0:MM.dd HH:mm:ss}</value>
+    <value>Rafraîchie à {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
-    <value>第 {0} 期</value>
+    <value>Calendrier {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>角色</value>
+    <value>Personnage</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
-    <value>未知</value>
+    <value>Inconnu</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
-    <value>武器</value>
+    <value>Armes</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
-    <value>愚人众</value>
+    <value>Fatui</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeFontaine" xml:space="preserve">
-    <value>枫丹</value>
+    <value>Fontaine</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
-    <value>稻妻</value>
+    <value>Inazuma</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
-    <value>璃月</value>
+    <value>Liyue</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeMondstadt" xml:space="preserve">
-    <value>蒙德</value>
+    <value>Mondstadt</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
-    <value>纳塔</value>
+    <value>Natlan</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
@@ -338,136 +338,136 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
-    <value>至冬</value>
+    <value>Snezhnaya</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
-    <value>须弥</value>
+    <value>Sumeru</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
-    <value>少男</value>
+    <value>Garçon</value>
   </data>
   <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
-    <value>少女</value>
+    <value>Girl</value>
   </data>
   <data name="ModelIntrinsicBodyTypeLady" xml:space="preserve">
-    <value>成女</value>
+    <value>Dame</value>
   </data>
   <data name="ModelIntrinsicBodyTypeLoli" xml:space="preserve">
-    <value>萝莉</value>
+    <value>Enfant</value>
   </data>
   <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
-    <value>成男</value>
+    <value>Homme</value>
   </data>
   <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
-    <value>雷</value>
+    <value>Electro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameFire" xml:space="preserve">
-    <value>火</value>
+    <value>Pyro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameGrass" xml:space="preserve">
-    <value>草</value>
+    <value>Dendro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameIce" xml:space="preserve">
-    <value>冰</value>
+    <value>Cryo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameRock" xml:space="preserve">
-    <value>岩</value>
+    <value>Geo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameWater" xml:space="preserve">
-    <value>水</value>
+    <value>Hydro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameWind" xml:space="preserve">
-    <value>风</value>
+    <value>Anemo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
-    <value>三星</value>
+    <value>3 Étoiles</value>
   </data>
   <data name="ModelIntrinsicItemQualityGreen" xml:space="preserve">
-    <value>二星</value>
+    <value>2 Étoiles</value>
   </data>
   <data name="ModelIntrinsicItemQualityOrange" xml:space="preserve">
-    <value>五星</value>
+    <value>5 Étoiles</value>
   </data>
   <data name="ModelIntrinsicItemQualityPurple" xml:space="preserve">
-    <value>四星</value>
+    <value>4 Étoiles</value>
   </data>
   <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
-    <value>限定五星</value>
+    <value>Événement exclusif</value>
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
-    <value>一星</value>
+    <value>1 Étoile</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
-    <value>弓</value>
+    <value>Arc</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeCatalyst" xml:space="preserve">
-    <value>法器</value>
+    <value>Catalyseur</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeClaymore" xml:space="preserve">
-    <value>双手剑</value>
+    <value>Claymore</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
-    <value>长柄武器</value>
+    <value>Armes d'hast</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
-    <value>单手剑</value>
+    <value>Épées</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
     <value>Voyageur</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
-    <value>{0} 月 {1} 日</value>
+    <value>{0} Mois {1} Jour</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
-    <value>角色与武器培养素材</value>
+    <value>Matériaux d'amélioration des personnages et des armes</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
-    <value>角色突破素材</value>
+    <value>Matériaux d'ascension de personnage</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterEXPMaterial" xml:space="preserve">
-    <value>角色经验素材</value>
+    <value>Matériaux d'EXP de personnage</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterLevelUpMaterial" xml:space="preserve">
-    <value>角色培养素材</value>
+    <value>Matériaux de level-up de personnage</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
-    <value>角色天赋素材</value>
+    <value>Matériaux d'aptitude de personnage</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
-    <value>武器突破素材</value>
+    <value>Matériaux d'ascension d'arme</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
-    <value>武器强化素材</value>
+    <value>Matériaux d'amélioration d'arme</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
-    <value>击败怪物</value>
+    <value>Tuer les monstres</value>
   </data>
   <data name="ModelMetadataTowerGoalTypeDefendTarget" xml:space="preserve">
-    <value>守护目标</value>
+    <value>Protéger le monolithe</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
-    <value>附加：增援怪物</value>
+    <value>Ajout : Renforcement des monstres</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
     <value>本间怪物</value>
@@ -1145,6 +1145,18 @@
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>输入的 Cookie 无法获取用户信息</value>
   </data>
+  <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
+    <value>追加属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
+    <value>理之冠主属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
+    <value>空之杯主属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
+    <value>时之沙主属性推荐</value>
+  </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>复制图像</value>
   </data>
@@ -1722,19 +1734,19 @@
     <value>修改计划任务失败</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
-    <value>30 分钟 | 3.75 树脂</value>
+    <value>30 min | 3,75 Résine</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime4" xml:space="preserve">
-    <value>4 分钟 | 0.5 树脂</value>
+    <value>4 min | 0,5 résine</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime40" xml:space="preserve">
-    <value>40 分钟 | 5 树脂</value>
+    <value>40 min | 5 Résine</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime60" xml:space="preserve">
-    <value>60 分钟 | 7.5 树脂</value>
+    <value>60 min | 7.5 Résine</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
-    <value>8 分钟 | 1 树脂</value>
+    <value>8 min | 1 Résine</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>正在获取实时便笺信息，请稍候</value>
@@ -1810,6 +1822,9 @@
   </data>
   <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
     <value>已取消</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+    <value>正在取消</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
     <value>安装完成</value>
@@ -1931,6 +1946,9 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>保存游戏路径失败</value>
   </data>
+  <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
+    <value>当前数据目录 '{0}' 包含了一个或多个重新分析点（Reparse points），可能会导致部分依赖数据文件夹的功能无法正常工作，请前往设置更改路径</value>
+  </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>导出失败</value>
   </data>
@@ -1999,6 +2017,9 @@
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>Exporter</value>
+  </data>
+  <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
+    <value>仅委托成就</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>从剪贴板导入</value>
@@ -2783,6 +2804,9 @@
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>设备 IP</value>
   </data>
+  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
+    <value>下载</value>
+  </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>管理员模式会影响部分功能的可用性与行为</value>
   </data>
@@ -2969,6 +2993,12 @@
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 体验</value>
   </data>
+  <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
+    <value>0 代表不限速</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
+    <value>下载速度限制</value>
+  </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>赞助我们</value>
   </data>
@@ -3004,6 +3034,9 @@
   </data>
   <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
     <value>Importer</value>
+  </data>
+  <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
+    <value>升级较早版本的 UIGF 文件</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
