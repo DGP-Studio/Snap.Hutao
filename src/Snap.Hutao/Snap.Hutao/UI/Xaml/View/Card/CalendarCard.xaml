@@ -39,7 +39,10 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Text="{Binding DayInMonth}"/>
+                        <TextBlock
+                            Margin="0,8"
+                            HorizontalAlignment="Center"
+                            Text="{Binding DayInMonth}"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
