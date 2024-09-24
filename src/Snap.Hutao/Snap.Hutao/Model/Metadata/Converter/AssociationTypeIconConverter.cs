@@ -21,7 +21,7 @@ internal sealed partial class AssociationTypeIconConverter : ValueConverter<Asso
             AssociationType.ASSOC_TYPE_RANGER => default,
             AssociationType.ASSOC_TYPE_SUMERU => "Sumeru",
             AssociationType.ASSOC_TYPE_FONTAINE => "Fontaine",
-            AssociationType.ASSOC_TYPE_NATLAN => default,
+            AssociationType.ASSOC_TYPE_NATLAN => "Natlan",
             AssociationType.ASSOC_TYPE_SNEZHNAYA => default,
             _ => throw HutaoException.NotSupported(),
         };
