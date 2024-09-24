@@ -51,6 +51,7 @@ public static partial class Program
         {
             // In a Desktop app this runs a message pump internally,
             // and does not return until the application shuts down.
+            Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
             Application.Start(AppInitializationCallback);
         }
     }

@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.Threading;
 
 internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, ICriticalAwaiter
 {
-    private static readonly WaitCallback WaitCallbackRunAction = RunAction;
+    private static readonly Action<Action> WaitCallbackRunAction = RunAction;
     private readonly DispatcherQueue dispatherQueue;
 
     public ThreadPoolSwitchOperation(DispatcherQueue dispatherQueue)
@@ -33,29 +33,16 @@ internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitch
 
     public void OnCompleted(Action continuation)
     {
-        QueueContinuation(continuation, true);
+        ThreadPool.QueueUserWorkItem(WaitCallbackRunAction, continuation, false);
     }
 
     public void UnsafeOnCompleted(Action continuation)
     {
-        QueueContinuation(continuation, false);
+        ThreadPool.UnsafeQueueUserWorkItem(WaitCallbackRunAction, continuation, false);
     }
 
-    private static void QueueContinuation(Action continuation, bool flowContext)
+    private static void RunAction(Action state)
     {
-        if (flowContext)
-        {
-            ThreadPool.QueueUserWorkItem(WaitCallbackRunAction, continuation);
-        }
-        else
-        {
-            ThreadPool.UnsafeQueueUserWorkItem(WaitCallbackRunAction, continuation);
-        }
-    }
-
-    [SuppressMessage("", "SH007")]
-    private static void RunAction(object? state)
-    {
-        ((Action)state!)();
+        state();
     }
 }

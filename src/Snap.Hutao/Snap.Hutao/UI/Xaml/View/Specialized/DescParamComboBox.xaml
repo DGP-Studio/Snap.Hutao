@@ -8,6 +8,7 @@
     xmlns:shmm="using:Snap.Hutao.Model.Metadata"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxmb="using:Snap.Hutao.UI.Xaml.Media.Backdrop"
     Visibility="{x:Bind SelectedItem.Parameters.Count, Converter={StaticResource Int32ToVisibilityConverter}, Mode=OneWay}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -38,7 +39,12 @@
                     DisplayMemberPath="Level"
                     ItemsSource="{x:Bind Source, Mode=OneWay}"
                     SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-                    Style="{StaticResource SettingsContentComboBoxStyle}"/>
+                    Style="{StaticResource SettingsContentComboBoxStyle}">
+                    <!--<shuxc:ComboBoxHelper.SystemBackdrop>
+                        <shuxmb:InputActiveDesktopAcrylicBackdrop/>
+                        --><!--<DesktopAcrylicBackdrop/>--><!--
+                    </shuxc:ComboBoxHelper.SystemBackdrop>-->
+                </ComboBox>
             </shuxc:SizeRestrictedContentControl>
         </cwc:SettingsExpander>
     </ScrollViewer>
