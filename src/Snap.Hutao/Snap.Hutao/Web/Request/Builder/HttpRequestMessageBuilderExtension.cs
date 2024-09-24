@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
+using System.Collections;
 using System.IO;
 using System.Net.Http;
 using System.Net.Sockets;
@@ -73,6 +74,7 @@ internal static class HttpRequestMessageBuilderExtension
 
     internal static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpContext context)
     {
+        string? baseUrl = builder.HttpRequestMessage.RequestUri?.GetLeftPart(UriPartial.Path);
         try
         {
             context.Request = builder.HttpRequestMessage;
@@ -80,6 +82,7 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (Exception ex)
         {
+            ex.AddData("RequestUrlNoQuery", baseUrl ?? "Unknown");
             context.Exception = ExceptionDispatchInfo.Capture(ex);
             context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
@@ -118,6 +121,16 @@ internal static class HttpRequestMessageBuilderExtension
     [SuppressMessage("", "CA1305")]
     private static void ProcessException(StringBuilder builder, Exception exception, int depth = 0)
     {
+        if (depth is 0)
+        {
+            foreach (DictionaryEntry entry in exception.Data)
+            {
+                builder.AppendLine($"[{TypeNameHelper.GetTypeDisplayName(entry.Value)}]:{entry.Key}:{entry.Value}");
+            }
+
+            builder.AppendLine("----------------------------------------");
+        }
+
         if (exception is HttpRequestException hre)
         {
             builder
