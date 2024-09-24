@@ -307,11 +307,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("GPOWindowTestCommand")]
-    private void GPOWindowTest()
+    [Command("TestGamePackageOperationWindowCommand")]
+    private void TestGamePackageOperationWindow()
     {
-        GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
-        GamePackageOperationViewModel dataContext = (GamePackageOperationViewModel)window.DataContext;
-        dataContext.TestProgress();
+        serviceProvider.GetRequiredService<GamePackageOperationWindow>().DataContext.TestProgress();
     }
 }

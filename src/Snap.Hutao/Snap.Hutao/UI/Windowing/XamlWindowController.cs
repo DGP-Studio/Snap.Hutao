@@ -103,6 +103,11 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
+        if (args.Handled)
+        {
+            return;
+        }
+
         serviceProvider.GetRequiredService<AppOptions>().PropertyChanged -= OnOptionsPropertyChanged;
 
         if (XamlApplicationLifetime.LaunchedWithNotifyIcon && !XamlApplicationLifetime.Exiting)

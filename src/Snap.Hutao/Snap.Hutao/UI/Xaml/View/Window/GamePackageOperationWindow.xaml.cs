@@ -31,20 +31,29 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
         {
             presenter.IsResizable = false;
             presenter.IsMaximizable = false;
-            presenter.SetBorderAndTitleBar(false, false);
         }
 
+        Closed += OnWindowClosed;
         this.InitializeController(serviceProvider);
         RootGrid.InitializeDataContext<GamePackageOperationViewModel>(scope.ServiceProvider);
     }
 
     public FrameworkElement TitleBarAccess { get => DragableGrid; }
 
-    public object DataContext { get => RootGrid.DataContext; }
+    public GamePackageOperationViewModel DataContext { get => (GamePackageOperationViewModel)RootGrid.DataContext; }
 
     public void Dispose()
     {
         scope.Dispose();
+    }
+
+    private static void OnWindowClosed(object sender, WindowEventArgs args)
+    {
+        GamePackageOperationWindow window = (GamePackageOperationWindow)sender;
+        if (!window.DataContext.IsFinished)
+        {
+            args.Handled = true;
+        }
     }
 
     [Command("CloseCommand")]
