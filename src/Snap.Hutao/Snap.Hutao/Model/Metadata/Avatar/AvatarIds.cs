@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Model.Metadata;
+namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal static class AvatarIds
 {
@@ -109,9 +109,9 @@ internal static class AvatarIds
         return avatarId == PlayerBoy || avatarId == PlayerGirl;
     }
 
-    public static ImmutableDictionary<AvatarId, Avatar.Avatar> WithPlayers(ImmutableDictionary<AvatarId, Avatar.Avatar> idAvatarMap)
+    public static ImmutableDictionary<AvatarId, Avatar> WithPlayers(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
-        ImmutableDictionary<AvatarId, Avatar.Avatar>.Builder builder = ImmutableDictionary.CreateBuilder<AvatarId, Avatar.Avatar>();
+        ImmutableDictionary<AvatarId, Avatar>.Builder builder = ImmutableDictionary.CreateBuilder<AvatarId, Avatar>();
 
         builder.AddRange(idAvatarMap);
         builder.Add(PlayerBoy, new()

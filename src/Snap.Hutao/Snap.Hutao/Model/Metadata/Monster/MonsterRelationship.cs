@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Metadata;
+namespace Snap.Hutao.Model.Metadata.Monster;
 
 internal static class MonsterRelationship
 {

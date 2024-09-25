@@ -29,7 +29,10 @@
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <Grid Padding="12" RowSpacing="12">
+    <Grid
+        Padding="12"
+        RowSpacing="12"
+        Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -62,43 +65,63 @@
             </cwc:Segmented.ItemTemplate>
         </cwc:Segmented>
 
-        <Grid Grid.Row="1" DataContext="{Binding WeekDays.CurrentItem}">
+        <Grid
+            Grid.Row="1"
+            DataContext="{Binding WeekDays.CurrentItem}"
+            RowSpacing="12">
             <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
+                <RowDefinition Height="34"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Style="{ThemeResource BorderCardStyle}">
-                <shuxc:StandardView ShowCondition="{Binding BirthDayAvatars.Length, Converter={StaticResource Int32ToBoolConverter}}">
-                    <shuxc:StandardView.EmptyContent>
+
+            <shuxc:StandardView Grid.Row="0" ShowCondition="{Binding BirthDayAvatars.IsEmpty, Converter={StaticResource BoolNegationConverter}}">
+                <shuxc:StandardView.EmptyContent>
+                    <Border Style="{ThemeResource BorderCardStyle}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{shuxm:ResourceString Name=ViewCardCalendarNoBirthdayAvatarHint}"/>
-                    </shuxc:StandardView.EmptyContent>
-                    <ItemsControl
-                        Margin="6"
-                        HorizontalAlignment="Left"
-                        ItemsPanel="{StaticResource WrapPanelSpacing6Template}"
-                        ItemsSource="{Binding BirthDayAvatars}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <shuxcc:HorizontalCard>
-                                    <shuxcc:HorizontalCard.Left>
-                                        <shuxc:ItemIcon
-                                            Width="32"
-                                            Height="32"
-                                            Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}}"
-                                            Quality="{Binding Quality}"/>
-                                    </shuxcc:HorizontalCard.Left>
-                                    <shuxcc:HorizontalCard.Right>
-                                        <TextBlock Margin="6,0" Text="{Binding Name}"/>
-                                    </shuxcc:HorizontalCard.Right>
-                                </shuxcc:HorizontalCard>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </shuxc:StandardView>
-            </Border>
+                    </Border>
+                </shuxc:StandardView.EmptyContent>
+                <ItemsControl
+                    HorizontalAlignment="Left"
+                    ItemsPanel="{StaticResource WrapPanelSpacing6Template}"
+                    ItemsSource="{Binding BirthDayAvatars}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <shuxcc:HorizontalCard>
+                                <shuxcc:HorizontalCard.Left>
+                                    <shuxc:ItemIcon
+                                        Width="32"
+                                        Height="32"
+                                        Icon="{Binding Icon}"
+                                        Quality="{Binding Quality}"/>
+                                </shuxcc:HorizontalCard.Left>
+                                <shuxcc:HorizontalCard.Right>
+                                    <TextBlock Margin="6,0" Text="{Binding Name}"/>
+                                </shuxcc:HorizontalCard.Right>
+                            </shuxcc:HorizontalCard>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </shuxc:StandardView>
+
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Materials}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <cwc:UniformGrid Columns="6"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <shuxc:ItemIcon
+                            Width="32"
+                            Height="32"
+                            Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                            Quality="{Binding Inner.RankLevel}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
     </Grid>
 </Button>

@@ -2,15 +2,22 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Service;
+using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
-using Snap.Hutao.UI.Xaml.Data;
 using System.Collections.Immutable;
-using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Calendar;
 
-internal sealed class CalendarMetadataContext : IMetadataContext, IMetadataArrayAvatarSource
+internal sealed class CalendarMetadataContext : IMetadataContext,
+    IMetadataArrayAvatarSource,
+    IMetadataArrayWeaponSource,
+    IMetadataDictionaryIdMaterialSource
 {
     public ImmutableArray<Avatar> Avatars { get; set; }
+
+    public ImmutableArray<Weapon> Weapons { get; set; }
+
+    public ImmutableDictionary<MaterialId, Material> IdMaterialMap { get; set; } = default!;
 }

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model;
 using Snap.Hutao.UI.Xaml.Data;
 using System.Collections.Immutable;
 
@@ -9,11 +9,13 @@ namespace Snap.Hutao.ViewModel.Calendar;
 
 internal sealed partial class CalendarDay : IAdvancedCollectionViewItem
 {
-    public DateTimeOffset Date { get; set; }
+    public required DateTimeOffset Date { get; init; }
 
-    public int DayInMonth { get; set; }
+    public required int DayInMonth { get; init; }
 
-    public string DayName { get; set; } = default!;
+    public required string DayName { get; init; }
 
-    public ImmutableArray<Avatar> BirthDayAvatars { get; set; }
+    public required ImmutableArray<Item> BirthDayAvatars { get; init; }
+
+    public required ImmutableArray<CalendarMaterial> Materials { get; init; }
 }
