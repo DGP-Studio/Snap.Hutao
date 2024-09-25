@@ -10,6 +10,7 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Calendar"
     MinHeight="180"
@@ -31,7 +32,7 @@
 
     <Grid
         Padding="12"
-        RowSpacing="12"
+        RowSpacing="6"
         Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -68,7 +69,7 @@
         <Grid
             Grid.Row="1"
             DataContext="{Binding WeekDays.CurrentItem}"
-            RowSpacing="12">
+            RowSpacing="6">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34"/>
                 <RowDefinition/>
@@ -109,16 +110,21 @@
             <ItemsControl Grid.Row="1" ItemsSource="{Binding Materials}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <cwc:UniformGrid Columns="6"/>
+                        <cwc:UniformGrid
+                            ColumnSpacing="2"
+                            Columns="6"
+                            RowSpacing="2"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <shuxc:ItemIcon
-                            Width="32"
-                            Height="32"
-                            Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
-                            Quality="{Binding Inner.RankLevel}"/>
+                        <Border Style="{ThemeResource BorderCardStyle}">
+                            <shuxci:CachedImage
+                                Width="26"
+                                Height="26"
+                                Source="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"/>
+                        </Border>
+
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
