@@ -14,16 +14,166 @@
             <StaticResource x:Key="SegmentedBackground" ResourceKey="ControlAltFillColorSecondaryBrush"/>
             <StaticResource x:Key="SegmentedBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush"/>
             <Thickness x:Key="SegmentedBorderThickness">1</Thickness>
+
+            <StaticResource x:Key="SegmentedItemBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundDisabled" ResourceKey="ControlFillColorDisabledBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrush" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushPointerOver" ResourceKey="SubtleFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushSelected" ResourceKey="ControlElevationBorderBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushPressed" ResourceKey="SubtleFillColorTertiaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushDisabled" ResourceKey="ControlAltFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush"/>
+            <StaticResource x:Key="SegmentedPillBackground" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundDisabled" ResourceKey="AccentFillColorDisabledBrush"/>
+            <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
+            <x:Double x:Key="SegmentedItemDisabledOpacity">0.55</x:Double>
+            <StaticResource x:Key="PivotItemBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundPointerOver" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundSelected" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundPressed" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush"/>
+            <StaticResource x:Key="PivotItemPillBackground" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundDisabled" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="ButtonItemBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundPressed" ResourceKey="SubtleFillColorTertiary"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelectedPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelectedPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="ButtonItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelectedPointerOver" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelectedPressed" ResourceKey="TextOnAccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <StaticResource x:Key="SegmentedBackground" ResourceKey="ControlAltFillColorSecondaryBrush"/>
             <StaticResource x:Key="SegmentedBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush"/>
             <Thickness x:Key="SegmentedBorderThickness">1</Thickness>
+
+            <StaticResource x:Key="SegmentedItemBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBackgroundDisabled" ResourceKey="ControlFillColorDisabledBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrush" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushPointerOver" ResourceKey="SubtleFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushSelected" ResourceKey="ControlElevationBorderBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushPressed" ResourceKey="SubtleFillColorTertiaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushDisabled" ResourceKey="ControlAltFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush"/>
+            <StaticResource x:Key="SegmentedPillBackground" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundDisabled" ResourceKey="AccentFillColorDisabledBrush"/>
+            <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
+            <x:Double x:Key="SegmentedItemDisabledOpacity">0.55</x:Double>
+            <StaticResource x:Key="PivotItemBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundPointerOver" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundSelected" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundPressed" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="PivotItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="PivotItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush"/>
+            <StaticResource x:Key="PivotItemPillBackground" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundDisabled" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="ButtonItemBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundPressed" ResourceKey="SubtleFillColorTertiary"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelectedPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelectedPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="ButtonItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelectedPointerOver" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelectedPressed" ResourceKey="TextOnAccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
             <StaticResource x:Key="SegmentedBackground" ResourceKey="SystemColorButtonFaceColor"/>
             <StaticResource x:Key="SegmentedBorderBrush" ResourceKey="SystemColorHighlightColorBrush"/>
             <Thickness x:Key="SegmentedBorderThickness">1</Thickness>
+
+            <StaticResource x:Key="SegmentedItemBackground" ResourceKey="SystemColorButtonFaceColor"/>
+            <StaticResource x:Key="SegmentedItemBackgroundPointerOver" ResourceKey="SystemColorHighlightColor"/>
+            <StaticResource x:Key="SegmentedItemBackgroundSelected" ResourceKey="SystemColorHighlightColor"/>
+            <StaticResource x:Key="SegmentedItemBackgroundPressed" ResourceKey="SystemColorHighlightColor"/>
+            <StaticResource x:Key="SegmentedItemBackgroundDisabled" ResourceKey="SystemControlTransparentBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrush" ResourceKey="ControlAltFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushPointerOver" ResourceKey="ControlAltFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushSelected" ResourceKey="ControlElevationBorderBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushPressed" ResourceKey="ControlAltFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemBorderBrushDisabled" ResourceKey="ControlAltFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedItemForeground" ResourceKey="SystemColorButtonTextColor"/>
+            <StaticResource x:Key="SegmentedItemForegroundPointerOver" ResourceKey="SystemColorHighlightTextColor"/>
+            <StaticResource x:Key="SegmentedItemForegroundSelected" ResourceKey="SystemColorHighlightTextColor"/>
+            <StaticResource x:Key="SegmentedItemForegroundPressed" ResourceKey="SystemColorHighlightTextColor"/>
+            <StaticResource x:Key="SegmentedItemForegroundDisabled" ResourceKey="SystemColorGrayTextColor"/>
+            <StaticResource x:Key="SegmentedPillBackground" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="SegmentedPillBackgroundDisabled" ResourceKey="AccentFillColorDisabledBrush"/>
+            <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
+            <x:Double x:Key="SegmentedItemDisabledOpacity">0.55</x:Double>
+            <StaticResource x:Key="PivotItemBackground" ResourceKey="SystemColorButtonFaceColor"/>
+            <StaticResource x:Key="PivotItemBackgroundPointerOver" ResourceKey="SystemColorHighlightColor"/>
+            <StaticResource x:Key="PivotItemBackgroundSelected" ResourceKey="SystemColorHighlightColor"/>
+            <StaticResource x:Key="PivotItemBackgroundPressed" ResourceKey="SystemColorHighlightColor"/>
+            <StaticResource x:Key="PivotItemBackgroundDisabled" ResourceKey="SystemColorButtonTextColor"/>
+            <StaticResource x:Key="PivotItemPillBackground" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundPointerOver" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundPressed" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="PivotItemPillBackgroundDisabled" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="PivotItemForeground" ResourceKey="SystemColorButtonTextColor"/>
+            <StaticResource x:Key="PivotItemForegroundPointerOver" ResourceKey="SystemColorHighlightTextColor"/>
+            <StaticResource x:Key="PivotItemForegroundSelected" ResourceKey="SystemColorHighlightTextColor"/>
+            <StaticResource x:Key="PivotItemForegroundPressed" ResourceKey="SystemColorHighlightTextColor"/>
+            <StaticResource x:Key="PivotItemForegroundDisabled" ResourceKey="SystemColorGrayTextColor"/>
+            <StaticResource x:Key="ButtonItemBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundPressed" ResourceKey="SystemColorHighlightTextColorBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelected" ResourceKey="SystemControlHighlightAccentBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelectedPointerOver" ResourceKey="SystemColorButtonTextColorBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundSelectedPressed" ResourceKey="SystemColorHighlightTextColorBrush"/>
+            <StaticResource x:Key="ButtonItemBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush"/>
+            <StaticResource x:Key="ButtonItemForeground" ResourceKey="SystemColorButtonTextColorBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundPressed" ResourceKey="SystemControlHighlightBaseHighBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelected" ResourceKey="SystemControlHighlightAltChromeWhiteBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelectedPointerOver" ResourceKey="SystemColorButtonFaceColorBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundSelectedPressed" ResourceKey="SystemColorHighlightColorBrush"/>
+            <StaticResource x:Key="ButtonItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -108,6 +258,657 @@
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="{ThemeResource ButtonItemSpacing}"/>
                     </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <x:String x:Key="SegmentedItemScaleAnimationDuration">00:00:00.167</x:String>
+
+    <Style BasedOn="{StaticResource DefaultSegmentedItemStyle}" TargetType="cwc:SegmentedItem"/>
+
+    <cwc:SegmentedMarginConverter
+        x:Name="MarginConverter"
+        LeftItemMargin="{StaticResource LeftItemHoverMargin}"
+        MiddleItemMargin="{StaticResource MiddleItemHoverMargin}"
+        RightItemMargin="{StaticResource RightItemHoverMargin}"/>
+
+    <Thickness x:Key="LeftItemHoverMargin">3, 3, 1, 3</Thickness>
+    <Thickness x:Key="MiddleItemHoverMargin">1, 3, 1, 3</Thickness>
+    <Thickness x:Key="RightItemHoverMargin">1, 3, 3, 3</Thickness>
+    <Thickness x:Key="ButtonItemPadding">11</Thickness>
+    <Style x:Key="DefaultSegmentedItemStyle" TargetType="cwc:SegmentedItem">
+        <Style.Setters>
+            <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="Background" Value="{ThemeResource SegmentedItemBackground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource SegmentedItemBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource SegmentedItemBorderThickness}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SegmentedItemForeground}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="FocusVisualMargin" Value="-3"/>
+            <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="cwc:SegmentedItem">
+                        <Grid
+                            x:Name="PART_Root"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Control.IsTemplateFocusTarget="True"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <win:Grid.BackgroundTransition>
+                                <win:BrushTransition Duration="0:0:0.083"/>
+                            </win:Grid.BackgroundTransition>
+
+                            <Border
+                                x:Name="PART_Hover"
+                                Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MarginConverter}}"
+                                Background="Transparent"
+                                CornerRadius="2"
+                                RenderTransformOrigin="0.5, 0.5">
+                                <win:Border.BackgroundTransition>
+                                    <win:BrushTransition Duration="0:0:0.083"/>
+                                </win:Border.BackgroundTransition>
+                                <Border.RenderTransform>
+                                    <CompositeTransform/>
+                                </Border.RenderTransform>
+                            </Border>
+
+                            <!--  Content  -->
+                            <Grid
+                                x:Name="ContentHolder"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Viewbox
+                                    x:Name="PART_IconBox"
+                                    Width="16"
+                                    Margin="0,7,0,7"
+                                    VerticalAlignment="Center">
+                                    <ContentPresenter
+                                        x:Name="PART_IconPresenter"
+                                        win:HighContrastAdjustment="None"
+                                        Content="{TemplateBinding Icon}"
+                                        Foreground="{TemplateBinding Foreground}"/>
+                                </Viewbox>
+
+                                <ContentPresenter
+                                    x:Name="PART_ContentPresenter"
+                                    Grid.Column="1"
+                                    Margin="0,5,0,6"
+                                    VerticalAlignment="Center"
+                                    win:HighContrastAdjustment="None"
+                                    win:OpticalMarginAlignment="TrimSideBearings"
+                                    BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                    FontWeight="{TemplateBinding FontWeight}"
+                                    Foreground="{TemplateBinding Foreground}"/>
+                                <Rectangle
+                                    x:Name="PART_Pill"
+                                    Grid.Column="1"
+                                    Width="4"
+                                    Height="3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Fill="{ThemeResource SegmentedPillBackground}"
+                                    Opacity="0"
+                                    RadiusX="0.5"
+                                    RadiusY="1"
+                                    RenderTransformOrigin="0.5, 0.5">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform x:Name="PillTransform" ScaleX="1"/>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SegmentedIconPositionStates">
+                                    <VisualState x:Name="IconOnLeft"/>
+                                    <VisualState x:Name="IconOnly">
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_ContentPresenter.Visibility" Value="Collapsed"/>
+                                            <Setter Target="PART_Pill.(Grid.Column)" Value="0"/>
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="ContentOnly">
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_IconBox.Visibility" Value="Collapsed"/>
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Hover" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBackgroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Hover" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="0.96"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Hover" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="0.96"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Hover" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBackgroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="4"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedPillBackground}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBackgroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBorderBrushSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="4"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedPillBackgroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBackgroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBorderBrushSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="2"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedPillBackgroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBackgroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemBorderBrushSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SegmentedItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="PART_Root"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="{ThemeResource SegmentedItemDisabledOpacity}"
+                                                Duration="0:0:0.083"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <Style
+        x:Key="PivotSegmentedItemStyle"
+        BasedOn="{StaticResource DefaultSegmentedItemStyle}"
+        TargetType="cwc:SegmentedItem">
+        <Style.Setters>
+            <Setter Property="Background" Value="{ThemeResource PivotItemBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource PivotItemForeground}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="cwc:SegmentedItem">
+                        <Grid
+                            x:Name="PART_Root"
+                            Background="{TemplateBinding Background}"
+                            Control.IsTemplateFocusTarget="True"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <!--  Content  -->
+                            <Grid
+                                x:Name="ContentHolder"
+                                Margin="12,0,12,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Viewbox
+                                    x:Name="PART_IconBox"
+                                    Width="16"
+                                    Margin="0,11,0,11"
+                                    VerticalAlignment="Center">
+                                    <ContentPresenter
+                                        x:Name="PART_IconPresenter"
+                                        win:HighContrastAdjustment="None"
+                                        Content="{TemplateBinding Icon}"
+                                        Foreground="{TemplateBinding Foreground}"/>
+                                </Viewbox>
+
+                                <ContentPresenter
+                                    x:Name="PART_ContentPresenter"
+                                    Grid.Column="1"
+                                    Margin="0,9,0,10"
+                                    VerticalAlignment="Center"
+                                    win:HighContrastAdjustment="None"
+                                    win:OpticalMarginAlignment="TrimSideBearings"
+                                    BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                    FontWeight="{TemplateBinding FontWeight}"
+                                    Foreground="{TemplateBinding Foreground}"/>
+                                <Rectangle
+                                    x:Name="PART_Pill"
+                                    Grid.Column="1"
+                                    Width="4"
+                                    Height="3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Fill="{ThemeResource PivotItemPillBackground}"
+                                    Opacity="0"
+                                    RadiusX="0.5"
+                                    RadiusY="1"
+                                    RenderTransformOrigin="0.5, 0.5">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform x:Name="PillTransform" ScaleX="1"/>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SegmentedIconPositionStates">
+                                    <VisualState x:Name="IconOnLeft"/>
+                                    <VisualState x:Name="IconOnly">
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_ContentPresenter.Visibility" Value="Collapsed"/>
+                                            <Setter Target="PART_Pill.(Grid.Column)" Value="0"/>
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="ContentOnly">
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_IconBox.Visibility" Value="Collapsed"/>
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemBackgroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemBackgroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="4"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemBackgroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="4"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemBackgroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="2"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0,0,0,1"
+                                                    KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
+                                                    Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemBackgroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="PART_Root"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="{ThemeResource SegmentedItemDisabledOpacity}"
+                                                Duration="0:0:0.083"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <Style
+        x:Key="ButtonSegmentedItemStyle"
+        BasedOn="{StaticResource DefaultSegmentedItemStyle}"
+        TargetType="cwc:SegmentedItem">
+        <Style.Setters>
+            <Setter Property="Background" Value="{ThemeResource ButtonItemBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ButtonItemForeground}"/>
+            <Setter Property="Padding" Value="{ThemeResource ButtonItemPadding}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="cwc:SegmentedItem">
+                        <Grid
+                            x:Name="PART_Root"
+                            Background="{TemplateBinding Background}"
+                            BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                            Control.IsTemplateFocusTarget="True"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <win:Grid.BackgroundTransition>
+                                <win:BrushTransition Duration="0:0:0.083"/>
+                            </win:Grid.BackgroundTransition>
+
+                            <!--  Content  -->
+                            <Grid
+                                x:Name="ContentHolder"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Viewbox
+                                    x:Name="PART_IconBox"
+                                    Width="16"
+                                    VerticalAlignment="Center">
+                                    <ContentPresenter
+                                        x:Name="PART_IconPresenter"
+                                        win:HighContrastAdjustment="None"
+                                        Content="{TemplateBinding Icon}"
+                                        Foreground="{TemplateBinding Foreground}"/>
+                                </Viewbox>
+
+                                <ContentPresenter
+                                    x:Name="PART_ContentPresenter"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    win:HighContrastAdjustment="None"
+                                    win:OpticalMarginAlignment="TrimSideBearings"
+                                    BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                    FontWeight="{TemplateBinding FontWeight}"
+                                    Foreground="{TemplateBinding Foreground}"/>
+                            </Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SegmentedIconPositionStates">
+                                    <VisualState x:Name="IconOnLeft"/>
+                                    <VisualState x:Name="IconOnly">
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_ContentPresenter.Visibility" Value="Collapsed"/>
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="ContentOnly">
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_IconBox.Visibility" Value="Collapsed"/>
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemBackgroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemBackgroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemBackgroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundSelected}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemBackgroundSelectedPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundSelectedPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundSelectedPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemBackgroundSelectedPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundSelectedPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonItemForegroundSelectedPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="PART_Root"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="{ThemeResource SegmentedItemDisabledOpacity}"
+                                                Duration="0:0:0.083"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style.Setters>

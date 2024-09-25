@@ -8,7 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Calendar"
+    MinHeight="180"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -25,27 +29,76 @@
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <Grid>
+    <Grid Padding="12" RowSpacing="12">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <ItemsControl ItemsSource="{Binding WeekDays}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <cwc:UniformGrid Columns="7"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+        <cwc:Segmented
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            ItemsSource="{Binding WeekDays}"
+            Style="{ThemeResource DefaultSegmentedStyle}">
+            <cwc:Segmented.ItemTemplate>
                 <DataTemplate>
                     <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
                         <TextBlock
-                            Margin="0,8"
+                            Grid.Row="0"
                             HorizontalAlignment="Center"
                             Text="{Binding DayInMonth}"/>
+                        <TextBlock
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            Opacity="0.7"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding DayName}"/>
                     </Grid>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </cwc:Segmented.ItemTemplate>
+        </cwc:Segmented>
+
+        <Grid Grid.Row="1" DataContext="{Binding WeekDays.CurrentItem}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Style="{ThemeResource BorderCardStyle}">
+                <shuxc:StandardView ShowCondition="{Binding BirthDayAvatars.Length, Converter={StaticResource Int32ToBoolConverter}}">
+                    <shuxc:StandardView.EmptyContent>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{shuxm:ResourceString Name=ViewCardCalendarNoBirthdayAvatarHint}"/>
+                    </shuxc:StandardView.EmptyContent>
+                    <ItemsControl
+                        Margin="6"
+                        HorizontalAlignment="Left"
+                        ItemsPanel="{StaticResource WrapPanelSpacing6Template}"
+                        ItemsSource="{Binding BirthDayAvatars}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <shuxcc:HorizontalCard>
+                                    <shuxcc:HorizontalCard.Left>
+                                        <shuxc:ItemIcon
+                                            Width="32"
+                                            Height="32"
+                                            Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}}"
+                                            Quality="{Binding Quality}"/>
+                                    </shuxcc:HorizontalCard.Left>
+                                    <shuxcc:HorizontalCard.Right>
+                                        <TextBlock Margin="6,0" Text="{Binding Name}"/>
+                                    </shuxcc:HorizontalCard.Right>
+                                </shuxcc:HorizontalCard>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </shuxc:StandardView>
+            </Border>
+        </Grid>
     </Grid>
 </Button>

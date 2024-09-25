@@ -288,6 +288,17 @@
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingApperanceFirstDayOfWeekDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingApperanceFirstDayOfWeekHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE8C0;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding CultureOptions.DayOfWeeks}"
+                                            SelectedItem="{Binding SelectedFirstDayOfWeek, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingBackdropMaterialDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingBackdropMaterialHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE7F7;}">

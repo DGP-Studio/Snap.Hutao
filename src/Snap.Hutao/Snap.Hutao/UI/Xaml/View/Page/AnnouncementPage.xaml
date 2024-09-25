@@ -189,6 +189,7 @@
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <ItemContainer.Resources>
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
+                    <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
                 </ItemContainer.Resources>
 
                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">

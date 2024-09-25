@@ -37,6 +37,17 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <Button
+                Grid.Column="2"
+                MinHeight="37.2"
+                Background="Transparent"
+                BorderBrush="{x:Null}"
+                BorderThickness="0"
+                Command="{Binding NavigateCommand}"
+                Content="{StaticResource FontIconContentSetting}"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                Style="{ThemeResource ButtonRevealStyle}"
+                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
             <FontIcon
                 Grid.Row="0"
                 Grid.Column="0"
@@ -51,17 +62,6 @@
                 Foreground="{ThemeResource SystemAccentColorLight3}"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Text="{shuxm:ResourceString Name=ViewLaunchGameHeader}"/>
-            <Button
-                Grid.Column="2"
-                MinHeight="37.2"
-                Background="Transparent"
-                BorderBrush="{x:Null}"
-                BorderThickness="0"
-                Command="{Binding NavigateCommand}"
-                Content="{StaticResource FontIconContentSetting}"
-                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                Style="{ThemeResource ButtonRevealStyle}"
-                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
             <StackPanel
                 Grid.Row="2"
                 Grid.ColumnSpan="3"

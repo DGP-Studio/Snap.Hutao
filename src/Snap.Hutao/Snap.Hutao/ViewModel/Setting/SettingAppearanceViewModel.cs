@@ -20,6 +20,7 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
     private readonly AppOptions appOptions;
 
     private NameValue<CultureInfo>? selectedCulture;
+    private NameValue<DayOfWeek>? selectedFirstDayOfWeek;
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<ElementTheme>? selectedElementTheme;
     private NameValue<BackgroundImageType>? selectedBackgroundImageType;
@@ -39,6 +40,18 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
             {
                 CultureOptions.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
+            }
+        }
+    }
+
+    public NameValue<DayOfWeek>? SelectedFirstDayOfWeek
+    {
+        get => selectedFirstDayOfWeek ??= CultureOptions.DayOfWeeks.FirstOrDefault(d => d.Value == CultureOptions.FirstDayOfWeek);
+        set
+        {
+            if (SetProperty(ref selectedFirstDayOfWeek, value) && value is not null)
+            {
+                CultureOptions.FirstDayOfWeek = value.Value;
             }
         }
     }

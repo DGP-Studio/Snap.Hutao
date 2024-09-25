@@ -11,6 +11,7 @@ internal sealed partial class SettingEntry
     public const string GamePath = "GamePath";
     public const string GamePathEntries = "GamePathEntries";
     public const string Culture = "Culture";
+    public const string FirstDayOfWeek = "FirstDayOfWeek";
 
     public const string IsNotifyIconEnabled = "IsNotifyIconEnabled";
     public const string SystemBackdropType = "SystemBackdropType";

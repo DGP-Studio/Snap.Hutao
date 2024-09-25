@@ -1,6 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Service;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.UI.Xaml.Data;
+using System.Collections.Immutable;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Calendar;
@@ -9,37 +15,48 @@ namespace Snap.Hutao.ViewModel.Calendar;
 [Injection(InjectAs.Transient)]
 internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
 {
-    private List<CalendarDay>? weekDays;
+    private readonly IMetadataService metadataService;
+    private readonly CultureOptions cultureOptions;
+    private readonly ITaskContext taskContext;
 
-    public List<CalendarDay>? WeekDays { get => weekDays; set => SetProperty(ref weekDays, value); }
+    private AdvancedCollectionView<CalendarDay>? weekDays;
 
-    protected override Task LoadAsync()
+    public AdvancedCollectionView<CalendarDay>? WeekDays { get => weekDays; set => SetProperty(ref weekDays, value); }
+
+    protected override async Task LoadAsync()
     {
-        DayOfWeek firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
+        {
+            return;
+        }
+
+        CalendarMetadataContext metadataContext = await metadataService.GetContextAsync<CalendarMetadataContext>().ConfigureAwait(false);
+        ILookup<MonthAndDay, Avatar> avatars = metadataContext.Avatars.ToLookup(a => new MonthAndDay(a.FetterInfo.BirthMonth, a.FetterInfo.BirthDay));
+
         DateTimeOffset today = DateTimeOffset.Now.Date;
+        DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
         DateTimeOffset startOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
-        List<CalendarDay> weekDays =
-        [
-            CreateCalendarDay(startOfWeek),
-            CreateCalendarDay(startOfWeek.AddDays(1)),
-            CreateCalendarDay(startOfWeek.AddDays(2)),
-            CreateCalendarDay(startOfWeek.AddDays(3)),
-            CreateCalendarDay(startOfWeek.AddDays(4)),
-            CreateCalendarDay(startOfWeek.AddDays(5)),
-            CreateCalendarDay(startOfWeek.AddDays(6))
-        ];
+
+        AdvancedCollectionView<CalendarDay> weekDays = Enumerable.Range(0, 7)
+            .Select(i => CreateCalendarDay(startOfWeek.AddDays(i), avatars))
+            .ToAdvancedCollectionView();
+
+        await taskContext.SwitchToMainThreadAsync();
 
         WeekDays = weekDays;
-        return Task.CompletedTask;
+        WeekDays.MoveCurrentTo(WeekDays.SourceCollection.SingleOrDefault(d => d.Date == DateTimeOffset.Now.Date));
     }
 
-    private static CalendarDay CreateCalendarDay(DateTimeOffset date)
+    private static CalendarDay CreateCalendarDay(DateTimeOffset date, ILookup<MonthAndDay, Avatar> avatars)
     {
-        return new CalendarDay
+        DateTimeFormatInfo dtfi = CultureInfo.CurrentCulture.DateTimeFormat;
+
+        return new()
         {
             Date = date,
             DayInMonth = date.Day,
-            IsToday = date.Date == DateTimeOffset.Now.Date,
+            DayName = dtfi.GetAbbreviatedDayName(date.DayOfWeek),
+            BirthDayAvatars = avatars[new MonthAndDay((uint)date.Month, (uint)date.Day)].ToImmutableArray(),
         };
     }
 }
