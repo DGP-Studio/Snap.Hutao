@@ -2724,7 +2724,7 @@
     <value>あなたの素敵な人生の曜日を選択できます</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
-    <value>一周中的首日</value>
+    <value>週の開始日</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>外観</value>
