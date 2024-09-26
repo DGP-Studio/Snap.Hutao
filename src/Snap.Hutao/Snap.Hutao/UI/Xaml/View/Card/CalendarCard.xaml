@@ -118,13 +118,61 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{ThemeResource BorderCardStyle}">
+                        <Button
+                            MinWidth="0"
+                            Padding="0"
+                            VerticalAlignment="Stretch"
+                            Style="{ThemeResource SettingButtonStyle}">
                             <shuxci:CachedImage
-                                Width="26"
-                                Height="26"
+                                Width="24"
+                                Height="24"
                                 Source="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"/>
-                        </Border>
+                            <Button.Flyout>
+                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding6Style}">
+                                    <Grid RowSpacing="6">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <shuxcc:HorizontalCard Grid.Row="0">
+                                            <shuxcc:HorizontalCard.Left>
+                                                <shuxc:ItemIcon
+                                                    Width="48"
+                                                    Height="48"
+                                                    Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                                    Quality="{Binding Inner.RankLevel}"/>
+                                            </shuxcc:HorizontalCard.Left>
+                                            <shuxcc:HorizontalCard.Right>
+                                                <StackPanel Margin="12,0">
+                                                    <TextBlock Text="{Binding Inner.Name}"/>
+                                                    <TextBlock
+                                                        Opacity="0.7"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding Inner.TypeDescription}"/>
+                                                </StackPanel>
+                                            </shuxcc:HorizontalCard.Right>
+                                        </shuxcc:HorizontalCard>
+                                        <Border
+                                            Grid.Row="1"
+                                            HorizontalAlignment="Stretch"
+                                            Style="{ThemeResource BorderCardStyle}">
+                                            <ItemsControl ItemsPanel="{StaticResource UniformGridColumns4Spacing6Template}" ItemsSource="{Binding Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <shuxc:ItemIcon
+                                                            Width="48"
+                                                            Height="48"
+                                                            Icon="{Binding Icon}"
+                                                            Quality="{Binding Quality}"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Border>
 
+                                    </Grid>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

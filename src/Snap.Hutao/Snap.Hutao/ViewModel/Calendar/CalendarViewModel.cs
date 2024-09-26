@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Snap.Hutao.Core.Linq;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -13,10 +11,8 @@ using Snap.Hutao.Service;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
-using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Immutable;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Calendar;
@@ -134,10 +130,10 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
                 continue;
             }
 
-            yield return new CalendarMaterial
+            yield return new()
             {
                 Inner = material,
-                Items = context.MaterialItems[id].ToImmutableArray(),
+                Items = [.. context.MaterialItems[id].OrderByDescending(i => i.Quality)],
             };
         }
     }
