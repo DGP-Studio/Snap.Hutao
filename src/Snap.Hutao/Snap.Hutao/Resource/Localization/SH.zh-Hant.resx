@@ -1182,7 +1182,7 @@
     <value>成就統計</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
-    <value>当天没有角色过生日</value>
+    <value>當天沒有角色過生日</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>保底計數</value>
@@ -2721,10 +2721,10 @@
     <value>關於 胡桃</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
-    <value>选择适合你的一周中的首日</value>
+    <value>選擇適合你的一週中的首日</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
-    <value>一周中的首日</value>
+    <value>一週中的首日</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>外觀</value>
@@ -2877,7 +2877,7 @@
     <value>成就管理</value>
   </data>
   <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>日曆</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>即時便籤</value>
