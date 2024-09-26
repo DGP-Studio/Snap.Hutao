@@ -156,6 +156,7 @@
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
+    <None Remove="UI\Xaml\View\Card\CalendarCard.xaml" />
     <None Remove="UI\Xaml\View\Dialog\LaunchGameInstallGameDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\UIGFExportDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\UIGFImportDialog.xaml" />
@@ -363,6 +364,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\View\Card\CalendarCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\View\Window\ScriptingWindow.xaml">

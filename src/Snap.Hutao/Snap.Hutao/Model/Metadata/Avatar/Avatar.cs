@@ -11,10 +11,12 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.ViewModel.Wiki;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 [HighQuality]
+[DebuggerDisplay("Name={Name},Id={Id}")]
 internal partial class Avatar : INameQualityAccess,
     IStatisticsItemConvertible,
     ISummaryItemConvertible,

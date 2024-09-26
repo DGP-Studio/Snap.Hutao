@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;

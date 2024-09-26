@@ -42,7 +42,9 @@
                     Style="{StaticResource SettingsContentComboBoxStyle}">
                     <!--<shuxc:ComboBoxHelper.SystemBackdrop>
                         <shuxmb:InputActiveDesktopAcrylicBackdrop/>
-                        --><!--<DesktopAcrylicBackdrop/>--><!--
+                    -->
+                    <!--<DesktopAcrylicBackdrop/>-->
+                    <!--
                     </shuxc:ComboBoxHelper.SystemBackdrop>-->
                 </ComboBox>
             </shuxc:SizeRestrictedContentControl>

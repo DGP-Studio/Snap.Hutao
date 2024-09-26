@@ -57,6 +57,7 @@ internal static class SettingKeys
     public const string IsHomeCardGachaStatisticsPresented = "IsHomeCardGachaStatisticsPresented";
     public const string IsHomeCardAchievementPresented = "IsHomeCardAchievementPresented";
     public const string IsHomeCardDailyNotePresented = "IsHomeCardDailyNotePresented";
+    public const string IsHomeCardCalendarPresented = "IsHomeCardCalendarPresented";
     #endregion
 
     #region DevTool
