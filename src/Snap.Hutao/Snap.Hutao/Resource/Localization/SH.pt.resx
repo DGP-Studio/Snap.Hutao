@@ -1181,6 +1181,9 @@
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>Estatísticas de conquistas</value>
   </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>当天没有角色过生日</value>
+  </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>Contagem de Pity</value>
   </data>
@@ -2717,6 +2720,12 @@
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>Sobre o Snap Hutao</value>
   </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>选择适合你的一周中的首日</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>一周中的首日</value>
+  </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>Aparência</value>
   </data>
@@ -2866,6 +2875,9 @@
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>Conquistas</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日历</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Lembrete em tempo real</value>
