@@ -1181,6 +1181,9 @@
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>アチーブメント集計</value>
   </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>この日に誕生日</value>
+  </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>天井までの回数</value>
   </data>
@@ -2717,6 +2720,12 @@
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>胡桃について</value>
   </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>あなたの素敵な人生の曜日を選択できます</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>一周中的首日</value>
+  </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>外観</value>
   </data>
@@ -2866,6 +2875,9 @@
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>アチーブメント</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>カレンダー</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
