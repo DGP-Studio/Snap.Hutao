@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Threading.RateLimiting;
 using System.Buffers;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.RateLimiting;
-using Snap.Hutao.Core.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO;
 
