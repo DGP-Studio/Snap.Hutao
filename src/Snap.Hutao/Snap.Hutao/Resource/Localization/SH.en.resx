@@ -2724,7 +2724,7 @@
     <value>Select the first day of your week</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
-    <value>一周中的首日</value>
+    <value>First day of week</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>Appearance</value>
