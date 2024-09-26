@@ -16,7 +16,7 @@ using System.Diagnostics;
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 [HighQuality]
-[DebuggerDisplay("{Name,nq}")]
+[DebuggerDisplay("Name={Name},Id={Id}")]
 internal partial class Avatar : INameQualityAccess,
     IStatisticsItemConvertible,
     ISummaryItemConvertible,

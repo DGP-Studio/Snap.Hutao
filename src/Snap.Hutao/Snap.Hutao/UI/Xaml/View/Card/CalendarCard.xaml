@@ -26,6 +26,10 @@
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
 
+    <Button.Resources>
+        <Thickness x:Key="DefaultSegmentedItemContentPadding">0</Thickness>
+    </Button.Resources>
+
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
@@ -168,7 +172,6 @@
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
                                         </Border>
-
                                     </Grid>
                                 </Flyout>
                             </Button.Flyout>

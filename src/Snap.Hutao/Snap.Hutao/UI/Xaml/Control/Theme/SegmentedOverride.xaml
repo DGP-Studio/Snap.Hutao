@@ -195,6 +195,7 @@
             <win:Setter Property="SingleSelectionFollowsFocus" Value="False"/>
             <Setter Property="IsTabStop" Value="False"/>
             <Setter Property="TabNavigation" Value="Once"/>
+            <Setter Property="ItemContainerStyle" Value="{ThemeResource DefaultSegmentedItemStyle}"/>
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
@@ -277,6 +278,8 @@
     <Thickness x:Key="MiddleItemHoverMargin">1, 3, 1, 3</Thickness>
     <Thickness x:Key="RightItemHoverMargin">1, 3, 3, 3</Thickness>
     <Thickness x:Key="ButtonItemPadding">11</Thickness>
+    <Thickness x:Key="DefaultSegmentedItemContentPadding">11,0,11,0</Thickness>
+
     <Style x:Key="DefaultSegmentedItemStyle" TargetType="cwc:SegmentedItem">
         <Style.Setters>
             <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
@@ -325,6 +328,7 @@
                             <!--  Content  -->
                             <Grid
                                 x:Name="ContentHolder"
+                                Margin="{ThemeResource DefaultSegmentedItemContentPadding}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Stretch"
                                 ColumnSpacing="8">

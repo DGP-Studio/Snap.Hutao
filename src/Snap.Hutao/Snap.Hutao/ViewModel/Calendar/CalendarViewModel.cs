@@ -62,11 +62,15 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
 
         DateTimeOffset today = DateTimeOffset.Now.Date;
         DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
-        DateTimeOffset startOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
+        DateTimeOffset nearestStartOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
+        if (nearestStartOfWeek > today)
+        {
+            nearestStartOfWeek = nearestStartOfWeek.AddDays(-7);
+        }
 
         AdvancedCollectionView<CalendarDay> weekDays = Enumerable
             .Range(0, 7)
-            .Select(i => CreateCalendarDay(startOfWeek.AddDays(i), context2, dailyMaterials))
+            .Select(i => CreateCalendarDay(nearestStartOfWeek.AddDays(i), context2, dailyMaterials))
             .ToAdvancedCollectionView();
 
         await taskContext.SwitchToMainThreadAsync();
@@ -118,7 +122,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             group.Add(weapon.ToItem());
         }
 
-        return results.ToDictionaryLookup();
+        return results.ToLookup();
     }
 
     private static IEnumerable<CalendarMaterial> EnumerateMaterials(IReadOnlySet<MaterialId> ids, CalendarMetadataContext2 context)
