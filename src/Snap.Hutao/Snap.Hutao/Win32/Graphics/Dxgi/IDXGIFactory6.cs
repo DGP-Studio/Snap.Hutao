@@ -15,11 +15,7 @@ internal unsafe struct IDXGIFactory6
 
     internal static ref readonly Guid IID
     {
-        get
-        {
-            ReadOnlySpan<byte> data = [0x4F, 0x69, 0xB6, 0xC1, 0x09, 0xFF, 0xA9, 0x44, 0xB0, 0x3C, 0x77, 0x90, 0x0A, 0x0A, 0x1D, 0x17];
-            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
-        }
+        get => ref MemoryMarshal.AsRef<Guid>([0x4F, 0x69, 0xB6, 0xC1, 0x09, 0xFF, 0xA9, 0x44, 0xB0, 0x3C, 0x77, 0x90, 0x0A, 0x0A, 0x1D, 0x17]);
     }
 
     public unsafe HRESULT CreateSwapChainForComposition(IObjectReference device, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, ObjectReference<IDXGIOutput.Vftbl>? restrictToOutput, out ObjectReference<IDXGISwapChain1.Vftbl> swapChain)

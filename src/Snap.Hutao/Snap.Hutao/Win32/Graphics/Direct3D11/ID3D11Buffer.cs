@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -14,11 +13,7 @@ internal readonly unsafe struct ID3D11Buffer
 
     internal static ref readonly Guid IID
     {
-        get
-        {
-            ReadOnlySpan<byte> data = [0x85, 0x0B, 0x57, 0x48, 0xEE, 0xD1, 0xCD, 0x4F, 0xA2, 0x50, 0xEB, 0x35, 0x07, 0x22, 0xB0, 0x37];
-            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
-        }
+        get => ref MemoryMarshal.AsRef<Guid>([0x85, 0x0B, 0x57, 0x48, 0xEE, 0xD1, 0xCD, 0x4F, 0xA2, 0x50, 0xEB, 0x35, 0x07, 0x22, 0xB0, 0x37]);
     }
 
     internal readonly struct Vftbl
