@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell.PropertiesSystem;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using WinRT.Interop;

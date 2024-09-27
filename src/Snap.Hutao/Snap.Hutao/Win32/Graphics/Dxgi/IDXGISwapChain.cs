@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
