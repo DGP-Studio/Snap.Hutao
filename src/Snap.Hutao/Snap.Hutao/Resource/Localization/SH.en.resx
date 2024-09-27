@@ -1182,7 +1182,7 @@
     <value>Achievements Statistics</value>
   </data>
   <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
-    <value>全部材料副本均可挑战</value>
+    <value>All material copies can be challenged</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
     <value>No role has been birthday that day</value>
