@@ -10,6 +10,7 @@ internal sealed class AsyncKeyedLock<TKey>
     where TKey : notnull
 {
     private static readonly Func<Task, object?, Releaser> Continuation = RunContinuation;
+
     private readonly ConcurrentDictionary<TKey, AsyncSemaphore> semaphores;
 
     public AsyncKeyedLock()

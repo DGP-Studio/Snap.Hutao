@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.Threading;
 internal sealed class AsyncLock
 {
     private static readonly Func<Task, object?, Releaser> Continuation = RunContinuation;
+
     private readonly AsyncSemaphore semaphore;
     private readonly Task<Releaser> releaser;
 

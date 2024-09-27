@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 
-[Injection(InjectAs.Singleton)]
+[Injection(InjectAs.Singleton, typeof(IContentDialogQueue))]
 [SuppressMessage("", "SH003")]
 [ConstructorGenerated]
 internal sealed partial class ContentDialogQueue : IContentDialogQueue
