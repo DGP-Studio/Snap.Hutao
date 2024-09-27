@@ -1182,7 +1182,7 @@
     <value>成就統計</value>
   </data>
   <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
-    <value>全部材料副本均可挑战</value>
+    <value>全部材料副本均可挑戰</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
     <value>當天沒有角色過生日</value>
