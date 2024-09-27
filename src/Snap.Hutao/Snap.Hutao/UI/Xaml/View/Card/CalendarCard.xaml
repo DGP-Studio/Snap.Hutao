@@ -111,7 +111,20 @@
                 </ItemsControl>
             </shuxc:StandardView>
 
-            <ItemsControl Grid.Row="1" ItemsSource="{Binding Materials}">
+            <Border
+                Grid.Row="1"
+                Style="{ThemeResource BorderCardStyle}"
+                Visibility="{Binding Materials.IsEmpty, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{shuxm:ResourceString Name=ViewCardCalendarAllMaterialsHint}"/>
+            </Border>
+
+            <ItemsControl
+                Grid.Row="1"
+                ItemsSource="{Binding Materials}"
+                Visibility="{Binding Materials.IsEmpty, Converter={StaticResource BoolToVisibilityRevertConverter}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <cwc:UniformGrid

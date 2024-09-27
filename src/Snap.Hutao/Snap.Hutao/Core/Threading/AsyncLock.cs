@@ -7,6 +7,7 @@ namespace Snap.Hutao.Core.Threading;
 [SuppressMessage("", "SH003")]
 internal sealed class AsyncLock
 {
+    private static readonly Func<Task, object?, Releaser> Continuation = RunContinuation;
     private readonly AsyncSemaphore semaphore;
     private readonly Task<Releaser> releaser;
 
@@ -20,7 +21,13 @@ internal sealed class AsyncLock
     public Task<Releaser> LockAsync()
     {
         Task wait = semaphore.WaitAsync();
-        return wait.IsCompleted ? releaser : wait.ContinueWith((_, state) => new Releaser((AsyncLock)state!), this, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+        return wait.IsCompleted ? releaser : wait.ContinueWith(Continuation, this, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+    }
+
+    private static Releaser RunContinuation(Task task, object? state)
+    {
+        ArgumentNullException.ThrowIfNull(state);
+        return new Releaser((AsyncLock)state);
     }
 
     internal readonly struct Releaser : IDisposable

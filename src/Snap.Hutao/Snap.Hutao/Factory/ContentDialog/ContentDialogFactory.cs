@@ -13,25 +13,14 @@ namespace Snap.Hutao.Factory.ContentDialog;
 internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
     private readonly ICurrentXamlWindowReference currentWindowReference;
-    private readonly ILogger<ContentDialogFactory> logger;
+    private readonly IContentDialogQueue contentDialogQueue;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
-    private readonly ConcurrentQueue<Func<Task>> dialogQueue = [];
-    private bool isDialogShowing;
-
     public bool IsDialogShowing
     {
-        get
-        {
-            if (currentWindowReference.Window is null)
-            {
-                return false;
-            }
-
-            return isDialogShowing;
-        }
+        get => contentDialogQueue.IsDialogShowing;
     }
 
     public ITaskContext TaskContext { get => taskContext; }
@@ -109,49 +98,8 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     }
 
     [SuppressMessage("", "SH003")]
-    [SuppressMessage("", "SH100")]
     public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = default)
     {
-        TaskCompletionSource<ContentDialogResult> dialogResultSource = new();
-
-        dialogQueue.Enqueue(async () =>
-        {
-            try
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                dialogShowSource?.TrySetResult();
-                ContentDialogResult result = await contentDialog.ShowAsync();
-                dialogResultSource.SetResult(result);
-            }
-            catch (Exception ex)
-            {
-                dialogResultSource.SetException(ex);
-            }
-            finally
-            {
-                ShowNextDialog().SafeForget(logger);
-            }
-        });
-
-        if (!isDialogShowing)
-        {
-            ShowNextDialog();
-        }
-
-        return dialogResultSource.Task;
-
-        Task ShowNextDialog()
-        {
-            if (dialogQueue.TryDequeue(out Func<Task>? showNextDialogAsync))
-            {
-                isDialogShowing = true;
-                return showNextDialogAsync();
-            }
-            else
-            {
-                isDialogShowing = false;
-                return Task.CompletedTask;
-            }
-        }
+        return contentDialogQueue.EnqueueAndShowAsync(contentDialog, dialogShowSource);
     }
 }
