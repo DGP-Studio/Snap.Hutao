@@ -281,20 +281,28 @@
                                                                 Margin="16"
                                                                 VerticalScrollBarVisibility="Hidden">
                                                                 <StackPanel Spacing="16">
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                    <shuxcc:VerticalCard>
                                                                         <shuxcc:VerticalCard.Top>
                                                                             <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
                                                                         </shuxcc:VerticalCard.Top>
                                                                         <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
+                                                                            <TextBlock
+                                                                                MaxWidth="80"
+                                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"
+                                                                                TextTrimming="CharacterEllipsis"
+                                                                                TextWrapping="NoWrap"/>
                                                                         </shuxcc:VerticalCard.Bottom>
                                                                     </shuxcc:VerticalCard>
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                    <shuxcc:VerticalCard>
                                                                         <shuxcc:VerticalCard.Top>
                                                                             <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
                                                                         </shuxcc:VerticalCard.Top>
                                                                         <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
+                                                                            <TextBlock
+                                                                                MaxWidth="80"
+                                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"
+                                                                                TextTrimming="CharacterEllipsis"
+                                                                                TextWrapping="NoWrap"/>
                                                                         </shuxcc:VerticalCard.Bottom>
                                                                     </shuxcc:VerticalCard>
                                                                 </StackPanel>

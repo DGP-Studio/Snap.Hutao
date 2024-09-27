@@ -247,7 +247,7 @@
                             Margin="8,0,0,0"
                             HorizontalAlignment="Left"
                             Stretch="Uniform"
-                            StretchDirection="Both">
+                            StretchDirection="DownOnly">
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"

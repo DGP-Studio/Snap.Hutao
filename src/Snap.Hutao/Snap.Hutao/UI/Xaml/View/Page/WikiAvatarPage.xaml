@@ -695,7 +695,11 @@
                                                                     <shuxc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
                                                                 </shuxcc:VerticalCard.Top>
                                                                 <shuxcc:VerticalCard.Bottom>
-                                                                    <TextBlock Text="{Binding Item.Name}"/>
+                                                                    <TextBlock
+                                                                        MaxWidth="80"
+                                                                        Text="{Binding Item.Name}"
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        TextWrapping="NoWrap"/>
                                                                 </shuxcc:VerticalCard.Bottom>
                                                             </shuxcc:VerticalCard>
                                                             <shuxcc:VerticalCard
@@ -706,7 +710,11 @@
                                                                     <shuxc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
                                                                 </shuxcc:VerticalCard.Top>
                                                                 <shuxcc:VerticalCard.Bottom>
-                                                                    <TextBlock Text="{Binding OriginItem.Name}"/>
+                                                                    <TextBlock
+                                                                        MaxWidth="80"
+                                                                        Text="{Binding OriginItem.Name}"
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        TextWrapping="NoWrap"/>
                                                                 </shuxcc:VerticalCard.Bottom>
                                                             </shuxcc:VerticalCard>
                                                         </Grid>

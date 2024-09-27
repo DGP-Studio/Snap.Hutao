@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 
@@ -27,6 +28,7 @@ internal static class ContentDialogExtension
         // E_ASYNC_OPERATION_NOT_STARTED 0x80000019
         // Only a single ContentDialog can be open at any time.
         _ = contentDialog.ShowAsync();
+        contentDialog.Focus(FocusState.Programmatic);
         return new ContentDialogScope(contentDialog, taskContext);
     }
 
@@ -34,6 +36,7 @@ internal static class ContentDialogExtension
     {
         TaskCompletionSource dialogShowSource = new();
         _ = contentDialogFactory.EnqueueAndShowAsync(contentDialog, dialogShowSource);
+        contentDialog.Focus(FocusState.Programmatic);
         await dialogShowSource.Task.ConfigureAwait(false);
         return new ContentDialogScope(contentDialog, contentDialogFactory.TaskContext);
     }
