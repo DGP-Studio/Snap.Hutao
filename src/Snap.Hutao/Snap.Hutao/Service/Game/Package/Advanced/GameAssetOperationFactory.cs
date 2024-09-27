@@ -7,6 +7,4 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [Injection(InjectAs.Transient, typeof(IDriverMediaTypeAwareFactory<IGameAssetOperation>))]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class GameAssetOperationFactory : DriverMediaTypeAwareFactory<IGameAssetOperation, GameAssetOperationSSD, GameAssetOperationHDD>
-{
-}
+internal sealed partial class GameAssetOperationFactory : DriverMediaTypeAwareFactory<IGameAssetOperation, GameAssetOperationSSD, GameAssetOperationHDD>;

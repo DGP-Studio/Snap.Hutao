@@ -56,7 +56,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await taskContext.SwitchToMainThreadAsync();
         GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
-        IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>((window.DataContext).HandleProgressUpdate);
+        IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(window.DataContext.HandleProgressUpdate);
 
         await taskContext.SwitchToBackgroundAsync();
 

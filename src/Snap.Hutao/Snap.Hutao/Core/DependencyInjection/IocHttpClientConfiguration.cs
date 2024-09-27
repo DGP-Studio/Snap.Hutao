@@ -22,9 +22,7 @@ internal static partial class IocHttpClientConfiguration
                     .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
                     {
                         SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
-                        typedHandler.AllowAutoRedirect = true;
                         typedHandler.UseProxy = true;
-                        typedHandler.MaxConnectionsPerServer = 16;
                         typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
                     });
             })
@@ -36,7 +34,6 @@ internal static partial class IocHttpClientConfiguration
             {
                 SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
                 typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
-                typedHandler.AllowAutoRedirect = true;
                 typedHandler.UseProxy = true;
                 typedHandler.MaxConnectionsPerServer = 16;
                 typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();

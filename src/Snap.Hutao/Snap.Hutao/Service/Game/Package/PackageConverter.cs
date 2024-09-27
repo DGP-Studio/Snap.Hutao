@@ -27,6 +27,7 @@ namespace Snap.Hutao.Service.Game.Package;
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
+[PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
 internal sealed partial class PackageConverter
 {
     private const string PackageVersion = "pkg_version";
