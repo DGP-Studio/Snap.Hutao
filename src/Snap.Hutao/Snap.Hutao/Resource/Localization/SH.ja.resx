@@ -1181,6 +1181,9 @@
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>アチーブメント集計</value>
   </data>
+  <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
+    <value>全部材料副本均可挑战</value>
+  </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
     <value>この日に誕生日</value>
   </data>
