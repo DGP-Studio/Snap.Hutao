@@ -2321,6 +2321,9 @@
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>导入来自其它 App 的数据</value>
   </data>
+  <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
+    <value>导入/导出记录</value>
+  </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>导入 UIGF Json</value>
   </data>
