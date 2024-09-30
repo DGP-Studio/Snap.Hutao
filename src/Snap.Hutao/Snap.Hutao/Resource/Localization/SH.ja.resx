@@ -184,7 +184,7 @@
     <value>権限不足のため、一時ファイルを作成できませんでした</value>
   </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
-    <value>ゲームランチャー</value>
+    <value>ゲームを起動する</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
     <value>胡桃がリアルタイムノートを更新するために使用するタスクです。編集や削除をしないでください!</value>
@@ -202,7 +202,7 @@
     <value>閉じる</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
-    <value>ゲームランチャー</value>
+    <value>ゲーム起動</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
     <value>胡桃がバックグラウンドで実行中です</value>
@@ -1425,7 +1425,7 @@
     <value>エクスポート時間</value>
   </data>
   <data name="ViewDialogImportUIAFExportListCount" xml:space="preserve">
-    <value>アチーブメント</value>
+    <value>アチーブメント数</value>
   </data>
   <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
     <value>UIAFバージョン</value>
@@ -1443,7 +1443,7 @@
     <value>レコードをインポートする UID を選択してください</value>
   </data>
   <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
-    <value>UI GF ファイルのインポート</value>
+    <value>UIGF ファイルのインポート</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>ここに名前を入力してください</value>
@@ -1530,7 +1530,7 @@
     <value>携帯電話コードによるログイン</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
-    <value>クッキーを設定</value>
+    <value>Cookie 設定</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>ﾌｨｰﾄﾞﾊﾞｯｸｾﾝﾀｰ</value>
@@ -1593,7 +1593,7 @@
     <value>画像アセットの設定</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingHint" xml:space="preserve">
-    <value>* 胡桃を再インストールしないと、この設定は変更できません</value>
+    <value>* 胡桃をアンインストールして再インストールしない限り、この設定は変更できません。</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
     <value>画像アセットのアーカイブ</value>
@@ -1614,7 +1614,7 @@
     <value>すべての通知をクリア</value>
   </data>
   <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
-    <value>たたむ</value>
+    <value>折りたたむ</value>
   </data>
   <data name="ViewInfoBarPanelTitle" xml:space="preserve">
     <value>すべての通知</value>
@@ -1641,7 +1641,7 @@
     <value>UIAF ファイル</value>
   </data>
   <data name="ViewModelAchievementImportProgress" xml:space="preserve">
-    <value>アチーブメントをインポート</value>
+    <value>アチーブメントをインポート中</value>
   </data>
   <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
     <value>UIAF バージョンが古いため、インポートできません</value>
@@ -1968,7 +1968,7 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
-    <value>インポートされた UI GFファイルには、祈るデータが含まれていません。</value>
+    <value>インポートされた UIGFファイルには、祈願データが含まれていません。</value>
   </data>
   <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
     <value>データをインポートするには UID を指定する必要があります。</value>
@@ -2025,7 +2025,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
-    <value>実績のみ委任する</value>
+    <value>デイリー依頼アチーヴメントのみ</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>クリップボードからインポート</value>
@@ -2040,7 +2040,7 @@
     <value>このアーカイブを削除する</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>アチーブメント、キャプション、バージョンまたは番号で検索</value>
+    <value>実績名 · 説明 ·バージョン· 番号で検索</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>未達成順にソート</value>
@@ -2163,7 +2163,7 @@
     <value>リアルタイムのメモを追加</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>私達が随時更新</value>
+    <value>リアルタイムノートを追加して定期的に更新できます</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>追加</value>
@@ -2283,7 +2283,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageGachaLogHint" xml:space="preserve">
-    <value>祈願記録はありません</value>
+    <value>祈願履歴はありません</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
     <value>胡桃クラウド</value>
@@ -2295,7 +2295,7 @@
     <value>クラウドサービスの購入/更新</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>このUidのクラウドバックアップを削除する</value>
+    <value>このUIDのクラウドバックアップを削除する</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>デベロッパーアカウントは利用期限がありません</value>
@@ -2382,13 +2382,13 @@
     <value>胡桃を {0} 回起動しました</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
-    <value>テイワットへようこそ!</value>
+    <value>旅人、テイワットへようこそ！</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
-    <value>あなたの言う通りだが、しかし「胡桃」はDGP Studioが開発した...</value>
+    <value>キミの言う通りだが、しかし「胡桃」は DGP Studio が自主開発したの...</value>
   </data>
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
-    <value>なあ、旅人、今日はテイワットで{0} 日目の冒険だぞ！</value>
+    <value>なあ、旅人、今日はテイワットで {0} 日目の冒険だぞ！</value>
   </data>
   <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
     <value>設定</value>
@@ -2604,7 +2604,7 @@
     <value>事前ダウンロード</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
-    <value>ダウンロードはプリ完了しました</value>
+    <value>事前ダウンロードは完成しました</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
     <value>ゲームを更新します</value>
@@ -2727,7 +2727,7 @@
     <value>胡桃について</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
-    <value>あなたの素敵な人生の曜日を選択できます</value>
+    <value>都合の良い週の開始日を選んでください</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
     <value>週の開始日</value>
@@ -2988,7 +2988,7 @@
     <value>画像リソースをリセット</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>「ゲーム起動-プロセス」タブに「FPS上限を解除」オプションを追加</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>ゲーム起動 - FPS上限を解除</value>
@@ -3057,7 +3057,7 @@
     <value>UIGF ファイルの古いバージョンを更新</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
+    <value>まだ引かないのアイテムは「祈願履歴-キャラクター」と「祈願履歴-武器」に表示されます。</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈愿物品</value>
