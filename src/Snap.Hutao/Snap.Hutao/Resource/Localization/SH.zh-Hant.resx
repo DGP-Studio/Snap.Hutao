@@ -172,7 +172,7 @@
     <value>數據庫已損壞：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>使用者數據已損壞：{0}</value>
+    <value>使用者資料已損壞：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>請勿在系統管理員模式下使用此功能 {0}</value>
@@ -548,7 +548,7 @@
     <value>請更新角色櫥窗數據</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暫無數據</value>
+    <value>暫無資料</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>精煉 {0} 階</value>
@@ -566,7 +566,7 @@
     <value>未開通祈願紀錄上傳服務或已到期</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>祈願數據存在無效的物品，無法儲存至胡桃雲</value>
+    <value>祈願資料存在無效的物品，無法儲存至胡桃雲</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>數據異常，無法儲存至雲端，請勿跨帳號上傳或嘗試删除雲端數據後重試</value>
@@ -1254,7 +1254,7 @@
     <value>即時便箋</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
-    <value>數據</value>
+    <value>資料</value>
   </data>
   <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
     <value>在此處輸入</value>
@@ -1266,7 +1266,7 @@
     <value>匯入模式</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
-    <value>貪婪（添加新數據，更新已完成項）</value>
+    <value>貪婪（添加新資料，更新已完成項）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
     <value>懶惰（添加新數據，跳過已完成項）</value>
@@ -2994,7 +2994,7 @@
     <value>啟動遊戲 - 解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目錄後需要手動移動目錄内的數據，否則會重新創建使用者數據</value>
+    <value>更改目錄後需要手動移動目錄内的資料，否則會重新創建使用者資料</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>更改數據目錄</value>
