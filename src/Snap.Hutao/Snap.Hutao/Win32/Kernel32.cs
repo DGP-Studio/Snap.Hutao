@@ -11,6 +11,7 @@ using Snap.Hutao.Win32.System.Memory;
 using Snap.Hutao.Win32.System.ProcessStatus;
 using Snap.Hutao.Win32.System.Threading;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -28,10 +29,10 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static extern unsafe HANDLE CreateEventW([AllowNull] SECURITY_ATTRIBUTES* lpEventAttributes, BOOL bManualReset, BOOL bInitialState, [AllowNull] PCWSTR lpName);
+    public static extern unsafe HANDLE CreateEventW([Optional] SECURITY_ATTRIBUTES* lpEventAttributes, BOOL bManualReset, BOOL bInitialState, [Optional] PCWSTR lpName);
 
     [DebuggerStepThrough]
-    public static unsafe HANDLE CreateEventW(ref readonly SECURITY_ATTRIBUTES eventAttributes, BOOL bManualReset, BOOL bInitialState, [AllowNull] ReadOnlySpan<char> name)
+    public static unsafe HANDLE CreateEventW(ref readonly SECURITY_ATTRIBUTES eventAttributes, BOOL bManualReset, BOOL bInitialState, [Optional] ReadOnlySpan<char> name)
     {
         fixed (SECURITY_ATTRIBUTES* lpEventAttributes = &eventAttributes)
         {
@@ -44,11 +45,11 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern HANDLE CreateFileW(PCWSTR lpFileName, uint dwDesiredAccess, FILE_SHARE_MODE dwShareMode, [AllowNull] SECURITY_ATTRIBUTES* lpSecurityAttributes, FILE_CREATION_DISPOSITION dwCreationDisposition, FILE_FLAGS_AND_ATTRIBUTES dwFlagsAndAttributes, [AllowNull] HANDLE hTemplateFile);
+    public static unsafe extern HANDLE CreateFileW(PCWSTR lpFileName, uint dwDesiredAccess, FILE_SHARE_MODE dwShareMode, [Optional] SECURITY_ATTRIBUTES* lpSecurityAttributes, FILE_CREATION_DISPOSITION dwCreationDisposition, FILE_FLAGS_AND_ATTRIBUTES dwFlagsAndAttributes, [Optional] HANDLE hTemplateFile);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [AllowNull] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
+    public static unsafe extern BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL FreeConsole();
@@ -82,7 +83,7 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static extern unsafe BOOL HeapFree(HANDLE hHeap, HEAP_FLAGS dwFlags, [AllowNull] void* lpMem);
+    public static extern unsafe BOOL HeapFree(HANDLE hHeap, HEAP_FLAGS dwFlags, [Optional] void* lpMem);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern unsafe BOOL K32EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, uint cb, uint* lpcbNeeded);
@@ -100,10 +101,10 @@ internal static class Kernel32
     }
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static extern uint K32GetModuleBaseNameW(HANDLE hProcess, [AllowNull] HMODULE hModule, PWSTR lpBaseName, uint nSize);
+    public static extern uint K32GetModuleBaseNameW(HANDLE hProcess, [Optional] HMODULE hModule, PWSTR lpBaseName, uint nSize);
 
     [DebuggerStepThrough]
-    public static unsafe uint K32GetModuleBaseNameW(HANDLE hProcess, [AllowNull] HMODULE hModule, Span<char> baseName)
+    public static unsafe uint K32GetModuleBaseNameW(HANDLE hProcess, [Optional] HMODULE hModule, Span<char> baseName)
     {
         fixed (char* lpBaseName = baseName)
         {
@@ -125,10 +126,10 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static extern HMODULE LoadLibraryExW(PCWSTR lpLibFileName, [AllowNull] HANDLE hFile, LOAD_LIBRARY_FLAGS dwFlags);
+    public static extern HMODULE LoadLibraryExW(PCWSTR lpLibFileName, [Optional] HANDLE hFile, LOAD_LIBRARY_FLAGS dwFlags);
 
     [DebuggerStepThrough]
-    public static unsafe HMODULE LoadLibraryExW(ReadOnlySpan<char> libFileName, [AllowNull] HANDLE hFile, LOAD_LIBRARY_FLAGS dwFlags)
+    public static unsafe HMODULE LoadLibraryExW(ReadOnlySpan<char> libFileName, [Optional] HANDLE hFile, LOAD_LIBRARY_FLAGS dwFlags)
     {
         fixed (char* lpLibFileName = libFileName)
         {

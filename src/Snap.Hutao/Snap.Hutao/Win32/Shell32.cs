@@ -17,19 +17,19 @@ internal static class Shell32
 {
     [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
-    public static extern unsafe HRESULT SHCreateItemFromParsingName(PCWSTR pszPath, [AllowNull] IBindCtx* pbc, Guid* riid, void** ppv);
+    public static extern unsafe HRESULT SHCreateItemFromParsingName(PCWSTR pszPath, [Optional] IBindCtx* pbc, Guid* riid, void** ppv);
 
     [DebuggerStepThrough]
-    public static unsafe HRESULT SHCreateItemFromParsingName<T>(ReadOnlySpan<char> szPath, [AllowNull] ObjectReference<IBindCtx.Vftbl> bc, ref readonly Guid iid, out ObjectReference<T> v)
-        where T : unmanaged
+    public static unsafe HRESULT SHCreateItemFromParsingName<TVftbl>(ReadOnlySpan<char> szPath, [Optional] ObjectReference<IBindCtx.Vftbl> bc, ref readonly Guid iid, out ObjectReference<TVftbl> v)
+        where TVftbl : unmanaged
     {
         fixed (char* pszPath = szPath)
         {
             fixed (Guid* riid = &iid)
             {
-                T** pv = default;
+                TVftbl** pv = default;
                 HRESULT hr = SHCreateItemFromParsingName(pszPath, (IBindCtx*)(bc?.ThisPtr ?? 0), riid, (void**)&pv);
-                v = ObjectReference<T>.Attach(ref Unsafe.AsRef<nint>(&pv), iid);
+                v = ObjectReference<TVftbl>.Attach(ref *(nint*)&pv, iid);
                 return hr;
             }
         }

@@ -24,7 +24,7 @@ internal unsafe struct IFileDialog
     {
         IShellItem* psi = default;
         HRESULT hr = ThisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), &psi);
-        si = ObjectReference<IShellItem.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&psi), IShellItem.IID);
+        si = ObjectReference<IShellItem.Vftbl>.Attach(ref *(nint*)&psi, IShellItem.IID);
         return hr;
     }
 
@@ -62,7 +62,7 @@ internal unsafe struct IFileDialog
         }
     }
 
-    public HRESULT Show([AllowNull] HWND hwndOwner)
+    public HRESULT Show([Optional] HWND hwndOwner)
     {
         return ThisPtr->IModalWindowVftbl.Show((IModalWindow*)Unsafe.AsPointer(ref this), hwndOwner);
     }

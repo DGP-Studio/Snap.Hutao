@@ -23,7 +23,7 @@ internal unsafe struct ID3D11Device
         get => ref MemoryMarshal.AsRef<Guid>([0xDB, 0x6D, 0x6F, 0xDB, 0x77, 0xAC, 0x88, 0x4E, 0x82, 0x53, 0x81, 0x9D, 0xF9, 0xBB, 0xF1, 0x40]);
     }
 
-    public HRESULT CreateTexture2D(ref readonly D3D11_TEXTURE2D_DESC desc, [AllowNull] ref readonly D3D11_SUBRESOURCE_DATA initialData, out ObjectReference<ID3D11Texture2D.Vftbl> texture2D)
+    public HRESULT CreateTexture2D(ref readonly D3D11_TEXTURE2D_DESC desc, [Optional] ref readonly D3D11_SUBRESOURCE_DATA initialData, out ObjectReference<ID3D11Texture2D.Vftbl> texture2D)
     {
         fixed (D3D11_TEXTURE2D_DESC* pDesc = &desc)
         {
@@ -31,7 +31,7 @@ internal unsafe struct ID3D11Device
             {
                 ID3D11Texture2D* pTexture2D = default;
                 HRESULT hr = ThisPtr->CreateTexture2D((ID3D11Device*)Unsafe.AsPointer(ref this), pDesc, pInitialData, &pTexture2D);
-                texture2D = ObjectReference<ID3D11Texture2D.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&pTexture2D), ID3D11Texture2D.IID);
+                texture2D = ObjectReference<ID3D11Texture2D.Vftbl>.Attach(ref *(nint*)&pTexture2D, ID3D11Texture2D.IID);
                 return hr;
             }
         }
@@ -41,7 +41,7 @@ internal unsafe struct ID3D11Device
     {
         ID3D11DeviceContext* pImmediateContext = default;
         ThisPtr->GetImmediateContext((ID3D11Device*)Unsafe.AsPointer(ref this), &pImmediateContext);
-        immediateContext = ObjectReference<ID3D11DeviceContext.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&pImmediateContext), ID3D11DeviceContext.IID);
+        immediateContext = ObjectReference<ID3D11DeviceContext.Vftbl>.Attach(ref *(nint*)&pImmediateContext, ID3D11DeviceContext.IID);
     }
 
     internal readonly struct Vftbl

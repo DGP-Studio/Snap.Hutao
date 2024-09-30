@@ -31,7 +31,7 @@ internal unsafe struct IDXGISwapChain1
         {
             TVftbl** pSurface = default;
             HRESULT hr = ThisPtr->IDXGISwapChainVftbl.GetBuffer((IDXGISwapChain*)Unsafe.AsPointer(ref this), Buffer, riid, (void**)&pSurface);
-            surface = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pSurface), iid);
+            surface = ObjectReference<TVftbl>.Attach(ref *(nint*)&pSurface, iid);
             return hr;
         }
     }

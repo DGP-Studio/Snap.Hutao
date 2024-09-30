@@ -28,7 +28,7 @@ internal unsafe struct IDXGIFactory6
                 .IDXGIFactory3Vftbl
                 .IDXGIFactory2Vftbl
                 .CreateSwapChainForComposition((IDXGIFactory2*)Unsafe.AsPointer(ref this), (IUnknown*)device.ThisPtr, pDesc, (IDXGIOutput*)(restrictToOutput?.ThisPtr ?? 0), &pSwapChain);
-            swapChain = ObjectReference<IDXGISwapChain1.Vftbl>.Attach(ref Unsafe.AsRef<nint>(&pSwapChain), IDXGISwapChain1.IID);
+            swapChain = ObjectReference<IDXGISwapChain1.Vftbl>.Attach(ref *(nint*)&pSwapChain, IDXGISwapChain1.IID);
             return hr;
         }
     }
@@ -41,7 +41,7 @@ internal unsafe struct IDXGIFactory6
         {
             TVftbl** pvAdapter = default;
             HRESULT hr = ThisPtr->EnumAdapterByGpuPreference((IDXGIFactory6*)Unsafe.AsPointer(ref this), Adapter, GpuPreference, riid, (void**)&pvAdapter);
-            vAdapter = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pvAdapter), iid);
+            vAdapter = ObjectReference<TVftbl>.Attach(ref *(nint*)&pvAdapter, iid);
             return hr;
         }
     }

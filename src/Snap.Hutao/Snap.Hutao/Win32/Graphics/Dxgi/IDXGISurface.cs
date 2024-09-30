@@ -24,7 +24,7 @@ internal unsafe struct IDXGISurface
         {
             TVftbl** pDevice;
             HRESULT hr = ThisPtr->IDXGIDeviceSubObjectVftbl.GetDevice((IDXGIDeviceSubObject*)Unsafe.AsPointer(ref this), riid, (void**)&pDevice);
-            device = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pDevice), iid);
+            device = ObjectReference<TVftbl>.Attach(ref *(nint*)&pDevice, iid);
             return hr;
         }
     }

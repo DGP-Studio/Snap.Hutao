@@ -35,7 +35,7 @@ internal unsafe struct IFileOperation
         }
     }
 
-    public HRESULT MoveItem(IShellItem* psiItem, ObjectReference<IShellItem.Vftbl> siDestinationFolder, [AllowNull] ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
+    public HRESULT MoveItem(IShellItem* psiItem, ObjectReference<IShellItem.Vftbl> siDestinationFolder, [Optional] ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
     {
         fixed (char* pszNewName = szNewName)
         {

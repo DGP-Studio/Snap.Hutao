@@ -16,7 +16,7 @@ internal static class IDirect3DDxgiInterfaceAccessExtension
         {
             TVftbl** p = default;
             HRESULT hr = access.GetInterface(riid, (void**)&p);
-            i = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&p), iid);
+            i = ObjectReference<TVftbl>.Attach(ref *(nint*)&p, iid);
             return hr;
         }
     }

@@ -11,15 +11,8 @@ using Windows.Globalization;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
-/// <summary>
-/// 依赖注入
-/// </summary>
 internal static class DependencyInjection
 {
-    /// <summary>
-    /// 初始化依赖注入
-    /// </summary>
-    /// <returns>服务提供器</returns>
     public static ServiceProvider Initialize()
     {
         ServiceProvider serviceProvider = new ServiceCollection()

@@ -37,7 +37,7 @@ internal unsafe struct ID3D11DeviceContext
     }
 
     [SuppressMessage("", "SA1313")]
-    public unsafe void CopySubresourceRegion(ObjectReference<ID3D11Resource.Vftbl> dstResource, uint DstSubresource, uint DstX, uint DstY, uint DstZ, ObjectReference<ID3D11Resource.Vftbl> srcResource, uint SrcSubresource, [AllowNull] ref readonly D3D11_BOX srcBox)
+    public unsafe void CopySubresourceRegion(ObjectReference<ID3D11Resource.Vftbl> dstResource, uint DstSubresource, uint DstX, uint DstY, uint DstZ, ObjectReference<ID3D11Resource.Vftbl> srcResource, uint SrcSubresource, [Optional] ref readonly D3D11_BOX srcBox)
     {
         fixed (D3D11_BOX* pSrcBox = &srcBox)
         {

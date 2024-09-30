@@ -28,9 +28,19 @@ internal static class DirectX
         return SUCCEEDED(hr);
     }
 
-    public static unsafe bool TryCreateD3D11Device(ObjectReference<IDXGIAdapter.Vftbl> adapter, D3D11_CREATE_DEVICE_FLAG flags, out ObjectReference<ID3D11Device.Vftbl> device, out HRESULT hr)
+    public static unsafe bool TryCreateD3D11Device(ObjectReference<IDXGIAdapter.Vftbl> adapter, D3D11_CREATE_DEVICE_FLAG flags, out ObjectReference<ID3D11Device.Vftbl>? device, out HRESULT hr)
     {
-        hr = D3D11CreateDevice(adapter, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flags, [], D3D11_SDK_VERSION, out device, out _, out _);
+        ReadOnlySpan<D3D_FEATURE_LEVEL> features =
+        [
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_1,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_0,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_10_1,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_10_0,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_9_3,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_9_2,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_9_1,
+        ];
+        hr = D3D11CreateDevice(adapter, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flags, features, D3D11_SDK_VERSION, out device, out _, out _);
         return SUCCEEDED(hr);
     }
 

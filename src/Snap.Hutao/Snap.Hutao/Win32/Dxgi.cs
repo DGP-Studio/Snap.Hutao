@@ -24,7 +24,7 @@ internal static class Dxgi
         {
             TVftbl** pFactory = default;
             HRESULT hr = CreateDXGIFactory2(Flags, riid, (void**)&pFactory);
-            factory = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pFactory), iid);
+            factory = ObjectReference<TVftbl>.Attach(ref *(nint*)&pFactory, iid);
             return hr;
         }
     }
