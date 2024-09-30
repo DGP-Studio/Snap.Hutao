@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Service;
-using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 

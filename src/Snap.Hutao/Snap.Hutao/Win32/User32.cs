@@ -79,7 +79,7 @@ internal static class User32
     public static extern HWND FindWindowExW([Optional] HWND hWndParent, [Optional] HWND hWndChildAfter, [Optional] PCWSTR lpszClass, [Optional] PCWSTR lpszWindow);
 
     [DebuggerStepThrough]
-    public static unsafe HWND FindWindowExW([Optional] HWND hWndParent, [Optional] HWND hWndChildAfter, [Optional] string szClass, [Optional] string szWindow)
+    public static unsafe HWND FindWindowExW([Optional] HWND hWndParent, [Optional] HWND hWndChildAfter, [Optional] string? szClass, [Optional] string? szWindow)
     {
         fixed (char* lpszClass = szClass)
         {

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.Graphics.Dxgi;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.System.WinRT.Xaml;
@@ -14,5 +13,5 @@ namespace Snap.Hutao.Win32.System.WinRT.Xaml;
 internal interface ISwapChainPanelNative
 {
     [PreserveSig]
-    unsafe HRESULT SetSwapChain(IDXGISwapChain* swapChain);
+    unsafe HRESULT SetSwapChain(nint swapChain);
 }

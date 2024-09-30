@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 
-internal unsafe struct IGraphicsCaptureItem
+internal static unsafe class IGraphicsCaptureItem
 {
     internal static ref readonly Guid IID
     {

@@ -9,10 +9,8 @@ using WinRT.Interop;
 namespace Snap.Hutao.Win32.System.Com;
 
 [SupportedOSPlatform("windows5.0")]
-internal readonly unsafe struct IPersist
+internal static unsafe class IPersist
 {
-    public readonly Vftbl* ThisPtr;
-
     internal static ref readonly Guid IID
     {
         get => ref MemoryMarshal.AsRef<Guid>([0x0C, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46]);
@@ -21,6 +19,6 @@ internal readonly unsafe struct IPersist
     internal readonly struct Vftbl
     {
         internal readonly IUnknownVftbl IUnknownVftbl;
-        internal readonly delegate* unmanaged[Stdcall]<IPersist*, Guid*, HRESULT> GetClassID;
+        internal readonly delegate* unmanaged[Stdcall]<nint, Guid*, HRESULT> GetClassID;
     }
 }

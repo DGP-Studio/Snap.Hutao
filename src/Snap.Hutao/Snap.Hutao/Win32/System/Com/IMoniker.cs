@@ -8,10 +8,8 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.System.Com;
 
 [SupportedOSPlatform("windows5.0")]
-internal readonly unsafe struct IMoniker
+internal static unsafe class IMoniker
 {
-    public readonly Vftbl* ThisPtr;
-
     internal static ref readonly Guid IID
     {
         get => ref MemoryMarshal.AsRef<Guid>([0x0F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46]);
@@ -20,20 +18,20 @@ internal readonly unsafe struct IMoniker
     internal readonly struct Vftbl
     {
         internal readonly IPersistStream.Vftbl IPersistStreamVftbl;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IBindCtx*, IMoniker*, Guid*, void**, HRESULT> BindToObject;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IBindCtx*, IMoniker*, Guid*, void**, HRESULT> BindToStorage;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IBindCtx*, uint, IMoniker**, IMoniker**, HRESULT> Reduce;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IMoniker*, BOOL, IMoniker**, HRESULT> ComposeWith;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, BOOL, IEnumMoniker**, HRESULT> Enum;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IMoniker*, HRESULT> IsEqual;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, uint*, HRESULT> Hash;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IBindCtx*, IMoniker*, IMoniker*, HRESULT> IsRunning;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IBindCtx*, IMoniker*, FILETIME*, HRESULT> GetTimeOfLastChange;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IMoniker**, HRESULT> Inverse;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IMoniker*, IMoniker**, HRESULT> CommonPrefixWith;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IMoniker*, IMoniker**, HRESULT> RelativePathTo;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IBindCtx*, IMoniker*, PWSTR*, HRESULT> GetDisplayName;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, IBindCtx*, IMoniker*, PWSTR, uint*, IMoniker**, HRESULT> ParseDisplayName;
-        internal readonly delegate* unmanaged[Stdcall]<IMoniker*, uint*, HRESULT> IsSystemMoniker;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint, Guid*, void**, HRESULT> BindToObject;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint, Guid*, void**, HRESULT> BindToStorage;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, uint, nint*, nint*, HRESULT> Reduce;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, BOOL, nint*, HRESULT> ComposeWith;
+        internal readonly delegate* unmanaged[Stdcall]<nint, BOOL, nint*, HRESULT> Enum;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, HRESULT> IsEqual;
+        internal readonly delegate* unmanaged[Stdcall]<nint, uint*, HRESULT> Hash;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint, nint, HRESULT> IsRunning;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint, FILETIME*, HRESULT> GetTimeOfLastChange;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint*, HRESULT> Inverse;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint*, HRESULT> CommonPrefixWith;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint*, HRESULT> RelativePathTo;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint, PWSTR*, HRESULT> GetDisplayName;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, nint, PWSTR, uint*, nint*, HRESULT> ParseDisplayName;
+        internal readonly delegate* unmanaged[Stdcall]<nint, uint*, HRESULT> IsSystemMoniker;
     }
 }

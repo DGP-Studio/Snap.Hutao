@@ -70,10 +70,12 @@ internal struct GameScreenCaptureContext : IDisposable
             return new(GameScreenCaptureContextCreationResultKind.EnumAdapterByGpuPreferenceFailed, hr);
         }
 
-        if (!DirectX.TryCreateD3D11Device(default!, D3d11CreateDeviceFlag, out context.d3d11Device, out hr))
+        if (!DirectX.TryCreateD3D11Device(default!, D3d11CreateDeviceFlag, out context.d3d11Device!, out hr))
         {
             return new(GameScreenCaptureContextCreationResultKind.D3D11CreateDeviceFailed, hr);
         }
+
+        ArgumentNullException.ThrowIfNull(context.d3d11Device);
 
         if (!SUCCEEDED(context.d3d11Device.TryAs(IDXGIDevice.IID, out context.dxgiDevice)))
         {

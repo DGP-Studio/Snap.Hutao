@@ -76,8 +76,6 @@ internal static class FileOperation
 
         using (fileOperation)
         {
-            IFileOperation* pFileOperation = (IFileOperation*)fileOperation.ThisPtr;
-
             if (!SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> shellItem)))
             {
                 return false;
@@ -85,11 +83,8 @@ internal static class FileOperation
 
             using (shellItem)
             {
-                IShellItem* pShellItem = (IShellItem*)shellItem.ThisPtr;
-
-                pFileOperation->DeleteItem(pShellItem, default!);
-
-                return SUCCEEDED(pFileOperation->PerformOperations());
+                fileOperation.DeleteItem(shellItem, default!);
+                return SUCCEEDED(fileOperation.PerformOperations());
             }
         }
     }
@@ -103,8 +98,6 @@ internal static class FileOperation
 
         using (fileOperation)
         {
-            IFileOperation* pFileOperation = (IFileOperation*)fileOperation.ThisPtr;
-
             if (!SUCCEEDED(SHCreateItemFromParsingName(sourceFileName, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> sourceShellItem)))
             {
                 return false;
@@ -112,8 +105,6 @@ internal static class FileOperation
 
             using (sourceShellItem)
             {
-                IShellItem* pSourceShellItem = (IShellItem*)sourceShellItem.ThisPtr;
-
                 if (!SUCCEEDED(SHCreateItemFromParsingName(destFileName, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> destShellItem)))
                 {
                     return false;
@@ -121,9 +112,8 @@ internal static class FileOperation
 
                 using (destShellItem)
                 {
-                    pFileOperation->MoveItem(pSourceShellItem, destShellItem, default, default!);
-
-                    return SUCCEEDED(pFileOperation->PerformOperations());
+                    fileOperation.MoveItem(sourceShellItem, destShellItem, default, default!);
+                    return SUCCEEDED(fileOperation.PerformOperations());
                 }
             }
         }

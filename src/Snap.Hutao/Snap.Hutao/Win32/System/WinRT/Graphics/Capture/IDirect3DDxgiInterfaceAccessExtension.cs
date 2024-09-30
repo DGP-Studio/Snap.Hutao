@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using System.Runtime.CompilerServices;
 using WinRT;
 
 namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;

@@ -24,7 +24,7 @@ internal static class DirectX
 
     public static unsafe bool TryGetHighPerformanceAdapter(ObjectReference<IDXGIFactory6.Vftbl> factory, out ObjectReference<IDXGIAdapter.Vftbl> adapter, out HRESULT hr)
     {
-        hr = ((IDXGIFactory6*)factory.ThisPtr)->EnumAdapterByGpuPreference(0U, DXGI_GPU_PREFERENCE.DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, in IDXGIAdapter.IID, out adapter);
+        hr = factory.EnumAdapterByGpuPreference(0U, DXGI_GPU_PREFERENCE.DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, in IDXGIAdapter.IID, out adapter);
         return SUCCEEDED(hr);
     }
 
@@ -62,7 +62,7 @@ internal static class DirectX
 
     public static unsafe bool TryCreateSwapChainForComposition(ObjectReference<IDXGIFactory6.Vftbl> factory, ObjectReference<ID3D11Device.Vftbl> device, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, out ObjectReference<IDXGISwapChain1.Vftbl> swapChain, out HRESULT hr)
     {
-        hr = ((IDXGIFactory6*)factory.ThisPtr)->CreateSwapChainForComposition(device, in desc, default, out swapChain);
+        hr = factory.CreateSwapChainForComposition(device, in desc, default, out swapChain);
         if (FAILED(hr))
         {
             return false;

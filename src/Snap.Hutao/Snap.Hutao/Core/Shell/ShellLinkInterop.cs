@@ -45,12 +45,10 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
         using (shellLink)
         {
-            IShellLinkW* pShellLink = (IShellLinkW*)shellLink.ThisPtr;
-
-            pShellLink->SetPath(elevatedLauncherPath);
-            pShellLink->SetArguments(runtimeOptions.FamilyName);
-            pShellLink->SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
-            pShellLink->SetIconLocation(targetLogoPath, 0);
+            shellLink.SetPath(elevatedLauncherPath);
+            shellLink.SetArguments(runtimeOptions.FamilyName);
+            shellLink.SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
+            shellLink.SetIconLocation(targetLogoPath, 0);
 
             if (!SUCCEEDED(shellLink.TryAs(IPersistFile.IID, out ObjectReference<IPersistFile.Vftbl> persistFile)))
             {
@@ -60,12 +58,10 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
             using (persistFile)
             {
-                IPersistFile* pPersistFile = (IPersistFile*)persistFile.ThisPtr;
-
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
 
-                return SUCCEEDED(pPersistFile->Save(target, false));
+                return SUCCEEDED(persistFile.Save(target, false));
             }
         }
     }

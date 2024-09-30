@@ -147,8 +147,7 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
 
         using (dxgiSurface)
         {
-            IDXGISurface* pDXGISurface = (IDXGISurface*)dxgiSurface.ThisPtr;
-            if (FAILED(pDXGISurface->GetDesc(out DXGI_SURFACE_DESC dxgiSurfaceDesc)))
+            if (FAILED(dxgiSurface.GetDesc(out DXGI_SURFACE_DESC dxgiSurfaceDesc)))
             {
                 return;
             }
@@ -159,15 +158,13 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
                 : (dxgiSurfaceDesc.Width, dxgiSurfaceDesc.Height);
 
             // Should be the same device used to create the frame pool.
-            if (FAILED(pDXGISurface->GetDevice(in ID3D11Device.IID, out ObjectReference<ID3D11Device.Vftbl> d3d11Device)))
+            if (FAILED(dxgiSurface.GetDevice(in ID3D11Device.IID, out ObjectReference<ID3D11Device.Vftbl> d3d11Device)))
             {
                 return;
             }
 
             using (d3d11Device)
             {
-                ID3D11Device* pD3D11Device = (ID3D11Device*)d3d11Device.ThisPtr;
-
                 D3D11_TEXTURE2D_DESC d3d11Texture2DDesc = default;
                 d3d11Texture2DDesc.Width = textureWidth;
                 d3d11Texture2DDesc.Height = textureHeight;
@@ -178,15 +175,13 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
                 d3d11Texture2DDesc.ArraySize = 1;
                 d3d11Texture2DDesc.MipLevels = 1;
 
-                if (FAILED(pD3D11Device->CreateTexture2D(ref d3d11Texture2DDesc, ref Unsafe.NullRef<D3D11_SUBRESOURCE_DATA>(), out ObjectReference<ID3D11Texture2D.Vftbl>? d3d11Texture2D)))
+                if (FAILED(d3d11Device.CreateTexture2D(ref d3d11Texture2DDesc, ref Unsafe.NullRef<D3D11_SUBRESOURCE_DATA>(), out ObjectReference<ID3D11Texture2D.Vftbl>? d3d11Texture2D)))
                 {
                     return;
                 }
 
                 using (d3d11Texture2D)
                 {
-                    ID3D11Texture2D* pD3D11Texture2D = (ID3D11Texture2D*)d3d11Texture2D.ThisPtr;
-
                     if (FAILED(access.GetInterface(in ID3D11Resource.IID, out ObjectReference<ID3D11Resource.Vftbl> d3d11Resource)))
                     {
                         return;
@@ -194,26 +189,22 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
 
                     using (d3d11Resource)
                     {
-                        ID3D11Resource* pD3D11Resource = (ID3D11Resource*)d3d11Resource.ThisPtr;
-
-                        pD3D11Device->GetImmediateContext(out ObjectReference<ID3D11DeviceContext.Vftbl> d3d11DeviceContext);
+                        d3d11Device.GetImmediateContext(out ObjectReference<ID3D11DeviceContext.Vftbl> d3d11DeviceContext);
 
                         using (d3d11DeviceContext)
                         {
-                            ID3D11DeviceContext* pD3D11DeviceContext = (ID3D11DeviceContext*)d3d11DeviceContext.ThisPtr;
-
                             using (ObjectReference<ID3D11Resource.Vftbl> d3d11Texture2DAsResource = d3d11Texture2D.As<ID3D11Resource.Vftbl>(ID3D11Resource.IID))
                             {
                                 if (boxAvailable)
                                 {
-                                    pD3D11DeviceContext->CopySubresourceRegion(d3d11Texture2DAsResource, 0U, 0U, 0U, 0U, d3d11Resource, 0U, in clientBox);
+                                    d3d11DeviceContext.CopySubresourceRegion(d3d11Texture2DAsResource, 0U, 0U, 0U, 0U, d3d11Resource, 0U, in clientBox);
                                 }
                                 else
                                 {
-                                    pD3D11DeviceContext->CopyResource(d3d11Texture2DAsResource, d3d11Resource);
+                                    d3d11DeviceContext.CopyResource(d3d11Texture2DAsResource, d3d11Resource);
                                 }
 
-                                if (FAILED(pD3D11DeviceContext->Map(d3d11Texture2DAsResource, 0U, D3D11_MAP.D3D11_MAP_READ, 0U, out D3D11_MAPPED_SUBRESOURCE d3d11MappedSubresource)))
+                                if (FAILED(d3d11DeviceContext.Map(d3d11Texture2DAsResource, 0U, D3D11_MAP.D3D11_MAP_READ, 0U, out D3D11_MAPPED_SUBRESOURCE d3d11MappedSubresource)))
                                 {
                                     return;
                                 }

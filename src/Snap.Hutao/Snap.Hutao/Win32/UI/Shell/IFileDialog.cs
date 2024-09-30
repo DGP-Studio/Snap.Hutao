@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell.Common;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using WinRT;
@@ -11,87 +10,85 @@ using WinRT;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows6.0.6000")]
-internal unsafe struct IFileDialog
+internal static unsafe class IFileDialog
 {
-    public readonly Vftbl* ThisPtr;
-
     internal static ref readonly Guid IID
     {
         get => ref MemoryMarshal.AsRef<Guid>([0x36, 0x51, 0xF8, 0x42, 0x7E, 0xDB, 0x9C, 0x43, 0x85, 0xF1, 0xE4, 0x07, 0x5D, 0x13, 0x5F, 0xC8]);
     }
 
-    public HRESULT GetResult(out ObjectReference<IShellItem.Vftbl> si)
+    public static HRESULT GetResult(this ObjectReference<Vftbl> objRef, out ObjectReference<IShellItem.Vftbl> si)
     {
-        IShellItem* psi = default;
-        HRESULT hr = ThisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), &psi);
-        si = ObjectReference<IShellItem.Vftbl>.Attach(ref *(nint*)&psi, IShellItem.IID);
+        nint psi = default;
+        HRESULT hr = objRef.Vftbl.GetResult(objRef.ThisPtr, &psi);
+        si = ObjectReference<IShellItem.Vftbl>.Attach(ref psi, IShellItem.IID);
         return hr;
     }
 
-    public HRESULT SetFileName(string szName)
+    public static HRESULT SetFileName(this ObjectReference<Vftbl> objRef, string szName)
     {
         fixed (char* pszName = szName)
         {
-            return ThisPtr->SetFileName((IFileDialog*)Unsafe.AsPointer(ref this), pszName);
+            return objRef.Vftbl.SetFileName(objRef.ThisPtr, pszName);
         }
     }
 
-    public HRESULT SetFileTypes(ReadOnlySpan<COMDLG_FILTERSPEC> filterSpecs)
+    public static HRESULT SetFileTypes(this ObjectReference<Vftbl> objRef, ReadOnlySpan<COMDLG_FILTERSPEC> filterSpecs)
     {
         fixed (COMDLG_FILTERSPEC* rgFilterSpec = filterSpecs)
         {
-            return ThisPtr->SetFileTypes((IFileDialog*)Unsafe.AsPointer(ref this), (uint)filterSpecs.Length, rgFilterSpec);
+            return objRef.Vftbl.SetFileTypes(objRef.ThisPtr, (uint)filterSpecs.Length, rgFilterSpec);
         }
     }
 
-    public HRESULT SetFolder(ObjectReference<IShellItem.Vftbl> si)
+    public static HRESULT SetFolder(this ObjectReference<Vftbl> objRef, ObjectReference<IShellItem.Vftbl> si)
     {
-        return ThisPtr->SetFolder((IFileDialog*)Unsafe.AsPointer(ref this), (IShellItem*)si.ThisPtr);
+        return objRef.Vftbl.SetFolder(objRef.ThisPtr, si.ThisPtr);
     }
 
-    public HRESULT SetOptions(FILEOPENDIALOGOPTIONS fos)
+    public static HRESULT SetOptions(this ObjectReference<Vftbl> objRef, FILEOPENDIALOGOPTIONS fos)
     {
-        return ThisPtr->SetOptions((IFileDialog*)Unsafe.AsPointer(ref this), fos);
+        return objRef.Vftbl.SetOptions(objRef.ThisPtr, fos);
     }
 
-    public HRESULT SetTitle(string szTitle)
+    public static HRESULT SetTitle(this ObjectReference<Vftbl> objRef, string szTitle)
     {
         fixed (char* pszTitle = szTitle)
         {
-            return ThisPtr->SetTitle((IFileDialog*)Unsafe.AsPointer(ref this), pszTitle);
+            return objRef.Vftbl.SetTitle(objRef.ThisPtr, pszTitle);
         }
     }
 
-    public HRESULT Show([Optional] HWND hwndOwner)
+    public static HRESULT Show(this ObjectReference<Vftbl> objRef, [Optional] HWND hwndOwner)
     {
-        return ThisPtr->IModalWindowVftbl.Show((IModalWindow*)Unsafe.AsPointer(ref this), hwndOwner);
+        return objRef.Vftbl.IModalWindowVftbl.Show(objRef.ThisPtr, hwndOwner);
     }
 
     internal readonly struct Vftbl
     {
         internal readonly IModalWindow.Vftbl IModalWindowVftbl;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, uint, COMDLG_FILTERSPEC*, HRESULT> SetFileTypes;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, uint, HRESULT> SetFileTypeIndex;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, uint*, HRESULT> GetFileTypeIndex;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IFileDialogEvents*, uint*, HRESULT> Advise;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, uint, HRESULT> Unadvise;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, FILEOPENDIALOGOPTIONS, HRESULT> SetOptions;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, FILEOPENDIALOGOPTIONS*, HRESULT> GetOptions;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IShellItem*, HRESULT> SetDefaultFolder;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IShellItem*, HRESULT> SetFolder;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IShellItem**, HRESULT> GetFolder;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IShellItem**, HRESULT> GetCurrentSelection;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, PCWSTR, HRESULT> SetFileName;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, PWSTR*, HRESULT> GetFileName;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, PCWSTR, HRESULT> SetTitle;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, PCWSTR, HRESULT> SetOkButtonLabel;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, PCWSTR, HRESULT> SetFileNameLabel;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IShellItem**, HRESULT> GetResult;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IShellItem*, FDAP, HRESULT> AddPlace;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, PCWSTR, HRESULT> SetDefaultExtension;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, HRESULT, HRESULT> Close;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, Guid*, HRESULT> SetClientGuid;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, HRESULT> ClearClientData;
-        internal readonly delegate* unmanaged[Stdcall]<IFileDialog*, IShellItemFilter*, HRESULT> SetFilter;
+        internal readonly delegate* unmanaged[Stdcall]<nint, uint, COMDLG_FILTERSPEC*, HRESULT> SetFileTypes;
+        internal readonly delegate* unmanaged[Stdcall]<nint, uint, HRESULT> SetFileTypeIndex;
+        internal readonly delegate* unmanaged[Stdcall]<nint, uint*, HRESULT> GetFileTypeIndex;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, uint*, HRESULT> Advise;
+        internal readonly delegate* unmanaged[Stdcall]<nint, uint, HRESULT> Unadvise;
+        internal readonly delegate* unmanaged[Stdcall]<nint, FILEOPENDIALOGOPTIONS, HRESULT> SetOptions;
+        internal readonly delegate* unmanaged[Stdcall]<nint, FILEOPENDIALOGOPTIONS*, HRESULT> GetOptions;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, HRESULT> SetDefaultFolder;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, HRESULT> SetFolder;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint*, HRESULT> GetFolder;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint*, HRESULT> GetCurrentSelection;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> SetFileName;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PWSTR*, HRESULT> GetFileName;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> SetTitle;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> SetOkButtonLabel;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> SetFileNameLabel;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint*, HRESULT> GetResult;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, FDAP, HRESULT> AddPlace;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> SetDefaultExtension;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HRESULT, HRESULT> Close;
+        internal readonly delegate* unmanaged[Stdcall]<nint, Guid*, HRESULT> SetClientGuid;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HRESULT> ClearClientData;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, HRESULT> SetFilter;
     }
 }
