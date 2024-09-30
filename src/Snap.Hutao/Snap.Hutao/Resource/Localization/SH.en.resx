@@ -2322,7 +2322,7 @@
     <value>Import data from other Apps</value>
   </data>
   <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
-    <value>导入/导出记录</value>
+    <value>Import/Export Records</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>Import UIGF Json</value>
