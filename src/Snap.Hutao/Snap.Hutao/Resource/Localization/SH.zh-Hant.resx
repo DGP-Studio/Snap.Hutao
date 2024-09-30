@@ -2322,7 +2322,7 @@
     <value>匯入來自其他 APP 的數據</value>
   </data>
   <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
-    <value>导入/导出记录</value>
+    <value>匯入/匯出紀錄</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>匯入 UIGF Json</value>
