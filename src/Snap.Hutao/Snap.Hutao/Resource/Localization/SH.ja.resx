@@ -346,7 +346,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
-    <value>ショタ</value>
+    <value>少年</value>
   </data>
   <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
     <value>少女</value>
@@ -554,7 +554,7 @@
     <value>精錬ランク{0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>MiyousheかHoYoLAB にログインして、ユーザーを選択する必要があります</value>
+    <value>MiYouShe / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
@@ -569,7 +569,7 @@
     <value>祈願データに無効な項目があるため、胡桃クラウドに保存できません。</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
+    <value>異常なデータが見つかり、胡桃クラウドにアップロードできません。複数のアカウントを跨いでアップロードしないか、クラウドデータを削除して再試行してください。</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件アップロードしました。保存済みは {2} 件です。</value>
@@ -623,10 +623,10 @@
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。このUIDは胡桃クラウドからBANされています。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。この UID は胡桃データベースによって禁止されています。</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。サーバーが統計データを計算しています。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。サーバーが統計データを計算しています。</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
     <value>データの取得に失敗しました。サーバーが統計データを計算しています。</value>
@@ -635,16 +635,16 @@
     <value>深境螺旋のデータをアップロードに失敗しました。サーバーエラーです。解決しない場合は開発者に連絡してください。</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。異常なデータを検知しました。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。異常なデータを検知しました。</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
     <value>無効なUIDです。</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。現行の期間のデータではありません。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。現行の期間のデータではありません。</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。現在このUIDのレコードを処理中です。繰り返しアップロードしないでください。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。現在の UID の記録はまだ処理中であるため、操作を繰り返さないでください。</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>深境螺旋のデータをアップロードしました。胡桃クラウドの利用期間延長特典を受け取りました。</value>
@@ -3045,7 +3045,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
-    <value>UI GF 4 ファイルのエクスポート/インポート</value>
+    <value>UIGF 4 ファイルのエクスポート/インポート</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
     <value>データ移行</value>
@@ -3060,10 +3060,10 @@
     <value>まだ引かないのアイテムは「祈願履歴-キャラクター」と「祈願履歴-武器」に表示されます。</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
-    <value>未抽取到的祈愿物品</value>
+    <value>未引きの祈願アイテム</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
-    <value>ストアで表示</value>
+    <value>ショップへ移動</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 ランタイム</value>
@@ -3177,10 +3177,10 @@
     <value>設定</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
-    <value>キャラクター出場率 = この階層における出場回数（最初の一回のみカウント） / この階層のアップロード総数</value>
+    <value>キャラクター出場率 = 本層にこのキャラの登場回数（繰り返しの場合は1回のみ数える）/ この層の深淵の記録総数</value>
   </data>
   <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
-    <value>キャラクター使用率 = この階層における出場回数（最初の一回のみカウント） / キャラクター毎の深境螺旋の記録の個数</value>
+    <value>キャラクター使用率 = 本層にこのキャラの登場回数（繰り返しの場合は1回のみ数える）/ キャラを持つプレイヤーの深淵の記録総数</value>
   </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>戦闘データ</value>
@@ -3189,7 +3189,7 @@
     <value>出場回数</value>
   </data>
   <data name="ViewSpiralAbyssDamage" xml:space="preserve">
-    <value>最大ダメージ</value>
+    <value>最強一撃</value>
   </data>
   <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
     <value>挑戦履歴はありません</value>
