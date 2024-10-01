@@ -3156,7 +3156,7 @@
     <value>ログインできません。もう一度お試しください。</value>
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
-    <value>ログインまたはサインアップ</value>
+    <value>ログインまたは登録</value>
   </data>
   <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
     <value>胡桃の起動時にコンソールを開くか設定します。これは再起動後に有効になります。</value>
@@ -3219,7 +3219,7 @@
     <value>編成</value>
   </data>
   <data name="ViewSpiralAbyssRecordMonsterAttacksMonolith" xml:space="preserve">
-    <value>地脈石へ攻撃</value>
+    <value>地脈鎮石へ攻撃</value>
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>データを再読み込み</value>
@@ -3231,7 +3231,7 @@
     <value>出撃回数</value>
   </data>
   <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
-    <value>データ集計</value>
+    <value>統計データ</value>
   </data>
   <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
     <value>最大被ダメージ</value>
@@ -3255,7 +3255,7 @@
     <value>今すぐインストールしますか?</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
-    <value>胡桃 {0} の準備が完了</value>
+    <value>胡桃 ver {0} の準備が整いました</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>オートクリック</value>
@@ -3294,7 +3294,7 @@
     <value>Cookie 再取得</value>
   </data>
   <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
-    <value>ログインボーナス獲得</value>
+    <value>ログインボーナスを獲得</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>Cookieをコピーする</value>
@@ -3327,10 +3327,10 @@
     <value>ユーザー</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
-    <value>画像リソースをダウンロード中</value>
+    <value>最も基本的な画像リソースをダウンロードします</value>
   </data>
   <data name="ViewWelcomeBody" xml:space="preserve">
-    <value>処理に影響されず、引き続きパソコンを使えます</value>
+    <value>何の影響もなくコンピュータを使い続けることができます</value>
   </data>
   <data name="ViewWelcomeSubtitle" xml:space="preserve">
     <value>アプリを閉じないでください</value>
@@ -3387,7 +3387,7 @@
     <value>完了しました。</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusForbid" xml:space="preserve">
-    <value>獲得の禁止</value>
+    <value>獲得禁止</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusInvalid" xml:space="preserve">
     <value>無効</value>
@@ -3402,22 +3402,22 @@
     <value>獲得可能</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
-    <value>{0} 時</value>
+    <value>{0} 時間</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 回の {1} 分</value>
+    <value>{0} 時間 {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>すべての依頼を完了していません</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
-    <value>デイリー依頼の報酬はまだ受け取っていません</value>
+    <value>依頼報酬はまだ受取っていません</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
-    <value>デイリー依頼の報酬は受け取り済みです</value>
+    <value>ﾃﾞｲﾘｰ依頼報酬は受取り済です</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
     <value>{0} {1:HH:mm} に上限到達</value>
@@ -3444,7 +3444,7 @@
     <value>{0} {1:HH:mm} 後にすべて回復</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
-    <value>{0:c} はリセットさ</value>
+    <value>{0:c} 後にリセット</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>後に再び使用することができます</value>
@@ -3453,7 +3453,7 @@
     <value>{0} 日</value>
   </data>
   <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
-    <value>{0} 時</value>
+    <value>{0} 時間</value>
   </data>
   <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
     <value>{0} 分</value>
@@ -3471,7 +3471,7 @@
     <value>使用可能</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
-    <value>使用可能</value>
+    <value>準備完了</value>
   </data>
   <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
     <value>{0} 秒</value>
@@ -3480,16 +3480,16 @@
     <value>認証に失敗しました。「MiHoYo BBS - 戦績ツール - リアルタイムノート」で確認してください</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
-    <value>UIDは正しくありません</value>
+    <value>間違った UID フォーマット</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>ロール UIDが存在しません。時間を置いてもう一度試してください。</value>
+    <value>キャラクターUID が存在しません。後でもう一度お試しください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>ゲームメンテナンス中</value>
   </data>
   <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
-    <value>リクエストが多すぎます。時間をおいてから試してください。</value>
+    <value>リクエストが速すぎて、後でもう一度お試しください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
     <value>偶発的なサーバーエラー</value>
@@ -3513,7 +3513,7 @@
     <value>初心者祈願</value>
   </data>
   <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
-    <value>常設祈願</value>
+    <value>通常祈願</value>
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>イベント祈願・武器</value>
@@ -3537,7 +3537,7 @@
     <value>国内サーバー: アジア</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>海外サーバー: 台湾/香港/モンゴル</value>
+    <value>海外サーバー: 台湾/香港/マカオ</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
     <value>海外サーバー: ヨーロッパ</value>
@@ -3558,7 +3558,7 @@
     <value>Cookieを更新してください。 エラーメッセージ: {0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
-    <value>[{0}] の[{1}] のリクエストにエラーが発生、時間をおいてから試してください</value>
+    <value>[{0}] で [{1}] のネットワーク要求が異常、後でもう一度お試しください。</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
     <value>ログインに失敗しました。HoYoLAB に移動してアカウントを初期化してください。オリジナルメッセージ: {0}</value>
