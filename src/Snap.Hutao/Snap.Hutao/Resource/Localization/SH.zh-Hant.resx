@@ -193,7 +193,7 @@
     <value>訊號量已經被釋放，操作取消</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
-    <value>未檢測到 WebView2 執行階段</value>
+    <value>未檢測到 WebView2 Runtime</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 鍵盤快速鍵 [{1}] 註冊失敗</value>
@@ -566,7 +566,7 @@
     <value>未開通祈願紀錄上傳服務或已到期</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>祈願資料存在無效的物品，無法儲存至胡桃雲</value>
+    <value>祈願數據存在無效的物品，無法儲存至胡桃雲</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>數據異常，無法儲存至雲端，請勿跨帳號上傳或嘗試删除雲端數據後重試</value>
@@ -1266,7 +1266,7 @@
     <value>匯入模式</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
-    <value>貪婪（添加新資料，更新已完成項）</value>
+    <value>貪婪（添加新數據，更新已完成項）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
     <value>懶惰（添加新數據，跳過已完成項）</value>
@@ -1581,7 +1581,7 @@
     <value>若未檢測到 WebView2 Runtime 資訊，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下載並自行安裝運行時</value>
+    <value>下載並自行安裝 Runtime</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>語言</value>
@@ -3066,7 +3066,7 @@
     <value>前往商店</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>WebView2 運行時</value>
+    <value>WebView2 Runtime</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>
