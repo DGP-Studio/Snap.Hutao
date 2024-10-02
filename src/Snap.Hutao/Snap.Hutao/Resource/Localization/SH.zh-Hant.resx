@@ -193,7 +193,7 @@
     <value>訊號量已經被釋放，操作取消</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
-    <value>未檢測到 WebView2 運行時</value>
+    <value>未檢測到 WebView2 執行階段</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 鍵盤快速鍵 [{1}] 註冊失敗</value>
