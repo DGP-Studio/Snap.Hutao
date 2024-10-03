@@ -87,6 +87,11 @@ internal sealed partial class NotifyIconController : IDisposable
 
     private void OnContextMenuRequested(NotifyIconMessageWindow window, PointUInt16 point)
     {
+        if (XamlApplicationLifetime.Exiting)
+        {
+            return;
+        }
+        
         xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), GetRect());
     }
 }
