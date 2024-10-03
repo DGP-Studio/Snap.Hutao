@@ -1181,6 +1181,12 @@
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>成就统计</value>
   </data>
+  <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
+    <value>全部材料副本均可挑战</value>
+  </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>当天没有角色过生日</value>
+  </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>保底计数</value>
   </data>
@@ -2315,6 +2321,9 @@
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>다른 앱에서 데이터 가져오기</value>
   </data>
+  <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
+    <value>导入/导出记录</value>
+  </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>UIGF Json 가져오기</value>
   </data>
@@ -2717,6 +2726,12 @@
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>호두에 대하여</value>
   </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>选择适合你的一周中的首日</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>一周中的首日</value>
+  </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>모습</value>
   </data>
@@ -2866,6 +2881,9 @@
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>업적 관리</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日历</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>실시간 메모</value>

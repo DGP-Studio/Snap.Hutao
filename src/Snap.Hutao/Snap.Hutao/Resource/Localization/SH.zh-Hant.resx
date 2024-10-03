@@ -172,7 +172,7 @@
     <value>數據庫已損壞：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>使用者數據已損壞：{0}</value>
+    <value>使用者資料已損壞：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>請勿在系統管理員模式下使用此功能 {0}</value>
@@ -193,7 +193,7 @@
     <value>訊號量已經被釋放，操作取消</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
-    <value>未檢測到 WebView2 運行時</value>
+    <value>未檢測到 WebView2 Runtime</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 鍵盤快速鍵 [{1}] 註冊失敗</value>
@@ -548,7 +548,7 @@
     <value>請更新角色櫥窗數據</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暫無數據</value>
+    <value>暫無資料</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>精煉 {0} 階</value>
@@ -1181,6 +1181,12 @@
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>成就統計</value>
   </data>
+  <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
+    <value>全部材料副本均可挑戰</value>
+  </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>當天沒有角色過生日</value>
+  </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>保底計數</value>
   </data>
@@ -1248,7 +1254,7 @@
     <value>即時便箋</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
-    <value>數據</value>
+    <value>資料</value>
   </data>
   <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
     <value>在此處輸入</value>
@@ -1575,7 +1581,7 @@
     <value>若未檢測到 WebView2 Runtime 資訊，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下載並自行安裝運行時</value>
+    <value>下載並自行安裝 Runtime</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>語言</value>
@@ -2315,6 +2321,9 @@
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>匯入來自其他 APP 的數據</value>
   </data>
+  <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
+    <value>匯入/匯出紀錄</value>
+  </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>匯入 UIGF Json</value>
   </data>
@@ -2717,6 +2726,12 @@
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>關於 胡桃</value>
   </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>選擇適合你的一週中的首日</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>一週中的首日</value>
+  </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>外觀</value>
   </data>
@@ -2867,6 +2882,9 @@
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>成就管理</value>
   </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日曆</value>
+  </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>即時便籤</value>
   </data>
@@ -2976,7 +2994,7 @@
     <value>啟動遊戲 - 解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目錄後需要手動移動目錄内的數據，否則會重新創建使用者數據</value>
+    <value>更改目錄後需要手動移動目錄内的資料，否則會重新創建使用者資料</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>更改數據目錄</value>
@@ -3048,7 +3066,7 @@
     <value>前往商店</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>WebView2 運行時</value>
+    <value>WebView2 Runtime</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>

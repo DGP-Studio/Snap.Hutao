@@ -1181,6 +1181,12 @@
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>Achievements Statistics</value>
   </data>
+  <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
+    <value>All material copies can be challenged</value>
+  </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>No role has been birthday that day</value>
+  </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>Pity Count</value>
   </data>
@@ -2315,6 +2321,9 @@
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>Import data from other Apps</value>
   </data>
+  <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
+    <value>Import/Export Records</value>
+  </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>Import UIGF Json</value>
   </data>
@@ -2717,6 +2726,12 @@
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
   </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>Select the first day of your week</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>First day of week</value>
+  </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>Appearance</value>
   </data>
@@ -2866,6 +2881,9 @@
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>Calendar</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Realtime Notes</value>

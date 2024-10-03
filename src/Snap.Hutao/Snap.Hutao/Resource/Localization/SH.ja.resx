@@ -184,7 +184,7 @@
     <value>権限不足のため、一時ファイルを作成できませんでした</value>
   </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
-    <value>ゲームランチャー</value>
+    <value>ゲームを起動する</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
     <value>胡桃がリアルタイムノートを更新するために使用するタスクです。編集や削除をしないでください!</value>
@@ -202,7 +202,7 @@
     <value>閉じる</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
-    <value>ゲームランチャー</value>
+    <value>ゲーム起動</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
     <value>胡桃がバックグラウンドで実行中です</value>
@@ -232,16 +232,16 @@
     <value>アカウントを選択して開始します</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;姫君&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;私&lt;/color&gt;/&lt;color=#FFB6C1&gt;私&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameNickname" xml:space="preserve">
     <value>旅人</value>
   </data>
   <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;彼&lt;/color&gt;/&lt;color=#FFB6C1&gt;彼女&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
     <value>放浪者</value>
@@ -346,7 +346,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
-    <value>ショタ</value>
+    <value>少年</value>
   </data>
   <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
     <value>少女</value>
@@ -542,7 +542,7 @@
     <value>ウェーブ 4: すべての敵を倒すと、次のウェーブの敵が出現する。</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
-    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+    <value>宝盗団を 4 体フィールド上に維持し、倒され次第入れ替える、総計 12 個</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>キャラクターラインナップを更新する</value>
@@ -554,7 +554,7 @@
     <value>精錬ランク{0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>MiyousheかHoYoLAB にログインして、ユーザーを選択する必要があります</value>
+    <value>MiYouShe / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
@@ -569,7 +569,7 @@
     <value>祈願データに無効な項目があるため、胡桃クラウドに保存できません。</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
+    <value>異常なデータが見つかり、胡桃クラウドにアップロードできません。複数のアカウントを跨いでアップロードしないか、クラウドデータを削除して再試行してください。</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件アップロードしました。保存済みは {2} 件です。</value>
@@ -623,10 +623,10 @@
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。このUIDは胡桃クラウドからBANされています。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。この UID は胡桃データベースによって禁止されています。</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。サーバーが統計データを計算しています。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。サーバーが統計データを計算しています。</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
     <value>データの取得に失敗しました。サーバーが統計データを計算しています。</value>
@@ -635,16 +635,16 @@
     <value>深境螺旋のデータをアップロードに失敗しました。サーバーエラーです。解決しない場合は開発者に連絡してください。</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。異常なデータを検知しました。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。異常なデータを検知しました。</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
     <value>無効なUIDです。</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。現行の期間のデータではありません。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。現行の期間のデータではありません。</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。現在このUIDのレコードを処理中です。繰り返しアップロードしないでください。</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。現在の UID の記録はまだ処理中であるため、操作を繰り返さないでください。</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>深境螺旋のデータをアップロードしました。胡桃クラウドの利用期間延長特典を受け取りました。</value>
@@ -1181,6 +1181,12 @@
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>アチーブメント集計</value>
   </data>
+  <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
+    <value>すべてのアイテムのコピーが利用可能になるまで</value>
+  </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>この日に誕生日</value>
+  </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>天井までの回数</value>
   </data>
@@ -1398,16 +1404,16 @@
     <value>Geetest/CAPTCHA 認証APIの設定</value>
   </data>
   <data name="ViewDialogHutaoPassportLoginTitle" xml:space="preserve">
-    <value>胡桃パスポートへログイン</value>
+    <value>胡桃通行証へログイン</value>
   </data>
   <data name="ViewDialogHutaoPassportRegisterTitle" xml:space="preserve">
-    <value>胡桃パスポートの登録</value>
+    <value>胡桃通行証を登録</value>
   </data>
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
-    <value>胡桃パスポートのパスワードをリセット</value>
+    <value>胡桃通行証のパスワードをリセット</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
-    <value>胡桃パスポート アカウントの削除</value>
+    <value>胡桃アカウントを削除</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Appをエクスポート</value>
@@ -1419,7 +1425,7 @@
     <value>エクスポート時間</value>
   </data>
   <data name="ViewDialogImportUIAFExportListCount" xml:space="preserve">
-    <value>アチーブメント</value>
+    <value>アチーブメント数</value>
   </data>
   <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
     <value>UIAFバージョン</value>
@@ -1437,7 +1443,7 @@
     <value>レコードをインポートする UID を選択してください</value>
   </data>
   <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
-    <value>UI GF ファイルのインポート</value>
+    <value>UIGF ファイルのインポート</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>ここに名前を入力してください</value>
@@ -1476,7 +1482,7 @@
     <value>ユーザーデータを完全に削除しますか</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
-    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+    <value>現在胡桃アカウントにログインしていないので、深淵データをアップロードすると胡桃クラウドの利用期限は受け取れません</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
     <value>今すぐログイン</value>
@@ -1485,7 +1491,7 @@
     <value>アップロードを続行</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>上传深渊数据</value>
+    <value>深境螺旋のデータをアップロード</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
     <value>更新ログを表示</value>
@@ -1524,7 +1530,7 @@
     <value>携帯電話コードによるログイン</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
-    <value>クッキーを設定</value>
+    <value>Cookie 設定</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>ﾌｨｰﾄﾞﾊﾞｯｸｾﾝﾀｰ</value>
@@ -1587,7 +1593,7 @@
     <value>画像アセットの設定</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingHint" xml:space="preserve">
-    <value>* 胡桃を再インストールしないと、この設定は変更できません</value>
+    <value>* 胡桃をアンインストールして再インストールしない限り、この設定は変更できません。</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
     <value>画像アセットのアーカイブ</value>
@@ -1608,7 +1614,7 @@
     <value>すべての通知をクリア</value>
   </data>
   <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
-    <value>たたむ</value>
+    <value>折りたたむ</value>
   </data>
   <data name="ViewInfoBarPanelTitle" xml:space="preserve">
     <value>すべての通知</value>
@@ -1635,7 +1641,7 @@
     <value>UIAF ファイル</value>
   </data>
   <data name="ViewModelAchievementImportProgress" xml:space="preserve">
-    <value>アチーブメントをインポート</value>
+    <value>アチーブメントをインポート中</value>
   </data>
   <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
     <value>UIAF バージョンが古いため、インポートできません</value>
@@ -1716,10 +1722,10 @@
     <value>育成計画名に無効な言葉が入っています</value>
   </data>
   <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
-    <value>正在同步背包物品</value>
+    <value>バッグのアイテムを同期中</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
+    <value>この操作は不可逆的であり、育成計画で使用されたアイテムやバッグの素材は失われます</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
     <value>現在のプランを削除してもよろしいですか?</value>
@@ -1815,7 +1821,7 @@
     <value>ローカルバージョン: {0}</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
-    <value>{0} 版本预下载已开启</value>
+    <value>バージョン {0} 事前ダウンロードを開始</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>最新バージョン: {0}</value>
@@ -1875,7 +1881,7 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
-    <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+    <value>現在選択されているゲームパス {0} が壊れています。フォルダーを手動で削除しゲームを再インストールしてください</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>サーバーの切り替えができませんでした</value>
@@ -1962,7 +1968,7 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
-    <value>インポートされた UI GFファイルには、祈るデータが含まれていません。</value>
+    <value>インポートされた UIGFファイルには、祈願データが含まれていません。</value>
   </data>
   <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
     <value>データをインポートするには UID を指定する必要があります。</value>
@@ -2001,7 +2007,7 @@
     <value>完了</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
-    <value>响应内容不是有效的文件字节流</value>
+    <value>レスポンスストリームに有効なコンテンツタイプが含まれていない</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>待機中</value>
@@ -2019,7 +2025,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
-    <value>実績のみ委任する</value>
+    <value>デイリー依頼アチーヴメントのみ</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>クリップボードからインポート</value>
@@ -2034,7 +2040,7 @@
     <value>このアーカイブを削除する</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>アチーブメント、キャプション、バージョンまたは番号で検索</value>
+    <value>実績名 · 説明 ·バージョン· 番号で検索</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>未達成順にソート</value>
@@ -2127,7 +2133,7 @@
     <value>育成素材</value>
   </data>
   <data name="ViewPageCultivationInventoryItem" xml:space="preserve">
-    <value>アイテム</value>
+    <value>バッグのアイテム</value>
   </data>
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
     <value>素材リスト</value>
@@ -2139,7 +2145,7 @@
     <value>移動</value>
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
-    <value>同步背包物品</value>
+    <value>バッグのアイテムを同期する</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>リストを削除</value>
@@ -2157,7 +2163,7 @@
     <value>リアルタイムのメモを追加</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>私達が随時更新</value>
+    <value>リアルタイムノートを追加して定期的に更新できます</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>追加</value>
@@ -2181,7 +2187,7 @@
     <value>通知設定</value>
   </data>
   <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
-    <value>胡桃的通知权限已被关闭</value>
+    <value>胡桃の通知権限が無効になっています</value>
   </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
     <value>すぐに更新</value>
@@ -2214,7 +2220,7 @@
     <value>更新</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
+    <value>通知領域アイコンを無効にすると、ウィンドウを閉じた後、自動更新が実行されなくなります</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>プレイ中に通知をオフ</value>
@@ -2277,7 +2283,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageGachaLogHint" xml:space="preserve">
-    <value>祈願記録はありません</value>
+    <value>祈願履歴はありません</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
     <value>胡桃クラウド</value>
@@ -2289,7 +2295,7 @@
     <value>クラウドサービスの購入/更新</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>このUidのクラウドバックアップを削除する</value>
+    <value>このUIDのクラウドバックアップを削除する</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>デベロッパーアカウントは利用期限がありません</value>
@@ -2314,6 +2320,9 @@
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>他のアプリからデータをインポート</value>
+  </data>
+  <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
+    <value>インポート/エクスポート</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>UIGF Json をインポート</value>
@@ -2373,13 +2382,13 @@
     <value>胡桃を {0} 回起動しました</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
-    <value>テイワットへようこそ!</value>
+    <value>旅人、テイワットへようこそ！</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
-    <value>あなたの言う通りだが、しかし「胡桃」はDGP Studioが開発した...</value>
+    <value>キミの言う通りだが、しかし「胡桃」は DGP Studio が自主開発したの...</value>
   </data>
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
-    <value>なあ、旅人、今日はテイワットで{0} 日目の冒険だぞ！</value>
+    <value>なあ、旅人、今日はテイワットで {0} 日目の冒険だぞ！</value>
   </data>
   <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
     <value>設定</value>
@@ -2538,10 +2547,10 @@
     <value>コマンドラインパラメーター</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
+    <value>ゲーム起動後 Better GI を開始してみ、自動化任務しようとします</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>自动化任务</value>
+    <value>自動化任務</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>一般</value>
@@ -2595,7 +2604,7 @@
     <value>事前ダウンロード</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
-    <value>ダウンロードはプリ完了しました</value>
+    <value>事前ダウンロードは完成しました</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
     <value>ゲームを更新します</value>
@@ -2700,7 +2709,7 @@
     <value>HoYoLab UIDを入力してください</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
+    <value>あなたが［MiHoYo 通行証アカウント］にログインするために埋め込みウェブビューを使用しており、［サインしました］ボタンをクリックするとこのクライアントが貴方の Cookie データを取得します。このウェブビューで開始されたすべてのネットワーク通信は、あなたのコンピュータと MiHoYo 公式サーバーの間でのみ行われます。</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>ログインしました</value>
@@ -2716,6 +2725,12 @@
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>胡桃について</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>都合の良い週の開始日を選んでください</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>週の開始日</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>外観</value>
@@ -2733,16 +2748,16 @@
     <value>テーマ</value>
   </data>
   <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
-    <value>图片版权信息</value>
+    <value>画像著作権情報</value>
   </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
-    <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
+    <value>ウィンドウの背景画像のソースを変更し、胡桃を再起動して変更を適用します</value>
   </data>
   <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
-    <value>背景图片</value>
+    <value>背景画像</value>
   </data>
   <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
-    <value>当前背景为本地图片，如遇版权问题由用户个人负责</value>
+    <value>現在の背景はローカルの画像であり、著作権の問題はユーザー個人の責任となります</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>イメージキャッシュはここに格納されます</value>
@@ -2751,7 +2766,7 @@
     <value>キャッシュフォルダ</value>
   </data>
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>胡桃通行証</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
@@ -2867,6 +2882,9 @@
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>アチーブメント</value>
   </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>カレンダー</value>
+  </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
   </data>
@@ -2946,10 +2964,10 @@
     <value>ショートカットキー</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
-    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+    <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
   </data>
   <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
-    <value>通知区域图标</value>
+    <value>通知領域アイコン</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>公式サイト</value>
@@ -2970,10 +2988,10 @@
     <value>画像リソースをリセット</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>「ゲーム起動-プロセス」タブに「FPS上限を解除」オプションを追加</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>启动游戏-解锁帧率限制</value>
+    <value>ゲーム起動 - FPS上限を解除</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>ディレクトリを変更した場合、フォルダ内のデータを手動で移動する必要があります。移動しない場合はユーザーデータが新規作成されます。</value>
@@ -3015,10 +3033,10 @@
     <value>レビューや感想</value>
   </data>
   <data name="ViewPageSettingThemeDescription" xml:space="preserve">
-    <value>更改窗体的颜色主题</value>
+    <value>カラーテーマを変更</value>
   </data>
   <data name="ViewPageSettingThemeHeader" xml:space="preserve">
-    <value>颜色主题</value>
+    <value>カラーテーマ</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>和訳を提供</value>
@@ -3027,7 +3045,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
-    <value>UI GF 4 ファイルのエクスポート/インポート</value>
+    <value>UIGF 4 ファイルのエクスポート/インポート</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
     <value>データ移行</value>
@@ -3039,13 +3057,13 @@
     <value>UIGF ファイルの古いバージョンを更新</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
+    <value>まだ引かないのアイテムは「祈願履歴-キャラクター」と「祈願履歴-武器」に表示されます。</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
-    <value>未抽取到的祈愿物品</value>
+    <value>未引きの祈願アイテム</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
-    <value>ストアで表示</value>
+    <value>ショップへ移動</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 ランタイム</value>
@@ -3138,7 +3156,7 @@
     <value>ログインできません。もう一度お試しください。</value>
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
-    <value>ログインまたはサインアップ</value>
+    <value>ログインまたは登録</value>
   </data>
   <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
     <value>胡桃の起動時にコンソールを開くか設定します。これは再起動後に有効になります。</value>
@@ -3159,10 +3177,10 @@
     <value>設定</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
-    <value>キャラクター出場率 = この階層における出場回数（最初の一回のみカウント） / この階層のアップロード総数</value>
+    <value>キャラクター出場率 = 本層にこのキャラの登場回数（繰り返しの場合は1回のみ数える）/ この層の深淵の記録総数</value>
   </data>
   <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
-    <value>キャラクター使用率 = この階層における出場回数（最初の一回のみカウント） / キャラクター毎の深境螺旋の記録の個数</value>
+    <value>キャラクター使用率 = 本層にこのキャラの登場回数（繰り返しの場合は1回のみ数える）/ キャラを持つプレイヤーの深淵の記録総数</value>
   </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>戦闘データ</value>
@@ -3171,7 +3189,7 @@
     <value>出場回数</value>
   </data>
   <data name="ViewSpiralAbyssDamage" xml:space="preserve">
-    <value>最大ダメージ</value>
+    <value>最強一撃</value>
   </data>
   <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
     <value>挑戦履歴はありません</value>
@@ -3201,7 +3219,7 @@
     <value>編成</value>
   </data>
   <data name="ViewSpiralAbyssRecordMonsterAttacksMonolith" xml:space="preserve">
-    <value>地脈石へ攻撃</value>
+    <value>地脈鎮石へ攻撃</value>
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>データを再読み込み</value>
@@ -3213,7 +3231,7 @@
     <value>出撃回数</value>
   </data>
   <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
-    <value>データ集計</value>
+    <value>統計データ</value>
   </data>
   <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
     <value>最大被ダメージ</value>
@@ -3225,25 +3243,25 @@
     <value>データをアップロード</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载？</value>
+    <value>今すぐダウンロードしますか？</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
-    <value>下载更新失败</value>
+    <value>更新パッチのダウンロードに失敗しました</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本已发布</value>
+    <value>胡桃バージョン {0} がリリースされました</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
     <value>今すぐインストールしますか?</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
-    <value>胡桃 {0} の準備が完了</value>
+    <value>胡桃 ver {0} の準備が整いました</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>オートクリック</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
-    <value>正在安装更新</value>
+    <value>更新をインストール中</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>ツールボックス</value>
@@ -3276,7 +3294,7 @@
     <value>Cookie 再取得</value>
   </data>
   <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
-    <value>ログインボーナス獲得</value>
+    <value>ログインボーナスを獲得</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>Cookieをコピーする</value>
@@ -3288,7 +3306,7 @@
     <value>ドキュメント</value>
   </data>
   <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>由于米游社安全策略的相关更改，网页登录暂不可用</value>
+    <value>MiYouShe(米游社)のセキュリティポリシーの変更により、ウェブからのログインができなくなりました</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>ログインしていません</value>
@@ -3309,10 +3327,10 @@
     <value>ユーザー</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
-    <value>画像リソースをダウンロード中</value>
+    <value>最も基本的な画像リソースをダウンロードします</value>
   </data>
   <data name="ViewWelcomeBody" xml:space="preserve">
-    <value>処理に影響されず、引き続きパソコンを使えます</value>
+    <value>何の影響もなくコンピュータを使い続けることができます</value>
   </data>
   <data name="ViewWelcomeSubtitle" xml:space="preserve">
     <value>アプリを閉じないでください</value>
@@ -3354,7 +3372,7 @@
     <value>クリップボードにコピーしました。</value>
   </data>
   <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
-    <value>所有魔神任务已完成</value>
+    <value>すべての魔神任務が完了しました</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
     <value>すべて完了</value>
@@ -3369,7 +3387,7 @@
     <value>完了しました。</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusForbid" xml:space="preserve">
-    <value>獲得の禁止</value>
+    <value>獲得禁止</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusInvalid" xml:space="preserve">
     <value>無効</value>
@@ -3384,22 +3402,22 @@
     <value>獲得可能</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
-    <value>{0} 時</value>
+    <value>{0} 時間</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 回の {1} 分</value>
+    <value>{0} 時間 {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>すべての依頼を完了していません</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
-    <value>デイリー依頼の報酬はまだ受け取っていません</value>
+    <value>依頼報酬はまだ受取っていません</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
-    <value>デイリー依頼の報酬は受け取り済みです</value>
+    <value>ﾃﾞｲﾘｰ依頼報酬は受取り済です</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
     <value>{0} {1:HH:mm} に上限到達</value>
@@ -3426,7 +3444,7 @@
     <value>{0} {1:HH:mm} 後にすべて回復</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
-    <value>{0:c} はリセットさ</value>
+    <value>{0:c} 後にリセット</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>後に再び使用することができます</value>
@@ -3435,7 +3453,7 @@
     <value>{0} 日</value>
   </data>
   <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
-    <value>{0} 時</value>
+    <value>{0} 時間</value>
   </data>
   <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
     <value>{0} 分</value>
@@ -3453,7 +3471,7 @@
     <value>使用可能</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
-    <value>使用可能</value>
+    <value>準備完了</value>
   </data>
   <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
     <value>{0} 秒</value>
@@ -3462,16 +3480,16 @@
     <value>認証に失敗しました。「MiHoYo BBS - 戦績ツール - リアルタイムノート」で確認してください</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
-    <value>UIDは正しくありません</value>
+    <value>間違った UID フォーマット</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>ロール UIDが存在しません。時間を置いてもう一度試してください。</value>
+    <value>キャラクターUID が存在しません。後でもう一度お試しください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>ゲームメンテナンス中</value>
   </data>
   <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
-    <value>リクエストが多すぎます。時間をおいてから試してください。</value>
+    <value>リクエストが速すぎて、後でもう一度お試しください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
     <value>偶発的なサーバーエラー</value>
@@ -3495,7 +3513,7 @@
     <value>初心者祈願</value>
   </data>
   <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
-    <value>常設祈願</value>
+    <value>通常祈願</value>
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>イベント祈願・武器</value>
@@ -3519,7 +3537,7 @@
     <value>国内サーバー: アジア</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>海外サーバー: 台湾/香港/モンゴル</value>
+    <value>海外サーバー: 台湾/香港/マカオ</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
     <value>海外サーバー: ヨーロッパ</value>
@@ -3540,10 +3558,10 @@
     <value>Cookieを更新してください。 エラーメッセージ: {0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
-    <value>[{0}] の[{1}] のリクエストにエラーが発生、時間をおいてから試してください</value>
+    <value>[{0}] で [{1}] のネットワーク要求が異常、後でもう一度お試しください。</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+    <value>ログインに失敗しました。HoYoLAB に移動してアカウントを初期化してください。オリジナルメッセージ: {0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>モニターID</value>
