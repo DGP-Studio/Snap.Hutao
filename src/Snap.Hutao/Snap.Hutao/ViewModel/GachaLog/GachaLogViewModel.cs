@@ -14,6 +14,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
+using Snap.Hutao.ViewModel.Setting;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 
@@ -282,7 +283,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("ImportExportCommand")]
     private void ImportExport()
     {
-        serviceProvider.GetRequiredService<INavigationService>().Navigate<SettingPage>(INavigationAwaiter.Default, true);
+        INavigationAwaiter navigationAwaiter = new NavigationExtra(SettingViewModel.UIGFImportExport);
+        serviceProvider.GetRequiredService<INavigationService>().Navigate<SettingPage>(navigationAwaiter, true);
     }
 
     private async ValueTask UpdateStatisticsAsync(GachaArchive? archive)
