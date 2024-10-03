@@ -327,25 +327,22 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
 
-
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock
                                                             Margin="0,0,0,0"
                                                             Style="{StaticResource BaseTextBlockStyle}"
                                                             Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
-                                                        <ScrollViewer>
-                                                            <ItemsRepeater ItemTemplate="{StaticResource CultivationItemTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CultivationItemsView}">
-                                                                <ItemsRepeater.Layout>
-                                                                    <UniformGridLayout
-                                                                        ItemsJustification="Start"
-                                                                        ItemsStretch="Fill"
-                                                                        MaximumRowsOrColumns="3"
-                                                                        MinColumnSpacing="8"
-                                                                        MinRowSpacing="8"/>
-                                                                </ItemsRepeater.Layout>
-                                                            </ItemsRepeater>
-                                                        </ScrollViewer>
+                                                        <ItemsControl ItemTemplate="{StaticResource CultivationItemTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CultivationItemsView}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwc:UniformGrid
+                                                                        ColumnSpacing="8"
+                                                                        Columns="3"
+                                                                        RowSpacing="8"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                        </ItemsControl>
                                                     </StackPanel>
                                                 </Border>
 
