@@ -172,7 +172,7 @@
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                         <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
                     </ItemContainer.Resources>
-                    <shuxcc:HorizontalCard>
+                    <shuxcc:HorizontalCard Background="{Binding IsToday, Converter={ThemeResource BoolToBrushSelector}}">
                         <shuxcc:HorizontalCard.Left>
                             <Grid Grid.Column="0">
                                 <shuxc:ItemIcon
@@ -371,7 +371,17 @@
                             </Border>
                         </Border>
                     </shuxc:StandardView.EmptyContent>
-                    <Pivot Style="{ThemeResource CardPivotStyle}">
+                    <Pivot SelectedIndex="{Binding MaterialListIndex, Mode=TwoWay}" Style="{ThemeResource CardPivotStyle}">
+                        <Pivot.RightHeader>
+                            <CommandBar DefaultLabelPosition="Right">
+                                <AppBarToggleButton
+                                    Command="{Binding RefreshStatisticsItemsCommand}"
+                                    Icon="{shuxm:FontIcon Glyph=&#xE8CB;}"
+                                    IsChecked="{Binding IncompleteFirst, Mode=TwoWay}"
+                                    Label="未满足优先"
+                                    Visibility="{Binding MaterialListIndex, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                            </CommandBar>
+                        </Pivot.RightHeader>
                         <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">

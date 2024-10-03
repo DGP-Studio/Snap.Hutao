@@ -46,4 +46,6 @@ internal sealed class StatisticsCultivateItem
     /// 格式化总数
     /// </summary>
     public string CountFormatted { get => $"{TotalCount}/{Count}"; }
+
+    public bool IsToday { get => Inner.IsTodaysItem(true); }
 }
