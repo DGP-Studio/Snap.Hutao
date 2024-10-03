@@ -32,7 +32,7 @@ internal sealed partial class GameScreenCaptureDebugPreviewWindow : Window
     {
         this.swapChain1 = swapChain1;
         ISwapChainPanelNative native = Presenter.As<IInspectable>().ObjRef.AsInterface<ISwapChainPanelNative>();
-        native.SetSwapChain((IDXGISwapChain*)(swapChain1?.ThisPtr ?? 0));
+        native.SetSwapChain(swapChain1?.As<IDXGISwapChain.Vftbl>(IDXGISwapChain.IID));
     }
 
     public unsafe void UnsafeUpdatePreview(ObjectReference<ID3D11Device.Vftbl> device, IDirect3DSurface surface)
@@ -40,17 +40,17 @@ internal sealed partial class GameScreenCaptureDebugPreviewWindow : Window
         ArgumentNullException.ThrowIfNull(swapChain1);
 
         IDirect3DDxgiInterfaceAccess access = surface.As<IDirect3DDxgiInterfaceAccess>();
-        ((IDXGISwapChain1*)swapChain1.ThisPtr)->GetBuffer(0, in ID3D11Texture2D.IID, out ObjectReference<ID3D11Texture2D.Vftbl> buffer);
+        swapChain1.GetBuffer(0, in ID3D11Texture2D.IID, out ObjectReference<ID3D11Texture2D.Vftbl> buffer);
         using (buffer)
         {
-            ((ID3D11Device*)device.ThisPtr)->GetImmediateContext(out ObjectReference<ID3D11DeviceContext.Vftbl> deviceContext);
+            device.GetImmediateContext(out ObjectReference<ID3D11DeviceContext.Vftbl> deviceContext);
             using (deviceContext)
             {
                 access.GetInterface(in ID3D11Resource.IID, out ObjectReference<ID3D11Resource.Vftbl> resource);
                 using (resource)
                 {
-                    ((ID3D11DeviceContext*)deviceContext.ThisPtr)->CopyResource(buffer.As<ID3D11Resource.Vftbl>(ID3D11Resource.IID), resource);
-                    ((IDXGISwapChain1*)swapChain1.ThisPtr)->Present(0, default);
+                    deviceContext.CopyResource(buffer.As<ID3D11Resource.Vftbl>(ID3D11Resource.IID), resource);
+                    swapChain1.Present(0, default);
                 }
             }
         }

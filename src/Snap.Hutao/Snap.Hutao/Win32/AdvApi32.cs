@@ -50,11 +50,11 @@ internal static class AdvApi32
 
     [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern WIN32_ERROR RegNotifyChangeKeyValue(HKEY hKey, BOOL bWatchSubtree, REG_NOTIFY_FILTER dwNotifyFilter, [AllowNull] HANDLE hEvent, BOOL fAsynchronous);
+    public static extern WIN32_ERROR RegNotifyChangeKeyValue(HKEY hKey, BOOL bWatchSubtree, REG_NOTIFY_FILTER dwNotifyFilter, [Optional] HANDLE hEvent, BOOL fAsynchronous);
 
     [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe WIN32_ERROR RegOpenKeyExW(HKEY hKey, [AllowNull] PCWSTR lpSubKey, [AllowNull] uint ulOptions, REG_SAM_FLAGS samDesired, HKEY* phkResult);
+    public static extern unsafe WIN32_ERROR RegOpenKeyExW(HKEY hKey, [Optional] PCWSTR lpSubKey, [Optional] uint ulOptions, REG_SAM_FLAGS samDesired, HKEY* phkResult);
 
     [DebuggerStepThrough]
     public static unsafe WIN32_ERROR RegOpenKeyExW(HKEY hKey, ReadOnlySpan<char> subKey, uint ulOptions, REG_SAM_FLAGS samDesired, out HKEY hkResult)

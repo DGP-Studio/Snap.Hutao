@@ -13,10 +13,10 @@ internal static class Gdi32
 {
     [DllImport("GDI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern int GetDeviceCaps([AllowNull] HDC hdc, int index);
+    public static extern int GetDeviceCaps([Optional] HDC hdc, int index);
 
     [DebuggerStepThrough]
-    public static int GetDeviceCaps([AllowNull] HDC hdc, GET_DEVICE_CAPS_INDEX index)
+    public static int GetDeviceCaps([Optional] HDC hdc, GET_DEVICE_CAPS_INDEX index)
     {
         return GetDeviceCaps(hdc, (int)index);
     }

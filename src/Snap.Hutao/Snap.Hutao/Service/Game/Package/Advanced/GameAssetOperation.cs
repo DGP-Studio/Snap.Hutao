@@ -164,35 +164,6 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         }
     }
 
-    protected abstract ValueTask VerifyManifestsAsync(GamePackageServiceContext context, SophonDecodedBuild build, Action<SophonAssetOperation> conflictHandler);
-
-    protected abstract ValueTask VerifyManifestAsync(GamePackageServiceContext context, SophonDecodedManifest manifest, Action<SophonAssetOperation> conflictHandler);
-
-    protected abstract ValueTask RepairAssetsAsync(GamePackageServiceContext context, GamePackageIntegrityInfo info);
-
-    protected abstract ValueTask DownloadChunksAsync(GamePackageServiceContext context, IEnumerable<SophonChunk> sophonChunks);
-
-    protected abstract ValueTask MergeNewAssetAsync(GamePackageServiceContext context, AssetProperty assetProperty);
-
-    protected async ValueTask EnsureAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
-    {
-        if (asset.NewAsset.AssetType is 64)
-        {
-            Directory.CreateDirectory(Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.NewAsset.AssetName));
-            return;
-        }
-
-        IEnumerable<SophonChunk> chunks = asset.Kind switch
-        {
-            SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)),
-            SophonAssetOperationKind.Modify => asset.DiffChunks,
-            _ => [],
-        };
-
-        await DownloadChunksAsync(context, chunks).ConfigureAwait(false);
-        await MergeAssetAsync(context, asset).ConfigureAwait(false);
-    }
-
     protected static async ValueTask DownloadChunkAsync(GamePackageServiceContext context, SophonChunk sophonChunk)
     {
         CancellationToken token = context.CancellationToken;
@@ -236,7 +207,36 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         }
     }
 
-    protected async ValueTask MergeAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
+    protected abstract ValueTask VerifyManifestsAsync(GamePackageServiceContext context, SophonDecodedBuild build, Action<SophonAssetOperation> conflictHandler);
+
+    protected abstract ValueTask VerifyManifestAsync(GamePackageServiceContext context, SophonDecodedManifest manifest, Action<SophonAssetOperation> conflictHandler);
+
+    protected abstract ValueTask RepairAssetsAsync(GamePackageServiceContext context, GamePackageIntegrityInfo info);
+
+    protected abstract ValueTask DownloadChunksAsync(GamePackageServiceContext context, IEnumerable<SophonChunk> sophonChunks);
+
+    protected abstract ValueTask MergeNewAssetAsync(GamePackageServiceContext context, AssetProperty assetProperty);
+
+    protected async ValueTask EnsureAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
+    {
+        if (asset.NewAsset.AssetType is 64)
+        {
+            Directory.CreateDirectory(Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.NewAsset.AssetName));
+            return;
+        }
+
+        IEnumerable<SophonChunk> chunks = asset.Kind switch
+        {
+            SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)),
+            SophonAssetOperationKind.Modify => asset.DiffChunks,
+            _ => [],
+        };
+
+        await DownloadChunksAsync(context, chunks).ConfigureAwait(false);
+        await MergeAssetAsync(context, asset).ConfigureAwait(false);
+    }
+
+    private async ValueTask MergeAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
     {
         ValueTask task = asset.Kind switch
         {
@@ -248,7 +248,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         await task.ConfigureAwait(false);
     }
 
-    protected async ValueTask MergeDiffAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
+    private async ValueTask MergeDiffAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
     {
         CancellationToken token = context.CancellationToken;
 

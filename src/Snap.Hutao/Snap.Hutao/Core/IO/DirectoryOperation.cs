@@ -41,8 +41,6 @@ internal static class DirectoryOperation
 
         using (fileOperation)
         {
-            IFileOperation* pFileOperation = (IFileOperation*)fileOperation.ThisPtr;
-
             if (!SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> shellItem)))
             {
                 return false;
@@ -50,10 +48,10 @@ internal static class DirectoryOperation
 
             using (shellItem)
             {
-                pFileOperation->SetOperationFlags(flags);
-                pFileOperation->RenameItem(shellItem, name, default!);
+                fileOperation.SetOperationFlags(flags);
+                fileOperation.RenameItem(shellItem, name, default!);
 
-                return SUCCEEDED(pFileOperation->PerformOperations());
+                return SUCCEEDED(fileOperation.PerformOperations());
             }
         }
     }

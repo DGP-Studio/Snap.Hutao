@@ -41,19 +41,19 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
             // In very specific edge cases the AvailableWidth might be infinite resulting in a crash.
             if (HorizontalAlignment is not HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
             {
-                return new Size((maxItemWidth * visibleItemsCount) + (Spacing * (visibleItemsCount - 1)), maxItemHeight);
+                return new((maxItemWidth * visibleItemsCount) + (Spacing * (visibleItemsCount - 1)), maxItemHeight);
             }
             else
             {
                 // Equal columns based on the available width, adjust for spacing
                 double totalWidth = availableSize.Width - (Spacing * (visibleItemsCount - 1));
                 maxItemWidth = totalWidth / visibleItemsCount;
-                return new Size(availableSize.Width, maxItemHeight);
+                return new(availableSize.Width, maxItemHeight);
             }
         }
         else
         {
-            return new Size(0, 0);
+            return new(0, 0);
         }
     }
 
@@ -67,8 +67,7 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
             maxItemWidth = (finalSize.Width - (Spacing * (visibleItemsCount - 1))) / visibleItemsCount;
         }
 
-        IEnumerable<UIElement> elements = Children.Where(static e => e.Visibility == Visibility.Visible);
-        foreach (UIElement child in elements)
+        foreach (UIElement child in Children.Where(e => e.Visibility == Visibility.Visible))
         {
             child.Arrange(new Rect(x, 0, maxItemWidth, maxItemHeight));
             x += maxItemWidth + Spacing;

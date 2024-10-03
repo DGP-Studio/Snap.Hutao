@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.ExceptionService;
 
 internal sealed class ExceptionFormat
 {
-    private static readonly string SectionSeparator = new('-', 40);
+    private static readonly string SectionSeparator = "----------------------------------------";
 
     public static string Format(Exception exception)
     {

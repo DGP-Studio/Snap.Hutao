@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using WinRT.Interop;
@@ -10,23 +9,17 @@ using WinRT.Interop;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows6.0.6000")]
-internal readonly unsafe struct IShellItemFilter
+internal static unsafe class IShellItemFilter
 {
-    public readonly Vftbl* ThisPtr;
-
     internal static ref readonly Guid IID
     {
-        get
-        {
-            ReadOnlySpan<byte> data = [0x75, 0xB4, 0x59, 0x26, 0xB8, 0xEE, 0xB7, 0x48, 0x8F, 0x07, 0xB3, 0x78, 0x81, 0x0F, 0x48, 0xCF];
-            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
-        }
+        get => ref MemoryMarshal.AsRef<Guid>([0x75, 0xB4, 0x59, 0x26, 0xB8, 0xEE, 0xB7, 0x48, 0x8F, 0x07, 0xB3, 0x78, 0x81, 0x0F, 0x48, 0xCF]);
     }
 
     internal readonly struct Vftbl
     {
         internal readonly IUnknownVftbl IUnknownVftbl;
-        internal readonly delegate* unmanaged[Stdcall]<IShellItemFilter*, IShellItem*, HRESULT> IncludeItem;
-        internal readonly delegate* unmanaged[Stdcall]<IShellItemFilter*, IShellItem*, uint*, HRESULT> GetEnumFlagsForItem;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, HRESULT> IncludeItem;
+        internal readonly delegate* unmanaged[Stdcall]<nint, nint, uint*, HRESULT> GetEnumFlagsForItem;
     }
 }

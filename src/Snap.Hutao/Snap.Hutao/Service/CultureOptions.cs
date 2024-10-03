@@ -12,11 +12,16 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class CultureOptions : DbStoreOptions
 {
+    private List<NameValue<DayOfWeek>>? dayOfWeeks;
+
     private CultureInfo? currentCulture;
     private string? localeName;
     private string? languageCode;
+    private DayOfWeek? firstDayOfWeek;
 
     public List<NameValue<CultureInfo>> Cultures { get; } = SupportedCultures.Get();
+
+    public List<NameValue<DayOfWeek>> DayOfWeeks { get => dayOfWeeks ??= Enum.GetValues<DayOfWeek>().Select(v => new NameValue<DayOfWeek>(CurrentCulture.DateTimeFormat.GetDayName(v), v)).ToList(); }
 
     public CultureInfo CurrentCulture
     {
@@ -39,5 +44,11 @@ internal sealed partial class CultureOptions : DbStoreOptions
 
             return languageCode;
         }
+    }
+
+    public DayOfWeek FirstDayOfWeek
+    {
+        get => GetOption(ref firstDayOfWeek, SettingEntry.FirstDayOfWeek, EnumParse<DayOfWeek>, CurrentCulture.DateTimeFormat.FirstDayOfWeek).Value;
+        set => SetOption(ref firstDayOfWeek, SettingEntry.FirstDayOfWeek, value, EnumToStringOrEmpty);
     }
 }

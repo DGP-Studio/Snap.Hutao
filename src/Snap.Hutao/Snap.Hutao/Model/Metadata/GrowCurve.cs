@@ -13,10 +13,10 @@ internal sealed class GrowCurve
 
     public Level Level { get; set; }
 
-    public List<TypeValue<GrowCurveType, float>> Curves { get; set; } = default!;
+    public TypeValueCollection<GrowCurveType, float> Curves { get; set; } = default!;
 
     public ImmutableDictionary<GrowCurveType, float> Map
     {
-        get => map ??= Curves.ToImmutableDictionary(v => v.Type, v => v.Value);
+        get => map ??= Curves.ToImmutableDictionary<TypeValue<GrowCurveType, float>, GrowCurveType, float>(v => v.Type, v => v.Value);
     }
 }

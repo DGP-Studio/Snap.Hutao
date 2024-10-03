@@ -72,34 +72,15 @@ internal sealed class Material : DisplayItem
         // TODO: support different time zone
         return (DateTimeOffset.Now - new TimeSpan(4, 0, 0)).DayOfWeek switch
         {
-            DayOfWeek.Monday or DayOfWeek.Thursday => Materials.MondayThursdayItems.Contains(Id),
-            DayOfWeek.Tuesday or DayOfWeek.Friday => Materials.TuesdayFridayItems.Contains(Id),
-            DayOfWeek.Wednesday or DayOfWeek.Saturday => Materials.WednesdaySaturdayItems.Contains(Id),
-            _ => treatSundayAsTrue && (Materials.MondayThursdayItems.Contains(Id) || Materials.TuesdayFridayItems.Contains(Id) || Materials.WednesdaySaturdayItems.Contains(Id)),
+            DayOfWeek.Monday or DayOfWeek.Thursday => MaterialIds.MondayThursdayItems.Contains(Id),
+            DayOfWeek.Tuesday or DayOfWeek.Friday => MaterialIds.TuesdayFridayItems.Contains(Id),
+            DayOfWeek.Wednesday or DayOfWeek.Saturday => MaterialIds.WednesdaySaturdayItems.Contains(Id),
+            _ => treatSundayAsTrue && (MaterialIds.MondayThursdayItems.Contains(Id) || MaterialIds.TuesdayFridayItems.Contains(Id) || MaterialIds.WednesdaySaturdayItems.Contains(Id)),
         };
     }
 
-    /// <summary>
-    /// 获取物品对应的 DaysOfWeek
-    /// </summary>
-    /// <returns>DaysOfWeek</returns>
     public DaysOfWeek GetDaysOfWeek()
     {
-        if (Materials.MondayThursdayItems.Contains(Id))
-        {
-            return DaysOfWeek.MondayAndThursday;
-        }
-
-        if (Materials.TuesdayFridayItems.Contains(Id))
-        {
-            return DaysOfWeek.TuesdayAndFriday;
-        }
-
-        if (Materials.WednesdaySaturdayItems.Contains(Id))
-        {
-            return DaysOfWeek.WednesdayAndSaturday;
-        }
-
-        return DaysOfWeek.Any;
+        return MaterialIds.GetDaysOfWeek(Id);
     }
 }

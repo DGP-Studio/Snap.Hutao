@@ -9,6 +9,8 @@ namespace Snap.Hutao.Core.Threading;
 internal sealed class AsyncKeyedLock<TKey>
     where TKey : notnull
 {
+    private static readonly Func<Task, object?, Releaser> Continuation = RunContinuation;
+
     private readonly ConcurrentDictionary<TKey, AsyncSemaphore> semaphores;
 
     public AsyncKeyedLock()
@@ -21,7 +23,6 @@ internal sealed class AsyncKeyedLock<TKey>
         semaphores = new(comparer);
     }
 
-    [SuppressMessage("", "SH007")]
     public Task<Releaser> LockAsync(TKey key)
     {
         Task wait;
@@ -31,7 +32,13 @@ internal sealed class AsyncKeyedLock<TKey>
         }
 
         State stateObj = new(this, key);
-        return wait.IsCompleted ? Task.FromResult<Releaser>(new(stateObj)) : wait.ContinueWith((_, state) => new Releaser((State)state!), stateObj, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+        return wait.IsCompleted ? Task.FromResult<Releaser>(new(stateObj)) : wait.ContinueWith(Continuation, stateObj, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+    }
+
+    private static Releaser RunContinuation(Task task, object? state)
+    {
+        ArgumentNullException.ThrowIfNull(state);
+        return new Releaser((State)state);
     }
 
     internal readonly struct Releaser : IDisposable

@@ -10,6 +10,8 @@ namespace Snap.Hutao.Core.IO.Http.Sharding;
 
 internal sealed class HttpShardCopyWorkerOptions<TStatus>
 {
+    private readonly LazySlim<SafeFileHandle> lazyDestinationFileHandle;
+
     private bool isReadOnly;
     private HttpClient httpClient = default!;
     private string sourceUrl = default!;
@@ -19,7 +21,10 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
     private int bufferSize = 80 * 1024;
     private int maxDegreeOfParallelism = Environment.ProcessorCount;
 
-    private SafeFileHandle? destinationFileHandle;
+    public HttpShardCopyWorkerOptions()
+    {
+        lazyDestinationFileHandle = new(GetFileHandle);
+    }
 
     public HttpClient HttpClient
     {
@@ -51,7 +56,7 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
         }
     }
 
-    public SafeFileHandle DestinationFileHandle { get => destinationFileHandle ??= GetFileHandle(); }
+    public SafeFileHandle DestinationFileHandle { get => lazyDestinationFileHandle.Value; }
 
     public long ContentLength
     {

@@ -16,7 +16,7 @@ internal sealed class PropertyCurveValue
         Value = value;
     }
 
-    public PropertyCurveValue(FightProperty property, Dictionary<FightProperty, GrowCurveType> growCurve, BaseValue baseValue)
+    public PropertyCurveValue(FightProperty property, TypeValueCollection<FightProperty, GrowCurveType> growCurve, BaseValue baseValue)
         : this(property, growCurve.GetValueOrDefault(property), baseValue.GetValue(property))
     {
     }

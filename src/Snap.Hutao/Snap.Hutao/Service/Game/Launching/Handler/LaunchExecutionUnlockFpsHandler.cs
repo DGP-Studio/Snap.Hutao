@@ -32,7 +32,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             {
                 if (await unlocker.UnlockAsync(context.CancellationToken).ConfigureAwait(false))
                 {
-                   await Task.WhenAll(unlocker.PostUnlockAsync(context.CancellationToken).AsTask(), next().AsTask()).ConfigureAwait(false);
+                    await Task.WhenAll(unlocker.PostUnlockAsync(context.CancellationToken).AsTask(), next().AsTask()).ConfigureAwait(false);
                 }
                 else
                 {

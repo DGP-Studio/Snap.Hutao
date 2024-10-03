@@ -1145,6 +1145,18 @@
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Não é possível obter informações do usuário com o cookie inserido</value>
   </data>
+  <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
+    <value>追加属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
+    <value>理之冠主属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
+    <value>空之杯主属性推荐</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
+    <value>时之沙主属性推荐</value>
+  </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>复制图像</value>
   </data>
@@ -1168,6 +1180,12 @@
   </data>
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>Estatísticas de conquistas</value>
+  </data>
+  <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
+    <value>全部材料副本均可挑战</value>
+  </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>当天没有角色过生日</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>Contagem de Pity</value>
@@ -1811,6 +1829,9 @@
   <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
     <value>已取消</value>
   </data>
+  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+    <value>正在取消</value>
+  </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
     <value>安装完成</value>
   </data>
@@ -1931,6 +1952,9 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Falha ao salvar o caminho do jogo</value>
   </data>
+  <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
+    <value>当前数据目录 '{0}' 包含了一个或多个重新分析点（Reparse points），可能会导致部分依赖数据文件夹的功能无法正常工作，请前往设置更改路径</value>
+  </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>Falha na exportação</value>
   </data>
@@ -1999,6 +2023,9 @@
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>Exportar</value>
+  </data>
+  <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
+    <value>仅委托成就</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Importar da área de transferência</value>
@@ -2293,6 +2320,9 @@
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>Importar dados de outros aplicativos</value>
+  </data>
+  <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
+    <value>导入/导出记录</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>Importar UIGF Json</value>
@@ -2696,6 +2726,12 @@
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>Sobre o Snap Hutao</value>
   </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>选择适合你的一周中的首日</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>一周中的首日</value>
+  </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>Aparência</value>
   </data>
@@ -2783,6 +2819,9 @@
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>IP do dispositivo</value>
   </data>
+  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
+    <value>下载</value>
+  </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>O modo administrador alterará a disponibilidade e o comportamento de alguns recursos</value>
   </data>
@@ -2842,6 +2881,9 @@
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>Conquistas</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日历</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Lembrete em tempo real</value>
@@ -2969,6 +3011,12 @@
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Experiência Shell</value>
   </data>
+  <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
+    <value>0 代表不限速</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
+    <value>下载速度限制</value>
+  </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Apoiar o Snap Hutao</value>
   </data>
@@ -3004,6 +3052,9 @@
   </data>
   <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
     <value>Importar</value>
+  </data>
+  <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
+    <value>升级较早版本的 UIGF 文件</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>

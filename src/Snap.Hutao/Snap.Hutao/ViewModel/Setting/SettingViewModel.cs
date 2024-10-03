@@ -1,16 +1,21 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Shell;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Windows.Foundation;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class SettingViewModel : Abstraction.ViewModel
+internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigationRecipient
 {
+    public const string UIGFImportExport = "UIGFImportExport";
+
     private readonly SettingDangerousFeatureViewModel dangerousFeatureViewModel;
     private readonly SettingAppearanceViewModel appearanceViewModel;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
@@ -24,6 +29,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
+
+    private ScrollViewer? rootScrollViewer;
+    private Border? gachaLogBorder;
 
     public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
 
@@ -42,6 +50,35 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public SettingGachaLogViewModel GachaLog { get => gachaLogViewModel; }
 
     public SettingDangerousFeatureViewModel DangerousFeature { get => dangerousFeatureViewModel; }
+
+    public void Initialize(ISettingScrollViewerAccessor accessor)
+    {
+        rootScrollViewer = accessor.ScrollViewer;
+        gachaLogBorder = accessor.GachaLogBorder;
+    }
+
+    public async ValueTask<bool> ReceiveAsync(INavigationData data)
+    {
+        if (!await Initialization.Task.ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        if (rootScrollViewer is null || gachaLogBorder is null)
+        {
+            return false;
+        }
+
+        if (data.Data is UIGFImportExport)
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            Point point = gachaLogBorder.TransformToVisual(rootScrollViewer).TransformPoint(new(0, 0));
+            rootScrollViewer.ChangeView(null, point.Y, null, true);
+            return true;
+        }
+
+        return false;
+    }
 
     protected override ValueTask<bool> InitializeOverrideAsync()
     {

@@ -1,4 +1,23 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="Transparent"/>
+            <!--<AcrylicBrush
+                x:Key="ComboBoxDropDownBackground"
+                FallbackColor="#F9F9F9"
+                TintColor="#FCFCFC"
+                TintOpacity="0.0"/>-->
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="Transparent"/>
+            <!--<AcrylicBrush
+                x:Key="ComboBoxDropDownBackground"
+                FallbackColor="#2C2C2C"
+                TintColor="#2C2C2C"
+                TintOpacity="0.15"/>-->
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
     <Style
         x:Key="CommandBarComboBoxStyle"
         BasedOn="{StaticResource DefaultComboBoxStyle}"

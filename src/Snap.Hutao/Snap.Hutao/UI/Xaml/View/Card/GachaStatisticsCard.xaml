@@ -10,6 +10,7 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
+    MinHeight="180"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"

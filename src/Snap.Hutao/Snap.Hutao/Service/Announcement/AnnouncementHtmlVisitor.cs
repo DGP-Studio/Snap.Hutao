@@ -7,7 +7,7 @@ using AngleSharp.Html.Dom;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Snap.Hutao.Service;
+namespace Snap.Hutao.Service.Announcement;
 
 internal static partial class AnnouncementHtmlVisitor
 {

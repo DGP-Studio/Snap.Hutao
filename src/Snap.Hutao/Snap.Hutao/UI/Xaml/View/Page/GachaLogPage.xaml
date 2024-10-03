@@ -337,6 +337,10 @@
                     <AppBarSeparator/>
                     <CommandBar.SecondaryCommands>
                         <AppBarButton
+                            Command="{Binding ImportExportCommand}"
+                            Icon="{shuxm:FontIcon Glyph=&#xE8C9;}"
+                            Label="{shuxm:ResourceString Name=ViewPageGachaLogImportExportAction}"/>
+                        <AppBarButton
                             Command="{Binding RemoveArchiveCommand}"
                             Icon="{shuxm:FontIcon Glyph=&#xE74D;}"
                             Label="{shuxm:ResourceString Name=ViewPageGachaLogRemoveArchiveAction}"/>

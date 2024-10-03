@@ -10,14 +10,14 @@ internal sealed partial class NotifyPropertyChangedBox<TNotifyPropertyChanged, T
 {
     private readonly TNotifyPropertyChanged notifyPropertyChanged;
     private readonly string propertyName;
-    private readonly Func<TNotifyPropertyChanged, T> valueAccessor;
+    private readonly Func<TNotifyPropertyChanged, T> valueFactory;
 
-    public NotifyPropertyChangedBox(T value, TNotifyPropertyChanged notifyPropertyChanged, string propertyName, Func<TNotifyPropertyChanged, T> valueAccessor)
+    public NotifyPropertyChangedBox(T value, TNotifyPropertyChanged notifyPropertyChanged, string propertyName, Func<TNotifyPropertyChanged, T> valueFactory)
         : base(value)
     {
         this.notifyPropertyChanged = notifyPropertyChanged;
         this.propertyName = propertyName;
-        this.valueAccessor = valueAccessor;
+        this.valueFactory = valueFactory;
         notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
     }
 
@@ -35,6 +35,6 @@ internal sealed partial class NotifyPropertyChangedBox<TNotifyPropertyChanged, T
         }
 
         (Value as IDisposable)?.Dispose();
-        Value = valueAccessor(notifyPropertyChanged);
+        Value = valueFactory(notifyPropertyChanged);
     }
 }

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using System.Runtime.CompilerServices;
 using WinRT;
 
 namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
@@ -16,7 +15,7 @@ internal static class IDirect3DDxgiInterfaceAccessExtension
         {
             TVftbl** p = default;
             HRESULT hr = access.GetInterface(riid, (void**)&p);
-            i = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&p), iid);
+            i = ObjectReference<TVftbl>.Attach(ref *(nint*)&p, iid);
             return hr;
         }
     }

@@ -86,7 +86,7 @@ internal static class IntrinsicFrozen
         return FromEnumValues(values, selector, (name, value) => new NameValue<TEnum>(name, value)).ToFrozenSet();
     }
 
-    private static FrozenSet<T> FromEnumValues<TEnum, T>(TEnum[] values,  Func<TEnum, string?> nameSelector, Func<string, TEnum, T> selector)
+    private static FrozenSet<T> FromEnumValues<TEnum, T>(TEnum[] values, Func<TEnum, string?> nameSelector, Func<string, TEnum, T> selector)
     {
         return NotNull(values, nameSelector, selector).ToFrozenSet();
 

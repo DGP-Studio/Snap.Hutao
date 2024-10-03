@@ -8,7 +8,6 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using System.Collections.Immutable;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
 using MetadataSkill = Snap.Hutao.Model.Metadata.Avatar.Skill;
@@ -125,10 +124,24 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.Quality = quality);
     }
 
-    public static TBuilder SetRecommendedReliquaryProperties<TBuilder>(this TBuilder builder, List<string> properties)
+    public static TBuilder SetRecommendedProperties<TBuilder>(this TBuilder builder, RecommandPropertiesView recommandProperties)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.View.RecommendedReliquaryProperties = properties);
+        return builder.Configure(b => b.View.RecommendedProperties = recommandProperties);
+    }
+
+    public static unsafe TBuilder SetRecommendedProperties<TBuilder>(this TBuilder builder, RecommendProperties recommandProperties)
+        where TBuilder : IAvatarViewBuilder
+    {
+        RecommandPropertiesView view = new()
+        {
+            SandProperties = recommandProperties.SandMainPropertyList.SelectList(&FightPropertyExtension.GetLocalizedDescription),
+            GobletProperties = recommandProperties.GobletMainPropertyList.SelectList(&FightPropertyExtension.GetLocalizedDescription),
+            CircletProperties = recommandProperties.CircletMainPropertyList.SelectList(&FightPropertyExtension.GetLocalizedDescription),
+            SubProperties = recommandProperties.SubPropertyList.SelectList(&FightPropertyExtension.GetLocalizedDescription),
+        };
+
+        return builder.SetRecommendedProperties(view);
     }
 
     public static TBuilder SetReliquaries<TBuilder>(this TBuilder builder, List<ReliquaryView> reliquaries)

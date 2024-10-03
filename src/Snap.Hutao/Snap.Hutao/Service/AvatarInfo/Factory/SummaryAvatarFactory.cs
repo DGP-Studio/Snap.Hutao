@@ -56,7 +56,7 @@ internal sealed class SummaryAvatarFactory
             .SetProperties(character.SelectedProperties.SortBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).SelectList(&FightPropertyFormat.ToAvatarProperty))
             .SetLevelNumber(character.Base.Level)
             .SetWeapon(CreateWeapon(character.Weapon))
-            .SetRecommendedReliquaryProperties(character.RecommendRelicProperty.RecommendProperties.SubPropertyList.SelectList(&FightPropertyExtension.GetLocalizedDescription))
+            .SetRecommendedProperties(character.RecommendRelicProperty.RecommendProperties)
             .SetReliquaries(character.Relics.SelectList(relic => SummaryReliquaryFactory.Create(context, relic)))
             .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)

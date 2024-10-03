@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using WinRT;
@@ -24,7 +23,7 @@ internal static class Dxgi
         {
             TVftbl** pFactory = default;
             HRESULT hr = CreateDXGIFactory2(Flags, riid, (void**)&pFactory);
-            factory = ObjectReference<TVftbl>.Attach(ref Unsafe.AsRef<nint>(&pFactory), iid);
+            factory = ObjectReference<TVftbl>.Attach(ref *(nint*)&pFactory, iid);
             return hr;
         }
     }

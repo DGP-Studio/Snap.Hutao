@@ -8,93 +8,97 @@ namespace Snap.Hutao.Service.Notification;
 
 internal static class InfoBarServiceExtension
 {
-    public static void Information(this IInfoBarService infoBarService, string message, int milliSeconds = 5000)
+    public static Void Information(this IInfoBarService infoBarService, string message, int milliSeconds = 5000)
     {
-        infoBarService.Information(builder => builder.SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Information(builder => builder.SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Information(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 5000)
+    public static Void Information(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 5000)
     {
-        infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Information(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 5000)
+    public static Void Information(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 5000)
     {
-        infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
+        return infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
-    public static void Information(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
+    public static Void Information(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder.SetSeverity(InfoBarSeverity.Informational).Configure(configure));
+        return default;
     }
 
-    public static void Success(this IInfoBarService infoBarService, string message, int milliSeconds = 5000)
+    public static Void Success(this IInfoBarService infoBarService, string message, int milliSeconds = 5000)
     {
-        infoBarService.Success(builder => builder.SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Success(builder => builder.SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Success(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 5000)
+    public static Void Success(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 5000)
     {
-        infoBarService.Success(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Success(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Success(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
+    public static Void Success(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder.SetSeverity(InfoBarSeverity.Success).Configure(configure));
+        return default;
     }
 
-    public static void Warning(this IInfoBarService infoBarService, string message, int milliSeconds = 30000)
+    public static Void Warning(this IInfoBarService infoBarService, string message, int milliSeconds = 30000)
     {
-        infoBarService.Warning(builder => builder.SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Warning(builder => builder.SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Warning(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 30000)
+    public static Void Warning(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 30000)
     {
-        infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Warning(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 30000)
+    public static Void Warning(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 30000)
     {
-        infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
+        return infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
-    public static void Warning(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
+    public static Void Warning(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder.SetSeverity(InfoBarSeverity.Warning).Configure(configure));
+        return default;
     }
 
-    public static void Error(this IInfoBarService infoBarService, string message, int milliSeconds = 0)
+    public static Void Error(this IInfoBarService infoBarService, string message, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Error(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 0)
+    public static Void Error(this IInfoBarService infoBarService, string title, string message, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
     }
 
-    public static void Error(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
+    public static Void Error(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
-    public static void Error(this IInfoBarService infoBarService, Exception ex, int milliSeconds = 0)
+    public static Void Error(this IInfoBarService infoBarService, Exception ex, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage(ex.Message).SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage(ex.Message).SetDelay(milliSeconds));
     }
 
-    public static void Error(this IInfoBarService infoBarService, Exception ex, string subtitle, int milliSeconds = 0)
+    public static Void Error(this IInfoBarService infoBarService, Exception ex, string subtitle, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetDelay(milliSeconds));
     }
 
-    public static void Error(this IInfoBarService infoBarService, Exception ex, string subtitle, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
+    public static Void Error(this IInfoBarService infoBarService, Exception ex, string subtitle, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
-    public static void Error(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
+    public static Void Error(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder.SetSeverity(InfoBarSeverity.Error).Configure(configure));
+        return default;
     }
 }

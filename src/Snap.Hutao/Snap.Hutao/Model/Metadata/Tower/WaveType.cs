@@ -85,4 +85,7 @@ internal enum WaveType
 
     [LocalizationKey(nameof(SH.ModelMetadataTowerWaveTypeWave99999))]
     Wave99999 = 99999,
+
+    [LocalizationKey(nameof(SH.ModelMetadataTowerWaveTypeIndependent))]
+    Wave114514 = 114514,
 }

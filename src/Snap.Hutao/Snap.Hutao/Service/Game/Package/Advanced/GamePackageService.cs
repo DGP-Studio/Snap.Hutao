@@ -11,7 +11,6 @@ using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Window;
-using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
@@ -57,7 +56,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await taskContext.SwitchToMainThreadAsync();
         GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
-        IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(((GamePackageOperationViewModel)window.DataContext).HandleProgressUpdate);
+        IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(window.DataContext.HandleProgressUpdate);
 
         await taskContext.SwitchToBackgroundAsync();
 

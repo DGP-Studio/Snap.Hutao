@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Item;
 
-internal static class Materials
+internal static class MaterialIds
 {
     public static FrozenSet<MaterialId> MondayThursdayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
     [
@@ -51,6 +52,22 @@ internal static class Materials
         114061U,
         114062U,
         114063U,
+        114064U, // 贡祭炽心
+    ]);
+
+    public static FrozenSet<MaterialId> MondayThursdayHighestRankItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
+    [
+        104303U, // 「自由」
+        104312U, // 「繁荣」
+        104322U, // 「浮世」
+        104331U, // 「诤言」
+        104340U, // 「公平」
+        104349U, // 「角逐」
+        114004U, // 高塔孤王
+        114016U, // 孤云寒林
+        114028U, // 远海夷地
+        114040U, // 谧林涓露
+        114052U, // 悠古弦音
         114064U, // 贡祭炽心
     ]);
 
@@ -100,6 +117,22 @@ internal static class Materials
         114068U, // 谵妄圣主
     ]);
 
+    public static FrozenSet<MaterialId> TuesdayFridayHighestRankItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
+    [
+        104306U, // 「抗争」
+        104315U, // 「勤劳」
+        104325U, // 「风雅」
+        104334U, // 「巧思」
+        104343U, // 「正义」
+        104352U, // 「焚燔」
+        114008U, // 凛风奔狼
+        114020U, // 雾海云间
+        114032U, // 鸣神御灵
+        114044U, // 绿洲花园
+        114056U, // 纯圣露滴
+        114068U, // 谵妄圣主
+    ]);
+
     public static FrozenSet<MaterialId> WednesdaySaturdayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
     [
         104307U,
@@ -145,4 +178,40 @@ internal static class Materials
         114071U,
         114072U, // 神合秘烟
     ]);
+
+    public static FrozenSet<MaterialId> WednesdaySaturdayHighestRankItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
+    [
+        104309U, // 「诗文」
+        104318U, // 「黄金」
+        104328U, // 「天光」
+        104337U, // 「笃行」
+        104346U, // 「秩序」
+        104355U, // 「纷争」
+        114012U, // 狮牙斗士
+        114024U, // 漆黑陨铁
+        114036U, // 今昔剧画
+        114048U, // 谧林涓露
+        114060U, // 无垢之海
+        114072U, // 神合秘烟
+    ]);
+
+    public static DaysOfWeek GetDaysOfWeek(MaterialId id)
+    {
+        if (MondayThursdayItems.Contains(id))
+        {
+            return DaysOfWeek.MondayAndThursday;
+        }
+
+        if (TuesdayFridayItems.Contains(id))
+        {
+            return DaysOfWeek.TuesdayAndFriday;
+        }
+
+        if (WednesdaySaturdayItems.Contains(id))
+        {
+            return DaysOfWeek.WednesdayAndSaturday;
+        }
+
+        return DaysOfWeek.Any;
+    }
 }

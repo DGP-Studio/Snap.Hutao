@@ -12,6 +12,7 @@
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
@@ -524,21 +525,19 @@
                                                     </StackPanel>
 
                                                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-                                                        <ScrollViewer>
-                                                            <ItemsRepeater
-                                                                Margin="16,0,16,16"
-                                                                ItemTemplate="{StaticResource CultivationItemTemplate}"
-                                                                ItemsSource="{Binding Avatars.CurrentItem.CultivationItemsView}">
-                                                                <ItemsRepeater.Layout>
-                                                                    <UniformGridLayout
-                                                                        ItemsJustification="Start"
-                                                                        ItemsStretch="Fill"
-                                                                        MaximumRowsOrColumns="3"
-                                                                        MinColumnSpacing="8"
-                                                                        MinRowSpacing="8"/>
-                                                                </ItemsRepeater.Layout>
-                                                            </ItemsRepeater>
-                                                        </ScrollViewer>
+                                                        <ItemsControl
+                                                            Margin="16,0,16,16"
+                                                            ItemTemplate="{StaticResource CultivationItemTemplate}"
+                                                            ItemsSource="{Binding Avatars.CurrentItem.CultivationItemsView}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwc:UniformGrid
+                                                                        ColumnSpacing="8"
+                                                                        Columns="3"
+                                                                        RowSpacing="8"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                        </ItemsControl>
                                                     </StackPanel>
                                                 </Grid>
 
@@ -696,7 +695,11 @@
                                                                     <shuxc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
                                                                 </shuxcc:VerticalCard.Top>
                                                                 <shuxcc:VerticalCard.Bottom>
-                                                                    <TextBlock Text="{Binding Item.Name}"/>
+                                                                    <TextBlock
+                                                                        MaxWidth="80"
+                                                                        Text="{Binding Item.Name}"
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        TextWrapping="NoWrap"/>
                                                                 </shuxcc:VerticalCard.Bottom>
                                                             </shuxcc:VerticalCard>
                                                             <shuxcc:VerticalCard
@@ -707,7 +710,11 @@
                                                                     <shuxc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
                                                                 </shuxcc:VerticalCard.Top>
                                                                 <shuxcc:VerticalCard.Bottom>
-                                                                    <TextBlock Text="{Binding OriginItem.Name}"/>
+                                                                    <TextBlock
+                                                                        MaxWidth="80"
+                                                                        Text="{Binding OriginItem.Name}"
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        TextWrapping="NoWrap"/>
                                                                 </shuxcc:VerticalCard.Bottom>
                                                             </shuxcc:VerticalCard>
                                                         </Grid>

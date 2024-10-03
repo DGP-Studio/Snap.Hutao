@@ -24,32 +24,45 @@ internal static class DirectX
 
     public static unsafe bool TryGetHighPerformanceAdapter(ObjectReference<IDXGIFactory6.Vftbl> factory, out ObjectReference<IDXGIAdapter.Vftbl> adapter, out HRESULT hr)
     {
-        hr = ((IDXGIFactory6*)factory.ThisPtr)->EnumAdapterByGpuPreference(0U, DXGI_GPU_PREFERENCE.DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, in IDXGIAdapter.IID, out adapter);
+        hr = factory.EnumAdapterByGpuPreference(0U, DXGI_GPU_PREFERENCE.DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, in IDXGIAdapter.IID, out adapter);
         return SUCCEEDED(hr);
     }
 
-    public static unsafe bool TryCreateD3D11Device(ObjectReference<IDXGIAdapter.Vftbl> adapter, D3D11_CREATE_DEVICE_FLAG flags, out ObjectReference<ID3D11Device.Vftbl> device, out HRESULT hr)
+    public static unsafe bool TryCreateD3D11Device(ObjectReference<IDXGIAdapter.Vftbl> adapter, D3D11_CREATE_DEVICE_FLAG flags, out ObjectReference<ID3D11Device.Vftbl>? device, out HRESULT hr)
     {
-        hr = D3D11CreateDevice(adapter, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flags, [], D3D11_SDK_VERSION, out device, out _, out _);
+        ReadOnlySpan<D3D_FEATURE_LEVEL> features =
+        [
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_1,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_0,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_10_1,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_10_0,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_9_3,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_9_2,
+            D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_9_1,
+        ];
+        hr = D3D11CreateDevice(adapter, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flags, features, D3D11_SDK_VERSION, out device, out _, out _);
         return SUCCEEDED(hr);
     }
 
     public static unsafe bool TryCreateDirect3D11Device(ObjectReference<IDXGIDevice.Vftbl> dxgiDevice, [NotNullWhen(true)] out IDirect3DDevice? direct3DDevice, out HRESULT hr)
     {
-        hr = CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, out IInspectable inspectable);
+        hr = CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, out ObjectReference<IInspectable.Vftbl> inspectable);
         if (FAILED(hr))
         {
             direct3DDevice = default;
             return false;
         }
 
-        direct3DDevice = inspectable.ObjRef.AsInterface<IDirect3DDevice>();
-        return true;
+        using (inspectable)
+        {
+            direct3DDevice = inspectable.AsInterface<IDirect3DDevice>();
+            return true;
+        }
     }
 
     public static unsafe bool TryCreateSwapChainForComposition(ObjectReference<IDXGIFactory6.Vftbl> factory, ObjectReference<ID3D11Device.Vftbl> device, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, out ObjectReference<IDXGISwapChain1.Vftbl> swapChain, out HRESULT hr)
     {
-        hr = ((IDXGIFactory6*)factory.ThisPtr)->CreateSwapChainForComposition(device, in desc, default, out swapChain);
+        hr = factory.CreateSwapChainForComposition(device, in desc, default, out swapChain);
         if (FAILED(hr))
         {
             return false;

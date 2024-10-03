@@ -9,8 +9,8 @@ namespace Snap.Hutao.Win32.System.WinRT.Xaml;
 
 internal static class ISwapChainPanelNativeExtension
 {
-    public static unsafe HRESULT SetSwapChain(this ISwapChainPanelNative native, ObjectReference<IDXGISwapChain.Vftbl> swapChain)
+    public static unsafe HRESULT SetSwapChain(this ISwapChainPanelNative native, ObjectReference<IDXGISwapChain.Vftbl>? swapChain)
     {
-        return native.SetSwapChain((IDXGISwapChain*)swapChain.ThisPtr);
+        return native.SetSwapChain(swapChain?.ThisPtr ?? 0);
     }
 }

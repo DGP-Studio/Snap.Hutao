@@ -22,7 +22,7 @@
     </mxi:Interaction.Behaviors>
 
     <Grid x:Name="SettingPageGrid">
-        <ScrollViewer Style="{StaticResource TwoPanelScrollViewerStyle}">
+        <ScrollViewer x:Name="RootScrollViewer" Style="{StaticResource TwoPanelScrollViewerStyle}">
             <shuxc:ScrollViewerHelper.RightPanel>
                 <Border
                     x:Name="ScrollViwerRightPanel"
@@ -288,6 +288,17 @@
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingApperanceFirstDayOfWeekDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingApperanceFirstDayOfWeekHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE8C0;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding CultureOptions.DayOfWeeks}"
+                                            SelectedItem="{Binding SelectedFirstDayOfWeek, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingBackdropMaterialDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingBackdropMaterialHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE7F7;}">
@@ -511,6 +522,12 @@
                                                 OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
                                                 OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
                                         </cwc:SettingsCard>
+                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemCalendarHeader}">
+                                            <ToggleSwitch
+                                                IsOn="{Binding HomeCardOptions.IsHomeCardCalendarPresented, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                        </cwc:SettingsCard>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                                 <cwc:SettingsCard
@@ -562,7 +579,10 @@
                     </Border>
 
                     <!--  祈愿记录  -->
-                    <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding GachaLog}">
+                    <Border
+                        x:Name="GachaLogBorder"
+                        cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+                        DataContext="{Binding GachaLog}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
                                 <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingGachaLogHeader}"/>

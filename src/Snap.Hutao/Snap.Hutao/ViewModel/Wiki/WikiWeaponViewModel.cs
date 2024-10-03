@@ -5,16 +5,14 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
-using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
@@ -46,8 +44,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
-    private ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>? levelWeaponCurveMap;
-    private ImmutableArray<Promote> promotes;
+    private WikiWeaponMetadataContext metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public AdvancedCollectionView<Weapon>? Weapons
@@ -84,14 +81,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         {
             try
             {
-                levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
-                promotes = await metadataService.GetWeaponPromoteListAsync().ConfigureAwait(false);
-                ImmutableDictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
+                metadataContext = await metadataService.GetContextAsync<WikiWeaponMetadataContext>().ConfigureAwait(false);
 
-                ImmutableArray<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
-                List<Weapon> list = weapons.OrderByDescending(weapon => weapon.Sort).ToList();
+                List<Weapon> list = metadataContext.Weapons
+                    .OrderByDescending(weapon => weapon.Sort)
+                    .ToList();
 
-                await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
+                await CombineComplexDataAsync(list, metadataContext).ConfigureAwait(false);
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
@@ -106,7 +102,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 availableTokens = FrozenDictionary.ToFrozenDictionary(
                 [
-                    .. weapons.Select((weapon, index) => KeyValuePair.Create(weapon.Name, new SearchToken(SearchTokenKind.Weapon, weapon.Name, index, sideIconUri: EquipIconConverter.IconNameToUri(weapon.Icon)))),
+                    .. metadataContext.Weapons.Select((weapon, index) => KeyValuePair.Create(weapon.Name, new SearchToken(SearchTokenKind.Weapon, weapon.Name, index, sideIconUri: EquipIconConverter.IconNameToUri(weapon.Icon)))),
                     .. IntrinsicFrozen.FightPropertyNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.FightProperty, nv.Name, (int)nv.Value))),
                     .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
                     .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
@@ -127,7 +123,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         UpdateBaseValueInfo(Weapons?.CurrentItem);
     }
 
-    private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, ImmutableDictionary<MaterialId, Material> idMaterialMap)
+    private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, WikiWeaponMetadataContext context)
     {
         if (await hutaoCache.InitializeForWikiWeaponViewAsync().ConfigureAwait(false))
         {
@@ -136,7 +132,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             foreach (Weapon weapon in weapons)
             {
                 weapon.CollocationView = hutaoCache.WeaponCollocations.GetValueOrDefault(weapon.Id);
-                weapon.CultivationItemsView ??= weapon.CultivationItems.SelectList(i => idMaterialMap.GetValueOrDefault(i, Material.Default));
+                weapon.CultivationItemsView ??= weapon.CultivationItems.SelectList(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default));
             }
         }
     }
@@ -189,21 +185,14 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                 Strategy = deltaOptions.Strategy,
             };
 
-            switch (await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false))
+            _ = await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false) switch
             {
-                case ConsumptionSaveResultKind.NoProject:
-                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                    break;
-                case ConsumptionSaveResultKind.Skipped:
-                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint);
-                    break;
-                case ConsumptionSaveResultKind.NoItem:
-                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint);
-                    break;
-                case ConsumptionSaveResultKind.Added:
-                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-                    break;
-            }
+                ConsumptionSaveResultKind.NoProject => infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
+                ConsumptionSaveResultKind.Skipped => infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+                ConsumptionSaveResultKind.NoItem => infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+                ConsumptionSaveResultKind.Added => infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+                _ => default,
+            };
         }
         catch (HutaoException ex)
         {
@@ -213,18 +202,17 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
     private void UpdateBaseValueInfo(Weapon? weapon)
     {
-        if (weapon is null)
+        if (weapon is null || metadataContext is null)
         {
             BaseValueInfo = null;
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(promotes);
-        Dictionary<PromoteLevel, Promote> weaponPromoteMap = promotes.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
-        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves.SelectList(PropertyCurveValue.From);
-
-        ArgumentNullException.ThrowIfNull(levelWeaponCurveMap);
-        BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap, weaponPromoteMap);
+        BaseValueInfo = new(
+            weapon.MaxLevel,
+            weapon.GrowCurves.SelectList(PropertyCurveValue.From),
+            metadataContext.LevelDictionaryWeaponGrowCurveMap,
+            metadataContext.IdDictionaryWeaponLevelPromoteMap[weapon.PromoteId]);
     }
 
     [Command("FilterCommand")]

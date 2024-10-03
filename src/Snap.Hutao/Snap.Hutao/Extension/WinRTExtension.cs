@@ -13,6 +13,9 @@ internal static class WinRTExtension
         return Volatile.Read(ref GetPrivateDisposedFlags(obj.NativeObject)) is not 0;
     }
 
+    // private const int NOT_DISPOSED = 0;
+    // private const int DISPOSE_PENDING = 1;
+    // private const int DISPOSE_COMPLETED = 2;
     // private int _disposedFlags
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposedFlags")]
     private static extern ref int GetPrivateDisposedFlags(IObjectReference objRef);

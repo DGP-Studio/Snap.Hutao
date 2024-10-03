@@ -34,4 +34,11 @@ internal sealed class HomeCardOptions
         get => LocalSetting.Get(SettingKeys.IsHomeCardDailyNotePresented, true);
         set => LocalSetting.Set(SettingKeys.IsHomeCardDailyNotePresented, value);
     }
+
+    [SuppressMessage("", "CA1822")]
+    public bool IsHomeCardCalendarPresented
+    {
+        get => LocalSetting.Get(SettingKeys.IsHomeCardCalendarPresented, true);
+        set => LocalSetting.Set(SettingKeys.IsHomeCardCalendarPresented, value);
+    }
 }

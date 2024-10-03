@@ -22,4 +22,11 @@ internal static class AdvancedCollectionViewExtension
     {
         return new AdvancedCollectionView<T>(source);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static AdvancedCollectionView<T> ToAdvancedCollectionView<T>(this IEnumerable<T> source)
+        where T : class, IAdvancedCollectionViewItem
+    {
+        return new AdvancedCollectionView<T>(source.ToList());
+    }
 }

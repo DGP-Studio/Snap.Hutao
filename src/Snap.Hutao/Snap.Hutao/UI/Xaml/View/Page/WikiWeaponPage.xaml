@@ -281,20 +281,28 @@
                                                                 Margin="16"
                                                                 VerticalScrollBarVisibility="Hidden">
                                                                 <StackPanel Spacing="16">
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                    <shuxcc:VerticalCard>
                                                                         <shuxcc:VerticalCard.Top>
                                                                             <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
                                                                         </shuxcc:VerticalCard.Top>
                                                                         <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
+                                                                            <TextBlock
+                                                                                MaxWidth="80"
+                                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"
+                                                                                TextTrimming="CharacterEllipsis"
+                                                                                TextWrapping="NoWrap"/>
                                                                         </shuxcc:VerticalCard.Bottom>
                                                                     </shuxcc:VerticalCard>
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                    <shuxcc:VerticalCard>
                                                                         <shuxcc:VerticalCard.Top>
                                                                             <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
                                                                         </shuxcc:VerticalCard.Top>
                                                                         <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
+                                                                            <TextBlock
+                                                                                MaxWidth="80"
+                                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"
+                                                                                TextTrimming="CharacterEllipsis"
+                                                                                TextWrapping="NoWrap"/>
                                                                         </shuxcc:VerticalCard.Bottom>
                                                                     </shuxcc:VerticalCard>
                                                                 </StackPanel>
@@ -319,25 +327,22 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
 
-
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock
                                                             Margin="0,0,0,0"
                                                             Style="{StaticResource BaseTextBlockStyle}"
                                                             Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
-                                                        <ScrollViewer>
-                                                            <ItemsRepeater ItemTemplate="{StaticResource CultivationItemTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CultivationItemsView}">
-                                                                <ItemsRepeater.Layout>
-                                                                    <UniformGridLayout
-                                                                        ItemsJustification="Start"
-                                                                        ItemsStretch="Fill"
-                                                                        MaximumRowsOrColumns="3"
-                                                                        MinColumnSpacing="8"
-                                                                        MinRowSpacing="8"/>
-                                                                </ItemsRepeater.Layout>
-                                                            </ItemsRepeater>
-                                                        </ScrollViewer>
+                                                        <ItemsControl ItemTemplate="{StaticResource CultivationItemTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CultivationItemsView}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwc:UniformGrid
+                                                                        ColumnSpacing="8"
+                                                                        Columns="3"
+                                                                        RowSpacing="8"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                        </ItemsControl>
                                                     </StackPanel>
                                                 </Border>
 
