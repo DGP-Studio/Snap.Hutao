@@ -8,5 +8,5 @@ internal sealed class HutaoEndpointsForAlphaOS : IHutaoEndpoints
 {
     string IHomaRootAccess.Root { get => "https://homa.snapgenshin.com"; }
 
-    string IInfrastructureRootAccess.Root { get => "https://api-alpha.snapgenshin.cn/global"; }
+    string IInfrastructureRootAccess.Root { get => "https://alpha.snapgenshin.cn/global"; }
 }
