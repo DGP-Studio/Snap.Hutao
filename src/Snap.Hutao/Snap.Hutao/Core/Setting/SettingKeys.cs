@@ -69,6 +69,7 @@ internal static class SettingKeys
     public const string PhysicalDriverIsAlwaysSolidState = "PhysicalDriverIsAlwaysSolidState";
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
     public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
+    public const string AllowExtractGameBlks = "AllowExtractGameBlks";
     #endregion
 
     #region Obsolete

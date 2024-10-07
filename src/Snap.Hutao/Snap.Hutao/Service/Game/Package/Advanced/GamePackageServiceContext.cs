@@ -34,7 +34,7 @@ internal readonly struct GamePackageServiceContext
 
     public readonly bool EnsureAvailableFreeSpace(long totalBytes)
     {
-        long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.GameFileSystem.GameDirectory);
+        long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.GameFileSystem.ExtractDirectory);
 
         if (totalBytes > availableBytes)
         {

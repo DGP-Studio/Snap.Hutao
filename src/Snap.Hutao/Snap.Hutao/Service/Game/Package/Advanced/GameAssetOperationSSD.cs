@@ -70,7 +70,13 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
 
     protected override async ValueTask MergeNewAssetAsync(GamePackageServiceContext context, AssetProperty assetProperty)
     {
-        string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, assetProperty.AssetName);
+        string assetName = assetProperty.AssetName;
+        if (context.Operation.Kind is GamePackageOperationKind.Extract)
+        {
+            assetName = Path.GetFileName(assetName);
+        }
+
+        string path = Path.Combine(context.Operation.GameFileSystem.ExtractDirectory, assetName);
         string? directory = Path.GetDirectoryName(path);
         ArgumentNullException.ThrowIfNull(directory);
         Directory.CreateDirectory(directory);
@@ -118,7 +124,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
                     }
                 }
 
-                if (!context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
+                if (context.Operation.Kind is GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
                 {
                     FileOperation.Delete(chunkPath);
                 }

@@ -14,6 +14,7 @@ internal sealed class GameFileSystem
     private string? gameDirectory;
     private string? gameConfigFilePath;
     private string? pcGameSDKFilePath;
+    private string? extractDirectory;
     private GameAudioSystem? gameAudioSystem;
 
     public GameFileSystem(string gameFilePath)
@@ -54,6 +55,8 @@ internal sealed class GameFileSystem
     public string ChunksDirectory { get => Path.Combine(GameDirectory, "chunks"); }
 
     public string PredownloadStatusPath { get => Path.Combine(ChunksDirectory, "snap_hutao_predownload_status.json"); }
+
+    public string ExtractDirectory { get => extractDirectory ??= GameDirectory; set => extractDirectory = value; }
 
     public GameAudioSystem GameAudioSystem { get => gameAudioSystem ??= new(GameFilePath); }
 }

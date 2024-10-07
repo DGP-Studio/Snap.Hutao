@@ -277,6 +277,13 @@
                                                     IsHitTestVisible="False"
                                                     Visibility="{Binding GamePackageViewModel.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                             </cwc:SettingsCard>
+                                            <cwc:SettingsCard
+                                                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                                Command="{Binding GamePackageViewModel.StartCommand}"
+                                                CommandParameter="Extract"
+                                                Header="Extract"
+                                                IsClickEnabled="True"
+                                                Visibility="{Binding GamePackageViewModel.IsExtractAvailable, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>
 

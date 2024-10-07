@@ -93,7 +93,13 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         CancellationToken token = context.CancellationToken;
 
-        string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, assetProperty.AssetName);
+        string assetName = assetProperty.AssetName;
+        if (context.Operation.Kind is GamePackageOperationKind.Extract)
+        {
+            assetName = Path.GetFileName(assetName);
+        }
+
+        string path = Path.Combine(context.Operation.GameFileSystem.ExtractDirectory, assetName);
         string? directory = Path.GetDirectoryName(path);
         ArgumentNullException.ThrowIfNull(directory);
         Directory.CreateDirectory(directory);
@@ -135,7 +141,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                             }
                         }
 
-                        if (!context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
+                        if (context.Operation.Kind is GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
                         {
                             FileOperation.Delete(chunkPath);
                         }

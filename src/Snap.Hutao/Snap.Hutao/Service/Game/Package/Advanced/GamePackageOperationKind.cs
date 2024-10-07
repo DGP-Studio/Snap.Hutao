@@ -8,5 +8,6 @@ internal enum GamePackageOperationKind
     Install,
     Verify,
     Update,
+    Extract,
     Predownload,
 }
