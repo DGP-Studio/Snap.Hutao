@@ -312,7 +312,8 @@ internal sealed partial class GamePackageService : IGamePackageService
         List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
         diffAssets.SortBy(a => a.Kind);
 
-        int totalBlocks = GetTotalBlocks(diffAssets);
+        int downloadTotalChunks = GetTotalBlocks(diffAssets);
+        int installTotalChunks = diffAssets.Sum(a => a.NewAsset.AssetChunks.Count);
         long totalBytes = GetTotalBytes(diffAssets);
 
         if (!context.EnsureAvailableFreeSpace(totalBytes))
@@ -322,7 +323,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
-        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, totalBlocks, remoteBuild.TotalChunks, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, downloadTotalChunks, installTotalChunks, totalBytes));
 
         await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
