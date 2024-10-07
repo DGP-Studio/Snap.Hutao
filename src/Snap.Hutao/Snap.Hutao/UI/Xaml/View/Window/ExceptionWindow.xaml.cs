@@ -27,16 +27,17 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
 
     public ExceptionWindow(Exception exception)
     {
+        // Message pump will die if we introduce XamlWindowController
         InitializeComponent();
         this.exception = exception;
 
-        OverlappedPresenter presenter = OverlappedPresenter.Create();
-        presenter.SetBorderAndTitleBar(false, false);
-        presenter.IsResizable = false;
-        presenter.IsMaximizable = false;
-        AppWindow.SetPresenter(presenter);
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsResizable = false;
+            presenter.IsMaximizable = false;
+        }
 
-        AppWindow.Title = "Snap.Hutao - Exception";
+        AppWindow.Title = "Snap Hutao Exception Report";
 
         AppWindowTitleBar titleBar = AppWindow.TitleBar;
         titleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
@@ -45,7 +46,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
         UpdateDragRectangles();
         DragableGrid.SizeChanged += (_, _) => UpdateDragRectangles();
 
-        SizeInt32 size = new(600, 800);
+        SizeInt32 size = new(800, 600);
         AppWindow.Resize(size.Scale(this.GetRasterizationScale()));
 
         Ioc.Default.GetRequiredService<ICurrentXamlWindowReference>().Window?.Close();
@@ -64,13 +65,13 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
             string windowsVersion = $"Windows {major}.{minor}.{build}.{revision}";
 
             return $"""
-                    {windowsVersion}
-                    System Architecture: {RuntimeInformation.OSArchitecture}
-                    Process Architecture: {RuntimeInformation.ProcessArchitecture}
-                    Framework: {RuntimeInformation.FrameworkDescription}
+                {windowsVersion}
+                System Architecture: {RuntimeInformation.OSArchitecture}
+                Process Architecture: {RuntimeInformation.ProcessArchitecture}
+                Framework: {RuntimeInformation.FrameworkDescription}
 
-                    {ExceptionFormat.Format(exception)}
-                    """;
+                {ExceptionFormat.Format(exception)}
+                """;
         }
     }
 

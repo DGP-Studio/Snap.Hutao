@@ -25,6 +25,7 @@
         <Grid
             Grid.Row="1"
             Padding="16"
+            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
             RowSpacing="16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

@@ -43,8 +43,9 @@ internal sealed partial class ExceptionRecorder
             .GetRequiredService<Web.Hutao.Log.HutaoLogUploadClient>()
             .UploadLog(e.Exception);
 
-        ExceptionWindow.Show(e.Exception);
         XamlApplicationLifetime.Exiting = true;
+        ExceptionWindow.Show(e.Exception);
+
         e.Handled = true;
     }
 
