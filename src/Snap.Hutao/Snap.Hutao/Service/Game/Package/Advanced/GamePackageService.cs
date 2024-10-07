@@ -190,6 +190,35 @@ internal sealed partial class GamePackageService : IGamePackageService
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind, context.Operation.Kind is GamePackageOperationKind.Verify));
     }
 
+    private static int GetUniqueTotalBlocks(List<SophonAssetOperation> assets)
+    {
+        HashSet<string> uniqueChunkNames = [];
+        foreach (ref readonly SophonAssetOperation asset in CollectionsMarshal.AsSpan(assets))
+        {
+            switch (asset.Kind)
+            {
+                case SophonAssetOperationKind.AddOrRepair:
+                    foreach (ref readonly AssetChunk chunk in CollectionsMarshal.AsSpan(asset.NewAsset.AssetChunks.ToList()))
+                    {
+                        uniqueChunkNames.Add(chunk.ChunkName);
+                    }
+
+                    break;
+                case SophonAssetOperationKind.Modify:
+                    foreach (ref readonly SophonChunk diffChunk in CollectionsMarshal.AsSpan(asset.DiffChunks))
+                    {
+                        uniqueChunkNames.Add(diffChunk.AssetChunk.ChunkName);
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return uniqueChunkNames.Count;
+    }
+
     private static int GetTotalBlocks(List<SophonAssetOperation> assets)
     {
         int totalBlocks = 0;
@@ -320,6 +349,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
         diffAssets.SortBy(a => a.Kind);
 
+        int uniqueTotalBlocks = GetUniqueTotalBlocks(diffAssets);
         int totalBlocks = GetTotalBlocks(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
@@ -335,7 +365,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             Directory.CreateDirectory(context.Operation.GameFileSystem.ChunksDirectory);
         }
 
-        PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, totalBlocks);
+        PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, uniqueTotalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
