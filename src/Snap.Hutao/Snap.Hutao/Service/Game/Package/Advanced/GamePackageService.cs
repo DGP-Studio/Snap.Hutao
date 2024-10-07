@@ -322,7 +322,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
-        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, totalBlocks, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, totalBlocks, remoteBuild.TotalChunks, totalBytes));
 
         await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
