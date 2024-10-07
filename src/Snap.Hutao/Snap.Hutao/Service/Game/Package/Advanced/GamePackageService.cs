@@ -330,6 +330,11 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, totalBlocks, totalBytes));
 
+        if (!Directory.Exists(context.Operation.GameFileSystem.ChunksDirectory))
+        {
+            Directory.CreateDirectory(context.Operation.GameFileSystem.ChunksDirectory);
+        }
+
         PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, totalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
