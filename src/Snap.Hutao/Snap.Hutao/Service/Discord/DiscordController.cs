@@ -39,6 +39,12 @@ internal static class DiscordController
 
             IDiscordActivityManager* activityManagerPtr = discordCorePtr->get_activity_manager(discordCorePtr);
 
+            DiscordResult clearResult = new DiscordClearActivityAsyncAction(activityManagerPtr).WaitClearActivity();
+            if (clearResult is not DiscordResult.Ok)
+            {
+                return clearResult;
+            }
+
             DiscordActivity activity = default;
             activity.timestamps.start = startTime.ToUnixTimeSeconds();
             SetString(activity.assets.large_image, 128, "icon"u8);
@@ -63,6 +69,12 @@ internal static class DiscordController
             }
 
             IDiscordActivityManager* activityManagerPtr = discordCorePtr->get_activity_manager(discordCorePtr);
+
+            DiscordResult clearResult = new DiscordClearActivityAsyncAction(activityManagerPtr).WaitClearActivity();
+            if (clearResult is not DiscordResult.Ok)
+            {
+                return clearResult;
+            }
 
             DiscordActivity activity = default;
             SetString(activity.state, 128, SH.FormatServiceDiscordGameLaunchedBy(SH.AppName));
@@ -92,6 +104,12 @@ internal static class DiscordController
             }
 
             IDiscordActivityManager* activityManagerPtr = discordCorePtr->get_activity_manager(discordCorePtr);
+
+            DiscordResult clearResult = new DiscordClearActivityAsyncAction(activityManagerPtr).WaitClearActivity();
+            if (clearResult is not DiscordResult.Ok)
+            {
+                return clearResult;
+            }
 
             DiscordActivity activity = default;
             SetString(activity.state, 128, SH.FormatServiceDiscordGameLaunchedBy(SH.AppName));
@@ -226,14 +244,14 @@ internal static class DiscordController
         }
     }
 
-    private static unsafe void SetString(sbyte* reference, int length, in ReadOnlySpan<char> source)
+    private static unsafe void SetString(void* reference, int length, in ReadOnlySpan<char> source)
     {
         Span<byte> bytes = new(reference, length);
         bytes.Clear();
         Utf8.FromUtf16(source, bytes, out _, out _);
     }
 
-    private static unsafe void SetString(sbyte* reference, int length, in ReadOnlySpan<byte> source)
+    private static unsafe void SetString(void* reference, int length, in ReadOnlySpan<byte> source)
     {
         Span<byte> bytes = new(reference, length);
         bytes.Clear();
@@ -262,9 +280,45 @@ internal static class DiscordController
             fixed (DiscordAsyncAction* actionPtr = &discordAsyncAction)
             {
                 activityManagerPtr->update_activity(activityManagerPtr, &activity, actionPtr, &HandleResult);
+                SpinWaitPolyfill.SpinUntil(ref discordAsyncAction, &CheckActionCompleted, TimeSpan.FromSeconds(5));
             }
 
-            SpinWaitPolyfill.SpinUntil(ref discordAsyncAction, &CheckActionCompleted, TimeSpan.FromSeconds(5));
+            return discordAsyncAction.Result;
+        }
+
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+        private static void HandleResult(void* state, DiscordResult result)
+        {
+            DiscordAsyncAction* action = (DiscordAsyncAction*)state;
+            action->Result = result;
+            action->IsCompleted = true;
+        }
+
+        private static bool CheckActionCompleted(ref readonly DiscordAsyncAction state)
+        {
+            return state.IsCompleted;
+        }
+    }
+
+    private unsafe struct DiscordClearActivityAsyncAction
+    {
+        private readonly IDiscordActivityManager* activityManagerPtr;
+        private DiscordAsyncAction discordAsyncAction;
+
+        public DiscordClearActivityAsyncAction(IDiscordActivityManager* activityManagerPtr)
+        {
+            this.activityManagerPtr = activityManagerPtr;
+            discordAsyncAction.Result = (DiscordResult)(-1);
+        }
+
+        public DiscordResult WaitClearActivity()
+        {
+            fixed (DiscordAsyncAction* actionPtr = &discordAsyncAction)
+            {
+                activityManagerPtr->clear_activity(activityManagerPtr, actionPtr, &HandleResult);
+                SpinWaitPolyfill.SpinUntil(ref discordAsyncAction, &CheckActionCompleted, TimeSpan.FromSeconds(5));
+            }
+
             return discordAsyncAction.Result;
         }
 
