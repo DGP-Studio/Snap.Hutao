@@ -2139,7 +2139,7 @@
     <value>材料清單</value>
   </data>
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
-    <value>未集齐优先</value>
+    <value>未集齊優先</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>材料統計</value>
@@ -2850,7 +2850,7 @@
     <value>您解鎖了含有違反原神服務條款風險的「啟動遊戲 - 進階功能」，將自行承擔任何不良後果。</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
-    <value>前往反饋</value>
+    <value>前往回饋</value>
   </data>
   <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
     <value>祈願紀錄</value>
@@ -3351,13 +3351,13 @@
     <value>武器資料</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
-    <value>请截图此窗口，在反馈中心内找到适合的反馈途径，并反馈至开发组</value>
+    <value>請截圖此視窗，在回饋中心內找到適合的回饋途徑，並回饋至開發組</value>
   </data>
   <data name="ViewWindowExceptionHeader" xml:space="preserve">
-    <value>遇到了无法恢复的致命错误</value>
+    <value>遇到了無法修復的致命錯誤</value>
   </data>
   <data name="ViewWindowExceptionTitle" xml:space="preserve">
-    <value>我们遇到了一点问题</value>
+    <value>我們遇到了一點問題</value>
   </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
     <value>執行</value>
