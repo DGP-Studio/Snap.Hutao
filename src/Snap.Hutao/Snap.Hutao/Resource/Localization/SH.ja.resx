@@ -172,7 +172,7 @@
     <value>データベースが破損しています：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>{0}：ユーザデータが破損しました</value>
+    <value>ユーザデータが破損しました：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>管理者モードでこの機能を使わないでください： {0}</value>
@@ -557,7 +557,7 @@
     <value>米游社 / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
+    <value>UID: {0} の祈願履歴を {1} 件削除しました</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>胡桃クラウドへ保存された祈願履歴の数が現在のアカウントの上限に達しました。</value>
@@ -1044,43 +1044,44 @@
     <value>置換：{0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
-    <value>デバイスを取得する Package Version を実行している時に問題が発生しました。ゲームが役に立っていないかもしれません。</value>
+    <value>ローカル Package Version の読み込みに問題があって、ゲームを修復することで解決するかもしれません。
+</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
-    <value>データフォルダの名前を変更できませんでした</value>
+    <value>データフォルダ名前の変更に失敗しました</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
-    <value>Package Versionを取得</value>
+    <value>Package Version を取得中</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
-    <value>Package Versionを取得できません</value>
+    <value>Package Version を取得できません</value>
   </data>
   <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
-    <value>クライアントファイルのダウンロードに失敗しました。: {0}</value>
+    <value>クライアントファイルのダウンロードに失敗しました：{0}</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>ゲームパスが見つかりません、設定で変更してください</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
-    <value>長いパスのサポートがオフになっているため、レジストリキーを編集できません。</value>
+    <value>長いパスの機能が有効にならないため、レジストリキーを編集できません。</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが存在していない可能性があります。</value>
+    <value>ゲーム設定ファイル {0} を読み込めません。このファイルは存在しない可能性があります。</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
-    <value>設定ファイルを読み取れない、または保存できませんでした。管理者モードで再試行してください。</value>
+    <value>設定ファイルの読み込み又は保存ができません。管理者モードで再試行してください。</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>必要なモジュールの読み込みに失敗しました: モジュールの読み込みが出来ません。保護ドライバが読み込まれている可能性があります。もう一度お試しください。</value>
+    <value>必要なモジュールを検索時にエラーが発生しました：ドライバー保護がロードされているかもしれないので、モジュールを読み取れませんでした。もう一度お試しください。</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>必要なモジュールの検索時にエラーが発生しました: タイムアウトしました。もう一度お試しください。</value>
+    <value>必要なモジュールを検索時にエラーが発生しました：タイムアウト、もう一度お試しください。</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>メモリパターンマッチングエラー: 予期しない値です。</value>
+    <value>メモリ パターン マッチング エラー：予期しない値です。</value>
   </data>
   <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
-    <value>メモリへのモジュールの読み込みに失敗しました: 指定されたメモリ位置にモジュールをコピーできません。</value>
+    <value>必要なモジュールメモリを読み込む際にエラーが発生しました：指定された位置にモジュールメモリをコピーできません。</value>
   </data>
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>ゲームプロセスのメモリの読み取りに失敗しました: 指定されたアドレスで有効な値を読み取れませんでした。</value>
@@ -1107,19 +1108,19 @@
     <value>メタデータの検証ファイルのダウンロードに失敗しました。</value>
   </data>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
-    <value>胡桃のバージョンが古すぎるため、アップデートを推奨します。</value>
+    <value>あなたの胡桃バージョンは古すぎて、できるだけ早く更新してください！</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>ログインボーナスを獲得できませんでした。 {0}</value>
+    <value>ログイン失敗しました、{0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
-    <value>サインイン日数の取得に失敗しました。</value>
+    <value>ログイン日数の取得に失敗しました。</value>
   </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>ログイン報酬リストの取得に失敗しました。</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>認証に失敗しました、MiHoYo BBSの原神コーナーでログインボーナスを獲得してください</value>
+    <value>認証に失敗しました。HoYoLAB の原神ログインボーナスからご自身で報酬をお受け取りください。</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>ログインボーナスを獲得しました。{0}×{1}</value>
@@ -1185,7 +1186,7 @@
     <value>すべてのアイテムのコピーが利用可能になるまで</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
-    <value>この日に誕生日</value>
+    <value>誕生日を迎えるキャラクターはいません</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>天井までの回数</value>
