@@ -40,7 +40,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
     private bool entriesUpdating;
     private bool incompleteFirst;
-    private int materialListIndex;
 
     public AdvancedDbCollectionView<CultivateProject>? Projects
     {
@@ -68,8 +67,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     public bool EntriesUpdating { get => entriesUpdating; set => SetProperty(ref entriesUpdating, value); }
 
     public bool IncompleteFirst { get => incompleteFirst; set => SetProperty(ref incompleteFirst, value); }
-
-    public int MaterialListIndex { get => materialListIndex; set => SetProperty(ref materialListIndex, value); }
 
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
