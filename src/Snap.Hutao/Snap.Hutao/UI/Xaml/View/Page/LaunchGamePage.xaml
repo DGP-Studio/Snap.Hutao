@@ -281,7 +281,7 @@
                                                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                                 Command="{Binding GamePackageViewModel.StartCommand}"
                                                 CommandParameter="Extract"
-                                                Header="Extract"
+                                                Header="Extract Blks"
                                                 IsClickEnabled="True"
                                                 Visibility="{Binding GamePackageViewModel.IsExtractAvailable, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                         </cwc:SettingsExpander.Items>

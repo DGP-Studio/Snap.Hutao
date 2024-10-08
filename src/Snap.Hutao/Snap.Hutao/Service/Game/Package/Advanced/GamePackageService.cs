@@ -375,11 +375,11 @@ internal sealed partial class GamePackageService : IGamePackageService
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
         context.Progress.Report(new GamePackageOperationReport.Reset("Copying", 0, localBuild.TotalChunks, localBuild.TotalBytes));
-        string oldBlksDirectory = Path.Combine(context.Operation.GameFileSystem.DataDirectory, "StreamingAssets", "AssetBundles", "blocks");
+        string oldBlksDirectory = Path.Combine(context.Operation.GameFileSystem.DataDirectory, @"StreamingAssets\AssetBundles\blocks");
         foreach (string file in Directory.GetFiles(oldBlksDirectory, "*.blk", SearchOption.AllDirectories))
         {
             string fileName = Path.GetFileName(file);
-            string newFilePath = Path.Combine(context.Operation.GameFileSystem.ExtractDirectory, fileName);
+            string newFilePath = Path.Combine(context.Operation.ExtractOrGameDirectory, fileName);
             File.Copy(file, newFilePath, true);
             AssetProperty asset = localBuild.Manifests.First().ManifestProto.Assets.First(a =>
                 a.AssetName.Contains(fileName, StringComparison.OrdinalIgnoreCase));

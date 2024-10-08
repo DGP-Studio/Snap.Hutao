@@ -93,17 +93,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         CancellationToken token = context.CancellationToken;
 
-        string assetName = assetProperty.AssetName;
-        if (context.Operation.Kind is GamePackageOperationKind.Extract)
-        {
-            assetName = Path.GetFileName(assetName);
-        }
-
-        string path = Path.Combine(context.Operation.GameFileSystem.ExtractDirectory, assetName);
-        string? directory = Path.GetDirectoryName(path);
-        ArgumentNullException.ThrowIfNull(directory);
-        Directory.CreateDirectory(directory);
-
+        string path = context.EnsureAssetTargetDirectoryExists(assetProperty.AssetName);
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: 32 * 1024))
         {
             using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))

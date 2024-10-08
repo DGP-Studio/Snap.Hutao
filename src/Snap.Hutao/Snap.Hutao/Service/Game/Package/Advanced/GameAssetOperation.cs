@@ -147,7 +147,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         foreach (AssetProperty asset in assets)
         {
-            string assetPath = Path.Combine(context.Operation.GameFileSystem.ExtractDirectory, asset.AssetName);
+            string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
 
             if (asset.AssetType is 64)
             {
@@ -320,17 +320,8 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 }
             }
 
-            string assetName = asset.NewAsset.AssetName;
-            if (context.Operation.Kind is GamePackageOperationKind.Extract)
-            {
-                assetName = Path.GetFileName(assetName);
-            }
-
-            string newAssetPath = Path.Combine(context.Operation.GameFileSystem.ExtractDirectory, assetName);
-            string? directory = Path.GetDirectoryName(newAssetPath);
-            ArgumentNullException.ThrowIfNull(directory);
-            Directory.CreateDirectory(directory);
-            using (FileStream newAssetFileStream = File.Create(newAssetPath))
+            string path = context.EnsureAssetTargetDirectoryExists(asset.NewAsset.AssetName);
+            using (FileStream newAssetFileStream = File.Create(path))
             {
                 newAssetStream.Position = 0;
                 await newAssetStream.CopyToAsync(newAssetFileStream, token).ConfigureAwait(false);

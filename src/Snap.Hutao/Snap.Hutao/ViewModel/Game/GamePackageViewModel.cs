@@ -126,7 +126,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public bool IsExtractAvailable
     {
-        get => LocalSetting.Get(SettingKeys.AllowExtractGameBlks, false) && PreVersion is not null;
+        get => PreVersion is not null && LocalSetting.Get(SettingKeys.AllowExtractGameBlks, false);
     }
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
@@ -213,15 +213,14 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         GameChannelSDK? gameChannelSDK = sdkResp.Data.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
 
+        string? extractDirectory = default;
         if (operationKind is GamePackageOperationKind.Extract)
         {
-            (bool isExtractPickerOk, string extractDirectory) = fileSystemPickerInteraction.PickFolder("Select the directory to extract the game blks");
-            if (!isExtractPickerOk)
+            (bool isOk, extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
+            if (!isOk)
             {
                 return;
             }
-
-            gameFileSystem.ExtractDirectory = extractDirectory;
         }
 
         GamePackageOperationContext context = new(
@@ -230,7 +229,8 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             gameFileSystem,
             GameBranch.Main.GetTaggedCopy(LocalVersion.ToString()),
             operationKind is GamePackageOperationKind.Predownload or GamePackageOperationKind.Extract ? GameBranch.PreDownload : GameBranch.Main,
-            gameChannelSDK);
+            gameChannelSDK,
+            extractDirectory);
 
         if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
         {
