@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
@@ -260,6 +261,9 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBytes;
     }
 
+    [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
+    private static partial Regex AssetBundlesBlock();
+
     private async ValueTask VerifyAndRepairAsync(GamePackageServiceContext context)
     {
         if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild)
@@ -348,15 +352,6 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        SophonDecodedBuild ExtractGameAssetBundles(SophonDecodedBuild decodedBuild)
-        {
-            SophonDecodedManifest manifest = decodedBuild.Manifests.First();
-            SophonManifestProto newProto = new();
-            newProto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => asset.AssetName.Contains("AssetBundles", StringComparison.OrdinalIgnoreCase) && asset.AssetName.EndsWith(".blk", StringComparison.OrdinalIgnoreCase)));
-            SophonDecodedManifest newManifest = new(manifest.UrlPrefix, newProto);
-            return new(decodedBuild.TotalBytes, [newManifest]);
-        }
-
         localBuild = ExtractGameAssetBundles(localBuild);
         remoteBuild = ExtractGameAssetBundles(remoteBuild);
 
@@ -390,6 +385,14 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
+
+        SophonDecodedBuild ExtractGameAssetBundles(SophonDecodedBuild decodedBuild)
+        {
+            SophonDecodedManifest manifest = decodedBuild.Manifests.First();
+            SophonManifestProto proto = new();
+            proto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => AssetBundlesBlock().IsMatch(asset.AssetName)));
+            return new(decodedBuild.TotalBytes, [new(manifest.UrlPrefix, proto)]);
+        }
     }
 
     private async ValueTask PredownloadAsync(GamePackageServiceContext context)

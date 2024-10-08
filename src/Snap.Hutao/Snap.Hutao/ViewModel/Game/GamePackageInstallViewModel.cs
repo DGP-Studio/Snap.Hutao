@@ -104,7 +104,8 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             gameFileSystem,
             default!,
             branch.Main,
-            gameChannelSDK);
+            gameChannelSDK,
+            default);
 
         gameFileSystem.GenerateConfigurationFile(branch.Main.Tag, launchScheme);
 

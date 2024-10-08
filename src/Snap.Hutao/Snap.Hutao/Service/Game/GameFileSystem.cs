@@ -14,7 +14,6 @@ internal sealed class GameFileSystem
     private string? gameDirectory;
     private string? gameConfigFilePath;
     private string? pcGameSDKFilePath;
-    private string? extractDirectory;
     private GameAudioSystem? gameAudioSystem;
 
     public GameFileSystem(string gameFilePath)
