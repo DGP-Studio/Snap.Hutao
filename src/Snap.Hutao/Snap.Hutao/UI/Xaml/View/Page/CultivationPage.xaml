@@ -14,6 +14,7 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
+    xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
@@ -24,14 +25,24 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlFillColorTransparentBrush}">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource SolidBackgroundFillColorTransparent}">
+                        <cwconv:BoolToObjectConverter.TrueValue>
+                            <SolidColorBrush Color="#206A890A"/>
+                        </cwconv:BoolToObjectConverter.TrueValue>
+                    </cwconv:BoolToObjectConverter>
+                    <cwconv:BoolToObjectConverter x:Key="BoolToStatisticsBrushSelector" FalseValue="{StaticResource CardBackgroundFillColorDefaultBrush}">
                         <cwconv:BoolToObjectConverter.TrueValue>
                             <SolidColorBrush Color="#206A890A"/>
                         </cwconv:BoolToObjectConverter.TrueValue>
                     </cwconv:BoolToObjectConverter>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlFillColorTransparentBrush}">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource SolidBackgroundFillColorTransparent}">
+                        <cwconv:BoolToObjectConverter.TrueValue>
+                            <SolidColorBrush Color="#20A5D610"/>
+                        </cwconv:BoolToObjectConverter.TrueValue>
+                    </cwconv:BoolToObjectConverter>
+                    <cwconv:BoolToObjectConverter x:Key="BoolToStatisticsBrushSelector" FalseValue="{StaticResource CardBackgroundFillColorDefaultBrush}">
                         <cwconv:BoolToObjectConverter.TrueValue>
                             <SolidColorBrush Color="#20A5D610"/>
                         </cwconv:BoolToObjectConverter.TrueValue>
@@ -54,7 +65,9 @@
                 FalseValue="{StaticResource BodyTextBlockStyle}"
                 TrueValue="{StaticResource BaseTextBlockStyle}"/>
 
-            <DataTemplate x:Key="CultivateEntryItemTemplate">
+            <shuxdc:SpecificStringToVisibilityConverter x:Key="MaterialListSelectedItemIsStatisticsViewConverter" Value="Statistics"/>
+
+            <DataTemplate x:Key="CultivateEntryItemTemplate" x:DataType="shvcu:CultivateItemView">
                 <Grid Margin="0,4,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -172,7 +185,7 @@
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                         <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
                     </ItemContainer.Resources>
-                    <shuxcc:HorizontalCard>
+                    <shuxcc:HorizontalCard Background="{Binding IsToday, Converter={ThemeResource BoolToStatisticsBrushSelector}}">
                         <shuxcc:HorizontalCard.Left>
                             <Grid Grid.Column="0">
                                 <shuxc:ItemIcon
@@ -371,7 +384,17 @@
                             </Border>
                         </Border>
                     </shuxc:StandardView.EmptyContent>
-                    <Pivot Style="{ThemeResource CardPivotStyle}">
+                    <Pivot x:Name="MaterialListPivot" Style="{ThemeResource CardPivotStyle}">
+                        <Pivot.RightHeader>
+                            <CommandBar DefaultLabelPosition="Right">
+                                <AppBarToggleButton
+                                    Command="{Binding RefreshStatisticsItemsCommand}"
+                                    Icon="{shuxm:FontIcon Glyph=&#xE8CB;}"
+                                    IsChecked="{Binding IncompleteFirst, Mode=TwoWay}"
+                                    Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListIncompleteFirstLabel}"
+                                    Visibility="{Binding ElementName=MaterialListPivot, Path=SelectedItem.Tag, Converter={StaticResource MaterialListSelectedItemIsStatisticsViewConverter}}"/>
+                            </CommandBar>
+                        </Pivot.RightHeader>
                         <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -396,28 +419,23 @@
                                 </Border>
                             </Border>
                         </PivotItem>
-                        <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
+                        <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialStatistics}" Tag="Statistics">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <ScrollView HorizontalScrollBarVisibility="Hidden">
-                                        <ScrollViewer
-                                            Padding="16,0"
-                                            HorizontalScrollBarVisibility="Disabled"
-                                            VerticalScrollBarVisibility="Disabled">
-                                            <ItemsRepeater
-                                                Margin="0,16,0,0"
-                                                ItemTemplate="{StaticResource StatisticsItemTemplate}"
-                                                ItemsSource="{Binding StatisticsItems}">
-                                                <ItemsRepeater.Layout>
-                                                    <UniformGridLayout
-                                                        ItemsJustification="Start"
-                                                        ItemsStretch="Fill"
-                                                        MinColumnSpacing="12"
-                                                        MinItemWidth="240"
-                                                        MinRowSpacing="-4"/>
-                                                </ItemsRepeater.Layout>
-                                            </ItemsRepeater>
-                                        </ScrollViewer>
+                                    <ScrollView Padding="16,0" HorizontalScrollBarVisibility="Hidden">
+                                        <ItemsRepeater
+                                            Margin="0,16,0,0"
+                                            ItemTemplate="{StaticResource StatisticsItemTemplate}"
+                                            ItemsSource="{Binding StatisticsItems}">
+                                            <ItemsRepeater.Layout>
+                                                <UniformGridLayout
+                                                    ItemsJustification="Start"
+                                                    ItemsStretch="Fill"
+                                                    MinColumnSpacing="12"
+                                                    MinItemWidth="240"
+                                                    MinRowSpacing="-4"/>
+                                            </ItemsRepeater.Layout>
+                                        </ItemsRepeater>
                                     </ScrollView>
                                 </Border>
                             </Border>
@@ -430,16 +448,14 @@
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                         <!--  Add a ScrollView for smooth scrolling  -->
                         <ScrollView HorizontalScrollBarVisibility="Hidden">
-                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
-                                <ItemsRepeater
-                                    Margin="16"
-                                    ItemTemplate="{StaticResource InventoryItemTemplate}"
-                                    ItemsSource="{Binding InventoryItems}">
-                                    <ItemsRepeater.Layout>
-                                        <shuxcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
-                                    </ItemsRepeater.Layout>
-                                </ItemsRepeater>
-                            </ScrollViewer>
+                            <ItemsRepeater
+                                Margin="16"
+                                ItemTemplate="{StaticResource InventoryItemTemplate}"
+                                ItemsSource="{Binding InventoryItems}">
+                                <ItemsRepeater.Layout>
+                                    <shuxcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
                         </ScrollView>
                     </Border>
                 </Border>
