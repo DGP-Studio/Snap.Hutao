@@ -6,7 +6,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;

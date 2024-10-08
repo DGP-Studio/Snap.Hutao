@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using System.Diagnostics;
 using Snap.Hutao.UI.Xaml.View.Window;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Core.ExceptionService;
 

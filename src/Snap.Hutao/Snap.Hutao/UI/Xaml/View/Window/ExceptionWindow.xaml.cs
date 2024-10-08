@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Microsoft.Win32;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
