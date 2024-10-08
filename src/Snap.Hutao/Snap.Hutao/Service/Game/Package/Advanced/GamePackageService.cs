@@ -416,7 +416,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, totalBlocks, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, totalBlocks, 0, totalBytes));
 
         if (!Directory.Exists(context.Operation.GameFileSystem.ChunksDirectory))
         {
