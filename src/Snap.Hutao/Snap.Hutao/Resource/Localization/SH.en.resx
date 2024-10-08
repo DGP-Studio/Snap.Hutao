@@ -3347,6 +3347,15 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Weapon WIKI</value>
   </data>
+  <data name="ViewWindowExceptionDescription" xml:space="preserve">
+    <value>Take a screenshot of this window, find a suitable feedback path in the feedback center and send it to the UNDG.</value>
+  </data>
+  <data name="ViewWindowExceptionHeader" xml:space="preserve">
+    <value>Fatal error not recoverable</value>
+  </data>
+  <data name="ViewWindowExceptionTitle" xml:space="preserve">
+    <value>We encountered a bit of problems</value>
+  </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
     <value>Execute</value>
   </data>
