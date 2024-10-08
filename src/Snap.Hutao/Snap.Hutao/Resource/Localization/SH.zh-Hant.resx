@@ -2138,6 +2138,9 @@
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
     <value>材料清單</value>
   </data>
+  <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
+    <value>未集齐优先</value>
+  </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>材料統計</value>
   </data>
