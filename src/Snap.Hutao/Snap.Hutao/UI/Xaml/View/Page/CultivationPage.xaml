@@ -447,7 +447,7 @@
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                         <!--  Add a ScrollView for smooth scrolling  -->
-                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                        <ScrollView HorizontalScrollBarVisibility="Hidden">
                             <ItemsRepeater
                                 Margin="16"
                                 ItemTemplate="{StaticResource InventoryItemTemplate}"
@@ -456,7 +456,7 @@
                                     <shuxcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
                                 </ItemsRepeater.Layout>
                             </ItemsRepeater>
-                        </ScrollViewer>
+                        </ScrollView>
                     </Border>
                 </Border>
             </PivotItem>
