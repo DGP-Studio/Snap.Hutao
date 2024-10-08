@@ -156,6 +156,20 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    public bool AllowExtractGameBlks
+    {
+        get => LocalSetting.Get(SettingKeys.AllowExtractGameBlks, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AllowExtractGameBlks, value);
+        }
+    }
+
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {

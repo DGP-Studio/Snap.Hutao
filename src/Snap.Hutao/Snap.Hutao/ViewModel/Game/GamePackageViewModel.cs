@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
@@ -16,6 +18,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
@@ -121,6 +124,11 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         }
     }
 
+    public bool IsExtractAvailable
+    {
+        get => PreVersion is not null && LocalSetting.Get(SettingKeys.AllowExtractGameBlks, false);
+    }
+
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
@@ -205,13 +213,24 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         GameChannelSDK? gameChannelSDK = sdkResp.Data.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
 
+        string? extractDirectory = default;
+        if (operationKind is GamePackageOperationKind.Extract)
+        {
+            (bool isOk, extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
+            if (!isOk)
+            {
+                return;
+            }
+        }
+
         GamePackageOperationContext context = new(
             serviceProvider,
             operationKind,
             gameFileSystem,
             GameBranch.Main.GetTaggedCopy(LocalVersion.ToString()),
-            operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
-            gameChannelSDK);
+            operationKind is GamePackageOperationKind.Predownload or GamePackageOperationKind.Extract ? GameBranch.PreDownload : GameBranch.Main,
+            gameChannelSDK,
+            extractDirectory);
 
         if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
         {
