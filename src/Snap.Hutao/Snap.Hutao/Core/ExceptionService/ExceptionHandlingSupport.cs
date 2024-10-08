@@ -9,12 +9,17 @@ namespace Snap.Hutao.Core.ExceptionService;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class ExceptionRecorder
+internal sealed partial class ExceptionHandlingSupport
 {
-    private readonly ILogger<ExceptionRecorder> logger;
+    private readonly ILogger<ExceptionHandlingSupport> logger;
     private readonly IServiceProvider serviceProvider;
 
-    public void Record(Application app)
+    public static void Initialize(IServiceProvider serviceProvider, Application app)
+    {
+        serviceProvider.GetRequiredService<ExceptionHandlingSupport>().Attach(app);
+    }
+
+    private void Attach(Application app)
     {
         app.UnhandledException += OnAppUnhandledException;
         ConfigureDebugSettings(app);

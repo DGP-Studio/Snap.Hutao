@@ -20,7 +20,7 @@
                 Margin="12,0,0,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
-                Text="我们遇到了一点问题"/>
+                Text="{shuxm:ResourceString Name=ViewWindowExceptionTitle}"/>
         </Grid>
         <Grid
             Grid.Row="1"
@@ -33,8 +33,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-                <TextBlock Text="Snap Hutao 遇到了无法恢复的致命错误。"/>
-                <TextBlock Text="请截图此窗口并反馈至开发组。"/>
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewWindowExceptionHeader}"/>
+                <TextBlock Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}" Text="{shuxm:ResourceString Name=ViewWindowExceptionDescription}"/>
             </StackPanel>
             <Border Grid.Row="1" Style="{ThemeResource BorderCardStyle}">
                 <ScrollViewer>

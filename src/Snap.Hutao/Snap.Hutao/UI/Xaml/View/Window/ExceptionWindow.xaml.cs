@@ -17,12 +17,6 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 
 internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
 {
-    private const string WindowsVersionPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion";
-    private const string MajorKey = "CurrentMajorVersionNumber";
-    private const string MinorKey = "CurrentMinorVersionNumber";
-    private const string BuildKey = "CurrentBuildNumber";
-    private const string RevisionKey = "UBR";
-
     private readonly Exception exception;
 
     public ExceptionWindow(Exception exception)
@@ -30,12 +24,6 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
         // Message pump will die if we introduce XamlWindowController
         InitializeComponent();
         this.exception = exception;
-
-        if (AppWindow.Presenter is OverlappedPresenter presenter)
-        {
-            presenter.IsResizable = false;
-            presenter.IsMaximizable = false;
-        }
 
         AppWindow.Title = "Snap Hutao Exception Report";
 
@@ -56,22 +44,31 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
     {
         get
         {
-            using RegistryKey? key = Registry.LocalMachine.OpenSubKey(WindowsVersionPath);
-            ArgumentNullException.ThrowIfNull(key);
-            object? major = key.GetValue(MajorKey);
-            object? minor = key.GetValue(MinorKey);
-            object? build = key.GetValue(BuildKey);
-            object? revision = key.GetValue(RevisionKey);
-            string windowsVersion = $"Windows {major}.{minor}.{build}.{revision}";
+            using (RegistryKey? key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion"))
+            {
+                string windowsVersion;
+                if (key is not null)
+                {
+                    object? major = key.GetValue("CurrentMajorVersionNumber");
+                    object? minor = key.GetValue("CurrentMinorVersionNumber");
+                    object? build = key.GetValue("CurrentBuildNumber");
+                    object? revision = key.GetValue("UBR");
+                    windowsVersion = $"Windows {major}.{minor}.{build}.{revision}";
+                }
+                else
+                {
+                    windowsVersion = "Windows Version Unknown";
+                }
 
-            return $"""
-                {windowsVersion}
-                System Architecture: {RuntimeInformation.OSArchitecture}
-                Process Architecture: {RuntimeInformation.ProcessArchitecture}
-                Framework: {RuntimeInformation.FrameworkDescription}
+                return $"""
+                    {windowsVersion}
+                    System Architecture: {RuntimeInformation.OSArchitecture}
+                    Process Architecture: {RuntimeInformation.ProcessArchitecture}
+                    Framework: {RuntimeInformation.FrameworkDescription}
 
-                {ExceptionFormat.Format(exception)}
-                """;
+                    {ExceptionFormat.Format(exception)}
+                    """;
+            }
         }
     }
 

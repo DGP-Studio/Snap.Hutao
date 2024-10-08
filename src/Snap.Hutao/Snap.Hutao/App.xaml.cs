@@ -50,7 +50,7 @@ public sealed partial class App : Application
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
         this.serviceProvider = serviceProvider;
 
-        serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
+        ExceptionHandlingSupport.Initialize(serviceProvider, this);
     }
 
     public new void Exit()
