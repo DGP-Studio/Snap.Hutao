@@ -1251,7 +1251,7 @@
     <value>育成計画</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
-    <value>リアルタイムノート</value>
+    <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
     <value>データベース</value>
@@ -2886,7 +2886,7 @@
     <value>カレンダー</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
+    <value>リアルタイムノート</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈願履歴</value>
@@ -3346,6 +3346,15 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器一覧</value>
+  </data>
+  <data name="ViewWindowExceptionDescription" xml:space="preserve">
+    <value>フィードバックの方法はフィードバックセンター内から、開発者に連絡をとってください。</value>
+  </data>
+  <data name="ViewWindowExceptionHeader" xml:space="preserve">
+    <value>致命的なエラーが発生しました。</value>
+  </data>
+  <data name="ViewWindowExceptionTitle" xml:space="preserve">
+    <value>エラーが発生しました．</value>
   </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
     <value>実行</value>
