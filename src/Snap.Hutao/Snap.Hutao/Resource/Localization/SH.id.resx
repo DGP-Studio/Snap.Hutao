@@ -3347,6 +3347,15 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Senjata WIKI</value>
   </data>
+  <data name="ViewWindowExceptionDescription" xml:space="preserve">
+    <value>请截图此窗口，在反馈中心内找到适合的反馈途径，并反馈至开发组</value>
+  </data>
+  <data name="ViewWindowExceptionHeader" xml:space="preserve">
+    <value>遇到了无法恢复的致命错误</value>
+  </data>
+  <data name="ViewWindowExceptionTitle" xml:space="preserve">
+    <value>我们遇到了一点问题</value>
+  </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
     <value>Eksekusi</value>
   </data>
