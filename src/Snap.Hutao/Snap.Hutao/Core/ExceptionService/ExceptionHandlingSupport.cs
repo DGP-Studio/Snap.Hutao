@@ -3,17 +3,23 @@
 
 using Microsoft.UI.Xaml;
 using System.Diagnostics;
+using Snap.Hutao.UI.Xaml.View.Window;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class ExceptionRecorder
+internal sealed partial class ExceptionHandlingSupport
 {
-    private readonly ILogger<ExceptionRecorder> logger;
+    private readonly ILogger<ExceptionHandlingSupport> logger;
     private readonly IServiceProvider serviceProvider;
 
-    public void Record(Application app)
+    public static void Initialize(IServiceProvider serviceProvider, Application app)
+    {
+        serviceProvider.GetRequiredService<ExceptionHandlingSupport>().Attach(app);
+    }
+
+    private void Attach(Application app)
     {
         app.UnhandledException += OnAppUnhandledException;
         ConfigureDebugSettings(app);
@@ -41,6 +47,11 @@ internal sealed partial class ExceptionRecorder
         serviceProvider
             .GetRequiredService<Web.Hutao.Log.HutaoLogUploadClient>()
             .UploadLog(e.Exception);
+
+        XamlApplicationLifetime.Exiting = true;
+        ExceptionWindow.Show(e.Exception);
+
+        e.Handled = true;
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
