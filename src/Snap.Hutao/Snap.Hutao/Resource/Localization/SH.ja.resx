@@ -262,10 +262,10 @@
     <value>{0:f2} 回目</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
-    <value>最も遅い回数: {0} 回</value>
+    <value>一番運が悪かった: {0} 回</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
-    <value>最も早い回数: {0} 回</value>
+    <value>一番運が良かった: {0} 回</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
     <value>{0} 回目</value>
@@ -453,7 +453,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
-    <value>武器の突破素材</value>
+    <value>武器突破素材</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
@@ -545,16 +545,16 @@
     <value>宝盗団を 4 体フィールド上に維持し、倒され次第入れ替える、総計 12 個</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
-    <value>キャラクターラインナップを更新する</value>
+    <value>キャラクターラインナップを更新してください</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
     <value>データがありません</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
-    <value>精錬ランク{0}</value>
+    <value>精錬ランク {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>MiYouShe / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
+    <value>米游社 / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
@@ -668,7 +668,7 @@
     <value>UIAF Json ファイルを開く</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
-    <value>複数の同一アチーブメント Idがアーカイブに混在しています</value>
+    <value>単一のアーカイブに同一のアチーブメント ID が複数存在しています</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
@@ -699,35 +699,35 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBElec" xml:space="preserve">
-    <value>雷元素ダメージアップ</value>
+    <value>雷元素ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBFire" xml:space="preserve">
-    <value>炎元素ダメージアップ</value>
+    <value>炎元素ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBGrass" xml:space="preserve">
-    <value>草元素ダメージアップ</value>
+    <value>草元素ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBIce" xml:space="preserve">
-    <value>氷元素ダメージアップ</value>
+    <value>氷元素ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBPhyiscal" xml:space="preserve">
-    <value>物理攻撃ダメージアップ</value>
+    <value>物理ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBRock" xml:space="preserve">
-    <value>岩元素ダメージアップ</value>
+    <value>岩元素ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWater" xml:space="preserve">
-    <value>水元素ダメージアップ</value>
+    <value>水元素ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWind" xml:space="preserve">
-    <value>風元素ダメージアップ</value>
+    <value>風元素ダメージ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDef" xml:space="preserve">
@@ -743,7 +743,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
-    <value>治療BUFF</value>
+    <value>受ける治療効果</value>
   </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>HP</value>
@@ -782,7 +782,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
-    <value>クールダウン削減</value>
+    <value>クールダウン短縮</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>育成計算: 未更新</value>
@@ -791,10 +791,10 @@
     <value>育成計算: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>原神の記録: 更新していません</value>
+    <value>原神戦績：更新していません</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>原神の記録:{0:MM-dd HH:mm}</value>
+    <value>原神戦績: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryNotRefreshed" xml:space="preserve">
     <value>未更新</value>
@@ -806,10 +806,10 @@
     <value>キャラクターラインナップ：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
-    <value>Bingからのランダム画像</value>
+    <value>Bing 日替わり画像</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
-    <value>日替わり胡桃画像</value>
+    <value>胡桃 日替わり画像</value>
   </data>
   <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
     <value>公式ランチャー背景</value>
@@ -824,7 +824,7 @@
     <value>育成計画のステータスを保存できません</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
-    <value>育成計画を複数選択しています</value>
+    <value>複数選択された育成計画があります</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>アプリ通知の送信に失敗しました</value>
@@ -881,19 +881,19 @@
     <value>参量物質変化器は使用可能</value>
   </data>
   <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
-    <value>権限が足りないため、Discord アクティビティをセットできません</value>
+    <value>権限が足りないため、Discord Activity を設定できません</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>テイワット大陸を探索中</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
-    <value>スタートから {0}</value>
+    <value>{0} によって開始</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>{0}：祈願履歴を確認できません</value>
+    <value>祈願履歴を取得できません：{0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
-    <value>祈願履歴を確認できません End Id</value>
+    <value>祈願履歴を取得できません End Id</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>イベント祈願・キャラクター</value>
@@ -914,7 +914,7 @@
     <value>祈願履歴のアップロードサービスが利用できません</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>無効なアイテムが含まれてます、Id：{0}</value>
+    <value>データに予期せぬアイテムが含まれています, Id： {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>認証キーのリクエストに失敗しました。</value>
@@ -933,16 +933,16 @@
     <value>無効なURLです</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>HoYoLabユーザーのSToken 更新はサポートしていません。</value>
+    <value>HoYoLAB アカウントは SToken で祈願履歴を更新することをサポートできません。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url の言語：{0} と胡桃の設定言語：{1} とマッチングしません。言語を切り替えて再度試してください</value>
+    <value>Url の言語：{0} と胡桃の設定言語：{1} と一致しません。言語を切り替えて再度試してください</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
-    <value>Item Id：{0} はサポートしていません</value>
+    <value>サポートされていない Item Id：{0}</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF ファイルの言語：{0} と胡桃の設定言語：{1} がマッチングしません。言語を切り替えて再度試してください</value>
+    <value>UIGF ファイルの言語：{0} と胡桃の設定言語：{1} と一致しません。言語を切り替えて再度試してください</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>一致するアカウントが複数見つかりました。重複しているアカウントを削除してください。</value>
@@ -954,7 +954,7 @@
     <value>ゲームリソースのインデックスをダウンロード</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>ゲームファイルの操作に失敗しました。: {0}</value>
+    <value>ゲームファイルの操作に失敗しました：{0}</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
     <value>FPS上限の解放に失敗しました</value>
@@ -975,28 +975,28 @@
     <value>ゲームプロセスを初期化しています</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
-    <value>ゲームプロセスが生成されました</value>
+    <value>ゲームプロセスが開始されています</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
-    <value>FPS上限の解除に失敗しました、プロセスを終了します</value>
+    <value>FPS上限の解除に失敗し、ゲームプロセスを終了しています</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
     <value>FPS上限解除成功</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>FPSの上限解除を試みています</value>
+    <value>FPS上限の解除を試みています</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>プロセスが終了するまで待機中</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
-    <value>モジュールをロック解除する際に非常に危険で賭けます。モジュールが成功することは容易です。</value>
+    <value>ゲームプロセスに解除モジュールを注入するもので、非常に危険が、成功しやすいです。</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
-    <value>インジェクション</value>
+    <value>注入</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>標準的な手続きによる外メモリ操作、危険です、そして失敗することが容易です</value>
+    <value>標準的なプロセス外のメモリー操作で、より危険で失敗しやすいです。</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
     <value>クラシック</value>
@@ -1005,7 +1005,7 @@
     <value>ゲーム本体を選択する</value>
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
-    <value>ゲームクライアント</value>
+    <value>ゲーム本体</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity ログファイルが見つかりません</value>
@@ -1017,7 +1017,7 @@
     <value>リストのデータ解析に失敗しました</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>ストレージ容量不足のため、 {0},残り {1}</value>
+    <value>ディスク空き容量不足、{0} 必要、{1} 残り</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>ゲームをインストール中</value>
@@ -2139,7 +2139,7 @@
     <value>素材リスト</value>
   </data>
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
-    <value>未集齐优先</value>
+    <value>未集束優先</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>素材情報</value>
