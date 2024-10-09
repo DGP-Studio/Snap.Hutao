@@ -38,7 +38,7 @@ internal sealed class UpdateLogContentProvider : IWebView2ContentProvider
         PointInt32 center = parentRect.GetPointInt32(PointInt32Kind.Center);
         SizeInt32 size = new SizeInt32(640, 800).Scale(parentDpi);
         RectInt32 target = RectInt32Convert.RectInt32(new(center.X - (size.Width / 2), center.Y - (size.Height / 2)), size);
-        RectInt32 workArea = DisplayArea.GetFromRect(parentRect, DisplayAreaFallback.None).WorkArea;
+        RectInt32 workArea = DisplayArea.GetFromRect(parentRect, DisplayAreaFallback.Primary).WorkArea;
         RectInt32 workAreaShrink = new(workArea.X + 48, workArea.Y + 48, workArea.Width - 96, workArea.Height - 96);
 
         if (target.Width > workAreaShrink.Width)
