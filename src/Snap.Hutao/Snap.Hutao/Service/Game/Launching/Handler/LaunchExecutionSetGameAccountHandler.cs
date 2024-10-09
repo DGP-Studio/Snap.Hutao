@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Account;
+using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -9,15 +12,42 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (context.Account is not null)
+        if (context.Options.IsUseMiYouSheAccount)
         {
-            context.Logger.LogInformation("Set game account to [{Account}]", context.Account.Name);
-
-            if (!RegistryInterop.Set(context.Account))
+            if (context.UserAndUid is { } userAndUid)
             {
-                context.Result.Kind = LaunchExecutionResultKind.GameAccountRegistryWriteResultNotMatch;
-                context.Result.ErrorMessage = SH.ViewModelLaunchGameSwitchGameAccountFail;
-                return;
+                Response<AuthTicketWrapper> resp;
+                using (IServiceScope scope = context.ServiceProvider.CreateScope())
+                {
+                    HoyoPlayPassportClient client = scope.ServiceProvider.GetRequiredService<HoyoPlayPassportClient>();
+                    resp = await client
+                        .CreateAuthTicketAsync(userAndUid.User, context.CancellationToken)
+                        .ConfigureAwait(false);
+                }
+
+                if (resp.IsOk())
+                {
+                    context.AuthTicket = resp.Data.Ticket;
+                }
+            }
+            else
+            {
+                IInfoBarService infoBarService = context.ServiceProvider.GetRequiredService<IInfoBarService>();
+                infoBarService.Warning("未选中米游社用户，将保留游戏内登录态");
+            }
+        }
+        else
+        {
+            if (context.Account is not null)
+            {
+                context.Logger.LogInformation("Set game account to [{Account}]", context.Account.Name);
+
+                if (!RegistryInterop.Set(context.Account))
+                {
+                    context.Result.Kind = LaunchExecutionResultKind.GameAccountRegistryWriteResultNotMatch;
+                    context.Result.ErrorMessage = SH.ViewModelLaunchGameSwitchGameAccountFail;
+                    return;
+                }
             }
         }
 
