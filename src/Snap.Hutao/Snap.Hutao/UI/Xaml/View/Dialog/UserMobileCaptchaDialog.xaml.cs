@@ -16,7 +16,7 @@ using Windows.System;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [INotifyPropertyChanged]
-internal sealed partial class UserMobileCaptchaDialog : ContentDialog
+internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassportMobileCaptchaProvider
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
@@ -63,6 +63,8 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
 
     public string? ActionType { get; private set; }
 
+    public string? Aigis { get; private set; }
+
     [Command("SendMobileCaptchaCommand")]
     public async Task SendMobileCaptchaAsync()
     {
@@ -79,7 +81,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
 
         if (!string.IsNullOrEmpty(rawSession))
         {
-            Aigis? session = JsonSerializer.Deserialize<Aigis>(rawSession);
+            AigisObject? session = JsonSerializer.Deserialize<AigisObject>(rawSession);
             ArgumentNullException.ThrowIfNull(session);
             AigisData? sessionData = JsonSerializer.Deserialize<AigisData>(session.Data);
             ArgumentNullException.ThrowIfNull(sessionData);
@@ -101,11 +103,11 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
                 return;
             }
 
-            string aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(result))}";
+            Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(result))}";
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-                (rawSession, response) = await passportClient2.CreateLoginCaptchaAsync(Mobile, aigis).ConfigureAwait(false);
+                (rawSession, response) = await passportClient2.CreateLoginCaptchaAsync(Mobile, Aigis).ConfigureAwait(false);
             }
         }
 
@@ -155,7 +157,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
         }
     }
 
-    private sealed class Aigis
+    private sealed class AigisObject
     {
         [JsonPropertyName("session_id")]
         public string SessionId { get; set; } = default!;

@@ -103,7 +103,16 @@ internal sealed partial class PassportClient2
         return (values?.SingleOrDefault(), Response.Response.DefaultIfNull(resp));
     }
 
-    public async ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(string actionType, string mobile, string captcha, CancellationToken token = default)
+    public ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(IPassportMobileCaptchaProvider provider, CancellationToken token = default)
+    {
+        ArgumentNullException.ThrowIfNull(provider.ActionType);
+        ArgumentNullException.ThrowIfNull(provider.Mobile);
+        ArgumentNullException.ThrowIfNull(provider.Captcha);
+
+        return LoginByMobileCaptchaAsync(provider.ActionType, provider.Mobile, provider.Captcha, provider.Aigis, token);
+    }
+
+    public async ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(string actionType, string mobile, string captcha, string? aigis, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -116,6 +125,11 @@ internal sealed partial class PassportClient2
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.AccountLoginByMobileCaptcha())
             .PostJson(data);
+
+        if (!string.IsNullOrEmpty(aigis))
+        {
+            builder.SetXrpcAigis(aigis);
+        }
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 

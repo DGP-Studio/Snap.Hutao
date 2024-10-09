@@ -147,6 +147,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         foreach (AssetProperty asset in assets)
         {
+            ArgumentNullException.ThrowIfNull(asset);
             string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
 
             if (asset.AssetType is 64)
