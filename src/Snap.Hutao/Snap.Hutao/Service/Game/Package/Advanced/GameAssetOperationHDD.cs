@@ -34,7 +34,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
             ValueTask task = asset.Kind switch
             {
                 SophonAssetOperationKind.AddOrRepair or SophonAssetOperationKind.Modify => EnsureAssetAsync(context, asset),
-                SophonAssetOperationKind.Delete => DeleteAssetsAsync(context, diffAssets.Select(a => a.OldAsset)),
+                SophonAssetOperationKind.Delete => DeleteAssetAsync(context, asset.OldAsset),
                 _ => ValueTask.CompletedTask,
             };
 

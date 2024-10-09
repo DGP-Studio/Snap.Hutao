@@ -141,28 +141,24 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         }
     }
 
-    protected static async ValueTask DeleteAssetsAsync(GamePackageServiceContext context, IEnumerable<AssetProperty> assets)
+    protected static ValueTask DeleteAssetAsync(GamePackageServiceContext context, AssetProperty asset)
     {
-        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
 
-        foreach (AssetProperty asset in assets)
+        if (asset.AssetType is 0x40)
         {
-            ArgumentNullException.ThrowIfNull(asset);
-            string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
-
-            if (asset.AssetType is 0x40)
+            if (Directory.Exists(assetPath))
             {
-                if (Directory.Exists(assetPath))
-                {
-                    Directory.Delete(assetPath, true);
-                }
-            }
-
-            if (File.Exists(assetPath))
-            {
-                File.Delete(assetPath);
+                Directory.Delete(assetPath, true);
             }
         }
+
+        if (File.Exists(assetPath))
+        {
+            File.Delete(assetPath);
+        }
+
+        return ValueTask.CompletedTask;
     }
 
     protected static async ValueTask DownloadChunkAsync(GamePackageServiceContext context, SophonChunk sophonChunk)

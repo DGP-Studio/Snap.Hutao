@@ -314,8 +314,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
-        diffAssets.SortBy(a => a.Kind);
+        List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList().SortBy(a => a.Kind);
 
         int downloadTotalChunks = GetTotalBlocks(diffAssets);
         int installTotalChunks = diffAssets.Sum(a => a.NewAsset.AssetChunks.Count);

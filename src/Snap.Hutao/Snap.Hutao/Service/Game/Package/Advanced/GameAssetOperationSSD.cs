@@ -28,7 +28,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         await Parallel.ForEachAsync(diffAssets, context.ParallelOptions, (asset, token) => asset.Kind switch
         {
             SophonAssetOperationKind.AddOrRepair or SophonAssetOperationKind.Modify => EnsureAssetAsync(context, asset),
-            SophonAssetOperationKind.Delete => DeleteAssetsAsync(context, diffAssets.Select(a => a.OldAsset)),
+            SophonAssetOperationKind.Delete => DeleteAssetAsync(context, asset.OldAsset),
             _ => ValueTask.CompletedTask,
         }).ConfigureAwait(false);
     }
