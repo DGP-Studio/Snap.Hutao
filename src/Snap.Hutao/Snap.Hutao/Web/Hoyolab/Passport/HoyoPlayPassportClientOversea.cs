@@ -13,12 +13,12 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 [ConstructorGenerated(ResolveHttpClient = true)]
-[HttpClient(HttpClientConfiguration.XRpc5)]
-internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
+[HttpClient(HttpClientConfiguration.XRpc6)]
+internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HoyoPlayPassportClient> logger;
-    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly ILogger<HoyoPlayPassportClientOversea> logger;
+    [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
@@ -31,7 +31,7 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
 
         AuthTicketRequest data = new()
         {
-            GameBiz = "hk4e_cn",
+            GameBiz = "hk4e_global",
             Mid = user.Mid,
             SToken = stoken,
             Uid = int.Parse(user.Aid, CultureInfo.InvariantCulture),
