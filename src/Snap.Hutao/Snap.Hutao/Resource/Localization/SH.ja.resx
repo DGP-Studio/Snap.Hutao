@@ -262,10 +262,10 @@
     <value>{0:f2} 回目</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
-    <value>一番運が悪かった: {0} 回</value>
+    <value>最不運: {0} 回</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
-    <value>一番運が良かった: {0} 回</value>
+    <value>最幸運: {0} 回</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
     <value>{0} 回目</value>
