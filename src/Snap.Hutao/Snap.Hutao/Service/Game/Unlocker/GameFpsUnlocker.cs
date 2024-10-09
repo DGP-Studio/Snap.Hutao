@@ -29,6 +29,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private readonly string gameVersion;
 
     private IslandFunctionOffsets? offsets;
+    private int accumulatedBadStateCount;
 
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, string gameVersion)
     {
@@ -94,6 +95,18 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
                             IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
                             context.Logger.LogDebug("Island Environment|{State}|{Error}|{Value}", view.State, view.LastError, view.DebugOriginalFieldOfView);
+
+                            if (view.State is IslandState.None or IslandState.Stopped)
+                            {
+                                if (Interlocked.Increment(ref accumulatedBadStateCount) >= 5)
+                                {
+                                    HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
+                                }
+                            }
+                            else
+                            {
+                                Interlocked.Exchange(ref accumulatedBadStateCount, 0);
+                            }
                         }
                     }
                 }
@@ -144,11 +157,13 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             if (hHook.Value is 0)
             {
                 Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                HutaoException.Throw("SetWindowsHookExW returned 'NULL' but no Error is presented");
             }
 
             if (!PostThreadMessageW(threadId, WM_NULL, default, default))
             {
                 Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                HutaoException.Throw("PostThreadMessageW returned 'FALSE' but no Error is presented");
             }
         }
         finally
