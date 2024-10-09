@@ -221,7 +221,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         return uniqueChunkNames.Count;
     }
 
-    private static int GetTotalBlocks(List<SophonAssetOperation> assets)
+    private static int GetDownloadTotalBlocks(List<SophonAssetOperation> assets)
     {
         int totalBlocks = 0;
         foreach (ref readonly SophonAssetOperation asset in CollectionsMarshal.AsSpan(assets))
@@ -233,6 +233,24 @@ internal sealed partial class GamePackageService : IGamePackageService
                     break;
                 case SophonAssetOperationKind.Modify:
                     totalBlocks += asset.DiffChunks.Count;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return totalBlocks;
+    }
+
+    private static int GetInstallTotalBlocks(List<SophonAssetOperation> assets)
+    {
+        int totalBlocks = 0;
+        foreach (ref readonly SophonAssetOperation asset in CollectionsMarshal.AsSpan(assets))
+        {
+            switch (asset.Kind)
+            {
+                case SophonAssetOperationKind.AddOrRepair or SophonAssetOperationKind.Modify:
+                    totalBlocks += asset.NewAsset.AssetChunks.Count;
                     break;
                 default:
                     break;
@@ -316,8 +334,8 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList().SortBy(a => a.Kind);
 
-        int downloadTotalChunks = GetTotalBlocks(diffAssets);
-        int installTotalChunks = diffAssets.Sum(a => a.NewAsset.AssetChunks.Count);
+        int downloadTotalChunks = GetDownloadTotalBlocks(diffAssets);
+        int installTotalChunks = GetInstallTotalBlocks(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
         if (!context.EnsureAvailableFreeSpace(totalBytes))
@@ -357,8 +375,8 @@ internal sealed partial class GamePackageService : IGamePackageService
         List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
         diffAssets.SortBy(a => a.Kind);
 
-        int downloadTotalChunks = GetTotalBlocks(diffAssets);
-        int installTotalChunks = diffAssets.Sum(a => a.NewAsset.AssetChunks.Count);
+        int downloadTotalChunks = GetDownloadTotalBlocks(diffAssets);
+        int installTotalChunks = GetInstallTotalBlocks(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
         if (!context.EnsureAvailableFreeSpace(totalBytes))
@@ -407,7 +425,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         diffAssets.SortBy(a => a.Kind);
 
         int uniqueTotalBlocks = GetUniqueTotalBlocks(diffAssets);
-        int totalBlocks = GetTotalBlocks(diffAssets);
+        int totalBlocks = GetDownloadTotalBlocks(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
         if (!context.EnsureAvailableFreeSpace(totalBytes))
