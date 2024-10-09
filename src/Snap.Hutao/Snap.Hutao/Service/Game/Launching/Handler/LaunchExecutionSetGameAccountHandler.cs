@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -19,7 +20,9 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
                 Response<AuthTicketWrapper> resp;
                 using (IServiceScope scope = context.ServiceProvider.CreateScope())
                 {
-                    HoyoPlayPassportClient client = scope.ServiceProvider.GetRequiredService<HoyoPlayPassportClient>();
+                    IHoyoPlayPassportClient client = scope.ServiceProvider
+                        .GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>()
+                        .CreateFor(userAndUid);
                     resp = await client
                         .CreateAuthTicketAsync(userAndUid.User, context.CancellationToken)
                         .ConfigureAwait(false);
