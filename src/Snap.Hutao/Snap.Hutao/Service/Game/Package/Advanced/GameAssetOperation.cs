@@ -150,7 +150,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
             ArgumentNullException.ThrowIfNull(asset);
             string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
 
-            if (asset.AssetType is 64)
+            if (asset.AssetType is 0x40)
             {
                 if (Directory.Exists(assetPath))
                 {

@@ -9,8 +9,8 @@ AccountLoginByMobileCaptcha(),https://passport-api.mihoyo.com/account/ma-cn-pass
 AccountLoginByPassword(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/loginByPassword,
 AccountVerifyLtoken(),https://passport-api-v4.mihoyo.com/account/ma-cn-session/web/verifyLtoken,
 ActHoyolabReferer(),,https://act.hoyolab.com/
-"AnnContent(string languageCode, Region region)","https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}","https://hk4e-api-os.hoyoverse.com/common/hk4e_global/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}"
-"AnnList(string languageCode, Region region)","https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}","https://hk4e-api-os.hoyoverse.com/common/hk4e_global/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}"
+"AnnContent(string languageCode, Region region)","https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}","https://sg-hk4e-api.hoyoverse.com/common/hk4e_global/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}"
+"AnnList(string languageCode, Region region)","https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}","https://sg-hk4e-api.hoyoverse.com/common/hk4e_global/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}"
 "AnnouncementQuery(string languageCode, Region region)",game=hk4e&game_biz=hk4e_cn&lang={languageCode}&bundle_id=hk4e_cn&platform=pc&region={region}&level=55&uid=100000000,game=hk4e&game_biz=hk4e_global&lang={languageCode}&bundle_id=hk4e_global&platform=pc&region={region}&level=55&uid=100000000
 AppAuthGenAuthKey(),https://app.mihoyo.com/account/auth/api/genAuthKey,
 AppReferer(),https://app.mihoyo.com,https://app.hoyolab.com/
