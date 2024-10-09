@@ -1147,22 +1147,22 @@
     <value>ユーザー情報を取得できません</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
-    <value>おススメ追加</value>
+    <value>追加ステータス推奨</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
-    <value>分類群の主の思想</value>
+    <value>理の冠メインステ推奨</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
-    <value>空のマグカップの推奨事項です。</value>
+    <value>空の杯メインステ推奨</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
-    <value>時の沙主属性推奨</value>
+    <value>時の砂メインステ推奨</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>画像をコピー</value>
   </data>
   <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
-    <value>マニフェストデータを取得中</value>
+    <value>リストデータを取得中</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
     <value>認証を完了してください。</value>
@@ -1186,7 +1186,7 @@
     <value>すべてのアイテムのコピーが利用可能になるまで</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
-    <value>誕生日を迎えるキャラクターはいません</value>
+    <value>誕生日を迎えるキャラはいません</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>天井までの回数</value>
@@ -1231,7 +1231,7 @@
     <value>前回の星4から</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
-    <value>ピックアップ獲得平均数</value>
+    <value>UP 獲得平均数</value>
   </data>
   <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
     <value>ピックアップ</value>
@@ -1789,10 +1789,10 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:P3} の確率で {0} 回後に星5アイテムが排出される</value>
+    <value>{0} 回引くと {1:P3} の確率で星5ｱｲﾃﾑが獲得</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:P3} の確率で次回は星5アイテムが排出される</value>
+    <value>次回抽選 {0:P3} の確率で星5ｱｲﾃﾑが獲得</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>祈願履歴を取得できません</value>
