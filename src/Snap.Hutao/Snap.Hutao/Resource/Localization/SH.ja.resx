@@ -1267,13 +1267,13 @@
     <value>インポートモード</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
-    <value>貪欲（新規項目の追加、達成項目をチェック）</value>
+    <value>貪欲（新規項目を追加、達成項目を更新）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
-    <value>怠惰（新規項目の追加、達成項目をスキップ）</value>
+    <value>怠惰（新規項目を追加、達成項目をスキップ）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
-    <value>置換（現在項目の削除、全項目をインポート）</value>
+    <value>置換（既存項目を削除、新規項目を追加）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>アーカイブにアチーブメントをインポート</value>
@@ -1294,7 +1294,7 @@
     <value>武器目標レベル</value>
   </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
-    <value>現在のユーザとUIDを連携する</value>
+    <value>ユーザーとキャラを連携する</value>
   </data>
   <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
     <value>ここに計画名を入力してください</value>
@@ -1309,46 +1309,46 @@
     <value>現在の育成計画に追加または更新する</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
-    <value>アイテムは常に新しいドリルを作成</value>
+    <value>常に新しい育成対象を作成する</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
-    <value>次で保存</value>
+    <value>保存方法</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
-    <value>既存の育成目的アイテム</value>
+    <value>既存の育成対象を上書きする</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
-    <value>対象のアイテムを予約する</value>
+    <value>既存の育成対象を維持する</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
-    <value>まだデイリー依頼を行っていません</value>
+    <value>デイリー依頼可用の通知</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
-    <value>探検派遣完了のお知らせ</value>
+    <value>探索派遣完了の通知</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>洞天宝銭がまもなく上限に到達</value>
+    <value>洞天宝銭の通知の閾値</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>天然樹脂がもうすぐ上限に到達</value>
+    <value>天然樹脂の通知の閾値</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
-    <value>ホームページに表示</value>
+    <value>カードをホームページに表示</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
     <value>リアルタイムノートの通知設定</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
-    <value>参量物質変化器は使えるようになりました</value>
+    <value>参量物質変化器の通知</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>URLを入力</value>
+    <value>URL を入力してください</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>リアルタイムノートのWebhook URL</value>
+    <value>リアルタイムノート Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
-    <value>レコードをエクスポートする UID を選択します。</value>
+    <value>記録をエクスポートする UID を選択してください</value>
   </data>
   <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
     <value>UIGFファイルをエクスポートします。</value>
@@ -1363,7 +1363,7 @@
     <value>祈願記録をインポート</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈願履歴Urlが無効です、再度取得してください</value>
+    <value>祈願履歴 URL が無効で、再試行してください</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>{0} を取得中</value>
@@ -1372,13 +1372,13 @@
     <value>祈願履歴を取得中</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>Urlを入力してください</value>
+    <value>URL を入力してください</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>祈願履歴のURLを直接入力</value>
+    <value>祈願履歴 URL を手動で入力する</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>パラメーターを使用したリクエストURLの入力</value>
+    <value>リクエスト URL の複合テンプレートを入力してください</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
     <value>認証サービスは、上記のようなJsonデータを返す必要があります。この例以外のデータは無視されます。</value>
@@ -1432,7 +1432,7 @@
     <value>UIAFバージョン</value>
   </data>
   <data name="ViewDialogImportUIGFExportListCount" xml:space="preserve">
-    <value>レコード数</value>
+    <value>記録総数</value>
   </data>
   <data name="ViewDialogImportUIGFExportUid" xml:space="preserve">
     <value>UID</value>
@@ -1441,7 +1441,7 @@
     <value>UIAFバージョン</value>
   </data>
   <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
-    <value>レコードをインポートする UID を選択してください</value>
+    <value>記録をインポートする UID を選択してください</value>
   </data>
   <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
     <value>UIGF ファイルのインポート</value>
@@ -1456,7 +1456,7 @@
     <value>現在のゲームサーバーに対応したゲームパスを選択してください</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>設定ファイルの修復</value>
+    <value>設定ファイルを修復中</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>変換に時間がかかる場合があります、アプリを閉じないでください</value>
@@ -1465,22 +1465,22 @@
     <value>ゲームランチャー切り替え中</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>MiHoYo BBS を使用して QR コードをスキャンします</value>
+    <value>HoYoLAB を使用して QR コードをスキャンします</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
-    <value>この機能の強化者には、独立した判断力の専門家が必要となります。これらの機能を定期的に更新したくない場合は、コンテンツ作成者であり、それは作成者のための明確な記述にしないでください。</value>
+    <value>これらの機能の使用人は独立的な判断能力を確保するため、私たちは不定期に機能の有効条件を更新します。コンテンツ制作者の方は、胡桃関連の内容を創作する際には、特定の有効化方法を視聴者と共有しないでください。</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>謝って有効にしないようにするためには、有効にする機能の&lt;b&gt;タイトル名&lt;/b&gt;を入力してください</value>
+    <value>意図せず有効になってしまうのを防ぐため、有効にしようとしている機能の&lt;b&gt;タイトル名&lt;/b&gt;を入力してください。</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>危険な機能を有効にしています</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
-    <value>この操作は取り消せません。すべてのユーザーのログイン状態が解除されます。</value>
+    <value>この操作は不可逆的であり、全体ユーザーのログイン状態が失われます。</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
-    <value>ユーザーデータを完全に削除しますか</value>
+    <value>ユーザーデータを永久に削除しますか</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>現在胡桃アカウントにログインしていないので、深淵データをアップロードすると胡桃クラウドの利用期限は受け取れません</value>
@@ -1540,7 +1540,7 @@
     <value>祈願履歴</value>
   </data>
   <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
-    <value>推定アセットサイズ: {0}</value>
+    <value>推定ダウンロードサイズ：{0}</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
     <value>規約を熟読し、それに同意します</value>
@@ -1552,10 +1552,10 @@
     <value>Snap Hutao オープンソースライセンス</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
-    <value>プライバシーポリシー</value>
+    <value>ユーザーデータとプライバシー権利</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
-    <value>利用規約</value>
+    <value>使用許諾契約と法的事項</value>
   </data>
   <data name="ViewGuideStepCommonSetting" xml:space="preserve">
     <value>一般設定</value>
@@ -1570,19 +1570,19 @@
     <value>実行環境</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
-    <value>インストール完了後に胡桃を再起動し、動作を確認してください</value>
+    <value>インストール後、胡桃を再起動し、効果が正常かどうかを確認してください</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>上のアイコンに文字化けがある場合は、こちらをご覧ください。</value>
+    <value>上のアイコンに文字化けがある場合は、どうぞこちらへ</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
-    <value>フォントを自動的にダウンロード、インストールします</value>
+    <value>アイコンフォントをダウンロード、自動的にインストールします</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>WebView2 ランタイムが検出されませんとアラートが出た場合はこちら</value>
+    <value>WebView2 ランタイム情報が検出されない場合は、どうぞこちらへ</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>ランタイムを自動的にダウンロード、インストールします</value>
+    <value>ランタイムをダウンロード、自動的にインストールします</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>言語設定</value>
@@ -1603,7 +1603,7 @@
     <value>完全なアーカイブ</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
-    <value>最小限のアーカイブ</value>
+    <value>簡潔なアーカイブ</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>画像アセットの画質</value>
@@ -1648,7 +1648,7 @@
     <value>UIAF バージョンが古いため、インポートできません</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
-    <value>この操作は取り消せません。アーカイブおよびアチーブメントの達成ログが削除されます。</value>
+    <value>この操作は不可逆的であり、アーカイブと中のすべてのアチーブメント達成状態は失われます。</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>{0} を削除してもよろしいでしょうか？</value>
@@ -2092,13 +2092,13 @@
     <value>キャラクターラインナップの情報を同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
-    <value>MiHoYo BBS育成ツールから同期</value>
+    <value>HoYoLAB 育成計算から同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
     <value>キャラクターの天賦情報を同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>MiHoYo BBSから原神の記録を同期</value>
+    <value>HoYoLAB 原神戦績から同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>キャラ天賦以外の情報を概ね同期</value>
@@ -2176,7 +2176,7 @@
     <value>冒険ポイントのステータス</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
-    <value>リアルタイムノートの更新時に、指定したWebhookへPOSTを送信します。</value>
+    <value>ﾘｱﾙﾀｲﾑﾉｰﾄが更新後に指定の Webhook へデータを送信します。</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
     <value>Webhookの設定</value>
@@ -2878,10 +2878,10 @@
     <value>お知らせのサーバー</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
-    <value>ダッシュボードを整理する</value>
+    <value>ホームのダッシュボードでカードを管理する</value>
   </data>
   <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
-    <value>ダッシュボード</value>
+    <value>ホームカード</value>
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>アチーブメント</value>
@@ -3271,7 +3271,7 @@
     <value>ツールボックス</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>MiYouShe</value>
+    <value>米游社</value>
   </data>
   <data name="ViewUserCookieOperation2" xml:space="preserve">
     <value>HoYoLAB</value>
@@ -3490,7 +3490,7 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>認証に失敗しました。「MiHoYo BBS - 戦績ツール - リアルタイムノート」で確認してください</value>
+    <value>認証に失敗しました。「HoYoLAB - ツールボックス - 戦績 - リアルタイムノート」で確認してください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>間違った UID フォーマット</value>
@@ -3562,7 +3562,7 @@
     <value>胡桃サーバがメンテナンス中です</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>認証に失敗しました。 手動で認証するか、MiHoYo BBS - 戦績 - マイ キャラクター を確認してください。</value>
+    <value>認証に失敗しました。手動で認証するか「HoYoLAB - ツールボックス - 戦績」で確認してください。</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>リターンコード：{0} | メッセージ：{1}</value>
