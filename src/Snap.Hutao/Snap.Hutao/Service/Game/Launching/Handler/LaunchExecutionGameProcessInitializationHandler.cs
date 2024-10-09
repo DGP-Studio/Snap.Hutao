@@ -38,6 +38,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
                 .AppendIf(launchOptions.IsScreenHeightEnabled, "-screen-height", launchOptions.ScreenHeight)
                 .AppendIf(launchOptions.IsMonitorEnabled, "-monitor", launchOptions.Monitor.Value)
                 .AppendIf(launchOptions.IsUseCloudThirdPartyMobile, "-platform_type CLOUD_THIRD_PARTY_MOBILE")
+                .AppendIf(context.AuthTicket is not null, $"login_auth_ticket={context.AuthTicket}")
                 .ToString();
         }
 

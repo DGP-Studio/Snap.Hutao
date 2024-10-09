@@ -330,12 +330,14 @@
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
-                                        IsClickEnabled="True"/>
+                                        IsClickEnabled="True"
+                                        IsEnabled="{Binding LaunchOptions.IsUseMiYouSheAccount, Converter={StaticResource BoolNegationConverter}}"/>
                                     <Border Style="{StaticResource BorderCardStyle}">
                                         <ListView
                                             Padding="{StaticResource ListViewInSplitPanePadding}"
                                             AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                                             CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                            IsEnabled="{Binding LaunchOptions.IsUseMiYouSheAccount, Converter={StaticResource BoolNegationConverter}}"
                                             ItemTemplate="{StaticResource GameAccountListTemplate}"
                                             ItemsSource="{Binding GameAccountsView}"
                                             SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
@@ -368,6 +370,24 @@
                                         Margin="1,0,0,5"
                                         Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
+                                    <cwc:SettingsCard
+                                        Description="使用当前选中的米游社用户登录，仅支持官服"
+                                        Header="使用米游社用户登录"
+                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}">
+                                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                            <clw:TokenItem
+                                                VerticalAlignment="Center"
+                                                Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                Content="BETA"
+                                                Icon="{shuxm:FontIcon Glyph=&#xE7C1;}"
+                                                IsHitTestVisible="False">
+                                                <clw:TokenItem.Resources>
+                                                    <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
+                                                </clw:TokenItem.Resources>
+                                            </clw:TokenItem>
+                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsUseMiYouSheAccount, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                    </cwc:SettingsCard>
                                     <cwc:SettingsExpander
                                         shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.IsEnabled}"
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"

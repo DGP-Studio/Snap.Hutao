@@ -1,5 +1,6 @@
 Name,CN,OS
 AccountCreateActionTicket(),https://passport-api.mihoyo.com/account/ma-cn-verifier/app/createActionTicketByToken,
+AccountCreateAuthTicketByGameBiz(),https://passport-api.mihoyo.com/account/ma-cn-verifier/app/createAuthTicketByGameBiz,https://sg-public-api.hoyoverse.com/account/ma-verifier/api/createAuthTicketBySToken
 AccountCreateLoginCaptcha(),https://passport-api.mihoyo.com/account/ma-cn-verifier/verifier/createLoginCaptcha,
 AccountGetCookieTokenBySToken(),https://passport-api.mihoyo.com/account/auth/api/getCookieAccountInfoBySToken,https://api-account-os.hoyoverse.com/account/auth/api/getCookieAccountInfoBySToken
 AccountGetLTokenBySToken(),https://passport-api.mihoyo.com/account/auth/api/getLTokenBySToken,https://api-account-os.hoyoverse.com/account/auth/api/getLTokenBySToken

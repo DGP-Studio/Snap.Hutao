@@ -25,6 +25,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
 
     private string? gamePath;
     private ImmutableList<GamePathEntry>? gamePathEntries;
+    private bool? isUseMiYouSheAccount;
     private bool? isEnabled;
     private bool? isAdvancedLaunchOptionsEnabled;
     private bool? isFullScreen;
@@ -172,6 +173,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     }
 
     #region Launch Prefixed Options
+    public bool IsUseMiYouSheAccount
+    {
+        get => GetOption(ref isUseMiYouSheAccount, SettingEntry.LaunchIsUseMiYouSheAccount, false);
+        set => SetOption(ref isUseMiYouSheAccount, SettingEntry.LaunchIsUseMiYouSheAccount, value);
+    }
+
     public bool IsEnabled
     {
         get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, true);

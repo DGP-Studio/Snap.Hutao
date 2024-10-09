@@ -18,7 +18,7 @@ internal static class LaunchGameLaunchExecution
 
             try
             {
-                LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, targetScheme, launchExecution.SelectedGameAccount);
+                LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, targetScheme, launchExecution.SelectedGameAccount, launchExecution.SelectedUserAndUid);
                 LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
 
                 if (result.Kind is not LaunchExecutionResultKind.Ok)
