@@ -566,10 +566,10 @@
     <value>No valid wish history backup service privilege</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>Wish history data contains invalid item, unable to upload to Snap Hutao Cloud</value>
+    <value>Wish history data contains invalid item, unable to be uploaded to Snap Hutao Cloud</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
+    <value>Abnormal data found, unable to be uploaded to Snap Hutao Cloud. Please do not upload across accounts or you may attempt to delete cloud data and try to upload again.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>Uploaded {1} wish records to UID: {0}, {2} records saved</value>
