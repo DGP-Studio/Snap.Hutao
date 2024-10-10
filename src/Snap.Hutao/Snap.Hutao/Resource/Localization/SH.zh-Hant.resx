@@ -172,7 +172,7 @@
     <value>數據庫已損壞：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>使用者資料已損壞：{0}</value>
+    <value>使用者數據已損壞：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>請勿在系統管理員模式下使用此功能 {0}</value>
@@ -193,7 +193,7 @@
     <value>訊號量已經被釋放，操作取消</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
-    <value>未檢測到 WebView2 Runtime</value>
+    <value>未檢測到 WebView2 執行階段</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 鍵盤快速鍵 [{1}] 註冊失敗</value>
@@ -548,7 +548,7 @@
     <value>請更新角色櫥窗數據</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暫無資料</value>
+    <value>暫無數據</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>精煉 {0} 階</value>
@@ -1578,10 +1578,10 @@
     <value>下載並自行安裝圖示字體</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>若未檢測到 WebView2 Runtime 資訊，可以前往</value>
+    <value>若未檢測到 WebView2 執行階段資訊，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下載並自行安裝 Runtime</value>
+    <value>下載並自行安裝執行階段</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>語言</value>
@@ -2137,6 +2137,9 @@
   </data>
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
     <value>材料清單</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
+    <value>未集齊優先</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>材料統計</value>
@@ -2847,7 +2850,7 @@
     <value>您解鎖了含有違反原神服務條款風險的「啟動遊戲 - 進階功能」，將自行承擔任何不良後果。</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
-    <value>前往反饋</value>
+    <value>前往回饋</value>
   </data>
   <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
     <value>祈願紀錄</value>
@@ -2994,7 +2997,7 @@
     <value>啟動遊戲 - 解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目錄後需要手動移動目錄内的資料，否則會重新創建使用者資料</value>
+    <value>更改目錄後需要手動移動目錄内的數據，否則會重新創建使用者數據</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>更改數據目錄</value>
@@ -3066,7 +3069,7 @@
     <value>前往商店</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>WebView2 Runtime</value>
+    <value>WebView2 執行階段</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>
@@ -3346,6 +3349,15 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器資料</value>
+  </data>
+  <data name="ViewWindowExceptionDescription" xml:space="preserve">
+    <value>請截圖此視窗，在回饋中心內找到適合的回饋途徑，並回饋至開發組</value>
+  </data>
+  <data name="ViewWindowExceptionHeader" xml:space="preserve">
+    <value>遇到了無法修復的致命錯誤</value>
+  </data>
+  <data name="ViewWindowExceptionTitle" xml:space="preserve">
+    <value>我們遇到了一點問題</value>
   </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
     <value>執行</value>
