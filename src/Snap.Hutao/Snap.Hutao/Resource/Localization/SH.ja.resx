@@ -948,7 +948,7 @@
     <value>一致するアカウントが複数見つかりました。重複しているアカウントを削除してください。</value>
   </data>
   <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
-    <value>ファイル書き込みの権限が無いため、サーバー変換機能を使用できません</value>
+    <value>ファイルシステムに書き込み権限が無いため、サーバー切り換えを開始できません</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>ゲームリソースのインデックスをダウンロード</value>
@@ -1402,7 +1402,7 @@
     <value>例</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
-    <value>Geetest/CAPTCHA 認証APIの設定</value>
+    <value>シームレス認証 API の設定</value>
   </data>
   <data name="ViewDialogHutaoPassportLoginTitle" xml:space="preserve">
     <value>胡桃通行証へログイン</value>
@@ -1459,10 +1459,10 @@
     <value>設定ファイルを修復中</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
-    <value>変換に時間がかかる場合があります、アプリを閉じないでください</value>
+    <value>切り換えに時間がかかる場合があります、アプリを閉じないでください</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
-    <value>ゲームランチャー切り替え中</value>
+    <value>ゲームランチャー切り換え中</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>HoYoLAB を使用して QR コードをスキャンします</value>
@@ -1678,10 +1678,10 @@
     <value>キャラクターラインナップが未配置か非表示です。ゲーム内のプロフィール編集で設定してください</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
-    <value>キャラクター詳細をコピーできませんでした</value>
+    <value>キャラ詳細をコピーに失敗しました</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
-    <value>ロール詳細をコピーしました</value>
+    <value>キャラ詳細をコピーしました</value>
   </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>聖遺物なし</value>
@@ -1699,19 +1699,19 @@
     <value>選択したLvでは育成材料は必要ありません</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
-    <value>まだ作成されておらず、養成計画を選択してください</value>
+    <value>育成計画は作成されておらず、選択されていません</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
-    <value>そのアイテムは既に適用されているアイテムがあります</value>
+    <value>そのアイテムの育成項目が既に存在しています</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>選択中の育成計画に正常に追加されました</value>
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
-    <value>育成計画で新規作成及びセットしてから続けてください</value>
+    <value>まずは育成計画へ新規作成をして、選択した後に続けてください</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
-    <value>アイテムを再追加して素材の説明を表示します</value>
+    <value>アイテムを再度追加して育成の説明を表示できます</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>正常に追加されました。</value>
@@ -1720,7 +1720,7 @@
     <value>育成計画は同じ名前を使えません。他の名前を使用してください。</value>
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
-    <value>育成計画名に無効な言葉が入っています</value>
+    <value>無効な名前で計画を追加できません</value>
   </data>
   <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
     <value>バッグのアイテムを同期中</value>
@@ -1729,16 +1729,16 @@
     <value>この操作は不可逆的であり、育成計画で使用されたアイテムやバッグの素材は失われます</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
-    <value>現在のプランを削除してもよろしいですか?</value>
+    <value>現在の計画を削除してもよろしいですか？</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>リアルタイムノートのWebhook URLの設定に成功しました。</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
-    <value>HoYoLabユーザーのリアルタイムノートはサポートしていません。</value>
+    <value>HoYoLAB アカウントはリアルタイムノート認証に対応していません。</value>
   </data>
   <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
-    <value>スケジュールされたタスクの変更に失敗しました</value>
+    <value>計画任務の変更に失敗しました</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 分 | 3.75樹脂</value>
@@ -1801,13 +1801,13 @@
     <value>祈願履歴の更新が予期せず取り消されました。</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
-    <value>この操作は取り消せません。セーブデータおよび祈願記録が削除されます。</value>
+    <value>この操作は不可逆的であり、アーカイブや内の全ての祈願履歴が失われます。</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
     <value>{0} を削除してよろしいでしょうか？</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
-    <value>胡桃クラウドで祈願履歴を同期します</value>
+    <value>胡桃クラウドから祈願履歴を同期</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
     <value>UIGF Json ファイルを指定した場所へエクスポート</value>
@@ -1867,7 +1867,7 @@
     <value>元の画質</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>メールアドレスが正しい形式ではありません</value>
+    <value>正しいメールアドレスを入力してください</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>クリップボードのテキスト形式が正しくありません</value>
@@ -1900,7 +1900,7 @@
     <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
-    <value>指定されたパスにアクセスできません。設定で変更してください。</value>
+    <value>ゲームのパスが間違っています。設定で変更してください。</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>サーバーが選択されていません</value>
@@ -1918,10 +1918,10 @@
     <value>操作は完了しました</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
-    <value>削除に失敗しました。ディレクトリのアクセス許可がありません。「管理者として実行」で再度試してください</value>
+    <value>消去に失敗しました。ディレクトリのアクセス許可が無いので、管理者モードで再試行してください</value>
   </data>
   <data name="ViewModelSettingClearWebCachePathInvalid" xml:space="preserve">
-    <value>削除に失敗しました。ディレクトリが見つかりませんでした：{0}</value>
+    <value>消去に失敗しました。ディレクトリが見つかりませんでした：{0}</value>
   </data>
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
     <value>消去しました</value>
@@ -1936,19 +1936,19 @@
     <value>必要なファイルを再度ダウンロードする必要があります、削除してもよろしいですか?</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
-    <value>サーバー変換用キャッシュファイルの削除</value>
+    <value>サーバー切換用キャッシュファイルの削除</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>使用済みディスク容量: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>非探知認証複合URLの構成に成功しました</value>
+    <value>シームレス認証複合 URL の構成に成功しました</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
-    <value>静的リソースをリセット</value>
+    <value>画像リソースをリセット中</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
-    <value>データディレクトリのリセットが完了しました、再起動して変更を適用します</value>
+    <value>データディレクトリの設定が成功しました。再起動して変更を適用します</value>
   </data>
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>ゲームパスの保存に失敗しました</value>
@@ -2671,7 +2671,7 @@
     <value>サーバー</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
-    <value>アップデートをする前に、ランチャーと同じサーバーに変更する必要があります。</value>
+    <value>バージョンを更新する前に、ランチャーと一致するサーバーに切り換える必要があります。</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
     <value>カメラビューを45まで調整する</value>
@@ -2869,7 +2869,7 @@
     <value>Geetest認証サービスの設定</value>
   </data>
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
-    <value>CAPTCHA</value>
+    <value>シームレス認証</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionDescription" xml:space="preserve">
     <value>お知らせを受け取りたいサーバーを選択してください</value>
@@ -3169,10 +3169,10 @@
     <value>デバッグコンソール</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
-    <value>サーバー変換を使用すると、対応するサーバーのゲームクライアントのキャッシュファイルが生成されます</value>
+    <value>ゲームが起動中でサーバーを切り換えた後に、対応するゲームクライアントファイルがキャッシュ用に生成されます</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
-    <value>サーバー変換のキャッシュを削除</value>
+    <value>サーバー切換のキャッシュを削除</value>
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>フォルダを開く</value>
