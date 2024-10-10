@@ -27,19 +27,16 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
         string? stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
         ArgumentException.ThrowIfNullOrEmpty(stoken);
         ArgumentException.ThrowIfNullOrEmpty(user.Mid);
-        ArgumentException.ThrowIfNullOrEmpty(user.Aid);
 
-        AuthTicketRequest data = new()
+        AuthTicketRequestOversea data = new()
         {
             GameBiz = "hk4e_global",
             Mid = user.Mid,
             SToken = stoken,
-            Uid = int.Parse(user.Aid, CultureInfo.InvariantCulture),
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.AccountCreateAuthTicketByGameBiz())
-            .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .PostJson(data);
 
         Response<AuthTicketWrapper>? resp = await builder
