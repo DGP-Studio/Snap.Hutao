@@ -48,6 +48,18 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern HANDLE CreateRemoteThread(HANDLE hProcess, [Optional] SECURITY_ATTRIBUTES* lpThreadAttributes, nuint dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, [Optional] void* lpParameter, uint dwCreationFlags, [Optional] uint* lpThreadId);
+
+    public static unsafe HANDLE CreateRemoteThread(HANDLE hProcess, [Optional] SECURITY_ATTRIBUTES* lpThreadAttributes, nuint dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, [Optional] void* lpParameter, uint dwCreationFlags, [Optional] out uint threadId)
+    {
+        fixed (uint* lpThreadId = &threadId)
+        {
+            return CreateRemoteThread(hProcess, lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, lpThreadId);
+        }
+    }
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
     public static unsafe extern BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
@@ -72,6 +84,19 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern WIN32_ERROR GetLastError();
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern HMODULE GetModuleHandleW([Optional] PCWSTR lpModuleName);
+
+    [DebuggerStepThrough]
+    public static unsafe HMODULE GetModuleHandleW(ReadOnlySpan<char> moduleName)
+    {
+        fixed (char* lpModuleName = moduleName)
+        {
+            return GetModuleHandleW(lpModuleName);
+        }
+    }
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
@@ -187,6 +212,18 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern BOOL SetEvent(HANDLE hEvent);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern void* VirtualAllocEx(HANDLE hProcess, [Optional] void* lpAddress, nuint dwSize, VIRTUAL_ALLOCATION_TYPE flAllocationType, PAGE_PROTECTION_FLAGS flProtect);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern BOOL VirtualFreeEx(HANDLE hProcess, void* lpAddress, nuint dwSize, VIRTUAL_FREE_TYPE dwFreeType);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern WAIT_EVENT WaitForSingleObject(HANDLE hHandle, uint dwMilliseconds);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]

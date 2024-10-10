@@ -6,11 +6,14 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Unlocker.Island;
 using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.Memory;
+using Snap.Hutao.Win32.System.Threading;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
+using System.Text;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;
@@ -83,7 +86,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                 {
                     nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
                     InitializeIslandEnvironment(handle, offsets, launchOptions);
-                    InitializeIsland(context.GameProcess);
+                    InitializeIsland2(context.GameProcess, Encoding.UTF8.GetBytes(dataFolderIslandPath).AsSpan());
                     using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
                     {
                         while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
@@ -140,6 +143,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }
 
+    [Obsolete]
     private unsafe void InitializeIsland(Process gameProcess)
     {
         HANDLE hModule = default;
@@ -169,6 +173,59 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         finally
         {
             NativeLibrary.Free(hModule);
+        }
+    }
+
+    private unsafe void InitializeIsland2(Process gameProcess, ReadOnlySpan<byte> libraryPath)
+    {
+        HMODULE hKernel32 = GetModuleHandleW("kernel32.dll");
+        if (hKernel32 == default)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            HutaoException.Throw("GetModuleHandleW returned 'NULL' but no Error is presented");
+        }
+
+        nint lpLoadLibraryW = NativeLibrary.GetExport(hKernel32, "LoadLibraryW");
+        if (lpLoadLibraryW == default)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            HutaoException.Throw("GetProcAddress returned 'NULL' but no Error is presented");
+        }
+
+        HANDLE hProcess = gameProcess.Handle;
+        void* lpBase = VirtualAllocEx(hProcess, default, (uint)libraryPath.Length + 1, VIRTUAL_ALLOCATION_TYPE.MEM_RESERVE | VIRTUAL_ALLOCATION_TYPE.MEM_COMMIT, PAGE_PROTECTION_FLAGS.PAGE_READWRITE);
+        if (lpBase is null)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            HutaoException.Throw("VirtualAllocEx returned 'NULL' but no Error is presented");
+        }
+
+        try
+        {
+            if (!WriteProcessMemory(hProcess, lpBase, libraryPath, out _))
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                HutaoException.Throw("WriteProcessMemory returned 'FALSE' but no Error is presented");
+            }
+
+            LPTHREAD_START_ROUTINE lpStartAddress = LPTHREAD_START_ROUTINE.Create((delegate* unmanaged[Stdcall]<void*, uint>)(delegate* unmanaged[Stdcall]<PCWSTR, HMODULE>)lpLoadLibraryW);
+            HANDLE hThread = CreateRemoteThread(hProcess, default, 0, lpStartAddress, lpBase, 0, out _);
+            if (hThread == default)
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                HutaoException.Throw("CreateRemoteThread returned 'NULL' but no Error is presented");
+            }
+
+            WaitForSingleObject(hThread, 2000);
+            if (!CloseHandle(hThread))
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                HutaoException.Throw("CloseHandle returned 'FALSE' but no Error is presented");
+            }
+        }
+        finally
+        {
+            VirtualFreeEx(hProcess, lpBase, 0, VIRTUAL_FREE_TYPE.MEM_RELEASE);
         }
     }
 }
