@@ -16,5 +16,7 @@ internal enum LaunchExecutionResultKind
     GameResourceIndexQueryInvalidResponse,
     GameResourcePackageConvertInternalError,
     GameAccountRegistryWriteResultNotMatch,
+    GameAccountCreateAuthTicketFailed,
+    GameAccountUserAndUidAndServerNotMatch,
     GameFpsUnlockingFailed,
 }
