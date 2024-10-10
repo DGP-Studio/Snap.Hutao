@@ -2200,7 +2200,7 @@
     <value>更新間隔</value>
   </data>
   <data name="ViewPageDailyNoteReminderDescription" xml:space="preserve">
-    <value>通知をクリックするまで画面上に表示したままにします。</value>
+    <value>通知が操作センターに自動的収まる事を防ぎます</value>
   </data>
   <data name="ViewPageDailyNoteReminderHeader" xml:space="preserve">
     <value>リマインド通知</value>
@@ -2227,10 +2227,10 @@
     <value>通知領域アイコンを無効にすると、ウィンドウを閉じた後、自動更新が実行されなくなります</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
-    <value>プレイ中に通知をオフ</value>
+    <value>原神をプレイ中に邪魔しない</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
-    <value>おやすみモード</value>
+    <value>集中モード</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
     <value>長効率練点</value>
