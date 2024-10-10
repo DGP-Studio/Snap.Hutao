@@ -34,7 +34,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
             ValueTask task = asset.Kind switch
             {
                 SophonAssetOperationKind.AddOrRepair or SophonAssetOperationKind.Modify => EnsureAssetAsync(context, asset),
-                SophonAssetOperationKind.Delete => DeleteAssetsAsync(context, diffAssets.Select(a => a.OldAsset)),
+                SophonAssetOperationKind.Delete => DeleteAssetAsync(context, asset.OldAsset),
                 _ => ValueTask.CompletedTask,
             };
 
@@ -93,11 +93,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         CancellationToken token = context.CancellationToken;
 
-        string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, assetProperty.AssetName);
-        string? directory = Path.GetDirectoryName(path);
-        ArgumentNullException.ThrowIfNull(directory);
-        Directory.CreateDirectory(directory);
-
+        string path = context.EnsureAssetTargetDirectoryExists(assetProperty.AssetName);
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: 32 * 1024))
         {
             using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
@@ -135,7 +131,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                             }
                         }
 
-                        if (!context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
+                        if (context.Operation.Kind is GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
                         {
                             FileOperation.Delete(chunkPath);
                         }

@@ -15,22 +15,22 @@ public class UnlockerIslandFunctionOffsetTest
     public void GenerateJson()
     {
         // public void set_fieldOfView(float value) -> jmp xxxxxxxx
-        // public static void set_targetFrameRate(int value)
-        // public static void set_enableFogRendering(bool value)
+        // public static void set_targetFrameRate(int value) -> jmp xxxxxxxxx (to the end)
+        // public static void set_enableFogRendering(bool value) -> jmp xxxxxxxxx (to the end)
 
         UnlockerIslandConfigurationWrapper wrapper = new()
         {
-            Oversea = new()
-            {
-                FunctionOffsetSetFieldOfView = 0x00000000_0165A1D0,
-                FunctionOffsetSetTargetFrameRate = 0x00000000_10FF7800,
-                FunctionOffsetSetEnableFogRendering = 0x00000000_10F3ACE0,
-            },
             Chinese = new()
             {
-                FunctionOffsetSetFieldOfView = 0x00000000_0165F1D0,
-                FunctionOffsetSetTargetFrameRate = 0x00000000_10FF7D20,
-                FunctionOffsetSetEnableFogRendering = 0x00000000_10F31FA0,
+                FunctionOffsetSetFieldOfView = 0x01136D30,
+                FunctionOffsetSetTargetFrameRate = 0x0131E600,
+                FunctionOffsetSetEnableFogRendering = 0x015DC790,
+            },
+            Oversea = new()
+            {
+                FunctionOffsetSetFieldOfView = 0x01136F30,
+                FunctionOffsetSetTargetFrameRate = 0x0131E800,
+                FunctionOffsetSetEnableFogRendering = 0x015DC990,
             },
         };
 

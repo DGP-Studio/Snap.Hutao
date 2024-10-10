@@ -135,6 +135,10 @@
                     <ToggleSwitch IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <cwc:SettingsCard Header="Allow Extrack Game Blks">
+                    <ToggleSwitch IsOn="{Binding AllowExtractGameBlks, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>
                 <cwc:SettingsCard
                     Command="{Binding CompensationGachaLogServiceTimeCommand}"

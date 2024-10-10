@@ -566,10 +566,10 @@
     <value>No valid wish history backup service privilege</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>Wish history data contains invalid item, unable to upload to Snap Hutao Cloud</value>
+    <value>Wish history data contains invalid item, unable to be uploaded to Snap Hutao Cloud</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
+    <value>Abnormal data found, unable to be uploaded to Snap Hutao Cloud. Please do not upload across accounts or you may attempt to delete cloud data and try to upload again.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>Uploaded {1} wish records to UID: {0}, {2} records saved</value>
@@ -656,7 +656,7 @@
     <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as no Snap Hutao account found.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as this is not the first upload of current schedule.</value>
+    <value>Successfully uploaded Spiral Abyss record. No Snap Hutao Cloud privilege received as this is not the first upload of current schedule.</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
@@ -827,7 +827,7 @@
     <value>Multiple development plan are selected</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
-    <value>Failed to apply notification</value>
+    <value>Failed to send notification</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>Launch Game</value>
@@ -933,7 +933,7 @@
     <value>Invalid URL provided</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>SToken refresh does not support HoYoLab account</value>
+    <value>HoYoLab account does not support refreshing wish history using SToken</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
     <value>URL language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target URL language</value>
@@ -1044,7 +1044,7 @@
     <value>Replace: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
-    <value>There was a problem reading the local Package Version, fixing the game might help</value>
+    <value>Problem encountered while reading the local Package Version, repairing the game might help</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>Failed to change data folder name</value>
@@ -1185,7 +1185,7 @@
     <value>All material copies can be challenged</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
-    <value>No role has been birthday that day</value>
+    <value>That day is not the birthday of any character</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>Pity Count</value>
@@ -1245,7 +1245,7 @@
     <value>Statistics</value>
   </data>
   <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
-    <value>The current version of WebView2 does not support management configuration, continue to use may cause abnormalities, please upgrade as soon as possible</value>
+    <value>The current version of WebView2 does not support management configuration, continuing to use may cause abnormalities, please update as soon as possible</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>Dev Plan</value>
@@ -1458,7 +1458,7 @@
     <value>Fixing configuration file</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
-    <value>Conversion may take some time. Please don't close HuTao.</value>
+    <value>Switching may take some time. Please don't close HuTao.</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
     <value>Converting Game Client</value>
@@ -2137,6 +2137,9 @@
   </data>
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
     <value>Material Checklist</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
+    <value>Unbundled priority</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>Material Statistics</value>
@@ -3346,6 +3349,15 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Weapon WIKI</value>
+  </data>
+  <data name="ViewWindowExceptionDescription" xml:space="preserve">
+    <value>Take a screenshot of this window, find a suitable feedback path in the feedback center and send it to the UNDG.</value>
+  </data>
+  <data name="ViewWindowExceptionHeader" xml:space="preserve">
+    <value>An unrecoverable fatal error has occurred</value>
+  </data>
+  <data name="ViewWindowExceptionTitle" xml:space="preserve">
+    <value>We encountered some problems</value>
   </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
     <value>Execute</value>

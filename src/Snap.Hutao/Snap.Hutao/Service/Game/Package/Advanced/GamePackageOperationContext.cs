@@ -16,6 +16,7 @@ internal readonly struct GamePackageOperationContext
     public readonly BranchWrapper LocalBranch;
     public readonly BranchWrapper RemoteBranch;
     public readonly GameChannelSDK? GameChannelSDK;
+    public readonly string ExtractOrGameDirectory;
     public readonly string ProxiedChunksDirectory;
 
     public GamePackageOperationContext(
@@ -24,7 +25,8 @@ internal readonly struct GamePackageOperationContext
         GameFileSystem gameFileSystem,
         BranchWrapper localBranch,
         BranchWrapper remoteBranch,
-        GameChannelSDK? gameChannelSDK)
+        GameChannelSDK? gameChannelSDK,
+        string? extractDirectory)
     {
         Kind = kind;
         Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GameDirectory);
@@ -32,6 +34,7 @@ internal readonly struct GamePackageOperationContext
         LocalBranch = localBranch;
         RemoteBranch = remoteBranch;
         GameChannelSDK = gameChannelSDK;
+        ExtractOrGameDirectory = extractDirectory ?? gameFileSystem.GameDirectory;
 
         ProxiedChunksDirectory = kind is GamePackageOperationKind.Verify
             ? Path.Combine(gameFileSystem.ChunksDirectory, "repair")

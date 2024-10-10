@@ -4,6 +4,7 @@
 using CommunityToolkit.Common;
 using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.RateLimiting;
@@ -34,7 +35,7 @@ internal readonly struct GamePackageServiceContext
 
     public readonly bool EnsureAvailableFreeSpace(long totalBytes)
     {
-        long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.GameFileSystem.GameDirectory);
+        long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.ExtractOrGameDirectory);
 
         if (totalBytes > availableBytes)
         {
@@ -46,6 +47,22 @@ internal readonly struct GamePackageServiceContext
         }
 
         return true;
+    }
+
+    public readonly string EnsureAssetTargetDirectoryExists(string assetName)
+    {
+        if (Operation.Kind is GamePackageOperationKind.Extract)
+        {
+            assetName = Path.GetFileName(assetName);
+        }
+
+        string targetPath = Path.Combine(Operation.ExtractOrGameDirectory, assetName);
+
+        string? directory = Path.GetDirectoryName(targetPath);
+        ArgumentNullException.ThrowIfNull(directory);
+        Directory.CreateDirectory(directory);
+
+        return targetPath;
     }
 
     [SuppressMessage("", "SH003")]

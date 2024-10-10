@@ -39,6 +39,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private ObservableCollection<CultivateEntryView>? cultivateEntries;
     private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
     private bool entriesUpdating;
+    private bool incompleteFirst;
 
     public AdvancedDbCollectionView<CultivateProject>? Projects
     {
@@ -64,6 +65,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     public ObservableCollection<CultivateEntryView>? CultivateEntries { get => cultivateEntries; set => SetProperty(ref cultivateEntries, value); }
 
     public bool EntriesUpdating { get => entriesUpdating; set => SetProperty(ref entriesUpdating, value); }
+
+    public bool IncompleteFirst { get => incompleteFirst; set => SetProperty(ref incompleteFirst, value); }
 
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
@@ -240,7 +243,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    private async ValueTask UpdateStatisticsItemsAsync()
+    [Command("RefreshStatisticsItemsCommand")]
+    private async Task UpdateStatisticsItemsAsync()
     {
         if (Projects?.CurrentItem is null)
         {
@@ -261,6 +265,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         catch (OperationCanceledException)
         {
             return;
+        }
+
+        if (IncompleteFirst)
+        {
+            statistics = statistics
+                .OrderBy(item => item.IsFinished)
+                .ThenByDescending(item => item.IsToday)
+                .ThenBy(item => item.Inner.Id, MaterialIdComparer.Shared)
+                .ToObservableCollection();
         }
 
         await taskContext.SwitchToMainThreadAsync();

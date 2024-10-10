@@ -176,15 +176,11 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(dialog.ActionType);
-        ArgumentNullException.ThrowIfNull(dialog.Mobile);
-        ArgumentNullException.ThrowIfNull(dialog.Captcha);
-
         Response<LoginResult> sTokenResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-            sTokenResponse = await passportClient2.LoginByMobileCaptchaAsync(dialog.ActionType, dialog.Mobile, dialog.Captcha).ConfigureAwait(false);
+            sTokenResponse = await passportClient2.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
         }
 
         if (sTokenResponse.IsOk())

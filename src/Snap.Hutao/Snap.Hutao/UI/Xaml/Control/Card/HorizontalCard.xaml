@@ -1,16 +1,18 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card">
 
     <Style BasedOn="{StaticResource DefaultHorizontalCardStyle}" TargetType="shuxcc:HorizontalCard"/>
 
     <Style x:Key="DefaultHorizontalCardStyle" TargetType="shuxcc:HorizontalCard">
+        <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="shuxcc:HorizontalCard">
-                    <Border Style="{StaticResource BorderCardStyle}">
-                        <Grid Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}" Style="{ThemeResource BorderCardStyle}">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>

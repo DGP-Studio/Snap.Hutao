@@ -6,6 +6,7 @@
     xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cww="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:layout="using:Snap.Hutao.UI.Xaml.Control.Layout"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
@@ -238,22 +239,23 @@
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
                 </ScrollViewer>
-
-                <Pivot
-                    x:Name="GameAnnouncementPivot"
-                    Margin="-16"
-                    x:Load="False"
-                    Style="{ThemeResource CardPivotStyle}"
-                    Transitions="{ThemeResource EntranceThemeTransitions}">
-                    <PivotItem
-                        Content="{Binding Announcement.List[0]}"
-                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
-                        Header="{shuxm:ResourceString Name=ViewPageAnnouncementActivity}"/>
-                    <PivotItem
-                        Content="{Binding Announcement.List[1]}"
-                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
-                        Header="{shuxm:ResourceString Name=ViewPageAnnouncementGame}"/>
-                </Pivot>
+                <ScrollViewer>
+                    <Pivot
+                        x:Name="GameAnnouncementPivot"
+                        Margin="-16"
+                        x:Load="False"
+                        Style="{ThemeResource CardPivotStyle}"
+                        Transitions="{ThemeResource EntranceThemeTransitions}">
+                        <PivotItem
+                            Content="{Binding Announcement.List[0]}"
+                            ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                            Header="{shuxm:ResourceString Name=ViewPageAnnouncementActivity}"/>
+                        <PivotItem
+                            Content="{Binding Announcement.List[1]}"
+                            ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                            Header="{shuxm:ResourceString Name=ViewPageAnnouncementGame}"/>
+                    </Pivot>
+                </ScrollViewer>
             </StackPanel>
         </ScrollViewer>
     </Grid>

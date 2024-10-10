@@ -141,27 +141,24 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         }
     }
 
-    protected static async ValueTask DeleteAssetsAsync(GamePackageServiceContext context, IEnumerable<AssetProperty> assets)
+    protected static ValueTask DeleteAssetAsync(GamePackageServiceContext context, AssetProperty asset)
     {
-        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
 
-        foreach (AssetProperty asset in assets)
+        if (asset.AssetType is 0x40)
         {
-            string assetPath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.AssetName);
-
-            if (asset.AssetType is 64)
+            if (Directory.Exists(assetPath))
             {
-                if (Directory.Exists(assetPath))
-                {
-                    Directory.Delete(assetPath, true);
-                }
-            }
-
-            if (File.Exists(assetPath))
-            {
-                File.Delete(assetPath);
+                Directory.Delete(assetPath, true);
             }
         }
+
+        if (File.Exists(assetPath))
+        {
+            File.Delete(assetPath);
+        }
+
+        return ValueTask.CompletedTask;
     }
 
     protected static async ValueTask DownloadChunkAsync(GamePackageServiceContext context, SophonChunk sophonChunk)
@@ -287,7 +284,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                                 }
                             }
 
-                            if (!context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
+                            if (context.Operation.Kind is GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
                             {
                                 FileOperation.Delete(chunkPath);
                             }
@@ -320,8 +317,8 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 }
             }
 
-            string newAssetPath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.NewAsset.AssetName);
-            using (FileStream newAssetFileStream = File.Create(newAssetPath))
+            string path = context.EnsureAssetTargetDirectoryExists(asset.NewAsset.AssetName);
+            using (FileStream newAssetFileStream = File.Create(path))
             {
                 newAssetStream.Position = 0;
                 await newAssetStream.CopyToAsync(newAssetFileStream, token).ConfigureAwait(false);
