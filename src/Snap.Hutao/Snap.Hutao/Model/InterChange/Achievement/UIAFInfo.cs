@@ -44,13 +44,13 @@ internal sealed class UIAFInfo
     [JsonPropertyName("uiaf_version")]
     public string? UIAFVersion { get; set; }
 
-    public static UIAFInfo From(RuntimeOptions runtimeOptions)
+    public static UIAFInfo Create()
     {
         return new()
         {
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
-            ExportAppVersion = runtimeOptions.Version.ToString(),
+            ExportAppVersion = HutaoRuntime.Version.ToString(),
             UIAFVersion = UIAF.CurrentVersion,
         };
     }

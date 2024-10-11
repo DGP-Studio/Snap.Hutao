@@ -47,7 +47,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         {
             string name = new StringBuilder()
                 .Append("App")
-                .AppendIf(runtimeOptions.IsElevated, "Elevated")
+                .AppendIf(HutaoRuntime.IsProcessElevated, "Elevated")
 #if DEBUG
                 .Append("Dev")
 #endif
@@ -56,7 +56,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
             string? format = SH.GetString(CultureInfo.CurrentCulture, name);
             ArgumentException.ThrowIfNullOrEmpty(format);
-            return string.Format(CultureInfo.CurrentCulture, format, runtimeOptions.Version);
+            return string.Format(CultureInfo.CurrentCulture, format, HutaoRuntime.Version);
         }
     }
 
@@ -176,9 +176,9 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     private void NotifyIfDateFolderHasReparsePoint()
     {
-        if (new DirectoryInfo(runtimeOptions.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
+        if (new DirectoryInfo(HutaoRuntime.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
         {
-            infoBarService.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(runtimeOptions.DataFolder));
+            infoBarService.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(HutaoRuntime.DataFolder));
         }
     }
 }

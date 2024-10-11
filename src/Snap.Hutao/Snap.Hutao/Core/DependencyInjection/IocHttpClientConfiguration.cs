@@ -47,10 +47,8 @@ internal static partial class IocHttpClientConfiguration
 
     private static void DefaultConfiguration(IServiceProvider serviceProvider, HttpClient client)
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-
         client.Timeout = Timeout.InfiniteTimeSpan;
-        client.DefaultRequestHeaders.UserAgent.ParseAdd(runtimeOptions.UserAgent);
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
     }
 
     private static void XRpcConfiguration(HttpClient client)

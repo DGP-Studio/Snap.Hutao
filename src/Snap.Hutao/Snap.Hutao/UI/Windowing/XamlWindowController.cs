@@ -54,10 +54,9 @@ internal sealed class XamlWindowController
 
     private void InitializeCore()
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
-        window.AppWindow.Title = SH.FormatAppNameAndVersion(runtimeOptions.Version);
+        window.AppWindow.Title = SH.FormatAppNameAndVersion(HutaoRuntime.Version);
         window.AppWindow.SetIcon(InstalledLocation.GetAbsolutePath("Assets/Logo.ico"));
 
         // ExtendContentIntoTitleBar

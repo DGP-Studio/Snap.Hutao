@@ -38,7 +38,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IServiceProvider serviceProvider;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ILogger<AppActivation> logger;
     private readonly ITaskContext taskContext;
 
@@ -257,10 +256,10 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 return;
             }
 
-            if (Version.Parse(LocalSetting.Get(SettingKeys.LastVersion, "0.0.0.0")) < runtimeOptions.Version)
+            if (Version.Parse(LocalSetting.Get(SettingKeys.LastVersion, "0.0.0.0")) < HutaoRuntime.Version)
             {
                 XamlApplicationLifetime.IsFirstRunAfterUpdate = true;
-                LocalSetting.Set(SettingKeys.LastVersion, $"{runtimeOptions.Version}");
+                LocalSetting.Set(SettingKeys.LastVersion, $"{HutaoRuntime.Version}");
             }
         }
 

@@ -13,7 +13,6 @@ internal sealed partial class MetadataOptions
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly CultureOptions cultureOptions;
-    private readonly RuntimeOptions runtimeOptions;
 
     private string? fallbackDataFolder;
     private string? localizedDataFolder;
@@ -24,7 +23,7 @@ internal sealed partial class MetadataOptions
         {
             if (fallbackDataFolder is null)
             {
-                fallbackDataFolder = Path.Combine(runtimeOptions.DataFolder, "Metadata", LocaleNames.CHS);
+                fallbackDataFolder = Path.Combine(HutaoRuntime.DataFolder, "Metadata", LocaleNames.CHS);
                 Directory.CreateDirectory(fallbackDataFolder);
             }
 
@@ -38,7 +37,7 @@ internal sealed partial class MetadataOptions
         {
             if (localizedDataFolder is null)
             {
-                localizedDataFolder = Path.Combine(runtimeOptions.DataFolder, "Metadata", cultureOptions.LocaleName);
+                localizedDataFolder = Path.Combine(HutaoRuntime.DataFolder, "Metadata", cultureOptions.LocaleName);
                 Directory.CreateDirectory(localizedDataFolder);
             }
 

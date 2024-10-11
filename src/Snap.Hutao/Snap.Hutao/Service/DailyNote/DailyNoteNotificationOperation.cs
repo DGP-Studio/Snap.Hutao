@@ -13,10 +13,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-/// <summary>
-/// 实时便笺通知器
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class DailyNoteNotificationOperation
@@ -26,13 +22,12 @@ internal sealed partial class DailyNoteNotificationOperation
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IGameServiceFacade gameService;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly DailyNoteOptions options;
 
     public async ValueTask SendAsync(DailyNoteEntry entry)
     {
-        if (!runtimeOptions.IsToastAvailable)
+        if (!HutaoRuntime.IsAppNotificationEnabled)
         {
             return;
         }

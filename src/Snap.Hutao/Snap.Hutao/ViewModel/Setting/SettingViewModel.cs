@@ -27,7 +27,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     private readonly SettingGameViewModel gameViewModel;
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
     private ScrollViewer? rootScrollViewer;
@@ -82,8 +81,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     protected override ValueTask<bool> InitializeOverrideAsync()
     {
-        Storage.CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
-        Storage.DataFolderView = new(taskContext, runtimeOptions.DataFolder);
+        Storage.CacheFolderView = new(taskContext, HutaoRuntime.LocalCache);
+        Storage.DataFolderView = new(taskContext, HutaoRuntime.DataFolder);
 
         return ValueTask.FromResult(true);
     }

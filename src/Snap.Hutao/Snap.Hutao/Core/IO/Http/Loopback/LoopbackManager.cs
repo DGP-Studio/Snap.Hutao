@@ -14,17 +14,13 @@ using static Snap.Hutao.Win32.Macros;
 namespace Snap.Hutao.Core.IO.Http.Loopback;
 
 [Injection(InjectAs.Singleton)]
-internal sealed unsafe partial class LoopbackManager : ObservableObject
+internal sealed unsafe partial class LoopbackSupport : ObservableObject
 {
-    private readonly RuntimeOptions runtimeOptions;
-
     private readonly string hutaoContainerStringSID;
     private bool isLoopbackEnabled;
 
-    public LoopbackManager(IServiceProvider serviceProvider)
+    public LoopbackSupport(IServiceProvider serviceProvider)
     {
-        runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-
         Initialize(out hutaoContainerStringSID);
     }
 
@@ -59,7 +55,7 @@ internal sealed unsafe partial class LoopbackManager : ObservableObject
             {
                 INET_FIREWALL_APP_CONTAINER* pContainer = pContainers + i;
                 ReadOnlySpan<char> appContainerName = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pContainer->appContainerName);
-                if (appContainerName.Equals(runtimeOptions.FamilyName, StringComparison.Ordinal))
+                if (appContainerName.Equals(HutaoRuntime.FamilyName, StringComparison.Ordinal))
                 {
                     ConvertSidToStringSidW(pContainer->appContainerSid, out PWSTR stringSid);
                     containerStringSID = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();

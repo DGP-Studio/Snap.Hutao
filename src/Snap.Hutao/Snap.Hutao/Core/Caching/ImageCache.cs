@@ -34,7 +34,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     {
         get => LazyInitializer.EnsureInitialized(ref cacheFolder, () =>
         {
-            string folder = serviceProvider.GetRequiredService<RuntimeOptions>().GetLocalCacheImageCacheFolder();
+            string folder = HutaoRuntime.GetLocalCacheImageCacheFolder();
             Directory.CreateDirectory(Path.Combine(folder, "Light"));
             Directory.CreateDirectory(Path.Combine(folder, "Dark"));
             return folder;

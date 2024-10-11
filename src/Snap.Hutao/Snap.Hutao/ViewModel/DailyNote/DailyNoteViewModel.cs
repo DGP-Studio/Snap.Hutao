@@ -33,7 +33,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly AppOptions appOptions;
 
-    private AdvancedDbCollectionView<ViewModel.User.User, Model.Entity.User>? users;
+    private AdvancedDbCollectionView<User.User, Model.Entity.User>? users;
     private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
 
     public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }

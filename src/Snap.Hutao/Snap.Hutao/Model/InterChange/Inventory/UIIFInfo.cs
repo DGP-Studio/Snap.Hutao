@@ -56,22 +56,14 @@ internal sealed class UIIFInfo
     [JsonPropertyName("uiif_version")]
     public string UIIFVersion { get; set; } = default!;
 
-    /// <summary>
-    /// 构造一个新的专用 UIGF 信息
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="uid">uid</param>
-    /// <returns>专用 UIGF 信息</returns>
-    public static UIIFInfo From(IServiceProvider serviceProvider, string uid)
+    public static UIIFInfo From(string uid)
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-
         return new()
         {
             Uid = uid,
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
-            ExportAppVersion = runtimeOptions.Version.ToString(),
+            ExportAppVersion = HutaoRuntime.Version.ToString(),
             UIIFVersion = UIIF.CurrentVersion,
         };
     }

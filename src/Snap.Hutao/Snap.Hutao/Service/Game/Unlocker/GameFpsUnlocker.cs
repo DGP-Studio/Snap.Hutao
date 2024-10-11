@@ -36,8 +36,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
         featureService = serviceProvider.GetRequiredService<IFeatureService>();
 
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        dataFolderIslandPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
+        dataFolderIslandPath = Path.Combine(HutaoRuntime.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
 
         this.gameVersion = gameVersion;
 

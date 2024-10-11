@@ -92,10 +92,8 @@ public sealed partial class App : Application
 
     private void LogDiagnosticInformation()
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-
-        logger.LogColorizedInformation(("FamilyName: {Name}", ConsoleColor.Blue), (runtimeOptions.FamilyName, ConsoleColor.Cyan));
-        logger.LogColorizedInformation(("Version: {Version}", ConsoleColor.Blue), (runtimeOptions.Version, ConsoleColor.Cyan));
-        logger.LogColorizedInformation(("LocalCache: {Path}", ConsoleColor.Blue), (runtimeOptions.LocalCache, ConsoleColor.Cyan));
+        logger.LogColorizedInformation(("FamilyName: {Name}", ConsoleColor.Blue), (HutaoRuntime.FamilyName, ConsoleColor.Cyan));
+        logger.LogColorizedInformation(("Version: {Version}", ConsoleColor.Blue), (HutaoRuntime.Version, ConsoleColor.Cyan));
+        logger.LogColorizedInformation(("LocalCache: {Path}", ConsoleColor.Blue), (HutaoRuntime.LocalCache, ConsoleColor.Cyan));
     }
 }

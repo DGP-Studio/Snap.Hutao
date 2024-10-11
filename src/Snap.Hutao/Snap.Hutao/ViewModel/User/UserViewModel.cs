@@ -133,7 +133,7 @@ internal sealed partial class UserViewModel : ObservableObject
     private void NavigateToLoginPage<TPage>()
         where TPage : Page
     {
-        if (runtimeOptions.IsWebView2Supported)
+        if (HutaoRuntime.WebView2Version.Supported)
         {
             navigationService.Navigate<TPage>(INavigationAwaiter.Default);
         }

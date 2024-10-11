@@ -21,7 +21,6 @@ internal sealed partial class HutaoLogUploadClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoLogUploadClient> logger;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
 
     public void UploadLog(Exception exception)
@@ -37,7 +36,7 @@ internal sealed partial class HutaoLogUploadClient
     {
         return new()
         {
-            Id = runtimeOptions.DeviceId,
+            Id = HutaoRuntime.DeviceId,
             Time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             Info = Core.ExceptionService.ExceptionFormat.Format(exception),
         };

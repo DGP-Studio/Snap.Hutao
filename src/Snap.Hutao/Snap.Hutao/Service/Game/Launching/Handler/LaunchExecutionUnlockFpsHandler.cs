@@ -10,8 +10,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        RuntimeOptions runtimeOptions = context.ServiceProvider.GetRequiredService<RuntimeOptions>();
-        if (runtimeOptions.IsElevated && context.Options.IsAdvancedLaunchOptionsEnabled && context.Options.UnlockFps)
+        if (HutaoRuntime.IsProcessElevated && context.Options.IsAdvancedLaunchOptionsEnabled && context.Options.UnlockFps)
         {
             context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));

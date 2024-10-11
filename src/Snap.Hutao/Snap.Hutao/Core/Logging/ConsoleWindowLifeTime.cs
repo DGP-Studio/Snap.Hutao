@@ -33,7 +33,7 @@ internal sealed partial class ConsoleWindowLifeTime : IDisposable
                     SetConsoleMode(inputHandle, mode);
                 }
 
-                if (serviceProvider.GetRequiredService<RuntimeOptions>().IsElevated)
+                if (HutaoRuntime.IsProcessElevated)
                 {
                     SetConsoleTitleW("Snap Hutao Debug Console [Administrator]");
                 }

@@ -8,11 +8,9 @@ using System.IO.Pipes;
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
 [Injection(InjectAs.Singleton)]
-[ConstructorGenerated]
 internal sealed partial class PrivateNamedPipeClient : IDisposable
 {
     private readonly NamedPipeClientStream clientStream = new(".", PrivateNamedPipe.Name, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
-    private readonly RuntimeOptions runtimeOptions;
 
     public unsafe bool TryRedirectActivationTo(AppActivationArguments args)
     {
@@ -26,7 +24,7 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
         ArgumentNullException.ThrowIfNull(response);
 
         // Prefer elevated instance
-        if (runtimeOptions.IsElevated && !response.IsElevated)
+        if (HutaoRuntime.IsProcessElevated && !response.IsElevated)
         {
             // Notify previous instance to exit
             clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.Exit);

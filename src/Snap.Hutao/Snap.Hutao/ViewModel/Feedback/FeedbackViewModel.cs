@@ -25,7 +25,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly IClipboardProvider clipboardProvider;
     private readonly HttpProxyUsingSystemProxy dynamicHttpProxy;
     private readonly IServiceProvider serviceProvider;
-    private readonly LoopbackManager loopbackManager;
+    private readonly LoopbackSupport loopbackManager;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
@@ -39,7 +39,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public HttpProxyUsingSystemProxy DynamicHttpProxy { get => dynamicHttpProxy; }
 
-    public LoopbackManager LoopbackManager { get => loopbackManager; }
+    public LoopbackSupport LoopbackManager { get => loopbackManager; }
 
     public string? SearchText { get => searchText; set => SetProperty(ref searchText, value); }
 
@@ -112,7 +112,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     {
         try
         {
-            clipboardProvider.SetText(RuntimeOptions.DeviceId);
+            clipboardProvider.SetText(HutaoRuntime.DeviceId);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)

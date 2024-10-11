@@ -17,7 +17,6 @@ namespace Snap.Hutao.UI.Input.HotKey;
 internal sealed partial class HotKeyCombination : ObservableObject
 {
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
 
     private readonly HWND hwnd;
     private readonly string settingKey;
@@ -38,7 +37,6 @@ internal sealed partial class HotKeyCombination : ObservableObject
     public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         this.hwnd = hwnd;
         this.settingKey = settingKey;
@@ -172,7 +170,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     public bool Register()
     {
-        if (!runtimeOptions.IsElevated || !IsEnabled)
+        if (!HutaoRuntime.IsProcessElevated || !IsEnabled)
         {
             return false;
         }
@@ -195,7 +193,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     public bool Unregister()
     {
-        if (!runtimeOptions.IsElevated)
+        if (!HutaoRuntime.IsProcessElevated)
         {
             return false;
         }

@@ -21,10 +21,6 @@ using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<
 
 namespace Snap.Hutao.Service.Game.Package;
 
-/// <summary>
-/// 游戏文件包转换器
-/// </summary>
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
@@ -32,10 +28,9 @@ internal sealed partial class PackageConverter
 {
     private const string PackageVersion = "pkg_version";
 
-    private readonly JsonSerializerOptions options;
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly HttpClient httpClient;
     private readonly ILogger<PackageConverter> logger;
+    private readonly JsonSerializerOptions options;
+    private readonly HttpClient httpClient;
 
     public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GamePackage gamePackage, string gameFolder, IProgress<PackageConvertStatus> progress)
     {
@@ -62,7 +57,7 @@ internal sealed partial class PackageConverter
         string scatteredFilesUrl = gamePackage.Main.Major.ResourceListUrl;
         string pkgVersionUrl = $"{scatteredFilesUrl}/{PackageVersion}";
 
-        PackageConverterFileSystemContext context = new(targetScheme.IsOversea, runtimeOptions.GetDataFolderServerCacheFolder(), gameFolder, scatteredFilesUrl);
+        PackageConverterFileSystemContext context = new(targetScheme.IsOversea, HutaoRuntime.GetDataFolderServerCacheFolder(), gameFolder, scatteredFilesUrl);
 
         // Step 1
         progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));

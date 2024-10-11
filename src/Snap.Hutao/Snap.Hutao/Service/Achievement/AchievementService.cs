@@ -19,7 +19,6 @@ internal sealed partial class AchievementService : IAchievementService
     private readonly AchievementRepositoryOperation achievementDbBulkOperation;
     private readonly IAchievementRepository achievementRepository;
     private readonly IServiceProvider serviceProvider;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
     private AdvancedDbCollectionView<AchievementArchive>? archives;
@@ -128,7 +127,7 @@ internal sealed partial class AchievementService : IAchievementService
 
         return new()
         {
-            Info = UIAFInfo.From(runtimeOptions),
+            Info = UIAFInfo.Create(),
             List = list,
         };
     }
