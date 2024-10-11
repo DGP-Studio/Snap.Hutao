@@ -2227,7 +2227,7 @@
     <value>通知領域アイコンを無効にすると、ウィンドウを閉じた後、自動更新が実行されなくなります</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
-    <value>原神をプレイ中に邪魔しない</value>
+    <value>プレイ中に通知をオフ</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>集中モード</value>
