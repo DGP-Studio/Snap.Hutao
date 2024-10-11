@@ -1183,7 +1183,7 @@
     <value>アチーブメント集計</value>
   </data>
   <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
-    <value>すべてのアイテムのコピーが利用可能になるまで</value>
+    <value>すべての秘境が挑戦できます</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
     <value>誕生日を迎えるキャラはいません</value>
@@ -2498,7 +2498,7 @@
     <value>ゲームスタート</value>
   </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
-    <value>上級者向け設定</value>
+    <value>高度な機能</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
     <value>指定した解像度に素早く切り替えます</value>
@@ -2516,10 +2516,10 @@
     <value>ボーダーレス</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
-    <value>タッチパネル レイアウトを有効化します。キーボードとマウスは使えなくなります。</value>
+    <value>内蔵のタッチレイアウトを有効し、キーボードとマウスは使えなくなります。</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
-    <value>ゲーム内ブラウザには対応していません。ウィンドウの切り替え操作などによりゲームが強制終了する可能性があります。</value>
+    <value>ゲーム内の埋め込みブラウザとの互換性がなく、ウィンドウ切り替えなどの操作でゲームが強制終了することがあります。</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
     <value>排他的フルスクリーン</value>
@@ -2534,22 +2534,22 @@
     <value>外観</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
-    <value>ゲームのウィンドウの高さを上書き</value>
+    <value>ゲームのウィンドウの高さを上書きします。</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightHeader" xml:space="preserve">
     <value>高さ</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenWidthDescription" xml:space="preserve">
-    <value>ゲームのウィンドウの幅を上書き</value>
+    <value>ゲームのウィンドウの幅を上書きします。</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
     <value>幅</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsDescription" xml:space="preserve">
-    <value>ゲーム開始時の動作を変更します。</value>
+    <value>ゲーム開始時のデフォルト動作を変更します。</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
-    <value>コマンドラインパラメーター</value>
+    <value>起動のパラメーター</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
     <value>ゲーム起動後 Better GI を開始してみ、自動化任務しようとします</value>
@@ -2564,19 +2564,19 @@
     <value>これらの設定はゲームが正常に起動した時のみ保存されます。</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
-    <value>光の描画から霧を削除</value>
+    <value>照明レンダリングの霧を除去する</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
-    <value>チームを削除</value>
+    <value>霧を取り除く</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
-    <value>予約済み</value>
+    <value>保留</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
     <value>削除</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
-    <value>ゲームをプレイしている時に、Discord Activityのステータスを変更します。</value>
+    <value>ゲーム中に Discord Activity のステータスを設定します。</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
     <value>Discord Activity</value>
@@ -2588,7 +2588,7 @@
     <value>インタープロセス</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
-    <value>指定したディスプレイで実行</value>
+    <value>指定したディスプレイで実行します。</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
     <value>モニター</value>
@@ -2612,13 +2612,13 @@
     <value>事前ダウンロードは完成しました</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
-    <value>ゲームを更新します</value>
+    <value>ゲームを更新</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationVerify" xml:space="preserve">
     <value>ゲームを修復</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
-    <value>ゲームの開始後にStarward ランチャーを起動し、プレイ時間の統計を確認してみてください。</value>
+    <value>ゲームの開始後に Starward を起動してみ、プレイ時間の統計を行おうとします。</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
     <value>プレイ時間</value>
@@ -2630,28 +2630,28 @@
     <value>レジストリ</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
-    <value>増分パック</value>
+    <value>差分パッケージ</value>
   </data>
   <data name="ViewPageLaunchGameResourceHeader" xml:space="preserve">
     <value>リソースダウンロード</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>クライアント</value>
+    <value>完全パッケージ</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>事前ダウンロード</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
-    <value>ゲームのフォルダを選択</value>
+    <value>ゲームのパスを選択</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>このアカウントはリアルタイムノート通知 UID として連携されていません。</value>
+    <value>このアカウントはリアルタイムノート通知 UID に連携されていません。</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
-    <value>現在のユーザのUIDを連携する</value>
+    <value>現在のユーザー UID を連携する</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>ゲーム内でアカウントを切り替えたり、インターネット環境を変更した場合は再検出が必要です。</value>
+    <value>ゲーム内でアカウントを切り替える場合、ネットワーク環境が変わった後に手動で再検出する必要があります。</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>検出</value>
@@ -2681,19 +2681,19 @@
     <value>視界を調整</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>FX同期を無効にするには、より高パフォーマンスなグラフィックカードをサポートするために、ゲーム内のFPSの設定と -1を設定すると、すべてのフレームレートは無制限に設定されます。</value>
+    <value>より高い FPS をサポートするために高性能な GPU を必要とします。ゲーム内の「垂直同期」を無効にし、無制限のフレームレートのために値を -1 に設定してください。</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>フレームレート上限解除</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
-    <value>ロック解除フレームレート変更方法の変更</value>
+    <value>フレームレートの解除方法を変更</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
-    <value>ロック解除モード</value>
+    <value>解除方法</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
-    <value>エラー コード31-4302。このオプションを有効にした場合、グラデーションと霧の調整が無効になり、ゲームの起動前に切り替わるようにできます。</value>
+    <value>エラーコード 31-4302 が発生した場合はこのオプションを有効にします。有効にすると、視野と霧の調整が無効になり、ゲームを開始する前にこのスイッチを切り替えた場合にのみ有効になります</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
     <value>互換モード</value>
@@ -2705,13 +2705,13 @@
     <value>有効</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
-    <value>HDRをサポートするディスプレイを活用して、より明るく鮮やかなグラフィックを実現します。</value>
+    <value>HDR に対応したモニターを活用すれば、より明るく、より鮮やかで、より精細な画像が得られます</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>HoYoLab UIDを入力してください</value>
+    <value>HoYoLAB UIDを入力してください</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>あなたが［MiHoYo 通行証アカウント］にログインするために埋め込みウェブビューを使用しており、［サインしました］ボタンをクリックするとこのクライアントが貴方の Cookie データを取得します。このウェブビューで開始されたすべてのネットワーク通信は、あなたのコンピュータと MiHoYo 公式サーバーの間でのみ行われます。</value>
@@ -2720,7 +2720,7 @@
     <value>ログインしました</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>MiHoYo BBS通行証でログイン</value>
+    <value>下のウィンドウから MiHoYo 通行証でログインします</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>スクリーンショットフォルダを開く</value>
@@ -2768,7 +2768,7 @@
     <value>イメージキャッシュはここに格納されます</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>キャッシュフォルダ</value>
+    <value>キャッシュ フォルダー</value>
   </data>
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行証</value>
@@ -2780,7 +2780,7 @@
     <value>新規作成</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>管理者として実行できるショートカットを作成します</value>
+    <value>管理者権限でデスクトップショートカットを作成します</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>ショートカットを作成する</value>
@@ -2789,16 +2789,16 @@
     <value>実行</value>
   </data>
   <data name="ViewPageSettingDangerousHeader" xml:space="preserve">
-    <value>潜在的に危険な機能</value>
+    <value>危険な機能</value>
   </data>
   <data name="ViewPageSettingDangerousHint" xml:space="preserve">
     <value>デベロッパーが明確に指示しない限り、以下の機能を有効にすべきではありません。</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>ユーザーデータ／メタデータはここに格納</value>
+    <value>ユーザーデータ / メタデータ ここに保存</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>データフォルダ</value>
+    <value>データ フォルダー</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>削除</value>
