@@ -25,7 +25,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     private readonly AsyncKeyedLock<string> downloadLocks = new();
 
     private readonly IImageCacheDownloadOperation downloadOperation;
-    private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ImageCache> logger;
 
     private string? cacheFolder;
@@ -112,7 +111,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
     }
 
-    /// <inheritdoc/>
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
         Uri dummyUri = StaticResourcesEndpoints.StaticRaw(category, fileName).ToUri();
