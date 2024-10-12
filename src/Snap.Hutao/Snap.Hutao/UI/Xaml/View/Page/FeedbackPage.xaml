@@ -72,9 +72,9 @@
                                             Command="{Binding EnableLoopbackCommand}"
                                             Header="{shuxm:ResourceString Name=ViewPageFeedbackEnableLoopbackHeader}"
                                             IsClickEnabled="True"
-                                            IsEnabled="{Binding LoopbackManager.IsLoopbackEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                                            IsEnabled="{Binding LoopbackSupport.IsLoopbackEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
                                             <cwcont:SettingsCard.Description>
-                                                <UserControl Content="{Binding LoopbackManager.IsLoopbackEnabled, Converter={StaticResource BoolToLoopbackDescriptionControlConverter}, Mode=OneWay}"/>
+                                                <UserControl Content="{Binding LoopbackSupport.IsLoopbackEnabled, Converter={StaticResource BoolToLoopbackDescriptionControlConverter}, Mode=OneWay}"/>
                                             </cwcont:SettingsCard.Description>
                                         </cwcont:SettingsCard>
                                         <cwcont:SettingsCard Description="{Binding RuntimeOptions.WebView2Version}" Header="{shuxm:ResourceString Name=ViewPageSettingWebview2Header}"/>

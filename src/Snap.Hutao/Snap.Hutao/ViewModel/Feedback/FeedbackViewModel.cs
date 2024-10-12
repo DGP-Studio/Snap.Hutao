@@ -25,7 +25,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly IClipboardProvider clipboardProvider;
     private readonly HttpProxyUsingSystemProxy dynamicHttpProxy;
     private readonly IServiceProvider serviceProvider;
-    private readonly LoopbackSupport loopbackManager;
+    private readonly LoopbackSupport loopbackSupport;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
@@ -39,7 +39,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public HttpProxyUsingSystemProxy DynamicHttpProxy { get => dynamicHttpProxy; }
 
-    public LoopbackSupport LoopbackManager { get => loopbackManager; }
+    public LoopbackSupport LoopbackSupport { get => loopbackSupport; }
 
     public string? SearchText { get => searchText; set => SetProperty(ref searchText, value); }
 
@@ -131,7 +131,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         if (result is ContentDialogResult.Primary)
         {
             await taskContext.SwitchToMainThreadAsync();
-            LoopbackManager.EnableLoopback();
+            LoopbackSupport.EnableLoopback();
         }
     }
 }
