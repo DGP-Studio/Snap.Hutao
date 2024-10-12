@@ -40,10 +40,10 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     {
         // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
         (Cookie cookie, bool isOversea, string? deviceFp) = inputCookie;
-        Model.Entity.User entity = Model.Entity.User.From(cookie, isOversea);
+        Model.Entity.User entity = Model.Entity.User.From(cookie);
 
         entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
-        entity.Mid = isOversea ? entity.Aid : cookie.GetValueOrDefault(Cookie.MID);
+        entity.Mid = cookie.GetValueOrDefault(Cookie.MID);
         entity.IsOversea = isOversea;
         entity.TryUpdateFingerprint(deviceFp);
 
@@ -54,10 +54,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
             return initialized ? user : null;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     private static async ValueTask<bool> TrySetUserLTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -84,10 +82,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             };
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private static async ValueTask<bool> TrySetUserCookieTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -120,10 +116,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             user.NeedDbUpdateAfterResume = true;
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private static async ValueTask<bool> TrySetUserUserInfoAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -141,10 +135,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             user.UserInfo = response.Data.UserInfo;
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private static async ValueTask<bool> TrySetUserUserGameRolesAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -160,10 +152,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             user.UserGameRoles = userGameRolesResponse.Data.List.ToAdvancedCollectionView();
             return user.UserGameRoles.Count > 0;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private async ValueTask<bool> InitializeUserAsync(ViewModel.User.User user, CancellationToken token = default)

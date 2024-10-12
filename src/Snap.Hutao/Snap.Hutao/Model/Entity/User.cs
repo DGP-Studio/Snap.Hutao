@@ -76,11 +76,10 @@ internal sealed class User : ISelectable, IReorderable
     /// 创建一个新的用户
     /// </summary>
     /// <param name="cookie">cookie</param>
-    /// <param name="isOversea">是否为国际服</param>
     /// <returns>新创建的用户</returns>
-    public static User From(Cookie cookie, bool isOversea)
+    public static User From(Cookie cookie)
     {
-        _ = cookie.TryGetSToken(isOversea, out Cookie? sToken);
+        _ = cookie.TryGetSToken(out Cookie? sToken);
         _ = cookie.TryGetLToken(out Cookie? lToken);
         _ = cookie.TryGetCookieToken(out Cookie? cookieToken);
 
