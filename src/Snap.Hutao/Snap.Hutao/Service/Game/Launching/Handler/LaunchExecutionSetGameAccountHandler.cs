@@ -47,6 +47,12 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
             return true;
         }
 
+        if (context.Scheme.IsOversea)
+        {
+            context.Logger.LogWarning("Oversea support broken for now, keep game account in game");
+            return true;
+        }
+
         if (context.UserAndUid is not { } userAndUid)
         {
             context.Logger.LogWarning("No user and uid selected, keep game account in game");
