@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
@@ -30,7 +29,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, IRecipient<UserAndUidChangedMessage>
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
 {
     /// <summary>
     /// 启动游戏目标 Uid
@@ -55,7 +54,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private LaunchScheme? selectedScheme;
     private AdvancedCollectionView<GameAccount>? gameAccountsView;
     private GameAccount? selectedGameAccount;
-    private UserAndUid? selectedUserAndUid;
     private GamePackage? gamePackage;
     private bool gamePathSelectedAndValid;
     private ImmutableList<GamePathEntry> gamePathEntries;
@@ -87,8 +85,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
-
-    public UserAndUid? SelectedUserAndUid { get => selectedUserAndUid; set => SetProperty(ref selectedUserAndUid, value); }
 
     public GamePackage? GamePackage { get => gamePackage; set => SetProperty(ref gamePackage, value); }
 
@@ -185,25 +181,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    public void Receive(UserAndUidChangedMessage message)
-    {
-        if (message.UserAndUid is { } userAndUid)
-        {
-            SelectedUserAndUid = userAndUid;
-        }
-    }
-
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         ImmutableList<GamePathEntry> gamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
         SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, entry);
-
-        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(true) is { } userAndUid)
-        {
-            SelectedUserAndUid = userAndUid;
-        }
-
-        return true;
+        return ValueTask.FromResult(true);
     }
 
     [Command("IdentifyMonitorsCommand")]
@@ -241,7 +223,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        await this.LaunchExecutionAsync(SelectedScheme).ConfigureAwait(false);
+        UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
+        await this.LaunchExecutionAsync(SelectedScheme, userAndUid).ConfigureAwait(false);
     }
 
     [Command("DetectGameAccountCommand")]
