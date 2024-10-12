@@ -641,22 +641,22 @@
     <value>無効なUIDです。</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードに失敗しました。現行の期間のデータではありません。</value>
+    <value>深淵の記録をアップロードに失敗しました。現行の期間のデータではありません。</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
     <value>深境螺旋のデータをアップロードに失敗しました。現在の UID の記録はまだ処理中であるため、操作を繰り返さないでください。</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードしました。胡桃クラウドの利用期間延長特典を受け取りました。</value>
+    <value>深淵の記録をアップロードしました。胡桃サービスの祈願保存期限を受け取りました。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードしましたが、胡桃クラウドへログインしていないため、利用期間特典を受け取ることは出来ません。</value>
+    <value>深淵の記録をアップロードしましたが、胡桃通行証へログインしていないため、祈願保存期限を受け取りませんでした。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードしましたが、ユーザーが見つからなかったため、利用期間特典を受け取ることができませんでした。</value>
+    <value>深淵の記録をアップロードしましたが、ユーザーが見つからなかったため、祈願保存期限を受け取りませんでした。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードしました。今期は二回以上アップロードしているため、利用期間特典を受け取ることは出来ません。</value>
+    <value>深淵の記録をアップロードしましたが、今期の初回アップロードではないため、祈願保存期限を受け取りませんでした。</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
@@ -2804,16 +2804,16 @@
     <value>削除</value>
   </data>
   <data name="ViewPageSettingDeleteCacheDescription" xml:space="preserve">
-    <value>祈願履歴を更新した際、検証キーの有効期限が切れた等のエラーが表示された場合は、この操作を行うと良いでしょう。</value>
+    <value>祈願履歴の更新時に、認証キーの有効期限切れエラーが頻繁に発生する場合は、この操作をお試しください。</value>
   </data>
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
     <value>ゲーム内ブラウザキャッシュを削除する</value>
   </data>
   <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
-    <value>ユーザーテーブルに保存されている記録を削除し、特定のアカウントの競合などの問題を修正します。</value>
+    <value>ユーザーテーブルに保存されている記録を全部削除し、特定のアカウントの競合などの問題を修正します。</value>
   </data>
   <data name="ViewPageSettingDeleteUserHeader" xml:space="preserve">
-    <value>保存されたすべてのユーザーを削除</value>
+    <value>すべてのユーザーを削除する</value>
   </data>
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>デバイス ID</value>
@@ -2822,7 +2822,7 @@
     <value>IP: {0} サーバー: {1}</value>
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
-    <value>デバイスのIP</value>
+    <value>デバイス IP</value>
   </data>
   <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
     <value>ダウンロード</value>
@@ -2837,10 +2837,10 @@
     <value>管理者モードで再起動</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
-    <value>祈願履歴のないイベント限定祈願を祈願履歴に表示するかを変更します。</value>
+    <value>祈願履歴のない過去の祈願を表示または隠します</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleHeader" xml:space="preserve">
-    <value>祈願を行っていない過去のイベント祈願を表示する</value>
+    <value>無記録の過去の祈願</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleOff" xml:space="preserve">
     <value>非表示</value>
@@ -2849,7 +2849,7 @@
     <value>表示</value>
   </data>
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
-    <value>利用規則に違反する可能性のある機能『ゲームランチャー - 上級者向け設定』を有効にしました。ユーザーご自身がそれによって生じる結果について、一切の責任を負うものとなります。</value>
+    <value>あなたは原神の利用規約に違反する可能性のある「ゲームランチャー - 高度な機能」をアンロックしています。いかなる不利な結果に対してもご自身で責任を負うものとなります。</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>フィードバック</value>
@@ -2921,7 +2921,7 @@
     <value>胡桃アカウント</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLicensedDeveloperDescription" xml:space="preserve">
-    <value>胡桃クラウドのサービスをベースにした様々な機能が制限なく利用できます</value>
+    <value>胡桃クラウドのサービスに基づくあらゆる機能が制限なく利用できます。</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLicensedDeveloperHeader" xml:space="preserve">
     <value>認定済みの共同開発者</value>
@@ -2933,16 +2933,16 @@
     <value>ログアウト</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerDescription" xml:space="preserve">
-    <value>テスト段階のあらゆる機能を使用できます。</value>
+    <value>あらゆるテスト機能を制限なく使用できます。</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃の運用と開発または保守</value>
+    <value>胡桃の開発 / 保守</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
-    <value>胡桃クラウドの引き替えコードを一部のユーザーに配布する事があります。</value>
+    <value>胡桃クラウドの引き換えコードを一部のユーザーに配布することがあります。</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
-    <value>引き替えコードの使用</value>
+    <value>引き換えコードの使用</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>登録</value>
@@ -2954,10 +2954,10 @@
     <value>アカウントの削除</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
-    <value>原神およびSnap Hutaoの利用規約を全て熟読し、その後に『ゲームランチャー - 上級者向け設定』を有効にします。</value>
+    <value>私は原神及び Snap Hutao の利用規約を全て熟読し、その後に「ゲームランチャー - 高度な機能」を有効にします。</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
-    <value>上級者向け設定を有効にする</value>
+    <value>高度な機能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
     <value>オートクリック機能のショートカットキーを変更します</value>
@@ -2978,7 +2978,7 @@
     <value>公式サイト</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
-    <value>カスタム背景を設定する / bmp、git、ico、jpg、jpeg、png、tiff、webp形式をサポートしています</value>
+    <value>カスタム背景画像、 bmp / gif / ico / jpg / jpeg / png / tiff / webp 形式をサポートしています</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
     <value>カスタム背景フォルダーを開く</value>
@@ -3011,7 +3011,7 @@
     <value>ゲーム本体の場所を開く</value>
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
-    <value>ゲームのパスを設定する際、本体（YuanShen.exe または GenshinImpact.exe）を選んでください。ランチャー（launcher.exe）ではありません</value>
+    <value>ゲームパスを設定する際、ランチャー（launcher.exe）ではなく、本体（YuanShen.exe または GenshinImpact.exe）を選択してください。</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell エクスペリエンス</value>
@@ -3080,7 +3080,7 @@
     <value>前半</value>
   </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
-    <value>おすすめ聖遺物</value>
+    <value>推奨組み合わせ</value>
   </data>
   <data name="ViewPageWiKiAvatarAscensionMaterialsHeader" xml:space="preserve">
     <value>育成素材</value>
