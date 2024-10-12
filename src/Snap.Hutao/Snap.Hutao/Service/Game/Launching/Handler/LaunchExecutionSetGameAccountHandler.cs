@@ -14,7 +14,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (context.Options.IsUseMiYouSheAccount)
+        if (context.Options.IsUseHoyolabAccount)
         {
             if (!await HandleMiYouSheAccountAsync(context).ConfigureAwait(false))
             {
@@ -62,7 +62,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
         if (userAndUid.IsOversea != context.Scheme.IsOversea)
         {
             context.Result.Kind = LaunchExecutionResultKind.GameAccountUserAndUidAndServerNotMatch;
-            context.Result.ErrorMessage = "当前选中用户和游戏服务器不匹配，请重新选择";
+            context.Result.ErrorMessage = SH.ViewModelLaunchGameAccountAndServerNotMatch;
             return false;
         }
 
@@ -84,7 +84,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
         }
 
         context.Result.Kind = LaunchExecutionResultKind.GameAccountCreateAuthTicketFailed;
-        context.Result.ErrorMessage = "使用米游社账号登录失败，请重新登录米哈游账号";
+        context.Result.ErrorMessage = SH.ViewModelLaunchGameCreateAuthTicketFailed;
         return false;
     }
 }

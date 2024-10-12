@@ -35,7 +35,7 @@ internal sealed partial class SettingEntry
 
     public const string IsAdvancedLaunchOptionsEnabled = "IsAdvancedLaunchOptionsEnabled";
 
-    public const string LaunchIsUseMiYouSheAccount = "Launch.IsUseMiYouSheAccount";
+    public const string LaunchIsUseHoyolabAccount = "Launch.IsUseHoyolabAccount";
     public const string LaunchIsLaunchOptionsEnabled = "Launch.IsLaunchOptionsEnabled";
     public const string LaunchIsExclusive = "Launch.IsExclusive";
     public const string LaunchIsFullScreen = "Launch.IsFullScreen";

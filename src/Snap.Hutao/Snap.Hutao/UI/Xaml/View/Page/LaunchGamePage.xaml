@@ -331,13 +331,13 @@
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
                                         IsClickEnabled="True"
-                                        IsEnabled="{Binding LaunchOptions.IsUseMiYouSheAccount, Converter={StaticResource BoolNegationConverter}}"/>
+                                        IsEnabled="{Binding LaunchOptions.IsUseHoyolabAccount, Converter={StaticResource BoolNegationConverter}}"/>
                                     <Border Style="{StaticResource BorderCardStyle}">
                                         <ListView
                                             Padding="{StaticResource ListViewInSplitPanePadding}"
                                             AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                                             CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
-                                            IsEnabled="{Binding LaunchOptions.IsUseMiYouSheAccount, Converter={StaticResource BoolNegationConverter}}"
+                                            IsEnabled="{Binding LaunchOptions.IsUseHoyolabAccount, Converter={StaticResource BoolNegationConverter}}"
                                             ItemTemplate="{StaticResource GameAccountListTemplate}"
                                             ItemsSource="{Binding GameAccountsView}"
                                             SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
@@ -371,8 +371,8 @@
                                         Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
                                     <cwc:SettingsCard
-                                        Description="使用当前选中的米游社用户登录，仅支持官服"
-                                        Header="使用米游社用户登录"
+                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}">
                                         <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
                                             <clw:TokenItem
@@ -385,7 +385,7 @@
                                                     <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
                                                 </clw:TokenItem.Resources>
                                             </clw:TokenItem>
-                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsUseMiYouSheAccount, Mode=TwoWay}"/>
+                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsUseHoyolabAccount, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsExpander

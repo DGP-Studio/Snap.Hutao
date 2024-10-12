@@ -25,7 +25,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
 
     private string? gamePath;
     private ImmutableList<GamePathEntry>? gamePathEntries;
-    private bool? isUseMiYouSheAccount;
+    private bool? isUseHoyolabAccount;
     private bool? isEnabled;
     private bool? isAdvancedLaunchOptionsEnabled;
     private bool? isFullScreen;
@@ -64,6 +64,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         {
             _ = key switch
             {
+                SettingEntry.LaunchIsUseHoyolabAccount => InitializeBooleanValue(ref isUseHoyolabAccount, value),
                 SettingEntry.LaunchIsLaunchOptionsEnabled => InitializeBooleanValue(ref isEnabled, value),
                 SettingEntry.LaunchIsFullScreen => InitializeBooleanValue(ref isFullScreen, value),
                 SettingEntry.LaunchIsBorderless => InitializeBooleanValue(ref isBorderless, value),
@@ -173,10 +174,10 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     }
 
     #region Launch Prefixed Options
-    public bool IsUseMiYouSheAccount
+    public bool IsUseHoyolabAccount
     {
-        get => GetOption(ref isUseMiYouSheAccount, SettingEntry.LaunchIsUseMiYouSheAccount, false);
-        set => SetOption(ref isUseMiYouSheAccount, SettingEntry.LaunchIsUseMiYouSheAccount, value);
+        get => GetOption(ref isUseHoyolabAccount, SettingEntry.LaunchIsUseHoyolabAccount, false);
+        set => SetOption(ref isUseHoyolabAccount, SettingEntry.LaunchIsUseHoyolabAccount, value);
     }
 
     public bool IsEnabled
