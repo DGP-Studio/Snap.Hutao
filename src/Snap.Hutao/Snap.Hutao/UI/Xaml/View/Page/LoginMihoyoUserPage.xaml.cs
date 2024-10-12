@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab;
@@ -12,10 +13,6 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.UI.Xaml.View.Page;
 
-/// <summary>
-/// 登录米哈游通行证页面
-/// </summary>
-[HighQuality]
 internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Page, ISupportLoginByWebView
 {
     private const string CookieHost = "https://user.mihoyo.com";
@@ -24,9 +21,6 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
 
-    /// <summary>
-    /// 构造一个新的登录米哈游通行证页面
-    /// </summary>
     public LoginMihoyoUserPage()
     {
         serviceProvider = Ioc.Default;
@@ -64,7 +58,8 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie stokenV1 = Cookie.FromSToken(loginTicketCookie[Cookie.LOGIN_UID], multiTokenMap[Cookie.STOKEN]);
 
         Response<LoginResult> loginResultResponse = await serviceProvider
-            .GetRequiredService<PassportClient2>()
+            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+            .Create(false)
             .LoginBySTokenAsync(stokenV1)
             .ConfigureAwait(false);
 

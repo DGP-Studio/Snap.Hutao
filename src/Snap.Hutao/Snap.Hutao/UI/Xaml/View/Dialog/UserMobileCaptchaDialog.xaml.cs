@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -75,8 +76,8 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-            (rawSession, response) = await passportClient2.CreateLoginCaptchaAsync(Mobile, null).ConfigureAwait(false);
+            IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
+            (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, null).ConfigureAwait(false);
         }
 
         if (!string.IsNullOrEmpty(rawSession))
@@ -106,8 +107,8 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
             Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(result))}";
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-                (rawSession, response) = await passportClient2.CreateLoginCaptchaAsync(Mobile, Aigis).ConfigureAwait(false);
+                IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
+                (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, Aigis).ConfigureAwait(false);
             }
         }
 

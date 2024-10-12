@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DataTransfer;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Navigation;
@@ -24,10 +25,6 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
-/// <summary>
-/// 用户视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject
@@ -155,7 +152,8 @@ internal sealed partial class UserViewModel : ObservableObject
         }
 
         Response<LoginResult> sTokenResponse = await serviceProvider
-            .GetRequiredService<PassportClient2>()
+            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+            .Create(false)
             .LoginByGameTokenAsync(token)
             .ConfigureAwait(false);
 
@@ -179,8 +177,8 @@ internal sealed partial class UserViewModel : ObservableObject
         Response<LoginResult> sTokenResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-            sTokenResponse = await passportClient2.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
+            IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
+            sTokenResponse = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
         }
 
         if (sTokenResponse.IsOk())
