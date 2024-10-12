@@ -3365,7 +3365,7 @@
     <value>実行</value>
   </data>
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
-    <value>デバッグ スクリプトを実行します。</value>
+    <value>デバッグスクリプトを実行</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 日後に開始</value>
