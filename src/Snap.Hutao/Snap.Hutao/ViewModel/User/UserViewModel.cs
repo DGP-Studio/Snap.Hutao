@@ -97,6 +97,24 @@ internal sealed partial class UserViewModel : ObservableObject
         return AddUserByManualInputCookieAsync(true).AsTask();
     }
 
+    [Command("LoginByPasswordOverseaCommand")]
+    private async Task LoginByPasswordOverseaAsync()
+    {
+        await taskContext.SwitchToMainThreadAsync();
+
+        UserAccountPasswordDialog dialog = await contentDialogFactory
+            .CreateInstanceAsync<UserAccountPasswordDialog>()
+            .ConfigureAwait(false);
+        ValueResult<bool, LoginResult> result = await dialog.LoginAsync(true).ConfigureAwait(false);
+
+        if (result.TryGetValue(out LoginResult loginResult))
+        {
+            Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
+        }
+    }
+
     private async ValueTask AddUserByManualInputCookieAsync(bool isOversea)
     {
         // ContentDialog must be created by main thread.

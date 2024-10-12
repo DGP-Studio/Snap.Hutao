@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
@@ -11,48 +10,34 @@ using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using System.Text;
-using System.Text.RegularExpressions;
 using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [INotifyPropertyChanged]
-internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassportMobileCaptchaProvider
+internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPassportPasswordProvider
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private string? mobile;
-    private string? captcha;
+    private string? account;
+    private string? password;
 
-    public UserMobileCaptchaDialog(IServiceProvider serviceProvider)
+    public UserAccountPasswordDialog(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         InitializeComponent();
     }
 
-    public string? Mobile
+    public string? Account { get => account; set => SetProperty(ref account, value); }
+
+    public string? Password
     {
-        get => mobile;
+        get => password;
         set
         {
-            if (SetProperty(ref mobile, value) && value is not null)
-            {
-                IsSendCaptchaEnabled = MobilePhoneRegex().IsMatch(value);
-                OnPropertyChanged(nameof(IsSendCaptchaEnabled));
-            }
-        }
-    }
-
-    public bool IsSendCaptchaEnabled { get; private set; }
-
-    public string? Captcha
-    {
-        get => captcha;
-        set
-        {
-            if (SetProperty(ref captcha, value))
+            if (SetProperty(ref password, value))
             {
                 IsLoginEnabled = !string.IsNullOrEmpty(value);
                 OnPropertyChanged(nameof(IsLoginEnabled));
@@ -62,22 +47,29 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
 
     public bool IsLoginEnabled { get; private set; }
 
-    public string? ActionType { get; private set; }
-
     public string? Aigis { get; private set; }
 
-    [Command("SendMobileCaptchaCommand")]
-    public async Task SendMobileCaptchaAsync()
+    public async ValueTask<ValueResult<bool, LoginResult>> LoginAsync(bool isOversea)
     {
-        ArgumentNullException.ThrowIfNull(Mobile);
+        await taskContext.SwitchToMainThreadAsync();
+        ContentDialogResult result = await ShowAsync();
+        LoginResult? loginResult = await LoginCoreAsync(isOversea).ConfigureAwait(false);
 
-        string? rawSession = default;
-        Response<MobileCaptcha> response = default!;
+        return new(result is ContentDialogResult.Primary, loginResult);
+    }
+
+    private async ValueTask<LoginResult> LoginCoreAsync(bool isOversea)
+    {
+        ArgumentNullException.ThrowIfNull(Account);
+        ArgumentNullException.ThrowIfNull(Password);
+
+        string? rawSession;
+        Response<LoginResult> response;
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
-            (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, null).ConfigureAwait(false);
+            IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
+            (rawSession, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
         }
 
         if (!string.IsNullOrEmpty(rawSession))
@@ -88,7 +80,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
             ArgumentNullException.ThrowIfNull(sessionData);
 
             await taskContext.SwitchToMainThreadAsync();
-            GeetestWebView2ContentProvider contentProvider = new(sessionData.GT, sessionData.Challenge, false);
+            GeetestWebView2ContentProvider contentProvider = new(sessionData.GT, sessionData.Challenge, isOversea);
 
             new ShowWebView2WindowAction()
             {
@@ -101,46 +93,19 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
             if (string.IsNullOrEmpty(result))
             {
                 // User closed the window without completing the verification
-                return;
+                return default!;
             }
 
             Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(result))}";
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
-                (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, Aigis).ConfigureAwait(false);
+                IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
+                (rawSession, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
             }
         }
 
-        if (response.IsOk())
-        {
-            ActionType = response.Data.ActionType;
-        }
-
-        // Prevent re-enable too soon, and user might not receive the short message
-        await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
+        return response.IsOk() ? response.Data : default!;
     }
-
-    public async ValueTask<bool> GetMobileCaptchaAsync()
-    {
-        await taskContext.SwitchToMainThreadAsync();
-        return await ShowAsync() is ContentDialogResult.Primary;
-    }
-
-    private static void OnMobileChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
-    {
-        UserMobileCaptchaDialog dialog = (UserMobileCaptchaDialog)sender;
-        dialog.IsSendCaptchaEnabled = MobilePhoneRegex().IsMatch((string)args.NewValue);
-    }
-
-    private static void OnCaptchaChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
-    {
-        UserMobileCaptchaDialog dialog = (UserMobileCaptchaDialog)sender;
-        dialog.IsLoginEnabled = !string.IsNullOrEmpty((string)args.NewValue);
-    }
-
-    [GeneratedRegex(@"\d{11}")]
-    private static partial Regex MobilePhoneRegex();
 
     private void OnTextKeyDown(object sender, KeyRoutedEventArgs e)
     {

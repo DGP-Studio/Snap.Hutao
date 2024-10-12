@@ -48,15 +48,15 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPassword(IPassportPasswordProvider provider, CancellationToken token = default)
+    public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(IPassportPasswordProvider provider, CancellationToken token = default)
     {
         ArgumentNullException.ThrowIfNull(provider.Account);
         ArgumentNullException.ThrowIfNull(provider.Password);
 
-        return LoginByPassword(provider.Account, provider.Password, provider.Aigis, token);
+        return LoginByPasswordAsync(provider.Account, provider.Password, provider.Aigis, token);
     }
 
-    public async ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPassword(string account, string password, string? aigis, CancellationToken token = default)
+    public async ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(string account, string password, string? aigis, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {

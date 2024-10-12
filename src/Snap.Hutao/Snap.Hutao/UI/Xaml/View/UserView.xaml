@@ -337,9 +337,16 @@
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
+                                Command="{Binding LoginByPasswordOverseaCommand}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginByPasswordAction}"/>
+                            <!--<AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
                                 Command="{Binding LoginHoyoverseUserCommand}"
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>-->
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"

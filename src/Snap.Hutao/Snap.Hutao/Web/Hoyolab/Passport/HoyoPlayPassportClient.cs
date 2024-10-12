@@ -49,12 +49,12 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPassword(IPassportPasswordProvider provider, CancellationToken token = default)
+    public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(IPassportPasswordProvider provider, CancellationToken token = default)
     {
         return ValueTask.FromException<(string? Aigis, Response<LoginResult> Response)>(new NotSupportedException());
     }
 
-    public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPassword(string account, string password, string? aigis, CancellationToken token = default)
+    public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(string account, string password, string? aigis, CancellationToken token = default)
     {
         return ValueTask.FromException<(string? Aigis, Response<LoginResult> Response)>(new NotSupportedException());
     }

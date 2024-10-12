@@ -8,6 +8,7 @@
     <x:String x:Key="FontIconContentChevronRight">&#xE76C;</x:String>
     <x:String x:Key="FontIconContentError">&#xE783;</x:String>
     <x:String x:Key="FontIconContentWarning">&#xE7BA;</x:String>
+    <x:String x:Key="FontIconContentOtherUser">&#xE7EE;</x:String>
     <x:String x:Key="FontIconContentGame">&#xE7FC;</x:String>
     <x:String x:Key="FontIconContentRecent">&#xE823;</x:String>
     <x:String x:Key="FontIconContentDownload">&#xE896;</x:String>
