@@ -30,7 +30,7 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
 
         AuthTicketRequestOversea data = new()
         {
-            GameBiz = "hk4e_global",
+            BizName = "hk4e_global",
             Mid = user.Mid,
             SToken = stoken,
         };

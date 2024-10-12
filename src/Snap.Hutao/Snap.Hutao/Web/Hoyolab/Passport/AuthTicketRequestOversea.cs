@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 internal sealed class AuthTicketRequestOversea
 {
     [JsonPropertyName("biz_name")]
-    public string GameBiz { get; set; } = default!;
+    public string BizName { get; set; } = default!;
 
     [JsonPropertyName("mid")]
     public string Mid { get; set; } = default!;
