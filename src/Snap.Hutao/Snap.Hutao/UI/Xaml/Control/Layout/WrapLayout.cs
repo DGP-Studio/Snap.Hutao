@@ -52,8 +52,6 @@ internal sealed partial class WrapLayout : VirtualizingLayout
                 state.Clear();
                 break;
         }
-
-        base.OnItemsChangedCore(context, source, args);
     }
 
     protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)

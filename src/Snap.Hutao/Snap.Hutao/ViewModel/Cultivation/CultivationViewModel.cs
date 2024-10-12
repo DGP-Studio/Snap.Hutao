@@ -246,6 +246,11 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RefreshStatisticsItemsCommand")]
     private async Task UpdateStatisticsItemsAsync()
     {
+        // https://github.com/DGP-Studio/Snap.Hutao/issues/2044
+        // Coercively clear the list and bring view to the top to prevent UI dead loop
+        await taskContext.SwitchToMainThreadAsync();
+        StatisticsItems = null;
+
         if (Projects?.CurrentItem is null)
         {
             return;
@@ -282,6 +287,11 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private async ValueTask UpdateInventoryItemsAsync()
     {
+        // https://github.com/DGP-Studio/Snap.Hutao/issues/2044
+        // Coercively clear the list and bring view to the top to prevent UI dead loop
+        await taskContext.SwitchToMainThreadAsync();
+        InventoryItems = null;
+
         if (Projects?.CurrentItem is null)
         {
             return;

@@ -398,31 +398,26 @@
                         <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <ScrollView HorizontalScrollBarVisibility="Hidden">
-                                        <ScrollViewer
-                                            Padding="0,0"
-                                            HorizontalScrollBarVisibility="Disabled"
-                                            VerticalScrollBarVisibility="Disabled">
-                                            <ItemsRepeater
-                                                Margin="16,16,16,0"
-                                                ItemTemplate="{StaticResource CultivateEntryTemplate}"
-                                                ItemsSource="{Binding CultivateEntries}">
-                                                <ItemsRepeater.Layout>
-                                                    <shuxcl:UniformStaggeredLayout
-                                                        MinColumnSpacing="12"
-                                                        MinItemWidth="300"
-                                                        MinRowSpacing="-4"/>
-                                                </ItemsRepeater.Layout>
-                                            </ItemsRepeater>
-                                        </ScrollViewer>
-                                    </ScrollView>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                        <ItemsRepeater
+                                            Margin="16,16,16,0"
+                                            ItemTemplate="{StaticResource CultivateEntryTemplate}"
+                                            ItemsSource="{Binding CultivateEntries}">
+                                            <ItemsRepeater.Layout>
+                                                <shuxcl:UniformStaggeredLayout
+                                                    MinColumnSpacing="12"
+                                                    MinItemWidth="300"
+                                                    MinRowSpacing="-4"/>
+                                            </ItemsRepeater.Layout>
+                                        </ItemsRepeater>
+                                    </ScrollViewer>
                                 </Border>
                             </Border>
                         </PivotItem>
                         <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialStatistics}" Tag="Statistics">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <ScrollView Padding="16,0" HorizontalScrollBarVisibility="Hidden">
+                                    <ScrollViewer Padding="16,0" HorizontalScrollBarVisibility="Disabled">
                                         <ItemsRepeater
                                             Margin="0,16,0,0"
                                             ItemTemplate="{StaticResource StatisticsItemTemplate}"
@@ -436,7 +431,7 @@
                                                     MinRowSpacing="-4"/>
                                             </ItemsRepeater.Layout>
                                         </ItemsRepeater>
-                                    </ScrollView>
+                                    </ScrollViewer>
                                 </Border>
                             </Border>
                         </PivotItem>
@@ -447,7 +442,7 @@
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                         <!--  Add a ScrollView for smooth scrolling  -->
-                        <ScrollView HorizontalScrollBarVisibility="Hidden">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                             <ItemsRepeater
                                 Margin="16"
                                 ItemTemplate="{StaticResource InventoryItemTemplate}"
@@ -456,7 +451,7 @@
                                     <shuxcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
                                 </ItemsRepeater.Layout>
                             </ItemsRepeater>
-                        </ScrollView>
+                        </ScrollViewer>
                     </Border>
                 </Border>
             </PivotItem>

@@ -100,9 +100,16 @@ internal sealed class UniformStaggeredLayoutState
 
     internal void Clear()
     {
-        if (items.Count > 0)
+        try
         {
-            RecycleElements();
+            if (items.Count > 0)
+            {
+                RecycleElements();
+            }
+
+        }
+        catch
+        {
         }
 
         ClearColumns();

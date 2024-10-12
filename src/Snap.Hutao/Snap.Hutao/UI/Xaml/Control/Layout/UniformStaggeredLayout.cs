@@ -56,8 +56,6 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
                 state.Clear();
                 break;
         }
-
-        base.OnItemsChangedCore(context, source, args);
     }
 
     /// <inheritdoc/>
