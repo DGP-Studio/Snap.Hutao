@@ -1880,8 +1880,14 @@
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>匯入失敗</value>
   </data>
+  <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
+    <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>目前選中的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
+  </data>
+  <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
+    <value>使用米游社用户登录失败，请重新登录</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2701,6 +2707,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>啟用</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
+    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
+    <value>使用米游社用户登录</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>充分利用支援 HDR 的顯示器以獲得更亮、更生動、更精細的畫面</value>
