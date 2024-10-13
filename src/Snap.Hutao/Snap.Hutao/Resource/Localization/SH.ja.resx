@@ -2711,7 +2711,7 @@
     <value>有効</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+    <value>現在の選択済みの mizer ユーザーログインを使う</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>米ビューアーのユーザーによるログイン</value>
