@@ -1,14 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Collections.Frozen;
-using System.Globalization;
-using System.Text;
-using Windows.Graphics;
-using Microsoft.Extensions.Primitives;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using System.Collections.Frozen;
+using System.Text;
+using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
