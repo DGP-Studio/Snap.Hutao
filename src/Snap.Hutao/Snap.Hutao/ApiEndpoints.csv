@@ -57,7 +57,7 @@ LunaSolHome(string languageCode),https://api-takumi.mihoyo.com/event/luna/home?l
 "LunaSolInfo(PlayerUid uid, string languageCode)",https://api-takumi.mihoyo.com/event/luna/info?lang={languageCode}&act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()},https://sg-hk4e-api.hoyoverse.com/event/sol/info?lang={languageCode}&act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()}
 LunaSolReSign(string languageCode),https://api-takumi.mihoyo.com/event/luna/resign,https://sg-hk4e-api.hoyoverse.com/event/sol/resign?lang={languageCode}
 "LunaSolResignInfo(PlayerUid uid, string languageCode)",https://api-takumi.mihoyo.com/event/luna/resign_info?act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()},https://sg-hk4e-api.hoyoverse.com/event/sol/resign_info?lang={languageCode}&act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()}
-LunaSolSign(),https://api-takumi.mihoyo.com/event/luna/sign,https://sg-hk4e-api.hoyoverse.com/event/sol/sign?lang=zh-cn,
+LunaSolSign(),https://api-takumi.mihoyo.com/event/luna/sign,https://sg-hk4e-api.hoyoverse.com/event/sol/sign?lang=zh-cn
 MiyoliveRefreshCode(),https://api-takumi-static.mihoyo.com/event/miyolive/refreshCode?time={DateTimeOffset.Now.ToUnixTimeSeconds()},
 QrCodeFetch(),https://hk4e-sdk.mihoyo.com/hk4e_cn/combo/panda/qrcode/fetch,
 QrCodeQuery(),https://hk4e-sdk.mihoyo.com/hk4e_cn/combo/panda/qrcode/query,
