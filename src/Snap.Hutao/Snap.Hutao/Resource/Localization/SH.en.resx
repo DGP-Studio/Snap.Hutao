@@ -1880,8 +1880,14 @@
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>Import failed</value>
   </data>
+  <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
+    <value>The currently selected user and game server do not match. Please re-select</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>The currently selected game directory {0} is corrupted. Please manually delete the folder and reinstall the game</value>
+  </data>
+  <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
+    <value>Login with Mile Society failed, please login again</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
@@ -2701,6 +2707,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>Enabled</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
+    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
+    <value>Sign in with Minecraft user</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Take advantage of monitors that support HDR for brighter, more vivid, and more detailed pictures</value>
