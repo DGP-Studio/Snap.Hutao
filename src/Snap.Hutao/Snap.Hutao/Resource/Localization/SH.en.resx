@@ -2709,7 +2709,7 @@
     <value>Enabled</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+    <value>Sign in with the currently selected Mix user only</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>Sign in with Minecraft user</value>
