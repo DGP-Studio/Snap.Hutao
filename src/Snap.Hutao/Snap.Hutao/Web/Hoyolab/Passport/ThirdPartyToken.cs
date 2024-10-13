@@ -5,9 +5,15 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 internal sealed class ThirdPartyToken
 {
+    public ThirdPartyToken(string thirdPartyType, string token)
+    {
+        ThirdPartyType = thirdPartyType;
+        Token = token;
+    }
+
     [JsonPropertyName("thirdparty_type")]
-    public string ThirdPartyType { get; set; } = default!;
+    public string ThirdPartyType { get; set; }
 
     [JsonPropertyName("token")]
-    public string Token { get; set; } = default!;
+    public string Token { get; set; }
 }

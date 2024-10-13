@@ -53,7 +53,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        LoginResult? loginResult = await LoginCoreAsync(isOversea).ConfigureAwait(false);
+        LoginResult loginResult = await LoginCoreAsync(isOversea).ConfigureAwait(false);
 
         return new(result is ContentDialogResult.Primary, loginResult);
     }

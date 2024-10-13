@@ -195,6 +195,17 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
+
+        <DataTemplate x:Key="ThirdPartyLoginButtonTemplate">
+            <AppBarButton
+                Width="{StaticResource LargeAppBarButtonWidth}"
+                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                Margin="2,-4"
+                Command="{Binding DataContext.LoginByThirdPartyOverseaCommand, Source={StaticResource ViewModelBindingProxy}}"
+                CommandParameter="{Binding Name}"
+                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
+                Label="{Binding Name}"/>
+        </DataTemplate>
     </UserControl.Resources>
 
     <mxi:Interaction.Behaviors>
@@ -340,6 +351,34 @@
                                 Command="{Binding LoginByPasswordOverseaCommand}"
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginByPasswordAction}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginByThirdPartyAction}">
+                                <AppBarButton.Flyout>
+                                    <Flyout LightDismissOverlayMode="On" Placement="RightEdgeAlignedBottom">
+                                        <Flyout.FlyoutPresenterStyle>
+                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                <Setter Property="Padding" Value="0"/>
+                                            </Style>
+                                        </Flyout.FlyoutPresenterStyle>
+                                        <ItemsControl ItemTemplate="{StaticResource ThirdPartyLoginButtonTemplate}" ItemsSource="{Binding OverseaThirdPartyKinds}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel
+                                                        Margin="0,0"
+                                                        Padding="0,2"
+                                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                        BorderThickness="0,0,1,0"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
                             <!--<AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
