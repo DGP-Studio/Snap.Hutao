@@ -35,7 +35,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
             }
 
             // Force update
-            await RefreshUserGameRoleAsync(userGameRole, token: token).ConfigureAwait(false);
+            await RefreshUserGameRoleAsync(userGameRole, token).ConfigureAwait(false);
         }
     }
 

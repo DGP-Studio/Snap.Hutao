@@ -5,8 +5,10 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Page;
+using Snap.Hutao.ViewModel.User;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -22,6 +24,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
+    private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView<GameAccount>? gameAccountsView;
@@ -69,6 +72,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        await this.LaunchExecutionAsync(launchGameShared.GetCurrentLaunchSchemeFromConfigFile()).ConfigureAwait(false);
+        UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
+        await this.LaunchExecutionAsync(launchGameShared.GetCurrentLaunchSchemeFromConfigFile(), userAndUid).ConfigureAwait(false);
     }
 }

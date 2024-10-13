@@ -96,4 +96,22 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
     }
+
+    private static void XRpc5Configuration(HttpClient client)
+    {
+        client.Timeout = Timeout.InfiniteTimeSpan;
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.HoyoPlayUserAgent);
+        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Add("x-rpc-app_id", "ddxf5dufpuyo");
+        client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
+    }
+
+    private static void XRpc6Configuration(HttpClient client)
+    {
+        client.Timeout = Timeout.InfiniteTimeSpan;
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.HoyoPlayUserAgent);
+        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Add("x-rpc-app_id", "ddxf6vlr1reo");
+        client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
+    }
 }

@@ -50,11 +50,12 @@ internal sealed partial class SettingEntry
     public const string LaunchLoopAdjustFpsOnly = "Launch.LoopAdjustFpsOnly";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
-    public const string LaunchIsUseCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
+    public const string LaunchUsingCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
     public const string LaunchIsWindowsHDREnabled = "Launch.IsWindowsHDREnabled";
-    public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
-    public const string LaunchUseBetterGenshinImpactAutomation = "Launch.UseBetterGenshinImpactAutomation";
+    public const string LaunchUsingStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
+    public const string LaunchUsingBetterGenshinImpactAutomation = "Launch.UseBetterGenshinImpactAutomation";
     public const string LaunchSetDiscordActivityWhenPlaying = "Launch.SetDiscordActivityWhenPlaying";
+    public const string LaunchUsingHoyolabAccount = "Launch.UsingHoyolabAccount";
 
     [Obsolete("不再区分解锁器类型，统一使用注入")]
     public const string LaunchUnlockerKind = "Launch.UnlockerKind";

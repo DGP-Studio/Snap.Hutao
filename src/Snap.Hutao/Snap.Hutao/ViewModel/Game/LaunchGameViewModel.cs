@@ -15,6 +15,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Collections.Immutable;
@@ -222,7 +223,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        await this.LaunchExecutionAsync(SelectedScheme).ConfigureAwait(false);
+        UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
+        await this.LaunchExecutionAsync(SelectedScheme, userAndUid).ConfigureAwait(false);
     }
 
     [Command("DetectGameAccountCommand")]

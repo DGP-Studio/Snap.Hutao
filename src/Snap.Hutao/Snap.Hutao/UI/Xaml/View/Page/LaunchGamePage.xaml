@@ -330,12 +330,14 @@
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
-                                        IsClickEnabled="True"/>
+                                        IsClickEnabled="True"
+                                        IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolNegationConverter}}"/>
                                     <Border Style="{StaticResource BorderCardStyle}">
                                         <ListView
                                             Padding="{StaticResource ListViewInSplitPanePadding}"
                                             AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                                             CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                            IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolNegationConverter}}"
                                             ItemTemplate="{StaticResource GameAccountListTemplate}"
                                             ItemsSource="{Binding GameAccountsView}"
                                             SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
@@ -368,6 +370,24 @@
                                         Margin="1,0,0,5"
                                         Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
+                                    <cwc:SettingsCard
+                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountHeader}"
+                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}">
+                                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                            <clw:TokenItem
+                                                VerticalAlignment="Center"
+                                                Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                Content="BETA"
+                                                Icon="{shuxm:FontIcon Glyph=&#xE7C1;}"
+                                                IsHitTestVisible="False">
+                                                <clw:TokenItem.Resources>
+                                                    <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
+                                                </clw:TokenItem.Resources>
+                                            </clw:TokenItem>
+                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingHoyolabAccount, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                    </cwc:SettingsCard>
                                     <cwc:SettingsExpander
                                         shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.IsEnabled}"
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
@@ -386,7 +406,7 @@
                                                 <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsBorderless, Mode=TwoWay}"/>
                                             </cwc:SettingsCard>
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription}" Header="-platform_type CLOUD_THIRD_PARTY_MOBILE">
-                                                <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsUseCloudThirdPartyMobile, Mode=TwoWay}"/>
+                                                <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingCloudThirdPartyMobile, Mode=TwoWay}"/>
                                             </cwc:SettingsCard>
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioHeader}">
                                                 <shuxc:SizeRestrictedContentControl Margin="0,0,130,0" VerticalAlignment="Center">
@@ -511,13 +531,13 @@
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGamePlayTimeDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGamePlayTimeHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xEC92;}">
-                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UseStarwardPlayTimeStatistics, Mode=TwoWay}"/>
+                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingStarwardPlayTimeStatistics, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameBetterGIDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameBetterGIHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE961;}">
-                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UseBetterGenshinImpactAutomation, Mode=TwoWay}"/>
+                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingBetterGenshinImpactAutomation, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameDiscordActivityDescription}"
