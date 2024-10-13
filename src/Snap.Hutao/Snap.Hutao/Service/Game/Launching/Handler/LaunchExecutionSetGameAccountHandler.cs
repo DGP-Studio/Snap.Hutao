@@ -14,7 +14,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (context.Options.IsUseHoyolabAccount)
+        if (context.Options.UsingHoyolabAccount)
         {
             if (!await HandleMiYouSheAccountAsync(context).ConfigureAwait(false))
             {
@@ -44,6 +44,8 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
         if (context.Scheme.GetSchemeType() is SchemeType.ChineseBilibili)
         {
             context.Logger.LogWarning("Bilibili server does not support auth ticket login");
+
+            // TODO: Consider return false here and notify user
             return true;
         }
 
@@ -59,7 +61,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
             return true;
         }
 
-        if (userAndUid.IsOversea != context.Scheme.IsOversea)
+        if (userAndUid.IsOversea ^ context.Scheme.IsOversea)
         {
             context.Result.Kind = LaunchExecutionResultKind.GameAccountUserAndUidAndServerNotMatch;
             context.Result.ErrorMessage = SH.ViewModelLaunchGameAccountAndServerNotMatch;

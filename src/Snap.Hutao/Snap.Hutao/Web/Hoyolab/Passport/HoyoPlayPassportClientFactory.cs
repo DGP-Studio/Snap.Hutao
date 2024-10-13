@@ -7,6 +7,4 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient, typeof(IOverseaSupportFactory<IHoyoPlayPassportClient>))]
-internal sealed partial class HoyoPlayPassportClientFactory : OverseaSupportFactory<IHoyoPlayPassportClient, HoyoPlayPassportClient, HoyoPlayPassportClientOversea>
-{
-}
+internal sealed partial class HoyoPlayPassportClientFactory : OverseaSupportFactory<IHoyoPlayPassportClient, HoyoPlayPassportClient, HoyoPlayPassportClientOversea>;

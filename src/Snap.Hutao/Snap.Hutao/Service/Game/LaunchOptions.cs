@@ -25,7 +25,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
 
     private string? gamePath;
     private ImmutableList<GamePathEntry>? gamePathEntries;
-    private bool? isUseHoyolabAccount;
+    private bool? usingHoyolabAccount;
     private bool? isEnabled;
     private bool? isAdvancedLaunchOptionsEnabled;
     private bool? isFullScreen;
@@ -42,11 +42,11 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     private bool? loopAdjustFpsOnly;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
-    private bool? isUseCloudThirdPartyMobile;
+    private bool? usingCloudThirdPartyMobile;
     private bool? isWindowsHDREnabled;
     private AspectRatio? selectedAspectRatio;
-    private bool? useStarwardPlayTimeStatistics;
-    private bool? useBetterGenshinImpactAutomation;
+    private bool? usingStarwardPlayTimeStatistics;
+    private bool? usingBetterGenshinImpactAutomation;
     private bool? setDiscordActivityWhenPlaying;
 
     public LaunchOptions(IServiceProvider serviceProvider)
@@ -64,7 +64,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         {
             _ = key switch
             {
-                SettingEntry.LaunchIsUseHoyolabAccount => InitializeBooleanValue(ref isUseHoyolabAccount, value),
+                SettingEntry.LaunchUsingHoyolabAccount => InitializeBooleanValue(ref usingHoyolabAccount, value),
                 SettingEntry.LaunchIsLaunchOptionsEnabled => InitializeBooleanValue(ref isEnabled, value),
                 SettingEntry.LaunchIsFullScreen => InitializeBooleanValue(ref isFullScreen, value),
                 SettingEntry.LaunchIsBorderless => InitializeBooleanValue(ref isBorderless, value),
@@ -78,17 +78,17 @@ internal sealed partial class LaunchOptions : DbStoreOptions
                 SettingEntry.LaunchTargetFov => InitializeFloatValue(ref targetFov, value),
                 SettingEntry.LaunchDisableFog => InitializeBooleanValue(ref disableFog, value),
                 SettingEntry.LaunchIsMonitorEnabled => InitializeBooleanValue(ref isMonitorEnabled, value),
-                SettingEntry.LaunchIsUseCloudThirdPartyMobile => InitializeBooleanValue(ref isUseCloudThirdPartyMobile, value),
+                SettingEntry.LaunchUsingCloudThirdPartyMobile => InitializeBooleanValue(ref usingCloudThirdPartyMobile, value),
                 SettingEntry.LaunchIsWindowsHDREnabled => InitializeBooleanValue(ref isWindowsHDREnabled, value),
-                SettingEntry.LaunchUseStarwardPlayTimeStatistics => InitializeBooleanValue(ref useStarwardPlayTimeStatistics, value),
-                SettingEntry.LaunchUseBetterGenshinImpactAutomation => InitializeBooleanValue(ref useBetterGenshinImpactAutomation, value),
+                SettingEntry.LaunchUsingStarwardPlayTimeStatistics => InitializeBooleanValue(ref usingStarwardPlayTimeStatistics, value),
+                SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeBooleanValue(ref usingBetterGenshinImpactAutomation, value),
                 SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeBooleanValue(ref setDiscordActivityWhenPlaying, value),
                 SettingEntry.LaunchLoopAdjustFpsOnly => InitializeBooleanValue(ref loopAdjustFpsOnly, value),
                 _ => default,
             };
         });
 
-        static Core.Void InitializeBooleanValue(ref bool? storage, string? value)
+        static Void InitializeBooleanValue(ref bool? storage, string? value)
         {
             if (value is not null)
             {
@@ -98,7 +98,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
             return default;
         }
 
-        static Core.Void InitializeInt32Value(ref int? storage, string? value)
+        static Void InitializeInt32Value(ref int? storage, string? value)
         {
             if (value is not null)
             {
@@ -108,7 +108,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
             return default;
         }
 
-        static Core.Void InitializeFloatValue(ref float? storage, string? value)
+        static Void InitializeFloatValue(ref float? storage, string? value)
         {
             if (value is not null)
             {
@@ -174,10 +174,10 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     }
 
     #region Launch Prefixed Options
-    public bool IsUseHoyolabAccount
+    public bool UsingHoyolabAccount
     {
-        get => GetOption(ref isUseHoyolabAccount, SettingEntry.LaunchIsUseHoyolabAccount, false);
-        set => SetOption(ref isUseHoyolabAccount, SettingEntry.LaunchIsUseHoyolabAccount, value);
+        get => GetOption(ref usingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, false);
+        set => SetOption(ref usingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, value);
     }
 
     public bool IsEnabled
@@ -286,10 +286,10 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         set => SetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
     }
 
-    public bool IsUseCloudThirdPartyMobile
+    public bool UsingCloudThirdPartyMobile
     {
-        get => GetOption(ref isUseCloudThirdPartyMobile, SettingEntry.LaunchIsUseCloudThirdPartyMobile, false);
-        set => SetOption(ref isUseCloudThirdPartyMobile, SettingEntry.LaunchIsUseCloudThirdPartyMobile, value);
+        get => GetOption(ref usingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, false);
+        set => SetOption(ref usingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, value);
     }
 
     public bool IsWindowsHDREnabled
@@ -298,16 +298,16 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         set => SetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
     }
 
-    public bool UseStarwardPlayTimeStatistics
+    public bool UsingStarwardPlayTimeStatistics
     {
-        get => GetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, false);
-        set => SetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, value);
+        get => GetOption(ref usingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, false);
+        set => SetOption(ref usingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, value);
     }
 
-    public bool UseBetterGenshinImpactAutomation
+    public bool UsingBetterGenshinImpactAutomation
     {
-        get => GetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, false);
-        set => SetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, value);
+        get => GetOption(ref usingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, false);
+        set => SetOption(ref usingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, value);
     }
 
     public bool SetDiscordActivityWhenPlaying
