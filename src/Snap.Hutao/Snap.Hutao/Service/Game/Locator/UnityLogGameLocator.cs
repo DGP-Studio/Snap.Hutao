@@ -46,10 +46,8 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
                 return new(true, fullPath);
             }
         }
-        else
-        {
-            return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
-        }
+
+        return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
     }
 
     [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)")]

@@ -24,7 +24,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
+    public async ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.LunaSolInfo(userAndUid.Uid, cultureOptions.LanguageCode))

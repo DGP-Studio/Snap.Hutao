@@ -31,10 +31,10 @@ namespace Snap.Hutao.UI.Xaml.Control.Image;
 [DependencyProperty("CachedName", typeof(string), "Unknown")]
 [DependencyProperty("NineGrid", typeof(Thickness))]
 [DependencyProperty("Stretch", typeof(Stretch), Stretch.Uniform)]
-[DependencyProperty("PlaceholderSource", typeof(object), default(object))]
+[DependencyProperty("PlaceholderSource", typeof(object), default)]
 [DependencyProperty("PlaceholderStretch", typeof(Stretch), Stretch.Uniform)]
 [DependencyProperty("PlaceholderMargin", typeof(Thickness))]
-[DependencyProperty("Source", typeof(object), default(object), nameof(OnSourceChanged))]
+[DependencyProperty("Source", typeof(object), default, nameof(OnSourceChanged))]
 [DependencyProperty("ShowAsMonoChrome", typeof(bool), false)]
 internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, IAlphaMaskProvider
 {
@@ -167,7 +167,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
 
     private static bool IsHttpUri(Uri uri)
     {
-        return uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
+        return uri is { IsAbsoluteUri: true, Scheme: "http" or "https" };
     }
 
     private async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)

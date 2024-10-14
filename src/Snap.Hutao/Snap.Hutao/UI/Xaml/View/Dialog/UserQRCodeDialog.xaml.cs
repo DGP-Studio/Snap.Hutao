@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -122,12 +121,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         {
             ReadOnlySpan<char> querySpan = urlSpan[urlSpan.IndexOf('?')..];
             NameValueCollection queryCollection = HttpUtility.ParseQueryString(querySpan.ToString());
-            if (queryCollection.TryGetSingleValue("ticket", out string? ticket))
-            {
-                return ticket;
-            }
-
-            return string.Empty;
+            return queryCollection.TryGetSingleValue("ticket", out string? ticket) ? ticket : string.Empty;
         }
     }
 
@@ -145,7 +139,8 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
                     ArgumentNullException.ThrowIfNull(uidGameToken);
                     return uidGameToken;
                 }
-                else if (query.ReturnCode is (int)KnownReturnCode.QrCodeExpired)
+
+                if (query.ReturnCode is (int)KnownReturnCode.QrCodeExpired)
                 {
                     break;
                 }

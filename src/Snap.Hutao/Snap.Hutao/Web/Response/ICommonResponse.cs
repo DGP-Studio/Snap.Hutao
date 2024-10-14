@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Response;
 
-internal interface ICommonResponse<TResponse>
+internal interface ICommonResponse<out TResponse>
     where TResponse : ICommonResponse<TResponse>
 {
     int ReturnCode { get; }

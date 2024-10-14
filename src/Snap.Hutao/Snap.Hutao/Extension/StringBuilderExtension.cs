@@ -28,12 +28,7 @@ internal static class StringBuilderExtension
             index--;
         }
 
-        if (index < 0)
-        {
-            return string.Empty;
-        }
-
-        return builder.ToString(0, index + 1);
+        return index < 0 ? string.Empty : builder.ToString(0, index + 1);
     }
 
     public static string ToStringTrimEndNewLine(this StringBuilder builder)
@@ -46,11 +41,6 @@ internal static class StringBuilderExtension
             index--;
         }
 
-        if (index < 0)
-        {
-            return string.Empty;
-        }
-
-        return builder.ToString(0, index + 1);
+        return index < 0 ? string.Empty : builder.ToString(0, index + 1);
     }
 }

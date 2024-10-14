@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("gacha_items")]
-internal sealed partial class GachaItem
+internal sealed class GachaItem
     : IDbMappingForeignKeyFrom<GachaItem, GachaLogItem, uint>,
     IDbMappingForeignKeyFrom<GachaItem, Web.Hutao.GachaLog.GachaItem>,
     IDbMappingForeignKeyFrom<GachaItem, Hk4eItem, int>

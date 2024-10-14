@@ -24,7 +24,7 @@ internal static class IAigisProviderExtension
         await taskContext.SwitchToMainThreadAsync();
         GeetestWebView2ContentProvider contentProvider = new(sessionData.GT, sessionData.Challenge, isOversea);
 
-        new ShowWebView2WindowAction()
+        new ShowWebView2WindowAction
         {
             ContentProvider = contentProvider,
         }.ShowAt(provider.XamlRoot);
@@ -48,7 +48,7 @@ internal static class IAigisProviderExtension
         public string SessionId { get; set; } = default!;
 
         [JsonPropertyName("mmt_type")]
-        public int MmtType { get; set; } = default!;
+        public int MmtType { get; set; }
 
         [JsonPropertyName("data")]
         public string Data { get; set; } = default!;

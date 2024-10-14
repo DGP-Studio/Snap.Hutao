@@ -15,7 +15,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
@@ -262,7 +261,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
+    public async ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.GameRecordRoleCombat(userAndUid.Uid))

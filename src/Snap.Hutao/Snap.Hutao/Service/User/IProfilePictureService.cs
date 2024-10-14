@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.User;
 
 internal interface IProfilePictureService
 {
-    ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default(CancellationToken));
+    ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default);
 
-    ValueTask RefreshUserGameRoleAsync(UserGameRole userGameRole, CancellationToken token = default(CancellationToken));
+    ValueTask RefreshUserGameRoleAsync(UserGameRole userGameRole, CancellationToken token = default);
 }

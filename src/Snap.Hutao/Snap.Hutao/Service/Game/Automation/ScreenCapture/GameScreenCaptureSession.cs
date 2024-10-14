@@ -35,7 +35,7 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
 
     private bool isDisposed;
 
-    public unsafe GameScreenCaptureSession(GameScreenCaptureContext captureContext, ILogger logger)
+    public GameScreenCaptureSession(GameScreenCaptureContext captureContext, ILogger logger)
     {
         this.captureContext = captureContext;
         this.logger = logger;
@@ -95,7 +95,7 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
         Dispose();
     }
 
-    private unsafe void OnFrameArrived(Direct3D11CaptureFramePool sender, object args)
+    private void OnFrameArrived(Direct3D11CaptureFramePool sender, object args)
     {
         // Simply ignore the frame if the frame raw pixel data is not requested.
         if (!Volatile.Read(ref isFrameRawPixelDataRequested))

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Markup;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter;
 

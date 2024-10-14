@@ -4,7 +4,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Snap.Hutao.Metadata;
+namespace Snap.Hutao.Model.Metadata;
 
 internal static partial class SpecialNameHandler
 {

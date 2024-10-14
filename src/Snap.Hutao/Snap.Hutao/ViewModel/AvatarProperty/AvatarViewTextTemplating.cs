@@ -13,7 +13,7 @@ internal static class AvatarViewTextTemplating
     public static string GetTemplatedText(AvatarView avatar)
     {
         string avatarTemplate = $"""
-            // {avatar.Name} [{avatar.Level}, ☆{avatar.Quality:D}, C{avatar.Constellations.Where(c => c.IsActivated).Count()}] [{FormatSkills(avatar.Skills)}]
+            // {avatar.Name} [{avatar.Level}, ☆{avatar.Quality:D}, C{avatar.Constellations.Count(c => c.IsActivated)}] [{FormatSkills(avatar.Skills)}]
             
             """;
 

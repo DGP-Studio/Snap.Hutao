@@ -9,7 +9,7 @@ using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Web.Bridge;
 
-internal sealed partial class BridgeShareImplmentation
+internal sealed class BridgeShareImplmentation
 {
     public static async ValueTask<IJsBridgeResult?> ShareAsync(JsParam<SharePayload> param, BridgeShareContext context)
     {
@@ -36,7 +36,7 @@ internal sealed partial class BridgeShareImplmentation
                     await context.TaskContext.SwitchToMainThreadAsync();
 
                     // https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-captureScreenshot
-                    string jsonParameters = """{ "format": "png", "captureBeyondViewport": true }""";
+                    const string jsonParameters = """{ "format": "png", "captureBeyondViewport": true }""";
                     string resultJson = await context.CoreWebView2.CallDevToolsProtocolMethodAsync("Page.captureScreenshot", jsonParameters);
 
                     CaptureScreenshotResult? result = JsonSerializer.Deserialize<CaptureScreenshotResult>(resultJson, context.JsonSerializerOptions);
@@ -47,7 +47,7 @@ internal sealed partial class BridgeShareImplmentation
                 }
         }
 
-        return new JsResult<Dictionary<string, string>>()
+        return new JsResult<Dictionary<string, string>>
         {
             Data = new()
             {

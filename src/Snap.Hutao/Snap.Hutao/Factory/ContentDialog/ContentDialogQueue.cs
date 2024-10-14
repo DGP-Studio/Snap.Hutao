@@ -26,12 +26,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
     {
         get
         {
-            if (currentWindowReference.Window is null)
-            {
-                return false;
-            }
-
-            return isDialogShowing;
+            return currentWindowReference.Window is not null && isDialogShowing;
         }
     }
 
@@ -82,10 +77,8 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
             isDialogShowing = true;
             return showNextDialogAsync();
         }
-        else
-        {
-            isDialogShowing = false;
-            return Task.CompletedTask;
-        }
+
+        isDialogShowing = false;
+        return Task.CompletedTask;
     }
 }

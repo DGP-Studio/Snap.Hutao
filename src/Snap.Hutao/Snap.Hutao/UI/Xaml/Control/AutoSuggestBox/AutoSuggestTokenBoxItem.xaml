@@ -282,7 +282,6 @@
                         <Border
                             x:Name="BorderElement"
                             Grid.Row="1"
-                            Grid.RowSpan="1"
                             Grid.ColumnSpan="3"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"/>

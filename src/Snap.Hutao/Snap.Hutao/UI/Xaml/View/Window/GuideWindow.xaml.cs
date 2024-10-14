@@ -10,9 +10,6 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-/// <summary>
-/// 指引窗口
-/// </summary>
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
@@ -45,7 +42,7 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
 
     public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);
 
-    public unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
+    public void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
     {
         info.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.x);
         info.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.y);

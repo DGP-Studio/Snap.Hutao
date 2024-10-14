@@ -18,11 +18,11 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     private static readonly TimeSpan ProgressTimeout = TimeSpan.FromSeconds(5);
 
-    private readonly FrozenDictionary<GamePackageOperationReportKind, object> syncRoots = new Dictionary<GamePackageOperationReportKind, object>()
-    {
-        [GamePackageOperationReportKind.Download] = new(),
-        [GamePackageOperationReportKind.Install] = new(),
-    }.ToFrozenDictionary();
+    private readonly FrozenDictionary<GamePackageOperationReportKind, object> syncRoots = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(GamePackageOperationReportKind.Download, new object()),
+        KeyValuePair.Create(GamePackageOperationReportKind.Install, new object()),
+    ]);
 
     private readonly ILogger<GamePackageOperationViewModel> logger;
     private readonly IGamePackageService gamePackageService;

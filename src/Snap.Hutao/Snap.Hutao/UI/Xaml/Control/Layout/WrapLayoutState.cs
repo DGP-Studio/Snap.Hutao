@@ -31,12 +31,10 @@ internal sealed class WrapLayoutState
         {
             return items[index];
         }
-        else
-        {
-            WrapItem item = new(index);
-            items.Add(item);
-            return item;
-        }
+
+        WrapItem item = new(index);
+        items.Add(item);
+        return item;
     }
 
     public void Clear()

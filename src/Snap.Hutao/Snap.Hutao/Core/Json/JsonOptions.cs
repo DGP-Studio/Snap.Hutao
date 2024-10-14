@@ -17,7 +17,7 @@ internal static class JsonOptions
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
         PropertyNameCaseInsensitive = true,
         WriteIndented = true,
-        TypeInfoResolver = new DefaultJsonTypeInfoResolver()
+        TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
             Modifiers =
             {

@@ -152,7 +152,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
             SpinWait.SpinUntil(() => gameProcess.MainWindowHandle is not 0);
             uint threadId = GetWindowThreadProcessId(gameProcess.MainWindowHandle, default);
-            HHOOK hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, (HINSTANCE)hModule, threadId);
+            HHOOK hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, hModule, threadId);
             if (hHook.Value is 0)
             {
                 Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));

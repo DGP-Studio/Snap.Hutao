@@ -11,7 +11,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class CalculateClient
@@ -162,7 +161,7 @@ internal sealed partial class CalculateClient
         public string Uid { get; set; } = default!;
 
         [JsonPropertyName("region")]
-        public Region Region { get; set; } = default!;
+        public Region Region { get; set; }
     }
 
     private class IdCount
@@ -180,7 +179,7 @@ internal sealed partial class CalculateClient
         public List<AvatarPromotionDelta> Items { get; set; } = default!;
 
         [JsonPropertyName("region")]
-        public Region Region { get; set; } = default!;
+        public Region Region { get; set; }
 
         [JsonPropertyName("uid")]
         public string Uid { get; set; } = default!;

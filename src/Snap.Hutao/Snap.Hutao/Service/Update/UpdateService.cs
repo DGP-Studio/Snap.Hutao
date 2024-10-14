@@ -5,7 +5,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
@@ -41,11 +40,9 @@ internal sealed partial class UpdateService : IUpdateService
                 checkUpdateResult.Kind = CheckUpdateResultKind.VersionApiInvalidResponse;
                 return checkUpdateResult;
             }
-            else
-            {
-                checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
-                checkUpdateResult.PackageInformation = response.Data;
-            }
+
+            checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
+            checkUpdateResult.PackageInformation = response.Data;
 
             string msixPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
 
@@ -89,7 +86,6 @@ internal sealed partial class UpdateService : IUpdateService
 
     public LaunchUpdaterResult LaunchUpdater()
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
 
         InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
@@ -102,7 +98,7 @@ internal sealed partial class UpdateService : IUpdateService
 
         try
         {
-            Process? process = Process.Start(new ProcessStartInfo()
+            Process? process = Process.Start(new ProcessStartInfo
             {
                 Arguments = commandLine,
                 FileName = updaterTargetPath,
@@ -181,8 +177,7 @@ internal sealed partial class UpdateService : IUpdateService
                 return false;
             }
 
-            string? remoteHash = mirrorInformation.Validation;
-            ArgumentNullException.ThrowIfNull(remoteHash);
+            string remoteHash = mirrorInformation.Validation;
             if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
             {
                 return true;

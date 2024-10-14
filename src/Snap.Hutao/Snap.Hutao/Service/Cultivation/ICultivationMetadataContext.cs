@@ -9,6 +9,4 @@ internal interface ICultivationMetadataContext : IMetadataContext,
     IMetadataArrayMaterialSource,
     IMetadataDictionaryIdMaterialSource,
     IMetadataDictionaryIdAvatarSource,
-    IMetadataDictionaryIdWeaponSource
-{
-}
+    IMetadataDictionaryIdWeaponSource;

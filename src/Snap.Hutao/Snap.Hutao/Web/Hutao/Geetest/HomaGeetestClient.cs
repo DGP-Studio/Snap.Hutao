@@ -46,11 +46,6 @@ internal sealed partial class HomaGeetestClient
             .SendAsync<GeetestResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        if (resp is null)
-        {
-            return GeetestResponse.InternalFailure;
-        }
-
-        return resp;
+        return resp ?? GeetestResponse.InternalFailure;
     }
 }

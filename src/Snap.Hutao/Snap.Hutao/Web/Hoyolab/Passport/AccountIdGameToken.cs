@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 internal sealed class AccountIdGameToken
 {
     [JsonPropertyName("account_id")]
-    public int AccountId { get; set; } = default!;
+    public int AccountId { get; set; }
 
     [JsonPropertyName("game_token")]
     public string GameToken { get; set; } = default!;

@@ -15,11 +15,6 @@ internal sealed partial class AutoSuggestTokenBoxStyleSelector : StyleSelector
     /// <inheritdoc/>
     protected override Style SelectStyleCore(object item, DependencyObject container)
     {
-        if (item is ITokenStringContainer)
-        {
-            return TextStyle;
-        }
-
-        return TokenStyle;
+        return item is ITokenStringContainer ? TextStyle : TokenStyle;
     }
 }

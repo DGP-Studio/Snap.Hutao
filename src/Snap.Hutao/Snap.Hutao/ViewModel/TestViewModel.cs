@@ -262,7 +262,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private void SendRandomInfoBarNotification()
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder
-            .SetSeverity((InfoBarSeverity)System.Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
+            .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
             .SetTitle("Lorem ipsum dolor sit amet")
             .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
     }
@@ -283,7 +283,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         using (HttpClient httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
         {
-            HttpShardCopyWorkerOptions<Core.Void> options = new()
+            HttpShardCopyWorkerOptions<Void> options = new()
             {
                 HttpClient = httpClient,
                 SourceUrl = "https://ghproxy.qhy04.cc/https://github.com/DGP-Studio/Snap.Hutao/releases/download/1.11.0/Snap.Hutao.1.11.0.msix",
@@ -291,9 +291,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 StatusFactory = (bytesRead, totalBytes) => default,
             };
 
-            Progress<Core.Void> progress = new();
+            Progress<Void> progress = new();
 
-            using (IHttpShardCopyWorker<Core.Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
+            using (IHttpShardCopyWorker<Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
             {
                 await worker.CopyAsync(progress).ConfigureAwait(false);
             }

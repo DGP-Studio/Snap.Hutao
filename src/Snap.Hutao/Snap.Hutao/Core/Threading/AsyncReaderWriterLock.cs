@@ -31,13 +31,11 @@ internal sealed class AsyncReaderWriterLock
                 ++status;
                 return readerReleaser;
             }
-            else
-            {
-                ++readersWaiting;
 
-                // Cannot await in the body of a lock statement
-                return waitingReader.Task.ContinueWith(t => t.Result);
-            }
+            ++readersWaiting;
+
+            // Cannot await in the body of a lock statement
+            return waitingReader.Task.ContinueWith(t => t.Result);
         }
     }
 
@@ -50,12 +48,10 @@ internal sealed class AsyncReaderWriterLock
                 status = -1;
                 return writerReleaser;
             }
-            else
-            {
-                TaskCompletionSource<Releaser> waiter = new();
-                waitingWriters.Enqueue(waiter);
-                return waiter.Task;
-            }
+
+            TaskCompletionSource<Releaser> waiter = new();
+            waitingWriters.Enqueue(waiter);
+            return waiter.Task;
         }
     }
 

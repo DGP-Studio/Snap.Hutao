@@ -201,8 +201,8 @@ internal sealed class XamlWindowController
         SystemBackdrop? actualBackdop = backdropType switch
         {
             BackdropType.Transparent => new TransparentBackdrop(),
-            BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
-            BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
+            BackdropType.MicaAlt => new MicaBackdrop { Kind = MicaKind.BaseAlt },
+            BackdropType.Mica => new MicaBackdrop { Kind = MicaKind.Base },
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
             _ => null,
         };
@@ -232,7 +232,7 @@ internal sealed class XamlWindowController
 
     #region IXamlWindowContentAsFrameworkElement
 
-    private unsafe void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
+    private void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
     {
         BOOL isDarkMode = ThemeHelper.IsDarkMode(titleBar.ActualTheme);
         DwmSetWindowAttribute(window.GetWindowHandle(), DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref isDarkMode);

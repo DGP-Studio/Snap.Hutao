@@ -55,8 +55,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
         hotKeyMessageWindow.Dispose();
         cancellationTokenSource?.Dispose();
-
-        GC.SuppressFinalize(this);
     }
 
     public void RegisterAll()
@@ -64,7 +62,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         MouseClickRepeatForeverKeyCombination.Register();
     }
 
-    private static unsafe INPUT CreateInputForMouseEvent(MOUSE_EVENT_FLAGS flags)
+    private static INPUT CreateInputForMouseEvent(MOUSE_EVENT_FLAGS flags)
     {
         INPUT input = default;
         input.type = INPUT_TYPE.INPUT_MOUSE;

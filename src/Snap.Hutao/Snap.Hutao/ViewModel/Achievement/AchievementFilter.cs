@@ -37,8 +37,8 @@ internal static class AchievementFilter
     public static Predicate<AchievementView>? CompileForVersion(bool filterDailyQuest, string version)
     {
         return filterDailyQuest
-            ? view => view.Inner.IsDailyQuest && string.Equals(view.Inner.Version, version, StringComparison.CurrentCultureIgnoreCase)
-            : view => string.Equals(view.Inner.Version, version, StringComparison.CurrentCultureIgnoreCase);
+            ? view => view.Inner.IsDailyQuest && string.Equals(view.Inner.Version, version, StringComparison.OrdinalIgnoreCase)
+            : view => string.Equals(view.Inner.Version, version, StringComparison.OrdinalIgnoreCase);
     }
 
     public static Predicate<AchievementView>? CompileForTitleOrDescription(bool filterDailyQuest, string search)

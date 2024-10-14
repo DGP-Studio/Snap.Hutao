@@ -213,8 +213,6 @@ internal sealed partial class GamePackageService : IGamePackageService
                     }
 
                     break;
-                default:
-                    break;
             }
         }
 
@@ -234,8 +232,6 @@ internal sealed partial class GamePackageService : IGamePackageService
                 case SophonAssetOperationKind.Modify:
                     totalBlocks += asset.DiffChunks.Count;
                     break;
-                default:
-                    break;
             }
         }
 
@@ -251,8 +247,6 @@ internal sealed partial class GamePackageService : IGamePackageService
             {
                 case SophonAssetOperationKind.AddOrRepair or SophonAssetOperationKind.Modify:
                     totalBlocks += asset.NewAsset.AssetChunks.Count;
-                    break;
-                default:
                     break;
             }
         }

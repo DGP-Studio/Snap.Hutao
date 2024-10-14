@@ -8,19 +8,11 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 武器筛选器
-/// </summary>
 internal static class WeaponFilter
 {
-    /// <summary>
-    /// 构建筛选操作
-    /// </summary>
-    /// <param name="input">输入</param>
-    /// <returns>筛选操作</returns>
     public static Predicate<Weapon> Compile(ObservableCollection<SearchToken> input)
     {
-        return (Weapon weapon) => DoFilter(input, weapon);
+        return weapon => DoFilter(input, weapon);
     }
 
     private static bool DoFilter(ObservableCollection<SearchToken> input, Weapon weapon)

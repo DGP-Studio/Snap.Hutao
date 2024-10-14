@@ -134,8 +134,6 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
                 case NIN_POPUPCLOSE:
                     // X: wParam2.X Y: 0? Low: NIN_POPUPCLOSE
                     break;
-                default:
-                    break;
             }
         }
         else
@@ -145,8 +143,6 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
                 case WM_ACTIVATEAPP:
                     break;
                 case WM_DWMNCRENDERINGCHANGED:
-                    break;
-                default:
                     break;
             }
         }

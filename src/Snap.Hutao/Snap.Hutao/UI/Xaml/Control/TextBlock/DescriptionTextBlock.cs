@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Metadata;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Windows.Foundation;
@@ -25,7 +25,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     {
         this.DisableInteraction();
 
-        Content = new MUXCTextBlock()
+        Content = new MUXCTextBlock
         {
             TextWrapping = TextWrapping.Wrap,
             Style = TextStyle,

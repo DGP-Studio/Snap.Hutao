@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using System.Collections.ObjectModel;
@@ -36,15 +37,14 @@ internal sealed partial class AchievementRepository : IAchievementRepository
     {
         return this.Query<EntityAchievement, int>(query => query
             .Where(a => a.ArchiveId == archiveId)
-            .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
-            .Count());
+            .Count(a => a.Status >= AchievementStatus.STATUS_FINISHED));
     }
 
     public List<EntityAchievement> GetLatestFinishedAchievementListByArchiveId(Guid archiveId, int take)
     {
         return this.List<EntityAchievement, EntityAchievement>(query => query
             .Where(a => a.ArchiveId == archiveId)
-            .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+            .Where(a => a.Status >= AchievementStatus.STATUS_FINISHED)
 #pragma warning disable CA1305 // EF Core does not support IFormatProvider
             .OrderByDescending(a => a.Time.ToString())
 #pragma warning restore CA1305
@@ -54,7 +54,7 @@ internal sealed partial class AchievementRepository : IAchievementRepository
     public void OverwriteAchievement(EntityAchievement achievement)
     {
         this.DeleteByInnerId(achievement);
-        if (achievement.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+        if (achievement.Status >= AchievementStatus.STATUS_FINISHED)
         {
             this.Add(achievement);
         }

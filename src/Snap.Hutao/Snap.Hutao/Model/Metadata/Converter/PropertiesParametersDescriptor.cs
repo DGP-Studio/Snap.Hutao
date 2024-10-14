@@ -10,7 +10,7 @@ internal sealed partial class PropertiesParametersDescriptor : ValueConverter<Pr
 {
     public override List<LevelParameters<string, ParameterDescription>> Convert(PropertiesParameters from)
     {
-        return from.Parameters.SelectList(param => new LevelParameters<string, ParameterDescription>()
+        return from.Parameters.SelectList(param => new LevelParameters<string, ParameterDescription>
         {
             Level = param.Level,
             Parameters = GetParameterDescriptions(param.Parameters, from.Properties),

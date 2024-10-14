@@ -20,12 +20,7 @@ internal sealed partial class ReliquarySets : List<ReliquarySet>, IEquatable<Rel
             return false;
         }
 
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
-        return this.SequenceEqual(other);
+        return ReferenceEquals(this, other) || this.SequenceEqual(other);
     }
 
     public override bool Equals(object? obj)

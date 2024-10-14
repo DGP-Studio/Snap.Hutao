@@ -17,7 +17,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
     {
         this.entity = entity;
 
-        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss = entity.SpiralAbyss;
+        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss = entity.SpiralAbyss;
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;
         TotalStar = spiralAbyss.TotalStar;
         MaxFloor = spiralAbyss.MaxFloor;
@@ -51,9 +51,6 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public uint ScheduleId { get; }
 
-    /// <summary>
-    /// 视图 中使用的计划 Id 字符串
-    /// </summary>
     public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
 
     public SpiralAbyssEntry? Entity { get => entity; }
@@ -66,54 +63,24 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public bool Engaged { get; }
 
-    /// <summary>
-    /// 战斗次数
-    /// </summary>
     public int TotalBattleTimes { get; }
 
-    /// <summary>
-    /// 共获得渊星
-    /// </summary>
     public int TotalStar { get; }
 
-    /// <summary>
-    /// 最深抵达
-    /// </summary>
     public string MaxFloor { get; } = default!;
 
-    /// <summary>
-    /// 出战次数
-    /// </summary>
     public List<RankAvatar> Reveals { get; } = default!;
 
-    /// <summary>
-    /// 击破次数
-    /// </summary>
     public RankAvatar? Defeat { get; }
 
-    /// <summary>
-    /// 最强一击
-    /// </summary>
     public RankAvatar? Damage { get; }
 
-    /// <summary>
-    /// 承受伤害
-    /// </summary>
     public RankAvatar? TakeDamage { get; }
 
-    /// <summary>
-    /// 元素战技
-    /// </summary>
     public RankAvatar? NormalSkill { get; }
 
-    /// <summary>
-    /// 元素爆发
-    /// </summary>
     public RankAvatar? EnergySkill { get; }
 
-    /// <summary>
-    /// 层信息
-    /// </summary>
     public List<FloorView> Floors { get; }
 
     public static SpiralAbyssView From(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
@@ -123,14 +90,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public static SpiralAbyssView From(SpiralAbyssEntry? entity, TowerSchedule meta, SpiralAbyssMetadataContext context)
     {
-        if (entity is not null)
-        {
-            return new(entity, context);
-        }
-        else
-        {
-            return new(meta, context);
-        }
+        return entity is not null ? new(entity, context) : new(meta, context);
     }
 
     private static List<RankAvatar> ToRankAvatars(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)

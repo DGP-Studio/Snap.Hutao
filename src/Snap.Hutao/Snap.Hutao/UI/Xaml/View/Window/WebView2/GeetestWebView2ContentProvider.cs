@@ -9,7 +9,7 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
-internal sealed partial class GeetestWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
+internal sealed class GeetestWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
 {
     private readonly string gt;
     private readonly string challenge;

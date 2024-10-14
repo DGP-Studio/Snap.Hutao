@@ -4,6 +4,4 @@
 namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 [Injection(InjectAs.Singleton, typeof(IApiEndpoints), Key = ApiEndpointsKind.Chinese)]
-internal sealed class ApiEndpointsForChinese : ApiEndpointsImplmentationForChinese
-{
-}
+internal sealed class ApiEndpointsForChinese : ApiEndpointsImplmentationForChinese;

@@ -28,14 +28,14 @@ internal sealed partial class GameScreenCaptureDebugPreviewWindow : Window
         this.InitializeController(Ioc.Default);
     }
 
-    public unsafe void UpdateSwapChain(ObjectReference<IDXGISwapChain1.Vftbl>? swapChain1)
+    public void UpdateSwapChain(ObjectReference<IDXGISwapChain1.Vftbl>? swapChain1)
     {
         this.swapChain1 = swapChain1;
         ISwapChainPanelNative native = Presenter.As<IInspectable>().ObjRef.AsInterface<ISwapChainPanelNative>();
         native.SetSwapChain(swapChain1?.As<IDXGISwapChain.Vftbl>(IDXGISwapChain.IID));
     }
 
-    public unsafe void UnsafeUpdatePreview(ObjectReference<ID3D11Device.Vftbl> device, IDirect3DSurface surface)
+    public void UnsafeUpdatePreview(ObjectReference<ID3D11Device.Vftbl> device, IDirect3DSurface surface)
     {
         ArgumentNullException.ThrowIfNull(swapChain1);
 

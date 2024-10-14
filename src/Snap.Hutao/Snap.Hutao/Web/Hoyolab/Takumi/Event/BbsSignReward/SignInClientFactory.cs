@@ -7,6 +7,4 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient, typeof(IOverseaSupportFactory<ISignInClient>))]
-internal sealed partial class SignInClientFactory : OverseaSupportFactory<ISignInClient, SignInClient, SignInClientOversea>
-{
-}
+internal sealed partial class SignInClientFactory : OverseaSupportFactory<ISignInClient, SignInClient, SignInClientOversea>;

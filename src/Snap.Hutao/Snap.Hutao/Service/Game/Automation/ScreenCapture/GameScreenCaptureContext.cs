@@ -41,14 +41,14 @@ internal struct GameScreenCaptureContext : IDisposable
 
     private readonly HWND hwnd;
 
-    private unsafe ObjectReference<IDXGIFactory6.Vftbl> factory = default!;
-    private unsafe ObjectReference<IDXGIAdapter.Vftbl> adapter = default!;
-    private unsafe ObjectReference<ID3D11Device.Vftbl> d3d11Device = default!;
-    private unsafe ObjectReference<IDXGIDevice.Vftbl> dxgiDevice = default!;
+    private ObjectReference<IDXGIFactory6.Vftbl> factory = default!;
+    private ObjectReference<IDXGIAdapter.Vftbl> adapter = default!;
+    private ObjectReference<ID3D11Device.Vftbl> d3d11Device = default!;
+    private ObjectReference<IDXGIDevice.Vftbl> dxgiDevice = default!;
     private IDirect3DDevice? direct3DDevice;
-    private unsafe ObjectReference<IDXGISwapChain1.Vftbl> swapChain = default!;
+    private ObjectReference<IDXGISwapChain1.Vftbl> swapChain = default!;
 
-    private unsafe GameScreenCaptureContext(HWND hwnd, bool preview)
+    private GameScreenCaptureContext(HWND hwnd, bool preview)
     {
         this.hwnd = hwnd;
         GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out Item);
@@ -56,7 +56,7 @@ internal struct GameScreenCaptureContext : IDisposable
         PreviewEnabled = preview;
     }
 
-    public static unsafe GameScreenCaptureContextCreationResult Create(HWND hwnd, bool preview)
+    public static GameScreenCaptureContextCreationResult Create(HWND hwnd, bool preview)
     {
         GameScreenCaptureContext context = new(hwnd, preview);
 
@@ -82,12 +82,9 @@ internal struct GameScreenCaptureContext : IDisposable
             return new(GameScreenCaptureContextCreationResultKind.D3D11DeviceQueryDXGIDeviceFailed, hr);
         }
 
-        if (!DirectX.TryCreateDirect3D11Device(context.dxgiDevice, out context.direct3DDevice, out hr))
-        {
-            return new(GameScreenCaptureContextCreationResultKind.CreateDirect3D11DeviceFromDXGIDeviceFailed, hr);
-        }
-
-        return new GameScreenCaptureContextCreationResult(GameScreenCaptureContextCreationResultKind.Success, context);
+        return !DirectX.TryCreateDirect3D11Device(context.dxgiDevice, out context.direct3DDevice, out hr)
+            ? new(GameScreenCaptureContextCreationResultKind.CreateDirect3D11DeviceFromDXGIDeviceFailed, hr)
+            : new(GameScreenCaptureContextCreationResultKind.Success, context);
     }
 
     public Direct3D11CaptureFramePool CreatePool()
@@ -123,7 +120,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
 
         // Ensure the window is at least partially in the screen
-        if (!(GetClientRect(hwnd, out RECT clientRect) && (clientRect.right > 0) && (clientRect.bottom > 0)))
+        if (!(GetClientRect(hwnd, out RECT clientRect) && clientRect is { right: > 0, bottom: > 0 }))
         {
             return false;
         }
@@ -151,7 +148,7 @@ internal struct GameScreenCaptureContext : IDisposable
         return clientBox.right <= width && clientBox.bottom <= height;
     }
 
-    public readonly unsafe void AttachPreview(GameScreenCaptureDebugPreviewWindow? window)
+    public readonly void AttachPreview(GameScreenCaptureDebugPreviewWindow? window)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -159,7 +156,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public readonly unsafe void UpdatePreview(GameScreenCaptureDebugPreviewWindow? window, IDirect3DSurface surface)
+    public readonly void UpdatePreview(GameScreenCaptureDebugPreviewWindow? window, IDirect3DSurface surface)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -167,7 +164,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public readonly unsafe void DetachPreview(GameScreenCaptureDebugPreviewWindow? window)
+    public readonly void DetachPreview(GameScreenCaptureDebugPreviewWindow? window)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -176,7 +173,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public readonly unsafe void Dispose()
+    public readonly void Dispose()
     {
         factory?.Dispose();
         adapter?.Dispose();
@@ -203,7 +200,7 @@ internal struct GameScreenCaptureContext : IDisposable
         return (DirectXPixelFormat.B8G8R8A8UIntNormalized, DXGI_FORMAT.DXGI_FORMAT_B8G8R8A8_UNORM);
     }
 
-    private unsafe void CreateOrUpdateDXGISwapChain(DXGI_FORMAT format)
+    private void CreateOrUpdateDXGISwapChain(DXGI_FORMAT format)
     {
         if (!PreviewEnabled)
         {
@@ -221,6 +218,6 @@ internal struct GameScreenCaptureContext : IDisposable
         desc.SwapEffect = DXGI_SWAP_EFFECT.DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
         desc.AlphaMode = DXGI_ALPHA_MODE.DXGI_ALPHA_MODE_PREMULTIPLIED;
 
-        DirectX.TryCreateSwapChainForComposition(factory, d3d11Device, in desc, out swapChain, out HRESULT hr);
+        DirectX.TryCreateSwapChainForComposition(factory, d3d11Device, in desc, out swapChain, out HRESULT _);
     }
 }

@@ -119,7 +119,7 @@ public sealed class ScriptContext
         SaltType saltType = Enum.Parse<SaltType>(parts[1]);
         bool includeChars = bool.Parse(parts[2]);
 
-        return (builder) => builder.SignDataAsync(version, saltType, includeChars);
+        return builder => builder.SignDataAsync(version, saltType, includeChars);
     }
 
     private static async ValueTask<string> SendAsync(HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)

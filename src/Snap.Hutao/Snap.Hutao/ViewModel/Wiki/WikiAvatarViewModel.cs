@@ -230,13 +230,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (FilterTokens is null or [])
-        {
-            Avatars.Filter = default!;
-        }
-        else
-        {
-            Avatars.Filter = AvatarFilter.Compile(FilterTokens);
-        }
+        Avatars.Filter = FilterTokens is null or [] ? default! : AvatarFilter.Compile(FilterTokens);
     }
 }

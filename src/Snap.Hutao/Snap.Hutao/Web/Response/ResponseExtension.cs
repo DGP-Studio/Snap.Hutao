@@ -15,14 +15,12 @@ internal static class ResponseExtension
             data = response.Data;
             return true;
         }
-        else
-        {
-            serviceProvider ??= Ioc.Default;
-            infoBarService ??= serviceProvider.GetRequiredService<IInfoBarService>();
-            infoBarService.Error(response.ToString());
-            data = default;
-            return false;
-        }
+
+        serviceProvider ??= Ioc.Default;
+        infoBarService ??= serviceProvider.GetRequiredService<IInfoBarService>();
+        infoBarService.Error(response.ToString());
+        data = default;
+        return false;
     }
 
     public static bool TryGetDataWithoutUINotification<TData>(this Response<TData> response, [NotNullWhen(true)] out TData? data)
@@ -33,10 +31,8 @@ internal static class ResponseExtension
             data = response.Data;
             return true;
         }
-        else
-        {
-            data = default;
-            return false;
-        }
+
+        data = default;
+        return false;
     }
 }

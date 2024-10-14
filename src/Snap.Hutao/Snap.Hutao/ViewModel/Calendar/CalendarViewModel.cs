@@ -89,7 +89,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             Date = date,
             DayInMonth = date.Day,
             DayName = dtfi.GetAbbreviatedDayName(date.DayOfWeek),
-            BirthDayAvatars = context.AvatarBirthdays[new MonthAndDay((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem()).ToImmutableArray(),
+            BirthDayAvatars = [.. context.AvatarBirthdays[new MonthAndDay((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem())],
             Materials = dailyMaterials.GetValueOrDefault(date.DayOfWeek, []),
         };
     }

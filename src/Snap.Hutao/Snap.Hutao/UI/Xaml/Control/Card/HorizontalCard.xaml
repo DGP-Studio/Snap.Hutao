@@ -1,7 +1,6 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card">
 
     <Style BasedOn="{StaticResource DefaultHorizontalCardStyle}" TargetType="shuxcc:HorizontalCard"/>

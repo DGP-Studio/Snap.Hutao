@@ -13,7 +13,7 @@ internal sealed partial class StatisticsSegmented : Segmented
     private readonly SegmentedItem predictPullItem = new()
     {
         Content = SH.ViewControlStatisticsSegmentedItemContentPrediction,
-        Icon = new FontIcon() { Glyph = "\uEA80" },
+        Icon = new FontIcon { Glyph = "\uEA80" },
     };
 
     public StatisticsSegmented()

@@ -162,7 +162,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         get => selectedGamePathEntry;
         set
         {
-            if (SetProperty(ref selectedGamePathEntry, value, nameof(SelectedGamePathEntry)))
+            if (SetProperty(ref selectedGamePathEntry, value))
             {
                 if (IsViewDisposed)
                 {

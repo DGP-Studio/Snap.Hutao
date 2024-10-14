@@ -34,7 +34,7 @@ internal sealed partial class DailyNoteRefreshJobScheduler : IJobScheduler
 
     private bool TryGetRefreshInterval(out int interval)
     {
-        if (dailyNoteOptions.IsAutoRefreshEnabled && dailyNoteOptions.SelectedRefreshTime is not null)
+        if (dailyNoteOptions is { IsAutoRefreshEnabled: true, SelectedRefreshTime: { } })
         {
             interval = dailyNoteOptions.SelectedRefreshTime.Value;
             return true;

@@ -35,7 +35,7 @@ internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
         LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, PromotionDelta.AvatarLevelCurrent);
         LocalSetting.Set(SettingKeys.CultivationAvatarLevelTarget, PromotionDelta.AvatarLevelTarget);
 
-        if (PromotionDelta.SkillList is [PromotionDelta skillA, PromotionDelta skillE, PromotionDelta skillQ, ..])
+        if (PromotionDelta.SkillList is [{ } skillA, { } skillE, { } skillQ, ..])
         {
             LocalSetting.Set(SettingKeys.CultivationAvatarSkillACurrent, skillA.LevelCurrent);
             LocalSetting.Set(SettingKeys.CultivationAvatarSkillATarget, skillA.LevelTarget);

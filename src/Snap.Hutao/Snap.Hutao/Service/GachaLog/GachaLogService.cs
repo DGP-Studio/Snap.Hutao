@@ -49,10 +49,8 @@ internal sealed partial class GachaLogService : IGachaLogService
             Archives = new(gachaLogRepository.GetGachaArchiveCollection(), serviceProvider);
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public async ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive archive)
@@ -121,15 +119,13 @@ internal sealed partial class GachaLogService : IGachaLogService
         {
             return archive;
         }
-        else
-        {
-            GachaArchive? newArchive = gachaLogRepository.GetGachaArchiveById(archiveId);
-            ArgumentNullException.ThrowIfNull(newArchive);
 
-            await taskContext.SwitchToMainThreadAsync();
-            Archives.Add(newArchive);
-            return newArchive;
-        }
+        GachaArchive? newArchive = gachaLogRepository.GetGachaArchiveById(archiveId);
+        ArgumentNullException.ThrowIfNull(newArchive);
+
+        await taskContext.SwitchToMainThreadAsync();
+        Archives.Add(newArchive);
+        return newArchive;
     }
 
     private async ValueTask<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
@@ -195,7 +191,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                 // save items for each queryType
                 token.ThrowIfCancellationRequested();
                 fetchContext.SaveItems();
-                await Task.Delay((int)(System.Random.Shared.NextDouble() * (2000 - 1000)) + 1000, token).ConfigureAwait(false);
+                await Task.Delay((int)(Random.Shared.NextDouble() * (2000 - 1000)) + 1000, token).ConfigureAwait(false);
             }
         }
 

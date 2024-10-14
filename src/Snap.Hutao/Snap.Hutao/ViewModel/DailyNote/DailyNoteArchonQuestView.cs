@@ -29,12 +29,7 @@ internal sealed class DailyNoteArchonQuestView
     {
         get
         {
-            if (TryGetFirstArchonQuest(out ArchonQuest? quest))
-            {
-                return Ids.IndexOf(quest.Id);
-            }
-
-            return Ids.Count;
+            return TryGetFirstArchonQuest(out ArchonQuest? quest) ? Ids.IndexOf(quest.Id) : Ids.Count;
         }
     }
 
@@ -42,12 +37,7 @@ internal sealed class DailyNoteArchonQuestView
     {
         get
         {
-            if (TryGetFirstArchonQuest(out ArchonQuest? quest))
-            {
-                return quest.Status.GetLocalizedDescription();
-            }
-
-            return SH.WebDailyNoteArchonQuestStatusFinished;
+            return TryGetFirstArchonQuest(out ArchonQuest? quest) ? quest.Status.GetLocalizedDescription() : SH.WebDailyNoteArchonQuestStatusFinished;
         }
     }
 
@@ -55,12 +45,7 @@ internal sealed class DailyNoteArchonQuestView
     {
         get
         {
-            if (TryGetFirstArchonQuest(out ArchonQuest? quest))
-            {
-                return $"{quest.ChapterNum} {quest.ChapterTitle}";
-            }
-
-            return SH.WebDailyNoteArchonQuestChapterFinished;
+            return TryGetFirstArchonQuest(out ArchonQuest? quest) ? $"{quest.ChapterNum} {quest.ChapterTitle}" : SH.WebDailyNoteArchonQuestChapterFinished;
         }
     }
 

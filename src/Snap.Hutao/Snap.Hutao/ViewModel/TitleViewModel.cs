@@ -75,7 +75,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         if (LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false) || XamlApplicationLifetime.IsFirstRunAfterUpdate)
         {
             XamlApplicationLifetime.IsFirstRunAfterUpdate = false;
-            new ShowWebView2WindowAction()
+            new ShowWebView2WindowAction
             {
                 ContentProvider = new UpdateLogContentProvider(),
             }.ShowAt(currentXamlWindowReference.GetXamlRoot());

@@ -5,27 +5,12 @@ using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
-/// <summary>
-/// 玩家 Uid
-/// </summary>
-[HighQuality]
-internal readonly partial struct PlayerUid
+internal readonly struct PlayerUid
 {
-    /// <summary>
-    /// UID 的实际值
-    /// </summary>
     public readonly string Value;
 
-    /// <summary>
-    /// 地区代码
-    /// </summary>
     public readonly Region Region;
 
-    /// <summary>
-    /// 构造一个新的玩家 Uid 结构
-    /// </summary>
-    /// <param name="value">uid</param>
-    /// <param name="region">服务器，当提供该参数时会无条件信任</param>
     public PlayerUid(string value, in Region? region = default)
     {
         HutaoException.ThrowIfNot(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
@@ -82,7 +67,6 @@ internal readonly partial struct PlayerUid
         };
     }
 
-    /// <inheritdoc/>
     public override string ToString()
     {
         return Value;

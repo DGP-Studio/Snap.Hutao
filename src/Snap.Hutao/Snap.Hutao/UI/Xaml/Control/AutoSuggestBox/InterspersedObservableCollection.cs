@@ -36,7 +36,7 @@ internal sealed partial class InterspersedObservableCollection : IList, IEnumera
         WeakEventListener<InterspersedObservableCollection, object?, NotifyCollectionChangedEventArgs> weakPropertyChangedListener = new(this)
         {
             OnEventAction = static (instance, source, eventArgs) => instance.OnCollectionChanged(source, eventArgs),
-            OnDetachAction = (weakEventListener) => incc.CollectionChanged -= weakEventListener.OnEvent, // Use Local Reference Only
+            OnDetachAction = weakEventListener => incc.CollectionChanged -= weakEventListener.OnEvent, // Use Local Reference Only
         };
         incc.CollectionChanged += weakPropertyChangedListener.OnEvent;
     }
@@ -72,16 +72,10 @@ internal sealed partial class InterspersedObservableCollection : IList, IEnumera
 
     public object? this[int index]
     {
-        get
-        {
-            if (interspersedObjects.TryGetValue(index, out object? value))
-            {
-                return value;
-            }
+        get => interspersedObjects.TryGetValue(index, out object? value) ? value :
 
             // Find out the number of elements in our dictionary with keys below ours.
-            return ItemsSource[ToInnerIndex(index)];
-        }
+            ItemsSource[ToInnerIndex(index)];
         set => throw new NotImplementedException();
     }
 

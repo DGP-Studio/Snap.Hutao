@@ -166,7 +166,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
             rawLast = await hutaoService.GetAvatarCollocationsAsync(true).ConfigureAwait(false);
         }
 
-        AvatarCollocations = CurrentLeftJoinLast(raw, rawLast, data => data.AvatarId, (raw, rawLast) => new AvatarCollocationView()
+        AvatarCollocations = CurrentLeftJoinLast(raw, rawLast, data => data.AvatarId, (raw, rawLast) => new AvatarCollocationView
         {
             AvatarId = raw.AvatarId,
             Avatars = CurrentLeftJoinLast(raw.Avatars, rawLast?.Avatars, data => data.Item, (avatar, avatarLast) => new AvatarView(idAvatarMap[avatar.Item], avatar.Rate, avatarLast?.Rate)).ToList(),
@@ -185,7 +185,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
             rawLast = await hutaoService.GetWeaponCollocationsAsync(true).ConfigureAwait(false);
         }
 
-        WeaponCollocations = CurrentLeftJoinLast(raw, rawLast, data => data.WeaponId, (raw, rawLast) => new WeaponCollocationView()
+        WeaponCollocations = CurrentLeftJoinLast(raw, rawLast, data => data.WeaponId, (raw, rawLast) => new WeaponCollocationView
         {
             WeaponId = raw.WeaponId,
             Avatars = CurrentLeftJoinLast(raw.Avatars, rawLast?.Avatars, data => data.Item, (avatar, avatarLast) => new AvatarView(idAvatarMap[avatar.Item], avatar.Rate, avatarLast?.Rate)).ToList(),

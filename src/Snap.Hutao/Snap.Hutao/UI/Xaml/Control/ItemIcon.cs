@@ -8,6 +8,4 @@ namespace Snap.Hutao.UI.Xaml.Control;
 [DependencyProperty("Quality", typeof(QualityType), QualityType.QUALITY_NONE)]
 [DependencyProperty("Icon", typeof(Uri))]
 [DependencyProperty("Badge", typeof(Uri))]
-internal sealed partial class ItemIcon : Microsoft.UI.Xaml.Controls.Control
-{
-}
+internal sealed partial class ItemIcon : Microsoft.UI.Xaml.Controls.Control;

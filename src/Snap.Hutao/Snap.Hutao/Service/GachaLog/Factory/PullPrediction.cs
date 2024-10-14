@@ -28,7 +28,7 @@ internal sealed class PullPrediction
         await context.TaskContext.SwitchToBackgroundAsync();
         Response<GachaDistribution> response = await context.GetGachaDistributionAsync().ConfigureAwait(false);
 
-        if (response is { ReturnCode: 0, Data: GachaDistribution data })
+        if (response is { ReturnCode: 0, Data: { } data })
         {
             PredictResult result = PredictCore(data.Distribution, typedWishSummary);
             await barrier.SignalAndWaitAsync().ConfigureAwait(false);
@@ -60,11 +60,6 @@ internal sealed class PullPrediction
         return new(nextProbability, leftToOrangeProbability, leftToOrangePulls);
     }
 
-    /// <summary>
-    /// 转换到概率函数
-    /// </summary>
-    /// <param name="distribution">分布</param>
-    /// <returns>概率函数</returns>
     private static ReadOnlySpan<double> ToProbabilityFunction(List<PullCount> distribution, int threshold)
     {
         Span<double> results = new double[threshold];

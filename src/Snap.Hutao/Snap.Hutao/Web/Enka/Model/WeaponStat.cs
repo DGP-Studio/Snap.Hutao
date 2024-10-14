@@ -3,9 +3,4 @@
 
 namespace Snap.Hutao.Web.Enka.Model;
 
-/// <summary>
-/// 武器属性
-/// </summary>
-internal sealed class WeaponStat : ReliquarySubstat
-{
-}
+internal sealed class WeaponStat : ReliquarySubstat;
