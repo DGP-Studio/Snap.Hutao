@@ -9,11 +9,17 @@ namespace Snap.Hutao.Core.ExceptionService;
 
 internal sealed class ExceptionFormat
 {
-    private static readonly string SectionSeparator = "----------------------------------------";
+    private const string SectionSeparator = "----------------------------------------";
 
     public static string Format(Exception exception)
     {
         StringBuilder builder = new();
+        Format(builder, exception);
+        return builder.ToString();
+    }
+
+    public static void Format(StringBuilder builder, Exception exception)
+    {
         builder.AppendLine("Exception Data:");
 
         foreach (DictionaryEntry entry in exception.Data)
@@ -23,7 +29,5 @@ internal sealed class ExceptionFormat
 
         builder.AppendLine(SectionSeparator);
         builder.Append(exception);
-
-        return builder.ToString();
     }
 }

@@ -8,6 +8,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
+// ReSharper disable UnusedMember.Local
 internal static partial class IocHttpClientConfiguration
 {
     private const string ApplicationJson = "application/json";

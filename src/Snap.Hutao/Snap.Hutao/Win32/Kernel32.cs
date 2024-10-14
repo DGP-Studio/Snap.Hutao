@@ -44,11 +44,11 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern HANDLE CreateFileW(PCWSTR lpFileName, uint dwDesiredAccess, FILE_SHARE_MODE dwShareMode, [Optional] SECURITY_ATTRIBUTES* lpSecurityAttributes, FILE_CREATION_DISPOSITION dwCreationDisposition, FILE_FLAGS_AND_ATTRIBUTES dwFlagsAndAttributes, [Optional] HANDLE hTemplateFile);
+    public static extern unsafe HANDLE CreateFileW(PCWSTR lpFileName, uint dwDesiredAccess, FILE_SHARE_MODE dwShareMode, [Optional] SECURITY_ATTRIBUTES* lpSecurityAttributes, FILE_CREATION_DISPOSITION dwCreationDisposition, FILE_FLAGS_AND_ATTRIBUTES dwFlagsAndAttributes, [Optional] HANDLE hTemplateFile);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
+    public static extern unsafe BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL FreeConsole();

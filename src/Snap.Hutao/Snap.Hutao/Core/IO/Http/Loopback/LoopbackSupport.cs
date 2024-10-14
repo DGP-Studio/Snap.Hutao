@@ -19,7 +19,7 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
     private readonly string hutaoContainerStringSID;
     private bool isLoopbackEnabled;
 
-    public LoopbackSupport(IServiceProvider serviceProvider)
+    public LoopbackSupport()
     {
         Initialize(out hutaoContainerStringSID);
     }

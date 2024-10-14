@@ -92,7 +92,7 @@ internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, 
         return ((ICollection<KeyValuePair<string, JsonElement>>)inner).Remove(item);
     }
 
-    public bool TryGetValue(string key, [MaybeNullWhen(false)] out JsonElement value)
+    public bool TryGetValue(string key, out JsonElement value)
     {
         return ((IDictionary<string, JsonElement>)inner).TryGetValue(key, out value);
     }

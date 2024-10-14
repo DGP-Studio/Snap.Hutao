@@ -67,7 +67,7 @@ internal static class FileOperation
         return true;
     }
 
-    public static unsafe bool UnsafeDelete(string path)
+    public static bool UnsafeDelete(string path)
     {
         if (!SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out ObjectReference<IFileOperation.Vftbl> fileOperation)))
         {
@@ -89,7 +89,7 @@ internal static class FileOperation
         }
     }
 
-    public static unsafe bool UnsafeMove(string sourceFileName, string destFileName)
+    public static bool UnsafeMove(string sourceFileName, string destFileName)
     {
         if (!SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out ObjectReference<IFileOperation.Vftbl> fileOperation)))
         {
