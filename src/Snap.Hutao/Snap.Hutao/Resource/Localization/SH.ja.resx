@@ -1507,13 +1507,13 @@
     <value>アップデート</value>
   </data>
   <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
-    <value>口座番号を入力してください</value>
+    <value>アカウントを入力してください</value>
   </data>
   <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
     <value>パスワードを入力してください</value>
   </data>
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
-    <value>アカウントのパスワードログイン</value>
+    <value>アカウントやパスワードでログインする</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>すぐに移動</value>
@@ -3305,10 +3305,10 @@
     <value>旅行ツール</value>
   </data>
   <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
-    <value>アカウントのログイン</value>
+    <value>アカウント ログイン</value>
   </data>
   <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
-    <value>3者ログイン</value>
+    <value>サードパーティ ログイン</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
