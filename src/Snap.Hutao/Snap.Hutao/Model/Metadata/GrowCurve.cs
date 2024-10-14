@@ -9,14 +9,16 @@ namespace Snap.Hutao.Model.Metadata;
 
 internal sealed class GrowCurve
 {
+    [Obsolete("Use Curves instead.")]
     private ImmutableDictionary<GrowCurveType, float>? map;
 
     public Level Level { get; set; }
 
     public TypeValueCollection<GrowCurveType, float> Curves { get; set; } = default!;
 
+    [Obsolete("Use Curves instead.")]
     public ImmutableDictionary<GrowCurveType, float> Map
     {
-        get => map ??= Curves.ToImmutableDictionary<TypeValue<GrowCurveType, float>, GrowCurveType, float>(v => v.Type, v => v.Value);
+        get => map ??= Curves.ToImmutableDictionary(v => v.Type, v => v.Value);
     }
 }
