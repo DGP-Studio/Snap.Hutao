@@ -3308,7 +3308,7 @@
     <value>アカウントのログイン</value>
   </data>
   <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
-    <value>三方登录</value>
+    <value>3者ログイン</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
