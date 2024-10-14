@@ -76,7 +76,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
             (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, null).ConfigureAwait(false);
         }
 
-        if (await this.TryResolveAigisAsync(rawSession, taskContext, XamlRoot).ConfigureAwait(false))
+        if (await this.TryResolveAigisAsync(rawSession, taskContext).ConfigureAwait(false))
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {

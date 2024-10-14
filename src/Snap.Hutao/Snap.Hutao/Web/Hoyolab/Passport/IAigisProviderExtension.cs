@@ -5,12 +5,13 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.Text;
+using WinRT;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 internal static class IAigisProviderExtension
 {
-    public static async ValueTask<bool> TryResolveAigisAsync(this IAigisProvider provider, string? rawSession, ITaskContext taskContext, XamlRoot xamlRoot)
+    public static async ValueTask<bool> TryResolveAigisAsync(this IAigisProvider provider, string? rawSession, ITaskContext taskContext)
     {
         if (string.IsNullOrEmpty(rawSession))
         {
@@ -28,7 +29,7 @@ internal static class IAigisProviderExtension
         new ShowWebView2WindowAction()
         {
             ContentProvider = contentProvider,
-        }.ShowAt(xamlRoot);
+        }.ShowAt(provider.XamlRoot);
 
         await taskContext.SwitchToBackgroundAsync();
         string? result = await contentProvider.GetResultAsync().ConfigureAwait(false);
