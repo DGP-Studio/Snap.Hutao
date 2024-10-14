@@ -1,17 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.Text;
-using WinRT;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 internal static class IAigisProviderExtension
 {
-    public static async ValueTask<bool> TryResolveAigisAsync(this IAigisProvider provider, string? rawSession, ITaskContext taskContext)
+    public static async ValueTask<bool> TryResolveAigisAsync(this IAigisProvider provider, string? rawSession, bool isOversea, ITaskContext taskContext)
     {
         if (string.IsNullOrEmpty(rawSession))
         {
@@ -24,7 +22,7 @@ internal static class IAigisProviderExtension
         ArgumentNullException.ThrowIfNull(sessionData);
 
         await taskContext.SwitchToMainThreadAsync();
-        GeetestWebView2ContentProvider contentProvider = new(sessionData.GT, sessionData.Challenge, false);
+        GeetestWebView2ContentProvider contentProvider = new(sessionData.GT, sessionData.Challenge, isOversea);
 
         new ShowWebView2WindowAction()
         {

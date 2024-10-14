@@ -73,7 +73,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
             (rawSession, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
         }
 
-        if (await this.TryResolveAigisAsync(rawSession, taskContext).ConfigureAwait(false))
+        if (await this.TryResolveAigisAsync(rawSession, isOversea, taskContext).ConfigureAwait(false))
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
