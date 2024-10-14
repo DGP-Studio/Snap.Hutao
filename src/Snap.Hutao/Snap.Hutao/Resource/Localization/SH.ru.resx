@@ -1505,6 +1505,15 @@
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>更新</value>
   </data>
+  <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
+    <value>请输入账号</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
+    <value>Введите пароль</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
+    <value>账号密码登录</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
   </data>
@@ -3292,6 +3301,12 @@
   </data>
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
     <value>Официальные инструменты</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
+    <value>账密登录</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
+    <value>三方登录</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Вход через браузер</value>
