@@ -111,7 +111,8 @@ internal sealed partial class OverseaThirdPartyLoginWebView2ContentProvider : De
         if (e.Uri.StartsWith("about:blank", StringComparison.OrdinalIgnoreCase))
         {
             e.Cancel = true;
-            result = new(ThirdPartyToType[kind], e.Uri[12..].Split("&")[0].Split("=")[1]);
+            string token = e.Uri[12..].Split("&")[0].Split("=")[1];
+            result = new(ThirdPartyToType[kind], Uri.UnescapeDataString(token));
             CloseWindowAction?.Invoke();
         }
     }

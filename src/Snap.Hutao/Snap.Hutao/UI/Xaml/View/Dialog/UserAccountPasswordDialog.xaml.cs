@@ -5,11 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.UI.Xaml.Behavior.Action;
-using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
-using System.Text;
 using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -47,7 +44,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
 
     public bool IsLoginEnabled { get; private set; }
 
-    public string? Aigis { get; private set; }
+    public string? Aigis { get; set; }
 
     public async ValueTask<ValueResult<bool, LoginResult>> LoginAsync(bool isOversea)
     {
@@ -76,31 +73,8 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
             (rawSession, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
         }
 
-        if (!string.IsNullOrEmpty(rawSession))
+        if (await this.TryResolveAigisAsync(rawSession, taskContext, XamlRoot).ConfigureAwait(false))
         {
-            AigisObject? session = JsonSerializer.Deserialize<AigisObject>(rawSession);
-            ArgumentNullException.ThrowIfNull(session);
-            AigisData? sessionData = JsonSerializer.Deserialize<AigisData>(session.Data);
-            ArgumentNullException.ThrowIfNull(sessionData);
-
-            await taskContext.SwitchToMainThreadAsync();
-            GeetestWebView2ContentProvider contentProvider = new(sessionData.GT, sessionData.Challenge, isOversea);
-
-            new ShowWebView2WindowAction()
-            {
-                ContentProvider = contentProvider,
-            }.ShowAt(XamlRoot);
-
-            await taskContext.SwitchToBackgroundAsync();
-            string? result = await contentProvider.GetResultAsync().ConfigureAwait(false);
-
-            if (string.IsNullOrEmpty(result))
-            {
-                // User closed the window without completing the verification
-                return default!;
-            }
-
-            Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(result))}";
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
@@ -125,32 +99,5 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
         {
             e.Handled = true;
         }
-    }
-
-    private sealed class AigisObject
-    {
-        [JsonPropertyName("session_id")]
-        public string SessionId { get; set; } = default!;
-
-        [JsonPropertyName("mmt_type")]
-        public int MmtType { get; set; } = default!;
-
-        [JsonPropertyName("data")]
-        public string Data { get; set; } = default!;
-    }
-
-    private sealed class AigisData
-    {
-        [JsonPropertyName("success")]
-        public int Success { get; set; }
-
-        [JsonPropertyName("gt")]
-        public string GT { get; set; } = default!;
-
-        [JsonPropertyName("challenge")]
-        public string Challenge { get; set; } = default!;
-
-        [JsonPropertyName("new_captcha")]
-        public int NewCaptcha { get; set; }
     }
 }
