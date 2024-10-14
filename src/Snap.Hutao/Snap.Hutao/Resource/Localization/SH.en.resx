@@ -1505,6 +1505,15 @@
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
+    <value>Please enter an account</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
+    <value>Login to your account</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Take me there</value>
   </data>
@@ -3292,6 +3301,12 @@
   </data>
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
     <value>Official Tools</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
+    <value>三方登录</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
