@@ -58,4 +58,34 @@ internal sealed partial class PassportClientOversea : IPassportClient
 
         return Response.Response.DefaultIfNull(resp);
     }
+
+    public ValueTask<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<UserInfoWrapper>>(new NotSupportedException());
+    }
+
+    public ValueTask<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<LoginResult>>(new NotSupportedException());
+    }
+
+    public ValueTask<Response<LoginResult>> LoginByGameTokenAsync(UidGameToken account, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<LoginResult>>(new NotSupportedException());
+    }
+
+    public ValueTask<(string? Aigis, Response<MobileCaptcha> Response)> CreateLoginCaptchaAsync(string mobile, string? aigis, CancellationToken token = default)
+    {
+        return ValueTask.FromException<(string? Aigis, Response<MobileCaptcha> Response)>(new NotSupportedException());
+    }
+
+    public ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(IPassportMobileCaptchaProvider provider, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<LoginResult>>(new NotSupportedException());
+    }
+
+    public ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(string actionType, string mobile, string captcha, string? aigis, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<LoginResult>>(new NotSupportedException());
+    }
 }

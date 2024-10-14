@@ -2,14 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Snap.Hutao.UI.Xaml.Behavior.Action;
-using Snap.Hutao.UI.Xaml.View.Window.WebView2;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
-using System.Text;
 using System.Text.RegularExpressions;
 using Windows.System;
 
@@ -63,7 +60,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
 
     public string? ActionType { get; private set; }
 
-    public string? Aigis { get; private set; }
+    public string? Aigis { get; set; }
 
     [Command("SendMobileCaptchaCommand")]
     public async Task SendMobileCaptchaAsync()
@@ -75,39 +72,16 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-            (rawSession, response) = await passportClient2.CreateLoginCaptchaAsync(Mobile, null).ConfigureAwait(false);
+            IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
+            (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, null).ConfigureAwait(false);
         }
 
-        if (!string.IsNullOrEmpty(rawSession))
+        if (await this.TryResolveAigisAsync(rawSession, taskContext, XamlRoot).ConfigureAwait(false))
         {
-            AigisObject? session = JsonSerializer.Deserialize<AigisObject>(rawSession);
-            ArgumentNullException.ThrowIfNull(session);
-            AigisData? sessionData = JsonSerializer.Deserialize<AigisData>(session.Data);
-            ArgumentNullException.ThrowIfNull(sessionData);
-
-            await taskContext.SwitchToMainThreadAsync();
-            GeetestWebView2ContentProvider contentProvider = new(sessionData.GT, sessionData.Challenge);
-
-            new ShowWebView2WindowAction()
-            {
-                ContentProvider = contentProvider,
-            }.ShowAt(XamlRoot);
-
-            await taskContext.SwitchToBackgroundAsync();
-            string? result = await contentProvider.GetResultAsync().ConfigureAwait(false);
-
-            if (string.IsNullOrEmpty(result))
-            {
-                // User closed the window without completing the verification
-                return;
-            }
-
-            Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(result))}";
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-                (rawSession, response) = await passportClient2.CreateLoginCaptchaAsync(Mobile, Aigis).ConfigureAwait(false);
+                IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
+                (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, Aigis).ConfigureAwait(false);
             }
         }
 
@@ -124,18 +98,6 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
     {
         await taskContext.SwitchToMainThreadAsync();
         return await ShowAsync() is ContentDialogResult.Primary;
-    }
-
-    private static void OnMobileChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
-    {
-        UserMobileCaptchaDialog dialog = (UserMobileCaptchaDialog)sender;
-        dialog.IsSendCaptchaEnabled = MobilePhoneRegex().IsMatch((string)args.NewValue);
-    }
-
-    private static void OnCaptchaChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
-    {
-        UserMobileCaptchaDialog dialog = (UserMobileCaptchaDialog)sender;
-        dialog.IsLoginEnabled = !string.IsNullOrEmpty((string)args.NewValue);
     }
 
     [GeneratedRegex(@"\d{11}")]
@@ -155,32 +117,5 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
         {
             e.Handled = true;
         }
-    }
-
-    private sealed class AigisObject
-    {
-        [JsonPropertyName("session_id")]
-        public string SessionId { get; set; } = default!;
-
-        [JsonPropertyName("mmt_type")]
-        public int MmtType { get; set; } = default!;
-
-        [JsonPropertyName("data")]
-        public string Data { get; set; } = default!;
-    }
-
-    private sealed class AigisData
-    {
-        [JsonPropertyName("success")]
-        public int Success { get; set; }
-
-        [JsonPropertyName("gt")]
-        public string GT { get; set; } = default!;
-
-        [JsonPropertyName("challenge")]
-        public string Challenge { get; set; } = default!;
-
-        [JsonPropertyName("new_captcha")]
-        public int NewCaptcha { get; set; }
     }
 }

@@ -6,8 +6,12 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DataTransfer;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Model;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
@@ -24,19 +28,17 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
-/// <summary>
-/// 用户视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject
 {
+    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly CultureOptions cultureOptions;
     private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
@@ -46,6 +48,8 @@ internal sealed partial class UserViewModel : ObservableObject
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public AdvancedDbCollectionView<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
+
+    public List<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = CollectionsNameValue.FromEnum<OverseaThirdPartyKind>();
 
     internal void HandleUserOptionResult(UserOptionResult optionResult, string uid)
     {
@@ -98,6 +102,60 @@ internal sealed partial class UserViewModel : ObservableObject
     private Task AddOverseaUserAsync()
     {
         return AddUserByManualInputCookieAsync(true).AsTask();
+    }
+
+    [Command("LoginByPasswordOverseaCommand")]
+    private async Task LoginByPasswordOverseaAsync()
+    {
+        await taskContext.SwitchToMainThreadAsync();
+
+        UserAccountPasswordDialog dialog = await contentDialogFactory
+            .CreateInstanceAsync<UserAccountPasswordDialog>()
+            .ConfigureAwait(false);
+        ValueResult<bool, LoginResult> result = await dialog.LoginAsync(true).ConfigureAwait(false);
+
+        if (result.TryGetValue(out LoginResult loginResult))
+        {
+            Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
+        }
+    }
+
+    [Command("LoginByThirdPartyOverseaCommand")]
+    private async Task LoginByThirdPartyOverseaAsync(string kind)
+    {
+        OverseaThirdPartyKind thirdPartyKind = Enum.Parse<OverseaThirdPartyKind>(kind);
+
+        await taskContext.SwitchToMainThreadAsync();
+        OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(thirdPartyKind, cultureOptions.LanguageCode);
+
+        new ShowWebView2WindowAction()
+        {
+            ContentProvider = contentProvider,
+        }.ShowAt(currentXamlWindowReference.GetXamlRoot());
+
+        await taskContext.SwitchToBackgroundAsync();
+        ThirdPartyToken? token = await contentProvider.GetResultAsync().ConfigureAwait(false);
+
+        if (token is null)
+        {
+            return;
+        }
+
+        Response<LoginResult> response;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(true);
+            response = await hoyoPlayPassportClient.LoginByThirdPartyAsync(token).ConfigureAwait(false);
+        }
+
+        if (response.IsOk())
+        {
+            Cookie stokenV2 = Cookie.FromLoginResult(response.Data);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
+        }
     }
 
     private async ValueTask AddUserByManualInputCookieAsync(bool isOversea)
@@ -155,7 +213,8 @@ internal sealed partial class UserViewModel : ObservableObject
         }
 
         Response<LoginResult> sTokenResponse = await serviceProvider
-            .GetRequiredService<PassportClient2>()
+            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+            .Create(false)
             .LoginByGameTokenAsync(token)
             .ConfigureAwait(false);
 
@@ -179,8 +238,8 @@ internal sealed partial class UserViewModel : ObservableObject
         Response<LoginResult> sTokenResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
-            sTokenResponse = await passportClient2.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
+            IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
+            sTokenResponse = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
         }
 
         if (sTokenResponse.IsOk())

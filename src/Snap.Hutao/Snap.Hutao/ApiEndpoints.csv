@@ -7,7 +7,8 @@ AccountGetLTokenBySToken(),https://passport-api.mihoyo.com/account/auth/api/getL
 AccountGetSTokenByGameToken(),https://passport-api.mihoyo.com/account/ma-cn-session/app/getTokenByGameToken,
 AccountGetSTokenByOldToken(),https://passport-api.mihoyo.com/account/ma-cn-session/app/getTokenBySToken,
 AccountLoginByMobileCaptcha(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/loginByMobileCaptcha,
-AccountLoginByPassword(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/loginByPassword,
+AccountLoginByPassword(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/loginByPassword,https://sg-public-api.hoyoverse.com/account/ma-passport/api/appLoginByPassword
+AccountLoginByThirdParty(),,https://sg-public-api.hoyoverse.com/account/ma-passport/api/appLoginByThirdParty
 AccountVerifyLtoken(),https://passport-api-v4.mihoyo.com/account/ma-cn-session/web/verifyLtoken,
 ActHoyolabReferer(),,https://act.hoyolab.com/
 "AnnContent(string languageCode, Region region)","https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}","https://sg-hk4e-api.hoyoverse.com/common/hk4e_global/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}"
