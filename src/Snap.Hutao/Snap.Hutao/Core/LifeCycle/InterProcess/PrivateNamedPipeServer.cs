@@ -72,7 +72,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         }
     }
 
-    private unsafe void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
+    private void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
     {
         while (serverStream.IsConnected && !token.IsCancellationRequested)
         {

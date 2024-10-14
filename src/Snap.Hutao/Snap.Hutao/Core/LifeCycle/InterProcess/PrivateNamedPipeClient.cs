@@ -12,7 +12,7 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
 {
     private readonly NamedPipeClientStream clientStream = new(".", PrivateNamedPipe.Name, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
 
-    public unsafe bool TryRedirectActivationTo(AppActivationArguments args)
+    public bool TryRedirectActivationTo(AppActivationArguments args)
     {
         if (!clientStream.TryConnectOnce())
         {

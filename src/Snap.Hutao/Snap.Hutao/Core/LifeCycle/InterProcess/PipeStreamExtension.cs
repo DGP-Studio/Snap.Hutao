@@ -22,7 +22,7 @@ internal static class PipeStreamExtension
         }
     }
 
-    public static unsafe void ReadPacket<TData>(this PipeStream stream, out PipePacketHeader header, out TData? data)
+    public static void ReadPacket<TData>(this PipeStream stream, out PipePacketHeader header, out TData? data)
         where TData : class
     {
         data = default;
@@ -42,7 +42,7 @@ internal static class PipeStreamExtension
         }
     }
 
-    public static unsafe void WritePacketWithJsonContent<TData>(this PipeStream stream, byte version, PipePacketType type, PipePacketCommand command, TData data)
+    public static void WritePacketWithJsonContent<TData>(this PipeStream stream, byte version, PipePacketType type, PipePacketCommand command, TData data)
     {
         PipePacketHeader header = default;
         header.Version = version;
@@ -53,7 +53,7 @@ internal static class PipeStreamExtension
         stream.WritePacket(ref header, JsonSerializer.SerializeToUtf8Bytes(data));
     }
 
-    public static unsafe void WritePacket(this PipeStream stream, ref PipePacketHeader header, byte[] content)
+    public static void WritePacket(this PipeStream stream, ref PipePacketHeader header, byte[] content)
     {
         header.ContentLength = content.Length;
         header.Checksum = XxHash64.HashToUInt64(content);
@@ -62,7 +62,7 @@ internal static class PipeStreamExtension
         stream.Write(content);
     }
 
-    public static unsafe void WritePacket(this PipeStream stream, byte version, PipePacketType type, PipePacketCommand command)
+    public static void WritePacket(this PipeStream stream, byte version, PipePacketType type, PipePacketCommand command)
     {
         PipePacketHeader header = default;
         header.Version = version;

@@ -9,17 +9,17 @@ namespace Snap.Hutao.Core.Threading;
 [HighQuality]
 internal readonly struct DispatcherQueueSwitchOperation : IAwaitable<DispatcherQueueSwitchOperation>, ICriticalAwaiter
 {
-    private readonly DispatcherQueue dispatherQueue;
+    private readonly DispatcherQueue dispatcherQueue;
 
-    public DispatcherQueueSwitchOperation(DispatcherQueue dispatherQueue)
+    public DispatcherQueueSwitchOperation(DispatcherQueue dispatcherQueue)
     {
-        this.dispatherQueue = dispatherQueue;
+        this.dispatcherQueue = dispatcherQueue;
     }
 
     public bool IsCompleted
     {
         // Only yields when we are not on the DispatcherQueue thread.
-        get => dispatherQueue.HasThreadAccess;
+        get => dispatcherQueue.HasThreadAccess;
     }
 
     public DispatcherQueueSwitchOperation GetAwaiter()
@@ -33,14 +33,14 @@ internal readonly struct DispatcherQueueSwitchOperation : IAwaitable<DispatcherQ
 
     public void OnCompleted(Action continuation)
     {
-        dispatherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
+        dispatcherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
     }
 
     public void UnsafeOnCompleted(Action continuation)
     {
         using (ExecutionContext.SuppressFlow())
         {
-            dispatherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
+            dispatcherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
         }
     }
 }
