@@ -6,14 +6,10 @@ using Snap.Hutao.Service.DailyNote;
 
 namespace Snap.Hutao.Service.Job;
 
-internal sealed class DailyNoteRefreshJob : IJob
+[ConstructorGenerated]
+internal sealed partial class DailyNoteRefreshJob : IJob
 {
     private readonly IDailyNoteService dailyNoteService;
-
-    public DailyNoteRefreshJob(IDailyNoteService dailyNoteService)
-    {
-        this.dailyNoteService = dailyNoteService;
-    }
 
     [SuppressMessage("", "SH003")]
     public async Task Execute(IJobExecutionContext context)

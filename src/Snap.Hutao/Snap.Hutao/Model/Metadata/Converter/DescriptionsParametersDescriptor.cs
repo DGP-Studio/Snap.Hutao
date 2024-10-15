@@ -47,8 +47,8 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
                 }
                 else
                 {
-                    string descriptionString = SpecialNameHandler.Handle(description.ToString());
-                    string formatString = SpecialNameHandler.Handle(format.ToString());
+                    string descriptionString = SpecialNameHandling.Handle(description.ToString());
+                    string formatString = SpecialNameHandling.Handle(format.ToString());
 
                     string resultFormatted = ParamRegex().Replace(formatString, match => ReplaceParamInMatch(match, paramList));
                     results.Add(new ParameterDescription { Description = descriptionString, Parameter = resultFormatted });

@@ -28,11 +28,12 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
         using (fileDialog)
         {
-            const FILEOPENDIALOGOPTIONS options = FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
-                                                  FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
-                                                  FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
+            const FILEOPENDIALOGOPTIONS Options =
+                FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
+                FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
+                FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(options);
+            fileDialog.SetOptions(Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(defaultFileName))
@@ -86,13 +87,14 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
         using (fileDialog)
         {
-            const FILEOPENDIALOGOPTIONS options = FILEOPENDIALOGOPTIONS.FOS_OVERWRITEPROMPT |
-                                                  FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
-                                                  FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
-                                                  FILEOPENDIALOGOPTIONS.FOS_STRICTFILETYPES |
-                                                  FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
+            const FILEOPENDIALOGOPTIONS Options =
+                FILEOPENDIALOGOPTIONS.FOS_OVERWRITEPROMPT |
+                FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
+                FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
+                FILEOPENDIALOGOPTIONS.FOS_STRICTFILETYPES |
+                FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(options);
+            fileDialog.SetOptions(Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(defaultFileName))
@@ -146,12 +148,13 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
         using (fileDialog)
         {
-            const FILEOPENDIALOGOPTIONS options = FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
-                                                  FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
-                                                  FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS |
-                                                  FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
+            const FILEOPENDIALOGOPTIONS Options =
+                FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
+                FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
+                FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS |
+                FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(options);
+            fileDialog.SetOptions(Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(title))

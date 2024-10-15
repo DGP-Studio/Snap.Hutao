@@ -103,7 +103,7 @@ internal static class TypeNameHelper
 
             if (builder is null)
             {
-                return options.NestedTypeDelimiter is not DefaultNestedTypeDelimiter ? name.Replace(DefaultNestedTypeDelimiter, options.NestedTypeDelimiter) : name;
+                return options.NestedTypeDelimiter is DefaultNestedTypeDelimiter ? name : name.Replace(DefaultNestedTypeDelimiter, options.NestedTypeDelimiter);
             }
 
             builder.Append(name);

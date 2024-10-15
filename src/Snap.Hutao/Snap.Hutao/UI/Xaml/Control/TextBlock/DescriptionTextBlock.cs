@@ -38,7 +38,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         MUXCTextBlock textBlock = (MUXCTextBlock)((DescriptionTextBlock)d).Content;
-        UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle((string)e.NewValue)));
+        UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandling.Handle((string)e.NewValue)));
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -147,6 +147,6 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         // Simply re-apply texts
-        UpdateDescription((MUXCTextBlock)Content, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle(Description)));
+        UpdateDescription((MUXCTextBlock)Content, MiHoYoSyntaxTree.Parse(SpecialNameHandling.Handle(Description)));
     }
 }

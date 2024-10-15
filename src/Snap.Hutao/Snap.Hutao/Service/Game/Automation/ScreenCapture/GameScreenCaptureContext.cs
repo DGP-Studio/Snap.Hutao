@@ -70,21 +70,26 @@ internal struct GameScreenCaptureContext : IDisposable
             return new(GameScreenCaptureContextCreationResultKind.EnumAdapterByGpuPreferenceFailed, hr);
         }
 
-        if (!DirectX.TryCreateD3D11Device(default!, D3d11CreateDeviceFlag, out context.d3d11Device!, out hr))
+        if (!DirectX.TryCreateD3D11Device(default!, D3d11CreateDeviceFlag, out ObjectReference<ID3D11Device.Vftbl>? d3d11Device, out hr))
         {
             return new(GameScreenCaptureContextCreationResultKind.D3D11CreateDeviceFailed, hr);
         }
 
-        ArgumentNullException.ThrowIfNull(context.d3d11Device);
+        ArgumentNullException.ThrowIfNull(d3d11Device);
+        context.d3d11Device = d3d11Device;
 
         if (!SUCCEEDED(context.d3d11Device.TryAs(IDXGIDevice.IID, out context.dxgiDevice)))
         {
             return new(GameScreenCaptureContextCreationResultKind.D3D11DeviceQueryDXGIDeviceFailed, hr);
         }
 
-        return !DirectX.TryCreateDirect3D11Device(context.dxgiDevice, out context.direct3DDevice, out hr)
-            ? new(GameScreenCaptureContextCreationResultKind.CreateDirect3D11DeviceFromDXGIDeviceFailed, hr)
-            : new(GameScreenCaptureContextCreationResultKind.Success, context);
+        // ReSharper disable once ConvertIfStatementToReturnStatement
+        if (!DirectX.TryCreateDirect3D11Device(context.dxgiDevice, out context.direct3DDevice, out hr))
+        {
+            return new(GameScreenCaptureContextCreationResultKind.CreateDirect3D11DeviceFromDXGIDeviceFailed, hr);
+        }
+
+        return new(GameScreenCaptureContextCreationResultKind.Success, context);
     }
 
     public Direct3D11CaptureFramePool CreatePool()
