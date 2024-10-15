@@ -4,6 +4,4 @@
 namespace Snap.Hutao.Service.Abstraction;
 
 internal interface IRepository<TEntity> : IAppInfrastructureService
-    where TEntity : class
-{
-}
+    where TEntity : class;

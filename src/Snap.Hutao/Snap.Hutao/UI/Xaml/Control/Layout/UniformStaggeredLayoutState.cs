@@ -53,12 +53,10 @@ internal sealed class UniformStaggeredLayoutState
         {
             return items[index];
         }
-        else
-        {
-            UniformStaggeredItem item = new(index);
-            items.Add(item);
-            return item;
-        }
+
+        UniformStaggeredItem item = new(index);
+        items.Add(item);
+        return item;
     }
 
     internal UniformStaggeredColumnLayout GetColumnLayout(int columnIndex)
@@ -106,7 +104,6 @@ internal sealed class UniformStaggeredLayoutState
             {
                 RecycleElements();
             }
-
         }
         catch
         {

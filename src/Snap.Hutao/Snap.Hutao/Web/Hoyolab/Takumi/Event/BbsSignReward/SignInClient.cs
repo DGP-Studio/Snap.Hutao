@@ -107,11 +107,11 @@ internal sealed partial class SignInClient : ISignInClient
             .SendAsync<Response<SignInResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string originChallenge } })
+        if (resp is { Data: { Success: 1, Gt: { } gt, Challenge: { } originChallenge } })
         {
             GeetestResponse verifyResponse = await homaGeetestClient.VerifyAsync(gt, originChallenge, token).ConfigureAwait(false);
 
-            if (verifyResponse is { Code: 0, Data: { Validate: string validate, Challenge: string challenge } })
+            if (verifyResponse is { Code: 0, Data: { Validate: { } validate, Challenge: { } challenge } })
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(apiEndpoints.LunaSolSign())

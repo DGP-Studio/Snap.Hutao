@@ -19,12 +19,10 @@ internal sealed class AsyncAutoResetEvent
                 signaled = false;
                 return Task.CompletedTask;
             }
-            else
-            {
-                TaskCompletionSource tcs = new();
-                waits.Enqueue(tcs);
-                return tcs.Task;
-            }
+
+            TaskCompletionSource tcs = new();
+            waits.Enqueue(tcs);
+            return tcs.Task;
         }
     }
 

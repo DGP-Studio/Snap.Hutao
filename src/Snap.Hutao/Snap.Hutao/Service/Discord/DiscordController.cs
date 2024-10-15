@@ -174,7 +174,7 @@ internal static class DiscordController
         isCallbackInitialized = true;
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
-        static unsafe void DebugWriteDiscordMessage(void* state, DiscordLogLevel logLevel, sbyte* ptr)
+        static void DebugWriteDiscordMessage(void* state, DiscordLogLevel logLevel, sbyte* ptr)
         {
             ReadOnlySpan<byte> utf8 = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)ptr);
             string message = Encoding.UTF8.GetString(utf8);
@@ -235,12 +235,7 @@ internal static class DiscordController
 
         unsafe DiscordResult RunDiscordCoreRunCallbacks()
         {
-            if (discordCorePtr is not null)
-            {
-                return discordCorePtr->run_callbacks(discordCorePtr);
-            }
-
-            return DiscordResult.Ok;
+            return discordCorePtr is not null ? discordCorePtr->run_callbacks(discordCorePtr) : DiscordResult.Ok;
         }
     }
 

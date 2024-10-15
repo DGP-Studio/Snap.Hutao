@@ -41,17 +41,16 @@ internal static class ListExtension
             int middle = (left + right) / 2;
             ref readonly T current = ref span[middle];
             int compareResult = comparer(current);
-            if (compareResult == 0)
+            switch (compareResult)
             {
-                return current;
-            }
-            else if (compareResult < 0)
-            {
-                right = middle - 1;
-            }
-            else
-            {
-                left = middle + 1;
+                case 0:
+                    return current;
+                case < 0:
+                    right = middle - 1;
+                    break;
+                default:
+                    left = middle + 1;
+                    break;
             }
         }
 

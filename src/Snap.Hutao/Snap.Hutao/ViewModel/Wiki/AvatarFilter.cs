@@ -8,19 +8,11 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 角色筛选器
-/// </summary>
 internal static class AvatarFilter
 {
-    /// <summary>
-    /// 构建筛选操作
-    /// </summary>
-    /// <param name="input">输入</param>
-    /// <returns>筛选操作</returns>
     public static Predicate<Avatar> Compile(ObservableCollection<SearchToken> input)
     {
-        return (Avatar avatar) => DoFilter(input, avatar);
+        return avatar => DoFilter(input, avatar);
     }
 
     private static bool DoFilter(ObservableCollection<SearchToken> input, Avatar avatar)

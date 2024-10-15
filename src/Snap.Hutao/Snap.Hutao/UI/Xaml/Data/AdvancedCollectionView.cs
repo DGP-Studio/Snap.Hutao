@@ -293,7 +293,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         ArgumentNullException.ThrowIfNull(item);
         T typedItem = (T)item;
 
-        if (!(filter?.Invoke(typedItem) ?? true) || !SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
+        if (!(filter?.Invoke(typedItem) ?? true) || SortDescriptions.All(sd => sd.PropertyName != e.PropertyName))
         {
             return;
         }

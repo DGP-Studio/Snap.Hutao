@@ -31,13 +31,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     private Summary? summary;
 
-    private enum CultivateCoreResult
-    {
-        Ok,
-        ComputeConsumptionFailed,
-        SaveConsumptionFailed,
-    }
-
     public Summary? Summary { get => summary; set => SetProperty(ref summary, value); }
 
     public void Receive(UserAndUidChangedMessage message)

@@ -109,7 +109,7 @@ internal sealed partial class MinimalPromotionDelta
                         AvatarId = avatar.Id,
                         AvatarLevelCurrent = 1,
                         AvatarLevelTarget = 90,
-                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList(skill => new PromotionDelta()
+                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList(skill => new PromotionDelta
                         {
                             Id = skill.GroupId,
                             LevelCurrent = 1,

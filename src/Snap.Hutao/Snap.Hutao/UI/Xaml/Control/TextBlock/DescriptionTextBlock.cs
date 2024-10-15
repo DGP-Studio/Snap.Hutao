@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Metadata;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Windows.Foundation;
@@ -25,7 +25,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     {
         this.DisableInteraction();
 
-        Content = new MUXCTextBlock()
+        Content = new MUXCTextBlock
         {
             TextWrapping = TextWrapping.Wrap,
             Style = TextStyle,
@@ -38,7 +38,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         MUXCTextBlock textBlock = (MUXCTextBlock)((DescriptionTextBlock)d).Content;
-        UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle((string)e.NewValue)));
+        UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandling.Handle((string)e.NewValue)));
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -147,6 +147,6 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         // Simply re-apply texts
-        UpdateDescription((MUXCTextBlock)Content, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle(Description)));
+        UpdateDescription((MUXCTextBlock)Content, MiHoYoSyntaxTree.Parse(SpecialNameHandling.Handle(Description)));
     }
 }

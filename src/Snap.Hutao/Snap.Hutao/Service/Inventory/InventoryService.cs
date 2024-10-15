@@ -50,7 +50,7 @@ internal sealed partial class InventoryService : IInventoryService
     {
         List<AvatarPromotionDelta> deltas = await minimalPromotionDelta.GetAsync().ConfigureAwait(false);
 
-        BatchConsumption? batchConsumption = default;
+        BatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
@@ -61,7 +61,7 @@ internal sealed partial class InventoryService : IInventoryService
 
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
 
-            Response<BatchConsumption>? resp = await calculateClient
+            Response<BatchConsumption> resp = await calculateClient
                 .BatchComputeAsync(userAndUid, deltas, true)
                 .ConfigureAwait(false);
 

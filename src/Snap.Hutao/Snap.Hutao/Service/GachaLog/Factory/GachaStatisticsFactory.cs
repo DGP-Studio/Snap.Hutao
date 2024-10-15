@@ -147,8 +147,6 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                                 purpleAvatarCounter.IncreaseByOne(avatar);
                                 targetHistoryWishBuilder?.IncreasePurple(avatar);
                                 break;
-                            default:
-                                break;
                         }
 
                         standardWishBuilder.Track(item, avatar, isUp);
@@ -176,8 +174,6 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                             case QualityType.QUALITY_BLUE:
                                 targetHistoryWishBuilder?.IncreaseBlue(weapon);
                                 blueWeaponCounter.IncreaseByOne(weapon);
-                                break;
-                            default:
                                 break;
                         }
 

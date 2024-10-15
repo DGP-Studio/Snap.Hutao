@@ -4,7 +4,7 @@
 namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
 [SuppressMessage("", "CA1069")]
-internal enum SHOW_WINDOW_CMD : int
+internal enum SHOW_WINDOW_CMD
 {
     SW_HIDE = 0,
     SW_SHOWNORMAL = 1,

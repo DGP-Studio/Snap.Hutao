@@ -39,14 +39,7 @@ internal class JsonHttpContentSerializer : HttpContentSerializer
 
         // Since .NET's Json members are optimized for UTF-8, it makes sense to use these
         // optimizations if that's the encoding as well.
-        if (encoding == Encoding.UTF8)
-        {
-            return SerializeUtf8(content, contentType);
-        }
-        else
-        {
-            return SerializeOtherEncoding(content, contentType, encoding);
-        }
+        return encoding == Encoding.UTF8 ? SerializeUtf8(content, contentType) : SerializeOtherEncoding(content, contentType, encoding);
     }
 
     protected override async ValueTask<object?> DeserializeAsyncCore(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken)

@@ -15,11 +15,6 @@ internal sealed partial class InfoBarTemplateSelector : DataTemplateSelector
 
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
-        if (item is InfoBarOptions { ActionButtonContent: { }, ActionButtonCommand: { } })
-        {
-            return ActionButtonEnabled;
-        }
-
-        return ActionButtonDisabled;
+        return item is InfoBarOptions { ActionButtonContent: { }, ActionButtonCommand: { } } ? ActionButtonEnabled : ActionButtonDisabled;
     }
 }

@@ -6,6 +6,4 @@ namespace Snap.Hutao.Service.Notification;
 /// <summary>
 /// 系统通知生命周期时间
 /// </summary>
-internal interface IToastNotificationLifeTime : IDisposable
-{
-}
+internal interface IToastNotificationLifeTime : IDisposable;

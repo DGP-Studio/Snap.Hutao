@@ -33,7 +33,7 @@ internal static class HutaoUserOptionsExtension
         options.Initialization.TrySetResult();
 
         await taskContext.SwitchToBackgroundAsync();
-        Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(default).ConfigureAwait(false);
+        Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync().ConfigureAwait(false);
         if (userInfoResponse.IsOk())
         {
             await taskContext.SwitchToMainThreadAsync();

@@ -64,7 +64,7 @@ internal static class MetadataServiceImmutableDictionaryExtension
     {
         return metadataService.FromCacheAsDictionaryAsync<Promote, IGrouping<PromoteId, Promote>, PromoteId, ImmutableDictionary<PromoteLevel, Promote>>(
             MetadataFileStrategies.AvatarPromote,
-            (ImmutableArray<Promote> array) => array.GroupBy(p => p.Id),
+            array => array.GroupBy(p => p.Id),
             g => g.Key,
             g => g.ToImmutableDictionary(p => p.Level),
             token);
@@ -72,7 +72,7 @@ internal static class MetadataServiceImmutableDictionaryExtension
 
     public static async ValueTask<ImmutableDictionary<MaterialId, DisplayItem>> GetIdToDisplayItemAndMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        string cacheKey = $"{nameof(MetadataService)}.Cache.{nameof(MetadataFileStrategies.DisplayItem)}+{nameof(MetadataFileStrategies.Material)}.Map.{typeof(MaterialId).Name}.{nameof(DisplayItem)}+{nameof(Material)}";
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{nameof(MetadataFileStrategies.DisplayItem)}+{nameof(MetadataFileStrategies.Material)}.Map.{nameof(MaterialId)}.{nameof(DisplayItem)}+{nameof(Material)}";
 
         if (metadataService.MemoryCache.TryGetValue(cacheKey, out object? value))
         {

@@ -121,7 +121,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         {
             HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
             Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);
-            if (response is { Data: Wallpaper wallpaper })
+            if (response is { Data: { } wallpaper })
             {
                 await taskContext.SwitchToMainThreadAsync();
                 backgroundImageOptions.Wallpaper = wallpaper;

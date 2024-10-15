@@ -12,7 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class BindingClient
@@ -29,21 +28,19 @@ internal sealed partial class BindingClient
         {
             return await GetUserGameRolesByCookieAsync(user, token).ConfigureAwait(false);
         }
-        else
+
+        Response<ActionTicketWrapper> actionTicketResponse = await serviceProvider
+            .GetRequiredService<AuthClient>()
+            .GetActionTicketBySTokenAsync("game_role", user, token)
+            .ConfigureAwait(false);
+
+        if (actionTicketResponse.IsOk())
         {
-            Response<ActionTicketWrapper> actionTicketResponse = await serviceProvider
-                .GetRequiredService<AuthClient>()
-                .GetActionTicketBySTokenAsync("game_role", user, token)
-                .ConfigureAwait(false);
-
-            if (actionTicketResponse.IsOk())
-            {
-                string actionTicket = actionTicketResponse.Data.Ticket;
-                return await GetUserGameRolesByActionTicketAsync(actionTicket, user, token).ConfigureAwait(false);
-            }
-
-            return Response.Response.CloneReturnCodeAndMessage<ListWrapper<UserGameRole>, ActionTicketWrapper>(actionTicketResponse);
+            string actionTicket = actionTicketResponse.Data.Ticket;
+            return await GetUserGameRolesByActionTicketAsync(actionTicket, user, token).ConfigureAwait(false);
         }
+
+        return Response.Response.CloneReturnCodeAndMessage<ListWrapper<UserGameRole>, ActionTicketWrapper>(actionTicketResponse);
     }
 
     public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)

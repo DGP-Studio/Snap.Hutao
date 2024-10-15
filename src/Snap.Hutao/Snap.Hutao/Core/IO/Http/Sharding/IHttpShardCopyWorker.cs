@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
-internal interface IHttpShardCopyWorker<TStatus> : IDisposable
+internal interface IHttpShardCopyWorker<out TStatus> : IDisposable
 {
     [SuppressMessage("", "SH003")]
     Task CopyAsync(IProgress<TStatus> progress, CancellationToken token = default);

@@ -212,11 +212,9 @@ internal static class LocalSetting
             // unbox the value
             return value is null ? defaultValue : (T)value;
         }
-        else
-        {
-            Set(key, defaultValue);
-            return defaultValue;
-        }
+
+        Set(key, defaultValue);
+        return defaultValue;
     }
 
     private static void Set<T>(string key, T value)

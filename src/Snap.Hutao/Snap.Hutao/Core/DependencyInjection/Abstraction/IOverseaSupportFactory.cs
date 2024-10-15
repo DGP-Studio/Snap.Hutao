@@ -5,7 +5,7 @@ using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
-internal interface IOverseaSupportFactory<TClient>
+internal interface IOverseaSupportFactory<out TClient>
 {
     TClient Create(bool isOversea);
 

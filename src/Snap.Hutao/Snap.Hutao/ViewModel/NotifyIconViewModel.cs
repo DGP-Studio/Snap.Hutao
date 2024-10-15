@@ -98,7 +98,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("RestartAsElevatedCommand")]
     private void RestartAsElevated()
     {
-        Process.Start(new ProcessStartInfo()
+        Process.Start(new ProcessStartInfo
         {
             FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
             UseShellExecute = true,

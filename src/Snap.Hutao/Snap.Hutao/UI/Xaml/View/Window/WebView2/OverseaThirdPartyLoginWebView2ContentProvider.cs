@@ -10,7 +10,7 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
-internal sealed partial class OverseaThirdPartyLoginWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
+internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
 {
     private const string BaseUrl = "https://account.hoyoverse.com/single-page/third-party-oauth.html";
 

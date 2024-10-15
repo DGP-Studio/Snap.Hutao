@@ -67,8 +67,8 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
     {
         ArgumentNullException.ThrowIfNull(Mobile);
 
-        string? rawSession = default;
-        Response<MobileCaptcha> response = default!;
+        string? rawSession;
+        Response<MobileCaptcha> response;
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

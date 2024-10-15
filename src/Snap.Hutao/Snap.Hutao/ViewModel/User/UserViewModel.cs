@@ -130,7 +130,7 @@ internal sealed partial class UserViewModel : ObservableObject
         await taskContext.SwitchToMainThreadAsync();
         OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(thirdPartyKind, cultureOptions.LanguageCode);
 
-        new ShowWebView2WindowAction()
+        new ShowWebView2WindowAction
         {
             ContentProvider = contentProvider,
         }.ShowAt(currentXamlWindowReference.GetXamlRoot());
@@ -343,9 +343,9 @@ internal sealed partial class UserViewModel : ObservableObject
         // Manual webview
         await taskContext.SwitchToMainThreadAsync();
 
-        new ShowWebView2WindowAction()
+        new ShowWebView2WindowAction
         {
-            ContentProvider = new MiHoYoJSBridgeWebView2ContentProvider()
+            ContentProvider = new MiHoYoJSBridgeWebView2ContentProvider
             {
                 SourceProvider = new SignInJSBridgeUriSourceProvider(),
             },

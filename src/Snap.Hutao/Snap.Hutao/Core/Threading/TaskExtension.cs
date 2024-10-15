@@ -114,25 +114,17 @@ internal static class TaskExtension
         {
             List<Task> taskList = tasks.Select(task => WrapTask(task, taskFaultedCts.Token)).ToList();
 
-            Task firstCompletedTask = default!;
-            try
-            {
-                firstCompletedTask = await Task.WhenAny(taskList).ConfigureAwait(true);
+            Task firstCompletedTask = await Task.WhenAny(taskList).ConfigureAwait(true);
 
-                if (firstCompletedTask.IsFaulted)
-                {
+            if (firstCompletedTask.IsFaulted)
+            {
 #pragma warning disable CA1849
-                    taskFaultedCts.Cancel();
+                taskFaultedCts.Cancel();
 #pragma warning restore CA1849
-                    await firstCompletedTask.ConfigureAwait(true);
-                }
+                await firstCompletedTask.ConfigureAwait(true);
+            }
 
-                await Task.WhenAll(taskList).ConfigureAwait(true);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await Task.WhenAll(taskList).ConfigureAwait(true);
         }
 
         static async Task WrapTask(Task task, CancellationToken token)

@@ -25,7 +25,6 @@ public sealed partial class ComboBoxHelper
         if (!comboBox.IsLoaded)
         {
             comboBox.DropDownOpened += OnComboBoxDropDownOpened;
-            return;
         }
     }
 

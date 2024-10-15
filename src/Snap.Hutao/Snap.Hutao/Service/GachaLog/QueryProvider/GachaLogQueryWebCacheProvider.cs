@@ -41,10 +41,8 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             lastestVersionCacheFolder ??= webCacheFolder;
             return Path.Combine(lastestVersionCacheFolder.FullName, @"Cache\Cache_Data\data_2");
         }
-        else
-        {
-            return string.Empty;
-        }
+
+        return string.Empty;
     }
 
     /// <inheritdoc/>

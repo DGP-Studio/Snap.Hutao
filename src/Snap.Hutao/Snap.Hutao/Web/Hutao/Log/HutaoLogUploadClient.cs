@@ -10,10 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.Log;
 
-/// <summary>
-/// 胡桃日志客户端
-/// </summary>
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoLogUploadClient
@@ -32,7 +28,7 @@ internal sealed partial class HutaoLogUploadClient
         builder.Send(httpClient, logger);
     }
 
-    private HutaoLog BuildFromException(Exception exception)
+    private static HutaoLog BuildFromException(Exception exception)
     {
         return new()
         {

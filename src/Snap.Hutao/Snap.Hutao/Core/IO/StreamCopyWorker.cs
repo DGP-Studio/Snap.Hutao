@@ -9,7 +9,7 @@ using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO;
 
-internal delegate TStatus StreamCopyStatusFactory<TStatus>(long bytesReadSinceLastReport, long bytesReadSinceCopyStart);
+internal delegate TStatus StreamCopyStatusFactory<out TStatus>(long bytesReadSinceLastReport, long bytesReadSinceCopyStart);
 
 internal sealed partial class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
 {

@@ -44,7 +44,7 @@ internal static class AvatarViewBuilderExtension
         static List<ConstellationView> CreateConstellations(List<MetadataSkill> talents, List<SkillId> talentIds)
         {
             // TODO: use builder here
-            return talents.SelectList(talent => new ConstellationView()
+            return talents.SelectList(talent => new ConstellationView
             {
                 Name = talent.Name,
                 Icon = SkillIconConverter.IconNameToUri(talent.Icon),
@@ -69,12 +69,7 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetFetterLevel<TBuilder>(this TBuilder builder, FetterLevel? level)
         where TBuilder : IAvatarViewBuilder
     {
-        if (level.TryGetValue(out FetterLevel value))
-        {
-            return builder.Configure(b => b.View.FetterLevel = value);
-        }
-
-        return builder;
+        return level.TryGetValue(out FetterLevel value) ? builder.Configure(b => b.View.FetterLevel = value) : builder;
     }
 
     public static TBuilder SetFetterLevel<TBuilder>(this TBuilder builder, uint level)
@@ -92,12 +87,7 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetLevelNumber<TBuilder>(this TBuilder builder, uint? levelNumber)
         where TBuilder : IAvatarViewBuilder
     {
-        if (levelNumber.TryGetValue(out uint value))
-        {
-            return builder.Configure(b => b.View.LevelNumber = value);
-        }
-
-        return builder;
+        return levelNumber.TryGetValue(out uint value) ? builder.Configure(b => b.View.LevelNumber = value) : builder;
     }
 
     public static TBuilder SetName<TBuilder>(this TBuilder builder, string name)
@@ -182,19 +172,15 @@ internal static class AvatarViewBuilderExtension
                 nonExtraLeveledSkills.DecreaseByValue(skillId, extraLevel);
             }
 
-            return proudSkills.SelectList(proudSkill =>
+            return proudSkills.SelectList(proudSkill => new SkillView
             {
-                // TODO: use builder here
-                return new SkillView()
-                {
-                    Name = proudSkill.Name,
-                    Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
-                    Description = proudSkill.Description,
-                    GroupId = proudSkill.GroupId,
-                    Level = LevelFormat.Format(nonExtraLeveledSkills[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
-                    LevelNumber = nonExtraLeveledSkills[proudSkill.Id],
-                    Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillLevels[proudSkill.Id]),
-                };
+                Name = proudSkill.Name,
+                Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
+                Description = proudSkill.Description,
+                GroupId = proudSkill.GroupId,
+                Level = LevelFormat.Format(nonExtraLeveledSkills[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
+                LevelNumber = nonExtraLeveledSkills[proudSkill.Id],
+                Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillLevels[proudSkill.Id]),
             });
         }
     }

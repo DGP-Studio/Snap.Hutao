@@ -180,7 +180,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
     /// <inheritdoc/>
     protected override Size ArrangeOverride(VirtualizingLayoutContext context, Size finalSize)
     {
-        if ((context.RealizationRect.Width == 0) && (context.RealizationRect.Height == 0))
+        if (context.RealizationRect is { Width: 0, Height: 0 })
         {
             return finalSize;
         }

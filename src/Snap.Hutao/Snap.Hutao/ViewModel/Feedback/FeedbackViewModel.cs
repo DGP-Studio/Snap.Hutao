@@ -95,7 +95,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        if (response is { Results: [AlgoliaResult { Hits: { Count: > 0 } hits }, ..] })
+        if (response is { Results: [{ Hits: { Count: > 0 } hits }, ..] })
         {
             SearchResults = [.. hits.DistinctBy(hit => hit.Url)];
         }

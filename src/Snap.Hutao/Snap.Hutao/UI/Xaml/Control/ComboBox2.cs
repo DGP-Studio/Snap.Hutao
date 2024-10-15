@@ -16,7 +16,7 @@ internal sealed partial class ComboBox2 : ComboBox
 
         if (element is ComboBoxItem comboBoxItem)
         {
-            comboBoxItem.SetBinding(IsEnabledProperty, new Binding() { Path = new(EnableMemberPath) });
+            comboBoxItem.SetBinding(IsEnabledProperty, new Binding { Path = new(EnableMemberPath) });
         }
     }
 }

@@ -23,45 +23,21 @@ internal sealed class DailyNoteArchonQuestView
             .ToList();
     }
 
-    public List<ChapterId> Ids { get; set; } = default!;
+    public List<ChapterId> Ids { get; set; }
 
     public int ProgressValue
     {
-        get
-        {
-            if (TryGetFirstArchonQuest(out ArchonQuest? quest))
-            {
-                return Ids.IndexOf(quest.Id);
-            }
-
-            return Ids.Count;
-        }
+        get => TryGetFirstArchonQuest(out ArchonQuest? quest) ? Ids.IndexOf(quest.Id) : Ids.Count;
     }
 
     public string ProgressFormatted
     {
-        get
-        {
-            if (TryGetFirstArchonQuest(out ArchonQuest? quest))
-            {
-                return quest.Status.GetLocalizedDescription();
-            }
-
-            return SH.WebDailyNoteArchonQuestStatusFinished;
-        }
+        get => TryGetFirstArchonQuest(out ArchonQuest? quest) ? quest.Status.GetLocalizedDescription() : SH.WebDailyNoteArchonQuestStatusFinished;
     }
 
     public string ChapterFormatted
     {
-        get
-        {
-            if (TryGetFirstArchonQuest(out ArchonQuest? quest))
-            {
-                return $"{quest.ChapterNum} {quest.ChapterTitle}";
-            }
-
-            return SH.WebDailyNoteArchonQuestChapterFinished;
-        }
+        get => TryGetFirstArchonQuest(out ArchonQuest? quest) ? $"{quest.ChapterNum} {quest.ChapterTitle}" : SH.WebDailyNoteArchonQuestChapterFinished;
     }
 
     public static DailyNoteArchonQuestView Create(WebDailyNote? dailyNote, ImmutableArray<Chapter> chapters)

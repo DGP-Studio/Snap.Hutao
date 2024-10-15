@@ -62,7 +62,6 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
             catch (HutaoException ex)
             {
                 infoBarService.Error(ex);
-                return;
             }
         }
     }

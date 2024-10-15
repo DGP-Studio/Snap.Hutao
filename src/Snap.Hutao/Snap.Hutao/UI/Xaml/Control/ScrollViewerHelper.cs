@@ -8,6 +8,4 @@ namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
 [DependencyProperty("RightPanel", typeof(UIElement), IsAttached = true, AttachedType = typeof(ScrollViewer))]
-public sealed partial class ScrollViewerHelper
-{
-}
+public sealed partial class ScrollViewerHelper;

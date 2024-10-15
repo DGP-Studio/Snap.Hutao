@@ -6,7 +6,6 @@
     xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cww="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:layout="using:Snap.Hutao.UI.Xaml.Control.Layout"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"

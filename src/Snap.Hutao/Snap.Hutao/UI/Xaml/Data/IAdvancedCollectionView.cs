@@ -4,12 +4,11 @@
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
-using System.Collections;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.UI.Xaml.Data;
 
-internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
+internal interface IAdvancedCollectionView<T> : ICollectionView
     where T : class
 {
     object? ICollectionView.CurrentItem
@@ -65,18 +64,14 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
 
     int IList<object>.IndexOf(object item)
     {
-        if (item is T dataItem1)
+        return item switch
         {
-            return IndexOf(dataItem1);
-        }
+            T dataItem1 => IndexOf(dataItem1),
 
-        // WinUI somehow pass in a FrameworkElement with DataContext as actual item
-        if (item is FrameworkElement { DataContext: T dataItem2 })
-        {
-            return IndexOf(dataItem2);
-        }
-
-        return IndexOf(default!);
+            // WinUI somehow pass in a FrameworkElement with DataContext as actual item
+            FrameworkElement { DataContext: T dataItem2 } => IndexOf(dataItem2),
+            _ => IndexOf(default!),
+        };
     }
 
     int IndexOf(T item);

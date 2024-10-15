@@ -67,7 +67,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         {
             XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
-            Content = new ProgressBar() { IsIndeterminate = true },
+            Content = new ProgressBar { IsIndeterminate = true },
             RequestedTheme = appOptions.ElementTheme,
         };
 

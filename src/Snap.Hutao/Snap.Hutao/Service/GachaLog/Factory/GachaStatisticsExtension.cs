@@ -61,6 +61,8 @@ internal static class GachaStatisticsExtension
     private static Color GetColorByName(string name)
     {
         ReadOnlySpan<byte> codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
+
+        // ReSharper disable once ReplaceSliceWithRangeIndexer
         return Color.FromArgb(255, codes.Slice(0, 5).Average(), codes.Slice(5, 5).Average(), codes.Slice(10, 5).Average());
     }
 }

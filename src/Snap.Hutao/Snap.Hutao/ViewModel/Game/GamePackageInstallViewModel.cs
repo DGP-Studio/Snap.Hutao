@@ -112,7 +112,6 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
         {
             // Operation canceled
-            return;
         }
     }
 }

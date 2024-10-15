@@ -16,8 +16,8 @@ internal static class AvatarPromotionDeltaExtension
             AvatarLevelTarget = source.AvatarLevelTarget,
         };
 
-        if (avatar.Skills is not ([SkillView skillViewA, SkillView skillViewE, SkillView skillViewQ, ..]) ||
-            source.SkillList is not ([PromotionDelta deltaA, PromotionDelta deltaE, PromotionDelta deltaQ, ..]))
+        if (avatar.Skills is not [{ } skillViewA, { } skillViewE, { } skillViewQ, ..] ||
+            source.SkillList is not [{ } deltaA, { } deltaE, { } deltaQ, ..])
         {
             return false;
         }
@@ -44,7 +44,7 @@ internal static class AvatarPromotionDeltaExtension
             },
         ];
 
-        if (avatar.Weapon is not WeaponView weaponView || source.Weapon is not { } deltaWeapon)
+        if (avatar.Weapon is not { } weaponView || source.Weapon is not { } deltaWeapon)
         {
             return false;
         }

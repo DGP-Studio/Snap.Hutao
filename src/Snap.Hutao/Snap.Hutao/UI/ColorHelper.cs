@@ -89,8 +89,7 @@ internal static class ColorHelper
         double h1 = hsla32.H / 60;
         double x = chroma * (1 - Math.Abs((h1 % 2) - 1));
         double m = hsla32.L - (0.5 * chroma);
-        double r1, g1, b1;
-        (r1, g1, b1) = ((double, double, double))(h1 switch
+        (double r1, double g1, double b1) = ((double, double, double))(h1 switch
         {
             < 1 => (chroma, x, 0),
             < 2 => (x, chroma, 0),

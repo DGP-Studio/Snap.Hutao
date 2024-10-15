@@ -8,15 +8,7 @@ internal class RateAndDelta
     public RateAndDelta(double rate, double? lastRate)
     {
         Rate = $"{rate:P3}";
-
-        if (lastRate.TryGetValue(out double lastRateValue))
-        {
-            RateDelta = FormatDelta(rate - lastRateValue);
-        }
-        else
-        {
-            RateDelta = string.Empty;
-        }
+        RateDelta = lastRate.TryGetValue(out double lastRateValue) ? FormatDelta(rate - lastRateValue) : string.Empty;
     }
 
     public string Rate { get; }

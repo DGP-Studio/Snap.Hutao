@@ -22,18 +22,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
 
     private bool isDialogShowing;
 
-    public bool IsDialogShowing
-    {
-        get
-        {
-            if (currentWindowReference.Window is null)
-            {
-                return false;
-            }
-
-            return isDialogShowing;
-        }
-    }
+    public bool IsDialogShowing { get => currentWindowReference.Window is not null && isDialogShowing; }
 
     [SuppressMessage("", "SH100")]
     public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = default)
@@ -82,10 +71,8 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
             isDialogShowing = true;
             return showNextDialogAsync();
         }
-        else
-        {
-            isDialogShowing = false;
-            return Task.CompletedTask;
-        }
+
+        isDialogShowing = false;
+        return Task.CompletedTask;
     }
 }

@@ -81,12 +81,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
         string? registrySdk = RegistryInterop.Get(schemeType);
 
-        if (string.IsNullOrEmpty(registrySdk))
-        {
-            return default;
-        }
-
-        return SingleGameAccountOrDefault(gameAccounts, registrySdk);
+        return string.IsNullOrEmpty(registrySdk) ? default : SingleGameAccountOrDefault(gameAccounts, registrySdk);
     }
 
     public bool SetGameAccount(GameAccount account)

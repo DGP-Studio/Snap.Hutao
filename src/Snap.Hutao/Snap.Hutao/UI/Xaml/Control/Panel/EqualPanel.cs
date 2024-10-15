@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using System.Data;
 using System.Runtime.InteropServices;
 using Windows.Foundation;
 
@@ -43,18 +42,14 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
             {
                 return new((maxItemWidth * visibleItemsCount) + (Spacing * (visibleItemsCount - 1)), maxItemHeight);
             }
-            else
-            {
-                // Equal columns based on the available width, adjust for spacing
-                double totalWidth = availableSize.Width - (Spacing * (visibleItemsCount - 1));
-                maxItemWidth = totalWidth / visibleItemsCount;
-                return new(availableSize.Width, maxItemHeight);
-            }
+
+            // Equal columns based on the available width, adjust for spacing
+            double totalWidth = availableSize.Width - (Spacing * (visibleItemsCount - 1));
+            maxItemWidth = totalWidth / visibleItemsCount;
+            return new(availableSize.Width, maxItemHeight);
         }
-        else
-        {
-            return new(0, 0);
-        }
+
+        return new(0, 0);
     }
 
     protected override Size ArrangeOverride(Size finalSize)

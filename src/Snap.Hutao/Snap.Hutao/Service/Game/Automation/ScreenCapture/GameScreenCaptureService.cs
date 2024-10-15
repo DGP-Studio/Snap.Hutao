@@ -30,7 +30,7 @@ internal sealed partial class GameScreenCaptureService : IGameScreenCaptureServi
         return true;
     }
 
-    public unsafe bool TryStartCapture(HWND hwnd, bool preview, [NotNullWhen(true)] out GameScreenCaptureSession? session)
+    public bool TryStartCapture(HWND hwnd, bool preview, [NotNullWhen(true)] out GameScreenCaptureSession? session)
     {
         session = default;
 

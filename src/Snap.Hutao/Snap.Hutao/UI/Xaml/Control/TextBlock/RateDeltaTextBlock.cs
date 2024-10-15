@@ -31,7 +31,7 @@ internal sealed partial class RateDeltaTextBlock : ContentControl
 
     private void UpdateState()
     {
-        if (Text is string { Length: > 0 } text)
+        if (Text is { Length: > 0 } text)
         {
             _ = text.AsSpan()[0] switch
             {
