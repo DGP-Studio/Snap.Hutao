@@ -5,7 +5,7 @@ using Microsoft.Windows.AppNotifications;
 
 namespace Snap.Hutao.Service.Notification;
 
-internal sealed partial class ToastNotificationLifeTime : IToastNotificationLifeTime
+internal sealed partial class AppNotificationLifeTime : IAppNotificationLifeTime
 {
     /// <inheritdoc/>
     public void Dispose()

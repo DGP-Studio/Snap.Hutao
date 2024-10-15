@@ -24,7 +24,7 @@
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <StartupObject>Snap.Hutao.Program</StartupObject>
+    <StartupObject>Snap.Hutao.Bootstrap</StartupObject>
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN;DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION;DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT;$(AlphaConstants)</DefineConstants>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DebugSymbols>true</DebugSymbols>

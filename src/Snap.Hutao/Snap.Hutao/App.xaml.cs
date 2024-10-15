@@ -13,13 +13,8 @@ using System.Diagnostics;
 
 namespace Snap.Hutao;
 
-/// <summary>
-/// Provides application-specific behavior to supplement the default Application class.
-/// This class must be public
-/// </summary>
-[HighQuality]
 [Injection(InjectAs.Singleton)]
-[SuppressMessage("", "SH001")]
+[SuppressMessage("", "SH001", Justification = "The App must be public")]
 public sealed partial class App : Application
 {
     private const string ConsoleBanner = $"""
@@ -46,11 +41,12 @@ public sealed partial class App : Application
     {
         // Load app resource
         InitializeComponent();
+
+        ExceptionHandlingSupport.Initialize(serviceProvider, this);
+
         activation = serviceProvider.GetRequiredService<IAppActivation>();
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
         this.serviceProvider = serviceProvider;
-
-        ExceptionHandlingSupport.Initialize(serviceProvider, this);
     }
 
     public new void Exit()

@@ -13,7 +13,7 @@ using WinRT;
 namespace Snap.Hutao;
 
 [SuppressMessage("", "SH001")]
-public static partial class Program
+public static partial class Bootstrap
 {
     private static readonly ApplicationInitializationCallback AppInitializationCallback = InitializeApp;
 
