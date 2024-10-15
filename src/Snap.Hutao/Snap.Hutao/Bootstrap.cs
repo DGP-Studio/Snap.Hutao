@@ -46,7 +46,7 @@ public static partial class Bootstrap
         XamlCheckProcessRequirements();
         ComWrappersSupport.InitializeComWrappers();
 
-        // By adding the using statement, we can dispose the injected services when we closing
+        // By adding the using statement, we can dispose the injected services when closing
         using (ServiceProvider serviceProvider = DependencyInjection.Initialize())
         {
             // In a Desktop app this runs a message pump internally,
