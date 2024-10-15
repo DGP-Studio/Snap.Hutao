@@ -97,6 +97,10 @@
     <None Remove="Resource\Icon\UI_Icon_RelicType3.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType4.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType5.png" />
+    <None Remove="Resource\ThirdParty\Apple.png" />
+    <None Remove="Resource\ThirdParty\Facebook.png" />
+    <None Remove="Resource\ThirdParty\Google.png" />
+    <None Remove="Resource\ThirdParty\Twitter.png" />
     <None Remove="UI\Xaml\Control\AutoSuggestBox\AutoSuggestTokenBox.xaml" />
     <None Remove="UI\Xaml\Control\Card\CardBlock.xaml" />
     <None Remove="UI\Xaml\Control\Card\HorizontalCard.xaml" />
@@ -285,6 +289,10 @@
     <Content Include="Resource\Navigation\WikiAvatar.png" />
     <Content Include="Resource\Navigation\WikiMonster.png" />
     <Content Include="Resource\Navigation\WikiWeapon.png" />
+    <Content Include="Resource\ThirdParty\Apple.png" />
+    <Content Include="Resource\ThirdParty\Facebook.png" />
+    <Content Include="Resource\ThirdParty\Google.png" />
+    <Content Include="Resource\ThirdParty\Twitter.png" />
     <Content Include="Resource\WelcomeView_Background.png" />
   </ItemGroup>
 

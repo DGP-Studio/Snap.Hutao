@@ -3,6 +3,7 @@
     <x:String x:Key="FontIconContentAdd">&#xE710;</x:String>
     <x:String x:Key="FontIconContentSetting">&#xE713;</x:String>
     <x:String x:Key="FontIconContentRefresh">&#xE72C;</x:String>
+    <x:String x:Key="FontIconContentSwitchUser">&#xE748;</x:String>
     <x:String x:Key="FontIconContentDelete">&#xE74D;</x:String>
     <x:String x:Key="FontIconContentUpArrowShiftKey">&#xE752;</x:String>
     <x:String x:Key="FontIconContentChevronRight">&#xE76C;</x:String>
