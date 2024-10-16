@@ -16,6 +16,8 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
     private CancellationTokenSource acutalThemeChangedCts = new();
     private CancellationTokenSource periodicTimerStopCts = new();
 
+    private bool shouldReactToActualThemeChange;
+
     protected override bool Initialize()
     {
         AssociatedObject.ActualThemeChanged += OnActualThemeChanged;
@@ -40,7 +42,10 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
-        acutalThemeChangedCts.Cancel();
+        if (shouldReactToActualThemeChange)
+        {
+            acutalThemeChangedCts.Cancel();
+        }
     }
 
     private void TryExecuteCommand()
@@ -73,7 +78,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                 await taskContext.SwitchToBackgroundAsync();
                 try
                 {
-                    using (CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(periodicTimerStopCts.Token, periodicTimerStopCts.Token))
+                    using (CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(acutalThemeChangedCts.Token, periodicTimerStopCts.Token))
                     {
                         await timer.WaitForNextTickAsync(linkedCts.Token).ConfigureAwait(false);
                     }
@@ -85,6 +90,8 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                         break;
                     }
                 }
+
+                shouldReactToActualThemeChange = true;
 
                 acutalThemeChangedCts.Dispose();
                 acutalThemeChangedCts = new();

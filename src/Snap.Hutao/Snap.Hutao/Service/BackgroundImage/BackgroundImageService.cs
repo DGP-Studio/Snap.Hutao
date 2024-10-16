@@ -114,8 +114,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 break;
         }
 
-        currentBackgroundPathSet ??= [];
-        return currentBackgroundPathSet;
+        return currentBackgroundPathSet ??= [];
 
         async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
         {
@@ -123,15 +122,14 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);
             if (response is { Data: { } wallpaper })
             {
-                await taskContext.SwitchToMainThreadAsync();
-                backgroundImageOptions.Wallpaper = wallpaper;
-
-                await taskContext.SwitchToBackgroundAsync();
                 if (wallpaper.Url is { } url)
                 {
                     ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
                     currentBackgroundPathSet = [file];
                 }
+
+                await taskContext.SwitchToMainThreadAsync();
+                backgroundImageOptions.Wallpaper = wallpaper;
             }
         }
     }
