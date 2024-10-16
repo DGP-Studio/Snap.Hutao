@@ -11,6 +11,7 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shvu="using:Snap.Hutao.ViewModel.User"
@@ -18,6 +19,7 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
+        <shuxdcs:ThirdPartyIconConverter x:Key="ThirdPartyIconConverter"/>
         <shux:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="UserGameRoleTemplate">
@@ -200,11 +202,16 @@
             <AppBarButton
                 Width="{StaticResource LargeAppBarButtonWidth}"
                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                Margin="2,-4"
+                Margin="2,0"
                 Command="{Binding DataContext.LoginByThirdPartyOverseaCommand, Source={StaticResource ViewModelBindingProxy}}"
                 CommandParameter="{Binding Name}"
-                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
-                Label="{Binding Name}"/>
+                Icon="{Binding Name, Converter={StaticResource ThirdPartyIconConverter}}"
+                Label="{Binding Name}">
+                <AppBarButton.Resources>
+                    <x:Double x:Key="AppBarButtonContentHeight">24</x:Double>
+                    <Thickness x:Key="AppBarButtonContentViewboxCollapsedMargin">0,12,0,2</Thickness>
+                </AppBarButton.Resources>
+            </AppBarButton>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -355,7 +362,7 @@
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentSwitchUser}}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginByThirdPartyAction}">
                                 <AppBarButton.Flyout>
                                     <Flyout LightDismissOverlayMode="On" Placement="RightEdgeAlignedBottom">
