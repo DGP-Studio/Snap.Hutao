@@ -1505,6 +1505,15 @@
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
+    <value>Please enter an account</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
+    <value>Login to your account</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Take me there</value>
   </data>
@@ -1880,8 +1889,14 @@
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>Import failed</value>
   </data>
+  <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
+    <value>The currently selected user and game server do not match. Please re-select</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>The currently selected game directory {0} is corrupted. Please manually delete the folder and reinstall the game</value>
+  </data>
+  <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
+    <value>Login with Mile Society failed, please login again</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
@@ -2139,7 +2154,7 @@
     <value>Material Checklist</value>
   </data>
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
-    <value>Unbundled priority</value>
+    <value>Uncollected First</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>Material Statistics</value>
@@ -2701,6 +2716,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>Enabled</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
+    <value>Sign in with the currently selected Mix user only</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
+    <value>Sign in with Minecraft user</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Take advantage of monitors that support HDR for brighter, more vivid, and more detailed pictures</value>
@@ -3281,6 +3302,12 @@
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
     <value>Official Tools</value>
   </data>
+  <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
+    <value>Trilateral Login</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
   </data>
@@ -3351,7 +3378,7 @@
     <value>Weapon WIKI</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
-    <value>Take a screenshot of this window, find a suitable feedback path in the feedback center and send it to the UNDG.</value>
+    <value>Please take a screenshot of this window and find the appropriate feedback channel in the Feedback Center and send it to the development team.</value>
   </data>
   <data name="ViewWindowExceptionHeader" xml:space="preserve">
     <value>An unrecoverable fatal error has occurred</value>
