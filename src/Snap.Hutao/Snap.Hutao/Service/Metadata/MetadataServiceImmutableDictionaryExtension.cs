@@ -169,30 +169,30 @@ internal static class MetadataServiceImmutableDictionaryExtension
             token);
     }
 
-    public static ValueTask<ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    public static ValueTask<ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<GrowCurve, Level, ImmutableDictionary<GrowCurveType, float>>(
+        return metadataService.FromCacheAsDictionaryAsync<GrowCurve, Level, TypeValueCollection<GrowCurveType, float>>(
             MetadataFileStrategies.AvatarCurve,
             a => a.Level,
-            a => a.Map,
+            a => a.Curves,
             token);
     }
 
-    public static ValueTask<ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    public static ValueTask<ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<GrowCurve, Level, ImmutableDictionary<GrowCurveType, float>>(
+        return metadataService.FromCacheAsDictionaryAsync<GrowCurve, Level, TypeValueCollection<GrowCurveType, float>>(
             MetadataFileStrategies.MonsterCurve,
             m => m.Level,
-            m => m.Map,
+            m => m.Curves,
             token);
     }
 
-    public static ValueTask<ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    public static ValueTask<ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<GrowCurve, Level, ImmutableDictionary<GrowCurveType, float>>(
+        return metadataService.FromCacheAsDictionaryAsync<GrowCurve, Level, TypeValueCollection<GrowCurveType, float>>(
             MetadataFileStrategies.WeaponCurve,
             w => w.Level,
-            w => w.Map,
+            w => w.Curves,
             token);
     }
 

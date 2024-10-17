@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Primitive;
@@ -15,7 +16,7 @@ internal sealed class WikiMonsterMetadataContext : IMetadataContext,
     IMetadataArrayMonsterSource,
     IMetadataDictionaryIdDisplayItemAndMaterialSource
 {
-    public ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> LevelDictionaryMonsterGrowCurveMap { get; set; } = default!;
+    public ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> LevelDictionaryMonsterGrowCurveMap { get; set; } = default!;
 
     public ImmutableArray<Monster> Monsters { get; set; } = default!;
 

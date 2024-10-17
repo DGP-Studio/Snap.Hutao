@@ -41,7 +41,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     [Command("SetDataFolderCommand")]
     private void SetDataFolder()
     {
-        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string folder))
+        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string? folder))
         {
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);

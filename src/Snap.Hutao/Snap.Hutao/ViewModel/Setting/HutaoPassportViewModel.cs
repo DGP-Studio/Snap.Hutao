@@ -67,7 +67,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
             {
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await hutaoUserOptions.PostLoginSucceedAsync(hutaoPassportClient, taskContext, username, password, token).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
             }
         }
     }
@@ -131,7 +131,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
             {
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await hutaoUserOptions.PostLoginSucceedAsync(hutaoPassportClient, taskContext, username, password, token).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
             }
         }
     }
@@ -168,7 +168,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
             {
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await hutaoUserOptions.PostLoginSucceedAsync(hutaoPassportClient, taskContext, username, password, token).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
             }
         }
     }

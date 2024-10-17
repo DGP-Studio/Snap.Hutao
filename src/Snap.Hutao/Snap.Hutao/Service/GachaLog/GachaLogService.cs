@@ -147,7 +147,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                         .GetGachaLogPageAsync(fetchContext.TypedQueryOptions, token)
                         .ConfigureAwait(false);
 
-                    if (!response.TryGetData(out GachaLogPage? page))
+                    if (!ResponseValidator.TryValidateWithoutUINotification(response, out GachaLogPage? page))
                     {
                         fetchContext.Report(progress, isAuthKeyTimeout: true);
                         break;

@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Core;
 
+[Obsolete("This class only exist for binding purpose")]
 [Injection(InjectAs.Singleton)]
 internal sealed class RuntimeOptions
 {

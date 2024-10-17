@@ -332,7 +332,7 @@
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
                                         IsClickEnabled="True"
                                         IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolNegationConverter}}"/>
-                                    <Border Style="{StaticResource BorderCardStyle}">
+                                    <Border Style="{StaticResource BorderCardStyle}" Visibility="{Binding GameAccountsView.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                         <ListView
                                             Padding="{StaticResource ListViewInSplitPanePadding}"
                                             AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"

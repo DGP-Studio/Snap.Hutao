@@ -172,7 +172,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             }
         }
 
-        CalculateBatchConsumption batchConsumption = response.Data;
         LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);
         try
         {

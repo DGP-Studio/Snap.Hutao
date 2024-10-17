@@ -18,11 +18,18 @@ internal sealed partial class TypeValueCollection<TType, TValue> : ICollection<T
 
     public int Count { get => inner.Count; }
 
+    public IEnumerable<TType> Keys { get => inner.Keys; }
+
+    public IEnumerable<TValue> Values { get => inner.Values; }
+
+    public TValue this[TType key] { get => inner[key]; }
+
     IEnumerator<TypeValue<TType, TValue>> IEnumerable<TypeValue<TType, TValue>>.GetEnumerator()
     {
         return new TypeValueEnumerator(inner.GetEnumerator());
     }
 
+    [Obsolete("avoid perform this operation on this collection", true)]
     public void Add(TypeValue<TType, TValue> item)
     {
         inner.Add(item.Type, item.Value);
@@ -38,11 +45,13 @@ internal sealed partial class TypeValueCollection<TType, TValue> : ICollection<T
         HutaoException.NotSupported();
     }
 
+    [Obsolete("avoid perform this operation on this collection", true)]
     public bool Remove(TypeValue<TType, TValue> item)
     {
         return Contains(item) && inner.Remove(item.Type);
     }
 
+    [Obsolete("avoid perform this operation on this collection", true)]
     public void Clear()
     {
         inner.Clear();
@@ -56,6 +65,16 @@ internal sealed partial class TypeValueCollection<TType, TValue> : ICollection<T
     public TValue? GetValueOrDefault(TType type)
     {
         return inner.GetValueOrDefault(type);
+    }
+
+    public bool ContainsKey(TType key)
+    {
+        return inner.ContainsKey(key);
+    }
+
+    public bool TryGetValue(TType key, [MaybeNullWhen(false)] out TValue value)
+    {
+        return inner.TryGetValue(key, out value);
     }
 
     private struct TypeValueEnumerator : IEnumerator<TypeValue<TType, TValue>>

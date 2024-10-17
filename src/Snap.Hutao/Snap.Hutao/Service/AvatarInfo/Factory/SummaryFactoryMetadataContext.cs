@@ -39,7 +39,7 @@ internal sealed class SummaryFactoryMetadataContext : IMetadataContext,
 
     public ImmutableDictionary<ReliquaryId, MetadataReliquary> IdReliquaryMap { get; set; } = default!;
 
-    public ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> LevelDictionaryWeaponGrowCurveMap { get; set; } = default!;
+    public ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> LevelDictionaryWeaponGrowCurveMap { get; set; } = default!;
 
     public ImmutableDictionary<PromoteId, ImmutableDictionary<PromoteLevel, Promote>> IdDictionaryWeaponLevelPromoteMap { get; set; } = default!;
 }

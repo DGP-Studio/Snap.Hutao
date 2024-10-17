@@ -14,14 +14,14 @@ namespace Snap.Hutao.ViewModel.Wiki;
 internal sealed partial class BaseValueInfo : ObservableObject
 {
     private readonly List<PropertyCurveValue> propValues;
-    private readonly ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> growCurveMap;
+    private readonly ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap;
     private readonly ImmutableDictionary<PromoteLevel, Promote>? promoteMap;
 
     private uint currentLevel;
     private List<NameValue<string>> values = default!;
     private bool promoted = true;
 
-    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
+    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
     {
         this.propValues = propValues;
         this.growCurveMap = growCurveMap;

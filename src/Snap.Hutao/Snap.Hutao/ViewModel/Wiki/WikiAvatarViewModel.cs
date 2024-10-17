@@ -5,7 +5,9 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
@@ -173,13 +175,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
             Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(response,scope.ServiceProvider, out batchConsumption))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
             {
                 return;
             }
         }
 
-        CalculateBatchConsumption batchConsumption = response.Data;
         LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);
         try
         {
@@ -217,7 +218,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         BaseValueInfo = new(
             avatar.MaxLevel,
-            avatar.GrowCurves.Select(info => new PropertyCurveValue(info.Type, info.Value, avatar.BaseValue.GetValue(info.Type))).ToList(),
+            avatar.GrowCurves.Select<TypeValue<FightProperty, GrowCurveType>, PropertyCurveValue>(info => new PropertyCurveValue(info.Type, info.Value, avatar.BaseValue.GetValue(info.Type))).ToList(),
             metadataContext.LevelDictionaryAvatarGrowCurveMap,
             metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId]);
     }
