@@ -151,11 +151,12 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
             .Create(userAndUid.User.IsOversea);
 
+        // Reduce risk verify chance.
         Response<PlayerInfo> playerInfoResponse = await gameRecordClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (!playerInfoResponse.IsOk())
+        if (!ResponseValidator.TryValidate(playerInfoResponse, serviceProvider))
         {
             return default;
         }
@@ -164,16 +165,16 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetCharacterListAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (!listResponse.IsOk())
+        if (!ResponseValidator.TryValidate(listResponse, serviceProvider, out ListWrapper<Character>? charactersWrapper))
         {
             return default;
         }
 
         Response<ListWrapper<DetailedCharacter>> detailResponse = await gameRecordClient
-            .GetCharacterDetailAsync(userAndUid, listResponse.Data.List.SelectList(c => c.Id), token)
+            .GetCharacterDetailAsync(userAndUid, charactersWrapper.List.SelectList(c => c.Id), token)
             .ConfigureAwait(false);
 
-        if (!detailResponse.IsOk())
+        if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, out ListWrapper<DetailedCharacter>? detailsWrapper))
         {
             return default;
         }
@@ -182,10 +183,10 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetSpiralAbyssAsync(userAndUid, ScheduleType.Current, token)
             .ConfigureAwait(false);
 
-        if (spiralAbyssResponse.IsOk())
+        if (ResponseValidator.TryValidate(spiralAbyssResponse, serviceProvider, out Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss))
         {
             HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-            return new(userAndUid.Uid.Value, detailResponse.Data.List, spiralAbyssResponse.Data, options.GetActualUserName());
+            return new(userAndUid.Uid.Value, detailsWrapper.List, spiralAbyss, options.GetActualUserName());
         }
 
         return default;

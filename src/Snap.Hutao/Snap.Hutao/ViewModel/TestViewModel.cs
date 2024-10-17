@@ -20,6 +20,7 @@ using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
+using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Net.Http;
@@ -206,8 +207,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Web.Response.Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
-            if (response.IsOk())
+            Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
                 await taskContext.SwitchToMainThreadAsync();
@@ -222,8 +223,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Web.Response.Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
-            if (response.IsOk())
+            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
                 await taskContext.SwitchToMainThreadAsync();

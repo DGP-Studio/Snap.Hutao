@@ -136,19 +136,19 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return false;
         }
 
-        Response<GameBranchesWrapper> branchResp;
+        GameBranchesWrapper? branchesWrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-            branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+            Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
 
-            if (!branchResp.IsOk())
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out branchesWrapper))
             {
                 return false;
             }
         }
 
-        if (branchResp.Data.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is { } branch)
+        if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is { } branch)
         {
             await taskContext.SwitchToMainThreadAsync();
             GameBranch = branch;
@@ -199,19 +199,19 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         LaunchScheme targetLaunchScheme = LaunchScheme;
 
-        Response<GameChannelSDKsWrapper> sdkResp;
+        GameChannelSDKsWrapper? channelSDKsWrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-            sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
+            Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
 
-            if (!sdkResp.IsOk())
+            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
             {
                 return;
             }
         }
 
-        GameChannelSDK? gameChannelSDK = sdkResp.Data.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
+        GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
 
         string? extractDirectory = default;
         if (operationKind is GamePackageOperationKind.Extract)

@@ -62,16 +62,16 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         GachaArchive? archive = gachaLogRepository.GetGachaArchiveByUid(uid);
         EndIds endIds = CreateEndIds(archive);
 
-        Response<List<Web.Hutao.GachaLog.GachaItem>> resp;
+        List<Web.Hutao.GachaLog.GachaItem>? list;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
-        }
+            Response<List<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
 
-        if (!resp.IsOk())
-        {
-            return new(false, default);
+            if (!ResponseValidator.TryValidate(resp, serviceProvider, out list))
+            {
+                return new(false, default);
+            }
         }
 
         if (archive is null)
@@ -81,7 +81,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         }
 
         Guid archiveId = archive.InnerId;
-        List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.From(archiveId, i));
+        List<Model.Entity.GachaItem> gachaItems = list.SelectList(i => Model.Entity.GachaItem.From(archiveId, i));
         gachaLogRepository.AddGachaItemRange(gachaItems);
         return new(true, archive.InnerId);
     }
@@ -99,33 +99,34 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default)
     {
-        Response<GachaEventStatistics> response;
+        GachaEventStatistics? raw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
+            Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(response, serviceProvider, out raw))
+            {
+                return new(false, default!);
+            }
         }
 
-        if (response.IsOk())
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            if (await metadataService.InitializeAsync().ConfigureAwait(false))
-            {
-                HutaoStatisticsFactoryMetadataContext context = await metadataService
-                    .GetContextAsync<HutaoStatisticsFactoryMetadataContext>(token)
-                    .ConfigureAwait(false);
+            HutaoStatisticsFactoryMetadataContext context = await metadataService
+                .GetContextAsync<HutaoStatisticsFactoryMetadataContext>(token)
+                .ConfigureAwait(false);
 
-                GachaEventStatistics raw = response.Data;
-                try
-                {
-                    HutaoStatisticsFactory factory = new(context);
-                    HutaoStatistics statistics = factory.Create(raw);
-                    return new(true, statistics);
-                }
-                catch
-                {
-                    // 元数据未能即时更新导致异常？
-                    return new(false, default!);
-                }
+            try
+            {
+                HutaoStatisticsFactory factory = new(context);
+                HutaoStatistics statistics = factory.Create(raw);
+                return new(true, statistics);
+            }
+            catch
+            {
+                // 元数据未能即时更新导致异常？
+                return new(false, default!);
             }
         }
 
@@ -138,7 +139,8 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         {
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
             Response<EndIds> resp = await homaGachaLogClient.GetEndIdsAsync(uid, token).ConfigureAwait(false);
-            return resp.IsOk() ? resp.Data : default;
+            ResponseValidator.TryValidate(resp, serviceProvider, out EndIds? raw);
+            return raw;
         }
     }
 

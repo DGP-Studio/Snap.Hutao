@@ -85,12 +85,12 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
                 .ConfigureAwait(false);
         }
 
-        if (!cookieTokenResponse.IsOk())
+        if (!ResponseValidator.TryValidate(cookieTokenResponse, serviceProvider, out UidCookieToken? uidCookieToken))
         {
             return false;
         }
 
-        string cookieToken = cookieTokenResponse.Data.CookieToken;
+        string cookieToken = uidCookieToken.CookieToken;
 
         // Check null and create a new one to avoid System.NullReferenceException
         user.CookieToken ??= new();

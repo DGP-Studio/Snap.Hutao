@@ -249,24 +249,24 @@ internal class MiHoYoJSBridgeFacade
 
     protected virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
     {
-        Response<UserFullInfoWrapper> response;
+        UserFullInfoWrapper? wrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IUserClient userClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
                 .Create(userAndUid.User.IsOversea);
 
-            response = await userClient
+            Response<UserFullInfoWrapper> response = await userClient
                 .GetUserFullInfoAsync(userAndUid.User)
                 .ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out wrapper))
+            {
+                return new();
+            }
         }
 
-        if (!response.IsOk())
-        {
-            return new();
-        }
-
-        UserInfo info = response.Data.UserInfo;
+        UserInfo info = wrapper.UserInfo;
         return new()
         {
             Data = new()

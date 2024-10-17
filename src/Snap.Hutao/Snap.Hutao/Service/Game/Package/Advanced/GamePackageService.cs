@@ -455,32 +455,31 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         CancellationToken token = context.CancellationToken;
 
-        Response<SophonBuild> response;
+        SophonBuild? build;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             ISophonClient client = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
                 .Create(LaunchScheme.ExecutableIsOversea(context.Operation.GameFileSystem.GameFileName));
 
-            response = await client.GetBuildAsync(branch, token).ConfigureAwait(false);
-        }
-
-        if (!response.IsOk())
-        {
-            return default!;
+            Response<SophonBuild> response = await client.GetBuildAsync(branch, token).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(response, serviceProvider, out build))
+            {
+                return default!;
+            }
         }
 
         long totalBytes = 0L;
         List<SophonDecodedManifest> decodedManifests = [];
-        foreach (SophonManifest sophonManifest in response.Data.Manifests)
+        foreach (SophonManifest sophonManifest in build.Manifests)
         {
             bool exclude = sophonManifest.MatchingField switch
             {
                 "game" => false,
-                "zh-cn" => !context.Operation.GameFileSystem.GameAudioSystem.Chinese,
-                "en-us" => !context.Operation.GameFileSystem.GameAudioSystem.English,
-                "ja-jp" => !context.Operation.GameFileSystem.GameAudioSystem.Japanese,
-                "ko-kr" => !context.Operation.GameFileSystem.GameAudioSystem.Korean,
+                "zh-cn" => !context.Operation.GameFileSystem.Audio.Chinese,
+                "en-us" => !context.Operation.GameFileSystem.Audio.English,
+                "ja-jp" => !context.Operation.GameFileSystem.Audio.Japanese,
+                "ko-kr" => !context.Operation.GameFileSystem.Audio.Korean,
                 _ => true,
             };
 

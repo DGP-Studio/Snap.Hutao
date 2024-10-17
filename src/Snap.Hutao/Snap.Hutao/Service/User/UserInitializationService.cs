@@ -73,12 +73,12 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetLTokenBySTokenAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (lTokenResponse.IsOk())
+        if (ResponseValidator.TryValidate(lTokenResponse, serviceProvider, out LTokenWrapper? wrapper))
         {
             user.LToken = new()
             {
                 [Cookie.LTUID] = user.Entity.Aid ?? string.Empty,
-                [Cookie.LTOKEN] = lTokenResponse.Data.LToken,
+                [Cookie.LTOKEN] = wrapper.LToken,
             };
             return true;
         }
@@ -104,12 +104,12 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetCookieAccountInfoBySTokenAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (cookieTokenResponse.IsOk())
+        if (ResponseValidator.TryValidate(cookieTokenResponse, serviceProvider, out UidCookieToken? uidCookieToken))
         {
             user.CookieToken = new()
             {
                 [Cookie.ACCOUNT_ID] = user.Entity.Aid ?? string.Empty,
-                [Cookie.COOKIE_TOKEN] = cookieTokenResponse.Data.CookieToken,
+                [Cookie.COOKIE_TOKEN] = uidCookieToken.CookieToken,
             };
 
             user.Entity.CookieTokenLastUpdateTime = DateTimeOffset.UtcNow;
@@ -130,9 +130,9 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetUserFullInfoAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (response.IsOk())
+        if (ResponseValidator.TryValidate(response, serviceProvider, out UserFullInfoWrapper? wrapper))
         {
-            user.UserInfo = response.Data.UserInfo;
+            user.UserInfo = wrapper.UserInfo;
             return true;
         }
 
@@ -147,9 +147,9 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetUserGameRolesOverseaAwareAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (userGameRolesResponse.IsOk())
+        if (ResponseValidator.TryValidate(userGameRolesResponse, serviceProvider, out ListWrapper<UserGameRole>? wrapper))
         {
-            user.UserGameRoles = userGameRolesResponse.Data.List.ToAdvancedCollectionView();
+            user.UserGameRoles = wrapper.List.ToAdvancedCollectionView();
             return user.UserGameRoles.Count > 0;
         }
 

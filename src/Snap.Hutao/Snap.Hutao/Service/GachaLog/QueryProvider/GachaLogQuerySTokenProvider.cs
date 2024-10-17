@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request;
@@ -17,6 +18,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.SToken)]
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
+    private readonly IInfoBarService infoBarService;
     private readonly BindingClient2 bindingClient2;
     private readonly CultureOptions cultureOptions;
     private readonly IUserService userService;
@@ -37,12 +39,12 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
         GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
         Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
 
-        if (!authkeyResponse.IsOk())
+        if (!ResponseValidator.TryValidate(authkeyResponse, infoBarService, out GameAuthKey? authKey))
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed));
         }
 
-        return new(true, new(ComposeQueryString(data, authkeyResponse.Data, cultureOptions.LanguageCode)));
+        return new(true, new(ComposeQueryString(data, authKey, cultureOptions.LanguageCode)));
     }
 
     private static string ComposeQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)

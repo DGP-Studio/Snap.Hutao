@@ -49,14 +49,15 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
-        Response<IPInformation> resp;
+        IPInformation? info;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+            Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+            ResponseValidator.TryValidate(resp, infoBarService, out info);
         }
 
-        IPInformation info = resp.IsOk() ? resp.Data : IPInformation.Default;
+        info ??= IPInformation.Default;
         await taskContext.SwitchToMainThreadAsync();
         IPInformation = info;
 

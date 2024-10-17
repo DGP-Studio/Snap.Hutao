@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Response;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -35,14 +36,14 @@ internal sealed partial class UpdateService : IUpdateService
 
             CheckUpdateResult checkUpdateResult = new();
 
-            if (!response.IsOk())
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out HutaoPackageInformation? packageInformation))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.VersionApiInvalidResponse;
                 return checkUpdateResult;
             }
 
             checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
-            checkUpdateResult.PackageInformation = response.Data;
+            checkUpdateResult.PackageInformation = packageInformation;
 
             string msixPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
 

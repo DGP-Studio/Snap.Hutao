@@ -31,13 +31,11 @@ internal sealed class GameAudioSystem
         this.korean = korean;
     }
 
-    public string GameDirectory { get => gameDirectory; }
+    public bool Chinese { get => chinese ??= File.Exists(Path.Combine(gameDirectory, GameConstants.AudioChinesePkgVersion)); }
 
-    public bool Chinese { get => chinese ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioChinesePkgVersion)); }
+    public bool English { get => english ??= File.Exists(Path.Combine(gameDirectory, GameConstants.AudioEnglishPkgVersion)); }
 
-    public bool English { get => english ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioEnglishPkgVersion)); }
+    public bool Japanese { get => japanese ??= File.Exists(Path.Combine(gameDirectory, GameConstants.AudioJapanesePkgVersion)); }
 
-    public bool Japanese { get => japanese ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioJapanesePkgVersion)); }
-
-    public bool Korean { get => korean ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioKoreanPkgVersion)); }
+    public bool Korean { get => korean ??= File.Exists(Path.Combine(gameDirectory, GameConstants.AudioKoreanPkgVersion)); }
 }

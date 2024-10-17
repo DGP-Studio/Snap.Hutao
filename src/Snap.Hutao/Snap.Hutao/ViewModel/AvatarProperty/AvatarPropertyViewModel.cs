@@ -144,19 +144,20 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        Response<CalculatorBatchConsumption> response;
+        CalculatorBatchConsumption? batchConsumption;
         using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
         {
             CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-            response = await calculatorClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+            Response<CalculatorBatchConsumption> response = await calculatorClient
+                .BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+            {
+                return;
+            }
         }
 
-        if (!response.IsOk())
-        {
-            return;
-        }
-
-        if (!await SaveCultivationAsync(response.Data.Items.Single(), deltaOptions).ConfigureAwait(false))
+        if (!await SaveCultivationAsync(batchConsumption.Items.Single(), deltaOptions).ConfigureAwait(false))
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
             return;
@@ -210,19 +211,19 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 deltas.Add(copy);
             }
 
-            Response<CalculatorBatchConsumption> response;
+            CalculatorBatchConsumption? batchConsumption;
             using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
             {
                 CalculateClient calculatorClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-                response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
+                Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scopeContext.InfoBarService, out batchConsumption))
+                {
+                    return;
+                }
             }
 
-            if (!response.IsOk())
-            {
-                return;
-            }
-
-            foreach ((CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta) in response.Data.Items.Zip(deltas))
+            foreach ((CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta) in batchConsumption.Items.Zip(deltas))
             {
                 if (!await SaveCultivationAsync(consumption, new(delta, deltaOptions.Strategy)).ConfigureAwait(false))
                 {

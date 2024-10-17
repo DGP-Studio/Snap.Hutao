@@ -46,22 +46,22 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 .GetCharacterListAsync(userAndUid, token)
                 .ConfigureAwait(false);
 
-            if (!listResponse.IsOk())
+            if (!ResponseValidator.TryValidate(listResponse, serviceProvider, out ListWrapper<Character>? charactersWrapper))
             {
                 return avatarInfoRepository.GetAvatarInfoListByUid(uid);
             }
 
-            List<AvatarId> characterIds = listResponse.Data.List.SelectList(info => info.Id);
+            List<AvatarId> characterIds = charactersWrapper.List.SelectList(info => info.Id);
             Response<ListWrapper<DetailedCharacter>> detailResponse = await gameRecordClient
                 .GetCharacterDetailAsync(userAndUid, characterIds, token)
                 .ConfigureAwait(false);
 
-            if (!detailResponse.IsOk())
+            if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, out ListWrapper<DetailedCharacter>? detailsWrapper))
             {
                 return avatarInfoRepository.GetAvatarInfoListByUid(uid);
             }
 
-            foreach (DetailedCharacter character in detailResponse.Data.List)
+            foreach (DetailedCharacter character in detailsWrapper.List)
             {
                 if (AvatarIds.IsPlayer(character.Base.Id))
                 {

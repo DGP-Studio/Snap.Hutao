@@ -55,5 +55,5 @@ internal sealed class GameFileSystem
 
     public string PredownloadStatusPath { get => Path.Combine(ChunksDirectory, "snap_hutao_predownload_status.json"); }
 
-    public GameAudioSystem GameAudioSystem { get => gameAudioSystem ??= new(GameFilePath); }
+    public GameAudioSystem Audio { get => gameAudioSystem ??= new(GameFilePath); }
 }

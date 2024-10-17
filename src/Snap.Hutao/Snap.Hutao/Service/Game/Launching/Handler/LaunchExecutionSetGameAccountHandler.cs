@@ -62,21 +62,20 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
             return false;
         }
 
-        Response<AuthTicketWrapper> resp;
         using (IServiceScope scope = context.ServiceProvider.CreateScope())
         {
             IHoyoPlayPassportClient client = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>()
                 .CreateFor(userAndUid);
-            resp = await client
+            Response<AuthTicketWrapper> resp = await client
                 .CreateAuthTicketAsync(userAndUid.User, context.CancellationToken)
                 .ConfigureAwait(false);
-        }
 
-        if (resp.IsOk())
-        {
-            context.AuthTicket = resp.Data.Ticket;
-            return true;
+            if (ResponseValidator.TryValidate(resp, scope.ServiceProvider, out AuthTicketWrapper? wrapper))
+            {
+                context.AuthTicket = wrapper.Ticket;
+                return true;
+            }
         }
 
         context.Result.Kind = LaunchExecutionResultKind.GameAccountCreateAuthTicketFailed;

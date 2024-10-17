@@ -46,20 +46,19 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
 
     public string? Aigis { get; set; }
 
-    public async ValueTask<ValueResult<bool, LoginResult>> LoginAsync(bool isOversea)
+    public async ValueTask<ValueResult<bool, LoginResult?>> LoginAsync(bool isOversea)
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         if (result is ContentDialogResult.Primary)
         {
-            LoginResult loginResult = await LoginCoreAsync(isOversea).ConfigureAwait(false);
-            return new(true, loginResult);
+            return await LoginCoreAsync(isOversea).ConfigureAwait(false);
         }
 
         return new(false, default!);
     }
 
-    private async ValueTask<LoginResult> LoginCoreAsync(bool isOversea)
+    private async ValueTask<ValueResult<bool, LoginResult?>> LoginCoreAsync(bool isOversea)
     {
         ArgumentNullException.ThrowIfNull(Account);
         ArgumentNullException.ThrowIfNull(Password);
@@ -82,7 +81,8 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
             }
         }
 
-        return response.IsOk() ? response.Data : default!;
+        bool ok = ResponseValidator.TryValidate(response, serviceProvider, out LoginResult? result);
+        return new(ok, result);
     }
 
     private void OnTextKeyDown(object sender, KeyRoutedEventArgs e)

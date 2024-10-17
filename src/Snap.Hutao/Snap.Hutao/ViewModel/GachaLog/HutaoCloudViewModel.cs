@@ -133,9 +133,9 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
         {
             Response<List<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 
-            if (resp.IsOk())
+            if (ResponseValidator.TryValidate(resp, infoBarService, out List<GachaEntry>? entries))
             {
-                ObservableCollection<HutaoCloudEntryOperationViewModel> collcetion = resp.Data
+                ObservableCollection<HutaoCloudEntryOperationViewModel> collcetion = entries
                     .SelectList(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
                     .ToObservableCollection();
 

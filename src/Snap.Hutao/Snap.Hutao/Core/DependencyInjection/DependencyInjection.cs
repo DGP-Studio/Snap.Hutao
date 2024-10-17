@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Quartz;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
+using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using Windows.Globalization;
@@ -34,6 +35,7 @@ internal static class DependencyInjection
             .AddJsonOptions()
             .AddDatabase()
             .AddInjections()
+            .AddResponseValidation()
             .AddConfiguredHttpClients()
 
             // Discrete services

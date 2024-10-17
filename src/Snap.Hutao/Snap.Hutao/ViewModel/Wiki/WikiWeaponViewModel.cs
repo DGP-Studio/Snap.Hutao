@@ -160,16 +160,16 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        Response<CalculateBatchConsumption> response;
+        CalculateBatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-            response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
-        }
+            Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
 
-        if (!response.IsOk())
-        {
-            return;
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
+            {
+                return;
+            }
         }
 
         CalculateBatchConsumption batchConsumption = response.Data;

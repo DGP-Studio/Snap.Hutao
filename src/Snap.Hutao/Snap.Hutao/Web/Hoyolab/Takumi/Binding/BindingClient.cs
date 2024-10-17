@@ -34,9 +34,9 @@ internal sealed partial class BindingClient
             .GetActionTicketBySTokenAsync("game_role", user, token)
             .ConfigureAwait(false);
 
-        if (actionTicketResponse.IsOk())
+        if (ResponseValidator.TryValidate(actionTicketResponse, serviceProvider, out ActionTicketWrapper? wrapper))
         {
-            string actionTicket = actionTicketResponse.Data.Ticket;
+            string actionTicket = wrapper.Ticket;
             return await GetUserGameRolesByActionTicketAsync(actionTicket, user, token).ConfigureAwait(false);
         }
 

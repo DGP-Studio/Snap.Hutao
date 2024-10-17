@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -21,10 +23,12 @@ internal static class HutaoUserOptionsExtension
         return options.Token;
     }
 
-    public static async ValueTask<bool> PostLoginSucceedAsync(this HutaoUserOptions options, HutaoPassportClient passportClient, ITaskContext taskContext, string username, string password, string? token)
+    public static async ValueTask<bool> PostLoginSucceedAsync(this HutaoUserOptions options, IServiceProvider serviceProvider, string username, string password, string? token)
     {
         LocalSetting.Set(SettingKeys.PassportUserName, username);
         LocalSetting.Set(SettingKeys.PassportPassword, password);
+
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
         await taskContext.SwitchToMainThreadAsync();
         options.UserName = username;
@@ -33,11 +37,12 @@ internal static class HutaoUserOptionsExtension
         options.Initialization.TrySetResult();
 
         await taskContext.SwitchToBackgroundAsync();
-        Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync().ConfigureAwait(false);
-        if (userInfoResponse.IsOk())
+        HutaoPassportClient passportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();
+        Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync().ConfigureAwait(false);
+        if (ResponseValidator.TryValidate(userInfoResponse, serviceProvider, out UserInfo? userInfo))
         {
             await taskContext.SwitchToMainThreadAsync();
-            UpdateUserInfo(options, userInfoResponse.Data);
+            UpdateUserInfo(options, userInfo);
             return true;
         }
 

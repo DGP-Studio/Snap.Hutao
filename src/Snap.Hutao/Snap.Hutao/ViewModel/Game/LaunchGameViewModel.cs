@@ -18,6 +18,7 @@ using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
+using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.IO;
 
@@ -325,17 +326,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            Web.Response.Response<GamePackagesWrapper> response;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-                response = await hoyoPlayClient.GetPackagesAsync(scheme).ConfigureAwait(false);
-            }
+                Response<GamePackagesWrapper> response = await hoyoPlayClient.GetPackagesAsync(scheme).ConfigureAwait(false);
 
-            if (response.IsOk())
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                GamePackage = response.Data.GamePackages.Single();
+                if (ResponseValidator.TryValidate(response, serviceProvider, out GamePackagesWrapper? wrapper))
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    GamePackage = wrapper.GamePackages.Single();
+                }
             }
         }
 

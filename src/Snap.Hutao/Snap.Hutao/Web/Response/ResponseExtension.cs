@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Notification;
+using System.Transactions;
 
 namespace Snap.Hutao.Web.Response;
 
 internal static class ResponseExtension
 {
+    [Obsolete]
     public static bool TryGetData<TData>(this Response<TData> response, [NotNullWhen(true)] out TData? data, IInfoBarService? infoBarService = null, IServiceProvider? serviceProvider = null)
     {
         if (response.ReturnCode == 0)
@@ -23,6 +25,7 @@ internal static class ResponseExtension
         return false;
     }
 
+    [Obsolete]
     public static bool TryGetDataWithoutUINotification<TData>(this Response<TData> response, [NotNullWhen(true)] out TData? data)
     {
         if (response.ReturnCode == 0)

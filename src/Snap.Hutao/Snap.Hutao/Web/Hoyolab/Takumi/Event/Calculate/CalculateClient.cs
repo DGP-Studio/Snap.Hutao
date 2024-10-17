@@ -17,6 +17,7 @@ internal sealed partial class CalculateClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
+    private readonly IServiceProvider serviceProvider;
     private readonly ILogger<CalculateClient> logger;
 
     private readonly HttpClient httpClient;
@@ -74,9 +75,11 @@ internal sealed partial class CalculateClient
                 .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, logger, token)
                 .ConfigureAwait(false);
 
-            if (resp is not null && resp.IsOk())
+            Response.Response.DefaultIfNull(ref resp);
+
+            if (ResponseValidator.TryValidate(resp, serviceProvider, out ListWrapper<Avatar>? listWrapper))
             {
-                avatars.AddRange(resp.Data.List);
+                avatars.AddRange(listWrapper.List);
             }
             else
             {

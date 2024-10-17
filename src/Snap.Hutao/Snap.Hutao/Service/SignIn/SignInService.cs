@@ -24,38 +24,38 @@ internal sealed partial class SignInService : ISignInService
 
             Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User, token).ConfigureAwait(false);
 
-            if (!rewardResponse.IsOk())
+            if (!ResponseValidator.TryValidate(rewardResponse, serviceProvider, out Reward? reward))
             {
                 return new(false, SH.ServiceSignInRewardListRequestFailed);
             }
 
             Response<SignInResult> resultResponse = await signInClient.SignAsync(userAndUid, token).ConfigureAwait(false);
 
-            if (!resultResponse.IsOk(showInfoBar: false))
+            if (!ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? result))
             {
                 string message = resultResponse.Message;
 
-                if (resultResponse.ReturnCode == (int)KnownReturnCode.AlreadySignedIn)
+                if (resultResponse.ReturnCode is (int)KnownReturnCode.AlreadySignedIn)
                 {
                     return new(true, message);
                 }
 
                 if (string.IsNullOrEmpty(message))
                 {
-                    message = $"RiskCode: {resultResponse.Data?.RiskCode}";
+                    message = $"RiskCode: {result?.RiskCode}";
                 }
 
                 return new(false, SH.FormatServiceSignInClaimRewardFailedFormat(message));
             }
 
             Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid, token).ConfigureAwait(false);
-            if (!infoResponse.IsOk())
+            if (!ResponseValidator.TryValidate(infoResponse, serviceProvider, out SignInRewardInfo? info))
             {
                 return new(false, SH.ServiceSignInInfoRequestFailed);
             }
 
-            int index = infoResponse.Data.TotalSignDay - 1;
-            Award award = rewardResponse.Data.Awards[index];
+            int index = info.TotalSignDay - 1;
+            Award award = reward.Awards[index];
             return new(true, SH.FormatServiceSignInSuccessRewardFormat(award.Name, award.Count));
         }
     }

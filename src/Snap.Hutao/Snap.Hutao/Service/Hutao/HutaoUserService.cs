@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -43,12 +44,11 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
+                Response<string> response = await hutaoPassportClient.LoginAsync(userName, password, token).ConfigureAwait(false);
 
-                Web.Response.Response<string> response = await hutaoPassportClient.LoginAsync(userName, password, token).ConfigureAwait(false);
-
-                if (response.IsOk())
+                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
                 {
-                    if (await options.PostLoginSucceedAsync(hutaoPassportClient, taskContext, userName, password, response.Data).ConfigureAwait(false))
+                    if (await options.PostLoginSucceedAsync(scope.ServiceProvider, userName, password, authToken).ConfigureAwait(false))
                     {
                         isInitialized = true;
                     }

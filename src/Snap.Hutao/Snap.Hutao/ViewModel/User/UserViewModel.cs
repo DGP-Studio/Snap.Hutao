@@ -18,7 +18,6 @@ using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.View.Dialog;
-using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -112,9 +111,9 @@ internal sealed partial class UserViewModel : ObservableObject
         UserAccountPasswordDialog dialog = await contentDialogFactory
             .CreateInstanceAsync<UserAccountPasswordDialog>()
             .ConfigureAwait(false);
-        ValueResult<bool, LoginResult> result = await dialog.LoginAsync(true).ConfigureAwait(false);
+        ValueResult<bool, LoginResult?> result = await dialog.LoginAsync(true).ConfigureAwait(false);
 
-        if (result.TryGetValue(out LoginResult loginResult))
+        if (result.TryGetValue(out LoginResult? loginResult))
         {
             Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
@@ -150,9 +149,9 @@ internal sealed partial class UserViewModel : ObservableObject
             response = await hoyoPlayPassportClient.LoginByThirdPartyAsync(token).ConfigureAwait(false);
         }
 
-        if (response.IsOk())
+        if (ResponseValidator.TryValidate(response, infoBarService, out LoginResult? loginResult))
         {
-            Cookie stokenV2 = Cookie.FromLoginResult(response.Data);
+            Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
@@ -168,24 +167,12 @@ internal sealed partial class UserViewModel : ObservableObject
         ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
 
         // User confirms the input
-        if (result.TryGetValue(out string rawCookie))
+        if (result.TryGetValue(out string? rawCookie))
         {
             Cookie cookie = Cookie.Parse(rawCookie);
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
-    }
-
-    [Command("LoginMihoyoUserCommand")]
-    private void LoginMihoyoUser()
-    {
-        NavigateToLoginPage<LoginMihoyoUserPage>();
-    }
-
-    [Command("LoginHoyoverseUserCommand")]
-    private void LoginHoyoverseUser()
-    {
-        NavigateToLoginPage<LoginHoyoverseUserPage>();
     }
 
     private void NavigateToLoginPage<TPage>()
@@ -212,17 +199,20 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
-        Response<LoginResult> sTokenResponse = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-            .Create(false)
-            .LoginByGameTokenAsync(token)
-            .ConfigureAwait(false);
-
-        if (sTokenResponse.IsOk())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
-            HandleUserOptionResult(optionResult, uid);
+            Response<LoginResult> response = await scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+                .Create(false)
+                .LoginByGameTokenAsync(token)
+                .ConfigureAwait(false);
+
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
+            {
+                Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
+                (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+                HandleUserOptionResult(optionResult, uid);
+            }
         }
     }
 
@@ -235,18 +225,18 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
-        Response<LoginResult> sTokenResponse;
+        Response<LoginResult> response;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
-            sTokenResponse = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
-        }
+            response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
 
-        if (sTokenResponse.IsOk())
-        {
-            Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
-            HandleUserOptionResult(optionResult, uid);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
+            {
+                Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
+                (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+                HandleUserOptionResult(optionResult, uid);
+            }
         }
     }
 

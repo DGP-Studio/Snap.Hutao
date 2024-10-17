@@ -15,6 +15,7 @@ public sealed class DependencyInjectionTest
         .AddKeyedTransient<IKeyedService, KeyedServiceA>("A")
         .AddKeyedTransient<IKeyedService, KeyedServiceB>("B")
         .AddTransient(typeof(IGenericService<>), typeof(GenericService<>))
+        .AddTransient(typeof(IGenericService<int>), typeof(CloseGenericService))
         .AddLogging(builder => builder.AddConsole())
         .BuildServiceProvider();
 
@@ -28,11 +29,14 @@ public sealed class DependencyInjectionTest
     [TestMethod]
     public void GenericServicesCanBeResolved()
     {
-        IServiceProvider services = new ServiceCollection()
-            .AddTransient(typeof(IGenericService<>), typeof(GenericService<>))
-            .BuildServiceProvider();
+        Assert.IsNotNull(services.GetService<IGenericService<double>>());
+    }
 
-        Assert.IsNotNull(services.GetService<IGenericService<int>>());
+    [TestMethod]
+    public void CloseGenericSeriveCanBeResolved()
+    {
+        IGenericService<int> service = services.GetRequiredService<IGenericService<int>>();
+        Assert.IsTrue(service is CloseGenericService);
     }
 
     [TestMethod]
@@ -54,7 +58,7 @@ public sealed class DependencyInjectionTest
     }
 
     [TestMethod]
-    public void KeyedServicesCanBeResolvedAsEnumerable()
+    public void KeyedServicesCanNotBeResolvedAsEnumerable()
     {
         Assert.IsNotNull(services.GetRequiredKeyedService<IKeyedService>("A"));
         Assert.IsNotNull(services.GetRequiredKeyedService<IKeyedService>("B"));
@@ -96,6 +100,10 @@ public sealed class DependencyInjectionTest
     {
     }
 
+    private sealed class CloseGenericService : IGenericService<int>
+    {
+    }
+
     private sealed class NonInjectedServiceA
     {
     }
@@ -110,11 +118,7 @@ public sealed class DependencyInjectionTest
 
     private interface IKeyedService;
 
-    private sealed class KeyedServiceA : IKeyedService
-    {
-    }
+    private sealed class KeyedServiceA : IKeyedService;
 
-    private sealed class KeyedServiceB : IKeyedService
-    {
-    }
+    private sealed class KeyedServiceB : IKeyedService;
 }

@@ -85,9 +85,9 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
             }
         }
 
-        if (response.IsOk())
+        if (ResponseValidator.TryValidate(response, serviceProvider, out MobileCaptcha? mobileCaptcha))
         {
-            ActionType = response.Data.ActionType;
+            ActionType = mobileCaptcha.ActionType;
         }
 
         // Prevent re-enable too soon, and user might not receive the short message
