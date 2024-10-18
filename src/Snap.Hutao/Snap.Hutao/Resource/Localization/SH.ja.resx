@@ -1686,6 +1686,9 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>キャラクターラインナップが未配置か非表示です。ゲーム内のプロフィール編集で設定してください</value>
   </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>共 {0} 位角色</value>
+  </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>キャラ詳細をコピーに失敗しました</value>
   </data>
