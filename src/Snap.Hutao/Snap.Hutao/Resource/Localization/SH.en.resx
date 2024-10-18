@@ -1685,6 +1685,9 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>Character showcase is disabled. Please activate it in the game.</value>
   </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>共 {0} 位角色</value>
+  </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>Failed to copy role details</value>
   </data>
