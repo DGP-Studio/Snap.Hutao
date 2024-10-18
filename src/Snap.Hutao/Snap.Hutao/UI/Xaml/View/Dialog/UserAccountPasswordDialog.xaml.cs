@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using Windows.System;
@@ -15,6 +16,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPassportPasswordProvider
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IGeetestService geetestService;
     private readonly ITaskContext taskContext;
 
     private string? account;
@@ -23,6 +25,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
     public UserAccountPasswordDialog(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
+        geetestService = serviceProvider.GetRequiredService<IGeetestService>();
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         InitializeComponent();
     }
@@ -72,7 +75,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
             (rawSession, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
         }
 
-        if (await this.TryResolveAigisAsync(rawSession, isOversea, taskContext).ConfigureAwait(false))
+        if (await geetestService.TryResolveAigisAsync(this, rawSession, isOversea).ConfigureAwait(false))
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {

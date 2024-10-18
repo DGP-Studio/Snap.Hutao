@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using System.Text.RegularExpressions;
@@ -16,6 +17,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassportMobileCaptchaProvider
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IGeetestService geetestService;
     private readonly ITaskContext taskContext;
 
     private string? mobile;
@@ -24,6 +26,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
     public UserMobileCaptchaDialog(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
+        geetestService = serviceProvider.GetRequiredService<IGeetestService>();
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         InitializeComponent();
     }
@@ -76,7 +79,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
             (rawSession, response) = await passportClient.CreateLoginCaptchaAsync(Mobile, null).ConfigureAwait(false);
         }
 
-        if (await this.TryResolveAigisAsync(rawSession, false, taskContext).ConfigureAwait(false))
+        if (await geetestService.TryResolveAigisAsync(this, rawSession, false).ConfigureAwait(false))
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
