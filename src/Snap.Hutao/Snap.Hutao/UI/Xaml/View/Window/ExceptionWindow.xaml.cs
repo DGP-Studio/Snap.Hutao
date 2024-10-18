@@ -16,13 +16,13 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 
 internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
 {
-    private readonly Exception exception;
+    private readonly string message;
 
-    public ExceptionWindow(Exception exception)
+    public ExceptionWindow(string message)
     {
         // Message pump will die if we introduce XamlWindowController
         InitializeComponent();
-        this.exception = exception;
+        this.message = message;
 
         AppWindow.Title = "Snap Hutao Exception Report";
 
@@ -65,15 +65,15 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
                     Process Architecture: {RuntimeInformation.ProcessArchitecture}
                     Framework: {RuntimeInformation.FrameworkDescription}
 
-                    {ExceptionFormat.Format(exception)}
+                    {message}
                     """;
             }
         }
     }
 
-    public static void Show(Exception ex)
+    public static void Show(string exMessage)
     {
-        ExceptionWindow window = new(ex);
+        ExceptionWindow window = new(exMessage);
         window.Activate();
     }
 
