@@ -9,4 +9,5 @@ internal enum ConsumptionSaveResultKind
     NoProject,
     Skipped,
     Added,
+    Removed,
 }

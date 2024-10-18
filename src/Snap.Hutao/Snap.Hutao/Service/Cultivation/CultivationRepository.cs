@@ -41,9 +41,15 @@ internal sealed partial class CultivationRepository : ICultivationRepository
         this.Update(item);
     }
 
+    [Obsolete]
     public CultivateEntry? GetCultivateEntryByProjectIdAndItemId(Guid projectId, uint itemId)
     {
         return this.SingleOrDefault<CultivateEntry>(e => e.ProjectId == projectId && e.Id == itemId);
+    }
+
+    public List<CultivateEntry> GetCultivateEntryListByProjectIdAndItemId(Guid projectId, uint itemId)
+    {
+        return this.List<CultivateEntry>(e => e.ProjectId == projectId && e.Id == itemId);
     }
 
     public void AddCultivateEntry(CultivateEntry entry)
