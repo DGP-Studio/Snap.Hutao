@@ -50,7 +50,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
         {
             if (SetProperty(ref captcha, value))
             {
-                IsLoginEnabled = !string.IsNullOrEmpty(value);
+                IsLoginEnabled = !string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(ActionType);
                 OnPropertyChanged(nameof(IsLoginEnabled));
             }
         }

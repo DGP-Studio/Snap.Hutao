@@ -7,7 +7,7 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     Title="{shuxm:ResourceString Name=ViewDialogUserMobileCaptchaTitle}"
     CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
-    DefaultButton="Close"
+    DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind IsLoginEnabled, Mode=OneWay}"
     PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
