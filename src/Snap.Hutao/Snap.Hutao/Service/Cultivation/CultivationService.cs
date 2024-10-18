@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
@@ -27,6 +28,10 @@ internal sealed partial class CultivationService : ICultivationService
     {
         get => projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
     }
+
+    public ITaskContext TaskContext { get => taskContext; }
+
+    public ICultivationRepository Repository { get => cultivationRepository; }
 
     public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context)
     {
@@ -109,12 +114,12 @@ internal sealed partial class CultivationService : ICultivationService
 
     public async ValueTask<ConsumptionSaveResultKind> SaveConsumptionAsync(InputConsumption inputConsumption)
     {
-        // Only return NoItem when not overwriting existing items.
-        if (inputConsumption.Strategy is not ConsumptionSaveStrategyKind.OverwriteExisting && inputConsumption.Items.Count <= 0)
+        if (inputConsumption is { Strategy: not ConsumptionSaveStrategyKind.OverwriteExisting, Items: [] })
         {
             return ConsumptionSaveResultKind.NoItem;
         }
 
+        // Try select project if not selected
         if (Projects.CurrentItem is null)
         {
             await taskContext.SwitchToMainThreadAsync();
@@ -127,45 +132,45 @@ internal sealed partial class CultivationService : ICultivationService
 
         await taskContext.SwitchToBackgroundAsync();
 
-        List<CultivateEntry> entries = [];
-
-        if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.PreserveExisting or ConsumptionSaveStrategyKind.OverwriteExisting)
+        if (inputConsumption.Strategy is not ConsumptionSaveStrategyKind.CreateNewEntry)
         {
-            entries = cultivationRepository.GetCultivateEntryListByProjectIdAndItemId(Projects.CurrentItem.InnerId, inputConsumption.ItemId);
+            // Check for existing entries
+            List<CultivateEntry> entries = cultivationRepository.GetCultivateEntryListByProjectIdAndItemId(Projects.CurrentItem.InnerId, inputConsumption.ItemId);
 
-            if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.PreserveExisting && entries.Count > 0)
+            if (entries is [_, ..])
             {
-                return ConsumptionSaveResultKind.Skipped;
+                if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.PreserveExisting)
+                {
+                    return ConsumptionSaveResultKind.Skipped;
+                }
+
+                if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.OverwriteExisting)
+                {
+                    foreach (CultivateEntry entry in entries)
+                    {
+                        cultivationRepository.RemoveLevelInformationByEntryId(entry.InnerId);
+                        cultivationRepository.RemoveCultivateItemRangeByEntryId(entry.InnerId);
+                        cultivationRepository.RemoveCultivateEntryById(entry.InnerId);
+                    }
+
+                    if (inputConsumption.Items is [])
+                    {
+                        return ConsumptionSaveResultKind.Removed;
+                    }
+                }
             }
         }
 
-        if (entries.Count > 0 && inputConsumption.Strategy is ConsumptionSaveStrategyKind.OverwriteExisting && inputConsumption.Items.Count <= 0)
-        {
-            foreach (CultivateEntry entry in entries)
-            {
-                cultivationRepository.RemoveCultivateEntryById(entry.InnerId);
-            }
-
-            return ConsumptionSaveResultKind.Removed;
-        }
-
-        // TODO: Not done yet
-        //CultivateEntry? entry = default;
-        if (entries.Count <= 0)
         {
             CultivateEntry entry = CultivateEntry.From(Projects.CurrentItem.InnerId, inputConsumption.Type, inputConsumption.ItemId);
             cultivationRepository.AddCultivateEntry(entry);
+
+            CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entry.InnerId, inputConsumption.Type, inputConsumption.LevelInformation);
+            cultivationRepository.AddLevelInformation(entryLevelInformation);
+
+            IEnumerable<CultivateItem> toAdd = inputConsumption.Items.Select(item => CultivateItem.From(entry.InnerId, item));
+            cultivationRepository.AddCultivateItemRange(toAdd);
         }
-
-        Guid entryId = entries.First().InnerId;
-
-        cultivationRepository.RemoveLevelInformationByEntryId(entryId);
-        CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entryId, inputConsumption.Type, inputConsumption.LevelInformation);
-        cultivationRepository.AddLevelInformation(entryLevelInformation);
-
-        cultivationRepository.RemoveCultivateItemRangeByEntryId(entryId);
-        IEnumerable<CultivateItem> toAdd = inputConsumption.Items.Select(item => CultivateItem.From(entryId, item));
-        cultivationRepository.AddCultivateItemRange(toAdd);
 
         return ConsumptionSaveResultKind.Added;
     }

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
 
@@ -11,6 +12,8 @@ namespace Snap.Hutao.Service.Cultivation;
 internal interface ICultivationService
 {
     AdvancedDbCollectionView<CultivateProject> Projects { get; }
+    ITaskContext TaskContext { get; }
+    ICultivationRepository Repository { get; }
 
     ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
 
