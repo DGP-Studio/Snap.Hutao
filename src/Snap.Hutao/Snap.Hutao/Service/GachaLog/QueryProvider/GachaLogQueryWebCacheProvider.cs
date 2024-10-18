@@ -96,6 +96,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         int index = span.LastIndexOf(match);
         if (index >= 0)
         {
+            index += match.Length;
             int length = span[index..].IndexOf("\0"u8);
             return Encoding.UTF8.GetString(span.Slice(index, length));
         }
