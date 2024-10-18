@@ -80,13 +80,18 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public string PreDownloadTitle { get => SH.FormatViewModelGamePackagePreVersion(PreVersion); }
 
-    public bool IsUpdateAvailable { get => LocalVersion != RemoteVersion; }
+    public bool IsUpdateAvailable { get => LocalVersion < RemoteVersion; }
 
     public bool IsPredownloadButtonEnabled
     {
         get
         {
             if (PreVersion is null)
+            {
+                return false;
+            }
+
+            if (LocalVersion >= PreVersion)
             {
                 return false;
             }
