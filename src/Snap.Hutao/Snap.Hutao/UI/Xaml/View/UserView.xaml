@@ -323,14 +323,14 @@
                                     Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
                                     IsEnabled="False"
                                     Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
-                            </Grid>
+                            </Grid>-->
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding LoginByQRCodeCommand}"
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentQRCode}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>-->
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
