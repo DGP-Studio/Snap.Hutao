@@ -73,8 +73,17 @@ internal sealed partial class MinimalPromotionDelta
                 foreach (ref readonly MaterialId materialId in CollectionsMarshal.AsSpan(item.CultivationItems))
                 {
                     ref Constraint? constraint = ref CollectionsMarshal.GetValueRefOrAddDefault(materialConstraintMap, materialId, out _);
-                    constraint ??= solver.MakeConstraint(1, double.PositiveInfinity, $"{materialId}");
+                    if (constraint is null)
+                    {
+                        constraint = solver.MakeConstraint(double.NegativeInfinity, double.PositiveInfinity, $"{materialId}");
+
+                        Variable penalty = solver.MakeNumVar(0, double.PositiveInfinity, $"penalty_{materialId}");
+                        objective.SetCoefficient(penalty, 1000);
+                        constraint.SetCoefficient(penalty, 1);
+                    }
+
                     constraint.SetCoefficient(itemVariableMap[item], 1);
+                    constraint.SetBounds(3, double.PositiveInfinity);
                 }
             }
 
