@@ -1505,6 +1505,15 @@
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>更新</value>
   </data>
+  <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
+    <value>请输入账号</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
+    <value>Masukkan kata sandi</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
+    <value>账号密码登录</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Tuju saya kesana</value>
   </data>
@@ -1675,6 +1684,9 @@
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>Pameran karakter dinonaktifkan. Silakan aktifkan di dalam permainan.</value>
+  </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>共 {0} 位角色</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>复制角色详情失败</value>
@@ -1880,8 +1892,14 @@
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>Gagal Impor</value>
   </data>
+  <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
+    <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+  </data>
+  <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
+    <value>使用米游社用户登录失败，请重新登录</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Konversi server gagal</value>
@@ -2702,6 +2720,12 @@
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>Aktifkan</value>
   </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
+    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
+    <value>使用米游社用户登录</value>
+  </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Manfaatkan tampilan yang mendukung rentang dinamis tinggi untuk gambar yang lebih terang, lebih jelas, dan lebih detail</value>
   </data>
@@ -3280,6 +3304,12 @@
   </data>
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
     <value>Official Tools</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
+    <value>账密登录</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
+    <value>三方登录</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>

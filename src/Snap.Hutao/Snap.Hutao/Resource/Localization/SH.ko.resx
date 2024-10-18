@@ -1505,6 +1505,15 @@
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>更新</value>
   </data>
+  <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
+    <value>请输入账号</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
+    <value>비밀번호를 입력하세요</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
+    <value>账号密码登录</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>지금 이동</value>
   </data>
@@ -1675,6 +1684,9 @@
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>캐릭터 상세정보 보기가 꺼져있습니다. 게임에서 설정 후 다시 시도하십시오.</value>
+  </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>共 {0} 位角色</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>复制角色详情失败</value>
@@ -1880,8 +1892,14 @@
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>가져오기 실패</value>
   </data>
+  <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
+    <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+  </data>
+  <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
+    <value>使用米游社用户登录失败，请重新登录</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>서버 변경 실패</value>
@@ -2702,6 +2720,12 @@
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>활성화</value>
   </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
+    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
+    <value>使用米游社用户登录</value>
+  </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>充分利用支持高动态范围的显示器获得更亮、更生动、更精细的画面</value>
   </data>
@@ -3280,6 +3304,12 @@
   </data>
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
     <value>旅行工具</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
+    <value>账密登录</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
+    <value>三方登录</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>웹 로그인</value>
