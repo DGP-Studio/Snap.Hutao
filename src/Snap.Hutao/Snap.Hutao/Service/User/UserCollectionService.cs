@@ -33,9 +33,9 @@ internal sealed partial class UserCollectionService : IUserCollectionService
             if (users is null)
             {
                 List<EntityUser> entities = userRepository.GetUserList();
-                List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync).ConfigureAwait(false);
+                List<BindingUser> userList = await entities.SelectListAsync(userInitializationService.ResumeUserAsync).ConfigureAwait(false);
 
-                foreach (BindingUser user in users)
+                foreach (BindingUser user in userList)
                 {
                     if (user.NeedDbUpdateAfterResume)
                     {
@@ -45,8 +45,8 @@ internal sealed partial class UserCollectionService : IUserCollectionService
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
-                this.users = new(users.ToObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider), serviceProvider);
-                this.users.CurrentChanged += OnCurrentUserChanged;
+                users = userList.ToAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
+                users.CurrentChanged += OnCurrentUserChanged;
             }
         }
 

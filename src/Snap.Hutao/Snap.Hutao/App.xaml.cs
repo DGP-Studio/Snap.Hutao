@@ -76,8 +76,7 @@ public sealed partial class App : Application
             LogDiagnosticInformation();
 
             // Manually invoke
-            activation.Activate(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
-            activation.PostInitialization();
+            activation.ActivateAndInitialize(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
         }
         catch (Exception ex)
         {

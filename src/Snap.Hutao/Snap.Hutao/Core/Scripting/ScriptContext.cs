@@ -16,7 +16,7 @@ public sealed class ScriptContext
 {
     public IServiceProvider ServiceProvider { get; } = Ioc.Default;
 
-    public ISnapHutaoDiagnostics Diagnostics { get => ServiceProvider.GetRequiredService<ISnapHutaoDiagnostics>(); }
+    public IHutaoDiagnostics Diagnostics { get => ServiceProvider.GetRequiredService<IHutaoDiagnostics>(); }
 
     public static string FormatJson(string input)
     {

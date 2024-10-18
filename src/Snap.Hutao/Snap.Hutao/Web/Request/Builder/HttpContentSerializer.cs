@@ -10,10 +10,7 @@ namespace Snap.Hutao.Web.Request.Builder;
 
 internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpContentDeserializer
 {
-    protected internal virtual Encoding DefaultEncoding
-    {
-        get => Encoding.UTF8;
-    }
+    protected internal virtual Encoding DefaultEncoding { get => Encoding.UTF8; }
 
     public HttpContent? Serialize(object? content, Type contentType, Encoding? encoding)
     {

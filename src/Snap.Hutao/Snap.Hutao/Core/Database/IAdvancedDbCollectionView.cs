@@ -6,7 +6,7 @@ using Snap.Hutao.UI.Xaml.Data;
 namespace Snap.Hutao.Core.Database;
 
 internal interface IAdvancedDbCollectionView<TEntity> : IAdvancedCollectionView<TEntity>
-    where TEntity : class
+    where TEntity : class, IAdvancedCollectionViewItem
 {
     IDisposable SuppressChangeCurrentItem();
 }

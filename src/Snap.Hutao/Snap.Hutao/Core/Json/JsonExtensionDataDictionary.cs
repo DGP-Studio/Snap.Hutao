@@ -4,17 +4,19 @@
 using System.Collections;
 using System.Collections.Frozen;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Json;
 
+[CollectionBuilder(typeof(JsonExtensionDataDictionary), nameof(InitialzieWithIgnoredKeys))]
 internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, JsonElement>
 {
     private readonly Dictionary<string, JsonElement> inner = [];
     private readonly FrozenSet<string> ignoredKeys;
 
-    public JsonExtensionDataDictionary(IEnumerable<string> ignoredKeys)
+    public JsonExtensionDataDictionary(ReadOnlySpan<string> ignoredKeys)
     {
-        this.ignoredKeys = ignoredKeys.ToFrozenSet();
+        this.ignoredKeys = FrozenSet.ToFrozenSet(ignoredKeys.ToArray());
     }
 
     public ICollection<string> Keys
@@ -41,6 +43,11 @@ internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, 
     {
         get => inner[key];
         set => inner[key] = value;
+    }
+
+    public static JsonExtensionDataDictionary InitialzieWithIgnoredKeys(ReadOnlySpan<string> keys)
+    {
+        return new JsonExtensionDataDictionary(keys);
     }
 
     public void Add(string key, JsonElement value)

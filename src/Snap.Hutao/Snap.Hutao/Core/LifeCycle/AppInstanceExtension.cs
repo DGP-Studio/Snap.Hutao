@@ -37,6 +37,7 @@ internal static class AppInstanceExtension
         }
         finally
         {
+            // The CloseHandle here also act as KeepAlive
             CloseHandle(redirectEventHandle);
         }
     }

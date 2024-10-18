@@ -46,9 +46,9 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public void Activate(HutaoActivationArguments args)
     {
-        HandleActivationExclusiveAsync(args).SafeForget(logger);
+        HandleActivationExclusivelyAsync(args).SafeForget(logger);
 
-        async ValueTask HandleActivationExclusiveAsync(HutaoActivationArguments args)
+        async ValueTask HandleActivationExclusivelyAsync(HutaoActivationArguments args)
         {
             if (Volatile.Read(ref isActivating) is 1)
             {
@@ -62,31 +62,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                     return;
                 }
 
-                await taskContext.SwitchToBackgroundAsync();
-                switch (args.Kind)
-                {
-                    case HutaoActivationKind.Protocol:
-                        {
-                            ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
-                            await HandleProtocolActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
-                            break;
-                        }
-
-                    case HutaoActivationKind.Launch:
-                        {
-                            ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
-                            await HandleLaunchActivationAsync(args.IsRedirectTo).ConfigureAwait(false);
-                            break;
-                        }
-
-                    case HutaoActivationKind.AppNotification:
-                        {
-                            ArgumentNullException.ThrowIfNull(args.AppNotificationActivatedArguments);
-                            await HandleAppNotificationActivationAsync(args.AppNotificationActivatedArguments, args.IsRedirectTo).ConfigureAwait(false);
-                            break;
-                        }
-                }
-
+                await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
                 Interlocked.Exchange(ref isActivating, 0);
             }
         }
@@ -97,48 +73,27 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         HandleAppNotificationActivationAsync(args.Arguments, false).SafeForget(logger);
     }
 
-    public void PostInitialization()
+    public void ActivateAndInitialize(HutaoActivationArguments args)
     {
-        RunPostInitializationAsync().SafeForget(logger);
+        ActivateAndInitializeAsync().SafeForget(logger);
 
-        async ValueTask RunPostInitializationAsync()
+        async ValueTask ActivateAndInitializeAsync()
         {
-            await taskContext.SwitchToBackgroundAsync();
+            if (Volatile.Read(ref isActivating) is 1)
+            {
+                return;
+            }
 
             using (await activateLock.LockAsync().ConfigureAwait(false))
             {
-                // In guide
-                if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+                if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
                 {
                     return;
                 }
 
-                serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget(logger);
-
-                // RegisterHotKey should be called from main thread
-                await taskContext.SwitchToMainThreadAsync();
-                serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
-
-                if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
-                {
-                    XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
-
-                    serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
-                    _ = serviceProvider.GetRequiredService<NotifyIconController>();
-                }
-
-                serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget(logger);
-                serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget(logger);
-
-                if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
-                {
-                    metadataServiceInitialization.InitializeInternalAsync().SafeForget(logger);
-                }
-
-                if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
-                {
-                    hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget(logger);
-                }
+                await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
+                await UnsynchronizedHandleInitializationAsync().ConfigureAwait(false);
+                Interlocked.Exchange(ref isActivating, 0);
             }
         }
     }
@@ -176,6 +131,70 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             default:
                 Process.GetCurrentProcess().Kill();
                 return;
+        }
+    }
+
+    private async ValueTask UnsynchronizedHandleActivationAsync(HutaoActivationArguments args)
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        switch (args.Kind)
+        {
+            case HutaoActivationKind.Protocol:
+                {
+                    ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
+                    await HandleProtocolActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
+                    break;
+                }
+
+            case HutaoActivationKind.Launch:
+                {
+                    ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
+                    await HandleLaunchActivationAsync(args.IsRedirectTo).ConfigureAwait(false);
+                    break;
+                }
+
+            case HutaoActivationKind.AppNotification:
+                {
+                    ArgumentNullException.ThrowIfNull(args.AppNotificationActivatedArguments);
+                    await HandleAppNotificationActivationAsync(args.AppNotificationActivatedArguments, args.IsRedirectTo).ConfigureAwait(false);
+                    break;
+                }
+        }
+    }
+
+    private async ValueTask UnsynchronizedHandleInitializationAsync()
+    {
+        // In guide
+        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+        {
+            return;
+        }
+
+        serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget(logger);
+
+        // RegisterHotKey should be called from main thread
+        await taskContext.SwitchToMainThreadAsync();
+        serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
+
+        if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
+        {
+            XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
+
+            serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+            _ = serviceProvider.GetRequiredService<NotifyIconController>();
+        }
+
+        serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget(logger);
+        serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget(logger);
+
+        if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
+        {
+            metadataServiceInitialization.InitializeInternalAsync().SafeForget(logger);
+        }
+
+        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
+        {
+            hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget(logger);
         }
     }
 

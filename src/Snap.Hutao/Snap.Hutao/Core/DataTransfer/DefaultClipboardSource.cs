@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.DataTransfer;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IClipboardProvider))]
-internal sealed partial class ClipboardProvider : IClipboardProvider
+internal sealed partial class DefaultClipboardSource : IClipboardProvider
 {
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;

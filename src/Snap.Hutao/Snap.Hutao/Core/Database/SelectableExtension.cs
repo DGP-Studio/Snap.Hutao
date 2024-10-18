@@ -7,10 +7,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;
 
-/// <summary>
-/// 可枚举扩展
-/// </summary>
-[HighQuality]
 internal static class SelectableExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

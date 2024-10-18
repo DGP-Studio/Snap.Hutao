@@ -56,35 +56,32 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         }
 
         string cacheFile = GetCacheFile(path);
-        using (TempFile? tempFile = TempFile.CopyFrom(cacheFile))
+        if (!File.Exists(cacheFile))
         {
-            if (!tempFile.TryGetValue(out TempFile file))
-            {
-                return new(false, GachaLogQuery.Invalid(SH.FormatServiceGachaLogUrlProviderCachePathNotFound(cacheFile)));
-            }
+            return new(false, GachaLogQuery.Invalid(SH.FormatServiceGachaLogUrlProviderCachePathNotFound(cacheFile)));
+        }
 
-            using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
+        using (FileStream fileStream = File.OpenRead(GetCacheFile(path)))
+        {
+            using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
             {
-                using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
+                string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));
+
+                if (string.IsNullOrEmpty(result))
                 {
-                    string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));
-
-                    if (string.IsNullOrEmpty(result))
-                    {
-                        return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCacheUrlNotFound));
-                    }
-
-                    NameValueCollection query = HttpUtility.ParseQueryString(result.TrimEnd("#/log"));
-                    string? queryLanguageCode = query["lang"];
-
-                    if (!cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
-                    {
-                        string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
-                        return new(false, GachaLogQuery.Invalid(message));
-                    }
-
-                    return new(true, new(result));
+                    return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCacheUrlNotFound));
                 }
+
+                NameValueCollection query = HttpUtility.ParseQueryString(result.TrimEnd("#/log"));
+                string? queryLanguageCode = query["lang"];
+
+                if (!cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
+                {
+                    string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
+                    return new(false, GachaLogQuery.Invalid(message));
+                }
+
+                return new(true, new(result));
             }
         }
     }

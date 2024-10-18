@@ -102,6 +102,14 @@ public sealed class JsonSerializeTest
         Assert.AreEqual(sample.Value, SampleEnum.A);
     }
 
+    [TestMethod]
+    public void NewEmptyObjectSerializeAsEmptyObject()
+    {
+        object sample = new();
+        string result = JsonSerializer.Serialize(sample);
+        Assert.AreEqual(result, "{}");
+    }
+
     private sealed class SampleDelegatePropertyClass
     {
         public int A { get => B; set => B = value; }

@@ -27,27 +27,24 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
         string logFilePathOversea = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\Genshin Impact\output_log.txt");
 
         // Fallback to the CN server.
-        string logFilePathFinal = File.Exists(logFilePathOversea) ? logFilePathOversea : logFilePathChinese;
+        string logFilePath = File.Exists(logFilePathOversea) ? logFilePathOversea : logFilePathChinese;
 
-        if (TempFile.CopyFrom(logFilePathFinal) is { } file)
+        if (!File.Exists(logFilePath))
         {
-            using (file)
-            {
-                string content = await File.ReadAllTextAsync(file.Path).ConfigureAwait(false);
-
-                Match matchResult = WarmupFileLine().Match(content);
-                if (!matchResult.Success)
-                {
-                    return new(false, SH.ServiceGameLocatorUnityLogGamePathNotFound);
-                }
-
-                string entryName = $"{matchResult.Value}.exe";
-                string fullPath = Path.GetFullPath(Path.Combine(matchResult.Value, "..", entryName));
-                return new(true, fullPath);
-            }
+            return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
         }
 
-        return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
+        string content = await File.ReadAllTextAsync(logFilePath).ConfigureAwait(false);
+
+        Match matchResult = WarmupFileLine().Match(content);
+        if (!matchResult.Success)
+        {
+            return new(false, SH.ServiceGameLocatorUnityLogGamePathNotFound);
+        }
+
+        string entryName = $"{matchResult.Value}.exe";
+        string fullPath = Path.GetFullPath(Path.Combine(matchResult.Value, "..", entryName));
+        return new(true, fullPath);
     }
 
     [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)")]

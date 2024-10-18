@@ -42,30 +42,16 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public void Remove(Uri uriForCachedItem)
     {
-        Remove([uriForCachedItem]);
-    }
-
-    public void Remove(ReadOnlySpan<Uri> uriForCachedItems)
-    {
-        if (uriForCachedItems.Length <= 0)
+        string filePath = Path.Combine(CacheFolder, GetCacheFileName(uriForCachedItem));
+        try
         {
-            return;
+            File.Delete(filePath);
+            logger.LogInformation("Remove cached image succeed:{File}", filePath);
         }
-
-        string folder = CacheFolder;
-        string[] files = Directory.GetFiles(folder);
-
-        List<string> filesToDelete = [];
-        foreach (ref readonly Uri uri in uriForCachedItems)
+        catch (Exception ex)
         {
-            string filePath = Path.Combine(folder, GetCacheFileName(uri));
-            if (files.Contains(filePath))
-            {
-                filesToDelete.Add(filePath);
-            }
+            logger.LogWarning(ex, "Remove cached image failed:{File}", filePath);
         }
-
-        RemoveCore(CollectionsMarshal.AsSpan(filesToDelete));
     }
 
     public ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri)
@@ -91,7 +77,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             // If the file already exists, we don't need to download it again
             if (!IsFileInvalid(defaultFilePath))
             {
-                await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                await ConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
                 return themeOrDefaultFilePath;
             }
 
@@ -100,7 +86,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 // File may be downloaded by another thread
                 if (!IsFileInvalid(defaultFilePath))
                 {
-                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    await ConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
                     return themeOrDefaultFilePath;
                 }
 
@@ -113,13 +99,17 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
-        Uri dummyUri = StaticResourcesEndpoints.StaticRaw(category, fileName).ToUri();
-        return Path.Combine(CacheFolder, GetCacheFileName(dummyUri));
+        return Path.Combine(CacheFolder, GetCacheFileName(StaticResourcesEndpoints.StaticRaw(category, fileName)));
     }
 
     private static string GetCacheFileName(Uri uri)
     {
-        return Hash.SHA1HexString(uri.ToString());
+        return GetCacheFileName(uri.ToString());
+    }
+
+    private static string GetCacheFileName(string url)
+    {
+        return Hash.SHA1HexString(url);
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)
@@ -132,7 +122,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         return new FileInfo(file).Length == 0;
     }
 
-    private static async ValueTask ConvertAndSaveFileToMonoChromeAsync(string sourceFile, string themeFile, ElementTheme theme)
+    private static async ValueTask ConvertToMonoChromeAndSaveFileAsync(string sourceFile, string themeFile, ElementTheme theme)
     {
         if (string.Equals(sourceFile, themeFile, StringComparison.OrdinalIgnoreCase))
         {
@@ -150,9 +140,8 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 {
                     using (IMemoryBufferReference reference = sourceBuffer.CreateReference())
                     {
-                        IMemoryBufferByteAccess byteAccess = reference.As<IMemoryBufferByteAccess>();
                         byte value = theme is ElementTheme.Light ? (byte)0x00 : (byte)0xFF;
-                        SyncConvertToMonoChrome(byteAccess, value);
+                        SyncConvertToMonoChrome(reference.As<IMemoryBufferByteAccess>(), value);
                     }
                 }
 
@@ -165,8 +154,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             }
         }
 
-        return;
-
         static void SyncConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
         {
             byteAccess.GetBuffer(out Span<Rgba32> span);
@@ -174,22 +161,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             {
                 pixel.A = (byte)pixel.Luminance255;
                 pixel.R = pixel.G = pixel.B = background;
-            }
-        }
-    }
-
-    private void RemoveCore(ReadOnlySpan<string> filePaths)
-    {
-        foreach (ref readonly string filePath in filePaths)
-        {
-            try
-            {
-                File.Delete(filePath);
-                logger.LogInformation("Remove cached image succeed:{File}", filePath);
-            }
-            catch (Exception ex)
-            {
-                logger.LogWarning(ex, "Remove cached image failed:{File}", filePath);
             }
         }
     }

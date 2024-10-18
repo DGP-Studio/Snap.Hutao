@@ -11,5 +11,5 @@ internal interface IAppActivation
 
     void NotificationInvoked(AppNotificationManager manager, AppNotificationActivatedEventArgs args);
 
-    void PostInitialization();
+    void ActivateAndInitialize(HutaoActivationArguments args);
 }
