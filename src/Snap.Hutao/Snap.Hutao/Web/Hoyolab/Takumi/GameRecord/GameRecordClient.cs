@@ -3,11 +3,11 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -47,11 +47,10 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebDailyNoteVerificationFailed;
-
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            IGeetestService geetestService = serviceProvider.GetRequiredService<IGeetestService>();
             CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForDailyNote(apiEndpoints);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            if (await geetestService.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(apiEndpoints.GameRecordDailyNote(userAndUid.Uid))
@@ -92,10 +91,10 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            IGeetestService geetestService = serviceProvider.GetRequiredService<IGeetestService>();
             CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForIndex(apiEndpoints);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            if (await geetestService.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(apiEndpoints.GameRecordIndex(userAndUid.Uid))
@@ -135,10 +134,10 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            IGeetestService geetestService = serviceProvider.GetRequiredService<IGeetestService>();
             CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForSpiralAbyss(apiEndpoints);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            if (await geetestService.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(apiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
@@ -195,10 +194,10 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            IGeetestService geetestService = serviceProvider.GetRequiredService<IGeetestService>();
             CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacterAll(apiEndpoints);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            if (await geetestService.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(apiEndpoints.GameRecordCharacterList())
@@ -238,10 +237,10 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            IGeetestService geetestService = serviceProvider.GetRequiredService<IGeetestService>();
             CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacterDetail(apiEndpoints);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            if (await geetestService.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(apiEndpoints.GameRecordCharacterDetail())
@@ -281,10 +280,10 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            IGeetestService geetestService = serviceProvider.GetRequiredService<IGeetestService>();
             CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForRoleCombat(apiEndpoints);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            if (await geetestService.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 builder.Resurrect().SetXrpcChallenge(challenge);
                 await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
