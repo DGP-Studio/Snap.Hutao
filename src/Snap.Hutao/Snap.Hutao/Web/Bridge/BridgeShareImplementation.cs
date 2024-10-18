@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Bridge.Model;
 using System.IO;
@@ -9,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Web.Bridge;
 
-internal sealed class BridgeShareImplmentation
+internal sealed class BridgeShareImplementation
 {
     public static async ValueTask<IJsBridgeResult?> ShareAsync(JsParam<SharePayload> param, BridgeShareContext context)
     {
@@ -87,15 +88,51 @@ internal sealed class BridgeShareImplmentation
                 encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
                 await encoder.FlushAsync();
 
-                if (await context.ClipboardProvider.SetBitmapAsync(stream).ConfigureAwait(false))
+                ValueTask task = context.ShareSaveType switch
                 {
-                    context.InfoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
-                }
-                else
-                {
-                    context.InfoBarService.Error(SH.WebBridgeShareCopyToClipboardFailed);
-                }
+                    BridgeShareSaveType.CopyToClipboard => CopyToClipboardAsync(context, stream),
+                    BridgeShareSaveType.SaveAsFile => SaveAsFileAsync(context, stream),
+                    _ => ValueTask.CompletedTask,
+                };
+
+                await task.ConfigureAwait(false);
             }
+        }
+    }
+
+    private static async ValueTask CopyToClipboardAsync(BridgeShareContext context, InMemoryRandomAccessStream stream)
+    {
+        if (await context.ClipboardProvider.SetBitmapAsync(stream).ConfigureAwait(false))
+        {
+            context.InfoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
+        }
+        else
+        {
+            context.InfoBarService.Error(SH.WebBridgeShareCopyToClipboardFailed);
+        }
+    }
+
+    private static async ValueTask SaveAsFileAsync(BridgeShareContext context, InMemoryRandomAccessStream stream)
+    {
+        (bool isOk, ValueFile file) = context.FileSystemPickerInteraction.SaveFile(SH.WebBridgeShareFilePickerTitle, "share.png", [("PNG", "*.png")]);
+        if (!isOk)
+        {
+            return;
+        }
+
+        try
+        {
+            using (FileStream fileStream = File.Create(file))
+            {
+                stream.Seek(0);
+                await stream.AsStreamForRead().CopyToAsync(fileStream).ConfigureAwait(false);
+            }
+
+            context.InfoBarService.Success(SH.WebBridgeShareSaveAsFileSuccess);
+        }
+        catch
+        {
+            context.InfoBarService.Error(SH.WebBridgeShareSaveAsFileFailed);
         }
     }
 

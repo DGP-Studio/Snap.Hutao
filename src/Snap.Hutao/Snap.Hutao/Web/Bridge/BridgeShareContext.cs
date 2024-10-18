@@ -3,6 +3,7 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DataTransfer;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Notification;
 using System.Net.Http;
 
@@ -16,8 +17,10 @@ internal sealed class BridgeShareContext
     private readonly IInfoBarService infoBarService;
     private readonly IClipboardProvider clipboardProvider;
     private readonly JsonSerializerOptions jsonSerializerOptions;
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+    private readonly BridgeShareSaveType shareSaveType;
 
-    public BridgeShareContext(CoreWebView2 coreWebView2, ITaskContext taskContext, HttpClient httpClient, IInfoBarService infoBarService, IClipboardProvider clipboardProvider, JsonSerializerOptions jsonSerializerOptions)
+    public BridgeShareContext(CoreWebView2 coreWebView2, ITaskContext taskContext, HttpClient httpClient, IInfoBarService infoBarService, IClipboardProvider clipboardProvider, JsonSerializerOptions jsonSerializerOptions, IFileSystemPickerInteraction fileSystemPickerInteraction, BridgeShareSaveType shareSaveType)
     {
         this.httpClient = httpClient;
         this.taskContext = taskContext;
@@ -25,6 +28,8 @@ internal sealed class BridgeShareContext
         this.clipboardProvider = clipboardProvider;
         this.coreWebView2 = coreWebView2;
         this.jsonSerializerOptions = jsonSerializerOptions;
+        this.fileSystemPickerInteraction = fileSystemPickerInteraction;
+        this.shareSaveType = shareSaveType;
     }
 
     public CoreWebView2 CoreWebView2 { get => coreWebView2; }
@@ -38,4 +43,8 @@ internal sealed class BridgeShareContext
     public IClipboardProvider ClipboardProvider { get => clipboardProvider; }
 
     public JsonSerializerOptions JsonSerializerOptions { get => jsonSerializerOptions; }
+    
+    public IFileSystemPickerInteraction FileSystemPickerInteraction { get => fileSystemPickerInteraction; }
+    
+    public BridgeShareSaveType ShareSaveType { get => shareSaveType; }
 }
