@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control;
@@ -260,19 +261,18 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         ConsumptionSaveResultKind avatarSaveKind = await scopeContext.CultivationService.SaveConsumptionAsync(avatarInput).ConfigureAwait(false);
 
-        switch (avatarSaveKind)
+        _ = avatarSaveKind switch
         {
-            case ConsumptionSaveResultKind.NoProject:
-                scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                return false;
-            case ConsumptionSaveResultKind.Skipped:
-                scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint);
-                break;
-            case ConsumptionSaveResultKind.NoItem:
-                scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint);
-                break;
-            case ConsumptionSaveResultKind.Added:
-                break;
+            ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
+            ConsumptionSaveResultKind.Skipped => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+            ConsumptionSaveResultKind.NoItem => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+            ConsumptionSaveResultKind.Added => scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+            _ => default,
+        };
+
+        if (avatarSaveKind is ConsumptionSaveResultKind.NoProject)
+        {
+            return false;
         }
 
         try
@@ -289,6 +289,14 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             };
 
             ConsumptionSaveResultKind weaponSaveKind = await scopeContext.CultivationService.SaveConsumptionAsync(weaponInput).ConfigureAwait(false);
+            _ = weaponSaveKind switch
+            {
+                ConsumptionSaveResultKind.NoProject => scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning),
+                ConsumptionSaveResultKind.Skipped => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint),
+                ConsumptionSaveResultKind.NoItem => scopeContext.InfoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint),
+                ConsumptionSaveResultKind.Added => scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess),
+                _ => default,
+            };
 
             return weaponSaveKind is not ConsumptionSaveResultKind.NoProject;
         }

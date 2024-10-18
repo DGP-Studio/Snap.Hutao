@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
