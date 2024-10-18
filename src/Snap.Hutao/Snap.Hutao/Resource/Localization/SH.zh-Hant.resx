@@ -1685,6 +1685,9 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展櫃尚未開啟，請前往遊戲操作後重試</value>
   </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>共 {0} 位角色</value>
+  </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>複製角色詳情失敗</value>
   </data>
