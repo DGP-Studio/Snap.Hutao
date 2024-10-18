@@ -1685,6 +1685,9 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>Pameran karakter dinonaktifkan. Silakan aktifkan di dalam permainan.</value>
   </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>共 {0} 位角色</value>
+  </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>复制角色详情失败</value>
   </data>
