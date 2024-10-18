@@ -624,6 +624,26 @@
                         </Border>
                     </Border>
 
+                    <!--  WebView  -->
+                    <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding WebView}">
+                        <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingWebViewHeader}"/>
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingShareSaveTypeDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingShareSaveTypeHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE792;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.BridgeShareSaveTypes}"
+                                            SelectedItem="{Binding SelectedShareSaveType, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
+                            </StackPanel>
+                        </Border>
+                    </Border>
+
                     <!--  危险功能  -->
                     <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding DangerousFeature}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">

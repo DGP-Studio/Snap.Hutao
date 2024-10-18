@@ -42,5 +42,6 @@ internal interface ICultivationRepository : IRepository<CultivateEntryLevelInfor
     void AddLevelInformation(CultivateEntryLevelInformation levelInformation);
 
     List<CultivateEntry> GetCultivateEntryListIncludingLevelInformationByProjectId(Guid projectId);
+
     List<CultivateEntry> GetCultivateEntryListByProjectIdAndItemId(Guid projectId, uint itemId);
 }

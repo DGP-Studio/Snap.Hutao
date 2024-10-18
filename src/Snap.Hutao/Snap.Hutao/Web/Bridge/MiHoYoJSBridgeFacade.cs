@@ -4,6 +4,7 @@
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -312,10 +313,12 @@ internal class MiHoYoJSBridgeFacade
             HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
             IClipboardProvider clipboardProvider = scope.ServiceProvider.GetRequiredService<IClipboardProvider>();
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+            IFileSystemPickerInteraction fileSystemPickerInteraction = scope.ServiceProvider.GetRequiredService<IFileSystemPickerInteraction>();
+            BridgeShareSaveType shareSaveType = scope.ServiceProvider.GetRequiredService<AppOptions>().BridgeShareSaveType;
 
-            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions);
+            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions, fileSystemPickerInteraction, shareSaveType);
 
-            return await BridgeShareImplmentation.ShareAsync(param, context).ConfigureAwait(false);
+            return await BridgeShareImplementation.ShareAsync(param, context).ConfigureAwait(false);
         }
     }
 

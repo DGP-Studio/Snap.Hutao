@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
+using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Service;
@@ -24,6 +25,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private Region? region;
     private string? geetestCustomCompositeUrl;
     private int? downloadSpeedLimitPerSecondInKiloByte;
+    private BridgeShareSaveType? bridgeShareSaveType;
 
     public bool IsNotifyIconEnabled
     {
@@ -90,5 +92,13 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, 0);
         set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
+    }
+
+    public List<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = CollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription());
+
+    public BridgeShareSaveType BridgeShareSaveType
+    {
+        get => GetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, EnumParse<BridgeShareSaveType>, BridgeShareSaveType.CopyToClipboard).Value;
+        set => SetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, value, EnumToStringOrEmpty);
     }
 }

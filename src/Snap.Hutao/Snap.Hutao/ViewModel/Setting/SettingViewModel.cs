@@ -22,6 +22,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     private readonly SettingGachaLogViewModel gachaLogViewModel;
     private readonly SettingGeetestViewModel geetestViewModel;
     private readonly SettingStorageViewModel storageViewModel;
+    private readonly SettingWebViewViewModel webViewViewModel;
     private readonly SettingHotKeyViewModel hotKeyViewModel;
     private readonly SettingHomeViewModel homeViewModel;
     private readonly SettingGameViewModel gameViewModel;
@@ -47,6 +48,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     public SettingGameViewModel Game { get => gameViewModel; }
 
     public SettingGachaLogViewModel GachaLog { get => gachaLogViewModel; }
+
+    public SettingWebViewViewModel WebView { get => webViewViewModel; }
 
     public SettingDangerousFeatureViewModel DangerousFeature { get => dangerousFeatureViewModel; }
 
