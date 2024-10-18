@@ -10,6 +10,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
@@ -455,6 +456,47 @@
                     </Grid>
                 </Grid>
             </DataTemplate>
+
+            <DataTemplate x:Key="TokenTemplate">
+                <Grid Height="22" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse
+                        Grid.Column="0"
+                        Width="12"
+                        Height="12"
+                        Margin="1,1,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        Visibility="{Binding Quality, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                        <Ellipse.Fill>
+                            <SolidColorBrush Color="{Binding Quality}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <shuxci:CachedImage
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="-3,2,7,0"
+                        ShowAsMonoChrome="True"
+                        Source="{Binding IconUri, Mode=OneWay}"
+                        Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                    <shuxci:CachedImage
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="-4,-2,8,2"
+                        Source="{Binding SideIconUri, Mode=OneWay}"
+                        Visibility="{Binding SideIconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        Height="20"
+                        VerticalAlignment="Center"
+                        Text="{Binding Value}"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -511,6 +553,25 @@
                                     Visibility="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource LayoutSwitchModeVisibilityConverter}, Mode=OneWay}"/>
                             </StackPanel>
                         </CommandBar.Content>
+                        <AppBarElementContainer>
+                            <shuxca:AutoSuggestTokenBox
+                                Width="600"
+                                Height="44"
+                                Margin="6,-2,6,6"
+                                HorizontalAlignment="Right"
+                                VerticalContentAlignment="Center"
+                                AvailableTokens="{Binding AvailableTokens}"
+                                FilterCommand="{Binding FilterCommand}"
+                                ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
+                                MaximumTokens="5"
+                                PlaceholderText="{shuxm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
+                                QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
+                                Style="{StaticResource DefaultAutoSuggestTokenBoxStyle}"
+                                SuggestedItemTemplate="{StaticResource TokenTemplate}"
+                                SuggestedItemsSource="{Binding AvailableTokens.Values}"
+                                Text="{Binding FilterToken, Mode=TwoWay}"
+                                TokenItemTemplate="{StaticResource TokenTemplate}"/>
+                        </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding ExportToTextCommand}"
                             Icon="{shuxm:FontIcon Glyph=&#xEDE1;}"
@@ -556,11 +617,24 @@
                                 OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
                                 PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                 <SplitView.Pane>
-                                    <ListView
-                                        Padding="{ThemeResource ListViewInSplitPanePadding}"
-                                        ItemTemplate="{StaticResource AvatarListViewTemplate}"
-                                        ItemsSource="{Binding Summary.Avatars}"
-                                        SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <ListView
+                                            Grid.Row="0"
+                                            Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                            ItemTemplate="{StaticResource AvatarListViewTemplate}"
+                                            ItemsSource="{Binding Summary.Avatars}"
+                                            SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Margin="0,4"
+                                            HorizontalAlignment="Center"
+                                            Style="{ThemeResource CaptionTextBlockStyle}"
+                                            Text="{Binding TotalAvatarCount}"/>
+                                    </Grid>
                                 </SplitView.Pane>
                                 <SplitView.Content>
                                     <ScrollViewer>

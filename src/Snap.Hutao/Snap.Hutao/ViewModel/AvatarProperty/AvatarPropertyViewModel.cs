@@ -6,17 +6,22 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Intrinsic.Frozen;
+using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
+using System.Collections.Frozen;
+using System.Collections.ObjectModel;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -31,8 +36,22 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private Summary? summary;
+    private ObservableCollection<SearchToken>? filterTokens;
+    private string? filterToken;
+    private FrozenDictionary<string, SearchToken> availableTokens;
 
     public Summary? Summary { get => summary; set => SetProperty(ref summary, value); }
+
+    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+
+    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+
+    public FrozenDictionary<string, SearchToken> AvailableTokens { get => availableTokens; set => SetProperty(ref availableTokens, value); }
+
+    public string TotalAvatarCount
+    {
+        get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(summary?.Avatars.Count ?? 0);
+    }
 
     public void Receive(UserAndUidChangedMessage message)
     {
@@ -44,6 +63,14 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
+        FilterTokens = [];
+        availableTokens = FrozenDictionary.ToFrozenDictionary(
+        [
+            .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToIconUri(nv.Name)))),
+                .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
+                .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
+            ]);
+
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).ConfigureAwait(false);
@@ -324,5 +351,17 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelAvatatPropertyExportTextError);
         }
+    }
+
+    [Command("FilterCommand")]
+    private void ApplyFilter()
+    {
+        if (Summary is null)
+        {
+            return;
+        }
+
+        Summary.Avatars.Filter = FilterTokens is null or [] ? default! : AvatarViewFilter.Compile(FilterTokens);
+        OnPropertyChanged(nameof(TotalAvatarCount));
     }
 }
