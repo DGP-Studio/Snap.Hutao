@@ -43,8 +43,8 @@ internal sealed class BridgeShareContext
     public IClipboardProvider ClipboardProvider { get => clipboardProvider; }
 
     public JsonSerializerOptions JsonSerializerOptions { get => jsonSerializerOptions; }
-    
+
     public IFileSystemPickerInteraction FileSystemPickerInteraction { get => fileSystemPickerInteraction; }
-    
+
     public BridgeShareSaveType ShareSaveType { get => shareSaveType; }
 }
