@@ -12,6 +12,7 @@ namespace Snap.Hutao.Service.Cultivation;
 internal interface ICultivationService
 {
     AdvancedDbCollectionView<CultivateProject> Projects { get; }
+
     ITaskContext TaskContext { get; }
 
     ICultivationRepository Repository { get; }
