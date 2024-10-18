@@ -255,13 +255,11 @@ internal sealed class XamlWindowController
 
     private void RecoverOrInitWindowSize(IXamlWindowHasInitSize xamlWindow)
     {
-        double scale = window.GetRasterizationScale();
         RectInt32 rect = xamlWindow.InitSize.ToRectInt32();
 
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
-            RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
-            RectInt32 persistedRect = nonDpiPersistedRect;
+            RectInt32 persistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
 
             // If the persisted size is less than min size, we want to reset to the init size.
             // So we only recover the size when it's greater than or equal to the min size.
