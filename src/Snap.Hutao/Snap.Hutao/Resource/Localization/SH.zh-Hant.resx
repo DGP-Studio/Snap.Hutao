@@ -1506,13 +1506,13 @@
     <value>更新</value>
   </data>
   <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
-    <value>请输入账号</value>
+    <value>請輸入帳號</value>
   </data>
   <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
     <value>請輸入密碼</value>
   </data>
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
-    <value>账号密码登录</value>
+    <value>帳號密碼登入</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
@@ -1893,13 +1893,13 @@
     <value>匯入失敗</value>
   </data>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
-    <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
+    <value>目前選中使用者與遊戲伺服器不匹配，請重新選擇</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>目前選中的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>使用米游社用户登录失败，请重新登录</value>
+    <value>使用米遊社用戶登入失敗，請重新登入</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2721,10 +2721,10 @@
     <value>啟用</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+    <value>使用目前選中的米遊社使用者登入，僅支援官服</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>使用米游社用户登录</value>
+    <value>使用米遊社使用者登入</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>充分利用支援 HDR 的顯示器以獲得更亮、更生動、更精細的畫面</value>
@@ -3035,6 +3035,12 @@
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>設定遊戲路徑時，請選擇遊戲本體（YuanShen.exe 或 GenshinImpact.exe） 而不是啟動器（launcher.exe）</value>
   </data>
+  <data name="ViewPageSettingShareSaveTypeDescription" xml:space="preserve">
+    <value>選擇點擊分享按鈕後儲存圖片的模式</value>
+  </data>
+  <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
+    <value>分享儲存模式</value>
+  </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 體驗</value>
   </data>
@@ -3094,6 +3100,9 @@
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>WebView2 執行階段</value>
+  </data>
+  <data name="ViewPageSettingWebViewHeader" xml:space="preserve">
+    <value>WebView</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>
@@ -3306,10 +3315,10 @@
     <value>旅行工具</value>
   </data>
   <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
-    <value>账密登录</value>
+    <value>帳密登入</value>
   </data>
   <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
-    <value>三方登录</value>
+    <value>第三方登入</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>網頁登入</value>
@@ -3412,6 +3421,21 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已複製到剪貼簿</value>
+  </data>
+  <data name="WebBridgeShareFilePickerTitle" xml:space="preserve">
+    <value>儲存分享圖片</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileFailed" xml:space="preserve">
+    <value>圖片儲存失敗</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileSuccess" xml:space="preserve">
+    <value>圖片儲存成功</value>
+  </data>
+  <data name="WebBridgeShareSaveKindCopyToClipboard" xml:space="preserve">
+    <value>複製到剪貼簿</value>
+  </data>
+  <data name="WebBridgeShareSaveKindSaveAsFile" xml:space="preserve">
+    <value>儲存為檔案</value>
   </data>
   <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
     <value>所有魔神任務已完成</value>
