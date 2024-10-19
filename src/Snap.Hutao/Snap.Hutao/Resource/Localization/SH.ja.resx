@@ -3037,6 +3037,12 @@
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>ゲームパスを設定する際、ランチャー（launcher.exe）ではなく、本体（YuanShen.exe または GenshinImpact.exe）を選択してください。</value>
   </data>
+  <data name="ViewPageSettingShareSaveTypeDescription" xml:space="preserve">
+    <value>シェアボタンの上に、画像を表示するパターンを選択します。</value>
+  </data>
+  <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
+    <value>保存モードの共有</value>
+  </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell エクスペリエンス</value>
   </data>
@@ -3096,6 +3102,9 @@
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 ランタイム</value>
+  </data>
+  <data name="ViewPageSettingWebViewHeader" xml:space="preserve">
+    <value>WebView</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>後半</value>
@@ -3414,6 +3423,21 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>クリップボードにコピーしました。</value>
+  </data>
+  <data name="WebBridgeShareFilePickerTitle" xml:space="preserve">
+    <value>共有画像を保存</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileFailed" xml:space="preserve">
+    <value>画像の保存に失敗しました</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileSuccess" xml:space="preserve">
+    <value>画像を保存しました。</value>
+  </data>
+  <data name="WebBridgeShareSaveKindCopyToClipboard" xml:space="preserve">
+    <value>クリップボードにコピー</value>
+  </data>
+  <data name="WebBridgeShareSaveKindSaveAsFile" xml:space="preserve">
+    <value>ファイルとして保存</value>
   </data>
   <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
     <value>すべての魔神任務が完了しました</value>
