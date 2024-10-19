@@ -1687,7 +1687,7 @@
     <value>キャラクターラインナップが未配置か非表示です。ゲーム内のプロフィール編集で設定してください</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
-    <value>{0} 人の役割</value>
+    <value>キャラ総計 {0} 人</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>キャラ詳細をコピーに失敗しました</value>
