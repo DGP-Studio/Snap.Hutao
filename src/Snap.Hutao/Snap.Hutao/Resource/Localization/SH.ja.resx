@@ -1381,13 +1381,13 @@
     <value>ゲームサーバー</value>
   </data>
   <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
-    <value>HDDの場合、SSDが推奨されます</value>
+    <value>現在選択されているディレクトリは HDD ですが、SSD を推奨します</value>
   </data>
   <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
-    <value>ゲームインストールディレクトリを設定します。</value>
+    <value>ゲームのインストール場所を設定</value>
   </data>
   <data name="ViewDialogGameInstallTitle" xml:space="preserve">
-    <value>ゲームをインストールする</value>
+    <value>ゲームをインストール</value>
   </data>
   <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
     <value>中国語</value>
@@ -1924,7 +1924,7 @@
     <value>現在選択されているゲームパス {0} が壊れています。フォルダーを手動で削除しゲームを再インストールしてください</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>米案内/HoYoLABユーザログイン失敗のため、もう一度ログインしてください。</value>
+    <value>米游社 / HoYoLAB ユーザーでログインに失敗しました。もう一度ログインしてください</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>サーバーの切り替えができませんでした</value>
@@ -2747,10 +2747,10 @@
     <value>有効</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>現在のChill事業者 / HoYoLAB ユーザを使用してログインします。チャネルの接続はサポートされていません</value>
+    <value>今は選ばれている 米游社 / HoYoLAB ユーザーを使用してログインします。世界樹サーバーはサポートされていません</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>米案内局/HoYoLABユーザによるログイン</value>
+    <value>米游社 / HoYoLAB ユーザーでログイン</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>HDR に対応したモニターを活用すれば、より明るく、より鮮やかで、より精細な画像が得られます</value>
@@ -3062,10 +3062,10 @@
     <value>ゲームパスを設定する際、ランチャー（launcher.exe）ではなく、本体（YuanShen.exe または GenshinImpact.exe）を選択してください。</value>
   </data>
   <data name="ViewPageSettingShareSaveTypeDescription" xml:space="preserve">
-    <value>シェアボタンの上に、画像を表示するパターンを選択します。</value>
+    <value>共有ボタンをクリックした後、画像を保存するモードを選択します</value>
   </data>
   <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
-    <value>保存モードの共有</value>
+    <value>共有の保存モード</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell エクスペリエンス</value>
