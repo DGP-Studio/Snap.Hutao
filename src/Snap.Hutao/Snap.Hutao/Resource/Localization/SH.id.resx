@@ -1376,6 +1376,30 @@
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
     <value>Masukan histori wish URL secara manual</value>
   </data>
+  <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
+    <value>游戏服务器</value>
+  </data>
+  <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
+    <value>当前选择目录为HDD，建议使用SSD</value>
+  </data>
+  <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
+    <value>设置游戏安装目录</value>
+  </data>
+  <data name="ViewDialogGameInstallTitle" xml:space="preserve">
+    <value>安装游戏</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
+    <value>汉语</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
+    <value>韩语</value>
+  </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
     <value>Masukkan URL permintaan dengan template Composit</value>
   </data>
