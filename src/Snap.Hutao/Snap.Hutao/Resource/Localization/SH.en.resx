@@ -743,7 +743,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
-    <value>Heal bonus</value>
+    <value>Healing Bonus</value>
   </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>HP</value>
@@ -1146,16 +1146,16 @@
     <value>Can't get user information with entered Cookie</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
-    <value>Append Attribute Recommendation</value>
+    <value>Additional Property Recommendation</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
-    <value>Rational Champion Attribute Recommendations</value>
+    <value>Circlet of Logos Property Recommendation</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
-    <value>Empty Grail Property Recommendation</value>
+    <value>Goblet of Eonothem Property Recommendation</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
-    <value>Sand Properties Recommendations</value>
+    <value>Sands of Eon Property Recommendation</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>Copy Image</value>
@@ -1380,13 +1380,13 @@
     <value>Game Server</value>
   </data>
   <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
-    <value>Currently selecting directory as HDD, recommend SSD</value>
+    <value>Currently selected directory is HDD, SSD is recommended</value>
   </data>
   <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
     <value>Set the game installation directory</value>
   </data>
   <data name="ViewDialogGameInstallTitle" xml:space="preserve">
-    <value>Install Games</value>
+    <value>Install Game</value>
   </data>
   <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
     <value>Chinese</value>
@@ -1710,7 +1710,7 @@
     <value>Character showcase is disabled. Please activate it in the game.</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
-    <value>共 {0} 位角色</value>
+    <value>{0} characters in total</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>Failed to copy role details</value>
@@ -1923,7 +1923,7 @@
     <value>The currently selected game directory {0} is corrupted. Please manually delete the folder and reinstall the game</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>Login with Mile Society failed, please login again</value>
+    <value>Login failed with Milesto/HoYooLAB user. Please login again</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
@@ -1995,7 +1995,7 @@
     <value>Failed to save game path</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
-    <value>The current data directory `{0}' contains one or more reanalytics points (Reparse points) that may cause some data folders to work properly. Please go to set the change path</value>
+    <value>The current data directory '{0}' contains one or more reparse points, which may cause some of the functions that depend on the data folder to not work properly, please go to Settings to change the path.</value>
   </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>Export failed</value>
@@ -2067,7 +2067,7 @@
     <value>Export</value>
   </data>
   <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
-    <value>Charged achievements only</value>
+    <value>Daily quest achievements only</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Import from Clipboard</value>
@@ -2745,10 +2745,10 @@
     <value>Enabled</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>Sign in with the currently selected Mix user only</value>
+    <value>Sign in with the currently selected meters / HoYoLAB user without support for channel services</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>Sign in with Minecraft user</value>
+    <value>Sign in with Milesto/HoYoLAB user</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Take advantage of monitors that support HDR for brighter, more vivid, and more detailed pictures</value>
