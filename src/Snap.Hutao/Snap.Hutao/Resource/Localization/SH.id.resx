@@ -1923,7 +1923,7 @@
     <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>使用米游社用户登录失败，请重新登录</value>
+    <value>使用 米游社 / HoYoLAB 用户登录失败，请重新登录</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Konversi server gagal</value>
@@ -2745,10 +2745,10 @@
     <value>Aktifkan</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的米游社用户登录，仅支持官服</value>
+    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，不支持渠道服</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>使用米游社用户登录</value>
+    <value>使用 米游社 / HoYoLAB 用户登录</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Manfaatkan tampilan yang mendukung rentang dinamis tinggi untuk gambar yang lebih terang, lebih jelas, dan lebih detail</value>
