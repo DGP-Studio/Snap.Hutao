@@ -27,6 +27,8 @@ internal sealed partial class SettingEntry
 
     public const string DownloadSpeedLimitPerSecondInKiloByte = "DownloadSpeedLimitPerSecondInKiloByte";
 
+    public const string BridgeShareSaveType = "BridgeShareSaveType";
+
     public const string DailyNoteIsAutoRefreshEnabled = "DailyNote.IsAutoRefreshEnabled";
     public const string DailyNoteRefreshSeconds = "DailyNote.RefreshSeconds";
     public const string DailyNoteReminderNotify = "DailyNote.ReminderNotify";
