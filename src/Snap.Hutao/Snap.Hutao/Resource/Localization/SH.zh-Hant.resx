@@ -1377,28 +1377,28 @@
     <value>手動輸入祈願紀錄 URL</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
-    <value>游戏服务器</value>
+    <value>遊戲伺服器</value>
   </data>
   <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
-    <value>当前选择目录为HDD，建议使用SSD</value>
+    <value>目前選擇目錄為HDD，建議使用SSD</value>
   </data>
   <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
-    <value>设置游戏安装目录</value>
+    <value>設定遊戲安裝目錄</value>
   </data>
   <data name="ViewDialogGameInstallTitle" xml:space="preserve">
     <value>安裝遊戲</value>
   </data>
   <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
-    <value>汉语</value>
+    <value>漢語</value>
   </data>
   <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
-    <value>英语</value>
+    <value>英語</value>
   </data>
   <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
-    <value>日语</value>
+    <value>日語</value>
   </data>
   <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
-    <value>韩语</value>
+    <value>韓語</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
     <value>請輸入請求介面的 URL 複合模板</value>
@@ -1923,7 +1923,7 @@
     <value>目前選中的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>使用 米游社 / HoYoLAB 用户登录失败，请重新登录</value>
+    <value>使用 米遊社 / HoYoLAB 使用者登入失敗，請重新登入</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2745,10 +2745,10 @@
     <value>啟用</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，不支持渠道服</value>
+    <value>使用目前選中的 米遊社 / HoYoLAB 使用者登入，不支援渠道服</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>使用 米游社 / HoYoLAB 用户登录</value>
+    <value>使用 米遊社 / HoYoLAB 使用者登入</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>充分利用支援 HDR 的顯示器以獲得更亮、更生動、更精細的畫面</value>
