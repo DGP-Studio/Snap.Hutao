@@ -1923,7 +1923,7 @@
     <value>目前選中的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>使用米遊社用戶登入失敗，請重新登入</value>
+    <value>使用 米游社 / HoYoLAB 用户登录失败，请重新登录</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2745,10 +2745,10 @@
     <value>啟用</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用目前選中的米遊社使用者登入，僅支援官服</value>
+    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，不支持渠道服</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>使用米遊社使用者登入</value>
+    <value>使用 米游社 / HoYoLAB 用户登录</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>充分利用支援 HDR 的顯示器以獲得更亮、更生動、更精細的畫面</value>
