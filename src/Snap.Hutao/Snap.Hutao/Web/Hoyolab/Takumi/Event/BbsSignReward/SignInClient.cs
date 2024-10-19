@@ -109,18 +109,16 @@ internal sealed partial class SignInClient : ISignInClient
 
         if (resp is { Data: { Success: 1, Gt: { } gt, Challenge: { } originChallenge } })
         {
-            if (await geetestService.TryVerifyAsync(gt, originChallenge, token).ConfigureAwait(false) is { } data)
+            if (await geetestService.TryVerifyGtChallengeAsync(gt, originChallenge, token).ConfigureAwait(false) is { } data)
             {
-                HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(apiEndpoints.LunaSolSign())
-                    .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+                builder
+                    .Resurrect()
                     .SetHeader("x-rpc-signgame", "hk4e")
-                    .SetXrpcChallenge(data.Challenge, data.Validate)
-                    .PostJson(new SignInData(apiEndpoints, userAndUid.Uid));
+                    .SetXrpcChallenge(data.Challenge, data.Validate);
 
-                await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+                await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
-                resp = await verifiedBuilder
+                resp = await builder
                     .SendAsync<Response<SignInResult>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }

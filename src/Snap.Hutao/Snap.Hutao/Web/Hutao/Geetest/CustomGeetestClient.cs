@@ -12,10 +12,10 @@ namespace Snap.Hutao.Web.Hutao.Geetest;
 
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class HomaGeetestClient
+internal sealed partial class CustomGeetestClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HomaGeetestClient> logger;
+    private readonly ILogger<CustomGeetestClient> logger;
     private readonly AppOptions appOptions;
     private readonly HttpClient httpClient;
 

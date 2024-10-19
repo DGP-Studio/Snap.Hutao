@@ -19,21 +19,21 @@ namespace Snap.Hutao.Service.Geetest;
 internal sealed partial class GeetestService : IGeetestService
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
-    private readonly HomaGeetestClient homaGeetestClient;
+    private readonly CustomGeetestClient customGeetestClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly CardClient cardClient;
 
-    public async ValueTask<GeetestData?> TryVerifyAsync(string gt, string challenge, CancellationToken token = default)
+    public async ValueTask<GeetestData?> TryVerifyGtChallengeAsync(string gt, string challenge, CancellationToken token = default)
     {
-        GeetestResponse response = await homaGeetestClient.VerifyAsync(gt, challenge, token).ConfigureAwait(false);
+        GeetestResponse response = await customGeetestClient.VerifyAsync(gt, challenge, token).ConfigureAwait(false);
 
         if (response is { Code: 0, Data: { } data })
         {
             return data;
         }
 
-        string? result = await VerifyByWebViewAsync(gt, challenge, false, token).ConfigureAwait(false);
+        string? result = await PrivateVerifyByWebViewAsync(gt, challenge, false, token).ConfigureAwait(false);
         if (string.IsNullOrEmpty(result))
         {
             return default;
@@ -41,16 +41,16 @@ internal sealed partial class GeetestService : IGeetestService
 
         GeetestWebResponse? webResponse = JsonSerializer.Deserialize<GeetestWebResponse>(result);
         ArgumentNullException.ThrowIfNull(webResponse);
-        GeetestData webData = new()
+
+        return new GeetestData()
         {
             Gt = gt,
             Challenge = webResponse.Challenge,
             Validate = webResponse.Validate,
         };
-        return webData;
     }
 
-    public async ValueTask<string?> TryValidateXrpcChallengeAsync(Model.Entity.User user, CardVerifiationHeaders headers, CancellationToken token = default)
+    public async ValueTask<string?> TryVerifyXrpcChallengeAsync(Model.Entity.User user, CardVerifiationHeaders headers, CancellationToken token = default)
     {
         Response<VerificationRegistration> registrationResponse = await cardClient.CreateVerificationAsync(user, headers, token).ConfigureAwait(false);
         if (!ResponseValidator.TryValidate(registrationResponse, infoBarService, out VerificationRegistration? registration))
@@ -58,7 +58,7 @@ internal sealed partial class GeetestService : IGeetestService
             return default;
         }
 
-        if (await TryVerifyAsync(registration.Gt, registration.Challenge, token).ConfigureAwait(false) is not { } data)
+        if (await TryVerifyGtChallengeAsync(registration.Gt, registration.Challenge, token).ConfigureAwait(false) is not { } data)
         {
             return default;
         }
@@ -69,27 +69,23 @@ internal sealed partial class GeetestService : IGeetestService
             return default;
         }
 
-        if (result.Challenge is not null)
-        {
-            return result.Challenge;
-        }
-
-        return default;
+        return result.Challenge;
     }
 
-    public async ValueTask<bool> TryResolveAigisAsync(IAigisProvider provider, string? rawSession, bool isOversea, CancellationToken token = default)
+    public async ValueTask<bool> TryVerifyAigisSessionAsync(IAigisProvider provider, string? rawSession, bool isOversea, CancellationToken token = default)
     {
         if (string.IsNullOrEmpty(rawSession))
         {
             return false;
         }
 
-        AigisObject? session = JsonSerializer.Deserialize<AigisObject>(rawSession);
+        AigisSession? session = JsonSerializer.Deserialize<AigisSession>(rawSession);
         ArgumentNullException.ThrowIfNull(session);
+
         AigisData? sessionData = JsonSerializer.Deserialize<AigisData>(session.Data);
         ArgumentNullException.ThrowIfNull(sessionData);
 
-        string? result = await VerifyByWebViewAsync(sessionData.GT, sessionData.Challenge, isOversea, token).ConfigureAwait(false);
+        string? result = await PrivateVerifyByWebViewAsync(sessionData.GT, sessionData.Challenge, isOversea, token).ConfigureAwait(false);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -101,15 +97,11 @@ internal sealed partial class GeetestService : IGeetestService
         return true;
     }
 
-    private async ValueTask<string?> VerifyByWebViewAsync(string gt, string challenge, bool isOversea, CancellationToken token)
+    private async ValueTask<string?> PrivateVerifyByWebViewAsync(string gt, string challenge, bool isOversea, CancellationToken token)
     {
         await taskContext.SwitchToMainThreadAsync();
         GeetestWebView2ContentProvider contentProvider = new(gt, challenge, isOversea);
-
-        new ShowWebView2WindowAction
-        {
-            ContentProvider = contentProvider,
-        }.ShowAt(currentXamlWindowReference.GetXamlRoot());
+        ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
 
         await taskContext.SwitchToBackgroundAsync();
         return await contentProvider.GetResultAsync().ConfigureAwait(false);

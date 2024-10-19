@@ -13,6 +13,7 @@ using Windows.System;
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [INotifyPropertyChanged]
+[ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPassportPasswordProvider
 {
     private readonly IServiceProvider serviceProvider;
@@ -21,14 +22,6 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
 
     private string? account;
     private string? password;
-
-    public UserAccountPasswordDialog(IServiceProvider serviceProvider)
-    {
-        this.serviceProvider = serviceProvider;
-        geetestService = serviceProvider.GetRequiredService<IGeetestService>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        InitializeComponent();
-    }
 
     public string? Account { get => account; set => SetProperty(ref account, value); }
 
@@ -66,26 +59,19 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
         ArgumentNullException.ThrowIfNull(Account);
         ArgumentNullException.ThrowIfNull(Password);
 
-        string? rawSession;
-        Response<LoginResult> response;
-
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
-            (rawSession, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
-        }
+            (string? rawSession, Response<LoginResult> response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
 
-        if (await geetestService.TryResolveAigisAsync(this, rawSession, isOversea).ConfigureAwait(false))
-        {
-            using (IServiceScope scope = serviceProvider.CreateScope())
+            if (await geetestService.TryVerifyAigisSessionAsync(this, rawSession, isOversea).ConfigureAwait(false))
             {
-                IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
-                (rawSession, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
+                (_, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
             }
-        }
 
-        bool ok = ResponseValidator.TryValidate(response, serviceProvider, out LoginResult? result);
-        return new(ok, result);
+            bool ok = ResponseValidator.TryValidate(response, serviceProvider, out LoginResult? result);
+            return new(ok, result);
+        }
     }
 
     private void OnTextKeyDown(object sender, KeyRoutedEventArgs e)
