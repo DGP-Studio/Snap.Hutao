@@ -1377,6 +1377,30 @@
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
     <value>祈願履歴 URL を手動で入力する</value>
   </data>
+  <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
+    <value>ゲームサーバー</value>
+  </data>
+  <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
+    <value>HDDの場合、SSDが推奨されます</value>
+  </data>
+  <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
+    <value>ゲームインストールディレクトリを設定します。</value>
+  </data>
+  <data name="ViewDialogGameInstallTitle" xml:space="preserve">
+    <value>ゲームをインストールする</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
+    <value>中国語</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
+    <value>英語</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
+    <value>韓国語</value>
+  </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
     <value>リクエスト URL の複合テンプレートを入力してください</value>
   </data>
