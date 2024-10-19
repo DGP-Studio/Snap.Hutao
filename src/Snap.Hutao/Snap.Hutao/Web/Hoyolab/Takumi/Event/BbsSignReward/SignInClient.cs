@@ -3,10 +3,10 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
+using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
-using Snap.Hutao.Web.Hutao.Geetest;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -20,7 +20,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 internal sealed partial class SignInClient : ISignInClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly HomaGeetestClient homaGeetestClient;
+    private readonly IGeetestService geetestService;
     private readonly CultureOptions cultureOptions;
     private readonly ILogger<SignInClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
@@ -109,20 +109,16 @@ internal sealed partial class SignInClient : ISignInClient
 
         if (resp is { Data: { Success: 1, Gt: { } gt, Challenge: { } originChallenge } })
         {
-            GeetestResponse verifyResponse = await homaGeetestClient.VerifyAsync(gt, originChallenge, token).ConfigureAwait(false);
-
-            if (verifyResponse is { Code: 0, Data: { Validate: { } validate, Challenge: { } challenge } })
+            if (await geetestService.TryVerifyGtChallengeAsync(gt, originChallenge, token).ConfigureAwait(false) is { } data)
             {
-                HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(apiEndpoints.LunaSolSign())
-                    .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+                builder
+                    .Resurrect()
                     .SetHeader("x-rpc-signgame", "hk4e")
-                    .SetXrpcChallenge(challenge, validate)
-                    .PostJson(new SignInData(apiEndpoints, userAndUid.Uid));
+                    .SetXrpcChallenge(data.Challenge, data.Validate);
 
-                await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+                await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
-                resp = await verifiedBuilder
+                resp = await builder
                     .SendAsync<Response<SignInResult>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }

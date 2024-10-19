@@ -128,11 +128,7 @@ internal sealed partial class UserViewModel : ObservableObject
 
         await taskContext.SwitchToMainThreadAsync();
         OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(thirdPartyKind, cultureOptions.LanguageCode);
-
-        new ShowWebView2WindowAction
-        {
-            ContentProvider = contentProvider,
-        }.ShowAt(currentXamlWindowReference.GetXamlRoot());
+        ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
 
         await taskContext.SwitchToBackgroundAsync();
         ThirdPartyToken? token = await contentProvider.GetResultAsync().ConfigureAwait(false);
@@ -307,7 +303,7 @@ internal sealed partial class UserViewModel : ObservableObject
     }
 
     [Command("ClaimSignInRewardCommand")]
-    private async Task ClaimSignInRewardAsync(AppBarButton? appBarButton)
+    private async Task ClaimSignInRewardAsync()
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
@@ -325,20 +321,14 @@ internal sealed partial class UserViewModel : ObservableObject
 
         infoBarService.Warning(message);
 
-        if (appBarButton is null)
-        {
-            return;
-        }
-
         // Manual webview
         await taskContext.SwitchToMainThreadAsync();
 
-        new ShowWebView2WindowAction
+        MiHoYoJSBridgeWebView2ContentProvider provider = new()
         {
-            ContentProvider = new MiHoYoJSBridgeWebView2ContentProvider
-            {
-                SourceProvider = new SignInJSBridgeUriSourceProvider(),
-            },
-        }.ShowAt(appBarButton.XamlRoot);
+            SourceProvider = new SignInJSBridgeUriSourceProvider(),
+        };
+
+        ShowWebView2WindowAction.Show(provider, currentXamlWindowReference.GetXamlRoot());
     }
 }

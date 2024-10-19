@@ -429,13 +429,11 @@
                                 </mxi:Interaction.Behaviors>
                             </AppBarButton>
                             <AppBarButton
-                                x:Name="SignInRewardButton"
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 AllowFocusOnInteraction="True"
                                 Command="{Binding ClaimSignInRewardCommand}"
-                                CommandParameter="{Binding ElementName=SignInRewardButton}"
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentGiftboxOpen}}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
                                 Style="{StaticResource DefaultAppBarButtonStyle}"/>
