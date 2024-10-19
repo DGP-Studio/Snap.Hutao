@@ -15,6 +15,7 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
@@ -146,22 +147,17 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
-            <ScrollViewer>
-                <ItemsRepeater
-                    Margin="16,16,16,16"
-                    HorizontalAlignment="Stretch"
-                    ItemTemplate="{StaticResource AnnouncementTemplate}"
-                    ItemsSource="{Binding List}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsJustification="Start"
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="12"
+            <ItemsControl ItemTemplate="{StaticResource AnnouncementTemplate}" ItemsSource="{Binding List}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <shuxcp:UniformPanel
+                            Margin="16"
+                            ColumnSpacing="12"
                             MinItemWidth="300"
-                            MinRowSpacing="12"/>
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </ScrollViewer>
+                            RowSpacing="12"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </DataTemplate>
 
         <DataTemplate x:Key="HutaoAnnouncementTemplate">

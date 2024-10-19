@@ -202,16 +202,11 @@
             <AppBarButton
                 Width="{StaticResource LargeAppBarButtonWidth}"
                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                Margin="2,0"
+                Margin="0,-4"
                 Command="{Binding DataContext.LoginByThirdPartyOverseaCommand, Source={StaticResource ViewModelBindingProxy}}"
                 CommandParameter="{Binding Name}"
                 Icon="{Binding Name, Converter={StaticResource ThirdPartyIconConverter}}"
-                Label="{Binding Name}">
-                <AppBarButton.Resources>
-                    <x:Double x:Key="AppBarButtonContentHeight">24</x:Double>
-                    <Thickness x:Key="AppBarButtonContentViewboxCollapsedMargin">0,12,0,2</Thickness>
-                </AppBarButton.Resources>
-            </AppBarButton>
+                Label="{Binding Name}"/>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -291,12 +286,10 @@
                 </Grid>
             </Button.Content>
             <Button.Flyout>
-                <Flyout LightDismissOverlayMode="On" Placement="LeftEdgeAlignedBottom">
-                    <Flyout.FlyoutPresenterStyle>
-                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                            <Setter Property="Padding" Value="0"/>
-                        </Style>
-                    </Flyout.FlyoutPresenterStyle>
+                <Flyout
+                    FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding0Style}"
+                    LightDismissOverlayMode="On"
+                    Placement="LeftEdgeAlignedBottom">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -309,97 +302,73 @@
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="0,0,1,0">
-                            <TextBlock
-                                Margin="0,4,0,2"
-                                HorizontalAlignment="Center"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation}"/>
-                            <!--<Grid Background="Transparent" ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserLoginMihoyoUserDisabledTooltip}">
-                                <AppBarButton
-                                    Width="{StaticResource LargeAppBarButtonWidth}"
-                                    MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                    Margin="2,-4"
-                                    Command="{Binding LoginMihoyoUserCommand}"
-                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
-                                    IsEnabled="False"
-                                    Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
-                            </Grid>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
-                                Command="{Binding LoginByQRCodeCommand}"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentQRCode}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>-->
-                            <AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
-                                Command="{Binding LoginByMobileCaptchaCommand}"
                                 Icon="{shuxm:FontIcon Glyph=&#xE8EA;}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMobileCaptchaAction}"/>
-                            <AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
-                                Command="{Binding AddUserCommand}"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
-                            <MenuFlyoutSeparator Margin="4,0"/>
-                            <TextBlock
-                                Margin="0,4,0,2"
-                                HorizontalAlignment="Center"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation2}"/>
-                            <AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
-                                Command="{Binding LoginByPasswordOverseaCommand}"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginByPasswordAction}"/>
-                            <AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentSwitchUser}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginByThirdPartyAction}">
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperation}">
                                 <AppBarButton.Flyout>
-                                    <Flyout LightDismissOverlayMode="On" Placement="RightEdgeAlignedBottom">
-                                        <Flyout.FlyoutPresenterStyle>
-                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                                <Setter Property="Padding" Value="0"/>
-                                            </Style>
-                                        </Flyout.FlyoutPresenterStyle>
-                                        <ItemsControl ItemTemplate="{StaticResource ThirdPartyLoginButtonTemplate}" ItemsSource="{Binding OverseaThirdPartyKinds}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel
-                                                        Margin="0,0"
-                                                        Padding="0,2"
-                                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                        BorderThickness="0,0,1,0"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
+                                    <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding2Style}" Placement="Right">
+                                        <StackPanel Orientation="Horizontal" Spacing="0">
+                                            <AppBarButton
+                                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                                Margin="0,-4"
+                                                Command="{Binding LoginByMobileCaptchaCommand}"
+                                                Icon="{shuxm:FontIcon Glyph=&#xE8EA;}"
+                                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMobileCaptchaAction}"/>
+                                            <AppBarButton
+                                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                                Margin="0,-4"
+                                                Command="{Binding AddUserCommand}"
+                                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
+                                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                                        </StackPanel>
                                     </Flyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>
-                            <!--<AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
-                                Command="{Binding LoginHoyoverseUserCommand}"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>-->
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
-                                Command="{Binding AddOverseaUserCommand}"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                                Icon="{shuxm:FontIcon Glyph=&#xE8EA;}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperation2}">
+                                <AppBarButton.Flyout>
+                                    <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding2Style}" Placement="Right">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <ItemsControl
+                                                Grid.Row="0"
+                                                ItemTemplate="{StaticResource ThirdPartyLoginButtonTemplate}"
+                                                ItemsPanel="{ThemeResource HorizontalStackPanelSpacing0Template}"
+                                                ItemsSource="{Binding OverseaThirdPartyKinds}"/>
+                                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                                <AppBarButton
+                                                    Width="{StaticResource LargeAppBarButtonWidth}"
+                                                    MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                                    Margin="0,-4"
+                                                    Command="{Binding LoginByPasswordOverseaCommand}"
+                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentOtherUser}}"
+                                                    Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginByPasswordAction}"/>
+                                                <AppBarButton
+                                                    Width="{StaticResource LargeAppBarButtonWidth}"
+                                                    MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                                    Margin="0,-4"
+                                                    Command="{Binding AddOverseaUserCommand}"
+                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
+                                                    Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+
                             <MenuFlyoutSeparator Margin="4,0"/>
                             <TextBlock
                                 Margin="0,4,0,2"

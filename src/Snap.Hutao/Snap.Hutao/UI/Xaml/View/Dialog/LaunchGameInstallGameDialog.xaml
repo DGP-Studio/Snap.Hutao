@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    Title="安装游戏"
+    Title="{shuxm:ResourceString Name=ViewDialogGameInstallTitle}"
     CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
@@ -15,7 +15,7 @@
 
     <StackPanel Spacing="{ThemeResource SettingsCardContentControlSpacing}">
         <InfoBar
-            Title="当前选择目录为HDD，建议使用SSD"
+            Title="{shuxm:ResourceString Name=ViewDialogGameInstallPathHddHint}"
             IsClosable="False"
             IsOpen="True"
             Severity="Warning"
@@ -25,7 +25,7 @@
             Width="480"
             Command="{x:Bind PickGameDirectoryCommand}"
             Description="{x:Bind GameDirectory, Mode=OneWay}"
-            Header="设置游戏安装目录"
+            Header="{shuxm:ResourceString Name=ViewDialogGameInstallPickGameDirectory}"
             HeaderIcon="{shuxm:FontIcon Glyph=&#xED25;}"
             IsClickEnabled="True"/>
 
@@ -35,7 +35,7 @@
             DisplayMemberPath="DisplayName"
             EnableMemberPath="IsNotCompatOnly"
             ItemsSource="{x:Bind KnownSchemes}"
-            PlaceholderText="游戏区服"
+            PlaceholderText="{shuxm:ResourceString Name=ViewDialogGameInstallLaunchScheme}"
             SelectedItem="{x:Bind SelectedScheme, Mode=TwoWay}"
             Style="{StaticResource DefaultComboBoxStyle}"/>
 
@@ -47,22 +47,22 @@
             <CheckBox
                 MinWidth="64"
                 VerticalAlignment="Center"
-                Content="汉语"
+                Content="{shuxm:ResourceString Name=ViewDialogGameInstallVoiceChinese}"
                 IsChecked="{x:Bind Chinese, Mode=TwoWay}"/>
             <CheckBox
                 MinWidth="64"
                 VerticalAlignment="Center"
-                Content="英语"
+                Content="{shuxm:ResourceString Name=ViewDialogGameInstallVoiceEnglish}"
                 IsChecked="{x:Bind English, Mode=TwoWay}"/>
             <CheckBox
                 MinWidth="64"
                 VerticalAlignment="Center"
-                Content="日语"
+                Content="{shuxm:ResourceString Name=ViewDialogGameInstallVoiceJapanese}"
                 IsChecked="{x:Bind Japanese, Mode=TwoWay}"/>
             <CheckBox
                 MinWidth="64"
                 VerticalAlignment="Center"
-                Content="韩语"
+                Content="{shuxm:ResourceString Name=ViewDialogGameInstallVoiceKorean}"
                 IsChecked="{x:Bind Korean, Mode=TwoWay}"/>
         </cwc:UniformGrid>
     </StackPanel>
