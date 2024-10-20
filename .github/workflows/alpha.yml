@@ -99,3 +99,21 @@ jobs:
           "
 
           echo $summary >> $Env:GITHUB_STEP_SUMMARY
+  
+      - name: Clean up
+        run: |
+          Write-Host "Cleaning up NuGet cache..."
+          Remove-Item -Recurse -Force "$env:USERPROFILE\.nuget\packages"
+          Write-Host "NuGet cache cleaned."
+
+          Write-Host "Cleaning up .NET install folder..."
+          Remove-Item -Recurse -Force "C:\Users\Public\Documents\dotnet_install"
+          Write-Host ".NET install folder cleaned."
+
+          Write-Host "Cleaning up AppVeyor user's local cache..."
+          Remove-Item -Recurse -Force "C:\Users\appveyor\AppData\Local"
+          Write-Host "AppVeyor user's local cache cleaned."
+
+          Write-Host "Cleaning up Administrator user's local cache..."
+          Remove-Item -Recurse -Force "C:\Users\Administrator\AppData\Local"
+          Write-Host "Administrator user's local cache cleaned."
