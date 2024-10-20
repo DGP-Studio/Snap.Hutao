@@ -7,5 +7,5 @@ namespace Snap.Hutao.UI.Windowing.Abstraction;
 
 internal interface IXamlWindowSubclassMinMaxInfoHandler
 {
-    unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor);
+    void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor);
 }

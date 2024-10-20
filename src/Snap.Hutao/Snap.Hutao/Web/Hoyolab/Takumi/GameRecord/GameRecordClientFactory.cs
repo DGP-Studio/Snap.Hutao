@@ -7,6 +7,4 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient, typeof(IOverseaSupportFactory<IGameRecordClient>))]
-internal sealed partial class GameRecordClientFactory : OverseaSupportFactory<IGameRecordClient, GameRecordClient, GameRecordClientOversea>
-{
-}
+internal sealed partial class GameRecordClientFactory : OverseaSupportFactory<IGameRecordClient, GameRecordClient, GameRecordClientOversea>;

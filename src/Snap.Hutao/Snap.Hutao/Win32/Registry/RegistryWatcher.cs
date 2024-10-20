@@ -89,7 +89,7 @@ internal sealed partial class RegistryWatcher : IDisposable
 
             using (AutoResetEvent notifyEvent = new(false))
             {
-                HANDLE hEvent = (HANDLE)notifyEvent.SafeWaitHandle.DangerousGetHandle();
+                HANDLE hEvent = notifyEvent.SafeWaitHandle.DangerousGetHandle();
 
                 try
                 {

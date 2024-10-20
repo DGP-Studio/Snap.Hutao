@@ -11,13 +11,13 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class CalculateClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
+    private readonly IServiceProvider serviceProvider;
     private readonly ILogger<CalculateClient> logger;
 
     private readonly HttpClient httpClient;
@@ -75,9 +75,11 @@ internal sealed partial class CalculateClient
                 .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, logger, token)
                 .ConfigureAwait(false);
 
-            if (resp is not null && resp.IsOk())
+            Response.Response.DefaultIfNull(ref resp);
+
+            if (ResponseValidator.TryValidate(resp, serviceProvider, out ListWrapper<Avatar>? listWrapper))
             {
-                avatars.AddRange(resp.Data.List);
+                avatars.AddRange(listWrapper.List);
             }
             else
             {
@@ -162,7 +164,7 @@ internal sealed partial class CalculateClient
         public string Uid { get; set; } = default!;
 
         [JsonPropertyName("region")]
-        public Region Region { get; set; } = default!;
+        public Region Region { get; set; }
     }
 
     private class IdCount
@@ -180,7 +182,7 @@ internal sealed partial class CalculateClient
         public List<AvatarPromotionDelta> Items { get; set; } = default!;
 
         [JsonPropertyName("region")]
-        public Region Region { get; set; } = default!;
+        public Region Region { get; set; }
 
         [JsonPropertyName("uid")]
         public string Uid { get; set; } = default!;

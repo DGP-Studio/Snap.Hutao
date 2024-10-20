@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
+using Snap.Hutao.UI.Xaml.Data;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;
@@ -26,5 +27,13 @@ internal static class ObservableReorderableDbCollectionExtension
         return source is List<TEntityOnly> list
             ? new ObservableReorderableDbCollection<TEntityOnly, TEntity>(list, serviceProvider)
             : new ObservableReorderableDbCollection<TEntityOnly, TEntity>([.. source], serviceProvider);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static AdvancedDbCollectionView<TEntityOnly, TEntity> ToAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
+        where TEntityOnly : class, IAdvancedCollectionViewItem, IEntityAccess<TEntity>
+        where TEntity : class, ISelectable, IReorderable
+    {
+        return new(ToObservableReorderableDbCollection<TEntityOnly, TEntity>(source, serviceProvider), serviceProvider);
     }
 }

@@ -22,12 +22,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     private readonly SettingGachaLogViewModel gachaLogViewModel;
     private readonly SettingGeetestViewModel geetestViewModel;
     private readonly SettingStorageViewModel storageViewModel;
+    private readonly SettingWebViewViewModel webViewViewModel;
     private readonly SettingHotKeyViewModel hotKeyViewModel;
     private readonly SettingHomeViewModel homeViewModel;
     private readonly SettingGameViewModel gameViewModel;
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
     private ScrollViewer? rootScrollViewer;
@@ -48,6 +48,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     public SettingGameViewModel Game { get => gameViewModel; }
 
     public SettingGachaLogViewModel GachaLog { get => gachaLogViewModel; }
+
+    public SettingWebViewViewModel WebView { get => webViewViewModel; }
 
     public SettingDangerousFeatureViewModel DangerousFeature { get => dangerousFeatureViewModel; }
 
@@ -82,8 +84,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     protected override ValueTask<bool> InitializeOverrideAsync()
     {
-        Storage.CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
-        Storage.DataFolderView = new(taskContext, runtimeOptions.DataFolder);
+        Storage.CacheFolderView = new(taskContext, HutaoRuntime.LocalCache);
+        Storage.DataFolderView = new(taskContext, HutaoRuntime.DataFolder);
 
         return ValueTask.FromResult(true);
     }

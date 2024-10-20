@@ -18,7 +18,6 @@ internal sealed partial class HutaoInfrastructureClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoInfrastructureClient> logger;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
 
     public async ValueTask<HutaoResponse<StaticResourceSizeInformation>> GetStaticSizeAsync(CancellationToken token = default)
@@ -45,7 +44,7 @@ internal sealed partial class HutaoInfrastructureClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().PatchSnapHutao())
-            .SetHeader("x-hutao-device-id", runtimeOptions.DeviceId)
+            .SetHeader("x-hutao-device-id", HutaoRuntime.DeviceId)
             .Get();
 
         HutaoResponse<HutaoPackageInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoPackageInformation>>(httpClient, logger, token).ConfigureAwait(false);

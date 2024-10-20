@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
@@ -340,6 +339,8 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     [Command("SelectAllTokensAndTextCommand")]
     public void SelectAllTokensAndText()
     {
+        _ = DispatcherQueue.EnqueueAsync(SelectAllTokensAndTextCore);
+
         void SelectAllTokensAndTextCore()
         {
             this.SelectAllSafe();
@@ -370,8 +371,6 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                 container.Focus(FocusState.Programmatic);
             }
         }
-
-        _ = DispatcherQueue.EnqueueAsync(SelectAllTokensAndTextCore, DispatcherQueuePriority.Normal);
     }
 
     public bool SelectNextItem(AutoSuggestTokenBoxItem item)
@@ -684,12 +683,12 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                         }
 
                         // Need to wait for containerization
-                        _ = DispatcherQueue.EnqueueAsync(Containerization, DispatcherQueuePriority.Normal);
+                        _ = DispatcherQueue.EnqueueAsync(Containerization);
                     }
                 }
 
                 // Wait for removal of old items
-                _ = DispatcherQueue.EnqueueAsync(RemoveOldItems, DispatcherQueuePriority.Normal);
+                _ = DispatcherQueue.EnqueueAsync(RemoveOldItems);
             }
             else
             {
@@ -747,7 +746,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
     private void OnItemGotFocus(object sender, RoutedEventArgs e)
     {
-        if (sender is AutoSuggestTokenBoxItem { AutoSuggestBox: { } autoSuggestBox, Content: ITokenStringContainer text } item)
+        if (sender is AutoSuggestTokenBoxItem { AutoSuggestBox: { } autoSuggestBox, Content: ITokenStringContainer text })
         {
             UpdateCurrentTextEdit(text);
 
@@ -803,7 +802,6 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                 {
                     CopySelectedToClipboard();
                     e.Handled = true;
-                    return;
                 }
 
                 break;
@@ -834,7 +832,6 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                 {
                     SelectAllTokensAndText();
                     e.Handled = true;
-                    return;
                 }
 
                 break;

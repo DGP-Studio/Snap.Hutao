@@ -17,9 +17,6 @@ internal class Response : ICommonResponse<Response>
     {
         ReturnCode = returnCode;
         Message = message;
-#if DEBUG
-        Ioc.Default.GetRequiredService<ILogger<Response>>().LogInformation("Response [{resp}]", ToString());
-#endif
     }
 
     [JsonPropertyName("retcode")]
@@ -41,6 +38,13 @@ internal class Response : ICommonResponse<Response>
     public static TResponse DefaultIfNull<TResponse>(TResponse? response, [CallerMemberName] string callerName = default!)
         where TResponse : ICommonResponse<TResponse>
     {
+        DefaultIfNull(ref response, callerName);
+        return response;
+    }
+
+    public static void DefaultIfNull<TResponse>([NotNull] ref TResponse? response, [CallerMemberName] string callerName = default!)
+        where TResponse : ICommonResponse<TResponse>
+    {
         string message = SH.FormatWebResponseRequestExceptionFormat(callerName, TypeNameHelper.GetTypeDisplayName(typeof(TResponse)));
         response ??= TResponse.CreateDefault(InternalFailure, message);
 
@@ -59,29 +63,11 @@ internal class Response : ICommonResponse<Response>
                 response.Message = SH.FormatWebResponseSignInErrorHint(response.Message);
                 break;
         }
-
-        return response;
     }
 
     public static Response<TData> CloneReturnCodeAndMessage<TData, TOther>(Response<TOther> response)
     {
         return new(response.ReturnCode, response.Message, default);
-    }
-
-    public virtual bool IsOk(bool showInfoBar = true, IServiceProvider? serviceProvider = null)
-    {
-        if (ReturnCode == 0)
-        {
-            return true;
-        }
-
-        if (showInfoBar)
-        {
-            serviceProvider ??= Ioc.Default;
-            serviceProvider.GetRequiredService<IInfoBarService>().Error(ToString());
-        }
-
-        return false;
     }
 
     public override string ToString()
@@ -106,17 +92,5 @@ internal class Response<TData> : Response, ICommonResponse<Response<TData>>, IJs
     static Response<TData> ICommonResponse<Response<TData>>.CreateDefault(int returnCode, string message)
     {
         return new(returnCode, message, default);
-    }
-
-    [MemberNotNullWhen(true, nameof(Data))]
-    public override bool IsOk(bool showInfoBar = true, IServiceProvider? serviceProvider = null)
-    {
-        bool result = base.IsOk(showInfoBar, serviceProvider);
-        if (result)
-        {
-            ArgumentNullException.ThrowIfNull(Data);
-        }
-
-        return result;
     }
 }

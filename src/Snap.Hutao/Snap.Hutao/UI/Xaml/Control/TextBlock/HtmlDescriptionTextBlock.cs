@@ -36,7 +36,7 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
     {
         this.DisableInteraction();
 
-        Content = new MUXCTextBlock()
+        Content = new MUXCTextBlock
         {
             TextWrapping = TextWrapping.Wrap,
             Style = TextStyle,

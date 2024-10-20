@@ -35,7 +35,7 @@ internal sealed partial class AvatarView : INameIconSide,
 
     public List<ConstellationView> Constellations { get; set; } = default!;
 
-    public int ActivatedConstellationCount { get => Constellations.Where(c => c.IsActivated).Count(); }
+    public int ActivatedConstellationCount { get => Constellations.Count(c => c.IsActivated); }
 
     public List<SkillView> Skills { get; set; } = default!;
 

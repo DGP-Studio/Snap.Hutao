@@ -29,7 +29,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         {
             string name = new StringBuilder()
                 .Append("App")
-                .AppendIf(runtimeOptions.IsElevated, "Elevated")
+                .AppendIf(HutaoRuntime.IsProcessElevated, "Elevated")
 #if DEBUG
                 .Append("Dev")
 #endif
@@ -38,7 +38,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
             string? format = SH.GetString(CultureInfo.CurrentCulture, name);
             ArgumentException.ThrowIfNullOrEmpty(format);
-            return string.Format(CultureInfo.CurrentCulture, format, runtimeOptions.Version);
+            return string.Format(CultureInfo.CurrentCulture, format, HutaoRuntime.Version);
         }
     }
 
@@ -98,9 +98,9 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("RestartAsElevatedCommand")]
     private void RestartAsElevated()
     {
-        Process.Start(new ProcessStartInfo()
+        Process.Start(new ProcessStartInfo
         {
-            FileName = $"shell:AppsFolder\\{runtimeOptions.FamilyName}!App",
+            FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
             UseShellExecute = true,
             Verb = "runas",
         });

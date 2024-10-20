@@ -18,7 +18,7 @@ internal sealed class ReliquarySet : IEquatable<ReliquarySet>
     /// <param name="set">简单套装字符串</param>
     public ReliquarySet(string set)
     {
-        string[]? deconstructed = set.Split('-');
+        string[] deconstructed = set.Split('-');
 
         EquipAffixId = uint.Parse(deconstructed[0], CultureInfo.InvariantCulture);
         Count = int.Parse(deconstructed[1], CultureInfo.InvariantCulture);

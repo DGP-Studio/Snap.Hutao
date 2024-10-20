@@ -85,23 +85,21 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
 
     private async ValueTask RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, ScheduleType schedule)
     {
-        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response;
+        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? webSpiralAbyss;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
 
-            response = await gameRecordClientFactory
+            Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClientFactory
                 .Create(userAndUid.User.IsOversea)
                 .GetSpiralAbyssAsync(userAndUid, schedule)
                 .ConfigureAwait(false);
-        }
 
-        if (!response.IsOk())
-        {
-            return;
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out webSpiralAbyss))
+            {
+                return;
+            }
         }
-
-        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss webSpiralAbyss = response.Data;
 
         ArgumentNullException.ThrowIfNull(spiralAbysses);
         ArgumentNullException.ThrowIfNull(metadataContext);

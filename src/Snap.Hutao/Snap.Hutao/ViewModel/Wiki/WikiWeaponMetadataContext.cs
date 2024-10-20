@@ -11,13 +11,13 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-internal sealed partial class WikiWeaponMetadataContext : IMetadataContext,
+internal sealed class WikiWeaponMetadataContext : IMetadataContext,
     IMetadataDictionaryLevelWeaponGrowCurveSource,
     IMetadataDictionaryIdDictionaryLevelWeaponPromoteSource,
     IMetadataDictionaryIdMaterialSource,
     IMetadataArrayWeaponSource
 {
-    public ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> LevelDictionaryWeaponGrowCurveMap { get; set; } = default!;
+    public ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> LevelDictionaryWeaponGrowCurveMap { get; set; } = default!;
 
     public ImmutableDictionary<PromoteId, ImmutableDictionary<PromoteLevel, Promote>> IdDictionaryWeaponLevelPromoteMap { get; set; } = default!;
 

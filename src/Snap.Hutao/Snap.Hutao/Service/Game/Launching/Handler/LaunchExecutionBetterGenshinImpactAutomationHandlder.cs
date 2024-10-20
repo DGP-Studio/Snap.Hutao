@@ -9,7 +9,7 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandlder : ILa
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.Process.HasExited && context.Options.UseBetterGenshinImpactAutomation)
+        if (!context.Process.HasExited && context.Options.UsingBetterGenshinImpactAutomation)
         {
             context.Logger.LogInformation("Using BetterGI to automate gameplay");
             await LaunchBetterGenshinImpactAsync(context).ConfigureAwait(false);

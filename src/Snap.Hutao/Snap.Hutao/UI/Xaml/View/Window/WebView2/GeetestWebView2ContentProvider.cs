@@ -9,18 +9,20 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
-internal sealed partial class GeetestWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
+internal sealed class GeetestWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
 {
     private readonly string gt;
     private readonly string challenge;
+    private readonly bool isOversea;
     private readonly TaskCompletionSource resultTcs = new();
 
     private string? result;
 
-    public GeetestWebView2ContentProvider(string gt, string challenge)
+    public GeetestWebView2ContentProvider(string gt, string challenge, bool isOversea)
     {
         this.gt = gt;
         this.challenge = challenge;
+        this.isOversea = isOversea;
     }
 
     public ElementTheme ActualTheme { get; set; }
@@ -57,6 +59,7 @@ internal sealed partial class GeetestWebView2ContentProvider : DependencyObject,
                             challenge: "{{challenge}}",
                             new_captcha: true,
                             product: 'bind',
+                            api_server: '{{(isOversea ? "api-na.geetest.com" : "api.geetest.com")}}'
                         },
                         function (captchaObj) {
                             captchaObj.onReady(function () {

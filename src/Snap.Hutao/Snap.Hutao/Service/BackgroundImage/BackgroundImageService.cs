@@ -9,6 +9,7 @@ using Snap.Hutao.UI;
 using Snap.Hutao.Web.Hutao.Wallpaper;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
+using System.Collections.Frozen;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;
@@ -19,11 +20,10 @@ namespace Snap.Hutao.Service.BackgroundImage;
 [Injection(InjectAs.Singleton, typeof(IBackgroundImageService))]
 internal sealed partial class BackgroundImageService : IBackgroundImageService
 {
-    private static readonly HashSet<string> AllowedFormats = [".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"];
+    private static readonly FrozenSet<string> AllowedFormats = FrozenSet.ToFrozenSet([".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"]);
 
     private readonly BackgroundImageOptions backgroundImageOptions;
     private readonly IServiceProvider serviceProvider;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
@@ -88,7 +88,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 {
                     if (currentBackgroundPathSet is not { Count: > 0 })
                     {
-                        string backgroundFolder = runtimeOptions.GetDataFolderBackgroundFolder();
+                        string backgroundFolder = HutaoRuntime.GetDataFolderBackgroundFolder();
 
                         currentBackgroundPathSet = Directory
                             .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
@@ -114,24 +114,22 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 break;
         }
 
-        currentBackgroundPathSet ??= [];
-        return currentBackgroundPathSet;
+        return currentBackgroundPathSet ??= [];
 
         async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
         {
             HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
             Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);
-            if (response is { Data: Wallpaper wallpaper })
+            if (response is { Data: { } wallpaper })
             {
-                await taskContext.SwitchToMainThreadAsync();
-                backgroundImageOptions.Wallpaper = wallpaper;
-
-                await taskContext.SwitchToBackgroundAsync();
                 if (wallpaper.Url is { } url)
                 {
                     ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
                     currentBackgroundPathSet = [file];
                 }
+
+                await taskContext.SwitchToMainThreadAsync();
+                backgroundImageOptions.Wallpaper = wallpaper;
             }
         }
     }

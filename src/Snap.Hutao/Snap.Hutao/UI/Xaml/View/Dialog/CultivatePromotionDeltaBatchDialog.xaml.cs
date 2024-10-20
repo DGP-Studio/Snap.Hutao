@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -35,7 +36,7 @@ internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
         LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, PromotionDelta.AvatarLevelCurrent);
         LocalSetting.Set(SettingKeys.CultivationAvatarLevelTarget, PromotionDelta.AvatarLevelTarget);
 
-        if (PromotionDelta.SkillList is [PromotionDelta skillA, PromotionDelta skillE, PromotionDelta skillQ, ..])
+        if (PromotionDelta.SkillList is [{ } skillA, { } skillE, { } skillQ, ..])
         {
             LocalSetting.Set(SettingKeys.CultivationAvatarSkillACurrent, skillA.LevelCurrent);
             LocalSetting.Set(SettingKeys.CultivationAvatarSkillATarget, skillA.LevelTarget);

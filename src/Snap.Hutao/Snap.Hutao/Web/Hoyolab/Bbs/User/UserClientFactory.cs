@@ -7,6 +7,4 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
 [Injection(InjectAs.Transient, typeof(IOverseaSupportFactory<IUserClient>))]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class UserClientFactory : OverseaSupportFactory<IUserClient, UserClient, UserClientOversea>
-{
-}
+internal sealed partial class UserClientFactory : OverseaSupportFactory<IUserClient, UserClient, UserClientOversea>;

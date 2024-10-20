@@ -4,6 +4,4 @@
 namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 [Injection(InjectAs.Singleton, typeof(IApiEndpoints), Key = ApiEndpointsKind.Oversea)]
-internal sealed class ApiEndpointsForOversea : ApiEndpointsImplmentationForOversea
-{
-}
+internal sealed class ApiEndpointsForOversea : ApiEndpointsImplmentationForOversea;

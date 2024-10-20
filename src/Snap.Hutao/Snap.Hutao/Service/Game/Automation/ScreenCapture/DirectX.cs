@@ -16,19 +16,19 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
 internal static class DirectX
 {
-    public static unsafe bool TryCreateDXGIFactory(uint flags, out ObjectReference<IDXGIFactory6.Vftbl> factory, out HRESULT hr)
+    public static bool TryCreateDXGIFactory(uint flags, out ObjectReference<IDXGIFactory6.Vftbl> factory, out HRESULT hr)
     {
         hr = CreateDXGIFactory2(flags, in IDXGIFactory6.IID, out factory);
         return SUCCEEDED(hr);
     }
 
-    public static unsafe bool TryGetHighPerformanceAdapter(ObjectReference<IDXGIFactory6.Vftbl> factory, out ObjectReference<IDXGIAdapter.Vftbl> adapter, out HRESULT hr)
+    public static bool TryGetHighPerformanceAdapter(ObjectReference<IDXGIFactory6.Vftbl> factory, out ObjectReference<IDXGIAdapter.Vftbl> adapter, out HRESULT hr)
     {
         hr = factory.EnumAdapterByGpuPreference(0U, DXGI_GPU_PREFERENCE.DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, in IDXGIAdapter.IID, out adapter);
         return SUCCEEDED(hr);
     }
 
-    public static unsafe bool TryCreateD3D11Device(ObjectReference<IDXGIAdapter.Vftbl> adapter, D3D11_CREATE_DEVICE_FLAG flags, out ObjectReference<ID3D11Device.Vftbl>? device, out HRESULT hr)
+    public static bool TryCreateD3D11Device(ObjectReference<IDXGIAdapter.Vftbl> adapter, D3D11_CREATE_DEVICE_FLAG flags, out ObjectReference<ID3D11Device.Vftbl>? device, out HRESULT hr)
     {
         ReadOnlySpan<D3D_FEATURE_LEVEL> features =
         [
@@ -44,7 +44,7 @@ internal static class DirectX
         return SUCCEEDED(hr);
     }
 
-    public static unsafe bool TryCreateDirect3D11Device(ObjectReference<IDXGIDevice.Vftbl> dxgiDevice, [NotNullWhen(true)] out IDirect3DDevice? direct3DDevice, out HRESULT hr)
+    public static bool TryCreateDirect3D11Device(ObjectReference<IDXGIDevice.Vftbl> dxgiDevice, [NotNullWhen(true)] out IDirect3DDevice? direct3DDevice, out HRESULT hr)
     {
         hr = CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, out ObjectReference<IInspectable.Vftbl> inspectable);
         if (FAILED(hr))
@@ -60,14 +60,9 @@ internal static class DirectX
         }
     }
 
-    public static unsafe bool TryCreateSwapChainForComposition(ObjectReference<IDXGIFactory6.Vftbl> factory, ObjectReference<ID3D11Device.Vftbl> device, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, out ObjectReference<IDXGISwapChain1.Vftbl> swapChain, out HRESULT hr)
+    public static bool TryCreateSwapChainForComposition(ObjectReference<IDXGIFactory6.Vftbl> factory, ObjectReference<ID3D11Device.Vftbl> device, ref readonly DXGI_SWAP_CHAIN_DESC1 desc, out ObjectReference<IDXGISwapChain1.Vftbl> swapChain, out HRESULT hr)
     {
         hr = factory.CreateSwapChainForComposition(device, in desc, default, out swapChain);
-        if (FAILED(hr))
-        {
-            return false;
-        }
-
-        return true;
+        return !FAILED(hr);
     }
 }

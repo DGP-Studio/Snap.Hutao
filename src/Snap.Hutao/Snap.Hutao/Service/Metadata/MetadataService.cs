@@ -143,9 +143,9 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private async ValueTask<ImmutableDictionary<string, string>?> DownloadMetadataDescriptionFileAsync(CancellationToken token)
     {
-        ImmutableDictionary<string, string>? metadataFileHashs;
         try
         {
+            ImmutableDictionary<string, string>? metadataFileHashs;
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
                 IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();

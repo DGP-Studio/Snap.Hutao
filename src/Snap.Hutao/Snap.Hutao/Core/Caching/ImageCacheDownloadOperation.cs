@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Frozen;
@@ -32,14 +33,17 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
-        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCache)))
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
         {
             int retryCount = 0;
+
+            string authority = uri.GetLeftPart(UriPartial.Authority);
+            bool shouldAddControlHeader = authority.Equals(StaticResourcesEndpoints.Root, StringComparison.OrdinalIgnoreCase);
 
             HttpRequestMessageBuilder requestMessageBuilder = httpRequestMessageBuilderFactory
                 .Create()
                 .SetRequestUri(uri)
-                .SetStaticResourceControlHeadersIf(uri.Host.Contains("api.snapgenshin.com", StringComparison.OrdinalIgnoreCase)) // These headers are only available for our own api
+                .SetStaticResourceControlHeadersIf(shouldAddControlHeader)
                 .Get();
 
             while (retryCount < 3)

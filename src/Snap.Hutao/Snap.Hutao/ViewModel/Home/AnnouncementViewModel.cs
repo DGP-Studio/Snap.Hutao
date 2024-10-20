@@ -82,24 +82,24 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         // TODO avatar birthday override.
         int rand = Random.Shared.Next(0, 1000);
 
-        if (rand >= 0 && rand < 6)
+        if (rand is >= 0 and < 6)
         {
             GreetingText = SH.ViewPageHomeGreetingTextEasterEgg;
         }
-        else if (rand >= 6 && rand < 57)
+        else if (rand is >= 6 and < 57)
         {
             // TODO: retrieve days
             // GreetingText = string.Format(SH.ViewPageHomeGreetingTextEpic1, 0);
         }
-        else if (rand >= 57 && rand < 1000)
+        else if (rand is >= 57 and < 1000)
         {
             rand = Random.Shared.Next(0, 2);
-            if (rand == 0)
+            if (rand is 0)
             {
                 // TODO: impl game launch times
                 // GreetingText = string.Format(SH.ViewPageHomeGreetingTextCommon1, 0);
             }
-            else if (rand == 1)
+            else if (rand is 1)
             {
                 GreetingText = SH.FormatViewPageHomeGreetingTextCommon2(LocalSetting.Get(SettingKeys.LaunchTimes, 0));
             }

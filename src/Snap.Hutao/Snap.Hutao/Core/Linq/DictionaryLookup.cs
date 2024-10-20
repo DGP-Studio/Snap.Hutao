@@ -38,7 +38,7 @@ internal sealed partial class DictionaryLookup<TKey, TEnumerable, TValue> : ILoo
         return GetEnumerator();
     }
 
-    internal sealed class Grouping : IGrouping<TKey, TValue>
+    internal sealed partial class Grouping : IGrouping<TKey, TValue>
     {
         private readonly TEnumerable enumerable;
 

@@ -12,7 +12,7 @@ internal static class JsonTypeInfoResolvers
 
     public static void ResolveEnumType(JsonTypeInfo typeInfo)
     {
-        if (typeInfo.Kind != JsonTypeInfoKind.Object)
+        if (typeInfo.Kind is not JsonTypeInfoKind.Object)
         {
             return;
         }

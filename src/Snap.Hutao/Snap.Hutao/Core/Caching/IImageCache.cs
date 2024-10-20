@@ -12,7 +12,5 @@ internal interface IImageCache
 
     ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme);
 
-    void Remove(ReadOnlySpan<Uri> uriForCachedItems);
-
     void Remove(Uri uriForCachedItem);
 }

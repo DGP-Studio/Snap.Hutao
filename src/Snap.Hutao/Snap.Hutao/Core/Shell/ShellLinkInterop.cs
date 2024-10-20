@@ -11,16 +11,13 @@ using static Snap.Hutao.Win32.Ole32;
 
 namespace Snap.Hutao.Core.Shell;
 
-[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IShellLinkInterop))]
-internal sealed partial class ShellLinkInterop : IShellLinkInterop
+internal sealed class ShellLinkInterop : IShellLinkInterop
 {
-    private readonly RuntimeOptions runtimeOptions;
-
     public ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
-        string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
-        string elevatedLauncherPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.Elevated.Launcher.exe");
+        string targetLogoPath = HutaoRuntime.GetDataFolderFile("ShellLinkLogo.ico");
+        string elevatedLauncherPath = HutaoRuntime.GetDataFolderFile("Snap.Hutao.Elevated.Launcher.exe");
 
         try
         {
@@ -36,7 +33,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
         return ValueTask.FromResult(result);
     }
 
-    private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath, string elevatedLauncherPath)
+    private static bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath, string elevatedLauncherPath)
     {
         if (!SUCCEEDED(CoCreateInstance(in ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IShellLinkW.IID, out ObjectReference<IShellLinkW.Vftbl> shellLink)))
         {
@@ -46,7 +43,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
         using (shellLink)
         {
             shellLink.SetPath(elevatedLauncherPath);
-            shellLink.SetArguments(runtimeOptions.FamilyName);
+            shellLink.SetArguments(HutaoRuntime.FamilyName);
             shellLink.SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
             shellLink.SetIconLocation(targetLogoPath, 0);
 
@@ -59,7 +56,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
             using (persistFile)
             {
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
+                string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(HutaoRuntime.Version)}.lnk");
 
                 return SUCCEEDED(persistFile.Save(target, false));
             }

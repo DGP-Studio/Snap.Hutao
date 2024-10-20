@@ -28,7 +28,7 @@ internal sealed partial class SkillPivot : UserControl
     {
         if (sender is SkillPivot skillPivot)
         {
-            if (args.OldValue != args.NewValue && args.NewValue as IList is [object target, ..] list)
+            if (args.OldValue != args.NewValue && args.NewValue as IList is [{ } target, ..])
             {
                 skillPivot.Bindings.Update();
                 skillPivot.Selected = target;

@@ -48,29 +48,27 @@ internal sealed partial class InventoryService : IInventoryService
     /// <inheritdoc/>
     public async ValueTask RefreshInventoryAsync(CultivateProject project)
     {
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
+            return;
+        }
+
         List<AvatarPromotionDelta> deltas = await minimalPromotionDelta.GetAsync().ConfigureAwait(false);
 
-        BatchConsumption? batchConsumption = default;
+        BatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
-            {
-                infoBarService.Warning(SH.MustSelectUserAndUid);
-                return;
-            }
-
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
 
-            Response<BatchConsumption>? resp = await calculateClient
+            Response<BatchConsumption> resp = await calculateClient
                 .BatchComputeAsync(userAndUid, deltas, true)
                 .ConfigureAwait(false);
 
-            if (!resp.IsOk())
+            if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, out batchConsumption))
             {
                 return;
             }
-
-            batchConsumption = resp.Data;
         }
 
         if (batchConsumption is { OverallConsume: { } items })

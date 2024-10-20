@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
 
@@ -9,5 +10,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryLevelMonsterGrowCurveSource
 {
-    ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> LevelDictionaryMonsterGrowCurveMap { get; set; }
+    ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> LevelDictionaryMonsterGrowCurveMap { get; set; }
 }

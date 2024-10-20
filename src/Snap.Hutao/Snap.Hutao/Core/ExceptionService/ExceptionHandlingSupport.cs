@@ -42,14 +42,18 @@ internal sealed partial class ExceptionHandlingSupport
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        logger.LogError("未经处理的全局异常:\r\n{Detail}", ExceptionFormat.Format(e.Exception));
+        string message = ExceptionFormat.Format(e.Exception);
+        logger.LogError("未经处理的全局异常:\r\n{Detail}", message);
 
         serviceProvider
             .GetRequiredService<Web.Hutao.Log.HutaoLogUploadClient>()
             .UploadLog(e.Exception);
 
         XamlApplicationLifetime.Exiting = true;
-        ExceptionWindow.Show(e.Exception);
+
+        serviceProvider
+            .GetRequiredService<ITaskContext>()
+            .InvokeOnMainThread(() => ExceptionWindow.Show(message));
 
         e.Handled = true;
     }

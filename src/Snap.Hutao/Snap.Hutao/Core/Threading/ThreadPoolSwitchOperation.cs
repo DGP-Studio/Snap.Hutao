@@ -9,17 +9,17 @@ namespace Snap.Hutao.Core.Threading;
 internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, ICriticalAwaiter
 {
     private static readonly Action<Action> WaitCallbackRunAction = RunAction;
-    private readonly DispatcherQueue dispatherQueue;
+    private readonly DispatcherQueue dispatcherQueue;
 
-    public ThreadPoolSwitchOperation(DispatcherQueue dispatherQueue)
+    public ThreadPoolSwitchOperation(DispatcherQueue dispatcherQueue)
     {
-        this.dispatherQueue = dispatherQueue;
+        this.dispatcherQueue = dispatcherQueue;
     }
 
     public bool IsCompleted
     {
         // Only yields when we are on the DispatcherQueue thread.
-        get => !dispatherQueue.HasThreadAccess;
+        get => !dispatcherQueue.HasThreadAccess;
     }
 
     public ThreadPoolSwitchOperation GetAwaiter()

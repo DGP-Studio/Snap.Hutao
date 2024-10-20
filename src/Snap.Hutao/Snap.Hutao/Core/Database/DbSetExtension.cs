@@ -7,10 +7,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;
 
-/// <summary>
-/// 数据库集合扩展
-/// </summary>
-[HighQuality]
 internal static class DbSetExtension
 {
     public static int AddAndSave<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)

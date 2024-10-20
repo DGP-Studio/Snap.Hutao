@@ -16,7 +16,6 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
 
     private readonly IObjectCacheRepository objectCacheRepository;
     private readonly IServiceProvider serviceProvider;
-    private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
 
     public async ValueTask<Overview> GetOverviewAsync(bool last = false)

@@ -84,8 +84,6 @@ internal sealed partial class HotKeyMessageWindow : IDisposable
             case WM_HOTKEY:
                 window.HotKeyPressed?.Invoke(*(HotKeyParameter*)&lParam);
                 break;
-            default:
-                break;
         }
 
         return DefWindowProcW(hwnd, uMsg, wParam, lParam);

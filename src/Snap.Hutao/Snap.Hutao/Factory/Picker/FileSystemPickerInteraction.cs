@@ -28,12 +28,12 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
         using (fileDialog)
         {
-            FILEOPENDIALOGOPTIONS options =
-            FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
-            FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
-            FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
+            const FILEOPENDIALOGOPTIONS Options =
+                FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
+                FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
+                FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(options);
+            fileDialog.SetOptions(Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(defaultFileName))
@@ -56,12 +56,10 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
             {
                 return new(false, default);
             }
-            else
-            {
-                Marshal.ThrowExceptionForHR(res);
-            }
 
-            HRESULT t = fileDialog.GetResult(out ObjectReference<IShellItem.Vftbl> shellItem);
+            Marshal.ThrowExceptionForHR(res);
+
+            _ = fileDialog.GetResult(out ObjectReference<IShellItem.Vftbl> shellItem);
 
             using (shellItem)
             {
@@ -89,14 +87,14 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
         using (fileDialog)
         {
-            FILEOPENDIALOGOPTIONS options =
+            const FILEOPENDIALOGOPTIONS Options =
                 FILEOPENDIALOGOPTIONS.FOS_OVERWRITEPROMPT |
                 FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
                 FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
                 FILEOPENDIALOGOPTIONS.FOS_STRICTFILETYPES |
                 FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(options);
+            fileDialog.SetOptions(Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(defaultFileName))
@@ -119,10 +117,8 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
             {
                 return new(false, default);
             }
-            else
-            {
-                Marshal.ThrowExceptionForHR(res);
-            }
+
+            Marshal.ThrowExceptionForHR(res);
 
             fileDialog.GetResult(out ObjectReference<IShellItem.Vftbl> shellItem);
 
@@ -152,13 +148,13 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
         using (fileDialog)
         {
-            FILEOPENDIALOGOPTIONS options =
-            FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
-            FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
-            FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS |
-            FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
+            const FILEOPENDIALOGOPTIONS Options =
+                FILEOPENDIALOGOPTIONS.FOS_NOTESTFILECREATE |
+                FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
+                FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS |
+                FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(options);
+            fileDialog.SetOptions(Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(title))
@@ -171,10 +167,8 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
             {
                 return new(false, default!);
             }
-            else
-            {
-                Marshal.ThrowExceptionForHR(res);
-            }
+
+            Marshal.ThrowExceptionForHR(res);
 
             fileDialog.GetResult(out ObjectReference<IShellItem.Vftbl> shellItem);
 
@@ -185,7 +179,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
                 try
                 {
                     shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out displayName);
-                    file = new((char*)displayName);
+                    file = new(displayName);
                 }
                 finally
                 {
@@ -221,7 +215,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
         }
     }
 
-    private static unsafe void SetDesktopAsStartupFolder(ObjectReference<IFileDialog.Vftbl> fileDialog)
+    private static void SetDesktopAsStartupFolder(ObjectReference<IFileDialog.Vftbl> fileDialog)
     {
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         HRESULT hr = SHCreateItemFromParsingName(desktopPath, default, in IShellItem.IID, out ObjectReference<IShellItem.Vftbl> shellItem);

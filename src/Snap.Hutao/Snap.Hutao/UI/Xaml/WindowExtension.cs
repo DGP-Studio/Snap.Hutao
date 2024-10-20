@@ -86,7 +86,7 @@ internal static class WindowExtension
 
     public static void SetExStyleLayered(this Window window, bool full = true)
     {
-        HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
@@ -99,7 +99,7 @@ internal static class WindowExtension
 
     public static void SetExStyleToolWindow(this Window window)
     {
-        HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW;
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);

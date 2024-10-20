@@ -108,9 +108,8 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
         HttpResponseMessage response = await HttpClient.HeadAsync(SourceUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
 
-        long contentLength = response.Content.Headers.ContentLength ?? 0;
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(contentLength);
-        ContentLength = contentLength;
+        ContentLength = response.Content.Headers.ContentLength ?? 0;
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(ContentLength);
     }
 
     public void MakeReadOnly()

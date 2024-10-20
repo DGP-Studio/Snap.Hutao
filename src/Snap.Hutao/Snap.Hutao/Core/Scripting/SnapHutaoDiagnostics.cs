@@ -8,8 +8,8 @@ using Windows.Storage;
 namespace Snap.Hutao.Core.Scripting;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(ISnapHutaoDiagnostics))]
-internal sealed partial class SnapHutaoDiagnostics : ISnapHutaoDiagnostics
+[Injection(InjectAs.Singleton, typeof(IHutaoDiagnostics))]
+internal sealed partial class HutaoDiagnostics : IHutaoDiagnostics
 {
     private readonly IServiceProvider serviceProvider;
 

@@ -12,6 +12,7 @@ using Snap.Hutao.ViewModel.DailyNote;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
+using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
@@ -47,7 +48,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         DailyNoteEntry newEntry = DailyNoteEntry.From(userAndUid);
 
-        Web.Response.Response<WebDailyNote> dailyNoteResponse;
+        Response<WebDailyNote> dailyNoteResponse;
         DailyNoteMetadataContext context;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -62,9 +63,9 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             context = await scope.GetRequiredService<IMetadataService>().GetContextAsync<DailyNoteMetadataContext>(token).ConfigureAwait(false);
         }
 
-        if (dailyNoteResponse.IsOk())
+        if (ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? data))
         {
-            newEntry.UpdateDailyNote(dailyNoteResponse.Data);
+            newEntry.UpdateDailyNote(data);
         }
 
         newEntry.UserGameRole = await userService.GetUserGameRoleByUidAsync(roleUid).ConfigureAwait(false);
@@ -144,13 +145,12 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                     .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
                     .Create(PlayerUid.IsOversea(entry.Uid));
 
-                Web.Response.Response<WebDailyNote> dailyNoteResponse = await gameRecordClient
+                Response<WebDailyNote> dailyNoteResponse = await gameRecordClient
                     .GetDailyNoteAsync(new(entry.User, entry.Uid), token)
                     .ConfigureAwait(false);
 
-                if (dailyNoteResponse.IsOk())
+                if (ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? dailyNote))
                 {
-                    WebDailyNote dailyNote = dailyNoteResponse.Data;
                     entry.UpdateDailyNote(dailyNote);
 
                     // 集合内的实时便笺与数据库取出的非同一个对象，需要分别更新

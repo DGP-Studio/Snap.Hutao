@@ -38,10 +38,8 @@ internal static class CultureOptionsExtension
             {
                 return localeName;
             }
-            else
-            {
-                cultureInfo = cultureInfo.Parent;
-            }
+
+            cultureInfo = cultureInfo.Parent;
         }
     }
 }

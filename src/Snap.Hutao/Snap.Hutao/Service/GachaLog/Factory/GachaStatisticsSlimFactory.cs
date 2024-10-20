@@ -43,8 +43,6 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
                 ++orangeTracker;
                 ++purpleTracker;
                 break;
-            default:
-                break;
         }
     }
 
@@ -84,8 +82,6 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
                     break;
                 case GachaType.ActivityCity:
                     Track(nameQuality, ref chronicledOrangeTracker, ref chronicledPurpleTracker);
-                    break;
-                default:
                     break;
             }
         }

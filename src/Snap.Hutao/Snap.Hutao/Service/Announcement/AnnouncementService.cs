@@ -36,7 +36,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         await taskContext.SwitchToBackgroundAsync();
 
         List<AnnouncementContent>? contents;
-        AnnouncementWrapper wrapper;
+        AnnouncementWrapper? wrapper;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             AnnouncementClient announcementClient = scope.ServiceProvider.GetRequiredService<AnnouncementClient>();
@@ -45,23 +45,21 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 .GetAnnouncementsAsync(languageCode, region, cancellationToken)
                 .ConfigureAwait(false);
 
-            if (!announcementWrapperResponse.IsOk())
+            if (!ResponseValidator.TryValidate(announcementWrapperResponse, scope.ServiceProvider, out wrapper))
             {
                 return default!;
             }
-
-            wrapper = announcementWrapperResponse.Data;
 
             Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
                 .GetAnnouncementContentsAsync(languageCode, region, cancellationToken)
                 .ConfigureAwait(false);
 
-            if (!announcementContentResponse.IsOk())
+            if (!ResponseValidator.TryValidate(announcementContentResponse, scope.ServiceProvider, out ListWrapper<AnnouncementContent>? contentsWrapper))
             {
                 return default!;
             }
 
-            contents = announcementContentResponse.Data.List;
+            contents = contentsWrapper.List;
         }
 
         Dictionary<int, string> contentMap = contents.ToDictionary(id => id.AnnId, content => content.Content);

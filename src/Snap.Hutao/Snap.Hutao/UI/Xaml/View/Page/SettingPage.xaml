@@ -72,7 +72,7 @@
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Left"
                                         Content="{shuxm:ResourceString Name=ViewPageSettingSponsorNavigate}"
-                                        NavigateUri="{StaticResource Sponsor_Afadian}"/>
+                                        NavigateUri="{StaticResource DocumentLink_Sponsor}"/>
                                 </cwc:UniformGrid>
                                 <TextBlock
                                     Grid.Row="2"
@@ -153,7 +153,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Left"
                                                     Content="{shuxm:ResourceString Name=ViewPageSettingSponsorNavigate}"
-                                                    NavigateUri="{StaticResource Sponsor_Afadian}"/>
+                                                    NavigateUri="{StaticResource DocumentLink_Sponsor}"/>
                                             </cwc:UniformGrid>
                                             <TextBlock
                                                 Margin="12,0,0,0"
@@ -619,6 +619,26 @@
                                             Content="{shuxm:ResourceString Name=ViewPageSettingUIGFImportContent}"
                                             Style="{ThemeResource SettingButtonStyle}"/>
                                     </StackPanel>
+                                </cwc:SettingsCard>
+                            </StackPanel>
+                        </Border>
+                    </Border>
+
+                    <!--  WebView  -->
+                    <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding WebView}">
+                        <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingWebViewHeader}"/>
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingShareSaveTypeDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingShareSaveTypeHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE792;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.BridgeShareSaveTypes}"
+                                            SelectedItem="{Binding SelectedShareSaveType, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                             </StackPanel>
                         </Border>

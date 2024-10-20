@@ -6,24 +6,21 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-/// <summary>
-/// 通行证客户端
-/// </summary>
 internal interface IPassportClient
 {
-    /// <summary>
-    /// 异步获取 CookieToken
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>cookie token</returns>
     ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default);
 
-    /// <summary>
-    /// 异步获取 LToken
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>uid 与 cookie token</returns>
     ValueTask<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default);
+
+    ValueTask<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token = default);
+
+    ValueTask<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default);
+
+    ValueTask<Response<LoginResult>> LoginByGameTokenAsync(UidGameToken account, CancellationToken token = default);
+
+    ValueTask<(string? Aigis, Response<MobileCaptcha> Response)> CreateLoginCaptchaAsync(string mobile, string? aigis, CancellationToken token = default);
+
+    ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(IPassportMobileCaptchaProvider provider, CancellationToken token = default);
+
+    ValueTask<Response<LoginResult>> LoginByMobileCaptchaAsync(string actionType, string mobile, string captcha, string? aigis, CancellationToken token = default);
 }

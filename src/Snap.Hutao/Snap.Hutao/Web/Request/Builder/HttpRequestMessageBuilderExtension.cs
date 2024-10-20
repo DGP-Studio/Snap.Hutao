@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
-using System.Collections;
 using System.IO;
 using System.Net.Http;
 using System.Net.Sockets;
@@ -38,7 +37,6 @@ internal static class HttpRequestMessageBuilderExtension
             await SendAsync(builder, context).ConfigureAwait(false);
 
             StringBuilder messageBuilder = new();
-            messageBuilder.AppendLine(System.Globalization.CultureInfo.CurrentCulture, $"Host: {context.Request?.RequestUri?.Host ?? "Unknown"}");
             bool showInfo = true;
 
             try
@@ -58,7 +56,7 @@ internal static class HttpRequestMessageBuilderExtension
             }
             catch (Exception ex)
             {
-                ProcessException(messageBuilder, ex);
+                ExceptionFormat.Format(messageBuilder, ex);
                 logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
                 return new(context.Response?.Headers, default);
             }
@@ -82,7 +80,9 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (Exception ex)
         {
-            ex.AddData("RequestUrlNoQuery", baseUrl ?? "Unknown");
+            await TryAttachHutaoGenericApiTraceInfoAsync(context, ex).ConfigureAwait(false);
+
+            ex.Data.Add("RequestUrlNoQuery", baseUrl ?? "Unknown");
             context.Exception = ExceptionDispatchInfo.Capture(ex);
             context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
@@ -92,7 +92,7 @@ internal static class HttpRequestMessageBuilderExtension
     {
         try
         {
-            using (HttpResponseMessage message = httpClient.Send(builder.HttpRequestMessage))
+            using (httpClient.Send(builder.HttpRequestMessage))
             {
             }
         }
@@ -118,65 +118,32 @@ internal static class HttpRequestMessageBuilderExtension
         }
     }
 
-    [SuppressMessage("", "CA1305")]
-    private static void ProcessException(StringBuilder builder, Exception exception, int depth = 0)
+    private static async ValueTask TryAttachHutaoGenericApiTraceInfoAsync(HttpContext context, Exception ex)
     {
-        if (depth is 0)
+        if (context.Response is not { Content: { } content })
         {
-            foreach (DictionaryEntry entry in exception.Data)
-            {
-                builder.AppendLine($"[{TypeNameHelper.GetTypeDisplayName(entry.Value)}]:{entry.Key}:{entry.Value}");
-            }
-
-            builder.AppendLine("----------------------------------------");
+            return;
         }
 
-        if (exception is HttpRequestException hre)
+        if (!context.Response.Headers.TryGetValues("x-powered-by", out IEnumerable<string>? values))
         {
-            builder
-                .AppendLine($"{nameof(HttpRequestException)}: Status Code: {hre.StatusCode} Error: {hre.HttpRequestError}")
-                .AppendLine(hre.Message);
-        }
-        else if (exception is IOException ioe)
-        {
-            builder
-                .AppendLine($"{nameof(IOException)}: 0x{ioe.HResult:X8}")
-                .AppendLine(ioe.Message);
-        }
-        else if (exception is JsonException je)
-        {
-            builder
-                .AppendLine($"{nameof(JsonException)}: Path: {je.Path} at Line: {je.LineNumber} Position: {je.BytePositionInLine}")
-                .AppendLine(je.Message);
-        }
-        else if (exception is HttpContentSerializationException hcse)
-        {
-            builder
-                .AppendLine($"{nameof(HttpContentSerializationException)}:")
-                .AppendLine(hcse.Message);
-        }
-        else if (exception is SocketException se)
-        {
-            builder
-                .AppendLine($"{nameof(SocketException)}: Error: {se.SocketErrorCode}")
-                .AppendLine(se.Message);
-        }
-        else
-        {
-            builder
-                .AppendLine($"{TypeNameHelper.GetTypeDisplayName(exception, false)}:")
-                .AppendLine(exception.Message);
+            return;
         }
 
-        if (exception.InnerException is { } inner)
+        if (values.SingleOrDefault() is not "Hutao Generic API")
         {
-            builder.AppendLine("------------------ Inner Exception ------------------");
-            ProcessException(builder, inner, depth + 1);
+            return;
         }
 
-        if (depth is 0)
+        if (context.Response.Headers.TryGetValues("x-generic-id", out IEnumerable<string>? ids))
         {
-            builder.AppendLine("------------------ End ------------------");
+            ex.Data.Add("GenericTraceId", ids.LastOrDefault());
+        }
+
+        if (context.Response.Content.Headers?.ContentType?.MediaType is "text/plain")
+        {
+            string contentString = await content.ReadAsStringAsync().ConfigureAwait(false);
+            context.Logger.LogDebug("Response Content: {Content}", contentString);
         }
     }
 }

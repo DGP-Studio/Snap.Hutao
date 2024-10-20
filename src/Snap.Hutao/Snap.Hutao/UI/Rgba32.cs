@@ -41,7 +41,7 @@ internal struct Rgba32
 
     public readonly double Luminance255 { get => (0.2126 * R) + (0.7152 * G) + (0.0722 * B); }
 
-    public static unsafe implicit operator Color(Rgba32 rgba32)
+    public static implicit operator Color(Rgba32 rgba32)
     {
         return ColorHelper.ToColor(rgba32);
     }

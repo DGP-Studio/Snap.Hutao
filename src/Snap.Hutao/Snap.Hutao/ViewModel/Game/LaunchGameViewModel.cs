@@ -15,8 +15,10 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
+using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.IO;
 
@@ -161,7 +163,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         get => selectedGamePathEntry;
         set
         {
-            if (SetProperty(ref selectedGamePathEntry, value, nameof(SelectedGamePathEntry)))
+            if (SetProperty(ref selectedGamePathEntry, value))
             {
                 if (IsViewDisposed)
                 {
@@ -222,7 +224,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        await this.LaunchExecutionAsync(SelectedScheme).ConfigureAwait(false);
+        UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
+        await this.LaunchExecutionAsync(SelectedScheme, userAndUid).ConfigureAwait(false);
     }
 
     [Command("DetectGameAccountCommand")]
@@ -323,17 +326,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            Web.Response.Response<GamePackagesWrapper> response;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-                response = await hoyoPlayClient.GetPackagesAsync(scheme).ConfigureAwait(false);
-            }
+                Response<GamePackagesWrapper> response = await hoyoPlayClient.GetPackagesAsync(scheme).ConfigureAwait(false);
 
-            if (response.IsOk())
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                GamePackage = response.Data.GamePackages.Single();
+                if (ResponseValidator.TryValidate(response, serviceProvider, out GamePackagesWrapper? wrapper))
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    GamePackage = wrapper.GamePackages.Single();
+                }
             }
         }
 

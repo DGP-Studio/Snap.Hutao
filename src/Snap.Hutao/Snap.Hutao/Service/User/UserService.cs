@@ -42,22 +42,22 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie)
     {
         await taskContext.SwitchToBackgroundAsync();
-        (Cookie cookie, bool isOversea, string? deviceFp) = inputCookie;
+        (Cookie cookie, bool _, string? deviceFp) = inputCookie;
 
-        string? midOrAid = cookie.GetValueOrDefault(isOversea ? Cookie.STUID : Cookie.MID);
+        string? mid = cookie.GetValueOrDefault(Cookie.MID);
 
-        if (string.IsNullOrEmpty(midOrAid))
+        if (string.IsNullOrEmpty(mid))
         {
             return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
         }
 
         // 检查 mid 对应用户是否存在
-        if (await this.GetUserByMidAsync(midOrAid).ConfigureAwait(false) is not { } user)
+        if (await this.GetUserByMidAsync(mid).ConfigureAwait(false) is not { } user)
         {
             return await userCollectionService.TryCreateAndAddUserFromInputCookieAsync(inputCookie).ConfigureAwait(false);
         }
 
-        if (!cookie.TryGetSToken(isOversea, out Cookie? stoken))
+        if (!cookie.TryGetSToken(out Cookie? stoken))
         {
             return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
         }
@@ -68,7 +68,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         user.TryUpdateFingerprint(deviceFp);
 
         userRepository.UpdateUser(user.Entity);
-        return new(UserOptionResult.CookieUpdated, midOrAid);
+        return new(UserOptionResult.CookieUpdated, mid);
     }
 
     public async ValueTask<bool> RefreshCookieTokenAsync(EntityUser user)
@@ -76,7 +76,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         Response<UidCookieToken> cookieTokenResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IPassportClient passportClient = serviceProvider
+            IPassportClient passportClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
                 .Create(user.IsOversea);
 
@@ -85,12 +85,12 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
                 .ConfigureAwait(false);
         }
 
-        if (!cookieTokenResponse.IsOk())
+        if (!ResponseValidator.TryValidate(cookieTokenResponse, serviceProvider, out UidCookieToken? uidCookieToken))
         {
             return false;
         }
 
-        string cookieToken = cookieTokenResponse.Data.CookieToken;
+        string cookieToken = uidCookieToken.CookieToken;
 
         // Check null and create a new one to avoid System.NullReferenceException
         user.CookieToken ??= new();

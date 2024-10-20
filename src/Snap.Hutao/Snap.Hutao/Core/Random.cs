@@ -7,16 +7,22 @@ internal static class Random
 {
     public static string GetLowerHexString(int length)
     {
-        return new(System.Random.Shared.GetItems("0123456789abcdef".AsSpan(), length));
+        Span<char> buffer = stackalloc char[length];
+        System.Random.Shared.GetItems("0123456789abcdef", buffer);
+        return buffer.ToString();
     }
 
     public static string GetUpperAndNumberString(int length)
     {
-        return new(System.Random.Shared.GetItems("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".AsSpan(), length));
+        Span<char> buffer = stackalloc char[length];
+        System.Random.Shared.GetItems("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", buffer);
+        return buffer.ToString();
     }
 
     public static string GetLowerAndNumberString(int length)
     {
-        return new(System.Random.Shared.GetItems("0123456789abcdefghijklmnopqrstuvwxyz".AsSpan(), length));
+        Span<char> buffer = stackalloc char[length];
+        System.Random.Shared.GetItems("0123456789abcdefghijklmnopqrstuvwxyz", buffer);
+        return buffer.ToString();
     }
 }

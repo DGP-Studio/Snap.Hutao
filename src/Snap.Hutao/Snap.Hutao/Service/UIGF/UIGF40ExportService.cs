@@ -15,7 +15,6 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
 {
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IServiceProvider serviceProvider;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
     public async ValueTask ExportAsync(UIGFExportOptions exportOptions, CancellationToken token = default)
@@ -27,7 +26,7 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
             Info = new()
             {
                 ExportApp = "Snap Hutao",
-                ExportAppVersion = $"{runtimeOptions.Version}",
+                ExportAppVersion = $"{HutaoRuntime.Version}",
                 ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
                 Version = "v4.0",
             },

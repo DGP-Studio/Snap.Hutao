@@ -14,14 +14,14 @@ namespace Snap.Hutao.ViewModel.Wiki;
 internal sealed partial class BaseValueInfo : ObservableObject
 {
     private readonly List<PropertyCurveValue> propValues;
-    private readonly ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> growCurveMap;
+    private readonly ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap;
     private readonly ImmutableDictionary<PromoteLevel, Promote>? promoteMap;
 
     private uint currentLevel;
     private List<NameValue<string>> values = default!;
     private bool promoted = true;
 
-    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
+    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
     {
         this.propValues = propValues;
         this.growCurveMap = growCurveMap;
@@ -74,34 +74,32 @@ internal sealed partial class BaseValueInfo : ObservableObject
     {
         if (MaxLevel <= 70 && level.Value == 70U)
         {
-            return 4;
+            return 4U;
         }
 
         if (promoted)
         {
             return level.Value switch
             {
-                >= 80U => 6,
-                >= 70U => 5,
-                >= 60U => 4,
-                >= 50U => 3,
-                >= 40U => 2,
-                >= 20U => 1,
-                _ => 0,
+                >= 80U => 6U,
+                >= 70U => 5U,
+                >= 60U => 4U,
+                >= 50U => 3U,
+                >= 40U => 2U,
+                >= 20U => 1U,
+                _ => 0U,
             };
         }
-        else
+
+        return level.Value switch
         {
-            return level.Value switch
-            {
-                > 80U => 6,
-                > 70U => 5,
-                > 60U => 4,
-                > 50U => 3,
-                > 40U => 2,
-                > 20U => 1,
-                _ => 0,
-            };
-        }
+            > 80U => 6U,
+            > 70U => 5U,
+            > 60U => 4U,
+            > 50U => 3U,
+            > 40U => 2U,
+            > 20U => 1U,
+            _ => 0U,
+        };
     }
 }

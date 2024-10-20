@@ -40,10 +40,10 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     {
         // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
         (Cookie cookie, bool isOversea, string? deviceFp) = inputCookie;
-        Model.Entity.User entity = Model.Entity.User.From(cookie, isOversea);
+        Model.Entity.User entity = Model.Entity.User.From(cookie);
 
         entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
-        entity.Mid = isOversea ? entity.Aid : cookie.GetValueOrDefault(Cookie.MID);
+        entity.Mid = cookie.GetValueOrDefault(Cookie.MID);
         entity.IsOversea = isOversea;
         entity.TryUpdateFingerprint(deviceFp);
 
@@ -54,10 +54,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
             return initialized ? user : null;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     private static async ValueTask<bool> TrySetUserLTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -75,19 +73,17 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetLTokenBySTokenAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (lTokenResponse.IsOk())
+        if (ResponseValidator.TryValidate(lTokenResponse, serviceProvider, out LTokenWrapper? wrapper))
         {
             user.LToken = new()
             {
                 [Cookie.LTUID] = user.Entity.Aid ?? string.Empty,
-                [Cookie.LTOKEN] = lTokenResponse.Data.LToken,
+                [Cookie.LTOKEN] = wrapper.LToken,
             };
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private static async ValueTask<bool> TrySetUserCookieTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -108,22 +104,20 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetCookieAccountInfoBySTokenAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (cookieTokenResponse.IsOk())
+        if (ResponseValidator.TryValidate(cookieTokenResponse, serviceProvider, out UidCookieToken? uidCookieToken))
         {
             user.CookieToken = new()
             {
                 [Cookie.ACCOUNT_ID] = user.Entity.Aid ?? string.Empty,
-                [Cookie.COOKIE_TOKEN] = cookieTokenResponse.Data.CookieToken,
+                [Cookie.COOKIE_TOKEN] = uidCookieToken.CookieToken,
             };
 
             user.Entity.CookieTokenLastUpdateTime = DateTimeOffset.UtcNow;
             user.NeedDbUpdateAfterResume = true;
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private static async ValueTask<bool> TrySetUserUserInfoAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -136,15 +130,13 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetUserFullInfoAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (response.IsOk())
+        if (ResponseValidator.TryValidate(response, serviceProvider, out UserFullInfoWrapper? wrapper))
         {
-            user.UserInfo = response.Data.UserInfo;
+            user.UserInfo = wrapper.UserInfo;
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private static async ValueTask<bool> TrySetUserUserGameRolesAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
@@ -155,15 +147,13 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetUserGameRolesOverseaAwareAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (userGameRolesResponse.IsOk())
+        if (ResponseValidator.TryValidate(userGameRolesResponse, serviceProvider, out ListWrapper<UserGameRole>? wrapper))
         {
-            user.UserGameRoles = userGameRolesResponse.Data.List.ToAdvancedCollectionView();
+            user.UserGameRoles = wrapper.List.ToAdvancedCollectionView();
             return user.UserGameRoles.Count > 0;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     private async ValueTask<bool> InitializeUserAsync(ViewModel.User.User user, CancellationToken token = default)

@@ -9,7 +9,7 @@ internal sealed class LaunchExecutionStarwardPlayTimeStatisticsHandler : ILaunch
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.Process.HasExited && context.Options.UseStarwardPlayTimeStatistics)
+        if (!context.Process.HasExited && context.Options.UsingStarwardPlayTimeStatistics)
         {
             context.Logger.LogInformation("Using Starward to count game time");
             await LaunchStarwardForPlayTimeStatisticsAsync(context).ConfigureAwait(false);

@@ -494,6 +494,11 @@
                     <AppBarButton Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentSetting}}" Label="{shuxm:ResourceString Name=ViewPageDailyNoteNotificationSetting}">
                         <AppBarButton.Flyout>
                             <Flyout Placement="BottomEdgeAlignedRight">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="MaxWidth" Value="NaN"/>
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
                                 <ScrollViewer>
                                     <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
                                         <StackPanel.Resources>

@@ -75,9 +75,9 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [SuppressMessage("", "SH003")]
     private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
-        ObservableCollection<SpiralAbyssView> collection;
         try
         {
+            ObservableCollection<SpiralAbyssView> collection;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 collection = await spiralAbyssRecordService
@@ -93,7 +93,6 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
         catch (OperationCanceledException)
         {
-            return;
         }
     }
 

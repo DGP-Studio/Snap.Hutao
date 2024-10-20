@@ -20,6 +20,7 @@ using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
+using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Net.Http;
@@ -206,8 +207,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Web.Response.Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
-            if (response.IsOk())
+            Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
                 await taskContext.SwitchToMainThreadAsync();
@@ -222,8 +223,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Web.Response.Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
-            if (response.IsOk())
+            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
                 await taskContext.SwitchToMainThreadAsync();
@@ -262,7 +263,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private void SendRandomInfoBarNotification()
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder
-            .SetSeverity((InfoBarSeverity)System.Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
+            .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
             .SetTitle("Lorem ipsum dolor sit amet")
             .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
     }
@@ -283,7 +284,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         using (HttpClient httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
         {
-            HttpShardCopyWorkerOptions<Core.Void> options = new()
+            HttpShardCopyWorkerOptions<Void> options = new()
             {
                 HttpClient = httpClient,
                 SourceUrl = "https://ghproxy.qhy04.cc/https://github.com/DGP-Studio/Snap.Hutao/releases/download/1.11.0/Snap.Hutao.1.11.0.msix",
@@ -291,9 +292,9 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 StatusFactory = (bytesRead, totalBytes) => default,
             };
 
-            Progress<Core.Void> progress = new();
+            Progress<Void> progress = new();
 
-            using (IHttpShardCopyWorker<Core.Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
+            using (IHttpShardCopyWorker<Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
             {
                 await worker.CopyAsync(progress).ConfigureAwait(false);
             }

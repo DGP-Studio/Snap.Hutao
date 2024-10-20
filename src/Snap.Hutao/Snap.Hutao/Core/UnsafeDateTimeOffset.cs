@@ -16,7 +16,7 @@ internal static class UnsafeDateTimeOffset
     }
 
     [Pure]
-    public static unsafe DateTimeOffset AdjustOffsetOnly(DateTimeOffset dateTimeOffset, in TimeSpan offset)
+    public static DateTimeOffset AdjustOffsetOnly(DateTimeOffset dateTimeOffset, in TimeSpan offset)
     {
         return new(GetPrivateDateTime(ref dateTimeOffset), offset);
     }

@@ -8,6 +8,7 @@ using static Snap.ZStandard.Methods;
 
 namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
+// ReSharper disable LocalizableElement
 internal sealed partial class ZstandardDecompressionStream : Stream
 {
     [SuppressMessage("", "CA2213")]

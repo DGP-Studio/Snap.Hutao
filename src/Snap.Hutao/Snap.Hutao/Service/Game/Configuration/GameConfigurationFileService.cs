@@ -6,25 +6,23 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
 
-[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IGameConfigurationFileService))]
-internal sealed partial class GameConfigurationFileService : IGameConfigurationFileService
+internal sealed class GameConfigurationFileService : IGameConfigurationFileService
 {
     private const string ConfigurationFileName = "config.ini";
-    private readonly RuntimeOptions runtimeOptions;
 
     public void Backup(string source)
     {
         if (File.Exists(source))
         {
-            string serverCacheFolder = runtimeOptions.GetDataFolderServerCacheFolder();
+            string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
             File.Copy(source, Path.Combine(serverCacheFolder, ConfigurationFileName), true);
         }
     }
 
     public void Restore(string destination)
     {
-        string serverCacheFolder = runtimeOptions.GetDataFolderServerCacheFolder();
+        string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
         string source = Path.Combine(serverCacheFolder, ConfigurationFileName);
 
         if (!File.Exists(source))

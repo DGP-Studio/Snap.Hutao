@@ -38,10 +38,10 @@
             "App.xaml"
           ],
           ".editorconfig": [
-            "Program.cs"
+            "Bootstrap.cs"
           ],
           "GlobalUsing.cs": [
-            "Program.cs"
+            "Bootstrap.cs"
           ]
         }
       }

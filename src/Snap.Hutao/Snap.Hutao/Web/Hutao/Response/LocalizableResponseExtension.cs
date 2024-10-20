@@ -10,12 +10,7 @@ internal static class LocalizableResponseExtension
     public static string? GetLocalizationMessageOrDefault(this ILocalizableResponse localizableResponse)
     {
         string? key = localizableResponse.LocalizationKey;
-        if (string.IsNullOrEmpty(key))
-        {
-            return default;
-        }
-
-        return SH.ResourceManager.GetString(key, CultureInfo.CurrentCulture);
+        return string.IsNullOrEmpty(key) ? default : SH.ResourceManager.GetString(key, CultureInfo.CurrentCulture);
     }
 
     public static string GetLocalizationMessageOrMessage<TResponse>(this TResponse localizableResponse)
@@ -27,11 +22,8 @@ internal static class LocalizableResponseExtension
     public static string GetLocalizationMessage(this ILocalizableResponse localizableResponse)
     {
         string? key = localizableResponse.LocalizationKey;
-        if (string.IsNullOrEmpty(key))
-        {
-            return string.Empty;
-        }
-
-        return SH.ResourceManager.GetString(key, CultureInfo.CurrentCulture) ?? string.Empty;
+        return string.IsNullOrEmpty(key)
+            ? string.Empty
+            : SH.ResourceManager.GetString(key, CultureInfo.CurrentCulture) ?? string.Empty;
     }
 }

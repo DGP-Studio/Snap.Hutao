@@ -25,7 +25,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly IClipboardProvider clipboardProvider;
     private readonly HttpProxyUsingSystemProxy dynamicHttpProxy;
     private readonly IServiceProvider serviceProvider;
-    private readonly LoopbackManager loopbackManager;
+    private readonly LoopbackSupport loopbackSupport;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
@@ -39,7 +39,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public HttpProxyUsingSystemProxy DynamicHttpProxy { get => dynamicHttpProxy; }
 
-    public LoopbackManager LoopbackManager { get => loopbackManager; }
+    public LoopbackSupport LoopbackSupport { get => loopbackSupport; }
 
     public string? SearchText { get => searchText; set => SetProperty(ref searchText, value); }
 
@@ -49,14 +49,15 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
-        Response<IPInformation> resp;
+        IPInformation? info;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+            Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+            ResponseValidator.TryValidate(resp, infoBarService, out info);
         }
 
-        IPInformation info = resp.IsOk() ? resp.Data : IPInformation.Default;
+        info ??= IPInformation.Default;
         await taskContext.SwitchToMainThreadAsync();
         IPInformation = info;
 
@@ -95,7 +96,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        if (response is { Results: [AlgoliaResult { Hits: { Count: > 0 } hits }, ..] })
+        if (response is { Results: [{ Hits: { Count: > 0 } hits }, ..] })
         {
             SearchResults = [.. hits.DistinctBy(hit => hit.Url)];
         }
@@ -112,7 +113,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     {
         try
         {
-            clipboardProvider.SetText(RuntimeOptions.DeviceId);
+            clipboardProvider.SetText(HutaoRuntime.DeviceId);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)
@@ -131,7 +132,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         if (result is ContentDialogResult.Primary)
         {
             await taskContext.SwitchToMainThreadAsync();
-            LoopbackManager.EnableLoopback();
+            LoopbackSupport.EnableLoopback();
         }
     }
 }

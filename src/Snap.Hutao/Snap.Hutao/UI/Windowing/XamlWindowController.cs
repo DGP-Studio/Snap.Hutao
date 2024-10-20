@@ -54,10 +54,9 @@ internal sealed class XamlWindowController
 
     private void InitializeCore()
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
-        window.AppWindow.Title = SH.FormatAppNameAndVersion(runtimeOptions.Version);
+        window.AppWindow.Title = SH.FormatAppNameAndVersion(HutaoRuntime.Version);
         window.AppWindow.SetIcon(InstalledLocation.GetAbsolutePath("Assets/Logo.ico"));
 
         // ExtendContentIntoTitleBar
@@ -202,8 +201,8 @@ internal sealed class XamlWindowController
         SystemBackdrop? actualBackdop = backdropType switch
         {
             BackdropType.Transparent => new TransparentBackdrop(),
-            BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
-            BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
+            BackdropType.MicaAlt => new MicaBackdrop { Kind = MicaKind.BaseAlt },
+            BackdropType.Mica => new MicaBackdrop { Kind = MicaKind.Base },
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
             _ => null,
         };
@@ -233,7 +232,7 @@ internal sealed class XamlWindowController
 
     #region IXamlWindowContentAsFrameworkElement
 
-    private unsafe void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
+    private void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
     {
         BOOL isDarkMode = ThemeHelper.IsDarkMode(titleBar.ActualTheme);
         DwmSetWindowAttribute(window.GetWindowHandle(), DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref isDarkMode);
@@ -256,13 +255,13 @@ internal sealed class XamlWindowController
 
     private void RecoverOrInitWindowSize(IXamlWindowHasInitSize xamlWindow)
     {
-        double scale = window.GetRasterizationScale();
-        RectInt32 rect = xamlWindow.InitSize.Scale(scale).ToRectInt32();
+        RectInt32 rect = xamlWindow.InitSize.ToRectInt32();
 
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
             RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
-            RectInt32 persistedRect = nonDpiPersistedRect.Scale(scale);
+            window.AppWindow.Move(nonDpiPersistedRect.GetPointInt32(PointInt32Kind.TopLeft));
+            RectInt32 persistedRect = nonDpiPersistedRect.Scale(window.GetRasterizationScale());
 
             // If the persisted size is less than min size, we want to reset to the init size.
             // So we only recover the size when it's greater than or equal to the min size.
@@ -273,7 +272,7 @@ internal sealed class XamlWindowController
         }
 
         TransformToCenterScreen(ref rect);
-        window.AppWindow.MoveAndResize(rect);
+        window.AppWindow.MoveThenResize(rect);
     }
 
     private void SaveOrSkipWindowSize(IXamlWindowRectPersisted rectPersisted)

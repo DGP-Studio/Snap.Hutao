@@ -87,18 +87,13 @@ internal sealed partial class XamlWindowSubclass : IDisposable
                         state.window.SystemBackdrop is IBackdropNeedEraseBackground ||
                         state.window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess { InnerBackdrop: IBackdropNeedEraseBackground })
                     {
-                        return (LRESULT)(int)BOOL.TRUE;
+                        return (int)BOOL.TRUE;
                     }
 
                     break;
                 }
         }
 
-        if (XamlApplicationLifetime.Exiting)
-        {
-            return default;
-        }
-
-        return DefSubclassProc(hwnd, uMsg, wParam, lParam);
+        return XamlApplicationLifetime.Exiting ? default : DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
 }

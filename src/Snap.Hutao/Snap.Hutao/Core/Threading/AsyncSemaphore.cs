@@ -38,12 +38,10 @@ internal sealed class AsyncSemaphore
                 --currentCount;
                 return Task.CompletedTask;
             }
-            else
-            {
-                TaskCompletionSource waiter = new();
-                waiters.Enqueue(waiter);
-                return waiter.Task;
-            }
+
+            TaskCompletionSource waiter = new();
+            waiters.Enqueue(waiter);
+            return waiter.Task;
         }
     }
 

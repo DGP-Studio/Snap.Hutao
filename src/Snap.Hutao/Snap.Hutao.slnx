@@ -1,0 +1,30 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="arm64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".vsconfig" />
+  </Folder>
+  <Project Path="Snap.Hutao.Test\Snap.Hutao.Test.csproj" />
+  <Project Path="Snap.Hutao\Snap.Hutao.csproj">
+    <Platform Solution="*|Any CPU" Project="x64" />
+    <Platform Solution="*|arm64" Project="arm64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
+  <Properties Name="ExtensibilityGlobals">
+    <Property Name="RESX_AutoApplyExistingTranslations" Value="False" />
+    <Property Name="RESX_NeutralResourcesLanguage" Value="zh-CN" />
+    <Property Name="RESX_Rules" Value="{&quot;EnabledRules&quot;:[&quot;StringFormat&quot;,&quot;WhiteSpaceLead&quot;,&quot;WhiteSpaceTail&quot;,&quot;PunctuationLead&quot;]}" />
+    <Property Name="RESX_ShowErrorsInErrorList" Value="False" />
+    <Property Name="RESX_SortFileContentOnSave" Value="True" />
+  </Properties>
+  <Properties Name="Visual Studio">
+    <Property Name="OpenWith" Value="17" />
+  </Properties>
+</Solution>

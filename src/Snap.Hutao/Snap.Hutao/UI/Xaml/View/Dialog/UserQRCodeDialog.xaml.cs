@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Factory.QuickResponse;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
@@ -15,24 +15,17 @@ using System.Web;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
+[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty("QRCodeSource", typeof(ImageSource))]
 internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 {
+    private readonly IInfoBarService infoBarService;
+    private readonly IQRCodeFactory qrCodeFactory;
     private readonly ITaskContext taskContext;
     private readonly PandaClient pandaClient;
-    private readonly IQRCodeFactory qrCodeFactory;
 
     private readonly CancellationTokenSource userManualCancellationTokenSource = new();
     private bool disposed;
-
-    public UserQRCodeDialog(IServiceProvider serviceProvider)
-    {
-        InitializeComponent();
-
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        pandaClient = serviceProvider.GetRequiredService<PandaClient>();
-        qrCodeFactory = serviceProvider.GetRequiredService<IQRCodeFactory>();
-    }
 
     ~UserQRCodeDialog()
     {
@@ -102,13 +95,13 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
     private async ValueTask<string> FetchQRCodeAndSetImageAsync(CancellationToken token)
     {
         Response<UrlWrapper> fetchResponse = await pandaClient.QRCodeFetchAsync(token).ConfigureAwait(false);
-        if (!fetchResponse.IsOk())
+        if (!ResponseValidator.TryValidate(fetchResponse, infoBarService, out UrlWrapper? wrapper))
         {
             return string.Empty;
         }
 
-        string url = fetchResponse.Data.Url;
-        string ticket = GetTicketFromUrl(fetchResponse.Data.Url);
+        string url = wrapper.Url;
+        string ticket = GetTicketFromUrl(url);
 
         await taskContext.SwitchToMainThreadAsync();
 
@@ -122,12 +115,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         {
             ReadOnlySpan<char> querySpan = urlSpan[urlSpan.IndexOf('?')..];
             NameValueCollection queryCollection = HttpUtility.ParseQueryString(querySpan.ToString());
-            if (queryCollection.TryGetSingleValue("ticket", out string? ticket))
-            {
-                return ticket;
-            }
-
-            return string.Empty;
+            return queryCollection.TryGetSingleValue("ticket", out string? ticket) ? ticket : string.Empty;
         }
     }
 
@@ -145,7 +133,8 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
                     ArgumentNullException.ThrowIfNull(uidGameToken);
                     return uidGameToken;
                 }
-                else if (query.ReturnCode is (int)KnownReturnCode.QrCodeExpired)
+
+                if (query.ReturnCode is (int)KnownReturnCode.QrCodeExpired)
                 {
                     break;
                 }

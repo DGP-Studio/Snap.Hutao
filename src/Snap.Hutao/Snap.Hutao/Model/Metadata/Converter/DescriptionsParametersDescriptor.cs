@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.UI.Xaml.Data.Converter;
@@ -12,25 +11,14 @@ using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-/// <summary>
-/// 描述参数解析器
-/// </summary>
-[HighQuality]
 internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<DescriptionsParameters, IList<LevelParameters<string, ParameterDescription>>>
 {
-    /// <summary>
-    /// 获取特定等级的解释
-    /// </summary>
-    /// <param name="from">源</param>
-    /// <param name="level">等级</param>
-    /// <returns>特定等级的解释</returns>
     public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, uint level)
     {
         LevelParameters<SkillLevel, float> param = from.Parameters.Single(param => param.Level == level);
         return new LevelParameters<string, ParameterDescription>(LevelFormat.Format(param.Level), GetParameterDescription(from.Descriptions, param.Parameters));
     }
 
-    /// <inheritdoc/>
     public override List<LevelParameters<string, ParameterDescription>> Convert(DescriptionsParameters from)
     {
         List<LevelParameters<string, ParameterDescription>> parameters = from.Parameters
@@ -59,8 +47,8 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
                 }
                 else
                 {
-                    string descriptionString = SpecialNameHandler.Handle(description.ToString());
-                    string formatString = SpecialNameHandler.Handle(format.ToString());
+                    string descriptionString = SpecialNameHandling.Handle(description.ToString());
+                    string formatString = SpecialNameHandling.Handle(format.ToString());
 
                     string resultFormatted = ParamRegex().Replace(formatString, match => ReplaceParamInMatch(match, paramList));
                     results.Add(new ParameterDescription { Description = descriptionString, Parameter = resultFormatted });
@@ -68,7 +56,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
             }
             else
             {
-                HutaoException.InvalidOperation($"ParameterFormat failed, value: `{desc}`", default);
+                HutaoException.InvalidOperation($"ParameterFormat failed, value: `{desc}`");
             }
         }
 
@@ -82,9 +70,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
             int index = int.Parse(match.Groups[1].Value, CultureInfo.CurrentCulture) - 1;
             return ParameterFormat.FormatInvariant($"{{0:{match.Groups[2].Value}}}", paramList[index]);
         }
-        else
-        {
-            return string.Empty;
-        }
+
+        return string.Empty;
     }
 }

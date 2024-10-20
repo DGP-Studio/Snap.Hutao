@@ -102,7 +102,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
         // We perform these requests before package conversion to ensure resources index is intact.
         Response<GamePackagesWrapper> packagesResponse = await hoyoPlayClient.GetPackagesAsync(context.Scheme).ConfigureAwait(false);
-        if (!packagesResponse.TryGetDataWithoutUINotification(out GamePackagesWrapper? gamePackages))
+        if (!ResponseValidator.TryValidateWithoutUINotification(packagesResponse, out GamePackagesWrapper? gamePackages))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
             context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(packagesResponse);
@@ -110,7 +110,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         }
 
         Response<GameChannelSDKsWrapper> sdkResponse = await hoyoPlayClient.GetChannelSDKAsync(context.Scheme).ConfigureAwait(false);
-        if (!sdkResponse.TryGetDataWithoutUINotification(out GameChannelSDKsWrapper? channelSDKs))
+        if (!ResponseValidator.TryValidateWithoutUINotification(sdkResponse, out GameChannelSDKsWrapper? channelSDKs))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
             context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(sdkResponse);
@@ -118,7 +118,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         }
 
         Response<DeprecatedFileConfigurationsWrapper> deprecatedFileResponse = await hoyoPlayClient.GetDeprecatedFileConfigurationsAsync(context.Scheme).ConfigureAwait(false);
-        if (!deprecatedFileResponse.TryGetDataWithoutUINotification(out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
+        if (!ResponseValidator.TryValidateWithoutUINotification(deprecatedFileResponse, out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
             context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedFileResponse);

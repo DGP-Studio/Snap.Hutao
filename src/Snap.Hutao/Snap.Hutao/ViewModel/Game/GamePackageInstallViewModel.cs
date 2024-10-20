@@ -32,23 +32,22 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     {
         LaunchScheme launchScheme = KnownLaunchSchemes.Get().First(scheme => scheme.IsNotCompatOnly);
 
-        Response<GameBranchesWrapper> branchResp;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
-            branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-            if (!branchResp.IsOk())
+            Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
             {
                 return false;
             }
-        }
 
-        if (branchResp.Data.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is { } branch)
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            RemoteVersion = new(branch.Main.Tag);
-            return true;
+            if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is { } branch)
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                RemoteVersion = new(branch.Main.Tag);
+                return true;
+            }
         }
 
         return false;
@@ -74,27 +73,27 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
         (GameFileSystem gameFileSystem, LaunchScheme launchScheme) = gameInstallOptions;
 
-        Response<GameBranchesWrapper> branchResp;
-        Response<GameChannelSDKsWrapper> sdkResp;
+        GameBranchesWrapper? branchesWrapper;
+        GameChannelSDKsWrapper? channelSDKsWrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
-            branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-            if (!branchResp.IsOk())
+            Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out branchesWrapper))
             {
                 return;
             }
 
-            sdkResp = await hoyoPlayClient.GetChannelSDKAsync(launchScheme).ConfigureAwait(false);
-            if (!sdkResp.IsOk())
+            Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(launchScheme).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
             {
                 return;
             }
         }
 
-        GameBranch? branch = branchResp.Data.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId);
-        GameChannelSDK? gameChannelSDK = sdkResp.Data.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
+        GameBranch? branch = branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId);
+        GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == launchScheme.GameId);
 
         ArgumentNullException.ThrowIfNull(branch);
 
@@ -112,7 +111,6 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
         {
             // Operation canceled
-            return;
         }
     }
 }

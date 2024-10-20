@@ -23,7 +23,6 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
     private SettingFolderViewModel? cacheFolderView;
@@ -36,13 +35,13 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     [Command("OpenBackgroundImageFolderCommand")]
     private async Task OpenBackgroundImageFolderAsync()
     {
-        await Launcher.LaunchFolderPathAsync(runtimeOptions.GetDataFolderBackgroundFolder());
+        await Launcher.LaunchFolderPathAsync(HutaoRuntime.GetDataFolderBackgroundFolder());
     }
 
     [Command("SetDataFolderCommand")]
     private void SetDataFolder()
     {
-        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string folder))
+        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string? folder))
         {
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
@@ -62,7 +61,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             return;
         }
 
-        string cacheFolder = runtimeOptions.GetDataFolderServerCacheFolder();
+        string cacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
         if (Directory.Exists(cacheFolder))
         {
             Directory.Delete(cacheFolder, true);
@@ -87,7 +86,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToBackgroundAsync();
             StaticResource.FailAll();
-            Directory.Delete(Path.Combine(runtimeOptions.LocalCache, nameof(ImageCache)), true);
+            Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
             UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
         }
 

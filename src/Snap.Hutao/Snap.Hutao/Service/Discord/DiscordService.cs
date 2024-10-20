@@ -12,7 +12,6 @@ namespace Snap.Hutao.Service.Discord;
 internal sealed partial class DiscordService : IDiscordService, IDisposable
 {
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
 
     private bool isInitialized;
 
@@ -30,7 +29,7 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
     {
         if (IsSupported())
         {
-            _ = await DiscordController.SetDefaultActivityAsync(runtimeOptions.AppLaunchTime).ConfigureAwait(false);
+            _ = await DiscordController.SetDefaultActivityAsync(HutaoRuntime.LaunchTime).ConfigureAwait(false);
         }
     }
 

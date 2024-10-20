@@ -36,8 +36,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
         featureService = serviceProvider.GetRequiredService<IFeatureService>();
 
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        dataFolderIslandPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
+        dataFolderIslandPath = Path.Combine(HutaoRuntime.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
 
         this.gameVersion = gameVersion;
 
@@ -153,7 +152,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
             SpinWait.SpinUntil(() => gameProcess.MainWindowHandle is not 0);
             uint threadId = GetWindowThreadProcessId(gameProcess.MainWindowHandle, default);
-            HHOOK hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, (HINSTANCE)hModule, threadId);
+            HHOOK hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, hModule, threadId);
             if (hHook.Value is 0)
             {
                 Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));

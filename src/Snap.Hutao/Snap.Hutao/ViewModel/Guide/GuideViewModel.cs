@@ -9,6 +9,7 @@ using Snap.Hutao.Service;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -171,10 +172,10 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     {
         HutaoInfrastructureClient hutaoInfrastructureClient = serviceProvider.GetRequiredService<HutaoInfrastructureClient>();
         HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
-        if (response.IsOk())
+        if (ResponseValidator.TryValidate(response, serviceProvider, out StaticResourceSizeInformation? sizeInformation))
         {
             await taskContext.SwitchToMainThreadAsync();
-            StaticResourceOptions.SizeInformation = response.Data;
+            StaticResourceOptions.SizeInformation = sizeInformation;
         }
 
         return true;

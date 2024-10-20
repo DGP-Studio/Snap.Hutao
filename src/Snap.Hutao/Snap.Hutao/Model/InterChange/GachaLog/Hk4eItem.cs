@@ -27,7 +27,7 @@ internal sealed class Hk4eItem
 
     [JsonPropertyName("id")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public required long Id { get; set; } = default!;
+    public required long Id { get; set; }
 
     public static Hk4eItem From(GachaItem item)
     {

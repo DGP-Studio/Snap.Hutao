@@ -79,7 +79,7 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
             .Where(i => i.ArchiveId == archiveId && i.QueryType == queryType)
             .OrderByDescending(i => i.Id)
             .Where(i => i.Id > endId)
-            .Select(i => new Web.Hutao.GachaLog.GachaItem()
+            .Select(i => new Web.Hutao.GachaLog.GachaItem
             {
                 GachaType = i.GachaType,
                 QueryType = i.QueryType,

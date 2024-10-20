@@ -31,19 +31,23 @@ internal sealed class WrapLayoutState
         {
             return items[index];
         }
-        else
-        {
-            WrapItem item = new(index);
-            items.Add(item);
-            return item;
-        }
+
+        WrapItem item = new(index);
+        items.Add(item);
+        return item;
     }
 
     public void Clear()
     {
-        for (int i = 0; i < context.ItemCount; i++)
+        try
         {
-            RecycleElementAt(i);
+            for (int i = 0; i < context.ItemCount; i++)
+            {
+                RecycleElementAt(i);
+            }
+        }
+        catch
+        {
         }
 
         items.Clear();

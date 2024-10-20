@@ -17,7 +17,7 @@ internal sealed class WikiAvatarMetadataContext : IMetadataContext,
     IMetadataDictionaryIdMaterialSource,
     IMetadataArrayAvatarSource
 {
-    public ImmutableDictionary<Level, ImmutableDictionary<GrowCurveType, float>> LevelDictionaryAvatarGrowCurveMap { get; set; } = default!;
+    public ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> LevelDictionaryAvatarGrowCurveMap { get; set; } = default!;
 
     public ImmutableDictionary<PromoteId, ImmutableDictionary<PromoteLevel, Promote>> IdDictionaryAvatarLevelPromoteMap { get; set; } = default!;
 

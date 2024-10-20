@@ -5,10 +5,10 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Response;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -36,23 +36,21 @@ internal sealed partial class UpdateService : IUpdateService
 
             CheckUpdateResult checkUpdateResult = new();
 
-            if (!response.IsOk())
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out HutaoPackageInformation? packageInformation))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.VersionApiInvalidResponse;
                 return checkUpdateResult;
             }
-            else
-            {
-                checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
-                checkUpdateResult.PackageInformation = response.Data;
-            }
 
-            string msixPath = GetUpdatePackagePath();
+            checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
+            checkUpdateResult.PackageInformation = packageInformation;
+
+            string msixPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
 
             if (!LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false))
             {
                 // Launched in an updated version
-                if (scope.ServiceProvider.GetRequiredService<RuntimeOptions>().Version >= checkUpdateResult.PackageInformation.Version)
+                if (HutaoRuntime.Version >= checkUpdateResult.PackageInformation.Version)
                 {
                     if (File.Exists(msixPath))
                     {
@@ -84,25 +82,24 @@ internal sealed partial class UpdateService : IUpdateService
 
     public ValueTask<bool> DownloadUpdateAsync(HutaoSelectedMirrorInformation mirrorInformation, IProgress<UpdateStatus> progress, CancellationToken token = default)
     {
-        return DownloadUpdatePackageAsync(mirrorInformation, GetUpdatePackagePath(), progress, token);
+        return DownloadUpdatePackageAsync(mirrorInformation, HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix"), progress, token);
     }
 
     public LaunchUpdaterResult LaunchUpdater()
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        string updaterTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
 
         InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
 
         string commandLine = new CommandLineBuilder()
-            .Append("--package-path", GetUpdatePackagePath(runtimeOptions))
-            .Append("--family-name", runtimeOptions.FamilyName)
+            .Append("--package-path", HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix"))
+            .Append("--family-name", HutaoRuntime.FamilyName)
             .Append("--update-behavior", true)
             .ToString();
 
         try
         {
-            Process? process = Process.Start(new ProcessStartInfo()
+            Process? process = Process.Start(new ProcessStartInfo
             {
                 Arguments = commandLine,
                 FileName = updaterTargetPath,
@@ -122,12 +119,6 @@ internal sealed partial class UpdateService : IUpdateService
     {
         string localHash = await SHA256.HashFileAsync(filePath, token).ConfigureAwait(false);
         return string.Equals(localHash, remoteHash, StringComparison.OrdinalIgnoreCase);
-    }
-
-    private string GetUpdatePackagePath(RuntimeOptions? runtimeOptions = default)
-    {
-        runtimeOptions ??= serviceProvider.GetRequiredService<RuntimeOptions>();
-        return runtimeOptions.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
     }
 
     private async ValueTask<bool> DownloadUpdatePackageAsync(HutaoSelectedMirrorInformation mirrorInformation, string filePath, IProgress<UpdateStatus> progress, CancellationToken token = default)
@@ -187,8 +178,7 @@ internal sealed partial class UpdateService : IUpdateService
                 return false;
             }
 
-            string? remoteHash = mirrorInformation.Validation;
-            ArgumentNullException.ThrowIfNull(remoteHash);
+            string remoteHash = mirrorInformation.Validation;
             if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
             {
                 return true;

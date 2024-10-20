@@ -145,12 +145,10 @@ internal sealed partial class AchievementRepositoryOperation
                                         // Skip same entry, reduce write operation.
                                         continue;
                                     }
-                                    else
-                                    {
-                                        appDbContext.Achievements.RemoveAndSave(oldEntity);
-                                        appDbContext.Achievements.AddAndSave(newEntity);
-                                        update++;
-                                    }
+
+                                    appDbContext.Achievements.RemoveAndSave(oldEntity);
+                                    appDbContext.Achievements.AddAndSave(newEntity);
+                                    update++;
 
                                     break;
                                 case > 0:

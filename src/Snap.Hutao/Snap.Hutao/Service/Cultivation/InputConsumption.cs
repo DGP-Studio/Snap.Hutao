@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Service.Cultivation.Consumption;
 using CalculateItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
 
 namespace Snap.Hutao.Service.Cultivation;

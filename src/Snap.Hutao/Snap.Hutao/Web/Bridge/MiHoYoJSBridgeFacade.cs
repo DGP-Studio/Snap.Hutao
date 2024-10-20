@@ -4,6 +4,7 @@
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -249,24 +250,24 @@ internal class MiHoYoJSBridgeFacade
 
     protected virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
     {
-        Response<UserFullInfoWrapper> response;
+        UserFullInfoWrapper? wrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IUserClient userClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
                 .Create(userAndUid.User.IsOversea);
 
-            response = await userClient
+            Response<UserFullInfoWrapper> response = await userClient
                 .GetUserFullInfoAsync(userAndUid.User)
                 .ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out wrapper))
+            {
+                return new();
+            }
         }
 
-        if (!response.IsOk())
-        {
-            return new();
-        }
-
-        UserInfo info = response.Data.UserInfo;
+        UserInfo info = wrapper.UserInfo;
         return new()
         {
             Data = new()
@@ -312,10 +313,12 @@ internal class MiHoYoJSBridgeFacade
             HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
             IClipboardProvider clipboardProvider = scope.ServiceProvider.GetRequiredService<IClipboardProvider>();
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+            IFileSystemPickerInteraction fileSystemPickerInteraction = scope.ServiceProvider.GetRequiredService<IFileSystemPickerInteraction>();
+            BridgeShareSaveType shareSaveType = scope.ServiceProvider.GetRequiredService<AppOptions>().BridgeShareSaveType;
 
-            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions);
+            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions, fileSystemPickerInteraction, shareSaveType);
 
-            return await BridgeShareImplmentation.ShareAsync(param, context).ConfigureAwait(false);
+            return await BridgeShareImplementation.ShareAsync(param, context).ConfigureAwait(false);
         }
     }
 

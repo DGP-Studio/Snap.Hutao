@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -160,19 +161,18 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        Response<CalculateBatchConsumption> response;
+        CalculateBatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-            response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+            Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
+            {
+                return;
+            }
         }
 
-        if (!response.IsOk())
-        {
-            return;
-        }
-
-        CalculateBatchConsumption batchConsumption = response.Data;
         LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);
         try
         {
@@ -223,13 +223,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (FilterTokens is null or [])
-        {
-            Weapons.Filter = default!;
-        }
-        else
-        {
-            Weapons.Filter = WeaponFilter.Compile(FilterTokens);
-        }
+        Weapons.Filter = FilterTokens is null or [] ? default! : WeaponFilter.Compile(FilterTokens);
     }
 }

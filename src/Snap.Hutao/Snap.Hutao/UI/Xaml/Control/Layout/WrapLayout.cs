@@ -52,8 +52,6 @@ internal sealed partial class WrapLayout : VirtualizingLayout
                 state.Clear();
                 break;
         }
-
-        base.OnItemsChangedCore(context, source, args);
     }
 
     protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
@@ -122,7 +120,8 @@ internal sealed partial class WrapLayout : VirtualizingLayout
 
                 continue;
             }
-            else if (itemPosition.Y > context.RealizationRect.Bottom)
+
+            if (itemPosition.Y > context.RealizationRect.Bottom)
             {
                 // Item is "below" the bounds.
                 if (item.Element is not null)
@@ -134,7 +133,8 @@ internal sealed partial class WrapLayout : VirtualizingLayout
                 // We don't need to measure anything below the bounds
                 break;
             }
-            else if (!itemMeasured)
+
+            if (!itemMeasured)
             {
                 // Always measure elements that are within the bounds
                 item.Element = context.GetOrCreateElementAt(i);

@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Extension;
 
-internal static partial class EnumerableExtension
+internal static class EnumerableExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)

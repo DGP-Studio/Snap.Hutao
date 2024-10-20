@@ -23,12 +23,12 @@ internal struct Bgra32
 
     public readonly double Luminance { get => ((0.2126 * R) + (0.7152 * G) + (0.0722 * B)) / 255; }
 
-    public static unsafe implicit operator Bgra32(Color color)
+    public static implicit operator Bgra32(Color color)
     {
         return ColorHelper.ToBgra32(color);
     }
 
-    public static unsafe implicit operator Color(Bgra32 bgra8)
+    public static implicit operator Color(Bgra32 bgra8)
     {
         return ColorHelper.ToColor(bgra8);
     }

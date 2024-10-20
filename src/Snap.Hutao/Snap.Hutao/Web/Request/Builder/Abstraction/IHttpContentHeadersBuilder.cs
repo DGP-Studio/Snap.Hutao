@@ -5,6 +5,4 @@ using System.Net.Http.Headers;
 
 namespace Snap.Hutao.Web.Request.Builder.Abstraction;
 
-internal interface IHttpContentHeadersBuilder : IHttpContentBuilder, IHttpHeadersBuilder<HttpContentHeaders>
-{
-}
+internal interface IHttpContentHeadersBuilder : IHttpContentBuilder, IHttpHeadersBuilder<HttpContentHeaders>;

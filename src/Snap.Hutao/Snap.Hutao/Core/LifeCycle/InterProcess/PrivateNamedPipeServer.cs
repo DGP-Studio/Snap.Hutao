@@ -12,7 +12,6 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
     private readonly PrivateNamedPipeMessageDispatcher messageDispatcher;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ILogger<PrivateNamedPipeServer> logger;
 
     private readonly CancellationTokenSource serverTokenSource = new();
@@ -23,12 +22,11 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     public PrivateNamedPipeServer(IServiceProvider serviceProvider)
     {
         messageDispatcher = serviceProvider.GetRequiredService<PrivateNamedPipeMessageDispatcher>();
-        runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         logger = serviceProvider.GetRequiredService<ILogger<PrivateNamedPipeServer>>();
 
         PipeSecurity? pipeSecurity = default;
 
-        if (runtimeOptions.IsElevated)
+        if (HutaoRuntime.IsProcessElevated)
         {
             SecurityIdentifier everyOne = new(WellKnownSidType.WorldSid, null);
 
@@ -74,7 +72,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         }
     }
 
-    private unsafe void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
+    private void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
     {
         while (serverStream.IsConnected && !token.IsCancellationRequested)
         {
@@ -83,7 +81,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
             switch ((header.Type, header.Command))
             {
                 case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
-                    ElevationStatusResponse resp = new(runtimeOptions.IsElevated);
+                    ElevationStatusResponse resp = new(HutaoRuntime.IsProcessElevated);
                     serverStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Response, PipePacketCommand.ResponseElevationStatus, resp);
                     serverStream.Flush();
                     break;

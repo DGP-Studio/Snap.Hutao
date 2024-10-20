@@ -30,23 +30,20 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
             ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, []);
             List<long> data = excludedIds.Select(kvp => long.Parse(kvp.Key, CultureInfo.InvariantCulture)).ToList();
 
-            Response<List<HutaoAnnouncement>> response;
+            List<HutaoAnnouncement>? list;
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
                 HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-                response = await hutaoAsAServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
+                Response<List<HutaoAnnouncement>> response = await hutaoAsAServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out list))
+                {
+                    return [];
+                }
             }
 
-            if (response.IsOk())
-            {
-                List<HutaoAnnouncement> list = response.Data;
-                list.ForEach(item => item.DismissCommand = dismissCommand);
-                announcements = list.ToObservableCollection();
-            }
-            else
-            {
-                return [];
-            }
+            list.ForEach(item => item.DismissCommand = dismissCommand);
+            announcements = list.ToObservableCollection();
         }
 
         return announcements;

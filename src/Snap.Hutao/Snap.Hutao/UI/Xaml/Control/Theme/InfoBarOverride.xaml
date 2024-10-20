@@ -146,6 +146,7 @@
                                     InfoBarPanel.VerticalOrientationMargin="{StaticResource InfoBarTitleVerticalOrientationMargin}"
                                     IsTextSelectionEnabled="{TemplateBinding shuxc:InfoBarHelper.IsTextSelectionEnabled}"
                                     Text="{TemplateBinding Title}"
+                                    TextTrimming="CharacterEllipsis"
                                     TextWrapping="WrapWholeWords"/>
                                 <TextBlock
                                     x:Name="Message"
@@ -156,6 +157,7 @@
                                     InfoBarPanel.VerticalOrientationMargin="{StaticResource InfoBarMessageVerticalOrientationMargin}"
                                     IsTextSelectionEnabled="{TemplateBinding shuxc:InfoBarHelper.IsTextSelectionEnabled}"
                                     Text="{TemplateBinding Message}"
+                                    TextTrimming="CharacterEllipsis"
                                     TextWrapping="WrapWholeWords"/>
                                 <ContentPresenter
                                     VerticalAlignment="Top"
@@ -319,7 +321,6 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

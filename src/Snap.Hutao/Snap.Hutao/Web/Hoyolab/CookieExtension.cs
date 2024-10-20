@@ -22,11 +22,9 @@ internal static class CookieExtension
         return source.TryGetValuesToCookie([LOGIN_TICKET, LOGIN_UID], out cookie);
     }
 
-    public static bool TryGetSToken(this Cookie source, bool isOversea, [NotNullWhen(true)] out Cookie? cookie)
+    public static bool TryGetSToken(this Cookie source, [NotNullWhen(true)] out Cookie? cookie)
     {
-        return isOversea
-            ? source.TryGetValuesToCookie([STOKEN, STUID], out cookie)
-            : source.TryGetValuesToCookie([MID, STOKEN, STUID], out cookie);
+        return source.TryGetValuesToCookie([MID, STOKEN, STUID], out cookie);
     }
 
     public static bool TryGetLToken(this Cookie source, [NotNullWhen(true)] out Cookie? cookie)

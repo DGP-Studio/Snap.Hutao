@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Behaviors;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.Behavior;

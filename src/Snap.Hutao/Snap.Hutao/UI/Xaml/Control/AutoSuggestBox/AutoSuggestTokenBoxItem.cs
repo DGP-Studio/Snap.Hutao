@@ -236,7 +236,6 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
         if (!string.IsNullOrWhiteSpace(args.QueryText))
         {
             AddToken(args.QueryText);
-            return;
         }
 
         void AddToken(object data)
@@ -355,7 +354,7 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
     private void OnAutoSuggestTextBoxSelectionChanging(TextBox sender, TextBoxSelectionChangingEventArgs args)
     {
-        isSelectedFocusOnFirstCharacter = args.SelectionLength > 0 && args.SelectionStart is 0 && sender.SelectionStart > 0;
+        isSelectedFocusOnFirstCharacter = args is { SelectionLength: > 0, SelectionStart: 0 } && sender.SelectionStart > 0;
         isSelectedFocusOnLastCharacter = (args.SelectionStart + args.SelectionLength == sender.Text.Length)
             && (sender.SelectionStart + sender.SelectionLength != sender.Text.Length);
     }

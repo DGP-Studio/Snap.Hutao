@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.ViewModel.Game;
+using Snap.Hutao.ViewModel.User;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Launching;
@@ -20,12 +21,13 @@ internal sealed partial class LaunchExecutionContext
     private GameFileSystem? gameFileSystem;
 
     [SuppressMessage("", "SH007")]
-    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? scheme, GameAccount? account)
+    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? scheme, GameAccount? account, UserAndUid? userAndUid)
         : this(serviceProvider)
     {
         ViewModel = viewModel;
         Scheme = scheme!;
         Account = account;
+        UserAndUid = userAndUid;
     }
 
     public LaunchExecutionResult Result { get; } = new();
@@ -46,9 +48,13 @@ internal sealed partial class LaunchExecutionContext
 
     public GameAccount? Account { get; private set; }
 
+    public UserAndUid? UserAndUid { get; private set; }
+
     public bool ChannelOptionsChanged { get; set; }
 
     public IProgress<LaunchStatus> Progress { get; set; } = default!;
+
+    public string? AuthTicket { get; set; }
 
     public System.Diagnostics.Process Process { get; set; } = default!;
 
