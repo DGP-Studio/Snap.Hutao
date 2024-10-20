@@ -1376,6 +1376,30 @@
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
     <value>手動輸入祈願紀錄 URL</value>
   </data>
+  <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
+    <value>遊戲伺服器</value>
+  </data>
+  <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
+    <value>目前選擇目錄為HDD，建議使用SSD</value>
+  </data>
+  <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
+    <value>設定遊戲安裝目錄</value>
+  </data>
+  <data name="ViewDialogGameInstallTitle" xml:space="preserve">
+    <value>安裝遊戲</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
+    <value>漢語</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
+    <value>英語</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
+    <value>日語</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
+    <value>韓語</value>
+  </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
     <value>請輸入請求介面的 URL 複合模板</value>
   </data>
@@ -1504,6 +1528,15 @@
   </data>
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>更新</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
+    <value>請輸入帳號</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
+    <value>請輸入密碼</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
+    <value>帳號密碼登入</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
@@ -1675,6 +1708,9 @@
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展櫃尚未開啟，請前往遊戲操作後重試</value>
+  </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>共 {0} 位角色</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
     <value>複製角色詳情失敗</value>
@@ -1880,8 +1916,14 @@
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>匯入失敗</value>
   </data>
+  <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
+    <value>目前選中使用者與遊戲伺服器不匹配，請重新選擇</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>目前選中的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
+  </data>
+  <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
+    <value>使用 米遊社 / HoYoLAB 使用者登入失敗，請重新登入</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2702,6 +2744,12 @@
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>啟用</value>
   </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
+    <value>使用目前選中的 米遊社 / HoYoLAB 使用者登入，不支援渠道服</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
+    <value>使用 米遊社 / HoYoLAB 使用者登入</value>
+  </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>充分利用支援 HDR 的顯示器以獲得更亮、更生動、更精細的畫面</value>
   </data>
@@ -3011,6 +3059,12 @@
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>設定遊戲路徑時，請選擇遊戲本體（YuanShen.exe 或 GenshinImpact.exe） 而不是啟動器（launcher.exe）</value>
   </data>
+  <data name="ViewPageSettingShareSaveTypeDescription" xml:space="preserve">
+    <value>選擇點擊分享按鈕後儲存圖片的模式</value>
+  </data>
+  <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
+    <value>分享儲存模式</value>
+  </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 體驗</value>
   </data>
@@ -3070,6 +3124,9 @@
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>WebView2 執行階段</value>
+  </data>
+  <data name="ViewPageSettingWebViewHeader" xml:space="preserve">
+    <value>WebView</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>
@@ -3281,6 +3338,12 @@
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
     <value>旅行工具</value>
   </data>
+  <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
+    <value>帳密登入</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
+    <value>第三方登入</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>網頁登入</value>
   </data>
@@ -3382,6 +3445,21 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已複製到剪貼簿</value>
+  </data>
+  <data name="WebBridgeShareFilePickerTitle" xml:space="preserve">
+    <value>儲存分享圖片</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileFailed" xml:space="preserve">
+    <value>圖片儲存失敗</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileSuccess" xml:space="preserve">
+    <value>圖片儲存成功</value>
+  </data>
+  <data name="WebBridgeShareSaveKindCopyToClipboard" xml:space="preserve">
+    <value>複製到剪貼簿</value>
+  </data>
+  <data name="WebBridgeShareSaveKindSaveAsFile" xml:space="preserve">
+    <value>儲存為檔案</value>
   </data>
   <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
     <value>所有魔神任務已完成</value>
