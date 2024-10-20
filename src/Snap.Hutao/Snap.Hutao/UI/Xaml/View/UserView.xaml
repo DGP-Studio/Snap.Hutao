@@ -302,11 +302,12 @@
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="0,0,1,0">
+                            <!--  米游社 登录  -->
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
-                                Icon="{shuxm:FontIcon Glyph=&#xE8EA;}"
+                                Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/ThirdParty/miyoushe_ic_launcher.png}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperation}">
                                 <AppBarButton.Flyout>
                                     <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding2Style}" Placement="Right">
@@ -329,11 +330,12 @@
                                     </Flyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>
+                            <!--  HoYoLAB 登录  -->
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
-                                Icon="{shuxm:FontIcon Glyph=&#xE8EA;}"
+                                Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/ThirdParty/hoyolab_ic_launcher_foreground.webp}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperation2}">
                                 <AppBarButton.Flyout>
                                     <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding2Style}" Placement="Right">

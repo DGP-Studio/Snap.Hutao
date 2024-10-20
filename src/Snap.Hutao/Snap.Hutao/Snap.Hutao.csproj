@@ -100,6 +100,8 @@
     <None Remove="Resource\ThirdParty\Apple.png" />
     <None Remove="Resource\ThirdParty\Facebook.png" />
     <None Remove="Resource\ThirdParty\Google.png" />
+    <None Remove="Resource\ThirdParty\hoyolab_ic_launcher_foreground.webp" />
+    <None Remove="Resource\ThirdParty\miyoushe_ic_launcher.png" />
     <None Remove="Resource\ThirdParty\Twitter.png" />
     <None Remove="UI\Xaml\Control\AutoSuggestBox\AutoSuggestTokenBox.xaml" />
     <None Remove="UI\Xaml\Control\Card\CardBlock.xaml" />
@@ -292,6 +294,8 @@
     <Content Include="Resource\ThirdParty\Apple.png" />
     <Content Include="Resource\ThirdParty\Facebook.png" />
     <Content Include="Resource\ThirdParty\Google.png" />
+    <Content Include="Resource\ThirdParty\hoyolab_ic_launcher_foreground.webp" />
+    <Content Include="Resource\ThirdParty\miyoushe_ic_launcher.png" />
     <Content Include="Resource\ThirdParty\Twitter.png" />
     <Content Include="Resource\WelcomeView_Background.png" />
   </ItemGroup>

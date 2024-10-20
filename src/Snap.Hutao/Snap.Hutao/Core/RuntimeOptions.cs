@@ -3,40 +3,39 @@
 
 namespace Snap.Hutao.Core;
 
-[Obsolete("This class only exist for binding purpose")]
 [Injection(InjectAs.Singleton)]
 internal sealed class RuntimeOptions
 {
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public Version Version { get => HutaoRuntime.Version; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public string UserAgent { get => HutaoRuntime.UserAgent; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public string DataFolder { get => HutaoRuntime.DataFolder; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public string LocalCache { get => HutaoRuntime.LocalCache; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public string FamilyName { get => HutaoRuntime.FamilyName; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public string DeviceId { get => HutaoRuntime.DeviceId; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public string WebView2Version { get => HutaoRuntime.WebView2Version.Version; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public bool IsWebView2Supported { get => HutaoRuntime.WebView2Version.Supported; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public bool IsElevated { get => HutaoRuntime.IsProcessElevated; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public bool IsToastAvailable { get => HutaoRuntime.IsAppNotificationEnabled; }
 
-    [Obsolete]
+    [Obsolete("This property only exist for binding purpose")]
     public DateTimeOffset AppLaunchTime { get => HutaoRuntime.LaunchTime; }
 }

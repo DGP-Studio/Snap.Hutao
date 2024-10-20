@@ -17,6 +17,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
+using Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab;
@@ -48,7 +49,7 @@ internal sealed partial class UserViewModel : ObservableObject
 
     public AdvancedDbCollectionView<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
 
-    public List<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = CollectionsNameValue.FromEnum<OverseaThirdPartyKind>();
+    public List<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = CollectionsNameValue.FromEnum<OverseaThirdPartyKind>(static kind => kind is OverseaThirdPartyKind.Twitter ? ThirdPartyIconConverter.TwitterName : kind.ToString());
 
     internal void HandleUserOptionResult(UserOptionResult optionResult, string uid)
     {

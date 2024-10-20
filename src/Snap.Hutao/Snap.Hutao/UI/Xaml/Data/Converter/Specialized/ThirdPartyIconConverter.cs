@@ -7,9 +7,16 @@ namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
 internal sealed partial class ThirdPartyIconConverter : ValueConverter<string, BitmapIcon>
 {
+    public const string TwitterName = "X (Twitter)";
+
     public override BitmapIcon Convert(string from)
     {
-        Uri uri = $"ms-appx:///Resource/ThirdParty/{from}.png".ToUri();
+        Uri uri = from switch
+        {
+            TwitterName => $"ms-appx:///Resource/ThirdParty/Twitter.png".ToUri(),
+            _ => $"ms-appx:///Resource/ThirdParty/{from}.png".ToUri(),
+        };
+
         return new()
         {
             ShowAsMonochrome = false,
