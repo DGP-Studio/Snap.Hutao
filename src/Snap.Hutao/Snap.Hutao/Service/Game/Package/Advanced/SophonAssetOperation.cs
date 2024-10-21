@@ -24,6 +24,7 @@ internal sealed class SophonAssetOperation
             Kind = SophonAssetOperationKind.AddOrRepair,
             UrlPrefix = string.Intern(urlPrefix),
             NewAsset = newAsset,
+            DiffChunks = newAsset.AssetChunks.Select(chunk => new SophonChunk(urlPrefix, chunk)).ToList(),
         };
     }
 
