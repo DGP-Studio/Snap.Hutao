@@ -18,6 +18,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
@@ -46,6 +47,15 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
             using (Stream sdkWebStream = await context.HttpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
             {
                 ZipFile.ExtractToDirectory(sdkWebStream, context.GameFileSystem.GameDirectory, true);
+            }
+        }
+        
+        if (context.DeprecatedFiles is not null)
+        {
+            foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
+            {
+                string filePath = Path.Combine(context.GameFileSystem.GameDirectory, file.Name);
+                FileOperation.Move(filePath, $"{filePath}.backup", true);
             }
         }
     }

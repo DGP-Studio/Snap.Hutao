@@ -111,6 +111,14 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             return false;
         }
 
+        Response<DeprecatedFileConfigurationsWrapper> deprecatedFileResponse = await hoyoPlayClient.GetDeprecatedFileConfigurationsAsync(context.TargetScheme).ConfigureAwait(false);
+        if (!ResponseValidator.TryValidateWithoutUINotification(deprecatedFileResponse, out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
+        {
+            context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
+            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedFileResponse);
+            return false;
+        }
+
         IHttpClientFactory httpClientFactory = context.ServiceProvider.GetRequiredService<IHttpClientFactory>();
         using (HttpClient httpClient = httpClientFactory.CreateClient(GamePackageService.HttpClientName))
         {
@@ -124,14 +132,6 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                     {
                         context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
                         context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(packagesResponse);
-                        return false;
-                    }
-
-                    Response<DeprecatedFileConfigurationsWrapper> deprecatedFileResponse = await hoyoPlayClient.GetDeprecatedFileConfigurationsAsync(context.TargetScheme).ConfigureAwait(false);
-                    if (!ResponseValidator.TryValidateWithoutUINotification(deprecatedFileResponse, out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
-                    {
-                        context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-                        context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedFileResponse);
                         return false;
                     }
 
@@ -154,12 +154,12 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                         return false;
                     }
 
-                    packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main, targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main, channelSDKs.GameChannelSDKs.SingleOrDefault(), progress);
+                    packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main, targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main, channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
                     break;
                 default:
                     throw new NotSupportedException();
             }
-            
+
             IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(converterMode);
 
             if (!context.TargetScheme.ExecutableMatches(gameFileName))

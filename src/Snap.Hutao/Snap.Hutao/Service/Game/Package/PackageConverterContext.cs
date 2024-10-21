@@ -45,7 +45,7 @@ internal readonly struct PackageConverterContext
 
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public PackageConverterContext(HttpClient httpClient, LaunchScheme targetScheme, GameFileSystem gameFileSystem, BranchWrapper currentBranch, BranchWrapper targetBranch, GameChannelSDK? gameChannelSDK, IProgress<PackageConvertStatus> progress)
+    public PackageConverterContext(HttpClient httpClient, LaunchScheme targetScheme, GameFileSystem gameFileSystem, BranchWrapper currentBranch, BranchWrapper targetBranch, GameChannelSDK? gameChannelSDK, DeprecatedFilesWrapper? deprecatedFiles, IProgress<PackageConvertStatus> progress)
     {
         HttpClient = httpClient;
         TargetScheme = targetScheme;
@@ -53,6 +53,7 @@ internal readonly struct PackageConverterContext
         CurrentBranch = currentBranch;
         TargetBranch = targetBranch;
         GameChannelSDK = gameChannelSDK;
+        DeprecatedFiles = deprecatedFiles;
         Progress = progress;
 
         ParallelOptions = new()
