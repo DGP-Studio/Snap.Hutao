@@ -17,7 +17,7 @@ using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<
 namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterMode.Scatter)]
+[Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterMode.ScatteredFiles)]
 internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
 {
     private const string PackageVersion = "pkg_version";
@@ -45,7 +45,6 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
         // 4. 全部资源下载完成后，根据操作信息项，进行文件替换
         //    处理顺序：备份/替换/新增
         //    替换操作等于 先备份国服文件，随后新增国际服文件
-
         ArgumentNullException.ThrowIfNull(context.TargetPackage);
 
         // Step 1

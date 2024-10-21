@@ -103,32 +103,6 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
         HoyoPlayClient hoyoPlayClient = context.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
-        // TODO: Convert Mode
-        Response<GameBranchesWrapper> currentBranchesResponse = await hoyoPlayClient.GetBranchesAsync(context.CurrentScheme).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidateWithoutUINotification(currentBranchesResponse, out GameBranchesWrapper? currentBranches))
-        {
-            context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(currentBranchesResponse);
-            return false;
-        }
-
-        Response<GameBranchesWrapper> targetBranchesResponse = await hoyoPlayClient.GetBranchesAsync(context.TargetScheme).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidateWithoutUINotification(targetBranchesResponse, out GameBranchesWrapper? targetBranches))
-        {
-            context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(targetBranchesResponse);
-            return false;
-        }
-
-        // We perform these requests before package conversion to ensure resources index is intact.
-        Response<GamePackagesWrapper> packagesResponse = await hoyoPlayClient.GetPackagesAsync(context.TargetScheme).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidateWithoutUINotification(packagesResponse, out GamePackagesWrapper? gamePackages))
-        {
-            context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(packagesResponse);
-            return false;
-        }
-
         Response<GameChannelSDKsWrapper> sdkResponse = await hoyoPlayClient.GetChannelSDKAsync(context.TargetScheme).ConfigureAwait(false);
         if (!ResponseValidator.TryValidateWithoutUINotification(sdkResponse, out GameChannelSDKsWrapper? channelSDKs))
         {
@@ -137,23 +111,56 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             return false;
         }
 
-        Response<DeprecatedFileConfigurationsWrapper> deprecatedFileResponse = await hoyoPlayClient.GetDeprecatedFileConfigurationsAsync(context.TargetScheme).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidateWithoutUINotification(deprecatedFileResponse, out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
-        {
-            context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedFileResponse);
-            return false;
-        }
-
-        AppOptions appOptions = context.ServiceProvider.GetRequiredService<AppOptions>();
-        IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(appOptions.PackageConverterMode);
-
         IHttpClientFactory httpClientFactory = context.ServiceProvider.GetRequiredService<IHttpClientFactory>();
         using (HttpClient httpClient = httpClientFactory.CreateClient(GamePackageService.HttpClientName))
         {
-            // TODO: Converter Mode
-            // PackageConverterContext packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main, targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main, channelSDKs.GameChannelSDKs.SingleOrDefault(), progress);
-            PackageConverterContext packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, gamePackages.GamePackages.Single(), channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
+            PackageConverterMode converterMode = context.ServiceProvider.GetRequiredService<AppOptions>().PackageConverterMode;
+            PackageConverterContext packageConverterContext;
+            switch (converterMode)
+            {
+                case PackageConverterMode.ScatteredFiles:
+                    Response<GamePackagesWrapper> packagesResponse = await hoyoPlayClient.GetPackagesAsync(context.TargetScheme).ConfigureAwait(false);
+                    if (!ResponseValidator.TryValidateWithoutUINotification(packagesResponse, out GamePackagesWrapper? gamePackages))
+                    {
+                        context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
+                        context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(packagesResponse);
+                        return false;
+                    }
+
+                    Response<DeprecatedFileConfigurationsWrapper> deprecatedFileResponse = await hoyoPlayClient.GetDeprecatedFileConfigurationsAsync(context.TargetScheme).ConfigureAwait(false);
+                    if (!ResponseValidator.TryValidateWithoutUINotification(deprecatedFileResponse, out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
+                    {
+                        context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
+                        context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedFileResponse);
+                        return false;
+                    }
+
+                    packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, gamePackages.GamePackages.Single(), channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
+                    break;
+                case PackageConverterMode.Sophon:
+                    Response<GameBranchesWrapper> currentBranchesResponse = await hoyoPlayClient.GetBranchesAsync(context.CurrentScheme).ConfigureAwait(false);
+                    if (!ResponseValidator.TryValidateWithoutUINotification(currentBranchesResponse, out GameBranchesWrapper? currentBranches))
+                    {
+                        context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
+                        context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(currentBranchesResponse);
+                        return false;
+                    }
+
+                    Response<GameBranchesWrapper> targetBranchesResponse = await hoyoPlayClient.GetBranchesAsync(context.TargetScheme).ConfigureAwait(false);
+                    if (!ResponseValidator.TryValidateWithoutUINotification(targetBranchesResponse, out GameBranchesWrapper? targetBranches))
+                    {
+                        context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
+                        context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(targetBranchesResponse);
+                        return false;
+                    }
+
+                    packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main, targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main, channelSDKs.GameChannelSDKs.SingleOrDefault(), progress);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+            
+            IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(converterMode);
 
             if (!context.TargetScheme.ExecutableMatches(gameFileName))
             {

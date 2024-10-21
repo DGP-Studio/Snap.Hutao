@@ -5,6 +5,6 @@ namespace Snap.Hutao.Service.Game.Package;
 
 internal enum PackageConverterMode
 {
-    Scatter,
+    ScatteredFiles,
     Sophon,
 }

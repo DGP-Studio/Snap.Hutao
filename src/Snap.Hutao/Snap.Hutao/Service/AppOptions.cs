@@ -100,7 +100,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public PackageConverterMode PackageConverterMode
     {
-        get => GetOption(ref packageConverterMode, SettingEntry.PackageConverterMode, EnumParse<PackageConverterMode>, PackageConverterMode.Scatter).Value;
+        get => GetOption(ref packageConverterMode, SettingEntry.PackageConverterMode, EnumParse<PackageConverterMode>, PackageConverterMode.ScatteredFiles).Value;
         set => SetOption(ref packageConverterMode, SettingEntry.PackageConverterMode, value, EnumToStringOrEmpty);
     }
 

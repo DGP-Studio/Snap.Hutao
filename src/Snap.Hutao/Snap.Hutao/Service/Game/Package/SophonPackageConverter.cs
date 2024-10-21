@@ -71,7 +71,6 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         //    处理顺序：备份/替换/新增
         //    替换操作等于 先备份国服文件，随后新增国际服文件
         // 可能会存在大量相似代码，逻辑完成后再进行重构
-
         ArgumentNullException.ThrowIfNull(context.CurrentBranch);
         ArgumentNullException.ThrowIfNull(context.TargetBranch);
 
@@ -91,7 +90,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         await PrepareCacheFilesAsync(context, diffOperations).ConfigureAwait(false);
 
         // Step 4
-        return await ReplaceGameResourceAsync(context, diffOperations).ConfigureAwait(false);
+        return ReplaceGameResource(context, diffOperations);
     }
 
     private static IEnumerable<SophonConverterAssetOperation> GetDiffOperations(SophonDecodedBuild currentDecodedBuild, SophonDecodedBuild targetDecodedBuild)
@@ -141,6 +140,116 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         }
     }
 
+    private static void InitializeDuplicatedChunkNames(PackageConverterContext context, IEnumerable<AssetChunk> chunks)
+    {
+        Debug.Assert(context.DuplicatedChunkNames.Count is 0);
+        IEnumerable<string> names = chunks
+            .GroupBy(chunk => chunk.ChunkName)
+            .Where(group => group.Skip(1).Any())
+            .Select(group => group.Key)
+            .Distinct();
+
+        foreach (string name in names)
+        {
+            context.DuplicatedChunkNames.TryAdd(name, default);
+        }
+    }
+
+    private static async ValueTask DownloadChunksAsync(PackageConverterContext context, IEnumerable<SophonChunk> sophonChunks)
+    {
+        await Parallel.ForEachAsync(sophonChunks, context.ParallelOptions, (chunk, token) => DownloadChunkAsync(context, chunk)).ConfigureAwait(false);
+    }
+
+    private static async ValueTask DownloadChunkAsync(PackageConverterContext context, SophonChunk sophonChunk)
+    {
+        Directory.CreateDirectory(context.ServerCacheChunksFolder);
+        string chunkPath = Path.Combine(context.ServerCacheChunksFolder, sophonChunk.AssetChunk.ChunkName);
+
+        using (await context.ExclusiveProcessChunkAsync(sophonChunk.AssetChunk.ChunkName).ConfigureAwait(false))
+        {
+            if (File.Exists(chunkPath))
+            {
+                string chunkXxh64 = await XXH64.HashFileAsync(chunkPath).ConfigureAwait(false);
+                if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+
+                File.Delete(chunkPath);
+            }
+
+            using (FileStream fileStream = File.Create(chunkPath))
+            {
+                fileStream.Position = 0;
+
+                using (Stream webStream = await context.HttpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl).ConfigureAwait(false))
+                {
+                    using (StreamCopyWorker<PackageConvertStatus> worker = new(webStream, fileStream, (_, totalBytesRead) => new PackageConvertStatus(sophonChunk.AssetChunk.ChunkName, totalBytesRead, sophonChunk.AssetChunk.ChunkSize)))
+                    {
+                        await worker.CopyAsync(context.Progress).ConfigureAwait(false);
+
+                        fileStream.Position = 0;
+                        string chunkXxh64 = await XXH64.HashAsync(fileStream).ConfigureAwait(false);
+                        if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static async ValueTask MergeNewAssetAsync(PackageConverterContext context, AssetProperty assetProperty)
+    {
+        using (SafeFileHandle fileHandle = File.OpenHandle(context.GetServerCacheTargetFilePath(assetProperty.AssetName), FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: assetProperty.AssetSize))
+        {
+            await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(context, fileHandle, chunk)).ConfigureAwait(false);
+        }
+    }
+
+    private static async ValueTask MergeChunkIntoAssetAsync(PackageConverterContext context, SafeFileHandle fileHandle, AssetChunk chunk)
+    {
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+        {
+            Memory<byte> buffer = memoryOwner.Memory;
+
+            string chunkPath = Path.Combine(context.ServerCacheChunksFolder, chunk.ChunkName);
+            if (!File.Exists(chunkPath))
+            {
+                return;
+            }
+
+            using (await context.ExclusiveProcessChunkAsync(chunk.ChunkName).ConfigureAwait(true))
+            {
+                using (FileStream chunkFile = File.OpenRead(chunkPath))
+                {
+                    using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
+                    {
+                        long offset = chunk.ChunkOnFileOffset;
+                        do
+                        {
+                            int bytesRead = await decompressionStream.ReadAsync(buffer).ConfigureAwait(true);
+                            if (bytesRead <= 0)
+                            {
+                                break;
+                            }
+
+                            await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset).ConfigureAwait(true);
+                            offset += bytesRead;
+                        }
+                        while (true);
+                    }
+                }
+
+                if (!context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
+                {
+                    FileOperation.Delete(chunkPath);
+                }
+            }
+        }
+    }
+
     private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(PackageConverterContext context, BranchWrapper branch)
     {
         SophonBuild? build;
@@ -176,21 +285,6 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
                     return new(sophonManifest.Stats.UncompressedSize, [decodedManifest]);
                 }
             }
-        }
-    }
-
-    private static void InitializeDuplicatedChunkNames(PackageConverterContext context, IEnumerable<AssetChunk> chunks)
-    {
-        Debug.Assert(context.DuplicatedChunkNames.Count is 0);
-        IEnumerable<string> names = chunks
-            .GroupBy(chunk => chunk.ChunkName)
-            .Where(group => group.Skip(1).Any())
-            .Select(group => group.Key)
-            .Distinct();
-
-        foreach (string name in names)
-        {
-            context.DuplicatedChunkNames.TryAdd(name, default);
         }
     }
 
@@ -251,51 +345,6 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         await MergeAssetAsync(context, asset).ConfigureAwait(false);
     }
 
-    private async ValueTask DownloadChunksAsync(PackageConverterContext context, IEnumerable<SophonChunk> sophonChunks)
-    {
-        await Parallel.ForEachAsync(sophonChunks, context.ParallelOptions, (chunk, token) => DownloadChunkAsync(context, chunk)).ConfigureAwait(false);
-    }
-
-    private static async ValueTask DownloadChunkAsync(PackageConverterContext context, SophonChunk sophonChunk)
-    {
-        Directory.CreateDirectory(context.ServerCacheChunksFolder);
-        string chunkPath = Path.Combine(context.ServerCacheChunksFolder, sophonChunk.AssetChunk.ChunkName);
-
-        using (await context.ExclusiveProcessChunkAsync(sophonChunk.AssetChunk.ChunkName).ConfigureAwait(false))
-        {
-            if (File.Exists(chunkPath))
-            {
-                string chunkXxh64 = await XXH64.HashFileAsync(chunkPath).ConfigureAwait(false);
-                if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
-                {
-                    return;
-                }
-
-                File.Delete(chunkPath);
-            }
-
-            using (FileStream fileStream = File.Create(chunkPath))
-            {
-                fileStream.Position = 0;
-
-                using (Stream webStream = await context.HttpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl).ConfigureAwait(false))
-                {
-                    using (StreamCopyWorker<PackageConvertStatus> worker = new(webStream, fileStream, (_, totalBytesRead) => new PackageConvertStatus(sophonChunk.AssetChunk.ChunkName, totalBytesRead, sophonChunk.AssetChunk.ChunkSize)))
-                    {
-                        await worker.CopyAsync(context.Progress).ConfigureAwait(false);
-
-                        fileStream.Position = 0;
-                        string chunkXxh64 = await XXH64.HashAsync(fileStream).ConfigureAwait(false);
-                        if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
-                        {
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private async ValueTask MergeAssetAsync(PackageConverterContext context, SophonConverterAssetOperation asset)
     {
         ValueTask task = asset.Kind switch
@@ -306,58 +355,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         };
 
         // TODO: Set Progress as indeterminate
-
         await task.ConfigureAwait(false);
-    }
-
-    private async ValueTask MergeNewAssetAsync(PackageConverterContext context, AssetProperty assetProperty)
-    {
-        using (SafeFileHandle fileHandle = File.OpenHandle(context.GetServerCacheTargetFilePath(assetProperty.AssetName), FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: assetProperty.AssetSize))
-        {
-            await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(context, fileHandle, chunk)).ConfigureAwait(false);
-        }
-    }
-
-    private static async ValueTask MergeChunkIntoAssetAsync(PackageConverterContext context, SafeFileHandle fileHandle, AssetChunk chunk)
-    {
-        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
-        {
-            Memory<byte> buffer = memoryOwner.Memory;
-
-            string chunkPath = Path.Combine(context.ServerCacheChunksFolder, chunk.ChunkName);
-            if (!File.Exists(chunkPath))
-            {
-                return;
-            }
-
-            using (await context.ExclusiveProcessChunkAsync(chunk.ChunkName).ConfigureAwait(true))
-            {
-                using (FileStream chunkFile = File.OpenRead(chunkPath))
-                {
-                    using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
-                    {
-                        long offset = chunk.ChunkOnFileOffset;
-                        do
-                        {
-                            int bytesRead = await decompressionStream.ReadAsync(buffer).ConfigureAwait(true);
-                            if (bytesRead <= 0)
-                            {
-                                break;
-                            }
-
-                            await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset).ConfigureAwait(true);
-                            offset += bytesRead;
-                        }
-                        while (true);
-                    }
-                }
-
-                if (!context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
-                {
-                    FileOperation.Delete(chunkPath);
-                }
-            }
-        }
     }
 
     private async ValueTask MergeDiffAssetAsync(PackageConverterContext context, SophonConverterAssetOperation asset)
@@ -435,7 +433,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         }
     }
 
-    private async ValueTask<bool> ReplaceGameResourceAsync(PackageConverterContext context, List<SophonConverterAssetOperation> operations)
+    private bool ReplaceGameResource(PackageConverterContext context, List<SophonConverterAssetOperation> operations)
     {
         // 执行下载与移动操作
         foreach (SophonConverterAssetOperation operation in operations)
