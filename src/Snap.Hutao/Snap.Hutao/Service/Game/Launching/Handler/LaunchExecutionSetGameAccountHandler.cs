@@ -41,7 +41,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
 
     private static async ValueTask<bool> HandleMiYouSheAccountAsync(LaunchExecutionContext context)
     {
-        if (context.Scheme.GetSchemeType() is SchemeType.ChineseBilibili)
+        if (context.TargetScheme.GetSchemeType() is SchemeType.ChineseBilibili)
         {
             context.Logger.LogWarning("Bilibili server does not support auth ticket login");
 
@@ -55,7 +55,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
             return true;
         }
 
-        if (userAndUid.IsOversea ^ context.Scheme.IsOversea)
+        if (userAndUid.IsOversea ^ context.TargetScheme.IsOversea)
         {
             context.Result.Kind = LaunchExecutionResultKind.GameAccountUserAndUidAndServerNotMatch;
             context.Result.ErrorMessage = SH.ViewModelLaunchGameAccountAndServerNotMatch;
