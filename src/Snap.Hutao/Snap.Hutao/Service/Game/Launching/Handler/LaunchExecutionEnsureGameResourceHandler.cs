@@ -126,10 +126,11 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         }
 
         IPackageConverter packageConverter = context.ServiceProvider.GetRequiredService<IPackageConverter>();
+        PackageConverterContext packageConverterContext = new(context.Scheme, gameFolder, gamePackages.GamePackages.Single(), channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
 
         if (!context.Scheme.ExecutableMatches(gameFileName))
         {
-            if (!await packageConverter.EnsureGameResourceAsync(context.Scheme, gamePackages.GamePackages.Single(), gameFolder, progress).ConfigureAwait(false))
+            if (!await packageConverter.EnsureGameResourceAsync(packageConverterContext).ConfigureAwait(false))
             {
                 context.Result.Kind = LaunchExecutionResultKind.GameResourcePackageConvertInternalError;
                 context.Result.ErrorMessage = SH.ViewModelLaunchGameEnsureGameResourceFail;
@@ -143,7 +144,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             context.Options.UpdateGamePathAndRefreshEntries(Path.Combine(gameFolder, executableName));
         }
 
-        await packageConverter.EnsureDeprecatedFilesAndSdkAsync(channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), gameFolder).ConfigureAwait(false);
+        await packageConverter.EnsureDeprecatedFilesAndSdkAsync(packageConverterContext).ConfigureAwait(false);
         return true;
     }
 
