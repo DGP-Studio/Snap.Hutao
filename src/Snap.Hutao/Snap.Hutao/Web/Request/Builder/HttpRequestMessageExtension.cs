@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 
@@ -16,6 +17,7 @@ internal static class HttpRequestMessageExtension
 
         if (httpRequestMessage.Content is { } content)
         {
+            Volatile.Write(ref GetPrivatedBufferedContent(content), default);
             Volatile.Write(ref GetPrivatedDisposed(content), false);
         }
     }
@@ -27,4 +29,8 @@ internal static class HttpRequestMessageExtension
     // private bool _disposed
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposed")]
     private static extern ref bool GetPrivatedDisposed(HttpContent content);
+
+    // private MemoryStream? _bufferedContent
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_bufferedContent")]
+    private static extern ref MemoryStream? GetPrivatedBufferedContent(HttpContent content);
 }

@@ -21,14 +21,15 @@ using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<
 
 namespace Snap.Hutao.Service.Game.Package;
 
-[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
-internal sealed partial class PackageConverter
+[ConstructorGenerated(ResolveHttpClient = true)]
+[Injection(InjectAs.Transient, typeof(IPackageConverter))]
+internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
 {
     private const string PackageVersion = "pkg_version";
 
-    private readonly ILogger<PackageConverter> logger;
+    private readonly ILogger<ScatteredFilesPackageConverter> logger;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
