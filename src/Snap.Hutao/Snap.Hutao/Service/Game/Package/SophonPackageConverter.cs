@@ -267,7 +267,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         {
             ISophonClient client = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
-                .Create(LaunchScheme.ExecutableIsOversea(context.GameFileSystem.GameFileName));
+                .Create(context.TargetScheme.IsOversea);
 
             Response<SophonBuild> response = await client.GetBuildAsync(branch).ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(response, serviceProvider, out build))
