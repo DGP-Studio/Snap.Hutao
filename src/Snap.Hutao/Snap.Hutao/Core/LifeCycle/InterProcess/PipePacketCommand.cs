@@ -11,4 +11,9 @@ internal enum PipePacketCommand : byte
     RedirectActivation = 10,
     RequestElevationStatus = 11,
     ResponseElevationStatus = 12,
+
+    BetterGenshinImpactToSnapHutaoRequest = 20,
+    BetterGenshinImpactToSnapHutaoResponse = 21,
+    SnapHutaoToBetterGenshinImpactRequest = 22,
+    SnapHutaoToBetterGenshinImpactResponse = 23,
 }
