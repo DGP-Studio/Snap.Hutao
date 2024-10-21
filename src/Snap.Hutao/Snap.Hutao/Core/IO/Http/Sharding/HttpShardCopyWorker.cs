@@ -60,18 +60,18 @@ internal sealed partial class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorke
 
         using (request)
         {
-            using (HttpResponseMessage response = await options.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+            using (HttpResponseMessage response = await options.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(true))
             {
                 response.EnsureSuccessStatusCode();
                 using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(options.BufferSize))
                 {
                     Memory<byte> buffer = memoryOwner.Memory;
-                    using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                    using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(true))
                     {
                         int bytesReadSinceLastReport = 0;
                         do
                         {
-                            using (await shard.ReaderWriterLock.ReaderLockAsync().ConfigureAwait(false))
+                            using (await shard.ReaderWriterLock.ReaderLockAsync().ConfigureAwait(true))
                             {
                                 if (shard.BytesRead >= shard.End - shard.Start)
                                 {
@@ -81,13 +81,13 @@ internal sealed partial class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorke
                                 bool report = true;
                                 try
                                 {
-                                    int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
+                                    int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(true);
                                     if (bytesRead <= 0)
                                     {
                                         break;
                                     }
 
-                                    await RandomAccess.WriteAsync(options.DestinationFileHandle, buffer[..bytesRead], shard.Start + shard.BytesRead, token).ConfigureAwait(false);
+                                    await RandomAccess.WriteAsync(options.DestinationFileHandle, buffer[..bytesRead], shard.Start + shard.BytesRead, token).ConfigureAwait(true);
 
                                     shard.BytesRead += bytesRead;
                                     bytesReadSinceLastReport += bytesRead;

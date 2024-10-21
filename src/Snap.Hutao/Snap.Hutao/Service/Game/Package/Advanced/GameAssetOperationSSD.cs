@@ -19,7 +19,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         await Parallel.ForEachAsync(remoteBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
         {
             IEnumerable<SophonAssetOperation> assets = manifest.ManifestProto.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, asset));
-            await Parallel.ForEachAsync(assets, context.ParallelOptions, (asset, token) => EnsureAssetAsync(context, asset)).ConfigureAwait(false);
+            await Parallel.ForEachAsync(assets, context.ParallelOptions, (asset, token) => EnsureAssetAsync(context, asset)).ConfigureAwait(true);
         }).ConfigureAwait(false);
     }
 
@@ -91,7 +91,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
                 return;
             }
 
-            using (await context.ExclusiveProcessChunkAsync(chunk.ChunkName, token).ConfigureAwait(false))
+            using (await context.ExclusiveProcessChunkAsync(chunk.ChunkName, token).ConfigureAwait(true))
             {
                 using (FileStream chunkFile = File.OpenRead(chunkPath))
                 {
@@ -100,13 +100,13 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
                         long offset = chunk.ChunkOnFileOffset;
                         do
                         {
-                            int bytesRead = await decompressionStream.ReadAsync(buffer, token).ConfigureAwait(false);
+                            int bytesRead = await decompressionStream.ReadAsync(buffer, token).ConfigureAwait(true);
                             if (bytesRead <= 0)
                             {
                                 break;
                             }
 
-                            await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, token).ConfigureAwait(false);
+                            await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, token).ConfigureAwait(true);
                             context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0, chunk.ChunkName));
                             offset += bytesRead;
                         }

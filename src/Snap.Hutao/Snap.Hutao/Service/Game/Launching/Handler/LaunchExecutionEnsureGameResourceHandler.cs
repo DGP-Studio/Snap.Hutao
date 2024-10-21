@@ -125,7 +125,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             return false;
         }
 
-        PackageConverter packageConverter = context.ServiceProvider.GetRequiredService<PackageConverter>();
+        IPackageConverter packageConverter = context.ServiceProvider.GetRequiredService<IPackageConverter>();
 
         if (!context.Scheme.ExecutableMatches(gameFileName))
         {
