@@ -135,7 +135,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                         return false;
                     }
 
-                    packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, gamePackages.GamePackages.Single(), channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
+                    packageConverterContext = new(httpClient, context.CurrentScheme, context.TargetScheme, gameFileSystem, gamePackages.GamePackages.Single(), channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
                     break;
                 case PackageConverterMode.Sophon:
                     Response<GameBranchesWrapper> currentBranchesResponse = await hoyoPlayClient.GetBranchesAsync(context.CurrentScheme).ConfigureAwait(false);
@@ -154,7 +154,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                         return false;
                     }
 
-                    packageConverterContext = new(httpClient, context.TargetScheme, gameFileSystem, currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main, targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main, channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
+                    packageConverterContext = new(httpClient, context.CurrentScheme, context.TargetScheme, gameFileSystem, currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main, targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main, channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
                     break;
                 default:
                     throw new NotSupportedException();

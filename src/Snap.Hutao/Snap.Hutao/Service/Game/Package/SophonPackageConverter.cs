@@ -49,7 +49,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
                 ZipFile.ExtractToDirectory(sdkWebStream, context.GameFileSystem.GameDirectory, true);
             }
         }
-        
+
         if (context.DeprecatedFiles is not null)
         {
             foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
@@ -86,8 +86,8 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
 
         // Step 1
         context.Progress.Report(new("Decoding manifests..."));
-        SophonDecodedBuild? currentBuild = await DecodeManifestsAsync(context, context.CurrentBranch).ConfigureAwait(false);
-        SophonDecodedBuild? targetBuild = await DecodeManifestsAsync(context, context.TargetBranch).ConfigureAwait(false);
+        SophonDecodedBuild? currentBuild = await DecodeManifestsAsync(context, context.CurrentBranch, context.CurrentScheme).ConfigureAwait(false);
+        SophonDecodedBuild? targetBuild = await DecodeManifestsAsync(context, context.TargetBranch, context.TargetScheme).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(currentBuild);
         ArgumentNullException.ThrowIfNull(targetBuild);
 
@@ -260,14 +260,14 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         }
     }
 
-    private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(PackageConverterContext context, BranchWrapper branch)
+    private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(PackageConverterContext context, BranchWrapper branch, LaunchScheme scheme)
     {
         SophonBuild? build;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             ISophonClient client = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
-                .Create(context.TargetScheme.IsOversea);
+                .Create(scheme.IsOversea);
 
             Response<SophonBuild> response = await client.GetBuildAsync(branch).ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(response, serviceProvider, out build))

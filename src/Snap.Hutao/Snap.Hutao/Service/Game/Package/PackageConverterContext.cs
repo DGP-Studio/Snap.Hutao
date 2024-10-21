@@ -18,6 +18,7 @@ internal readonly struct PackageConverterContext
 {
     public readonly HttpClient HttpClient;
     public readonly ParallelOptions ParallelOptions;
+    public readonly LaunchScheme CurrentScheme;
     public readonly LaunchScheme TargetScheme;
     public readonly GameFileSystem GameFileSystem;
     public readonly BranchWrapper? CurrentBranch;
@@ -45,9 +46,10 @@ internal readonly struct PackageConverterContext
 
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public PackageConverterContext(HttpClient httpClient, LaunchScheme targetScheme, GameFileSystem gameFileSystem, BranchWrapper currentBranch, BranchWrapper targetBranch, GameChannelSDK? gameChannelSDK, DeprecatedFilesWrapper? deprecatedFiles, IProgress<PackageConvertStatus> progress)
+    public PackageConverterContext(HttpClient httpClient, LaunchScheme currentScheme, LaunchScheme targetScheme, GameFileSystem gameFileSystem, BranchWrapper currentBranch, BranchWrapper targetBranch, GameChannelSDK? gameChannelSDK, DeprecatedFilesWrapper? deprecatedFiles, IProgress<PackageConvertStatus> progress)
     {
         HttpClient = httpClient;
+        CurrentScheme = currentScheme;
         TargetScheme = targetScheme;
         GameFileSystem = gameFileSystem;
         CurrentBranch = currentBranch;
@@ -78,9 +80,10 @@ internal readonly struct PackageConverterContext
         ToDataFolder = Path.Combine(GameFileSystem.GameDirectory, ToDataFolderName);
     }
 
-    public PackageConverterContext(HttpClient httpClient, LaunchScheme targetScheme, GameFileSystem gameFileSystem, GamePackage gamePackage, GameChannelSDK? gameChannelSDK, DeprecatedFilesWrapper? deprecatedFiles, IProgress<PackageConvertStatus> progress)
+    public PackageConverterContext(HttpClient httpClient, LaunchScheme currentScheme, LaunchScheme targetScheme, GameFileSystem gameFileSystem, GamePackage gamePackage, GameChannelSDK? gameChannelSDK, DeprecatedFilesWrapper? deprecatedFiles, IProgress<PackageConvertStatus> progress)
     {
         HttpClient = httpClient;
+        CurrentScheme = currentScheme;
         TargetScheme = targetScheme;
         GameFileSystem = gameFileSystem;
         TargetPackage = gamePackage;
