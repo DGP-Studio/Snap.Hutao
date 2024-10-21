@@ -6,6 +6,8 @@ using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
 using System.IO;
+using Snap.Hutao.Model;
+using Snap.Hutao.Service.Game.Package;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
@@ -16,6 +18,22 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly AppOptions appOptions;
+
+    private NameValue<PackageConverterMode>? selectedPackageConverterMode;
+
+    public AppOptions AppOptions { get => appOptions; }
+
+    public NameValue<PackageConverterMode>? SelectedPackageConverterMode
+    {
+        get => selectedPackageConverterMode ??= AppOptions.PackageConverterModes.Single(t => t.Value == AppOptions.PackageConverterMode);
+        set
+        {
+            if (SetProperty(ref selectedPackageConverterMode, value) && value is not null)
+            {
+                AppOptions.PackageConverterMode = value.Value;
+            }
+        }
+    }
 
     public int KiloBytesPerSecondLimit
     {

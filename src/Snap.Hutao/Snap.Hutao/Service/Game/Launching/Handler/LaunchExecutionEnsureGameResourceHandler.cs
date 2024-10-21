@@ -8,6 +8,7 @@ using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
@@ -18,7 +19,6 @@ using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using Snap.Hutao.Web.Response;
 using System.IO;
 using System.Net.Http;
-using Snap.Hutao.Service.Game.Package.Advanced;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -145,7 +145,8 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             return false;
         }
 
-        IPackageConverter packageConverter = context.ServiceProvider.GetRequiredService<IPackageConverter>();
+        AppOptions appOptions = context.ServiceProvider.GetRequiredService<AppOptions>();
+        IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(appOptions.PackageConverterMode);
 
         IHttpClientFactory httpClientFactory = context.ServiceProvider.GetRequiredService<IHttpClientFactory>();
         using (HttpClient httpClient = httpClientFactory.CreateClient(GamePackageService.HttpClientName))

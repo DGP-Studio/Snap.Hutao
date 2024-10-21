@@ -23,6 +23,7 @@ using static Snap.Hutao.Service.Game.GameConstants;
 namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
+[Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterMode.Sophon)]
 internal sealed partial class SophonPackageConverter : IPackageConverter
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;

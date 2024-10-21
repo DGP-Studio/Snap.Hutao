@@ -17,7 +17,7 @@ using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<
 namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IPackageConverter))]
+[Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterMode.Scatter)]
 internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
 {
     private const string PackageVersion = "pkg_version";
