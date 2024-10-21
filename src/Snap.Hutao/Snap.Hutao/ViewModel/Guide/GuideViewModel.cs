@@ -202,7 +202,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
         await Parallel.ForEachAsync([.. DownloadSummaries], async (summary, token) =>
         {
-            if (await summary.DownloadAndExtractAsync().ConfigureAwait(false))
+            if (await summary.DownloadAndExtractAsync().ConfigureAwait(true))
             {
                 taskContext.BeginInvokeOnMainThread(() => DownloadSummaries.Remove(summary));
             }
