@@ -7,10 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
-using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -33,7 +30,7 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GamePackage gamePackage, string gameFolder, IProgress<PackageConvertStatus> progress)
+    public async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
     {
         // 以 国服 -> 国际服 为例
         // 1. 下载国际服的 pkg_version 文件，转换为索引字典
@@ -55,51 +52,53 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
         //    替换操作等于 先备份国服文件，随后新增国际服文件
 
         // 准备下载链接
-        string scatteredFilesUrl = gamePackage.Main.Major.ResourceListUrl;
+        ArgumentNullException.ThrowIfNull(context.TargetPackage);
+
+        string scatteredFilesUrl = context.TargetPackage.Main.Major.ResourceListUrl;
         string pkgVersionUrl = $"{scatteredFilesUrl}/{PackageVersion}";
 
-        PackageConverterFileSystemContext context = new(targetScheme.IsOversea, HutaoRuntime.GetDataFolderServerCacheFolder(), gameFolder, scatteredFilesUrl);
+        PackageConverterFileSystemContext fileSystemContext = new(context.Scheme.IsOversea, HutaoRuntime.GetDataFolderServerCacheFolder(), context.GameDirectory, scatteredFilesUrl);
 
         // Step 1
-        progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
+        context.Progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
         RelativePathVersionItemDictionary remoteItems = await GetRemoteItemsAsync(pkgVersionUrl).ConfigureAwait(false);
-        RelativePathVersionItemDictionary localItems = await GetLocalItemsAsync(gameFolder).ConfigureAwait(false);
+        RelativePathVersionItemDictionary localItems = await GetLocalItemsAsync(context.GameDirectory).ConfigureAwait(false);
 
         // Step 2
         List<PackageItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).ToList();
         diffOperations.SortBy(i => i.Kind);
 
         // Step 3
-        await PrepareCacheFilesAsync(diffOperations, context, progress).ConfigureAwait(false);
+        await PrepareCacheFilesAsync(diffOperations, fileSystemContext, context.Progress).ConfigureAwait(false);
 
         // Step 4
-        return await ReplaceGameResourceAsync(diffOperations, context, progress).ConfigureAwait(false);
+        return await ReplaceGameResourceAsync(diffOperations, fileSystemContext, context.Progress).ConfigureAwait(false);
     }
 
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameChannelSDK? channelSDK, DeprecatedFilesWrapper? deprecatedFiles, string gameFolder)
+    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
     {
         // Just try to delete these files, always download from server when needed
-        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameFolder, "sdk_pkg_version"));
+        FileOperation.Delete(Path.Combine(context.GameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(context.GameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(context.GameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameDirectory, "sdk_pkg_version"));
 
-        if (channelSDK is not null)
+        if (context.GameChannelSDK is not null)
         {
-            using (Stream sdkWebStream = await httpClient.GetStreamAsync(channelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
+            using (Stream sdkWebStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
             {
-                ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
+                ZipFile.ExtractToDirectory(sdkWebStream, context.GameDirectory, true);
             }
         }
 
-        if (deprecatedFiles is not null)
+        if (context.DeprecatedFiles is not null)
         {
-            foreach (DeprecatedFile file in deprecatedFiles.DeprecatedFiles)
+            foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
             {
-                string filePath = Path.Combine(gameFolder, file.Name);
+                string filePath = Path.Combine(context.GameDirectory, file.Name);
                 FileOperation.Move(filePath, $"{filePath}.backup", true);
             }
         }
