@@ -574,6 +574,17 @@
                                         <TextBlock VerticalAlignment="Center" Text="KB/s (1MB = 1024KB)"/>
                                     </StackPanel>
                                 </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="我怎么知道有什么区别"
+                                    Header="转换服务器模式"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE8AB;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.PackageConverterModes}"
+                                            SelectedItem="{Binding SelectedPackageConverterMode, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </Border>
                     </Border>

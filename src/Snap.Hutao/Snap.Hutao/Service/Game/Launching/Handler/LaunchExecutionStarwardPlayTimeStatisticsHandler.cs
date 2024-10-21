@@ -20,7 +20,7 @@ internal sealed class LaunchExecutionStarwardPlayTimeStatisticsHandler : ILaunch
 
     private static async ValueTask LaunchStarwardForPlayTimeStatisticsAsync(LaunchExecutionContext context)
     {
-        string gameBiz = context.Scheme.IsOversea ? "hk4e_global" : "hk4e_cn";
+        string gameBiz = context.TargetScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         Uri starwardPlayTimeUri = $"starward://playtime/{gameBiz}".ToUri();
         if (await Launcher.QueryUriSupportAsync(starwardPlayTimeUri, LaunchQuerySupportType.Uri) is LaunchQuerySupportStatus.Available)
         {

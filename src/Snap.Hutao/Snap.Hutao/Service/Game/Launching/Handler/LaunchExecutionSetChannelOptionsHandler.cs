@@ -50,13 +50,13 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             {
                 if (parameter.Key is ChannelOptions.ChannelName)
                 {
-                    context.ChannelOptionsChanged = parameter.Set(context.Scheme.Channel.ToString("D")) || context.ChannelOptionsChanged;
+                    context.ChannelOptionsChanged = parameter.Set(context.TargetScheme.Channel.ToString("D")) || context.ChannelOptionsChanged;
                     continue;
                 }
 
                 if (parameter.Key is ChannelOptions.SubChannelName)
                 {
-                    context.ChannelOptionsChanged = parameter.Set(context.Scheme.SubChannel.ToString("D")) || context.ChannelOptionsChanged;
+                    context.ChannelOptionsChanged = parameter.Set(context.TargetScheme.SubChannel.ToString("D")) || context.ChannelOptionsChanged;
                     continue;
                 }
             }
