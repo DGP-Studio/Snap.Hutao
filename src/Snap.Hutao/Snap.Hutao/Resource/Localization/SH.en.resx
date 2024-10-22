@@ -930,7 +930,7 @@
     <value>Can't find available URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
-    <value>游戏正在运行中，关闭游戏后重试</value>
+    <value>Game is running, closing the game and retry</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Invalid URL provided</value>
