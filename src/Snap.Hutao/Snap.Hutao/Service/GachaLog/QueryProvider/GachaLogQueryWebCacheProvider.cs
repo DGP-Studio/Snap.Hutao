@@ -45,7 +45,6 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         return string.Empty;
     }
 
-    /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         (bool isOk, string path) = await gameService.GetGamePathAsync().ConfigureAwait(false);
@@ -53,6 +52,11 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         if (!isOk || string.IsNullOrEmpty(path))
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCachePathInvalid));
+        }
+
+        if (gameService.IsGameRunning())
+        {
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderGameIsRunning));
         }
 
         string cacheFile = GetCacheFile(path);
