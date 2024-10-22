@@ -26,7 +26,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private Region? region;
     private string? geetestCustomCompositeUrl;
     private int? downloadSpeedLimitPerSecondInKiloByte;
-    private PackageConverterMode? packageConverterMode;
+    private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
 
     public bool IsNotifyIconEnabled
@@ -96,12 +96,12 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
     }
 
-    public List<NameValue<PackageConverterMode>> PackageConverterModes { get; } = CollectionsNameValue.FromEnum<PackageConverterMode>();
+    public List<NameValue<PackageConverterType>> PackageConverterTypes { get; } = CollectionsNameValue.FromEnum<PackageConverterType>();
 
-    public PackageConverterMode PackageConverterMode
+    public PackageConverterType PackageConverterType
     {
-        get => GetOption(ref packageConverterMode, SettingEntry.PackageConverterMode, EnumParse<PackageConverterMode>, PackageConverterMode.ScatteredFiles).Value;
-        set => SetOption(ref packageConverterMode, SettingEntry.PackageConverterMode, value, EnumToStringOrEmpty);
+        get => GetOption(ref packageConverterType, SettingEntry.PackageConverterType, EnumParse<PackageConverterType>, PackageConverterType.ScatteredFiles).Value;
+        set => SetOption(ref packageConverterType, SettingEntry.PackageConverterType, value, EnumToStringOrEmpty);
     }
 
     public List<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = CollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription());
