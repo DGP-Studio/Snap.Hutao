@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic.Frozen;
@@ -103,7 +104,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);
 
-                using (await dialog.BlockAsync(scopeContext.ContentDialogFactory).ConfigureAwait(false))
+                using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
                     summaryResult = await scopeContext.AvatarInfoService
                         .GetSummaryAsync(userAndUid, option, token)
@@ -225,7 +226,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             .ConfigureAwait(false);
 
         BatchCultivateResult result = default;
-        using (await progressDialog.BlockAsync(scopeContext.ContentDialogFactory).ConfigureAwait(false))
+        using (await scopeContext.ContentDialogFactory.BlockAsync(progressDialog).ConfigureAwait(false))
         {
             List<CalculatorAvatarPromotionDelta> deltas = [];
             foreach (AvatarView avatar in avatars)
