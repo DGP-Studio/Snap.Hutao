@@ -40,7 +40,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
             IProgress<PackageConvertStatus> convertProgress = progressFactory.CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
 
-            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
                 if (!await EnsureGameResourceAsync(context, gameFileSystem, convertProgress).ConfigureAwait(false))
                 {
@@ -122,11 +122,11 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         IHttpClientFactory httpClientFactory = context.ServiceProvider.GetRequiredService<IHttpClientFactory>();
         using (HttpClient httpClient = httpClientFactory.CreateClient(GamePackageService.HttpClientName))
         {
-            PackageConverterMode converterMode = context.ServiceProvider.GetRequiredService<AppOptions>().PackageConverterMode;
+            PackageConverterType type = context.ServiceProvider.GetRequiredService<AppOptions>().PackageConverterType;
             PackageConverterContext packageConverterContext;
-            switch (converterMode)
+            switch (type)
             {
-                case PackageConverterMode.ScatteredFiles:
+                case PackageConverterType.ScatteredFiles:
                     Response<GamePackagesWrapper> packagesResponse = await hoyoPlayClient.GetPackagesAsync(context.TargetScheme).ConfigureAwait(false);
                     if (!ResponseValidator.TryValidateWithoutUINotification(packagesResponse, out GamePackagesWrapper? gamePackages))
                     {
@@ -137,7 +137,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
                     packageConverterContext = new(httpClient, context.CurrentScheme, context.TargetScheme, gameFileSystem, gamePackages.GamePackages.Single(), channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
                     break;
-                case PackageConverterMode.Sophon:
+                case PackageConverterType.SophonChunks:
                     Response<GameBranchesWrapper> currentBranchesResponse = await hoyoPlayClient.GetBranchesAsync(context.CurrentScheme).ConfigureAwait(false);
                     if (!ResponseValidator.TryValidateWithoutUINotification(currentBranchesResponse, out GameBranchesWrapper? currentBranches))
                     {
@@ -160,7 +160,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                     throw new NotSupportedException();
             }
 
-            IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(converterMode);
+            IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(type);
 
             if (!context.TargetScheme.ExecutableMatches(gameFileName))
             {

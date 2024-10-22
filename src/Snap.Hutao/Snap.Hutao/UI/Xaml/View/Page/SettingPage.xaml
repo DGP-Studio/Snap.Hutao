@@ -581,8 +581,8 @@
                                     <shuxc:SizeRestrictedContentControl>
                                         <ComboBox
                                             DisplayMemberPath="Name"
-                                            ItemsSource="{Binding AppOptions.PackageConverterModes}"
-                                            SelectedItem="{Binding SelectedPackageConverterMode, Mode=TwoWay}"/>
+                                            ItemsSource="{Binding AppOptions.PackageConverterTypes}"
+                                            SelectedItem="{Binding SelectedPackageConverterType, Mode=TwoWay}"/>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                             </StackPanel>

@@ -96,9 +96,8 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         return contentDialog;
     }
 
-    [SuppressMessage("", "SH003")]
-    public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = default)
+    public ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {
-        return contentDialogQueue.EnqueueAndShowAsync(contentDialog, dialogShowSource);
+        return contentDialogQueue.EnqueueAndShowAsync(contentDialog);
     }
 }

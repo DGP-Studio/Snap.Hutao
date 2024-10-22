@@ -9,6 +9,7 @@ namespace Snap.Hutao.UI.Xaml.Control;
 
 internal static class ContentDialogExtension
 {
+    [Obsolete]
     public static async ValueTask<ContentDialogScope> BlockAsync(this ContentDialog contentDialog, IContentDialogFactory contentDialogFactory)
     {
         TaskCompletionSource dialogShowSource = new();

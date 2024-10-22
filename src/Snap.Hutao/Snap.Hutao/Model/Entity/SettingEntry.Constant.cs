@@ -28,7 +28,7 @@ internal sealed partial class SettingEntry
     public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
 
     public const string DownloadSpeedLimitPerSecondInKiloByte = "DownloadSpeedLimitPerSecondInKiloByte";
-    public const string PackageConverterMode = "PackageConverterMode";
+    public const string PackageConverterType = "PackageConverterType";
 
     public const string BridgeShareSaveType = "BridgeShareSaveType";
 
