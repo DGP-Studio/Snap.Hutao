@@ -4,6 +4,7 @@
 using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
+using System.Collections.Frozen;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,11 +12,45 @@ namespace Snap.Hutao.Service.Announcement;
 
 internal static partial class AnnouncementHtmlVisitor
 {
-    public static async ValueTask<string> VisitActivityAsync(IBrowsingContext context, string content)
+    private const string PermanentKeyword = "后永久开放";
+    private const string PersistentKeyword = "版本期间持续开放";
+    private const string TransientKeyword = "版本更新后";
+
+    private static readonly FrozenSet<string> PermanentDescriptions = FrozenSet.ToFrozenSet(
+    [
+        "〓活动时间〓",
+        "〓任务开放时间〓",
+    ]);
+
+    private static readonly FrozenSet<string> PersistentDescriptions = FrozenSet.ToFrozenSet(
+    [
+        "〓活动时间〓",
+    ]);
+
+    private static readonly FrozenSet<string> TransientDescriptions = FrozenSet.ToFrozenSet(
+    [
+        "〓活动时间〓",
+        "〓祈愿介绍〓",
+        "〓折扣时间〓",
+        "〓获取奖励时限〓",
+    ]);
+
+    private static readonly FrozenSet<string> ValidDescriptions = FrozenSet.ToFrozenSet(
+    [
+        "〓活动时间〓",
+        "〓任务开放时间〓",
+        "〓祈愿介绍〓",
+        "〓折扣时间〓",
+        "〓获取奖励时限〓",
+    ]);
+
+    public static async ValueTask<ValueResult<AnnouncementType, string>> VisitActivityAsync(IBrowsingContext context, string content)
     {
         IDocument document = await context.OpenAsync(rsp => rsp.Content(content)).ConfigureAwait(false);
         IHtmlElement? body = document.Body;
         ArgumentNullException.ThrowIfNull(body);
+
+        AnnouncementType type = AnnouncementType.None;
 
         foreach (IElement element in body.Children)
         {
@@ -24,14 +59,41 @@ internal static partial class AnnouncementHtmlVisitor
                 continue;
             }
 
-            if (paragraph.TextContent is not ("〓活动时间〓" or "〓祈愿介绍〓" or "〓任务开放时间〓" or "〓折扣时间〓" or "〓重置时间〓"))
+            string textContent = paragraph.TextContent.Trim();
+            if (textContent.Contains("【上架时间】", StringComparison.CurrentCulture))
             {
-                continue;
+                return new(AnnouncementType.Transient, textContent.Replace("【上架时间】", string.Empty, StringComparison.InvariantCulture).Trim());
             }
 
-            if (paragraph.NextElementSibling is IHtmlParagraphElement { Children: [IHtmlSpanElement, ..] } nextParagraph)
+            if (PermanentDescriptions.Contains(textContent) && content.Contains(PermanentKeyword, StringComparison.InvariantCulture))
             {
-                return nextParagraph.TextContent;
+                type = AnnouncementType.Permanent;
+            }
+            else if (PersistentDescriptions.Contains(textContent) && content.Contains(PersistentKeyword, StringComparison.InvariantCulture))
+            {
+                type = AnnouncementType.Persistent;
+            }
+            else if (TransientDescriptions.Contains(textContent) && content.Contains(TransientKeyword, StringComparison.InvariantCulture))
+            {
+                type = AnnouncementType.Transient;
+            }
+            else
+            {
+                if (!ValidDescriptions.Contains(textContent))
+                {
+                    continue;
+                }
+
+                ArgumentNullException.ThrowIfNull(paragraph.NextElementSibling);
+                if (TimeRegex().Matches(paragraph.NextElementSibling.TextContent).Count < 2)
+                {
+                    continue;
+                }
+            }
+
+            if (paragraph.NextElementSibling is IHtmlParagraphElement { /*Children: [IHtmlSpanElement, ..]*/ } nextParagraph)
+            {
+                return new(type, nextParagraph.TextContent);
             }
 
             if (paragraph.NextElementSibling is IHtmlDivElement div)
@@ -57,19 +119,19 @@ internal static partial class AnnouncementHtmlVisitor
                         if (cell.TextContent is "结束时间")
                         {
                             timeBuilder.Append(table.Rows[1].Cells[actualIndex].TextContent);
-                            return timeBuilder.ToString();
+                            return new(type, timeBuilder.ToString());
                         }
 
                         if (cell.TextContent is "祈愿时间")
                         {
-                            return table.Rows[1].Cells[actualIndex].TextContent;
+                            return new(type, table.Rows[1].Cells[actualIndex].TextContent);
                         }
                     }
                 }
             }
         }
 
-        return string.Empty;
+        return new(type, string.Empty);
     }
 
     public static async ValueTask<string> VisitAnnouncementAsync(IBrowsingContext context, string content)
@@ -90,7 +152,7 @@ internal static partial class AnnouncementHtmlVisitor
                 continue;
             }
 
-            if (paragraph.NextElementSibling is IHtmlParagraphElement { Children: [IHtmlSpanElement, ..] } nextParagraph)
+            if (paragraph.NextElementSibling is IHtmlParagraphElement { /*Children: [IHtmlSpanElement, ..]*/ } nextParagraph)
             {
                 return TimeRegex().Match(nextParagraph.TextContent).Value;
             }
@@ -99,6 +161,6 @@ internal static partial class AnnouncementHtmlVisitor
         return string.Empty;
     }
 
-    [GeneratedRegex(@"\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}")]
+    [GeneratedRegex(@"\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
     private static partial Regex TimeRegex();
 }

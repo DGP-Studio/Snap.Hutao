@@ -123,6 +123,9 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // "x.x" -> DTO
         Dictionary<string, DateTimeOffset> versionStartTimes = [];
 
+        // Workaround for 5.0 Permanent Activity
+        versionStartTimes.TryAdd("5.0", UnsafeDateTimeOffset.ParseDateTime("2024/08/28 06:00".AsSpan(), offset));
+
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
         // 更新公告
@@ -147,82 +150,59 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         foreach (WebAnnouncement announcement in activities)
         {
-            string text = await AnnouncementHtmlVisitor.VisitActivityAsync(context, announcement.Content).ConfigureAwait(false);
+            (AnnouncementType type, string text) = await AnnouncementHtmlVisitor.VisitActivityAsync(context, announcement.Content).ConfigureAwait(false);
             logger.LogInformation("{Title} '{Time}'", announcement.Subtitle, text);
-        }
 
-        foreach (WebAnnouncement announcement in activities)
-        {
             DateTimeOffset versionStartTime;
 
-            if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
+            switch (type)
             {
-                if (versionStartTimes.TryGetValue(permanent.Groups[1].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    continue;
-                }
+                case AnnouncementType.Permanent:
+                    if (VersionRegex().Match(text) is { Success: true } permanent)
+                    {
+                        if (versionStartTimes.TryGetValue(permanent.Groups[1].Value, out versionStartTime))
+                        {
+                            announcement.StartTime = versionStartTime;
+                            continue;
+                        }
+                    }
 
-                announcement.StartTime = UnsafeDateTimeOffset.ParseDateTime(permanent.Groups[2].ValueSpan, offset);
+                    text = text.Replace("后永久开放", string.Empty, StringComparison.InvariantCulture);
+                    announcement.StartTime = UnsafeDateTimeOffset.ParseDateTime(text, offset);
+                    continue;
+                case AnnouncementType.Persistent:
+                    if (VersionRegex().Match(text) is { Success: true } persistent)
+                    {
+                        if (versionStartTimes.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
+                        {
+                            announcement.StartTime = versionStartTime;
+                            announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
+                        }
+                    }
+
+                    continue;
+                case AnnouncementType.Transient:
+                    string[] transientParts = text.Split("~");
+                    if (VersionRegex().Match(transientParts[0]) is { Success: true } transient)
+                    {
+                        if (versionStartTimes.TryGetValue(transient.Groups[1].Value, out versionStartTime))
+                        {
+                            announcement.StartTime = versionStartTime;
+                            announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transientParts[1], offset);
+                        }
+                    }
+
+                    continue;
             }
 
-            if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
-            {
-                if (versionStartTimes.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
-                    continue;
-                }
-
-                if (versionStartTimes.TryGetValue(persistent.Groups[2].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
-                    continue;
-                }
-            }
-
-            if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
-            {
-                if (versionStartTimes.TryGetValue(transient.Groups[1].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
-                    continue;
-                }
-            }
-
-            MatchCollection matches = AnnouncementRegex.XmlTimeTagRegex().Matches(announcement.Content);
-            if (matches.Count < 2)
+            string[] parts = text.Split("~");
+            if (parts.Length is not 2)
             {
                 continue;
             }
 
-            List<DateTimeOffset> dateTimes = [];
-            foreach (Match timeMatch in (IList<Match>)matches)
-            {
-                dateTimes.Add(UnsafeDateTimeOffset.ParseDateTime(timeMatch.Groups[1].ValueSpan, offset));
-            }
-
-            DateTimeOffset min = DateTimeOffset.MaxValue;
-            DateTimeOffset max = DateTimeOffset.MinValue;
-
-            foreach (DateTimeOffset time in dateTimes)
-            {
-                if (time < min)
-                {
-                    min = time;
-                }
-
-                if (time > max)
-                {
-                    max = time;
-                }
-            }
-
-            announcement.StartTime = min;
-            announcement.EndTime = max;
+            announcement.StartTime = UnsafeDateTimeOffset.ParseDateTime(parts[0], offset);
+            announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(parts[1], offset);
         }
     }
 }
