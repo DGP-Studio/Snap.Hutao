@@ -117,6 +117,11 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             }
         }
 
+        if (currentXamlWindowReference.Window is null)
+        {
+            return;
+        }
+
         if (checkUpdateResult.Kind is CheckUpdateResultKind.NeedInstall)
         {
             ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
