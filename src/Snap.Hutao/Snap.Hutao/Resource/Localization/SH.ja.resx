@@ -930,7 +930,7 @@
     <value>利用可能なUrlが見つかりません</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
-    <value>游戏正在运行中，关闭游戏后重试</value>
+    <value>ゲームは既に実行中です。いったんゲームを再起動してからもう一度お試しください。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>無効なURLです</value>
