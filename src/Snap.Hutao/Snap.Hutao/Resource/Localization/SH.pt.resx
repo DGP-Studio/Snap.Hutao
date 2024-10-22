@@ -929,6 +929,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Não é possível encontrar o URL disponível</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
+    <value>游戏正在运行中，关闭游戏后重试</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>URL inválido fornecido</value>
   </data>
