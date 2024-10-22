@@ -3,11 +3,11 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
@@ -100,7 +100,7 @@ internal sealed partial class AchievementImporter
             .ConfigureAwait(false);
 
         ImportResult result;
-        using (await dialog.BlockAsync(scopeContext.ContentDialogFactory).ConfigureAwait(false))
+        using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
         }

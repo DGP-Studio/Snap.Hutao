@@ -85,7 +85,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
             .CreateForIndeterminateProgressAsync(SH.ViewModelDailyNoteRequestProgressTitle)
             .ConfigureAwait(false);
 
-        using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+        using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
         }
