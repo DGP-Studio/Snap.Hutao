@@ -310,6 +310,8 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
 
             await task.ConfigureAwait(false);
         }
+
+        Directory.Delete(context.ServerCacheChunksFolder, true);
     }
 
     private async ValueTask SkipOrProcessAsync(PackageConverterContext context, SophonConverterAssetOperation operation)
