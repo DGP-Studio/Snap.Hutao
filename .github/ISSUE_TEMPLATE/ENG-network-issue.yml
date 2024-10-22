@@ -1,6 +1,7 @@
 name: Network Issue [English Form]
 description: Submit this issue form when network issue affect your client experience
 title: "[Network]: Place your title here"
+type: "Bug"
 labels: ["area-Network"]
 assignees:
   - Lightczx

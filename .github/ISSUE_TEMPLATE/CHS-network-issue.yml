@@ -1,6 +1,7 @@
 name: 网络问题
 description: 通过这个议题来反馈网络问题
 title: "[Network]: 在这里填写一个合适的标题"
+type: "Bug"
 labels: ["area-Network"]
 assignees:
   - Lightczx

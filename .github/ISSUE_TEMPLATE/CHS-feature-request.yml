@@ -1,7 +1,8 @@
 name: 功能请求
 description: 通过这个议题来向开发团队分享你的想法
 title: "[Feat]: 在这里填写一个合适的标题"
-labels: ["feature request", "needs-triage", "priority:none"]
+type: "Feature"
+labels: ["needs-triage", "priority:none"]
 body:
   - type: markdown
     attributes:
