@@ -38,7 +38,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     private bool? unlockFps;
     private int? targetFps;
     private float? targetFov;
+    private bool? fixLowFovScene;
     private bool? disableFog;
+    private bool? removeOpenTeamProgress;
     private bool? loopAdjustFpsOnly;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
@@ -246,6 +248,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         set => SetOption(ref targetFov, SettingEntry.LaunchTargetFov, value);
     }
 
+    public bool FixLowFovScene
+    {
+        get => GetOption(ref fixLowFovScene, SettingEntry.LaunchFixLowFovScene, true);
+        set => SetOption(ref fixLowFovScene, SettingEntry.LaunchFixLowFovScene, value);
+    }
+
     public bool DisableFog
     {
         get => GetOption(ref disableFog, SettingEntry.LaunchDisableFog, false);
@@ -256,6 +264,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, true);
         set => SetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, value);
+    }
+
+    public bool RemoveOpenTeamProgress
+    {
+        get => GetOption(ref removeOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, false);
+        set => SetOption(ref removeOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, value);
     }
 
     [NotNull]

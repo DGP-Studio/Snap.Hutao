@@ -10,6 +10,7 @@ using Snap.Hutao.Web.Hutao.Wallpaper;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.Collections.Frozen;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;
@@ -27,23 +28,30 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
-    private HashSet<string>? currentBackgroundPathSet;
+    private HashSet<string>? availableBackgroundPathSet;
 
     public async ValueTask<ValueResult<bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous, CancellationToken token = default)
     {
-        HashSet<string> backgroundSet = await SkipOrInitBackgroundAsync(token).ConfigureAwait(false);
+        // The availableBackgroundSet will be empty if BackgroundImageType is None
+        // backgroundImageOptions.Wallpaper will also be set in this method if web wallpaper type is selected
+        HashSet<string> availableBackgroundSet = await SkipOrInitAvailableBackgroundAsync(token).ConfigureAwait(false);
 
-        if (backgroundSet.Count <= 0)
+        if (availableBackgroundSet.Count <= 0)
         {
             return new(true, default!);
         }
 
-        string path = System.Random.Shared.GetItems([.. backgroundSet], 1)[0];
-        backgroundSet.Remove(path);
+        string path = System.Random.Shared.GetItems([.. availableBackgroundSet], 1)[0];
+        availableBackgroundSet.Remove(path);
 
         if (string.Equals(path, previous?.Path, StringComparison.OrdinalIgnoreCase))
         {
             return new(false, default!);
+        }
+
+        if (!File.Exists(path))
+        {
+            Debugger.Break();
         }
 
         using (FileStream fileStream = File.OpenRead(path))
@@ -80,17 +88,17 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         }
     }
 
-    private async ValueTask<HashSet<string>> SkipOrInitBackgroundAsync(CancellationToken token = default)
+    private async ValueTask<HashSet<string>> SkipOrInitAvailableBackgroundAsync(CancellationToken token = default)
     {
         switch (appOptions.BackgroundImageType)
         {
             case BackgroundImageType.LocalFolder:
                 {
-                    if (currentBackgroundPathSet is not { Count: > 0 })
+                    if (availableBackgroundPathSet is not { Count: > 0 })
                     {
                         string backgroundFolder = HutaoRuntime.GetDataFolderBackgroundFolder();
 
-                        currentBackgroundPathSet = Directory
+                        availableBackgroundPathSet = Directory
                             .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
                             .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
                             .ToHashSet();
@@ -101,20 +109,20 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 }
 
             case BackgroundImageType.HutaoBing:
-                await SetCurrentBackgroundPathSetAsync((client, token) => client.GetBingWallpaperAsync(token), token).ConfigureAwait(false);
+                await SetCurrentBackgroundPathSetAsync(static (client, token) => client.GetBingWallpaperAsync(token), token).ConfigureAwait(false);
                 break;
             case BackgroundImageType.HutaoDaily:
-                await SetCurrentBackgroundPathSetAsync((client, token) => client.GetTodayWallpaperAsync(token), token).ConfigureAwait(false);
+                await SetCurrentBackgroundPathSetAsync(static (client, token) => client.GetTodayWallpaperAsync(token), token).ConfigureAwait(false);
                 break;
             case BackgroundImageType.HutaoOfficialLauncher:
-                await SetCurrentBackgroundPathSetAsync((client, token) => client.GetLauncherWallpaperAsync(token), token).ConfigureAwait(false);
+                await SetCurrentBackgroundPathSetAsync(static (client, token) => client.GetLauncherWallpaperAsync(token), token).ConfigureAwait(false);
                 break;
             default:
-                currentBackgroundPathSet = [];
+                availableBackgroundPathSet = [];
                 break;
         }
 
-        return currentBackgroundPathSet ??= [];
+        return availableBackgroundPathSet ??= [];
 
         async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
         {
@@ -125,7 +133,12 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 if (wallpaper.Url is { } url)
                 {
                     ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
-                    currentBackgroundPathSet = [file];
+                    if (!File.Exists(file))
+                    {
+                        Debugger.Break();
+                    }
+
+                    availableBackgroundPathSet = [file];
                 }
 
                 await taskContext.SwitchToMainThreadAsync();

@@ -48,7 +48,9 @@ internal sealed partial class SettingEntry
     public const string LaunchUnlockFps = "Launch.UnlockFps";
     public const string LaunchTargetFps = "Launch.TargetFps";
     public const string LaunchTargetFov = "Launch.TargetFov";
+    public const string LaunchFixLowFovScene = "Launch.FixLowFovScene";
     public const string LaunchDisableFog = "Launch.DisableFog";
+    public const string LaunchRemoveOpenTeamProgress = "Launch.RemoveOpenTeamProgress";
     public const string LaunchLoopAdjustFpsOnly = "Launch.LoopAdjustFpsOnly";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";

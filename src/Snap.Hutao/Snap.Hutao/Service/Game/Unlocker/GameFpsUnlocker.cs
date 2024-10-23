@@ -97,7 +97,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
                             if (view.State is IslandState.None or IslandState.Stopped)
                             {
-                                if (Interlocked.Increment(ref accumulatedBadStateCount) >= 5)
+                                if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
                                 {
                                     HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
                                 }
@@ -121,8 +121,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
         pIslandEnvironment->FunctionOffsetSetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
-        pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
         pIslandEnvironment->FunctionOffsetSetEnableFogRendering = offsets.FunctionOffsetSetEnableFogRendering;
+        pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
+        pIslandEnvironment->FunctionOffsetOpenTeam = offsets.FunctionOffsetOpenTeam;
+        pIslandEnvironment->FunctionOffsetOpenTeamPageAccordingly = offsets.FunctionOffsetOpenTeamPageAccordingly;
 
         pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
 
@@ -133,8 +135,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
         pIslandEnvironment->FieldOfView = options.TargetFov;
+        pIslandEnvironment->FixLowFovScene = options.FixLowFovScene;
         pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->DisableFog = options.DisableFog;
+        pIslandEnvironment->RemoveOpenTeamProgress = true || options.RemoveOpenTeamProgress;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }

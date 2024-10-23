@@ -13,11 +13,15 @@ internal struct IslandEnvironment
     public float FieldOfView;
     public int TargetFrameRate;
     public bool DisableFog;
+    public bool FixLowFovScene;
+    public bool RemoveOpenTeamProgress;
     public bool LoopAdjustFpsOnly;
 
     public uint FunctionOffsetSetFieldOfView;
     public uint FunctionOffsetSetEnableFogRendering;
     public uint FunctionOffsetSetTargetFrameRate;
+    public uint FunctionOffsetOpenTeam;
+    public uint FunctionOffsetOpenTeamPageAccordingly;
 
     public float DebugOriginalFieldOfView;
 }
