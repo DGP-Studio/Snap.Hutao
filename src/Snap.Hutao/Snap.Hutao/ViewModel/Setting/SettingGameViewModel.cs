@@ -1,9 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Notification;
 using System.IO;
 
@@ -16,6 +18,22 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly AppOptions appOptions;
+
+    private NameValue<PackageConverterType>? selectedPackageConverterType;
+
+    public AppOptions AppOptions { get => appOptions; }
+
+    public NameValue<PackageConverterType>? SelectedPackageConverterType
+    {
+        get => selectedPackageConverterType ??= AppOptions.PackageConverterTypes.Single(t => t.Value == AppOptions.PackageConverterType);
+        set
+        {
+            if (SetProperty(ref selectedPackageConverterType, value) && value is not null)
+            {
+                AppOptions.PackageConverterType = value.Value;
+            }
+        }
+    }
 
     public int KiloBytesPerSecondLimit
     {

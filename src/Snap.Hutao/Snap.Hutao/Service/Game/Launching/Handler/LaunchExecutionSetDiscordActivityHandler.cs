@@ -18,7 +18,7 @@ internal sealed class LaunchExecutionSetDiscordActivityHandler : ILaunchExecutio
                 context.Logger.LogInformation("Set discord activity as playing");
                 await context.ServiceProvider
                     .GetRequiredService<IDiscordService>()
-                    .SetPlayingActivityAsync(context.Scheme.IsOversea)
+                    .SetPlayingActivityAsync(context.TargetScheme.IsOversea)
                     .ConfigureAwait(false);
             }
 
