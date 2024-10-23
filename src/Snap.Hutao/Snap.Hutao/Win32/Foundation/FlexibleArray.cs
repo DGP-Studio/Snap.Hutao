@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Foundation;
 
@@ -14,5 +15,11 @@ internal unsafe struct FlexibleArray<TElement>
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => ref Reference[index];
+    }
+
+    public static implicit operator FlexibleArray<TElement>(Span<TElement> span)
+    {
+        void* ptr = Unsafe.AsPointer(ref MemoryMarshal.GetReference(span));
+        return *(FlexibleArray<TElement>*)&ptr;
     }
 }

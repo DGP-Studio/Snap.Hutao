@@ -54,11 +54,6 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCachePathInvalid));
         }
 
-        if (gameService.IsGameRunning())
-        {
-            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderGameIsRunning));
-        }
-
         string cacheFile = GetCacheFile(path);
         if (!File.Exists(cacheFile))
         {

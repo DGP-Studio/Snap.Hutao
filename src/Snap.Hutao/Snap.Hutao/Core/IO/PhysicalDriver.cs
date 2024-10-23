@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Storage.FileSystem;
@@ -41,26 +42,41 @@ internal static class PhysicalDriver
         {
             hLogicalDriver = CreateDirectAccessStorageDeviceHandle(fileName);
             STORAGE_DEVICE_NUMBER number = default;
-            if (!DeviceIoControl(hLogicalDriver, IOCTL_STORAGE_GET_DEVICE_NUMBER, default, default, &number, (uint)sizeof(STORAGE_DEVICE_NUMBER), default, default))
+            if (DeviceIoControl(hLogicalDriver, IOCTL_STORAGE_GET_DEVICE_NUMBER, default, default, &number, (uint)sizeof(STORAGE_DEVICE_NUMBER), default, default))
             {
-                WIN32_ERROR error = GetLastError();
-                if (error is not WIN32_ERROR.ERROR_INVALID_FUNCTION)
+                deviceNumber = number.DeviceNumber;
+                return;
+            }
+
+            WIN32_ERROR error = GetLastError();
+            if (error is not WIN32_ERROR.ERROR_INVALID_FUNCTION)
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error));
+            }
+
+            // This logical driver belongs to a partitionable device.
+            VOLUME_DISK_EXTENTS extents = default;
+            extents.Extents = stackalloc DISK_EXTENT[1];
+            if (!DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, &extents, (uint)sizeof(VOLUME_DISK_EXTENTS), default, default))
+            {
+                WIN32_ERROR error2 = GetLastError();
+                if (error2 is not WIN32_ERROR.ERROR_MORE_DATA)
                 {
-                    Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error));
+                    Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error2));
                 }
 
-                // This logical driver belongs to a partitionable device.
-                VOLUME_DISK_EXTENTS extents = default;
-                if (!DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, &extents, (uint)sizeof(VOLUME_DISK_EXTENTS), default, default))
+                extents.Extents = stackalloc DISK_EXTENT[(int)extents.NumberOfDiskExtents];
+                if (!DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, &extents, (uint)sizeof(VOLUME_DISK_EXTENTS) + (uint)sizeof(DISK_EXTENT) * extents.NumberOfDiskExtents, default, default))
                 {
                     Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
                 }
 
                 ref DISK_EXTENT extent = ref extents.Extents[0];
                 deviceNumber = extent.DiskNumber;
+                return;
             }
 
-            deviceNumber = number.DeviceNumber;
+            throw HutaoException.Throw("Failed to get the device number.");
         }
         finally
         {
