@@ -9,17 +9,17 @@ namespace Snap.Hutao.Win32.Foundation;
 internal unsafe struct FlexibleArray<TElement>
     where TElement : unmanaged
 {
-    public TElement* Reference;
+    public TElement Data;
 
+    [UnscopedRef]
     public ref TElement this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => ref Reference[index];
+        get => ref Unsafe.Add(ref Data, index);
     }
 
-    public static implicit operator FlexibleArray<TElement>(Span<TElement> span)
+    public Span<TElement> AsSpan(int length)
     {
-        void* ptr = Unsafe.AsPointer(ref MemoryMarshal.GetReference(span));
-        return *(FlexibleArray<TElement>*)&ptr;
+        return MemoryMarshal.CreateSpan(ref Data, length);
     }
 }

@@ -50,6 +50,14 @@ internal static class Kernel32
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern unsafe BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
 
+    public static unsafe BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] Span<byte> outBuffer, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped)
+    {
+        fixed (byte* lpOutBuffer = outBuffer)
+        {
+            return DeviceIoControl(hDevice, dwIoControlCode, lpInBuffer, nInBufferSize, lpOutBuffer, (uint)outBuffer.Length, lpBytesReturned, lpOverlapped);
+        }
+    }
+
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL FreeConsole();
 
