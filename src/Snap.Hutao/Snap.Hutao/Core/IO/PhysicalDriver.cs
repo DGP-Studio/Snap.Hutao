@@ -43,7 +43,21 @@ internal static class PhysicalDriver
             STORAGE_DEVICE_NUMBER number = default;
             if (!DeviceIoControl(hLogicalDriver, IOCTL_STORAGE_GET_DEVICE_NUMBER, default, default, &number, (uint)sizeof(STORAGE_DEVICE_NUMBER), default, default))
             {
-                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                WIN32_ERROR error = GetLastError();
+                if (error is not WIN32_ERROR.ERROR_INVALID_FUNCTION)
+                {
+                    Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error));
+                }
+
+                // This logical driver belongs to a partitionable device.
+                VOLUME_DISK_EXTENTS extents = default;
+                if (!DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, &extents, (uint)sizeof(VOLUME_DISK_EXTENTS), default, default))
+                {
+                    Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                }
+
+                ref DISK_EXTENT extent = ref extents.Extents[0];
+                deviceNumber = extent.DiskNumber;
             }
 
             deviceNumber = number.DeviceNumber;
