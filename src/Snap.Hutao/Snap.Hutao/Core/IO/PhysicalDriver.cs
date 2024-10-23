@@ -55,30 +55,28 @@ internal static class PhysicalDriver
             }
 
             // This logical driver belongs to a partitionable device.
-            int length = sizeof(VOLUME_DISK_EXTENTS) + (sizeof(DISK_EXTENT) * 1);
-            Span<byte> buffer = stackalloc byte[length];
-            if (!DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, buffer, default, default))
+            Span<byte> buffer = stackalloc byte[sizeof(VOLUME_DISK_EXTENTS) + (sizeof(DISK_EXTENT) * 1)];
+            if (DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, buffer, default, default))
             {
-                WIN32_ERROR error2 = GetLastError();
-                if (error2 is not WIN32_ERROR.ERROR_MORE_DATA)
-                {
-                    Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error2));
-                }
-
-                ref VOLUME_DISK_EXTENTS diskExtents = ref MemoryMarshal.AsRef<VOLUME_DISK_EXTENTS>(buffer);
-                length = sizeof(VOLUME_DISK_EXTENTS) + (sizeof(DISK_EXTENT) * (int)diskExtents.NumberOfDiskExtents);
-                buffer = stackalloc byte[length];
-                if (!DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, buffer, default, default))
-                {
-                    Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
-                }
-
-                ref VOLUME_DISK_EXTENTS diskExtents2 = ref MemoryMarshal.AsRef<VOLUME_DISK_EXTENTS>(buffer);
-                ref DISK_EXTENT extent = ref diskExtents2.Extents[0];
-                deviceNumber = extent.DiskNumber;
+                deviceNumber = MemoryMarshal.AsRef<VOLUME_DISK_EXTENTS>(buffer).Extents[0].DiskNumber;
                 return;
             }
 
+            WIN32_ERROR error2 = GetLastError();
+            if (error2 is not WIN32_ERROR.ERROR_MORE_DATA)
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error2));
+            }
+
+            // The volume has multiple extents.
+            buffer = stackalloc byte[sizeof(VOLUME_DISK_EXTENTS) + (sizeof(DISK_EXTENT) * (int)MemoryMarshal.AsRef<VOLUME_DISK_EXTENTS>(buffer).NumberOfDiskExtents)];
+            if (DeviceIoControl(hLogicalDriver, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, default, default, buffer, default, default))
+            {
+                deviceNumber = MemoryMarshal.AsRef<VOLUME_DISK_EXTENTS>(buffer).Extents[0].DiskNumber;
+                return;
+            }
+
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
             throw HutaoException.Throw("Failed to get the device number.");
         }
         finally
