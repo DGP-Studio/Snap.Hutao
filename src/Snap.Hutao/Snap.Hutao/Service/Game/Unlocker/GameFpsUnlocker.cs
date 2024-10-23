@@ -93,7 +93,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                             }
 
                             IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
-                            context.Logger.LogDebug("Island Environment|{State}|{Error}|{Value}", view.State, view.LastError, view.DebugOriginalFieldOfView);
+                            context.Logger.LogDebug("Island Environment|{State}|{Error}|Fov:{Value1}|Team: {Value2}", view.State, view.LastError, view.DebugOriginalFieldOfView, view.DebugOpenTeamCount);
 
                             if (view.State is IslandState.None or IslandState.Stopped)
                             {

@@ -24,4 +24,5 @@ internal struct IslandEnvironment
     public uint FunctionOffsetOpenTeamPageAccordingly;
 
     public float DebugOriginalFieldOfView;
+    public int DebugOpenTeamCount;
 }
