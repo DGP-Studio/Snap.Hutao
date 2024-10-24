@@ -47,7 +47,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         IPInformation? info;
         using (IServiceScope scope = serviceProvider.CreateScope())

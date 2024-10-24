@@ -32,7 +32,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
         _ = UpdateBackgroundCoreAsync(true);
     }
 
-    protected override ValueTask<bool> InitializeOverrideAsync()
+    protected override ValueTask<bool> LoadOverrideAsync()
     {
         appOptions.PropertyChanged += OnAppOptionsPropertyChanged;
         return ValueTask.FromResult(true);

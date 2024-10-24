@@ -141,7 +141,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             string executableName = context.Scheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName;
 
             await context.TaskContext.SwitchToMainThreadAsync();
-            context.Options.UpdateGamePathAndRefreshEntries(Path.Combine(gameFolder, executableName));
+            context.Options.UpdateGamePath(Path.Combine(gameFolder, executableName));
         }
 
         await packageConverter.EnsureDeprecatedFilesAndSdkAsync(packageConverterContext).ConfigureAwait(false);

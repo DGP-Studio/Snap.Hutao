@@ -77,7 +77,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {

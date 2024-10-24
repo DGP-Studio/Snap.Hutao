@@ -79,7 +79,7 @@ internal sealed partial class LaunchExecutionContext
 
     public void UpdateGamePathEntry()
     {
-        ImmutableList<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
+        ImmutableArray<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
         ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selectedEntry);
 
         // invalidate game file system

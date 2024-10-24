@@ -24,7 +24,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     private readonly int primaryScreenFps;
 
     private string? gamePath;
-    private ImmutableList<GamePathEntry>? gamePathEntries;
+    private ImmutableArray<GamePathEntry>? gamePathEntries;
     private bool? usingHoyolabAccount;
     private bool? isEnabled;
     private bool? isAdvancedLaunchOptionsEnabled;
@@ -58,7 +58,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         primaryScreenWidth = primaryRect.Width;
         primaryScreenHeight = primaryRect.Height;
 
-        InitializeMonitors(Monitors);
+        Monitors = InitializeMonitors();
         InitializeScreenFps(out primaryScreenFps);
 
         // Batch initialization, boost up performance
@@ -120,8 +120,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
             return default;
         }
 
-        static void InitializeMonitors(List<NameValue<int>> monitors)
+        static ImmutableArray<NameValue<int>> InitializeMonitors()
         {
+            ImmutableArray<NameValue<int>>.Builder monitors = ImmutableArray.CreateBuilder<NameValue<int>>();
             try
             {
                 // This list can't use foreach
@@ -138,6 +139,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions
             {
                 monitors.Clear();
             }
+
+            return monitors.ToImmutable();
         }
 
         static void InitializeScreenFps(out int fps)
@@ -161,11 +164,11 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         set => SetOption(ref gamePath, SettingEntry.GamePath, value);
     }
 
-    public ImmutableList<GamePathEntry> GamePathEntries
+    public ImmutableArray<GamePathEntry> GamePathEntries
     {
         // Because DbStoreOptions can't detect collection change, We use
         // ImmutableList to imply that the whole list needs to be replaced
-        get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableList<GamePathEntry>>(raw), []);
+        get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []).Value;
         set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, v => JsonSerializer.Serialize(v));
     }
 
@@ -279,9 +282,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         {
             return GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
 
-            static int RestrictIndex(List<NameValue<int>> monitors, string index)
+            static int RestrictIndex(ImmutableArray<NameValue<int>> monitors, string index)
             {
-                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Count - 1);
+                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Length - 1);
             }
         }
 
@@ -331,9 +334,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     }
     #endregion
 
-    public List<NameValue<int>> Monitors { get; } = [];
+    public ImmutableArray<NameValue<int>> Monitors { get; }
 
-    public List<AspectRatio> AspectRatios { get; } =
+    public ImmutableArray<AspectRatio> AspectRatios { get; } =
     [
         new(3840, 2160),
         new(2560, 1600),

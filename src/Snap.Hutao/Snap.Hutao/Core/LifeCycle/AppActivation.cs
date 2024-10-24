@@ -100,10 +100,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public async ValueTask HandleLaunchGameActionAsync(string? uid = null)
     {
-        serviceProvider
-            .GetRequiredService<IMemoryCache>()
-            .Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
-
+        // TODO: Handle uid selection, notify user service to switch to the corresponding user
+        
         await taskContext.SwitchToMainThreadAsync();
 
         switch (currentWindowReference.Window)

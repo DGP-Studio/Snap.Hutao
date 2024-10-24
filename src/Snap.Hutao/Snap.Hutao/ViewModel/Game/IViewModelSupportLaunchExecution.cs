@@ -13,7 +13,7 @@ internal interface IViewModelSupportLaunchExecution
 
     GameAccount? SelectedGameAccount { get; }
 
-    void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableList<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
+    void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableArray<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
     {
         // Do nothing
     }

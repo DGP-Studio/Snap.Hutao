@@ -344,7 +344,7 @@
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.3">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

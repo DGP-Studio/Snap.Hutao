@@ -70,7 +70,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {

@@ -19,18 +19,7 @@ internal static class UserServiceExtension
     public static async ValueTask<UserGameRole?> GetUserGameRoleByUidAsync(this IUserService userService, string uid)
     {
         AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);
-        foreach (BindingUser user in users.SourceCollection)
-        {
-            foreach (UserGameRole role in user.UserGameRoles)
-            {
-                if (role.GameUid == uid)
-                {
-                    return role;
-                }
-            }
-        }
-
-        return null;
+        return users.SourceCollection.SelectMany(user => user.UserGameRoles.SourceCollection).FirstOrDefault(role => role.GameUid == uid);
     }
 
     public static async ValueTask<string?> GetCurrentUidAsync(this IUserService userService)

@@ -76,7 +76,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         try
         {

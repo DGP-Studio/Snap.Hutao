@@ -168,7 +168,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         set => SetProperty(ref downloadSummaries, value);
     }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         HutaoInfrastructureClient hutaoInfrastructureClient = serviceProvider.GetRequiredService<HutaoInfrastructureClient>();
         HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);

@@ -40,12 +40,12 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     }
 
     [Command("LoadCommand")]
-    protected virtual async Task InitializeAsync()
+    protected virtual async Task LoadAsync()
     {
         try
         {
             // ConfigureAwait(true) sets value on UI thread
-            IsInitialized = await InitializeOverrideAsync().ConfigureAwait(true);
+            IsInitialized = await LoadOverrideAsync().ConfigureAwait(true);
             Initialization.TrySetResult(IsInitialized);
         }
         catch (OperationCanceledException)
@@ -53,7 +53,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
         }
     }
 
-    protected virtual ValueTask<bool> InitializeOverrideAsync()
+    protected virtual ValueTask<bool> LoadOverrideAsync()
     {
         return ValueTask.FromResult(true);
     }

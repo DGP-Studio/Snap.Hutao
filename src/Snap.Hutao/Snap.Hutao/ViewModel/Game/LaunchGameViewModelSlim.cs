@@ -13,9 +13,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-/// <summary>
-/// 简化的启动游戏视图模型
-/// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
@@ -37,12 +34,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
-    /// <summary>
-    /// 选中的账号
-    /// </summary>
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
-    /// <inheritdoc/>
     protected override async Task LoadAsync()
     {
         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();

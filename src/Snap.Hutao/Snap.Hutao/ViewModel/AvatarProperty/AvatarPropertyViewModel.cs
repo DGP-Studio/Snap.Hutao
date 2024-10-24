@@ -61,7 +61,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
     }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         FilterTokens = [];
         availableTokens = FrozenDictionary.ToFrozenDictionary(

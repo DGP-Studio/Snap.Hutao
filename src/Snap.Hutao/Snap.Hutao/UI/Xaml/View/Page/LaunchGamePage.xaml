@@ -62,15 +62,6 @@
                         MinWidth="48"
                         Margin="4,8"
                         VerticalAlignment="Stretch"
-                        Command="{Binding DataContext.AttachGameAccountCommand, Source={StaticResource BindingProxy}}"
-                        CommandParameter="{Binding}"
-                        Content="&#xE723;"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidToolTip}"/>
-                    <Button
-                        MinWidth="48"
-                        Margin="4,8"
-                        VerticalAlignment="Stretch"
                         Command="{Binding DataContext.ModifyGameAccountCommand, Source={StaticResource BindingProxy}}"
                         CommandParameter="{Binding}"
                         Content="&#xE8AC;"
