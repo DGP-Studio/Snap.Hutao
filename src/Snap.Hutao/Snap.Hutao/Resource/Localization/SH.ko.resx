@@ -929,6 +929,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>사용 가능한 Url이 없습니다</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
+    <value>游戏正在运行中，关闭游戏后重试</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>제공된 Url이 잘못되었습니다</value>
   </data>
