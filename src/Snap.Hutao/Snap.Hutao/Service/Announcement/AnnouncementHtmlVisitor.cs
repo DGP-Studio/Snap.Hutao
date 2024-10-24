@@ -5,15 +5,12 @@ using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using System.Collections.Frozen;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Announcement;
 
 internal static partial class AnnouncementHtmlVisitor
 {
-    private const string PermanentKeyword = "后永久开放";
-
     private static readonly FrozenSet<string> ValidDescriptions = FrozenSet.ToFrozenSet(
     [
         "〓活动时间〓",
@@ -43,8 +40,7 @@ internal static partial class AnnouncementHtmlVisitor
             // All in span, special case
             if (textContent.Contains("【上架时间】", StringComparison.CurrentCulture))
             {
-                string timeRange = textContent.Replace("【上架时间】", string.Empty, StringComparison.InvariantCulture).Trim();
-                return timeRange.Split("~").ToList();
+                return TimeOrVersionRegex().Matches(textContent).Select(r => r.Value).ToList();
             }
 
             if (paragraph.NextElementSibling is null)
@@ -76,7 +72,7 @@ internal static partial class AnnouncementHtmlVisitor
                 continue;
             }
 
-            if (paragraph.NextElementSibling is IHtmlParagraphElement { /*Children: [IHtmlSpanElement, ..]*/ } nextParagraph)
+            if (paragraph.NextElementSibling is IHtmlParagraphElement nextParagraph)
             {
                 return TimeOrVersionRegex().Match(nextParagraph.TextContent).Value;
             }
