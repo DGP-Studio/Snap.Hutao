@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
@@ -41,15 +40,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
-    private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
     private AdvancedCollectionView<GameAccount>? gameAccountsView;
-    private GameAccount? selectedGameAccount;
     private GamePackage? gamePackage;
     private bool gamePathSelectedAndValid;
-    private ImmutableArray<GamePathEntry> gamePathEntries = ImmutableArray<GamePathEntry>.Empty;
+    private ImmutableArray<GamePathEntry> gamePathEntries = [];
     private GamePathEntry? selectedGamePathEntry;
     private GameAccountFilter? gameAccountFilter;
 
@@ -77,7 +74,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
-    public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
+    public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
     public GamePackage? GamePackage { get => gamePackage; set => SetProperty(ref gamePackage, value); }
 
@@ -115,10 +112,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         await GamePackageViewModel.ForceLoadAsync().ConfigureAwait(false);
 
                         // Try set to the current account.
-                        if (SelectedScheme is not null)
+                        if (SelectedScheme is not null && GameAccountsView is not null)
                         {
                             // The GameAccount is guaranteed to be in the view, because the scheme is synced
-                            SelectedGameAccount ??= gameService.DetectCurrentGameAccount(SelectedScheme);
+                            GameAccountsView.CurrentItem ??= gameService.DetectCurrentGameAccount(SelectedScheme);
                         }
                         else
                         {
@@ -152,7 +149,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 return;
             }
-            
+
             launchOptions.GamePath = value?.Path ?? string.Empty;
             GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
         }
@@ -220,11 +217,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 return;
             }
 
+            if (GameAccountsView is null)
+            {
+                return;
+            }
+
             // If user canceled the operation, the return is null
             if (await gameService.DetectGameAccountAsync(SelectedScheme).ConfigureAwait(false) is { } account)
             {
                 await taskContext.SwitchToMainThreadAsync();
-                SelectedGameAccount = account;
+                GameAccountsView.CurrentItem = account;
             }
         }
         catch (Exception ex)
@@ -277,7 +279,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         // Clear the selected game account to prevent setting
         // incorrect CN/OS account when scheme not match
-        SelectedGameAccount = default;
+        if (GameAccountsView is not null)
+        {
+            GameAccountsView.CurrentItem = default;
+        }
 
         // Update GameAccountsView
         gameAccountFilter = new(SelectedScheme?.GetSchemeType());

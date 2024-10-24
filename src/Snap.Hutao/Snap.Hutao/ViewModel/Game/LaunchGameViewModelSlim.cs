@@ -25,7 +25,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView<GameAccount>? gameAccountsView;
-    private GameAccount? selectedGameAccount;
     private GameAccountFilter? gameAccountFilter;
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
@@ -34,12 +33,18 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
-    public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
+    public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
     protected override async Task LoadAsync()
     {
         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
         ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
+
+        gameAccountFilter = new(scheme?.GetSchemeType());
+        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
+
+        await taskContext.SwitchToMainThreadAsync();
+        GameAccountsView = accountsView;
 
         try
         {
@@ -47,19 +52,13 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
             {
                 // Try set to the current account.
                 await taskContext.SwitchToMainThreadAsync();
-                SelectedGameAccount ??= gameService.DetectCurrentGameAccount(scheme);
+                GameAccountsView.CurrentItem ??= gameService.DetectCurrentGameAccount(scheme);
             }
         }
         catch (Exception ex)
         {
             infoBarService.Error(ex);
         }
-
-        gameAccountFilter = new(scheme?.GetSchemeType());
-        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
-
-        await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView = accountsView;
     }
 
     [Command("LaunchCommand")]

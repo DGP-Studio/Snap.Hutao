@@ -76,7 +76,7 @@
                         DisplayMemberPath="Name"
                         ItemsSource="{Binding GameAccountsView}"
                         PlaceholderText="{shuxm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
-                        SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
+                        SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}"/>
                 </shuxc:SizeRestrictedContentControl>
             </StackPanel>
         </Grid>

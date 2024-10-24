@@ -331,7 +331,7 @@
                                             IsEnabled="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolNegationConverter}}"
                                             ItemTemplate="{StaticResource GameAccountListTemplate}"
                                             ItemsSource="{Binding GameAccountsView}"
-                                            SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
+                                            SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}">
                                             <ListView.Header>
                                                 <InfoBar
                                                     Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"

@@ -35,7 +35,7 @@
         <ListView
             Grid.Row="1"
             ItemsSource="{Binding GameAccountsView}"
-            SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
+            SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
