@@ -4,6 +4,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.Win32;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.LifeCycle;
@@ -60,6 +61,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
                 }
 
                 return $"""
+                    Snap Hutao {HutaoRuntime.Version}
                     {windowsVersion}
                     System Architecture: {RuntimeInformation.OSArchitecture}
                     Process Architecture: {RuntimeInformation.ProcessArchitecture}

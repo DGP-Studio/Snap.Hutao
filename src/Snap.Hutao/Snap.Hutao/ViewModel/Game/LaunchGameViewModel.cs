@@ -287,10 +287,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         // Update GameAccountsView
         gameAccountFilter = new(SelectedScheme?.GetSchemeType());
         ObservableReorderableDbCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
-        AdvancedCollectionView<GameAccount> accountsView = new(accounts)
-        {
-            Filter = gameAccountFilter.Filter,
-        };
+        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter, };
 
         await taskContext.SwitchToMainThreadAsync();
         GameAccountsView = accountsView;

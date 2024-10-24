@@ -37,6 +37,8 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
     public FrameworkElement TitleBarAccess { get => DragableGrid; }
 
     public string PersistRectKey { get => SettingKeys.GuideWindowRect; }
+    
+    public string PersistScaleKey { get => SettingKeys.GuideWindowScale; }
 
     public SizeInt32 InitSize { get; } = new(MinWidth, MinHeight);
 

@@ -27,6 +27,8 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     public FrameworkElement TitleBarAccess { get => TitleBarView.DragArea; }
 
     public string PersistRectKey { get => SettingKeys.WindowRect; }
+    
+    public string PersistScaleKey { get => SettingKeys.WindowScale; }
 
     public SizeInt32 InitSize { get; } = new(1200, 741);
 
