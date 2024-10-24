@@ -930,7 +930,7 @@
     <value>Can't find available URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
-    <value>Game is running, closing the game and retry</value>
+    <value>Game is running, please close the game and retry</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Invalid URL provided</value>
@@ -2070,7 +2070,7 @@
     <value>Export</value>
   </data>
   <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
-    <value>Daily quest achievements only</value>
+    <value>Daily commission achievements only</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Import from Clipboard</value>
