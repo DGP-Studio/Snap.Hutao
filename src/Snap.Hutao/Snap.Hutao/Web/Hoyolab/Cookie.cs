@@ -75,6 +75,23 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
+    public static Cookie FromQrLoginResult(QrLoginResult? qrLoginResult)
+    {
+        if (qrLoginResult is null)
+        {
+            return new();
+        }
+
+        SortedDictionary<string, string> cookieMap = new()
+        {
+            [STUID] = qrLoginResult.UserInfo.Aid,
+            [STOKEN] = qrLoginResult.Tokens.Single(token => token.TokenType is 1).Token,
+            [MID] = qrLoginResult.UserInfo.Mid,
+        };
+
+        return new(cookieMap);
+    }
+
     public static Cookie FromSToken(string stuid, string stoken)
     {
         SortedDictionary<string, string> cookieMap = new()

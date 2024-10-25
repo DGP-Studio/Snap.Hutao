@@ -6,12 +6,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Factory.QuickResponse;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
-using System.Collections.Specialized;
 using System.IO;
-using System.Web;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -19,10 +16,10 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("QRCodeSource", typeof(ImageSource))]
 internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 {
+    private readonly HoyoPlayPassportClient hoyoPlayPassportClient;
     private readonly IInfoBarService infoBarService;
     private readonly IQRCodeFactory qrCodeFactory;
     private readonly ITaskContext taskContext;
-    private readonly PandaClient pandaClient;
 
     private readonly CancellationTokenSource userManualCancellationTokenSource = new();
     private bool disposed;
@@ -43,11 +40,11 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public async ValueTask<ValueResult<bool, UidGameToken>> GetUidGameTokenAsync()
+    public async ValueTask<ValueResult<bool, QrLoginResult>> GetQrLoginResultAsync()
     {
         try
         {
-            return await GetUidGameTokenCoreAsync().ConfigureAwait(false);
+            return await GetQrLoginResultCoreAsync().ConfigureAwait(false);
         }
         finally
         {
@@ -61,7 +58,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         userManualCancellationTokenSource.Cancel();
     }
 
-    private async ValueTask<ValueResult<bool, UidGameToken>> GetUidGameTokenCoreAsync()
+    private async ValueTask<ValueResult<bool, QrLoginResult>> GetQrLoginResultCoreAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         _ = ShowAsync();
@@ -72,7 +69,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
             {
                 CancellationToken token = userManualCancellationTokenSource.Token;
                 string ticket = await FetchQRCodeAndSetImageAsync(token).ConfigureAwait(false);
-                UidGameToken? uidGameToken = await WaitQueryQRCodeConfirmAsync(ticket, token).ConfigureAwait(false);
+                QrLoginResult? uidGameToken = await WaitQueryQRCodeConfirmAsync(ticket, token).ConfigureAwait(false);
 
                 if (uidGameToken is null)
                 {
@@ -94,47 +91,35 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 
     private async ValueTask<string> FetchQRCodeAndSetImageAsync(CancellationToken token)
     {
-        Response<UrlWrapper> fetchResponse = await pandaClient.QRCodeFetchAsync(token).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidate(fetchResponse, infoBarService, out UrlWrapper? wrapper))
+        Response<QrLogin> qrLoginResponse = await hoyoPlayPassportClient.CreateQrLoginAsync(token).ConfigureAwait(false);
+        if (!ResponseValidator.TryValidate(qrLoginResponse, infoBarService, out QrLogin? qrLogin))
         {
             return string.Empty;
         }
 
-        string url = wrapper.Url;
-        string ticket = GetTicketFromUrl(url);
-
         await taskContext.SwitchToMainThreadAsync();
 
         BitmapImage bitmap = new();
-        await bitmap.SetSourceAsync(new MemoryStream(qrCodeFactory.Create(url)).AsRandomAccessStream());
+        await bitmap.SetSourceAsync(new MemoryStream(qrCodeFactory.Create(qrLogin.Url)).AsRandomAccessStream());
         QRCodeSource = bitmap;
 
-        return ticket;
-
-        static string GetTicketFromUrl(in ReadOnlySpan<char> urlSpan)
-        {
-            ReadOnlySpan<char> querySpan = urlSpan[urlSpan.IndexOf('?')..];
-            NameValueCollection queryCollection = HttpUtility.ParseQueryString(querySpan.ToString());
-            return queryCollection.TryGetSingleValue("ticket", out string? ticket) ? ticket : string.Empty;
-        }
+        return qrLogin.Ticket;
     }
 
-    private async ValueTask<UidGameToken?> WaitQueryQRCodeConfirmAsync(string ticket, CancellationToken token)
+    private async ValueTask<QrLoginResult?> WaitQueryQRCodeConfirmAsync(string ticket, CancellationToken token)
     {
         using (PeriodicTimer timer = new(new(0, 0, 3)))
         {
             while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
             {
-                Response<GameLoginResult> query = await pandaClient.QRCodeQueryAsync(ticket, token).ConfigureAwait(false);
+                Response<QrLoginResult> query = await hoyoPlayPassportClient.QueryQrLoginStatusAsync(ticket, token).ConfigureAwait(false);
 
-                if (query is { ReturnCode: 0, Data: { Stat: "Confirmed", Payload.Proto: "Account" } })
+                if (query is { ReturnCode: 0, Data: { Status: "Confirmed", Tokens: [{ TokenType: 1 }] } })
                 {
-                    UidGameToken? uidGameToken = JsonSerializer.Deserialize<UidGameToken>(query.Data.Payload.Raw);
-                    ArgumentNullException.ThrowIfNull(uidGameToken);
-                    return uidGameToken;
+                    return query.Data;
                 }
 
-                if (query.ReturnCode is (int)KnownReturnCode.QrCodeExpired)
+                if (query.ReturnCode is (int)KnownReturnCode.QRLoginExpired)
                 {
                     break;
                 }

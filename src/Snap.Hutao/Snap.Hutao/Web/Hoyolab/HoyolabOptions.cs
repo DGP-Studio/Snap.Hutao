@@ -4,6 +4,7 @@
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using System.Collections.Frozen;
 using System.Security.Cryptography;
+using Random = Snap.Hutao.Core.Random;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -45,6 +46,9 @@ internal static class HoyolabOptions
     /// 扫码登录设备Id
     /// </summary>
     public static string DeviceId40 { get; } = GenerateDeviceId40();
+
+    // TODO: 53位设备Id
+    public static string DeviceId53 { get; } = Random.GetLowerAndNumberString(53);
 
     /// <summary>
     /// 盐

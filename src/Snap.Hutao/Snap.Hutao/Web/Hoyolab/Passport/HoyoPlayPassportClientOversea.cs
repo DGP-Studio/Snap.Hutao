@@ -48,6 +48,16 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
         return Response.Response.DefaultIfNull(resp);
     }
 
+    public ValueTask<Response<QrLogin>> CreateQrLoginAsync(CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<QrLogin>>(new NotSupportedException());
+    }
+
+    public ValueTask<Response<QrLoginResult>> QueryQrLoginStatusAsync(string ticket, CancellationToken token = default)
+    {
+        return ValueTask.FromException<Response<QrLoginResult>>(new NotSupportedException());
+    }
+
     public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(IPassportPasswordProvider provider, CancellationToken token = default)
     {
         ArgumentNullException.ThrowIfNull(provider.Account);

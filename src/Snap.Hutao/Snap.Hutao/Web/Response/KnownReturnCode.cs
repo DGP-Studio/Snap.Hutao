@@ -31,6 +31,11 @@ internal enum KnownReturnCode
     CODEN3503 = -3503,
 
     /// <summary>
+    /// 二维码已过期
+    /// </summary>
+    QRLoginExpired = -3501,
+
+    /// <summary>
     /// 需要风险验证(闪验)
     /// </summary>
     RET_NEED_RISK_VERIFY = -3235,
