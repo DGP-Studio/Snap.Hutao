@@ -14,6 +14,8 @@ public class UnlockerIslandFunctionOffsetTest
     [TestMethod]
     public void GenerateJson()
     {
+        // FunctionOffsetMickeyWonderMethod: public static byte[] AnonymousMethod43(int nType);
+        // FunctionOffsetMickeyWonderMethodPartner: AnonymousMethod43's return call jmp -> return call jmp
         // FunctionOffsetSetFieldOfView: public void set_fieldOfView(float value) -> jmp xxxxxxxx
         // FunctionOffsetSetTargetFrameRate: public static void set_targetFrameRate(int value) -> jmp xxxxxxxxx (to the end)
         // FunctionOffsetSetEnableFogRendering: public static void set_enableFogRendering(bool value) -> jmp xxxxxxxxx (to the end)
@@ -24,6 +26,8 @@ public class UnlockerIslandFunctionOffsetTest
         {
             Chinese = new()
             {
+                FunctionOffsetMickeyWonderMethod = 0x0FF81CF0,
+                FunctionOffsetMickeyWonderMethodPartner = 0x002ED400,
                 FunctionOffsetSetFieldOfView = 0x01136D30,
                 FunctionOffsetSetTargetFrameRate = 0x0131E600,
                 FunctionOffsetSetEnableFogRendering = 0x015DC790,
@@ -32,6 +36,8 @@ public class UnlockerIslandFunctionOffsetTest
             },
             Oversea = new()
             {
+                FunctionOffsetMickeyWonderMethod = 0x0FF86DA0,
+                FunctionOffsetMickeyWonderMethodPartner = 0x002ED390,
                 FunctionOffsetSetFieldOfView = 0x01136F30,
                 FunctionOffsetSetTargetFrameRate = 0x0131E800,
                 FunctionOffsetSetEnableFogRendering = 0x015DC990,
@@ -45,13 +51,17 @@ public class UnlockerIslandFunctionOffsetTest
 
     private sealed class UnlockerIslandConfigurationWrapper
     {
-        public required UnlockerIslandConfiguration Oversea { get; set; }
-
         public required UnlockerIslandConfiguration Chinese { get; set; }
+
+        public required UnlockerIslandConfiguration Oversea { get; set; }
     }
 
     private sealed class UnlockerIslandConfiguration
     {
+        public required uint FunctionOffsetMickeyWonderMethod { get; set; }
+
+        public required uint FunctionOffsetMickeyWonderMethodPartner { get; set; }
+
         public required uint FunctionOffsetSetFieldOfView { get; set; }
 
         public required uint FunctionOffsetSetTargetFrameRate { get; set; }

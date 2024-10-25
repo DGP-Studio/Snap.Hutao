@@ -120,12 +120,14 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
+
+        pIslandEnvironment->FunctionOffsetMickeyWonderMethod = offsets.FunctionOffsetMickeyWonderMethod;
+        pIslandEnvironment->FunctionOffsetMickeyWonderMethodPartner = offsets.FunctionOffsetMickeyWonderMethodPartner;
         pIslandEnvironment->FunctionOffsetSetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
         pIslandEnvironment->FunctionOffsetSetEnableFogRendering = offsets.FunctionOffsetSetEnableFogRendering;
         pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
         pIslandEnvironment->FunctionOffsetOpenTeam = offsets.FunctionOffsetOpenTeam;
         pIslandEnvironment->FunctionOffsetOpenTeamPageAccordingly = offsets.FunctionOffsetOpenTeamPageAccordingly;
-
         pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
 
         UpdateIslandEnvironment(handle, options);
@@ -134,6 +136,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe IslandEnvironmentView UpdateIslandEnvironment(nint handle, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
+
         pIslandEnvironment->FieldOfView = options.TargetFov;
         pIslandEnvironment->FixLowFovScene = options.FixLowFovScene;
         pIslandEnvironment->TargetFrameRate = options.TargetFps;

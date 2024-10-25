@@ -17,6 +17,8 @@ internal struct IslandEnvironment
     public bool RemoveOpenTeamProgress;
     public bool LoopAdjustFpsOnly;
 
+    public uint FunctionOffsetMickeyWonderMethod;
+    public uint FunctionOffsetMickeyWonderMethodPartner;
     public uint FunctionOffsetSetFieldOfView;
     public uint FunctionOffsetSetEnableFogRendering;
     public uint FunctionOffsetSetTargetFrameRate;
