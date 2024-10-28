@@ -9,6 +9,8 @@ internal sealed class IslandFunctionOffsets
 
     public required uint FunctionOffsetMickeyWonderMethodPartner { get; set; }
 
+    public required uint FunctionOffsetMickeyWonderMethodPartner2 { get; set; }
+
     public required uint FunctionOffsetSetFieldOfView { get; set; }
 
     public required uint FunctionOffsetSetTargetFrameRate { get; set; }

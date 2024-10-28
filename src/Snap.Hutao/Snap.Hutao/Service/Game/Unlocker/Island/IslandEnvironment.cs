@@ -19,6 +19,7 @@ internal struct IslandEnvironment
 
     public uint FunctionOffsetMickeyWonderMethod;
     public uint FunctionOffsetMickeyWonderMethodPartner;
+    public uint FunctionOffsetMickeyWonderMethodPartner2;
     public uint FunctionOffsetSetFieldOfView;
     public uint FunctionOffsetSetEnableFogRendering;
     public uint FunctionOffsetSetTargetFrameRate;

@@ -57,7 +57,7 @@ internal sealed partial class CultivationService : ICultivationService
 
                 ModelItem item = entry.Type switch
                 {
-                    CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem(),
+                    CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem<Model.Item>(),
                     CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem<Model.Item>(),
 
                     // TODO: support furniture calc
@@ -140,6 +140,8 @@ internal sealed partial class CultivationService : ICultivationService
             return ConsumptionSaveResultKind.NoProject;
         }
 
+        ArgumentNullException.ThrowIfNull(Projects.CurrentItem);
+
         await taskContext.SwitchToBackgroundAsync();
 
         if (inputConsumption.Strategy is not ConsumptionSaveStrategyKind.CreateNewEntry)
@@ -172,7 +174,6 @@ internal sealed partial class CultivationService : ICultivationService
         }
 
         {
-            ArgumentNullException.ThrowIfNull(Projects.CurrentItem);
             CultivateEntry entry = CultivateEntry.From(Projects.CurrentItem.InnerId, inputConsumption.Type, inputConsumption.ItemId);
             cultivationRepository.AddCultivateEntry(entry);
 

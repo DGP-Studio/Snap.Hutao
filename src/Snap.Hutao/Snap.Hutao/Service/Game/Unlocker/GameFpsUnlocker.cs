@@ -57,6 +57,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             ? feature.Oversea
             : feature.Chinese;
 
+        return true;
+
         try
         {
             InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
@@ -123,6 +125,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         pIslandEnvironment->FunctionOffsetMickeyWonderMethod = offsets.FunctionOffsetMickeyWonderMethod;
         pIslandEnvironment->FunctionOffsetMickeyWonderMethodPartner = offsets.FunctionOffsetMickeyWonderMethodPartner;
+        pIslandEnvironment->FunctionOffsetMickeyWonderMethodPartner2 = offsets.FunctionOffsetMickeyWonderMethodPartner2;
         pIslandEnvironment->FunctionOffsetSetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
         pIslandEnvironment->FunctionOffsetSetEnableFogRendering = offsets.FunctionOffsetSetEnableFogRendering;
         pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;

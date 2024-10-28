@@ -40,7 +40,8 @@ public class GameRegistryContentTest
                 {
                     RegistryValueKind.DWord => (int)gameKey.GetValue(valueName)!,
                     RegistryValueKind.Binary => GetStringOrObject((byte[])gameKey.GetValue(valueName)!),
-                    _ => throw new NotImplementedException()
+                    RegistryValueKind.String => (string)gameKey.GetValue(valueName)!,
+                    _ => throw new ArgumentException($"Unsupported type: {gameKey.GetValueKind(valueName)}"),
                 };
             }
 
