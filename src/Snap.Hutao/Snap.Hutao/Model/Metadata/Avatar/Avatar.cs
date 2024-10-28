@@ -81,7 +81,8 @@ internal partial class Avatar : INameQualityAccess,
         return CalculableAvatar.From(this);
     }
 
-    public Model.Item ToItem()
+    public TItem ToItem<TItem>()
+        where TItem : Model.Item, new()
     {
         return new()
         {

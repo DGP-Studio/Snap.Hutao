@@ -7,10 +7,6 @@ using System.Text;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-/// <summary>
-/// 养成物品
-/// </summary>
-[HighQuality]
 internal sealed class CultivateEntryView : Item
 {
     public CultivateEntryView(CultivateEntry entry, Item item, List<CultivateItemView> items)

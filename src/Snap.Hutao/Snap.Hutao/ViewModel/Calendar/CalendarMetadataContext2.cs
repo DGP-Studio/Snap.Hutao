@@ -4,6 +4,7 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.Cultivation;
 
 namespace Snap.Hutao.ViewModel.Calendar;
 
@@ -13,5 +14,7 @@ internal sealed class CalendarMetadataContext2
 
     public required ILookup<MonthAndDay, Avatar> AvatarBirthdays { get; init; }
 
-    public required ILookup<MaterialId, Item> MaterialItems { get; init; }
+    public required ILookup<MaterialId, CalendarItem> MaterialItems { get; init; }
+
+    public IReadOnlyCollection<CultivateEntryView>? CultivateEntryViews { get; set; }
 }

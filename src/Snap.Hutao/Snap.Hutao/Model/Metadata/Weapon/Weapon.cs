@@ -70,7 +70,8 @@ internal sealed partial class Weapon : INameQualityAccess,
         return CalculableWeapon.From(this);
     }
 
-    public Model.Item ToItem()
+    public TItem ToItem<TItem>()
+        where TItem : Model.Item, new()
     {
         return new()
         {

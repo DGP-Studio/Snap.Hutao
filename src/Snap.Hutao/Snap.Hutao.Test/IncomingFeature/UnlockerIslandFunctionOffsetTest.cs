@@ -14,19 +14,18 @@ public class UnlockerIslandFunctionOffsetTest
     [TestMethod]
     public void GenerateJson()
     {
-        // FunctionOffsetMickeyWonderMethod: public static byte[] AnonymousMethod43(int nType);
-        // FunctionOffsetMickeyWonderMethodPartner: AnonymousMethod43's return call jmp -> return call jmp
+        // FunctionOffsetMickeyWonderMethod: public static byte[] AnonymousMethod43(int nType) -> jmp xxxxxxxx -> another xref to xxxxxxxx
+        // FunctionOffsetMickeyWonderMethodPartner: AnonymousMethod43 jmp -> ret jmp
         // FunctionOffsetSetFieldOfView: public void set_fieldOfView(float value) -> jmp xxxxxxxx
         // FunctionOffsetSetTargetFrameRate: public static void set_targetFrameRate(int value) -> jmp xxxxxxxxx (to the end)
         // FunctionOffsetSetEnableFogRendering: public static void set_enableFogRendering(bool value) -> jmp xxxxxxxxx (to the end)
         // FunctionOffsetOpenTeam: public static void AJODMEAHOGI()
         // FunctionOffsetOpenTeamPageAccordingly: public static void OEEFGJDOCJJ(bool KCBOKOCOGEI = true)
-
         UnlockerIslandConfigurationWrapper wrapper = new()
         {
             Chinese = new()
             {
-                FunctionOffsetMickeyWonderMethod = 0x0FF81CF0,
+                FunctionOffsetMickeyWonderMethod = 0x099D1D80,
                 FunctionOffsetMickeyWonderMethodPartner = 0x002ED400,
                 FunctionOffsetSetFieldOfView = 0x01136D30,
                 FunctionOffsetSetTargetFrameRate = 0x0131E600,
@@ -36,7 +35,7 @@ public class UnlockerIslandFunctionOffsetTest
             },
             Oversea = new()
             {
-                FunctionOffsetMickeyWonderMethod = 0x0FF86DA0,
+                FunctionOffsetMickeyWonderMethod = 0x09B37E60,
                 FunctionOffsetMickeyWonderMethodPartner = 0x002ED390,
                 FunctionOffsetSetFieldOfView = 0x01136F30,
                 FunctionOffsetSetTargetFrameRate = 0x0131E800,

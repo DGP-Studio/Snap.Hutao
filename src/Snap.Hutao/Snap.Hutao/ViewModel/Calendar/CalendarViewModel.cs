@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Linq;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -8,6 +9,7 @@ using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service;
+using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
@@ -21,6 +23,8 @@ namespace Snap.Hutao.ViewModel.Calendar;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
 {
+    private readonly ICultivationService cultivationService;
+    private readonly ILogger<CalendarViewModel> logger;
     private readonly IMetadataService metadataService;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
@@ -36,42 +40,11 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             return;
         }
 
-        CalendarMetadataContext metadataContext = await metadataService.GetContextAsync<CalendarMetadataContext>().ConfigureAwait(false);
-        ILookup<MonthAndDay, Avatar> avatars = metadataContext.Avatars.ToLookup(a => new MonthAndDay(a.FetterInfo.BirthMonth, a.FetterInfo.BirthDay));
-        ILookup<MaterialId, Item> materials = GetMaterialItemLookup(metadataContext);
-
-        CalendarMetadataContext2 context2 = new()
+        AdvancedCollectionView<CalendarDay> weekDays;
+        using (ValueStopwatch.MeasureExecution(logger, nameof(CreateWeekDays)))
         {
-            MetadataContext = metadataContext,
-            AvatarBirthdays = avatars,
-            MaterialItems = materials,
-        };
-
-        ImmutableArray<CalendarMaterial> materials1 = [.. EnumerateMaterials(MaterialIds.MondayThursdayHighestRankItems, context2).OrderBy(m => (uint)m.Inner.Id)];
-        ImmutableArray<CalendarMaterial> materials2 = [.. EnumerateMaterials(MaterialIds.TuesdayFridayHighestRankItems, context2).OrderBy(m => (uint)m.Inner.Id)];
-        ImmutableArray<CalendarMaterial> materials3 = [.. EnumerateMaterials(MaterialIds.WednesdaySaturdayHighestRankItems, context2).OrderBy(m => (uint)m.Inner.Id)];
-        Dictionary<DayOfWeek, ImmutableArray<CalendarMaterial>> dailyMaterials = new()
-        {
-            [DayOfWeek.Monday] = materials1,
-            [DayOfWeek.Tuesday] = materials2,
-            [DayOfWeek.Wednesday] = materials3,
-            [DayOfWeek.Thursday] = materials1,
-            [DayOfWeek.Friday] = materials2,
-            [DayOfWeek.Saturday] = materials3,
-        };
-
-        DateTimeOffset today = DateTimeOffset.Now.Date;
-        DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
-        DateTimeOffset nearestStartOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
-        if (nearestStartOfWeek > today)
-        {
-            nearestStartOfWeek = nearestStartOfWeek.AddDays(-7);
+            weekDays = await CreateWeekDays().ConfigureAwait(false);
         }
-
-        AdvancedCollectionView<CalendarDay> weekDays = Enumerable
-            .Range(0, 7)
-            .Select(i => CreateCalendarDay(nearestStartOfWeek.AddDays(i), context2, dailyMaterials))
-            .ToAdvancedCollectionView();
 
         await taskContext.SwitchToMainThreadAsync();
 
@@ -89,47 +62,47 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             Date = date,
             DayInMonth = date.Day,
             DayName = dtfi.GetAbbreviatedDayName(date.DayOfWeek),
-            BirthDayAvatars = [.. context.AvatarBirthdays[new MonthAndDay((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem())],
+            BirthDayAvatars = [.. context.AvatarBirthdays[new MonthAndDay((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem<Item>())],
             Materials = dailyMaterials.GetValueOrDefault(date.DayOfWeek, []),
         };
     }
 
-    private static ILookup<MaterialId, Item> GetMaterialItemLookup(CalendarMetadataContext metadataContext)
+    private static ILookup<MaterialId, CalendarItem> GetMaterialItemLookup(CalendarMetadataContext metadataContext)
     {
-        Dictionary<MaterialId, List<Item>> results = [];
+        Dictionary<MaterialId, List<CalendarItem>> results = [];
 
         foreach (ref readonly Avatar avatar in metadataContext.Avatars.AsSpan())
         {
-            ref List<Item>? group = ref CollectionsMarshal.GetValueRefOrAddDefault(results, avatar.CultivationItems[4], out bool exist);
+            ref List<CalendarItem>? group = ref CollectionsMarshal.GetValueRefOrAddDefault(results, avatar.CultivationItems[4], out bool exist);
             if (!exist)
             {
                 group = [];
             }
 
             ArgumentNullException.ThrowIfNull(group);
-            group.Add(avatar.ToItem());
+            group.Add(avatar.ToItem<CalendarItem>());
         }
 
         foreach (ref readonly Weapon weapon in metadataContext.Weapons.AsSpan())
         {
-            ref List<Item>? group = ref CollectionsMarshal.GetValueRefOrAddDefault(results, weapon.CultivationItems[0], out bool exist);
+            ref List<CalendarItem>? group = ref CollectionsMarshal.GetValueRefOrAddDefault(results, weapon.CultivationItems[0], out bool exist);
             if (!exist)
             {
                 group = [];
             }
 
             ArgumentNullException.ThrowIfNull(group);
-            group.Add(weapon.ToItem());
+            group.Add(weapon.ToItem<CalendarItem>());
         }
 
         return results.ToLookup();
     }
 
-    private static IEnumerable<CalendarMaterial> EnumerateMaterials(IReadOnlySet<MaterialId> ids, CalendarMetadataContext2 context)
+    private static IEnumerable<CalendarMaterial> EnumerateMaterials(IReadOnlySet<RotationalMaterialIdEntry> entries, CalendarMetadataContext2 context)
     {
-        foreach (MaterialId id in ids)
+        foreach (RotationalMaterialIdEntry entry in entries)
         {
-            if (!context.MetadataContext.IdMaterialMap.TryGetValue(id, out Material? material))
+            if (!context.MetadataContext.IdMaterialMap.TryGetValue(entry.Highest, out Material? material))
             {
                 continue;
             }
@@ -137,8 +110,51 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             yield return new()
             {
                 Inner = material,
-                Items = [.. context.MaterialItems[id].OrderByDescending(i => i.Quality)],
+                Items = [.. context.MaterialItems[entry.Highest].OrderByDescending(i => i.Quality)],
+                Highlight = false,
             };
         }
+    }
+
+    private async ValueTask<AdvancedCollectionView<CalendarDay>> CreateWeekDays()
+    {
+        CalendarMetadataContext metadataContext = await metadataService.GetContextAsync<CalendarMetadataContext>().ConfigureAwait(false);
+        ILookup<MonthAndDay, Avatar> avatarBirthdays = metadataContext.Avatars.ToLookup(MonthAndDay.Create);
+        ILookup<MaterialId, CalendarItem> materialItems = GetMaterialItemLookup(metadataContext);
+
+        CalendarMetadataContext2 context2 = new()
+        {
+            MetadataContext = metadataContext,
+            AvatarBirthdays = avatarBirthdays,
+            MaterialItems = materialItems,
+            CultivateEntryViews = await cultivationService.GetCultivateEntryCollectionForCurrentProjectAsync(metadataContext).ConfigureAwait(false),
+        };
+
+        ImmutableArray<CalendarMaterial> materials14 = [.. EnumerateMaterials(MaterialIds.MondayThursdayEntries, context2).OrderBy(m => (uint)m.Inner.Id)];
+        ImmutableArray<CalendarMaterial> materials25 = [.. EnumerateMaterials(MaterialIds.TuesdayFridayEntries, context2).OrderBy(m => (uint)m.Inner.Id)];
+        ImmutableArray<CalendarMaterial> materials36 = [.. EnumerateMaterials(MaterialIds.WednesdaySaturdayEntries, context2).OrderBy(m => (uint)m.Inner.Id)];
+        Dictionary<DayOfWeek, ImmutableArray<CalendarMaterial>> dailyMaterials = new()
+        {
+            [DayOfWeek.Monday] = materials14,
+            [DayOfWeek.Tuesday] = materials25,
+            [DayOfWeek.Wednesday] = materials36,
+            [DayOfWeek.Thursday] = materials14,
+            [DayOfWeek.Friday] = materials25,
+            [DayOfWeek.Saturday] = materials36,
+        };
+
+        DateTimeOffset today = DateTimeOffset.Now.Date;
+        DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
+        DateTimeOffset nearestStartOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
+        if (nearestStartOfWeek > today)
+        {
+            nearestStartOfWeek = nearestStartOfWeek.AddDays(-7);
+        }
+
+        AdvancedCollectionView<CalendarDay> weekDays = Enumerable
+            .Range(0, 7)
+            .Select(i => CreateCalendarDay(nearestStartOfWeek.AddDays(i), context2, dailyMaterials))
+            .ToAdvancedCollectionView();
+        return weekDays;
     }
 }
