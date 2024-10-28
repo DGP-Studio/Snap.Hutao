@@ -16,6 +16,8 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization
 {
+    private readonly AsyncLock backgroundImageLock = new();
+
     private readonly IBackgroundImageService backgroundImageService;
     private readonly ILogger<MainViewModel> logger;
     private readonly ITaskContext taskContext;
@@ -65,45 +67,48 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
             return;
         }
 
-        (bool shouldRefresh, BackgroundImage? backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(forceRefresh ? default : previousBackgroundImage).ConfigureAwait(false);
-
-        if (shouldRefresh)
+        using (await backgroundImageLock.LockAsync().ConfigureAwait(false))
         {
-            previousBackgroundImage = backgroundImage;
-            await taskContext.SwitchToMainThreadAsync();
+            (bool shouldRefresh, BackgroundImage? backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(forceRefresh ? default : previousBackgroundImage).ConfigureAwait(false);
 
-            await AnimationBuilder
-                .Create()
-                .Opacity(
-                    to: 0D,
-                    duration: Constants.ImageOpacityFadeInOut,
-                    easingType: EasingType.Quartic,
-                    easingMode: EasingMode.EaseInOut)
-                .StartAsync(backgroundImagePresenter)
-                .ConfigureAwait(true);
+            if (shouldRefresh)
+            {
+                previousBackgroundImage = backgroundImage;
+                await taskContext.SwitchToMainThreadAsync();
 
-            backgroundImagePresenter.Source = backgroundImage?.ImageSource;
-            double targetOpacity = backgroundImage is not null
-                ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
-                    ? 1 - backgroundImage.Luminance
-                    : backgroundImage.Luminance
-                : 0;
+                await AnimationBuilder
+                    .Create()
+                    .Opacity(
+                        to: 0D,
+                        duration: Constants.ImageOpacityFadeInOut,
+                        easingType: EasingType.Quartic,
+                        easingMode: EasingMode.EaseInOut)
+                    .StartAsync(backgroundImagePresenter)
+                    .ConfigureAwait(true);
 
-            logger.LogInformation(
-                "Background image: [Accent color: {AccentColor}] [Luminance: {Luminance}] [Opacity: {TargetOpacity}]",
-                backgroundImage?.AccentColor.ToString(CultureInfo.CurrentCulture),
-                backgroundImage?.Luminance,
-                targetOpacity);
+                backgroundImagePresenter.Source = backgroundImage?.ImageSource;
+                double targetOpacity = backgroundImage is not null
+                    ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
+                        ? 1 - backgroundImage.Luminance
+                        : backgroundImage.Luminance
+                    : 0;
 
-            await AnimationBuilder
-                .Create()
-                .Opacity(
-                    to: targetOpacity,
-                    duration: Constants.ImageOpacityFadeInOut,
-                    easingType: EasingType.Quartic,
-                    easingMode: EasingMode.EaseInOut)
-                .StartAsync(backgroundImagePresenter)
-                .ConfigureAwait(true);
+                logger.LogInformation(
+                    "Background image: [Accent color: {AccentColor}] [Luminance: {Luminance}] [Opacity: {TargetOpacity}]",
+                    backgroundImage?.AccentColor,
+                    backgroundImage?.Luminance,
+                    targetOpacity);
+
+                await AnimationBuilder
+                    .Create()
+                    .Opacity(
+                        to: targetOpacity,
+                        duration: Constants.ImageOpacityFadeInOut,
+                        easingType: EasingType.Quartic,
+                        easingMode: EasingMode.EaseInOut)
+                    .StartAsync(backgroundImagePresenter)
+                    .ConfigureAwait(true);
+            }
         }
     }
 }

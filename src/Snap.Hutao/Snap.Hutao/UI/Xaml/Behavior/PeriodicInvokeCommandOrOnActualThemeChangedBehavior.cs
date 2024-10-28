@@ -42,10 +42,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
-        if (shouldReactToActualThemeChange)
-        {
-            acutalThemeChangedCts.Cancel();
-        }
+        acutalThemeChangedCts.Cancel();
     }
 
     private void TryExecuteCommand()
@@ -70,17 +67,14 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                     break;
                 }
 
-                // TODO: Reconsider approach to get the ServiceProvider
-                ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
-                await taskContext.SwitchToMainThreadAsync();
-                TryExecuteCommand();
-
+                ITaskContext taskContext = TaskContext.GetForDispatcherQueue(AssociatedObject.DispatcherQueue);
                 await taskContext.SwitchToBackgroundAsync();
                 try
                 {
                     using (CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(acutalThemeChangedCts.Token, periodicTimerStopCts.Token))
                     {
                         await timer.WaitForNextTickAsync(linkedCts.Token).ConfigureAwait(false);
+                        taskContext.BeginInvokeOnMainThread(TryExecuteCommand);
                     }
                 }
                 catch (OperationCanceledException)
@@ -90,8 +84,6 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                         break;
                     }
                 }
-
-                shouldReactToActualThemeChange = true;
 
                 acutalThemeChangedCts.Dispose();
                 acutalThemeChangedCts = new();
