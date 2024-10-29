@@ -109,7 +109,7 @@ internal sealed partial class SignInClient : ISignInClient
 
         if (resp is { Data: { Success: 1, Gt: { } gt, Challenge: { } originChallenge } })
         {
-            if (await geetestService.TryVerifyGtChallengeAsync(gt, originChallenge, token).ConfigureAwait(false) is { } data)
+            if (await geetestService.TryVerifyGtChallengeAsync(gt, originChallenge, false, token).ConfigureAwait(false) is { } data)
             {
                 builder
                     .Resurrect()

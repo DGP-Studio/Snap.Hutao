@@ -3,13 +3,13 @@
 
 namespace Snap.Hutao.Service.Geetest;
 
-internal sealed class AigisData
+internal sealed class GeetestVerification
 {
     [JsonPropertyName("success")]
     public int Success { get; set; }
 
     [JsonPropertyName("gt")]
-    public string GT { get; set; } = default!;
+    public string Gt { get; set; } = default!;
 
     [JsonPropertyName("challenge")]
     public string Challenge { get; set; } = default!;

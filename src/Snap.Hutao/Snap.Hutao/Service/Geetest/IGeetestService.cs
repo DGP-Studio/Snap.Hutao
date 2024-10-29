@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Geetest;
 
 internal interface IGeetestService
 {
-    ValueTask<GeetestData?> TryVerifyGtChallengeAsync(string gt, string challenge, CancellationToken token = default);
+    ValueTask<GeetestData?> TryVerifyGtChallengeAsync(string gt, string challenge, bool isOversea, CancellationToken token = default);
 
     ValueTask<string?> TryVerifyXrpcChallengeAsync(Model.Entity.User user, CardVerifiationHeaders headers, CancellationToken token = default);
 

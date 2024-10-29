@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
@@ -23,7 +24,7 @@ internal sealed partial class CardClient
     private readonly ILogger<CardClient> logger;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<Response<VerificationRegistration>> CreateVerificationAsync(User user, CardVerifiationHeaders headers, CancellationToken token)
+    public async ValueTask<Response<GeetestVerification>> CreateVerificationAsync(User user, CardVerifiationHeaders headers, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.CardCreateVerification(true))
@@ -34,8 +35,8 @@ internal sealed partial class CardClient
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
-        Response<VerificationRegistration>? resp = await builder
-            .SendAsync<Response<VerificationRegistration>>(httpClient, logger, token)
+        Response<GeetestVerification>? resp = await builder
+            .SendAsync<Response<GeetestVerification>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -48,7 +49,7 @@ internal sealed partial class CardClient
             .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
             .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
-            .PostJson(new VerificationData(challenge, validate));
+            .PostJson(new GeetestWebResponse(challenge, validate));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
@@ -73,24 +74,5 @@ internal sealed partial class CardClient
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
-    }
-
-    private class VerificationData
-    {
-        public VerificationData(string challenge, string validate)
-        {
-            GeetestChallenge = challenge;
-            GeetestValidate = validate;
-            GeetestSeccode = $"{validate}|jordan";
-        }
-
-        [JsonPropertyName("geetest_challenge")]
-        public string GeetestChallenge { get; set; }
-
-        [JsonPropertyName("geetest_validate")]
-        public string GeetestValidate { get; set; }
-
-        [JsonPropertyName("geetest_seccode")]
-        public string GeetestSeccode { get; set; }
     }
 }
