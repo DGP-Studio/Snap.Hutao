@@ -28,7 +28,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private readonly string dataFolderIslandPath;
     private readonly string gameVersion;
 
-    private IslandFunctionOffsets? offsets;
+    private IslandFunctionOffsets offsets;
     private int accumulatedBadStateCount;
 
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, string gameVersion)
@@ -56,8 +56,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         offsets = string.Equals(GameConstants.GenshinImpactProcessName, context.GameProcess.ProcessName, StringComparison.OrdinalIgnoreCase)
             ? feature.Oversea
             : feature.Chinese;
-
-        return true;
 
         try
         {
@@ -95,7 +93,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                             }
 
                             IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
-                            context.Logger.LogDebug("Island Environment|{State}|{Error}|Fov:{Value1}|Team: {Value2}", view.State, view.LastError, view.DebugOriginalFieldOfView, view.DebugOpenTeamCount);
 
                             if (view.State is IslandState.None or IslandState.Stopped)
                             {
@@ -123,15 +120,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
-        pIslandEnvironment->FunctionOffsetMickeyWonderMethod = offsets.FunctionOffsetMickeyWonderMethod;
-        pIslandEnvironment->FunctionOffsetMickeyWonderMethodPartner = offsets.FunctionOffsetMickeyWonderMethodPartner;
-        pIslandEnvironment->FunctionOffsetMickeyWonderMethodPartner2 = offsets.FunctionOffsetMickeyWonderMethodPartner2;
-        pIslandEnvironment->FunctionOffsetSetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
-        pIslandEnvironment->FunctionOffsetSetEnableFogRendering = offsets.FunctionOffsetSetEnableFogRendering;
-        pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
-        pIslandEnvironment->FunctionOffsetOpenTeam = offsets.FunctionOffsetOpenTeam;
-        pIslandEnvironment->FunctionOffsetOpenTeamPageAccordingly = offsets.FunctionOffsetOpenTeamPageAccordingly;
-        pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
+        pIslandEnvironment->FunctionOffsets = offsets;
+        pIslandEnvironment->HookingSetFieldOfView = true;
+        pIslandEnvironment->HookingOpenTeam = true;
+        pIslandEnvironment->HookingMickyWonderPartner2 = true;
 
         UpdateIslandEnvironment(handle, options);
     }

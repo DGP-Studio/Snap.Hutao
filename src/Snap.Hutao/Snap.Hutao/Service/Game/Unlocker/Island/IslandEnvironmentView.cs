@@ -5,27 +5,21 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Service.Game.Unlocker.Island;
 
-internal struct IslandEnvironmentView
+internal readonly struct IslandEnvironmentView
 {
-    public IslandState State;
-    public WIN32_ERROR LastError;
+    public readonly IslandState State;
+    public readonly WIN32_ERROR LastError;
 
-    public float FieldOfView;
-    public int TargetFrameRate;
-    public bool DisableFog;
-    public bool FixLowFovScene;
-    public bool RemoveOpenTeamProgress;
-    public bool LoopAdjustFpsOnly;
+    public readonly IslandFunctionOffsets FunctionOffsets;
 
-    public uint FunctionOffsetMickeyWonderMethod;
-    public uint FunctionOffsetMickeyWonderMethodPartner;
-    public uint FunctionOffsetMickeyWonderMethodPartner2;
-    public uint FunctionOffsetSetFieldOfView;
-    public uint FunctionOffsetSetEnableFogRendering;
-    public uint FunctionOffsetSetTargetFrameRate;
-    public uint FunctionOffsetOpenTeam;
-    public uint FunctionOffsetOpenTeamPageAccordingly;
-
-    public float DebugOriginalFieldOfView;
-    public int DebugOpenTeamCount;
+    public readonly bool HookingSetFieldOfView;
+    public readonly bool EnableSetFieldOfView;
+    public readonly bool FixLowFovScene;
+    public readonly bool DisableFog;
+    public readonly float FieldOfView;
+    public readonly int TargetFrameRate;
+    public readonly bool HookingOpenTeam;
+    public readonly bool RemoveOpenTeamProgress;
+    public readonly bool HookingMickyWonderPartner2;
+    public readonly bool Reserved;
 }
