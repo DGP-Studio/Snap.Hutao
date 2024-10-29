@@ -3506,7 +3506,7 @@
     <value>{0} 時間 {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
-    <value>すべての依頼を完了していません</value>
+    <value>今日の依頼完了数が足りません</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
     <value>依頼報酬はまだ受取っていません</value>
