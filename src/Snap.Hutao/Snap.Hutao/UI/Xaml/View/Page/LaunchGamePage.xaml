@@ -13,6 +13,7 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
@@ -22,7 +23,6 @@
 
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
-        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding GamePackageViewModel.LoadCommand}"/>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding GamePackageInstallViewModel.LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
@@ -126,7 +126,7 @@
                         HorizontalAlignment="Center"
                         Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameSelectGamePath}"/>
-                    <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding GamePathEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                    <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding GamePathEntries.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"
                             ItemsSource="{Binding GamePathEntries}"
@@ -199,7 +199,7 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <StackPanel
-                                            Padding="8"
+                                            Padding="16"
                                             Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
                                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                             BorderThickness="0,0,0,1"
@@ -220,7 +220,7 @@
                                         <StackPanel
                                             Grid.Row="1"
                                             Margin="-2,-6"
-                                            Padding="8"
+                                            Padding="16"
                                             Orientation="Horizontal">
                                             <AppBarButton
                                                 Command="{Binding GamePackageViewModel.StartCommand}"
@@ -301,61 +301,158 @@
                                             </StackPanel>
                                         </cwc:SettingsCard>
 
-                                        <cwc:SettingsExpander
-                                            Padding="{ThemeResource SettingsCardAlignSettingsExpanderPadding}"
-                                            shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.UnlockFps}"
-                                            Description="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
-                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
-                                            HeaderIcon="{shuxm:FontIcon Glyph=&#xE785;}"
-                                            IsExpanded="True">
-                                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                                <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                                <NumberBox
-                                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
-                                                    Padding="10,8,6,6"
-                                                    IsEnabled="{Binding LaunchOptions.UnlockFps}"
-                                                    Maximum="720"
-                                                    Minimum="-1"
-                                                    SpinButtonPlacementMode="Inline"
-                                                    Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
+                                        <Grid Style="{ThemeResource GridCardStyle}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid
+                                                Grid.Row="0"
+                                                Padding="16,8"
+                                                Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1"
+                                                RowSpacing="16">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="注入"/>
+                                                    <TextBlock
+                                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="将消息模块注入游戏，以便实现一些高级功能"/>
+                                                </StackPanel>
+
                                                 <ToggleSwitch
+                                                    Grid.Column="1"
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                                    IsOn="{Binding LaunchOptions.UnlockFps, Mode=TwoWay}"
-                                                    OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
-                                                    OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
-                                            </StackPanel>
-                                            <cwc:SettingsExpander.Items>
-                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader}">
-                                                    <cwc:SettingsCard.Description>
-                                                        <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription}"/>
-                                                    </cwc:SettingsCard.Description>
-                                                    <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.LoopAdjustFpsOnly, Mode=TwoWay}"/>
-                                                </cwc:SettingsCard>
-                                                <cwc:SettingsCard
-                                                    Description="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}"
-                                                    Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
-                                                    IsEnabled="{Binding LaunchOptions.LoopAdjustFpsOnly, Converter={StaticResource BoolNegationConverter}}">
+                                                    IsOn="{Binding LaunchOptions.IsIslandEnabled, Mode=TwoWay}"
+                                                    Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
+                                            </Grid>
+                                            <Border
+                                                Grid.Row="1"
+                                                Padding="16"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <Grid ColumnSpacing="16" RowSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
                                                     <NumberBox
-                                                        MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
                                                         Padding="10,8,6,6"
+                                                        Header="视野大小"
+                                                        LargeChange="10"
                                                         Maximum="100"
                                                         Minimum="0"
                                                         SmallChange="1"
                                                         SpinButtonPlacementMode="Inline"
                                                         Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
-                                                </cwc:SettingsCard>
-                                                <cwc:SettingsCard
-                                                    Description="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"
-                                                    Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}"
-                                                    IsEnabled="{Binding LaunchOptions.LoopAdjustFpsOnly, Converter={StaticResource BoolNegationConverter}}">
+
                                                     <ToggleSwitch
-                                                        MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                                        IsOn="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
-                                                        OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
-                                                        OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"/>
-                                                </cwc:SettingsCard>
-                                            </cwc:SettingsExpander.Items>
-                                        </cwc:SettingsExpander>
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Header="视野热开关"
+                                                        IsOn="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Header="视野冷开关"
+                                                        IsOn="{Binding LaunchOptions.HookingSetFieldOfView, Mode=TwoWay}"/>
+
+                                                    <ToggleSwitch
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Header="特殊界面修正"
+                                                        IsOn="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Header="禁止迷雾渲染"
+                                                        IsOn="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border
+                                                Grid.Row="2"
+                                                Padding="16"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <Grid
+                                                    Grid.Row="1"
+                                                    ColumnSpacing="16"
+                                                    RowSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <NumberBox
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Padding="10,8,6,6"
+                                                        Header="目标帧率"
+                                                        Maximum="720"
+                                                        Minimum="-1"
+                                                        SpinButtonPlacementMode="Inline"
+                                                        Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Header="帧率热开关"
+                                                        IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border
+                                                Grid.Row="3"
+                                                Padding="16"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <Grid
+                                                    Grid.Row="1"
+                                                    ColumnSpacing="16"
+                                                    RowSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Header="移除队伍配置进度条"
+                                                        IsOn="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Header="队伍配置冷开关"
+                                                        IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Header="让我进去！"
+                                                        IsOn="{Binding LaunchOptions.HookingMickyWonderPartner2, Mode=TwoWay}"/>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
                                     </StackPanel>
 
                                 </Grid>
@@ -368,14 +465,16 @@
                             </Grid>
                         </Border>
 
-                        <!--  注册表  -->
+                        <!--  账户操作  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                                 <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                    <TextBlock
-                                        Margin="1,0,0,5"
-                                        Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameRegistryHeader}"/>
+                                    <cwc:SettingsCard
+                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountHeader}"
+                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}">
+                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingHoyolabAccount, Mode=TwoWay}"/>
+                                    </cwc:SettingsCard>
                                     <cwc:SettingsCard
                                         ActionIconToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountDetectAction}"
                                         Command="{Binding DetectGameAccountCommand}"
@@ -404,12 +503,6 @@
                                             </ListView.Header>
                                         </ListView>
                                     </Border>
-                                    <cwc:SettingsCard
-                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameWindowsHDRDescription}"
-                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameWindowsHDRHeader}"
-                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE7F7;}">
-                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsWindowsHDREnabled, Mode=TwoWay}"/>
-                                    </cwc:SettingsCard>
                                 </StackPanel>
                             </Border>
                         </Border>
@@ -418,35 +511,19 @@
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                                 <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                    <TextBlock
-                                        Margin="1,0,0,5"
-                                        Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
                                     <cwc:SettingsCard
-                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountDescription}"
-                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountHeader}"
-                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}">
-                                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
-                                            <clw:TokenItem
-                                                VerticalAlignment="Center"
-                                                Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                                                Content="BETA"
-                                                Icon="{shuxm:FontIcon Glyph=&#xE7C1;}"
-                                                IsHitTestVisible="False">
-                                                <clw:TokenItem.Resources>
-                                                    <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
-                                                </clw:TokenItem.Resources>
-                                            </clw:TokenItem>
-                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingHoyolabAccount, Mode=TwoWay}"/>
-                                        </StackPanel>
+                                        Description="{shuxm:ResourceString Name=ViewPageLaunchGameWindowsHDRDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameWindowsHDRHeader}"
+                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE7F7;}">
+                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsWindowsHDREnabled, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsExpander
-                                        shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.IsEnabled}"
+                                        shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.AreCommandLineArgumentsEnabled}"
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameArgumentsHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE943;}"
                                         IsExpanded="True">
-                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsEnabled, Mode=TwoWay}"/>
+                                        <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.AreCommandLineArgumentsEnabled, Mode=TwoWay}"/>
                                         <cwc:SettingsExpander.Items>
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}" Header="-window-mode exclusive">
                                                 <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsExclusive, Mode=TwoWay}"/>
@@ -510,19 +587,14 @@
                                             </cwc:SettingsCard>
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>
-                                    <ContentControl IsEnabled="{Binding RuntimeOptions.IsElevated}" Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                 </StackPanel>
                             </Border>
                         </Border>
 
-                        <!--  进程间  -->
+                        <!--  联动  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                                 <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                    <TextBlock
-                                        Margin="1,0,0,5"
-                                        Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameInterProcessHeader}"/>
                                     <cwc:SettingsCard
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameBetterGIDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameBetterGIHeader}"

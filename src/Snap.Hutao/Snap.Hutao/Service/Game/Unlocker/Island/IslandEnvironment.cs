@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+﻿ // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
@@ -12,14 +12,14 @@ internal struct IslandEnvironment
 
     public IslandFunctionOffsets FunctionOffsets;
 
-    public bool HookingSetFieldOfView;
-    public bool EnableSetFieldOfView;
-    public bool FixLowFovScene;
-    public bool DisableFog;
+    public BOOL HookingSetFieldOfView;
+    public BOOL EnableSetFieldOfView;
     public float FieldOfView;
+    public BOOL FixLowFovScene;
+    public BOOL DisableFog;
+    public BOOL EnableSetTargetFrameRate;
     public int TargetFrameRate;
-    public bool HookingOpenTeam;
-    public bool RemoveOpenTeamProgress;
-    public bool HookingMickyWonderPartner2;
-    public bool Reserved;
+    public BOOL HookingOpenTeam;
+    public BOOL RemoveOpenTeamProgress;
+    public BOOL HookingMickyWonderPartner2;
 }

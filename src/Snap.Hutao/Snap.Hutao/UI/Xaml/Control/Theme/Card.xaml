@@ -47,6 +47,13 @@
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
     </Style>
 
+    <Style x:Key="SecondaryGridCardStyle" TargetType="Grid">
+        <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+    </Style>
+
     <Style
         x:Key="AcrylicGridCardStyle"
         BasedOn="{StaticResource GridCardStyle}"

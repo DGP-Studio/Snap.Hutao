@@ -2748,7 +2748,7 @@
     <value>启用</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，不支持渠道服</value>
+    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，需要启用「启动参数」</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>使用 米游社 / HoYoLAB 用户登录</value>
