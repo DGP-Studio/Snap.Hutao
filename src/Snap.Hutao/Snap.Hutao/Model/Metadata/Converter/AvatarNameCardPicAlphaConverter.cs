@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-internal sealed partial class AvatarNameCardPicConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
+internal sealed partial class AvatarNameCardPicAlphaConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     public static Uri IconNameToUri(string name)
     {
@@ -15,7 +15,7 @@ internal sealed partial class AvatarNameCardPicConverter : ValueConverter<string
             return default!;
         }
 
-        return StaticResourcesEndpoints.StaticRaw("NameCardPic", $"{name}_P.png").ToUri();
+        return StaticResourcesEndpoints.StaticRaw("NameCardPicAlpha", $"{name}_Alpha.png").ToUri();
     }
 
     public override Uri Convert(string from)

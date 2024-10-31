@@ -59,6 +59,8 @@ internal partial class Avatar : INameQualityAccess,
 
     public List<MaterialId> CultivationItems { get; set; } = default!;
 
+    public NameCard NameCard { get; set; } = default!;
+
     [JsonIgnore]
     public AvatarCollocationView? CollocationView { get; set; }
 
