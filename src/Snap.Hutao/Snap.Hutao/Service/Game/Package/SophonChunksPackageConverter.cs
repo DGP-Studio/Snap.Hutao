@@ -13,7 +13,6 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
-using Snap.Hutao.Web.Response;
 using System.Buffers;
 using System.Diagnostics;
 using System.IO;
@@ -25,10 +24,10 @@ namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterType.SophonChunks)]
-internal sealed partial class SophonPackageConverter : IPackageConverter
+internal sealed partial class SophonChunksPackageConverter : IPackageConverter
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
-    private readonly ILogger<SophonPackageConverter> logger;
+    private readonly ILogger<SophonChunksPackageConverter> logger;
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
@@ -81,18 +80,18 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         //    处理顺序：备份/替换/新增
         //    替换操作等于 先备份国服文件，随后新增国际服文件
         // 可能会存在大量相似代码，逻辑完成后再进行重构
-        ArgumentNullException.ThrowIfNull(context.CurrentBranch);
-        ArgumentNullException.ThrowIfNull(context.TargetBranch);
+        ArgumentNullException.ThrowIfNull(context.SophonChunksOnly.CurrentBranch);
+        ArgumentNullException.ThrowIfNull(context.SophonChunksOnly.TargetBranch);
 
         // Step 1
         context.Progress.Report(new("Decoding manifests..."));
-        SophonDecodedBuild? currentBuild = await DecodeManifestsAsync(context, context.CurrentBranch, context.CurrentScheme).ConfigureAwait(false);
-        SophonDecodedBuild? targetBuild = await DecodeManifestsAsync(context, context.TargetBranch, context.TargetScheme).ConfigureAwait(false);
+        SophonDecodedBuild? currentBuild = await DecodeManifestsAsync(context, context.SophonChunksOnly.CurrentBranch, context.CurrentScheme).ConfigureAwait(false);
+        SophonDecodedBuild? targetBuild = await DecodeManifestsAsync(context, context.SophonChunksOnly.TargetBranch, context.TargetScheme).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(currentBuild);
         ArgumentNullException.ThrowIfNull(targetBuild);
 
         // Step 2
-        List<SophonConverterAssetOperation> diffOperations = GetDiffOperations(currentBuild, targetBuild).ToList();
+        List<PackageItemOperationForSophonChunks> diffOperations = GetDiffOperations(currentBuild, targetBuild).ToList();
         diffOperations.SortBy(o => o.Kind);
         InitializeDuplicatedChunkNames(context, diffOperations.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
@@ -103,7 +102,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         return ReplaceGameResource(context, diffOperations);
     }
 
-    private static IEnumerable<SophonConverterAssetOperation> GetDiffOperations(SophonDecodedBuild currentDecodedBuild, SophonDecodedBuild targetDecodedBuild)
+    private static IEnumerable<PackageItemOperationForSophonChunks> GetDiffOperations(SophonDecodedBuild currentDecodedBuild, SophonDecodedBuild targetDecodedBuild)
     {
         foreach ((SophonDecodedManifest currentManifest, SophonDecodedManifest targetManifest) in currentDecodedBuild.Manifests.Zip(targetDecodedBuild.Manifests))
         {
@@ -111,7 +110,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
             {
                 if (currentManifest.ManifestProto.Assets.FirstOrDefault(currentAsset => IsSameAsset(currentAsset, targetAsset)) is not { } currentAsset)
                 {
-                    yield return SophonConverterAssetOperation.Add(targetManifest.UrlPrefix, targetAsset);
+                    yield return PackageItemOperationForSophonChunks.Add(targetManifest.UrlPrefix, targetAsset);
                     continue;
                 }
 
@@ -129,14 +128,14 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
                     }
                 }
 
-                yield return SophonConverterAssetOperation.ModifyOrReplace(targetManifest.UrlPrefix, currentAsset, targetAsset, diffChunks);
+                yield return PackageItemOperationForSophonChunks.ModifyOrReplace(targetManifest.UrlPrefix, currentAsset, targetAsset, diffChunks);
             }
 
             foreach (AssetProperty currentAsset in currentManifest.ManifestProto.Assets)
             {
                 if (targetManifest.ManifestProto.Assets.FirstOrDefault(a => IsSameAsset(a, currentAsset)) is null)
                 {
-                    yield return SophonConverterAssetOperation.Backup(currentAsset);
+                    yield return PackageItemOperationForSophonChunks.Backup(currentAsset);
                 }
             }
         }
@@ -298,9 +297,9 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         }
     }
 
-    private async ValueTask PrepareCacheFilesAsync(PackageConverterContext context, List<SophonConverterAssetOperation> operations)
+    private async ValueTask PrepareCacheFilesAsync(PackageConverterContext context, List<PackageItemOperationForSophonChunks> operations)
     {
-        foreach (SophonConverterAssetOperation operation in operations)
+        foreach (PackageItemOperationForSophonChunks operation in operations)
         {
             ValueTask task = operation.Kind switch
             {
@@ -314,7 +313,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         Directory.Delete(context.ServerCacheChunksFolder, true);
     }
 
-    private async ValueTask SkipOrProcessAsync(PackageConverterContext context, SophonConverterAssetOperation operation)
+    private async ValueTask SkipOrProcessAsync(PackageConverterContext context, PackageItemOperationForSophonChunks operation)
     {
         string cacheFile = context.GetServerCacheTargetFilePath(operation.NewAsset.AssetName);
 
@@ -339,7 +338,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         await EnsureAssetAsync(context, operation).ConfigureAwait(false);
     }
 
-    private async ValueTask EnsureAssetAsync(PackageConverterContext context, SophonConverterAssetOperation asset)
+    private async ValueTask EnsureAssetAsync(PackageConverterContext context, PackageItemOperationForSophonChunks asset)
     {
         if (asset.NewAsset.AssetType is 64)
         {
@@ -357,7 +356,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         await MergeAssetAsync(context, asset).ConfigureAwait(false);
     }
 
-    private async ValueTask MergeAssetAsync(PackageConverterContext context, SophonConverterAssetOperation asset)
+    private async ValueTask MergeAssetAsync(PackageConverterContext context, PackageItemOperationForSophonChunks asset)
     {
         ValueTask task = asset.Kind switch
         {
@@ -370,7 +369,7 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         await task.ConfigureAwait(false);
     }
 
-    private async ValueTask MergeDiffAssetAsync(PackageConverterContext context, SophonConverterAssetOperation asset)
+    private async ValueTask MergeDiffAssetAsync(PackageConverterContext context, PackageItemOperationForSophonChunks asset)
     {
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
@@ -445,10 +444,10 @@ internal sealed partial class SophonPackageConverter : IPackageConverter
         }
     }
 
-    private bool ReplaceGameResource(PackageConverterContext context, List<SophonConverterAssetOperation> operations)
+    private bool ReplaceGameResource(PackageConverterContext context, List<PackageItemOperationForSophonChunks> operations)
     {
         // 执行下载与移动操作
-        foreach (SophonConverterAssetOperation operation in operations)
+        foreach (PackageItemOperationForSophonChunks operation in operations)
         {
             (bool moveToBackup, bool moveToTarget) = operation.Kind switch
             {

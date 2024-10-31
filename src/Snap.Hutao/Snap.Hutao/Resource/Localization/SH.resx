@@ -3083,6 +3083,9 @@
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
     <value>打开背景图片文件夹</value>
   </data>
+  <data name="ViewPageSettingPackageConverterTypeHeader" xml:space="preserve">
+    <value>转换服务器模式</value>
+  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>重置</value>
   </data>

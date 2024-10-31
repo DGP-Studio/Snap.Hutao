@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
@@ -35,13 +36,14 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         {
             IServiceProvider serviceProvider = context.ServiceProvider;
             IContentDialogFactory contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-            IProgressFactory progressFactory = serviceProvider.GetRequiredService<IProgressFactory>();
 
             LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-            IProgress<PackageConvertStatus> convertProgress = progressFactory.CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
-
             using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
+                IProgress<PackageConvertStatus> convertProgress = serviceProvider
+                    .GetRequiredService<IProgressFactory>()
+                    .CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
+
                 if (!await EnsureGameResourceAsync(context, gameFileSystem, convertProgress).ConfigureAwait(false))
                 {
                     // context.Result is set in EnsureGameResourceAsync
@@ -88,8 +90,6 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
     private static async ValueTask<bool> EnsureGameResourceAsync(LaunchExecutionContext context, GameFileSystem gameFileSystem, IProgress<PackageConvertStatus> progress)
     {
         string gameFolder = gameFileSystem.GameDirectory;
-        string gameFileName = gameFileSystem.GameFileName;
-
         context.Logger.LogInformation("Game folder: {GameFolder}", gameFolder);
 
         if (!CheckDirectoryPermissions(gameFolder))
@@ -123,6 +123,16 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         using (HttpClient httpClient = httpClientFactory.CreateClient(GamePackageService.HttpClientName))
         {
             PackageConverterType type = context.ServiceProvider.GetRequiredService<AppOptions>().PackageConverterType;
+
+            PackageConverterContext.CommonReferences common = new(
+                httpClient,
+                context.CurrentScheme,
+                context.TargetScheme,
+                gameFileSystem,
+                channelSDKs.GameChannelSDKs.SingleOrDefault(),
+                deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(),
+                progress);
+
             PackageConverterContext packageConverterContext;
             switch (type)
             {
@@ -135,7 +145,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                         return false;
                     }
 
-                    packageConverterContext = new(httpClient, context.CurrentScheme, context.TargetScheme, gameFileSystem, gamePackages.GamePackages.Single(), channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
+                    packageConverterContext = new(common, gamePackages.GamePackages.Single());
                     break;
                 case PackageConverterType.SophonChunks:
                     Response<GameBranchesWrapper> currentBranchesResponse = await hoyoPlayClient.GetBranchesAsync(context.CurrentScheme).ConfigureAwait(false);
@@ -154,15 +164,18 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                         return false;
                     }
 
-                    packageConverterContext = new(httpClient, context.CurrentScheme, context.TargetScheme, gameFileSystem, currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main, targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main, channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(), progress);
+                    packageConverterContext = new(
+                        common,
+                        currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main,
+                        targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main);
                     break;
                 default:
-                    throw new NotSupportedException();
+                    throw HutaoException.NotSupported();
             }
 
             IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(type);
 
-            if (!context.TargetScheme.ExecutableMatches(gameFileName))
+            if (!context.TargetScheme.ExecutableMatches(gameFileSystem.GameFileName))
             {
                 if (!await packageConverter.EnsureGameResourceAsync(packageConverterContext).ConfigureAwait(false))
                 {

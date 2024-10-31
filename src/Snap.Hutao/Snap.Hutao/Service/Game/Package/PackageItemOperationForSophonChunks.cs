@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 
 namespace Snap.Hutao.Service.Game.Package;
 
-internal sealed class SophonConverterAssetOperation
+internal sealed class PackageItemOperationForSophonChunks
 {
     public PackageItemOperationKind Kind { get; init; }
 
@@ -18,7 +18,7 @@ internal sealed class SophonConverterAssetOperation
 
     public List<SophonChunk> DiffChunks { get; init; } = [];
 
-    public static SophonConverterAssetOperation Add(string urlPrefix, AssetProperty newAsset)
+    public static PackageItemOperationForSophonChunks Add(string urlPrefix, AssetProperty newAsset)
     {
         return new()
         {
@@ -29,7 +29,7 @@ internal sealed class SophonConverterAssetOperation
         };
     }
 
-    public static SophonConverterAssetOperation ModifyOrReplace(string urlPrefix, AssetProperty oldAsset, AssetProperty newAsset, List<SophonChunk> diffChunks)
+    public static PackageItemOperationForSophonChunks ModifyOrReplace(string urlPrefix, AssetProperty oldAsset, AssetProperty newAsset, List<SophonChunk> diffChunks)
     {
         return new()
         {
@@ -41,7 +41,7 @@ internal sealed class SophonConverterAssetOperation
         };
     }
 
-    public static SophonConverterAssetOperation Backup(AssetProperty oldAsset)
+    public static PackageItemOperationForSophonChunks Backup(AssetProperty oldAsset)
     {
         return new()
         {
