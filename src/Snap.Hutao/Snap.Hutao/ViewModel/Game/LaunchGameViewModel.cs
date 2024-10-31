@@ -168,7 +168,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public void Receive(LaunchExecutionProcessStatusChangedMessage message)
     {
-        OnPropertyChanged(nameof(IsGameRunning));
+        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(IsGameRunning)));
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()
