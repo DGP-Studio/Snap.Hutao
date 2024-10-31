@@ -177,6 +177,7 @@
                     <AppBarButton
                         Command="{Binding LaunchCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
+                        IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
                         Label="{shuxm:ResourceString Name=ViewPageLaunchGameAction}"/>
                 </CommandBar>
             </Pivot.RightHeader>

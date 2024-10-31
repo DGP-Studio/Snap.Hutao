@@ -35,7 +35,8 @@
         <ListView
             Grid.Row="1"
             ItemsSource="{Binding GameAccountsView}"
-            SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}">
+            SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}"
+            Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityRevertConverter}}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>

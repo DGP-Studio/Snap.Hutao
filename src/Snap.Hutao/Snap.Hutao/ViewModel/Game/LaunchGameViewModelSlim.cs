@@ -24,6 +24,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
+    private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -33,6 +34,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
     public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
+
+    public LaunchOptions LaunchOptions { get => launchOptions; }
 
     public bool IsGameRunning { get => gameService.IsGameRunning(); }
 
