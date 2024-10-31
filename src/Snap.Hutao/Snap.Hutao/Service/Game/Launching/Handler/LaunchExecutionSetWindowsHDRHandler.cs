@@ -12,7 +12,7 @@ internal sealed class LaunchExecutionSetWindowsHDRHandler : ILaunchExecutionDele
         if (context.Options.IsWindowsHDREnabled)
         {
             context.Logger.LogInformation("Set Windows HDR");
-            RegistryInterop.SetWindowsHDR(context.Scheme.IsOversea);
+            RegistryInterop.SetWindowsHDR(context.TargetScheme.IsOversea);
         }
 
         await next().ConfigureAwait(false);

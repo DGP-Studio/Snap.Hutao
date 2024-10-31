@@ -10,5 +10,5 @@ internal interface IContentDialogQueue
 {
     bool IsDialogShowing { get; }
 
-    Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = null);
+    ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog);
 }

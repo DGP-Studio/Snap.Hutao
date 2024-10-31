@@ -10,9 +10,9 @@ internal sealed class CalendarMaterial
 {
     public required Material Inner { get; init; }
 
-    internal required RotationalMaterialIdEntry InnerEntry { get; init; }
-
     public required ImmutableArray<CalendarItem> Items { get; init; }
 
     public bool Highlight { get; set; }
+
+    internal required RotationalMaterialIdEntry InnerEntry { get; init; }
 }

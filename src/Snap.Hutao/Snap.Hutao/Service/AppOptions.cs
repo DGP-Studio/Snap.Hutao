@@ -6,6 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.BackgroundImage;
+using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
@@ -25,6 +26,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private Region? region;
     private string? geetestCustomCompositeUrl;
     private int? downloadSpeedLimitPerSecondInKiloByte;
+    private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
 
     public bool IsNotifyIconEnabled
@@ -92,6 +94,14 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, 0);
         set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
+    }
+
+    public List<NameValue<PackageConverterType>> PackageConverterTypes { get; } = CollectionsNameValue.FromEnum<PackageConverterType>();
+
+    public PackageConverterType PackageConverterType
+    {
+        get => GetOption(ref packageConverterType, SettingEntry.PackageConverterType, EnumParse<PackageConverterType>, PackageConverterType.ScatteredFiles).Value;
+        set => SetOption(ref packageConverterType, SettingEntry.PackageConverterType, value, EnumToStringOrEmpty);
     }
 
     public List<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = CollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription());

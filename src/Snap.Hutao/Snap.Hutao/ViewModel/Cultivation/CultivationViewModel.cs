@@ -233,7 +233,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
                 .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationRefreshInventoryProgress)
                 .ConfigureAwait(false);
 
-            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
                 await inventoryService.RefreshInventoryAsync(Projects.CurrentItem).ConfigureAwait(false);
 

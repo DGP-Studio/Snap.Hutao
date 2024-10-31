@@ -574,6 +574,14 @@
                                         <TextBlock VerticalAlignment="Center" Text="KB/s (1MB = 1024KB)"/>
                                     </StackPanel>
                                 </cwc:SettingsCard>
+                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingPackageConverterTypeHeader}" HeaderIcon="{shuxm:FontIcon Glyph=&#xE8AB;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.PackageConverterTypes}"
+                                            SelectedItem="{Binding SelectedPackageConverterType, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </Border>
                     </Border>
