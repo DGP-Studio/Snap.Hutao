@@ -2600,6 +2600,15 @@
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
     <value>Автоматизированные задачи</value>
   </data>
+  <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
+    <value>当出现错误代码 31-4302 时请启用此选项</value>
+  </data>
+  <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
+    <value>让我进去！</value>
+  </data>
+  <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
+    <value>游戏启动后无法再次切换</value>
+  </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>常规</value>
   </data>
@@ -2624,8 +2633,26 @@
   <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
     <value>Активность в Discord</value>
   </data>
+  <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
+    <value>游戏文件管理/切换游戏服务器/注入功能需要管理员权限</value>
+  </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>Файлы</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
+    <value>修正角色/队伍配置/祈愿/纪行等特殊界面的视野</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
+    <value>特殊界面修正</value>
+  </data>
+  <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
+    <value>游戏启动后可以实时切换</value>
+  </data>
+  <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
+    <value>将消息模块注入游戏，以便实现一些高级但危险的功能</value>
+  </data>
+  <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
+    <value>注入</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
     <value>进程间</value>
@@ -2672,6 +2699,15 @@
   <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
     <value>Реестр Игры</value>
   </data>
+  <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
+    <value>队伍配置冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
+    <value>移除打开队伍配置界面时显示的进度条</value>
+  </data>
+  <data name="ViewPageLaunchGameRemoveOpenTeamProgressHeader" xml:space="preserve">
+    <value>移除队伍配置进度条</value>
+  </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
     <value>Пакет OTA</value>
   </data>
@@ -2717,11 +2753,26 @@
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
     <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
   </data>
+  <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
+    <value>视野冷开关</value>
+  </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
     <value>调整相机视野，默认 45</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHeader" xml:space="preserve">
     <value>调整视野</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovHotSwitchHeader" xml:space="preserve">
+    <value>视野热开关</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsHeader" xml:space="preserve">
+    <value>目标帧率</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
+    <value>帧率热开关</value>
+  </data>
+  <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
+    <value>将鼠标悬停在功能开关/文本框上查看详细说明</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率，将值设置为 -1 以表示无限制帧率</value>
@@ -2748,7 +2799,7 @@
     <value>Включено</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，不支持渠道服</value>
+    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，需要启用「启动参数」</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>使用 米游社 / HoYoLAB 用户登录</value>
