@@ -3227,6 +3227,9 @@
   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
     <value>Lainnya</value>
   </data>
+  <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
+    <value>名片</value>
+  </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>Pekerjaan</value>
   </data>
