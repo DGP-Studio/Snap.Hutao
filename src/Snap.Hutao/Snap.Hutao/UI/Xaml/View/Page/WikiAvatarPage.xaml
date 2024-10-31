@@ -647,7 +647,7 @@
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
-                                                        Header="名片"
+                                                        Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarNameCardHeader}"
                                                         IsExpanded="True">
                                                         <Grid DataContext="{Binding Avatars.CurrentItem.NameCardInfo}">
                                                             <Grid.RowDefinitions>
@@ -680,6 +680,7 @@
                                                                         Grid.Column="0"
                                                                         MaxHeight="80"
                                                                         Margin="20,0,0,0">
+                                                                        <!--  TODO: Replace with current user's game role  -->
                                                                         <Grid.RowDefinitions>
                                                                             <RowDefinition/>
                                                                             <RowDefinition/>
