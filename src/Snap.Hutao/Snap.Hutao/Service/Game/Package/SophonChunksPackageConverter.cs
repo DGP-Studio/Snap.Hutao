@@ -12,12 +12,13 @@ using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
+using Snap.Hutao.Web.Response;
 using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
