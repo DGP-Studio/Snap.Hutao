@@ -158,7 +158,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 continue;
             }
 
-            if (times.Count is 1 && times[0].Contains("永久开放", StringComparison.InvariantCulture))
+            if (times.Count is 1 && times[0].Contains(SH.ServiceAnnouncementPermanentKeyword, StringComparison.InvariantCulture))
             {
                 announcement.StartTime = ParseTime(times[0]);
                 continue;

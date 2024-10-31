@@ -4,23 +4,12 @@
 using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Announcement;
 
 internal static partial class AnnouncementHtmlVisitor
 {
-    private static readonly FrozenSet<string> ValidDescriptions = FrozenSet.ToFrozenSet(
-    [
-        "〓活动时间〓",
-        "〓任务开放时间〓",
-        "〓祈愿介绍〓",
-        "〓折扣时间〓",
-        "〓获取奖励时限〓",
-        "【上架时间】",
-    ]);
-
     public static async ValueTask<List<string>> VisitActivityAsync(IBrowsingContext context, string content)
     {
         IDocument document = await context.OpenAsync(rsp => rsp.Content(content)).ConfigureAwait(false);
@@ -29,7 +18,7 @@ internal static partial class AnnouncementHtmlVisitor
 
         return body.Children
             .Where(e => e is IHtmlParagraphElement)
-            .Where(e => ValidDescriptions.Any(d => e.TextContent.Contains(d, StringComparison.InvariantCulture)))
+            .Where(e => AnnouncementRegex.ValidDescriptionsRegex.IsMatch(e.TextContent))
             .Select(e => ParseElementToTimeStrings((IHtmlParagraphElement)e))
             .MaxBy(r => r.Count) ?? [];
 
@@ -38,7 +27,7 @@ internal static partial class AnnouncementHtmlVisitor
             string textContent = paragraph.TextContent.Trim();
 
             // All in span, special case
-            if (textContent.Contains("【上架时间】", StringComparison.CurrentCulture))
+            if (textContent.Contains(SH.ServiceAnnouncementAdventurersBoosterBundlesDurationDescription, StringComparison.CurrentCulture))
             {
                 return TimeOrVersionRegex().Matches(textContent).Select(r => r.Value).ToList();
             }
@@ -67,7 +56,7 @@ internal static partial class AnnouncementHtmlVisitor
                 continue;
             }
 
-            if (paragraph.TextContent is not "〓更新时间〓")
+            if (!paragraph.TextContent.Equals(SH.ServiceAnnouncementVersionUpdateTimeDescription, StringComparison.CurrentCulture))
             {
                 continue;
             }
@@ -81,6 +70,6 @@ internal static partial class AnnouncementHtmlVisitor
         return string.Empty;
     }
 
-    [GeneratedRegex(@"\d\.\d版本\S*|\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
+    [GeneratedRegex(@".*?\d\.\d.*?$|\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
     private static partial Regex TimeOrVersionRegex();
 }
