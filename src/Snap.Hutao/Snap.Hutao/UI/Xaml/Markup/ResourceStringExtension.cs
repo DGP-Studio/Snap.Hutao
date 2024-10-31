@@ -10,15 +10,15 @@ namespace Snap.Hutao.UI.Xaml.Markup;
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
 internal sealed partial class ResourceStringExtension : MarkupExtension
 {
-    private string? name;
+    private SHName name;
 
-    public string? Name { get => name; set => name = value is null ? null : string.Intern(value); }
+    public SHName Name { get => name; set => name = value; }
 
     public string? CultureName { get; set; }
 
     protected override object ProvideValue()
     {
         CultureInfo cultureInfo = CultureName is not null ? CultureInfo.GetCultureInfo(CultureName) : CultureInfo.CurrentCulture;
-        return SH.ResourceManager.GetString(Name ?? string.Empty, cultureInfo) ?? Name ?? string.Empty;
+        return SH.ResourceManager.GetString(string.Intern(Name.ToString()), cultureInfo) ?? string.Empty;
     }
 }
