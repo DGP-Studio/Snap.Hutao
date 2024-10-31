@@ -638,6 +638,131 @@
                                                     </Grid>
                                                 </cwc:ConstrainedBox>
 
+                                                <!--  名片  -->
+                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                    <Border.Resources>
+                                                        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
+                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
+                                                    </Border.Resources>
+                                                    <Expander
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Header="名片"
+                                                        IsExpanded="True">
+                                                        <Grid DataContext="{Binding Avatars.CurrentItem.NameCardInfo}">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="auto"/>
+                                                                <RowDefinition Height="auto"/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Border
+                                                                Grid.ColumnSpan="2"
+                                                                MaxHeight="120"
+                                                                CornerRadius="60"
+                                                                Style="{ThemeResource BorderCardStyle}">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="auto"/>
+                                                                        <ColumnDefinition/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <shuxci:CachedImage
+                                                                        Grid.ColumnSpan="2"
+                                                                        HorizontalAlignment="Right"
+                                                                        VerticalAlignment="Center"
+                                                                        Source="{Binding PicturePrefix, Converter={StaticResource AvatarNameCardPicAlphaConverter}}"
+                                                                        Stretch="Uniform"/>
+                                                                    <Grid
+                                                                        Grid.Column="0"
+                                                                        MaxHeight="80"
+                                                                        Margin="20,0,0,0">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition/>
+                                                                            <RowDefinition/>
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition/>
+                                                                            <ColumnDefinition/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <shuxci:CachedImage
+                                                                            Grid.RowSpan="2"
+                                                                            Grid.Column="0"
+                                                                            Source="https://api.snapgenshin.com/static/raw/AvatarIconCircle/UI_AvatarIcon_71045_Circle.png"
+                                                                            Stretch="Uniform"/>
+                                                                        <TextBlock
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="1"
+                                                                            Margin="16,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            FontSize="24"
+                                                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                                                            Text="Name"/>
+                                                                        <TextBlock
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="1"
+                                                                            Margin="16,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                                                            Text="Signature"/>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Border>
+
+                                                            <shuxci:CachedImage
+                                                                Grid.Row="1"
+                                                                Grid.RowSpan="2"
+                                                                Grid.ColumnSpan="2"
+                                                                Margin="0,16,0,0"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Source="{Binding PicturePrefix, Converter={StaticResource AvatarNameCardPicConverter}}"
+                                                                Stretch="Uniform"/>
+                                                            <Border
+                                                                Grid.Row="1"
+                                                                Grid.Column="0"
+                                                                Margin="16,32,0,0"
+                                                                Style="{ThemeResource BorderCardStyle}">
+                                                                <Grid Margin="16">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition/>
+                                                                        <RowDefinition/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition/>
+                                                                        <ColumnDefinition Width="auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <shuxc:ItemIcon
+                                                                        Grid.Row="0"
+                                                                        Grid.RowSpan="2"
+                                                                        Grid.Column="0"
+                                                                        Icon="{Binding Icon, Converter={StaticResource AvatarNameCardIconConverter}}"
+                                                                        Quality="QUALITY_PURPLE"/>
+                                                                    <TextBlock
+                                                                        Grid.Row="0"
+                                                                        Grid.Column="1"
+                                                                        Margin="16,0,0,0"
+                                                                        HorizontalAlignment="Left"
+                                                                        VerticalAlignment="Top"
+                                                                        Style="{ThemeResource BaseTextBlockStyle}"
+                                                                        Text="{Binding Name}"/>
+                                                                    <TextBlock
+                                                                        Grid.Row="1"
+                                                                        Grid.Column="1"
+                                                                        Margin="16,0,0,0"
+                                                                        HorizontalAlignment="Left"
+                                                                        VerticalAlignment="Bottom"
+                                                                        Text="{Binding Description}"
+                                                                        TextWrapping="Wrap"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </Grid>
+                                                    </Expander>
+                                                </Border>
+
                                                 <!--  料理  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>
