@@ -3086,7 +3086,7 @@
     <value>カスタム背景フォルダーを開く</value>
   </data>
   <data name="ViewPageSettingPackageConverterTypeHeader" xml:space="preserve">
-    <value>转换服务器模式</value>
+    <value>サーバモード変換（Compatibility）</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>リセット</value>
@@ -3228,6 +3228,9 @@
   </data>
   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
     <value>その他</value>
+  </data>
+  <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
+    <value>名片</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>所属</value>
