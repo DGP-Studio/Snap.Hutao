@@ -336,7 +336,7 @@
                                                 <ToggleSwitch
                                                     Grid.Column="1"
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                                    IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                                                    shuxc:ControlHelper.IsDisabled1="{Binding IsGameRunning}"
                                                     IsOn="{Binding LaunchOptions.IsIslandEnabled, Mode=TwoWay}"
                                                     Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
                                             </Grid>
@@ -346,7 +346,7 @@
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
                                                 <TextBlock
-                                                    Margin="2"
+                                                    Margin="6"
                                                     HorizontalAlignment="Center"
                                                     Style="{ThemeResource CaptionTextBlockStyle}"
                                                     Text="{shuxm:ResourceString Name=ViewPageLaunchGameTooltipDescriptionHint}"/>
@@ -395,7 +395,6 @@
                                                         shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
                                                         shuxc:ControlHelper.IsDisabled2="{Binding IsGameRunning}"
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovColdSwitchHeader}"
-                                                        IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
                                                         IsOn="{Binding LaunchOptions.HookingSetFieldOfView, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
 

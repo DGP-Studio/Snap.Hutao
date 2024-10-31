@@ -19,7 +19,7 @@
                     <Grid CornerRadius="{StaticResource ControlCornerRadius}">
                         <shuxci:CachedImage cw:FrameworkElementExtensions.AncestorType="shuxc:ItemIcon" Source="{Binding (cw:FrameworkElementExtensions.Ancestor).Quality, RelativeSource={RelativeSource Self}, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
                         <shuxci:CachedImage Source="{StaticResource UI_ImgSign_ItemIcon}"/>
-                        <shuxci:CachedImage Source="{TemplateBinding Icon}"/>
+                        <shuxci:CachedImage Opacity="{TemplateBinding IconOpacity}" Source="{TemplateBinding Icon}"/>
                         <shuxci:CachedImage
                             Margin="2"
                             HorizontalAlignment="Left"

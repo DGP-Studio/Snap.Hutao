@@ -132,14 +132,12 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
-        pIslandEnvironment->FieldOfView = options.TargetFov;
         pIslandEnvironment->EnableSetFieldOfView = options.IsSetFieldOfViewEnabled;
+        pIslandEnvironment->FieldOfView = options.TargetFov;
         pIslandEnvironment->FixLowFovScene = options.FixLowFovScene;
         pIslandEnvironment->DisableFog = options.DisableFog;
-
-        pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->EnableSetTargetFrameRate = options.IsSetTargetFrameRateEnabled;
-
+        pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
