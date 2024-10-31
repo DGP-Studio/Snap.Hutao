@@ -121,9 +121,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
         pIslandEnvironment->FunctionOffsets = offsets;
-        pIslandEnvironment->HookingSetFieldOfView = true;
-        pIslandEnvironment->HookingOpenTeam = true;
-        pIslandEnvironment->HookingMickyWonderPartner2 = true;
+        pIslandEnvironment->HookingSetFieldOfView = options.HookingSetFieldOfView;
+        pIslandEnvironment->HookingOpenTeam = options.HookingOpenTeam;
+        pIslandEnvironment->HookingMickyWonderPartner2 = options.HookingMickyWonderPartner2;
 
         UpdateIslandEnvironment(handle, options);
     }
@@ -133,10 +133,14 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
         pIslandEnvironment->FieldOfView = options.TargetFov;
+        pIslandEnvironment->EnableSetFieldOfView = options.IsSetFieldOfViewEnabled;
         pIslandEnvironment->FixLowFovScene = options.FixLowFovScene;
-        pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->DisableFog = options.DisableFog;
-        pIslandEnvironment->RemoveOpenTeamProgress = true || options.RemoveOpenTeamProgress;
+
+        pIslandEnvironment->TargetFrameRate = options.TargetFps;
+        pIslandEnvironment->EnableSetTargetFrameRate = options.IsSetTargetFrameRateEnabled;
+
+        pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }
