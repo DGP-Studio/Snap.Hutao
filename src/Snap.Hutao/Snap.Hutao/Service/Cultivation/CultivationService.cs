@@ -113,19 +113,19 @@ internal sealed partial class CultivationService : ICultivationService
 
     public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
     {
-        await taskContext.SwitchToBackgroundAsync();
-        cultivationRepository.RemoveCultivateEntryById(entryId);
-
         // Invalidate cache
         entryCollectionCache.TryRemove(cultivationRepository.GetCultivateProjectIdByEntryId(entryId), out _);
+
+        await taskContext.SwitchToBackgroundAsync();
+        cultivationRepository.RemoveCultivateEntryById(entryId);
     }
 
     public void SaveCultivateItem(CultivateItemView item)
     {
-        cultivationRepository.UpdateCultivateItem(item.Entity);
-
         // Invalidate cache
         entryCollectionCache.TryRemove(cultivationRepository.GetCultivateProjectIdByEntryId(item.Entity.EntryId), out _);
+
+        cultivationRepository.UpdateCultivateItem(item.Entity);
     }
 
     public async ValueTask<ConsumptionSaveResultKind> SaveConsumptionAsync(InputConsumption inputConsumption)
