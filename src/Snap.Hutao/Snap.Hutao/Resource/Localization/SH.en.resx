@@ -3084,7 +3084,7 @@
     <value>Open Background Folder</value>
   </data>
   <data name="ViewPageSettingPackageConverterTypeHeader" xml:space="preserve">
-    <value>转换服务器模式</value>
+    <value>Convert Server Mode</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Reset</value>
@@ -3226,6 +3226,9 @@
   </data>
   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
     <value>Other</value>
+  </data>
+  <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
+    <value>名片</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>Occupation</value>
