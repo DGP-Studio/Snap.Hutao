@@ -1,12 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
@@ -25,7 +27,8 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution,
+    IRecipient<LaunchExecutionProcessStatusChangedMessage>
 {
     private readonly GamePackageInstallViewModel gamePackageInstallViewModel;
     private readonly GamePackageViewModel gamePackageViewModel;
@@ -63,6 +66,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public GamePackageInstallViewModel GamePackageInstallViewModel { get => gamePackageInstallViewModel; }
 
     public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
+
+    public bool IsGameRunning { get => gameService.IsGameRunning(); }
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
@@ -159,6 +164,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         GamePathEntries = gamePathEntries;
         SelectedGamePathEntry = selectedEntry;
+    }
+
+    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
+    {
+        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(IsGameRunning)));
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()

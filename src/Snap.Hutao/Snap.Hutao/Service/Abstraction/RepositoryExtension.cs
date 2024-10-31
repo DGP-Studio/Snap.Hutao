@@ -63,6 +63,12 @@ internal static class RepositoryExtension
         return repository.Query(query => query.Single(predicate));
     }
 
+    public static TResult Single<TEntity, TResult>(this IRepository<TEntity> repository, Func<IQueryable<TEntity>, IQueryable<TResult>> query)
+        where TEntity : class
+    {
+        return repository.Query(query1 => query(query1).Single());
+    }
+
     public static TEntity? SingleOrDefault<TEntity>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate)
         where TEntity : class
     {

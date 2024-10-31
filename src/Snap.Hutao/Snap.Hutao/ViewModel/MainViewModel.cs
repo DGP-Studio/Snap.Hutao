@@ -47,7 +47,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
 
     private void OnAppOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(AppOptions.BackgroundImageType))
+        if (e.PropertyName is nameof(AppOptions.BackgroundImageType))
         {
             _ = UpdateBackgroundCoreAsync(false);
         }

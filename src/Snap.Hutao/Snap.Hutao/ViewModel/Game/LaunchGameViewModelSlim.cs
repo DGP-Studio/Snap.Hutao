@@ -1,8 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -15,12 +17,14 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
+internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution,
+    IRecipient<LaunchExecutionProcessStatusChangedMessage>
 {
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
+    private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -31,9 +35,18 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
 
+    public LaunchOptions LaunchOptions { get => launchOptions; }
+
+    public bool IsGameRunning { get => gameService.IsGameRunning(); }
+
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
+
+    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
+    {
+        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(IsGameRunning)));
+    }
 
     protected override async Task LoadAsync()
     {

@@ -28,7 +28,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private readonly string dataFolderIslandPath;
     private readonly string gameVersion;
 
-    private IslandFunctionOffsets? offsets;
+    private IslandFunctionOffsets offsets;
     private int accumulatedBadStateCount;
 
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, string gameVersion)
@@ -93,7 +93,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                             }
 
                             IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
-                            context.Logger.LogDebug("Island Environment|{State}|{Error}|Fov:{Value1}|Team: {Value2}", view.State, view.LastError, view.DebugOriginalFieldOfView, view.DebugOpenTeamCount);
 
                             if (view.State is IslandState.None or IslandState.Stopped)
                             {
@@ -121,14 +120,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
-        pIslandEnvironment->FunctionOffsetMickeyWonderMethod = offsets.FunctionOffsetMickeyWonderMethod;
-        pIslandEnvironment->FunctionOffsetMickeyWonderMethodPartner = offsets.FunctionOffsetMickeyWonderMethodPartner;
-        pIslandEnvironment->FunctionOffsetSetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
-        pIslandEnvironment->FunctionOffsetSetEnableFogRendering = offsets.FunctionOffsetSetEnableFogRendering;
-        pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
-        pIslandEnvironment->FunctionOffsetOpenTeam = offsets.FunctionOffsetOpenTeam;
-        pIslandEnvironment->FunctionOffsetOpenTeamPageAccordingly = offsets.FunctionOffsetOpenTeamPageAccordingly;
-        pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
+        pIslandEnvironment->FunctionOffsets = offsets;
+        pIslandEnvironment->HookingSetFieldOfView = options.HookingSetFieldOfView;
+        pIslandEnvironment->HookingOpenTeam = options.HookingOpenTeam;
+        pIslandEnvironment->HookingMickyWonderPartner2 = options.HookingMickyWonderPartner2;
 
         UpdateIslandEnvironment(handle, options);
     }
@@ -137,11 +132,13 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
+        pIslandEnvironment->EnableSetFieldOfView = options.IsSetFieldOfViewEnabled;
         pIslandEnvironment->FieldOfView = options.TargetFov;
         pIslandEnvironment->FixLowFovScene = options.FixLowFovScene;
-        pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->DisableFog = options.DisableFog;
-        pIslandEnvironment->RemoveOpenTeamProgress = true || options.RemoveOpenTeamProgress;
+        pIslandEnvironment->EnableSetTargetFrameRate = options.IsSetTargetFrameRateEnabled;
+        pIslandEnvironment->TargetFrameRate = options.TargetFps;
+        pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }

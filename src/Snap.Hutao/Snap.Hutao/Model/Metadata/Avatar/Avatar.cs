@@ -81,10 +81,12 @@ internal partial class Avatar : INameQualityAccess,
         return CalculableAvatar.From(this);
     }
 
-    public Model.Item ToItem()
+    public TItem ToItem<TItem>()
+        where TItem : Model.Item, new()
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
@@ -96,6 +98,7 @@ internal partial class Avatar : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
@@ -109,6 +112,7 @@ internal partial class Avatar : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),

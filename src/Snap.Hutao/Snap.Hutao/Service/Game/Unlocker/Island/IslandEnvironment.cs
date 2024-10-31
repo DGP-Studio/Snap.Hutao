@@ -10,21 +10,16 @@ internal struct IslandEnvironment
     public IslandState State;
     public WIN32_ERROR LastError;
 
+    public IslandFunctionOffsets FunctionOffsets;
+
+    public BOOL HookingSetFieldOfView;
+    public BOOL EnableSetFieldOfView;
     public float FieldOfView;
+    public BOOL FixLowFovScene;
+    public BOOL DisableFog;
+    public BOOL EnableSetTargetFrameRate;
     public int TargetFrameRate;
-    public bool DisableFog;
-    public bool FixLowFovScene;
-    public bool RemoveOpenTeamProgress;
-    public bool LoopAdjustFpsOnly;
-
-    public uint FunctionOffsetMickeyWonderMethod;
-    public uint FunctionOffsetMickeyWonderMethodPartner;
-    public uint FunctionOffsetSetFieldOfView;
-    public uint FunctionOffsetSetEnableFogRendering;
-    public uint FunctionOffsetSetTargetFrameRate;
-    public uint FunctionOffsetOpenTeam;
-    public uint FunctionOffsetOpenTeamPageAccordingly;
-
-    public float DebugOriginalFieldOfView;
-    public int DebugOpenTeamCount;
+    public BOOL HookingOpenTeam;
+    public BOOL RemoveOpenTeamProgress;
+    public BOOL HookingMickyWonderPartner2;
 }

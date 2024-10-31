@@ -170,7 +170,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
 
             ObservableCollection<CultivateEntryView> entries = await cultivationService
-                .GetCultivateEntriesAsync(project, context)
+                .GetCultivateEntryCollectionAsync(project, context)
                 .ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();

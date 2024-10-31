@@ -20,6 +20,7 @@
     BorderBrush="{x:Null}"
     BorderThickness="0"
     Command="{Binding LaunchCommand}"
+    IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
@@ -66,7 +67,8 @@
                 Grid.Row="2"
                 Grid.ColumnSpan="3"
                 VerticalAlignment="Bottom"
-                Spacing="8">
+                Spacing="8"
+                Visibility="{Binding LaunchOptions.UsingHoyolabAccount, Converter={StaticResource BoolToVisibilityRevertConverter}}">
                 <TextBlock
                     Opacity="0.7"
                     Style="{StaticResource CaptionTextBlockStyle}"

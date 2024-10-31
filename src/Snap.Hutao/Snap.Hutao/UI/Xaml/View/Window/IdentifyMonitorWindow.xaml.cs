@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.Service;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -15,9 +17,9 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         Monitor = $"{displayArea.DisplayId.Value:X8}:{index}";
 
         OverlappedPresenter presenter = OverlappedPresenter.Create();
-        presenter.SetBorderAndTitleBar(false, false);
         presenter.IsAlwaysOnTop = true;
         presenter.IsResizable = false;
+        presenter.SetBorderAndTitleBar(false, false);
         AppWindow.SetPresenter(presenter);
 
         PointInt32 point = new(40, 32);

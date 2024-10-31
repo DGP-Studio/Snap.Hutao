@@ -26,7 +26,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
         LaunchOptions launchOptions = context.Options;
 
         string commandLine = string.Empty;
-        if (launchOptions.IsEnabled)
+        if (launchOptions.AreCommandLineArgumentsEnabled)
         {
             // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
             // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html

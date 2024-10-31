@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -110,6 +111,13 @@ public sealed class JsonSerializeTest
         Assert.AreEqual(result, "{}");
     }
 
+    [TestMethod]
+    public void StructCanDeserialize()
+    {
+        SampleStruct sample = JsonSerializer.Deserialize<SampleStruct>(SampleObjectJson);
+        Assert.AreEqual(sample.A, 1);
+    }
+
     private sealed class SampleDelegatePropertyClass
     {
         public int A { get => B; set => B = value; }
@@ -160,5 +168,11 @@ public sealed class JsonSerializeTest
         {
             return JsonSerializer.Serialize(this);
         }
+    }
+
+    private struct SampleStruct
+    {
+        [JsonInclude]
+        public int A;
     }
 }

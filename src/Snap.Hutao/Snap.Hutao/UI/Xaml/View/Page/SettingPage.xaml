@@ -649,38 +649,21 @@
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
                                 <TextBlock
+                                    Margin="1,0,0,0"
                                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                     Style="{StaticResource SettingsCardHeaderTextBlockStyle}"
                                     Text="{shuxm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
+                                <TextBlock
+                                    Margin="1,0,0,5"
+                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{shuxm:ResourceString Name=ViewPageSettingDangerousHint}"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewSettingAllocConsoleDescription}"
                                     Header="{shuxm:ResourceString Name=ViewSettingAllocConsoleHeader}"
                                     HeaderIcon="{cw:FontIcon Glyph=&#xE756;}">
                                     <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
                                 </cwc:SettingsCard>
-                                <cwc:SettingsExpander
-                                    shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding RuntimeOptions.IsElevated}"
-                                    Header="{shuxm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
-                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE730;}"
-                                    IsEnabled="{Binding RuntimeOptions.IsElevated}"
-                                    IsExpanded="True">
-                                    <cwc:SettingsExpander.Description>
-                                        <StackPanel>
-                                            <TextBlock
-                                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                                Text="{shuxm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
-                                                Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                        </StackPanel>
-                                    </cwc:SettingsExpander.Description>
-                                    <StackPanel Orientation="Horizontal">
-                                        <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                        <ToggleSwitch Width="120" IsOn="{Binding IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <cwc:SettingsExpander.Items>
-                                        <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription}" Header="{shuxm:ResourceString Name=ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader}"/>
-                                    </cwc:SettingsExpander.Items>
-                                </cwc:SettingsExpander>
                                 <cwc:SettingsCard
                                     ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingDangerousAction}"
                                     Command="{Binding DeleteUsersCommand}"
@@ -689,7 +672,7 @@
                                     IsClickEnabled="True">
                                     <cwc:SettingsCard.Description>
                                         <StackPanel>
-                                            <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{shuxm:ResourceString Name=ViewPageSettingDangerousHint}"/>
+
                                             <TextBlock Text="{shuxm:ResourceString Name=ViewPageSettingDeleteUserDescription}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard.Description>

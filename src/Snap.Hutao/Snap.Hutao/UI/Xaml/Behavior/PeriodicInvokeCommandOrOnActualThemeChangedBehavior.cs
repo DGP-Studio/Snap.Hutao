@@ -16,8 +16,6 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
     private CancellationTokenSource acutalThemeChangedCts = new();
     private CancellationTokenSource periodicTimerStopCts = new();
 
-    private bool shouldReactToActualThemeChange;
-
     protected override bool Initialize()
     {
         AssociatedObject.ActualThemeChanged += OnActualThemeChanged;

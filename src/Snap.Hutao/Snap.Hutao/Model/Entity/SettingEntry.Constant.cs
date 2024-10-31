@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Graphics.Canvas.Brushes;
+
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>
@@ -35,9 +37,7 @@ internal sealed partial class SettingEntry
     public const string DailyNoteSilentWhenPlayingGame = "DailyNote.SilentWhenPlayingGame";
     public const string DailyNoteWebhookUrl = "DailyNote.WebhookUrl";
 
-    public const string IsAdvancedLaunchOptionsEnabled = "IsAdvancedLaunchOptionsEnabled";
-
-    public const string LaunchIsLaunchOptionsEnabled = "Launch.IsLaunchOptionsEnabled";
+    public const string LaunchAreCommandLineArgumentsEnabled = "Launch.IsLaunchOptionsEnabled";
     public const string LaunchIsExclusive = "Launch.IsExclusive";
     public const string LaunchIsFullScreen = "Launch.IsFullScreen";
     public const string LaunchIsBorderless = "Launch.IsBorderless";
@@ -45,13 +45,17 @@ internal sealed partial class SettingEntry
     public const string LaunchIsScreenWidthEnabled = "Launch.IsScreenWidthEnabled";
     public const string LaunchScreenHeight = "Launch.ScreenHeight";
     public const string LaunchIsScreenHeightEnabled = "Launch.IsScreenHeightEnabled";
-    public const string LaunchUnlockFps = "Launch.UnlockFps";
-    public const string LaunchTargetFps = "Launch.TargetFps";
+    public const string LaunchIsIslandEnabled = "Launch.UnlockFps";
+    public const string LaunchHookingSetFieldOfView = "Launch.HookingSetFieldOfView";
+    public const string LaunchIsSetFieldOfViewEnabled = "Launch.IsSetFieldOfViewEnabled";
     public const string LaunchTargetFov = "Launch.TargetFov";
     public const string LaunchFixLowFovScene = "Launch.FixLowFovScene";
     public const string LaunchDisableFog = "Launch.DisableFog";
+    public const string LaunchIsSetTargetFrameRateEnabled = "Launch.IsSetTargetFrameRateEnabled";
+    public const string LaunchTargetFps = "Launch.TargetFps";
+    public const string LaunchHookingOpenTeam = "Launch.HookingOpenTeam";
     public const string LaunchRemoveOpenTeamProgress = "Launch.RemoveOpenTeamProgress";
-    public const string LaunchLoopAdjustFpsOnly = "Launch.LoopAdjustFpsOnly";
+    public const string LaunchHookingMickyWonderPartner2 = "Launch.HookingMickyWonderPartner2";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
     public const string LaunchUsingCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
@@ -69,4 +73,10 @@ internal sealed partial class SettingEntry
 
     [Obsolete("不再使用 PowerShell")]
     public const string PowerShellPath = "PowerShellPath";
+
+    [Obsolete("不再要求智力测试")]
+    public const string IsAdvancedLaunchOptionsEnabled = "IsAdvancedLaunchOptionsEnabled";
+
+    [Obsolete("不再使用此名称")]
+    public const string LaunchLoopAdjustFpsOnly = "Launch.LoopAdjustFpsOnly";
 }
