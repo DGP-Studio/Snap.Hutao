@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Item;
 
 internal static class MaterialIds
 {
-    private static readonly ImmutableArray<RotationalMaterialIdEntry> entries =
+    private static readonly ImmutableArray<RotationalMaterialIdEntry> Entries =
     [
         new(DaysOfWeek.MondayAndThursday, 104301U, 104302U, 104303U), // 「自由」
         new(DaysOfWeek.MondayAndThursday, 104310U, 104311U, 104312U), // 「繁荣」
@@ -50,17 +50,17 @@ internal static class MaterialIds
         new(DaysOfWeek.WednesdayAndSaturday, 114069U, 114070U, 114071U, 114072U), // 神合秘烟
     ];
 
-    public static FrozenSet<MaterialId> MondayThursdayItems { get; } = entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.MondayAndThursday).SelectMany(entry => entry.Enumerate()).ToFrozenSet();
+    public static FrozenSet<MaterialId> MondayThursdayItems { get; } = Entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.MondayAndThursday).SelectMany(entry => entry.Enumerate()).ToFrozenSet();
 
-    public static FrozenSet<RotationalMaterialIdEntry> MondayThursdayEntries { get; } = entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.MondayAndThursday).ToFrozenSet();
+    public static FrozenSet<RotationalMaterialIdEntry> MondayThursdayEntries { get; } = Entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.MondayAndThursday).ToFrozenSet();
 
-    public static FrozenSet<MaterialId> TuesdayFridayItems { get; } = entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.TuesdayAndFriday).SelectMany(entry => entry.Enumerate()).ToFrozenSet();
+    public static FrozenSet<MaterialId> TuesdayFridayItems { get; } = Entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.TuesdayAndFriday).SelectMany(entry => entry.Enumerate()).ToFrozenSet();
 
-    public static FrozenSet<RotationalMaterialIdEntry> TuesdayFridayEntries { get; } = entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.TuesdayAndFriday).ToFrozenSet();
+    public static FrozenSet<RotationalMaterialIdEntry> TuesdayFridayEntries { get; } = Entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.TuesdayAndFriday).ToFrozenSet();
 
-    public static FrozenSet<MaterialId> WednesdaySaturdayItems { get; } = entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.WednesdayAndSaturday).SelectMany(entry => entry.Enumerate()).ToFrozenSet();
+    public static FrozenSet<MaterialId> WednesdaySaturdayItems { get; } = Entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.WednesdayAndSaturday).SelectMany(entry => entry.Enumerate()).ToFrozenSet();
 
-    public static FrozenSet<RotationalMaterialIdEntry> WednesdaySaturdayEntries { get; } = entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.WednesdayAndSaturday).ToFrozenSet();
+    public static FrozenSet<RotationalMaterialIdEntry> WednesdaySaturdayEntries { get; } = Entries.Where(entry => entry.DaysOfWeek is DaysOfWeek.WednesdayAndSaturday).ToFrozenSet();
 
     public static DaysOfWeek GetDaysOfWeek(MaterialId id)
     {

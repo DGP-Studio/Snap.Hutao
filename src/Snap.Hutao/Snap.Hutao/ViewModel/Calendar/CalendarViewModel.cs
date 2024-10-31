@@ -13,7 +13,9 @@ using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
@@ -110,10 +112,34 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             yield return new()
             {
                 Inner = material,
+                InnerEntry = entry,
                 Items = [.. context.MaterialItems[entry.Highest].OrderByDescending(i => i.Quality)],
                 Highlight = false,
             };
         }
+    }
+
+    private static Void InitializeHighlightItems(ImmutableArray<CalendarMaterial> materials, CultivateEntryView view)
+    {
+        foreach (ref readonly CalendarMaterial material in materials.AsSpan())
+        {
+            if (material.InnerEntry.Set.IsSupersetOf(view.RotationalItemIds))
+            {
+                material.Highlight = true;
+                foreach (ref readonly CalendarItem item in material.Items.AsSpan())
+                {
+                    if (view.Id == item.Id)
+                    {
+                        item.Highlight = true;
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        return default;
     }
 
     private async ValueTask<AdvancedCollectionView<CalendarDay>> CreateWeekDays()
@@ -127,12 +153,27 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             MetadataContext = metadataContext,
             AvatarBirthdays = avatarBirthdays,
             MaterialItems = materialItems,
-            CultivateEntryViews = await cultivationService.GetCultivateEntryCollectionForCurrentProjectAsync(metadataContext).ConfigureAwait(false),
         };
 
         ImmutableArray<CalendarMaterial> materials14 = [.. EnumerateMaterials(MaterialIds.MondayThursdayEntries, context2).OrderBy(m => (uint)m.Inner.Id)];
         ImmutableArray<CalendarMaterial> materials25 = [.. EnumerateMaterials(MaterialIds.TuesdayFridayEntries, context2).OrderBy(m => (uint)m.Inner.Id)];
         ImmutableArray<CalendarMaterial> materials36 = [.. EnumerateMaterials(MaterialIds.WednesdaySaturdayEntries, context2).OrderBy(m => (uint)m.Inner.Id)];
+
+        ObservableCollection<CultivateEntryView>? entries = await cultivationService.GetCultivateEntryCollectionForCurrentProjectAsync(metadataContext).ConfigureAwait(false);
+        if (entries is not null)
+        {
+            foreach (CultivateEntryView view in entries)
+            {
+                _ = view.DaysOfWeek switch
+                {
+                    DaysOfWeek.MondayAndThursday => InitializeHighlightItems(materials14, view),
+                    DaysOfWeek.TuesdayAndFriday => InitializeHighlightItems(materials25, view),
+                    DaysOfWeek.WednesdayAndSaturday => InitializeHighlightItems(materials36, view),
+                    _ => default,
+                };
+            }
+        }
+
         Dictionary<DayOfWeek, ImmutableArray<CalendarMaterial>> dailyMaterials = new()
         {
             [DayOfWeek.Monday] = materials14,

@@ -35,7 +35,7 @@ internal sealed partial class CultivationService : ICultivationService
 
     public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntryCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context)
     {
-        using (entryCollectionLock.LockAsync())
+        using (await entryCollectionLock.LockAsync().ConfigureAwait(false))
         {
             if (entryCollectionCache.TryGetValue(cultivateProject.InnerId, out ObservableCollection<CultivateEntryView>? collection))
             {
@@ -229,7 +229,7 @@ internal sealed partial class CultivationService : ICultivationService
         cultivationRepository.RemoveCultivateProjectById(project.InnerId);
     }
 
-    private async ValueTask<bool> EnsureCurrentProjectAsync()
+    public async ValueTask<bool> EnsureCurrentProjectAsync()
     {
         if (Projects.CurrentItem is null)
         {

@@ -75,6 +75,7 @@ internal sealed partial class Weapon : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),
@@ -86,6 +87,7 @@ internal sealed partial class Weapon : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),
@@ -98,6 +100,7 @@ internal sealed partial class Weapon : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),

@@ -86,6 +86,7 @@ internal partial class Avatar : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
@@ -97,6 +98,7 @@ internal partial class Avatar : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
@@ -110,6 +112,7 @@ internal partial class Avatar : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),

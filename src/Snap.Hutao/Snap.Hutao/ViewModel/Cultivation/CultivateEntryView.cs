@@ -3,6 +3,9 @@
 
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 using System.Text;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
@@ -21,7 +24,8 @@ internal sealed class CultivateEntryView : Item
 
         Description = ParseDescription(entry);
         IsToday = items.Any(i => i.IsToday);
-        DaysOfWeek = items.FirstOrDefault(i => i.DaysOfWeek != DaysOfWeek.Any)?.DaysOfWeek ?? DaysOfWeek.Any;
+        RotationalItemIds = items.Where(i => i.DaysOfWeek is not DaysOfWeek.Any).Select(i => i.Inner.Id).ToImmutableArray();
+        DaysOfWeek = MaterialIds.GetDaysOfWeek(RotationalItemIds.FirstOrDefault());
 
         static string ParseDescription(CultivateEntry entry)
         {
@@ -78,15 +82,15 @@ internal sealed class CultivateEntryView : Item
         }
     }
 
-    public List<CultivateItemView> Items { get; set; } = default!;
+    public List<CultivateItemView> Items { get; set; }
+
+    public ImmutableArray<MaterialId> RotationalItemIds { get; }
 
     public bool IsToday { get; }
 
     public DaysOfWeek DaysOfWeek { get; }
 
     public string Description { get; }
-
-    internal uint Id { get; set; }
 
     internal Guid EntryId { get; set; }
 }
