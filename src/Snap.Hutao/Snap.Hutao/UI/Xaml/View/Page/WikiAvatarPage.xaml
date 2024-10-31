@@ -649,7 +649,7 @@
                                                         HorizontalContentAlignment="Stretch"
                                                         Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarNameCardHeader}"
                                                         IsExpanded="True">
-                                                        <Grid DataContext="{Binding Avatars.CurrentItem.NameCardInfo}">
+                                                        <Grid DataContext="{Binding Avatars.CurrentItem.NameCard}">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="auto"/>
                                                                 <RowDefinition Height="auto"/>

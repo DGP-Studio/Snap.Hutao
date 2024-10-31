@@ -48,7 +48,7 @@ internal sealed class SummaryAvatarFactory
             .SetId(avatar.Id)
             .SetName(avatar.Name)
             .SetQuality(avatar.Quality)
-            .SetNameCard(AvatarNameCardPicConverter.IconNameToUri(avatar.NameCardInfo.PicturePrefix))
+            .SetNameCard(AvatarNameCardPicConverter.IconNameToUri(avatar.NameCard.PicturePrefix))
             .SetElement(ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore))
             .SetConstellations(avatar.SkillDepot.Talents, activatedConstellations)
             .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents(), character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
