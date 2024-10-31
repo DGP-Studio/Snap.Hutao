@@ -7,6 +7,11 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionEnsureGameNotRunningHandler : ILaunchExecutionDelegateHandler
 {
+    public static bool IsGameRunning()
+    {
+        return IsGameRunning(out _);
+    }
+
     public static bool IsGameRunning([NotNullWhen(true)] out Process? runningProcess)
     {
         int currentSessionId = Process.GetCurrentProcess().SessionId;

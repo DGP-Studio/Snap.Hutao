@@ -23,7 +23,13 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
         }
         finally
         {
+            SpinWaitGameRunning();
             context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
         }
+    }
+
+    private static unsafe void SpinWaitGameRunning()
+    {
+        SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
     }
 }
