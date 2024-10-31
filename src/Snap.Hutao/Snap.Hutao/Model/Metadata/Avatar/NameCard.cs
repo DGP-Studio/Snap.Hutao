@@ -3,12 +3,8 @@
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-internal sealed class NameCard
+internal sealed class NameCard : NameDescription
 {
-    public string Name { get; set; } = default!;
-
-    public string Description { get; set; } = default!;
-
     public string Icon { get; set; } = default!;
 
     public string PicturePrefix { get; set; } = default!;
