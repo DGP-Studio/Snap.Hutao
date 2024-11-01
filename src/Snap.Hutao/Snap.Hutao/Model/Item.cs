@@ -7,13 +7,13 @@ namespace Snap.Hutao.Model;
 
 internal class Item : INameIcon
 {
-    public string Name { get; set; } = default!;
+    public string Name { get; init; } = default!;
 
-    public Uri Icon { get; set; } = default!;
+    public Uri Icon { get; init; } = default!;
 
-    public Uri Badge { get; set; } = default!;
+    public Uri Badge { get; init; } = default!;
 
-    public QualityType Quality { get; set; }
+    public QualityType Quality { get; init; }
 
-    internal uint Id { get; set; }
+    internal uint Id { get; init; }
 }

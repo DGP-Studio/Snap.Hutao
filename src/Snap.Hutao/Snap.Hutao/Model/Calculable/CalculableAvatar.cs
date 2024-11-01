@@ -55,7 +55,6 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v));
     }
 
-    /// <inheritdoc/>
     public uint LevelTarget
     {
         get => LocalSetting.Get(SettingKeys.CultivationAvatarLevelTarget, LevelMax);

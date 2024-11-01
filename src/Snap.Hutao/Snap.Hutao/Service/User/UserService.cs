@@ -1,8 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -19,6 +21,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 {
     private readonly IProfilePictureService profilePictureService;
     private readonly IUserCollectionService userCollectionService;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IUserRepository userRepository;
     private readonly ITaskContext taskContext;
@@ -41,34 +44,40 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
     public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie)
     {
-        await taskContext.SwitchToBackgroundAsync();
-        (Cookie cookie, bool _, string? deviceFp) = inputCookie;
+        ContentDialog dialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ServiceUserProcessInputCookieDialogTitle)
+            .ConfigureAwait(false);
 
-        string? mid = cookie.GetValueOrDefault(Cookie.MID);
-
-        if (string.IsNullOrEmpty(mid))
+        using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
-            return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
+            await taskContext.SwitchToBackgroundAsync();
+            (Cookie cookie, bool _, string? deviceFp) = inputCookie;
+
+            string? mid = cookie.GetValueOrDefault(Cookie.MID);
+
+            if (string.IsNullOrEmpty(mid))
+            {
+                return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
+            }
+
+            if (await this.GetUserByMidAsync(mid).ConfigureAwait(false) is not { } user)
+            {
+                return await userCollectionService.TryCreateAndAddUserFromInputCookieAsync(inputCookie).ConfigureAwait(false);
+            }
+
+            if (!cookie.TryGetSToken(out Cookie? stoken))
+            {
+                return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
+            }
+
+            user.SToken = stoken;
+            user.LToken = cookie.TryGetLToken(out Cookie? ltoken) ? ltoken : user.LToken;
+            user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
+            user.TryUpdateFingerprint(deviceFp);
+
+            userRepository.UpdateUser(user.Entity);
+            return new(UserOptionResult.CookieUpdated, mid);
         }
-
-        // 检查 mid 对应用户是否存在
-        if (await this.GetUserByMidAsync(mid).ConfigureAwait(false) is not { } user)
-        {
-            return await userCollectionService.TryCreateAndAddUserFromInputCookieAsync(inputCookie).ConfigureAwait(false);
-        }
-
-        if (!cookie.TryGetSToken(out Cookie? stoken))
-        {
-            return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
-        }
-
-        user.SToken = stoken;
-        user.LToken = cookie.TryGetLToken(out Cookie? ltoken) ? ltoken : user.LToken;
-        user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
-        user.TryUpdateFingerprint(deviceFp);
-
-        userRepository.UpdateUser(user.Entity);
-        return new(UserOptionResult.CookieUpdated, mid);
     }
 
     public async ValueTask<bool> RefreshCookieTokenAsync(EntityUser user)
