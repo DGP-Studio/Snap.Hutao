@@ -670,6 +670,15 @@
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
   </data>
+  <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
+    <value>[Listing Time]</value>
+  </data>
+  <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
+    <value>Open forever</value>
+  </data>
+  <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
+    <value>Train update time</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
     <comment>Need EXACT same string in game</comment>
