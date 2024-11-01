@@ -191,7 +191,16 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     public bool AreCommandLineArgumentsEnabled
     {
         get => GetOption(ref areCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, true);
-        set => SetOption(ref areCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, value);
+        set
+        {
+            if (SetOption(ref areCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, value))
+            {
+                if (!value)
+                {
+                    UsingHoyolabAccount = false;
+                }
+            }
+        }
     }
 
     public bool IsFullScreen

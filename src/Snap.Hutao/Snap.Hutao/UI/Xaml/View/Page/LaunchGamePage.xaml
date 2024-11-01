@@ -530,8 +530,7 @@
                                     <cwc:SettingsCard
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountHeader}"
-                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
-                                        IsEnabled="{Binding LaunchOptions.AreCommandLineArgumentsEnabled}">
+                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}">
                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingHoyolabAccount, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard
