@@ -102,7 +102,7 @@
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ServiceAnnouncementMatchValidDescriptions" xml:space="preserve">
-    <value>〓活动时间〓|〓任务开放时间〓|〓祈愿介绍〓|〓折扣时间〓|〓获取奖励时限〓|【上架时间】</value>
+    <value>〓活動時間〓|〓任務開放時間〓|〓祈願介紹〓|〓折扣時間〓|〓獲取獎勵時限〓|【上架時間】</value>
   </data>
   <data name="ServiceAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
     <value>將於&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;進行版本更新維護</value>
