@@ -48,12 +48,11 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Margin="0,12">
-                    <TextBlock Text="{Binding Name}"/>
-                    <TextBlock
-                        Opacity="0.8"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding AttachUid, TargetNullValue={shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
+                <StackPanel
+                    Grid.Column="0"
+                    Margin="0,16"
+                    VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
                 </StackPanel>
                 <StackPanel
                     x:Name="ButtonPanel"
@@ -61,7 +60,7 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     <Button
-                        MinWidth="48"
+                        MinWidth="35.2"
                         Margin="4,8"
                         VerticalAlignment="Stretch"
                         Command="{Binding DataContext.ModifyGameAccountCommand, Source={StaticResource BindingProxy}}"
@@ -70,7 +69,7 @@
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountRenameToolTip}"/>
                     <Button
-                        MinWidth="48"
+                        MinWidth="35.2"
                         Margin="4,8,0,8"
                         VerticalAlignment="Stretch"
                         Command="{Binding DataContext.RemoveGameAccountCommand, Source={StaticResource BindingProxy}}"
@@ -530,7 +529,8 @@
                                     <cwc:SettingsCard
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameUseHoyolabAccountHeader}"
-                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}">
+                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE748;}"
+                                        IsEnabled="{Binding LaunchOptions.AreCommandLineArgumentsEnabled}">
                                         <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingHoyolabAccount, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard
