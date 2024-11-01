@@ -671,13 +671,13 @@
     <value>單個成就存檔內發現多個相同的成就 Id</value>
   </data>
   <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
-    <value>【上架时间】</value>
+    <value>【上架時間】</value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
-    <value>永久开放</value>
+    <value>永久開放</value>
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
-    <value>〓更新时间〓</value>
+    <value>〓更新時間〓</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻擊力</value>
