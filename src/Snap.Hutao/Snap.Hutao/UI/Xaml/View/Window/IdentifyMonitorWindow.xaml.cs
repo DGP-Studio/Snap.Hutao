@@ -16,11 +16,10 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         InitializeComponent();
         Monitor = $"{displayArea.DisplayId.Value:X8}:{index}";
 
-        OverlappedPresenter presenter = OverlappedPresenter.Create();
-        presenter.IsAlwaysOnTop = true;
-        presenter.IsResizable = false;
-        presenter.SetBorderAndTitleBar(false, false);
+        CompactOverlayPresenter presenter = CompactOverlayPresenter.Create();
+        presenter.InitialSize = CompactOverlaySize.Small;
         AppWindow.SetPresenter(presenter);
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
         PointInt32 point = new(40, 32);
         SizeInt32 size = displayArea.WorkArea.GetSizeInt32().Scale(0.1);
@@ -42,8 +41,8 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
 
         foreach (IdentifyMonitorWindow window in windows)
         {
-            window.AppWindow.Show();
             window.RemoveStyleDialogFrame();
+            window.Show();
         }
 
         await Task.Delay(TimeSpan.FromSeconds(secondsDelay)).ConfigureAwait(true);
