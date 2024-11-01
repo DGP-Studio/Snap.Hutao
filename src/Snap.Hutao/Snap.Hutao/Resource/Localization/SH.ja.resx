@@ -671,13 +671,13 @@
     <value>単一のアーカイブに同一のアチーブメント ID が複数存在しています</value>
   </data>
   <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
-    <value>【販売時間】</value>
+    <value>【イベント時間】</value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
-    <value>恒久的に開く</value>
+    <value>期限なし</value>
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
-    <value>更新時刻から聞く</value>
+    <value>〓更新時期〓</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
@@ -2612,10 +2612,10 @@
     <value>自動化任務</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
-    <value>エラーコード31-4302ではこのオプションを有効にして下さい。</value>
+    <value>エラーコード 31-4302 があった場合はこのオプションを有効にしてください</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
-    <value>ーそんな！</value>
+    <value>入らせて！</value>
   </data>
   <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
     <value>ゲームの起動後に変更できません。</value>
@@ -2645,22 +2645,22 @@
     <value>Discord Activity</value>
   </data>
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
-    <value>ゲームファイル管理／ゲームサーバーへの切り替え</value>
+    <value>ゲームファイル管理/サーバーの切り換え/注入機能には管理者権限が必要です</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>ファイル</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
-    <value>キャラクター/チーム配置/祈願/紀行などの特殊インターフェースを補正します</value>
+    <value>キャラクター/チーム編成/祈願/紀行などの特殊シーンを補正します</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
-    <value>特別インタフェースの修正</value>
+    <value>特殊シーンの補正</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
-    <value>ゲームの起動はリアルタイムで表示されます</value>
+    <value>ゲーム起動後にリアルタイムで切り替えることができます</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>メッセージモジュールをゲームへ導入して、危険な機能を実装するが危険です。</value>
+    <value>メッセージモジュールをゲームに注入し、高度だが危険な機能を実現します</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
@@ -2711,13 +2711,13 @@
     <value>レジストリ</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
-    <value>チームで冷房スイッチ</value>
+    <value>チーム編成コールドスイッチ</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
-    <value>チーム設定画面を開いたときの進捗バーを表示</value>
+    <value>チーム編成画面を開いたときに表示される進捗バーを取り除きます</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressHeader" xml:space="preserve">
-    <value>チーム構成のプログレスバーを削除</value>
+    <value>チーム編成の進捗バーを取り除く</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
     <value>差分パッケージ</value>
@@ -2765,7 +2765,7 @@
     <value>バージョンを更新する前に、ランチャーと一致するサーバーに切り換える必要があります。</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
-    <value>視線切り替え</value>
+    <value>視野コールドスイッチ</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
     <value>カメラビューを45まで調整する</value>
@@ -2774,16 +2774,16 @@
     <value>視界を調整</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHotSwitchHeader" xml:space="preserve">
-    <value>サーモスタット スイッチ</value>
+    <value>視野ホットスイッチ</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHeader" xml:space="preserve">
     <value>ターゲットFPS</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
-    <value>フレームレート熱スイッチ</value>
+    <value>FPS ホットスイッチ</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
-    <value>詳細な指示は、機能のスイッチやテキスト ボックスのマウス</value>
+    <value>マウスカーソルを機能スイッチ/テキストボックスに合わせると詳細が表示されます</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>より高い FPS をサポートするために高性能な GPU を必要とします。ゲーム内の「垂直同期」を無効にし、無制限のフレームレートのために値を -1 に設定してください。</value>
@@ -2810,7 +2810,7 @@
     <value>有効</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>現在選択されている米受信社 / HoYoLAB ユーザログインを利用するには、「起動パラメータ」を有効にする必要があります。</value>
+    <value>今は選ばれている 米游社 / HoYoLAB ユーザーを使用してログインします。「起動のパラメーター」を有効にする必要があります。</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>米游社 / HoYoLAB ユーザーでログイン</value>
@@ -3095,7 +3095,7 @@
     <value>カスタム背景フォルダーを開く</value>
   </data>
   <data name="ViewPageSettingPackageConverterTypeHeader" xml:space="preserve">
-    <value>サーバモード変換（Compatibility）</value>
+    <value>サーバーモードの変換</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>リセット</value>
@@ -3239,7 +3239,7 @@
     <value>その他</value>
   </data>
   <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
-    <value>連絡先カード</value>
+    <value>名刺</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>所属</value>
