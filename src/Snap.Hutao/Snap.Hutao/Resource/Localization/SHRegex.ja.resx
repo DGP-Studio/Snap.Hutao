@@ -102,15 +102,15 @@
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ServiceAnnouncementMatchValidDescriptions" xml:space="preserve">
-    <value>“化該当”はＳずに |“発" 変態|“変種時間" 変種時間" 変種|“該当する“販売時間”</value>
+    <value>〓イベント期間〓|〓任務開放時間〓|〓祈願詳細〓|〓割引期間〓|〓報酬獲得期限〓|【リリース時間】</value>
   </data>
   <data name="ServiceAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
-    <value>&amp;lt;t class=\"t_(?gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;メンテナンス版のためアップグレードしてください。</value>
+    <value>&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;にてバージョンアップのメンテナンスが行われる予定です</value>
   </data>
   <data name="ServiceAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\dバージョンによるメンテナンスの予約</value>
+    <value>Ver.\d\.\dバージョンアップメンテナンス予告</value>
   </data>
   <data name="ServiceAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>Ver.\d\.\d.+正式リリース</value>
+    <value>Ver.\d\.\dバージョンアップのお知らせ</value>
   </data>
 </root>
