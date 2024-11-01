@@ -84,7 +84,7 @@ internal static class WindowExtension
         ShowWindow(window.GetWindowHandle(), SHOW_WINDOW_CMD.SW_HIDE);
     }
 
-    public static void SetExStyleLayered(this Window window, bool full = true)
+    public static void AddExStyleLayered(this Window window, bool full = true)
     {
         HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
@@ -97,12 +97,25 @@ internal static class WindowExtension
         }
     }
 
-    public static void SetExStyleToolWindow(this Window window)
+    public static void AddExStyleToolWindow(this Window window)
     {
         HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW;
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+    }
+
+    public static void RemoveStyleDialogFrame(this Window window)
+    {
+        HWND hwnd = WindowNative.GetWindowHandle(window);
+
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+        style &= ~(nint)WINDOW_EX_STYLE.WS_EX_WINDOWEDGE;
+        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+
+        style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+        style &= ~(nint)WINDOW_STYLE.WS_DLGFRAME;
+        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style);
     }
 
     public static unsafe void BringToForeground(this Window window)

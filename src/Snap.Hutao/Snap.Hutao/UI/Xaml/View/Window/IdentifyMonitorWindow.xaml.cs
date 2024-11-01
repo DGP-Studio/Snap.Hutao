@@ -42,7 +42,8 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
 
         foreach (IdentifyMonitorWindow window in windows)
         {
-            window.Activate();
+            window.AppWindow.Show();
+            window.RemoveStyleDialogFrame();
         }
 
         await Task.Delay(TimeSpan.FromSeconds(secondsDelay)).ConfigureAwait(true);
