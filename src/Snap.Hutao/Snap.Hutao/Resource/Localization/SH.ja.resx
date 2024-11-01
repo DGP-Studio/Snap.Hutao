@@ -1158,6 +1158,9 @@
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>ユーザー情報を取得できません</value>
   </data>
+  <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
+    <value>获取用户信息中，请稍候...</value>
+  </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>追加ステータス推奨</value>
   </data>
