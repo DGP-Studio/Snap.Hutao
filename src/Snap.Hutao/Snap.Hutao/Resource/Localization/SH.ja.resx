@@ -671,7 +671,7 @@
     <value>単一のアーカイブに同一のアチーブメント ID が複数存在しています</value>
   </data>
   <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
-    <value>【イベント時間】</value>
+    <value>【リリース時間】</value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
     <value>期限なし</value>
