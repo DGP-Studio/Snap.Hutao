@@ -77,7 +77,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://www.netlify.com" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/netlify.svg"
+            href="https://hut.ao/svg/netlify.svg"
           />
         </svg>
       </a>
@@ -86,7 +86,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://crowdin.com" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/crowdin-core-logo-cDark.svg"
+            href="https://hut.ao/svg/crowdin-core-logo-cDark.svg"
           />
         </svg>
       </a>
@@ -95,7 +95,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://navicat.com" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/navicat.svg"
+            href="https://hut.ao/svg/navicat.svg"
           />
         </svg>
       </a>
@@ -106,7 +106,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://about.signpath.io" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/signpath.svg"
+            href="https://hut.ao/svg/signpath.svg"
           />
         </svg>
       </a>
@@ -115,7 +115,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://1password.com" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/1Password.svg"
+            href="https://hut.ao/svg/1Password.svg"
           />
         </svg>
       </a>
@@ -124,7 +124,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://www.digitalocean.com" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/digitalocean.svg"
+            href="https://hut.ao/svg/digitalocean.svg"
           />
         </svg>
       </a>
@@ -135,7 +135,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://hi.ducalis.io" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/ducalis.svg"
+            href="https://hut.ao/svg/ducalis.svg"
           />
         </svg>
       </a>
@@ -144,7 +144,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://www.jetbrains.com/opensource" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/jetbrains.svg"
+            href="https://hut.ao/svg/jetbrains.svg"
           />
         </svg>
       </a>
@@ -153,7 +153,7 @@ Snap Hutao is currently using sponsored software from the following service prov
       <a href="https://termius.com" rel="nofollow">
         <svg xmlns="http://www.w3.org/2000/svg">
           <image
-            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/termius-logo.svg"
+            href="https://hut.ao/svg/termius-logo.svg"
           />
         </svg>
       </a>
