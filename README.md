@@ -71,10 +71,95 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 
 Snap Hutao is currently using sponsored software from the following service providers.
 
-|  [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/netlify.svg)](https://www.netlify.com/)  | [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/crowdin-core-logo-cDark.svg)](https://crowdin.com/) |       [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/navicat.svg)](https://navicat.com/)        |
-| :----------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: |
-| [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/signpath.svg)](https://about.signpath.io) |       [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/1Password.svg)](https://1password.com/)       | [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/digitalocean.svg)](https://www.digitalocean.com) |
-|   [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/ducalis.svg)](https://hi.ducalis.io/)   |     [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/jetbrains.svg)](https://www.jetbrains.com/)     |     [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/termius-logo.svg)](https://termius.com)      |
+<table border="1" style="width: 100%">
+  <tr style="max-width: 33.3%">
+    <td align="center">
+      <a href="https://www.netlify.com" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/netlify.svg"
+          />
+        </svg>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://crowdin.com" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/crowdin-core-logo-cDark.svg"
+          />
+        </svg>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://navicat.com" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/navicat.svg"
+          />
+        </svg>
+      </a>
+    </td>
+  </tr>
+  <tr style="max-width: 33.3%">
+    <td align="center">
+      <a href="https://about.signpath.io" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/signpath.svg"
+          />
+        </svg>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://1password.com" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/1Password.svg"
+          />
+        </svg>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.digitalocean.com" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/digitalocean.svg"
+          />
+        </svg>
+      </a>
+    </td>
+  </tr>
+  <tr style="max-width: 33.3%">
+    <td align="center">
+      <a href="https://hi.ducalis.io" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/ducalis.svg"
+          />
+        </svg>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.jetbrains.com/opensource" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/jetbrains.svg"
+          />
+        </svg>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://termius.com" rel="nofollow">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <image
+            href="https://github.com/DGP-Studio/Snap.Hutao.Docs/raw/refs/heads/main/docs/.vuepress/public/svg/termius-logo.svg"
+          />
+        </svg>
+      </a>
+    </td>
+  </tr>
+</table>
 
 - Netlify provides document and home page hosting service for Snap Hutao
 
