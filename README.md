@@ -92,6 +92,8 @@ Snap Hutao is currently using sponsored software from the following service prov
 
 - Jetbrains provides powerful IDE for Snap Hutao infrastructure services coding
 
+- Termius provides a secure, reliable, and collaborative SSH client
+
 ## 开发 / Development
 
 ![Snap.Hutao](https://repobeats.axiom.co/api/embed/f029553fbe0c60689b1710476ec8512452163fc9.svg)
