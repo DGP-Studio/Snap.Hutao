@@ -2220,10 +2220,10 @@
     <value>新增任意武器到養成計劃</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>新增即時便籤</value>
+    <value>新增即時便箋</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>新增即時便籤以定時重新整理</value>
+    <value>新增即時便箋以定時重新整理</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>新增</value>
@@ -3003,7 +3003,7 @@
     <value>日曆</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>即時便籤</value>
+    <value>即時便箋</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈願紀錄</value>
