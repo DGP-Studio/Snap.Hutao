@@ -77,7 +77,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             // If the file already exists, we don't need to download it again
             if (!IsFileInvalid(defaultFilePath))
             {
-                await ConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                await TryConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
                 return themeOrDefaultFilePath;
             }
 
@@ -86,7 +86,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 // File may be downloaded by another thread
                 if (!IsFileInvalid(defaultFilePath))
                 {
-                    await ConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    await TryConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
                     return themeOrDefaultFilePath;
                 }
 
@@ -122,9 +122,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         return new FileInfo(file).Length == 0;
     }
 
-    private static async ValueTask ConvertToMonoChromeAndSaveFileAsync(string sourceFile, string themeFile, ElementTheme theme)
+    private static async ValueTask TryConvertToMonoChromeAndSaveFileAsync(string sourceFile, string themeFile, ElementTheme theme)
     {
-        if (string.Equals(sourceFile, themeFile, StringComparison.OrdinalIgnoreCase))
+        if (theme is ElementTheme.Default || string.Equals(sourceFile, themeFile, StringComparison.OrdinalIgnoreCase))
         {
             return;
         }

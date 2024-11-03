@@ -42,7 +42,11 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
                 }
             }
 
-            list.ForEach(item => item.DismissCommand = dismissCommand);
+            foreach (HutaoAnnouncement item in list)
+            {
+                item.DismissCommand = dismissCommand;
+            }
+
             announcements = list.ToObservableCollection();
         }
 

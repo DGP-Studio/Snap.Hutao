@@ -3,7 +3,4 @@
 
 namespace Snap.Hutao.Model.Metadata.Achievement;
 
-/// <summary>
-/// 奖励
-/// </summary>
 internal sealed class Reward : IdCount;

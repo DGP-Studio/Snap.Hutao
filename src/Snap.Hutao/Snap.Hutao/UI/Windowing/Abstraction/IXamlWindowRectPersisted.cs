@@ -6,4 +6,6 @@ namespace Snap.Hutao.UI.Windowing.Abstraction;
 internal interface IXamlWindowRectPersisted : IXamlWindowHasInitSize
 {
     string PersistRectKey { get; }
+
+    string PersistScaleKey { get; }
 }

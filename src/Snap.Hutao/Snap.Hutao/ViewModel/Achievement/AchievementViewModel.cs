@@ -129,7 +129,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         return false;
     }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (!await scopeContext.MetadataService.InitializeAsync().ConfigureAwait(false))
         {

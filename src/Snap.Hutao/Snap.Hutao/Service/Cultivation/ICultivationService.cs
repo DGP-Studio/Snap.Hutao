@@ -13,11 +13,9 @@ internal interface ICultivationService
 {
     AdvancedDbCollectionView<CultivateProject> Projects { get; }
 
-    ITaskContext TaskContext { get; }
+    ValueTask<bool> EnsureCurrentProjectAsync();
 
-    ICultivationRepository Repository { get; }
-
-    ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
+    ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntryCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
 
     ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(
         CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token);

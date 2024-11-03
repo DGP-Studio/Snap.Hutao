@@ -62,7 +62,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     public UpdateStatus? UpdateStatus { get => updateStatus; set => SetProperty(ref updateStatus, value); }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         ShowUpdateLogWindowAfterUpdate();
         NotifyIfDateFolderHasReparsePoint();
@@ -139,7 +139,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
                     ContentDialog contentDialog = await contentDialogFactory
                         .CreateForIndeterminateProgressAsync(SH.ViewTitleUpdatePackageInstallingContent)
                         .ConfigureAwait(false);
-                    using (await contentDialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+                    using (await contentDialogFactory.BlockAsync(contentDialog).ConfigureAwait(false))
                     {
                         if (launchUpdaterResult.Process is { } updater)
                         {

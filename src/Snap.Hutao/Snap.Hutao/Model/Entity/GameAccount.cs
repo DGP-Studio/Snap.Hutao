@@ -11,36 +11,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Snap.Hutao.Model.Entity;
 
-/// <summary>
-/// 游戏内账号
-/// </summary>
-[HighQuality]
 [Table("game_accounts")]
 internal sealed partial class GameAccount : ObservableObject,
     IAppDbEntity,
     IReorderable,
     IAdvancedCollectionViewItem
 {
-    /// <summary>
-    /// 内部Id
-    /// </summary>
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid InnerId { get; set; }
 
-    /// <summary>
-    /// 对应的Uid
-    /// </summary>
-    public string? AttachUid { get; set; }
-
-    /// <summary>
-    /// 服务器类型
-    /// </summary>
     public SchemeType Type { get; set; }
 
-    /// <summary>
-    /// 名称
-    /// </summary>
     public string Name { get; set; } = default!;
 
     /// <summary>
@@ -61,20 +43,6 @@ internal sealed partial class GameAccount : ObservableObject,
         };
     }
 
-    /// <summary>
-    /// 更新绑定的Uid
-    /// </summary>
-    /// <param name="uid">uid</param>
-    public void UpdateAttachUid(string? uid)
-    {
-        AttachUid = uid;
-        OnPropertyChanged(nameof(AttachUid));
-    }
-
-    /// <summary>
-    /// 更新名称
-    /// </summary>
-    /// <param name="name">新名称</param>
     public void UpdateName(string name)
     {
         Name = name;

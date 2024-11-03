@@ -89,15 +89,6 @@ internal sealed partial class GameAccountService : IGameAccountService
         return RegistryInterop.Set(account);
     }
 
-    public async ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid)
-    {
-        await taskContext.SwitchToMainThreadAsync();
-        gameAccount.UpdateAttachUid(uid);
-
-        await taskContext.SwitchToBackgroundAsync();
-        gameRepository.UpdateGameAccount(gameAccount);
-    }
-
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
         LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);

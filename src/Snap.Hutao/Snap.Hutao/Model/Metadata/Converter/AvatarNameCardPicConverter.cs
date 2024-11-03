@@ -6,31 +6,20 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-internal sealed partial class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
+internal sealed partial class AvatarNameCardPicConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
-    public static Uri AvatarToUri(Avatar.Avatar? avatar)
+    public static Uri IconNameToUri(string name)
     {
-        if (avatar is null)
+        if (string.IsNullOrEmpty(name))
         {
             return default!;
         }
 
-        string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);
-        return StaticResourcesEndpoints.StaticRaw("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png").ToUri();
+        return StaticResourcesEndpoints.StaticRaw("NameCardPic", $"{name}_P.png").ToUri();
     }
 
-    public override Uri Convert(Avatar.Avatar? avatar)
+    public override Uri Convert(string from)
     {
-        return AvatarToUri(avatar);
-    }
-
-    private static string ReplaceSpecialCaseNaming(string avatarName)
-    {
-        return avatarName switch
-        {
-            "Yae" => "Yae1",
-            "Momoka" => "Kirara",
-            _ => avatarName,
-        };
+        return IconNameToUri(from);
     }
 }

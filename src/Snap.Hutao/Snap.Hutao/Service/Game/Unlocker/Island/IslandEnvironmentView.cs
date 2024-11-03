@@ -5,19 +5,8 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Service.Game.Unlocker.Island;
 
-internal struct IslandEnvironmentView
+internal readonly struct IslandEnvironmentView
 {
-    public IslandState State;
-    public WIN32_ERROR LastError;
-
-    public float FieldOfView;
-    public int TargetFrameRate;
-    public bool DisableFog;
-    public bool LoopAdjustFpsOnly;
-
-    public uint FunctionOffsetSetFieldOfView;
-    public uint FunctionOffsetSetEnableFogRendering;
-    public uint FunctionOffsetSetTargetFrameRate;
-
-    public float DebugOriginalFieldOfView;
+    public readonly IslandState State;
+    public readonly WIN32_ERROR LastError;
 }

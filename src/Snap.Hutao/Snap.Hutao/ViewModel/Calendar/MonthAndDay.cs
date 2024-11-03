@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata.Avatar;
+
 namespace Snap.Hutao.ViewModel.Calendar;
 
 internal readonly struct MonthAndDay
@@ -12,6 +14,11 @@ internal readonly struct MonthAndDay
     {
         Month = month;
         Day = day;
+    }
+
+    public static MonthAndDay Create(Avatar avatar)
+    {
+        return new MonthAndDay(avatar.FetterInfo.BirthMonth, avatar.FetterInfo.BirthDay);
     }
 
     public override int GetHashCode()

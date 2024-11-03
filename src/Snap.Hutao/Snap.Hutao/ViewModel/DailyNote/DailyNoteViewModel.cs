@@ -48,7 +48,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -85,7 +85,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
             .CreateForIndeterminateProgressAsync(SH.ViewModelDailyNoteRequestProgressTitle)
             .ConfigureAwait(false);
 
-        using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+        using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
         }

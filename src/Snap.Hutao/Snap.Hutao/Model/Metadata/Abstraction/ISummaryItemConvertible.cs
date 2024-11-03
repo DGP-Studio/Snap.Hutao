@@ -6,10 +6,6 @@ using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Model.Metadata.Abstraction;
 
-/// <summary>
-/// 指示该类为简述统计物品的源
-/// </summary>
-[HighQuality]
 internal interface ISummaryItemConvertible
 {
     QualityType Quality { get; }

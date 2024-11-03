@@ -20,9 +20,6 @@ internal interface ICultivationRepository : IRepository<CultivateEntryLevelInfor
 
     void RemoveCultivateProjectById(Guid projectId);
 
-    [Obsolete]
-    CultivateEntry? GetCultivateEntryByProjectIdAndItemId(Guid projectId, uint itemId);
-
     List<CultivateEntry> GetCultivateEntryListByProjectId(Guid projectId);
 
     List<CultivateItem> GetCultivateItemListByEntryId(Guid entryId);
@@ -44,4 +41,6 @@ internal interface ICultivationRepository : IRepository<CultivateEntryLevelInfor
     List<CultivateEntry> GetCultivateEntryListIncludingLevelInformationByProjectId(Guid projectId);
 
     List<CultivateEntry> GetCultivateEntryListByProjectIdAndItemId(Guid projectId, uint itemId);
+
+    Guid GetCultivateProjectIdByEntryId(Guid entryId);
 }

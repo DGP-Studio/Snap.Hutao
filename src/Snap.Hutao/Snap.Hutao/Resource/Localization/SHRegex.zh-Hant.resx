@@ -101,25 +101,16 @@
     <value>^[\u4e00-\u9fa5]{2}區域特產$</value>
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
-  <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:(?:〓活動時間〓|〓任務開放時間〓).*?(?:(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; *?))後永久開放</value>
+  <data name="ServiceAnnouncementMatchValidDescriptions" xml:space="preserve">
+    <value>〓活動時間〓|〓任務開放時間〓|〓祈願介紹〓|〓折扣時間〓|〓獲取獎勵時限〓|【上架時間】</value>
   </data>
-  <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活動時間〓.*?(?:(\d\.\d)版本期間持續開放|(\d\.\d)版本更新後.*?至\d\.\d版本結束)</value>
-  </data>
-  <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活動時間〓|祈願時間|【上架時間】|〓折扣時間〓).*?(\d\.\d)版本更新後.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+  <data name="ServiceAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
     <value>將於&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;進行版本更新維護</value>
   </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\d版本更新維護預告</value>
+  <data name="ServiceAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>\d\.\d版本更新停服說明</value>
   </data>
-  <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓更新時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
+  <data name="ServiceAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
     <value>\d\.\d版本更新說明</value>
   </data>
 </root>

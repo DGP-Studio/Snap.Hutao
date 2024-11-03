@@ -4,7 +4,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.Win32;
-using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.LifeCycle;
 using System.Diagnostics;
@@ -37,6 +37,9 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
         AppWindow.Resize(size.Scale(this.GetRasterizationScale()));
 
         Ioc.Default.GetRequiredService<ICurrentXamlWindowReference>().Window?.Close();
+
+        // Force update bindings to show the exception message
+        Bindings.Update();
     }
 
     public string FormattedException
@@ -60,6 +63,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
                 }
 
                 return $"""
+                    Snap Hutao {HutaoRuntime.Version}
                     {windowsVersion}
                     System Architecture: {RuntimeInformation.OSArchitecture}
                     Process Architecture: {RuntimeInformation.ProcessArchitecture}
@@ -75,6 +79,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
     {
         ExceptionWindow window = new(exMessage);
         window.Activate();
+        window.BringToForeground();
     }
 
     [Command("CloseCommand")]

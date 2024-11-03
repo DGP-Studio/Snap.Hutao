@@ -101,25 +101,16 @@
     <value>^[\u3000-\u9fa5]{2,6}地域の特産$</value>
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
-  <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
+  <data name="ServiceAnnouncementMatchValidDescriptions" xml:space="preserve">
+    <value>〓イベント期間〓|〓任務開放時間〓|〓祈願詳細〓|〓割引期間〓|〓報酬獲得期限〓|【リリース時間】</value>
   </data>
-  <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>更新時刻は発せら。*?(\d\.\d) で終了します。(\d\.\d) 再度 (\d\.\d.\d.\dバージョン終了)</value>
+  <data name="ServiceAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+    <value>&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;にてバージョンアップのメンテナンスが行われる予定です</value>
   </data>
-  <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:アクティビティ種別|販売" |通信種別" |販売種別" のみ）.*?(\d\.\.\d)バージョン更新後.*?~.*?&amp;lt;t class="t_(?gl|lc)".*?&amp;gt;(.*?*?)&amp;lt;/t&amp;gt;</value>
+  <data name="ServiceAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>Ver.\d\.\dバージョンアップメンテナンス予告</value>
   </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
-    <value>&amp;lt;t class=\"t_(?gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;メンテナンス版のためアップグレードしてください。</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\dバージョンによるメンテナンスの予約</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓メンテナンス時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>Ver.\d\.\d.+正式リリース</value>
+  <data name="ServiceAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
+    <value>Ver.\d\.\dバージョンアップのお知らせ</value>
   </data>
 </root>

@@ -42,12 +42,12 @@ internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
         {
             if (type == SH.ModelInterchangeUIGFItemTypeAvatar)
             {
-                result = NameAvatarMap[name].ToItem();
+                result = NameAvatarMap[name].ToItem<Item>();
             }
 
             if (type == SH.ModelInterchangeUIGFItemTypeWeapon)
             {
-                result = NameWeaponMap[name].ToItem();
+                result = NameWeaponMap[name].ToItem<Item>();
             }
 
             ArgumentNullException.ThrowIfNull(result);

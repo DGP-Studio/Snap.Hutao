@@ -260,8 +260,7 @@ internal sealed class XamlWindowController
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
             RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
-            window.AppWindow.Move(nonDpiPersistedRect.GetPointInt32(PointInt32Kind.TopLeft));
-            RectInt32 persistedRect = nonDpiPersistedRect.Scale(window.GetRasterizationScale());
+            RectInt32 persistedRect = nonDpiPersistedRect.Scale(LocalSetting.Get(rectPersisted.PersistScaleKey, 1.0));
 
             // If the persisted size is less than min size, we want to reset to the init size.
             // So we only recover the size when it's greater than or equal to the min size.
@@ -281,12 +280,15 @@ internal sealed class XamlWindowController
         GetWindowPlacement(window.GetWindowHandle(), ref windowPlacement);
 
         // prevent save value when we are maximized.
-        if (!windowPlacement.ShowCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
+        if (windowPlacement.ShowCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
-            // We save the non-dpi rect here
-            double scale = 1.0 / window.GetRasterizationScale();
-            LocalSetting.Set(rectPersisted.PersistRectKey, (RectInt16)window.AppWindow.GetRect().Scale(scale));
+            return;
         }
+
+        // We save the non-dpi rect here
+        double scale = window.GetRasterizationScale();
+        LocalSetting.Set(rectPersisted.PersistScaleKey, scale);
+        LocalSetting.Set(rectPersisted.PersistRectKey, (RectInt16)window.AppWindow.GetRect().Scale(1.0 / scale));
     }
     #endregion
 

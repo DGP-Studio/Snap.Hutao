@@ -2,23 +2,33 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.Core.Threading;
 
 [Injection(InjectAs.Singleton, typeof(ITaskContext))]
 internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
 {
-    private readonly DispatcherQueueSynchronizationContext synchronizationContext;
     private readonly DispatcherQueue dispatcherQueue;
 
     public TaskContext()
     {
         dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        synchronizationContext = new(dispatcherQueue);
+        DispatcherQueueSynchronizationContext synchronizationContext = new(dispatcherQueue);
         SynchronizationContext.SetSynchronizationContext(synchronizationContext);
     }
 
     public DispatcherQueue DispatcherQueue { get => dispatcherQueue; }
+
+    public static ITaskContext GetForDependencyObject(DependencyObject dependencyObject)
+    {
+        return GetForDispatcherQueue(dependencyObject.DispatcherQueue);
+    }
+
+    public static ITaskContext GetForDispatcherQueue(DispatcherQueue dispatcherQueue)
+    {
+        return new TaskContextWrapperForDispatcherQueue(dispatcherQueue);
+    }
 
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()
     {

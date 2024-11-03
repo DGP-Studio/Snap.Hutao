@@ -9,8 +9,6 @@ namespace Snap.Hutao.Service.Game.Account;
 
 internal interface IGameAccountService
 {
-    ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid);
-
     GameAccount? DetectCurrentGameAccount(SchemeType schemeType);
 
     ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType schemeType);

@@ -3,11 +3,22 @@
 
 namespace Snap.Hutao.Service.Game.Unlocker.Island;
 
-internal sealed class IslandFunctionOffsets
+internal struct IslandFunctionOffsets
 {
-    public required uint FunctionOffsetSetFieldOfView { get; set; }
-
-    public required uint FunctionOffsetSetEnableFogRendering { get; set; }
-
-    public required uint FunctionOffsetSetTargetFrameRate { get; set; }
+    [JsonInclude]
+    public uint FunctionOffsetMickeyWonderMethod;
+    [JsonInclude]
+    public uint FunctionOffsetMickeyWonderMethodPartner;
+    [JsonInclude]
+    public uint FunctionOffsetMickeyWonderMethodPartner2;
+    [JsonInclude]
+    public uint FunctionOffsetSetFieldOfView;
+    [JsonInclude]
+    public uint FunctionOffsetSetEnableFogRendering;
+    [JsonInclude]
+    public uint FunctionOffsetSetTargetFrameRate;
+    [JsonInclude]
+    public uint FunctionOffsetOpenTeam;
+    [JsonInclude]
+    public uint FunctionOffsetOpenTeamPageAccordingly;
 }

@@ -55,7 +55,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (await spiralAbyssRecordService.InitializeAsync().ConfigureAwait(false))
         {

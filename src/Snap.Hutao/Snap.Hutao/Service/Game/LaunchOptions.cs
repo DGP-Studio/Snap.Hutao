@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Controls;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
@@ -24,10 +25,10 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     private readonly int primaryScreenFps;
 
     private string? gamePath;
-    private ImmutableList<GamePathEntry>? gamePathEntries;
+    private ImmutableArray<GamePathEntry>? gamePathEntries;
+
     private bool? usingHoyolabAccount;
-    private bool? isEnabled;
-    private bool? isAdvancedLaunchOptionsEnabled;
+    private bool? areCommandLineArgumentsEnabled;
     private bool? isFullScreen;
     private bool? isBorderless;
     private bool? isExclusive;
@@ -35,11 +36,18 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     private bool? isScreenWidthEnabled;
     private int? screenHeight;
     private bool? isScreenHeightEnabled;
-    private bool? unlockFps;
-    private int? targetFps;
+
+    private bool? isIslandEnabled;
+    private bool? hookingSetFieldOfView;
+    private bool? isSetFieldOfViewEnabled;
     private float? targetFov;
+    private bool? fixLowFovScene;
     private bool? disableFog;
-    private bool? loopAdjustFpsOnly;
+    private bool? isSetTargetFrameRateEnabled;
+    private int? targetFps;
+    private bool? hookingOpenTeam;
+    private bool? removeOpenTeamProgress;
+    private bool? hookingMickyWonderPartner2;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private bool? usingCloudThirdPartyMobile;
@@ -56,7 +64,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         primaryScreenWidth = primaryRect.Width;
         primaryScreenHeight = primaryRect.Height;
 
-        InitializeMonitors(Monitors);
+        Monitors = InitializeMonitors();
         InitializeScreenFps(out primaryScreenFps);
 
         // Batch initialization, boost up performance
@@ -65,7 +73,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
             _ = key switch
             {
                 SettingEntry.LaunchUsingHoyolabAccount => InitializeBooleanValue(ref usingHoyolabAccount, value),
-                SettingEntry.LaunchIsLaunchOptionsEnabled => InitializeBooleanValue(ref isEnabled, value),
+                SettingEntry.LaunchAreCommandLineArgumentsEnabled => InitializeBooleanValue(ref areCommandLineArgumentsEnabled, value),
                 SettingEntry.LaunchIsFullScreen => InitializeBooleanValue(ref isFullScreen, value),
                 SettingEntry.LaunchIsBorderless => InitializeBooleanValue(ref isBorderless, value),
                 SettingEntry.LaunchIsExclusive => InitializeBooleanValue(ref isExclusive, value),
@@ -73,17 +81,23 @@ internal sealed partial class LaunchOptions : DbStoreOptions
                 SettingEntry.LaunchIsScreenWidthEnabled => InitializeBooleanValue(ref isScreenWidthEnabled, value),
                 SettingEntry.LaunchScreenHeight => InitializeInt32Value(ref screenHeight, value),
                 SettingEntry.LaunchIsScreenHeightEnabled => InitializeBooleanValue(ref isScreenHeightEnabled, value),
-                SettingEntry.LaunchUnlockFps => InitializeBooleanValue(ref unlockFps, value),
-                SettingEntry.LaunchTargetFps => InitializeInt32Value(ref targetFps, value),
-                SettingEntry.LaunchTargetFov => InitializeFloatValue(ref targetFov, value),
-                SettingEntry.LaunchDisableFog => InitializeBooleanValue(ref disableFog, value),
                 SettingEntry.LaunchIsMonitorEnabled => InitializeBooleanValue(ref isMonitorEnabled, value),
                 SettingEntry.LaunchUsingCloudThirdPartyMobile => InitializeBooleanValue(ref usingCloudThirdPartyMobile, value),
                 SettingEntry.LaunchIsWindowsHDREnabled => InitializeBooleanValue(ref isWindowsHDREnabled, value),
                 SettingEntry.LaunchUsingStarwardPlayTimeStatistics => InitializeBooleanValue(ref usingStarwardPlayTimeStatistics, value),
                 SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeBooleanValue(ref usingBetterGenshinImpactAutomation, value),
                 SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeBooleanValue(ref setDiscordActivityWhenPlaying, value),
-                SettingEntry.LaunchLoopAdjustFpsOnly => InitializeBooleanValue(ref loopAdjustFpsOnly, value),
+                SettingEntry.LaunchIsIslandEnabled => InitializeBooleanValue(ref isIslandEnabled, value),
+                SettingEntry.LaunchHookingSetFieldOfView => InitializeBooleanValue(ref hookingSetFieldOfView, value),
+                SettingEntry.LaunchIsSetFieldOfViewEnabled => InitializeBooleanValue(ref isSetFieldOfViewEnabled, value),
+                SettingEntry.LaunchTargetFov => InitializeFloatValue(ref targetFov, value),
+                SettingEntry.LaunchFixLowFovScene => InitializeBooleanValue(ref fixLowFovScene, value),
+                SettingEntry.LaunchDisableFog => InitializeBooleanValue(ref disableFog, value),
+                SettingEntry.LaunchIsSetTargetFrameRateEnabled => InitializeBooleanValue(ref isSetTargetFrameRateEnabled, value),
+                SettingEntry.LaunchTargetFps => InitializeInt32Value(ref targetFps, value),
+                SettingEntry.LaunchHookingOpenTeam => InitializeBooleanValue(ref hookingOpenTeam, value),
+                SettingEntry.LaunchRemoveOpenTeamProgress => InitializeBooleanValue(ref removeOpenTeamProgress, value),
+                SettingEntry.LaunchHookingMickyWonderPartner2 => InitializeBooleanValue(ref hookingMickyWonderPartner2, value),
                 _ => default,
             };
         });
@@ -118,8 +132,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
             return default;
         }
 
-        static void InitializeMonitors(List<NameValue<int>> monitors)
+        static ImmutableArray<NameValue<int>> InitializeMonitors()
         {
+            ImmutableArray<NameValue<int>>.Builder monitors = ImmutableArray.CreateBuilder<NameValue<int>>();
             try
             {
                 // This list can't use foreach
@@ -136,6 +151,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions
             {
                 monitors.Clear();
             }
+
+            return monitors.ToImmutable();
         }
 
         static void InitializeScreenFps(out int fps)
@@ -159,31 +176,37 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         set => SetOption(ref gamePath, SettingEntry.GamePath, value);
     }
 
-    public ImmutableList<GamePathEntry> GamePathEntries
+    public ImmutableArray<GamePathEntry> GamePathEntries
     {
         // Because DbStoreOptions can't detect collection change, We use
         // ImmutableList to imply that the whole list needs to be replaced
-        get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableList<GamePathEntry>>(raw), []);
+        get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []).Value;
         set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, v => JsonSerializer.Serialize(v));
     }
 
-    public bool IsAdvancedLaunchOptionsEnabled
-    {
-        get => GetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled);
-        set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
-    }
-
     #region Launch Prefixed Options
+
+    #region CLI Options
+
     public bool UsingHoyolabAccount
     {
         get => GetOption(ref usingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, false);
         set => SetOption(ref usingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, value);
     }
 
-    public bool IsEnabled
+    public bool AreCommandLineArgumentsEnabled
     {
-        get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, true);
-        set => SetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, value);
+        get => GetOption(ref areCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, true);
+        set
+        {
+            if (SetOption(ref areCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, value))
+            {
+                if (!value)
+                {
+                    UsingHoyolabAccount = false;
+                }
+            }
+        }
     }
 
     public bool IsFullScreen
@@ -228,35 +251,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         set => SetOption(ref isScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, value);
     }
 
-    public bool UnlockFps
-    {
-        get => GetOption(ref unlockFps, SettingEntry.LaunchUnlockFps);
-        set => SetOption(ref unlockFps, SettingEntry.LaunchUnlockFps, value);
-    }
-
-    public int TargetFps
-    {
-        get => GetOption(ref targetFps, SettingEntry.LaunchTargetFps, primaryScreenFps);
-        set => SetOption(ref targetFps, SettingEntry.LaunchTargetFps, value);
-    }
-
-    public float TargetFov
-    {
-        get => GetOption(ref targetFov, SettingEntry.LaunchTargetFov, 45f);
-        set => SetOption(ref targetFov, SettingEntry.LaunchTargetFov, value);
-    }
-
-    public bool DisableFog
-    {
-        get => GetOption(ref disableFog, SettingEntry.LaunchDisableFog, false);
-        set => SetOption(ref disableFog, SettingEntry.LaunchDisableFog, value);
-    }
-
-    public bool LoopAdjustFpsOnly
-    {
-        get => GetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, true);
-        set => SetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, value);
-    }
+    public ImmutableArray<NameValue<int>> Monitors { get; }
 
     [NotNull]
     public NameValue<int>? Monitor
@@ -265,9 +260,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         {
             return GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
 
-            static int RestrictIndex(List<NameValue<int>> monitors, string index)
+            static int RestrictIndex(ImmutableArray<NameValue<int>> monitors, string index)
             {
-                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Count - 1);
+                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Length - 1);
             }
         }
 
@@ -297,6 +292,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
         get => GetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, false);
         set => SetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
     }
+    #endregion
+
+    #region InterProcess
 
     public bool UsingStarwardPlayTimeStatistics
     {
@@ -317,9 +315,78 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     }
     #endregion
 
-    public List<NameValue<int>> Monitors { get; } = [];
+    #region Island Features
 
-    public List<AspectRatio> AspectRatios { get; } =
+    public bool IsIslandEnabled
+    {
+        get => GetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
+        set => SetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value);
+    }
+
+    public bool HookingSetFieldOfView
+    {
+        get => GetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, true);
+        set => SetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value);
+    }
+
+    public bool IsSetFieldOfViewEnabled
+    {
+        get => GetOption(ref isSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, true);
+        set => SetOption(ref isSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value);
+    }
+
+    public float TargetFov
+    {
+        get => GetOption(ref targetFov, SettingEntry.LaunchTargetFov, 45f);
+        set => SetOption(ref targetFov, SettingEntry.LaunchTargetFov, value);
+    }
+
+    public bool FixLowFovScene
+    {
+        get => GetOption(ref fixLowFovScene, SettingEntry.LaunchFixLowFovScene, true);
+        set => SetOption(ref fixLowFovScene, SettingEntry.LaunchFixLowFovScene, value);
+    }
+
+    public bool DisableFog
+    {
+        get => GetOption(ref disableFog, SettingEntry.LaunchDisableFog, false);
+        set => SetOption(ref disableFog, SettingEntry.LaunchDisableFog, value);
+    }
+
+    public bool IsSetTargetFrameRateEnabled
+    {
+        get => GetOption(ref isSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, true);
+        set => SetOption(ref isSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value);
+    }
+
+    public int TargetFps
+    {
+        get => GetOption(ref targetFps, SettingEntry.LaunchTargetFps, primaryScreenFps);
+        set => SetOption(ref targetFps, SettingEntry.LaunchTargetFps, value);
+    }
+
+    public bool HookingOpenTeam
+    {
+        get => GetOption(ref hookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, true);
+        set => SetOption(ref hookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, value);
+    }
+
+    public bool RemoveOpenTeamProgress
+    {
+        get => GetOption(ref removeOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, false);
+        set => SetOption(ref removeOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, value);
+    }
+
+    public bool HookingMickyWonderPartner2
+    {
+        get => GetOption(ref hookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, true);
+        set => SetOption(ref hookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, value);
+    }
+    #endregion
+
+    #endregion
+
+    public ImmutableArray<AspectRatio> AspectRatios { get; } =
     [
         new(3840, 2160),
         new(2560, 1600),

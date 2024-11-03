@@ -1,0 +1,2 @@
+﻿// https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.BannedApiAnalyzers/BannedApiAnalyzers.Help.md
+M:System.Collections.Generic.List`1.ForEach(System.Action{`0})

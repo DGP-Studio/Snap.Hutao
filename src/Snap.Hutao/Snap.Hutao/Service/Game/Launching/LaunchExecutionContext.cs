@@ -21,11 +21,12 @@ internal sealed partial class LaunchExecutionContext
     private GameFileSystem? gameFileSystem;
 
     [SuppressMessage("", "SH007")]
-    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? scheme, GameAccount? account, UserAndUid? userAndUid)
+    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? targetScheme, GameAccount? account, UserAndUid? userAndUid)
         : this(serviceProvider)
     {
         ViewModel = viewModel;
-        Scheme = scheme!;
+        CurrentScheme = viewModel.Shared.GetCurrentLaunchSchemeFromConfigFile()!;
+        TargetScheme = targetScheme!;
         Account = account;
         UserAndUid = userAndUid;
     }
@@ -44,7 +45,9 @@ internal sealed partial class LaunchExecutionContext
 
     public IViewModelSupportLaunchExecution ViewModel { get; private set; } = default!;
 
-    public LaunchScheme Scheme { get; private set; } = default!;
+    public LaunchScheme CurrentScheme { get; private set; } = default!;
+
+    public LaunchScheme TargetScheme { get; private set; } = default!;
 
     public GameAccount? Account { get; private set; }
 
@@ -79,7 +82,7 @@ internal sealed partial class LaunchExecutionContext
 
     public void UpdateGamePathEntry()
     {
-        ImmutableList<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
+        ImmutableArray<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
         ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selectedEntry);
 
         // invalidate game file system

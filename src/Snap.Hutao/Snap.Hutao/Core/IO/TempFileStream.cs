@@ -11,8 +11,13 @@ internal sealed partial class TempFileStream : Stream
     private readonly FileStream stream;
 
     public TempFileStream(FileMode mode, FileAccess access)
+        : this(Path.GetTempFileName(), mode, access)
     {
-        path = Path.GetTempFileName();
+    }
+
+    private TempFileStream(string path, FileMode mode, FileAccess access)
+    {
+        this.path = path;
         stream = File.Open(path, mode, access);
     }
 
@@ -25,6 +30,13 @@ internal sealed partial class TempFileStream : Stream
     public override long Length { get => stream.Length; }
 
     public override long Position { get => stream.Position; set => stream.Position = value; }
+
+    public static TempFileStream CopyFrom(string file, FileMode mode, FileAccess access)
+    {
+        string path = Path.GetTempFileName();
+        File.Copy(file, path, true);
+        return new TempFileStream(path, mode, access);
+    }
 
     public override void Flush()
     {

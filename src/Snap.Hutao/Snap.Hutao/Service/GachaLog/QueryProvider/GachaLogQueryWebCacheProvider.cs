@@ -54,18 +54,15 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCachePathInvalid));
         }
 
-        if (gameService.IsGameRunning())
-        {
-            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderGameIsRunning));
-        }
-
         string cacheFile = GetCacheFile(path);
         if (!File.Exists(cacheFile))
         {
             return new(false, GachaLogQuery.Invalid(SH.FormatServiceGachaLogUrlProviderCachePathNotFound(cacheFile)));
         }
 
-        using (FileStream fileStream = File.OpenRead(GetCacheFile(path)))
+        // Must copy the file to avoid the following exception:
+        // System.IO.IOException: The process cannot access the file
+        using (TempFileStream fileStream = TempFileStream.CopyFrom(path, FileMode.Open, FileAccess.Read))
         {
             using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
             {
