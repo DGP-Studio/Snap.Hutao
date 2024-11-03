@@ -2629,6 +2629,9 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>これらの設定はゲームが正常に起動した時のみ保存されます。</value>
   </data>
+  <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
+    <value>注入は危険で、重大な結果を伴う可能性があります。注意して使用してください。</value>
+  </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>照明レンダリングの霧を除去する</value>
   </data>
