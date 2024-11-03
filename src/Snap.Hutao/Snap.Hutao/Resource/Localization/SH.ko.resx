@@ -2627,6 +2627,9 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>모든 설정은 게임을 성공적으로 실행한 후에 저장됩니다</value>
   </data>
+  <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
+    <value>注入功能非常危险且有可能会造成严重后果，请谨慎使用</value>
+  </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>移除光照渲染中的迷雾</value>
   </data>
