@@ -2627,6 +2627,9 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>All options will be saved only after the game is launched successfully.</value>
   </data>
+  <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
+    <value>Injection is very dangerous and can have serious consequences, please use cautiously</value>
+  </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>Remove Fog in Light Rendering</value>
   </data>
