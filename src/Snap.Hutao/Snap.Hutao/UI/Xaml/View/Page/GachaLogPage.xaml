@@ -365,6 +365,24 @@
                     </shuxcp:HorizontalEqualPanel>
                 </ScrollViewer>
             </PivotItem>
+            <PivotItem Header="Countdown">
+                <ScrollViewer
+                    Margin="16,0"
+                    cw:ScrollViewerExtensions.HorizontalScrollBarMargin="0,0,-16,0"
+                    HorizontalScrollBarVisibility="Auto"
+                    HorizontalScrollMode="Enabled"
+                    VerticalScrollMode="Disabled">
+                    <shuxcp:HorizontalEqualPanel
+                        Margin="0,16"
+                        MinItemWidth="302"
+                        Spacing="16">
+                        <shuxvs:CountdownCard Title="五星角色" Countdowns="{Binding Statistics.OrangeAvatarCountdowns}"/>
+                        <shuxvs:CountdownCard Title="四星角色" Countdowns="{Binding Statistics.PurpleAvatarCountdowns}"/>
+                        <shuxvs:CountdownCard Title="五星武器" Countdowns="{Binding Statistics.OrangeWeaponCountdowns}"/>
+                        <shuxvs:CountdownCard Title="四星武器" Countdowns="{Binding Statistics.PurpleWeaponCountdowns}"/>
+                    </shuxcp:HorizontalEqualPanel>
+                </ScrollViewer>
+            </PivotItem>
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotHistory}">
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">

@@ -104,6 +104,17 @@ internal static class AvatarIds
     public static readonly AvatarId Kinich = 10000101;
     public static readonly AvatarId Mualani = 10000102;
 
+    public static bool IsRegular(in AvatarId avatarId)
+    {
+        return avatarId == Qin || avatarId == Diluc || avatarId == Mona ||
+            avatarId == Keqing || avatarId == Qiqi ||
+            avatarId == Tighnari || avatarId == Dehya ||
+
+            avatarId == Lisa || avatarId == Ambor || avatarId == Kaeya ||
+
+            avatarId == Aloy;
+    }
+
     public static bool IsPlayer(in AvatarId avatarId)
     {
         return avatarId == PlayerBoy || avatarId == PlayerGirl;

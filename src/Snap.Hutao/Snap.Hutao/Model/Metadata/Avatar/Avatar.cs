@@ -16,7 +16,7 @@ using System.Diagnostics;
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 [DebuggerDisplay("Name={Name},Id={Id}")]
-internal partial class Avatar : INameQualityAccess,
+internal partial class Avatar : ICountdownItem,
     IStatisticsItemConvertible,
     ISummaryItemConvertible,
     IItemConvertible,
