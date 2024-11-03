@@ -312,6 +312,7 @@
                                                 <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
                                             <Grid
                                                 Grid.Row="0"
@@ -340,7 +341,7 @@
                                                     Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
                                             </Grid>
                                             <Border
-                                                Grid.Row="1"
+                                                Grid.Row="2"
                                                 Background="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
@@ -351,7 +352,18 @@
                                                     Text="{shuxm:ResourceString Name=ViewPageLaunchGameTooltipDescriptionHint}"/>
                                             </Border>
                                             <Border
-                                                Grid.Row="2"
+                                                Grid.Row="1"
+                                                Background="{ThemeResource InfoBarErrorSeverityBackgroundBrush}"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <TextBlock
+                                                    Margin="6"
+                                                    HorizontalAlignment="Center"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameDangerousDescriptionHint}"/>
+                                            </Border>
+                                            <Border
+                                                Grid.Row="3"
                                                 Padding="16"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
@@ -420,7 +432,7 @@
                                                 </Grid>
                                             </Border>
                                             <Border
-                                                Grid.Row="3"
+                                                Grid.Row="4"
                                                 Padding="16"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
@@ -460,7 +472,7 @@
                                                 </Grid>
                                             </Border>
                                             <Border
-                                                Grid.Row="4"
+                                                Grid.Row="5"
                                                 Padding="16"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
