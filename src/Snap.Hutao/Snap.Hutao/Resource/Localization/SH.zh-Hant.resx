@@ -1746,7 +1746,7 @@
     <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
-    <value>選定的等級不需要養成材料</value>
+    <value>選擇的等級不需要養成材料</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
     <value>尚未創建並選擇養成計劃</value>
@@ -2271,7 +2271,7 @@
     <value>自動重新整理</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
-    <value>間隔選定的時間後重新整理新增的即時便箋</value>
+    <value>間隔選擇的時間後重新整理新增的即時便箋</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
     <value>這些選項僅允許在非系統管理員模式下更改</value>
@@ -2838,7 +2838,7 @@
     <value>開啟截圖資料夾</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>選定遊戲路徑</value>
+    <value>選擇遊戲路徑</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>關於 胡桃</value>
