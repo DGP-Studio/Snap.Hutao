@@ -8,7 +8,7 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    Width="320"
+    Width="360"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
     mc:Ignorable="d">
 
@@ -52,7 +52,7 @@
                         Grid.Row="2"
                         VerticalAlignment="Center"
                         HorizontalTextAlignment="Right"
-                        Text="{Binding CountdownString}"/>
+                        Text="{Binding FormattedCountdown}"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -96,7 +96,7 @@
                         Grid.Row="2"
                         VerticalAlignment="Center"
                         HorizontalTextAlignment="Right"
-                        Text="{Binding CountdownString}"/>
+                        Text="{Binding FormattedCountdown}"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -114,10 +114,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Border
-                Margin="-2,-2,-2,0"
-                Background="{ThemeResource ExpanderBackground}"
-                BorderBrush="{ThemeResource ExpanderBorderBrush}"
-                BorderThickness="{ThemeResource ExpanderBorderThickness}">
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
                 <TextBlock
                     Margin="16,12"
                     Style="{StaticResource SubtitleTextBlockStyle}"

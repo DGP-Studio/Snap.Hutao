@@ -8,28 +8,27 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 
 internal sealed class Countdown
 {
-
     public Countdown(ICountdownItem item, GachaEvent gachaEvent)
     {
         Item = item;
         LastTime = gachaEvent.To;
 
-        FormattedVersionOrder = $"{gachaEvent.Version} {(gachaEvent.Order is 1 ? "上半" : "下半")}";
+        FormattedVersionOrder = $"{gachaEvent.Version} {(gachaEvent.Order is 1 ? SH.ViewModelGachaLogCountdownOrderUp : SH.ViewModelGachaLogCountdownOrderDown)}";
 
         int cdDays = (int)(DateTimeOffset.Now - LastTime).TotalDays;
-        CountdownString = cdDays > 0 ? $"距离上次复刻已有 {cdDays} 天" : $"距离卡池结束还有 {-cdDays} 天";
+        FormattedCountdown = cdDays > 0 ? SH.FormatViewModelGachaLogCountdownLastTimeDelta(cdDays) : SH.FormatViewModelGachaLogCountdownCurrentWishDelta(-cdDays);
     }
-
-    public ICountdownItem Item { get; set; }
 
     public string FormattedLastTime
     {
-        get => LastTime <= DateTimeOffset.Now ? $"上次复刻时间: {LastTime:yyyy.MM.dd}" : "当前卡池";
+        get => LastTime <= DateTimeOffset.Now ? SH.FormatViewModelGachaLogCountdownLastTime(LastTime) : SH.ViewModelGachaLogCountdownCurrentWish;
     }
 
     public string FormattedVersionOrder { get; set; }
 
-    public string CountdownString { get; set; }
+    public string FormattedCountdown { get; set; }
+
+    public ICountdownItem Item { get; set; }
 
     internal DateTimeOffset LastTime { get; set; }
 }

@@ -365,7 +365,7 @@
                     </shuxcp:HorizontalEqualPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Countdown">
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGachaLogPivotCountdown}">
                 <ScrollViewer
                     Margin="16,0"
                     cw:ScrollViewerExtensions.HorizontalScrollBarMargin="0,0,-16,0"
@@ -374,12 +374,12 @@
                     VerticalScrollMode="Disabled">
                     <shuxcp:HorizontalEqualPanel
                         Margin="0,16"
-                        MinItemWidth="302"
+                        MinItemWidth="360"
                         Spacing="16">
-                        <shuxvs:CountdownCard Title="五星角色" Countdowns="{Binding Statistics.OrangeAvatarCountdowns}"/>
-                        <shuxvs:CountdownCard Title="四星角色" Countdowns="{Binding Statistics.PurpleAvatarCountdowns}"/>
-                        <shuxvs:CountdownCard Title="五星武器" Countdowns="{Binding Statistics.OrangeWeaponCountdowns}"/>
-                        <shuxvs:CountdownCard Title="四星武器" Countdowns="{Binding Statistics.PurpleWeaponCountdowns}"/>
+                        <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogOrangeAvatarCountdown}" Countdowns="{Binding Statistics.OrangeAvatarCountdowns}"/>
+                        <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogPurpleAvatarCountdown}" Countdowns="{Binding Statistics.PurpleAvatarCountdowns}"/>
+                        <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogOrangeWeaponCountdown}" Countdowns="{Binding Statistics.OrangeWeaponCountdowns}"/>
+                        <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogPurpleWeaponCountdown}" Countdowns="{Binding Statistics.PurpleWeaponCountdowns}"/>
                     </shuxcp:HorizontalEqualPanel>
                 </ScrollViewer>
             </PivotItem>
