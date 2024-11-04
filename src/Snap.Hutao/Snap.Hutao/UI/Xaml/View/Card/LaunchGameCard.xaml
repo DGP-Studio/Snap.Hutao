@@ -20,7 +20,7 @@
     BorderBrush="{x:Null}"
     BorderThickness="0"
     Command="{Binding LaunchCommand}"
-    IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+    IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>

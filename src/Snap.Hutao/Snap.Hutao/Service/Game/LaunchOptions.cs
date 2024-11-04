@@ -1,12 +1,16 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using System.Collections.Immutable;
@@ -18,8 +22,10 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.Service.Game;
 
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchOptions : DbStoreOptions
+internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchExecutionProcessStatusChangedMessage>
 {
+    private readonly ITaskContext taskContext;
+    
     private readonly int primaryScreenWidth;
     private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
@@ -60,6 +66,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     public LaunchOptions(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        
         RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
         primaryScreenWidth = primaryRect.Width;
         primaryScreenHeight = primaryRect.Height;
@@ -101,6 +109,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions
                 _ => default,
             };
         });
+
+        IslandFeatureStateMachine = new(this);
 
         static Void InitializeBooleanValue(ref bool? storage, string? value)
         {
@@ -317,6 +327,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions
 
     #region Island Features
 
+    public LaunchOptionsIslandFeatureStateMachine IslandFeatureStateMachine { get; }
+
     public bool IsIslandEnabled
     {
         get => GetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
@@ -326,7 +338,17 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     public bool HookingSetFieldOfView
     {
         get => GetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, true);
-        set => SetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value);
+        set
+        {
+            if (SetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value))
+            {
+                if (!value)
+                {
+                    // Main purpose of enabling this is to enable SetTargetFrameRate
+                    IsSetFieldOfViewEnabled = true;
+                }
+            }
+        }
     }
 
     public bool IsSetFieldOfViewEnabled
@@ -405,5 +427,92 @@ internal sealed partial class LaunchOptions : DbStoreOptions
                 (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }
         }
+    }
+
+#pragma warning disable CA1822
+    public bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
+#pragma warning restore CA1822
+
+    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
+    {
+        taskContext.BeginInvokeOnMainThread(() =>
+        {
+            IslandFeatureStateMachine.Update(this);
+            OnPropertyChanged(nameof(IsGameRunning));
+        });
+    }
+}
+
+internal sealed class LaunchOptionsIslandFeatureStateMachine : ObservableObject
+{
+    private bool canInputTargetFov;
+    private bool canToggleSetFovHotSwitch;
+    private bool canToggleSetFovColdSwitch;
+    private bool canToggleFixLowFovHotSwitch;
+    private bool canToggleDisableFogHotSwitch;
+    private bool canToggleTeamHotSwitch;
+    private bool canToggleTeamColdSwitch;
+    private bool canToggleLetMeInColdSwitch;
+    private bool canInputTargetFps;
+    private bool canToggleSetFpsHotSwitch;
+
+    public LaunchOptionsIslandFeatureStateMachine(LaunchOptions options)
+    {
+        Update(options);
+    }
+
+    public bool CanInputTargetFov { get => canInputTargetFov; set => SetProperty(ref canInputTargetFov, value); }
+
+    public bool CanToggleSetFovHotSwitch { get => canToggleSetFovHotSwitch; set => SetProperty(ref canToggleSetFovHotSwitch, value); }
+
+    public bool CanToggleSetFovColdSwitch { get => canToggleSetFovColdSwitch; set => SetProperty(ref canToggleSetFovColdSwitch, value); }
+
+    public bool CanToggleFixLowFovHotSwitch { get => canToggleFixLowFovHotSwitch; set => SetProperty(ref canToggleFixLowFovHotSwitch, value); }
+
+    public bool CanToggleDisableFogHotSwitch { get => canToggleDisableFogHotSwitch; set => SetProperty(ref canToggleDisableFogHotSwitch, value); }
+
+    public bool CanToggleTeamHotSwitch { get => canToggleTeamHotSwitch; set => SetProperty(ref canToggleTeamHotSwitch, value); }
+
+    public bool CanToggleTeamColdSwitch { get => canToggleTeamColdSwitch; set => SetProperty(ref canToggleTeamColdSwitch, value); }
+
+    public bool CanToggleLetMeInColdSwitch { get => canToggleLetMeInColdSwitch; set => SetProperty(ref canToggleLetMeInColdSwitch, value); }
+
+    public bool CanInputTargetFps { get => canInputTargetFps; set => SetProperty(ref canInputTargetFps, value); }
+
+    public bool CanToggleSetFpsHotSwitch { get => canToggleSetFpsHotSwitch; set => SetProperty(ref canToggleSetFpsHotSwitch, value); }
+
+    public void Update(LaunchOptions options)
+    {
+        (
+            CanInputTargetFov,
+            CanToggleSetFovHotSwitch,
+            CanToggleSetFovColdSwitch,
+            CanToggleFixLowFovHotSwitch,
+            CanToggleDisableFogHotSwitch,
+            CanToggleTeamHotSwitch,
+            CanToggleTeamColdSwitch,
+            CanToggleLetMeInColdSwitch,
+            CanInputTargetFps,
+            CanToggleSetFpsHotSwitch) =
+            (options.IsIslandEnabled, options.IsGameRunning, options.HookingSetFieldOfView, options.IsSetFieldOfViewEnabled, options.HookingOpenTeam) switch
+            {
+                (false, _, _, _, _) => (false, false, false, false, false, false, false, false, false, false),
+                (true, false, false, false, false) => (false, true, true, true, true, true, true, true, true, true),
+                (true, false, false, false, true) => (false, true, true, true, true, true, true, true, true, true),
+                (true, false, false, true, false) => (false, true, true, true, true, true, true, true, true, true),
+                (true, false, false, true, true) => (false, true, true, true, true, true, true, true, true, true),
+                (true, false, true, false, false) => (false, true, true, true, true, true, true, true, true, true),
+                (true, false, true, false, true) => (false, true, true, true, true, true, true, true, true, true),
+                (true, false, true, true, false) => (true, true, true, true, true, true, true, true, true, true),
+                (true, false, true, true, true) => (true, true, true, true, true, true, true, true, true, true),
+                (true, true, false, false, false) => (false, true, false, true, true, true, false, false, true, true),
+                (true, true, false, false, true) => (false, true, false, true, true, true, false, false, true, true),
+                (true, true, false, true, false) => (false, true, false, true, true, true, false, false, true, true),
+                (true, true, false, true, true) => (false, true, false, true, true, true, false, false, true, true),
+                (true, true, true, false, false) => (false, true, false, true, true, true, false, false, true, true),
+                (true, true, true, false, true) => (false, true, false, true, true, true, false, false, true, true),
+                (true, true, true, true, false) => (true, true, false, true, true, true, false, false, true, true),
+                (true, true, true, true, true) => (true, true, false, true, true, true, false, false, true, true),
+            };
     }
 }

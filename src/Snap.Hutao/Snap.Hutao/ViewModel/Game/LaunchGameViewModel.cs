@@ -27,8 +27,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution,
-    IRecipient<LaunchExecutionProcessStatusChangedMessage>
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
 {
     private readonly GamePackageInstallViewModel gamePackageInstallViewModel;
     private readonly GamePackageViewModel gamePackageViewModel;
@@ -66,8 +65,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public GamePackageInstallViewModel GamePackageInstallViewModel { get => gamePackageInstallViewModel; }
 
     public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
-
-    public bool IsGameRunning { get => gameService.IsGameRunning(); }
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
@@ -164,11 +161,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         GamePathEntries = gamePathEntries;
         SelectedGamePathEntry = selectedEntry;
-    }
-
-    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
-    {
-        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(IsGameRunning)));
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()

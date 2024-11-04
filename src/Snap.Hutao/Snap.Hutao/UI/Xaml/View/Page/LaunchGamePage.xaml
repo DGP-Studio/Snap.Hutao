@@ -176,7 +176,7 @@
                     <AppBarButton
                         Command="{Binding LaunchCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
-                        IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
                         Label="{shuxm:ResourceString Name=ViewPageLaunchGameAction}"/>
                 </CommandBar>
             </Pivot.RightHeader>
@@ -336,21 +336,10 @@
                                                 <ToggleSwitch
                                                     Grid.Column="1"
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                                    shuxc:ControlHelper.IsDisabled1="{Binding IsGameRunning}"
+                                                    IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
                                                     IsOn="{Binding LaunchOptions.IsIslandEnabled, Mode=TwoWay}"
                                                     Style="{ThemeResource RightAlignedCompactToggleSwitchStyle}"/>
                                             </Grid>
-                                            <Border
-                                                Grid.Row="2"
-                                                Background="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}"
-                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                BorderThickness="0,0,0,1">
-                                                <TextBlock
-                                                    Margin="6"
-                                                    HorizontalAlignment="Center"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameTooltipDescriptionHint}"/>
-                                            </Border>
                                             <Border
                                                 Grid.Row="1"
                                                 Background="{ThemeResource InfoBarErrorSeverityBackgroundBrush}"
@@ -361,6 +350,17 @@
                                                     HorizontalAlignment="Center"
                                                     Style="{ThemeResource CaptionTextBlockStyle}"
                                                     Text="{shuxm:ResourceString Name=ViewPageLaunchGameDangerousDescriptionHint}"/>
+                                            </Border>
+                                            <Border
+                                                Grid.Row="2"
+                                                Background="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <TextBlock
+                                                    Margin="6"
+                                                    HorizontalAlignment="Center"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text="{shuxm:ResourceString Name=ViewPageLaunchGameTooltipDescriptionHint}"/>
                                             </Border>
                                             <Border
                                                 Grid.Row="3"
@@ -404,7 +404,6 @@
                                                         Grid.Row="0"
                                                         Grid.Column="2"
                                                         shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
-                                                        shuxc:ControlHelper.IsDisabled2="{Binding IsGameRunning}"
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovColdSwitchHeader}"
                                                         IsOn="{Binding LaunchOptions.HookingSetFieldOfView, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
@@ -448,6 +447,50 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="auto"/>
                                                     </Grid.RowDefinitions>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
+                                                        shuxc:ControlHelper.IsDisabled2="{Binding LaunchOptions.HookingSetFieldOfView, Converter={StaticResource BoolNegationConverter}}"
+                                                        shuxc:ControlHelper.IsDisabled3="{Binding LaunchOptions.HookingOpenTeam, Converter={StaticResource BoolNegationConverter}}"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}"
+                                                        IsOn="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressDescription}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
+                                                        shuxc:ControlHelper.IsDisabled2="{Binding LaunchOptions.HookingSetFieldOfView, Converter={StaticResource BoolNegationConverter}}"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader}"
+                                                        IsOn="{Binding LaunchOptions.HookingOpenTeam, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
+                                                        shuxc:ControlHelper.IsDisabled2="{Binding LaunchOptions.HookingSetFieldOfView, Converter={StaticResource BoolNegationConverter}}"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameBypass31Dash4302Header}"
+                                                        IsOn="{Binding LaunchOptions.HookingMickyWonderPartner2, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameBypass31Dash4302Description}"/>
+                                                </Grid>
+                                            </Border>
+                                            <Border
+                                                Grid.Row="5"
+                                                Padding="16"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <Grid
+                                                    Grid.Row="1"
+                                                    ColumnSpacing="16"
+                                                    RowSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
                                                     <NumberBox
                                                         Grid.Row="0"
                                                         Grid.Column="0"
@@ -469,51 +512,6 @@
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHotSwitchHeader}"
                                                         IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
-                                                </Grid>
-                                            </Border>
-                                            <Border
-                                                Grid.Row="5"
-                                                Padding="16"
-                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                BorderThickness="0,0,0,1">
-                                                <Grid
-                                                    Grid.Row="1"
-                                                    ColumnSpacing="16"
-                                                    RowSpacing="16">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <ToggleSwitch
-                                                        Grid.Row="0"
-                                                        Grid.Column="0"
-                                                        shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
-                                                        shuxc:ControlHelper.IsDisabled2="{Binding LaunchOptions.HookingOpenTeam, Converter={StaticResource BoolNegationConverter}}"
-                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}"
-                                                        IsOn="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
-                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressDescription}"/>
-                                                    <ToggleSwitch
-                                                        Grid.Row="0"
-                                                        Grid.Column="1"
-                                                        shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
-                                                        shuxc:ControlHelper.IsDisabled2="{Binding IsGameRunning}"
-                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader}"
-                                                        IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
-                                                        IsOn="{Binding LaunchOptions.HookingOpenTeam, Mode=TwoWay}"
-                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
-                                                    <ToggleSwitch
-                                                        Grid.Row="0"
-                                                        Grid.Column="2"
-                                                        shuxc:ControlHelper.IsDisabled1="{Binding LaunchOptions.IsIslandEnabled, Converter={StaticResource BoolNegationConverter}}"
-                                                        shuxc:ControlHelper.IsDisabled2="{Binding IsGameRunning}"
-                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameBypass31Dash4302Header}"
-                                                        IsEnabled="{Binding IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
-                                                        IsOn="{Binding LaunchOptions.HookingMickyWonderPartner2, Mode=TwoWay}"
-                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameBypass31Dash4302Description}"/>
                                                 </Grid>
                                             </Border>
                                         </Grid>
