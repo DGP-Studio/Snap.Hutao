@@ -123,8 +123,9 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // "x.x" -> DTO
         Dictionary<string, DateTimeOffset> versionStartTimes = [];
 
-        // Workaround for 5.0 Permanent Activity
+        // Workaround for some long-term activities
         versionStartTimes.TryAdd("5.0", UnsafeDateTimeOffset.ParseDateTime("2024/08/28 06:00".AsSpan(), offset));
+        versionStartTimes.TryAdd("5.1", UnsafeDateTimeOffset.ParseDateTime("2024/10/09 06:00".AsSpan(), offset));
 
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 

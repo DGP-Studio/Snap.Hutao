@@ -70,6 +70,6 @@ internal static partial class AnnouncementHtmlVisitor
         return string.Empty;
     }
 
-    [GeneratedRegex(@".*?\d\.\d.*?$|\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
+    [GeneratedRegex(@".*?\d\.\d.*?[~\-]?|\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
     private static partial Regex TimeOrVersionRegex();
 }
