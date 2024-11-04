@@ -17,8 +17,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution,
-    IRecipient<LaunchExecutionProcessStatusChangedMessage>
+internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
 {
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly LaunchGameShared launchGameShared;
@@ -37,16 +36,9 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
 
-    public bool IsGameRunning { get => gameService.IsGameRunning(); }
-
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
-
-    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
-    {
-        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(IsGameRunning)));
-    }
 
     protected override async Task LoadAsync()
     {

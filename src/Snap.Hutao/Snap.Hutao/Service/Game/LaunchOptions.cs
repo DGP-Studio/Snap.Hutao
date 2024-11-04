@@ -1,12 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Controls;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using System.Collections.Immutable;
@@ -18,8 +20,10 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.Service.Game;
 
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchOptions : DbStoreOptions
+internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchExecutionProcessStatusChangedMessage>
 {
+    private readonly ITaskContext taskContext;
+
     private readonly int primaryScreenWidth;
     private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
@@ -60,6 +64,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     public LaunchOptions(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
         RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
         primaryScreenWidth = primaryRect.Width;
         primaryScreenHeight = primaryRect.Height;
@@ -101,6 +107,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions
                 _ => default,
             };
         });
+
+        IslandFeatureStateMachine = new(this);
+        serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         static Void InitializeBooleanValue(ref bool? storage, string? value)
         {
@@ -317,22 +326,42 @@ internal sealed partial class LaunchOptions : DbStoreOptions
 
     #region Island Features
 
+    public LaunchOptionsIslandFeatureStateMachine IslandFeatureStateMachine { get; }
+
     public bool IsIslandEnabled
     {
         get => GetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
-        set => SetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value);
+        set
+        {
+            if (SetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value))
+            {
+                IslandFeatureStateMachine.Update(this);
+            }
+        }
     }
 
     public bool HookingSetFieldOfView
     {
         get => GetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, true);
-        set => SetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value);
+        set
+        {
+            if (SetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value))
+            {
+                IslandFeatureStateMachine.Update(this);
+            }
+        }
     }
 
     public bool IsSetFieldOfViewEnabled
     {
         get => GetOption(ref isSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, true);
-        set => SetOption(ref isSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value);
+        set
+        {
+            if (SetOption(ref isSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value))
+            {
+                IslandFeatureStateMachine.Update(this);
+            }
+        }
     }
 
     public float TargetFov
@@ -356,7 +385,13 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     public bool IsSetTargetFrameRateEnabled
     {
         get => GetOption(ref isSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, true);
-        set => SetOption(ref isSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value);
+        set
+        {
+            if (SetOption(ref isSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value))
+            {
+                IslandFeatureStateMachine.Update(this);
+            }
+        }
     }
 
     public int TargetFps
@@ -368,7 +403,13 @@ internal sealed partial class LaunchOptions : DbStoreOptions
     public bool HookingOpenTeam
     {
         get => GetOption(ref hookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, true);
-        set => SetOption(ref hookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, value);
+        set
+        {
+            if (SetOption(ref hookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, value))
+            {
+                IslandFeatureStateMachine.Update(this);
+            }
+        }
     }
 
     public bool RemoveOpenTeamProgress
@@ -405,5 +446,18 @@ internal sealed partial class LaunchOptions : DbStoreOptions
                 (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }
         }
+    }
+
+#pragma warning disable CA1822
+    public bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
+#pragma warning restore CA1822
+
+    public void Receive(LaunchExecutionProcessStatusChangedMessage message)
+    {
+        taskContext.BeginInvokeOnMainThread(() =>
+        {
+            IslandFeatureStateMachine.Update(this);
+            OnPropertyChanged(nameof(IsGameRunning));
+        });
     }
 }
