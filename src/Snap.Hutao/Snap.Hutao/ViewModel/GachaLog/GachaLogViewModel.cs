@@ -11,7 +11,6 @@ using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Setting;
@@ -25,6 +24,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
+    private readonly WishCountdownViewModel wishCountdownViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
     private readonly ILogger<GachaLogViewModel> logger;
@@ -75,6 +75,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     public HutaoCloudViewModel HutaoCloudViewModel { get => hutaoCloudViewModel; }
 
     public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
+
+    public WishCountdownViewModel WishCountdownViewModel { get => wishCountdownViewModel; }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

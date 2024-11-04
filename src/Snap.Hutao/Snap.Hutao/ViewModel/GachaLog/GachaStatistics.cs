@@ -17,14 +17,6 @@ internal sealed class GachaStatistics
 
     public AdvancedCollectionView<HistoryWish> HistoryWishes { get; set; } = default!;
 
-    public List<Countdown> OrangeAvatarCountdowns { get; set; } = default!;
-
-    public List<Countdown> PurpleAvatarCountdowns { get; set; } = default!;
-
-    public List<Countdown> OrangeWeaponCountdowns { get; set; } = default!;
-
-    public List<Countdown> PurpleWeaponCountdowns { get; set; } = default!;
-
     public List<StatisticsItem> OrangeAvatars { get; set; } = default!;
 
     public List<StatisticsItem> PurpleAvatars { get; set; } = default!;

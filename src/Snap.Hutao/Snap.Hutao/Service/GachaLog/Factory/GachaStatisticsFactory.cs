@@ -200,51 +200,10 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             .Select(builder => builder.ToHistoryWish())
             .ToList();
 
-        List<Countdown> orangeAvatarCountdowns = orangeAvatarCounter
-            .Keys
-            .Where(avatar => !AvatarIds.IsStandardWish(avatar.Id))
-            .Select(avatar => new Countdown(
-                avatar,
-                context.Metadata.GachaEvents.Last(e => e.UpOrangeList.Any(i => i == avatar.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
-
-        List<Countdown> purpleAvatarCountdowns = purpleAvatarCounter
-            .Keys
-            .Where(avatar => !AvatarIds.IsStandardWish(avatar.Id))
-            .Select(avatar => new Countdown(
-                avatar,
-                context.Metadata.GachaEvents.Last(e => e.UpPurpleList.Any(i => i == avatar.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
-
-        List<Countdown> orangeWeaponCountdowns = orangeWeaponCounter
-            .Keys
-            .Where(weapon => !WeaponIds.IsStandardWish(weapon.Id))
-            .Select(weapon => new Countdown(
-                weapon,
-                context.Metadata.GachaEvents.Last(e => e.UpOrangeList.Any(i => i == weapon.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
-
-        List<Countdown> purpleWeaponCountdowns = purpleWeaponCounter
-            .Keys
-            .Select(weapon => new Countdown(
-                weapon,
-                context.Metadata.GachaEvents.Last(e => e.UpPurpleList.Any(i => i == weapon.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
-
         return new()
         {
             // history
             HistoryWishes = historyWishes.ToAdvancedCollectionView(),
-
-            // Countdowns
-            OrangeAvatarCountdowns = orangeAvatarCountdowns,
-            PurpleAvatarCountdowns = purpleAvatarCountdowns,
-            OrangeWeaponCountdowns = orangeWeaponCountdowns,
-            PurpleWeaponCountdowns = purpleWeaponCountdowns,
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),

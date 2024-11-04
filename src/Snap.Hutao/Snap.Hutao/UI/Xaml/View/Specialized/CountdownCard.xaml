@@ -125,7 +125,7 @@
             <ListView
                 Grid.Row="1"
                 ItemTemplateSelector="{StaticResource CountdownCardTemplateSelector}"
-                ItemsSource="{x:Bind Countdowns}"
+                ItemsSource="{x:Bind Countdowns, Mode=OneWay}"
                 SelectionMode="None"/>
         </Grid>
     </Border>
