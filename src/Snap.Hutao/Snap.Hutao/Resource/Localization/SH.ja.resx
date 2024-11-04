@@ -1576,7 +1576,7 @@
     <value>送信</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
-    <value>携帯電話コードによるログイン</value>
+    <value>携帯電話の認証コードによるログインする</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Cookie 設定</value>
@@ -3416,7 +3416,7 @@
     <value>旅行ツール</value>
   </data>
   <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
-    <value>アカウント ログイン</value>
+    <value>アカウント</value>
   </data>
   <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
     <value>サードパーティ ログイン</value>
@@ -3425,7 +3425,7 @@
     <value>ウェブ上でログイン</value>
   </data>
   <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
-    <value>携帯電話で認証コード</value>
+    <value>認証コード</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>QRコードでログイン</value>
@@ -3449,7 +3449,7 @@
     <value>ドキュメント</value>
   </data>
   <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>MiYouShe(米游社)のセキュリティポリシーの変更により、ウェブからのログインができなくなりました</value>
+    <value>米游社のセキュリティポリシーの変更により、ウェブからのログインができなくなりました。</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>ログインしていません</value>
