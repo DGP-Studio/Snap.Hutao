@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Weapon;
 
@@ -22,12 +23,22 @@ internal static class WeaponIds
     public static readonly WeaponId BowDvalin = 15501;
     public static readonly WeaponId BowAmos = 15502;
 
-    public static bool IsRegular(in WeaponId weaponId)
+    private static readonly FrozenSet<WeaponId> StandardWishIds = FrozenSet.ToFrozenSet(
+    [
+        SwordFalcon,
+        SwordDvalin,
+        ClaymoreDvalin,
+        ClaymoreWolfmound,
+        PoleDvalin,
+        PoleMorax,
+        CatalystDvalin,
+        CatalystFourwinds,
+        BowDvalin,
+        BowAmos,
+    ]);
+
+    public static bool IsStandardWish(in WeaponId weaponId)
     {
-        return weaponId == SwordFalcon || weaponId == SwordDvalin ||
-            weaponId == ClaymoreDvalin || weaponId == ClaymoreWolfmound ||
-            weaponId == PoleDvalin || weaponId == PoleMorax ||
-            weaponId == CatalystDvalin || weaponId == CatalystFourwinds ||
-            weaponId == BowDvalin || weaponId == BowAmos;
+        return StandardWishIds.Contains(weaponId);
     }
 }

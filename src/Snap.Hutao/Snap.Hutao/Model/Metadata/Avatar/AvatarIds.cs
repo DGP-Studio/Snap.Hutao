@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
@@ -104,15 +105,24 @@ internal static class AvatarIds
     public static readonly AvatarId Kinich = 10000101;
     public static readonly AvatarId Mualani = 10000102;
 
-    public static bool IsRegular(in AvatarId avatarId)
+    private static readonly FrozenSet<AvatarId> StandardWishIds = FrozenSet.ToFrozenSet(
+    [
+        Qin,
+        Diluc,
+        Mona,
+        Keqing,
+        Qiqi,
+        Tighnari,
+        Dehya,
+        Lisa,
+        Ambor,
+        Kaeya,
+        Aloy,
+    ]);
+
+    public static bool IsStandardWish(in AvatarId avatarId)
     {
-        return avatarId == Qin || avatarId == Diluc || avatarId == Mona ||
-            avatarId == Keqing || avatarId == Qiqi ||
-            avatarId == Tighnari || avatarId == Dehya ||
-
-            avatarId == Lisa || avatarId == Ambor || avatarId == Kaeya ||
-
-            avatarId == Aloy;
+        return StandardWishIds.Contains(avatarId);
     }
 
     public static bool IsPlayer(in AvatarId avatarId)
