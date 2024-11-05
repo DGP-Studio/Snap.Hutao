@@ -674,10 +674,10 @@
     <value>Duration: </value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
-    <value>Open forever</value>
+    <value>Permanently available</value>
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
-    <value>〓更新时间〓</value>
+    <value>〓Update Schedule〓</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
@@ -1821,16 +1821,16 @@
     <value>Export failed</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
-    <value>Current card pool</value>
+    <value>Current wish</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
-    <value>距离 UP 结束还有 {0} 天</value>
+    <value>{0} days until the end of UP</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
     <value>Last UP time: {0:yyyy.MM.dd}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
-    <value>距离上次 UP 已有 {0} 天</value>
+    <value>{0} days since the last UP</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
     <value>Second Half</value>
@@ -2415,13 +2415,13 @@
     <value>Five Star Weapons</value>
   </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
-    <value>Timing</value>
+    <value>Countdown</value>
   </data>
   <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
     <value>Four Star Roles</value>
   </data>
   <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
-    <value>Samsung Weapons</value>
+    <value>Four Star Weapons</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
     <value>Recover Wish Records from Snap Hutao Cloud</value>
