@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -30,7 +30,8 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
 
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            context = await metadataService.GetContextAsync<GachaLogWishCountdownServiceMetadataContext>().ConfigureAwait(false);
+            context = await metadataService.GetContextAsync<GachaLogWishCountdownServiceMetadataContext>()
+                .ConfigureAwait(false);
             return true;
         }
 
@@ -44,59 +45,107 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             return new(false, default!);
         }
 
-        List<Countdown> orangeAvatarCountdowns = context.IdAvatarMap.Values
-            .Where(avatar => avatar.Quality == QualityType.QUALITY_ORANGE)
-            .Where(avatar => !AvatarIds.IsStandardWish(avatar.Id))
-            .Select(avatar => new Countdown(
-                avatar.ToItem<Item>(),
-                context.GachaEvents.Last(e => e.UpOrangeList.Any(i => i == avatar.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
+        return new(true, GetWishCountdownsCore());
+    }
 
-        List<Countdown> purpleAvatarCountdowns = context.IdAvatarMap.Values
-            .Where(avatar => avatar.Quality == QualityType.QUALITY_PURPLE)
-            .Where(avatar => !AvatarIds.IsStandardWish(avatar.Id))
-            .Select(avatar => new Countdown(
-                avatar.ToItem<Item>(),
-                context.GachaEvents.Last(e => e.UpPurpleList.Any(i => i == avatar.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
+    private WishCountdowns GetWishCountdownsCore()
+    {
+        HashSet<uint> ids = [];
 
-        List<Countdown> orangeWeaponCountdowns = context.IdWeaponMap.Values
-            .Where(weapon => weapon.Quality == QualityType.QUALITY_ORANGE)
-            .Where(weapon => !WeaponIds.IsStandardWish(weapon.Id))
-            .Select(weapon => new Countdown(
-                weapon.ToItem<Item>(),
-                context.GachaEvents.Last(e => e.UpOrangeList.Any(i => i == weapon.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
-
-        HashSet<Weapon> purpleWeapons = [];
-        foreach (GachaEvent gachaEvent in context.GachaEvents)
+        List<Countdown> orangeAvatarCountdowns = [];
+        List<Countdown> purpleAvatarCountdowns = [];
+        List<Countdown> orangeWeaponCountdowns = [];
+        List<Countdown> purpleWeaponCountdowns = [];
+        foreach (GachaEvent gachaEvent in context.GachaEvents.Reverse())
         {
+            if (gachaEvent.Type is GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar)
+            {
+                foreach (uint avatarId in gachaEvent.UpOrangeList)
+                {
+                    if (!AvatarIds.IsStandardWish(avatarId) && ids.Add(avatarId))
+                    {
+                        orangeAvatarCountdowns.Insert(0, new(context.GetAvatar(avatarId).ToItem<Item>(), gachaEvent));
+                    }
+                }
+
+                foreach (uint avatarId in gachaEvent.UpPurpleList)
+                {
+                    if (ids.Add(avatarId))
+                    {
+                        purpleAvatarCountdowns.Insert(0, new(context.GetAvatar(avatarId).ToItem<Item>(), gachaEvent));
+                    }
+                }
+
+                continue;
+            }
+
             if (gachaEvent.Type is GachaType.ActivityWeapon)
             {
+                foreach (uint weaponId in gachaEvent.UpOrangeList)
+                {
+                    if (!WeaponIds.IsStandardWish(weaponId) && ids.Add(weaponId))
+                    {
+                        orangeWeaponCountdowns.Insert(0, new(context.GetWeapon(weaponId).ToItem<Item>(), gachaEvent));
+                    }
+                }
+
                 foreach (uint weaponId in gachaEvent.UpPurpleList)
                 {
-                    purpleWeapons.Add(context.GetWeapon(weaponId));
+                    if (ids.Add(weaponId))
+                    {
+                        purpleWeaponCountdowns.Insert(0, new(context.GetWeapon(weaponId).ToItem<Item>(), gachaEvent));
+                    }
+                }
+
+                continue;
+            }
+
+            if (gachaEvent.Type is GachaType.ActivityCity)
+            {
+                foreach (uint itemId in gachaEvent.UpOrangeList)
+                {
+                    if (!(AvatarIds.IsStandardWish(itemId) || WeaponIds.IsStandardWish(itemId)) && ids.Add(itemId))
+                    {
+                        switch (itemId.StringLength())
+                        {
+                            case 8U:
+                                orangeAvatarCountdowns.Insert(0, new(context.GetAvatar(itemId).ToItem<Item>(), gachaEvent));
+                                break;
+                            case 5U:
+                                orangeWeaponCountdowns.Insert(0, new(context.GetWeapon(itemId).ToItem<Item>(), gachaEvent));
+                                break;
+                            default:
+                                throw HutaoException.NotSupported();
+                        }
+                    }
+                }
+
+                foreach (uint itemId in gachaEvent.UpPurpleList)
+                {
+                    if (ids.Add(itemId))
+                    {
+                        switch (itemId.StringLength())
+                        {
+                            case 8U:
+                                purpleAvatarCountdowns.Insert(0, new(context.GetAvatar(itemId).ToItem<Item>(), gachaEvent));
+                                break;
+                            case 5U:
+                                purpleWeaponCountdowns.Insert(0, new(context.GetWeapon(itemId).ToItem<Item>(), gachaEvent));
+                                break;
+                            default:
+                                throw HutaoException.NotSupported();
+                        }
+                    }
                 }
             }
         }
 
-        List<Countdown> purpleWeaponCountdowns = purpleWeapons
-            .Select(weapon => new Countdown(
-                weapon.ToItem<Item>(),
-                context.GachaEvents.Last(e => e.UpPurpleList.Any(i => i == weapon.Id))))
-            .OrderBy(c => c.LastTime)
-            .ToList();
-
-        return new(true, new()
+        return new()
         {
             OrangeAvatars = orangeAvatarCountdowns,
             PurpleAvatars = purpleAvatarCountdowns,
             OrangeWeapons = orangeWeaponCountdowns,
             PurpleWeapons = purpleWeaponCountdowns,
-        });
+        };
     }
-
 }
