@@ -104,6 +104,7 @@ internal static class AvatarIds
     public static readonly AvatarId Kachina = 10000100;
     public static readonly AvatarId Kinich = 10000101;
     public static readonly AvatarId Mualani = 10000102;
+    public static readonly AvatarId Xilonen = 10000103;
 
     private static readonly FrozenSet<AvatarId> StandardWishIds = FrozenSet.ToFrozenSet(
     [

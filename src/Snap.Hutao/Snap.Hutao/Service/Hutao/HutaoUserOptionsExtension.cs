@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
 using System.Globalization;

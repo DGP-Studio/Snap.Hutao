@@ -9,7 +9,6 @@ using Snap.Hutao.UI;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Win32.System.WinRT;
 using System.IO;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;

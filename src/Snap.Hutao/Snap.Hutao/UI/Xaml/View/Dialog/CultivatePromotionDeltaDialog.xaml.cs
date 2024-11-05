@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Model.Calculable;
-using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
