@@ -2628,7 +2628,7 @@
     <value>所有選項僅會在啟動遊戲成功後儲存</value>
   </data>
   <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
-    <value>注入功能非常危险且有可能会造成严重后果，请谨慎使用</value>
+    <value>注入功能非常危險且有可能會造成嚴重後果，請謹慎使用</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>移除光照渲染中的迷霧</value>
