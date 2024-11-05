@@ -380,7 +380,7 @@
                         VerticalScrollMode="Disabled">
                         <shuxcp:HorizontalEqualPanel
                             Margin="0,16"
-                            MinItemWidth="360"
+                            MinItemWidth="320"
                             Spacing="16">
                             <mxi:Interaction.Behaviors>
                                 <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding WishCountdownViewModel.LoadCommand}"/>

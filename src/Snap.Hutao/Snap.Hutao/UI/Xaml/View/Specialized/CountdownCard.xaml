@@ -6,30 +6,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    Width="360"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
         <DataTemplate x:Key="CountdownTemplate" x:DataType="shvg:Countdown">
-            <Grid Margin="0,2">
+            <Grid
+                Margin="8,0,8,4"
+                Padding="8"
+                ColumnSpacing="8"
+                Style="{ThemeResource SecondaryGridCardStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Border Style="{StaticResource BorderCardStyle}">
-                    <StackPanel>
-                        <shuxc:ItemIcon Icon="{Binding Item.Icon}" Quality="{Binding Item.Quality}"/>
+                <shuxcc:VerticalCard Width="66">
+                    <shuxcc:VerticalCard.Top>
+                        <shuxc:ItemIcon
+                            Width="64"
+                            Height="64"
+                            Icon="{Binding Item.Icon}"
+                            Quality="{Binding Item.Quality}"/>
+                    </shuxcc:VerticalCard.Top>
+                    <shuxcc:VerticalCard.Bottom>
                         <TextBlock
+                            Margin="2,0"
                             HorizontalTextAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding Item.Name}"
-                            TextTrimming="None"
+                            TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
-                    </StackPanel>
-                </Border>
+                    </shuxcc:VerticalCard.Bottom>
+                </shuxcc:VerticalCard>
 
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -39,19 +50,24 @@
                     </Grid.RowDefinitions>
                     <TextBlock
                         Grid.Row="0"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        HorizontalTextAlignment="Right"
-                        Text="{Binding FormattedLastTime}"/>
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding FormattedCountdown}"/>
                     <TextBlock
                         Grid.Row="1"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        HorizontalTextAlignment="Right"
-                        Text="{Binding FormattedVersionOrder}"/>
+                        Opacity="0.8"
+                        Text="{Binding FormattedLastTime}"/>
                     <TextBlock
                         Grid.Row="2"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        HorizontalTextAlignment="Right"
-                        Text="{Binding FormattedCountdown}"/>
+                        Opacity="0.6"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding FormattedVersionOrder}"/>
+
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -74,6 +90,7 @@
             </Border>
             <ListView
                 Grid.Row="1"
+                ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
                 ItemTemplate="{StaticResource CountdownTemplate}"
                 ItemsSource="{x:Bind Countdowns, Mode=OneWay}"
                 SelectionMode="None"/>

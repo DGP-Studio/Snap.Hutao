@@ -19,7 +19,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
 {
     private readonly IMetadataService metadataService;
 
-    private GachaLogWishCountdownServiceMetadataContext context;
+    private GachaLogWishCountdownServiceMetadataContext? context;
 
     public async ValueTask<bool> InitializeAsync()
     {
@@ -50,12 +50,15 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
 
     private WishCountdowns GetWishCountdownsCore()
     {
+        ArgumentNullException.ThrowIfNull(context);
+
         HashSet<uint> ids = [];
 
         List<Countdown> orangeAvatarCountdowns = [];
         List<Countdown> purpleAvatarCountdowns = [];
         List<Countdown> orangeWeaponCountdowns = [];
         List<Countdown> purpleWeaponCountdowns = [];
+
         foreach (GachaEvent gachaEvent in context.GachaEvents.Reverse())
         {
             if (gachaEvent.Type is GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar)
