@@ -71,7 +71,7 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 
 Snap Hutao is currently using sponsored software from the following service providers.
 
-<img src="./.github/assets/readmeSponsors.svg" alt="Readme Sponsors" />
+<img src="./res/assets/readmeSponsors.svg" alt="Readme Sponsors" />
 
 - [Netlify](https://www.netlify.com/) provides document and home page hosting service for Snap Hutao
 

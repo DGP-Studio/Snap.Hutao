@@ -33,7 +33,7 @@
 		<clipPath id="clip4_2">
 			<rect id="readmeSponsors" rx="5.000000" width="580.000000" height="220.000000" fill="white" fill-opacity="0"/>
 		</clipPath>
-		<linearGradient x1="403.000000" y1="60.000015" x2="443.835510" y2="20.000011" id="paint_linear_4_115_0" gradientUnits="userSpaceOnUse">
+		<linearGradient x1="403.000000" y1="19.999998" x2="443.835510" y2="59.999992" id="paint_linear_4_115_0" gradientUnits="userSpaceOnUse">
 			<stop stop-color="#DBBB42"/>
 			<stop offset="0.380000" stop-color="#F8D957"/>
 			<stop offset="0.500000" stop-color="#FFE36C"/>
