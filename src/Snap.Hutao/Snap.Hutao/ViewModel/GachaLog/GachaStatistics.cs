@@ -5,59 +5,25 @@ using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 祈愿统计
-/// </summary>
-[HighQuality]
 internal sealed class GachaStatistics
 {
-    /// <summary>
-    /// 角色活动
-    /// </summary>
     public TypedWishSummary AvatarWish { get; set; } = default!;
 
-    /// <summary>
-    /// 神铸赋形
-    /// </summary>
     public TypedWishSummary WeaponWish { get; set; } = default!;
 
-    /// <summary>
-    /// 集录祈愿
-    /// </summary>
     public TypedWishSummary ChronicledWish { get; set; } = default!;
 
-    /// <summary>
-    /// 奔行世间
-    /// </summary>
     public TypedWishSummary StandardWish { get; set; } = default!;
 
-    /// <summary>
-    /// 历史卡池
-    /// </summary>
     public AdvancedCollectionView<HistoryWish> HistoryWishes { get; set; } = default!;
 
-    /// <summary>
-    /// 五星角色
-    /// </summary>
     public List<StatisticsItem> OrangeAvatars { get; set; } = default!;
 
-    /// <summary>
-    /// 四星角色
-    /// </summary>
     public List<StatisticsItem> PurpleAvatars { get; set; } = default!;
 
-    /// <summary>
-    /// 五星武器
-    /// </summary>
     public List<StatisticsItem> OrangeWeapons { get; set; } = default!;
 
-    /// <summary>
-    /// 四星武器
-    /// </summary>
     public List<StatisticsItem> PurpleWeapons { get; set; } = default!;
 
-    /// <summary>
-    /// 三星武器
-    /// </summary>
     public List<StatisticsItem> BlueWeapons { get; set; } = default!;
 }
