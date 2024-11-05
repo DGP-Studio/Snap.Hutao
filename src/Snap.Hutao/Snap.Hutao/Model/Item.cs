@@ -5,29 +5,15 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model;
 
-/// <summary>
-/// 物品基类
-/// </summary>
-[HighQuality]
 internal class Item : INameIcon
 {
-    /// <summary>
-    /// 物品名称
-    /// </summary>
-    public string Name { get; set; } = default!;
+    public string Name { get; init; } = default!;
 
-    /// <summary>
-    /// 主图标
-    /// </summary>
-    public Uri Icon { get; set; } = default!;
+    public Uri Icon { get; init; } = default!;
 
-    /// <summary>
-    /// 小图标
-    /// </summary>
-    public Uri Badge { get; set; } = default!;
+    public Uri Badge { get; init; } = default!;
 
-    /// <summary>
-    /// 星级
-    /// </summary>
-    public QualityType Quality { get; set; }
+    public QualityType Quality { get; init; }
+
+    internal uint Id { get; init; }
 }

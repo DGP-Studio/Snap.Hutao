@@ -76,7 +76,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
     /// <inheritdoc/>
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {

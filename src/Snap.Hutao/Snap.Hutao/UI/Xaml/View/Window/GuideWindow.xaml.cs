@@ -38,6 +38,8 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
 
     public string PersistRectKey { get => SettingKeys.GuideWindowRect; }
 
+    public string PersistScaleKey { get => SettingKeys.GuideWindowScale; }
+
     public SizeInt32 InitSize { get; } = new(MinWidth, MinHeight);
 
     public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);

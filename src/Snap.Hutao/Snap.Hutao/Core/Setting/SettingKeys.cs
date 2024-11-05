@@ -11,7 +11,9 @@ internal static class SettingKeys
 {
     #region MainWindow
     public const string WindowRect = "WindowRect";
+    public const string WindowScale = "WindowScale";
     public const string GuideWindowRect = "GuideWindowRect";
+    public const string GuideWindowScale = "GuideWindowScale";
     public const string IsNavPaneOpen = "IsNavPaneOpen";
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
 

@@ -28,7 +28,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
     public string RemoteVersionText { get => SH.FormatViewModelGamePackageRemoteVersion(RemoteVersion); }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         LaunchScheme launchScheme = KnownLaunchSchemes.Get().First(scheme => scheme.IsNotCompatOnly);
 

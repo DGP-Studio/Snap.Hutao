@@ -82,7 +82,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         return false;
     }
 
-    protected override ValueTask<bool> InitializeOverrideAsync()
+    protected override ValueTask<bool> LoadOverrideAsync()
     {
         Storage.CacheFolderView = new(taskContext, HutaoRuntime.LocalCache);
         Storage.DataFolderView = new(taskContext, HutaoRuntime.DataFolder);

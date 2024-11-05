@@ -15,7 +15,6 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-[HighQuality]
 [DebuggerDisplay("Name={Name},Id={Id}")]
 internal partial class Avatar : INameQualityAccess,
     IStatisticsItemConvertible,
@@ -59,6 +58,8 @@ internal partial class Avatar : INameQualityAccess,
 
     public List<MaterialId> CultivationItems { get; set; } = default!;
 
+    public NameCard NameCard { get; set; } = default!;
+
     [JsonIgnore]
     public AvatarCollocationView? CollocationView { get; set; }
 
@@ -81,10 +82,12 @@ internal partial class Avatar : INameQualityAccess,
         return CalculableAvatar.From(this);
     }
 
-    public Model.Item ToItem()
+    public TItem ToItem<TItem>()
+        where TItem : Model.Item, new()
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
@@ -96,6 +99,7 @@ internal partial class Avatar : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
@@ -109,6 +113,7 @@ internal partial class Avatar : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),

@@ -24,7 +24,7 @@ internal sealed partial class GeetestService : IGeetestService
     private readonly ITaskContext taskContext;
     private readonly CardClient cardClient;
 
-    public async ValueTask<GeetestData?> TryVerifyGtChallengeAsync(string gt, string challenge, CancellationToken token = default)
+    public async ValueTask<GeetestData?> TryVerifyGtChallengeAsync(string gt, string challenge, bool isOversea, CancellationToken token = default)
     {
         GeetestResponse response = await customGeetestClient.VerifyAsync(gt, challenge, token).ConfigureAwait(false);
 
@@ -33,7 +33,7 @@ internal sealed partial class GeetestService : IGeetestService
             return data;
         }
 
-        string? result = await PrivateVerifyByWebViewAsync(gt, challenge, false, token).ConfigureAwait(false);
+        string? result = await PrivateVerifyByWebViewAsync(gt, challenge, isOversea, token).ConfigureAwait(false);
         if (string.IsNullOrEmpty(result))
         {
             return default;
@@ -52,13 +52,13 @@ internal sealed partial class GeetestService : IGeetestService
 
     public async ValueTask<string?> TryVerifyXrpcChallengeAsync(Model.Entity.User user, CardVerifiationHeaders headers, CancellationToken token = default)
     {
-        Response<VerificationRegistration> registrationResponse = await cardClient.CreateVerificationAsync(user, headers, token).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidate(registrationResponse, infoBarService, out VerificationRegistration? registration))
+        Response<GeetestVerification> registrationResponse = await cardClient.CreateVerificationAsync(user, headers, token).ConfigureAwait(false);
+        if (!ResponseValidator.TryValidate(registrationResponse, infoBarService, out GeetestVerification? registration))
         {
             return default;
         }
 
-        if (await TryVerifyGtChallengeAsync(registration.Gt, registration.Challenge, token).ConfigureAwait(false) is not { } data)
+        if (await TryVerifyGtChallengeAsync(registration.Gt, registration.Challenge, user.IsOversea, token).ConfigureAwait(false) is not { } data)
         {
             return default;
         }
@@ -82,18 +82,18 @@ internal sealed partial class GeetestService : IGeetestService
         AigisSession? session = JsonSerializer.Deserialize<AigisSession>(rawSession);
         ArgumentNullException.ThrowIfNull(session);
 
-        AigisData? sessionData = JsonSerializer.Deserialize<AigisData>(session.Data);
-        ArgumentNullException.ThrowIfNull(sessionData);
+        GeetestVerification? verification = JsonSerializer.Deserialize<GeetestVerification>(session.Data);
+        ArgumentNullException.ThrowIfNull(verification);
 
-        string? result = await PrivateVerifyByWebViewAsync(sessionData.GT, sessionData.Challenge, isOversea, token).ConfigureAwait(false);
-
-        if (string.IsNullOrEmpty(result))
+        if (await TryVerifyGtChallengeAsync(verification.Gt, verification.Challenge, isOversea, token).ConfigureAwait(false) is not { } data)
         {
-            // User closed the window without completing the verification
+            // Custom Geetest failed and user closed the window without completing the verification
             return false;
         }
 
-        provider.Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(result))}";
+        GeetestWebResponse result = new(data.Challenge, data.Validate);
+
+        provider.Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result)))}";
         return true;
     }
 

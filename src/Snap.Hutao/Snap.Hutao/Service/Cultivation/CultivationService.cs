@@ -8,6 +8,7 @@ using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using ModelItem = Snap.Hutao.Model.Item;
 
@@ -17,6 +18,9 @@ namespace Snap.Hutao.Service.Cultivation;
 [Injection(InjectAs.Singleton, typeof(ICultivationService))]
 internal sealed partial class CultivationService : ICultivationService
 {
+    private readonly ConcurrentDictionary<Guid, ObservableCollection<CultivateEntryView>> entryCollectionCache = [];
+    private readonly AsyncLock entryCollectionLock = new();
+
     private readonly ICultivationRepository cultivationRepository;
     private readonly IInventoryRepository inventoryRepository;
     private readonly IServiceProvider serviceProvider;
@@ -29,38 +33,44 @@ internal sealed partial class CultivationService : ICultivationService
         get => projects ??= new(cultivationRepository.GetCultivateProjectCollection(), serviceProvider);
     }
 
-    public ITaskContext TaskContext { get => taskContext; }
-
-    public ICultivationRepository Repository { get => cultivationRepository; }
-
-    public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context)
+    public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntryCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context)
     {
-        await taskContext.SwitchToBackgroundAsync();
-        List<CultivateEntry> entries = cultivationRepository.GetCultivateEntryListIncludingLevelInformationByProjectId(cultivateProject.InnerId);
-
-        List<CultivateEntryView> resultEntries = new(entries.Count);
-        foreach (CultivateEntry entry in entries)
+        using (await entryCollectionLock.LockAsync().ConfigureAwait(false))
         {
-            List<CultivateItemView> entryItems = [];
-
-            foreach (CultivateItem cultivateItem in cultivationRepository.GetCultivateItemListByEntryId(entry.InnerId))
+            if (entryCollectionCache.TryGetValue(cultivateProject.InnerId, out ObservableCollection<CultivateEntryView>? collection))
             {
-                entryItems.Add(new(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
+                return collection;
             }
 
-            ModelItem item = entry.Type switch
+            await taskContext.SwitchToBackgroundAsync();
+            List<CultivateEntry> entries = cultivationRepository.GetCultivateEntryListIncludingLevelInformationByProjectId(cultivateProject.InnerId);
+
+            List<CultivateEntryView> resultEntries = new(entries.Count);
+            foreach (CultivateEntry entry in entries)
             {
-                CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem(),
-                CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem(),
+                List<CultivateItemView> entryItems = [];
 
-                // TODO: support furniture calc
-                _ => default!,
-            };
+                foreach (CultivateItem cultivateItem in cultivationRepository.GetCultivateItemListByEntryId(entry.InnerId))
+                {
+                    entryItems.Add(new(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
+                }
 
-            resultEntries.Add(new(entry, item, entryItems));
+                ModelItem item = entry.Type switch
+                {
+                    CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem<Model.Item>(),
+                    CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem<Model.Item>(),
+
+                    // TODO: support furniture calc
+                    _ => default!,
+                };
+
+                resultEntries.Add(new(entry, item, entryItems));
+            }
+
+            ObservableCollection<CultivateEntryView> result = resultEntries.SortByDescending(e => e.IsToday).ToObservableCollection();
+            entryCollectionCache.TryAdd(cultivateProject.InnerId, result);
+            return result;
         }
-
-        return resultEntries.SortByDescending(e => e.IsToday).ToObservableCollection();
     }
 
     public async ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token)
@@ -103,12 +113,18 @@ internal sealed partial class CultivationService : ICultivationService
 
     public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
     {
+        // Invalidate cache
+        entryCollectionCache.TryRemove(cultivationRepository.GetCultivateProjectIdByEntryId(entryId), out _);
+
         await taskContext.SwitchToBackgroundAsync();
         cultivationRepository.RemoveCultivateEntryById(entryId);
     }
 
     public void SaveCultivateItem(CultivateItemView item)
     {
+        // Invalidate cache
+        entryCollectionCache.TryRemove(cultivationRepository.GetCultivateProjectIdByEntryId(item.Entity.EntryId), out _);
+
         cultivationRepository.UpdateCultivateItem(item.Entity);
     }
 
@@ -119,16 +135,12 @@ internal sealed partial class CultivationService : ICultivationService
             return ConsumptionSaveResultKind.NoItem;
         }
 
-        // Try select project if not selected
-        if (Projects.CurrentItem is null)
+        if (!await EnsureCurrentProjectAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToMainThreadAsync();
-            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
-            if (Projects.CurrentItem is null)
-            {
-                return ConsumptionSaveResultKind.NoProject;
-            }
+            return ConsumptionSaveResultKind.NoProject;
         }
+
+        ArgumentNullException.ThrowIfNull(Projects.CurrentItem);
 
         await taskContext.SwitchToBackgroundAsync();
 
@@ -170,6 +182,9 @@ internal sealed partial class CultivationService : ICultivationService
 
             IEnumerable<CultivateItem> toAdd = inputConsumption.Items.Select(item => CultivateItem.From(entry.InnerId, item));
             cultivationRepository.AddCultivateItemRange(toAdd);
+
+            // Invalidate cache
+            entryCollectionCache.TryRemove(Projects.CurrentItem.InnerId, out _);
         }
 
         return ConsumptionSaveResultKind.Added;
@@ -206,8 +221,26 @@ internal sealed partial class CultivationService : ICultivationService
         await taskContext.SwitchToMainThreadAsync();
         projects.Remove(project);
 
+        // Invalidate cache
+        entryCollectionCache.TryRemove(project.InnerId, out _);
+
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
         cultivationRepository.RemoveCultivateProjectById(project.InnerId);
+    }
+
+    public async ValueTask<bool> EnsureCurrentProjectAsync()
+    {
+        if (Projects.CurrentItem is null)
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            if (Projects.CurrentItem is null)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

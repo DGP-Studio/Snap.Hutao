@@ -134,7 +134,14 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         get => PreVersion is not null && LocalSetting.Get(SettingKeys.AllowExtractGameBlks, false);
     }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    public async ValueTask ForceLoadAsync()
+    {
+        await LoadOverrideAsync().ConfigureAwait(false);
+        await taskContext.SwitchToMainThreadAsync();
+        IsInitialized = true;
+    }
+
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
         {

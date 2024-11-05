@@ -58,38 +58,6 @@ internal sealed partial class SettingDangerousFeatureViewModel : Abstraction.Vie
         }
     }
 
-    public bool IsAdvancedLaunchOptionsEnabled
-    {
-        get => launchOptions.IsAdvancedLaunchOptionsEnabled;
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            _ = ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value);
-
-            [SuppressMessage("", "SH003")]
-            async Task ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool isEnabled)
-            {
-                if (isEnabled)
-                {
-                    ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
-                    if (await dialog.ConfirmAsync(SH.ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader).ConfigureAwait(true))
-                    {
-                        launchOptions.IsAdvancedLaunchOptionsEnabled = true;
-                        OnPropertyChanged(nameof(IsAdvancedLaunchOptionsEnabled));
-                        return;
-                    }
-                }
-
-                launchOptions.IsAdvancedLaunchOptionsEnabled = false;
-                OnPropertyChanged(nameof(IsAdvancedLaunchOptionsEnabled));
-            }
-        }
-    }
-
     [Command("DeleteUsersCommand")]
     private async Task DeleteUsersAsync()
     {

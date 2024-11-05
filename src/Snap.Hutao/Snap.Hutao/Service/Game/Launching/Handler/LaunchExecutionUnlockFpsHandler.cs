@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Unlocker;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -10,7 +11,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (HutaoRuntime.IsProcessElevated && context.Options is { IsAdvancedLaunchOptionsEnabled: true, UnlockFps: true })
+        if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
         {
             context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
@@ -35,7 +36,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
                 }
                 else
                 {
-                    context.Logger.LogError("Unlocking FPS failed");
+                    HutaoException.Throw("下载解锁帧率配置文件失败");
                 }
             }
             catch (Exception ex)

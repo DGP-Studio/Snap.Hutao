@@ -38,7 +38,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             RequestedTheme = appOptions.ElementTheme,
         };
 
-        return await EnqueueAndShowAsync(dialog).ConfigureAwait(false);
+        return await EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
     }
 
     public async ValueTask<ContentDialogResult> CreateForConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close)
@@ -56,7 +56,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             RequestedTheme = appOptions.ElementTheme,
         };
 
-        return await EnqueueAndShowAsync(dialog).ConfigureAwait(false);
+        return await EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
     }
 
     public async ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync(string title)
@@ -96,9 +96,8 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         return contentDialog;
     }
 
-    [SuppressMessage("", "SH003")]
-    public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = default)
+    public ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {
-        return contentDialogQueue.EnqueueAndShowAsync(contentDialog, dialogShowSource);
+        return contentDialogQueue.EnqueueAndShowAsync(contentDialog);
     }
 }

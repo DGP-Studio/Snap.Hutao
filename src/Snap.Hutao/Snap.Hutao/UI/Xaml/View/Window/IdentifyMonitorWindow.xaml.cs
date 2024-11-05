@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.Service;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -14,11 +16,10 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         InitializeComponent();
         Monitor = $"{displayArea.DisplayId.Value:X8}:{index}";
 
-        OverlappedPresenter presenter = OverlappedPresenter.Create();
-        presenter.SetBorderAndTitleBar(false, false);
-        presenter.IsAlwaysOnTop = true;
-        presenter.IsResizable = false;
+        CompactOverlayPresenter presenter = CompactOverlayPresenter.Create();
+        presenter.InitialSize = CompactOverlaySize.Small;
         AppWindow.SetPresenter(presenter);
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
         PointInt32 point = new(40, 32);
         SizeInt32 size = displayArea.WorkArea.GetSizeInt32().Scale(0.1);
@@ -40,7 +41,8 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
 
         foreach (IdentifyMonitorWindow window in windows)
         {
-            window.Activate();
+            window.RemoveStyleDialogFrame();
+            window.Show();
         }
 
         await Task.Delay(TimeSpan.FromSeconds(secondsDelay)).ConfigureAwait(true);

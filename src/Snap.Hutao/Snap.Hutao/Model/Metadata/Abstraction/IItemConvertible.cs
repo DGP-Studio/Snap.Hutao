@@ -5,5 +5,6 @@ namespace Snap.Hutao.Model.Metadata.Abstraction;
 
 internal interface IItemConvertible
 {
-    Model.Item ToItem();
+    TItem ToItem<TItem>()
+        where TItem : Model.Item, new();
 }

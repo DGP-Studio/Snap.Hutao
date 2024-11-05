@@ -44,11 +44,6 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
         return gameAccountService.DetectCurrentGameAccount(scheme);
     }
 
-    public ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid)
-    {
-        return gameAccountService.AttachGameAccountToUidAsync(gameAccount, uid);
-    }
-
     public ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
         return gameAccountService.ModifyGameAccountAsync(gameAccount);

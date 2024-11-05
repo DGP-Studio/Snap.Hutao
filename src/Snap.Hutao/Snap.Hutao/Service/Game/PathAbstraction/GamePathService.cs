@@ -29,7 +29,7 @@ internal sealed partial class GamePathService : IGamePathService
             if (isOk)
             {
                 // Save result.
-                launchOptions.UpdateGamePathAndRefreshEntries(path);
+                launchOptions.UpdateGamePath(path);
             }
             else
             {

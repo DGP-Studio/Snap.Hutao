@@ -54,13 +54,13 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogRetrieveFromHutaoCloudProgress)
             .ConfigureAwait(false);
 
-        using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+        using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
             return await hutaoCloudService.RetrieveGachaArchiveIdAsync(uid).ConfigureAwait(false);
         }
     }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         await hutaoUserService.InitializeAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
@@ -85,7 +85,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             bool isOk;
             string message;
 
-            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
                 (isOk, message) = await hutaoCloudService.UploadGachaItemsAsync(gachaArchive).ConfigureAwait(false);
             }

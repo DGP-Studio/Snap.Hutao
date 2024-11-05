@@ -7,6 +7,15 @@ namespace Snap.Hutao.Core.Threading;
 
 internal static class SpinWaitPolyfill
 {
+    public static unsafe void SpinWhile(delegate*<bool> condition)
+    {
+        SpinWait spinner = default;
+        while (condition())
+        {
+            spinner.SpinOnce();
+        }
+    }
+
     public static unsafe void SpinUntil<T>(ref readonly T state, delegate*<ref readonly T, bool> condition)
     {
         SpinWait spinner = default;

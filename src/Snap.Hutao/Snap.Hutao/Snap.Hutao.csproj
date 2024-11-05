@@ -87,6 +87,7 @@
     <None Remove="Assets\Wide310x150Logo.scale-100.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
+    <None Remove="BannedSymbols.txt" />
     <None Remove="CodeMetricsConfig.txt" />
     <None Remove="Control\Image\CachedImage.xaml" />
     <None Remove="Control\Loading.xaml" />
@@ -196,6 +197,7 @@
   <!-- Analyzer Files -->
   <ItemGroup>
     <AdditionalFiles Include="ApiEndpoints.csv" />
+    <AdditionalFiles Include="BannedSymbols.txt" />
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
     <AdditionalFiles Include="IdentityStructs.json" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.resx" />
@@ -318,7 +320,11 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240916" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.1.240916" />
     <PackageReference Include="Google.OrTools" Version="9.11.4210" />
-    <PackageReference Include="Google.Protobuf" Version="3.28.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.28.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
@@ -342,9 +348,9 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.0" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.1" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.3">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -352,11 +358,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.1.25">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.1.28">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.1.11">
+    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.1.22">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

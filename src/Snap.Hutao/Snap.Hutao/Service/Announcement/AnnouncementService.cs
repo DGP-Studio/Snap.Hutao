@@ -123,6 +123,10 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // "x.x" -> DTO
         Dictionary<string, DateTimeOffset> versionStartTimes = [];
 
+        // Workaround for some long-term activities
+        versionStartTimes.TryAdd("5.0", UnsafeDateTimeOffset.ParseDateTime("2024/08/28 06:00".AsSpan(), offset));
+        versionStartTimes.TryAdd("5.1", UnsafeDateTimeOffset.ParseDateTime("2024/10/09 06:00".AsSpan(), offset));
+
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
         // 更新公告
@@ -147,82 +151,44 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         foreach (WebAnnouncement announcement in activities)
         {
-            string text = await AnnouncementHtmlVisitor.VisitActivityAsync(context, announcement.Content).ConfigureAwait(false);
-            logger.LogInformation("{Title} '{Time}'", announcement.Subtitle, text);
-        }
+            List<string> times = await AnnouncementHtmlVisitor.VisitActivityAsync(context, announcement.Content).ConfigureAwait(false);
+            logger.LogInformation("{Title} '{Time}'", announcement.Subtitle, string.Join(",", times));
 
-        foreach (WebAnnouncement announcement in activities)
-        {
-            DateTimeOffset versionStartTime;
-
-            if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
-            {
-                if (versionStartTimes.TryGetValue(permanent.Groups[1].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    continue;
-                }
-
-                announcement.StartTime = UnsafeDateTimeOffset.ParseDateTime(permanent.Groups[2].ValueSpan, offset);
-            }
-
-            if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
-            {
-                if (versionStartTimes.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
-                    continue;
-                }
-
-                if (versionStartTimes.TryGetValue(persistent.Groups[2].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
-                    continue;
-                }
-            }
-
-            if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
-            {
-                if (versionStartTimes.TryGetValue(transient.Groups[1].Value, out versionStartTime))
-                {
-                    announcement.StartTime = versionStartTime;
-                    announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
-                    continue;
-                }
-            }
-
-            MatchCollection matches = AnnouncementRegex.XmlTimeTagRegex().Matches(announcement.Content);
-            if (matches.Count < 2)
+            if (times.Count is 0)
             {
                 continue;
             }
 
-            List<DateTimeOffset> dateTimes = [];
-            foreach (Match timeMatch in (IList<Match>)matches)
+            if (times.Count is 1 && times[0].Contains(SH.ServiceAnnouncementPermanentKeyword, StringComparison.InvariantCulture))
             {
-                dateTimes.Add(UnsafeDateTimeOffset.ParseDateTime(timeMatch.Groups[1].ValueSpan, offset));
+                announcement.StartTime = ParseTime(times[0]);
+                continue;
             }
 
-            DateTimeOffset min = DateTimeOffset.MaxValue;
-            DateTimeOffset max = DateTimeOffset.MinValue;
+            List<DateTimeOffset> timeOffsets = times.Select(ParseTime).ToList().SortBy(dto => dto);
 
-            foreach (DateTimeOffset time in dateTimes)
+            DateTimeOffset startTime = timeOffsets.First();
+            DateTimeOffset endTime = timeOffsets.Last();
+            if (startTime == endTime)
             {
-                if (time < min)
-                {
-                    min = time;
-                }
-
-                if (time > max)
-                {
-                    max = time;
-                }
+                endTime += TimeSpan.FromDays(42);
             }
 
-            announcement.StartTime = min;
-            announcement.EndTime = max;
+            announcement.StartTime = startTime;
+            announcement.EndTime = endTime;
+
+            DateTimeOffset ParseTime(string text)
+            {
+                if (VersionRegex().Match(text) is { Success: true } version)
+                {
+                    if (versionStartTimes.TryGetValue(version.Groups[1].Value, out DateTimeOffset versionStartTime))
+                    {
+                        return versionStartTime;
+                    }
+                }
+
+                return UnsafeDateTimeOffset.ParseDateTime(text, offset);
+            }
         }
     }
 }

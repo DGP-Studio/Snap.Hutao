@@ -25,24 +25,25 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
     public bool IsDialogShowing { get => currentWindowReference.Window is not null && isDialogShowing; }
 
     [SuppressMessage("", "SH100")]
-    public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource? dialogShowSource = default)
+    public ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {
-        TaskCompletionSource<ContentDialogResult> dialogResultSource = new();
+        TaskCompletionSource queueSource = new();
+        TaskCompletionSource<ContentDialogResult> resultSource = new();
 
         dialogQueue.Enqueue(async () =>
         {
             try
             {
                 await taskContext.SwitchToMainThreadAsync();
-                dialogShowSource?.TrySetResult();
+                queueSource.TrySetResult();
                 contentDialog.ShowAsync().AsTask()
-                    .ContinueWith(Continuation, dialogResultSource, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default)
+                    .ContinueWith(Continuation, resultSource, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default)
                     .SafeForget(logger);
                 contentDialog.Focus(Microsoft.UI.Xaml.FocusState.Programmatic);
             }
             catch (Exception ex)
             {
-                dialogResultSource.SetException(ex);
+                resultSource.SetException(ex);
             }
             finally
             {
@@ -55,7 +56,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
             ShowNextDialog();
         }
 
-        return dialogResultSource.Task;
+        return new(queueSource.Task, resultSource.Task);
     }
 
     private static void RunContinuation(Task<ContentDialogResult> task, object? state)

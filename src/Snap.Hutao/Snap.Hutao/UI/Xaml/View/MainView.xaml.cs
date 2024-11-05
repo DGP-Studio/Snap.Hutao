@@ -9,10 +9,6 @@ using Snap.Hutao.ViewModel;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
-/// <summary>
-/// 主视图
-/// </summary>
-[HighQuality]
 internal sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;

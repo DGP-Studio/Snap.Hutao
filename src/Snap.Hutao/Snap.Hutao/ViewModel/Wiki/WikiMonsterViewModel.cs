@@ -42,7 +42,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {

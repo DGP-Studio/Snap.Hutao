@@ -70,10 +70,12 @@ internal sealed partial class Weapon : INameQualityAccess,
         return CalculableWeapon.From(this);
     }
 
-    public Model.Item ToItem()
+    public TItem ToItem<TItem>()
+        where TItem : Model.Item, new()
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),
@@ -85,6 +87,7 @@ internal sealed partial class Weapon : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),
@@ -97,6 +100,7 @@ internal sealed partial class Weapon : INameQualityAccess,
     {
         return new()
         {
+            Id = Id,
             Name = Name,
             Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),

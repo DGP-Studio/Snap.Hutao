@@ -70,7 +70,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
-    protected override async ValueTask<bool> InitializeOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -170,7 +170,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
 
             ObservableCollection<CultivateEntryView> entries = await cultivationService
-                .GetCultivateEntriesAsync(project, context)
+                .GetCultivateEntryCollectionAsync(project, context)
                 .ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
@@ -233,7 +233,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
                 .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationRefreshInventoryProgress)
                 .ConfigureAwait(false);
 
-            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
+            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
                 await inventoryService.RefreshInventoryAsync(Projects.CurrentItem).ConfigureAwait(false);
 

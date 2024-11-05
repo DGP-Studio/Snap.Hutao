@@ -28,6 +28,8 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public string PersistRectKey { get => SettingKeys.WindowRect; }
 
+    public string PersistScaleKey { get => SettingKeys.WindowScale; }
+
     public SizeInt32 InitSize { get; } = new(1200, 741);
 
     public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);

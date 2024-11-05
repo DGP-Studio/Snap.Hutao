@@ -1,8 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -13,9 +15,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-/// <summary>
-/// 简化的启动游戏视图模型
-/// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
@@ -24,29 +23,33 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
+    private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView<GameAccount>? gameAccountsView;
-    private GameAccount? selectedGameAccount;
     private GameAccountFilter? gameAccountFilter;
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
     public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
 
+    public LaunchOptions LaunchOptions { get => launchOptions; }
+
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
-    /// <summary>
-    /// 选中的账号
-    /// </summary>
-    public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
+    public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
-    /// <inheritdoc/>
     protected override async Task LoadAsync()
     {
         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
         ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
+
+        gameAccountFilter = new(scheme?.GetSchemeType());
+        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
+
+        await taskContext.SwitchToMainThreadAsync();
+        GameAccountsView = accountsView;
 
         try
         {
@@ -54,19 +57,13 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
             {
                 // Try set to the current account.
                 await taskContext.SwitchToMainThreadAsync();
-                SelectedGameAccount ??= gameService.DetectCurrentGameAccount(scheme);
+                GameAccountsView.CurrentItem ??= gameService.DetectCurrentGameAccount(scheme);
             }
         }
         catch (Exception ex)
         {
             infoBarService.Error(ex);
         }
-
-        gameAccountFilter = new(scheme?.GetSchemeType());
-        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
-
-        await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView = accountsView;
     }
 
     [Command("LaunchCommand")]
