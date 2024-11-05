@@ -71,10 +71,7 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 
 Snap Hutao is currently using sponsored software from the following service providers.
 
-|  [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/netlify.svg)](https://www.netlify.com/)  | [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/crowdin-core-logo-cDark.svg)](https://crowdin.com/) |       [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/navicat.svg)](https://navicat.com/)        |
-| :----------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: |
-| [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/signpath.svg)](https://about.signpath.io) |       [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/1Password.svg)](https://1password.com/)       | [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/digitalocean.svg)](https://www.digitalocean.com) |
-|   [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/ducalis.svg)](https://hi.ducalis.io/)   |     [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/jetbrains.svg)](https://www.jetbrains.com/)     |     [![](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/termius-logo.svg)](https://termius.com)      |
+<img src="./.github/assets/readmeSponsors.svg" alt="Readme Sponsors" />
 
 - Netlify provides document and home page hosting service for Snap Hutao
 
@@ -91,6 +88,8 @@ Snap Hutao is currently using sponsored software from the following service prov
 - [Ducalis.io](https://hi.ducalis.io/) provides Snap Hutao project with a complete decision-making toolkit for project management
 
 - Jetbrains provides powerful IDE for Snap Hutao infrastructure services coding
+
+- Termius provides a secure, reliable, and collaborative SSH client
 
 ## 开发 / Development
 
