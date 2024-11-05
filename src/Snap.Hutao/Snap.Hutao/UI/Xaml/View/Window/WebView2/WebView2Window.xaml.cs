@@ -58,18 +58,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
 
     public new void Activate()
     {
-        if (!IsWindowVisible(parentHWND))
-        {
-            ShowWindow(parentHWND, SHOW_WINDOW_CMD.SW_SHOW);
-        }
-
-        if (IsIconic(parentHWND))
-        {
-            ShowWindow(parentHWND, SHOW_WINDOW_CMD.SW_RESTORE);
-        }
-
-        SetForegroundWindow(parentHWND);
-
+        WindowExtension.SwitchTo(parentHWND);
         EnableWindow(parentHWND, false);
         base.Activate();
 
