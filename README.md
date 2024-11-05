@@ -71,25 +71,25 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 
 Snap Hutao is currently using sponsored software from the following service providers.
 
-<img src="./.github/assets/readmeSponsors.svg" alt="Readme Sponsors" />
+<img src="./res/assets/readmeSponsors.svg" alt="Readme Sponsors" />
 
-- Netlify provides document and home page hosting service for Snap Hutao
+- [Netlify](https://www.netlify.com/) provides document and home page hosting service for Snap Hutao
 
-- Crowdin provides its SaaS platform to help Snap Hutao's localization
+- [Crowdin](https://crowdin.com/) provides its SaaS platform to help Snap Hutao's localization
 
-- Navicat provides Snap Hutao with advanced database management tools
+- [Navicat](https://navicat.com/) provides Snap Hutao with advanced database management tools
 
 - Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/)
 
-- 1Password provides Snap Hutao development team with their amazing password management software
+- [1Password](https://1password.com/) provides Snap Hutao development team with their amazing password management software
   
-- DigitalOcean provides reliable cloud database for Snap Hutao database backup
+- [DigitalOcean](https://www.digitalocean.com) provides reliable cloud database for Snap Hutao database backup
 
 - [Ducalis.io](https://hi.ducalis.io/) provides Snap Hutao project with a complete decision-making toolkit for project management
 
-- Jetbrains provides powerful IDE for Snap Hutao infrastructure services coding
+- [Jetbrains](https://www.jetbrains.com/) provides powerful IDE for Snap Hutao infrastructure services coding
 
-- Termius provides a secure, reliable, and collaborative SSH client
+- [Termius](https://termius.com) provides a secure, reliable, and collaborative SSH client
 
 ## 开发 / Development
 
