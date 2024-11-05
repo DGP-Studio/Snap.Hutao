@@ -671,13 +671,13 @@
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
   </data>
   <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
-    <value>[Listing Time]</value>
+    <value>Duration: </value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
     <value>Open forever</value>
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
-    <value>Train update time</value>
+    <value>〓更新时间〓</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
@@ -2649,7 +2649,7 @@
     <value>Enable this option when error code 31-4302</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
-    <value>Let's go in!</value>
+    <value>Let me in!</value>
   </data>
   <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
     <value>Cannot switch again after game starts</value>
@@ -2688,7 +2688,7 @@
     <value>File</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
-    <value>Fix the horizon for special interfaces such as roles/team configuration/prayer / walk-in</value>
+    <value>Fix the view for special interfaces such as Character/Team Configuration/Wish/Battle Pass</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>Special Interface Fix</value>
@@ -2748,7 +2748,7 @@
     <value>Registry</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
-    <value>Team configuration cold switch</value>
+    <value>Team Configuration Cold Switch</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
     <value>Remove the progress bar when opening the team configuration screen</value>
@@ -2802,7 +2802,7 @@
     <value>You need to convert to a server that matches the launcher before updating the version</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
-    <value>Cooling Switch to View</value>
+    <value>Field of View Cold Switch</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
     <value>Adjust FOV, Default 45</value>
@@ -2811,13 +2811,13 @@
     <value>Adjust FOV</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHotSwitchHeader" xml:space="preserve">
-    <value>Field Heat Switches</value>
+    <value>Field of View Hot Switch</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHeader" xml:space="preserve">
     <value>Target Frame Rate</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
-    <value>Frame Thermal Switches</value>
+    <value>Frame Rate Hot Switch</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Hover the mouse over the feature switch/text box to see details</value>
@@ -2847,7 +2847,7 @@
     <value>Enabled</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>Sign in with the currently selected meters / HoYoLAB user. Start parameters need to be enabled</value>
+    <value>Sign in with the currently selected MiYouShe / HoYoLAB user. Start parameters need to be enabled</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>Sign in with MiYouShe/HoYoLAB user</value>
@@ -3276,7 +3276,7 @@
     <value>Other</value>
   </data>
   <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
-    <value>Contact Card</value>
+    <value>Namecard</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>Occupation</value>
