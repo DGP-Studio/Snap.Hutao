@@ -1820,6 +1820,24 @@
   <data name="ViewModelExportWarningTitle" xml:space="preserve">
     <value>匯出失敗</value>
   </data>
+  <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
+    <value>当前卡池</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
+    <value>距离 UP 结束还有 {0} 天</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
+    <value>上次 UP 时间: {0:yyyy.MM.dd}</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
+    <value>距离上次 UP 已有 {0} 天</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
+    <value>下半</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderUp" xml:space="preserve">
+    <value>上半</value>
+  </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
     <value>UIGF Json 檔案</value>
   </data>
@@ -2389,6 +2407,21 @@
   </data>
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>輸入</value>
+  </data>
+  <data name="ViewPageGachaLogOrangeAvatarCountdown" xml:space="preserve">
+    <value>五星角色</value>
+  </data>
+  <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
+    <value>五星武器</value>
+  </data>
+  <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
+    <value>计时</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
+    <value>四星角色</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
+    <value>四星武器</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
     <value>從胡桃雲恢復祈願紀錄</value>
