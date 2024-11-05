@@ -6,14 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
-    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     Width="360"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="AvatarCountdownTemplate" x:DataType="shvg:Countdown">
+        <DataTemplate x:Key="CountdownTemplate" x:DataType="shvg:Countdown">
             <Grid Margin="0,2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -22,7 +21,7 @@
 
                 <Border Style="{StaticResource BorderCardStyle}">
                     <StackPanel>
-                        <shuxc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource AvatarIconConverter}}" Quality="{Binding Item.Quality}"/>
+                        <shuxc:ItemIcon Icon="{Binding Item.Icon}" Quality="{Binding Item.Quality}"/>
                         <TextBlock
                             HorizontalTextAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
@@ -56,55 +55,6 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-
-        <DataTemplate x:Key="WeaponCountdownTemplate" x:DataType="shvg:Countdown">
-            <Grid Margin="0,2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Border Grid.Column="0" Style="{StaticResource BorderCardStyle}">
-                    <StackPanel>
-                        <shuxc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Item.Quality}"/>
-                        <TextBlock
-                            HorizontalTextAlignment="Center"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Item.Name}"
-                            TextTrimming="None"
-                            TextWrapping="NoWrap"/>
-                    </StackPanel>
-                </Border>
-
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        VerticalAlignment="Center"
-                        HorizontalTextAlignment="Right"
-                        Text="{Binding FormattedLastTime}"/>
-                    <TextBlock
-                        Grid.Row="1"
-                        VerticalAlignment="Center"
-                        HorizontalTextAlignment="Right"
-                        Text="{Binding FormattedVersionOrder}"/>
-                    <TextBlock
-                        Grid.Row="2"
-                        VerticalAlignment="Center"
-                        HorizontalTextAlignment="Right"
-                        Text="{Binding FormattedCountdown}"/>
-                </Grid>
-            </Grid>
-        </DataTemplate>
-
-        <shuxvs:CountdownCardTemplateSelector
-            x:Key="CountdownCardTemplateSelector"
-            AvatarCountdownTemplate="{StaticResource AvatarCountdownTemplate}"
-            WeaponCountdownTemplate="{StaticResource WeaponCountdownTemplate}"/>
     </UserControl.Resources>
 
     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -124,7 +74,7 @@
             </Border>
             <ListView
                 Grid.Row="1"
-                ItemTemplateSelector="{StaticResource CountdownCardTemplateSelector}"
+                ItemTemplate="{StaticResource CountdownTemplate}"
                 ItemsSource="{x:Bind Countdowns, Mode=OneWay}"
                 SelectionMode="None"/>
         </Grid>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -47,7 +48,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             .Where(avatar => avatar.Quality == QualityType.QUALITY_ORANGE)
             .Where(avatar => !AvatarIds.IsStandardWish(avatar.Id))
             .Select(avatar => new Countdown(
-                avatar,
+                avatar.ToItem<Item>(),
                 context.GachaEvents.Last(e => e.UpOrangeList.Any(i => i == avatar.Id))))
             .OrderBy(c => c.LastTime)
             .ToList();
@@ -56,7 +57,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             .Where(avatar => avatar.Quality == QualityType.QUALITY_PURPLE)
             .Where(avatar => !AvatarIds.IsStandardWish(avatar.Id))
             .Select(avatar => new Countdown(
-                avatar,
+                avatar.ToItem<Item>(),
                 context.GachaEvents.Last(e => e.UpPurpleList.Any(i => i == avatar.Id))))
             .OrderBy(c => c.LastTime)
             .ToList();
@@ -65,7 +66,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             .Where(weapon => weapon.Quality == QualityType.QUALITY_ORANGE)
             .Where(weapon => !WeaponIds.IsStandardWish(weapon.Id))
             .Select(weapon => new Countdown(
-                weapon,
+                weapon.ToItem<Item>(),
                 context.GachaEvents.Last(e => e.UpOrangeList.Any(i => i == weapon.Id))))
             .OrderBy(c => c.LastTime)
             .ToList();
@@ -84,7 +85,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
 
         List<Countdown> purpleWeaponCountdowns = purpleWeapons
             .Select(weapon => new Countdown(
-                weapon,
+                weapon.ToItem<Item>(),
                 context.GachaEvents.Last(e => e.UpPurpleList.Any(i => i == weapon.Id))))
             .OrderBy(c => c.LastTime)
             .ToList();
@@ -97,4 +98,5 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             PurpleWeapons = purpleWeaponCountdowns,
         });
     }
+
 }

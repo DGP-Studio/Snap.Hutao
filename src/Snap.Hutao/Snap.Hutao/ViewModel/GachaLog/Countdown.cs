@@ -1,14 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Metadata.Abstraction;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 internal sealed class Countdown
 {
-    public Countdown(ICountdownItem item, GachaEvent gachaEvent)
+    public Countdown(Item item, GachaEvent gachaEvent)
     {
         Item = item;
         LastTime = gachaEvent.To;
@@ -28,7 +28,7 @@ internal sealed class Countdown
 
     public string FormattedCountdown { get; set; }
 
-    public ICountdownItem Item { get; set; }
+    public Item Item { get; set; }
 
     internal DateTimeOffset LastTime { get; set; }
 }

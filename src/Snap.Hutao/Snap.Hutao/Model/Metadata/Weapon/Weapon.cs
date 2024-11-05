@@ -13,7 +13,7 @@ using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Model.Metadata.Weapon;
 
-internal sealed partial class Weapon : ICountdownItem,
+internal sealed partial class Weapon : INameQualityAccess,
     IStatisticsItemConvertible,
     ISummaryItemConvertible,
     IItemConvertible,
