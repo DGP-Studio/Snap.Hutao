@@ -1,0 +1,99 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.UI.Xaml.View.Specialized.CountdownCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
+    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="CountdownTemplate" x:DataType="shvg:Countdown">
+            <Grid
+                Margin="8,0,8,4"
+                Padding="8"
+                ColumnSpacing="8"
+                Style="{ThemeResource SecondaryGridCardStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <shuxcc:VerticalCard Width="66">
+                    <shuxcc:VerticalCard.Top>
+                        <shuxc:ItemIcon
+                            Width="64"
+                            Height="64"
+                            Icon="{Binding Item.Icon}"
+                            Quality="{Binding Item.Quality}"/>
+                    </shuxcc:VerticalCard.Top>
+                    <shuxcc:VerticalCard.Bottom>
+                        <TextBlock
+                            Margin="2,0"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding Item.Name}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap"/>
+                    </shuxcc:VerticalCard.Bottom>
+                </shuxcc:VerticalCard>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding FormattedCountdown}"/>
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Opacity="0.8"
+                        Text="{Binding FormattedLastTime}"/>
+                    <TextBlock
+                        Grid.Row="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Opacity="0.6"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding FormattedVersionOrder}"/>
+
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+        <Grid RowSpacing="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
+                <TextBlock
+                    Margin="16,12"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="{x:Bind Title}"/>
+            </Border>
+            <ListView
+                Grid.Row="1"
+                ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
+                ItemTemplate="{StaticResource CountdownTemplate}"
+                ItemsSource="{x:Bind Countdowns, Mode=OneWay}"
+                SelectionMode="None"/>
+        </Grid>
+    </Border>
+</UserControl>

@@ -16,10 +16,10 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         InitializeComponent();
         Monitor = $"{displayArea.DisplayId.Value:X8}:{index}";
 
-        CompactOverlayPresenter presenter = CompactOverlayPresenter.Create();
-        presenter.InitialSize = CompactOverlaySize.Small;
+        OverlappedPresenter presenter = OverlappedPresenter.CreateForContextMenu();
+        presenter.IsAlwaysOnTop = true;
+        presenter.SetBorderAndTitleBar(false, false);
         AppWindow.SetPresenter(presenter);
-        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
         PointInt32 point = new(40, 32);
         SizeInt32 size = displayArea.WorkArea.GetSizeInt32().Scale(0.1);

@@ -58,6 +58,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
 
     public new void Activate()
     {
+        WindowExtension.SwitchTo(parentHWND);
         EnableWindow(parentHWND, false);
         base.Activate();
 

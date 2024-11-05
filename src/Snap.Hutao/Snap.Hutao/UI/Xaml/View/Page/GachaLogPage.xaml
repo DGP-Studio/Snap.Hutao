@@ -365,6 +365,35 @@
                     </shuxcp:HorizontalEqualPanel>
                 </ScrollViewer>
             </PivotItem>
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageGachaLogPivotCountdown}">
+                <Grid>
+                    <shuxc:Loading
+                        Margin="16"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        IsLoading="{Binding WishCountdownViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"
+                        Style="{ThemeResource DefaultLoadingViewStyle}"/>
+                    <ScrollViewer
+                        Margin="16,0"
+                        cw:ScrollViewerExtensions.HorizontalScrollBarMargin="0,0,-16,0"
+                        HorizontalScrollBarVisibility="Auto"
+                        HorizontalScrollMode="Enabled"
+                        VerticalScrollMode="Disabled">
+                        <shuxcp:HorizontalEqualPanel
+                            Margin="0,16"
+                            MinItemWidth="320"
+                            Spacing="16">
+                            <mxi:Interaction.Behaviors>
+                                <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding WishCountdownViewModel.LoadCommand}"/>
+                            </mxi:Interaction.Behaviors>
+                            <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogOrangeAvatarCountdown}" Countdowns="{Binding WishCountdownViewModel.WishCountdowns.OrangeAvatars}"/>
+                            <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogPurpleAvatarCountdown}" Countdowns="{Binding WishCountdownViewModel.WishCountdowns.PurpleAvatars}"/>
+                            <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogOrangeWeaponCountdown}" Countdowns="{Binding WishCountdownViewModel.WishCountdowns.OrangeWeapons}"/>
+                            <shuxvs:CountdownCard Title="{shuxm:ResourceString Name=ViewPageGachaLogPurpleWeaponCountdown}" Countdowns="{Binding WishCountdownViewModel.WishCountdowns.PurpleWeapons}"/>
+                        </shuxcp:HorizontalEqualPanel>
+                    </ScrollViewer>
+                </Grid>
+
+            </PivotItem>
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotHistory}">
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">

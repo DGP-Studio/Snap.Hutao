@@ -65,7 +65,11 @@ internal static class WindowExtension
 
     public static void SwitchTo(this Window window)
     {
-        HWND hwnd = window.GetWindowHandle();
+        SwitchTo(window.GetWindowHandle());
+    }
+
+    public static void SwitchTo(HWND hwnd)
+    {
         if (!IsWindowVisible(hwnd))
         {
             ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_SHOW);
