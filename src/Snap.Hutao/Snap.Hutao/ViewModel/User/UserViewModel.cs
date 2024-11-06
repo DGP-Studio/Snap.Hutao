@@ -123,12 +123,10 @@ internal sealed partial class UserViewModel : ObservableObject
     }
 
     [Command("LoginByThirdPartyOverseaCommand")]
-    private async Task LoginByThirdPartyOverseaAsync(string kind)
+    private async Task LoginByThirdPartyOverseaAsync(OverseaThirdPartyKind kind)
     {
-        OverseaThirdPartyKind thirdPartyKind = Enum.Parse<OverseaThirdPartyKind>(kind);
-
         await taskContext.SwitchToMainThreadAsync();
-        OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(thirdPartyKind, cultureOptions.LanguageCode);
+        OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(kind, cultureOptions.LanguageCode);
         ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
 
         await taskContext.SwitchToBackgroundAsync();

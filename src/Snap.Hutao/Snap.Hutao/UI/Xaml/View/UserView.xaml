@@ -204,7 +204,7 @@
                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                 Margin="0,-4"
                 Command="{Binding DataContext.LoginByThirdPartyOverseaCommand, Source={StaticResource ViewModelBindingProxy}}"
-                CommandParameter="{Binding Name}"
+                CommandParameter="{Binding Value}"
                 Icon="{Binding Name, Converter={StaticResource ThirdPartyIconConverter}}"
                 Label="{Binding Name}"/>
         </DataTemplate>

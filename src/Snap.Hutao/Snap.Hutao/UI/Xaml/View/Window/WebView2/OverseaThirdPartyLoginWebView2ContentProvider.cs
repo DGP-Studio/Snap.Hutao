@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.WebView2;
 using System.Collections.Frozen;
 using System.Text;
 using Windows.Graphics;
@@ -51,6 +52,8 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
     public ValueTask InitializeAsync(IServiceProvider serviceProvider, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(CoreWebView2);
+
+        CoreWebView2.DisableAutoCompletion();
 
         CoreWebView2.Navigate(targetUrl);
         CoreWebView2.NavigationStarting += OnNavigationStarting;
