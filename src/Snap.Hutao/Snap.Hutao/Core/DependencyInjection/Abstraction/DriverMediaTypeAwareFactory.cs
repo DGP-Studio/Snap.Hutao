@@ -7,8 +7,9 @@ namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 [ConstructorGenerated]
 internal abstract partial class DriverMediaTypeAwareFactory<TService, TServiceSSD, TServiceHDD> : IDriverMediaTypeAwareFactory<TService>
-    where TServiceSSD : notnull, TService
-    where TServiceHDD : notnull, TService
+    where TService : notnull
+    where TServiceSSD : TService
+    where TServiceHDD : TService
 {
     private readonly IServiceProvider serviceProvider;
 

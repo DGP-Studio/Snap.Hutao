@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
@@ -13,6 +14,7 @@ using System.IO;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
+[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty("Chinese", typeof(bool))]
 [DependencyProperty("English", typeof(bool))]
 [DependencyProperty("Japanese", typeof(bool))]
@@ -24,26 +26,18 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
-    private readonly ITaskContext taskContext;
-
-    public LaunchGameInstallGameDialog(IServiceProvider serviceProvider)
-    {
-        InitializeComponent();
-
-        fileSystemPickerInteraction = serviceProvider.GetRequiredService<IFileSystemPickerInteraction>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-    }
 
     public async ValueTask<ValueResult<bool, GameInstallOptions>> GetGameFileSystemAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
+        ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         if (result is not ContentDialogResult.Primary)
         {
             return new(false, default!);
         }
+
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
 
         if (string.IsNullOrWhiteSpace(GameDirectory))
         {

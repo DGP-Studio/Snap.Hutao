@@ -2,30 +2,20 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Factory.ContentDialog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
+[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty("Text", typeof(string))]
 internal sealed partial class DailyNoteWebhookDialog : ContentDialog
 {
-    private readonly ITaskContext taskContext;
+    private readonly IContentDialogFactory contentDialogFactory;
 
-    public DailyNoteWebhookDialog(IServiceProvider serviceProvider)
-    {
-        InitializeComponent();
-
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-    }
-
-    /// <summary>
-    /// 获取输入的Url
-    /// </summary>
-    /// <returns>输入的结果</returns>
     public async ValueTask<ValueResult<bool, string>> GetInputUrlAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
-
-        return new(result == ContentDialogResult.Primary, Text);
+        ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
+        return new(result is ContentDialogResult.Primary, Text);
     }
 }

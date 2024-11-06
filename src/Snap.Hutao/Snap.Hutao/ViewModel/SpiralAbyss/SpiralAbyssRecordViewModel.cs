@@ -134,7 +134,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                     .ConfigureAwait(false);
 
                 await taskContext.SwitchToMainThreadAsync();
-                ContentDialogResult result = await dialog.ShowAsync();
+                ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
 
                 switch (result)
                 {

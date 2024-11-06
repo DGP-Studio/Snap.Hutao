@@ -112,10 +112,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         {
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                // ContentDialog must be created by main thread.
-                await taskContext.SwitchToMainThreadAsync();
                 DailyNoteNotificationDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteNotificationDialog>(entry).ConfigureAwait(true);
-                await dialog.ShowAsync();
+                await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
 
                 await taskContext.SwitchToBackgroundAsync();
                 await dailyNoteService.UpdateDailyNoteAsync(entry).ConfigureAwait(false);

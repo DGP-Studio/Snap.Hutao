@@ -9,8 +9,17 @@ namespace Snap.Hutao.Web.Request;
 
 internal static class NameValueCollectionExtension
 {
+    private static readonly Type HttpQSCollectionType = HttpUtility.ParseQueryString(string.Empty).GetType();
+
     public static string ToQueryString(this NameValueCollection collection)
     {
+        if (collection.GetType() == HttpQSCollectionType)
+        {
+#pragma warning disable SH007
+            return collection.ToString()!;
+#pragma warning restore SH007
+        }
+
         int count = collection.Count;
         if (count == 0)
         {

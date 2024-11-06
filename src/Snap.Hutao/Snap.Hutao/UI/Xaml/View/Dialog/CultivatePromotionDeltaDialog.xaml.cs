@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
@@ -12,13 +13,13 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("Weapon", typeof(ICalculableWeapon))]
 internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 {
-    private readonly ITaskContext taskContext;
+    private readonly IContentDialogFactory contentDialogFactory;
 
     public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
     {
         InitializeComponent();
 
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
         Avatar = options.Avatar;
         Weapon = options.Weapon;
@@ -26,13 +27,12 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 
     public async ValueTask<ValueResult<bool, CultivatePromotionDeltaOptions>> GetPromotionDeltaAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
-
-        if (result != ContentDialogResult.Primary)
+        if (await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is not ContentDialogResult.Primary)
         {
             return new(false, default!);
         }
+
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
 
         AvatarPromotionDelta delta = new()
         {

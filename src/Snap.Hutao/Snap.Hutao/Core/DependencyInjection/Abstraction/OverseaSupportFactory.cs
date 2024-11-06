@@ -5,8 +5,9 @@ namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 [ConstructorGenerated]
 internal abstract partial class OverseaSupportFactory<TClient, TClientCN, TClientOS> : IOverseaSupportFactory<TClient>
-    where TClientCN : notnull, TClient
-    where TClientOS : notnull, TClient
+    where TClient : notnull
+    where TClientCN : TClient
+    where TClientOS : TClient
 {
     private readonly IServiceProvider serviceProvider;
 

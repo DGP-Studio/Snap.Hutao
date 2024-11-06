@@ -22,6 +22,8 @@ internal readonly struct GachaLogQuery
         Message = message;
     }
 
+    public readonly bool IsInvalid { get => string.IsNullOrEmpty(Message); }
+
     public static GachaLogQuery Invalid(string message)
     {
         return new(string.Empty, message);

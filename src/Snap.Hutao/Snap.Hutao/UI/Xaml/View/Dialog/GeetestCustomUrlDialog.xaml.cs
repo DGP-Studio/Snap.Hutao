@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -9,20 +11,20 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("Text", typeof(string))]
 internal sealed partial class GeetestCustomUrlDialog : ContentDialog
 {
-    private readonly ITaskContext taskContext;
+    private readonly IContentDialogFactory contentDialogFactory;
 
     public GeetestCustomUrlDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
         Text = serviceProvider.GetRequiredService<AppOptions>().GeetestCustomCompositeUrl;
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
     }
 
     public async ValueTask<ValueResult<bool, string>> GetUrlAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
-        return new(result == ContentDialogResult.Primary, Text ?? string.Empty);
+        ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
+        return new(result is ContentDialogResult.Primary, Text ?? string.Empty);
     }
 }
