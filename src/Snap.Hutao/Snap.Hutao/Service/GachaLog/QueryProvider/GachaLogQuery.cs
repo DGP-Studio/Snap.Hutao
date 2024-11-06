@@ -3,35 +3,16 @@
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
-/// <summary>
-/// 祈愿记录 query
-/// </summary>
-[HighQuality]
 internal readonly struct GachaLogQuery
 {
-    /// <summary>
-    /// query
-    /// </summary>
     public readonly string Query;
-
-    /// <summary>
-    /// 是否为国际服
-    /// </summary>
     public readonly bool IsOversea;
-
-    /// <summary>
-    /// 消息
-    /// </summary>
     public readonly string Message;
 
-    /// <summary>
-    /// 构造一个新的祈愿记录query
-    /// </summary>
-    /// <param name="query">query</param>
     public GachaLogQuery(string query)
     {
         Query = query;
-        IsOversea = query.Contains("hoyoverse.com", StringComparison.OrdinalIgnoreCase);
+        IsOversea = query.Contains("hk4e_global", StringComparison.OrdinalIgnoreCase);
         Message = string.Empty;
     }
 

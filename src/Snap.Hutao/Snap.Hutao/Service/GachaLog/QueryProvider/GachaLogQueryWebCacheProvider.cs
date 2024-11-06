@@ -6,6 +6,8 @@ using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Service.Game;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -87,7 +89,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         }
     }
 
-    private static string? Match(MemoryStream stream, bool isOversea)
+    private static unsafe string? Match(MemoryStream stream, bool isOversea)
     {
         ReadOnlySpan<byte> span = stream.ToArray();
         ReadOnlySpan<byte> match = isOversea
@@ -98,8 +100,10 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         if (index >= 0)
         {
             index += match.Length;
-            int length = span[index..].IndexOf("\0"u8);
-            return Encoding.UTF8.GetString(span.Slice(index, length));
+
+            byte* ptr = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(span[index..]));
+            ReadOnlySpan<byte> target = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
+            return Encoding.UTF8.GetString(target);
         }
 
         return null;
