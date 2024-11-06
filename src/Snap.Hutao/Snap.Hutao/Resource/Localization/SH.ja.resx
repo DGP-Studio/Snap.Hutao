@@ -839,7 +839,7 @@
     <value>アプリ通知の送信に失敗しました</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>ゲームを起動</value>
+    <value>ゲーム開始</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>了解</value>
@@ -1822,16 +1822,16 @@
     <value>エクスポート失敗</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
-    <value>現在のカード</value>
+    <value>当期祈願</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
-    <value>{0} 日までに停止中</value>
+    <value>{0} 日までに UP 終了</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
-    <value>上次 UP 时间: {0:yyyy.MM.dd}</value>
+    <value>前回 UP 時間: {0:yyyy.MM.dd}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
-    <value>距离上次 UP 已有 {0} 天</value>
+    <value>前回 UP から {0} 日が経ちました</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
     <value>後半</value>
@@ -2410,19 +2410,19 @@
     <value>入力</value>
   </data>
   <data name="ViewPageGachaLogOrangeAvatarCountdown" xml:space="preserve">
-    <value>5つ星</value>
+    <value>星5キャラクター</value>
   </data>
   <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
-    <value>5つ星の武器</value>
+    <value>星5武器</value>
   </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
     <value>タイマー</value>
   </data>
   <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
-    <value>4つ星ロール</value>
+    <value>星4キャラクター</value>
   </data>
   <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
-    <value>四つ星武器</value>
+    <value>星4武器</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
     <value>胡桃クラウドから祈願履歴を復元する</value>
