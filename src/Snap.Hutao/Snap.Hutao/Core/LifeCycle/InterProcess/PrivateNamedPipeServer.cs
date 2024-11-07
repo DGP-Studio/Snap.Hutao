@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using System.IO.Pipes;
 using System.Security.AccessControl;
@@ -94,6 +95,10 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                     }
 
                     messageDispatcher.RedirectActivation(hutaoArgs);
+                    break;
+
+                case (PipePacketType.Request, PipePacketCommand.BetterGenshinImpactToSnapHutaoRequest):
+                    PipeRequest<JsonElement>? request = serverStream.ReadJsonContent<PipeRequest<JsonElement>>(in header);
                     break;
 
                 case (PipePacketType.SessionTermination, _):

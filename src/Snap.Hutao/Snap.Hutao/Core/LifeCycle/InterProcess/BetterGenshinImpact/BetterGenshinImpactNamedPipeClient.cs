@@ -25,7 +25,36 @@ internal sealed partial class BetterGenshinImpactNamedPipeClient : IDisposable
 
         PipeRequest<long> startCaptureRequest = new() { Kind = PipeRequestKind.StartCapture, Data = hwnd };
         clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, startCaptureRequest);
+        clientStream.ReadPacket(out _, out PipeResponse? response);
+
+        if (response is not { Kind: PipeResponseKind.Boolean } || !response.Data.GetBoolean())
+        {
+            return false;
+        }
+
         clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
+        clientStream.Flush();
+        return true;
+    }
+
+    public bool TryStopCapture()
+    {
+        if (!clientStream.TryConnectOnce())
+        {
+            return false;
+        }
+
+        PipeRequest<Void> stopCaptureRequest = new() { Kind = PipeRequestKind.StopCapture, Data = default };
+        clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, stopCaptureRequest);
+        clientStream.ReadPacket(out _, out PipeResponse? response);
+
+        if (response is not { Kind: PipeResponseKind.Boolean } || !response.Data.GetBoolean())
+        {
+            return false;
+        }
+
+        clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
+        clientStream.Flush();
         return true;
     }
 }

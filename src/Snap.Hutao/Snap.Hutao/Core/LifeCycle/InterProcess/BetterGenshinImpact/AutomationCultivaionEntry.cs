@@ -5,9 +5,9 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 
-internal sealed class PipeRequest<T>
+internal sealed class AutomationCultivaionEntry
 {
-    public required PipeRequestKind Kind { get; set; }
+    public required uint ItemId { get; set; }
 
-    public required T Data { get; set; }
+    public required ImmutableArray<AutomationCultivaionItem> Items { get; set; }
 }
