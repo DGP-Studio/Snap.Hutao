@@ -65,6 +65,8 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             {
                 if (comException.HResult != HRESULT.E_FAIL)
                 {
+                    comException.Data.Add("BackgroundImageType", appOptions.BackgroundImageType);
+                    comException.Data.Add("FilePath", path);
                     throw;
                 }
 
