@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
@@ -16,9 +17,9 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPassportPasswordProvider
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
-    private readonly ITaskContext taskContext;
 
     private string? account;
     private string? password;
@@ -44,8 +45,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
 
     public async ValueTask<ValueResult<bool, LoginResult?>> LoginAsync(bool isOversea)
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
+        ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         if (result is ContentDialogResult.Primary)
         {
             return await LoginCoreAsync(isOversea).ConfigureAwait(false);
@@ -56,6 +56,8 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
 
     private async ValueTask<ValueResult<bool, LoginResult?>> LoginCoreAsync(bool isOversea)
     {
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
+
         ArgumentNullException.ThrowIfNull(Account);
         ArgumentNullException.ThrowIfNull(Password);
 

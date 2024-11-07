@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.InterChange.GachaLog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -10,12 +11,12 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("Selections", typeof(List<UIGFUidSelection>))]
 internal sealed partial class UIGFImportDialog : ContentDialog
 {
-    private readonly ITaskContext taskContext;
+    private readonly IContentDialogFactory contentDialogFactory;
 
     public UIGFImportDialog(IServiceProvider serviceProvider, UIGF uigf)
     {
         InitializeComponent();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
         UIGF = uigf;
         Selections = uigf.Hk4e?.SelectList(item => new UIGFUidSelection(item.Uid));
@@ -23,9 +24,9 @@ internal sealed partial class UIGFImportDialog : ContentDialog
 
     public async ValueTask<ValueResult<bool, HashSet<uint>>> GetSelectedUidsAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        if (await ShowAsync() is ContentDialogResult.Primary)
+        if (await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is ContentDialogResult.Primary)
         {
+            await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
             HashSet<uint> uids = Selections.Where(item => item.IsSelected).Select(item => item.Uid).ToHashSet();
             return new(true, uids);
         }
