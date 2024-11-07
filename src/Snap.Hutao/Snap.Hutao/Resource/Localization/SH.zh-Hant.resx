@@ -1821,16 +1821,16 @@
     <value>匯出失敗</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
-    <value>当前卡池</value>
+    <value>目前卡池</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
-    <value>距离 UP 结束还有 {0} 天</value>
+    <value>距離 UP 結束還有 {0} 天</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
-    <value>上次 UP 时间: {0:yyyy.MM.dd}</value>
+    <value>上次 UP 時間: {0:yyyy.MM.dd}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
-    <value>距离上次 UP 已有 {0} 天</value>
+    <value>距離上次 UP 已有 {0} 天</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
     <value>下半</value>
@@ -2415,7 +2415,7 @@
     <value>五星武器</value>
   </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
-    <value>计时</value>
+    <value>計時</value>
   </data>
   <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
     <value>四星角色</value>
