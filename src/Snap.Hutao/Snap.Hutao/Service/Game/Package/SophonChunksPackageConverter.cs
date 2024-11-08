@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
@@ -311,7 +311,10 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
             await task.ConfigureAwait(false);
         }
 
-        Directory.Delete(context.ServerCacheChunksFolder, true);
+        if (Directory.Exists(context.ServerCacheChunksFolder))
+        {
+            Directory.Delete(context.ServerCacheChunksFolder, true);
+        }
     }
 
     private async ValueTask SkipOrProcessAsync(PackageConverterContext context, PackageItemOperationForSophonChunks operation)
