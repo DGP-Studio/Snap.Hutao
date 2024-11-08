@@ -98,7 +98,7 @@
 
                 <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:RoleCombatPage"
-                    Content="Role Combat"
+                    Content="幻想剧诗"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/RoleCombat.png}"/>
 
                 <NavigationViewItem
