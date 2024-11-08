@@ -13,4 +13,7 @@ internal sealed class RoleCombatDetail
 
     [JsonPropertyName("backup_avatars")]
     public List<RoleCombatAvatar> BackupAvatars { get; set; } = default!;
+
+    [JsonPropertyName("fight_statisic")]
+    public RoleCombatFightStatistic FightStatistic { get; set; } = default!;
 }

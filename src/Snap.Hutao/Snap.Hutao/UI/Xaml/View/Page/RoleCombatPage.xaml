@@ -1,0 +1,985 @@
+﻿<shuxc:ScopedPage
+    x:Class="Snap.Hutao.UI.Xaml.View.Page.RoleCombatPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shmi="using:Snap.Hutao.Model.Intrinsic"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvr="using:Snap.Hutao.ViewModel.RoleCombat"
+    xmlns:shxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
+    d:DataContext="{d:DesignInstance shvr:RoleCombatViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <shuxc:ScopedPage.Resources>
+        <DataTemplate x:Key="RoleCombatListTemplate" x:DataType="shvr:RoleCombatView">
+            <StackPanel Margin="0,6,0,8">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding Schedule}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        Opacity="0.8"
+                        Text="{Binding MaxRound}"/>
+                </Grid>
+                <MenuFlyoutSeparator Margin="3,2"/>
+                <TextBlock
+                    Opacity="0.6"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding TimeFormatted}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DescriptionTextTemplate" x:DataType="x:String">
+            <shuxct:DescriptionTextBlock Description="{Binding}">
+                <shuxct:DescriptionTextBlock.Resources>
+                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </shuxct:DescriptionTextBlock.Resources>
+            </shuxct:DescriptionTextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="EnemyTemplate" x:DataType="shvr:EnemyView">
+            <Grid>
+                <ToolTipService.ToolTip>
+                    <StackPanel Spacing="{StaticResource SettingsCardContentControlSpacing}">
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Level}"/>
+                    </StackPanel>
+                </ToolTipService.ToolTip>
+                <Grid Height="50" CornerRadius="25">
+                    <shuxc:ItemIcon
+                        Width="50"
+                        Height="50"
+                        Icon="{Binding Icon}"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TrialTemplate">
+            <Border Background="#80000000" CornerRadius="{ThemeResource ControlCornerRadiusTopRightAndBottomLeft}">
+                <TextBlock
+                    Margin="6,0,6,2"
+                    Foreground="#FFFFFFFF"
+                    Text="试用"/>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SupportTemplate">
+            <Border Background="#80000000" CornerRadius="{ThemeResource ControlCornerRadiusTopRightAndBottomLeft}">
+                <TextBlock
+                    Margin="6,0,6,2"
+                    Foreground="#FFFFFFFF"
+                    Text="助演"/>
+            </Border>
+        </DataTemplate>
+
+        <shvr:RoleCombatAvatarTypeTemplateSelector
+            x:Key="RoleCombatAvatarTypeTemplateSelector"
+            SupportTemplate="{StaticResource SupportTemplate}"
+            TrialTemplate="{StaticResource TrialTemplate}"/>
+
+        <DataTemplate x:Key="AvatarTemplate" x:DataType="shvr:AvatarView">
+            <Grid>
+                <shuxc:ItemIcon
+                    Width="60"
+                    Height="60"
+                    Icon="{Binding Icon}"
+                    Quality="{Binding Quality}"/>
+                <ContentControl
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="{Binding Type}"
+                    ContentTemplateSelector="{StaticResource RoleCombatAvatarTypeTemplateSelector}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BuffTemplate" x:DataType="shvr:BuffView">
+            <Grid>
+                <ToolTipService.ToolTip>
+                    <StackPanel Spacing="{StaticResource SettingsCardContentControlSpacing}">
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
+                        <shuxct:DescriptionTextBlock Description="{Binding Description}">
+                            <shuxct:DescriptionTextBlock.Resources>
+                                <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </shuxct:DescriptionTextBlock.Resources>
+                        </shuxct:DescriptionTextBlock>
+                    </StackPanel>
+                </ToolTipService.ToolTip>
+                <Grid Height="40" CornerRadius="20">
+                    <shuxc:ItemIcon
+                        Width="40"
+                        Height="40"
+                        Background="#A4000000"
+                        Icon="{Binding Icon}"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SplendourBuffLevelEffectTemplate" x:DataType="x:String">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Column="0"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="• "/>
+                <shuxct:DescriptionTextBlock Grid.Column="1" Description="{Binding}">
+                    <shuxct:DescriptionTextBlock.Resources>
+                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </shuxct:DescriptionTextBlock.Resources>
+                </shuxct:DescriptionTextBlock>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SplendourBuffTemplate" x:DataType="shvr:SplendourBuffView">
+            <Grid>
+                <ToolTipService.ToolTip>
+                    <StackPanel Spacing="{StaticResource SettingsCardContentControlSpacing}">
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
+                        <ItemsControl ItemTemplate="{StaticResource SplendourBuffLevelEffectTemplate}" ItemsSource="{Binding Effects}"/>
+                    </StackPanel>
+                </ToolTipService.ToolTip>
+                <Grid Height="40" CornerRadius="20">
+                    <shuxc:ItemIcon
+                        Width="40"
+                        Height="40"
+                        Background="#A4000000"
+                        Icon="{Binding Icon}"/>
+                </Grid>
+                <InfoBadge
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Value="{Binding Level}">
+                    <InfoBadge.RenderTransform>
+                        <CompositeTransform TranslateX="4" TranslateY="4"/>
+                    </InfoBadge.RenderTransform>
+                </InfoBadge>
+            </Grid>
+        </DataTemplate>
+
+        <shuxdcs:ElementTypeIconConverter x:Key="ElementTypeIconConverter"/>
+
+        <DataTemplate x:Key="ElementTemplate" x:DataType="shmi:ElementType">
+            <shuxci:CachedImage
+                Width="20"
+                Height="20"
+                Margin="-3,2,7,0"
+                ShowAsMonoChrome="True"
+                Source="{Binding Converter={StaticResource ElementTypeIconConverter}, Mode=OneWay}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RoundTemplate" x:DataType="shvr:RoundView">
+            <Border
+                Margin="0,0,8,0"
+                VerticalAlignment="Top"
+                Style="{StaticResource BorderCardStyle}">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <BitmapIcon
+                                Width="20"
+                                ShowAsMonochrome="False"
+                                UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star1.png"
+                                Visibility="{Binding IsGetMedal, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <BitmapIcon
+                                Width="20"
+                                Foreground="#FF808080"
+                                UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star2.png"
+                                Visibility="{Binding IsGetMedal, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding RoundId}"/>
+                        </StackPanel>
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="8,0,0,0"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{Binding FinishTimeString}"
+                            TextAlignment="Center"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ItemsControl
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            ItemTemplate="{StaticResource EnemyTemplate}"
+                            ItemsSource="{Binding Enemies}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <cwc:WrapPanel HorizontalSpacing="6"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <ItemsControl
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            ItemTemplate="{StaticResource AvatarTemplate}"
+                            ItemsSource="{Binding Avatars}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <cwc:WrapPanel Margin="0,0,-6,0" HorizontalSpacing="6"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.RowSpan="2" Spacing="2">
+                            <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="辉彩祝福"/>
+                            <shuxct:DescriptionTextBlock Margin="0,0,0,5" Description="{Binding SplendourSummary}">
+                                <shuxct:DescriptionTextBlock.Resources>
+                                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </shuxct:DescriptionTextBlock.Resources>
+                            </shuxct:DescriptionTextBlock>
+                            <ItemsControl ItemTemplate="{StaticResource SplendourBuffTemplate}" ItemsSource="{Binding SplendourBuffs}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="6"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="2">
+                            <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="奇妙助益"/>
+                            <ItemsControl ItemTemplate="{StaticResource BuffTemplate}" ItemsSource="{Binding Buffs}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="6"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Spacing="2">
+                            <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="神秘收获"/>
+                            <ItemsControl ItemTemplate="{StaticResource BuffTemplate}" ItemsSource="{Binding ChoiceCards}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="6"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </shuxc:ScopedPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Pivot Grid.RowSpan="2" Style="{ThemeResource CardPivotStyle}">
+            <Pivot.RightHeader>
+                <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
+                    <!--  <AppBarButton  -->
+                    <!--  Command="{Binding UploadSpiralAbyssRecordCommand}"  -->
+                    <!--  Icon="{shuxm:FontIcon Glyph=&#xE898;}"  -->
+                    <!--  Label="{shuxm:ResourceString Name=ViewSpiralAbyssUploadRecord}"/>  -->
+                    <AppBarButton
+                        Command="{Binding RefreshCommand}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
+                        Label="{shuxm:ResourceString Name=ViewSpiralAbyssRefresh}"/>
+                </CommandBar>
+            </Pivot.RightHeader>
+
+            <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssDetail}">
+                <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                        <SplitView
+                            DisplayMode="Inline"
+                            IsPaneOpen="True"
+                            OpenPaneLength="248"
+                            PaneBackground="Transparent">
+                            <SplitView.Pane>
+                                <ListView
+                                    Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    ItemTemplate="{StaticResource RoleCombatListTemplate}"
+                                    ItemsSource="{Binding RoleCombatEntries}"
+                                    SelectedItem="{Binding RoleCombatEntries.CurrentItem, Mode=TwoWay}"/>
+                            </SplitView.Pane>
+                            <SplitView.Content>
+                                <ScrollViewer>
+                                    <StackPanel DataContext="{Binding RoleCombatEntries.CurrentItem}">
+                                        <Grid Margin="16,12,16,0">
+                                            <Grid Margin="1,0,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel
+                                                    Grid.ColumnSpan="2"
+                                                    Orientation="Horizontal"
+                                                    Spacing="8">
+                                                    <TextBlock VerticalAlignment="Center" Text="出演条件"/>
+                                                    <ItemsControl ItemTemplate="{StaticResource ElementTemplate}" ItemsSource="{Binding Elements}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <cwc:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1">
+                                                    <TextBlock Text="开幕角色"/>
+                                                    <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding InitialAvatars}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <cwc:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Grid.Column="1">
+                                                    <TextBlock Text="特邀角色"/>
+                                                    <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding SpecialAvatars}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <cwc:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <AppBarButton
+                                                HorizontalAlignment="Right"
+                                                Icon="{shuxm:FontIcon Glyph=&#xE8A1;}"
+                                                Label="演出回顾"
+                                                Visibility="{Binding Engaged, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <AppBarButton.Flyout>
+                                                    <Flyout Placement="BottomEdgeAlignedRight">
+                                                        <Flyout.FlyoutPresenterStyle>
+                                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                                <Setter Property="MaxWidth" Value="1920"/>
+                                                            </Style>
+                                                        </Flyout.FlyoutPresenterStyle>
+                                                        <Grid ColumnSpacing="6">
+                                                            <Grid.Resources>
+                                                                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                                                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                                                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                            </Grid.Resources>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="345"/>
+                                                                <ColumnDefinition Width="225"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <StackPanel Grid.Column="0" Spacing="{StaticResource SettingsCardSpacing}">
+                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDefeat}">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock
+                                                                            Margin="0,0,16,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding Defeat.Value}"/>
+                                                                        <shuxci:CachedImage
+                                                                            Width="48"
+                                                                            Height="48"
+                                                                            Margin="-8,-24,-8,-8"
+                                                                            Source="{Binding Defeat.SideIcon}"/>
+                                                                    </StackPanel>
+                                                                </cwc:SettingsCard>
+
+                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDamage}">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock
+                                                                            Margin="0,0,16,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding Damage.Value}"/>
+                                                                        <shuxci:CachedImage
+                                                                            Width="48"
+                                                                            Height="48"
+                                                                            Margin="-8,-24,-8,-8"
+                                                                            Source="{Binding Damage.SideIcon}"/>
+                                                                    </StackPanel>
+                                                                </cwc:SettingsCard>
+
+                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssTakeDamage}">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock
+                                                                            Margin="0,0,16,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding TakeDamage.Value}"/>
+                                                                        <shuxci:CachedImage
+                                                                            Width="48"
+                                                                            Height="48"
+                                                                            Margin="-8,-24,-8,-8"
+                                                                            Source="{Binding TakeDamage.SideIcon}"/>
+                                                                    </StackPanel>
+                                                                </cwc:SettingsCard>
+
+                                                                <cwc:SettingsCard Header="消耗「幻剧之花」">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock VerticalAlignment="Center" Text="{Binding Stat.CoinNumber}"/>
+                                                                    </StackPanel>
+                                                                </cwc:SettingsCard>
+
+                                                                <cwc:SettingsCard Header="挑战星章">
+                                                                    <ItemsControl ItemsSource="{Binding Stat.GetMedalRoundList}">
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate x:DataType="x:Int32">
+                                                                                <Grid>
+                                                                                    <BitmapIcon
+                                                                                        Width="20"
+                                                                                        ShowAsMonochrome="False"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star1.png"
+                                                                                        Visibility="{Binding Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                                                    <BitmapIcon
+                                                                                        Width="20"
+                                                                                        Foreground="#FF808080"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star2.png"
+                                                                                        Visibility="{Binding Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                                                                                </Grid>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                        <ItemsControl.ItemsPanel>
+                                                                            <ItemsPanelTemplate>
+                                                                                <StackPanel Orientation="Horizontal" Spacing="2"/>
+                                                                            </ItemsPanelTemplate>
+                                                                        </ItemsControl.ItemsPanel>
+                                                                    </ItemsControl>
+                                                                </cwc:SettingsCard>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Column="1" Spacing="{StaticResource SettingsCardSpacing}">
+                                                                <cwc:SettingsCard Content="{Binding MaxRound}" Header="最佳记录"/>
+                                                                <cwc:SettingsCard Content="{Binding Stat.AvatarBonusNumber}" Header="场外声援"/>
+                                                                <cwc:SettingsCard Content="{Binding Stat.RentCount}" Header="助演次数"/>
+
+                                                                <TextBlock
+                                                                    Margin="1,6,0,5"
+                                                                    Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                                                                    Text="最快演出"/>
+                                                                <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Shortest}">
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <cwc:UniformGrid ColumnSpacing="3" Columns="4"/>
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <shuxc:ItemIcon
+                                                                                Width="52"
+                                                                                Height="52"
+                                                                                Icon="{Binding Icon}"
+                                                                                Quality="{Binding Quality}"/>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Flyout>
+                                                </AppBarButton.Flyout>
+                                            </AppBarButton>
+                                        </Grid>
+
+                                        <StackPanel Margin="16,12">
+                                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Stat.DifficultyId}"/>
+                                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding TotalBattleTimesFormatted}"/>
+                                            <ItemsControl ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <cwc:UniformGrid Columns="2" RowSpacing="8"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </SplitView.Content>
+                        </SplitView>
+                    </Border>
+                </Border>
+
+            </PivotItem>
+
+            <!-- <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssHutaoStatistics}"> -->
+            <!--     <Grid DataContext="{Binding HutaoDatabaseViewModel}"> -->
+            <!--         <mxi:Interaction.Behaviors> -->
+            <!--             <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/> -->
+            <!--         </mxi:Interaction.Behaviors> -->
+            <!--    -->
+            <!--         <Grid.Resources> -->
+            <!--             <DataTemplate x:Key="AvatarViewInTeamTemplate" d:DataType="shvcom:AvatarView"> -->
+            <!--  <shuxc:ItemIcon  -->
+            <!--  Width="40"  -->
+            <!--  Height="40"  -->
+            <!--  shux:UIElementHelper.OpacityObject="{Binding Icon}"  -->
+            <!--  Icon="{Binding Icon}"  -->
+            <!--  Opacity="0"  -->
+            <!--  Quality="{Binding Quality}"/>  -->
+            <!--             </DataTemplate> -->
+            <!--    -->
+            <!--             <DataTemplate x:Key="TeamItemTemplate" d:DataType="shvcom:Team"> -->
+            <!--                 <Border Style="{StaticResource BorderCardStyle}"> -->
+            <!--                     <Grid> -->
+            <!--                         <Grid.RowDefinitions> -->
+            <!--                             <RowDefinition Height="auto"/> -->
+            <!--                             <RowDefinition Height="auto"/> -->
+            <!--                         </Grid.RowDefinitions> -->
+            <!--                         <Viewbox Stretch="Uniform"> -->
+            <!--  <ItemsControl  -->
+            <!--  Margin="4"  -->
+            <!--  HorizontalAlignment="Left"  -->
+            <!--  ItemTemplate="{StaticResource AvatarViewInTeamTemplate}"  -->
+            <!--  ItemsPanel="{ThemeResource HorizontalStackPanelSpacing4Template}"  -->
+            <!--  ItemsSource="{Binding}"/>  -->
+            <!--                         </Viewbox> -->
+            <!--  <Border  -->
+            <!--  Grid.Row="1"  -->
+            <!--  Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"  -->
+            <!--  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"  -->
+            <!--  BorderThickness="0,1,0,0"  -->
+            <!--  CornerRadius="{ThemeResource ControlCornerRadiusBottom}"  -->
+            <!--  Opacity="0.7"/>  -->
+            <!--                         <Grid Grid.Row="1"> -->
+            <!--                             <Grid.ColumnDefinitions> -->
+            <!--                                 <ColumnDefinition Width="1*"/> -->
+            <!--                                 <ColumnDefinition Width="auto"/> -->
+            <!--                                 <ColumnDefinition Width="5*"/> -->
+            <!--                             </Grid.ColumnDefinitions> -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="0"  -->
+            <!--  Margin="4"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  VerticalAlignment="Center"  -->
+            <!--  Text="{Binding Rank}"/>  -->
+            <!--                             <AppBarSeparator Grid.Column="1" Margin="-64,-2"/> -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="2"  -->
+            <!--  Margin="4"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  VerticalAlignment="Center"  -->
+            <!--  Text="{Binding UpCount}"/>  -->
+            <!--                         </Grid> -->
+            <!--                     </Grid> -->
+            <!--                 </Border> -->
+            <!--             </DataTemplate> -->
+            <!--    -->
+            <!--             <DataTemplate x:Key="RatedAvatarTemplate" x:DataType="shvcom:AvatarView"> -->
+            <!--                 <shuxcc:HorizontalCard> -->
+            <!--                     <shuxcc:HorizontalCard.Left> -->
+            <!--  <shuxc:ItemIcon  -->
+            <!--  Width="56"  -->
+            <!--  Height="56"  -->
+            <!--  Icon="{Binding Icon}"  -->
+            <!--  Quality="{Binding Quality}"/>  -->
+            <!--                     </shuxcc:HorizontalCard.Left> -->
+            <!--                     <shuxcc:HorizontalCard.Right> -->
+            <!--  <StackPanel  -->
+            <!--  Width="64"  -->
+            <!--  Margin="8,8,8,8"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Spacing="2">  -->
+            <!--                             <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/> -->
+            <!--  <shuxct:RateDeltaTextBlock  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Text="{Binding RateDelta}"  -->
+            <!--  TextStyle="{StaticResource CaptionTextBlockStyle}"/>  -->
+            <!--                         </StackPanel> -->
+            <!--                     </shuxcc:HorizontalCard.Right> -->
+            <!--                 </shuxcc:HorizontalCard> -->
+            <!--             </DataTemplate> -->
+            <!--         </Grid.Resources> -->
+            <!--    -->
+            <!--         <Pivot Style="{ThemeResource CardPivotStyle}" Visibility="{Binding Overview, Converter={StaticResource EmptyObjectToVisibilityConverter}}"> -->
+            <!--             <Pivot.RightHeader> -->
+            <!--                 <CommandBar DefaultLabelPosition="Right"> -->
+            <!--                     <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverview}"> -->
+            <!--                         <AppBarButton.Flyout> -->
+            <!--                             <Flyout Placement="BottomEdgeAlignedRight"> -->
+            <!--  <StackPanel  -->
+            <!--  MinWidth="260"  -->
+            <!--  Margin="0,-29,0,0"  -->
+            <!--  Spacing="{StaticResource SettingsCardSpacing}">  -->
+            <!--                                     <StackPanel.Resources> -->
+            <!--                                         <Thickness x:Key="SettingsCardPadding">16</Thickness> -->
+            <!--                                         <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double> -->
+            <!--                                         <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double> -->
+            <!--                                         <x:Double x:Key="SettingsCardMinHeight">0</x:Double> -->
+            <!--                                     </StackPanel.Resources> -->
+            <!--                                     <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewDataCollect}"/> -->
+            <!--                                     <cwc:SettingsCard Content="{Binding Overview.RefreshTime}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRefreshTime}"/> -->
+            <!--                                     <cwc:SettingsCard Content="{Binding Overview.RecordTotal}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRecordTotal}"/> -->
+            <!--                                     <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyss}"/> -->
+            <!--                                     <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssTotal}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssTotal}"/> -->
+            <!--                                     <cwc:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssPassed}"> -->
+            <!--                                         <StackPanel> -->
+            <!--                                             <TextBlock Text="{Binding Overview.SpiralAbyssPassedPercent}"/> -->
+            <!--  <TextBlock  -->
+            <!--  HorizontalAlignment="Right"  -->
+            <!--  Opacity="0.7"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{Binding Overview.SpiralAbyssPassed}"/>  -->
+            <!--                                         </StackPanel> -->
+            <!--                                     </cwc:SettingsCard> -->
+            <!--                                     <cwc:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar}"> -->
+            <!--                                         <StackPanel> -->
+            <!--                                             <TextBlock Text="{Binding Overview.SpiralAbyssFullStarPercent}"/> -->
+            <!--  <TextBlock  -->
+            <!--  HorizontalAlignment="Right"  -->
+            <!--  Opacity="0.7"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{Binding Overview.SpiralAbyssFullStar}"/>  -->
+            <!--                                         </StackPanel> -->
+            <!--                                     </cwc:SettingsCard> -->
+            <!--                                     <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssStarAverage}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage}"/> -->
+            <!--                                     <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssBattleAverage}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage}"/> -->
+            <!--                                 </StackPanel> -->
+            <!--                             </Flyout> -->
+            <!--                         </AppBarButton.Flyout> -->
+            <!--                     </AppBarButton> -->
+            <!--                 </CommandBar> -->
+            <!--             </Pivot.RightHeader> -->
+            <!--             <PivotItem Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewAvatarUsageRank}"> -->
+            <!--                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}"> -->
+            <!--                     <Grid Style="{ThemeResource AcrylicGridCardStyle}"> -->
+            <!--                         <Grid.RowDefinitions> -->
+            <!--                             <RowDefinition Height="auto"/> -->
+            <!--                             <RowDefinition/> -->
+            <!--                         </Grid.RowDefinitions> -->
+            <!--                         <Grid Grid.Row="0" Margin="16,16,0,16"> -->
+            <!--                             <Grid.ColumnDefinitions> -->
+            <!--                                 <ColumnDefinition Width="auto"/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                             </Grid.ColumnDefinitions> -->
+            <!--  <cwc:Segmented  -->
+            <!--  DisplayMemberPath="Floor"  -->
+            <!--  ItemsSource="{Binding AvatarUsageRanks}"  -->
+            <!--  SelectedItem="{Binding SelectedAvatarUsageRank, Mode=TwoWay}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="1"  -->
+            <!--  Margin="12,0,0,0"  -->
+            <!--  VerticalAlignment="Center"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewSpiralAbyssAvatarUsageRankDescription}"/>  -->
+            <!--                         </Grid> -->
+            <!--    -->
+            <!--  <GridView  -->
+            <!--  Grid.Row="1"  -->
+            <!--  Padding="16,0,4,4"  -->
+            <!--  DataContext="{Binding SelectedAvatarUsageRank}"  -->
+            <!--  ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"  -->
+            <!--  ItemTemplate="{StaticResource RatedAvatarTemplate}"  -->
+            <!--  ItemsSource="{Binding Avatars}"  -->
+            <!--  SelectionMode="None"/>  -->
+            <!--                     </Grid> -->
+            <!--                 </Border> -->
+            <!--             </PivotItem> -->
+            <!--             <PivotItem Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewAvatarAppearanceRank}"> -->
+            <!--                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}"> -->
+            <!--                     <Grid Style="{ThemeResource AcrylicGridCardStyle}"> -->
+            <!--                         <Grid.RowDefinitions> -->
+            <!--                             <RowDefinition Height="auto"/> -->
+            <!--                             <RowDefinition/> -->
+            <!--                         </Grid.RowDefinitions> -->
+            <!--                         <Grid Grid.Row="0" Margin="16,16,0,16"> -->
+            <!--                             <Grid.ColumnDefinitions> -->
+            <!--                                 <ColumnDefinition Width="auto"/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                             </Grid.ColumnDefinitions> -->
+            <!--  <cwc:Segmented  -->
+            <!--  DisplayMemberPath="Floor"  -->
+            <!--  ItemsSource="{Binding AvatarAppearanceRanks}"  -->
+            <!--  SelectedItem="{Binding SelectedAvatarAppearanceRank, Mode=TwoWay}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="1"  -->
+            <!--  Margin="12,0,0,0"  -->
+            <!--  VerticalAlignment="Center"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewSpiralAbyssAvatarAppearanceRankDescription}"/>  -->
+            <!--                         </Grid> -->
+            <!--    -->
+            <!--  <GridView  -->
+            <!--  Grid.Row="1"  -->
+            <!--  Padding="16,0,4,4"  -->
+            <!--  DataContext="{Binding SelectedAvatarAppearanceRank}"  -->
+            <!--  ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"  -->
+            <!--  ItemTemplate="{StaticResource RatedAvatarTemplate}"  -->
+            <!--  ItemsSource="{Binding Avatars}"  -->
+            <!--  SelectionMode="None"/>  -->
+            <!--                     </Grid> -->
+            <!--                 </Border> -->
+            <!--             </PivotItem> -->
+            <!--             <PivotItem Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewTeamAppearance}"> -->
+            <!--                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}"> -->
+            <!--                     <Grid Style="{ThemeResource AcrylicGridCardStyle}"> -->
+            <!--                         <Grid.RowDefinitions> -->
+            <!--                             <RowDefinition Height="auto"/> -->
+            <!--                             <RowDefinition/> -->
+            <!--                         </Grid.RowDefinitions> -->
+            <!--  <cwc:Segmented  -->
+            <!--  Grid.Row="0"  -->
+            <!--  Margin="16,16,0,16"  -->
+            <!--  DisplayMemberPath="Floor"  -->
+            <!--  ItemsSource="{Binding TeamAppearances}"  -->
+            <!--  SelectedItem="{Binding SelectedTeamAppearance, Mode=TwoWay}"/>  -->
+            <!--    -->
+            <!--  <Grid  -->
+            <!--  Grid.Row="1"  -->
+            <!--  Margin="16,0,0,0"  -->
+            <!--  ColumnSpacing="8"  -->
+            <!--  DataContext="{Binding SelectedTeamAppearance}">  -->
+            <!--                             <Grid.ColumnDefinitions> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                             </Grid.ColumnDefinitions> -->
+            <!--                             <cwc:HeaderedContentControl Grid.Column="0"> -->
+            <!--                                 <cwc:HeaderedContentControl.Header> -->
+            <!--                                     <Border Margin="0,0,16,0" Style="{ThemeResource BorderCardStyle}"> -->
+            <!--  <TextBlock  -->
+            <!--  Margin="0,8"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageSpiralAbyssTeamAppearanceUpHeader}"/>  -->
+            <!--                                     </Border> -->
+            <!--                                 </cwc:HeaderedContentControl.Header> -->
+            <!--  <ListView  -->
+            <!--  Padding="0,0,0,16"  -->
+            <!--  ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"  -->
+            <!--  ItemTemplate="{StaticResource TeamItemTemplate}"  -->
+            <!--  ItemsSource="{Binding Up}"  -->
+            <!--  SelectionMode="None">  -->
+            <!--                                     <ListView.ItemsPanel> -->
+            <!--                                         <ItemsPanelTemplate> -->
+            <!--  <shuxcp:UniformPanel  -->
+            <!--  Margin="0,0,16,0"  -->
+            <!--  ColumnSpacing="6"  -->
+            <!--  MinItemWidth="240"  -->
+            <!--  RowSpacing="2"/>  -->
+            <!--                                         </ItemsPanelTemplate> -->
+            <!--                                     </ListView.ItemsPanel> -->
+            <!--                                 </ListView> -->
+            <!--                             </cwc:HeaderedContentControl> -->
+            <!--    -->
+            <!--                             <cwc:HeaderedContentControl Grid.Column="1"> -->
+            <!--                                 <cwc:HeaderedContentControl.Header> -->
+            <!--                                     <Border Margin="0,0,16,0" Style="{ThemeResource BorderCardStyle}"> -->
+            <!--  <TextBlock  -->
+            <!--  Margin="0,8"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageSpiralAbyssTeamAppearanceDownHeader}"/>  -->
+            <!--                                     </Border> -->
+            <!--                                 </cwc:HeaderedContentControl.Header> -->
+            <!--  <ListView  -->
+            <!--  Padding="0,0,0,16"  -->
+            <!--  ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"  -->
+            <!--  ItemTemplate="{StaticResource TeamItemTemplate}"  -->
+            <!--  ItemsSource="{Binding Down}"  -->
+            <!--  SelectionMode="None">  -->
+            <!--                                     <ListView.ItemsPanel> -->
+            <!--                                         <ItemsPanelTemplate> -->
+            <!--  <shuxcp:UniformPanel  -->
+            <!--  Margin="0,0,16,0"  -->
+            <!--  ColumnSpacing="6"  -->
+            <!--  MinItemWidth="240"  -->
+            <!--  RowSpacing="2"/>  -->
+            <!--                                         </ItemsPanelTemplate> -->
+            <!--                                     </ListView.ItemsPanel> -->
+            <!--                                 </ListView> -->
+            <!--                             </cwc:HeaderedContentControl> -->
+            <!--                         </Grid> -->
+            <!--                     </Grid> -->
+            <!--                 </Border> -->
+            <!--             </PivotItem> -->
+            <!--             <PivotItem Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewAvatarConstellation}"> -->
+            <!--                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}"> -->
+            <!--                     <Grid Style="{ThemeResource AcrylicGridCardStyle}"> -->
+            <!--                         <Grid.RowDefinitions> -->
+            <!--                             <RowDefinition Height="auto"/> -->
+            <!--                             <RowDefinition/> -->
+            <!--                         </Grid.RowDefinitions> -->
+            <!--                         <Grid Margin="16,4,16,4"> -->
+            <!--                             <Grid.ColumnDefinitions> -->
+            <!--                                 <ColumnDefinition Width="48"/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                                 <ColumnDefinition/> -->
+            <!--                             </Grid.ColumnDefinitions> -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="0"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellationAvatar}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="1"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellationHolding}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="2"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation0}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="3"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation1}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="4"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation2}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="5"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation3}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="6"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation4}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="7"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation5}"/>  -->
+            <!--  <TextBlock  -->
+            <!--  Grid.Column="8"  -->
+            <!--  Margin="6"  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Style="{StaticResource CaptionTextBlockStyle}"  -->
+            <!--  Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation6}"/>  -->
+            <!--                         </Grid> -->
+            <!--  <ListView  -->
+            <!--  Grid.Row="1"  -->
+            <!--  Margin="0,0,4,0"  -->
+            <!--  Padding="0,0,0,8"  -->
+            <!--  HorizontalContentAlignment="Stretch"  -->
+            <!--  ItemsPanel="{StaticResource ItemsStackPanelTemplate}"  -->
+            <!--  ItemsSource="{Binding AvatarConstellationInfos}"  -->
+            <!--  SelectionMode="None"  -->
+            <!--  VirtualizingStackPanel.VirtualizationMode="Standard">  -->
+            <!--                             <ItemsControl.ItemTemplate> -->
+            <!--                                 <DataTemplate> -->
+            <!--                                     <Border Margin="0,0,0,8" Style="{StaticResource BorderCardStyle}"> -->
+            <!--                                         <Grid> -->
+            <!--                                             <Grid.ColumnDefinitions> -->
+            <!--                                                 <ColumnDefinition Width="auto"/> -->
+            <!--                                                 <ColumnDefinition/> -->
+            <!--                                             </Grid.ColumnDefinitions> -->
+            <!--    -->
+            <!--  <shuxc:ItemIcon  -->
+            <!--  Width="48"  -->
+            <!--  Height="48"  -->
+            <!--  Icon="{Binding Icon}"  -->
+            <!--  Quality="{Binding Quality}"/>  -->
+            <!--    -->
+            <!--                                             <Grid Grid.Column="1"> -->
+            <!--                                                 <Grid.ColumnDefinitions> -->
+            <!--                                                     <ColumnDefinition Width="1*"/> -->
+            <!--                                                     <ColumnDefinition Width="7*"/> -->
+            <!--                                                 </Grid.ColumnDefinitions> -->
+            <!--                                                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"> -->
+            <!--                                                     <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/> -->
+            <!--  <shuxct:RateDeltaTextBlock  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Text="{Binding RateDelta}"  -->
+            <!--  TextStyle="{StaticResource CaptionTextBlockStyle}"/>  -->
+            <!--                                                 </StackPanel> -->
+            <!--    -->
+            <!--                                                 <ItemsControl Grid.Column="1" ItemsSource="{Binding Rates}"> -->
+            <!--                                                     <ItemsControl.ItemsPanel> -->
+            <!--                                                         <ItemsPanelTemplate> -->
+            <!--                                                             <cwc:UniformGrid Columns="7"/> -->
+            <!--                                                         </ItemsPanelTemplate> -->
+            <!--                                                     </ItemsControl.ItemsPanel> -->
+            <!--                                                     <ItemsControl.ItemTemplate> -->
+            <!--                                                         <DataTemplate> -->
+            <!--                                                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"> -->
+            <!--                                                                 <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/> -->
+            <!--  <shuxct:RateDeltaTextBlock  -->
+            <!--  HorizontalAlignment="Center"  -->
+            <!--  Text="{Binding RateDelta}"  -->
+            <!--  TextStyle="{StaticResource CaptionTextBlockStyle}"/>  -->
+            <!--                                                             </StackPanel> -->
+            <!--                                                         </DataTemplate> -->
+            <!--                                                     </ItemsControl.ItemTemplate> -->
+            <!--                                                 </ItemsControl> -->
+            <!--                                             </Grid> -->
+            <!--                                         </Grid> -->
+            <!--                                     </Border> -->
+            <!--                                 </DataTemplate> -->
+            <!--                             </ItemsControl.ItemTemplate> -->
+            <!--                         </ListView> -->
+            <!--                     </Grid> -->
+            <!--                 </Border> -->
+            <!--    -->
+            <!--             </PivotItem> -->
+            <!--         </Pivot> -->
+            <!--  <shuxc:Loading  -->
+            <!--  Margin="16"  -->
+            <!--  CornerRadius="{ThemeResource ControlCornerRadius}"  -->
+            <!--  IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"  -->
+            <!--  Style="{ThemeResource DefaultLoadingViewStyle}"/>  -->
+            <!--     </Grid> -->
+            <!-- </PivotItem> -->
+        </Pivot>
+    </Grid>
+</shuxc:ScopedPage>

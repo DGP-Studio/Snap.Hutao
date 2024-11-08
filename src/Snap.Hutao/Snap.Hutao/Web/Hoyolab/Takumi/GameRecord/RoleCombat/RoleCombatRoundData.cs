@@ -14,6 +14,9 @@ internal sealed class RoleCombatRoundData
     [JsonPropertyName("buffs")]
     public List<RoleCombatBuff> Buffs { get; set; } = default!;
 
+    [JsonPropertyName("enemies")]
+    public List<RoleCombatEnemy> Enemies { get; set; } = default!;
+
     [JsonPropertyName("is_get_medal")]
     public bool IsGetMedal { get; set; }
 
@@ -25,4 +28,7 @@ internal sealed class RoleCombatRoundData
 
     [JsonPropertyName("finish_date_time")]
     public DateTime FinishDateTime { get; set; } = default!;
+
+    [JsonPropertyName("splendour_buff")]
+    public RoleCombatSplendourBuffWrapper SplendourBuff { get; set; } = default!;
 }

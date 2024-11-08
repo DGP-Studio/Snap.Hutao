@@ -65,6 +65,8 @@ internal sealed partial class AppDbContext : DbContext
 
     public DbSet<UidProfilePicture> UidProfilePictures { get; set; } = default!;
 
+    public DbSet<RoleCombatEntry> RoleCombats { get; set; } = default!;
+
     public static AppDbContext Create(IServiceProvider serviceProvider, string sqlConnectionString)
     {
         DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
@@ -88,6 +90,7 @@ internal sealed partial class AppDbContext : DbContext
             .ApplyConfiguration(new DailyNoteEntryConfiguration())
             .ApplyConfiguration(new InventoryReliquaryConfiguration())
             .ApplyConfiguration(new SpiralAbyssEntryConfiguration())
+            .ApplyConfiguration(new RoleCombatEntryConfiguration())
             .ApplyConfiguration(new UserConfiguration());
     }
 }

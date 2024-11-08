@@ -162,6 +162,12 @@
     "EqualityOperators": true
   },
   {
+    "Name": "RoleCombatScheduleId",
+    "Documentation": "剧诗计划 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
     "Name": "SkillGroupId",
     "Documentation": "技能组 Id",
     "Equatable": true,

@@ -97,6 +97,11 @@
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"/>
 
                 <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:RoleCombatPage"
+                    Content="Role Combat"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/RoleCombat.png}"/>
+
+                <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:CultivationPage"
                     Content="{shuxm:ResourceString Name=ViewCultivationHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>

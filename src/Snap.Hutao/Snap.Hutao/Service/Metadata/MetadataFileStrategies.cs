@@ -22,6 +22,8 @@ internal static class MetadataFileStrategies
     public static readonly MetadataFileStrategy ReliquaryMainAffixLevel = new("ReliquaryMainAffixLevel");
     public static readonly MetadataFileStrategy ReliquarySet = new("ReliquarySet");
     public static readonly MetadataFileStrategy ReliquarySubAffix = new("ReliquarySubAffix");
+
+    public static readonly MetadataFileStrategy RoleCombatSchedule = new("RoleCombatSchedule");
     public static readonly MetadataFileStrategy TowerFloor = new("TowerFloor");
     public static readonly MetadataFileStrategy TowerLevel = new("TowerLevel");
     public static readonly MetadataFileStrategy TowerSchedule = new("TowerSchedule");
