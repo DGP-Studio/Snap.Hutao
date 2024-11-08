@@ -23,13 +23,19 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
 
         RoleCombatData roleCombatData = entity.RoleCombatData;
+
         Stat = roleCombatData.Stat;
         Rounds = roleCombatData.Detail.RoundsData.SelectList(r => RoundView.From(r, offset, context));
         TotalBattleTimes = roleCombatData.Detail.FightStatistic.TotalUseTime;
-        Shortest = ToAvatarDamages(roleCombatData.Detail.FightStatistic.ShortestAvatarList, context);
-        Defeat = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxDefeatAvatar, context);
-        Damage = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxDamageAvatar, context);
-        TakeDamage = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxTakeDamageAvatar, context);
+
+        if (roleCombatData.Detail.FightStatistic.IsShowBattleStats)
+        {
+            Shortest = ToAvatarDamages(roleCombatData.Detail.FightStatistic.ShortestAvatarList, context);
+            Defeat = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxDefeatAvatar, context);
+            Damage = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxDamageAvatar, context);
+            TakeDamage = ToAvatarDamage(roleCombatData.Detail.FightStatistic.MaxTakeDamageAvatar, context);
+        }
+
         Engaged = true;
     }
 

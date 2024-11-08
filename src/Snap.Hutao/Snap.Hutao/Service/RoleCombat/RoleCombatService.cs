@@ -14,10 +14,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.RoleCombat;
 
-/// <summary>
-/// 深渊记录服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IRoleCombatService))]
 internal sealed partial class RoleCombatService : IRoleCombatService
@@ -90,6 +86,11 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 
             foreach (RoleCombatData roleCombatData in webRoleCombat.Data)
             {
+                if (!roleCombatData.HasData)
+                {
+                    continue;
+                }
+
                 await RefreshRoleCombatCoreAsync(userAndUid, roleCombatData).ConfigureAwait(false);
             }
         }
