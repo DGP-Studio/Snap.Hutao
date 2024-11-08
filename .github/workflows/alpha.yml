@@ -56,7 +56,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0
+          dotnet-version: 9.0
 
       - name: Cache NuGet packages
         if: ${{ needs.select-runner.outputs.runner == 'windows-latest' }}
@@ -99,7 +99,7 @@ jobs:
           "
 
           echo $summary >> $Env:GITHUB_STEP_SUMMARY
-  
+
       - name: Clean up
         run: |
           Write-Host "Cleaning up NuGet cache..."
