@@ -406,6 +406,18 @@
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>一星</value>
   </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
+    <value>轻简模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
+    <value>困难模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
+    <value>普通模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
+    <value>卓越模式</value>
+  </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
     <comment>Need EXACT same string in game</comment>

@@ -25,6 +25,14 @@
     </mxi:Interaction.Behaviors>
 
     <shuxc:ScopedPage.Resources>
+        <shuxdcs:RoleCombatHeraldryIconConverter x:Key="RoleCombatHeraldryIconConverter"/>
+        <shuxdcs:ElementTypeIconConverter x:Key="ElementTypeIconConverter"/>
+
+        <shvr:RoleCombatAvatarTypeTemplateSelector
+            x:Key="RoleCombatAvatarTypeTemplateSelector"
+            SupportTemplate="{StaticResource SupportTemplate}"
+            TrialTemplate="{StaticResource TrialTemplate}"/>
+
         <DataTemplate x:Key="RoleCombatListTemplate" x:DataType="shvr:RoleCombatView">
             <StackPanel Margin="0,6,0,8">
                 <Grid ColumnSpacing="12">
@@ -90,11 +98,6 @@
                     Text="助演"/>
             </Border>
         </DataTemplate>
-
-        <shvr:RoleCombatAvatarTypeTemplateSelector
-            x:Key="RoleCombatAvatarTypeTemplateSelector"
-            SupportTemplate="{StaticResource SupportTemplate}"
-            TrialTemplate="{StaticResource TrialTemplate}"/>
 
         <DataTemplate x:Key="AvatarTemplate" x:DataType="shvr:AvatarView">
             <Grid>
@@ -180,8 +183,6 @@
                 </InfoBadge>
             </Grid>
         </DataTemplate>
-
-        <shuxdcs:ElementTypeIconConverter x:Key="ElementTypeIconConverter"/>
 
         <DataTemplate x:Key="ElementTemplate" x:DataType="shmi:ElementType">
             <shuxci:CachedImage
@@ -349,8 +350,12 @@
                             </SplitView.Pane>
                             <SplitView.Content>
                                 <ScrollViewer>
-                                    <StackPanel DataContext="{Binding RoleCombatEntries.CurrentItem}">
-                                        <Grid Margin="16,12,16,0">
+                                    <Grid DataContext="{Binding RoleCombatEntries.CurrentItem}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0" Margin="16,12,16,0">
                                             <Grid Margin="1,0,0,0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition/>
@@ -531,29 +536,59 @@
                                             </AppBarButton>
                                         </Grid>
 
-                                        <StackPanel Margin="16,12">
-                                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Stat.DifficultyId}"/>
-                                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding TotalBattleTimesFormatted}"/>
-                                            <!--<ItemsControl ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <cwc:UniformGrid Columns="2" RowSpacing="8"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>-->
-                                            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                                                <ItemsRepeater ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
-                                                    <ItemsRepeater.Layout>
-                                                        <UniformGridLayout
-                                                            ItemsJustification="Start"
-                                                            ItemsStretch="Fill"
-                                                            MinItemWidth="570"
-                                                            MinRowSpacing="8"/>
-                                                    </ItemsRepeater.Layout>
-                                                </ItemsRepeater>
-                                            </ScrollViewer>
-                                        </StackPanel>
-                                    </StackPanel>
+                                        <shuxc:StandardView Grid.Row="1" ShowCondition="{Binding Engaged}">
+                                            <shuxc:StandardView.EmptyContent>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Image
+                                                        Width="648"
+                                                        Height="312"
+                                                        Source="ms-appx:///Resource/Icon/UI_Img_RoleCombat_EventDetail_Pic_Chance.png"/>
+                                                    <TextBlock
+                                                        Margin="0,16,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="暂无演出数据"/>
+                                                </StackPanel>
+                                            </shuxc:StandardView.EmptyContent>
+                                            <StackPanel Margin="16,12" Spacing="4">
+                                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Difficulty}"/>
+                                                <StackPanel Orientation="Horizontal" Spacing="2">
+                                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FormattedHeraldry}"/>
+                                                    <BitmapIcon
+                                                        Width="20"
+                                                        ShowAsMonochrome="False"
+                                                        UriSource="{Binding Stat.Heraldry, Converter={StaticResource RoleCombatHeraldryIconConverter}}"/>
+                                                </StackPanel>
+                                                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding TotalBattleTimesFormatted}"/>
+                                                <TextBlock
+                                                    Margin="0,4"
+                                                    Style="{ThemeResource SettingsCardHeaderTextBlockStyle}"
+                                                    Text="待命角色"/>
+                                                <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding BackupAvatars}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                </ItemsControl>
+                                                <TextBlock
+                                                    Margin="0,4"
+                                                    Style="{ThemeResource SettingsCardHeaderTextBlockStyle}"
+                                                    Text="参演名单"/>
+                                                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                                    <ItemsRepeater ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
+                                                        <ItemsRepeater.Layout>
+                                                            <UniformGridLayout
+                                                                ItemsJustification="Start"
+                                                                ItemsStretch="Fill"
+                                                                MinItemWidth="570"
+                                                                MinRowSpacing="8"/>
+                                                        </ItemsRepeater.Layout>
+                                                    </ItemsRepeater>
+                                                </ScrollViewer>
+                                            </StackPanel>
+                                        </shuxc:StandardView>
+                                    </Grid>
                                 </ScrollViewer>
                             </SplitView.Content>
                         </SplitView>

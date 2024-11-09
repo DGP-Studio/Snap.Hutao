@@ -25,6 +25,15 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         RoleCombatData roleCombatData = entity.RoleCombatData;
 
         Stat = roleCombatData.Stat;
+        Difficulty = roleCombatData.Stat.DifficultyId.GetLocalizedDescription();
+        FormattedHeraldry = $"已抵达{Difficulty}{MaxRound}";
+        BackupAvatars = roleCombatData.Detail.BackupAvatars
+            .OrderByDescending(avatar => avatar.AvatarType)
+            .ThenByDescending(avatar => avatar.Rarity)
+            .ThenByDescending(avatar => avatar.Element)
+            .ThenByDescending(avatar => avatar.AvatarId.Value) // TODO: IdentityStruct IComparable?
+            .Select(avatar => AvatarView.From(avatar, context.IdAvatarMap[avatar.AvatarId]))
+            .ToList();
         Rounds = roleCombatData.Detail.RoundsData.SelectList(r => RoundView.From(r, offset, context));
         TotalBattleTimes = roleCombatData.Detail.FightStatistic.TotalUseTime;
 
@@ -66,6 +75,12 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
     public bool Engaged { get; }
 
     public RoleCombatStat? Stat { get; }
+
+    public string Difficulty { get; } = default!;
+
+    public string FormattedHeraldry { get; } = default!;
+
+    public List<AvatarView> BackupAvatars { get; } = [];
 
     public List<RoundView> Rounds { get; } = [];
 
