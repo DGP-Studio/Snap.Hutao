@@ -75,7 +75,7 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
                 (true, true, false, _, true, true) => (false, false, false, false, false, true, false, false, true, true),
                 (true, true, true, false, false, _) => (false, true, false, false, false, false, false, false, false, false),
                 (true, true, true, false, true, _) => (false, true, false, false, false, true, false, false, false, false),
-                (true, true, true, true, false, _) => (true, true, false, false, false, true, false, false, false, true),
+                (true, true, true, true, false, _) => (true, true, false, true, true, false, false, false, false, true),
                 (true, true, true, true, true, false) => (true, true, false, true, true, true, false, false, false, true),
                 (true, true, true, true, true, true) => (true, true, false, true, true, true, false, false, true, true),
             };
