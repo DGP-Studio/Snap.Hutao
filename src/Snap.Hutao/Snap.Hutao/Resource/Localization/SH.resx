@@ -3338,6 +3338,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
+  <data name="ViewRoleCombatHeader" xml:space="preserve">
+    <value>幻想真境剧诗</value>
+  </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>登录失败，请重新登录</value>
   </data>
