@@ -8,7 +8,7 @@ namespace Snap.Hutao.ViewModel.Complex;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
+internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly ITaskContext taskContext;

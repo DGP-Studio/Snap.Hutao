@@ -8,7 +8,8 @@ internal interface IHomaEndpoints :
     IHomaServiceEndpoints,
     IHomaLogEndpoints,
     IHomaPassportEndpoints,
-    IHomaSpiralAbyssEndpoints
+    IHomaSpiralAbyssEndpoints,
+    IHomaRoleCombatEndpoints
 {
     public string HomaWebsite(string path)
     {

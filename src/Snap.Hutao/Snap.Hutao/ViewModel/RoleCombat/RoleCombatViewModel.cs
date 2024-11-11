@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
@@ -11,6 +12,8 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Hutao.RoleCombat;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
@@ -26,14 +29,14 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
+    private readonly HutaoRoleCombatDatabaseViewModel hutaoRoleCombatDatabaseViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
 
     private AdvancedCollectionView<RoleCombatView>? roleCombatEntries;
 
     public AdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get => roleCombatEntries; set => SetProperty(ref roleCombatEntries, value); }
 
-    public HutaoDatabaseViewModel HutaoDatabaseViewModel { get => hutaoDatabaseViewModel; }
+    public HutaoRoleCombatDatabaseViewModel HutaoRoleCombatDatabaseViewModel { get => hutaoRoleCombatDatabaseViewModel; }
 
     public void Receive(UserAndUidChangedMessage message)
     {
@@ -114,56 +117,58 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
         }
     }
 
-    // [Command("UploadRoleCombatRecordCommand")]
-    // private async Task UploadRoleCombatRecordAsync()
-    // {
-    //     if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
-    //     {
-    //         if (!hutaoUserOptions.IsLoggedIn)
-    //         {
-    //             SpiralAbyssUploadRecordHomaNotLoginDialog dialog = await contentDialogFactory
-    //                 .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>()
-    //                 .ConfigureAwait(false);
-    //
-    //             await taskContext.SwitchToMainThreadAsync();
-    //             ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
-    //
-    //             switch (result)
-    //             {
-    //                 case ContentDialogResult.Primary:
-    //                     await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
-    //                     return;
-    //
-    //                 case ContentDialogResult.Secondary:
-    //                     break;
-    //
-    //                 case ContentDialogResult.None:
-    //                     return;
-    //             }
-    //         }
-    //
-    //         using (IServiceScope scope = serviceProvider.CreateScope())
-    //         {
-    //             HutaoSpiralAbyssClient spiralAbyssClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
-    //             if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
-    //             {
-    //                 Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
-    //
-    //                 if (response is ILocalizableResponse localizableResponse)
-    //                 {
-    //                     infoBarService.PrepareInfoBarAndShow(builder =>
-    //                     {
-    //                         builder
-    //                         .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
-    //                         .SetMessage(localizableResponse.GetLocalizationMessage());
-    //                     });
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     else
-    //     {
-    //         infoBarService.Warning(SH.MustSelectUserAndUid);
-    //     }
-    // }
+    [Command("UploadRoleCombatRecordCommand")]
+    private async Task UploadRoleCombatRecordAsync()
+    {
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
+        {
+            // if (!hutaoUserOptions.IsLoggedIn)
+            // {
+            //     SpiralAbyssUploadRecordHomaNotLoginDialog dialog = await contentDialogFactory
+            //         .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>()
+            //         .ConfigureAwait(false);
+            //
+            //     await taskContext.SwitchToMainThreadAsync();
+            //     ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
+            //
+            //     switch (result)
+            //     {
+            //         case ContentDialogResult.Primary:
+            //             await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+            //             return;
+            //
+            //         case ContentDialogResult.Secondary:
+            //             break;
+            //
+            //         case ContentDialogResult.None:
+            //             return;
+            //     }
+            // }
+
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HutaoRoleCombatClient roleCombatClient = scope.ServiceProvider.GetRequiredService<HutaoRoleCombatClient>();
+                if (await roleCombatClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is not { } record)
+                {
+                    infoBarService.Warning("无有效的演出记录");
+                    return;
+                }
+
+                HutaoResponse response = await roleCombatClient.UploadRecordAsync(record).ConfigureAwait(false);
+
+                infoBarService.PrepareInfoBarAndShow(builder =>
+                {
+                    builder
+                        .SetSeverity(response is { ReturnCode: 0 }
+                            ? InfoBarSeverity.Success
+                            : InfoBarSeverity.Warning)
+                        .SetMessage(response.GetLocalizationMessageOrMessage());
+                });
+            }
+        }
+        else
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
+        }
+    }
 }
