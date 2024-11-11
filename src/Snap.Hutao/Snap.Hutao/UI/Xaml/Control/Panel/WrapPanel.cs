@@ -15,17 +15,14 @@ internal sealed partial class WrapPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        Size childAvailableSize = new(
-            availableSize.Width - Padding.Left - Padding.Right,
-            availableSize.Height - Padding.Top - Padding.Bottom);
+        Size childAvailableSize = new(availableSize.Width - Padding.Left - Padding.Right, availableSize.Height - Padding.Top - Padding.Bottom);
 
         foreach (UIElement child in Children)
         {
             child.Measure(childAvailableSize);
         }
 
-        Size requiredSize = UpdateRows(availableSize);
-        return requiredSize;
+        return UpdateRows(availableSize);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
@@ -75,13 +72,11 @@ internal sealed partial class WrapPanel : Microsoft.UI.Xaml.Controls.Panel
     {
         rows.Clear();
 
-        Size paddingStart = new(Padding.Left, Padding.Top);
-        Size paddingEnd = new(Padding.Right, Padding.Bottom);
+        Thickness padding = Padding;
 
-        if (Children.Count == 0)
+        if (Children.Count is 0)
         {
-            Size emptySize = new(paddingStart.Width + paddingEnd.Width, paddingStart.Height + paddingEnd.Height);
-            return emptySize;
+            return new(padding.Left + padding.Right, padding.Top + padding.Bottom);
         }
 
         Size parentMeasure = new(availableSize.Width, availableSize.Height);
@@ -93,38 +88,17 @@ internal sealed partial class WrapPanel : Microsoft.UI.Xaml.Controls.Panel
 
         foreach (UIElement child in Children)
         {
-            ArrangeItem(child);
-        }
-
-        if (currentRow.ChildrenRects.Count > 0)
-        {
-            rows.Add(currentRow);
-        }
-
-        if (rows.Count == 0)
-        {
-            Size emptySize = new(paddingStart.Width + paddingEnd.Width, paddingStart.Height + paddingEnd.Height);
-            return emptySize;
-        }
-
-        // Get max V here before computing final rect
-        Rect lastRowRect = rows.Last().Rect;
-        finalMeasure.Height = lastRowRect.Y + lastRowRect.Height;
-        Size finalRect = new(finalMeasure.Width + paddingEnd.Width - spacingMeasure.Width, finalMeasure.Height + paddingEnd.Height);
-        return finalRect;
-
-        void ArrangeItem(UIElement child)
-        {
             if (child.Visibility is Visibility.Collapsed)
             {
-                return; // if an item is collapsed, avoid adding the spacing
+                // if an item is collapsed, avoid adding the spacing
+                continue;
             }
 
-            Size desiredMeasure = new(child.DesiredSize.Width, child.DesiredSize.Height);
-            if ((desiredMeasure.Width + position.X + paddingEnd.Width) > parentMeasure.Width)
+            Size desiredMeasure = child.DesiredSize;
+            if ((desiredMeasure.Width + position.X + padding.Right) > parentMeasure.Width)
             {
                 // next row!
-                position.X = paddingStart.Width;
+                position.X = padding.Left;
                 position.Y += currentRow.Size.Height + spacingMeasure.Height;
 
                 rows.Add(currentRow);
@@ -137,6 +111,21 @@ internal sealed partial class WrapPanel : Microsoft.UI.Xaml.Controls.Panel
             position.X += desiredMeasure.Width + spacingMeasure.Width;
             finalMeasure.Width = Math.Max(finalMeasure.Width, position.X);
         }
+
+        if (currentRow.ChildrenRects.Count > 0)
+        {
+            rows.Add(currentRow);
+        }
+
+        if (rows.Count is 0)
+        {
+            return new(padding.Left + padding.Right, padding.Top + padding.Bottom);
+        }
+
+        // Get max V here before computing final rect
+        Rect lastRowRect = rows.Last().Rect;
+        finalMeasure.Height = lastRowRect.Y + lastRowRect.Height;
+        return new(finalMeasure.Width + padding.Right - spacingMeasure.Width, finalMeasure.Height + padding.Bottom);
     }
 
     private struct Row
@@ -151,11 +140,11 @@ internal sealed partial class WrapPanel : Microsoft.UI.Xaml.Controls.Panel
 
         public Size Size { get; set; }
 
-        public Rect Rect
+        public readonly Rect Rect
         {
             get => ChildrenRects.Count > 0
                 ? new(ChildrenRects[0].X, ChildrenRects[0].Y, Size.Width, Size.Height)
-                : new(0, 0, Size.Width, Size.Height);
+                : new(0D, 0D, Size.Width, Size.Height);
         }
 
         public void Add(Point position, Size size)
