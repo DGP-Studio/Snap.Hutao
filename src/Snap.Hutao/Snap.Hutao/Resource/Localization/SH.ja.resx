@@ -3523,6 +3523,9 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器一覧</value>
   </data>
+  <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
+    <value>紧凑网页窗口</value>
+  </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>フィードバックの方法はフィードバックセンター内から、開発者に連絡をとってください。</value>
   </data>
