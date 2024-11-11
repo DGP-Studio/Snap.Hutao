@@ -32,6 +32,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private bool isPointerInClientArea;
     private bool isPointerInNonClientArea;
+    private bool isLocked;
 
     public CompactWebView2Window(IWebView2ContentProvider contentProvider)
     {
@@ -39,10 +40,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
-            presenter.IsMinimizable = false;
-            presenter.IsMaximizable = false;
+            presenter.SetBorderAndTitleBar(true, false);
             presenter.IsAlwaysOnTop = true;
         }
+
+        SetTitleBar(CustomTitleBar);
 
         this.contentProvider = contentProvider;
         contentProvider.CloseWindowAction = Close;
@@ -101,6 +103,10 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public SizeInt32 MinSize { get => new(200, 200); }
 
+    public bool IsLocked { get => isLocked; private set => SetProperty(ref isLocked, value, nameof(IsLockedVisibility)); }
+
+    public Visibility IsLockedVisibility { get => IsLocked ? Visibility.Collapsed : Visibility.Visible; }
+
     public void OnWindowClosed()
     {
         inputPointerSource.PointerEntered -= OnWindowPointerEntered;
@@ -146,7 +152,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         {
             this.AddExStyleLayered();
             SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
-            RootGrid.Height = 0;
+
+            if (IsLocked)
+            {
+                RootGrid.Height = 0;
+            }
         }
     }
 
@@ -163,6 +173,18 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void Refresh()
     {
         WebView.CoreWebView2.Reload();
+    }
+
+    [Command("SwitchLockCommand")]
+    private void SwitchLock()
+    {
+        IsLocked = !IsLocked;
+    }
+
+    [Command("CloseCommand")]
+    private void CloseWindow()
+    {
+        Close();
     }
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
