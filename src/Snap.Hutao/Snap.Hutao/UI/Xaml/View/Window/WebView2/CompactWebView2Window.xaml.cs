@@ -5,11 +5,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using Windows.Graphics;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
@@ -17,7 +18,10 @@ namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
 [INotifyPropertyChanged]
-internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window, IXamlWindowExtendContentIntoTitleBar, IXamlWindowClosedHandler
+internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
+    IXamlWindowExtendContentIntoTitleBar,
+    IXamlWindowRectPersisted,
+    IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
 
@@ -68,16 +72,30 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window, 
 
     public bool IsTitleVisible { get => isTitleVisible; set => SetProperty(ref isTitleVisible, value); }
 
-    public Uri Source
+    public string Source
     {
-        get => WebView.Source;
-        set => SetProperty(WebView.Source, value, WebView, static (view, v) => view.Source = v);
+        get => WebView.Source?.ToString() ?? string.Empty;
+        set
+        {
+            if (!string.IsNullOrEmpty(value) && Uri.TryCreate(value, default, out Uri? uri))
+            {
+                SetProperty(WebView.Source, uri, WebView, static (view, v) => view.Source = v);
+            }
+        }
     }
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough
     {
         get { yield return SourceTextBox; }
     }
+
+    public string PersistRectKey { get => SettingKeys.CompactWebView2WindowRect; }
+
+    public string PersistScaleKey { get => SettingKeys.CompactWebView2WindowScale; }
+
+    public SizeInt32 InitSize { get => new(800, 600); }
+
+    public SizeInt32 MinSize { get => new(200, 200); }
 
     public void OnWindowClosed()
     {
@@ -118,13 +136,13 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window, 
         if (isPointerInWindow)
         {
             this.RemoveExStyleLayered();
-            RootGrid.Visibility = Visibility.Visible;
+            RootGrid.Height = 48;
         }
         else
         {
             this.AddExStyleLayered();
             SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
-            RootGrid.Visibility = Visibility.Collapsed;
+            RootGrid.Height = 1;
         }
     }
 
@@ -152,6 +170,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window, 
         {
             await WebView.EnsureCoreWebView2Async();
             WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+            WebView.CoreWebView2.SourceChanged += OnSourceChanged;
             WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
             contentProvider.CoreWebView2 = WebView.CoreWebView2;
@@ -183,6 +202,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window, 
     private void OnHistoryChanged(CoreWebView2 sender, object args)
     {
         GoBackButton.IsEnabled = sender.CanGoBack;
+    }
+
+    private void OnSourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
+    {
+        OnPropertyChanged(nameof(Source));
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)

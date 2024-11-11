@@ -14,6 +14,8 @@ internal static class SettingKeys
     public const string WindowScale = "WindowScale";
     public const string GuideWindowRect = "GuideWindowRect";
     public const string GuideWindowScale = "GuideWindowScale";
+    public const string CompactWebView2WindowRect = "CompactWebView2WindowRect";
+    public const string CompactWebView2WindowScale = "CompactWebView2WindowScale";
     public const string IsNavPaneOpen = "IsNavPaneOpen";
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
 
