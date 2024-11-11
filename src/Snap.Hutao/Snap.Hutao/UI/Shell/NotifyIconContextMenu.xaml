@@ -198,6 +198,11 @@
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="{shuxm:ResourceString Name=ViewWindowScriptingTitle}"/>
             <MenuFlyoutItem
+                Command="{Binding OpenCompactWebView2WindowCommand}"
+                Icon="{shuxm:FontIcon Glyph=&#xF7ED;}"
+                Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
+                Text="{shuxm:ResourceString Name=ViewWindowCompactWebViewTitle}"/>
+            <MenuFlyoutItem
                 Command="{Binding RestartAsElevatedCommand}"
                 Icon="{shuxm:FontIcon Glyph=&#xE7EF;}"
                 IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"

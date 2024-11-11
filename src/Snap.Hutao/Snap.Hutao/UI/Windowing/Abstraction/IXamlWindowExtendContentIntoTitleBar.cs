@@ -7,5 +7,7 @@ namespace Snap.Hutao.UI.Windowing.Abstraction;
 
 internal interface IXamlWindowExtendContentIntoTitleBar
 {
-    FrameworkElement TitleBarAccess { get; }
+    FrameworkElement TitleBarCaptionAccess { get; }
+
+    IEnumerable<FrameworkElement> TitleBarPassthrough { get; }
 }

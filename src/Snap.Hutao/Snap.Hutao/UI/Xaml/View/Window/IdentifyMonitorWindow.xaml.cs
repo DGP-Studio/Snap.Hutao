@@ -38,7 +38,6 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
 
         foreach (IdentifyMonitorWindow window in windows)
         {
-            window.RemoveStyleDialogFrame();
             window.Show();
         }
 

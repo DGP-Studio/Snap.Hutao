@@ -109,7 +109,9 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
         this.InitializeController(serviceProvider);
     }
 
-    public FrameworkElement TitleBarAccess { get => DragableGrid; }
+    public FrameworkElement TitleBarCaptionAccess { get => DragableGrid; }
+
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public SizeInt32 InitSize { get; } = new(800, 500);
 

@@ -1,0 +1,192 @@
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Input;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.UI.Windowing.Abstraction;
+using Snap.Hutao.Web.WebView2;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using static Snap.Hutao.Win32.Macros;
+using static Snap.Hutao.Win32.User32;
+
+namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
+
+[SuppressMessage("", "CA1001")]
+[INotifyPropertyChanged]
+internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window, IXamlWindowExtendContentIntoTitleBar, IXamlWindowClosedHandler
+{
+    private readonly CancellationTokenSource loadCts = new();
+
+    private readonly IServiceScope windowScope;
+    private readonly IWebView2ContentProvider contentProvider;
+    private readonly InputPointerSource inputPointerSource;
+    private readonly InputNonClientPointerSource inputNonClientPointerSource;
+
+    private bool isTitleVisible;
+    private bool isPointerInClientArea;
+    private bool isPointerInNonClientArea;
+
+    public CompactWebView2Window(IWebView2ContentProvider contentProvider)
+    {
+        windowScope = Ioc.Default.CreateScope();
+
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsMinimizable = false;
+            presenter.IsMaximizable = false;
+            presenter.IsAlwaysOnTop = true;
+        }
+
+        this.contentProvider = contentProvider;
+        contentProvider.CloseWindowAction = Close;
+
+        InitializeComponent();
+        RootGrid.DataContext = this;
+
+        inputPointerSource = this.GetInputPointerSource();
+        inputPointerSource.PointerEntered += OnWindowPointerEntered;
+        inputPointerSource.PointerExited += OnWindowPointerExited;
+
+        inputNonClientPointerSource = this.GetInputNonClientPointerSource();
+        inputNonClientPointerSource.PointerEntered += OnWindowNonClientPointerEntered;
+        inputNonClientPointerSource.PointerExited += OnWindowNonClientPointerExited;
+
+        WebView.Loaded += OnWebViewLoaded;
+        WebView.Unloaded += OnWebViewUnloaded;
+
+        this.InitializeController(windowScope.ServiceProvider);
+
+        this.AddExStyleLayered();
+        SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+    }
+
+    public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
+
+    public bool IsTitleVisible { get => isTitleVisible; set => SetProperty(ref isTitleVisible, value); }
+
+    public Uri Source
+    {
+        get => WebView.Source;
+        set => SetProperty(WebView.Source, value, WebView, static (view, v) => view.Source = v);
+    }
+
+    public IEnumerable<FrameworkElement> TitleBarPassthrough
+    {
+        get { yield return SourceTextBox; }
+    }
+
+    public void OnWindowClosed()
+    {
+        inputPointerSource.PointerEntered -= OnWindowPointerEntered;
+        inputPointerSource.PointerExited -= OnWindowPointerExited;
+        inputNonClientPointerSource.PointerEntered -= OnWindowNonClientPointerEntered;
+        inputNonClientPointerSource.PointerExited -= OnWindowNonClientPointerExited;
+        windowScope.Dispose();
+    }
+
+    private void OnWindowPointerEntered(InputPointerSource source, PointerEventArgs args)
+    {
+        isPointerInClientArea = true;
+        UpdateLayeredWindow();
+    }
+
+    private void OnWindowNonClientPointerEntered(InputNonClientPointerSource source, NonClientPointerEventArgs args)
+    {
+        isPointerInNonClientArea = true;
+        UpdateLayeredWindow();
+    }
+
+    private void OnWindowPointerExited(InputPointerSource source, PointerEventArgs args)
+    {
+        isPointerInClientArea = false;
+        UpdateLayeredWindow();
+    }
+
+    private void OnWindowNonClientPointerExited(InputNonClientPointerSource source, NonClientPointerEventArgs args)
+    {
+        isPointerInNonClientArea = false;
+        UpdateLayeredWindow();
+    }
+
+    private void UpdateLayeredWindow()
+    {
+        bool isPointerInWindow = isPointerInClientArea || isPointerInNonClientArea;
+        if (isPointerInWindow)
+        {
+            this.RemoveExStyleLayered();
+            RootGrid.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            this.AddExStyleLayered();
+            SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+            RootGrid.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    [Command("GoBackCommand")]
+    private void GoBack()
+    {
+        if (WebView.CoreWebView2.CanGoBack)
+        {
+            WebView.CoreWebView2.GoBack();
+        }
+    }
+
+    [Command("RefreshCommand")]
+    private void Refresh()
+    {
+        WebView.CoreWebView2.Reload();
+    }
+
+    private void OnWebViewLoaded(object sender, RoutedEventArgs e)
+    {
+        _ = OnWebViewLoadedAsync();
+
+        [SuppressMessage("", "SH003")]
+        async Task OnWebViewLoadedAsync()
+        {
+            await WebView.EnsureCoreWebView2Async();
+            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+            WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+            contentProvider.CoreWebView2 = WebView.CoreWebView2;
+            await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
+        }
+    }
+
+    private void OnWebViewUnloaded(object sender, RoutedEventArgs e)
+    {
+        loadCts.Cancel();
+        loadCts.Dispose();
+        contentProvider.Unload();
+
+        if (WebView.CoreWebView2 is not null)
+        {
+            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+        }
+
+        WebView.Loaded -= OnWebViewLoaded;
+        WebView.Unloaded -= OnWebViewUnloaded;
+    }
+
+    private void OnDocumentTitleChanged(CoreWebView2 sender, object args)
+    {
+        DocumentTitle.Text = sender.DocumentTitle;
+    }
+
+    private void OnHistoryChanged(CoreWebView2 sender, object args)
+    {
+        GoBackButton.IsEnabled = sender.CanGoBack;
+    }
+
+    private void OnActualThemeChanged(FrameworkElement sender, object args)
+    {
+        contentProvider.ActualTheme = sender.ActualTheme;
+    }
+}

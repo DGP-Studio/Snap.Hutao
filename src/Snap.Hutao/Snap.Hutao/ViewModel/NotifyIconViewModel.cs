@@ -7,6 +7,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -112,5 +113,11 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     private void OpenScriptingWindow()
     {
         _ = serviceProvider.GetRequiredService<ScriptingWindow>();
+    }
+
+    [Command("OpenCompactWebView2WindowCommand")]
+    private void OpenCompactWebView2Window()
+    {
+        _ = new CompactWebView2Window(new DefaultWebView2ContentProvider());
     }
 }

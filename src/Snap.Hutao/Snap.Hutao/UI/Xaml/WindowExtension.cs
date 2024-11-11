@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Content;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
@@ -38,19 +39,35 @@ internal static class WindowExtension
         WindowControllers.Remove(window);
     }
 
-    public static DesktopWindowXamlSource? GetDesktopWindowXamlSource(this Window window)
+    public static DesktopWindowXamlSource GetDesktopWindowXamlSource(this Window window)
     {
         if (window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess access)
         {
-            return access.DesktopWindowXamlSource;
+            return access.DesktopWindowXamlSource!;
         }
 
-        return default;
+        return default!;
     }
 
     public static InputNonClientPointerSource GetInputNonClientPointerSource(this Window window)
     {
         return InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
+    }
+
+    public static InputPointerSource GetInputPointerSource(this Window window)
+    {
+        InputPointerSource inputPointerSource = default!;
+        ContentIsland[] contentIslands = ContentIsland.FindAllForCurrentThread();
+        foreach (ref readonly ContentIsland island in contentIslands.AsSpan())
+        {
+            if (island.Environment.AppWindowId == window.AppWindow.Id)
+            {
+                inputPointerSource = InputPointerSource.GetForIsland(island);
+                break;
+            }
+        }
+
+        return inputPointerSource;
     }
 
     public static HWND GetWindowHandle(this Window? window)
@@ -88,17 +105,20 @@ internal static class WindowExtension
         ShowWindow(window.GetWindowHandle(), SHOW_WINDOW_CMD.SW_HIDE);
     }
 
-    public static void AddExStyleLayered(this Window window, bool full = true)
+    public static void AddExStyleLayered(this Window window)
     {
         HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+    }
 
-        if (full)
-        {
-            SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
-        }
+    public static void RemoveExStyleLayered(this Window window)
+    {
+        HWND hwnd = WindowNative.GetWindowHandle(window);
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+        style &= ~(nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
+        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
     }
 
     public static void AddExStyleToolWindow(this Window window)
@@ -107,19 +127,6 @@ internal static class WindowExtension
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW;
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
-    }
-
-    public static void RemoveStyleDialogFrame(this Window window)
-    {
-        HWND hwnd = WindowNative.GetWindowHandle(window);
-
-        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-        style &= ~(nint)WINDOW_EX_STYLE.WS_EX_WINDOWEDGE;
-        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
-
-        style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
-        style &= ~(nint)WINDOW_STYLE.WS_DLGFRAME;
-        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style);
     }
 
     public static unsafe void BringToForeground(this Window window)

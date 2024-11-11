@@ -63,7 +63,7 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
 
     public RectInt32 InitializePosition(RectInt32 parentRect, double parentDpi)
     {
-        return new RectInt32(parentRect.X + 48, parentRect.Y + 48, parentRect.Width - 96, parentRect.Height - 96);
+        return WebView2WindowPosition.Padding(parentRect, 48);
     }
 
     public void Unload()

@@ -40,7 +40,9 @@ internal sealed partial class LaunchGameWindow : Microsoft.UI.Xaml.Window,
         RootGrid.InitializeDataContext<LaunchGameViewModel>(scope.ServiceProvider);
     }
 
-    public FrameworkElement TitleBarAccess { get => DragableGrid; }
+    public FrameworkElement TitleBarCaptionAccess { get => DragableGrid; }
+
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public SizeInt32 InitSize { get; } = new(MaxWidth, MaxHeight);
 

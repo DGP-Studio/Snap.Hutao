@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Bridge;
@@ -73,47 +71,6 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
 
     public RectInt32 InitializePosition(RectInt32 parentRect, double parentDpi)
     {
-        PointInt32 center = parentRect.GetPointInt32(PointInt32Kind.Center);
-        SizeInt32 size = new SizeInt32(480, 800).Scale(parentDpi);
-        RectInt32 target = RectInt32Convert.RectInt32(new(center.X - (size.Width / 2), center.Y - (size.Height / 2)), size);
-        RectInt32 workArea = DisplayArea.GetFromRect(parentRect, DisplayAreaFallback.None).WorkArea;
-        RectInt32 workAreaShrink = new(workArea.X + 48, workArea.Y + 48, workArea.Width - 96, workArea.Height - 96);
-
-        if (target.Width > workAreaShrink.Width)
-        {
-            target.Width = workAreaShrink.Width;
-        }
-
-        if (target.Height > workAreaShrink.Height)
-        {
-            target.Height = workAreaShrink.Height;
-        }
-
-        PointInt32 topLeft = target.GetPointInt32(PointInt32Kind.TopLeft);
-
-        if (topLeft.X < workAreaShrink.X)
-        {
-            target.X = workAreaShrink.X;
-        }
-
-        if (topLeft.Y < workAreaShrink.Y)
-        {
-            target.Y = workAreaShrink.Y;
-        }
-
-        PointInt32 bottomRight = target.GetPointInt32(PointInt32Kind.BottomRight);
-        PointInt32 workAreeShrinkBottomRight = workAreaShrink.GetPointInt32(PointInt32Kind.BottomRight);
-
-        if (bottomRight.X > workAreeShrinkBottomRight.X)
-        {
-            target.X = workAreeShrinkBottomRight.X - target.Width;
-        }
-
-        if (bottomRight.Y > workAreeShrinkBottomRight.Y)
-        {
-            target.Y = workAreeShrinkBottomRight.Y - target.Height;
-        }
-
-        return target;
+        return WebView2WindowPosition.Vertical(parentRect, parentDpi);
     }
 }
