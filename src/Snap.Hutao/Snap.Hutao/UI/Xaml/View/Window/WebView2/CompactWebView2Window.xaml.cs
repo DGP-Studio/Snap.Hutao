@@ -70,16 +70,17 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
 
-    public bool IsTitleVisible { get => isTitleVisible; set => SetProperty(ref isTitleVisible, value); }
-
     public string Source
     {
         get => WebView.Source?.ToString() ?? string.Empty;
         set
         {
-            if (!string.IsNullOrEmpty(value) && Uri.TryCreate(value, default, out Uri? uri))
+            if (!string.IsNullOrEmpty(value))
             {
-                SetProperty(WebView.Source, uri, WebView, static (view, v) => view.Source = v);
+                string url = value.StartsWith("https://", StringComparison.OrdinalIgnoreCase) || value.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    ? value
+                    : $"https://{value}";
+                SetProperty(WebView.Source, url.ToUri(), WebView, static (view, v) => view.Source = v);
             }
         }
     }
