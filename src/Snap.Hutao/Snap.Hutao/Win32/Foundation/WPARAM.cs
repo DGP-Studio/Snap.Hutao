@@ -6,4 +6,9 @@ namespace Snap.Hutao.Win32.Foundation;
 internal readonly struct WPARAM
 {
     public readonly nuint Value;
+
+    public static implicit operator uint(WPARAM value)
+    {
+        return *(uint*)&value;
+    }
 }

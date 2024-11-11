@@ -146,6 +146,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private unsafe void InitializeIsland(Process gameProcess)
     {
         HANDLE hModule = default;
+        HHOOK hHook = default;
         try
         {
             hModule = NativeLibrary.Load(dataFolderIslandPath);
@@ -156,7 +157,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
             SpinWait.SpinUntil(() => gameProcess.MainWindowHandle is not 0);
             uint threadId = GetWindowThreadProcessId(gameProcess.MainWindowHandle, default);
-            HHOOK hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, hModule, threadId);
+            hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, hModule, threadId);
             if (hHook.Value is 0)
             {
                 Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
@@ -171,6 +172,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
         finally
         {
+            UnhookWindowsHookEx(hHook);
             NativeLibrary.Free(hModule);
         }
     }

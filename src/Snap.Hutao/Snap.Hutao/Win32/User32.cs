@@ -21,6 +21,10 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static extern LRESULT CallNextHookEx([Optional] HHOOK hhk, int nCode, WPARAM wParam, LPARAM lParam);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static extern unsafe BOOL ClientToScreen(HWND hWnd, POINT* lpPoint);
 
     public static unsafe BOOL ClientToScreen(HWND hWnd, ref POINT point)
@@ -277,6 +281,10 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL ShowWindow(HWND hWnd, SHOW_WINDOW_CMD nCmdShow);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL UnhookWindowsHookEx(HHOOK hhk);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]

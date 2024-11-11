@@ -21,7 +21,6 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     private const int WindowSubclassId = 101;
 
     private readonly Window window;
-    private readonly HWND hwnd;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC windowProc = default!;
@@ -30,19 +29,18 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     public XamlWindowSubclass(Window window)
     {
         this.window = window;
-        hwnd = window.GetWindowHandle();
     }
 
     public unsafe bool Initialize()
     {
         windowProc = SUBCLASSPROC.Create(&OnSubclassProcedure);
         unmanagedAccess = GCHandle.Alloc(this);
-        return SetWindowSubclass(hwnd, windowProc, WindowSubclassId, (nuint)GCHandle.ToIntPtr(unmanagedAccess));
+        return SetWindowSubclass(window.GetWindowHandle(), windowProc, WindowSubclassId, (nuint)GCHandle.ToIntPtr(unmanagedAccess));
     }
 
     public void Dispose()
     {
-        RemoveWindowSubclass(hwnd, windowProc, WindowSubclassId);
+        RemoveWindowSubclass(window.GetWindowHandle(), windowProc, WindowSubclassId);
         windowProc = default!;
         unmanagedAccess.Free();
     }

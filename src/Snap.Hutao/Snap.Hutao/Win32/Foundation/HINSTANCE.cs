@@ -13,4 +13,9 @@ internal readonly struct HINSTANCE
     {
         return *(HINSTANCE*)&value;
     }
+
+    public static unsafe implicit operator HINSTANCE(HMODULE value)
+    {
+        return *(HINSTANCE*)&value;
+    }
 }
