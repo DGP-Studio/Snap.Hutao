@@ -3521,6 +3521,9 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Weapon WIKI</value>
   </data>
+  <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
+    <value>紧凑网页窗口</value>
+  </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>Please take a screenshot of this window and find the appropriate feedback channel in the Feedback Center and send it to the development team.</value>
   </data>
