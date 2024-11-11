@@ -905,7 +905,7 @@
     <value>祈願履歴を取得できません End Id</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
-    <value>イベント祈願・キャラクター</value>
+    <value>イベント</value>
   </data>
   <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
     <value>集録祈願</value>
@@ -3368,7 +3368,7 @@
     <value>最多撃破数</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>シーズン情報</value>
+    <value>毎期の詳細</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>元素爆発</value>
@@ -3524,7 +3524,7 @@
     <value>武器一覧</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口</value>
+    <value>コンパクトビュー</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>フィードバックの方法はフィードバックセンター内から、開発者に連絡をとってください。</value>
