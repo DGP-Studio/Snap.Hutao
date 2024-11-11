@@ -7,7 +7,7 @@ internal readonly struct WPARAM
 {
     public readonly nuint Value;
 
-    public static implicit operator uint(WPARAM value)
+    public static unsafe implicit operator uint(WPARAM value)
     {
         return *(uint*)&value;
     }
