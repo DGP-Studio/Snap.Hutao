@@ -30,7 +30,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private readonly InputPointerSource inputPointerSource;
     private readonly InputNonClientPointerSource inputNonClientPointerSource;
 
-    private bool isTitleVisible;
     private bool isPointerInClientArea;
     private bool isPointerInNonClientArea;
 
@@ -80,7 +79,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
                 string url = value.StartsWith("https://", StringComparison.OrdinalIgnoreCase) || value.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
                     ? value
                     : $"https://{value}";
-                SetProperty(WebView.Source, url.ToUri(), WebView, static (view, v) => view.Source = v);
+
+                if (Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
+                {
+                    SetProperty(WebView.Source, uri, WebView, static (view, v) => view.Source = v);
+                }
             }
         }
     }
@@ -143,7 +146,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         {
             this.AddExStyleLayered();
             SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
-            RootGrid.Height = 1;
+            RootGrid.Height = 0;
         }
     }
 
@@ -171,8 +174,10 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         {
             await WebView.EnsureCoreWebView2Async();
             WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+            WebView.CoreWebView2.DownloadStarting += OnDownloadStarting;
             WebView.CoreWebView2.SourceChanged += OnSourceChanged;
             WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+            WebView.CoreWebView2.NewWindowRequested += OnNewWindowRequested;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
             contentProvider.CoreWebView2 = WebView.CoreWebView2;
             await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
@@ -187,8 +192,10 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         if (WebView.CoreWebView2 is not null)
         {
-            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
-            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+            WebView.CoreWebView2.DocumentTitleChanged -= OnDocumentTitleChanged;
+            WebView.CoreWebView2.SourceChanged -= OnSourceChanged;
+            WebView.CoreWebView2.DownloadStarting -= OnDownloadStarting;
+            WebView.CoreWebView2.HistoryChanged -= OnHistoryChanged;
         }
 
         WebView.Loaded -= OnWebViewLoaded;
@@ -208,6 +215,17 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void OnSourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
     {
         OnPropertyChanged(nameof(Source));
+    }
+
+    private void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
+    {
+        args.Cancel = true;
+    }
+
+    private void OnNewWindowRequested(object? sender, CoreWebView2NewWindowRequestedEventArgs args)
+    {
+        args.Handled = true;
+        ((CoreWebView2)sender!).Navigate(args.Uri);
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)

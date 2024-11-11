@@ -13,7 +13,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid x:Name="RootGrid" Height="4">
+        <Grid x:Name="RootGrid" Height="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
@@ -61,7 +61,7 @@
         <WebView2
             x:Name="WebView"
             Grid.Row="1"
-            Margin="1,0,1,1"
+            Margin="0"
             DefaultBackgroundColor="Transparent"/>
     </Grid>
 </Window>

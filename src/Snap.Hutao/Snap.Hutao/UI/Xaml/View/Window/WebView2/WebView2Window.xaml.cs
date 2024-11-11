@@ -116,8 +116,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
 
         if (WebView.CoreWebView2 is not null)
         {
-            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
-            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+            WebView.CoreWebView2.DocumentTitleChanged -= OnDocumentTitleChanged;
+            WebView.CoreWebView2.HistoryChanged -= OnHistoryChanged;
         }
 
         WebView.Loaded -= OnWebViewLoaded;
