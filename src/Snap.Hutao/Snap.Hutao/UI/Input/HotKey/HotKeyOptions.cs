@@ -31,10 +31,10 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             HotKeyPressed = OnHotKeyPressed,
         };
 
-        mouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VirtualKey.F8);
+        mouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VIRTUAL_KEY.VK_F8);
     }
 
-    public List<NameValue<VirtualKey>> VirtualKeys { get; } = HotKey.VirtualKeys.GetList();
+    public List<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.GetList();
 
     public HotKeyCombination MouseClickRepeatForeverKeyCombination
     {

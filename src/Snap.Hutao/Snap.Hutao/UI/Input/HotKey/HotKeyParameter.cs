@@ -6,19 +6,17 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
-/// <summary>
-/// HotKeyParameter
-/// The size of this struct must be sizeof(LPARAM) or 4
-/// </summary>
 internal readonly struct HotKeyParameter : IEquatable<HotKeyCombination>
 {
+    // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 4
     public readonly ushort NativeModifiers;
     public readonly VIRTUAL_KEY NativeKey;
+    // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 4
 
-    public HotKeyParameter(HOT_KEY_MODIFIERS modifiers, VirtualKey key)
+    public HotKeyParameter(HOT_KEY_MODIFIERS modifiers, VIRTUAL_KEY key)
     {
         NativeModifiers = (ushort)modifiers;
-        NativeKey = (VIRTUAL_KEY)key;
+        NativeKey = key;
     }
 
     public readonly HOT_KEY_MODIFIERS Modifiers
@@ -26,9 +24,9 @@ internal readonly struct HotKeyParameter : IEquatable<HotKeyCombination>
         get => (HOT_KEY_MODIFIERS)NativeModifiers;
     }
 
-    public readonly VirtualKey Key
+    public readonly VIRTUAL_KEY Key
     {
-        get => (VirtualKey)NativeKey;
+        get => NativeKey;
     }
 
     public bool Equals(HotKeyCombination? other)

@@ -34,6 +34,7 @@ internal static class SettingKeys
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
+    public const string LowLevelKeyboardWebView2VideoPlayPause = "LowLevelKeyboardWebView2VideoPlayPause";
     #endregion
 
     #region Passport

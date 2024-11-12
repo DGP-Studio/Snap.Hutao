@@ -9,7 +9,7 @@ using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.User32;
 
-namespace Snap.Hutao.UI.Input;
+namespace Snap.Hutao.UI.Input.LowLevel;
 
 internal delegate bool LowLevelInputKeyboardSourceEventHandler(ref readonly KBDLLHOOKSTRUCT args);
 

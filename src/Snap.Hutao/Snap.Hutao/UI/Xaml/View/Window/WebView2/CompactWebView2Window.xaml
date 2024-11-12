@@ -43,12 +43,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock
-                        SizeChanged="OnDocumentTitleSizeChanged"
                         x:Name="DocumentTitle"
                         Grid.Column="0"
                         MaxWidth="120"
                         Margin="12,4,0,4"
                         VerticalAlignment="Center"
+                        SizeChanged="OnDocumentTitleSizeChanged"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
                     <TextBox

@@ -9,7 +9,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Text;
-using Windows.System;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
@@ -28,13 +27,13 @@ internal sealed partial class HotKeyCombination : ObservableObject
     private bool modifierHasControl;
     private bool modifierHasShift;
     private bool modifierHasAlt;
-    private NameValue<VirtualKey> keyNameValue;
+    private NameValue<VIRTUAL_KEY> keyNameValue;
     private HOT_KEY_MODIFIERS modifiers;
-    private VirtualKey key;
+    private VIRTUAL_KEY key;
     private bool isEnabled;
     private bool isOn;
 
-    public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
+    public unsafe HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VIRTUAL_KEY defaultKey)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
@@ -48,12 +47,32 @@ internal sealed partial class HotKeyCombination : ObservableObject
             // Retrieve from LocalSetting
             isEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
 
-            HotKeyParameter actual = LocalSettingGetHotKeyParameter();
+            HotKeyParameter actual;
+            fixed (HotKeyParameter* pDefaultHotKey = &defaultHotKeyParameter)
+            {
+                int value = LocalSetting.Get(settingKey, *(int*)pDefaultHotKey);
+                actual = *(HotKeyParameter*)&value;
+            }
 
             // HOT_KEY_MODIFIERS.MOD_WIN is reversed for use by the OS.
             // It should not be used by the application.
             modifiers = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
-            InitializeModifiersCompositionFields();
+
+            if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL))
+            {
+                modifierHasControl = true;
+            }
+
+            if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT))
+            {
+                modifierHasShift = true;
+            }
+
+            if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT))
+            {
+                modifierHasAlt = true;
+            }
+
             key = actual.Key;
 
             keyNameValue = VirtualKeys.GetList().Single(v => v.Value == key);
@@ -97,7 +116,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
         }
     }
 
-    public NameValue<VirtualKey> KeyNameValue
+    public NameValue<VIRTUAL_KEY> KeyNameValue
     {
         get => keyNameValue;
         set
@@ -128,7 +147,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
         }
     }
 
-    public VirtualKey Key
+    public VIRTUAL_KEY Key
     {
         get => key;
         private set
@@ -252,33 +271,6 @@ internal sealed partial class HotKeyCombination : ObservableObject
         }
 
         Modifiers = modifiers;
-    }
-
-    private void InitializeModifiersCompositionFields()
-    {
-        if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL))
-        {
-            modifierHasControl = true;
-        }
-
-        if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT))
-        {
-            modifierHasShift = true;
-        }
-
-        if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT))
-        {
-            modifierHasAlt = true;
-        }
-    }
-
-    private unsafe HotKeyParameter LocalSettingGetHotKeyParameter()
-    {
-        fixed (HotKeyParameter* pDefaultHotKey = &defaultHotKeyParameter)
-        {
-            int value = LocalSetting.Get(settingKey, *(int*)pDefaultHotKey);
-            return *(HotKeyParameter*)&value;
-        }
     }
 
     private unsafe void LocalSettingSetHotKeyParameterAndRefresh()
