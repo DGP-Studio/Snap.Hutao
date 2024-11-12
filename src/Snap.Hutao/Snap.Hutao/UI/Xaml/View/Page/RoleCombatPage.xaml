@@ -190,15 +190,15 @@
 
         <DataTemplate x:Key="ElementTemplate" x:DataType="shmi:ElementType">
             <shuxci:CachedImage
-                Width="20"
-                Height="20"
+                Width="24"
+                Height="24"
                 ShowAsMonoChrome="True"
                 Source="{Binding Converter={StaticResource ElementTypeIconConverter}, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="RoundTemplate" x:DataType="shvr:RoundView">
             <Border VerticalAlignment="Top" Style="{StaticResource BorderCardStyle}">
-                <Grid Margin="8">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -209,9 +209,16 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <Border
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="0,0,0,1"/>
                     <StackPanel
                         Grid.Row="0"
                         Grid.Column="0"
+                        Margin="8"
                         Orientation="Horizontal"
                         Spacing="2">
                         <BitmapIcon
@@ -229,7 +236,7 @@
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="1"
-                        Margin="8,0,0,0"
+                        Margin="8"
                         HorizontalAlignment="Right"
                         Style="{StaticResource BodyTextBlockStyle}"
                         Text="{Binding FinishTimeString}"
@@ -357,243 +364,227 @@
                             </SplitView.Pane>
                             <SplitView.Content>
                                 <ScrollViewer>
-                                    <Grid DataContext="{Binding RoleCombatEntries.CurrentItem}" Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
+                                    <Grid
+                                        Padding="16"
+                                        DataContext="{Binding RoleCombatEntries.CurrentItem}"
+                                        RowSpacing="8"
+                                        Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
                                         <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0" Margin="16,12,16,0">
-                                            <Grid Margin="1,0,0,0">
+                                        <!--  元素类型  -->
+                                        <Border
+                                            Grid.Row="0"
+                                            Padding="8"
+                                            Style="{ThemeResource SecondaryBorderCardStyle}">
+                                            <ItemsControl ItemTemplate="{StaticResource ElementTemplate}" ItemsSource="{Binding Elements}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </Border>
+                                        <!--  开幕/特邀角色  -->
+                                        <Grid Grid.Row="1">
+                                            <Grid ColumnSpacing="8">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
-                                                <StackPanel>
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        Style="{ThemeResource SettingsCardHeaderTextBlockStyle}"
-                                                        Text="开幕角色"/>
-                                                    <ItemsControl
-                                                        HorizontalAlignment="Center"
-                                                        ItemTemplate="{StaticResource AvatarTemplate}"
-                                                        ItemsSource="{Binding InitialAvatars}">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                    </ItemsControl>
-                                                    <ItemsControl
-                                                        Margin="0,2,0,0"
-                                                        HorizontalAlignment="Center"
-                                                        ItemTemplate="{StaticResource ElementTemplate}"
-                                                        ItemsSource="{Binding Elements}">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <shuxcp:WrapPanel HorizontalSpacing="112" VerticalSpacing="6"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                    </ItemsControl>
-                                                </StackPanel>
-                                                <StackPanel Grid.Column="1">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        Style="{ThemeResource SettingsCardHeaderTextBlockStyle}"
-                                                        Text="特邀角色"/>
-                                                    <ItemsControl
-                                                        HorizontalAlignment="Center"
-                                                        ItemTemplate="{StaticResource AvatarTemplate}"
-                                                        ItemsSource="{Binding SpecialAvatars}">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                    </ItemsControl>
-                                                </StackPanel>
+                                                <Border Grid.Column="0" Style="{ThemeResource SecondaryBorderCardStyle}">
+                                                    <StackPanel Margin="8" Spacing="{ThemeResource SettingsCardSpacing}">
+                                                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="开幕角色"/>
+                                                        <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding InitialAvatars}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <Border Grid.Column="1" Style="{ThemeResource SecondaryBorderCardStyle}">
+                                                    <StackPanel Margin="8" Spacing="{ThemeResource SettingsCardSpacing}">
+                                                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="特邀角色"/>
+                                                        <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding SpecialAvatars}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </Border>
                                             </Grid>
+                                        </Grid>
+                                        <!--  挑战记录  -->
+                                        <Border Grid.Row="2" Style="{ThemeResource SecondaryBorderCardStyle}">
+                                            <shuxc:StandardView ShowCondition="{Binding Engaged}">
+                                                <shuxc:StandardView.EmptyContent>
+                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <Image
+                                                            Height="200"
+                                                            Source="ms-appx:///Resource/Icon/UI_Img_RoleCombat_EventDetail_Pic_Chance.png"
+                                                            Stretch="Uniform"/>
+                                                        <TextBlock
+                                                            Margin="0,16,0,0"
+                                                            HorizontalAlignment="Center"
+                                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                                            Text="暂无演出数据"/>
+                                                    </StackPanel>
+                                                </shuxc:StandardView.EmptyContent>
+                                                <StackPanel Margin="8" Spacing="8">
+                                                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Difficulty}"/>
+                                                    <StackPanel Orientation="Horizontal" Spacing="2">
+                                                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FormattedHeraldry}"/>
+                                                        <BitmapIcon
+                                                            Width="20"
+                                                            ShowAsMonochrome="False"
+                                                            UriSource="{Binding Stat.Heraldry, Converter={StaticResource RoleCombatHeraldryIconConverter}}"/>
+                                                    </StackPanel>
+                                                    <Border>
+                                                        <Border.Resources>
+                                                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                        </Border.Resources>
 
-                                            <AppBarButton
-                                                HorizontalAlignment="Right"
-                                                Icon="{shuxm:FontIcon Glyph=&#xE8A1;}"
-                                                Label="演出回顾"
-                                                Visibility="{Binding Engaged, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <AppBarButton.Flyout>
-                                                    <Flyout Placement="BottomEdgeAlignedRight">
-                                                        <Flyout.FlyoutPresenterStyle>
-                                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                                                <Setter Property="MaxWidth" Value="1920"/>
-                                                            </Style>
-                                                        </Flyout.FlyoutPresenterStyle>
-                                                        <Grid ColumnSpacing="6">
-                                                            <Grid.Resources>
-                                                                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                                                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                                                                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                                                            </Grid.Resources>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="345"/>
-                                                                <ColumnDefinition Width="225"/>
-                                                            </Grid.ColumnDefinitions>
+                                                        <ItemsControl>
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <shuxcp:UniformPanel
+                                                                        ColumnSpacing="8"
+                                                                        MinItemWidth="360"
+                                                                        RowSpacing="8"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDefeat}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock
+                                                                        Margin="0,0,16,0"
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding Defeat.Value}"/>
+                                                                    <shuxci:CachedImage
+                                                                        Width="48"
+                                                                        Height="48"
+                                                                        Margin="-8,-24,-8,-8"
+                                                                        Source="{Binding Defeat.SideIcon}"/>
+                                                                </StackPanel>
+                                                            </cwc:SettingsCard>
 
-                                                            <StackPanel Grid.Column="0" Spacing="{StaticResource SettingsCardSpacing}">
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDefeat}">
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <TextBlock
-                                                                            Margin="0,0,16,0"
-                                                                            VerticalAlignment="Center"
-                                                                            Text="{Binding Defeat.Value}"/>
-                                                                        <shuxci:CachedImage
-                                                                            Width="48"
-                                                                            Height="48"
-                                                                            Margin="-8,-24,-8,-8"
-                                                                            Source="{Binding Defeat.SideIcon}"/>
-                                                                    </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDamage}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock
+                                                                        Margin="0,0,16,0"
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding Damage.Value}"/>
+                                                                    <shuxci:CachedImage
+                                                                        Width="48"
+                                                                        Height="48"
+                                                                        Margin="-8,-24,-8,-8"
+                                                                        Source="{Binding Damage.SideIcon}"/>
+                                                                </StackPanel>
+                                                            </cwc:SettingsCard>
 
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssDamage}">
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <TextBlock
-                                                                            Margin="0,0,16,0"
-                                                                            VerticalAlignment="Center"
-                                                                            Text="{Binding Damage.Value}"/>
-                                                                        <shuxci:CachedImage
-                                                                            Width="48"
-                                                                            Height="48"
-                                                                            Margin="-8,-24,-8,-8"
-                                                                            Source="{Binding Damage.SideIcon}"/>
-                                                                    </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssTakeDamage}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock
+                                                                        Margin="0,0,16,0"
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding TakeDamage.Value}"/>
+                                                                    <shuxci:CachedImage
+                                                                        Width="48"
+                                                                        Height="48"
+                                                                        Margin="-8,-24,-8,-8"
+                                                                        Source="{Binding TakeDamage.SideIcon}"/>
+                                                                </StackPanel>
+                                                            </cwc:SettingsCard>
 
-                                                                <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewSpiralAbyssTakeDamage}">
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <TextBlock
-                                                                            Margin="0,0,16,0"
-                                                                            VerticalAlignment="Center"
-                                                                            Text="{Binding TakeDamage.Value}"/>
-                                                                        <shuxci:CachedImage
-                                                                            Width="48"
-                                                                            Height="48"
-                                                                            Margin="-8,-24,-8,-8"
-                                                                            Source="{Binding TakeDamage.SideIcon}"/>
-                                                                    </StackPanel>
-                                                                </cwc:SettingsCard>
+                                                            <cwc:SettingsCard Header="消耗「幻剧之花」">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Stat.CoinNumber}"/>
+                                                                </StackPanel>
+                                                            </cwc:SettingsCard>
 
-                                                                <cwc:SettingsCard Header="消耗「幻剧之花」">
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <TextBlock VerticalAlignment="Center" Text="{Binding Stat.CoinNumber}"/>
-                                                                    </StackPanel>
-                                                                </cwc:SettingsCard>
-
-                                                                <cwc:SettingsCard Header="挑战星章">
-                                                                    <ItemsControl ItemsSource="{Binding Stat.GetMedalRoundList}">
-                                                                        <ItemsControl.ItemTemplate>
-                                                                            <DataTemplate x:DataType="x:Int32">
-                                                                                <Grid>
-                                                                                    <BitmapIcon
-                                                                                        Width="20"
-                                                                                        ShowAsMonochrome="False"
-                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star1.png"
-                                                                                        Visibility="{Binding Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                                                                    <BitmapIcon
-                                                                                        Width="20"
-                                                                                        Foreground="#FF808080"
-                                                                                        UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star2.png"
-                                                                                        Visibility="{Binding Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
-                                                                                </Grid>
-                                                                            </DataTemplate>
-                                                                        </ItemsControl.ItemTemplate>
-                                                                        <ItemsControl.ItemsPanel>
-                                                                            <ItemsPanelTemplate>
-                                                                                <StackPanel Orientation="Horizontal" Spacing="2"/>
-                                                                            </ItemsPanelTemplate>
-                                                                        </ItemsControl.ItemsPanel>
-                                                                    </ItemsControl>
-                                                                </cwc:SettingsCard>
-                                                            </StackPanel>
-                                                            <StackPanel Grid.Column="1" Spacing="{StaticResource SettingsCardSpacing}">
-                                                                <cwc:SettingsCard Content="{Binding MaxRound}" Header="最佳记录"/>
-                                                                <cwc:SettingsCard Content="{Binding Stat.AvatarBonusNumber}" Header="场外声援"/>
-                                                                <cwc:SettingsCard Content="{Binding Stat.RentCount}" Header="助演次数"/>
-
-                                                                <TextBlock
-                                                                    Margin="1,6,0,5"
-                                                                    Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                                                                    Text="最快演出"/>
-                                                                <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Shortest}">
+                                                            <cwc:SettingsCard Header="挑战星章">
+                                                                <ItemsControl ItemsSource="{Binding Stat.GetMedalRoundList}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate x:DataType="x:Int32">
+                                                                            <Grid>
+                                                                                <BitmapIcon
+                                                                                    Width="20"
+                                                                                    ShowAsMonochrome="False"
+                                                                                    UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star1.png"
+                                                                                    Visibility="{Binding Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                                                <BitmapIcon
+                                                                                    Width="20"
+                                                                                    Foreground="#FF808080"
+                                                                                    UriSource="ms-appx:///Resource/Icon/UI_Icon_Tower_Star2.png"
+                                                                                    Visibility="{Binding Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                                                                            </Grid>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
                                                                     <ItemsControl.ItemsPanel>
                                                                         <ItemsPanelTemplate>
-                                                                            <cwc:UniformGrid ColumnSpacing="3" Columns="4"/>
+                                                                            <StackPanel Orientation="Horizontal" Spacing="2"/>
                                                                         </ItemsPanelTemplate>
                                                                     </ItemsControl.ItemsPanel>
+                                                                </ItemsControl>
+                                                            </cwc:SettingsCard>
+
+                                                            <cwc:SettingsCard Content="{Binding TotalBattleTimesFormatted}" Header="演出总时长"/>
+
+                                                            <cwc:SettingsCard Content="{Binding MaxRound}" Header="最佳记录"/>
+
+                                                            <cwc:SettingsCard Content="{Binding Stat.AvatarBonusNumber}" Header="场外声援"/>
+
+                                                            <cwc:SettingsCard Content="{Binding Stat.RentCount}" Header="助演次数"/>
+
+                                                            <cwc:SettingsCard Header="最快演出">
+                                                                <ItemsControl ItemsPanel="{ThemeResource HorizontalStackPanelSpacing4Template}" ItemsSource="{Binding Shortest}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <shuxc:ItemIcon
-                                                                                Width="52"
-                                                                                Height="52"
-                                                                                Icon="{Binding Icon}"
-                                                                                Quality="{Binding Quality}"/>
+                                                                            <shuxci:CachedImage
+                                                                                Width="48"
+                                                                                Height="48"
+                                                                                Margin="-8,-24,-8,-8"
+                                                                                Source="{Binding SideIcon}"/>
                                                                         </DataTemplate>
                                                                     </ItemsControl.ItemTemplate>
                                                                 </ItemsControl>
-                                                            </StackPanel>
-                                                        </Grid>
-                                                    </Flyout>
-                                                </AppBarButton.Flyout>
-                                            </AppBarButton>
-                                        </Grid>
+                                                            </cwc:SettingsCard>
+                                                        </ItemsControl>
+                                                    </Border>
+                                                    <Border Padding="8" Style="{ThemeResource SecondaryBorderCardStyle}">
+                                                        <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                                                            <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="待命角色"/>
+                                                            <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding BackupAvatars}">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                    </Border>
 
-                                        <shuxc:StandardView Grid.Row="1" ShowCondition="{Binding Engaged}">
-                                            <shuxc:StandardView.EmptyContent>
-                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <Image
-                                                        Width="648"
-                                                        Height="312"
-                                                        Source="ms-appx:///Resource/Icon/UI_Img_RoleCombat_EventDetail_Pic_Chance.png"/>
-                                                    <TextBlock
-                                                        Margin="0,16,0,0"
-                                                        HorizontalAlignment="Center"
-                                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                                        Text="暂无演出数据"/>
+                                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                                        <ItemsRepeater ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
+                                                            <ItemsRepeater.Layout>
+                                                                <shuxcl:UniformStaggeredLayout
+                                                                    MinColumnSpacing="8"
+                                                                    MinItemWidth="570"
+                                                                    MinRowSpacing="8"/>
+                                                            </ItemsRepeater.Layout>
+                                                        </ItemsRepeater>
+                                                    </ScrollViewer>
                                                 </StackPanel>
-                                            </shuxc:StandardView.EmptyContent>
-                                            <StackPanel Margin="16,12" Spacing="4">
-                                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Difficulty}"/>
-                                                <StackPanel Orientation="Horizontal" Spacing="2">
-                                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FormattedHeraldry}"/>
-                                                    <BitmapIcon
-                                                        Width="20"
-                                                        ShowAsMonochrome="False"
-                                                        UriSource="{Binding Stat.Heraldry, Converter={StaticResource RoleCombatHeraldryIconConverter}}"/>
-                                                </StackPanel>
-                                                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding TotalBattleTimesFormatted}"/>
-                                                <TextBlock
-                                                    Margin="0,4"
-                                                    Style="{ThemeResource SettingsCardHeaderTextBlockStyle}"
-                                                    Text="待命角色"/>
-                                                <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding BackupAvatars}">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                </ItemsControl>
-                                                <TextBlock
-                                                    Margin="0,4"
-                                                    Style="{ThemeResource SettingsCardHeaderTextBlockStyle}"
-                                                    Text="参演名单"/>
-                                                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                                                    <ItemsRepeater ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
-                                                        <ItemsRepeater.Layout>
-                                                            <shuxcl:UniformStaggeredLayout
-                                                                MinColumnSpacing="8"
-                                                                MinItemWidth="570"
-                                                                MinRowSpacing="8"/>
-                                                        </ItemsRepeater.Layout>
-                                                    </ItemsRepeater>
-                                                </ScrollViewer>
-                                            </StackPanel>
-                                        </shuxc:StandardView>
+                                            </shuxc:StandardView>
+                                        </Border>
                                     </Grid>
                                 </ScrollViewer>
                             </SplitView.Content>

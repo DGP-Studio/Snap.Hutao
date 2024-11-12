@@ -88,7 +88,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public int TotalBattleTimes { get; }
 
-    public string TotalBattleTimesFormatted { get => $"演出总时长: {TimeSpan.FromSeconds(TotalBattleTimes):mm':'ss}"; }
+    public string TotalBattleTimesFormatted { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
 
     public List<AvatarDamage> Shortest { get; } = default!;
 
