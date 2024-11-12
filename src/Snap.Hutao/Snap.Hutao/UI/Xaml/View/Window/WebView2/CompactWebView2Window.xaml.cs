@@ -29,10 +29,10 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     IXamlWindowClosedHandler
 {
     private const string VideoPlayPauseScript = """
-        (() => {
+        {
             let v = document.evaluate("//video", document, null).iterateNext();
             v && (v.paused ? v.play() : v.pause());
-        })()
+        }
         """;
 
     private readonly CancellationTokenSource loadCts = new();
