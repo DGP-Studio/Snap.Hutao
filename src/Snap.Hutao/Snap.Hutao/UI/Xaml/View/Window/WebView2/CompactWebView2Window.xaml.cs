@@ -256,7 +256,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void OnNewWindowRequested(object? sender, CoreWebView2NewWindowRequestedEventArgs args)
     {
         args.Handled = true;
-        ((CoreWebView2)sender!).Navigate(args.Uri);
+        ArgumentNullException.ThrowIfNull(sender);
+        ((CoreWebView2)sender).Navigate(args.Uri);
     }
 
     private void OnSourceTextBoxKeyDown(object sender, KeyRoutedEventArgs args)
