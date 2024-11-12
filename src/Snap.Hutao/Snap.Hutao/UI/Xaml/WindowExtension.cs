@@ -27,10 +27,18 @@ internal static class WindowExtension
         WindowControllers.Add(window, windowController);
     }
 
-    public static bool IsControllerInitialized<TWindow>(this TWindow window)
+    public static bool IsControllerInitialized<TWindow>()
         where TWindow : Window
     {
-        return WindowControllers.TryGetValue(window, out _);
+        foreach ((Window window, _) in WindowControllers)
+        {
+            if (window is TWindow)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static void UninitializeController<TWindow>(this TWindow window)

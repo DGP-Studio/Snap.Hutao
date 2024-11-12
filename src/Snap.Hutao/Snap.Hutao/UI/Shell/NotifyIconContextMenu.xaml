@@ -200,6 +200,7 @@
             <MenuFlyoutItem
                 Command="{Binding OpenCompactWebView2WindowCommand}"
                 Icon="{shuxm:FontIcon Glyph=&#xF7ED;}"
+                IsEnabled="{Binding RuntimeOptions.IsElevated}"
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="{shuxm:ResourceString Name=ViewWindowCompactWebViewTitle}"/>
             <MenuFlyoutItem

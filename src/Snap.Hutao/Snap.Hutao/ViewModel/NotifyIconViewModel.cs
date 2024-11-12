@@ -118,6 +118,9 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("OpenCompactWebView2WindowCommand")]
     private void OpenCompactWebView2Window()
     {
-        _ = new CompactWebView2Window();
+        if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
+        {
+            _ = new CompactWebView2Window();
+        }
     }
 }

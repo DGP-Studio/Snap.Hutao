@@ -8,12 +8,14 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.UI.Input;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using Windows.Graphics;
+using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
@@ -33,6 +35,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private readonly InputPointerSource inputPointerSource;
     private readonly InputNonClientPointerSource inputNonClientPointerSource;
 
+    private HWND webviewHwnd;
     private bool isLocked;
 
     public CompactWebView2Window()
@@ -62,6 +65,9 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         this.InitializeController(windowScope.ServiceProvider);
 
         UpdateLayeredWindow();
+        LowLevelInputKeyboardSource.Initialize();
+        LowLevelInputKeyboardSource.KeyDown += OnLowLevelKeyDown;
+        LowLevelInputKeyboardSource.KeyUp += OnLowLevelKeyUp;
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
@@ -173,6 +179,19 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         Close();
     }
 
+    private bool OnLowLevelKeyDown(ref readonly KBDLLHOOKSTRUCT data)
+    {
+        // let v = document.evaluate("//video", document, null).iterateNext(); v && (v.paused ? v.play() : v.pause());
+        PostMessageW(webviewHwnd, WM_KEYDOWN, data.vkCode, (uint)data.flags);
+        return false;
+    }
+
+    private bool OnLowLevelKeyUp(ref readonly KBDLLHOOKSTRUCT data)
+    {
+        PostMessageW(webviewHwnd, WM_KEYUP, data.vkCode, (uint)data.flags);
+        return false;
+    }
+
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
     {
         _ = OnWebViewLoadedAsync();
@@ -188,6 +207,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             WebView.CoreWebView2.NewWindowRequested += OnNewWindowRequested;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
         }
+
+        webviewHwnd = FindWindowExW(this.GetWindowHandle(), default, "Chrome_WidgetWin_0", string.Empty);
     }
 
     private void OnWebViewUnloaded(object sender, RoutedEventArgs e)
@@ -205,6 +226,10 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         WebView.Loaded -= OnWebViewLoaded;
         WebView.Unloaded -= OnWebViewUnloaded;
+
+        LowLevelInputKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+        LowLevelInputKeyboardSource.KeyUp -= OnLowLevelKeyUp;
+        LowLevelInputKeyboardSource.Uninitialize();
     }
 
     private void OnDocumentTitleChanged(CoreWebView2 sender, object args)

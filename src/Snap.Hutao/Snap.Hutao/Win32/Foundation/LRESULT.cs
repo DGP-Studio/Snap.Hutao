@@ -11,4 +11,9 @@ internal readonly struct LRESULT
     {
         return *(LRESULT*)&value;
     }
+
+    public static unsafe implicit operator LRESULT(BOOL value)
+    {
+        return *(int*)&value;
+    }
 }

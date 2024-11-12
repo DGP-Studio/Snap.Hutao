@@ -11,4 +11,10 @@ internal readonly struct LPARAM
     {
         return *(void**)&value;
     }
+
+    public static unsafe implicit operator LPARAM(uint value)
+    {
+        nint data = (int)value;
+        return *(LPARAM*)&data;
+    }
 }
