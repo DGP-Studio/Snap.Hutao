@@ -3116,6 +3116,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Shortcut Keys</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseDescription" xml:space="preserve">
+    <value>更改紧凑网页窗口中控制视频播放与暂停的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseHeader" xml:space="preserve">
+    <value>紧凑网页窗口视频播放暂停</value>
+  </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Show icon in notification area, to allow background task, restart the program to activate</value>
   </data>
