@@ -275,12 +275,6 @@
                                                         Glyph="{ThemeResource InfoBarInformationalIconGlyph}"/>
                                                 </Grid>
                                             </Grid>
-                                            <AppBarButton
-                                                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                                Command="{Binding GamePackageViewModel.StartCommand}"
-                                                CommandParameter="Extract"
-                                                Label="Extract Blks"
-                                                Visibility="{Binding GamePackageViewModel.IsExtractAvailable, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                         </StackPanel>
                                     </Grid>
 

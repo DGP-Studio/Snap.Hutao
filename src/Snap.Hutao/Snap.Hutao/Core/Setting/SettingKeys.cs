@@ -74,7 +74,6 @@ internal static class SettingKeys
     public const string PhysicalDriverIsAlwaysSolidState = "PhysicalDriverIsAlwaysSolidState";
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
     public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
-    public const string AllowExtractGameBlks = "AllowExtractGameBlks";
     #endregion
 
     #region Obsolete
@@ -84,5 +83,9 @@ internal static class SettingKeys
 
     [Obsolete("重置调试控制台开关")]
     public const string IsAllocConsoleDebugModeEnabledLegacy1 = "IsAllocConsoleDebugModeEnabled";
+
+    [Obsolete]
+    public const string AllowExtractGameBlks = "AllowExtractGameBlks";
+
     #endregion
 }

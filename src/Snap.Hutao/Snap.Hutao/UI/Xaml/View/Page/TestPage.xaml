@@ -135,10 +135,6 @@
                     <ToggleSwitch IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
-                <cwc:SettingsCard Header="Allow Extrack Game Blks">
-                    <ToggleSwitch IsOn="{Binding AllowExtractGameBlks, Mode=TwoWay}"/>
-                </cwc:SettingsCard>
-
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>
                 <cwc:SettingsCard
                     Command="{Binding CompensationGachaLogServiceTimeCommand}"
@@ -190,6 +186,22 @@
                     Command="{Binding TestGamePackageOperationWindowCommand}"
                     Header="Test GamePackageOperationWindow"
                     IsClickEnabled="True"/>
+
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Game Package"/>
+                <cwc:SettingsCard
+                    Command="{Binding ExtractGameBlocksCommand}"
+                    Header="Extract Game Blocks"
+                    IsClickEnabled="True"/>
+
+                <cwc:SettingsCard
+                    Command="{Binding ExtractGameExeCommand}"
+                    Header="Extract Game Executable"
+                    IsClickEnabled="True">
+                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                        <CheckBox Content="IsOversea" IsChecked="{Binding ExtractExeOptions.IsOversea, Mode=TwoWay}"/>
+                        <CheckBox Content="IsPredownload" IsChecked="{Binding ExtractExeOptions.IsPredownload, Mode=TwoWay}"/>
+                    </StackPanel>
+                </cwc:SettingsCard>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement"/>
                 <Expander

@@ -51,7 +51,7 @@ internal readonly struct GamePackageServiceContext
 
     public readonly string EnsureAssetTargetDirectoryExists(string assetName)
     {
-        if (Operation.Kind is GamePackageOperationKind.Extract)
+        if (Operation.Kind is GamePackageOperationKind.ExtractBlk or GamePackageOperationKind.ExtractExe)
         {
             assetName = Path.GetFileName(assetName);
         }
