@@ -5,10 +5,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Windowing.Abstraction;
+using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
+using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using Windows.Graphics;
 using static Snap.Hutao.Win32.Macros;
@@ -24,17 +27,15 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
+    private readonly object locker = new();
 
     private readonly IServiceScope windowScope;
-    private readonly IWebView2ContentProvider contentProvider;
     private readonly InputPointerSource inputPointerSource;
     private readonly InputNonClientPointerSource inputNonClientPointerSource;
 
-    private bool isPointerInClientArea;
-    private bool isPointerInNonClientArea;
     private bool isLocked;
 
-    public CompactWebView2Window(IWebView2ContentProvider contentProvider)
+    public CompactWebView2Window()
     {
         windowScope = Ioc.Default.CreateScope();
 
@@ -43,11 +44,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             presenter.SetBorderAndTitleBar(true, false);
             presenter.IsAlwaysOnTop = true;
         }
-
-        SetTitleBar(CustomTitleBar);
-
-        this.contentProvider = contentProvider;
-        contentProvider.CloseWindowAction = Close;
 
         InitializeComponent();
         RootGrid.DataContext = this;
@@ -65,8 +61,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         this.InitializeController(windowScope.ServiceProvider);
 
-        this.AddExStyleLayered();
-        SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+        UpdateLayeredWindow();
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
@@ -103,10 +98,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public SizeInt32 MinSize { get => new(200, 200); }
 
-    public bool IsLocked { get => isLocked; private set => SetProperty(ref isLocked, value, nameof(IsLockedVisibility)); }
-
-    public Visibility IsLockedVisibility { get => IsLocked ? Visibility.Collapsed : Visibility.Visible; }
-
     public void OnWindowClosed()
     {
         inputPointerSource.PointerEntered -= OnWindowPointerEntered;
@@ -118,44 +109,36 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void OnWindowPointerEntered(InputPointerSource source, PointerEventArgs args)
     {
-        isPointerInClientArea = true;
         UpdateLayeredWindow();
     }
 
     private void OnWindowNonClientPointerEntered(InputNonClientPointerSource source, NonClientPointerEventArgs args)
     {
-        isPointerInNonClientArea = true;
         UpdateLayeredWindow();
     }
 
     private void OnWindowPointerExited(InputPointerSource source, PointerEventArgs args)
     {
-        isPointerInClientArea = false;
         UpdateLayeredWindow();
     }
 
     private void OnWindowNonClientPointerExited(InputNonClientPointerSource source, NonClientPointerEventArgs args)
     {
-        isPointerInNonClientArea = false;
         UpdateLayeredWindow();
     }
 
     private void UpdateLayeredWindow()
     {
-        bool isPointerInWindow = isPointerInClientArea || isPointerInNonClientArea;
-        if (isPointerInWindow)
+        lock (locker)
         {
-            this.RemoveExStyleLayered();
-            RootGrid.Height = 48;
-        }
-        else
-        {
-            this.AddExStyleLayered();
-            SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
-
-            if (IsLocked)
+            if (GetCursorPos(out POINT pt) && GetWindowRect(this.GetWindowHandle(), out RECT rect) && PtInRect(in rect, pt))
             {
-                RootGrid.Height = 0;
+                this.RemoveExStyleLayered();
+            }
+            else
+            {
+                this.AddExStyleLayered();
+                SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
             }
         }
     }
@@ -175,10 +158,13 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         WebView.CoreWebView2.Reload();
     }
 
-    [Command("SwitchLockCommand")]
-    private void SwitchLock()
+    [Command("ToggleLockCommand")]
+    private void ToggleLock()
     {
-        IsLocked = !IsLocked;
+        isLocked = !isLocked;
+        ToggleLockButton.Content = isLocked ? "\uE72E" : "\uE785";
+        TitleBarRowDefinition.Height = isLocked ? Constants.ZeroGridLength : GridLength.Auto;
+        this.GetController()?.UpdateDragRectangles();
     }
 
     [Command("CloseCommand")]
@@ -201,8 +187,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
             WebView.CoreWebView2.NewWindowRequested += OnNewWindowRequested;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
-            contentProvider.CoreWebView2 = WebView.CoreWebView2;
-            await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
         }
     }
 
@@ -210,7 +194,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     {
         loadCts.Cancel();
         loadCts.Dispose();
-        contentProvider.Unload();
 
         if (WebView.CoreWebView2 is not null)
         {
@@ -250,8 +233,16 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         ((CoreWebView2)sender!).Navigate(args.Uri);
     }
 
-    private void OnActualThemeChanged(FrameworkElement sender, object args)
+    private void OnSourceTextBoxKeyDown(object sender, KeyRoutedEventArgs args)
     {
-        contentProvider.ActualTheme = sender.ActualTheme;
+        if (args.Key is Windows.System.VirtualKey.Enter)
+        {
+            WebView.Focus(FocusState.Programmatic);
+        }
+    }
+
+    private void OnDocumentTitleSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        this.GetController()?.UpdateDragRectangles();
     }
 }

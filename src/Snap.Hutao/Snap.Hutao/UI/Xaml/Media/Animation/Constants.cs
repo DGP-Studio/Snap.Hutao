@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
+
 namespace Snap.Hutao.UI.Xaml.Media.Animation;
 
 internal static class Constants
@@ -31,4 +33,6 @@ internal static class Constants
     public static readonly TimeSpan ImageScaleFadeOut = TimeSpan.FromSeconds(0.2);
 
     public static readonly TimeSpan ImageOpacityFadeInOut = TimeSpan.FromSeconds(1);
+
+    public static readonly GridLength ZeroGridLength = new(0);
 }

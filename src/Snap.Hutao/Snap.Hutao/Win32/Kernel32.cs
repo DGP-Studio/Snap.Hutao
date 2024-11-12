@@ -50,6 +50,7 @@ internal static class Kernel32
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern unsafe BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
 
+    [DebuggerStepThrough]
     public static unsafe BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [Optional] void* lpInBuffer, uint nInBufferSize, [MaybeNull] Span<byte> outBuffer, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped)
     {
         fixed (byte* lpOutBuffer = outBuffer)
@@ -85,6 +86,7 @@ internal static class Kernel32
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern HMODULE GetModuleHandleW([Optional] PCWSTR lpModuleName);
 
+    [DebuggerStepThrough]
     public static unsafe HMODULE GetModuleHandleW(ReadOnlySpan<char> moduleName)
     {
         fixed (char* lpModuleName = moduleName)

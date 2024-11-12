@@ -52,6 +52,11 @@ internal sealed class XamlWindowController
         InitializeCore();
     }
 
+    public void UpdateDragRectangles()
+    {
+        PrivateUpdateDragRectangles();
+    }
+
     private void InitializeCore()
     {
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
@@ -303,9 +308,8 @@ internal sealed class XamlWindowController
         UpdateTitleButtonColor();
         xamlWindow.TitleBarCaptionAccess.ActualThemeChanged += (_, _) => UpdateTitleButtonColor();
 
-        UpdateDragRectangles();
-        xamlWindow.TitleBarCaptionAccess.SizeChanged += (_, _) => UpdateDragRectangles();
-        xamlWindow.TitleBarCaptionAccess.RegisterPropertyChangedCallback(FrameworkElement.VisibilityProperty, (_, _) => UpdateDragRectangles());
+        PrivateUpdateDragRectangles();
+        xamlWindow.TitleBarCaptionAccess.SizeChanged += (_, _) => PrivateUpdateDragRectangles();
     }
 
     private void UpdateTitleButtonColor()
@@ -339,7 +343,7 @@ internal sealed class XamlWindowController
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
     }
 
-    private void UpdateDragRectangles()
+    private void PrivateUpdateDragRectangles()
     {
         if (window is not IXamlWindowExtendContentIntoTitleBar xamlWindow)
         {

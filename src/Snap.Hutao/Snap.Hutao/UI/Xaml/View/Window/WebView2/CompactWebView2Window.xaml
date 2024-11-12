@@ -8,85 +8,87 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid ActualThemeChanged="OnActualThemeChanged">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid x:Name="RootGrid" Height="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="GoBackButton"
-                Grid.Column="0"
-                Height="48"
-                MinWidth="44"
-                Command="{x:Bind GoBackCommand}"
-                FontSize="12"
-                Style="{StaticResource NavigationBackButtonSmallStyle}"
-                Visibility="{x:Bind IsLockedVisibility, Mode=OneWay}"/>
-            <Button
-                Grid.Column="1"
-                Height="48"
-                MinWidth="44"
-                Command="{x:Bind RefreshCommand}"
-                Content="&#xE72C;"
-                FontSize="12"
-                Style="{StaticResource NavigationBackButtonSmallStyle}"
-                Visibility="{x:Bind IsLockedVisibility, Mode=OneWay}"/>
-            <Grid
-                x:Name="TitleArea"
-                Grid.Column="2"
-                Visibility="{x:Bind IsLockedVisibility, Mode=OneWay}">
+    <Grid>
+        <Grid x:Name="RootGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="TitleBarRowDefinition" Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="46"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock
-                    x:Name="DocumentTitle"
+                <Button
+                    x:Name="GoBackButton"
                     Grid.Column="0"
-                    MaxWidth="120"
-                    Margin="12,4,0,4"
-                    VerticalAlignment="Center"
-                    TextTrimming="CharacterEllipsis"
-                    TextWrapping="NoWrap"/>
-                <TextBox
-                    x:Name="SourceTextBox"
+                    Height="48"
+                    MinWidth="48"
+                    Command="{x:Bind GoBackCommand}"
+                    FontSize="12"
+                    Style="{StaticResource NavigationBackButtonSmallStyle}"/>
+                <Button
                     Grid.Column="1"
-                    Margin="8"
-                    VerticalAlignment="Top"
-                    Text="{x:Bind Source, Mode=TwoWay}"/>
+                    Height="48"
+                    MinWidth="48"
+                    Command="{x:Bind RefreshCommand}"
+                    Content="&#xE72C;"
+                    FontSize="12"
+                    Style="{StaticResource NavigationBackButtonSmallStyle}"/>
+                <Grid x:Name="TitleArea" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        SizeChanged="OnDocumentTitleSizeChanged"
+                        x:Name="DocumentTitle"
+                        Grid.Column="0"
+                        MaxWidth="120"
+                        Margin="12,4,0,4"
+                        VerticalAlignment="Center"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+                    <TextBox
+                        x:Name="SourceTextBox"
+                        Grid.Column="1"
+                        Margin="8"
+                        VerticalAlignment="Top"
+                        KeyDown="OnSourceTextBoxKeyDown"
+                        Text="{x:Bind Source, Mode=TwoWay}"/>
+                </Grid>
+                <StackPanel
+                    Grid.Column="3"
+                    Margin="48,0,0,0"
+                    Orientation="Horizontal">
+                    <Button
+                        Height="48"
+                        MinWidth="44"
+                        Command="{x:Bind CloseCommand}"
+                        Content="&#xE711;"
+                        FontSize="12"
+                        Style="{StaticResource NavigationBackButtonSmallStyle}"/>
+                </StackPanel>
             </Grid>
-            <StackPanel
-                x:Name="CustomTitleBar"
-                Grid.Column="3"
-                Orientation="Horizontal">
-                <Button
-                    Height="48"
-                    MinWidth="44"
-                    Command="{x:Bind SwitchLockCommand}"
-                    Content="&#xE72E;"
-                    FontSize="12"
-                    Style="{StaticResource NavigationBackButtonSmallStyle}"/>
-                <Button
-                    Height="48"
-                    MinWidth="44"
-                    Command="{x:Bind CloseCommand}"
-                    Content="&#xE711;"
-                    FontSize="12"
-                    Style="{StaticResource NavigationBackButtonSmallStyle}"/>
-            </StackPanel>
+            <WebView2
+                x:Name="WebView"
+                Grid.Row="1"
+                Margin="0"
+                DefaultBackgroundColor="Transparent"/>
         </Grid>
-        <Border/>
-        <WebView2
-            x:Name="WebView"
-            Grid.Row="1"
-            Margin="0"
-            DefaultBackgroundColor="Transparent"/>
+        <Button
+            x:Name="ToggleLockButton"
+            Height="48"
+            MinWidth="48"
+            Margin="0,0,48,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{x:Bind ToggleLockCommand}"
+            Content="&#xE785;"
+            FontSize="12"
+            Style="{StaticResource NavigationBackButtonSmallStyle}"/>
     </Grid>
+
 </Window>

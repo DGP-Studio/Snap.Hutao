@@ -39,6 +39,13 @@ internal static class WindowExtension
         WindowControllers.Remove(window);
     }
 
+    public static XamlWindowController? GetController<TWindow>(this TWindow window)
+        where TWindow : Window
+    {
+        WindowControllers.TryGetValue(window, out XamlWindowController? xamlWindowController);
+        return xamlWindowController;
+    }
+
     public static DesktopWindowXamlSource GetDesktopWindowXamlSource(this Window window)
     {
         if (window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess access)

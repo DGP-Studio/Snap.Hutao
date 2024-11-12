@@ -45,6 +45,19 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
+    [Command("RestartAsElevatedCommand")]
+    private static void RestartAsElevated()
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
+            UseShellExecute = true,
+            Verb = "runas",
+        });
+
+        // Current process will exit in PrivatePipeServer
+    }
+
     [Command("ShowWindowCommand")]
     private void ShowWindow()
     {
@@ -96,19 +109,6 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         app.Exit();
     }
 
-    [Command("RestartAsElevatedCommand")]
-    private void RestartAsElevated()
-    {
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
-            UseShellExecute = true,
-            Verb = "runas",
-        });
-
-        // Current process will exit in PrivatePipeServer
-    }
-
     [Command("OpenScriptingWindowCommand")]
     private void OpenScriptingWindow()
     {
@@ -118,6 +118,6 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("OpenCompactWebView2WindowCommand")]
     private void OpenCompactWebView2Window()
     {
-        _ = new CompactWebView2Window(new DefaultWebView2ContentProvider());
+        _ = new CompactWebView2Window();
     }
 }
