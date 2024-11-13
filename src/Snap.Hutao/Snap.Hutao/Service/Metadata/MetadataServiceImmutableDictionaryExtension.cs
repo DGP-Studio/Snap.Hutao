@@ -135,6 +135,14 @@ internal static class MetadataServiceImmutableDictionaryExtension
             token);
     }
 
+    public static ValueTask<ImmutableDictionary<RoleCombatScheduleId, RoleCombatSchedule>> GetIdToRoleCombatScheduleMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<RoleCombatScheduleId, RoleCombatSchedule>(
+            MetadataFileStrategies.RoleCombatSchedule,
+            r => r.Id,
+            token);
+    }
+
     public static ValueTask<ImmutableDictionary<TowerFloorId, TowerFloor>> GetIdToTowerFloorMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheAsDictionaryAsync<TowerFloorId, TowerFloor>(

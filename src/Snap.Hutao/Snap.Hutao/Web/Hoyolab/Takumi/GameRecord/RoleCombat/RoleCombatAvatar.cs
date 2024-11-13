@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Json.Annotation;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 
@@ -18,7 +19,8 @@ internal sealed class RoleCombatAvatar
     public string Name { get; set; } = default!;
 
     [JsonPropertyName("element")]
-    public string Element { get; set; } = default!;
+    [JsonEnum(JsonEnumSerializeType.String)]
+    public ElementName Element { get; set; } = default!;
 
     [JsonPropertyName("image")]
     public string Image { get; set; } = default!;

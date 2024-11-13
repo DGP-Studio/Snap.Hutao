@@ -31,7 +31,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
+    private readonly HutaoSpiralAbyssDatabaseViewModel hutaoSpiralAbyssDatabaseViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
 
     private AdvancedCollectionView<SpiralAbyssView>? spiralAbyssEntries;
@@ -41,7 +41,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     /// </summary>
     public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries { get => spiralAbyssEntries; set => SetProperty(ref spiralAbyssEntries, value); }
 
-    public HutaoDatabaseViewModel HutaoDatabaseViewModel { get => hutaoDatabaseViewModel; }
+    public HutaoSpiralAbyssDatabaseViewModel HutaoSpiralAbyssDatabaseViewModel { get => hutaoSpiralAbyssDatabaseViewModel; }
 
     public void Receive(UserAndUidChangedMessage message)
     {

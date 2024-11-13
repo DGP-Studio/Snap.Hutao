@@ -98,6 +98,15 @@
     <None Remove="Resource\Icon\UI_Icon_RelicType3.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType4.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType5.png" />
+    <None Remove="Resource\Icon\UI_Icon_Tower_Star1.png" />
+    <None Remove="Resource\Icon\UI_Icon_Tower_Star2.png" />
+    <None Remove="Resource\Icon\UI_Img_RoleCombat_EventDetail_Pic_Chance.png" />
+    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_0.png" />
+    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_1.png" />
+    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_2.png" />
+    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_3.png" />
+    <None Remove="Resource\Icon\UI_RoleCombat_Medal_S_4.png" />
+    <None Remove="Resource\Navigation\RoleCombat.png" />
     <None Remove="Resource\ThirdParty\Apple.png" />
     <None Remove="Resource\ThirdParty\Facebook.png" />
     <None Remove="Resource\ThirdParty\Google.png" />
@@ -279,6 +288,7 @@
     <Content Include="Resource\Icon\UI_Icon_RelicType4.png" />
     <Content Include="Resource\Icon\UI_Icon_RelicType5.png" />
     <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
+    <Content Include="Resource\Icon\UI_Img_RoleCombat_EventDetail_Pic_Chance.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
     <Content Include="Resource\Navigation\Achievement.png" />
     <Content Include="Resource\Navigation\Announcement.png" />
@@ -301,6 +311,14 @@
     <Content Include="Resource\ThirdParty\miyoushe_ic_launcher.png" />
     <Content Include="Resource\ThirdParty\Twitter.png" />
     <Content Include="Resource\WelcomeView_Background.png" />
+    <Content Include="Resource\Icon\UI_Icon_Tower_Star1.png" />
+    <Content Include="Resource\Icon\UI_Icon_Tower_Star2.png" />
+    <Content Include="Resource\Navigation\RoleCombat.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_0.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_1.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_2.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_3.png" />
+    <Content Include="Resource\Icon\UI_RoleCombat_Medal_S_4.png" />
   </ItemGroup>
 
   <!-- Packages -->

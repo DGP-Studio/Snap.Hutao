@@ -503,7 +503,7 @@
             </PivotItem>
 
             <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssHutaoStatistics}">
-                <Grid DataContext="{Binding HutaoDatabaseViewModel}">
+                <Grid DataContext="{Binding HutaoSpiralAbyssDatabaseViewModel}">
                     <mxi:Interaction.Behaviors>
                         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
                     </mxi:Interaction.Behaviors>

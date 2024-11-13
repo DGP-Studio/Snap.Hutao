@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 internal sealed class RoleCombatSchedule
@@ -15,7 +17,7 @@ internal sealed class RoleCombatSchedule
     public ScheduleType ScheduleType { get; set; } = default!;
 
     [JsonPropertyName("schedule_id")]
-    public int ScheduleId { get; set; }
+    public RoleCombatScheduleId ScheduleId { get; set; }
 
     [JsonPropertyName("start_date_time")]
     public DateTime StartDateTime { get; set; } = default!;

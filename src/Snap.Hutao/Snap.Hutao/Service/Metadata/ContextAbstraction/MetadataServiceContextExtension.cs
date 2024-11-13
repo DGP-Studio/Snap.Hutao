@@ -138,6 +138,11 @@ internal static class MetadataServiceContextExtension
                 dictionaryIdReliquarySubAffixSource.IdReliquarySubAffixMap = await metadataService.GetIdToReliquarySubAffixMapAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataDictionaryIdRoleCombatScheduleSource dictionaryIdRoleCombatScheduleSource)
+            {
+                dictionaryIdRoleCombatScheduleSource.IdRoleCombatScheduleMap = await metadataService.GetIdToRoleCombatScheduleMapAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataDictionaryIdTowerFloorSource dictionaryIdTowerFloorSource)
             {
                 dictionaryIdTowerFloorSource.IdTowerFloorMap = await metadataService.GetIdToTowerFloorMapAsync(token).ConfigureAwait(false);

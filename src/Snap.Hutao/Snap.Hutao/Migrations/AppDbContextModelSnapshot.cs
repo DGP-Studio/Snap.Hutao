@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -70,7 +70,6 @@ namespace Snap.Hutao.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Info2")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset>("RefreshTime")
@@ -308,9 +307,6 @@ namespace Snap.Hutao.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AttachUid")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Index")
                         .HasColumnType("INTEGER");
 
@@ -420,6 +416,28 @@ namespace Snap.Hutao.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("object_cache");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.RoleCombatEntry", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RoleCombatData")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("ScheduleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InnerId");
+
+                    b.ToTable("role_combats");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.SettingEntry", b =>
