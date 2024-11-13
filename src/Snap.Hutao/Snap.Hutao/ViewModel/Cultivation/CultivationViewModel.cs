@@ -257,7 +257,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToBackgroundAsync();
 
-        statisticsCancellationTokenSource.Cancel();
+        await statisticsCancellationTokenSource.CancelAsync().ConfigureAwait(false);
         statisticsCancellationTokenSource = new();
         CancellationToken token = statisticsCancellationTokenSource.Token;
         ObservableCollection<StatisticsCultivateItem> statistics;

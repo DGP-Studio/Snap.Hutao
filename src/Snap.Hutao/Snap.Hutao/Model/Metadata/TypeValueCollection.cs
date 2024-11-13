@@ -100,7 +100,7 @@ internal sealed partial class TypeValueCollection<TType, TValue> : ICollection<T
             inner.Dispose();
         }
 
-        public void Reset()
+        public readonly void Reset()
         {
             ((IEnumerator)inner).Reset();
         }

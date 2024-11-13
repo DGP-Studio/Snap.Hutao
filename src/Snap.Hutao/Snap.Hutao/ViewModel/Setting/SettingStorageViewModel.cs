@@ -32,7 +32,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     public SettingFolderViewModel? DataFolderView { get => dataFolderView; set => SetProperty(ref dataFolderView, value); }
 
     [Command("OpenBackgroundImageFolderCommand")]
-    private async Task OpenBackgroundImageFolderAsync()
+    private static async Task OpenBackgroundImageFolderAsync()
     {
         await Launcher.LaunchFolderPathAsync(HutaoRuntime.GetDataFolderBackgroundFolder());
     }

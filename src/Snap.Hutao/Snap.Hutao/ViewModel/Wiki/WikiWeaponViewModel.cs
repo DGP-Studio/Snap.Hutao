@@ -84,9 +84,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             {
                 metadataContext = await metadataService.GetContextAsync<WikiWeaponMetadataContext>().ConfigureAwait(false);
 
-                List<Weapon> list = metadataContext.Weapons
-                    .OrderByDescending(weapon => weapon.Sort)
-                    .ToList();
+                List<Weapon> list = [.. metadataContext.Weapons.OrderByDescending(weapon => weapon.Sort)];
 
                 await CombineComplexDataAsync(list, metadataContext).ConfigureAwait(false);
 

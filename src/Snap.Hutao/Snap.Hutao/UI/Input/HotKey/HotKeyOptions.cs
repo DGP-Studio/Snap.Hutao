@@ -6,7 +6,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Runtime.InteropServices;
-using Windows.System;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
@@ -16,7 +15,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 {
     private static readonly WaitCallback RunMouseClickRepeatForever = MouseClickRepeatForever;
 
-    private readonly object syncRoot = new();
+    private readonly Lock syncRoot = new();
     private readonly HotKeyMessageWindow hotKeyMessageWindow;
 
     private volatile CancellationTokenSource? cancellationTokenSource;

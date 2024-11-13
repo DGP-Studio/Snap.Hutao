@@ -56,7 +56,9 @@ internal static partial class AnnouncementHtmlVisitor
                 continue;
             }
 
+#pragma warning disable CA1309
             if (!paragraph.TextContent.Equals(SH.ServiceAnnouncementVersionUpdateTimeDescription, StringComparison.CurrentCulture))
+#pragma warning restore CA1309
             {
                 continue;
             }

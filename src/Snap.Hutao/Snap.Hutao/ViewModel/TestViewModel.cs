@@ -31,6 +31,7 @@ using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Net.Http;
+using System.Security.Cryptography;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -296,7 +297,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
         }
 
-        string result = await SHA256.HashFileAsync("D://test.file").ConfigureAwait(false);
+        string result = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, "D://test.file").ConfigureAwait(false);
         logger.LogInformation("File SHA256: {SHA256}", result);
     }
 

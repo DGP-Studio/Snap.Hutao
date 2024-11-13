@@ -1,28 +1,34 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Snap.Hutao.Core.IO.Hashing;
 
-#if NET9_0_OR_GREATER
-[Obsolete("Use CryptographicOperations.HashData()")]
-#endif
 internal static class Hash
 {
-    public static string SHA1HexString(string input)
+    public static string ToHexString(HashAlgorithmName hashAlgorithm, string input)
     {
-        return HashCore(Convert.ToHexString, SHA1.HashData, Encoding.UTF8.GetBytes, input);
+        return Convert.ToHexString(CryptographicOperations.HashData(hashAlgorithm, Encoding.UTF8.GetBytes(input)));
     }
 
-    public static string MD5HexString(string input)
+    public static string ToHexString(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> input)
     {
-        return HashCore(Convert.ToHexString, System.Security.Cryptography.MD5.HashData, Encoding.UTF8.GetBytes, input);
+        return Convert.ToHexString(CryptographicOperations.HashData(hashAlgorithm, input));
     }
 
-    private static TResult HashCore<TInput, TResult>(Func<byte[], TResult> resultConverter, Func<byte[], byte[]> hashMethod, Func<TInput, byte[]> bytesConverter, TInput input)
+    public static async ValueTask<string> ToHexStringAsync(HashAlgorithmName hashAlgorithm, Stream input, CancellationToken token = default)
     {
-        return resultConverter(hashMethod(bytesConverter(input)));
+        return Convert.ToHexString(await CryptographicOperations.HashDataAsync(hashAlgorithm, input, token).ConfigureAwait(false));
+    }
+
+    public static async ValueTask<string> FileToHexStringAsync(HashAlgorithmName hashAlgorithm, string filePath, CancellationToken token = default)
+    {
+        using (FileStream stream = File.OpenRead(filePath))
+        {
+            return await ToHexStringAsync(hashAlgorithm, stream, token).ConfigureAwait(false);
+        }
     }
 }

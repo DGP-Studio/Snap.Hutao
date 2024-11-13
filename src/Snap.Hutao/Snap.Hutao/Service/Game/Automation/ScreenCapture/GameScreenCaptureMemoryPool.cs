@@ -10,7 +10,7 @@ internal sealed partial class GameScreenCaptureMemoryPool : MemoryPool<byte>
 {
     private static readonly LazySlim<GameScreenCaptureMemoryPool> LazyShared = new(() => new());
 
-    private readonly object syncRoot = new();
+    private readonly Lock syncRoot = new();
     private readonly LinkedList<GameScreenCaptureBuffer> unrentedBuffers = [];
     private readonly LinkedList<GameScreenCaptureBuffer> rentedBuffers = [];
 

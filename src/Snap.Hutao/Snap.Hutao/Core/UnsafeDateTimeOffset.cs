@@ -22,5 +22,5 @@ internal static class UnsafeDateTimeOffset
     }
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_dateTime")]
-    private static extern ref readonly DateTime GetPrivateDateTime(ref readonly DateTimeOffset dateTimeOffset);
+    private static extern ref DateTime GetPrivateDateTime(ref readonly DateTimeOffset dateTimeOffset);
 }

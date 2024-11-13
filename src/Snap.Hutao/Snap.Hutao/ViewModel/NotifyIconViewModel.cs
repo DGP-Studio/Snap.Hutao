@@ -58,6 +58,15 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         // Current process will exit in PrivatePipeServer
     }
 
+    [Command("OpenCompactWebView2WindowCommand")]
+    private static void OpenCompactWebView2Window()
+    {
+        if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
+        {
+            _ = new CompactWebView2Window();
+        }
+    }
+
     [Command("ShowWindowCommand")]
     private void ShowWindow()
     {
@@ -113,14 +122,5 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     private void OpenScriptingWindow()
     {
         _ = serviceProvider.GetRequiredService<ScriptingWindow>();
-    }
-
-    [Command("OpenCompactWebView2WindowCommand")]
-    private void OpenCompactWebView2Window()
-    {
-        if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
-        {
-            _ = new CompactWebView2Window();
-        }
     }
 }

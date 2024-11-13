@@ -70,7 +70,7 @@ internal sealed class SummaryAvatarFactory
         activatedConstellationIds = [];
         extraLevels = [];
 
-        foreach (RefTuple<Model.Metadata.Avatar.Skill, Constellation> tuple in depot.Talents.ZipList(constellations))
+        foreach (RefValueTuple<Model.Metadata.Avatar.Skill, Constellation> tuple in depot.Talents.ZipList(constellations))
         {
             ref readonly Constellation dataConstellation = ref tuple.Item2;
 

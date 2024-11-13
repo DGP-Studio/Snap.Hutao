@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.RateLimiting;
 
@@ -157,7 +158,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private static void InitializeDuplicatedChunkNames(GamePackageServiceContext context, IEnumerable<AssetChunk> chunks)
     {
-        Debug.Assert(context.DuplicatedChunkNames.Count is 0);
+        Debug.Assert(context.DuplicatedChunkNames.IsEmpty);
         IEnumerable<string> names = chunks
             .GroupBy(chunk => chunk.ChunkName)
             .Where(group => group.Skip(1).Any())
@@ -444,7 +445,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                 {
                     using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                     {
-                        string manifestMd5 = await MD5.HashAsync(inMemoryManifestStream, token).ConfigureAwait(false);
+                        string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
                         if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
                         {
                             inMemoryManifestStream.Position = 0;
