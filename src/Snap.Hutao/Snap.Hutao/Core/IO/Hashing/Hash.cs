@@ -14,6 +14,11 @@ internal static class Hash
         return Convert.ToHexString(CryptographicOperations.HashData(hashAlgorithm, Encoding.UTF8.GetBytes(input)));
     }
 
+    public static string ToHexStringLower(HashAlgorithmName hashAlgorithm, string input)
+    {
+        return Convert.ToHexStringLower(CryptographicOperations.HashData(hashAlgorithm, Encoding.UTF8.GetBytes(input)));
+    }
+
     public static string ToHexString(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> input)
     {
         return Convert.ToHexString(CryptographicOperations.HashData(hashAlgorithm, input));

@@ -21,10 +21,7 @@ internal static class DataSignAlgorithm
             dsContent = $"{dsContent}&b={options.Body}&q={options.Query}";
         }
 
-#pragma warning disable CA1308
-        string check = Hash.ToHexString(HashAlgorithmName.MD5, dsContent).ToLowerInvariant();
-#pragma warning restore CA1308
-
+        string check = Hash.ToHexStringLower(HashAlgorithmName.MD5, dsContent);
         return $"{t},{r},{check}";
     }
 }
