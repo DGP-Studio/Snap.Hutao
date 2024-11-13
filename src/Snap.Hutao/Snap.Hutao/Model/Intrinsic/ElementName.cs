@@ -5,6 +5,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 internal enum ElementName
 {
+    None = 0,
     Pyro = 1,
     Hydro = 2,
     Dendro = 3,
