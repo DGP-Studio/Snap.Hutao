@@ -482,82 +482,82 @@
     <value>地脈鎮石を守る</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
-    <value>追加: 増援される敵</value>
+    <value>追加：増援の敵</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
-    <value>この階層のボス</value>
+    <value>本間のボス</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
-    <value>グループA: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group A: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave1" xml:space="preserve">
-    <value>グループA ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group A Wave 1: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave2" xml:space="preserve">
-    <value>グループA ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group A Wave 2: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave3" xml:space="preserve">
-    <value>グループA ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group A Wave 3: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupB" xml:space="preserve">
-    <value>グループB: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group B: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave1" xml:space="preserve">
-    <value>グループB ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group B Wave 1: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave2" xml:space="preserve">
-    <value>グループB ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group B Wave 2: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave3" xml:space="preserve">
-    <value>グループB ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group B Wave 3: 異なるグループが同時に存在し、それぞれそれぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupC" xml:space="preserve">
-    <value>グループC: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group C: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave1" xml:space="preserve">
-    <value>グループC ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group C Wave 1: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave2" xml:space="preserve">
-    <value>グループC ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group C Wave 2: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
-    <value>グループC ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group C Wave 3: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
-    <value>グループD: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group D: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
-    <value>グループD ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group D Wave 1: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
-    <value>グループD ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group D Wave 2: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
-    <value>グループD ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
+    <value>Group D Wave 3: 異なるグループが同時に存在し、それぞれ独立したウェーブに現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
-    <value>他の敵とは独立</value>
+    <value>他の敵から独立して現れる</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
-    <value>ウェーブ情報がありません</value>
+    <value>暫くウェーブ情報がありません</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
-    <value>ウェーブ 1: すべての敵を倒すと、次のウェーブの敵が出現する。</value>
+    <value>Wave 1: すべての敵を倒すと、次のウェーブの敵が現れる。</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
-    <value>ウェーブ 1 追加: ウェーブ1の敵の増援</value>
+    <value>Wave 1 追加：敵の第1ウェーブを増援する。</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
-    <value>ウェーブ 2: すべての敵を倒すと、次のウェーブの敵が出現する。</value>
+    <value>Wave 2: すべての敵を倒すと、次のウェーブの敵が現れる。</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave3" xml:space="preserve">
-    <value>ウェーブ 3: すべての敵を倒すと、次のウェーブの敵が出現する。</value>
+    <value>Wave 3: すべての敵を倒すと、次のウェーブの敵が現れる。</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
-    <value>ウェーブ 4: すべての敵を倒すと、次のウェーブの敵が出現する。</value>
+    <value>Wave 4: すべての敵を倒すと、次のウェーブの敵が現れる。</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
-    <value>宝盗団を 4 体フィールド上に維持し、倒され次第入れ替える、総計 12 個</value>
+    <value>フィールド上に宝盗団を 4 体維持し、倒され次第入れ替えて、総計 12 個。</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>キャラクターラインナップを更新してください</value>
