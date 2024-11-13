@@ -18,9 +18,9 @@ internal static class UnsafeDateTimeOffset
     [Pure]
     public static DateTimeOffset AdjustOffsetOnly(DateTimeOffset dateTimeOffset, in TimeSpan offset)
     {
-        return new(GetPrivateDateTime(ref dateTimeOffset), offset);
+        return new(GetPrivateDateTime(in dateTimeOffset), offset);
     }
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_dateTime")]
-    private static extern ref readonly DateTime GetPrivateDateTime(ref DateTimeOffset dateTimeOffset);
+    private static extern ref readonly DateTime GetPrivateDateTime(ref readonly DateTimeOffset dateTimeOffset);
 }
