@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Model;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
-using Windows.System;
 
 namespace Snap.Hutao.UI.Input;
 

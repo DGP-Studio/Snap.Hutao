@@ -8,7 +8,7 @@ internal static class ResponseValidationServiceCollectionExtension
     public static IServiceCollection AddResponseValidation(this IServiceCollection services)
     {
         return services
-            .AddTransient(typeof(ICommonResponseValidator<Response>), typeof(DefaultResponseValidator))
+            .AddTransient<ICommonResponseValidator<Response>, DefaultResponseValidator>()
             .AddTransient(typeof(ITypedResponseValidator<>), typeof(TypedResponseValidator<>));
     }
 }

@@ -9,6 +9,7 @@ using Snap.Hutao.UI;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Win32.System.WinRT;
 using System.IO;
+using System.Security.Cryptography;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
@@ -108,7 +109,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     private static string GetCacheFileName(string url)
     {
-        return Hash.SHA1HexString(url);
+        return Hash.ToHexString(HashAlgorithmName.SHA1, url);
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)

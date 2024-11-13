@@ -7,6 +7,7 @@ using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.IO;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -97,7 +98,7 @@ internal static class HutaoRuntime
     {
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", userName);
-        return Hash.MD5HexString($"{userName}{machineGuid}");
+        return Hash.ToHexString(HashAlgorithmName.MD5, $"{userName}{machineGuid}");
     }
 
     private static WebView2Version InitializeWebView2()

@@ -36,7 +36,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         """;
 
     private readonly CancellationTokenSource loadCts = new();
-    private readonly object locker = new();
+    private readonly Lock syncRoot = new();
 
     private readonly IServiceScope windowScope;
     private readonly LowLevelKeyOptions lowLevelKeyOptions;
@@ -142,7 +142,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void UpdateLayeredWindow()
     {
-        lock (locker)
+        lock (syncRoot)
         {
             if (GetCursorPos(out POINT pt) && GetWindowRect(this.GetWindowHandle(), out RECT rect) && PtInRect(in rect, pt))
             {

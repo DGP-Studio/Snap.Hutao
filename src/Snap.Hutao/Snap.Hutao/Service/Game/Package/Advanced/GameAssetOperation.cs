@@ -11,6 +11,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -47,7 +48,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         ArgumentNullException.ThrowIfNull(item);
 
                         string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, item.RelativePath);
-                        if (!item.Md5.Equals(await MD5.HashFileAsync(path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                        if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                         {
                             channelSdkConflicted = true;
                             break;
@@ -128,7 +129,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 {
                     Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
                     await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
-                    if (!chunk.ChunkDecompressedHashMd5.Equals(MD5.Hash(buffer.Span), StringComparison.OrdinalIgnoreCase))
+                    if (!chunk.ChunkDecompressedHashMd5.Equals(Hash.ToHexString(HashAlgorithmName.MD5, buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
                         conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
                         context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));

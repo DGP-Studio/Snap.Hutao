@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DataTransfer;
@@ -167,19 +166,6 @@ internal sealed partial class UserViewModel : ObservableObject
             Cookie cookie = Cookie.Parse(rawCookie);
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
-        }
-    }
-
-    private void NavigateToLoginPage<TPage>()
-        where TPage : Page
-    {
-        if (HutaoRuntime.WebView2Version.Supported)
-        {
-            navigationService.Navigate<TPage>(INavigationAwaiter.Default);
-        }
-        else
-        {
-            infoBarService.Warning(SH.CoreWebView2HelperVersionUndetected);
         }
     }
 

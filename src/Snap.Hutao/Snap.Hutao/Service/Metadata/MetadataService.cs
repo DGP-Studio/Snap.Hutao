@@ -87,7 +87,6 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         using (Stream fileStream = File.OpenRead(path))
         {
             ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
-            ArgumentNullException.ThrowIfNull(result);
             return memoryCache.Set(cacheKey, result);
         }
     }

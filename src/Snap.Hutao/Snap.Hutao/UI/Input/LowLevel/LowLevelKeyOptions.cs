@@ -9,7 +9,7 @@ using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 namespace Snap.Hutao.UI.Input.LowLevel;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class LowLevelKeyOptions : ObservableObject
+internal sealed partial class LowLevelKeyOptions : ObservableObject
 {
     private NameValue<VIRTUAL_KEY> webView2VideoPlayPauseKey;
 

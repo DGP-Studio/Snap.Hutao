@@ -88,10 +88,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         {
             metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>().ConfigureAwait(false);
 
-            List<Avatar> list = metadataContext.Avatars
-                .OrderByDescending(avatar => avatar.BeginTime)
-                .ThenByDescending(avatar => avatar.Sort)
-                .ToList();
+            List<Avatar> list = [.. metadataContext.Avatars.OrderByDescending(avatar => avatar.BeginTime).ThenByDescending(avatar => avatar.Sort)];
 
             await CombineComplexDataAsync(list, metadataContext).ConfigureAwait(false);
 

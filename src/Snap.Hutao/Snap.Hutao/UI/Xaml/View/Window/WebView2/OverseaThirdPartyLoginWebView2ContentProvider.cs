@@ -84,7 +84,9 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
 
     private static string GetThirdLoginUrl(OverseaThirdPartyKind kind, string languageCode)
     {
+#pragma warning disable CA1308
         StringBuilder baseQuery = new($"?client_id={ThirdPartyToClientId[kind]}&route={kind.ToString().ToLowerInvariant()}&callback_method=deeplink&message_id={Guid.NewGuid()}&lang={languageCode}&scheme=about%3Ablank");
+#pragma warning restore CA1308
         switch (kind)
         {
             case OverseaThirdPartyKind.Google:

@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using static Snap.Hutao.Service.Game.GameConstants;
 using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<string, Snap.Hutao.Service.Game.Package.VersionItem>;
@@ -146,7 +147,7 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
         {
             if (info.Remote.FileSize == new FileInfo(cacheFile).Length)
             {
-                if (info.Remote.Md5.Equals(await MD5.HashFileAsync(cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                if (info.Remote.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                 {
                     return;
                 }
@@ -184,7 +185,7 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
             }
         }
 
-        if (!string.Equals(info.Remote.Md5, await MD5.HashFileAsync(cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+        if (!string.Equals(info.Remote.Md5, await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
         {
             HutaoException.Throw(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName));
         }

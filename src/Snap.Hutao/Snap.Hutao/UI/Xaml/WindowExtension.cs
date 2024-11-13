@@ -11,7 +11,6 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
 using WinRT.Interop;
-using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Xaml;
@@ -54,6 +53,7 @@ internal static class WindowExtension
         return xamlWindowController;
     }
 
+    [SuppressMessage("", "SH007")]
     public static DesktopWindowXamlSource GetDesktopWindowXamlSource(this Window window)
     {
         if (window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess access)

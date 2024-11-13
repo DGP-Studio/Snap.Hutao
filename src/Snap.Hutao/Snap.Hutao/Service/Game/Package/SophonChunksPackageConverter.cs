@@ -19,6 +19,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
@@ -152,7 +153,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
 
     private static void InitializeDuplicatedChunkNames(PackageConverterContext context, IEnumerable<AssetChunk> chunks)
     {
-        Debug.Assert(context.DuplicatedChunkNames.Count is 0);
+        Debug.Assert(context.DuplicatedChunkNames.IsEmpty);
         IEnumerable<string> names = chunks
             .GroupBy(chunk => chunk.ChunkName)
             .Where(group => group.Skip(1).Any())
@@ -284,7 +285,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
             {
                 using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                 {
-                    string manifestMd5 = await MD5.HashAsync(inMemoryManifestStream).ConfigureAwait(false);
+                    string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream).ConfigureAwait(false);
                     if (!manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
                     {
                         return default!;
@@ -325,7 +326,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
         {
             if (operation.NewAsset.AssetSize == new FileInfo(cacheFile).Length)
             {
-                if (operation.NewAsset.AssetHashMd5.Equals(await MD5.HashFileAsync(cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                if (operation.NewAsset.AssetHashMd5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                 {
                     return;
                 }

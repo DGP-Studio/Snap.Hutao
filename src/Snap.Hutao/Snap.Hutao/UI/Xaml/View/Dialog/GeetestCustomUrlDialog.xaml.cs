@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 

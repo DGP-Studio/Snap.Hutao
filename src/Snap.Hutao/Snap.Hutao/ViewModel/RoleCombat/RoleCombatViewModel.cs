@@ -3,9 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Service.Hutao;
-using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.RoleCombat;
 using Snap.Hutao.Service.User;
@@ -23,14 +20,11 @@ namespace Snap.Hutao.ViewModel.RoleCombat;
 internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly IRoleCombatService roleCombatService;
-    private readonly IContentDialogFactory contentDialogFactory;
-    private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly HutaoRoleCombatDatabaseViewModel hutaoRoleCombatDatabaseViewModel;
-    private readonly HutaoUserOptions hutaoUserOptions;
 
     private AdvancedCollectionView<RoleCombatView>? roleCombatEntries;
 
@@ -122,29 +116,6 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            // if (!hutaoUserOptions.IsLoggedIn)
-            // {
-            //     SpiralAbyssUploadRecordHomaNotLoginDialog dialog = await contentDialogFactory
-            //         .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>()
-            //         .ConfigureAwait(false);
-            //
-            //     await taskContext.SwitchToMainThreadAsync();
-            //     ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
-            //
-            //     switch (result)
-            //     {
-            //         case ContentDialogResult.Primary:
-            //             await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
-            //             return;
-            //
-            //         case ContentDialogResult.Secondary:
-            //             break;
-            //
-            //         case ContentDialogResult.None:
-            //             return;
-            //     }
-            // }
-
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HutaoRoleCombatClient roleCombatClient = scope.ServiceProvider.GetRequiredService<HutaoRoleCombatClient>();

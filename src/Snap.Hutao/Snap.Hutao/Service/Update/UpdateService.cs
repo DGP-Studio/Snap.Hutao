@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Security.Cryptography;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -117,7 +118,7 @@ internal sealed partial class UpdateService : IUpdateService
 
     private static async ValueTask<bool> CheckUpdateCacheSHA256Async(string filePath, string remoteHash, CancellationToken token = default)
     {
-        string localHash = await SHA256.HashFileAsync(filePath, token).ConfigureAwait(false);
+        string localHash = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, filePath, token).ConfigureAwait(false);
         return string.Equals(localHash, remoteHash, StringComparison.OrdinalIgnoreCase);
     }
 

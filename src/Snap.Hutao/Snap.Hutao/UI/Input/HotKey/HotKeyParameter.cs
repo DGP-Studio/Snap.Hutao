@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
-using Windows.System;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
@@ -11,7 +10,6 @@ internal readonly struct HotKeyParameter : IEquatable<HotKeyCombination>
     // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 4
     public readonly ushort NativeModifiers;
     public readonly VIRTUAL_KEY NativeKey;
-    // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 4
 
     public HotKeyParameter(HOT_KEY_MODIFIERS modifiers, VIRTUAL_KEY key)
     {

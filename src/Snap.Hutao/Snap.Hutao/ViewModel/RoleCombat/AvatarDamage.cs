@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
@@ -10,7 +11,8 @@ internal sealed class AvatarDamage : AvatarView
     public AvatarDamage(string value, Avatar metaAvatar)
         : base(metaAvatar)
     {
-        Value = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+        int.TryParse(value, CultureInfo.InvariantCulture, out int result);
+        Value = result;
     }
 
     public int Value { get; }
