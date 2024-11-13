@@ -9,27 +9,14 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        try
+        if (!context.Process.HasExited)
         {
-            if (!context.Process.HasExited)
-            {
-                context.Progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
-                await context.Process.WaitForExitAsync().ConfigureAwait(false);
-            }
-
-            context.Logger.LogInformation("Game process exited with code {ExitCode}", context.Process.ExitCode);
-            context.Progress.Report(new(LaunchPhase.ProcessExited, SH.ServiceGameLaunchPhaseProcessExited));
-            await next().ConfigureAwait(false);
+            context.Progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
+            await context.Process.WaitForExitAsync().ConfigureAwait(false);
         }
-        finally
-        {
-            SpinWaitGameRunning();
-            context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
-        }
-    }
 
-    private static unsafe void SpinWaitGameRunning()
-    {
-        SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
+        context.Logger.LogInformation("Game process exited with code {ExitCode}", context.Process.ExitCode);
+        context.Progress.Report(new(LaunchPhase.ProcessExited, SH.ServiceGameLaunchPhaseProcessExited));
+        await next().ConfigureAwait(false);
     }
 }

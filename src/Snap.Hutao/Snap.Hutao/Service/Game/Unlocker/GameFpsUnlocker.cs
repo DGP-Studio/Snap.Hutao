@@ -169,6 +169,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
         finally
         {
+            // NEVER UNHOOK: Will cause the dll unload in game process
+            // UnhookWindowsHookEx(hHook);
             NativeLibrary.Free(hModule);
         }
     }
