@@ -116,8 +116,9 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
         if (e.Uri.StartsWith("about:blank", StringComparison.OrdinalIgnoreCase))
         {
             e.Cancel = true;
-            string token = e.Uri[12..].Split("&")[0].Split("=")[1];
-            result = new(ThirdPartyToType[kind], Uri.UnescapeDataString(token));
+            ReadOnlySpan<char> uriSpan = e.Uri.AsSpan()[18..];
+            uriSpan.TrySplitIntoTwo('&', out ReadOnlySpan<char> tokenSpan, out _);
+            result = new(ThirdPartyToType[kind], Uri.UnescapeDataString(tokenSpan));
             CloseWindowAction?.Invoke();
         }
     }
