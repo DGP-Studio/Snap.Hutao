@@ -108,7 +108,7 @@
     <value>將於&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;進行版本更新維護</value>
   </data>
   <data name="ServiceAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\d版本更新停服說明</value>
+    <value>\d\.\d版本更新維護預告</value>
   </data>
   <data name="ServiceAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
     <value>\d\.\d版本更新說明</value>
