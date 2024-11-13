@@ -410,16 +410,16 @@
     <value>星1</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
-    <value>轻简模式</value>
+    <value>イージーモード</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
-    <value>困难模式</value>
+    <value>ハードモード</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
-    <value>普通模式</value>
+    <value>ノーマルモード</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
-    <value>卓越模式</value>
+    <value>マスターモード</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
@@ -2005,7 +2005,7 @@
     <value>UID [{0}] に対するアカウント [{1}] を選択できませんでした。このアカウントは現在のサーバーに属していません。</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
-    <value>已抵达{0}</value>
+    <value>{0}に到着</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作は完了しました</value>
@@ -2897,52 +2897,52 @@
     <value>ゲームフォルダを選択</value>
   </data>
   <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
-    <value>助演</value>
+    <value>サポート</value>
   </data>
   <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
-    <value>试用</value>
+    <value>お試し</value>
   </data>
   <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
-    <value>待命角色</value>
+    <value>待機キャスト</value>
   </data>
   <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
-    <value>奇妙助益</value>
+    <value>ワンダーサポート</value>
   </data>
   <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
-    <value>神秘收获</value>
+    <value>ミステリーボーナス</value>
   </data>
   <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
-    <value>消耗「幻剧之花」</value>
+    <value>消費した「幻戯の花」</value>
   </data>
   <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
-    <value>开幕角色</value>
+    <value>開幕キャスト</value>
   </data>
   <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
-    <value>最佳记录</value>
+    <value>最高記録</value>
   </data>
   <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
-    <value>挑战星章</value>
+    <value>スター挑戦星章</value>
   </data>
   <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
-    <value>暂无演出数据</value>
+    <value>公演記録はありません</value>
   </data>
   <data name="ViewPageRoleCombatShortest" xml:space="preserve">
-    <value>最快演出</value>
+    <value>最も早い公演</value>
   </data>
   <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
-    <value>特邀角色</value>
+    <value>特別招待キャスト</value>
   </data>
   <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
-    <value>辉彩祝福</value>
+    <value>シャイニングブレス</value>
   </data>
   <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
-    <value>场外声援</value>
+    <value>観客の応援</value>
   </data>
   <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
-    <value>助演次数</value>
+    <value>サポートした回数</value>
   </data>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
-    <value>演出总时长</value>
+    <value>公演時間</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>胡桃について</value>
@@ -3395,7 +3395,7 @@
     <value>突破前</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
-    <value>幻想真境剧诗</value>
+    <value>幻想シアター</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>ログインできません。もう一度お試しください。</value>
