@@ -78,7 +78,8 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
                 (T, T, F, _, T, T) => (F, F, F, F, F, T, F, F, T, T),
                 (T, T, T, F, F, _) => (F, T, F, F, F, F, F, F, F, F),
                 (T, T, T, F, T, _) => (F, T, F, F, F, T, F, F, F, F),
-                (T, T, T, T, F, _) => (T, T, F, T, T, F, F, F, F, T),
+                (T, T, T, T, F, F) => (T, T, F, T, T, F, F, F, F, T),
+                (T, T, T, T, F, T) => (T, T, F, T, T, F, F, F, T, T),
                 (T, T, T, T, T, F) => (T, T, F, T, T, T, F, F, F, T),
                 (T, T, T, T, T, T) => (T, T, F, T, T, T, F, F, T, T),
             };
