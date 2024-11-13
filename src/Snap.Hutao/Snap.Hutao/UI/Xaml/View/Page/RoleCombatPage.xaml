@@ -58,16 +58,6 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="DescriptionTextTemplate" x:DataType="x:String">
-            <shuxct:DescriptionTextBlock Description="{Binding}">
-                <shuxct:DescriptionTextBlock.Resources>
-                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                    </Style>
-                </shuxct:DescriptionTextBlock.Resources>
-            </shuxct:DescriptionTextBlock>
-        </DataTemplate>
-
         <DataTemplate x:Key="EnemyTemplate" x:DataType="shvr:EnemyView">
             <Grid>
                 <ToolTipService.ToolTip>
@@ -90,7 +80,7 @@
                 <TextBlock
                     Margin="6,0,6,2"
                     Foreground="#FFFFFFFF"
-                    Text="试用"/>
+                    Text="{shuxm:ResourceString Name=ViewPageRoleCombatAvatarTrialHint}"/>
             </Border>
         </DataTemplate>
 
@@ -99,7 +89,7 @@
                 <TextBlock
                     Margin="6,0,6,2"
                     Foreground="#FFFFFFFF"
-                    Text="助演"/>
+                    Text="{shuxm:ResourceString Name=ViewPageRoleCombatAvatarSupportHint}"/>
             </Border>
         </DataTemplate>
 
@@ -123,13 +113,7 @@
                 <ToolTipService.ToolTip>
                     <StackPanel Spacing="{StaticResource SettingsCardContentControlSpacing}">
                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
-                        <shuxct:DescriptionTextBlock Description="{Binding Description}">
-                            <shuxct:DescriptionTextBlock.Resources>
-                                <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                </Style>
-                            </shuxct:DescriptionTextBlock.Resources>
-                        </shuxct:DescriptionTextBlock>
+                        <shuxct:DescriptionTextBlock Description="{Binding Description}" TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                     </StackPanel>
                 </ToolTipService.ToolTip>
                 <Grid Height="40" CornerRadius="20">
@@ -150,15 +134,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Grid.Column="0"
-                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
                     Text="• "/>
-                <shuxct:DescriptionTextBlock Grid.Column="1" Description="{Binding}">
-                    <shuxct:DescriptionTextBlock.Resources>
-                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                            <Setter Property="TextWrapping" Value="Wrap"/>
-                        </Style>
-                    </shuxct:DescriptionTextBlock.Resources>
-                </shuxct:DescriptionTextBlock>
+                <shuxct:DescriptionTextBlock
+                    Grid.Column="1"
+                    Description="{Binding}"
+                    TextStyle="{StaticResource CaptionTextBlockStyle}"/>
             </Grid>
         </DataTemplate>
 
@@ -268,7 +249,7 @@
                     </Grid.ColumnDefinitions>
                     <!--  辉彩祝福  -->
                     <StackPanel Grid.Column="0" Margin="8,0,0,0">
-                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="辉彩祝福"/>
+                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatSplendourBuffsHeader}"/>
                         <shuxct:DescriptionTextBlock
                             Margin="0,0,0,5"
                             Description="{Binding SplendourSummary}"
@@ -280,7 +261,7 @@
                     </StackPanel>
                     <!--  神秘收获  -->
                     <StackPanel Grid.Column="1" Spacing="2">
-                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="神秘收获"/>
+                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatChoiceCardsHeader}"/>
                         <ItemsControl ItemTemplate="{StaticResource BuffTemplate}" ItemsSource="{Binding ChoiceCards}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -291,7 +272,7 @@
                     </StackPanel>
                     <!--  奇妙助益  -->
                     <StackPanel Grid.Column="2">
-                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="奇妙助益"/>
+                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatBuffsHeader}"/>
                         <ItemsControl
                             ItemTemplate="{StaticResource BuffTemplate}"
                             ItemsPanel="{ThemeResource WrapPanelSpacing6Template}"
@@ -372,27 +353,21 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Border Grid.Column="0" Style="{ThemeResource SecondaryBorderCardStyle}">
                                                     <StackPanel Margin="8" Spacing="{ThemeResource SettingsCardSpacing}">
-                                                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="开幕角色"/>
-                                                        <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding InitialAvatars}">
-                                                            <ItemsControl.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
-                                                                </ItemsPanelTemplate>
-                                                            </ItemsControl.ItemsPanel>
-                                                        </ItemsControl>
+                                                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatInitialAvatarsHeader}"/>
+                                                        <ItemsControl
+                                                            ItemTemplate="{StaticResource AvatarTemplate}"
+                                                            ItemsPanel="{ThemeResource WrapPanelSpacing6Template}"
+                                                            ItemsSource="{Binding InitialAvatars}"/>
                                                     </StackPanel>
                                                 </Border>
 
                                                 <Border Grid.Column="1" Style="{ThemeResource SecondaryBorderCardStyle}">
                                                     <StackPanel Margin="8" Spacing="{ThemeResource SettingsCardSpacing}">
-                                                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="特邀角色"/>
-                                                        <ItemsControl ItemTemplate="{StaticResource AvatarTemplate}" ItemsSource="{Binding SpecialAvatars}">
-                                                            <ItemsControl.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <shuxcp:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
-                                                                </ItemsPanelTemplate>
-                                                            </ItemsControl.ItemsPanel>
-                                                        </ItemsControl>
+                                                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatSpecialAvatarsHeader}"/>
+                                                        <ItemsControl
+                                                            ItemTemplate="{StaticResource AvatarTemplate}"
+                                                            ItemsPanel="{ThemeResource WrapPanelSpacing6Template}"
+                                                            ItemsSource="{Binding SpecialAvatars}"/>
                                                     </StackPanel>
                                                 </Border>
                                             </Grid>
@@ -410,7 +385,7 @@
                                                             Margin="0,16,0,0"
                                                             HorizontalAlignment="Center"
                                                             Style="{StaticResource SubtitleTextBlockStyle}"
-                                                            Text="暂无演出数据"/>
+                                                            Text="{shuxm:ResourceString Name=ViewPageRoleCombatNotEngagedHeader}"/>
                                                     </StackPanel>
                                                 </shuxc:StandardView.EmptyContent>
                                                 <StackPanel Margin="8" Spacing="8">
@@ -480,13 +455,13 @@
                                                                 </StackPanel>
                                                             </cwc:SettingsCard>
 
-                                                            <cwc:SettingsCard Header="消耗「幻剧之花」">
+                                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageRoleCombatCoinNumber}">
                                                                 <StackPanel Orientation="Horizontal">
                                                                     <TextBlock VerticalAlignment="Center" Text="{Binding Stat.CoinNumber}"/>
                                                                 </StackPanel>
                                                             </cwc:SettingsCard>
 
-                                                            <cwc:SettingsCard Header="挑战星章">
+                                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageRoleCombatMedalRound}">
                                                                 <ItemsControl ItemsSource="{Binding Stat.GetMedalRoundList}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate x:DataType="x:Int32">
@@ -512,15 +487,15 @@
                                                                 </ItemsControl>
                                                             </cwc:SettingsCard>
 
-                                                            <cwc:SettingsCard Content="{Binding TotalBattleTimesFormatted}" Header="演出总时长"/>
+                                                            <cwc:SettingsCard Content="{Binding TotalBattleTimesFormatted}" Header="{shuxm:ResourceString Name=ViewPageRoleCombatTotalBattleTime}"/>
 
-                                                            <cwc:SettingsCard Content="{Binding MaxRound}" Header="最佳记录"/>
+                                                            <cwc:SettingsCard Content="{Binding MaxRound}" Header="{shuxm:ResourceString Name=ViewPageRoleCombatMaxRound}"/>
 
-                                                            <cwc:SettingsCard Content="{Binding Stat.AvatarBonusNumber}" Header="场外声援"/>
+                                                            <cwc:SettingsCard Content="{Binding Stat.AvatarBonusNumber}" Header="{shuxm:ResourceString Name=ViewPageRoleCombatStatAvatarBonus}"/>
 
-                                                            <cwc:SettingsCard Content="{Binding Stat.RentCount}" Header="助演次数"/>
+                                                            <cwc:SettingsCard Content="{Binding Stat.RentCount}" Header="{shuxm:ResourceString Name=ViewPageRoleCombatStatRent}"/>
 
-                                                            <cwc:SettingsCard Header="最快演出">
+                                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageRoleCombatShortest}">
                                                                 <ItemsControl ItemsPanel="{ThemeResource HorizontalStackPanelSpacing4Template}" ItemsSource="{Binding Shortest}">
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
@@ -535,9 +510,10 @@
                                                             </cwc:SettingsCard>
                                                         </ItemsControl>
                                                     </Border>
+
                                                     <Border Padding="8" Style="{ThemeResource SecondaryBorderCardStyle}">
                                                         <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                                            <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="待命角色"/>
+                                                            <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatBackupAvatars}"/>
                                                             <ItemsControl
                                                                 ItemTemplate="{StaticResource AvatarTemplate}"
                                                                 ItemsPanel="{ThemeResource WrapPanelSpacing6Template}"

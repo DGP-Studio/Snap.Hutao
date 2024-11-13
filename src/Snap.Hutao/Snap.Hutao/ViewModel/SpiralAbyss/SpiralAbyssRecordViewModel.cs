@@ -155,18 +155,20 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 HutaoSpiralAbyssClient spiralAbyssClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
                 if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
                 {
-                    Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+                    HutaoResponse response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
 
                     if (response is ILocalizableResponse localizableResponse)
                     {
                         infoBarService.PrepareInfoBarAndShow(builder =>
                         {
                             builder
-                            .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
-                            .SetMessage(localizableResponse.GetLocalizationMessage());
+                                .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
+                                .SetMessage(localizableResponse.GetLocalizationMessage());
                         });
                     }
                 }
+
+                // TODO: Handle no records
             }
         }
         else

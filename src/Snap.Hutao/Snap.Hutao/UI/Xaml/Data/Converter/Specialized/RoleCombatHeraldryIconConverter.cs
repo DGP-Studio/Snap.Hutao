@@ -9,6 +9,6 @@ internal sealed partial class RoleCombatHeraldryIconConverter : ValueConverter<R
 {
     public override Uri Convert(RoleCombatDifficultyLevel from)
     {
-        return $"ms-appx:///Resource/Icon/UI_RoleCombat_Medal_S_{(uint)from}.png".ToUri();
+        return $"ms-appx:///Resource/Icon/UI_RoleCombat_Medal_S_{from:D}.png".ToUri();
     }
 }

@@ -119,22 +119,19 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HutaoRoleCombatClient roleCombatClient = scope.ServiceProvider.GetRequiredService<HutaoRoleCombatClient>();
-                if (await roleCombatClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is not { } record)
+                if (await roleCombatClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
                 {
-                    infoBarService.Warning("无有效的演出记录");
-                    return;
+                    HutaoResponse response = await roleCombatClient.UploadRecordAsync(record).ConfigureAwait(false);
+
+                    infoBarService.PrepareInfoBarAndShow(builder =>
+                    {
+                        builder
+                            .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
+                            .SetMessage(response.GetLocalizationMessageOrMessage());
+                    });
                 }
 
-                HutaoResponse response = await roleCombatClient.UploadRecordAsync(record).ConfigureAwait(false);
-
-                infoBarService.PrepareInfoBarAndShow(builder =>
-                {
-                    builder
-                        .SetSeverity(response is { ReturnCode: 0 }
-                            ? InfoBarSeverity.Success
-                            : InfoBarSeverity.Warning)
-                        .SetMessage(response.GetLocalizationMessageOrMessage());
-                });
+                // TODO: Handle no records
             }
         }
         else

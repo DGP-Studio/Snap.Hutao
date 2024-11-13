@@ -11,7 +11,7 @@ internal sealed class RoundView
     {
         FinishTime = DateTimeOffset.FromUnixTimeSeconds(data.FinishTime).ToOffset(offset);
 
-        RoundId = $"第 {data.RoundId} 幕";
+        RoundId = SH.FormatViewModelRoleCombatRound(data.RoundId);
         IsGetMedal = data.IsGetMedal;
         FinishTimeString = $"{FinishTime:yyyy.MM.dd HH:mm:ss}";
         Enemies = data.Enemies.Select(enemy => EnemyView.From(enemy)).ToList();

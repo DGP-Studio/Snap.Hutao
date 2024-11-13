@@ -66,4 +66,9 @@ internal enum WindowsVersion : ushort
     /// 10.0.22621.0
     /// </summary>
     Windows11Version22H2 = 15,
+
+    /// <summary>
+    /// 10.0.26100.0
+    /// </summary>
+    Windows11Version24H2 = 19,
 }

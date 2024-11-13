@@ -26,12 +26,12 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
         Stat = roleCombatData.Stat;
         Difficulty = roleCombatData.Stat.DifficultyId.GetLocalizedDescription();
-        FormattedHeraldry = $"已抵达{Difficulty}{MaxRound}";
+        FormattedHeraldry = SH.FormatViewModelRoleCombatHeraldry(MaxRound);
         BackupAvatars = roleCombatData.Detail.BackupAvatars
             .OrderByDescending(avatar => avatar.AvatarType)
             .ThenByDescending(avatar => avatar.Rarity)
             .ThenByDescending(avatar => avatar.Element)
-            .ThenByDescending(avatar => avatar.AvatarId.Value) // TODO: IdentityStruct IComparable?
+            .ThenByDescending(avatar => avatar.AvatarId.Value)
             .Select(avatar => AvatarView.From(avatar, context.IdAvatarMap[avatar.AvatarId]))
             .ToList();
         Rounds = roleCombatData.Detail.RoundsData.SelectList(r => RoundView.From(r, offset, context));
@@ -84,7 +84,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public List<RoundView> Rounds { get; } = [];
 
-    public string MaxRound { get => Stat is not null ? $"第 {Stat.MaxRoundId} 幕" : default!; }
+    public string MaxRound { get => Stat is not null ? SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId) : default!; }
 
     public int TotalBattleTimes { get; }
 
