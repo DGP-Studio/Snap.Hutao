@@ -67,7 +67,7 @@ internal sealed partial class MinimalPromotionDelta
             Dictionary<MaterialId, Constraint> materialConstraintMap = [];
             foreach (ref readonly ICultivationItemsAccess item in CollectionsMarshal.AsSpan(cultivationItems))
             {
-                foreach (ref readonly MaterialId materialId in CollectionsMarshal.AsSpan(item.CultivationItems))
+                foreach (ref readonly MaterialId materialId in item.CultivationItems.AsSpan())
                 {
                     ref Constraint? constraint = ref CollectionsMarshal.GetValueRefOrAddDefault(materialConstraintMap, materialId, out _);
                     if (constraint is null)
@@ -115,7 +115,7 @@ internal sealed partial class MinimalPromotionDelta
                         AvatarId = avatar.Id,
                         AvatarLevelCurrent = 1,
                         AvatarLevelTarget = 90,
-                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList(skill => new PromotionDelta
+                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents.SelectList(skill => new PromotionDelta
                         {
                             Id = skill.GroupId,
                             LevelCurrent = 1,

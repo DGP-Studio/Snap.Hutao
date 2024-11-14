@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Weapon;
 
@@ -39,11 +40,11 @@ internal sealed partial class Weapon : INameQualityAccess,
 
     public string AwakenIcon { get; set; } = default!;
 
-    public List<WeaponTypeValue> GrowCurves { get; set; } = default!;
+    public ImmutableArray<WeaponTypeValue> GrowCurves { get; set; } = default!;
 
     public NameDescriptions? Affix { get; set; } = default!;
 
-    public List<MaterialId> CultivationItems { get; set; } = default!;
+    public ImmutableArray<MaterialId> CultivationItems { get; set; } = default!;
 
     [JsonIgnore]
     public WeaponCollocationView? CollocationView { get; set; }

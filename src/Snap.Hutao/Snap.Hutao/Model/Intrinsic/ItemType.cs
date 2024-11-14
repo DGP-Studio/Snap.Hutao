@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-/// <summary>
-/// 物品类型
-/// </summary>
-[HighQuality]
 internal enum ItemType
 {
     /// <summary>

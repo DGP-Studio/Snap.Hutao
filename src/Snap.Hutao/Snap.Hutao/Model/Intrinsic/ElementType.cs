@@ -30,7 +30,7 @@ internal enum ElementType
     [LocalizationKey(nameof(SH.ModelIntrinsicElementNameRock))]
     Rock = 8, // 岩元素
     AntiFire = 9, // 燃元素
-    VehicleMuteIce = 10, // 枫丹玩法
+    VehicleMuteIce = 10, // ?
     Mushroom = 11, // 弹弹菇
     Overdose = 12, // 激元素
     Wood = 13, // 木元素

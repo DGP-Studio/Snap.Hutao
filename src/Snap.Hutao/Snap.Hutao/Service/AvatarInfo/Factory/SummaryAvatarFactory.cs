@@ -11,6 +11,7 @@ using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.ViewModel.Wiki;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using System.Collections.Immutable;
 using System.Globalization;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
@@ -51,7 +52,7 @@ internal sealed class SummaryAvatarFactory
             .SetNameCard(AvatarNameCardPicConverter.IconNameToUri(avatar.NameCard.PicturePrefix))
             .SetElement(ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore))
             .SetConstellations(avatar.SkillDepot.Talents, activatedConstellations)
-            .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents(), character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
+            .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents, character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
             .SetFetterLevel(character.Base.Fetter)
             .SetProperties(character.SelectedProperties.SortBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).SelectList(&FightPropertyFormat.ToAvatarProperty))
             .SetLevelNumber(character.Base.Level)
@@ -93,7 +94,7 @@ internal sealed class SummaryAvatarFactory
                     _ => throw HutaoException.NotSupported(),
                 };
 
-                extraLevels.Add(depot.CompositeSkillsNoInherents()[index].Id, extraLevel.Level);
+                extraLevels.Add(depot.CompositeSkillsNoInherents[index].Id, extraLevel.Level);
             }
         }
     }
@@ -102,12 +103,12 @@ internal sealed class SummaryAvatarFactory
     {
         MetadataWeapon metadataWeapon = context.IdWeaponMap[detailedWeapon.Id];
 
-        List<NameValue<string>> baseValues = metadataWeapon.GrowCurves.SelectList(growCurve => BaseValueInfoFormat.ToNameValue(
+        ImmutableArray<NameValue<string>> baseValues = metadataWeapon.GrowCurves.Select(growCurve => BaseValueInfoFormat.ToNameValue(
             PropertyCurveValue.From(growCurve),
             detailedWeapon.Level,
             detailedWeapon.PromoteLevel,
             context.LevelDictionaryWeaponGrowCurveMap,
-            context.IdDictionaryWeaponLevelPromoteMap[metadataWeapon.PromoteId]));
+            context.IdDictionaryWeaponLevelPromoteMap[metadataWeapon.PromoteId])).ToImmutableArray();
 
         return new WeaponViewBuilder()
             .SetName(metadataWeapon.Name)

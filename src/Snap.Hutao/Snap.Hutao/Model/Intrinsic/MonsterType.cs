@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-/// <summary>
-/// 怪物种类
-/// </summary>
-[HighQuality]
 internal enum MonsterType
 {
     MONSTER_NONE = 0,

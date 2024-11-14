@@ -27,11 +27,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     private readonly IImageCacheDownloadOperation downloadOperation;
     private readonly ILogger<ImageCache> logger;
 
-    private string? cacheFolder;
-
     private string CacheFolder
     {
-        get => LazyInitializer.EnsureInitialized(ref cacheFolder, () =>
+        get => LazyInitializer.EnsureInitialized(ref field, () =>
         {
             string folder = HutaoRuntime.GetLocalCacheImageCacheFolder();
             Directory.CreateDirectory(Path.Combine(folder, "Light"));

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Service.Metadata;
@@ -91,7 +92,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
         BaseValueInfo = new(
             Monster.MaxLevel,
-            monster.GrowCurves.SelectList(info => new PropertyCurveValue(info.Type, info.Value, monster.BaseValue.GetValue(info.Type))),
+            monster.GrowCurves.GetPropertyCurveValues(monster.BaseValue),
             metadataContext.LevelDictionaryMonsterGrowCurveMap);
     }
 }

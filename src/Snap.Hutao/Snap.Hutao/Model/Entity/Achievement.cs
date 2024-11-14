@@ -12,9 +12,7 @@ namespace Snap.Hutao.Model.Entity;
 
 [Table("achievements")]
 internal sealed class Achievement : IAppDbEntityHasArchive,
-    IEquatable<Achievement>,
-    IDbMappingForeignKeyFrom<Achievement, AchievementId>,
-    IDbMappingForeignKeyFrom<Achievement, UIAFItem>
+    IEquatable<Achievement>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

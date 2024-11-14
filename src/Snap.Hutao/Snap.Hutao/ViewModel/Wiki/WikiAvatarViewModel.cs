@@ -140,7 +140,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         {
             avatar.CollocationView = hutaoCache.AvatarCollocations.GetValueOrDefault(avatar.Id);
             avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, context.IdMaterialMap);
-            avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default));
+            avatar.CultivationItemsView ??= [.. avatar.CultivationItems.Select(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default))];
         }
     }
 
@@ -216,7 +216,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         BaseValueInfo = new(
             avatar.MaxLevel,
-            avatar.GrowCurves.Select<TypeValue<FightProperty, GrowCurveType>, PropertyCurveValue>(info => new PropertyCurveValue(info.Type, info.Value, avatar.BaseValue.GetValue(info.Type))).ToList(),
+            avatar.GrowCurves.GetPropertyCurveValues(avatar.BaseValue),
             metadataContext.LevelDictionaryAvatarGrowCurveMap,
             metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId]);
     }

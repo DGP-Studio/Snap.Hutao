@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-/// <summary>
-/// 武器类型
-/// </summary>
-[HighQuality]
 [Localization]
 internal enum WeaponType
 {

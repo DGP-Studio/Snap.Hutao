@@ -12,53 +12,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Snap.Hutao.Model.Entity;
 
-/// <summary>
-/// 实时便笺入口
-/// </summary>
-[HighQuality]
 [Table("daily_notes")]
 internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
 {
-    /// <summary>
-    /// 内部Id
-    /// </summary>
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid InnerId { get; set; }
 
-    /// <summary>
-    /// 用户Id
-    /// </summary>
     public Guid UserId { get; set; }
 
-    /// <summary>
-    /// 用户
-    /// </summary>
     [ForeignKey(nameof(UserId))]
     public User User { get; set; } = default!;
 
-    /// <summary>
-    /// Uid
-    /// </summary>
     public string Uid { get; set; } = default!;
 
-    /// <summary>
-    /// 玩家角色
-    /// </summary>
     [NotMapped]
     public UserGameRole? UserGameRole { get; set; }
 
-    /// <summary>
-    /// Json!!! 实时便笺
-    /// </summary>
     public DailyNote? DailyNote { get; set; }
 
     [NotMapped]
     public DailyNoteArchonQuestView ArchonQuestView { get; set; } = default!;
 
-    /// <summary>
-    /// 刷新时间
-    /// </summary>
     public DateTimeOffset RefreshTime { get; set; }
 
     [NotMapped]

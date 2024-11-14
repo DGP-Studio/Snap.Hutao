@@ -2,71 +2,37 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 好感信息
-/// </summary>
-[HighQuality]
 internal sealed class FetterInfo
 {
-    /// <summary>
-    /// 称号
-    /// </summary>
     public string Title { get; set; } = default!;
 
-    /// <summary>
-    /// 详细
-    /// </summary>
     public string Detail { get; set; } = default!;
 
-    /// <summary>
-    /// 地区
-    /// </summary>
     public AssociationType Association { get; set; } = default!;
 
-    /// <summary>
-    /// 属于组织
-    /// </summary>
     public string Native { get; set; } = default!;
 
-    /// <summary>
-    /// 生月
-    /// </summary>
     public uint BirthMonth { get; set; }
 
-    /// <summary>
-    /// 生日
-    /// </summary>
     public uint BirthDay { get; set; }
 
-    /// <summary>
-    /// 格式化的生日日期
-    /// </summary>
+    [JsonIgnore]
     public string BirthFormatted
     {
         get => SH.FormatModelMetadataFetterInfoBirthdayFormat(BirthMonth, BirthDay);
     }
 
-    /// <summary>
-    /// 神之眼属性-前
-    /// </summary>
     public string VisionBefore { get; set; } = default!;
 
-    /// <summary>
-    /// 命座-前
-    /// </summary>
     public string ConstellationBefore { get; set; } = default!;
 
-    /// <summary>
-    /// 命座-后
-    /// </summary>
     public string ConstellationAfter { get; set; } = default!;
 
-    /// <summary>
-    /// 命座
-    /// </summary>
+    [JsonIgnore]
     public string Constellation
     {
         get
@@ -77,38 +43,17 @@ internal sealed class FetterInfo
         }
     }
 
-    /// <summary>
-    /// 中文CV
-    /// </summary>
     public string CvChinese { get; set; } = default!;
 
-    /// <summary>
-    /// 日语CV
-    /// </summary>
     public string CvJapanese { get; set; } = default!;
 
-    /// <summary>
-    /// 英语CV
-    /// </summary>
     public string CvEnglish { get; set; } = default!;
 
-    /// <summary>
-    /// 韩语CV
-    /// </summary>
     public string CvKorean { get; set; } = default!;
 
-    /// <summary>
-    /// 料理
-    /// </summary>
     public CookBonus? CookBonus { get; set; }
 
-    /// <summary>
-    /// 好感语音
-    /// </summary>
-    public IEnumerable<Fetter> Fetters { get; set; } = default!;
+    public ImmutableArray<Fetter> Fetters { get; set; } = default!;
 
-    /// <summary>
-    /// 好感故事
-    /// </summary>
-    public IEnumerable<Fetter> FetterStories { get; set; } = default!;
+    public ImmutableArray<Fetter> FetterStories { get; set; } = default!;
 }

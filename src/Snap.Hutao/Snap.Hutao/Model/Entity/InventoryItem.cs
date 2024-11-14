@@ -7,13 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Snap.Hutao.Model.Entity;
 
-/// <summary>
-/// 背包物品
-/// </summary>
-[HighQuality]
 [Table("inventory_items")]
-internal sealed class InventoryItem : IDbMappingForeignKeyFrom<InventoryItem, uint>,
-    IDbMappingForeignKeyFrom<InventoryItem, uint, uint>
+internal sealed class InventoryItem
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

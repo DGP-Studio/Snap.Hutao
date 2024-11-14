@@ -9,8 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_entries")]
-internal sealed class CultivateEntry : IAppDbEntity,
-    IDbMappingForeignKeyFrom<CultivateEntry, CultivateType, uint>
+internal sealed class CultivateEntry : IAppDbEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

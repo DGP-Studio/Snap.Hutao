@@ -18,7 +18,7 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         AvatarId = avatar.Id;
         LevelMin = 1;
         LevelMax = avatar.MaxLevel;
-        Skills = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList((p, i) => p.ToCalculable((SkillType)i));
+        Skills = avatar.SkillDepot.CompositeSkillsNoInherents.SelectList((p, i) => p.ToCalculable((SkillType)i));
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         Quality = avatar.Quality;

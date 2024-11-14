@@ -14,7 +14,6 @@ internal static class DictionaryExtension
         where TKey : notnull
         where TValue : struct, ISubtractionOperators<TValue, TValue, TValue>
     {
-        // ref the value, so that we can manipulate it outside the dict.
         ref TValue current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
         current -= value;
     }
@@ -30,7 +29,6 @@ internal static class DictionaryExtension
         where TKey : notnull
         where TValue : struct, IAdditionOperators<TValue, TValue, TValue>
     {
-        // ref the value, so that we can manipulate it outside the dict.
         ref TValue current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
         current += value;
     }

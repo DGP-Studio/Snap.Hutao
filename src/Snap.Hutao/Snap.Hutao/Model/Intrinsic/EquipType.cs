@@ -3,15 +3,8 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-/// <summary>
-/// 装备类型
-/// </summary>
-[HighQuality]
 internal enum EquipType
 {
-    /// <summary>
-    /// 无
-    /// </summary>
     EQUIP_NONE = 0,
 
     /// <summary>

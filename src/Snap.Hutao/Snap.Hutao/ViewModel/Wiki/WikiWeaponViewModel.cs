@@ -131,7 +131,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             foreach (Weapon weapon in weapons)
             {
                 weapon.CollocationView = hutaoCache.WeaponCollocations.GetValueOrDefault(weapon.Id);
-                weapon.CultivationItemsView ??= weapon.CultivationItems.SelectList(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default));
+                weapon.CultivationItemsView ??= [.. weapon.CultivationItems.Select(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default))];
             }
         }
     }
@@ -208,7 +208,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         BaseValueInfo = new(
             weapon.MaxLevel,
-            weapon.GrowCurves.SelectList(PropertyCurveValue.From),
+            weapon.GrowCurves.Select(PropertyCurveValue.From).ToImmutableArray(),
             metadataContext.LevelDictionaryWeaponGrowCurveMap,
             metadataContext.IdDictionaryWeaponLevelPromoteMap[weapon.PromoteId]);
     }

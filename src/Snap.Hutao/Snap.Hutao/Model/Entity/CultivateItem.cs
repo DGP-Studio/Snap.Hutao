@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_items")]
-internal sealed class CultivateItem : IDbMappingForeignKeyFrom<CultivateItem, Web.Hoyolab.Takumi.Event.Calculate.Item>
+internal sealed class CultivateItem
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

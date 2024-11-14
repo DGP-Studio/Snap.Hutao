@@ -57,10 +57,6 @@ internal sealed partial class AppDbContext : DbContext
 
     public DbSet<InventoryItem> InventoryItems { get; set; } = default!;
 
-    public DbSet<InventoryWeapon> InventoryWeapons { get; set; } = default!;
-
-    public DbSet<InventoryReliquary> InventoryReliquaries { get; set; } = default!;
-
     public DbSet<SpiralAbyssEntry> SpiralAbysses { get; set; } = default!;
 
     public DbSet<UidProfilePicture> UidProfilePictures { get; set; } = default!;
@@ -88,7 +84,6 @@ internal sealed partial class AppDbContext : DbContext
         modelBuilder
             .ApplyConfiguration(new AvatarInfoConfiguration())
             .ApplyConfiguration(new DailyNoteEntryConfiguration())
-            .ApplyConfiguration(new InventoryReliquaryConfiguration())
             .ApplyConfiguration(new SpiralAbyssEntryConfiguration())
             .ApplyConfiguration(new RoleCombatEntryConfiguration())
             .ApplyConfiguration(new UserConfiguration());

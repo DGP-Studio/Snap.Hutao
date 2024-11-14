@@ -11,9 +11,6 @@ namespace Snap.Hutao.Model.Entity;
 
 [Table("gacha_items")]
 internal sealed class GachaItem
-    : IDbMappingForeignKeyFrom<GachaItem, GachaLogItem, uint>,
-    IDbMappingForeignKeyFrom<GachaItem, Web.Hutao.GachaLog.GachaItem>,
-    IDbMappingForeignKeyFrom<GachaItem, Hk4eItem, int>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

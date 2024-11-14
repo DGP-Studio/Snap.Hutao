@@ -11,6 +11,7 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.ViewModel.Wiki;
+using System.Collections.Immutable;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
@@ -54,9 +55,9 @@ internal partial class Avatar : INameQualityAccess,
 
     public FetterInfo FetterInfo { get; set; } = default!;
 
-    public List<Costume> Costumes { get; set; } = default!;
+    public ImmutableArray<Costume> Costumes { get; set; } = default!;
 
-    public List<MaterialId> CultivationItems { get; set; } = default!;
+    public ImmutableArray<MaterialId> CultivationItems { get; set; } = default!;
 
     public NameCard NameCard { get; set; } = default!;
 

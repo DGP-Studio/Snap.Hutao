@@ -3,9 +3,6 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-/// <summary>
-/// 材料类型
-/// </summary>
 internal enum MaterialType
 {
     MATERIAL_NONE = 0,

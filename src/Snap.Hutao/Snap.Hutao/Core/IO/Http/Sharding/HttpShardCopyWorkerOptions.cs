@@ -13,12 +13,7 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
     private readonly LazySlim<SafeFileHandle> lazyDestinationFileHandle;
 
     private bool isReadOnly;
-    private HttpClient httpClient = default!;
-    private string sourceUrl = default!;
-    private string destinationFilePath = default!;
     private long contentLength;
-    private StreamCopyStatusFactory<TStatus> statusFactory = default!;
-    private int bufferSize = 80 * 1024;
     private int maxDegreeOfParallelism = Environment.ProcessorCount;
 
     public HttpShardCopyWorkerOptions()
@@ -26,35 +21,17 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
         lazyDestinationFileHandle = new(GetFileHandle);
     }
 
-    public HttpClient HttpClient
-    {
-        get => httpClient;
-        set
-        {
-            VerifyMutable();
-            httpClient = value;
-        }
-    }
+    public required HttpClient HttpClient { get; init; }
 
-    public string SourceUrl
-    {
-        get => sourceUrl;
-        set
-        {
-            VerifyMutable();
-            sourceUrl = value;
-        }
-    }
+    public required string SourceUrl { get; init; }
 
-    public string DestinationFilePath
-    {
-        get => destinationFilePath;
-        set
-        {
-            VerifyMutable();
-            destinationFilePath = value;
-        }
-    }
+    public required string DestinationFilePath { get; init; }
+
+    public required StreamCopyStatusFactory<TStatus> StatusFactory { get; init; }
+
+    public int BufferSize { get; init; } = 80 * 1024;
+
+    public int MaxDegreeOfParallelism { get; init; } = Environment.ProcessorCount;
 
     public SafeFileHandle DestinationFileHandle { get => lazyDestinationFileHandle.Value; }
 
@@ -63,38 +40,8 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
         get => contentLength;
         private set
         {
-            VerifyMutable();
+            Verify.Operation(!isReadOnly, "The options is read-only.");
             contentLength = value;
-        }
-    }
-
-    public StreamCopyStatusFactory<TStatus> StatusFactory
-    {
-        get => statusFactory;
-        set
-        {
-            VerifyMutable();
-            statusFactory = value;
-        }
-    }
-
-    public int BufferSize
-    {
-        get => bufferSize;
-        set
-        {
-            VerifyMutable();
-            bufferSize = value;
-        }
-    }
-
-    public int MaxDegreeOfParallelism
-    {
-        get => maxDegreeOfParallelism;
-        set
-        {
-            VerifyMutable();
-            maxDegreeOfParallelism = value;
         }
     }
 
@@ -120,10 +67,5 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
     private SafeFileHandle GetFileHandle()
     {
         return File.OpenHandle(DestinationFilePath, FileMode.Create, FileAccess.Write, FileShare.None, FileOptions.RandomAccess | FileOptions.Asynchronous, ContentLength);
-    }
-
-    private void VerifyMutable()
-    {
-        Verify.Operation(!isReadOnly, "The options is read-only.");
     }
 }

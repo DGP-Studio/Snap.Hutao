@@ -3,17 +3,8 @@
 
 namespace Snap.Hutao.Model.Intrinsic.Format;
 
-/// <summary>
-/// 枚举拓展
-/// </summary>
-[HighQuality]
 internal static class FormatMethodExtension
 {
-    /// <summary>
-    /// 获取枚举的格式化方法
-    /// </summary>
-    /// <param name="value">枚举值</param>
-    /// <returns>描述</returns>
     internal static FormatMethod GetFormatMethod(this FightProperty value)
     {
         return value switch
