@@ -28,10 +28,8 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
     private readonly IQuartzService quartzService;
 
     private bool? isAutoRefreshEnabled;
-    private NameValue<int>? selectedRefreshTime;
     private bool? isReminderNotification;
     private bool? isSilentWhenPlayingGame;
-    private string? webhookUrl;
 
     public List<NameValue<int>> RefreshTimes { get => refreshTimes; }
 
@@ -62,12 +60,12 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public NameValue<int>? SelectedRefreshTime
     {
-        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
+        get => GetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
         set
         {
             if (value is not null)
             {
-                SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, v => $"{v.Value}");
+                SetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, value, v => $"{v.Value}");
                 quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                 {
                     return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(value.Value).RepeatForever());
@@ -90,7 +88,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public string? WebhookUrl
     {
-        get => GetOption(ref webhookUrl, SettingEntry.DailyNoteWebhookUrl);
-        set => SetOption(ref webhookUrl, SettingEntry.DailyNoteWebhookUrl, value);
+        get => GetOption(ref field, SettingEntry.DailyNoteWebhookUrl);
+        set => SetOption(ref field, SettingEntry.DailyNoteWebhookUrl, value);
     }
 }

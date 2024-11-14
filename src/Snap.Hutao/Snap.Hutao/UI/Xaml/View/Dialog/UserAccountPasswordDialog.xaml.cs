@@ -21,17 +21,14 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
 
-    private string? account;
-    private string? password;
-
-    public string? Account { get => account; set => SetProperty(ref account, value); }
+    public string? Account { get; set => SetProperty(ref field, value); }
 
     public string? Password
     {
-        get => password;
+        get;
         set
         {
-            if (SetProperty(ref password, value))
+            if (SetProperty(ref field, value))
             {
                 IsLoginEnabled = !string.IsNullOrEmpty(value);
                 OnPropertyChanged(nameof(IsLoginEnabled));

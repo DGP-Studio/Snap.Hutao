@@ -13,47 +13,22 @@ internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.Vi
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly ITaskContext taskContext;
 
-    private List<AvatarRankView>? avatarUsageRanks;
-    private List<AvatarRankView>? avatarAppearanceRanks;
-    private List<AvatarConstellationInfoView>? avatarConstellationInfos;
-    private List<TeamAppearanceView>? teamAppearances;
-    private Overview? overview;
-    private AvatarRankView? selectedAvatarUsageRank;
-    private AvatarRankView? selectedAvatarAppearanceRank;
-    private TeamAppearanceView? selectedTeamAppearance;
+    public List<AvatarRankView>? AvatarUsageRanks { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// 角色使用率
-    /// </summary>
-    public List<AvatarRankView>? AvatarUsageRanks { get => avatarUsageRanks; set => SetProperty(ref avatarUsageRanks, value); }
+    public AvatarRankView? SelectedAvatarUsageRank { get; set => SetProperty(ref field, value); }
 
-    public AvatarRankView? SelectedAvatarUsageRank { get => selectedAvatarUsageRank; set => SetProperty(ref selectedAvatarUsageRank, value); }
+    public List<AvatarRankView>? AvatarAppearanceRanks { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// 角色上场率
-    /// </summary>
-    public List<AvatarRankView>? AvatarAppearanceRanks { get => avatarAppearanceRanks; set => SetProperty(ref avatarAppearanceRanks, value); }
+    public AvatarRankView? SelectedAvatarAppearanceRank { get; set => SetProperty(ref field, value); }
 
-    public AvatarRankView? SelectedAvatarAppearanceRank { get => selectedAvatarAppearanceRank; set => SetProperty(ref selectedAvatarAppearanceRank, value); }
+    public List<AvatarConstellationInfoView>? AvatarConstellationInfos { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// 角色命座信息
-    /// </summary>
-    public List<AvatarConstellationInfoView>? AvatarConstellationInfos { get => avatarConstellationInfos; set => SetProperty(ref avatarConstellationInfos, value); }
+    public List<TeamAppearanceView>? TeamAppearances { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// 队伍出场
-    /// </summary>
-    public List<TeamAppearanceView>? TeamAppearances { get => teamAppearances; set => SetProperty(ref teamAppearances, value); }
+    public TeamAppearanceView? SelectedTeamAppearance { get; set => SetProperty(ref field, value); }
 
-    public TeamAppearanceView? SelectedTeamAppearance { get => selectedTeamAppearance; set => SetProperty(ref selectedTeamAppearance, value); }
+    public Overview? Overview { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// 总览数据
-    /// </summary>
-    public Overview? Overview { get => overview; set => SetProperty(ref overview, value); }
-
-    /// <inheritdoc/>
     protected override async Task LoadAsync()
     {
         if (await hutaoCache.InitializeForSpiralAbyssViewAsync().ConfigureAwait(false))

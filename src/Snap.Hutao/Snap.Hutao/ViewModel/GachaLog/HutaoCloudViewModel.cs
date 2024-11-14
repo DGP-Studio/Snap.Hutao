@@ -15,9 +15,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 胡桃云服务视图模型
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
@@ -30,21 +27,10 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
 
-    private ObservableCollection<HutaoCloudEntryOperationViewModel>? uidOperations;
+    public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// Uid集合
-    /// </summary>
-    public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get => uidOperations; set => SetProperty(ref uidOperations, value); }
-
-    /// <summary>
-    /// 选项
-    /// </summary>
     public HutaoUserOptions Options { get => options; }
 
-    /// <summary>
-    /// 获取记录命令
-    /// </summary>
     internal ICommand RetrieveCommand { get; set; }
 
     internal async ValueTask<ValueResult<bool, Guid>> RetrieveAsync(string uid)

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
-
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDelegateHandler

@@ -7,9 +7,6 @@ using Snap.Hutao.UI.Xaml.View.Page;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 简化的祈愿记录视图模型
-/// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<GachaLogPage>
@@ -17,14 +14,8 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private List<GachaStatisticsSlim>? statisticsList;
+    public List<GachaStatisticsSlim>? StatisticsList { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// 统计列表
-    /// </summary>
-    public List<GachaStatisticsSlim>? StatisticsList { get => statisticsList; set => SetProperty(ref statisticsList, value); }
-
-    /// <inheritdoc/>
     protected override async Task LoadAsync()
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())

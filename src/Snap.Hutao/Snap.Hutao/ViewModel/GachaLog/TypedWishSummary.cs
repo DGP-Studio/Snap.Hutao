@@ -13,11 +13,6 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [SuppressMessage("", "SA1124")]
 internal sealed partial class TypedWishSummary : Wish
 {
-    private bool isPredictPullAvailable;
-    private int predictedPullLeftToOrange;
-    private double probabilityOfPredictedPullLeftToOrange;
-    private double probabilityOfNextPullIsOrange;
-
     /// <summary>
     /// 类型名称，不受语言影响
     /// </summary>
@@ -94,7 +89,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// <summary>
     /// 抽数预测是否可用
     /// </summary>
-    public bool IsPredictPullAvailable { get => isPredictPullAvailable; set => SetProperty(ref isPredictPullAvailable, value); }
+    public bool IsPredictPullAvailable { get; set => SetProperty(ref field, value); }
 
     /// <summary>
     /// 平均Up五星抽数
@@ -182,10 +177,10 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     internal int PredictedPullLeftToOrange
     {
-        get => predictedPullLeftToOrange;
+        get;
         set
         {
-            predictedPullLeftToOrange = value;
+            field = value;
             OnPropertyChanged(nameof(PredictedPullLeftToOrangeFormatted));
         }
     }
@@ -195,10 +190,10 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     internal double ProbabilityOfPredictedPullLeftToOrange
     {
-        get => probabilityOfPredictedPullLeftToOrange;
+        get;
         set
         {
-            probabilityOfPredictedPullLeftToOrange = value;
+            field = value;
             OnPropertyChanged(nameof(PredictedPullLeftToOrangeFormatted));
         }
     }
@@ -208,12 +203,13 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     internal double ProbabilityOfNextPullIsOrange
     {
-        get => probabilityOfNextPullIsOrange;
+        get;
         set
         {
-            probabilityOfNextPullIsOrange = value;
+            field = value;
             OnPropertyChanged(nameof(ProbabilityOfNextPullIsOrangeFormatted));
         }
     }
+
     #endregion
 }

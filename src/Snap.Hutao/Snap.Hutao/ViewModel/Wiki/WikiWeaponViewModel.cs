@@ -41,24 +41,20 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
-    private AdvancedCollectionView<Weapon>? weapons;
-    private ObservableCollection<SearchToken>? filterTokens;
-    private string? filterToken;
-    private BaseValueInfo? baseValueInfo;
     private WikiWeaponMetadataContext metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public AdvancedCollectionView<Weapon>? Weapons
     {
-        get => weapons;
+        get;
         set
         {
-            if (weapons is not null)
+            if (field is not null)
             {
-                weapons.CurrentChanged -= OnCurrentWeaponChanged;
+                field.CurrentChanged -= OnCurrentWeaponChanged;
             }
 
-            SetProperty(ref weapons, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -67,11 +63,11 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
+    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
-    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+    public string? FilterToken { get; set => SetProperty(ref field, value); }
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 

@@ -22,15 +22,12 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
 
-    private string? mobile;
-    private string? captcha;
-
     public string? Mobile
     {
-        get => mobile;
+        get;
         set
         {
-            if (SetProperty(ref mobile, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 IsSendCaptchaEnabled = MobilePhoneRegex().IsMatch(value);
                 OnPropertyChanged(nameof(IsSendCaptchaEnabled));
@@ -42,10 +39,10 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
 
     public string? Captcha
     {
-        get => captcha;
+        get;
         set
         {
-            if (SetProperty(ref captcha, value))
+            if (SetProperty(ref field, value))
             {
                 IsLoginEnabled = !string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(ActionType);
                 OnPropertyChanged(nameof(IsLoginEnabled));

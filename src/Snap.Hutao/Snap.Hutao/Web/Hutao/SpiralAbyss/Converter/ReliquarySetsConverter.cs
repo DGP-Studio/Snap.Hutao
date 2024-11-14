@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Primitives;
-
 namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Converter;
 
 internal sealed class ReliquarySetsConverter : JsonConverter<ReliquarySets>

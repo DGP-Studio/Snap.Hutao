@@ -111,7 +111,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL GetCursorPos(POINT* lpPoint);
+    public static extern unsafe BOOL GetCursorPos(POINT* lpPoint);
 
     [DebuggerStepThrough]
     public static unsafe BOOL GetCursorPos(out POINT point)
@@ -206,7 +206,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL PostMessageW([Optional]HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam);
+    public static extern BOOL PostMessageW([Optional] HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
@@ -214,7 +214,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern BOOL PtInRect(RECT* lprc, POINT pt);
+    public static extern unsafe BOOL PtInRect(RECT* lprc, POINT pt);
 
     [DebuggerStepThrough]
     public static unsafe BOOL PtInRect(ref readonly RECT rc, POINT pt)

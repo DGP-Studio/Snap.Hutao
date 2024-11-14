@@ -47,13 +47,13 @@ internal sealed partial class SettingDangerousFeatureViewModel : Abstraction.Vie
                     if (await dialog.ConfirmAsync(SH.ViewSettingAllocConsoleHeader).ConfigureAwait(true))
                     {
                         LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, true);
-                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        OnPropertyChanged();
                         return;
                     }
                 }
 
                 LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
-                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                OnPropertyChanged();
             }
         }
     }

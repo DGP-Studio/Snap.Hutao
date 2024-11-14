@@ -19,16 +19,14 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     private readonly LaunchOptions launchOptions;
     private readonly AppOptions appOptions;
 
-    private NameValue<PackageConverterType>? selectedPackageConverterType;
-
     public AppOptions AppOptions { get => appOptions; }
 
     public NameValue<PackageConverterType>? SelectedPackageConverterType
     {
-        get => selectedPackageConverterType ??= AppOptions.PackageConverterTypes.Single(t => t.Value == AppOptions.PackageConverterType);
+        get => field ??= AppOptions.PackageConverterTypes.Single(t => t.Value == AppOptions.PackageConverterType);
         set
         {
-            if (SetProperty(ref selectedPackageConverterType, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 AppOptions.PackageConverterType = value.Value;
             }

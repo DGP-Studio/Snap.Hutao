@@ -15,7 +15,7 @@ internal delegate bool LowLevelInputKeyboardSourceEventHandler(ref readonly KBDL
 
 internal static class LowLevelInputKeyboardSource
 {
-    private static HHOOK keyboard = default!;
+    private static HHOOK keyboard;
 
     public static event LowLevelInputKeyboardSourceEventHandler? KeyDown;
 

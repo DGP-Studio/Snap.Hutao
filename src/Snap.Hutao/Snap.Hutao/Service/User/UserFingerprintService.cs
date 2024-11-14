@@ -101,11 +101,10 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             DeviceFp = string.IsNullOrEmpty(user.Fingerprint) ? Core.Random.GetLowerHexString(13) : user.Fingerprint,
         };
 
-        Response<DeviceFpWrapper> response;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             DeviceFpClient deviceFpClient = scope.ServiceProvider.GetRequiredService<DeviceFpClient>();
-            response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
+            Response<DeviceFpWrapper> response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
 
             bool ok = ResponseValidator.TryValidate(response, scope.ServiceProvider, out DeviceFpWrapper? wrapper);
             user.TryUpdateFingerprint(wrapper?.DeviceFp ?? string.Empty);

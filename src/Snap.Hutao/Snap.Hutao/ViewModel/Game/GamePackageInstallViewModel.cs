@@ -22,9 +22,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private Version? remoteVersion;
-
-    public Version? RemoteVersion { get => remoteVersion; set => SetProperty(ref remoteVersion, value, nameof(RemoteVersionText)); }
+    public Version? RemoteVersion { get; set => SetProperty(ref field, value, nameof(RemoteVersionText)); }
 
     public string RemoteVersionText { get => SH.FormatViewModelGamePackageRemoteVersion(RemoteVersion); }
 

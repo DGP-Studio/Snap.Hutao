@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Response;
 
-internal interface ICommonResponseValidator<TResponse>
+internal interface ICommonResponseValidator<in TResponse>
     where TResponse : ICommonResponse<TResponse>
 {
     bool TryValidate(TResponse response);

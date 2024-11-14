@@ -39,7 +39,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private int installedChunks;
     private int downloadTotalChunks = -1;
     private int installTotalChunks = -1;
-    private bool isFinished;
 
     private string title = SH.UIXamlViewSpecializedSophonProgressDefault;
     private string downloadSpeed = ZeroBytesPerSecondSpeed;
@@ -69,7 +68,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public int InstallTotalChunks { get => installTotalChunks; private set => SetProperty(ref installTotalChunks, value); }
 
-    public bool IsFinished { get => isFinished; private set => SetProperty(ref isFinished, value); }
+    public bool IsFinished { get; private set => SetProperty(ref field, value); }
 
     public void HandleProgressUpdate(GamePackageOperationReport status)
     {

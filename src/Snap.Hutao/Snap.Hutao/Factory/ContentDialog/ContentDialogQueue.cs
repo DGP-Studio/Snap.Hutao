@@ -22,7 +22,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
     private readonly ILogger<ContentDialogQueue> logger;
     private readonly ITaskContext taskContext;
 
-    public bool IsDialogShowing { get => currentWindowReference.Window is not null && field; private set => field = value; }
+    public bool IsDialogShowing { get => currentWindowReference.Window is not null && field; private set; }
 
     public ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {

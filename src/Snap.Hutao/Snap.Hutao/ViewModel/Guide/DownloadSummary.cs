@@ -38,7 +38,6 @@ internal sealed partial class DownloadSummary : ObservableObject
     private readonly IProgress<StreamCopyStatus> progress;
 
     private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
-    private double progressValue;
 
     public DownloadSummary(IServiceProvider serviceProvider, string fileName)
     {
@@ -60,7 +59,7 @@ internal sealed partial class DownloadSummary : ObservableObject
 
     public string Description { get => description; private set => SetProperty(ref description, value); }
 
-    public double ProgressValue { get => progressValue; set => SetProperty(ref progressValue, value); }
+    public double ProgressValue { get; set => SetProperty(ref field, value); }
 
     public async ValueTask<bool> DownloadAndExtractAsync()
     {

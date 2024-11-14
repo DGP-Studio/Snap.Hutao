@@ -13,7 +13,6 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
     private readonly LazySlim<SafeFileHandle> lazyDestinationFileHandle;
 
     private bool isReadOnly;
-    private long contentLength;
     private int maxDegreeOfParallelism = Environment.ProcessorCount;
 
     public HttpShardCopyWorkerOptions()
@@ -37,11 +36,11 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
 
     public long ContentLength
     {
-        get => contentLength;
+        get;
         private set
         {
             Verify.Operation(!isReadOnly, "The options is read-only.");
-            contentLength = value;
+            field = value;
         }
     }
 

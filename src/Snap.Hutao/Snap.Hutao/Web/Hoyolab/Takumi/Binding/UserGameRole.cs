@@ -9,8 +9,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollectionViewItem
 {
-    private string? profilePictureIcon;
-
     [JsonPropertyName("game_biz")]
     public string GameBiz { get; set; } = default!;
 
@@ -44,8 +42,8 @@ internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollecti
     [JsonIgnore]
     public string? ProfilePictureIcon
     {
-        get => profilePictureIcon;
-        set => SetProperty(ref profilePictureIcon, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public static implicit operator PlayerUid(UserGameRole userGameRole)

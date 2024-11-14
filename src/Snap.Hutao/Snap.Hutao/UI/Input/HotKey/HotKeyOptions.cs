@@ -21,7 +21,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private volatile CancellationTokenSource? cancellationTokenSource;
 
     private bool isDisposed;
-    private HotKeyCombination mouseClickRepeatForeverKeyCombination;
 
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
@@ -30,16 +29,12 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             HotKeyPressed = OnHotKeyPressed,
         };
 
-        mouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VIRTUAL_KEY.VK_F8);
+        MouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VIRTUAL_KEY.VK_F8);
     }
 
     public List<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.GetList();
 
-    public HotKeyCombination MouseClickRepeatForeverKeyCombination
-    {
-        get => mouseClickRepeatForeverKeyCombination;
-        set => SetProperty(ref mouseClickRepeatForeverKeyCombination, value);
-    }
+    public HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set => SetProperty(ref field, value); }
 
     public void Dispose()
     {

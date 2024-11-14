@@ -18,21 +18,19 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    private AdvancedCollectionView<Monster>? monsters;
     private WikiMonsterMetadataContext metadataContext;
-    private BaseValueInfo? baseValueInfo;
 
     public AdvancedCollectionView<Monster>? Monsters
     {
-        get => monsters;
+        get;
         set
         {
-            if (monsters is not null)
+            if (field is not null)
             {
-                monsters.CurrentChanged -= OnCurrentMonsterChanged;
+                field.CurrentChanged -= OnCurrentMonsterChanged;
             }
 
-            SetProperty(ref monsters, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -41,7 +39,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
+    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

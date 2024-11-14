@@ -57,8 +57,8 @@ internal sealed partial class CultivationService : ICultivationService
 
                 ModelItem item = entry.Type switch
                 {
-                    CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem<Model.Item>(),
-                    CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem<Model.Item>(),
+                    CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem<ModelItem>(),
+                    CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem<ModelItem>(),
 
                     // TODO: support furniture calc
                     _ => default!,

@@ -34,14 +34,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private AdvancedDbCollectionView<GachaArchive>? archives;
-    private GachaStatistics? statistics;
-    private bool isAggressiveRefresh;
     private bool suppressCurrentItemChangedHandling;
 
     public AdvancedDbCollectionView<GachaArchive>? Archives
     {
-        get => archives;
+        get;
         set
         {
             if (Archives is not null)
@@ -49,7 +46,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 Archives.CurrentChanged -= OnCurrentArchiveChanged;
             }
 
-            SetProperty(ref archives, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -60,17 +57,17 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     public GachaStatistics? Statistics
     {
-        get => statistics;
+        get;
         set
         {
-            if (SetProperty(ref statistics, value))
+            if (SetProperty(ref field, value))
             {
-                statistics?.HistoryWishes.MoveCurrentToFirst();
+                field?.HistoryWishes.MoveCurrentToFirst();
             }
         }
     }
 
-    public bool IsAggressiveRefresh { get => isAggressiveRefresh; set => SetProperty(ref isAggressiveRefresh, value); }
+    public bool IsAggressiveRefresh { get; set => SetProperty(ref field, value); }
 
     public HutaoCloudViewModel HutaoCloudViewModel { get => hutaoCloudViewModel; }
 

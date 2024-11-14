@@ -11,7 +11,6 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
@@ -33,7 +32,6 @@ internal sealed partial class UserViewModel : ObservableObject
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
@@ -206,11 +204,10 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
-        Response<LoginResult> response;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
-            response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
+            Response<LoginResult> response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
 
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
             {

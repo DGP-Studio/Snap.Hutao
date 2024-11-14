@@ -52,11 +52,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
     private bool? hookingOpenTeam;
     private bool? removeOpenTeamProgress;
     private bool? hookingMickyWonderPartner2;
-    private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private bool? usingCloudThirdPartyMobile;
     private bool? isWindowsHDREnabled;
-    private AspectRatio? selectedAspectRatio;
     private bool? usingStarwardPlayTimeStatistics;
     private bool? usingBetterGenshinImpactAutomation;
     private bool? setDiscordActivityWhenPlaying;
@@ -267,7 +265,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
     {
         get
         {
-            return GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
+            return GetOption(ref field, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
 
             static int RestrictIndex(ImmutableArray<NameValue<int>> monitors, string index)
             {
@@ -279,7 +277,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
+                SetOption(ref field, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
@@ -438,10 +436,10 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
 
     public AspectRatio? SelectedAspectRatio
     {
-        get => selectedAspectRatio;
+        get;
         set
         {
-            if (SetProperty(ref selectedAspectRatio, value) && value is { } aspectRatio)
+            if (SetProperty(ref field, value) && value is { } aspectRatio)
             {
                 (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }

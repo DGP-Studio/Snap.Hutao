@@ -43,16 +43,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
-    private AdvancedCollectionView<Avatar>? avatars;
-    private ObservableCollection<SearchToken>? filterTokens;
-    private string? filterToken;
-    private BaseValueInfo? baseValueInfo;
     private WikiAvatarMetadataContext? metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public AdvancedCollectionView<Avatar>? Avatars
     {
-        get => avatars;
+        get;
         set
         {
             if (Avatars is not null)
@@ -60,7 +56,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 Avatars.CurrentChanged -= OnCurrentAvatarChanged;
             }
 
-            SetProperty(ref avatars, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -69,11 +65,11 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
+    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
-    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+    public string? FilterToken { get; set => SetProperty(ref field, value); }
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 

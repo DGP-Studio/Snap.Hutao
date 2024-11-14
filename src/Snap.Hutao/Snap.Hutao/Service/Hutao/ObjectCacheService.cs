@@ -21,7 +21,7 @@ internal abstract partial class ObjectCacheService
     protected async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, bool last, Func<bool, CancellationToken, ValueTask<HutaoResponse<T>>> taskFunc)
         where T : class, new()
     {
-        string key = $"{this.GetType().Name}.Cache.{typeName}.{(last ? "Last" : "Current")}";
+        string key = $"{GetType().Name}.Cache.{typeName}.{(last ? "Last" : "Current")}";
         if (memoryCache.TryGetValue(key, out object? cache))
         {
             T? t = cache as T;

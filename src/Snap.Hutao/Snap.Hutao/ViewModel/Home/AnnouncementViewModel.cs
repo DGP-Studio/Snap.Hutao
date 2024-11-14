@@ -23,20 +23,17 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
-    private AnnouncementWrapper? announcement;
     private string greetingText = SH.ViewPageHomeGreetingTextDefault;
-    private ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? hutaoAnnouncements;
-    private List<CardReference>? cards;
 
-    public AnnouncementWrapper? Announcement { get => announcement; set => SetProperty(ref announcement, value); }
+    public AnnouncementWrapper? Announcement { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get => hutaoAnnouncements; set => SetProperty(ref hutaoAnnouncements, value); }
+    public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get; set => SetProperty(ref field, value); }
 
     public HutaoUserOptions HutaoUserOptions { get => hutaoUserOptions; }
 
     public string GreetingText { get => greetingText; set => SetProperty(ref greetingText, value); }
 
-    public List<CardReference>? Cards { get => cards; set => SetProperty(ref cards, value); }
+    public List<CardReference>? Cards { get; set => SetProperty(ref field, value); }
 
     protected override ValueTask<bool> LoadOverrideAsync()
     {

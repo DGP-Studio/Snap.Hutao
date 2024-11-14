@@ -33,8 +33,6 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
 
-    private UpdateStatus? updateStatus;
-
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
@@ -59,7 +57,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
     }
 
-    public UpdateStatus? UpdateStatus { get => updateStatus; set => SetProperty(ref updateStatus, value); }
+    public UpdateStatus? UpdateStatus { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

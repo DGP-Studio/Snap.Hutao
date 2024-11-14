@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Model.Metadata.Weapon;
 
 [JsonConverter(typeof(WeaponTypeValueCollectionConverter))]
-internal sealed partial class WeaponTypeValueCollection
+internal sealed class WeaponTypeValueCollection
 {
     private readonly SortedDictionary<FightProperty, GrowCurveType> typeValues = [];
     private readonly SortedDictionary<FightProperty, float> typeInitValues = [];

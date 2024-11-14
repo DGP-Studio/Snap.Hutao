@@ -11,20 +11,18 @@ namespace Snap.Hutao.UI.Input.LowLevel;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class LowLevelKeyOptions : ObservableObject
 {
-    private NameValue<VIRTUAL_KEY> webView2VideoPlayPauseKey;
-
     public LowLevelKeyOptions()
     {
         VIRTUAL_KEY key = UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, VIRTUAL_KEY.VK__none_);
-        webView2VideoPlayPauseKey = VirtualKeys.GetList().Single(n => n.Value == key);
+        WebView2VideoPlayPauseKey = VirtualKeys.GetList().Single(n => n.Value == key);
     }
 
     public NameValue<VIRTUAL_KEY> WebView2VideoPlayPauseKey
     {
-        get => webView2VideoPlayPauseKey;
+        get;
         set
         {
-            if (SetProperty(ref webView2VideoPlayPauseKey, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, value.Value);
             }

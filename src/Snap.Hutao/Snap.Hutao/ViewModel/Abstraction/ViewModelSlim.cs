@@ -11,9 +11,8 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 internal abstract partial class ViewModelSlim : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
-    private bool isInitialized;
 
-    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
+    public bool IsInitialized { get; set => SetProperty(ref field, value); }
 
     protected IServiceProvider ServiceProvider { get => serviceProvider; }
 

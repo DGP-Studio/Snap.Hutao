@@ -17,7 +17,7 @@ internal sealed class SkillDepot
 
     public List<Skill> Talents { get; set; } = default!;
 
-    [field:MaybeNull]
+    [field: MaybeNull]
     public List<ProudableSkill> CompositeSkills { get => field ??= [.. Skills, EnergySkill, .. Inherents]; }
 
     // No Inherents && 跳过 替换冲刺的技能

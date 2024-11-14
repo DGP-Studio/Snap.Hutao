@@ -10,9 +10,9 @@ internal static class IgnoredInvalidChannelOptions
 {
     private static readonly FrozenSet<ChannelOptions> InvalidOptions =
     [
-        new ChannelOptions(ChannelType.Bili, SubChannelType.Default, isOversea: true),
-        new ChannelOptions(ChannelType.Bili, SubChannelType.Official, isOversea: true),
-        new ChannelOptions(ChannelType.Official, SubChannelType.Google, isOversea: false),
+        new(ChannelType.Bili, SubChannelType.Default, isOversea: true),
+        new(ChannelType.Bili, SubChannelType.Official, isOversea: true),
+        new(ChannelType.Official, SubChannelType.Google, isOversea: false),
     ];
 
     public static bool Contains(in ChannelOptions options)

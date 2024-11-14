@@ -13,16 +13,14 @@ internal sealed partial class SettingWebViewViewModel : Abstraction.ViewModel
 {
     private readonly AppOptions appOptions;
 
-    private NameValue<BridgeShareSaveType>? selectedShareSaveType;
-
     public AppOptions AppOptions { get => appOptions; }
 
     public NameValue<BridgeShareSaveType>? SelectedShareSaveType
     {
-        get => selectedShareSaveType ??= AppOptions.BridgeShareSaveTypes.Single(t => t.Value == AppOptions.BridgeShareSaveType);
+        get => field ??= AppOptions.BridgeShareSaveTypes.Single(t => t.Value == AppOptions.BridgeShareSaveType);
         set
         {
-            if (SetProperty(ref selectedShareSaveType, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 AppOptions.BridgeShareSaveType = value.Value;
             }

@@ -26,9 +26,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     private readonly IUserService userService;
     private readonly HutaoRoleCombatDatabaseViewModel hutaoRoleCombatDatabaseViewModel;
 
-    private AdvancedCollectionView<RoleCombatView>? roleCombatEntries;
-
-    public AdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get => roleCombatEntries; set => SetProperty(ref roleCombatEntries, value); }
+    public AdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get; set => SetProperty(ref field, value); }
 
     public HutaoRoleCombatDatabaseViewModel HutaoRoleCombatDatabaseViewModel { get => hutaoRoleCombatDatabaseViewModel; }
 

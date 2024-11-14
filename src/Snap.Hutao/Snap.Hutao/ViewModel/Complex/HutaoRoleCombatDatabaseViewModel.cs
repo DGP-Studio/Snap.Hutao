@@ -12,14 +12,10 @@ internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.Vie
     private readonly IHutaoRoleCombatStatisticsCache hutaoCache;
     private readonly ITaskContext taskContext;
 
-    private int recordTotal;
-    private List<AvatarView>? avatarAppearances;
+    public int RecordTotal { get; set => SetProperty(ref field, value); }
 
-    public int RecordTotal { get => recordTotal; set => SetProperty(ref recordTotal, value); }
+    public List<AvatarView>? AvatarAppearances { get; set => SetProperty(ref field, value); }
 
-    public List<AvatarView>? AvatarAppearances { get => avatarAppearances; set => SetProperty(ref avatarAppearances, value); }
-
-    /// <inheritdoc/>
     protected override async Task LoadAsync()
     {
         if (await hutaoCache.InitializeForRoleCombatViewAsync().ConfigureAwait(false))

@@ -31,21 +31,17 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    private string? searchText;
-    private List<AlgoliaHit>? searchResults;
-    private IPInformation? ipInformation;
-
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public HttpProxyUsingSystemProxy DynamicHttpProxy { get => dynamicHttpProxy; }
 
     public LoopbackSupport LoopbackSupport { get => loopbackSupport; }
 
-    public string? SearchText { get => searchText; set => SetProperty(ref searchText, value); }
+    public string? SearchText { get; set => SetProperty(ref field, value); }
 
-    public List<AlgoliaHit>? SearchResults { get => searchResults; set => SetProperty(ref searchResults, value); }
+    public List<AlgoliaHit>? SearchResults { get; set => SetProperty(ref field, value); }
 
-    public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
+    public IPInformation? IPInformation { get; private set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

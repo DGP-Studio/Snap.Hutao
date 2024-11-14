@@ -37,15 +37,13 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private Summary? summary;
-    private ObservableCollection<SearchToken>? filterTokens;
-    private string? filterToken;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public Summary? Summary { get => summary; set => SetProperty(ref summary, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
-    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+    public string? FilterToken { get; set => SetProperty(ref field, value); }
 
     public FrozenDictionary<string, SearchToken> AvailableTokens { get => availableTokens; set => SetProperty(ref availableTokens, value); }
 

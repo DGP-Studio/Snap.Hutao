@@ -19,12 +19,6 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
     private readonly CultureOptions cultureOptions;
     private readonly AppOptions appOptions;
 
-    private NameValue<CultureInfo>? selectedCulture;
-    private NameValue<DayOfWeek>? selectedFirstDayOfWeek;
-    private NameValue<BackdropType>? selectedBackdropType;
-    private NameValue<ElementTheme>? selectedElementTheme;
-    private NameValue<BackgroundImageType>? selectedBackgroundImageType;
-
     public CultureOptions CultureOptions { get => cultureOptions; }
 
     public AppOptions AppOptions { get => appOptions; }
@@ -33,10 +27,10 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
+        get => field ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
-            if (SetProperty(ref selectedCulture, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 CultureOptions.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
@@ -46,10 +40,10 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<DayOfWeek>? SelectedFirstDayOfWeek
     {
-        get => selectedFirstDayOfWeek ??= CultureOptions.DayOfWeeks.FirstOrDefault(d => d.Value == CultureOptions.FirstDayOfWeek);
+        get => field ??= CultureOptions.DayOfWeeks.FirstOrDefault(d => d.Value == CultureOptions.FirstDayOfWeek);
         set
         {
-            if (SetProperty(ref selectedFirstDayOfWeek, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 CultureOptions.FirstDayOfWeek = value.Value;
             }
@@ -58,10 +52,10 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<BackdropType>? SelectedBackdropType
     {
-        get => selectedBackdropType ??= AppOptions.BackdropTypes.Single(t => t.Value == AppOptions.BackdropType);
+        get => field ??= AppOptions.BackdropTypes.Single(t => t.Value == AppOptions.BackdropType);
         set
         {
-            if (SetProperty(ref selectedBackdropType, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 AppOptions.BackdropType = value.Value;
             }
@@ -70,10 +64,10 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<ElementTheme>? SelectedElementTheme
     {
-        get => selectedElementTheme ??= AppOptions.LazyElementThemes.Value.Single(t => t.Value == AppOptions.ElementTheme);
+        get => field ??= AppOptions.LazyElementThemes.Value.Single(t => t.Value == AppOptions.ElementTheme);
         set
         {
-            if (SetProperty(ref selectedElementTheme, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 AppOptions.ElementTheme = value.Value;
             }
@@ -82,10 +76,10 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 
     public NameValue<BackgroundImageType>? SelectedBackgroundImageType
     {
-        get => selectedBackgroundImageType ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType);
+        get => field ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType);
         set
         {
-            if (SetProperty(ref selectedBackgroundImageType, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 AppOptions.BackgroundImageType = value.Value;
             }

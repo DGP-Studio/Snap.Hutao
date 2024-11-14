@@ -32,9 +32,6 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly AppOptions appOptions;
 
-    private AdvancedDbCollectionView<User.User, Model.Entity.User>? users;
-    private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
-
     public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
@@ -43,9 +40,9 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public IJSBridgeUriSourceProvider VerifyUrlSource { get; } = new DailyJSBridgeUriSourceProvider();
 
-    public AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get => users; set => SetProperty(ref users, value); }
+    public AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
+    public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

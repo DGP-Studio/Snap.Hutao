@@ -34,12 +34,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly HutaoSpiralAbyssDatabaseViewModel hutaoSpiralAbyssDatabaseViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
 
-    private AdvancedCollectionView<SpiralAbyssView>? spiralAbyssEntries;
-
-    /// <summary>
-    /// 深渊记录
-    /// </summary>
-    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries { get => spiralAbyssEntries; set => SetProperty(ref spiralAbyssEntries, value); }
+    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries { get; set => SetProperty(ref field, value); }
 
     public HutaoSpiralAbyssDatabaseViewModel HutaoSpiralAbyssDatabaseViewModel { get => hutaoSpiralAbyssDatabaseViewModel; }
 

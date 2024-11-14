@@ -35,26 +35,20 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private readonly AchievementViewModelScopeContext scopeContext;
 
-    private AdvancedCollectionView<AchievementView>? achievements;
-    private AdvancedCollectionView<AchievementGoalView>? achievementGoals;
-    private IAdvancedDbCollectionView<EntityArchive>? archives;
-
     private bool isUncompletedItemsFirst = true;
-    private bool filterDailyQuestItems;
     private string searchText = string.Empty;
-    private string? finishDescription;
 
     public IAdvancedDbCollectionView<EntityArchive>? Archives
     {
-        get => archives;
+        get;
         set
         {
-            if (archives is not null)
+            if (field is not null)
             {
-                archives.CurrentChanged -= OnCurrentArchiveChanged;
+                field.CurrentChanged -= OnCurrentArchiveChanged;
             }
 
-            SetProperty(ref archives, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -63,23 +57,19 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public AdvancedCollectionView<AchievementView>? Achievements
-    {
-        get => achievements;
-        set => SetProperty(ref achievements, value);
-    }
+    public AdvancedCollectionView<AchievementView>? Achievements { get; set => SetProperty(ref field, value); }
 
     public AdvancedCollectionView<AchievementGoalView>? AchievementGoals
     {
-        get => achievementGoals;
+        get;
         set
         {
-            if (achievementGoals is not null)
+            if (field is not null)
             {
-                achievementGoals.CurrentChanged -= OnCurrentAchievementGoalChanged;
+                field.CurrentChanged -= OnCurrentAchievementGoalChanged;
             }
 
-            SetProperty(ref achievementGoals, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -100,19 +90,10 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         set => SetProperty(ref isUncompletedItemsFirst, value);
     }
 
-    public bool FilterDailyQuestItems
-    {
-        get => filterDailyQuestItems;
-        set => SetProperty(ref filterDailyQuestItems, value);
-    }
+    public bool FilterDailyQuestItems { get; set => SetProperty(ref field, value); }
 
-    public string? FinishDescription
-    {
-        get => finishDescription;
-        set => SetProperty(ref finishDescription, value);
-    }
+    public string? FinishDescription { get; set => SetProperty(ref field, value); }
 
-    /// <inheritdoc/>
     public async ValueTask<bool> ReceiveAsync(INavigationData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))

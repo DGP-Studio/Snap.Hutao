@@ -10,41 +10,30 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
     private const bool T = true;
     private const bool F = false;
 
-    private bool canInputTargetFov;
-    private bool canToggleSetFovHotSwitch;
-    private bool canToggleSetFovColdSwitch;
-    private bool canToggleFixLowFovHotSwitch;
-    private bool canToggleDisableFogHotSwitch;
-    private bool canToggleTeamHotSwitch;
-    private bool canToggleTeamColdSwitch;
-    private bool canToggleLetMeInColdSwitch;
-    private bool canInputTargetFps;
-    private bool canToggleSetFpsHotSwitch;
-
     public LaunchOptionsIslandFeatureStateMachine(LaunchOptions options)
     {
         Update(options);
     }
 
-    public bool CanInputTargetFov { get => canInputTargetFov; set => SetProperty(ref canInputTargetFov, value); }
+    public bool CanInputTargetFov { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleSetFovHotSwitch { get => canToggleSetFovHotSwitch; set => SetProperty(ref canToggleSetFovHotSwitch, value); }
+    public bool CanToggleSetFovHotSwitch { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleSetFovColdSwitch { get => canToggleSetFovColdSwitch; set => SetProperty(ref canToggleSetFovColdSwitch, value); }
+    public bool CanToggleSetFovColdSwitch { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleFixLowFovHotSwitch { get => canToggleFixLowFovHotSwitch; set => SetProperty(ref canToggleFixLowFovHotSwitch, value); }
+    public bool CanToggleFixLowFovHotSwitch { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleDisableFogHotSwitch { get => canToggleDisableFogHotSwitch; set => SetProperty(ref canToggleDisableFogHotSwitch, value); }
+    public bool CanToggleDisableFogHotSwitch { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleTeamHotSwitch { get => canToggleTeamHotSwitch; set => SetProperty(ref canToggleTeamHotSwitch, value); }
+    public bool CanToggleTeamHotSwitch { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleTeamColdSwitch { get => canToggleTeamColdSwitch; set => SetProperty(ref canToggleTeamColdSwitch, value); }
+    public bool CanToggleTeamColdSwitch { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleLetMeInColdSwitch { get => canToggleLetMeInColdSwitch; set => SetProperty(ref canToggleLetMeInColdSwitch, value); }
+    public bool CanToggleLetMeInColdSwitch { get; set => SetProperty(ref field, value); }
 
-    public bool CanInputTargetFps { get => canInputTargetFps; set => SetProperty(ref canInputTargetFps, value); }
+    public bool CanInputTargetFps { get; set => SetProperty(ref field, value); }
 
-    public bool CanToggleSetFpsHotSwitch { get => canToggleSetFpsHotSwitch; set => SetProperty(ref canToggleSetFpsHotSwitch, value); }
+    public bool CanToggleSetFpsHotSwitch { get; set => SetProperty(ref field, value); }
 
     public void Update(LaunchOptions options)
     {

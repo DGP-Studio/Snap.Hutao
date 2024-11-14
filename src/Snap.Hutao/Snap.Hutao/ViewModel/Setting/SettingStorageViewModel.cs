@@ -24,12 +24,9 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private SettingFolderViewModel? cacheFolderView;
-    private SettingFolderViewModel? dataFolderView;
+    public SettingFolderViewModel? CacheFolderView { get; set => SetProperty(ref field, value); }
 
-    public SettingFolderViewModel? CacheFolderView { get => cacheFolderView; set => SetProperty(ref cacheFolderView, value); }
-
-    public SettingFolderViewModel? DataFolderView { get => dataFolderView; set => SetProperty(ref dataFolderView, value); }
+    public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
     [Command("OpenBackgroundImageFolderCommand")]
     private static async Task OpenBackgroundImageFolderAsync()

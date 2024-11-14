@@ -23,8 +23,8 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     private readonly Window window;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
-    private SUBCLASSPROC windowProc = default!;
-    private GCHandle unmanagedAccess = default!;
+    private SUBCLASSPROC windowProc;
+    private GCHandle unmanagedAccess;
 
     public XamlWindowSubclass(Window window)
     {

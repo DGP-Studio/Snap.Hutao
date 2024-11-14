@@ -40,13 +40,13 @@ internal static class IntrinsicFrozen
 
     public static FrozenSet<NameValue<int>> ElementNameValues { get; } =
     [
-        new NameValue<int>(SH.ModelIntrinsicElementNameFire, 1),
-        new NameValue<int>(SH.ModelIntrinsicElementNameWater, 2),
-        new NameValue<int>(SH.ModelIntrinsicElementNameGrass, 3),
-        new NameValue<int>(SH.ModelIntrinsicElementNameElec, 4),
-        new NameValue<int>(SH.ModelIntrinsicElementNameWind, 5),
-        new NameValue<int>(SH.ModelIntrinsicElementNameIce, 6),
-        new NameValue<int>(SH.ModelIntrinsicElementNameRock, 7),
+        new(SH.ModelIntrinsicElementNameFire, 1),
+        new(SH.ModelIntrinsicElementNameWater, 2),
+        new(SH.ModelIntrinsicElementNameGrass, 3),
+        new(SH.ModelIntrinsicElementNameElec, 4),
+        new(SH.ModelIntrinsicElementNameWind, 5),
+        new(SH.ModelIntrinsicElementNameIce, 6),
+        new(SH.ModelIntrinsicElementNameRock, 7),
     ];
 
     public static FrozenSet<string> MaterialTypeDescriptions { get; } =

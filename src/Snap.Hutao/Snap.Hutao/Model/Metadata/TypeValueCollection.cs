@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Model.Metadata;
 
 [JsonConverter(typeof(TypeValueCollectionConverter))]
-internal sealed partial class TypeValueCollection<TType, TValue>
+internal sealed class TypeValueCollection<TType, TValue>
     where TType : notnull
 {
     private readonly SortedDictionary<TType, TValue> typeValues = [];

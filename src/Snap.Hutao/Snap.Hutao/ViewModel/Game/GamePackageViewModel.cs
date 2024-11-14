@@ -22,22 +22,16 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
-    private GameBranch? gameBranch;
-    private LaunchScheme? launchScheme;
-    private Version? localVersion;
-    private Version? remoteVersion;
-    private Version? preVersion;
+    public GameBranch? GameBranch { get; set => SetProperty(ref field, value); }
 
-    public GameBranch? GameBranch { get => gameBranch; set => SetProperty(ref gameBranch, value); }
-
-    public LaunchScheme? LaunchScheme { get => launchScheme; set => SetProperty(ref launchScheme, value); }
+    public LaunchScheme? LaunchScheme { get; set => SetProperty(ref field, value); }
 
     public Version? LocalVersion
     {
-        get => localVersion;
+        get;
         set
         {
-            if (SetProperty(ref localVersion, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(LocalVersionText));
                 OnPropertyChanged(nameof(IsUpdateAvailable));
@@ -47,10 +41,10 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public Version? RemoteVersion
     {
-        get => remoteVersion;
+        get;
         set
         {
-            if (SetProperty(ref remoteVersion, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(RemoteVersionText));
                 OnPropertyChanged(nameof(IsUpdateAvailable));
@@ -60,10 +54,10 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public Version? PreVersion
     {
-        get => preVersion;
+        get;
         set
         {
-            if (SetProperty(ref preVersion, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(PreDownloadTitle));
                 OnPropertyChanged(nameof(IsPredownloadButtonEnabled));

@@ -43,11 +43,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
-    private AdvancedCollectionView<GameAccount>? gameAccountsView;
-    private GamePackage? gamePackage;
-    private bool gamePathSelectedAndValid;
     private ImmutableArray<GamePathEntry> gamePathEntries = [];
-    private GamePathEntry? selectedGamePathEntry;
     private GameAccountFilter? gameAccountFilter;
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
@@ -72,11 +68,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         set => SetSelectedSchemeAsync(value).SafeForget(logger);
     }
 
-    public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
+    public AdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
-    public GamePackage? GamePackage { get => gamePackage; set => SetProperty(ref gamePackage, value); }
+    public GamePackage? GamePackage { get; set => SetProperty(ref field, value); }
 
     /// <summary>
     /// Update this property will also:
@@ -89,10 +85,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public bool GamePathSelectedAndValid
     {
-        get => gamePathSelectedAndValid;
+        get;
         set
         {
-            if (SetProperty(ref gamePathSelectedAndValid, value) && value)
+            if (SetProperty(ref field, value) && value)
             {
                 RefreshUIAsync().SafeForget(logger);
             }
@@ -142,10 +138,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public GamePathEntry? SelectedGamePathEntry
     {
-        get => selectedGamePathEntry;
+        get;
         set
         {
-            if (!SetProperty(ref selectedGamePathEntry, value))
+            if (!SetProperty(ref field, value))
             {
                 return;
             }

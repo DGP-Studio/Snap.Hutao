@@ -14,12 +14,12 @@ internal sealed class RoundView
         RoundId = SH.FormatViewModelRoleCombatRound(data.RoundId);
         IsGetMedal = data.IsGetMedal;
         FinishTimeString = $"{FinishTime:yyyy.MM.dd HH:mm:ss}";
-        Enemies = data.Enemies.Select(enemy => EnemyView.From(enemy)).ToList();
+        Enemies = data.Enemies.Select(EnemyView.From).ToList();
         Avatars = data.Avatars.Select(avatar => AvatarView.From(avatar, context.IdAvatarMap[avatar.AvatarId])).ToList();
-        Buffs = data.Buffs.Select(buff => BuffView.From(buff)).ToList();
-        ChoiceCards = data.ChoiceCards.Select(buff => BuffView.From(buff)).ToList();
+        Buffs = data.Buffs.Select(BuffView.From).ToList();
+        ChoiceCards = data.ChoiceCards.Select(BuffView.From).ToList();
         SplendourSummary = data.SplendourBuff.Summary.Description;
-        SplendourBuffs = data.SplendourBuff.Buffs.Select(b => SplendourBuffView.From(b)).ToList();
+        SplendourBuffs = data.SplendourBuff.Buffs.Select(SplendourBuffView.From).ToList();
     }
 
     public string RoundId { get; set; }

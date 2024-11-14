@@ -28,7 +28,6 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     private readonly TypedEventHandler<NavigationView, object> paneClosedEventHandler;
 
     private Frame? frame;
-    private NavigationView? navigationView;
     private NavigationViewItem? selected;
 
     public NavigationService(IServiceProvider serviceProvider)
@@ -47,29 +46,29 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
 
     private NavigationView? NavigationView
     {
-        get => navigationView;
+        get;
 
         set
         {
             // remove old listener
-            if (navigationView is not null)
+            if (field is not null)
             {
-                navigationView.ItemInvoked -= itemInvokedEventHandler;
-                navigationView.BackRequested -= backRequestedEventHandler;
-                navigationView.PaneClosed -= paneOpenedEventHandler;
-                navigationView.PaneOpened -= paneClosedEventHandler;
+                field.ItemInvoked -= itemInvokedEventHandler;
+                field.BackRequested -= backRequestedEventHandler;
+                field.PaneClosed -= paneOpenedEventHandler;
+                field.PaneOpened -= paneClosedEventHandler;
             }
 
             ArgumentNullException.ThrowIfNull(value);
-            navigationView = value;
+            field = value;
 
             // add new listener
-            if (navigationView is not null)
+            if (field is not null)
             {
-                navigationView.ItemInvoked += itemInvokedEventHandler;
-                navigationView.BackRequested += backRequestedEventHandler;
-                navigationView.PaneClosed += paneOpenedEventHandler;
-                navigationView.PaneOpened += paneClosedEventHandler;
+                field.ItemInvoked += itemInvokedEventHandler;
+                field.BackRequested += backRequestedEventHandler;
+                field.PaneClosed += paneOpenedEventHandler;
+                field.PaneOpened += paneClosedEventHandler;
             }
         }
     }

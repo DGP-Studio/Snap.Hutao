@@ -12,9 +12,7 @@ internal sealed partial class WishCountdownViewModel : Abstraction.ViewModelSlim
     private readonly IGachaLogWishCountdownService gachaLogWishCountdownService;
     private readonly ITaskContext taskContext;
 
-    private WishCountdowns? wishCountdowns;
-
-    public WishCountdowns? WishCountdowns { get => wishCountdowns; set => SetProperty(ref wishCountdowns, value); }
+    public WishCountdowns? WishCountdowns { get; set => SetProperty(ref field, value); }
 
     protected override async Task LoadAsync()
     {

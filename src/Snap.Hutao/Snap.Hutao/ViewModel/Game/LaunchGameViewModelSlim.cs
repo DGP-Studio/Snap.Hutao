@@ -25,7 +25,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
-    private AdvancedCollectionView<GameAccount>? gameAccountsView;
     private GameAccountFilter? gameAccountFilter;
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
@@ -34,7 +33,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
 
-    public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
+    public AdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 

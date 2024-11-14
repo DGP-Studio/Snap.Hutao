@@ -40,8 +40,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
 
     public IWebProxy InnerProxy
     {
-        get => field;
-
+        get;
         set
         {
             if (ReferenceEquals(field, value))
