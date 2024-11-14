@@ -15,6 +15,7 @@ using System.Collections.Frozen;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Net.Mime;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
@@ -22,8 +23,8 @@ internal sealed partial class DownloadSummary : ObservableObject
 {
     private static readonly FrozenSet<string?> AllowedMediaTypes =
     [
-        "application/octet-stream",
-        "application/zip",
+        MediaTypeNames.Application.Octet,
+        MediaTypeNames.Application.Zip,
     ];
 
     private readonly IServiceProvider serviceProvider;

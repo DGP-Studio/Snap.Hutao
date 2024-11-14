@@ -59,7 +59,7 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
     {
         byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(content, contentType, JsonSerializerOptions);
         ByteArrayContent httpContent = new(bytes);
-        MediaTypeHeaderValue contentTypeHeader = new(MediaType.ApplicationJson)
+        MediaTypeHeaderValue contentTypeHeader = new(MediaTypeNames.Application.Json)
         {
             CharSet = Encoding.UTF8.WebName,
         };
@@ -71,6 +71,6 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
     private StringContent? SerializeOtherEncoding(object? content, Type contentType, Encoding encoding)
     {
         string str = JsonSerializer.Serialize(content, contentType, JsonSerializerOptions);
-        return new StringContent(str, encoding, MediaType.ApplicationJson);
+        return new StringContent(str, encoding, MediaTypeNames.Application.Json);
     }
 }
