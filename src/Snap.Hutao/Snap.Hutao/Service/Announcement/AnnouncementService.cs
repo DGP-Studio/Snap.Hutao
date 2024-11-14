@@ -18,21 +18,51 @@ namespace Snap.Hutao.Service.Announcement;
 [Injection(InjectAs.Scoped, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
 {
-    private const string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
-
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<AnnouncementService> logger;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
 
-    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken cancellationToken = default)
+    [GeneratedRegex("(\\d\\.\\d)")]
+    private static partial Regex VersionRegex { get; }
+
+    public Task<AnnouncementWrapper?> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default)
     {
-        // 缓存中存在记录，直接返回
-        if (memoryCache.TryGetRequiredValue($"{CacheKey}.{languageCode}.{region}", out AnnouncementWrapper? cache))
+        return memoryCache.GetOrCreateAsync($"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}.{languageCode}.{region}", entry =>
         {
-            return cache;
+            entry.SetSlidingExpiration(TimeSpan.FromMinutes(30L));
+            return PrivateGetAnnouncementWrapperAsync(languageCode, region, token);
+        });
+    }
+
+    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
+    {
+        // 将公告内容联入公告列表
+        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
+        {
+            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            {
+                item.Content = contentMap.GetValueOrDefault(item.AnnId, string.Empty);
+            }
         }
 
+        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
+        {
+            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            {
+                item.Subtitle = new StringBuilder(item.Subtitle)
+                    .Replace("\r<br>", string.Empty)
+                    .Replace("<br />", string.Empty)
+                    .ToString();
+                item.Content = AnnouncementRegex
+                    .XmlTimeTagRegex()
+                    .Replace(item.Content, x => x.Groups[1].Value);
+            }
+        }
+    }
+
+    private async Task<AnnouncementWrapper> PrivateGetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken cancellationToken = default)
+    {
         await taskContext.SwitchToBackgroundAsync();
 
         List<AnnouncementContent>? contents;
@@ -76,37 +106,8 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         {
         }
 
-        return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
+        return wrapper;
     }
-
-    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
-    {
-        // 将公告内容联入公告列表
-        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
-        {
-            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
-            {
-                item.Content = contentMap.GetValueOrDefault(item.AnnId, string.Empty);
-            }
-        }
-
-        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
-        {
-            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
-            {
-                item.Subtitle = new StringBuilder(item.Subtitle)
-                    .Replace("\r<br>", string.Empty)
-                    .Replace("<br />", string.Empty)
-                    .ToString();
-                item.Content = AnnouncementRegex
-                    .XmlTimeTagRegex()
-                    .Replace(item.Content, x => x.Groups[1].Value);
-            }
-        }
-    }
-
-    [GeneratedRegex("(\\d\\.\\d)")]
-    private static partial Regex VersionRegex();
 
     private async ValueTask AdjustAnnouncementTimeAsync(List<AnnouncementListWrapper> announcementListWrappers, TimeSpan offset)
     {
@@ -134,7 +135,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         {
             string time = await AnnouncementHtmlVisitor.VisitAnnouncementAsync(context, versionUpdate.Content).ConfigureAwait(false);
             DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(time, offset);
-            versionStartTimes.TryAdd(VersionRegex().Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
+            versionStartTimes.TryAdd(VersionRegex.Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
         }
 
         // 更新预告
@@ -146,7 +147,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             }
 
             DateTimeOffset versionUpdatePreviewTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdatePreviewMatch.Groups[1].ValueSpan, offset);
-            versionStartTimes.TryAdd(VersionRegex().Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
+            versionStartTimes.TryAdd(VersionRegex.Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
         }
 
         foreach (WebAnnouncement announcement in activities)
@@ -179,7 +180,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
             DateTimeOffset ParseTime(string text)
             {
-                if (VersionRegex().Match(text) is { Success: true } version)
+                if (VersionRegex.Match(text) is { Success: true } version)
                 {
                     if (versionStartTimes.TryGetValue(version.Groups[1].Value, out DateTimeOffset versionStartTime))
                     {

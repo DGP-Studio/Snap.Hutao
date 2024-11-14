@@ -12,5 +12,5 @@ namespace Snap.Hutao.Service.Announcement;
 [HighQuality]
 internal interface IAnnouncementService
 {
-    ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default);
+    Task<AnnouncementWrapper?> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default);
 }

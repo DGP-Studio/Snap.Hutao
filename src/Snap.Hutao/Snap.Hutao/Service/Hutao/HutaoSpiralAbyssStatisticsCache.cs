@@ -51,7 +51,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             ImmutableDictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
-            List<Task> tasks =
+            ReadOnlySpan<Task> tasks =
             [
                 AvatarAppearanceRankAsync(idAvatarMap),
                 AvatarUsageRanksAsync(idAvatarMap),
