@@ -9,7 +9,7 @@ internal sealed class UIIF
 {
     public const string CurrentVersion = "v1.0";
 
-    private static readonly FrozenSet<string> SupportedVersion = FrozenSet.ToFrozenSet([CurrentVersion]);
+    private static readonly FrozenSet<string> SupportedVersion = [CurrentVersion];
 
     [JsonPropertyName("info")]
     public UIIFInfo Info { get; set; } = default!;

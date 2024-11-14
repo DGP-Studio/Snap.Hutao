@@ -16,7 +16,7 @@ internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, 
 
     public JsonExtensionDataDictionary(ReadOnlySpan<string> ignoredKeys)
     {
-        this.ignoredKeys = FrozenSet.ToFrozenSet(ignoredKeys.ToArray());
+        this.ignoredKeys = [.. ignoredKeys];
     }
 
     public ICollection<string> Keys

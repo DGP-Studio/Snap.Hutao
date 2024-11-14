@@ -9,7 +9,7 @@ internal sealed class UIAF
 {
     public const string CurrentVersion = "v1.1";
 
-    private static readonly FrozenSet<string> SupportedVersion = FrozenSet.ToFrozenSet([CurrentVersion]);
+    private static readonly FrozenSet<string> SupportedVersion = [CurrentVersion];
 
     [JsonRequired]
     [JsonPropertyName("info")]

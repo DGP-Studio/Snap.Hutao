@@ -14,12 +14,12 @@ internal static class GachaLog
     /// <summary>
     /// 查询类型
     /// </summary>
-    public static readonly FrozenSet<GachaType> QueryTypes = FrozenSet.ToFrozenSet(
+    public static readonly FrozenSet<GachaType> QueryTypes =
     [
         GachaType.NewBie,
         GachaType.Standard,
         GachaType.ActivityAvatar,
         GachaType.ActivityWeapon,
         GachaType.ActivityCity,
-    ]);
+    ];
 }

@@ -23,7 +23,7 @@ internal static class WeaponIds
     public static readonly WeaponId BowDvalin = 15501;
     public static readonly WeaponId BowAmos = 15502;
 
-    private static readonly FrozenSet<WeaponId> StandardWishIds = FrozenSet.ToFrozenSet(
+    private static readonly FrozenSet<WeaponId> StandardWishIds =
     [
         SwordFalcon,
         SwordDvalin,
@@ -35,7 +35,7 @@ internal static class WeaponIds
         CatalystFourwinds,
         BowDvalin,
         BowAmos,
-    ]);
+    ];
 
     public static bool IsStandardWish(in WeaponId weaponId)
     {

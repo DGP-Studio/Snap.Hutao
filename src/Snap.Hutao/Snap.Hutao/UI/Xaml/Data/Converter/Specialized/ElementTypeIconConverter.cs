@@ -10,6 +10,6 @@ internal sealed partial class ElementTypeIconConverter : ValueConverter<ElementT
 {
     public override Uri Convert(ElementType from)
     {
-        return ElementNameIconConverter.ElementNameToIconUri(from.GetLocalizedDescription());
+        return ElementNameIconConverter.ElementNameToUri(from.GetLocalizedDescription());
     }
 }

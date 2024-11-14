@@ -106,7 +106,7 @@ internal static class AvatarIds
     public static readonly AvatarId Mualani = 10000102;
     public static readonly AvatarId Xilonen = 10000103;
 
-    private static readonly FrozenSet<AvatarId> StandardWishIds = FrozenSet.ToFrozenSet(
+    private static readonly FrozenSet<AvatarId> StandardWishIds =
     [
         Qin,
         Diluc,
@@ -119,7 +119,7 @@ internal static class AvatarIds
         Ambor,
         Kaeya,
         Aloy,
-    ]);
+    ];
 
     public static bool IsStandardWish(in AvatarId avatarId)
     {

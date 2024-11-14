@@ -20,7 +20,7 @@ internal sealed class RotationalMaterialIdEntry
         Blue = blue;
         Green = green;
 
-        idSet = FrozenSet.ToFrozenSet([green, blue, purple, orange]);
+        idSet = [green, blue, purple, orange];
     }
 
     public RotationalMaterialIdEntry(DaysOfWeek daysOfWeek, MaterialId green, MaterialId blue, MaterialId purple)
@@ -30,7 +30,7 @@ internal sealed class RotationalMaterialIdEntry
         Blue = blue;
         Green = green;
 
-        idSet = FrozenSet.ToFrozenSet([green, blue, purple]);
+        idSet = [green, blue, purple];
     }
 
     public DaysOfWeek DaysOfWeek { get; }
