@@ -9,21 +9,21 @@ namespace Snap.Hutao.Model.Metadata;
 internal sealed partial class TypeValueCollection<TType, TValue>
     where TType : notnull
 {
-    private readonly SortedDictionary<TType, TValue> inner = [];
+    private readonly SortedDictionary<TType, TValue> typeValues = [];
 
     public TypeValueCollection(ImmutableArray<TypeValue<TType, TValue>> entries)
     {
         foreach (ref readonly TypeValue<TType, TValue> entry in entries.AsSpan())
         {
-            inner.Add(entry.Type, entry.Value);
+            typeValues.Add(entry.Type, entry.Value);
         }
     }
 
-    internal SortedDictionary<TType, TValue> Inner { get => inner; }
+    internal IReadOnlyDictionary<TType, TValue> TypeValues { get => typeValues; }
 
     public TValue? GetValueOrDefault(TType type)
     {
-        inner.TryGetValue(type, out TValue? value);
+        typeValues.TryGetValue(type, out TValue? value);
         return value;
     }
 }

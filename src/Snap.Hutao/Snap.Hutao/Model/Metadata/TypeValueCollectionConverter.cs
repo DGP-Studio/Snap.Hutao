@@ -24,12 +24,12 @@ internal sealed class TypeValueCollectionConverter : JsonConverterFactory
     {
         public override TypeValueCollection<TType, TValue>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return new TypeValueCollection<TType, TValue>(JsonSerializer.Deserialize<ImmutableArray<TypeValue<TType, TValue>>>(ref reader, options));
+            return new(JsonSerializer.Deserialize<ImmutableArray<TypeValue<TType, TValue>>>(ref reader, options));
         }
 
         public override void Write(Utf8JsonWriter writer, TypeValueCollection<TType, TValue> value, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, value.Inner, options);
+            JsonSerializer.Serialize(writer, value.TypeValues, options);
         }
     }
 }
