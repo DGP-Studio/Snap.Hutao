@@ -68,7 +68,7 @@ internal partial class Avatar : INameQualityAccess,
     public CookBonusView? CookBonusView { get; set; }
 
     [JsonIgnore]
-    public List<Material>? CultivationItemsView { get; set; }
+    public ImmutableArray<Material>? CultivationItemsView { get; set; }
 
     [SuppressMessage("", "CA1822")]
     public uint MaxLevel { get => GetMaxLevel(); }

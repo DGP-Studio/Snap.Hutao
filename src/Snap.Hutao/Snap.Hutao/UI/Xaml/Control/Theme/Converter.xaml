@@ -24,7 +24,6 @@
     <shmmc:GachaEquipIconConverter x:Key="GachaEquipIconConverter"/>
     <shmmc:ItemIconConverter x:Key="ItemIconConverter"/>
     <shmmc:MonsterIconConverter x:Key="MonsterIconConverter"/>
-    <shmmc:PropertiesParametersDescriptor x:Key="PropertyDescriptor"/>
     <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
     <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
     <shuxdc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>

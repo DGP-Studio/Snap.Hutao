@@ -72,62 +72,23 @@ internal sealed partial class HotKeyCombination : ObservableObject
         }
     }
 
-    #region Binding Property
+    public bool ModifierHasControl { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
-    public bool ModifierHasControl
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                UpdateModifiers();
-            }
-        }
-    }
+    public bool ModifierHasShift { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
-    public bool ModifierHasShift
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                UpdateModifiers();
-            }
-        }
-    }
-
-    public bool ModifierHasAlt
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                UpdateModifiers();
-            }
-        }
-    }
+    public bool ModifierHasAlt { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
 
     public NameValue<VIRTUAL_KEY> KeyNameValue
     {
         get;
         set
         {
-            if (value is null)
-            {
-                return;
-            }
-
-            if (SetProperty(ref field, value))
+            if (value is not null && SetProperty(ref field, value))
             {
                 Key = value.Value;
             }
         }
     }
-
-    #endregion
 
     public HOT_KEY_MODIFIERS Modifiers
     {
@@ -174,11 +135,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
         }
     }
 
-    public bool IsOn
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
+    public bool IsOn { get; set => SetProperty(ref field, value); }
 
     public string DisplayName { get => ToString(); }
 
@@ -246,7 +203,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
         return stringBuilder.ToString();
     }
 
-    private void UpdateModifiers()
+    private bool UpdateModifiers()
     {
         HOT_KEY_MODIFIERS modifiers = default;
 
@@ -266,6 +223,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
         }
 
         Modifiers = modifiers;
+        return true;
     }
 
     private unsafe void LocalSettingSetHotKeyParameterAndRefresh()

@@ -48,6 +48,8 @@
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
     <WindowsSdkPackageVersion>10.0.26100.56</WindowsSdkPackageVersion>
+
+    <CsWinRTAotOptimizerEnabled>False</CsWinRTAotOptimizerEnabled>
   </PropertyGroup>
 
   <ItemGroup>

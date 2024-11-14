@@ -24,13 +24,6 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
-        <DataTemplate x:Key="PropertyDataTemplate">
-            <shuxvs:DescParamComboBox
-                HorizontalAlignment="Stretch"
-                PreferredSelectedIndex="13"
-                Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
-        </DataTemplate>
-
         <DataTemplate x:Key="TokenTemplate">
             <Grid Height="22" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
