@@ -37,8 +37,6 @@ internal sealed partial class DownloadSummary : ObservableObject
     private readonly string fileUrl;
     private readonly IProgress<StreamCopyStatus> progress;
 
-    private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
-
     public DownloadSummary(IServiceProvider serviceProvider, string fileName)
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
@@ -57,7 +55,7 @@ internal sealed partial class DownloadSummary : ObservableObject
 
     public string DisplayName { get => fileName; }
 
-    public string Description { get => description; private set => SetProperty(ref description, value); }
+    public string Description { get; private set => SetProperty(ref field, value); } = SH.ViewModelWelcomeDownloadSummaryDefault;
 
     public double ProgressValue { get; set => SetProperty(ref field, value); }
 

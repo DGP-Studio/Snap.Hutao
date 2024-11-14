@@ -18,7 +18,6 @@ internal sealed partial class BaseValueInfo : ObservableObject
     private readonly ImmutableDictionary<PromoteLevel, Promote>? promoteMap;
 
     private uint currentLevel;
-    private List<NameValue<string>> values = default!;
     private bool promoted = true;
 
     public BaseValueInfo(uint maxLevel, ImmutableArray<PropertyCurveValue> propValues, ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
@@ -33,7 +32,7 @@ internal sealed partial class BaseValueInfo : ObservableObject
 
     public uint MaxLevel { get; }
 
-    public List<NameValue<string>> Values { get => values; set => SetProperty(ref values, value); }
+    public List<NameValue<string>> Values { get; set => SetProperty(ref field, value); } = default!;
 
     public uint CurrentLevel
     {

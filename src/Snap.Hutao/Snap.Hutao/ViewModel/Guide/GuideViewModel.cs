@@ -27,9 +27,6 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     private readonly RuntimeOptions runtimeOptions;
     private readonly AppOptions appOptions;
 
-    private string nextOrCompleteButtonText = SH.ViewModelGuideActionNext;
-    private bool isNextOrCompleteButtonEnabled = true;
-
     public uint State
     {
         get
@@ -68,9 +65,9 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
-    public string NextOrCompleteButtonText { get => nextOrCompleteButtonText; set => SetProperty(ref nextOrCompleteButtonText, value); }
+    public string NextOrCompleteButtonText { get; set => SetProperty(ref field, value); } = SH.ViewModelGuideActionNext;
 
-    public bool IsNextOrCompleteButtonEnabled { get => isNextOrCompleteButtonEnabled; set => SetProperty(ref isNextOrCompleteButtonEnabled, value); }
+    public bool IsNextOrCompleteButtonEnabled { get; set => SetProperty(ref field, value); } = true;
 
     public CultureOptions CultureOptions { get => cultureOptions; }
 

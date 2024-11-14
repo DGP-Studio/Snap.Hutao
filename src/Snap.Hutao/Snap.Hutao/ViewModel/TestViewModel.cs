@@ -49,9 +49,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
 
-    private UploadAnnouncement announcement = new();
-
-    public UploadAnnouncement Announcement { get => announcement; set => SetProperty(ref announcement, value); }
+    public UploadAnnouncement Announcement { get; set => SetProperty(ref field, value); } = new();
 
     public ExtractOptions ExtractExeOptions { get; } = new();
 

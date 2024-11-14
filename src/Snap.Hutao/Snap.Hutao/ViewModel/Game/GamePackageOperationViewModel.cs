@@ -37,36 +37,28 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private long contentLength;
     private int downloadedChunks;
     private int installedChunks;
-    private int downloadTotalChunks = -1;
-    private int installTotalChunks = -1;
 
-    private string title = SH.UIXamlViewSpecializedSophonProgressDefault;
-    private string downloadSpeed = ZeroBytesPerSecondSpeed;
-    private string downloadRemainingTime = UnknownRemainingTime;
-    private string installSpeed = ZeroBytesPerSecondSpeed;
-    private string installRemainingTime = UnknownRemainingTime;
-
-    public string Title { get => title; private set => SetProperty(ref title, value); }
+    public string Title { get; private set => SetProperty(ref field, value); } = SH.UIXamlViewSpecializedSophonProgressDefault;
 
     public int DownloadedChunks { get => downloadedChunks; }
 
     public string DownloadFileName { get; private set; } = default!;
 
-    public string DownloadSpeed { get => downloadSpeed; private set => SetProperty(ref downloadSpeed, value); }
+    public string DownloadSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
 
-    public string DownloadRemainingTime { get => downloadRemainingTime; private set => SetProperty(ref downloadRemainingTime, value); }
+    public string DownloadRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
 
     public int InstalledChunks { get => installedChunks; }
 
     public string InstallFileName { get; private set; } = default!;
 
-    public string InstallSpeed { get => installSpeed; private set => SetProperty(ref installSpeed, value); }
+    public string InstallSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
 
-    public string InstallRemainingTime { get => installRemainingTime; private set => SetProperty(ref installRemainingTime, value); }
+    public string InstallRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
 
-    public int DownloadTotalChunks { get => downloadTotalChunks; private set => SetProperty(ref downloadTotalChunks, value); }
+    public int DownloadTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
 
-    public int InstallTotalChunks { get => installTotalChunks; private set => SetProperty(ref installTotalChunks, value); }
+    public int InstallTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
 
     public bool IsFinished { get; private set => SetProperty(ref field, value); }
 

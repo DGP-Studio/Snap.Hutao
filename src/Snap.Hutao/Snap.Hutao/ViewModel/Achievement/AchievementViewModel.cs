@@ -35,9 +35,6 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private readonly AchievementViewModelScopeContext scopeContext;
 
-    private bool isUncompletedItemsFirst = true;
-    private string searchText = string.Empty;
-
     public IAdvancedDbCollectionView<EntityArchive>? Archives
     {
         get;
@@ -78,17 +75,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public string SearchText
-    {
-        get => searchText;
-        set => SetProperty(ref searchText, value);
-    }
+    public string SearchText { get; set => SetProperty(ref field, value); } = string.Empty;
 
-    public bool IsUncompletedItemsFirst
-    {
-        get => isUncompletedItemsFirst;
-        set => SetProperty(ref isUncompletedItemsFirst, value);
-    }
+    public bool IsUncompletedItemsFirst { get; set => SetProperty(ref field, value); } = true;
 
     public bool FilterDailyQuestItems { get; set => SetProperty(ref field, value); }
 

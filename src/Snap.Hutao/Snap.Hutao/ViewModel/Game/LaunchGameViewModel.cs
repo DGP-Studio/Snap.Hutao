@@ -43,7 +43,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
-    private ImmutableArray<GamePathEntry> gamePathEntries = [];
     private GameAccountFilter? gameAccountFilter;
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
@@ -127,7 +126,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
-    public ImmutableArray<GamePathEntry> GamePathEntries { get => gamePathEntries; set => SetProperty(ref gamePathEntries, value); }
+    public ImmutableArray<GamePathEntry> GamePathEntries { get; set => SetProperty(ref field, value); } = [];
 
     /// <summary>
     /// Update this property will also:

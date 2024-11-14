@@ -23,15 +23,13 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
-    private string greetingText = SH.ViewPageHomeGreetingTextDefault;
-
     public AnnouncementWrapper? Announcement { get; set => SetProperty(ref field, value); }
 
     public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get; set => SetProperty(ref field, value); }
 
     public HutaoUserOptions HutaoUserOptions { get => hutaoUserOptions; }
 
-    public string GreetingText { get => greetingText; set => SetProperty(ref greetingText, value); }
+    public string GreetingText { get; set => SetProperty(ref field, value); } = SH.ViewPageHomeGreetingTextDefault;
 
     public List<CardReference>? Cards { get; set => SetProperty(ref field, value); }
 

@@ -10,10 +10,9 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 {
     private readonly TaskCompletionSource initialization = new();
 
-    private string? userName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
     private string? token;
 
-    public string? UserName { get => userName; set => SetProperty(ref userName, value); }
+    public string? UserName { get; set => SetProperty(ref field, value); } = SH.ViewServiceHutaoUserLoginOrRegisterHint;
 
     public bool IsLoggedIn { get; set => SetProperty(ref field, value); }
 

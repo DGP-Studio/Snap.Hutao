@@ -7,14 +7,12 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 internal sealed partial class UIGFUidSelection : ObservableObject
 {
-    private bool isSelected = true;
-
     public UIGFUidSelection(uint uid)
     {
         Uid = uid;
     }
 
-    public bool IsSelected { get => isSelected; set => SetProperty(ref isSelected, value); }
+    public bool IsSelected { get; set => SetProperty(ref field, value); } = true;
 
     public uint Uid { get; set; }
 }
