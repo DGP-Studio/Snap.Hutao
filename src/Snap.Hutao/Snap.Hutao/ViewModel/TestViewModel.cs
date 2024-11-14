@@ -230,6 +230,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    [Obsolete]
     [Command("DebugPrintImageCacheFailedDownloadTasksCommand")]
     private void DebugPrintImageCacheFailedDownloadTasks()
     {

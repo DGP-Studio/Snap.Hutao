@@ -73,25 +73,24 @@ internal static class MetadataServiceImmutableDictionaryExtension
     public static async ValueTask<ImmutableDictionary<MaterialId, DisplayItem>> GetIdToDisplayItemAndMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         string cacheKey = $"{nameof(MetadataService)}.Cache.{nameof(MetadataFileStrategies.DisplayItem)}+{nameof(MetadataFileStrategies.Material)}.Map.{nameof(MaterialId)}.{nameof(DisplayItem)}+{nameof(Material)}";
-
-        if (metadataService.MemoryCache.TryGetValue(cacheKey, out object? value))
+        ImmutableDictionary<MaterialId, DisplayItem>? result = await metadataService.MemoryCache.GetOrCreateAsync(cacheKey, async entry =>
         {
-            ArgumentNullException.ThrowIfNull(value);
-            return (ImmutableDictionary<MaterialId, DisplayItem>)value;
-        }
+            ImmutableDictionary<MaterialId, DisplayItem> displays = await metadataService.FromCacheAsDictionaryAsync<MaterialId, DisplayItem>(MetadataFileStrategies.DisplayItem, a => a.Id, token).ConfigureAwait(false);
+            ImmutableDictionary<MaterialId, Material> materials = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
 
-        ImmutableDictionary<MaterialId, DisplayItem> displays = await metadataService.FromCacheAsDictionaryAsync<MaterialId, DisplayItem>(MetadataFileStrategies.DisplayItem, a => a.Id, token).ConfigureAwait(false);
-        ImmutableDictionary<MaterialId, Material> materials = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
+            ImmutableDictionary<MaterialId, DisplayItem>.Builder results = ImmutableDictionary.CreateBuilder<MaterialId, DisplayItem>();
+            results.AddRange(displays);
 
-        ImmutableDictionary<MaterialId, DisplayItem>.Builder results = ImmutableDictionary.CreateBuilder<MaterialId, DisplayItem>();
-        results.AddRange(displays);
+            foreach ((MaterialId id, DisplayItem material) in materials)
+            {
+                results[id] = material;
+            }
 
-        foreach ((MaterialId id, DisplayItem material) in materials)
-        {
-            results[id] = material;
-        }
+            return results.ToImmutable();
+        }).ConfigureAwait(false);
 
-        return metadataService.MemoryCache.Set(cacheKey, results.ToImmutable());
+        ArgumentNullException.ThrowIfNull(result);
+        return result;
     }
 
     public static ValueTask<ImmutableDictionary<MaterialId, Material>> GetIdToMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
@@ -236,15 +235,14 @@ internal static class MetadataServiceImmutableDictionaryExtension
         string valueName = TypeNameHelper.GetTypeDisplayName(typeof(TValue));
         string cacheKey = $"{nameof(MetadataService)}.Cache.{strategy.Name}.Map.{keyName}.{valueName}";
 
-        if (metadataService.MemoryCache.TryGetValue(cacheKey, out object? value))
+        ImmutableDictionary<TKey, TValue>? result = await metadataService.MemoryCache.GetOrCreateAsync(cacheKey, async entry =>
         {
-            ArgumentNullException.ThrowIfNull(value);
-            return (ImmutableDictionary<TKey, TValue>)value;
-        }
+            ImmutableArray<TValue> array = await metadataService.FromCacheOrFileAsync<TValue>(strategy, token).ConfigureAwait(false);
+            return array.ToImmutableDictionaryIgnoringDuplicateKeys(keySelector); // There are duplicate name items
+        }).ConfigureAwait(false);
 
-        ImmutableArray<TValue> array = await metadataService.FromCacheOrFileAsync<TValue>(strategy, token).ConfigureAwait(false);
-        ImmutableDictionary<TKey, TValue> dict = array.ToImmutableDictionaryIgnoringDuplicateKeys(keySelector); // There are duplicate name items
-        return metadataService.MemoryCache.Set(cacheKey, dict);
+        ArgumentNullException.ThrowIfNull(result);
+        return result;
     }
 
     private static async ValueTask<ImmutableDictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TData, TKey, TValue>(this IMetadataService metadataService, MetadataFileStrategy strategy, Func<TData, TKey> keySelector, Func<TData, TValue> valueSelector, CancellationToken token)
@@ -255,15 +253,14 @@ internal static class MetadataServiceImmutableDictionaryExtension
         string valueName = TypeNameHelper.GetTypeDisplayName(typeof(TValue));
         string cacheKey = $"{nameof(MetadataService)}.Cache.{strategy.Name}.Map.{keyName}.{valueName}";
 
-        if (metadataService.MemoryCache.TryGetValue(cacheKey, out object? value))
+        ImmutableDictionary<TKey, TValue>? result = await metadataService.MemoryCache.GetOrCreateAsync(cacheKey, async entry =>
         {
-            ArgumentNullException.ThrowIfNull(value);
-            return (ImmutableDictionary<TKey, TValue>)value;
-        }
+            ImmutableArray<TData> array = await metadataService.FromCacheOrFileAsync<TData>(strategy, token).ConfigureAwait(false);
+            return array.ToImmutableDictionaryIgnoringDuplicateKeys(keySelector, valueSelector); // There are duplicate name items
+        }).ConfigureAwait(false);
 
-        ImmutableArray<TData> array = await metadataService.FromCacheOrFileAsync<TData>(strategy, token).ConfigureAwait(false);
-        ImmutableDictionary<TKey, TValue> dict = array.ToImmutableDictionaryIgnoringDuplicateKeys(keySelector, valueSelector); // There are duplicate name items
-        return metadataService.MemoryCache.Set(cacheKey, dict);
+        ArgumentNullException.ThrowIfNull(result);
+        return result;
     }
 
     private static ValueTask<ImmutableDictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TData, TKey, TValue>(this IMetadataService metadataService, MetadataFileStrategy strategy, Func<ImmutableArray<TData>, IEnumerable<(TKey Key, TValue Value)>> transform, CancellationToken token)
@@ -282,14 +279,13 @@ internal static class MetadataServiceImmutableDictionaryExtension
         string valueName = TypeNameHelper.GetTypeDisplayName(typeof(TValue));
         string cacheKey = $"{nameof(MetadataService)}.Cache.{strategy.Name}.Map.{keyName}.{middleName}.{valueName}";
 
-        if (metadataService.MemoryCache.TryGetValue(cacheKey, out object? value))
+        ImmutableDictionary<TKey, TValue>? result = await metadataService.MemoryCache.GetOrCreateAsync(cacheKey, async entry =>
         {
-            ArgumentNullException.ThrowIfNull(value);
-            return (ImmutableDictionary<TKey, TValue>)value;
-        }
+            ImmutableArray<TData> array = await metadataService.FromCacheOrFileAsync<TData>(strategy, token).ConfigureAwait(false);
+            return transform(array).ToImmutableDictionaryIgnoringDuplicateKeys(keySelector, valueSelector); // There are duplicate name items
+        }).ConfigureAwait(false);
 
-        ImmutableArray<TData> array = await metadataService.FromCacheOrFileAsync<TData>(strategy, token).ConfigureAwait(false);
-        ImmutableDictionary<TKey, TValue> dict = transform(array).ToImmutableDictionaryIgnoringDuplicateKeys(keySelector, valueSelector); // There are duplicate name items
-        return metadataService.MemoryCache.Set(cacheKey, dict);
+        ArgumentNullException.ThrowIfNull(result);
+        return result;
     }
 }

@@ -23,16 +23,20 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
 
-    [GeneratedRegex("(\\d\\.\\d)")]
+    [GeneratedRegex(@"(\d\.\d)")]
     private static partial Regex VersionRegex { get; }
 
-    public Task<AnnouncementWrapper?> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default)
+    [SuppressMessage("", "SH003")]
+    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default)
     {
-        return memoryCache.GetOrCreateAsync($"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}.{languageCode}.{region}", entry =>
+        AnnouncementWrapper? wrapper = await memoryCache.GetOrCreateAsync($"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}.{languageCode}.{region}", entry =>
         {
             entry.SetSlidingExpiration(TimeSpan.FromMinutes(30L));
             return PrivateGetAnnouncementWrapperAsync(languageCode, region, token);
-        });
+        }).ConfigureAwait(false);
+
+        ArgumentNullException.ThrowIfNull(wrapper);
+        return wrapper;
     }
 
     private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
@@ -61,6 +65,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         }
     }
 
+    [SuppressMessage("", "SH003")]
     private async Task<AnnouncementWrapper> PrivateGetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken cancellationToken = default)
     {
         await taskContext.SwitchToBackgroundAsync();
@@ -113,12 +118,12 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     {
         // 活动公告
         List<WebAnnouncement> activities = announcementListWrappers
-            .Single(wrapper => wrapper.TypeId == 1)
+            .Single(wrapper => wrapper.TypeId is 1)
             .List;
 
         // 游戏公告
         List<WebAnnouncement> announcements = announcementListWrappers
-            .Single(wrapper => wrapper.TypeId == 2)
+            .Single(wrapper => wrapper.TypeId is 2)
             .List;
 
         // "x.x" -> DTO

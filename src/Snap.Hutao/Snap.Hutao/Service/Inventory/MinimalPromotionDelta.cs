@@ -27,27 +27,24 @@ internal sealed partial class MinimalPromotionDelta
 
     public async ValueTask<List<AvatarPromotionDelta>> GetAsync()
     {
-        if (memoryCache.TryGetRequiredValue(CacheKey, out List<AvatarPromotionDelta>? cache))
+        List<AvatarPromotionDelta>? result = await memoryCache.GetOrCreateAsync($"{nameof(MinimalPromotionDelta)}.Cache", async entry =>
         {
-            return cache;
-        }
+            List<ICultivationItemsAccess> cultivationItemsEntryList =
+            [
+                .. (await metadataService.GetAvatarArrayAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
+                .. (await metadataService.GetWeaponArrayAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
+            ];
 
-        List<ICultivationItemsAccess> cultivationItemsEntryList =
-        [
-            .. (await metadataService.GetAvatarArrayAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
-            .. (await metadataService.GetWeaponArrayAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
-        ];
+            using (ValueStopwatch.MeasureExecution(logger))
+            {
+                List<ICultivationItemsAccess> minimal = Minimize(cultivationItemsEntryList);
+                minimal.Sort(CultivationItemsAccessComparer.Shared);
+                return ToPromotionDeltaList(minimal);
+            }
+        }).ConfigureAwait(false);
 
-        List<ICultivationItemsAccess> minimal;
-        using (ValueStopwatch.MeasureExecution(logger))
-        {
-            minimal = Minimize(cultivationItemsEntryList);
-        }
-
-        // Gurantee the order of avatar and weapon
-        // Make sure weapons can have avatar to attach
-        minimal.Sort(CultivationItemsAccessComparer.Shared);
-        return memoryCache.Set(CacheKey, ToPromotionDeltaList(minimal));
+        ArgumentNullException.ThrowIfNull(result);
+        return result;
     }
 
     private static List<ICultivationItemsAccess> Minimize(List<ICultivationItemsAccess> cultivationItems)

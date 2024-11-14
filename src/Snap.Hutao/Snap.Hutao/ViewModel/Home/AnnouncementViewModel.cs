@@ -52,7 +52,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     {
         try
         {
-            AnnouncementWrapper? announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
+            AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
             DeferContentLoader?.Load("GameAnnouncementPivot");
