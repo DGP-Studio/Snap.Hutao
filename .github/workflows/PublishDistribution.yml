@@ -3,14 +3,11 @@ name: PublishDistribution
 on:
   release:
     types: [released]
-
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Publish:
     runs-on: ubuntu-latest
-
     steps:
       # Purge Patch System Cache
       - name: Purge Patch
@@ -18,3 +15,8 @@ jobs:
           PURGE_URL: ${{ secrets.PURGE_URL }}
         run: |
           curl -X PATCH $PURGE_URL
+      - uses: benc-uk/workflow-dispatch@v1.2.4
+        with:
+          workflow: overwrite
+          repo: qhy040404/CN-Overwriter
+          token: "${{ secrets.RUNNER_CHECK_TOKEN }}"
