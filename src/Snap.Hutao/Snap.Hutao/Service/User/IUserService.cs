@@ -16,6 +16,8 @@ internal interface IUserService
 
     ValueTask<bool> RefreshCookieTokenAsync(EntityUser user);
 
+    ValueTask<bool> SelectCurrentUserByUidAsync(string uid);
+
     ValueTask RemoveUserAsync(BindingUser user);
 
     ValueTask RefreshProfilePictureAsync(UserGameRole userGameRole);

@@ -14,7 +14,7 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigationRecipient
 {
-    public const string UIGFImportExport = "UIGFImportExport";
+    public const string UIGFImportExport = nameof(UIGFImportExport);
 
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly IInfoBarService infoBarService;

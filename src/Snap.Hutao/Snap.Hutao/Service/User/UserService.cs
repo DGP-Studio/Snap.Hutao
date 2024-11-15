@@ -114,4 +114,9 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     {
         await profilePictureService.RefreshUserGameRoleAsync(userGameRole).ConfigureAwait(false);
     }
+
+    public ValueTask<bool> SelectCurrentUserByUidAsync(string uid)
+    {
+        return userCollectionService.SelectCurrentUserByUidAsync(uid);
+    }
 }

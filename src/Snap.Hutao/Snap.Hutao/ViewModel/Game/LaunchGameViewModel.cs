@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
@@ -24,7 +25,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, INavigationRecipient
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
@@ -146,6 +147,21 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         GamePathEntries = gamePathEntries;
         SelectedGamePathEntry = selectedEntry;
+    }
+
+    public async ValueTask<bool> ReceiveAsync(INavigationData data)
+    {
+        if (!await Initialization.Task.ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        if (data is LaunchGameWithUidData { Data: { } uid })
+        {
+            return await userService.SelectCurrentUserByUidAsync(uid).ConfigureAwait(false);
+        }
+
+        return false;
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()

@@ -53,6 +53,24 @@ internal sealed partial class UserCollectionService : IUserCollectionService
         return users;
     }
 
+    public async ValueTask<bool> SelectCurrentUserByUidAsync(string uid)
+    {
+        ArgumentNullException.ThrowIfNull(users);
+
+        await taskContext.SwitchToBackgroundAsync();
+        BindingUser? user = users.SourceCollection.SingleOrDefault(u => u.UserGameRoles.SourceCollection.Any(r => r.GameUid == uid));
+
+        if (user is null)
+        {
+            return false;
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        users.MoveCurrentTo(user);
+
+        return true;
+    }
+
     public async ValueTask RemoveUserAsync(BindingUser user)
     {
         ArgumentNullException.ThrowIfNull(users);

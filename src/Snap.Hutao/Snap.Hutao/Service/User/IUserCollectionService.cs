@@ -11,6 +11,8 @@ internal interface IUserCollectionService
 {
     ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync();
 
+    ValueTask<bool> SelectCurrentUserByUidAsync(string uid);
+
     ValueTask RemoveUserAsync(BindingUser user);
 
     ValueTask<ValueResult<UserOptionResult, string>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie);
