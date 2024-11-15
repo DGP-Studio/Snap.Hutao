@@ -104,23 +104,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         switch (currentWindowReference.Window)
         {
             case null:
-                LaunchGameWindow launchGameWindow = serviceProvider.GetRequiredService<LaunchGameWindow>();
-                currentWindowReference.Window = launchGameWindow;
-
-                launchGameWindow.SwitchTo();
-                launchGameWindow.BringToForeground();
-                return;
-
             case MainWindow:
+                await WaitMainWindowOrCurrentAsync().ConfigureAwait(true);
                 await serviceProvider
                     .GetRequiredService<INavigationService>()
                     .NavigateAsync<LaunchGamePage>(INavigationAwaiter.Default, true)
                     .ConfigureAwait(false);
-                return;
-
-            case LaunchGameWindow currentLaunchGameWindow:
-                currentLaunchGameWindow.SwitchTo();
-                currentLaunchGameWindow.BringToForeground();
                 return;
 
             default:

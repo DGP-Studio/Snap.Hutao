@@ -107,8 +107,6 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         {
             await access.HandleLaunchGameActionAsync().ConfigureAwait(false);
         }
-
-        ShowWindow();
     }
 
     [Command("ExitCommand")]
