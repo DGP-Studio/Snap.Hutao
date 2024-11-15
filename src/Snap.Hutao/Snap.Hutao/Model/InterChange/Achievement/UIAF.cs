@@ -17,7 +17,7 @@ internal sealed class UIAF
     public UIAFInfo Info { get; set; } = default!;
 
     [JsonPropertyName("list")]
-    public ImmutableArray<UIAFItem> List { get; set; } = default!;
+    public ImmutableArray<UIAFItem> List { get; set; }
 
     public bool IsCurrentVersionSupported()
     {

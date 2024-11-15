@@ -12,10 +12,7 @@ namespace Snap.Hutao.ViewModel.Guide;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class StaticResourceOptions : ObservableObject
 {
-    private readonly List<NameValue<StaticResourceQuality>> imageQualities = CollectionsNameValue.FromEnum<StaticResourceQuality>(q => q.GetLocalizedDescription());
-    private readonly List<NameValue<StaticResourceArchive>> imageArchives = CollectionsNameValue.FromEnum<StaticResourceArchive>(a => a.GetLocalizedDescription());
-
-    public List<NameValue<StaticResourceQuality>> ImageQualities { get => imageQualities; }
+    public List<NameValue<StaticResourceQuality>> ImageQualities { get; } = CollectionsNameValue.FromEnum<StaticResourceQuality>(q => q.GetLocalizedDescription());
 
     public NameValue<StaticResourceQuality>? ImageQuality
     {
@@ -30,7 +27,7 @@ internal sealed partial class StaticResourceOptions : ObservableObject
         }
     }
 
-    public List<NameValue<StaticResourceArchive>> ImageArchives { get => imageArchives; }
+    public List<NameValue<StaticResourceArchive>> ImageArchives { get; } = CollectionsNameValue.FromEnum<StaticResourceArchive>(a => a.GetLocalizedDescription());
 
     public NameValue<StaticResourceArchive>? ImageArchive
     {

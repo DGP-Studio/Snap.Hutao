@@ -7,7 +7,6 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.UI.Xaml.Data.Converter;
 using System.Collections.Immutable;
 using System.Globalization;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Model.Metadata.Converter;

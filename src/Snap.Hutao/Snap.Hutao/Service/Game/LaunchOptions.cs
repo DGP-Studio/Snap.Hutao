@@ -28,7 +28,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
     private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
 
-    private string? gamePath;
     private ImmutableArray<GamePathEntry>? gamePathEntries;
 
     private bool? usingHoyolabAccount;
@@ -177,10 +176,11 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         }
     }
 
+    [field: AllowNull]
     public string GamePath
     {
-        get => GetOption(ref gamePath, SettingEntry.GamePath);
-        set => SetOption(ref gamePath, SettingEntry.GamePath, value);
+        get => GetOption(ref field, SettingEntry.GamePath);
+        set => SetOption(ref field, SettingEntry.GamePath, value);
     }
 
     public ImmutableArray<GamePathEntry> GamePathEntries

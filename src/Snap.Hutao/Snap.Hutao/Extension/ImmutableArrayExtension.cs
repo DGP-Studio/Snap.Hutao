@@ -3,7 +3,6 @@
 
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Extension;
 

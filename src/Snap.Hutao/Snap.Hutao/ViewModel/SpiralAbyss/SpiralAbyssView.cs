@@ -11,12 +11,10 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>, IAdvancedCollectionViewItem
 {
-    private readonly SpiralAbyssEntry? entity;
-
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
         : this(context.IdTowerScheduleMap[entity.ScheduleId], context)
     {
-        this.entity = entity;
+        Entity = entity;
 
         Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss = entity.SpiralAbyss;
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;
@@ -54,7 +52,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
 
-    public SpiralAbyssEntry? Entity { get => entity; }
+    public SpiralAbyssEntry? Entity { get; }
 
     public string TimeFormatted { get; }
 

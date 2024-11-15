@@ -106,7 +106,7 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             DeviceFpClient deviceFpClient = scope.ServiceProvider.GetRequiredService<DeviceFpClient>();
             Response<DeviceFpWrapper> response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
 
-            bool ok = ResponseValidator.TryValidate(response, scope.ServiceProvider, out DeviceFpWrapper? wrapper);
+            ResponseValidator.TryValidate(response, scope.ServiceProvider, out DeviceFpWrapper? wrapper);
             user.TryUpdateFingerprint(wrapper?.DeviceFp ?? string.Empty);
 
             user.NeedDbUpdateAfterResume = true;

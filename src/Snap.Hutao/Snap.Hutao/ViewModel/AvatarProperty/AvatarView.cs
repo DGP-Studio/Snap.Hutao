@@ -34,7 +34,7 @@ internal sealed partial class AvatarView : INameIconSide,
 
     public List<ReliquaryView> Reliquaries { get; set; } = default!;
 
-    public ImmutableArray<ConstellationView> Constellations { get; set; } = default!;
+    public ImmutableArray<ConstellationView> Constellations { get; set; }
 
     public int ActivatedConstellationCount { get => Constellations.Count(c => c.IsActivated); }
 

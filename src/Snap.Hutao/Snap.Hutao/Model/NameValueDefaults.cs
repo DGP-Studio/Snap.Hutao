@@ -5,10 +5,5 @@ namespace Snap.Hutao.Model;
 
 internal sealed class NameValueDefaults
 {
-    private static readonly NameValue<string> StringValue = new(SH.ModelNameValueDefaultName, SH.ModelNameValueDefaultDescription);
-
-    public static NameValue<string> String
-    {
-        get => StringValue;
-    }
+    public static NameValue<string> String { get; } = new(SH.ModelNameValueDefaultName, SH.ModelNameValueDefaultDescription);
 }

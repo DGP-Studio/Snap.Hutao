@@ -24,7 +24,6 @@ internal sealed partial class AppOptions : DbStoreOptions
     private ElementTheme? elementTheme;
     private BackgroundImageType? backgroundImageType;
     private Region? region;
-    private string? geetestCustomCompositeUrl;
     private int? downloadSpeedLimitPerSecondInKiloByte;
     private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
@@ -84,10 +83,11 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, v => v.ToStringOrEmpty());
     }
 
+    [field: AllowNull]
     public string GeetestCustomCompositeUrl
     {
-        get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
-        set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
+        get => GetOption(ref field, SettingEntry.GeetestCustomCompositeUrl);
+        set => SetOption(ref field, SettingEntry.GeetestCustomCompositeUrl, value);
     }
 
     public int DownloadSpeedLimitPerSecondInKiloByte

@@ -9,8 +9,6 @@ namespace Snap.Hutao.Model.Metadata.Item;
 
 internal sealed class RotationalMaterialIdEntry
 {
-    private readonly FrozenSet<MaterialId> idSet;
-
     public RotationalMaterialIdEntry(DaysOfWeek daysOfWeek, MaterialId green, MaterialId blue, MaterialId purple, MaterialId orange)
         : this(daysOfWeek, green, blue, purple)
     {
@@ -20,7 +18,7 @@ internal sealed class RotationalMaterialIdEntry
         Blue = blue;
         Green = green;
 
-        idSet = [green, blue, purple, orange];
+        Set = [green, blue, purple, orange];
     }
 
     public RotationalMaterialIdEntry(DaysOfWeek daysOfWeek, MaterialId green, MaterialId blue, MaterialId purple)
@@ -30,7 +28,7 @@ internal sealed class RotationalMaterialIdEntry
         Blue = blue;
         Green = green;
 
-        idSet = [green, blue, purple];
+        Set = [green, blue, purple];
     }
 
     public DaysOfWeek DaysOfWeek { get; }
@@ -45,7 +43,7 @@ internal sealed class RotationalMaterialIdEntry
 
     public MaterialId Highest { get => Orange != 0U ? Orange : Purple; }
 
-    public FrozenSet<MaterialId> Set { get => idSet; }
+    public FrozenSet<MaterialId> Set { get; }
 
     public IEnumerable<MaterialId> Enumerate()
     {

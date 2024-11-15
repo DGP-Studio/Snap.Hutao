@@ -14,9 +14,6 @@ namespace Snap.Hutao.Service.Game.Launching;
 internal sealed partial class LaunchExecutionContext
 {
     private readonly ILogger<LaunchExecutionContext> logger;
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
-    private readonly LaunchOptions options;
 
     private GameFileSystem? gameFileSystem;
 
@@ -35,13 +32,13 @@ internal sealed partial class LaunchExecutionContext
 
     public CancellationToken CancellationToken { get; set; }
 
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
-    public ITaskContext TaskContext { get => taskContext; }
+    public partial ITaskContext TaskContext { get; }
 
     public ILogger Logger { get => logger; }
 
-    public LaunchOptions Options { get => options; }
+    public partial LaunchOptions Options { get; }
 
     public IViewModelSupportLaunchExecution ViewModel { get; private set; } = default!;
 

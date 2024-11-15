@@ -12,37 +12,37 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class CultureOptions : DbStoreOptions
 {
-    private List<NameValue<DayOfWeek>>? dayOfWeeks;
-
-    private CultureInfo? currentCulture;
-    private string? localeName;
-    private string? languageCode;
     private DayOfWeek? firstDayOfWeek;
 
     public List<NameValue<CultureInfo>> Cultures { get; } = SupportedCultures.Get();
 
-    public List<NameValue<DayOfWeek>> DayOfWeeks { get => dayOfWeeks ??= Enum.GetValues<DayOfWeek>().Select(v => new NameValue<DayOfWeek>(CurrentCulture.DateTimeFormat.GetDayName(v), v)).ToList(); }
+    [field: MaybeNull]
+    public List<NameValue<DayOfWeek>> DayOfWeeks { get => field ??= Enum.GetValues<DayOfWeek>().Select(v => new NameValue<DayOfWeek>(CurrentCulture.DateTimeFormat.GetDayName(v), v)).ToList(); }
 
+    [field: AllowNull]
     public CultureInfo CurrentCulture
     {
-        get => GetOption(ref currentCulture, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
-        set => SetOption(ref currentCulture, SettingEntry.Culture, value, v => v.Name);
+        get => GetOption(ref field, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
+        set => SetOption(ref field, SettingEntry.Culture, value, v => v.Name);
     }
 
     public CultureInfo SystemCulture { get; set; } = default!;
 
-    public string LocaleName { get => localeName ??= CultureOptionsExtension.GetLocaleName(CurrentCulture); }
+    [field: MaybeNull]
+    public string LocaleName { get => field ??= CultureOptionsExtension.GetLocaleName(CurrentCulture); }
 
+    [field: AllowNull]
+    [field: MaybeNull]
     public string LanguageCode
     {
         get
         {
-            if (languageCode is null && !LocaleNames.TryGetLanguageCodeFromLocaleName(LocaleName, out languageCode))
+            if (field is null && !LocaleNames.TryGetLanguageCodeFromLocaleName(LocaleName, out field))
             {
                 throw new KeyNotFoundException($"Invalid localeName: '{LocaleName}'");
             }
 
-            return languageCode;
+            return field;
         }
     }
 

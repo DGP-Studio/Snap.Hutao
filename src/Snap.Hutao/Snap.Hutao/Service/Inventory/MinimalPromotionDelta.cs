@@ -19,8 +19,6 @@ namespace Snap.Hutao.Service.Inventory;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class MinimalPromotionDelta
 {
-    private const string CacheKey = $"{nameof(MinimalPromotionDelta)}.Cache";
-
     private readonly ILogger<MinimalPromotionDelta> logger;
     private readonly IMetadataService metadataService;
     private readonly IMemoryCache memoryCache;

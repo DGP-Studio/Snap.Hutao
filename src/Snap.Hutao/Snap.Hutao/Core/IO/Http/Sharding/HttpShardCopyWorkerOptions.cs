@@ -13,7 +13,6 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
     private readonly LazySlim<SafeFileHandle> lazyDestinationFileHandle;
 
     private bool isReadOnly;
-    private int maxDegreeOfParallelism = Environment.ProcessorCount;
 
     public HttpShardCopyWorkerOptions()
     {

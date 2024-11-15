@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppNotifications;
-using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
@@ -92,7 +91,6 @@ internal sealed partial class DailyNoteNotificationOperation
             </toast>
             """;
         AppNotification notification = new(rawXml);
-        AppNotificationBuilder builder = new();
         if (options.IsSilentWhenPlayingGame && gameService.IsGameRunning())
         {
             notification.SuppressDisplay = true;

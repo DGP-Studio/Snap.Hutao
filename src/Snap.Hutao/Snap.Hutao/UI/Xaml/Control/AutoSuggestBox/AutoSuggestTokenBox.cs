@@ -242,7 +242,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
             return;
         }
 
-        CommandInvocation.TryExecute(FilterCommand, FilterCommandParameter);
+        FilterCommand.TryExecute(FilterCommandParameter);
     }
 
     public void OnSuggestionsChosen(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)

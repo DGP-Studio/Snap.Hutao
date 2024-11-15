@@ -14,12 +14,10 @@ namespace Snap.Hutao.ViewModel.RoleCombat;
 
 internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, IAdvancedCollectionViewItem
 {
-    private readonly RoleCombatEntry? entity;
-
     private RoleCombatView(RoleCombatEntry entity, RoleCombatMetadataContext context)
         : this(context.IdRoleCombatScheduleMap[entity.ScheduleId], context)
     {
-        this.entity = entity;
+        Entity = entity;
 
         TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(entity.Uid);
 
@@ -63,7 +61,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
 
-    public RoleCombatEntry? Entity { get => entity; }
+    public RoleCombatEntry? Entity { get; }
 
     public string TimeFormatted { get; }
 

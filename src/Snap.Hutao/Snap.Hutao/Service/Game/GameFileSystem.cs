@@ -8,42 +8,39 @@ namespace Snap.Hutao.Service.Game;
 
 internal sealed class GameFileSystem
 {
-    private readonly string gameFilePath;
-
-    private string? gameFileName;
-    private string? gameDirectory;
-    private string? gameConfigFilePath;
-    private string? pcGameSDKFilePath;
-    private GameAudioSystem? gameAudioSystem;
-
     public GameFileSystem(string gameFilePath)
     {
-        this.gameFilePath = gameFilePath;
+        GameFilePath = gameFilePath;
     }
 
     public GameFileSystem(string gameFilePath, GameAudioSystem gameAudioSystem)
     {
-        this.gameFilePath = gameFilePath;
-        this.gameAudioSystem = gameAudioSystem;
+        GameFilePath = gameFilePath;
+        Audio = gameAudioSystem;
     }
 
-    public string GameFilePath { get => gameFilePath; }
+    public string GameFilePath { get; }
 
-    public string GameFileName { get => gameFileName ??= Path.GetFileName(gameFilePath); }
+    [field: MaybeNull]
+    public string GameFileName { get => field ??= Path.GetFileName(GameFilePath); }
 
+    [field: AllowNull]
+    [field: MaybeNull]
     public string GameDirectory
     {
         get
         {
-            gameDirectory ??= Path.GetDirectoryName(gameFilePath);
-            ArgumentException.ThrowIfNullOrEmpty(gameDirectory);
-            return gameDirectory;
+            field ??= Path.GetDirectoryName(GameFilePath);
+            ArgumentException.ThrowIfNullOrEmpty(field);
+            return field;
         }
     }
 
-    public string GameConfigFilePath { get => gameConfigFilePath ??= Path.Combine(GameDirectory, GameConstants.ConfigFileName); }
+    [field: MaybeNull]
+    public string GameConfigFilePath { get => field ??= Path.Combine(GameDirectory, GameConstants.ConfigFileName); }
 
-    public string PCGameSDKFilePath { get => pcGameSDKFilePath ??= Path.Combine(GameDirectory, GameConstants.PCGameSDKFilePath); }
+    [field: MaybeNull]
+    public string PCGameSDKFilePath { get => field ??= Path.Combine(GameDirectory, GameConstants.PCGameSDKFilePath); }
 
     public string ScreenShotDirectory { get => Path.Combine(GameDirectory, "ScreenShot"); }
 
@@ -55,5 +52,6 @@ internal sealed class GameFileSystem
 
     public string PredownloadStatusPath { get => Path.Combine(ChunksDirectory, "snap_hutao_predownload_status.json"); }
 
-    public GameAudioSystem Audio { get => gameAudioSystem ??= new(GameFilePath); }
+    [field: MaybeNull]
+    public GameAudioSystem Audio { get => field ??= new(GameFilePath); }
 }
