@@ -31,12 +31,11 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly HutaoSpiralAbyssDatabaseViewModel hutaoSpiralAbyssDatabaseViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
 
     public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries { get; set => SetProperty(ref field, value); }
 
-    public HutaoSpiralAbyssDatabaseViewModel HutaoSpiralAbyssDatabaseViewModel { get => hutaoSpiralAbyssDatabaseViewModel; }
+    public partial HutaoSpiralAbyssDatabaseViewModel HutaoSpiralAbyssDatabaseViewModel { get; }
 
     public void Receive(UserAndUidChangedMessage message)
     {

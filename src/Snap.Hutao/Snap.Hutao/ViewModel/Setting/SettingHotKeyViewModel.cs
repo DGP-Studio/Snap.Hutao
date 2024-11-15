@@ -11,13 +11,9 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingHotKeyViewModel : Abstraction.ViewModel
 {
-    private readonly LowLevelKeyOptions lowLevelKeyOptions;
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly HotKeyOptions hotKeyOptions;
+    public partial LowLevelKeyOptions LowLevelKeyOptions { get; }
 
-    public LowLevelKeyOptions LowLevelKeyOptions { get => lowLevelKeyOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
-
-    public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
+    public partial HotKeyOptions HotKeyOptions { get; }
 }

@@ -5,7 +5,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;

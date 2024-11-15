@@ -20,7 +20,6 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly App app;
 
     public string Title
@@ -43,7 +42,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
     }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
     [Command("RestartAsElevatedCommand")]
     private static void RestartAsElevated()

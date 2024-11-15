@@ -12,9 +12,7 @@ namespace Snap.Hutao.Service.Cultivation;
 [Injection(InjectAs.Singleton, typeof(ICultivationRepository))]
 internal sealed partial class CultivationRepository : ICultivationRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public List<CultivateEntry> GetCultivateEntryListByProjectId(Guid projectId)
     {

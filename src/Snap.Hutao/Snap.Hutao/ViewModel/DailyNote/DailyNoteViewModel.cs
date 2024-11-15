@@ -27,16 +27,14 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly AppOptions appOptions;
 
     public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     public IJSBridgeUriSourceProvider VerifyUrlSource { get; } = new DailyJSBridgeUriSourceProvider();
 

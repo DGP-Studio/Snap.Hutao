@@ -5,7 +5,7 @@ namespace Snap.Hutao.Service.Game.Package;
 
 internal interface IPackageConverter
 {
-    ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context);
-
     ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context);
+
+    ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context);
 }

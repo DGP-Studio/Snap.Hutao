@@ -34,7 +34,6 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly CultureOptions cultureOptions;
     private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
@@ -42,7 +41,7 @@ internal sealed partial class UserViewModel : ObservableObject
 
     private AdvancedDbCollectionView<User, EntityUser>? users;
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
     public AdvancedDbCollectionView<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
 

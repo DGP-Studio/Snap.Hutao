@@ -18,7 +18,6 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoAsAService hutaoAsAService;
     private readonly IAnnouncementService announcementService;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
@@ -26,8 +25,6 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     public AnnouncementWrapper? Announcement { get; set => SetProperty(ref field, value); }
 
     public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get; set => SetProperty(ref field, value); }
-
-    public HutaoUserOptions HutaoUserOptions { get => hutaoUserOptions; }
 
     public string GreetingText { get; set => SetProperty(ref field, value); } = SH.ViewPageHomeGreetingTextDefault;
 

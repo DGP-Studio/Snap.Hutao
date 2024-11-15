@@ -15,9 +15,7 @@ namespace Snap.Hutao.Service.Achievement;
 [Injection(InjectAs.Singleton, typeof(IAchievementRepository))]
 internal sealed partial class AchievementRepository : IAchievementRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public Dictionary<AchievementId, EntityAchievement> GetAchievementMapByArchiveId(Guid archiveId)
     {

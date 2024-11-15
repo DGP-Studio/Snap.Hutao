@@ -11,9 +11,7 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingWebViewViewModel : Abstraction.ViewModel
 {
-    private readonly AppOptions appOptions;
-
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     public NameValue<BridgeShareSaveType>? SelectedShareSaveType
     {

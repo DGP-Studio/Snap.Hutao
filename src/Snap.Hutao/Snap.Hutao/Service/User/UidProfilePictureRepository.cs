@@ -10,9 +10,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUidProfilePictureRepository))]
 internal sealed partial class UidProfilePictureRepository : IUidProfilePictureRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public UidProfilePicture? SingleUidProfilePictureOrDefaultByUid(string uid)
     {

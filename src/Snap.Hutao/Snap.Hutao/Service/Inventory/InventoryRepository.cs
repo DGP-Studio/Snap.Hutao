@@ -10,9 +10,7 @@ namespace Snap.Hutao.Service.Inventory;
 [Injection(InjectAs.Singleton, typeof(IInventoryRepository))]
 internal sealed partial class InventoryRepository : IInventoryRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public void RemoveInventoryItemRangeByProjectId(Guid projectId)
     {

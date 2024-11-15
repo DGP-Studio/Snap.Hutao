@@ -13,10 +13,9 @@ internal abstract partial class ObjectCacheService
     private static readonly TimeSpan CacheExpireTime = TimeSpan.FromHours(2);
 
     private readonly IObjectCacheRepository objectCacheRepository;
-    private readonly IServiceProvider serviceProvider;
     private readonly IMemoryCache memoryCache;
 
-    protected IServiceProvider ServiceProvider { get => serviceProvider; }
+    protected partial IServiceProvider ServiceProvider { get; }
 
     protected async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, bool last, Func<bool, CancellationToken, ValueTask<HutaoResponse<T>>> taskFunc)
         where T : class, new()

@@ -23,9 +23,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IInfoBarService infoBarService;
     private readonly IUIGFService uigfService;
-    private readonly AppOptions appOptions;
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     [Command("ImportUIGFJsonCommand")]
     private async Task ImportUIGFJsonAsync()

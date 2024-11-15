@@ -15,15 +15,11 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
 {
-    private readonly BackgroundImageOptions backgroundImageOptions;
-    private readonly CultureOptions cultureOptions;
-    private readonly AppOptions appOptions;
+    public partial CultureOptions CultureOptions { get; }
 
-    public CultureOptions CultureOptions { get => cultureOptions; }
+    public partial AppOptions AppOptions { get; }
 
-    public AppOptions AppOptions { get => appOptions; }
-
-    public BackgroundImageOptions BackgroundImageOptions { get => backgroundImageOptions; }
+    public partial BackgroundImageOptions BackgroundImageOptions { get; }
 
     public NameValue<CultureInfo>? SelectedCulture
     {

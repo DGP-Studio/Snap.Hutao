@@ -10,9 +10,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserRepository))]
 internal sealed partial class UserRepository : IUserRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public void DeleteUserById(Guid id)
     {

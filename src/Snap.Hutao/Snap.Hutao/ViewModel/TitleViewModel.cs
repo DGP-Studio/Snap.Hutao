@@ -28,14 +28,12 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly HotKeyOptions hotKeyOptions;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
+    public partial HotKeyOptions HotKeyOptions { get; }
 
     public string Title
     {

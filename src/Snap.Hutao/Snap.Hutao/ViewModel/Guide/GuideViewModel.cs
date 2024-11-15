@@ -22,10 +22,6 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly StaticResourceOptions staticResourceOptions;
-    private readonly CultureOptions cultureOptions;
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly AppOptions appOptions;
 
     public uint State
     {
@@ -69,13 +65,13 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public bool IsNextOrCompleteButtonEnabled { get; set => SetProperty(ref field, value); } = true;
 
-    public CultureOptions CultureOptions { get => cultureOptions; }
+    public partial CultureOptions CultureOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
-    public StaticResourceOptions StaticResourceOptions { get => staticResourceOptions; }
+    public partial StaticResourceOptions StaticResourceOptions { get; }
 
     public NameValue<CultureInfo>? SelectedCulture
     {

@@ -23,19 +23,16 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
-    private readonly HttpProxyUsingSystemProxy dynamicHttpProxy;
     private readonly IServiceProvider serviceProvider;
-    private readonly LoopbackSupport loopbackSupport;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public HttpProxyUsingSystemProxy DynamicHttpProxy { get => dynamicHttpProxy; }
+    public partial HttpProxyUsingSystemProxy DynamicHttpProxy { get; }
 
-    public LoopbackSupport LoopbackSupport { get => loopbackSupport; }
+    public partial LoopbackSupport LoopbackSupport { get; }
 
     public string? SearchText { get; set => SetProperty(ref field, value); }
 

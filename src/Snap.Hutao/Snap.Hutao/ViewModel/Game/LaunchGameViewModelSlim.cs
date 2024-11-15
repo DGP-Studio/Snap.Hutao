@@ -17,11 +17,9 @@ namespace Snap.Hutao.ViewModel.Game;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
 {
-    private readonly LaunchStatusOptions launchStatusOptions;
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
-    private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -29,9 +27,9 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
-    public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
+    public partial LaunchStatusOptions LaunchStatusOptions { get; }
 
-    public LaunchOptions LaunchOptions { get => launchOptions; }
+    public partial LaunchOptions LaunchOptions { get; }
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 

@@ -10,9 +10,7 @@ namespace Snap.Hutao.Service.AvatarInfo;
 [Injection(InjectAs.Singleton, typeof(IAvatarInfoRepository))]
 internal sealed partial class AvatarInfoRepository : IAvatarInfoRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public List<EntityAvatarInfo> GetAvatarInfoListByUid(string uid)
     {

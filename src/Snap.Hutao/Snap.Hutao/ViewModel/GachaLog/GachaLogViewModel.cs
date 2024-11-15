@@ -23,10 +23,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
-    private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
-    private readonly WishCountdownViewModel wishCountdownViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly HutaoCloudViewModel hutaoCloudViewModel;
     private readonly ILogger<GachaLogViewModel> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly IProgressFactory progressFactory;
@@ -69,11 +66,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     public bool IsAggressiveRefresh { get; set => SetProperty(ref field, value); }
 
-    public HutaoCloudViewModel HutaoCloudViewModel { get => hutaoCloudViewModel; }
+    public partial HutaoCloudViewModel HutaoCloudViewModel { get; }
 
-    public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
+    public partial HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get; }
 
-    public WishCountdownViewModel WishCountdownViewModel { get => wishCountdownViewModel; }
+    public partial WishCountdownViewModel WishCountdownViewModel { get; }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

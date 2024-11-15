@@ -10,9 +10,7 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 [Injection(InjectAs.Singleton, typeof(ISpiralAbyssRecordRepository))]
 internal sealed partial class SpiralAbyssRecordRepository : ISpiralAbyssRecordRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid)
     {

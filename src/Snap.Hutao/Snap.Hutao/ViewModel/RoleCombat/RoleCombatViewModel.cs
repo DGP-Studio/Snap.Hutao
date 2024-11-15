@@ -24,11 +24,10 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly HutaoRoleCombatDatabaseViewModel hutaoRoleCombatDatabaseViewModel;
 
     public AdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get; set => SetProperty(ref field, value); }
 
-    public HutaoRoleCombatDatabaseViewModel HutaoRoleCombatDatabaseViewModel { get => hutaoRoleCombatDatabaseViewModel; }
+    public partial HutaoRoleCombatDatabaseViewModel HutaoRoleCombatDatabaseViewModel { get; }
 
     public void Receive(UserAndUidChangedMessage message)
     {

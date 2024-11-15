@@ -14,28 +14,19 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AvatarPropertyViewModelScopeContext
 {
-    private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly ICultivationService cultivationService;
-    private readonly IAvatarInfoService avatarInfoService;
-    private readonly IClipboardProvider clipboardProvider;
-    private readonly IInfoBarService infoBarService;
-    private readonly ITaskContext taskContext;
-    private readonly IUserService userService;
+    public partial IContentDialogFactory ContentDialogFactory { get; }
 
-    public IContentDialogFactory ContentDialogFactory { get => contentDialogFactory; }
+    public partial IServiceScopeFactory ServiceScopeFactory { get; }
 
-    public IServiceScopeFactory ServiceScopeFactory { get => serviceScopeFactory; }
+    public partial ICultivationService CultivationService { get; }
 
-    public ICultivationService CultivationService { get => cultivationService; }
+    public partial IAvatarInfoService AvatarInfoService { get; }
 
-    public IAvatarInfoService AvatarInfoService { get => avatarInfoService; }
+    public partial IClipboardProvider ClipboardProvider { get; }
 
-    public IClipboardProvider ClipboardProvider { get => clipboardProvider; }
+    public partial IInfoBarService InfoBarService { get; }
 
-    public IInfoBarService InfoBarService { get => infoBarService; }
+    public partial ITaskContext TaskContext { get; }
 
-    public ITaskContext TaskContext { get => taskContext; }
-
-    public IUserService UserService { get => userService; }
+    public partial IUserService UserService { get; }
 }

@@ -14,9 +14,7 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Singleton, typeof(IGachaLogRepository))]
 internal sealed partial class GachaLogRepository : IGachaLogRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public ObservableCollection<GachaArchive> GetGachaArchiveCollection()
     {
@@ -65,7 +63,7 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
 
     public void AddGachaArchive(GachaArchive archive)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        using (IServiceScope scope = ServiceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             appDbContext.GachaArchives.AddAndSave(archive);

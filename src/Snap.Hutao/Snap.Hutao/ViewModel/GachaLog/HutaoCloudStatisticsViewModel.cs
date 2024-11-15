@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.GachaLog;
-using Snap.Hutao.Service.Hutao;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
@@ -11,10 +10,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
 {
     private readonly IGachaLogHutaoCloudService hutaoCloudService;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly ITaskContext taskContext;
-
-    public HutaoUserOptions Options { get => hutaoUserOptions; }
 
     public HutaoStatistics? Statistics { get; set => SetProperty(ref field, value); }
 

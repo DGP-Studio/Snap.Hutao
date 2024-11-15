@@ -25,11 +25,10 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly IHutaoUserService hutaoUserService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
-    private readonly HutaoUserOptions options;
 
     public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get; set => SetProperty(ref field, value); }
 
-    public HutaoUserOptions Options { get => options; }
+    public partial HutaoUserOptions Options { get; }
 
     internal ICommand RetrieveCommand { get; set; }
 

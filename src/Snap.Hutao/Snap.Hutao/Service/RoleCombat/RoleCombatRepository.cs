@@ -10,9 +10,7 @@ namespace Snap.Hutao.Service.RoleCombat;
 [Injection(InjectAs.Singleton, typeof(IRoleCombatRepository))]
 internal sealed partial class RoleCombatRepository : IRoleCombatRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public Dictionary<uint, RoleCombatEntry> GetRoleCombatEntryMapByUid(string uid)
     {
