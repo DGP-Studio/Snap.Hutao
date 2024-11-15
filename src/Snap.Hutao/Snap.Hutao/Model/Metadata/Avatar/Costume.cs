@@ -15,7 +15,7 @@ internal sealed class Costume
 
     public required bool IsDefault { get; init; }
 
-    public required string FrontIcon { get; init; }
+    public string? FrontIcon { get; init; }
 
-    public required string SideIcon { get; init; }
+    public string? SideIcon { get; init; }
 }

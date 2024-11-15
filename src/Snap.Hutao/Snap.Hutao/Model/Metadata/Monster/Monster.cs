@@ -18,13 +18,13 @@ internal sealed partial class Monster : IAdvancedCollectionViewItem
 
     public required MonsterRelationshipId RelationshipId { get; init; }
 
-    public required string MonsterName { get; init; }
+    public string? MonsterName { get; init; }
 
-    public required string Name { get; init; }
+    public string? Name { get; init; }
 
-    public required string Title { get; init; }
+    public string? Title { get; init; }
 
-    public required string Description { get; init; }
+    public string? Description { get; init; }
 
     public required string Icon { get; init; }
 
@@ -36,9 +36,9 @@ internal sealed partial class Monster : IAdvancedCollectionViewItem
 
     public List<MaterialId>? Drops { get; init; }
 
-    public required MonsterBaseValue BaseValue { get; init; }
+    public MonsterBaseValue? BaseValue { get; init; }
 
-    public required TypeValueCollection<FightProperty, GrowCurveType> GrowCurves { get; init; }
+    public TypeValueCollection<FightProperty, GrowCurveType>? GrowCurves { get; init; }
 
     [JsonIgnore]
     public List<DisplayItem>? DropsView { get; set; }

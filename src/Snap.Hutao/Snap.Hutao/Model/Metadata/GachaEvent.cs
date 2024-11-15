@@ -15,7 +15,7 @@ internal sealed class GachaEvent
 
     public required Uri Banner { get; init; }
 
-    public required Uri Banner2 { get; init; }
+    public Uri? Banner2 { get; init; }
 
     public required DateTimeOffset From { get; init; }
 

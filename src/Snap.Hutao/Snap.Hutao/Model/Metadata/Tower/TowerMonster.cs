@@ -12,7 +12,7 @@ internal sealed class TowerMonster
 
     public required uint Count { get; init; }
 
-    public required bool AttackMonolith { get; init; }
+    public bool AttackMonolith { get; init; }
 
     public ImmutableArray<NameDescription> Affixes { get; init; }
 }

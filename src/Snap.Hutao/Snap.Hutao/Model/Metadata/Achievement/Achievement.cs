@@ -25,7 +25,7 @@ internal sealed class Achievement
 
     public required uint Progress { get; init; }
 
-    public required string? Icon { get; init; }
+    public string? Icon { get; init; }
 
     public required string Version { get; init; }
 

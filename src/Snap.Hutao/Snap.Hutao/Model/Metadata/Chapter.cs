@@ -18,13 +18,13 @@ internal sealed class Chapter
 
     public required uint NeedPlayerLevel { get; init; }
 
-    public required string Number { get; init; }
+    public string? Number { get; init; }
 
-    public required string Title { get; init; }
+    public string? Title { get; init; }
 
     public required string Icon { get; init; }
 
-    public required string ImageTitle { get; init; }
+    public string? ImageTitle { get; init; }
 
     public required string SerialNumberIcon { get; init; }
 

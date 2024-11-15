@@ -27,7 +27,7 @@ internal sealed class FetterInfo
 
     public required string ConstellationBefore { get; init; }
 
-    public required string ConstellationAfter { get; init; }
+    public string? ConstellationAfter { get; init; }
 
     [JsonIgnore]
     public string Constellation { get => string.IsNullOrEmpty(ConstellationAfter) ? ConstellationBefore : ConstellationAfter; }

@@ -288,7 +288,7 @@
                     <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
                 </shuxcc:VerticalCard.Top>
                 <shuxcc:VerticalCard.Bottom>
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
                 </shuxcc:VerticalCard.Bottom>
             </shuxcc:VerticalCard>
         </DataTemplate>

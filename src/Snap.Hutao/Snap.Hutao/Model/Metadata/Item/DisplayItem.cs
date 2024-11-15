@@ -18,7 +18,7 @@ internal class DisplayItem
 
     public required string Name { get; init; }
 
-    public required string Description { get; init; }
+    public string? Description { get; init; }
 
-    public required string TypeDescription { get; init; }
+    public string? TypeDescription { get; init; }
 }
