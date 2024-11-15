@@ -39,6 +39,11 @@ internal sealed class Material : DisplayItem
             return true;
         }
 
+        if (TypeDescription is null)
+        {
+            return false;
+        }
+
         if (Regex.IsMatch(TypeDescription, SHRegex.ModelMetadataMaterialLocalSpecialtyRegex))
         {
             return true;

@@ -21,7 +21,7 @@ internal sealed class MonsterView : INameIcon
 
     private MonsterView(TowerMonster towerMonster, Model.Metadata.Monster.Monster metaMonster)
     {
-        Name = metaMonster.Name;
+        Name = metaMonster.Name ?? $"Unknown {towerMonster.Id}";
         Icon = MonsterIconConverter.IconNameToUri(metaMonster.Icon);
         Affixes = towerMonster.Affixes;
         Count = (int)towerMonster.Count;

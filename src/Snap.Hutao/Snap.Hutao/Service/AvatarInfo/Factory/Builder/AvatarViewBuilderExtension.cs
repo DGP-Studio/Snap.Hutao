@@ -24,6 +24,9 @@ internal static class AvatarViewBuilderExtension
         {
             MetadataCostume costume = avatar.Costumes.Single(c => c.Id == id);
 
+            ArgumentNullException.ThrowIfNull(costume.FrontIcon);
+            ArgumentNullException.ThrowIfNull(costume.SideIcon);
+
             // Set to costume icon
             builder.View.Icon = AvatarIconConverter.IconNameToUri(costume.FrontIcon);
             builder.View.SideIcon = AvatarIconConverter.IconNameToUri(costume.SideIcon);
