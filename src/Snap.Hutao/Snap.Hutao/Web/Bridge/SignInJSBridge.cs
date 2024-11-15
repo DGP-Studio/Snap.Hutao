@@ -6,10 +6,6 @@ using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.Web.Bridge;
 
-/// <summary>
-/// 签到页面JS桥
-/// </summary>
-[HighQuality]
 internal sealed class SignInJSBridge : MiHoYoJSBridgeFacade
 {
     public SignInJSBridge(IServiceProvider serviceProvider, CoreWebView2 webView, UserAndUid userAndUid)

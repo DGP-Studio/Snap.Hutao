@@ -3,15 +3,8 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-/// <summary>
-/// 用户信息包装器
-/// </summary>
-[HighQuality]
 internal sealed class UserInfoWrapper
 {
-    /// <summary>
-    /// 用户信息
-    /// </summary>
     [JsonPropertyName("user_info")]
     public UserInformation UserInfo { get; set; } = default!;
 }

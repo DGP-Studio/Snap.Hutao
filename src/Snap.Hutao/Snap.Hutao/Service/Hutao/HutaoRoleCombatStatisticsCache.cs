@@ -11,7 +11,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoRoleCombatStatisticsCache))]
 internal sealed partial class HutaoRoleCombatStatisticsCache : IHutaoRoleCombatStatisticsCache

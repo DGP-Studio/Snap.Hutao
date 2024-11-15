@@ -7,18 +7,13 @@ namespace Snap.Hutao.Model.Metadata;
 
 internal sealed class LevelParameters<TLevel, TParam>
 {
-    [JsonConstructor]
-    public LevelParameters()
-    {
-    }
-
     public LevelParameters(TLevel level, ImmutableArray<TParam> parameters)
     {
         Level = level;
         Parameters = parameters;
     }
 
-    public TLevel Level { get; set; } = default!;
+    public TLevel Level { get; }
 
-    public ImmutableArray<TParam> Parameters { get; set; } = default!;
+    public ImmutableArray<TParam> Parameters { get; }
 }

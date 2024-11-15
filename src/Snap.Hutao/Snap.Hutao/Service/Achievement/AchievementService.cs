@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Achievement;
+using System.Collections.Immutable;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -85,7 +86,7 @@ internal sealed partial class AchievementService : IAchievementService
         achievementRepository.RemoveAchievementArchive(archive);
     }
 
-    public async ValueTask<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, List<UIAFItem> list, ImportStrategyKind strategy)
+    public async ValueTask<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, ImmutableArray<UIAFItem> array, ImportStrategyKind strategy)
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -95,21 +96,21 @@ internal sealed partial class AchievementService : IAchievementService
         {
             case ImportStrategyKind.AggressiveMerge:
                 {
-                    IOrderedEnumerable<UIAFItem> orederedUIAF = list.OrderBy(a => a.Id);
+                    IOrderedEnumerable<UIAFItem> orederedUIAF = array.OrderBy(a => a.Id);
                     return achievementDbBulkOperation.Merge(archiveId, orederedUIAF, true);
                 }
 
             case ImportStrategyKind.LazyMerge:
                 {
-                    IOrderedEnumerable<UIAFItem> orederedUIAF = list.OrderBy(a => a.Id);
+                    IOrderedEnumerable<UIAFItem> orederedUIAF = array.OrderBy(a => a.Id);
                     return achievementDbBulkOperation.Merge(archiveId, orederedUIAF, false);
                 }
 
             case ImportStrategyKind.Overwrite:
                 {
-                    IEnumerable<EntityAchievement> orederedUIAF = list
-                        .SelectList(uiaf => EntityAchievement.From(archiveId, uiaf))
-                        .SortBy(a => a.Id);
+                    IEnumerable<EntityAchievement> orederedUIAF = array
+                        .Select(uiaf => EntityAchievement.From(archiveId, uiaf))
+                        .OrderBy(a => a.Id);
                     return achievementDbBulkOperation.Overwrite(archiveId, orederedUIAF);
                 }
 
@@ -122,12 +123,11 @@ internal sealed partial class AchievementService : IAchievementService
     {
         await taskContext.SwitchToBackgroundAsync();
         List<EntityAchievement> entities = achievementRepository.GetAchievementListByArchiveId(archive.InnerId);
-        List<UIAFItem> list = entities.SelectList(UIAFItem.From);
 
         return new()
         {
             Info = UIAFInfo.Create(),
-            List = list,
+            List = entities.Select(UIAFItem.From).ToImmutableArray(),
         };
     }
 }

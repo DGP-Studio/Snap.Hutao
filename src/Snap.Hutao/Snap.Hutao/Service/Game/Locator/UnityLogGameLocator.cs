@@ -6,17 +6,12 @@ using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Game.Locator;
 
-/// <summary>
-/// Unity 日志游戏定位器
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGameLocator), Key = GameLocationSource.UnityLog)]
 internal sealed partial class UnityLogGameLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
 
-    /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
     {
         await taskContext.SwitchToBackgroundAsync();

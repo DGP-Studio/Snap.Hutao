@@ -3,15 +3,8 @@
 
 namespace Snap.Hutao.Web.Bridge.Model;
 
-/// <summary>
-/// 获取CookieToken的请求
-/// </summary>
-[HighQuality]
 internal sealed class CookieTokenPayload
 {
-    /// <summary>
-    /// 强制刷新
-    /// </summary>
     [JsonPropertyName("forceRefresh")]
     public bool ForceRefresh { get; set; }
 }

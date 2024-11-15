@@ -5,10 +5,6 @@ using Snap.Hutao.Model.Metadata.Tower;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-/// <summary>
-/// 间视图
-/// </summary>
-[HighQuality]
 internal sealed class LevelView
 {
     private LevelView(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
@@ -18,19 +14,10 @@ internal sealed class LevelView
         Battles = [BattleView.From(towerLevel, 1, context), BattleView.From(towerLevel, 2, context)];
     }
 
-    /// <summary>
-    /// 间号
-    /// </summary>
     public string Index { get; }
 
-    /// <summary>
-    /// 星数
-    /// </summary>
     public int Star { get; private set; }
 
-    /// <summary>
-    /// 上下半
-    /// </summary>
     public List<BattleView> Battles { get; private set; }
 
     internal uint IndexValue { get; set; }

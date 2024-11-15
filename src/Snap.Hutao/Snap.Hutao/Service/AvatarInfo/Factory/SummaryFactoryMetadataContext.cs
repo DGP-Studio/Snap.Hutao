@@ -13,7 +13,6 @@ using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-[HighQuality]
 internal sealed class SummaryFactoryMetadataContext : IMetadataContext,
     IMetadataDictionaryIdAvatarSource,
     IMetadataDictionaryIdWeaponSource,

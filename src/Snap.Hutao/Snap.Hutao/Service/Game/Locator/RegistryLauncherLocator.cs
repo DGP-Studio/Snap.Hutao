@@ -8,10 +8,6 @@ using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Game.Locator;
 
-/// <summary>
-/// 注册表启动器位置定位器
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGameLocator), Key = GameLocationSource.Registry)]
 internal sealed partial class RegistryLauncherLocator : IGameLocator
@@ -19,7 +15,6 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
     private const string RegistryKeyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神";
     private readonly ITaskContext taskContext;
 
-    /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
     {
         await taskContext.SwitchToBackgroundAsync();

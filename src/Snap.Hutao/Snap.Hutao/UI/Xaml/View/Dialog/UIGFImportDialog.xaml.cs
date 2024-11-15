@@ -4,11 +4,12 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.InterChange.GachaLog;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
 [DependencyProperty("UIGF", typeof(UIGF))]
-[DependencyProperty("Selections", typeof(List<UIGFUidSelection>))]
+[DependencyProperty("Selections", typeof(ImmutableArray<UIGFUidSelection>))]
 internal sealed partial class UIGFImportDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
@@ -19,7 +20,7 @@ internal sealed partial class UIGFImportDialog : ContentDialog
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
         UIGF = uigf;
-        Selections = uigf.Hk4e?.SelectList(item => new UIGFUidSelection(item.Uid));
+        Selections = uigf.Hk4e.SelectArray(item => new UIGFUidSelection(item.Uid));
     }
 
     public async ValueTask<ValueResult<bool, HashSet<uint>>> GetSelectedUidsAsync()

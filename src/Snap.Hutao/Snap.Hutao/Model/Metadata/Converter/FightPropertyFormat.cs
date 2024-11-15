@@ -27,11 +27,7 @@ internal static class FightPropertyFormat
 
     public static ParameterDescription ToParameterDescription(FightProperty property, float value)
     {
-        return new()
-        {
-            Description = property.GetLocalizedDescription(),
-            Parameter = FormatValue(property, value),
-        };
+        return new(FormatValue(property, value), property.GetLocalizedDescription());
     }
 
     public static AvatarProperty ToAvatarProperty(BaseProperty baseProperty)

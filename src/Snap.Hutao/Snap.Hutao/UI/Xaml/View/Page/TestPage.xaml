@@ -91,14 +91,6 @@
                         Style="{ThemeResource SettingButtonStyle}"/>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Debug Information"/>
-                <cwc:SettingsCard Header="[Debug Only] Print ImageCache Failed Download Tasks">
-                    <Button
-                        Command="{Binding DebugPrintImageCacheFailedDownloadTasksCommand}"
-                        Content="Log"
-                        Style="{ThemeResource SettingButtonStyle}"/>
-                </cwc:SettingsCard>
-
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Condition Override"/>
                 <cwc:SettingsCard Header="Suppress Metadata Initialization">
                     <ToggleSwitch IsOn="{Binding SuppressMetadataInitialization, Mode=TwoWay}"/>

@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
+using System.Collections.Immutable;
 using RoleCombatSchedule = Snap.Hutao.Model.Metadata.RoleCombatSchedule;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
@@ -54,8 +55,8 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         TimeFormatted = $"{roleCombatSchedule.Begin:yyyy.MM.dd HH:mm} - {roleCombatSchedule.End:yyyy.MM.dd HH:mm}";
 
         Elements = roleCombatSchedule.Elements;
-        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectList(id => AvatarView.From(context.IdAvatarMap[id]));
-        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectList(id => AvatarView.From(context.IdAvatarMap[id]));
+        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectArray(id => AvatarView.From(context.IdAvatarMap[id]));
+        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectArray(id => AvatarView.From(context.IdAvatarMap[id]));
     }
 
     public uint ScheduleId { get; }
@@ -66,11 +67,11 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public string TimeFormatted { get; }
 
-    public List<ElementType> Elements { get; }
+    public ImmutableArray<ElementType> Elements { get; }
 
-    public List<AvatarView> SpecialAvatars { get; }
+    public ImmutableArray<AvatarView> SpecialAvatars { get; }
 
-    public List<AvatarView> InitialAvatars { get; }
+    public ImmutableArray<AvatarView> InitialAvatars { get; }
 
     public bool Engaged { get; }
 

@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-[HighQuality]
 internal static class ItemHelper
 {
     public static List<Item> Merge(List<Item>? left, List<Item>? right)

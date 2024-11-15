@@ -19,7 +19,6 @@ using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-[HighQuality]
 internal sealed class SummaryAvatarFactory
 {
     private readonly DetailedCharacter character;
@@ -71,10 +70,8 @@ internal sealed class SummaryAvatarFactory
         activatedConstellationIds = [];
         extraLevels = [];
 
-        foreach (RefValueTuple<Model.Metadata.Avatar.Skill, Constellation> tuple in depot.Talents.ZipList(constellations))
+        foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(constellations))
         {
-            ref readonly Constellation dataConstellation = ref tuple.Item2;
-
             // Constellations are activated in order
             if (!dataConstellation.IsActived)
             {
@@ -83,7 +80,6 @@ internal sealed class SummaryAvatarFactory
 
             activatedConstellationIds.Add(dataConstellation.Id);
 
-            ref readonly Model.Metadata.Avatar.Skill metaConstellation = ref tuple.Item1;
             if (metaConstellation.ExtraLevel is { } extraLevel)
             {
                 int index = extraLevel.Index switch

@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.UIGF;
 
@@ -21,9 +22,9 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
         ImportGachaArchives(importOptions.UIGF.Hk4e, importOptions.GachaArchiveUids);
     }
 
-    private void ImportGachaArchives(List<UIGFEntry<Hk4eItem>>? entries, HashSet<uint> uids)
+    private void ImportGachaArchives(ImmutableArray<UIGFEntry<Hk4eItem>> entries, HashSet<uint> uids)
     {
-        if (entries is null or [] || uids is null or { Count: 0 })
+        if (entries.IsDefaultOrEmpty || uids is null or { Count: 0 })
         {
             return;
         }

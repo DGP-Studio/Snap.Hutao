@@ -5,11 +5,6 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Web.Enka.Model;
 
-/// <summary>
-/// 类型与值
-/// 与元数据的 TypeValue 不同!
-/// </summary>
-[HighQuality]
 internal sealed class TypeValue
 {
     /// <summary>

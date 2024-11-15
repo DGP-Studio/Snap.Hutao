@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using System.Collections.Immutable;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
 using MetadataSkill = Snap.Hutao.Model.Metadata.Avatar.Skill;
@@ -36,15 +37,15 @@ internal static class AvatarViewBuilderExtension
         return builder;
     }
 
-    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<MetadataSkill> talents, List<SkillId> talentIds)
+    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<MetadataSkill> talents, List<SkillId> talentIds)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.SetConstellations(CreateConstellations(talents, talentIds.EmptyIfNull()));
 
-        static List<ConstellationView> CreateConstellations(List<MetadataSkill> talents, List<SkillId> talentIds)
+        static ImmutableArray<ConstellationView> CreateConstellations(ImmutableArray<MetadataSkill> talents, List<SkillId> talentIds)
         {
             // TODO: use builder here
-            return talents.SelectList(talent => new ConstellationView
+            return talents.SelectArray(talent => new ConstellationView
             {
                 Name = talent.Name,
                 Icon = SkillIconConverter.IconNameToUri(talent.Icon),
@@ -54,7 +55,7 @@ internal static class AvatarViewBuilderExtension
         }
     }
 
-    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<ConstellationView> constellations)
+    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<ConstellationView> constellations)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Constellations = constellations);
@@ -152,12 +153,12 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.RefreshTimeFormat = refreshTimeFormat);
     }
 
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, List<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
+    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.SetSkills(CreateSkills(proudSkills, skillLevels, extraLevels));
 
-        static List<SkillView> CreateSkills(List<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
+        static ImmutableArray<SkillView> CreateSkills(ImmutableArray<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
         {
             if (skillLevels is { Count: 0 })
             {
@@ -172,7 +173,7 @@ internal static class AvatarViewBuilderExtension
                 nonExtraLeveledSkills.DecreaseByValue(skillId, extraLevel);
             }
 
-            return proudSkills.SelectList(proudSkill => new SkillView
+            return proudSkills.SelectArray(proudSkill => new SkillView
             {
                 Name = proudSkill.Name,
                 Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
@@ -185,7 +186,7 @@ internal static class AvatarViewBuilderExtension
         }
     }
 
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, List<SkillView> skills)
+    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<SkillView> skills)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Skills = skills);

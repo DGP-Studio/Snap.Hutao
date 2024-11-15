@@ -15,7 +15,7 @@ internal static class BaseValueInfoFormat
         float value = propValue.Value * growCurveMap[level].GetValueOrDefault(propValue.Type);
         if (promoteMap is not null)
         {
-            value += promoteMap[promoteLevel].GetValue(propValue.Property);
+            value += promoteMap[promoteLevel].AddProperties.GetValueOrDefault(propValue.Property);
         }
 
         return FightPropertyFormat.ToNameValue(propValue.Property, value);

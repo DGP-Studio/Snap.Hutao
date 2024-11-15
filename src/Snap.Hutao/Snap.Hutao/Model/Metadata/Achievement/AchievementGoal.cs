@@ -7,13 +7,13 @@ namespace Snap.Hutao.Model.Metadata.Achievement;
 
 internal sealed class AchievementGoal
 {
-    public AchievementGoalId Id { get; set; }
+    public required AchievementGoalId Id { get; init; }
 
-    public uint Order { get; set; }
+    public required uint Order { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public Reward? FinishReward { get; set; }
+    public Reward? FinishReward { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 }

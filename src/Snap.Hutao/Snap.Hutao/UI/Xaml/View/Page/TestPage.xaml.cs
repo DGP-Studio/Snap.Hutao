@@ -6,15 +6,8 @@ using Snap.Hutao.ViewModel;
 
 namespace Snap.Hutao.UI.Xaml.View.Page;
 
-/// <summary>
-/// 测试页面
-/// </summary>
-[HighQuality]
 internal sealed partial class TestPage : ScopedPage
 {
-    /// <summary>
-    /// 构造一个新的测试页面
-    /// </summary>
     public TestPage()
     {
         InitializeWith<TestViewModel>();

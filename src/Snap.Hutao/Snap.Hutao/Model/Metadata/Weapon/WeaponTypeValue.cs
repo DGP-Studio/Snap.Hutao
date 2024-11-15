@@ -13,5 +13,5 @@ internal sealed class WeaponTypeValue : TypeValue<FightProperty, GrowCurveType>
         InitValue = initValue;
     }
 
-    public float InitValue { get; set; }
+    public float InitValue { get; }
 }

@@ -25,41 +25,41 @@ internal partial class Avatar : INameQualityAccess,
     ICultivationItemsAccess,
     IAdvancedCollectionViewItem
 {
-    public AvatarId Id { get; set; }
+    public required AvatarId Id { get; init; }
 
-    public PromoteId PromoteId { get; set; }
+    public required PromoteId PromoteId { get; init; }
 
-    public uint Sort { get; set; }
+    public required uint Sort { get; init; }
 
-    public BodyType Body { get; set; } = default!;
+    public required BodyType Body { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
-    public string SideIcon { get; set; } = default!;
+    public required string SideIcon { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public DateTimeOffset BeginTime { get; set; }
+    public required DateTimeOffset BeginTime { get; init; }
 
-    public QualityType Quality { get; set; }
+    public required QualityType Quality { get; init; }
 
-    public WeaponType Weapon { get; set; }
+    public required WeaponType Weapon { get; init; }
 
-    public AvatarBaseValue BaseValue { get; set; } = default!;
+    public required AvatarBaseValue BaseValue { get; init; }
 
-    public TypeValueCollection<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
+    public required TypeValueCollection<FightProperty, GrowCurveType> GrowCurves { get; init; }
 
-    public SkillDepot SkillDepot { get; set; } = default!;
+    public required SkillDepot SkillDepot { get; init; }
 
-    public FetterInfo FetterInfo { get; set; } = default!;
+    public required FetterInfo FetterInfo { get; init; }
 
-    public ImmutableArray<Costume> Costumes { get; set; } = default!;
+    public required ImmutableArray<Costume> Costumes { get; init; }
 
-    public ImmutableArray<MaterialId> CultivationItems { get; set; } = default!;
+    public required ImmutableArray<MaterialId> CultivationItems { get; init; }
 
-    public NameCard NameCard { get; set; } = default!;
+    public required NameCard NameCard { get; init; }
 
     [JsonIgnore]
     public AvatarCollocationView? CollocationView { get; set; }

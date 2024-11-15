@@ -5,6 +5,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.UI.Xaml.Data;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -59,7 +60,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public string BlessingName { get; }
 
-    public List<string> Blessings { get; }
+    public ImmutableArray<string> Blessings { get; }
 
     public bool Engaged { get; }
 

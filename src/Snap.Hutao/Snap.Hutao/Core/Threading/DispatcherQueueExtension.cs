@@ -6,7 +6,6 @@ using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.Threading;
 
-[HighQuality]
 internal static class DispatcherQueueExtension
 {
     public static void Invoke(this DispatcherQueue dispatcherQueue, Action action)

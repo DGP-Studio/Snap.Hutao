@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -12,12 +13,12 @@ internal sealed class BattleWave
     private BattleWave(TowerWave towerWave, SpiralAbyssMetadataContext context)
     {
         Description = towerWave.Type.GetLocalizedDescriptionOrDefault() ?? SH.ModelMetadataTowerWaveTypeDefault;
-        Monsters = towerWave.Monsters.SelectList(m => CreateMonsterViewOrDefault(m, context));
+        Monsters = towerWave.Monsters.SelectArray(m => CreateMonsterViewOrDefault(m, context));
     }
 
     public string Description { get; }
 
-    public List<MonsterView> Monsters { get; }
+    public ImmutableArray<MonsterView> Monsters { get; }
 
     public static BattleWave From(TowerWave tower, SpiralAbyssMetadataContext context)
     {

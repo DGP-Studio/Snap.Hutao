@@ -5,10 +5,6 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Web.Enka.Model;
 
-/// <summary>
-/// 档案头像
-/// </summary>
-[HighQuality]
 internal sealed class ProfilePicture
 {
     [JsonPropertyName("id")]

@@ -40,7 +40,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
                 {
                     // Fast path
                     string resultFormatted = ParamRegex().Replace(format.ToString(), match => ReplaceParamInMatch(match, paramArray));
-                    results.Add(new ParameterDescription { Description = description.ToString(), Parameter = resultFormatted });
+                    results.Add(new(resultFormatted, description.ToString()));
                 }
                 else
                 {
@@ -48,7 +48,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
                     string formatString = SpecialNameHandling.Handle(format.ToString());
 
                     string resultFormatted = ParamRegex().Replace(formatString, match => ReplaceParamInMatch(match, paramArray));
-                    results.Add(new ParameterDescription { Description = descriptionString, Parameter = resultFormatted });
+                    results.Add(new(resultFormatted, descriptionString));
                 }
             }
             else

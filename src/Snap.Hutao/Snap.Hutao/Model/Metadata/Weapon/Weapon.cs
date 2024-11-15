@@ -22,29 +22,29 @@ internal sealed partial class Weapon : INameQualityAccess,
     ICultivationItemsAccess,
     IAdvancedCollectionViewItem
 {
-    public WeaponId Id { get; set; }
+    public required WeaponId Id { get; init; }
 
-    public PromoteId PromoteId { get; set; }
+    public required PromoteId PromoteId { get; init; }
 
-    public uint Sort { get; set; }
+    public required uint Sort { get; init; }
 
-    public WeaponType WeaponType { get; set; }
+    public required WeaponType WeaponType { get; init; }
 
-    public QualityType RankLevel { get; set; }
+    public required QualityType RankLevel { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
-    public string AwakenIcon { get; set; } = default!;
+    public required string AwakenIcon { get; init; }
 
-    public ImmutableArray<WeaponTypeValue> GrowCurves { get; set; } = default!;
+    public required ImmutableArray<WeaponTypeValue> GrowCurves { get; init; }
 
-    public NameDescriptions? Affix { get; set; } = default!;
+    public NameDescriptions? Affix { get; init; }
 
-    public ImmutableArray<MaterialId> CultivationItems { get; set; } = default!;
+    public required ImmutableArray<MaterialId> CultivationItems { get; init; }
 
     [JsonIgnore]
     public WeaponCollocationView? CollocationView { get; set; }

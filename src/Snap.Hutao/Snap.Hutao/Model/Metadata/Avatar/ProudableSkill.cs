@@ -1,13 +1,24 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-internal sealed partial class ProudableSkill : Skill
+internal sealed partial class ProudableSkill : Skill, ITypedCalculableSource<ICalculableSkill, SkillType>
 {
-    public SkillGroupId GroupId { get; set; }
+    public required SkillGroupId GroupId { get; init; }
 
-    public DescriptionsParameters Proud { get; set; } = default!;
+    public required DescriptionsParameters Proud { get; init; }
+
+    public static uint GetMaxLevel()
+    {
+        return 10U;
+    }
+
+    public ICalculableSkill ToCalculable(SkillType type)
+    {
+        return CalculableSkill.From(this, type);
+    }
 }

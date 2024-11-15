@@ -6,7 +6,6 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-[HighQuality]
 internal static class SummaryHelper
 {
     public static ReliquarySubAffixId GetAffixMaxId(in ReliquarySubAffixId appendId)

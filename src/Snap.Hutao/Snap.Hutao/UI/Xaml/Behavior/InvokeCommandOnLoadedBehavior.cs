@@ -7,10 +7,6 @@ using Snap.Hutao.UI.Input;
 
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
-/// <summary>
-/// 在元素加载完成后执行命令的行为
-/// </summary>
-[HighQuality]
 [DependencyProperty("Command", typeof(ICommand))]
 [DependencyProperty("CommandParameter", typeof(object))]
 internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
@@ -28,7 +24,6 @@ internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIEle
         }
     }
 
-    /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {
         TryExecuteCommand();

@@ -5,7 +5,6 @@ using Windows.Storage;
 
 namespace Snap.Hutao.Core.Setting;
 
-[HighQuality]
 internal static class LocalSetting
 {
     private static readonly ApplicationDataContainer Container = ApplicationData.Current.LocalSettings;

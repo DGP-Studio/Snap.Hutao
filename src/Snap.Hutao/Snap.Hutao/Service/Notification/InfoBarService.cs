@@ -6,8 +6,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Notification;
 
-/// <inheritdoc/>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
 internal sealed partial class InfoBarService : IInfoBarService
@@ -17,7 +15,6 @@ internal sealed partial class InfoBarService : IInfoBarService
 
     private ObservableCollection<InfoBarOptions>? collection;
 
-    /// <inheritdoc/>
     public ObservableCollection<InfoBarOptions> Collection
     {
         get => collection ??= [];

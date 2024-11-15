@@ -7,15 +7,15 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class Costume
 {
-    public CostumeId Id { get; set; }
+    public required CostumeId Id { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public bool IsDefault { get; set; }
+    public required bool IsDefault { get; init; }
 
-    public string FrontIcon { get; set; } = default!;
+    public required string FrontIcon { get; init; }
 
-    public string SideIcon { get; set; } = default!;
+    public required string SideIcon { get; init; }
 }

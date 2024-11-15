@@ -2,25 +2,26 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class SkillDepot
 {
-    public Arkhe Arkhe { get; set; }
+    public required Arkhe Arkhe { get; init; }
 
-    public List<ProudableSkill> Skills { get; set; } = default!;
+    public required ImmutableArray<ProudableSkill> Skills { get; init; }
 
-    public ProudableSkill EnergySkill { get; set; } = default!;
+    public required ProudableSkill EnergySkill { get; init; }
 
-    public List<ProudableSkill> Inherents { get; set; } = default!;
+    public required ImmutableArray<ProudableSkill> Inherents { get; init; }
 
-    public List<Skill> Talents { get; set; } = default!;
+    public required ImmutableArray<Skill> Talents { get; init; }
 
     [field: MaybeNull]
-    public List<ProudableSkill> CompositeSkills { get => field ??= [.. Skills, EnergySkill, .. Inherents]; }
+    public ImmutableArray<ProudableSkill> CompositeSkills { get => !field.IsDefault ? field : field = [.. Skills, EnergySkill, .. Inherents]; }
 
     // No Inherents && 跳过 替换冲刺的技能
     [field: MaybeNull]
-    public List<ProudableSkill> CompositeSkillsNoInherents { get => field ??= [.. Skills.Where(s => s.Proud.Parameters.Count > 1), EnergySkill]; }
+    public ImmutableArray<ProudableSkill> CompositeSkillsNoInherents { get => !field.IsDefault ? field : field = [.. Skills.Where(s => s.Proud.Parameters.Count > 1), EnergySkill]; }
 }

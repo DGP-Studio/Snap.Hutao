@@ -3,19 +3,11 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-/// <summary>
-/// 分组可计算值
-/// </summary>
-[HighQuality]
 internal abstract class GroupCalculable : Calculable
 {
-    /// <summary>
-    /// 组Id
-    /// </summary>
     [JsonPropertyName("group_id")]
     public uint GroupId { get; set; }
 
-    /// <inheritdoc/>
     public override PromotionDelta ToPromotionDelta()
     {
         return new()

@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class DescriptionsParameters
 {
-    public ImmutableArray<string> Descriptions { get; set; } = default!;
+    public required ImmutableArray<string> Descriptions { get; init; }
 
-    public LevelParametersCollection<SkillLevel, float> Parameters { get; set; } = default!;
+    public required LevelParametersCollection<SkillLevel, float> Parameters { get; init; }
 }

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -46,10 +47,10 @@ internal static class AvatarViewTextTemplating
             """;
     }
 
-    private static string FormatSkills(List<SkillView> skills)
+    private static string FormatSkills(ImmutableArray<SkillView> skills)
     {
         StringBuilder result = new();
-        Span<SkillView> skillSpan = CollectionsMarshal.AsSpan(skills);
+        ReadOnlySpan<SkillView> skillSpan = skills.AsSpan();
         for (int index = 0; index < skillSpan.Length; index++)
         {
             ref readonly SkillView skill = ref skillSpan[index];

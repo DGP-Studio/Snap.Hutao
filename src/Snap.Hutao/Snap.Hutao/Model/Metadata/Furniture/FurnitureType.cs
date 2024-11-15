@@ -8,21 +8,21 @@ namespace Snap.Hutao.Model.Metadata.Furniture;
 
 internal sealed class FurnitureType
 {
-    public FurnitureTypeId Id { get; set; }
+    public required FurnitureTypeId Id { get; init; }
 
-    public uint Category { get; set; }
+    public required uint Category { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Name2 { get; set; } = default!;
+    public required string Name2 { get; init; }
 
-    public string TabIcon { get; set; } = default!;
+    public required string TabIcon { get; init; }
 
-    public FurnitureDeployType SceneType { get; set; }
+    public required FurnitureDeployType SceneType { get; init; }
 
-    public bool BagPageOnly { get; set; }
+    public required bool BagPageOnly { get; init; }
 
-    public bool IsShowInBag { get; set; }
+    public required bool IsShowInBag { get; init; }
 
-    public uint Sort { get; set; }
+    public required uint Sort { get; init; }
 }

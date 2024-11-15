@@ -8,27 +8,27 @@ namespace Snap.Hutao.Model.Metadata;
 
 internal sealed class Chapter
 {
-    public ChapterId Id { get; set; }
+    public required ChapterId Id { get; init; }
 
-    public ChapterGroupId GroupId { get; set; }
+    public required ChapterGroupId GroupId { get; init; }
 
-    public QuestId BeginQuestId { get; set; }
+    public required QuestId BeginQuestId { get; init; }
 
-    public QuestId EndQuestId { get; set; }
+    public required QuestId EndQuestId { get; init; }
 
-    public uint NeedPlayerLevel { get; set; }
+    public required uint NeedPlayerLevel { get; init; }
 
-    public string Number { get; set; } = default!;
+    public required string Number { get; init; }
 
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
-    public string ImageTitle { get; set; } = default!;
+    public required string ImageTitle { get; init; }
 
-    public string SerialNumberIcon { get; set; } = default!;
+    public required string SerialNumberIcon { get; init; }
 
-    public City CityId { get; set; }
+    public required City CityId { get; init; }
 
-    public QuestType QuestType { get; set; }
+    public required QuestType QuestType { get; init; }
 }

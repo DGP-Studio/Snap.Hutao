@@ -10,7 +10,6 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
 internal sealed partial class AvatarInfoService : IAvatarInfoService

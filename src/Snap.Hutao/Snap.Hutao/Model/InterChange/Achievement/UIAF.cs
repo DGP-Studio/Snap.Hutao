@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.InterChange.Achievement;
 
@@ -16,7 +17,7 @@ internal sealed class UIAF
     public UIAFInfo Info { get; set; } = default!;
 
     [JsonPropertyName("list")]
-    public List<UIAFItem> List { get; set; } = default!;
+    public ImmutableArray<UIAFItem> List { get; set; } = default!;
 
     public bool IsCurrentVersionSupported()
     {

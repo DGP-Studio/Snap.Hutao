@@ -11,7 +11,6 @@ using MetadataReliquarySet = Snap.Hutao.Model.Metadata.Reliquary.ReliquarySet;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-[HighQuality]
 internal sealed class SummaryReliquaryFactory
 {
     private readonly SummaryFactoryMetadataContext metadataContext;

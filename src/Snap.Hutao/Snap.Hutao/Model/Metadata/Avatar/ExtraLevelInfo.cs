@@ -5,7 +5,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class ExtraLevelInfo
 {
-    public ExtraLevelIndexKind Index { get; set; }
+    public required ExtraLevelIndexKind Index { get; init; }
 
-    public uint Level { get; set; }
+    public required uint Level { get; init; }
 }

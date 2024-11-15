@@ -8,13 +8,13 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class ProfilePicture
 {
-    public ProfilePictureId Id { get; set; }
+    public required ProfilePictureId Id { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public ProfilePictureUnlockType UnlockType { get; set; }
+    public required ProfilePictureUnlockType UnlockType { get; init; }
 
     /// <summary>
     /// <see cref="ProfilePictureUnlockType.Item"/> -> <see cref="MaterialId"/>
@@ -25,5 +25,5 @@ internal sealed class ProfilePicture
     /// <br/>
     /// <see cref="ProfilePictureUnlockType.ParentQuest"/> -> <see cref="QuestId"/>
     /// </summary>
-    public uint UnlockParameter { get; set; }
+    public uint UnlockParameter { get; init; }
 }

@@ -2,28 +2,17 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Tower;
 
 internal sealed class TowerMonster
 {
-    /// <summary>
-    /// 怪物关系Id
-    /// </summary>
-    public MonsterRelationshipId Id { get; set; }
+    public required MonsterRelationshipId Id { get; init; }
 
-    /// <summary>
-    /// 个数
-    /// </summary>
-    public uint Count { get; set; }
+    public required uint Count { get; init; }
 
-    /// <summary>
-    /// 是否攻击镇石
-    /// </summary>
-    public bool AttackMonolith { get; set; }
+    public required bool AttackMonolith { get; init; }
 
-    /// <summary>
-    /// 特殊词条
-    /// </summary>
-    public List<NameDescription>? Affixes { get; set; }
+    public ImmutableArray<NameDescription> Affixes { get; init; }
 }

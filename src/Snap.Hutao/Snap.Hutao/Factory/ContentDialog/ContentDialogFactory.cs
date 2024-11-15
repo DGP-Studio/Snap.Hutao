@@ -86,16 +86,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         return contentDialog;
     }
 
-    public TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
-        where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
-    {
-        TContentDialog contentDialog = ActivatorUtilities.CreateInstance<TContentDialog>(serviceProvider, parameters);
-        contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
-        contentDialog.RequestedTheme = appOptions.ElementTheme;
-
-        return contentDialog;
-    }
-
     public ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {
         return contentDialogQueue.EnqueueAndShowAsync(contentDialog);

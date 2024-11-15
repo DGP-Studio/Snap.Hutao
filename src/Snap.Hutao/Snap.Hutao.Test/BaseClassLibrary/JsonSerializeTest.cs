@@ -104,6 +104,19 @@ public sealed class JsonSerializeTest
     }
 
     [TestMethod]
+    public void InitPropertyCanDeserialize()
+    {
+        string source = """
+            {
+              "Value": "A"
+            }
+            """;
+
+        SampleClassHoldEnumInitOnly sample = JsonSerializer.Deserialize<SampleClassHoldEnumInitOnly>(source)!;
+        Assert.AreEqual(sample.Value, SampleEnum.A);
+    }
+
+    [TestMethod]
     public void NewEmptyObjectSerializeAsEmptyObject()
     {
         object sample = new();
@@ -157,6 +170,11 @@ public sealed class JsonSerializeTest
     private sealed class SampleClassHoldEnum
     {
         public SampleEnum Value { get; set; }
+    }
+
+    private sealed class SampleClassHoldEnumInitOnly
+    {
+        public SampleEnum Value { get; init; }
     }
 
     [JsonDerivedType(typeof(SampleClassImplementedInterface))]

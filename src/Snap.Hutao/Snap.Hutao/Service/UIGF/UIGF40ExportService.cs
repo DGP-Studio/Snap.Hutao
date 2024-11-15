@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
+using System.Collections.Immutable;
 using System.IO;
 
 namespace Snap.Hutao.Service.UIGF;
@@ -49,7 +50,7 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
 
         IGachaLogRepository gachaLogRepository = serviceProvider.GetRequiredService<IGachaLogRepository>();
 
-        List<UIGFEntry<Hk4eItem>> results = [];
+        ImmutableArray<UIGFEntry<Hk4eItem>>.Builder results = ImmutableArray.CreateBuilder<UIGFEntry<Hk4eItem>>(uids.Count);
         foreach (uint uid in uids)
         {
             GachaArchive? archive = gachaLogRepository.GetGachaArchiveByUid($"{uid}");
@@ -59,12 +60,12 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
             {
                 Uid = uid,
                 TimeZone = 0,
-                List = dbItems.SelectList(Hk4eItem.From),
+                List = dbItems.Select(Hk4eItem.From).ToImmutableArray(),
             };
 
             results.Add(entry);
         }
 
-        uigf.Hk4e = results;
+        uigf.Hk4e = results.ToImmutable();
     }
 }

@@ -3,19 +3,8 @@
 
 namespace Snap.Hutao.Web.Hoyolab.DataSigning;
 
-/// <summary>
-/// 数据签名版本
-/// </summary>
-[HighQuality]
 internal enum DataSignAlgorithmVersion
 {
-    /// <summary>
-    /// 一代
-    /// </summary>
     Gen1,
-
-    /// <summary>
-    /// 二代，额外添加了b，q 参数
-    /// </summary>
     Gen2,
 }

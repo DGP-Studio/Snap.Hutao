@@ -6,13 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Snap.Hutao.Model.Entity.Configuration;
 
-/// <summary>
-/// 实时便笺入口配置
-/// </summary>
-[HighQuality]
 internal sealed class DailyNoteEntryConfiguration : IEntityTypeConfiguration<DailyNoteEntry>
 {
-    /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<DailyNoteEntry> builder)
     {
         builder.Property(e => e.DailyNote)

@@ -31,7 +31,7 @@ internal sealed class TypeValueCollection<TType, TValue>
 [SuppressMessage("", "SA1402")]
 file sealed class ConverterFactory : JsonConverterFactory
 {
-    private static readonly Type converterType = typeof(Converter<,>);
+    private static readonly Type ConverterType = typeof(Converter<,>);
 
     public override bool CanConvert(Type typeToConvert)
     {
@@ -40,7 +40,7 @@ file sealed class ConverterFactory : JsonConverterFactory
 
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        return Activator.CreateInstance(converterType.MakeGenericType(typeToConvert.GetGenericArguments())) as JsonConverter;
+        return Activator.CreateInstance(ConverterType.MakeGenericType(typeToConvert.GetGenericArguments())) as JsonConverter;
     }
 }
 

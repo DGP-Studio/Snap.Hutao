@@ -7,7 +7,6 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Windowing;
 
-[HighQuality]
 internal static class AppWindowExtension
 {
     public static unsafe RectInt32 GetRect(this AppWindow appWindow)

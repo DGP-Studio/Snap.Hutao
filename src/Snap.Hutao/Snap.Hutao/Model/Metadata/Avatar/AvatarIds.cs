@@ -142,6 +142,20 @@ internal static class AvatarIds
             Icon = "UI_AvatarIcon_PlayerBoy",
             SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
             Quality = Intrinsic.QualityType.QUALITY_ORANGE,
+            Id = default,
+            PromoteId = default,
+            Sort = default,
+            Body = default,
+            Description = default!,
+            BeginTime = default,
+            Weapon = default,
+            BaseValue = default!,
+            GrowCurves = default!,
+            SkillDepot = default!,
+            FetterInfo = default!,
+            Costumes = default,
+            CultivationItems = default,
+            NameCard = default!,
         });
         builder.Add(PlayerGirl, new()
         {
@@ -149,6 +163,20 @@ internal static class AvatarIds
             Icon = "UI_AvatarIcon_PlayerGirl",
             SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
             Quality = Intrinsic.QualityType.QUALITY_ORANGE,
+            Id = default,
+            PromoteId = default,
+            Sort = default,
+            Body = default,
+            Description = default!,
+            BeginTime = default,
+            Weapon = default,
+            BaseValue = default!,
+            GrowCurves = default!,
+            SkillDepot = default!,
+            FetterInfo = default!,
+            Costumes = default,
+            CultivationItems = default,
+            NameCard = default!,
         });
 
         return builder.ToImmutable();
