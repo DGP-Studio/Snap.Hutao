@@ -12,22 +12,15 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementImporterScopeContext
 {
-    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
-    private readonly JsonSerializerOptions jsonSerializerOptions;
-    private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IClipboardProvider clipboardProvider;
-    private readonly IInfoBarService infoBarService;
-    private readonly ITaskContext taskContext;
+    public partial IFileSystemPickerInteraction FileSystemPickerInteraction { get; }
 
-    public IFileSystemPickerInteraction FileSystemPickerInteraction { get => fileSystemPickerInteraction; }
+    public partial JsonSerializerOptions JsonSerializerOptions { get; }
 
-    public JsonSerializerOptions JsonSerializerOptions { get => jsonSerializerOptions; }
+    public partial IContentDialogFactory ContentDialogFactory { get; }
 
-    public IContentDialogFactory ContentDialogFactory { get => contentDialogFactory; }
+    public partial IClipboardProvider ClipboardProvider { get; }
 
-    public IClipboardProvider ClipboardProvider { get => clipboardProvider; }
+    public partial IInfoBarService InfoBarService { get; }
 
-    public IInfoBarService InfoBarService { get => infoBarService; }
-
-    public ITaskContext TaskContext { get => taskContext; }
+    public partial ITaskContext TaskContext { get; }
 }

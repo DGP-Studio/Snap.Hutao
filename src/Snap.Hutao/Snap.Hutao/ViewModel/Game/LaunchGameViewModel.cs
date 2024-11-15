@@ -27,20 +27,15 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
 {
-    private readonly GamePackageInstallViewModel gamePackageInstallViewModel;
-    private readonly GamePackageViewModel gamePackageViewModel;
-    private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
-    private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
     private GameAccountFilter? gameAccountFilter;
@@ -49,15 +44,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
 
-    public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
+    public partial LaunchStatusOptions LaunchStatusOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial GamePackageInstallViewModel GamePackageInstallViewModel { get; }
 
-    public GamePackageInstallViewModel GamePackageInstallViewModel { get => gamePackageInstallViewModel; }
-
-    public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
+    public partial GamePackageViewModel GamePackageViewModel { get; }
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
