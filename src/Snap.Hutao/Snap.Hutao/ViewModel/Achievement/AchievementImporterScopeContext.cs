@@ -8,7 +8,7 @@ using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[ConstructorGenerated(InjectToPropertiesInstead = true)]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementImporterScopeContext
 {
