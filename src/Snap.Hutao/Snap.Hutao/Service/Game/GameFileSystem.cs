@@ -24,15 +24,19 @@ internal sealed class GameFileSystem
     [field: MaybeNull]
     public string GameFileName { get => field ??= Path.GetFileName(GameFilePath); }
 
-    [field: AllowNull]
     [field: MaybeNull]
     public string GameDirectory
     {
         get
         {
-            field ??= Path.GetDirectoryName(GameFilePath);
-            ArgumentException.ThrowIfNullOrEmpty(field);
-            return field;
+            if (field is not null)
+            {
+                return field;
+            }
+
+            string? directoryName = Path.GetDirectoryName(GameFilePath);
+            ArgumentException.ThrowIfNullOrEmpty(directoryName);
+            return field = directoryName;
         }
     }
 
