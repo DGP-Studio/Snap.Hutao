@@ -25,7 +25,6 @@ internal sealed class MonsterBaseValue : BaseValue
 
     public required float PhysicalSubHurt { get; init; }
 
-    [field: MaybeNull]
     public ImmutableArray<NameValue<string>> SubHurts
     {
         get

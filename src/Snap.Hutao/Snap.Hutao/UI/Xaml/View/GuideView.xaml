@@ -82,7 +82,7 @@
                         Height="152"
                         Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
                     <StackPanel
-                        Grid.Column="2"
+                        Grid.Column="1"
                         VerticalAlignment="Center"
                         Spacing="8">
                         <CheckBox IsChecked="{Binding IsTermOfServiceAgreed, Mode=TwoWay}">

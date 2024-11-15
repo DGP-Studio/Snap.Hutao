@@ -18,10 +18,8 @@ internal sealed class SkillDepot
 
     public required ImmutableArray<Skill> Talents { get; init; }
 
-    [field: MaybeNull]
     public ImmutableArray<ProudableSkill> CompositeSkills { get => !field.IsDefault ? field : field = [.. Skills, EnergySkill, .. Inherents]; }
 
     // No Inherents && 跳过 替换冲刺的技能
-    [field: MaybeNull]
     public ImmutableArray<ProudableSkill> CompositeSkillsNoInherents { get => !field.IsDefault ? field : field = [.. Skills.Where(s => s.Proud.Parameters.Count > 1), EnergySkill]; }
 }

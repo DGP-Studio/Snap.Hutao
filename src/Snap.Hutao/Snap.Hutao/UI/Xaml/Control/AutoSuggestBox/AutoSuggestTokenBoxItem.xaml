@@ -589,7 +589,6 @@
                             Foreground="{TemplateBinding Foreground}"/>
                         <Button
                             x:Name="TokenRemoveButton"
-                            Grid.Row="1"
                             Grid.Column="1"
                             Width="20"
                             Height="20"

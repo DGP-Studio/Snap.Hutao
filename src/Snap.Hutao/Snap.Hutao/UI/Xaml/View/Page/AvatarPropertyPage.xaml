@@ -366,7 +366,6 @@
                             </Ellipse.Stroke>
                         </Ellipse>
                         <TextBlock
-                            Grid.Column="2"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="{ThemeResource InfoBadgeValueFontSize}"

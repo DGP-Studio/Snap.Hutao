@@ -210,7 +210,6 @@
                 </StackPanel>
                 <TextBlock
                     Grid.Row="0"
-                    Grid.Column="1"
                     Margin="8"
                     HorizontalAlignment="Right"
                     Style="{StaticResource BodyTextBlockStyle}"
@@ -603,7 +602,6 @@
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                                     <GridView
-                                        Grid.Row="1"
                                         Padding="16,16,4,4"
                                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                         ItemTemplate="{StaticResource RatedAvatarTemplate}"
