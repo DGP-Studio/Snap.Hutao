@@ -216,7 +216,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(deltaOptions.Delta.SkillList);
         ArgumentNullException.ThrowIfNull(deltaOptions.Delta.Weapon);
 
         ContentDialog progressDialog = await scopeContext.ContentDialogFactory

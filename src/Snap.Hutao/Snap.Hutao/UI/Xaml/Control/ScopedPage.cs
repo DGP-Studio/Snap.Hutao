@@ -10,7 +10,6 @@ using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
-[HighQuality]
 [SuppressMessage("", "CA1001")]
 internal partial class ScopedPage : Page
 {
@@ -68,14 +67,12 @@ internal partial class ScopedPage : Page
         }
     }
 
-    /// <inheritdoc/>
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
         DisposeViewModel();
         inFrame = false;
     }
 
-    /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         if (e.Parameter is INavigationData extra)

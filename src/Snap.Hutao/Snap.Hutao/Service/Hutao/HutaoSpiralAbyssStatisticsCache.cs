@@ -12,7 +12,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoSpiralAbyssStatisticsCache))]
 internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbyssStatisticsCache

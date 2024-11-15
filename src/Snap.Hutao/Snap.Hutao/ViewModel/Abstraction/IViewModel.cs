@@ -6,7 +6,6 @@ using Snap.Hutao.UI.Xaml;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
-[HighQuality]
 internal interface IViewModel : IPageScoped, IResurrectable
 {
     CancellationToken CancellationToken { get; set; }

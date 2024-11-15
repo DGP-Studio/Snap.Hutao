@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Furniture;
 
 internal sealed class FurnitureMake
 {
-    public FurnitureMakeId Id { get; set; }
+    public required FurnitureMakeId Id { get; init; }
 
-    public FurnitureId ItemId { get; set; }
+    public required FurnitureId ItemId { get; init; }
 
-    public uint Experience { get; set; }
+    public required uint Experience { get; init; }
 
-    public List<IdCount> Materials { get; set; } = default!;
+    public required ImmutableArray<IdCount> Materials { get; init; }
 }

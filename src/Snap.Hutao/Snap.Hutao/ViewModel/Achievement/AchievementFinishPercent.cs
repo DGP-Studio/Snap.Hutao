@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-[HighQuality]
 internal static class AchievementFinishPercent
 {
     public static void Update(AchievementViewModel viewModel)

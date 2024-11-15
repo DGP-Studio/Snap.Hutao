@@ -8,52 +8,41 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class FetterInfo
 {
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
-    public string Detail { get; set; } = default!;
+    public required string Detail { get; init; }
 
-    public AssociationType Association { get; set; } = default!;
+    public required AssociationType Association { get; init; }
 
-    public string Native { get; set; } = default!;
+    public required string Native { get; init; }
 
-    public uint BirthMonth { get; set; }
+    public required uint BirthMonth { get; init; }
 
-    public uint BirthDay { get; set; }
-
-    [JsonIgnore]
-    public string BirthFormatted
-    {
-        get => SH.FormatModelMetadataFetterInfoBirthdayFormat(BirthMonth, BirthDay);
-    }
-
-    public string VisionBefore { get; set; } = default!;
-
-    public string ConstellationBefore { get; set; } = default!;
-
-    public string ConstellationAfter { get; set; } = default!;
+    public required uint BirthDay { get; init; }
 
     [JsonIgnore]
-    public string Constellation
-    {
-        get
-        {
-            return string.IsNullOrEmpty(ConstellationAfter)
-                ? ConstellationBefore
-                : ConstellationAfter;
-        }
-    }
+    public string BirthFormatted { get => SH.FormatModelMetadataFetterInfoBirthdayFormat(BirthMonth, BirthDay); }
 
-    public string CvChinese { get; set; } = default!;
+    public required string VisionBefore { get; init; }
 
-    public string CvJapanese { get; set; } = default!;
+    public required string ConstellationBefore { get; init; }
 
-    public string CvEnglish { get; set; } = default!;
+    public string? ConstellationAfter { get; init; }
 
-    public string CvKorean { get; set; } = default!;
+    [JsonIgnore]
+    public string Constellation { get => string.IsNullOrEmpty(ConstellationAfter) ? ConstellationBefore : ConstellationAfter; }
 
-    public CookBonus? CookBonus { get; set; }
+    public required string CvChinese { get; init; }
 
-    public ImmutableArray<Fetter> Fetters { get; set; } = default!;
+    public required string CvJapanese { get; init; }
 
-    public ImmutableArray<Fetter> FetterStories { get; set; } = default!;
+    public required string CvEnglish { get; init; }
+
+    public required string CvKorean { get; init; }
+
+    public CookBonus? CookBonus { get; init; }
+
+    public required ImmutableArray<Fetter> Fetters { get; init; }
+
+    public required ImmutableArray<Fetter> FetterStories { get; init; }
 }

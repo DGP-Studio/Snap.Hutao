@@ -5,41 +5,21 @@ using Snap.Hutao.Core;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
-/// <summary>
-/// 祈愿记录分页
-/// </summary>
-[HighQuality]
 internal sealed class GachaLogPage : IJsonOnDeserialized
 {
-    /// <summary>
-    /// 页码
-    /// </summary>
     [JsonPropertyName("page")]
     public string Page { get; set; } = default!;
 
-    /// <summary>
-    /// 尺寸
-    /// </summary>
     [JsonPropertyName("size")]
     public string Size { get; set; } = default!;
 
-    /// <summary>
-    /// 总页数
-    /// </summary>
     [Obsolete("总是为 0")]
     [JsonPropertyName("total")]
     public string Total { get; set; } = default!;
 
-    /// <summary>
-    /// 总页数
-    /// 总是为 0
-    /// </summary>
     [JsonPropertyName("list")]
     public List<GachaLogItem> List { get; set; } = default!;
 
-    /// <summary>
-    /// 地区
-    /// </summary>
     [JsonPropertyName("region")]
     [JsonConverter(typeof(RegionConverter))]
     public Region Region { get; set; } = default!;

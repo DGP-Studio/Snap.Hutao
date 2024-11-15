@@ -3,17 +3,8 @@
 
 namespace Snap.Hutao.Service.Game;
 
-/// <summary>
-/// 游戏文件操作异常
-/// </summary>
-[HighQuality]
 internal sealed class GameFileOperationException : Exception
 {
-    /// <summary>
-    /// 构造一个新的用户数据损坏异常
-    /// </summary>
-    /// <param name="message">消息</param>
-    /// <param name="innerException">内部错误</param>
     public GameFileOperationException(string message, Exception? innerException)
         : base(SH.FormatServiceGameFileOperationExceptionMessage(message), innerException)
     {

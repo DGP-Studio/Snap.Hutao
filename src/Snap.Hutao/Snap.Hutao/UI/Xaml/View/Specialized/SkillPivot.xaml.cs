@@ -7,18 +7,11 @@ using System.Collections;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-/// <summary>
-/// 技能展柜
-/// </summary>
-[HighQuality]
 [DependencyProperty("Skills", typeof(IList), null, nameof(OnSkillsChanged))]
 [DependencyProperty("Selected", typeof(object))]
 [DependencyProperty("ItemTemplate", typeof(DataTemplate))]
 internal sealed partial class SkillPivot : UserControl
 {
-    /// <summary>
-    /// 创建一个新的技能展柜
-    /// </summary>
     public SkillPivot()
     {
         InitializeComponent();

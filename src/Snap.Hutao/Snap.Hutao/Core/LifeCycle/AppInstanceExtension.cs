@@ -10,10 +10,6 @@ using static Snap.Hutao.Win32.Ole32;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-/// <summary>
-/// App 实例拓展
-/// </summary>
-[HighQuality]
 internal static class AppInstanceExtension
 {
     private static readonly WaitCallback RunActionWaitCallback = RunAction;

@@ -5,7 +5,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class Fetter
 {
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
-    public string Context { get; set; } = default!;
+    public required string Context { get; init; }
 }

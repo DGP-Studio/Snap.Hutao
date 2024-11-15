@@ -56,7 +56,7 @@
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind UIAF.List.Count, Mode=OneWay, TargetNullValue=Unknown}"/>
+                    Text="{x:Bind UIAF.List.Length, Mode=OneWay, TargetNullValue=Unknown}"/>
             </cwc:HeaderedContentControl>
         </cwc:UniformGrid>
         <RadioButtons

@@ -6,19 +6,9 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Reliquary;
 
-/// <summary>
-/// 圣遗物主属性
-/// </summary>
-[HighQuality]
 internal class ReliquaryMainAffix
 {
-    /// <summary>
-    /// Id
-    /// </summary>
-    public ReliquaryMainAffixId Id { get; set; }
+    public required ReliquaryMainAffixId Id { get; init; }
 
-    /// <summary>
-    /// 战斗属性
-    /// </summary>
-    public FightProperty Type { get; set; }
+    public required FightProperty Type { get; init; }
 }

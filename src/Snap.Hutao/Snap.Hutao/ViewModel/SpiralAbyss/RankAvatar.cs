@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-/// <summary>
-/// 排行角色
-/// </summary>
-[HighQuality]
 internal sealed class RankAvatar : AvatarView
 {
     public RankAvatar(int value, Model.Metadata.Avatar.Avatar avatar)
@@ -15,8 +11,5 @@ internal sealed class RankAvatar : AvatarView
         Value = value;
     }
 
-    /// <summary>
-    /// 排行
-    /// </summary>
     public int Value { get; }
 }

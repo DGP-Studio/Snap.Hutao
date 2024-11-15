@@ -2,13 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Tower;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-/// <summary>
-/// 层视图
-/// </summary>
-[HighQuality]
 internal sealed class FloorView
 {
     public FloorView(TowerFloor floor, SpiralAbyssMetadataContext context)
@@ -22,26 +19,14 @@ internal sealed class FloorView
 
     public bool Engaged { get; private set; }
 
-    /// <summary>
-    /// 层号
-    /// </summary>
     public string Index { get; }
 
-    /// <summary>
-    /// 时间
-    /// </summary>
     public string? SettleTime { get; private set; }
 
-    /// <summary>
-    /// 星数
-    /// </summary>
     public int Star { get; private set; }
 
-    public List<string> Disorders { get; }
+    public ImmutableArray<string> Disorders { get; }
 
-    /// <summary>
-    /// 间信息
-    /// </summary>
     public List<LevelView> Levels { get; }
 
     internal uint IndexValue { get; }

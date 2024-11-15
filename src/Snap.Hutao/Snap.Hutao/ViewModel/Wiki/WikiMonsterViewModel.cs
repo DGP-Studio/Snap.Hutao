@@ -82,7 +82,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     private void UpdateBaseValueInfo(Monster? monster)
     {
-        if (monster is null || metadataContext is null)
+        if (metadataContext is null || monster is not { GrowCurves: { }, BaseValue: { } })
         {
             BaseValueInfo = null;
             return;

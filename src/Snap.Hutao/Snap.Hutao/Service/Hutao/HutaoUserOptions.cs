@@ -8,10 +8,6 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class HutaoUserOptions : ObservableObject
 {
-    private readonly TaskCompletionSource initialization = new();
-
-    private string? token;
-
     public string? UserName { get; set => SetProperty(ref field, value); } = SH.ViewServiceHutaoUserLoginOrRegisterHint;
 
     public bool IsLoggedIn { get; set => SetProperty(ref field, value); }
@@ -26,7 +22,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
     public string? GachaLogExpireAtSlim { get; set => SetProperty(ref field, value); }
 
-    internal string? Token { get => token; set => token = value; }
+    internal string? Token { get; set; }
 
-    internal TaskCompletionSource Initialization { get => initialization; }
+    internal TaskCompletionSource Initialization { get; } = new();
 }

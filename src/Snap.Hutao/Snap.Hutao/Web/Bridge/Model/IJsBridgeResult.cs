@@ -3,8 +3,4 @@
 
 namespace Snap.Hutao.Web.Bridge.Model;
 
-/// <summary>
-/// 指示此为Js结果
-/// </summary>
-[HighQuality]
 internal interface IJsBridgeResult;

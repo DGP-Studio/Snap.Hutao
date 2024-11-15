@@ -3,24 +3,9 @@
 
 namespace Snap.Hutao.Service.Navigation;
 
-/// <summary>
-/// 导航结果
-/// </summary>
-[HighQuality]
 internal enum NavigationResult
 {
-    /// <summary>
-    /// 成功
-    /// </summary>
     Succeed,
-
-    /// <summary>
-    /// 失败
-    /// </summary>
     Failed,
-
-    /// <summary>
-    /// 已经处于该页面
-    /// </summary>
     AlreadyNavigatedTo,
 }

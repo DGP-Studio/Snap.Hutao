@@ -3,48 +3,49 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Furniture;
 
 internal sealed class Furniture
 {
-    public List<FurnitureTypeId> Types { get; set; } = default!;
+    public required ImmutableArray<FurnitureTypeId> Types { get; init; }
 
-    public FurnitureDeploySurfaceType SurfaceType { get; set; }
+    public required FurnitureDeploySurfaceType SurfaceType { get; init; }
 
-    public bool IsSpecial { get; set; }
+    public required bool IsSpecial { get; init; }
 
-    public SpecialFurnitureType SpecialType { get; set; }
+    public required SpecialFurnitureType SpecialType { get; init; }
 
-    public uint Comfort { get; set; }
+    public required uint Comfort { get; init; }
 
-    public uint Cost { get; set; }
+    public required uint Cost { get; init; }
 
-    public uint DiscountCost { get; set; }
+    public required uint DiscountCost { get; init; }
 
-    public bool CanFloat { get; set; }
+    public required bool CanFloat { get; init; }
 
-    public bool IsUnique { get; set; }
+    public required bool IsUnique { get; init; }
 
-    public string? ItemIcon { get; set; }
+    public string? ItemIcon { get; init; }
 
-    public string? EffectIcon { get; set; }
+    public string? EffectIcon { get; init; }
 
-    public QualityType RankLevel { get; set; }
+    public required QualityType RankLevel { get; init; }
 
-    public List<FurnitureId> GruopUnits { get; set; } = default!;
+    public required ImmutableArray<FurnitureId> GruopUnits { get; init; }
 
-    public GroupRecordType GroupRecordType { get; set; }
+    public required GroupRecordType GroupRecordType { get; init; }
 
-    public List<string> SourceTexts { get; set; } = default!;
+    public required ImmutableArray<string> SourceTexts { get; init; }
 
-    public FurnitureId Id { get; set; }
+    public required FurnitureId Id { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public string? Icon { get; set; }
+    public string? Icon { get; init; }
 
-    public uint Rank { get; set; }
+    public required uint Rank { get; init; }
 }

@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Calculable;
 
@@ -18,7 +19,7 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         AvatarId = avatar.Id;
         LevelMin = 1;
         LevelMax = avatar.MaxLevel;
-        Skills = avatar.SkillDepot.CompositeSkillsNoInherents.SelectList((p, i) => p.ToCalculable((SkillType)i));
+        Skills = avatar.SkillDepot.CompositeSkillsNoInherents.SelectArray((p, i) => p.ToCalculable((SkillType)i));
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         Quality = avatar.Quality;
@@ -29,7 +30,7 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         AvatarId = avatar.Id;
         LevelMin = avatar.LevelNumber;
         LevelMax = Avatar.GetMaxLevel();
-        Skills = avatar.Skills.SelectList((s, i) => s.ToCalculable((SkillType)i));
+        Skills = avatar.Skills.SelectArray((s, i) => s.ToCalculable((SkillType)i));
         Name = avatar.Name;
         Icon = avatar.Icon;
         Quality = avatar.Quality;
@@ -41,7 +42,7 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public uint LevelMax { get; }
 
-    public List<ICalculableSkill> Skills { get; }
+    public ImmutableArray<ICalculableSkill> Skills { get; }
 
     public string Name { get; }
 

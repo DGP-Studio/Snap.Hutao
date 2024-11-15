@@ -3,20 +3,21 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata;
 
 internal sealed class RoleCombatSchedule
 {
-    public RoleCombatScheduleId Id { get; set; }
+    public required RoleCombatScheduleId Id { get; init; }
 
-    public DateTimeOffset Begin { get; set; }
+    public required DateTimeOffset Begin { get; init; }
 
-    public DateTimeOffset End { get; set; }
+    public required DateTimeOffset End { get; init; }
 
-    public List<ElementType> Elements { get; set; } = default!;
+    public required ImmutableArray<ElementType> Elements { get; init; }
 
-    public List<AvatarId> SpecialAvatars { get; set; } = default!;
+    public required ImmutableArray<AvatarId> SpecialAvatars { get; init; }
 
-    public List<AvatarId> InitialAvatars { get; set; } = default!;
+    public required ImmutableArray<AvatarId> InitialAvatars { get; init; }
 }

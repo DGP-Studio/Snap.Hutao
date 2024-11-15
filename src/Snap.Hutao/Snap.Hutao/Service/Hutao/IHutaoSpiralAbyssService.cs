@@ -5,10 +5,6 @@ using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.Service.Hutao;
 
-/// <summary>
-/// 胡桃 API 服务
-/// </summary>
-[HighQuality]
 internal interface IHutaoSpiralAbyssService
 {
     ValueTask<List<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false);

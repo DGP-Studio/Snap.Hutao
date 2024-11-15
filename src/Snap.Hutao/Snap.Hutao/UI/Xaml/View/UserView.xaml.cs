@@ -6,10 +6,6 @@ using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
-/// <summary>
-/// 用户视图
-/// </summary>
-[HighQuality]
 internal sealed partial class UserView : UserControl
 {
     /// <summary>

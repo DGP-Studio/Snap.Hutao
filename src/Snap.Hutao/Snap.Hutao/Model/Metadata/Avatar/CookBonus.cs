@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal sealed class CookBonus
 {
-    public MaterialId OriginItemId { get; set; } = default!;
+    public required MaterialId OriginItemId { get; init; }
 
-    public MaterialId ItemId { get; set; } = default!;
+    public required MaterialId ItemId { get; init; }
 
-    public List<MaterialId> InputList { get; set; } = default!;
+    public required ImmutableArray<MaterialId> InputList { get; init; }
 }

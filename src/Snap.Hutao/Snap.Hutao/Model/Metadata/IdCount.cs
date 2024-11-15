@@ -7,13 +7,7 @@ namespace Snap.Hutao.Model.Metadata;
 
 internal class IdCount
 {
-    /// <summary>
-    /// Id
-    /// </summary>
-    public MaterialId Id { get; set; }
+    public required MaterialId Id { get; init; }
 
-    /// <summary>
-    /// 数量
-    /// </summary>
-    public uint Count { get; set; }
+    public required uint Count { get; init; }
 }

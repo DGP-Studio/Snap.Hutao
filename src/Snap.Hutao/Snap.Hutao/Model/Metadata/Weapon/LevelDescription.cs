@@ -5,10 +5,10 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 
 internal sealed class LevelDescription
 {
-    public int Level { get; set; } = default!;
+    public required int Level { get; init; }
 
     [JsonIgnore]
     public string LevelFormatted { get => SH.FormatModelWeaponAffixFormat(Level + 1); }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 }

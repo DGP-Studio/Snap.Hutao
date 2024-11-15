@@ -6,15 +6,8 @@ using Snap.Hutao.ViewModel.Game;
 
 namespace Snap.Hutao.UI.Xaml.View.Page;
 
-/// <summary>
-/// 启动游戏页面
-/// </summary>
-[HighQuality]
 internal sealed partial class LaunchGamePage : ScopedPage
 {
-    /// <summary>
-    /// 构造一个新的启动游戏页面
-    /// </summary>
     public LaunchGamePage()
     {
         InitializeWith<LaunchGameViewModel>();

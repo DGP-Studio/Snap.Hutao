@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Endpoint.Hutao;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -20,7 +21,7 @@ internal sealed class MonsterView : INameIcon
 
     private MonsterView(TowerMonster towerMonster, Model.Metadata.Monster.Monster metaMonster)
     {
-        Name = metaMonster.Name;
+        Name = metaMonster.Name ?? $"Unknown {towerMonster.Id}";
         Icon = MonsterIconConverter.IconNameToUri(metaMonster.Icon);
         Affixes = towerMonster.Affixes;
         Count = (int)towerMonster.Count;
@@ -31,7 +32,7 @@ internal sealed class MonsterView : INameIcon
 
     public Uri Icon { get; }
 
-    public List<NameDescription>? Affixes { get; }
+    public ImmutableArray<NameDescription> Affixes { get; }
 
     public int Count { get; }
 

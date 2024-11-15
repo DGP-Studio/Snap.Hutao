@@ -6,13 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Snap.Hutao.Model.Entity.Configuration;
 
-/// <summary>
-/// 深渊入口配置
-/// </summary>
-[HighQuality]
 internal sealed class SpiralAbyssEntryConfiguration : IEntityTypeConfiguration<SpiralAbyssEntry>
 {
-    /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<SpiralAbyssEntry> builder)
     {
         builder.Property(e => e.SpiralAbyss)

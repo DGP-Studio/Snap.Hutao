@@ -3,19 +3,8 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-/// <summary>
-/// 探索派遣状态
-/// </summary>
-[HighQuality]
 internal enum ExpeditionStatus
 {
-    /// <summary>
-    /// 完成
-    /// </summary>
     Finished,
-
-    /// <summary>
-    /// 进行中
-    /// </summary>
     Ongoing,
 }

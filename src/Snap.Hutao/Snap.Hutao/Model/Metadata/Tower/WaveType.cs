@@ -3,11 +3,6 @@
 
 namespace Snap.Hutao.Model.Metadata.Tower;
 
-/// <summary>
-/// 第二波：击败所有怪物，下一波才会出现
-/// D组：不同的组同时在场，各自分波独立
-/// D组第一波：不同的组同时在场，各自分波独立
-/// </summary>
 [Localization]
 internal enum WaveType
 {

@@ -1,22 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Model.Metadata.Tower;
 
 internal sealed class TowerWave
 {
-    /// <summary>
-    /// 波次类型
-    /// </summary>
-    public WaveType Type { get; set; }
+    public required WaveType Type { get; init; }
 
-    /// <summary>
-    /// 额外描述
-    /// </summary>
-    public string? Description { get; set; }
+    public string? Description { get; init; }
 
-    /// <summary>
-    /// 分波怪物
-    /// </summary>
-    public List<TowerMonster> Monsters { get; set; } = default!;
+    public required ImmutableArray<TowerMonster> Monsters { get; init; }
 }

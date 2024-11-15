@@ -7,13 +7,13 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 
 internal class Skill
 {
-    public SkillId Id { get; set; }
+    public required SkillId Id { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
-    public ExtraLevelInfo? ExtraLevel { get; set; }
+    public ExtraLevelInfo? ExtraLevel { get; init; }
 }

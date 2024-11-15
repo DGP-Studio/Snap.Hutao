@@ -46,7 +46,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
-    private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
 
     public UploadAnnouncement Announcement { get; set => SetProperty(ref field, value); } = new();
@@ -225,16 +224,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 await taskContext.SwitchToMainThreadAsync();
                 Announcement = new();
             }
-        }
-    }
-
-    [Obsolete]
-    [Command("DebugPrintImageCacheFailedDownloadTasksCommand")]
-    private void DebugPrintImageCacheFailedDownloadTasks()
-    {
-        if (memoryCache.TryGetValue($"{nameof(ImageCache)}.FailedDownloadTasks", out HashSet<string>? set))
-        {
-            logger.LogInformation("Failed ImageCache download tasks: [{Tasks}]", set?.ToString(','));
         }
     }
 

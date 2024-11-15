@@ -11,10 +11,6 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.Service.Navigation;
 
-/// <summary>
-/// 导航服务
-/// </summary>
-[HighQuality]
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
 internal sealed class NavigationService : INavigationService, INavigationInitialization
 {

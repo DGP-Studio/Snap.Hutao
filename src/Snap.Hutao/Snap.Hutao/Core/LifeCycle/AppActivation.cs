@@ -21,7 +21,6 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IAppActivation))]
 [SuppressMessage("", "CA1001")]

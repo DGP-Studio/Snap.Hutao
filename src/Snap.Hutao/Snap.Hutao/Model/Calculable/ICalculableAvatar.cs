@@ -2,16 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Calculable;
 
-internal interface ICalculableAvatar : ICalculable
+internal interface ICalculableAvatar : ICalculableMinMaxLevel
 {
     AvatarId AvatarId { get; }
 
-    uint LevelMin { get; }
-
-    uint LevelMax { get; }
-
-    List<ICalculableSkill> Skills { get; }
+    ImmutableArray<ICalculableSkill> Skills { get; }
 }

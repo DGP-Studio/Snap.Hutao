@@ -7,27 +7,27 @@ namespace Snap.Hutao.Model.Metadata.Achievement;
 
 internal sealed class Achievement
 {
-    public AchievementId Id { get; set; }
+    public required AchievementId Id { get; init; }
 
-    public AchievementGoalId Goal { get; set; }
+    public required AchievementGoalId Goal { get; init; }
 
-    public uint Order { get; set; }
+    public required uint Order { get; init; }
 
-    public AchievementId PreviousId { get; set; }
+    public AchievementId PreviousId { get; init; }
 
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public Reward FinishReward { get; set; } = default!;
+    public required Reward FinishReward { get; init; }
 
-    public bool IsDeleteWatcherAfterFinish { get; set; }
+    public bool IsDeleteWatcherAfterFinish { get; init; }
 
-    public uint Progress { get; set; }
+    public required uint Progress { get; init; }
 
-    public string? Icon { get; set; }
+    public string? Icon { get; init; }
 
-    public string Version { get; set; } = default!;
+    public required string Version { get; init; }
 
-    public bool IsDailyQuest { get; set; }
+    public bool IsDailyQuest { get; init; }
 }

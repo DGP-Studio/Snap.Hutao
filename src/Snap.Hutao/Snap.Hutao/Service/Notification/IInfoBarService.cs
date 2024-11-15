@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Notification;
 
-[HighQuality]
 internal interface IInfoBarService
 {
     ObservableCollection<InfoBarOptions> Collection { get; }

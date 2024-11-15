@@ -5,28 +5,15 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Service.Game.Configuration;
 
-/// <summary>
-/// 多通道
-/// </summary>
-[HighQuality]
 internal readonly struct ChannelOptions
 {
     public const string ChannelName = "channel";
     public const string SubChannelName = "sub_channel";
 
-    /// <summary>
-    /// 通道
-    /// </summary>
     public readonly ChannelType Channel;
 
-    /// <summary>
-    /// 子通道
-    /// </summary>
     public readonly SubChannelType SubChannel;
 
-    /// <summary>
-    /// 是否为国际服
-    /// </summary>
     public readonly bool IsOversea;
 
     public readonly ChannelOptionsErrorKind ErrorKind;
@@ -68,7 +55,6 @@ internal readonly struct ChannelOptions
         return new(ChannelOptionsErrorKind.GameContentCorrupted, directory);
     }
 
-    /// <inheritdoc/>
     public override string ToString()
     {
         return $$"""
