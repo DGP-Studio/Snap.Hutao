@@ -85,6 +85,22 @@ internal static class WindowExtension
         return inputPointerSource;
     }
 
+    public static InputKeyboardSource GetInputKeyboardSource(this Window window)
+    {
+        InputKeyboardSource inputPointerSource = default!;
+        ContentIsland[] contentIslands = ContentIsland.FindAllForCurrentThread();
+        foreach (ref readonly ContentIsland island in contentIslands.AsSpan())
+        {
+            if (island.Environment.AppWindowId == window.AppWindow.Id)
+            {
+                inputPointerSource = InputKeyboardSource.GetForIsland(island);
+                break;
+            }
+        }
+
+        return inputPointerSource;
+    }
+
     public static HWND GetWindowHandle(this Window? window)
     {
         return WindowNative.GetWindowHandle(window);

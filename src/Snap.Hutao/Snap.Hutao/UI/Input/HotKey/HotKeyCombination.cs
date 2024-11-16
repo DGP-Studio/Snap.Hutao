@@ -24,8 +24,6 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     private bool registered;
 
-    private VIRTUAL_KEY key;
-
     public unsafe HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VIRTUAL_KEY defaultKey)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
@@ -66,9 +64,9 @@ internal sealed partial class HotKeyCombination : ObservableObject
                 ModifierHasAlt = true;
             }
 
-            key = actual.Key;
+            Key = Enum.IsDefined(actual.Key) ? actual.Key : defaultKey;
 
-            KeyNameValue = VirtualKeys.GetList().Single(v => v.Value == key);
+            KeyNameValue = VirtualKeys.GetList().Single(v => v.Value == Key);
         }
     }
 
@@ -105,10 +103,10 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     public VIRTUAL_KEY Key
     {
-        get => key;
+        get;
         private set
         {
-            if (SetProperty(ref key, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
                 LocalSettingSetHotKeyParameterAndRefresh();
