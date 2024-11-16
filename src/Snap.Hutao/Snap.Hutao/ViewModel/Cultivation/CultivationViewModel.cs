@@ -303,7 +303,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         {
             Type? pageType = Type.GetType(typeString);
             ArgumentNullException.ThrowIfNull(pageType);
-            navigationService.Navigate(pageType, INavigationAwaiter.Default, true);
+            navigationService.Navigate(pageType, INavigationCompletionSource.Default, true);
         }
     }
 }

@@ -7,12 +7,12 @@ namespace Snap.Hutao.Service.Navigation;
 
 internal interface INavigationService : INavigationCurrent
 {
-    NavigationResult Navigate(Type pageType, INavigationAwaiter data, bool isSyncTabRequested = false);
+    NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool isSyncTabRequested = false);
 
-    NavigationResult Navigate<T>(INavigationAwaiter data, bool isSyncTabRequested = false)
+    NavigationResult Navigate<T>(INavigationCompletionSource data, bool isSyncTabRequested = false)
         where T : Page;
 
-    ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
+    ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page;
 
     void GoBack();

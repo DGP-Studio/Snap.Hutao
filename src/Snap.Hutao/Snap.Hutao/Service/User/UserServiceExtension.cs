@@ -35,6 +35,22 @@ internal static class UserServiceExtension
         return userAndUid;
     }
 
+    public static async ValueTask<bool> SetCurrentUserByUidAsync(this IUserService userService, string uid)
+    {
+        AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);
+        BindingUser? user = users.SourceCollection.SingleOrDefault(u => u.UserGameRoles.SourceCollection.Any(r => r.GameUid == uid));
+
+        if (user is null)
+        {
+            return false;
+        }
+
+        await userService.TaskContext.SwitchToMainThreadAsync();
+        users.MoveCurrentTo(user);
+
+        return true;
+    }
+
     public static async ValueTask<BindingUser?> GetUserByMidAsync(this IUserService userService, string mid)
     {
         AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);

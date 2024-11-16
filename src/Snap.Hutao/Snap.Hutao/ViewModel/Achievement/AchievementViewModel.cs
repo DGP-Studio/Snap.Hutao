@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
@@ -26,6 +25,8 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
+    public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
+
     private readonly SortDescription achievementUncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
     private readonly SortDescription achievementCompletionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
     private readonly SortDescription achievementGoalUncompletedItemsFirstSortDescription = new(nameof(AchievementGoalView.FinishPercent), SortDirection.Ascending);
@@ -83,14 +84,14 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     public string? FinishDescription { get; set => SetProperty(ref field, value); }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
             return false;
         }
 
-        if (data.Data is AppActivation.ImportUIAFFromClipboard)
+        if (data.Data is ImportUIAFFromClipboard)
         {
             await ImportUIAFFromClipboardAsync().ConfigureAwait(false);
             return true;

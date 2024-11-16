@@ -3,11 +3,11 @@
 
 namespace Snap.Hutao.Service.Navigation;
 
-internal sealed class NavigationExtra : INavigationData, INavigationAwaiter
+internal class NavigationCompletionSource : INavigationExtraData, INavigationCompletionSource
 {
     private readonly TaskCompletionSource navigationCompletedTaskCompletionSource = new();
 
-    public NavigationExtra(object? data = null)
+    public NavigationCompletionSource(object? data = null)
     {
         Data = data;
     }
@@ -29,4 +29,16 @@ internal sealed class NavigationExtra : INavigationData, INavigationAwaiter
     {
         navigationCompletedTaskCompletionSource.TrySetException(exception);
     }
+}
+
+[SuppressMessage("", "SA1402")]
+internal class NavigationCompletionSource<T> : NavigationCompletionSource
+    where T : class
+{
+    public NavigationCompletionSource(T data)
+        : base(data)
+    {
+    }
+
+    public T? TypedData { get => Data as T; set => Data = value; }
 }

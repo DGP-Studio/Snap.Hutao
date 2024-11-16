@@ -279,7 +279,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("ImportExportCommand")]
     private void ImportExport()
     {
-        INavigationAwaiter navigationAwaiter = new NavigationExtra(SettingViewModel.UIGFImportExport);
+        INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(SettingViewModel.UIGFImportExport);
         serviceProvider.GetRequiredService<INavigationService>().Navigate<SettingPage>(navigationAwaiter, true);
     }
 

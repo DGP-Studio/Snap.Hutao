@@ -38,7 +38,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("OpenTestPageCommand")]
     private async Task OpenTestPageAsync()
     {
-        await navigationService.NavigateAsync<TestPage>(INavigationAwaiter.Default).ConfigureAwait(false);
+        await navigationService.NavigateAsync<TestPage>(INavigationCompletionSource.Default).ConfigureAwait(false);
     }
 
     [Command("RegisterCommand")]

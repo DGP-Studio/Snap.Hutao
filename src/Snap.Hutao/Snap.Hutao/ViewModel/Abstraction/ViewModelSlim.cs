@@ -29,6 +29,6 @@ internal abstract partial class ViewModelSlim<TPage> : ViewModelSlim
     protected virtual void Navigate()
     {
         INavigationService navigationService = ServiceProvider.GetRequiredService<INavigationService>();
-        navigationService.Navigate<TPage>(INavigationAwaiter.Default, true);
+        navigationService.Navigate<TPage>(INavigationCompletionSource.Default, true);
     }
 }
