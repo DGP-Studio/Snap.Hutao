@@ -70,7 +70,7 @@
                             Style="{StaticResource BaseTextBlockStyle}"
                             Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordMonsterAttacksMonolith}"
                             Visibility="{Binding AttackMonolith, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                        <MenuFlyoutSeparator Margin="-5,4" Visibility="{Binding Affixes, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                        <MenuFlyoutSeparator Margin="-5,4" Visibility="{Binding Affixes, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
                         <ItemsControl ItemsSource="{Binding Affixes}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -97,7 +97,7 @@
                     Height="40"
                     Stroke="{ThemeResource SystemFillColorCriticalBrush}"
                     StrokeThickness="2"
-                    Visibility="{Binding Affixes, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                    Visibility="{Binding Affixes, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
                 <Ellipse
                     Width="40"
                     Height="40"
@@ -141,13 +141,24 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssBattleTemplate" x:DataType="shvs:BattleView">
-            <StackPanel Spacing="16">
-                <Grid ColumnSpacing="16">
+            <StackPanel HorizontalAlignment="Stretch" Spacing="16">
+                <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
+                    <StackPanel Grid.Column="0" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
+                        <TextBlock
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"
+                            TextWrapping="Wrap"/>
+                        <ItemsControl
+                            Margin="0,8,0,0"
+                            ItemTemplate="{StaticResource AvatarTemplate}"
+                            ItemsPanel="{ThemeResource StackPanelSpacing6Template}"
+                            ItemsSource="{Binding Avatars}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Left">
                         <clw:TokenItem
                             Margin="0,0,0,8"
                             Padding="12,2"
@@ -166,16 +177,6 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
-                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <ItemsControl
-                                Margin="0,8,0,0"
-                                ItemTemplate="{StaticResource AvatarTemplate}"
-                                ItemsPanel="{ThemeResource StackPanelSpacing6Template}"
-                                ItemsSource="{Binding Avatars}"/>
-                        </ScrollViewer>
                     </StackPanel>
                 </Grid>
                 <TextBlock
@@ -217,17 +218,23 @@
                     </StackPanel>
                 </Grid>
                 <!--  间信息  -->
-                <ItemsControl
+                <Grid
                     Grid.Row="2"
                     Margin="8,8,8,0"
-                    ItemTemplate="{StaticResource SpiralAbyssBattleTemplate}"
-                    ItemsSource="{Binding Battles}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <shuxcp:EqualPanel Spacing="16"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                    ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ContentControl
+                        Grid.Column="0"
+                        Content="{Binding Battles[0]}"
+                        ContentTemplate="{StaticResource SpiralAbyssBattleTemplate}"/>
+                    <ContentControl
+                        Grid.Column="1"
+                        Content="{Binding Battles[1]}"
+                        ContentTemplate="{StaticResource SpiralAbyssBattleTemplate}"/>
+                </Grid>
             </Grid>
         </DataTemplate>
 

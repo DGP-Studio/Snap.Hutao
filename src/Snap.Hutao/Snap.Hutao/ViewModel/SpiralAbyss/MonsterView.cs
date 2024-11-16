@@ -16,6 +16,7 @@ internal sealed class MonsterView : INameIcon
     {
         Name = $"Unknown {id}";
         Icon = StaticResourcesEndpoints.UIIconNone;
+        Affixes = [];
         Count = 1;
     }
 
@@ -23,7 +24,7 @@ internal sealed class MonsterView : INameIcon
     {
         Name = metaMonster.Name ?? $"Unknown {towerMonster.Id}";
         Icon = MonsterIconConverter.IconNameToUri(metaMonster.Icon);
-        Affixes = towerMonster.Affixes;
+        Affixes = towerMonster.Affixes.EmptyIfDefault();
         Count = (int)towerMonster.Count;
         AttackMonolith = towerMonster.AttackMonolith;
     }

@@ -8,6 +8,11 @@ namespace Snap.Hutao.Extension;
 
 internal static class ImmutableArrayExtension
 {
+    public static ImmutableArray<TElement> EmptyIfDefault<TElement>(this ImmutableArray<TElement> array)
+    {
+        return array.IsDefault ? [] : array;
+    }
+
     [Pure]
     public static ImmutableArray<TResult> SelectArray<TSource, TResult>(this ImmutableArray<TSource> array, Func<TSource, TResult> selector)
     {
