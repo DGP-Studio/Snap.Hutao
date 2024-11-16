@@ -15,22 +15,22 @@ internal sealed partial class UniformStaggeredPanel : Microsoft.UI.Xaml.Controls
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        (int columnCount, double columnWidth) = CalculateColumn(availableSize, MinItemWidth, ColumnSpacing);
+        (int numberOfColumns, double columnWidth) = GetNumberOfColumnsAndWidth(availableSize.Width, MinItemWidth, ColumnSpacing);
 
         foreach (UIElement child in Children)
         {
             child.Measure(new(columnWidth, availableSize.Height));
         }
 
-        return UpdateColumns(columnCount, columnWidth);
+        return UpdateColumns(numberOfColumns, columnWidth);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
         if (finalSize.Width < DesiredSize.Width)
         {
-            (int columnCount, double columnWidth) = CalculateColumn(finalSize, MinItemWidth, ColumnSpacing);
-            UpdateColumns(columnCount, columnWidth);
+            (int numberOfColumns, double columnWidth) = GetNumberOfColumnsAndWidth(finalSize.Width, MinItemWidth, ColumnSpacing);
+            UpdateColumns(numberOfColumns, columnWidth);
         }
 
         if (columns.Count > 0)
@@ -52,17 +52,13 @@ internal sealed partial class UniformStaggeredPanel : Microsoft.UI.Xaml.Controls
 
     private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is UniformStaggeredPanel usp)
-        {
-            usp.InvalidateMeasure();
-            usp.InvalidateArrange();
-        }
+        ((UniformStaggeredPanel)d).InvalidateMeasure();
     }
 
-    private static (int ColumnCount, double ColumnWidth) CalculateColumn(Size availableSize, double minItemWidth, double columnSpacing)
+    private static (int ColumnCount, double ColumnWidth) GetNumberOfColumnsAndWidth(double availableWidth, double minItemWidth, double columnSpacing)
     {
-        int columnCount = Math.Max(1, (int)((availableSize.Width + columnSpacing) / (minItemWidth + columnSpacing)));
-        double columnWidth = ((availableSize.Width + columnSpacing) / columnCount) - columnSpacing;
+        int columnCount = Math.Max(1, (int)((availableWidth + columnSpacing) / (minItemWidth + columnSpacing)));
+        double columnWidth = ((availableWidth + columnSpacing) / columnCount) - columnSpacing;
         return (columnCount, columnWidth);
     }
 

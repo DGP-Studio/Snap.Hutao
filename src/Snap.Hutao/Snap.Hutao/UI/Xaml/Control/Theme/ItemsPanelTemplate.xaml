@@ -36,6 +36,9 @@
     <ItemsPanelTemplate x:Key="StackPanelSpacing4Template">
         <StackPanel Spacing="4"/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="StackPanelSpacing6Template">
+        <StackPanel Spacing="6"/>
+    </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="StackPanelSpacing8Template">
         <StackPanel Spacing="8"/>
     </ItemsPanelTemplate>

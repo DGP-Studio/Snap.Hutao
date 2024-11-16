@@ -141,54 +141,48 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssBattleTemplate" x:DataType="shvs:BattleView">
-            <Grid ColumnSpacing="16">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <clw:TokenItem
-                        Margin="0,0,0,8"
-                        Padding="12,2"
-                        HorizontalAlignment="Left"
-                        Content="{Binding Gadget.Name}"
-                        CornerRadius="12"
-                        Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                        <ToolTipService.ToolTip>
-                            <shuxct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
-                        </ToolTipService.ToolTip>
-                    </clw:TokenItem>
-                    <ItemsControl ItemTemplate="{StaticResource MonsterWaveTempate}" ItemsSource="{Binding MonsterWaves}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Spacing="8"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
-                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <ItemsControl
-                            Margin="0,8,0,0"
-                            ItemTemplate="{StaticResource AvatarTemplate}"
-                            ItemsPanel="{ThemeResource WrapPanelSpacing6Template}"
-                            ItemsSource="{Binding Avatars}"/>
-                    </ScrollViewer>
-                </StackPanel>
+            <StackPanel Spacing="16">
+                <Grid ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <clw:TokenItem
+                            Margin="0,0,0,8"
+                            Padding="12,2"
+                            HorizontalAlignment="Left"
+                            Content="{Binding Gadget.Name}"
+                            CornerRadius="12"
+                            Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                            <ToolTipService.ToolTip>
+                                <shuxct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
+                            </ToolTipService.ToolTip>
+                        </clw:TokenItem>
+                        <ItemsControl ItemTemplate="{StaticResource MonsterWaveTempate}" ItemsSource="{Binding MonsterWaves}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="8"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <ItemsControl
+                                Margin="0,8,0,0"
+                                ItemTemplate="{StaticResource AvatarTemplate}"
+                                ItemsPanel="{ThemeResource StackPanelSpacing6Template}"
+                                ItemsSource="{Binding Avatars}"/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Grid>
                 <TextBlock
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Margin="0,2,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{Binding Time}"/>
-            </Grid>
-
+            </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssLevelTemplate" x:DataType="shvs:LevelView">
@@ -230,7 +224,7 @@
                     ItemsSource="{Binding Battles}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <cwc:UniformGrid ColumnSpacing="16" Columns="2"/>
+                            <shuxcp:EqualPanel Spacing="16"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -489,7 +483,7 @@
                                         </cwc:Segmented>
 
                                         <ContentControl
-                                            Margin="16,16,16,0"
+                                            Margin="16,16,16,16"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             Content="{Binding Floors.CurrentItem}"

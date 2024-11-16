@@ -524,7 +524,7 @@
                                                             <ItemsPanelTemplate>
                                                                 <shuxcp:UniformStaggeredPanel
                                                                     ColumnSpacing="8"
-                                                                    MinItemWidth="560"
+                                                                    MinItemWidth="480"
                                                                     RowSpacing="8"/>
                                                             </ItemsPanelTemplate>
                                                         </ItemsControl.ItemsPanel>

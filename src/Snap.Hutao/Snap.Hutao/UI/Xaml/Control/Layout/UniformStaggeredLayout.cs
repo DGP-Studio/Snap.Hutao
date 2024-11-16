@@ -225,12 +225,6 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
     private static (int NumberOfColumns, double ColumnWidth) GetNumberOfColumnsAndWidth(double availableWidth, double minItemWidth, double columnSpacing)
     {
-        // test if the width can fit in 2 items
-        if ((2 * minItemWidth) + columnSpacing > availableWidth)
-        {
-            return (1, availableWidth);
-        }
-
         int columnCount = Math.Max(1, (int)((availableWidth + columnSpacing) / (minItemWidth + columnSpacing)));
         double columnWidthWithSpacing = (availableWidth + columnSpacing) / columnCount;
         return (columnCount, columnWidthWithSpacing - columnSpacing);
