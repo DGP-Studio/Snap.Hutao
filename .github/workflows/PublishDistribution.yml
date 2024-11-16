@@ -19,4 +19,5 @@ jobs:
         with:
           workflow: overwrite
           repo: qhy040404/CN-Overwriter
+          ref: refs/main
           token: "${{ secrets.RUNNER_CHECK_TOKEN }}"
