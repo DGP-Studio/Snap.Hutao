@@ -33,7 +33,24 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly HutaoUserOptions hutaoUserOptions;
 
-    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries { get; set => SetProperty(ref field, value); }
+    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries
+    {
+        get;
+        set
+        {
+            if (SpiralAbyssEntries is not null)
+            {
+                SpiralAbyssEntries.CurrentChanged -= OnCurrentSpiralAbyssEntryChanged;
+            }
+
+            SetProperty(ref field, value);
+
+            if (value is not null)
+            {
+                SpiralAbyssEntries.CurrentChanged += OnCurrentSpiralAbyssEntryChanged;
+            }
+        }
+    }
 
     public partial HutaoSpiralAbyssDatabaseViewModel HutaoSpiralAbyssDatabaseViewModel { get; }
 
@@ -64,6 +81,11 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
 
         return true;
+    }
+
+    private void OnCurrentSpiralAbyssEntryChanged(object? sender, object? e)
+    {
+        SpiralAbyssEntries?.CurrentItem?.Floors.MoveCurrentToFirstOrDefault();
     }
 
     [SuppressMessage("", "SH003")]

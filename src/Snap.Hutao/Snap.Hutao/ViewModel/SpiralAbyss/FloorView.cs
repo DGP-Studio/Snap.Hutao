@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Tower;
+using Snap.Hutao.UI.Xaml.Data;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-internal sealed class FloorView
+internal sealed partial class FloorView : IAdvancedCollectionViewItem
 {
     public FloorView(TowerFloor floor, SpiralAbyssMetadataContext context)
     {

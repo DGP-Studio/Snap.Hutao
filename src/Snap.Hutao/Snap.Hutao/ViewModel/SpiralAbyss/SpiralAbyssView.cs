@@ -31,7 +31,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
         foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor webFloor in spiralAbyss.Floors)
         {
             // Ignoring floor 1 - 8 here
-            if (Floors.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
+            if (Floors.SourceCollection.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
             {
                 floor.WithSpiralAbyssFloor(webFloor, context);
             }
@@ -45,7 +45,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
         BlessingName = towerSchedule.BuffName;
         Blessings = towerSchedule.Descriptions;
-        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdTowerFloorMap[id], context)).Reverse().ToList();
+        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdTowerFloorMap[id], context)).Reverse().ToAdvancedCollectionView();
     }
 
     public uint ScheduleId { get; }
@@ -80,7 +80,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
     public RankAvatar? EnergySkill { get; }
 
-    public List<FloorView> Floors { get; }
+    public IAdvancedCollectionView<FloorView> Floors { get; }
 
     public static SpiralAbyssView From(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
     {

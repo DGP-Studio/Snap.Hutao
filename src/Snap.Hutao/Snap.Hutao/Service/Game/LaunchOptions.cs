@@ -112,7 +112,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                storage = bool.Parse(value);
+                bool.TryParse(value, out bool result);
+                storage = result;
             }
 
             return default;
@@ -122,7 +123,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                storage = int.Parse(value, CultureInfo.InvariantCulture);
+                int.TryParse(value, CultureInfo.InvariantCulture, out int result);
+                storage = result;
             }
 
             return default;
@@ -132,7 +134,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                storage = float.Parse(value, CultureInfo.InvariantCulture);
+                float.TryParse(value, CultureInfo.InvariantCulture, out float result);
+                storage = result;
             }
 
             return default;

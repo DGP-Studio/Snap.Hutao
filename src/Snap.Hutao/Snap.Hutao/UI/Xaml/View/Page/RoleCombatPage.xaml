@@ -519,7 +519,7 @@
                                                         </StackPanel>
                                                     </Border>
 
-                                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                                    <ScrollViewer CanContentRenderOutsideBounds="True">
                                                         <ItemsRepeater ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
                                                             <ItemsRepeater.Layout>
                                                                 <shuxcl:UniformStaggeredLayout
@@ -529,6 +529,7 @@
                                                             </ItemsRepeater.Layout>
                                                         </ItemsRepeater>
                                                     </ScrollViewer>
+
                                                 </StackPanel>
                                             </shuxc:StandardView>
                                         </Border>

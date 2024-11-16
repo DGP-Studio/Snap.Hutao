@@ -118,11 +118,7 @@
 
         <DataTemplate x:Key="MonsterWaveTempate" x:DataType="shvs:BattleWave">
             <StackPanel>
-                <TextBlock
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Description}"
-                    TextTrimming="CharacterEllipsis"
-                    TextWrapping="NoWrap"/>
+                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding Description}"/>
                 <ItemsControl
                     Margin="0,4,0,0"
                     ItemTemplate="{StaticResource MonsterTemplate}"
@@ -138,9 +134,8 @@
 
         <DataTemplate x:Key="AvatarTemplate" x:DataType="shvs:AvatarView">
             <shuxc:ItemIcon
-                Width="60"
-                Height="60"
-                Margin="0,0,8,8"
+                Width="48"
+                Height="48"
                 Icon="{Binding Icon}"
                 Quality="{Binding Quality}"/>
         </DataTemplate>
@@ -152,8 +147,8 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <clw:TokenItem
@@ -181,13 +176,8 @@
                         <ItemsControl
                             Margin="0,8,0,0"
                             ItemTemplate="{StaticResource AvatarTemplate}"
-                            ItemsSource="{Binding Avatars}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
+                            ItemsPanel="{ThemeResource WrapPanelSpacing6Template}"
+                            ItemsSource="{Binding Avatars}"/>
                     </ScrollViewer>
                 </StackPanel>
                 <TextBlock
@@ -248,10 +238,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SpiralAbyssFloorTemplate" x:DataType="shvs:FloorView">
-            <Border
-                Margin="0,0,16,16"
-                VerticalAlignment="Top"
-                Style="{StaticResource BorderCardStyle}">
+            <Border VerticalAlignment="Top" Style="{StaticResource BorderCardStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -489,10 +476,25 @@
                                         </Grid>
 
                                         <!--  各层信息  -->
-                                        <ItemsControl
-                                            Margin="16,12,0,0"
-                                            ItemTemplate="{StaticResource SpiralAbyssFloorTemplate}"
-                                            ItemsSource="{Binding Floors}"/>
+                                        <cwc:Segmented
+                                            Margin="16,16,16,0"
+                                            Background="{x:Null}"
+                                            ItemsSource="{Binding Floors}"
+                                            SelectedItem="{Binding Floors.CurrentItem, Mode=TwoWay}">
+                                            <cwc:Segmented.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Index}"/>
+                                                </DataTemplate>
+                                            </cwc:Segmented.ItemTemplate>
+                                        </cwc:Segmented>
+
+                                        <ContentControl
+                                            Margin="16,16,16,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            Content="{Binding Floors.CurrentItem}"
+                                            ContentTemplate="{StaticResource SpiralAbyssFloorTemplate}"/>
+
                                     </StackPanel>
                                 </ScrollViewer>
                             </SplitView.Content>
