@@ -225,6 +225,9 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>匯入</value>
   </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>第 {0} 幕</value>
+  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>歡迎使用胡桃</value>
   </data>
@@ -405,6 +408,18 @@
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>一星</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
+    <value>輕簡模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
+    <value>困難模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
+    <value>普通模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
+    <value>卓越模式</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
@@ -1820,6 +1835,24 @@
   <data name="ViewModelExportWarningTitle" xml:space="preserve">
     <value>匯出失敗</value>
   </data>
+  <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
+    <value>目前卡池</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
+    <value>距離 UP 結束還有 {0} 天</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
+    <value>上次 UP 時間: {0:yyyy.MM.dd}</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
+    <value>距離上次 UP 已有 {0} 天</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
+    <value>下半</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderUp" xml:space="preserve">
+    <value>上半</value>
+  </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
     <value>UIGF Json 檔案</value>
   </data>
@@ -1969,6 +2002,9 @@
   </data>
   <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
     <value>無法選擇 UID [{0}] 對應的帳號 [{1}]，該帳號不屬於目前伺服器</value>
+  </data>
+  <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
+    <value>已抵達{0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
@@ -2390,6 +2426,21 @@
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>輸入</value>
   </data>
+  <data name="ViewPageGachaLogOrangeAvatarCountdown" xml:space="preserve">
+    <value>五星角色</value>
+  </data>
+  <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
+    <value>五星武器</value>
+  </data>
+  <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
+    <value>計時</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
+    <value>四星角色</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
+    <value>四星武器</value>
+  </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
     <value>從胡桃雲恢復祈願紀錄</value>
   </data>
@@ -2627,6 +2678,9 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>所有選項僅會在啟動遊戲成功後儲存</value>
   </data>
+  <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
+    <value>注入功能非常危險且有可能會造成嚴重後果，請謹慎使用</value>
+  </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>移除光照渲染中的迷霧</value>
   </data>
@@ -2839,6 +2893,54 @@
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
     <value>選擇遊戲路徑</value>
+  </data>
+  <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
+    <value>表演助理</value>
+  </data>
+  <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
+    <value>試用</value>
+  </data>
+  <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
+    <value>待命角色</value>
+  </data>
+  <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
+    <value>奇妙助益</value>
+  </data>
+  <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
+    <value>神秘收穫</value>
+  </data>
+  <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
+    <value>消耗「幻劇之花」</value>
+  </data>
+  <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
+    <value>開幕角色</value>
+  </data>
+  <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
+    <value>最佳記錄</value>
+  </data>
+  <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
+    <value>挑戰星章</value>
+  </data>
+  <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
+    <value>暫無演出數據</value>
+  </data>
+  <data name="ViewPageRoleCombatShortest" xml:space="preserve">
+    <value>最快演出</value>
+  </data>
+  <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
+    <value>特邀角色</value>
+  </data>
+  <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
+    <value>輝彩祝福</value>
+  </data>
+  <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
+    <value>場外聲援</value>
+  </data>
+  <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
+    <value>表演助力次數</value>
+  </data>
+  <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
+    <value>演出總時長</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>關於 胡桃</value>
@@ -3080,6 +3182,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快速鍵</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseDescription" xml:space="preserve">
+    <value>更改緊湊網頁視窗中控制影片播放與暫停的快速鍵</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseHeader" xml:space="preserve">
+    <value>緊湊網頁視窗影片播放暫停</value>
+  </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
   </data>
@@ -3284,6 +3392,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
+  <data name="ViewRoleCombatHeader" xml:space="preserve">
+    <value>幻想真境劇詩</value>
+  </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>登入失敗，請重新登入</value>
   </data>
@@ -3484,6 +3595,9 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器資料</value>
+  </data>
+  <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
+    <value>紧凑网页窗口（仅管理员）</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>請截圖此視窗，在回饋中心內找到適合的回饋途徑，並回饋至開發組</value>
