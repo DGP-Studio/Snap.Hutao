@@ -3,7 +3,6 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 
-[HighQuality]
 internal sealed class GameLoginRequest
 {
     [JsonPropertyName("app_id")]

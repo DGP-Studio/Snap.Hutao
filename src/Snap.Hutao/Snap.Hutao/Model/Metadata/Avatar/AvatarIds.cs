@@ -104,8 +104,9 @@ internal static class AvatarIds
     public static readonly AvatarId Kachina = 10000100;
     public static readonly AvatarId Kinich = 10000101;
     public static readonly AvatarId Mualani = 10000102;
+    public static readonly AvatarId Xilonen = 10000103;
 
-    private static readonly FrozenSet<AvatarId> StandardWishIds = FrozenSet.ToFrozenSet(
+    private static readonly FrozenSet<AvatarId> StandardWishIds =
     [
         Qin,
         Diluc,
@@ -118,7 +119,7 @@ internal static class AvatarIds
         Ambor,
         Kaeya,
         Aloy,
-    ]);
+    ];
 
     public static bool IsStandardWish(in AvatarId avatarId)
     {
@@ -141,6 +142,20 @@ internal static class AvatarIds
             Icon = "UI_AvatarIcon_PlayerBoy",
             SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
             Quality = Intrinsic.QualityType.QUALITY_ORANGE,
+            Id = default,
+            PromoteId = default,
+            Sort = default,
+            Body = default,
+            Description = default!,
+            BeginTime = default,
+            Weapon = default,
+            BaseValue = default!,
+            GrowCurves = default!,
+            SkillDepot = default!,
+            FetterInfo = default!,
+            Costumes = default,
+            CultivationItems = default,
+            NameCard = default!,
         });
         builder.Add(PlayerGirl, new()
         {
@@ -148,6 +163,20 @@ internal static class AvatarIds
             Icon = "UI_AvatarIcon_PlayerGirl",
             SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
             Quality = Intrinsic.QualityType.QUALITY_ORANGE,
+            Id = default,
+            PromoteId = default,
+            Sort = default,
+            Body = default,
+            Description = default!,
+            BeginTime = default,
+            Weapon = default,
+            BaseValue = default!,
+            GrowCurves = default!,
+            SkillDepot = default!,
+            FetterInfo = default!,
+            Costumes = default,
+            CultivationItems = default,
+            NameCard = default!,
         });
 
         return builder.ToImmutable();

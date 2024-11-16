@@ -15,16 +15,17 @@ using System.Collections.Frozen;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Net.Mime;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
 internal sealed partial class DownloadSummary : ObservableObject
 {
-    private static readonly FrozenSet<string?> AllowedMediaTypes = FrozenSet.ToFrozenSet<string?>(
+    private static readonly FrozenSet<string?> AllowedMediaTypes =
     [
-        "application/octet-stream",
-        "application/zip",
-    ]);
+        MediaTypeNames.Application.Octet,
+        MediaTypeNames.Application.Zip,
+    ];
 
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
@@ -35,9 +36,6 @@ internal sealed partial class DownloadSummary : ObservableObject
     private readonly string fileName;
     private readonly string fileUrl;
     private readonly IProgress<StreamCopyStatus> progress;
-
-    private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
-    private double progressValue;
 
     public DownloadSummary(IServiceProvider serviceProvider, string fileName)
     {
@@ -57,9 +55,9 @@ internal sealed partial class DownloadSummary : ObservableObject
 
     public string DisplayName { get => fileName; }
 
-    public string Description { get => description; private set => SetProperty(ref description, value); }
+    public string Description { get; private set => SetProperty(ref field, value); } = SH.ViewModelWelcomeDownloadSummaryDefault;
 
-    public double ProgressValue { get => progressValue; set => SetProperty(ref progressValue, value); }
+    public double ProgressValue { get; set => SetProperty(ref field, value); }
 
     public async ValueTask<bool> DownloadAndExtractAsync()
     {

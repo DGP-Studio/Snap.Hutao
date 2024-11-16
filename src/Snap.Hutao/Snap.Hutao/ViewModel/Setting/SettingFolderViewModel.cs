@@ -12,7 +12,6 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
 {
     private readonly ITaskContext taskContext;
     private readonly string folder;
-    private string? size;
 
     public SettingFolderViewModel(ITaskContext taskContext, string folder)
     {
@@ -24,7 +23,7 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
 
     public string Folder { get => folder; }
 
-    public string? Size { get => size; set => SetProperty(ref size, value); }
+    public string? Size { get; set => SetProperty(ref field, value); }
 
     [SuppressMessage("", "SH003")]
     public async Task SetFolderSizeAsync()

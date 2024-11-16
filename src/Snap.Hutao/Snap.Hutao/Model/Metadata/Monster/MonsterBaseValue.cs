@@ -3,62 +3,33 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Monster;
 
-/// <summary>
-/// 怪物基本属性
-/// </summary>
 internal sealed class MonsterBaseValue : BaseValue
 {
-    /// <summary>
-    /// 火抗
-    /// </summary>
-    public float FireSubHurt { get; set; }
+    public required float FireSubHurt { get; init; }
 
-    /// <summary>
-    /// 草抗
-    /// </summary>
-    public float GrassSubHurt { get; set; }
+    public required float GrassSubHurt { get; init; }
 
-    /// <summary>
-    /// 水抗
-    /// </summary>
-    public float WaterSubHurt { get; set; }
+    public required float WaterSubHurt { get; init; }
 
-    /// <summary>
-    /// 雷抗
-    /// </summary>
-    public float ElecSubHurt { get; set; }
+    public required float ElecSubHurt { get; init; }
 
-    /// <summary>
-    /// 风抗
-    /// </summary>
-    public float WindSubHurt { get; set; }
+    public required float WindSubHurt { get; init; }
 
-    /// <summary>
-    /// 冰抗
-    /// </summary>
-    public float IceSubHurt { get; set; }
+    public required float IceSubHurt { get; init; }
 
-    /// <summary>
-    /// 岩抗
-    /// </summary>
-    public float RockSubHurt { get; set; }
+    public required float RockSubHurt { get; init; }
 
-    /// <summary>
-    /// 物抗
-    /// </summary>
-    public float PhysicalSubHurt { get; set; }
+    public required float PhysicalSubHurt { get; init; }
 
-    /// <summary>
-    /// 抗性
-    /// </summary>
-    public List<NameValue<string>> SubHurts
+    public ImmutableArray<NameValue<string>> SubHurts
     {
         get
         {
-            return
+            return !field.IsDefault ? field : field =
             [
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_FIRE_SUB_HURT, FireSubHurt),
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_WATER_SUB_HURT, WaterSubHurt),

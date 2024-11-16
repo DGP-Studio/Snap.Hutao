@@ -6,17 +6,9 @@ using Snap.Hutao.Service.Game.Package;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-/// <summary>
-/// 启动游戏客户端转换对话框
-/// </summary>
-[HighQuality]
 [DependencyProperty("State", typeof(PackageConvertStatus))]
 internal sealed partial class LaunchGamePackageConvertDialog : ContentDialog
 {
-    /// <summary>
-    /// 构造一个新的启动游戏客户端转换对话框
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
     public LaunchGamePackageConvertDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();

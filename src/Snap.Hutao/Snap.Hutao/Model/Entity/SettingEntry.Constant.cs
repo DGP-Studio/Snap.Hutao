@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Graphics.Canvas.Brushes;
-
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>

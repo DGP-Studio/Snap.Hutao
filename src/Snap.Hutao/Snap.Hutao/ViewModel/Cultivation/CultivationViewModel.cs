@@ -12,7 +12,6 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -34,24 +33,17 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private CancellationTokenSource statisticsCancellationTokenSource = new();
 
-    private AdvancedDbCollectionView<CultivateProject>? projects;
-    private List<InventoryItemView>? inventoryItems;
-    private ObservableCollection<CultivateEntryView>? cultivateEntries;
-    private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
-    private bool entriesUpdating;
-    private bool incompleteFirst;
-
     public AdvancedDbCollectionView<CultivateProject>? Projects
     {
-        get => projects;
+        get;
         set
         {
-            if (projects is not null)
+            if (field is not null)
             {
-                projects.CurrentChanged -= OnCurrentProjectChanged;
+                field.CurrentChanged -= OnCurrentProjectChanged;
             }
 
-            SetProperty(ref projects, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -60,15 +52,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    public List<InventoryItemView>? InventoryItems { get => inventoryItems; set => SetProperty(ref inventoryItems, value); }
+    public List<InventoryItemView>? InventoryItems { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<CultivateEntryView>? CultivateEntries { get => cultivateEntries; set => SetProperty(ref cultivateEntries, value); }
+    public ObservableCollection<CultivateEntryView>? CultivateEntries { get; set => SetProperty(ref field, value); }
 
-    public bool EntriesUpdating { get => entriesUpdating; set => SetProperty(ref entriesUpdating, value); }
+    public bool EntriesUpdating { get; set => SetProperty(ref field, value); }
 
-    public bool IncompleteFirst { get => incompleteFirst; set => SetProperty(ref incompleteFirst, value); }
+    public bool IncompleteFirst { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
+    public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -258,7 +250,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToBackgroundAsync();
 
-        statisticsCancellationTokenSource.Cancel();
+        await statisticsCancellationTokenSource.CancelAsync().ConfigureAwait(false);
         statisticsCancellationTokenSource = new();
         CancellationToken token = statisticsCancellationTokenSource.Token;
         ObservableCollection<StatisticsCultivateItem> statistics;
@@ -311,7 +303,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         {
             Type? pageType = Type.GetType(typeString);
             ArgumentNullException.ThrowIfNull(pageType);
-            navigationService.Navigate(pageType, INavigationAwaiter.Default, true);
+            navigationService.Navigate(pageType, INavigationCompletionSource.Default, true);
         }
     }
 }

@@ -16,7 +16,13 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 {
     private const int OneMinute = 60;
 
-    private readonly List<NameValue<int>> refreshTimes =
+    private readonly IQuartzService quartzService;
+
+    private bool? isAutoRefreshEnabled;
+    private bool? isReminderNotification;
+    private bool? isSilentWhenPlayingGame;
+
+    public List<NameValue<int>> RefreshTimes { get; } =
     [
         new(SH.ViewModelDailyNoteRefreshTime4, OneMinute * 4),
         new(SH.ViewModelDailyNoteRefreshTime8, OneMinute * 8),
@@ -24,16 +30,6 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         new(SH.ViewModelDailyNoteRefreshTime40, OneMinute * 40),
         new(SH.ViewModelDailyNoteRefreshTime60, OneMinute * 60),
     ];
-
-    private readonly IQuartzService quartzService;
-
-    private bool? isAutoRefreshEnabled;
-    private NameValue<int>? selectedRefreshTime;
-    private bool? isReminderNotification;
-    private bool? isSilentWhenPlayingGame;
-    private string? webhookUrl;
-
-    public List<NameValue<int>> RefreshTimes { get => refreshTimes; }
 
     public bool IsAutoRefreshEnabled
     {
@@ -62,12 +58,12 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public NameValue<int>? SelectedRefreshTime
     {
-        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
+        get => GetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
         set
         {
             if (value is not null)
             {
-                SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, v => $"{v.Value}");
+                SetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, value, v => $"{v.Value}");
                 quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                 {
                     return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(value.Value).RepeatForever());
@@ -90,7 +86,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public string? WebhookUrl
     {
-        get => GetOption(ref webhookUrl, SettingEntry.DailyNoteWebhookUrl);
-        set => SetOption(ref webhookUrl, SettingEntry.DailyNoteWebhookUrl, value);
+        get => GetOption(ref field, SettingEntry.DailyNoteWebhookUrl);
+        set => SetOption(ref field, SettingEntry.DailyNoteWebhookUrl, value);
     }
 }

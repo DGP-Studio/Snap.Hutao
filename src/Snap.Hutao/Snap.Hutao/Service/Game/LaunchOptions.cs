@@ -28,7 +28,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
     private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
 
-    private string? gamePath;
     private ImmutableArray<GamePathEntry>? gamePathEntries;
 
     private bool? usingHoyolabAccount;
@@ -52,11 +51,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
     private bool? hookingOpenTeam;
     private bool? removeOpenTeamProgress;
     private bool? hookingMickyWonderPartner2;
-    private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private bool? usingCloudThirdPartyMobile;
     private bool? isWindowsHDREnabled;
-    private AspectRatio? selectedAspectRatio;
     private bool? usingStarwardPlayTimeStatistics;
     private bool? usingBetterGenshinImpactAutomation;
     private bool? setDiscordActivityWhenPlaying;
@@ -115,7 +112,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                storage = bool.Parse(value);
+                bool.TryParse(value, out bool result);
+                storage = result;
             }
 
             return default;
@@ -125,7 +123,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                storage = int.Parse(value, CultureInfo.InvariantCulture);
+                int.TryParse(value, CultureInfo.InvariantCulture, out int result);
+                storage = result;
             }
 
             return default;
@@ -135,7 +134,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                storage = float.Parse(value, CultureInfo.InvariantCulture);
+                float.TryParse(value, CultureInfo.InvariantCulture, out float result);
+                storage = result;
             }
 
             return default;
@@ -179,10 +179,11 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         }
     }
 
+    [field: AllowNull]
     public string GamePath
     {
-        get => GetOption(ref gamePath, SettingEntry.GamePath);
-        set => SetOption(ref gamePath, SettingEntry.GamePath, value);
+        get => GetOption(ref field, SettingEntry.GamePath);
+        set => SetOption(ref field, SettingEntry.GamePath, value);
     }
 
     public ImmutableArray<GamePathEntry> GamePathEntries
@@ -267,7 +268,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
     {
         get
         {
-            return GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
+            return GetOption(ref field, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
 
             static int RestrictIndex(ImmutableArray<NameValue<int>> monitors, string index)
             {
@@ -279,7 +280,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
+                SetOption(ref field, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
@@ -438,10 +439,10 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
 
     public AspectRatio? SelectedAspectRatio
     {
-        get => selectedAspectRatio;
+        get;
         set
         {
-            if (SetProperty(ref selectedAspectRatio, value) && value is { } aspectRatio)
+            if (SetProperty(ref field, value) && value is { } aspectRatio)
             {
                 (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }

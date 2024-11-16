@@ -19,7 +19,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
+            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
         }
     }
 
@@ -35,8 +35,8 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
-            onException?.Invoke(e);
+            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
+            onException.Invoke(e);
         }
     }
 
@@ -48,11 +48,11 @@ internal static class TaskExtension
         }
         catch (OperationCanceledException)
         {
-            onCanceled?.Invoke();
+            onCanceled.Invoke();
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
+            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }
@@ -69,7 +69,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
+            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
         }
     }
 
@@ -85,8 +85,8 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
-            onException?.Invoke(e);
+            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
+            onException.Invoke(e);
         }
     }
 
@@ -98,11 +98,11 @@ internal static class TaskExtension
         }
         catch (OperationCanceledException)
         {
-            onCanceled?.Invoke();
+            onCanceled.Invoke();
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
+            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }

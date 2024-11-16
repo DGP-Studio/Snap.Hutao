@@ -3,11 +3,9 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -18,13 +16,7 @@ namespace Snap.Hutao.ViewModel.Setting;
 internal sealed partial class SettingDangerousFeatureViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
-
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
-
-    public LaunchOptions LaunchOptions { get => launchOptions; }
 
     public bool IsAllocConsoleDebugModeEnabled
     {
@@ -47,13 +39,13 @@ internal sealed partial class SettingDangerousFeatureViewModel : Abstraction.Vie
                     if (await dialog.ConfirmAsync(SH.ViewSettingAllocConsoleHeader).ConfigureAwait(true))
                     {
                         LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, true);
-                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        OnPropertyChanged();
                         return;
                     }
                 }
 
                 LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
-                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                OnPropertyChanged();
             }
         }
     }

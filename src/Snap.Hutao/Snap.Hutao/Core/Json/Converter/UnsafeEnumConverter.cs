@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Json.Converter;
 
-[HighQuality]
 internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
     where TEnum : struct, Enum
 {

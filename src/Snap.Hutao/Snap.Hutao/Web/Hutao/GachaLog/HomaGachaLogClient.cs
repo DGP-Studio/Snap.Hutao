@@ -151,8 +151,8 @@ internal sealed partial class HomaGachaLogClient
             Items = gachaItems;
         }
 
-        public string Uid { get; set; } = default!;
+        public string Uid { get; set; }
 
-        public List<GachaItem> Items { get; set; } = default!;
+        public List<GachaItem> Items { get; set; }
     }
 }

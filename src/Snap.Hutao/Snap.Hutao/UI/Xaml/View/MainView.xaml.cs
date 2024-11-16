@@ -31,7 +31,7 @@ internal sealed partial class MainView : UserControl
             navigationInitialization.Initialize(new NavigationViewAccessor(NavView, ContentFrame));
         }
 
-        navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
+        navigationService.Navigate<AnnouncementPage>(INavigationCompletionSource.Default, true);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)

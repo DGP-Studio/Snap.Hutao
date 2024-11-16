@@ -9,7 +9,7 @@ using Snap.Hutao.UI;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Win32.System.WinRT;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
@@ -27,11 +27,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     private readonly IImageCacheDownloadOperation downloadOperation;
     private readonly ILogger<ImageCache> logger;
 
-    private string? cacheFolder;
-
     private string CacheFolder
     {
-        get => LazyInitializer.EnsureInitialized(ref cacheFolder, () =>
+        get => LazyInitializer.EnsureInitialized(ref field, () =>
         {
             string folder = HutaoRuntime.GetLocalCacheImageCacheFolder();
             Directory.CreateDirectory(Path.Combine(folder, "Light"));
@@ -109,7 +107,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     private static string GetCacheFileName(string url)
     {
-        return Hash.SHA1HexString(url);
+        return Hash.ToHexString(HashAlgorithmName.SHA1, url);
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)

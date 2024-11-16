@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 internal sealed class UIGFEntry<TItem>
@@ -16,7 +18,7 @@ internal sealed class UIGFEntry<TItem>
     public string? Language { get; set; }
 
     [JsonPropertyName("list")]
-    public required List<TItem> List { get; set; }
+    public required ImmutableArray<TItem> List { get; set; }
 
     [JsonIgnore]
     public bool IsSelected { get; set; }

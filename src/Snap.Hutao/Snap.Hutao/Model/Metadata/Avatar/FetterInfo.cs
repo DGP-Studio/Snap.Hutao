@@ -2,113 +2,47 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 好感信息
-/// </summary>
-[HighQuality]
 internal sealed class FetterInfo
 {
-    /// <summary>
-    /// 称号
-    /// </summary>
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
-    /// <summary>
-    /// 详细
-    /// </summary>
-    public string Detail { get; set; } = default!;
+    public required string Detail { get; init; }
 
-    /// <summary>
-    /// 地区
-    /// </summary>
-    public AssociationType Association { get; set; } = default!;
+    public required AssociationType Association { get; init; }
 
-    /// <summary>
-    /// 属于组织
-    /// </summary>
-    public string Native { get; set; } = default!;
+    public required string Native { get; init; }
 
-    /// <summary>
-    /// 生月
-    /// </summary>
-    public uint BirthMonth { get; set; }
+    public required uint BirthMonth { get; init; }
 
-    /// <summary>
-    /// 生日
-    /// </summary>
-    public uint BirthDay { get; set; }
+    public required uint BirthDay { get; init; }
 
-    /// <summary>
-    /// 格式化的生日日期
-    /// </summary>
-    public string BirthFormatted
-    {
-        get => SH.FormatModelMetadataFetterInfoBirthdayFormat(BirthMonth, BirthDay);
-    }
+    [JsonIgnore]
+    public string BirthFormatted { get => SH.FormatModelMetadataFetterInfoBirthdayFormat(BirthMonth, BirthDay); }
 
-    /// <summary>
-    /// 神之眼属性-前
-    /// </summary>
-    public string VisionBefore { get; set; } = default!;
+    public required string VisionBefore { get; init; }
 
-    /// <summary>
-    /// 命座-前
-    /// </summary>
-    public string ConstellationBefore { get; set; } = default!;
+    public required string ConstellationBefore { get; init; }
 
-    /// <summary>
-    /// 命座-后
-    /// </summary>
-    public string ConstellationAfter { get; set; } = default!;
+    public string? ConstellationAfter { get; init; }
 
-    /// <summary>
-    /// 命座
-    /// </summary>
-    public string Constellation
-    {
-        get
-        {
-            return string.IsNullOrEmpty(ConstellationAfter)
-                ? ConstellationBefore
-                : ConstellationAfter;
-        }
-    }
+    [JsonIgnore]
+    public string Constellation { get => string.IsNullOrEmpty(ConstellationAfter) ? ConstellationBefore : ConstellationAfter; }
 
-    /// <summary>
-    /// 中文CV
-    /// </summary>
-    public string CvChinese { get; set; } = default!;
+    public required string CvChinese { get; init; }
 
-    /// <summary>
-    /// 日语CV
-    /// </summary>
-    public string CvJapanese { get; set; } = default!;
+    public required string CvJapanese { get; init; }
 
-    /// <summary>
-    /// 英语CV
-    /// </summary>
-    public string CvEnglish { get; set; } = default!;
+    public required string CvEnglish { get; init; }
 
-    /// <summary>
-    /// 韩语CV
-    /// </summary>
-    public string CvKorean { get; set; } = default!;
+    public required string CvKorean { get; init; }
 
-    /// <summary>
-    /// 料理
-    /// </summary>
-    public CookBonus? CookBonus { get; set; }
+    public CookBonus? CookBonus { get; init; }
 
-    /// <summary>
-    /// 好感语音
-    /// </summary>
-    public IEnumerable<Fetter> Fetters { get; set; } = default!;
+    public required ImmutableArray<Fetter> Fetters { get; init; }
 
-    /// <summary>
-    /// 好感故事
-    /// </summary>
-    public IEnumerable<Fetter> FetterStories { get; set; } = default!;
+    public required ImmutableArray<Fetter> FetterStories { get; init; }
 }

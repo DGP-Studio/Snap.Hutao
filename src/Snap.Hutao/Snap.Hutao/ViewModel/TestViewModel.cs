@@ -3,9 +3,7 @@
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
@@ -13,17 +11,25 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Automation.ScreenCapture;
+using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Net.Http;
+using System.Security.Cryptography;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -34,15 +40,15 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IGameScreenCaptureService gameScreenCaptureService;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
-    private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
 
-    private UploadAnnouncement announcement = new();
+    public UploadAnnouncement Announcement { get; set => SetProperty(ref field, value); } = new();
 
-    public UploadAnnouncement Announcement { get => announcement; set => SetProperty(ref announcement, value); }
+    public ExtractOptions ExtractExeOptions { get; } = new();
 
     public bool SuppressMetadataInitialization
     {
@@ -157,20 +163,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
-    public bool AllowExtractGameBlks
-    {
-        get => LocalSetting.Get(SettingKeys.AllowExtractGameBlks, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.AllowExtractGameBlks, value);
-        }
-    }
-
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
@@ -233,15 +225,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("DebugPrintImageCacheFailedDownloadTasksCommand")]
-    private void DebugPrintImageCacheFailedDownloadTasks()
-    {
-        if (memoryCache.TryGetValue($"{nameof(ImageCache)}.FailedDownloadTasks", out HashSet<string>? set))
-        {
-            logger.LogInformation("Failed ImageCache download tasks: [{Tasks}]", set?.ToString(','));
-        }
-    }
-
     [Command("ScreenCaptureCommand")]
     private async Task ScreenCaptureAsync()
     {
@@ -300,7 +283,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
         }
 
-        string result = await SHA256.HashFileAsync("D://test.file").ConfigureAwait(false);
+        string result = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, "D://test.file").ConfigureAwait(false);
         logger.LogInformation("File SHA256: {SHA256}", result);
     }
 
@@ -325,5 +308,150 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private void TestGamePackageOperationWindow()
     {
         serviceProvider.GetRequiredService<GamePackageOperationWindow>().DataContext.TestProgress();
+    }
+
+    [Command("ExtractGameBlocksCommand")]
+    private async Task ExtractGameBlocksAsync()
+    {
+        IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
+        LaunchGameShared launchGameShared = serviceProvider.GetRequiredService<LaunchGameShared>();
+        HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
+        LaunchOptions launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
+
+        if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
+        {
+            return;
+        }
+
+        Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+        if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
+        {
+            return;
+        }
+
+        if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is not { } gameBranch)
+        {
+            return;
+        }
+
+        if (gameBranch.PreDownload is null)
+        {
+            infoBarService.Warning("Predownload not available");
+            return;
+        }
+
+        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        {
+            return;
+        }
+
+        if (!gameFileSystem.TryGetGameVersion(out string? localVersion))
+        {
+            return;
+        }
+
+        (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
+        if (!isOk)
+        {
+            return;
+        }
+
+        string message = $"""
+            Local: {localVersion}
+            Remote: {gameBranch.PreDownload.Tag}
+            Extract Directory: {extractDirectory}
+            
+            Please ensure local game is integrated.
+            We need some of old blocks to patch up.
+            """;
+
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Extract Game Blocks",
+            message)
+            .ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        GamePackageOperationContext context = new(
+            serviceProvider,
+            GamePackageOperationKind.ExtractBlk,
+            gameFileSystem,
+            gameBranch.Main.GetTaggedCopy(localVersion),
+            gameBranch.PreDownload,
+            default,
+            extractDirectory);
+
+        await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+    }
+
+    [Command("ExtractGameExeCommand")]
+    private async Task ExtractGameExeAsync()
+    {
+        IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
+        HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
+
+        LaunchScheme launchScheme = KnownLaunchSchemes.Get().First(s => s.IsOversea == ExtractExeOptions.IsOversea);
+
+        Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+        if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
+        {
+            return;
+        }
+
+        if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is not { } gameBranch)
+        {
+            return;
+        }
+
+        BranchWrapper branch = ExtractExeOptions.IsPredownload ? gameBranch.PreDownload : gameBranch.Main;
+
+        if (branch is null)
+        {
+            infoBarService.Warning("Predownload not available");
+            return;
+        }
+
+        (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
+        if (!isOk)
+        {
+            return;
+        }
+
+        string message = $"""
+                          Version: {branch.Tag}
+                          IsOversea: {ExtractExeOptions.IsOversea}
+                          Extract Directory: {extractDirectory}
+                          """;
+
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+                "Extract Game Blocks",
+                message)
+            .ConfigureAwait(false);
+
+        if (result is ContentDialogResult.Primary)
+        {
+            GameFileSystem gameFileSystem = new(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
+
+            GamePackageOperationContext context = new(
+                serviceProvider,
+                GamePackageOperationKind.ExtractExe,
+                gameFileSystem,
+                default!,
+                branch,
+                default,
+                default);
+
+            await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+        }
+    }
+
+    internal sealed class ExtractOptions
+    {
+        public bool IsOversea { get; set; }
+
+        public bool IsPredownload { get; set; }
     }
 }

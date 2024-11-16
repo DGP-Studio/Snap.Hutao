@@ -23,10 +23,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
-    private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
-    private readonly WishCountdownViewModel wishCountdownViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly HutaoCloudViewModel hutaoCloudViewModel;
     private readonly ILogger<GachaLogViewModel> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly IProgressFactory progressFactory;
@@ -34,14 +31,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private AdvancedDbCollectionView<GachaArchive>? archives;
-    private GachaStatistics? statistics;
-    private bool isAggressiveRefresh;
     private bool suppressCurrentItemChangedHandling;
 
     public AdvancedDbCollectionView<GachaArchive>? Archives
     {
-        get => archives;
+        get;
         set
         {
             if (Archives is not null)
@@ -49,7 +43,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 Archives.CurrentChanged -= OnCurrentArchiveChanged;
             }
 
-            SetProperty(ref archives, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -60,23 +54,23 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     public GachaStatistics? Statistics
     {
-        get => statistics;
+        get;
         set
         {
-            if (SetProperty(ref statistics, value))
+            if (SetProperty(ref field, value))
             {
-                statistics?.HistoryWishes.MoveCurrentToFirst();
+                field?.HistoryWishes.MoveCurrentToFirst();
             }
         }
     }
 
-    public bool IsAggressiveRefresh { get => isAggressiveRefresh; set => SetProperty(ref isAggressiveRefresh, value); }
+    public bool IsAggressiveRefresh { get; set => SetProperty(ref field, value); }
 
-    public HutaoCloudViewModel HutaoCloudViewModel { get => hutaoCloudViewModel; }
+    public partial HutaoCloudViewModel HutaoCloudViewModel { get; }
 
-    public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
+    public partial HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get; }
 
-    public WishCountdownViewModel WishCountdownViewModel { get => wishCountdownViewModel; }
+    public partial WishCountdownViewModel WishCountdownViewModel { get; }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -285,7 +279,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("ImportExportCommand")]
     private void ImportExport()
     {
-        INavigationAwaiter navigationAwaiter = new NavigationExtra(SettingViewModel.UIGFImportExport);
+        INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(SettingViewModel.UIGFImportExport);
         serviceProvider.GetRequiredService<INavigationService>().Navigate<SettingPage>(navigationAwaiter, true);
     }
 

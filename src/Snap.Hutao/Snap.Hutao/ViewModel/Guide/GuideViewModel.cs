@@ -15,9 +15,6 @@ using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-/// <summary>
-/// 指引视图模型
-/// </summary>
 [SuppressMessage("", "SA1124")]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
@@ -25,20 +22,6 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly StaticResourceOptions staticResourceOptions;
-    private readonly CultureOptions cultureOptions;
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly AppOptions appOptions;
-
-    private string nextOrCompleteButtonText = SH.ViewModelGuideActionNext;
-    private bool isNextOrCompleteButtonEnabled = true;
-    private NameValue<CultureInfo>? selectedCulture;
-    private NameValue<Region>? selectedRegion;
-    private bool isTermOfServiceAgreed;
-    private bool isPrivacyPolicyAgreed;
-    private bool isIssueReportAgreed;
-    private bool isOpenSourceLicenseAgreed;
-    private ObservableCollection<DownloadSummary>? downloadSummaries;
 
     public uint State
     {
@@ -78,24 +61,24 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
-    public string NextOrCompleteButtonText { get => nextOrCompleteButtonText; set => SetProperty(ref nextOrCompleteButtonText, value); }
+    public string NextOrCompleteButtonText { get; set => SetProperty(ref field, value); } = SH.ViewModelGuideActionNext;
 
-    public bool IsNextOrCompleteButtonEnabled { get => isNextOrCompleteButtonEnabled; set => SetProperty(ref isNextOrCompleteButtonEnabled, value); }
+    public bool IsNextOrCompleteButtonEnabled { get; set => SetProperty(ref field, value); } = true;
 
-    public CultureOptions CultureOptions { get => cultureOptions; }
+    public partial CultureOptions CultureOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
-    public StaticResourceOptions StaticResourceOptions { get => staticResourceOptions; }
+    public partial StaticResourceOptions StaticResourceOptions { get; }
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
+        get => field ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
-            if (SetProperty(ref selectedCulture, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 CultureOptions.CurrentCulture = value.Value;
                 ++State;
@@ -106,10 +89,10 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public NameValue<Region>? SelectedRegion
     {
-        get => selectedRegion ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
+        get => field ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
         set
         {
-            if (SetProperty(ref selectedRegion, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 AppOptions.Region = value.Value;
             }
@@ -117,11 +100,13 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     }
 
     #region Agreement
+
     public bool IsTermOfServiceAgreed
     {
-        get => isTermOfServiceAgreed; set
+        get;
+        set
         {
-            if (SetProperty(ref isTermOfServiceAgreed, value))
+            if (SetProperty(ref field, value))
             {
                 OnAgreementStateChanged();
             }
@@ -130,9 +115,10 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public bool IsPrivacyPolicyAgreed
     {
-        get => isPrivacyPolicyAgreed; set
+        get;
+        set
         {
-            if (SetProperty(ref isPrivacyPolicyAgreed, value))
+            if (SetProperty(ref field, value))
             {
                 OnAgreementStateChanged();
             }
@@ -141,9 +127,10 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public bool IsIssueReportAgreed
     {
-        get => isIssueReportAgreed; set
+        get;
+        set
         {
-            if (SetProperty(ref isIssueReportAgreed, value))
+            if (SetProperty(ref field, value))
             {
                 OnAgreementStateChanged();
             }
@@ -152,21 +139,19 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public bool IsOpenSourceLicenseAgreed
     {
-        get => isOpenSourceLicenseAgreed; set
+        get;
+        set
         {
-            if (SetProperty(ref isOpenSourceLicenseAgreed, value))
+            if (SetProperty(ref field, value))
             {
                 OnAgreementStateChanged();
             }
         }
     }
+
     #endregion
 
-    public ObservableCollection<DownloadSummary>? DownloadSummaries
-    {
-        get => downloadSummaries;
-        set => SetProperty(ref downloadSummaries, value);
-    }
+    public ObservableCollection<DownloadSummary>? DownloadSummaries { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

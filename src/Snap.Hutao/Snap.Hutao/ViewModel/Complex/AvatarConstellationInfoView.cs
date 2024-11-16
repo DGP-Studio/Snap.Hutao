@@ -5,10 +5,6 @@ using Snap.Hutao.Model.Metadata.Avatar;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-/// <summary>
-/// 角色命座信息
-/// </summary>
-[HighQuality]
 internal sealed class AvatarConstellationInfoView : AvatarView
 {
     public AvatarConstellationInfoView(Avatar avatar, double rate, double? lastRate)

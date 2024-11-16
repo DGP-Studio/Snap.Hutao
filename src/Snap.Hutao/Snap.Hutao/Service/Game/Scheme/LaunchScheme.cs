@@ -6,15 +6,8 @@ using Snap.Hutao.Service.Game.Configuration;
 
 namespace Snap.Hutao.Service.Game.Scheme;
 
-/// <summary>
-/// 启动方案
-/// </summary>
-[HighQuality]
 internal class LaunchScheme : IEquatable<ChannelOptions>
 {
-    /// <summary>
-    /// 显示名称
-    /// </summary>
     public string DisplayName
     {
         get
@@ -38,9 +31,6 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
 
     public string GameId { get; private protected set; } = default!;
 
-    /// <summary>
-    /// 是否为海外
-    /// </summary>
     public bool IsOversea { get; private protected set; }
 
     public bool IsNotCompatOnly { get; private protected set; } = true;

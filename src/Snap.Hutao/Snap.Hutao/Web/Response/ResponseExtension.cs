@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Notification;
-using System.Transactions;
 
 namespace Snap.Hutao.Web.Response;
 

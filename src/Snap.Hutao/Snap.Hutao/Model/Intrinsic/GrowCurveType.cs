@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Model.Intrinsic;
 
-/// <summary>
-/// 生长曲线
-/// </summary>
-[HighQuality]
 internal enum GrowCurveType
 {
     GROW_CURVE_NONE = 0,

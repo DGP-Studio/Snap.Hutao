@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
@@ -26,6 +25,8 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
+    public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
+
     private readonly SortDescription achievementUncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
     private readonly SortDescription achievementCompletionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
     private readonly SortDescription achievementGoalUncompletedItemsFirstSortDescription = new(nameof(AchievementGoalView.FinishPercent), SortDirection.Ascending);
@@ -35,26 +36,17 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private readonly AchievementViewModelScopeContext scopeContext;
 
-    private AdvancedCollectionView<AchievementView>? achievements;
-    private AdvancedCollectionView<AchievementGoalView>? achievementGoals;
-    private IAdvancedDbCollectionView<EntityArchive>? archives;
-
-    private bool isUncompletedItemsFirst = true;
-    private bool filterDailyQuestItems;
-    private string searchText = string.Empty;
-    private string? finishDescription;
-
     public IAdvancedDbCollectionView<EntityArchive>? Archives
     {
-        get => archives;
+        get;
         set
         {
-            if (archives is not null)
+            if (field is not null)
             {
-                archives.CurrentChanged -= OnCurrentArchiveChanged;
+                field.CurrentChanged -= OnCurrentArchiveChanged;
             }
 
-            SetProperty(ref archives, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -63,23 +55,19 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public AdvancedCollectionView<AchievementView>? Achievements
-    {
-        get => achievements;
-        set => SetProperty(ref achievements, value);
-    }
+    public AdvancedCollectionView<AchievementView>? Achievements { get; set => SetProperty(ref field, value); }
 
     public AdvancedCollectionView<AchievementGoalView>? AchievementGoals
     {
-        get => achievementGoals;
+        get;
         set
         {
-            if (achievementGoals is not null)
+            if (field is not null)
             {
-                achievementGoals.CurrentChanged -= OnCurrentAchievementGoalChanged;
+                field.CurrentChanged -= OnCurrentAchievementGoalChanged;
             }
 
-            SetProperty(ref achievementGoals, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -88,39 +76,22 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public string SearchText
-    {
-        get => searchText;
-        set => SetProperty(ref searchText, value);
-    }
+    public string SearchText { get; set => SetProperty(ref field, value); } = string.Empty;
 
-    public bool IsUncompletedItemsFirst
-    {
-        get => isUncompletedItemsFirst;
-        set => SetProperty(ref isUncompletedItemsFirst, value);
-    }
+    public bool IsUncompletedItemsFirst { get; set => SetProperty(ref field, value); } = true;
 
-    public bool FilterDailyQuestItems
-    {
-        get => filterDailyQuestItems;
-        set => SetProperty(ref filterDailyQuestItems, value);
-    }
+    public bool FilterDailyQuestItems { get; set => SetProperty(ref field, value); }
 
-    public string? FinishDescription
-    {
-        get => finishDescription;
-        set => SetProperty(ref finishDescription, value);
-    }
+    public string? FinishDescription { get; set => SetProperty(ref field, value); }
 
-    /// <inheritdoc/>
-    public async ValueTask<bool> ReceiveAsync(INavigationData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
             return false;
         }
 
-        if (data.Data is AppActivation.ImportUIAFFromClipboard)
+        if (data.Data is ImportUIAFFromClipboard)
         {
             await ImportUIAFFromClipboardAsync().ConfigureAwait(false);
             return true;

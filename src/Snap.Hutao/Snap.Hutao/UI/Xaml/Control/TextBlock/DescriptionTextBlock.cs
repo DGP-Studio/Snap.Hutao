@@ -14,7 +14,6 @@ using MUXCTextBlock = Microsoft.UI.Xaml.Controls.TextBlock;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
-[HighQuality]
 [DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl

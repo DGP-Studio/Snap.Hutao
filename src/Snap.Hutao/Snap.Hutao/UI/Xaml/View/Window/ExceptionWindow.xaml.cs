@@ -30,6 +30,8 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
         titleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
         titleBar.ExtendsContentIntoTitleBar = true;
 
+        Closed += (_, _) => Process.GetCurrentProcess().Kill();
+
         UpdateDragRectangles();
         DragableGrid.SizeChanged += (_, _) => UpdateDragRectangles();
 

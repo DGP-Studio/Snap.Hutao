@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
@@ -18,29 +16,22 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
-    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
-    private GameBranch? gameBranch;
-    private LaunchScheme? launchScheme;
-    private Version? localVersion;
-    private Version? remoteVersion;
-    private Version? preVersion;
+    public GameBranch? GameBranch { get; set => SetProperty(ref field, value); }
 
-    public GameBranch? GameBranch { get => gameBranch; set => SetProperty(ref gameBranch, value); }
-
-    public LaunchScheme? LaunchScheme { get => launchScheme; set => SetProperty(ref launchScheme, value); }
+    public LaunchScheme? LaunchScheme { get; set => SetProperty(ref field, value); }
 
     public Version? LocalVersion
     {
-        get => localVersion;
+        get;
         set
         {
-            if (SetProperty(ref localVersion, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(LocalVersionText));
                 OnPropertyChanged(nameof(IsUpdateAvailable));
@@ -50,10 +41,10 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public Version? RemoteVersion
     {
-        get => remoteVersion;
+        get;
         set
         {
-            if (SetProperty(ref remoteVersion, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(RemoteVersionText));
                 OnPropertyChanged(nameof(IsUpdateAvailable));
@@ -63,10 +54,10 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public Version? PreVersion
     {
-        get => preVersion;
+        get;
         set
         {
-            if (SetProperty(ref preVersion, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(PreDownloadTitle));
                 OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
@@ -127,11 +118,6 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
             return false;
         }
-    }
-
-    public bool IsExtractAvailable
-    {
-        get => PreVersion is not null && LocalSetting.Get(SettingKeys.AllowExtractGameBlks, false);
     }
 
     public async ValueTask ForceLoadAsync()
@@ -225,24 +211,14 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
 
-        string? extractDirectory = default;
-        if (operationKind is GamePackageOperationKind.Extract)
-        {
-            (bool isOk, extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
-            if (!isOk)
-            {
-                return;
-            }
-        }
-
         GamePackageOperationContext context = new(
             serviceProvider,
             operationKind,
             gameFileSystem,
             GameBranch.Main.GetTaggedCopy(LocalVersion.ToString()),
-            operationKind is GamePackageOperationKind.Predownload or GamePackageOperationKind.Extract ? GameBranch.PreDownload : GameBranch.Main,
+            operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
             gameChannelSDK,
-            extractDirectory);
+            default);
 
         if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
         {

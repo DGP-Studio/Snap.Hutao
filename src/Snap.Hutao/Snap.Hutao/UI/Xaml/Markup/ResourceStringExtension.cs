@@ -6,13 +6,10 @@ using System.Globalization;
 
 namespace Snap.Hutao.UI.Xaml.Markup;
 
-[HighQuality]
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
 internal sealed partial class ResourceStringExtension : MarkupExtension
 {
-    private SHName name;
-
-    public SHName Name { get => name; set => name = value; }
+    public SHName Name { get; set; }
 
     public string? CultureName { get; set; }
 

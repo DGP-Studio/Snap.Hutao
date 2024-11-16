@@ -11,7 +11,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
 using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
-using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hutao;
@@ -29,16 +28,12 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly HotKeyOptions hotKeyOptions;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
 
-    private UpdateStatus? updateStatus;
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
-
-    public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
+    public partial HotKeyOptions HotKeyOptions { get; }
 
     public string Title
     {
@@ -60,7 +55,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
     }
 
-    public UpdateStatus? UpdateStatus { get => updateStatus; set => SetProperty(ref updateStatus, value); }
+    public UpdateStatus? UpdateStatus { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

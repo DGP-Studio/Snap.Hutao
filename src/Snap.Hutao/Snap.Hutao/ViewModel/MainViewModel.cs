@@ -8,7 +8,6 @@ using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Animation;
-using System.Globalization;
 
 namespace Snap.Hutao.ViewModel;
 

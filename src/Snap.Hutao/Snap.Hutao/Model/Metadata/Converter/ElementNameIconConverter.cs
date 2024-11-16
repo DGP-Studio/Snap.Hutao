@@ -32,7 +32,7 @@ internal sealed partial class ElementNameIconConverter : ValueConverter<string, 
         KeyValuePair.Create(SH.ModelIntrinsicElementNameWind, ElementType.Wind),
     ]);
 
-    public static Uri ElementNameToIconUri(string elementName)
+    public static Uri ElementNameToUri(string elementName)
     {
         string? element = LocalizedNameToElementIconName.GetValueOrDefault(elementName);
 
@@ -48,6 +48,6 @@ internal sealed partial class ElementNameIconConverter : ValueConverter<string, 
 
     public override Uri Convert(string from)
     {
-        return ElementNameToIconUri(from);
+        return ElementNameToUri(from);
     }
 }

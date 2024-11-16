@@ -20,7 +20,6 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Bridge;
 
-[HighQuality]
 internal class MiHoYoJSBridgeFacade
 {
     private const string InitializeJsInterfaceScript = """

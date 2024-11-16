@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.WebView2;
 using System.Collections.Frozen;
 using System.Text;
 using Windows.Graphics;
@@ -52,6 +53,8 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
     {
         ArgumentNullException.ThrowIfNull(CoreWebView2);
 
+        CoreWebView2.DisableAutoCompletion();
+
         CoreWebView2.Navigate(targetUrl);
         CoreWebView2.NavigationStarting += OnNavigationStarting;
 
@@ -60,7 +63,7 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
 
     public RectInt32 InitializePosition(RectInt32 parentRect, double parentDpi)
     {
-        return new RectInt32(parentRect.X + 48, parentRect.Y + 48, parentRect.Width - 96, parentRect.Height - 96);
+        return WebView2WindowPosition.Padding(parentRect, 48);
     }
 
     public void Unload()
@@ -81,7 +84,9 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
 
     private static string GetThirdLoginUrl(OverseaThirdPartyKind kind, string languageCode)
     {
+#pragma warning disable CA1308
         StringBuilder baseQuery = new($"?client_id={ThirdPartyToClientId[kind]}&route={kind.ToString().ToLowerInvariant()}&callback_method=deeplink&message_id={Guid.NewGuid()}&lang={languageCode}&scheme=about%3Ablank");
+#pragma warning restore CA1308
         switch (kind)
         {
             case OverseaThirdPartyKind.Google:
@@ -111,8 +116,9 @@ internal sealed class OverseaThirdPartyLoginWebView2ContentProvider : Dependency
         if (e.Uri.StartsWith("about:blank", StringComparison.OrdinalIgnoreCase))
         {
             e.Cancel = true;
-            string token = e.Uri[12..].Split("&")[0].Split("=")[1];
-            result = new(ThirdPartyToType[kind], Uri.UnescapeDataString(token));
+            ReadOnlySpan<char> uriSpan = e.Uri.AsSpan()[18..];
+            uriSpan.TrySplitIntoTwo('&', out ReadOnlySpan<char> tokenSpan, out _);
+            result = new(ThirdPartyToType[kind], Uri.UnescapeDataString(tokenSpan));
             CloseWindowAction?.Invoke();
         }
     }

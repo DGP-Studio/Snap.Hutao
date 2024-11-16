@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -32,8 +33,20 @@ internal sealed class LaunchExecutionInvoker
 
     public async ValueTask<LaunchExecutionResult> InvokeAsync(LaunchExecutionContext context)
     {
-        await RecursiveInvokeHandlerAsync(context, 0).ConfigureAwait(false);
-        return context.Result;
+        try
+        {
+            await RecursiveInvokeHandlerAsync(context, 0).ConfigureAwait(false);
+            return context.Result;
+        }
+        finally
+        {
+            unsafe
+            {
+                SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
+            }
+
+            context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
+        }
     }
 
     private async ValueTask<LaunchExecutionContext> RecursiveInvokeHandlerAsync(LaunchExecutionContext context, int index)

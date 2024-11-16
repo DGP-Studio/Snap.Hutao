@@ -12,33 +12,33 @@ internal sealed partial class Monster : IAdvancedCollectionViewItem
 {
     internal const uint MaxLevel = 110U;
 
-    public MonsterId Id { get; set; }
+    public required MonsterId Id { get; init; }
 
-    public MonsterDescribeId DescribeId { get; set; }
+    public required MonsterDescribeId DescribeId { get; init; }
 
-    public MonsterRelationshipId RelationshipId { get; set; }
+    public required MonsterRelationshipId RelationshipId { get; init; }
 
-    public string MonsterName { get; set; } = default!;
+    public string? MonsterName { get; init; }
 
-    public string Name { get; set; } = default!;
+    public string? Name { get; init; }
 
-    public string Title { get; set; } = default!;
+    public string? Title { get; init; }
 
-    public string Description { get; set; } = default!;
+    public string? Description { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
-    public MonsterType Type { get; set; }
+    public required MonsterType Type { get; init; }
 
-    public Arkhe Arkhe { get; set; }
+    public required Arkhe Arkhe { get; init; }
 
-    public List<string>? Affixes { get; set; } = default!;
+    public List<string>? Affixes { get; init; }
 
-    public List<MaterialId>? Drops { get; set; } = default!;
+    public List<MaterialId>? Drops { get; init; }
 
-    public MonsterBaseValue BaseValue { get; set; } = default!;
+    public MonsterBaseValue? BaseValue { get; init; }
 
-    public List<TypeValue<FightProperty, GrowCurveType>> GrowCurves { get; set; } = default!;
+    public TypeValueCollection<FightProperty, GrowCurveType>? GrowCurves { get; init; }
 
     [JsonIgnore]
     public List<DisplayItem>? DropsView { get; set; }

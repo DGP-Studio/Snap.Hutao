@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
@@ -19,6 +19,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
@@ -30,35 +31,6 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly ILogger<SophonChunksPackageConverter> logger;
     private readonly IServiceProvider serviceProvider;
-
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
-    {
-        // Just try to delete these files, always download from server when needed
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, "sdk_pkg_version"));
-
-        if (context.GameChannelSDK is not null)
-        {
-            using (Stream sdkWebStream = await context.HttpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
-            {
-                ZipFile.ExtractToDirectory(sdkWebStream, context.GameFileSystem.GameDirectory, true);
-            }
-        }
-
-        if (context.DeprecatedFiles is not null)
-        {
-            foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
-            {
-                string filePath = Path.Combine(context.GameFileSystem.GameDirectory, file.Name);
-                FileOperation.Move(filePath, $"{filePath}.backup", true);
-            }
-        }
-    }
 
     public async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
     {
@@ -101,6 +73,35 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
 
         // Step 4
         return ReplaceGameResource(context, diffOperations);
+    }
+
+    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
+    {
+        // Just try to delete these files, always download from server when needed
+        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, "sdk_pkg_version"));
+
+        if (context.GameChannelSDK is not null)
+        {
+            using (Stream sdkWebStream = await context.HttpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
+            {
+                ZipFile.ExtractToDirectory(sdkWebStream, context.GameFileSystem.GameDirectory, true);
+            }
+        }
+
+        if (context.DeprecatedFiles is not null)
+        {
+            foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
+            {
+                string filePath = Path.Combine(context.GameFileSystem.GameDirectory, file.Name);
+                FileOperation.Move(filePath, $"{filePath}.backup", true);
+            }
+        }
     }
 
     private static IEnumerable<PackageItemOperationForSophonChunks> GetDiffOperations(SophonDecodedBuild currentDecodedBuild, SophonDecodedBuild targetDecodedBuild)
@@ -152,7 +153,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
 
     private static void InitializeDuplicatedChunkNames(PackageConverterContext context, IEnumerable<AssetChunk> chunks)
     {
-        Debug.Assert(context.DuplicatedChunkNames.Count is 0);
+        Debug.Assert(context.DuplicatedChunkNames.IsEmpty);
         IEnumerable<string> names = chunks
             .GroupBy(chunk => chunk.ChunkName)
             .Where(group => group.Skip(1).Any())
@@ -284,7 +285,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
             {
                 using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                 {
-                    string manifestMd5 = await MD5.HashAsync(inMemoryManifestStream).ConfigureAwait(false);
+                    string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream).ConfigureAwait(false);
                     if (!manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
                     {
                         return default!;
@@ -311,7 +312,10 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
             await task.ConfigureAwait(false);
         }
 
-        Directory.Delete(context.ServerCacheChunksFolder, true);
+        if (Directory.Exists(context.ServerCacheChunksFolder))
+        {
+            Directory.Delete(context.ServerCacheChunksFolder, true);
+        }
     }
 
     private async ValueTask SkipOrProcessAsync(PackageConverterContext context, PackageItemOperationForSophonChunks operation)
@@ -322,7 +326,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
         {
             if (operation.NewAsset.AssetSize == new FileInfo(cacheFile).Length)
             {
-                if (operation.NewAsset.AssetHashMd5.Equals(await MD5.HashFileAsync(cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                if (operation.NewAsset.AssetHashMd5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                 {
                     return;
                 }

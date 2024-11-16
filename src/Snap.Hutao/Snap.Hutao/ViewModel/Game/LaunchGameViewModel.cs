@@ -1,17 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
@@ -27,44 +25,32 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, INavigationRecipient
 {
-    private readonly GamePackageInstallViewModel gamePackageInstallViewModel;
-    private readonly GamePackageViewModel gamePackageViewModel;
-    private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
-    private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
-    private AdvancedCollectionView<GameAccount>? gameAccountsView;
-    private GamePackage? gamePackage;
-    private bool gamePathSelectedAndValid;
-    private ImmutableArray<GamePathEntry> gamePathEntries = [];
-    private GamePathEntry? selectedGamePathEntry;
     private GameAccountFilter? gameAccountFilter;
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
 
-    public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
+    public partial LaunchStatusOptions LaunchStatusOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial GamePackageInstallViewModel GamePackageInstallViewModel { get; }
 
-    public GamePackageInstallViewModel GamePackageInstallViewModel { get => gamePackageInstallViewModel; }
-
-    public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
+    public partial GamePackageViewModel GamePackageViewModel { get; }
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
@@ -74,11 +60,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         set => SetSelectedSchemeAsync(value).SafeForget(logger);
     }
 
-    public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
+    public AdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
-    public GamePackage? GamePackage { get => gamePackage; set => SetProperty(ref gamePackage, value); }
+    public GamePackage? GamePackage { get; set => SetProperty(ref field, value); }
 
     /// <summary>
     /// Update this property will also:
@@ -91,10 +77,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public bool GamePathSelectedAndValid
     {
-        get => gamePathSelectedAndValid;
+        get;
         set
         {
-            if (SetProperty(ref gamePathSelectedAndValid, value) && value)
+            if (SetProperty(ref field, value) && value)
             {
                 RefreshUIAsync().SafeForget(logger);
             }
@@ -133,7 +119,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
-    public ImmutableArray<GamePathEntry> GamePathEntries { get => gamePathEntries; set => SetProperty(ref gamePathEntries, value); }
+    public ImmutableArray<GamePathEntry> GamePathEntries { get; set => SetProperty(ref field, value); } = [];
 
     /// <summary>
     /// Update this property will also:
@@ -144,10 +130,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public GamePathEntry? SelectedGamePathEntry
     {
-        get => selectedGamePathEntry;
+        get;
         set
         {
-            if (!SetProperty(ref selectedGamePathEntry, value))
+            if (!SetProperty(ref field, value))
             {
                 return;
             }
@@ -161,6 +147,21 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         GamePathEntries = gamePathEntries;
         SelectedGamePathEntry = selectedEntry;
+    }
+
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
+    {
+        if (!await Initialization.Task.ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        if (data is LaunchGameWithUidData { TypedData: { } uid })
+        {
+            return await userService.SetCurrentUserByUidAsync(uid).ConfigureAwait(false);
+        }
+
+        return false;
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()

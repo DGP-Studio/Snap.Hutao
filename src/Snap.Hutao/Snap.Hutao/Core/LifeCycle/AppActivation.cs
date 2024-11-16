@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
@@ -17,12 +16,13 @@ using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.ViewModel.Achievement;
+using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.Guide;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IAppActivation))]
 [SuppressMessage("", "CA1001")]
@@ -31,7 +31,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     public const string Action = nameof(Action);
     public const string Uid = nameof(Uid);
     public const string LaunchGame = nameof(LaunchGame);
-    public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
 
     private const string CategoryAchievement = "ACHIEVEMENT";
     private const string UrlActionImport = "/IMPORT";
@@ -100,29 +99,21 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public async ValueTask HandleLaunchGameActionAsync(string? uid = null)
     {
-        // TODO: Handle uid selection, notify user service to switch to the corresponding user
         await taskContext.SwitchToMainThreadAsync();
+
+        INavigationCompletionSource navigationSource = uid is null
+            ? INavigationCompletionSource.Default
+            : new LaunchGameWithUidData(uid);
 
         switch (currentWindowReference.Window)
         {
             case null:
-                LaunchGameWindow launchGameWindow = serviceProvider.GetRequiredService<LaunchGameWindow>();
-                currentWindowReference.Window = launchGameWindow;
-
-                launchGameWindow.SwitchTo();
-                launchGameWindow.BringToForeground();
-                return;
-
             case MainWindow:
+                await WaitMainWindowOrCurrentAsync().ConfigureAwait(true);
                 await serviceProvider
                     .GetRequiredService<INavigationService>()
-                    .NavigateAsync<LaunchGamePage>(INavigationAwaiter.Default, true)
+                    .NavigateAsync<LaunchGamePage>(navigationSource, true)
                     .ConfigureAwait(false);
-                return;
-
-            case LaunchGameWindow currentLaunchGameWindow:
-                currentLaunchGameWindow.SwitchTo();
-                currentLaunchGameWindow.BringToForeground();
                 return;
 
             default:
@@ -210,7 +201,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                     await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
                     if (currentWindowReference.Window is not MainWindow)
                     {
-                        // TODO: Send notification to hint?
                         return;
                     }
 
@@ -220,7 +210,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                             {
                                 await taskContext.SwitchToMainThreadAsync();
 
-                                INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipboard);
+                                INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(AchievementViewModel.ImportUIAFFromClipboard);
 #pragma warning disable CA1849
                                 // We can't await here to navigate to Achievment Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.

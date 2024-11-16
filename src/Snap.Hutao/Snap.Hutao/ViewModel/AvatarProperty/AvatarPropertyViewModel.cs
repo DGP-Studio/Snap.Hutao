@@ -37,15 +37,13 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private Summary? summary;
-    private ObservableCollection<SearchToken>? filterTokens;
-    private string? filterToken;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public Summary? Summary { get => summary; set => SetProperty(ref summary, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
-    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+    public string? FilterToken { get; set => SetProperty(ref field, value); }
 
     public FrozenDictionary<string, SearchToken> AvailableTokens { get => availableTokens; set => SetProperty(ref availableTokens, value); }
 
@@ -67,7 +65,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         FilterTokens = [];
         availableTokens = FrozenDictionary.ToFrozenDictionary(
         [
-            .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToIconUri(nv.Name)))),
+            .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToUri(nv.Name)))),
             .. IntrinsicFrozen.ItemQualityNameValues.Where(nv => nv.Value >= QualityType.QUALITY_PURPLE).Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
             .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
         ]);
@@ -218,7 +216,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(deltaOptions.Delta.SkillList);
         ArgumentNullException.ThrowIfNull(deltaOptions.Delta.Weapon);
 
         ContentDialog progressDialog = await scopeContext.ContentDialogFactory

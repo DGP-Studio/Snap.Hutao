@@ -5,24 +5,11 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.Metadata.Reliquary;
 
-/// <summary>
-/// 圣遗物等级
-/// </summary>
-[HighQuality]
-internal sealed partial class ReliquaryMainAffixLevel
+internal sealed class ReliquaryMainAffixLevel
 {
-    /// <summary>
-    /// 品质
-    /// </summary>
-    public QualityType Rank { get; set; }
+    public required QualityType Rank { get; init; }
 
-    /// <summary>
-    /// 等级 1-21
-    /// </summary>
-    public uint Level { get; set; }
+    public required uint Level { get; init; }
 
-    /// <summary>
-    /// 属性
-    /// </summary>
-    public List<TypeValue<FightProperty, float>> Properties { get; set; } = default!;
+    public required TypeValueCollection<FightProperty, float> Properties { get; init; }
 }

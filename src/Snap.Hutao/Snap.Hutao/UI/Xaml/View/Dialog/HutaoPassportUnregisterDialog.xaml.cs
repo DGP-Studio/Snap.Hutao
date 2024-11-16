@@ -3,35 +3,27 @@
 
 using CommunityToolkit.Common;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
+[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty("UserName", typeof(string))]
 [DependencyProperty("Password", typeof(string))]
 [DependencyProperty("VerifyCode", typeof(string))]
 internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
-    private readonly ITaskContext taskContext;
-
-    public HutaoPassportUnregisterDialog(IServiceProvider serviceProvider)
-    {
-        InitializeComponent();
-
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-    }
 
     public async ValueTask<ValueResult<bool, (string UserName, string Passport, string VerifyCode)>> GetInputAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
-
+        ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
         return new(result is ContentDialogResult.Primary, (UserName, Password, VerifyCode));
     }
 

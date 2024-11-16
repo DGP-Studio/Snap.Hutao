@@ -20,7 +20,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private readonly object syncRoot = new();
+    private readonly Lock syncRoot = new();
 
     public async ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default)
     {

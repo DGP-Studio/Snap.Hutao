@@ -10,10 +10,9 @@ namespace Snap.Hutao.Service.Hutao;
 internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
 {
     private readonly JsonSerializerOptions jsonSerializerOptions;
-    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public async ValueTask AddObjectCacheAsync<T>(string key, TimeSpan expire, T data)
         where T : class

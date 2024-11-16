@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -224,6 +224,9 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>第 {0} 幕</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Welcome to Snap Hutao, Traveler ~</value>
@@ -405,6 +408,18 @@
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>1 Star</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
+    <value>轻简模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
+    <value>困难模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
+    <value>普通模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
+    <value>卓越模式</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>Bow</value>
@@ -671,13 +686,13 @@
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
   </data>
   <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
-    <value>[Listing Time]</value>
+    <value>Duration: </value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
-    <value>Open forever</value>
+    <value>Permanently available</value>
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
-    <value>Train update time</value>
+    <value>〓Update Schedule〓</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
@@ -1820,6 +1835,24 @@
   <data name="ViewModelExportWarningTitle" xml:space="preserve">
     <value>Export failed</value>
   </data>
+  <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
+    <value>Current wish</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
+    <value>{0} days until the end of UP</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
+    <value>Last UP time: {0:yyyy.MM.dd}</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
+    <value>{0} days since the last UP</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
+    <value>Second Half</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderUp" xml:space="preserve">
+    <value>First Half</value>
+  </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
     <value>UIGF Json File</value>
   </data>
@@ -1969,6 +2002,9 @@
   </data>
   <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
     <value>Cannot select account [{1}] for UID [{0}], the account does not belong to current server</value>
+  </data>
+  <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
+    <value>已抵达{0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operation completed</value>
@@ -2390,8 +2426,20 @@
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>Input</value>
   </data>
+  <data name="ViewPageGachaLogOrangeAvatarCountdown" xml:space="preserve">
+    <value>Five Star Roles</value>
+  </data>
+  <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
+    <value>Five Star Weapons</value>
+  </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
     <value>Countdown</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
+    <value>Four Star Roles</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
+    <value>Four Star Weapons</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
     <value>Recover Wish Records from Snap Hutao Cloud</value>
@@ -2619,7 +2667,7 @@
     <value>Enable this option when error code 31-4302</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
-    <value>Let's go in!</value>
+    <value>Let me in!</value>
   </data>
   <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
     <value>Cannot switch again after game starts</value>
@@ -2629,6 +2677,9 @@
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>All options will be saved only after the game is launched successfully.</value>
+  </data>
+  <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
+    <value>Injection is very dangerous and can have serious consequences, please use cautiously</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>Remove Fog in Light Rendering</value>
@@ -2655,7 +2706,7 @@
     <value>File</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
-    <value>Fix the horizon for special interfaces such as roles/team configuration/prayer / walk-in</value>
+    <value>Fix the view for special interfaces such as Character/Team Configuration/Wish/Battle Pass</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>Special Interface Fix</value>
@@ -2715,7 +2766,7 @@
     <value>Registry</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
-    <value>Team configuration cold switch</value>
+    <value>Team Configuration Cold Switch</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
     <value>Remove the progress bar when opening the team configuration screen</value>
@@ -2769,7 +2820,7 @@
     <value>You need to convert to a server that matches the launcher before updating the version</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
-    <value>Cooling Switch to View</value>
+    <value>Field of View Cold Switch</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
     <value>Adjust FOV, Default 45</value>
@@ -2778,13 +2829,13 @@
     <value>Adjust FOV</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHotSwitchHeader" xml:space="preserve">
-    <value>Field Heat Switches</value>
+    <value>Field of View Hot Switch</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHeader" xml:space="preserve">
     <value>Target Frame Rate</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
-    <value>Frame Thermal Switches</value>
+    <value>Frame Rate Hot Switch</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
     <value>Hover the mouse over the feature switch/text box to see details</value>
@@ -2814,7 +2865,7 @@
     <value>Enabled</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>Sign in with the currently selected meters / HoYoLAB user. Start parameters need to be enabled</value>
+    <value>Sign in with the currently selected MiYouShe / HoYoLAB user. Start parameters need to be enabled</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>Sign in with MiYouShe/HoYoLAB user</value>
@@ -2842,6 +2893,54 @@
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
     <value>Select Game Path</value>
+  </data>
+  <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
+    <value>助演</value>
+  </data>
+  <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
+    <value>试用</value>
+  </data>
+  <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
+    <value>待命角色</value>
+  </data>
+  <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
+    <value>奇妙助益</value>
+  </data>
+  <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
+    <value>神秘收获</value>
+  </data>
+  <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
+    <value>消耗「幻剧之花」</value>
+  </data>
+  <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
+    <value>开幕角色</value>
+  </data>
+  <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
+    <value>最佳记录</value>
+  </data>
+  <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
+    <value>挑战星章</value>
+  </data>
+  <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
+    <value>暂无演出数据</value>
+  </data>
+  <data name="ViewPageRoleCombatShortest" xml:space="preserve">
+    <value>最快演出</value>
+  </data>
+  <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
+    <value>特邀角色</value>
+  </data>
+  <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
+    <value>辉彩祝福</value>
+  </data>
+  <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
+    <value>场外声援</value>
+  </data>
+  <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
+    <value>助演次数</value>
+  </data>
+  <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
+    <value>演出总时长</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
@@ -3083,6 +3182,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Shortcut Keys</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseDescription" xml:space="preserve">
+    <value>更改紧凑网页窗口中控制视频播放与暂停的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseHeader" xml:space="preserve">
+    <value>紧凑网页窗口视频播放暂停</value>
+  </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Show icon in notification area, to allow background task, restart the program to activate</value>
   </data>
@@ -3243,7 +3348,7 @@
     <value>Other</value>
   </data>
   <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
-    <value>Contact Card</value>
+    <value>Namecard</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>Occupation</value>
@@ -3286,6 +3391,9 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Before Ascension</value>
+  </data>
+  <data name="ViewRoleCombatHeader" xml:space="preserve">
+    <value>幻想真境剧诗</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>Log in failed, please log in again.</value>
@@ -3487,6 +3595,9 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Weapon WIKI</value>
+  </data>
+  <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
+    <value>紧凑网页窗口（仅管理员）</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>Please take a screenshot of this window and find the appropriate feedback channel in the Feedback Center and send it to the development team.</value>

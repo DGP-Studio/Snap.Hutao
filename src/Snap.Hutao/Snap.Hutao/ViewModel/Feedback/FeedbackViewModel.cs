@@ -23,29 +23,22 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
-    private readonly HttpProxyUsingSystemProxy dynamicHttpProxy;
     private readonly IServiceProvider serviceProvider;
-    private readonly LoopbackSupport loopbackSupport;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    private string? searchText;
-    private List<AlgoliaHit>? searchResults;
-    private IPInformation? ipInformation;
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial HttpProxyUsingSystemProxy DynamicHttpProxy { get; }
 
-    public HttpProxyUsingSystemProxy DynamicHttpProxy { get => dynamicHttpProxy; }
+    public partial LoopbackSupport LoopbackSupport { get; }
 
-    public LoopbackSupport LoopbackSupport { get => loopbackSupport; }
+    public string? SearchText { get; set => SetProperty(ref field, value); }
 
-    public string? SearchText { get => searchText; set => SetProperty(ref searchText, value); }
+    public List<AlgoliaHit>? SearchResults { get; set => SetProperty(ref field, value); }
 
-    public List<AlgoliaHit>? SearchResults { get => searchResults; set => SetProperty(ref searchResults, value); }
-
-    public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
+    public IPInformation? IPInformation { get; private set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {

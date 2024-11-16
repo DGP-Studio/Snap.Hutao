@@ -11,9 +11,7 @@ namespace Snap.Hutao.Service.DailyNote;
 [Injection(InjectAs.Singleton, typeof(IDailyNoteRepository))]
 internal sealed partial class DailyNoteRepository : IDailyNoteRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public bool ContainsUid(string uid)
     {

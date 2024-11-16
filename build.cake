@@ -33,7 +33,7 @@ string project
 }
 string binPath
 {
-    get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net8.0-windows10.0.22621.0", "win-x64");
+    get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net9.0-windows10.0.26100.0", "win-x64");
 }
 string manifest
 {

@@ -34,7 +34,7 @@
                     Text="+86"/>
 
                 <TextBox
-                    Grid.Column="2"
+                    Grid.Column="1"
                     CornerRadius="0,4,4,0"
                     KeyDown="OnTextKeyDown"
                     KeyUp="OnTextKeyUp"

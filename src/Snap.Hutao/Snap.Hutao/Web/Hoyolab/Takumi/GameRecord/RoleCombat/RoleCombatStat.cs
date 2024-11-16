@@ -1,18 +1,20 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Intrinsic;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 internal sealed class RoleCombatStat
 {
     [JsonPropertyName("difficulty_id")]
-    public uint DifficultyId { get; set; }
+    public RoleCombatDifficultyLevel DifficultyId { get; set; }
 
     [JsonPropertyName("max_round_id")]
     public uint MaxRoundId { get; set; }
 
     [JsonPropertyName("heraldry")]
-    public int Heraldry { get; set; }
+    public RoleCombatDifficultyLevel Heraldry { get; set; }
 
     [JsonPropertyName("get_medal_round_list")]
     public List<int> GetMedalRoundList { get; set; } = default!;

@@ -5,24 +5,7 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Calculable;
 
-/// <summary>
-/// 可计算的技能
-/// </summary>
-[HighQuality]
-internal interface ICalculableSkill : ICalculable
+internal interface ICalculableSkill : ICalculableMinMaxLevel
 {
-    /// <summary>
-    /// 技能组Id
-    /// </summary>
     SkillGroupId GroupId { get; }
-
-    /// <summary>
-    /// 最小等级
-    /// </summary>
-    uint LevelMin { get; }
-
-    /// <summary>
-    /// 最大等级
-    /// </summary>
-    uint LevelMax { get; }
 }

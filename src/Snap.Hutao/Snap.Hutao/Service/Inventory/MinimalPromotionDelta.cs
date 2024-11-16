@@ -19,35 +19,30 @@ namespace Snap.Hutao.Service.Inventory;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class MinimalPromotionDelta
 {
-    private const string CacheKey = $"{nameof(MinimalPromotionDelta)}.Cache";
-
     private readonly ILogger<MinimalPromotionDelta> logger;
     private readonly IMetadataService metadataService;
     private readonly IMemoryCache memoryCache;
 
     public async ValueTask<List<AvatarPromotionDelta>> GetAsync()
     {
-        if (memoryCache.TryGetRequiredValue(CacheKey, out List<AvatarPromotionDelta>? cache))
+        List<AvatarPromotionDelta>? result = await memoryCache.GetOrCreateAsync($"{nameof(MinimalPromotionDelta)}.Cache", async entry =>
         {
-            return cache;
-        }
+            List<ICultivationItemsAccess> cultivationItemsEntryList =
+            [
+                .. (await metadataService.GetAvatarArrayAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
+                .. (await metadataService.GetWeaponArrayAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
+            ];
 
-        List<ICultivationItemsAccess> cultivationItemsEntryList =
-        [
-            .. (await metadataService.GetAvatarArrayAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
-            .. (await metadataService.GetWeaponArrayAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
-        ];
+            using (ValueStopwatch.MeasureExecution(logger))
+            {
+                List<ICultivationItemsAccess> minimal = Minimize(cultivationItemsEntryList);
+                minimal.Sort(CultivationItemsAccessComparer.Shared);
+                return ToPromotionDeltaList(minimal);
+            }
+        }).ConfigureAwait(false);
 
-        List<ICultivationItemsAccess> minimal;
-        using (ValueStopwatch.MeasureExecution(logger))
-        {
-            minimal = Minimize(cultivationItemsEntryList);
-        }
-
-        // Gurantee the order of avatar and weapon
-        // Make sure weapons can have avatar to attach
-        minimal.Sort(CultivationItemsAccessComparer.Shared);
-        return memoryCache.Set(CacheKey, ToPromotionDeltaList(minimal));
+        ArgumentNullException.ThrowIfNull(result);
+        return result;
     }
 
     private static List<ICultivationItemsAccess> Minimize(List<ICultivationItemsAccess> cultivationItems)
@@ -70,7 +65,7 @@ internal sealed partial class MinimalPromotionDelta
             Dictionary<MaterialId, Constraint> materialConstraintMap = [];
             foreach (ref readonly ICultivationItemsAccess item in CollectionsMarshal.AsSpan(cultivationItems))
             {
-                foreach (ref readonly MaterialId materialId in CollectionsMarshal.AsSpan(item.CultivationItems))
+                foreach (ref readonly MaterialId materialId in item.CultivationItems.AsSpan())
                 {
                     ref Constraint? constraint = ref CollectionsMarshal.GetValueRefOrAddDefault(materialConstraintMap, materialId, out _);
                     if (constraint is null)
@@ -118,7 +113,7 @@ internal sealed partial class MinimalPromotionDelta
                         AvatarId = avatar.Id,
                         AvatarLevelCurrent = 1,
                         AvatarLevelTarget = 90,
-                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList(skill => new PromotionDelta
+                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents.SelectArray(skill => new PromotionDelta
                         {
                             Id = skill.GroupId,
                             LevelCurrent = 1,

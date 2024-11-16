@@ -4,16 +4,12 @@
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
-/// <summary>
-/// 使用 SToken 提供祈愿 Url
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.SToken)]
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
@@ -23,7 +19,6 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
     private readonly CultureOptions cultureOptions;
     private readonly IUserService userService;
 
-    /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
@@ -49,13 +44,15 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
 
     private static string ComposeQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
     {
-        NameValueCollection collection = [];
+        NameValueCollection collection = HttpUtility.ParseQueryString(string.Empty);
         collection.Set("lang", lang);
         collection.Set("auth_appid", genAuthKeyData.AuthAppId);
         collection.Set("authkey", gameAuthKey.AuthKey);
         collection.Set("authkey_ver", $"{gameAuthKey.AuthKeyVersion:D}");
         collection.Set("sign_type", $"{gameAuthKey.SignType:D}");
 
-        return collection.ToQueryString();
+        string? result = collection.ToString();
+        ArgumentNullException.ThrowIfNull(result);
+        return result;
     }
 }

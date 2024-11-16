@@ -5,10 +5,6 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-/// <summary>
-/// 探索派遣
-/// </summary>
-[HighQuality]
 internal sealed class Expedition
 {
     private const string Bennett = "https://upload-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Bennett.png";
@@ -17,30 +13,18 @@ internal sealed class Expedition
     private const string Keqing = "https://upload-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Keqing.png";
     private const string Sara = "https://upload-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Sara.png";
 
-    private static readonly FrozenSet<string> ShortExpeditionTimeAvatars = FrozenSet.ToFrozenSet([Bennett, Chongyun, Fischl, Keqing, Sara]);
+    private static readonly FrozenSet<string> ShortExpeditionTimeAvatars = [Bennett, Chongyun, Fischl, Keqing, Sara];
 
-    /// <summary>
-    /// 图标
-    /// </summary>
     [JsonPropertyName("avatar_side_icon")]
     public Uri AvatarSideIcon { get; set; } = default!;
 
-    /// <summary>
-    /// 状态 Ongoing:派遣中 Finished:已完成
-    /// </summary>
     [JsonPropertyName("status")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ExpeditionStatus Status { get; set; }
 
-    /// <summary>
-    /// 剩余时间
-    /// </summary>
     [JsonPropertyName("remained_time")]
     public int RemainedTime { get; set; }
 
-    /// <summary>
-    /// 已过时间
-    /// </summary>
     [JsonIgnore]
     public int PassedTime
     {
@@ -52,9 +36,6 @@ internal sealed class Expedition
         }
     }
 
-    /// <summary>
-    /// 总时间
-    /// </summary>
     [JsonIgnore]
     public int TotalTime
     {
@@ -66,9 +47,6 @@ internal sealed class Expedition
         }
     }
 
-    /// <summary>
-    /// 格式化的剩余时间
-    /// </summary>
     [JsonIgnore]
     public string RemainedTimeFormatted
     {

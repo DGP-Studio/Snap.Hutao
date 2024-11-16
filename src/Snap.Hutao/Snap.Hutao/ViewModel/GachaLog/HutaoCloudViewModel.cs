@@ -8,7 +8,6 @@ using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
@@ -16,9 +15,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 胡桃云服务视图模型
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
@@ -29,23 +25,11 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly IHutaoUserService hutaoUserService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
-    private readonly HutaoUserOptions options;
 
-    private ObservableCollection<HutaoCloudEntryOperationViewModel>? uidOperations;
+    public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get; set => SetProperty(ref field, value); }
 
-    /// <summary>
-    /// Uid集合
-    /// </summary>
-    public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get => uidOperations; set => SetProperty(ref uidOperations, value); }
+    public partial HutaoUserOptions Options { get; }
 
-    /// <summary>
-    /// 选项
-    /// </summary>
-    public HutaoUserOptions Options { get => options; }
-
-    /// <summary>
-    /// 获取记录命令
-    /// </summary>
     internal ICommand RetrieveCommand { get; set; }
 
     internal async ValueTask<ValueResult<bool, Guid>> RetrieveAsync(string uid)
@@ -124,7 +108,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("NavigateToSpiralAbyssRecordCommand")]
     private void NavigateToSpiralAbyssRecord()
     {
-        navigationService.Navigate<SpiralAbyssRecordPage>(INavigationAwaiter.Default, true);
+        navigationService.Navigate<SpiralAbyssRecordPage>(INavigationCompletionSource.Default, true);
     }
 
     private async ValueTask RefreshUidCollectionAsync()

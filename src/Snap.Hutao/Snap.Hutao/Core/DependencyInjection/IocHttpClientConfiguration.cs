@@ -5,14 +5,13 @@ using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
 using System.Net.Http;
+using System.Net.Mime;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
 // ReSharper disable UnusedMember.Local
 internal static partial class IocHttpClientConfiguration
 {
-    private const string ApplicationJson = "application/json";
-
     public static IServiceCollection AddConfiguredHttpClients(this IServiceCollection services)
     {
         services
@@ -56,7 +55,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgent);
-        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_version", SaltConstants.CNVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "5");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId36);
@@ -66,7 +65,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgent);
-        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-aigis", string.Empty);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "bll8iq97cem8");
         client.DefaultRequestHeaders.Add("x-rpc-app_version", SaltConstants.CNVersion);
@@ -81,7 +80,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgentOversea);
-        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_version", SaltConstants.OSVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "5");
         client.DefaultRequestHeaders.Add("x-rpc-language", "zh-cn");
@@ -93,7 +92,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgentOversea);
-        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
     }
@@ -102,7 +101,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.HoyoPlayUserAgent);
-        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "ddxf5dufpuyo");
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
     }
@@ -111,7 +110,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.HoyoPlayUserAgent);
-        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Accept.ParseAdd(MediaTypeNames.Application.Json);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "ddxf6vlr1reo");
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
     }

@@ -71,14 +71,8 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
 
     public RectInt32 InitializePosition(RectInt32 parentRect, double parentDpi)
     {
-        // Parent Window can never be so small
-        // if (parentRect.Width < 96 || parentRect.Height < 96)
-        // {
-        //     return parentRect;
-        // }
-
         // Shrink 48 px on each side
-        return new RectInt32(parentRect.X + 48, parentRect.Y + 48, parentRect.Width - 96, parentRect.Height - 96);
+        return WebView2WindowPosition.Padding(parentRect, 48);
     }
 
     [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]

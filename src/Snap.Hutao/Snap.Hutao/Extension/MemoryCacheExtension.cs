@@ -7,17 +7,6 @@ namespace Snap.Hutao.Extension;
 
 internal static class MemoryCacheExtension
 {
-    public static bool TryRemove(this IMemoryCache memoryCache, string key, out object? value)
-    {
-        if (!memoryCache.TryGetValue(key, out value))
-        {
-            return false;
-        }
-
-        memoryCache.Remove(key);
-        return true;
-    }
-
     public static bool TryGetRequiredValue<T>(this IMemoryCache memoryCache, string key, [NotNullWhen(true)] out T? value)
         where T : class
     {

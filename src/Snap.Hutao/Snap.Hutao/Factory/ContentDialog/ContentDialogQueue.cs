@@ -9,6 +9,8 @@ namespace Snap.Hutao.Factory.ContentDialog;
 
 [Injection(InjectAs.Singleton, typeof(IContentDialogQueue))]
 [SuppressMessage("", "SH003")]
+[SuppressMessage("", "SH100")]
+[SuppressMessage("", "RS0030")]
 [ConstructorGenerated]
 internal sealed partial class ContentDialogQueue : IContentDialogQueue
 {
@@ -20,11 +22,8 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
     private readonly ILogger<ContentDialogQueue> logger;
     private readonly ITaskContext taskContext;
 
-    private bool isDialogShowing;
+    public bool IsDialogShowing { get => currentWindowReference.Window is not null && field; private set; }
 
-    public bool IsDialogShowing { get => currentWindowReference.Window is not null && isDialogShowing; }
-
-    [SuppressMessage("", "SH100")]
     public ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {
         TaskCompletionSource queueSource = new();
@@ -51,7 +50,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
             }
         });
 
-        if (!isDialogShowing)
+        if (!IsDialogShowing)
         {
             ShowNextDialog();
         }
@@ -69,11 +68,11 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
     {
         if (dialogQueue.TryDequeue(out Func<Task>? showNextDialogAsync))
         {
-            isDialogShowing = true;
+            IsDialogShowing = true;
             return showNextDialogAsync();
         }
 
-        isDialogShowing = false;
+        IsDialogShowing = false;
         return Task.CompletedTask;
     }
 }

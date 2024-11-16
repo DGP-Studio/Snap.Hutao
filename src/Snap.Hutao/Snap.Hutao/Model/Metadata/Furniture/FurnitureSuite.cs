@@ -2,24 +2,25 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Furniture;
 
 internal sealed class FurnitureSuite
 {
-    public FurnitureSuiteId Id { get; set; }
+    public required FurnitureSuiteId Id { get; init; }
 
-    public List<FurnitureTypeId> Types { get; set; } = default!;
+    public required ImmutableArray<FurnitureTypeId> Types { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public string ItemIcon { get; set; } = default!;
+    public required string ItemIcon { get; init; }
 
-    public string? MapIcon { get; set; }
+    public string? MapIcon { get; init; }
 
-    public List<AvatarId>? FavoriteNpcs { get; set; }
+    public required ImmutableArray<AvatarId>? FavoriteNpcs { get; init; }
 
-    public List<FurnitureId> Units { get; set; } = default!;
+    public required ImmutableArray<FurnitureId> Units { get; init; }
 }

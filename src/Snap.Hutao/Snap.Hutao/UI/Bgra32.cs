@@ -5,7 +5,6 @@ using Windows.UI;
 
 namespace Snap.Hutao.UI;
 
-[HighQuality]
 internal struct Bgra32
 {
     public byte B;

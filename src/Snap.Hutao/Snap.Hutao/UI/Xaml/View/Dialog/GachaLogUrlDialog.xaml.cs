@@ -2,39 +2,21 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Factory.ContentDialog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-/// <summary>
-/// 祈愿记录Url对话框
-/// </summary>
-[HighQuality]
+[ConstructorGenerated(InitializeComponent = true)]
 [DependencyProperty("Text", typeof(string))]
 internal sealed partial class GachaLogUrlDialog : ContentDialog
 {
-    private readonly ITaskContext taskContext;
+    private readonly IContentDialogFactory contentDialogFactory;
 
-    /// <summary>
-    /// 初始化一个新的祈愿记录Url对话框
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public GachaLogUrlDialog(IServiceProvider serviceProvider)
-    {
-        InitializeComponent();
-
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-    }
-
-    /// <summary>
-    /// 获取输入的Url
-    /// </summary>
-    /// <returns>输入的结果</returns>
     public async ValueTask<ValueResult<bool, string>> GetInputUrlAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
+        ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
         string url = Text.TrimEnd("#/log");
-
-        return new(result == ContentDialogResult.Primary, url);
+        return new(result is ContentDialogResult.Primary, url);
     }
 }

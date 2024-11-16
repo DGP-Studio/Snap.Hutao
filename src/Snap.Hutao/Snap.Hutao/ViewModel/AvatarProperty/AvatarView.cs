@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.UI.Xaml.Data;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
@@ -33,11 +34,11 @@ internal sealed partial class AvatarView : INameIconSide,
 
     public List<ReliquaryView> Reliquaries { get; set; } = default!;
 
-    public List<ConstellationView> Constellations { get; set; } = default!;
+    public ImmutableArray<ConstellationView> Constellations { get; set; }
 
     public int ActivatedConstellationCount { get => Constellations.Count(c => c.IsActivated); }
 
-    public List<SkillView> Skills { get; set; } = default!;
+    public ImmutableArray<SkillView> Skills { get; set; }
 
     public List<AvatarProperty> Properties { get; set; } = default!;
 

@@ -12,7 +12,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Hutao;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoSpiralAbyssStatisticsCache))]
 internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbyssStatisticsCache
@@ -51,7 +50,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             ImmutableDictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
-            List<Task> tasks =
+            ReadOnlySpan<Task> tasks =
             [
                 AvatarAppearanceRankAsync(idAvatarMap),
                 AvatarUsageRanksAsync(idAvatarMap),

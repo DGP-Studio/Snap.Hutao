@@ -38,7 +38,9 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
         RootGrid.InitializeDataContext<GamePackageOperationViewModel>(scope.ServiceProvider);
     }
 
-    public FrameworkElement TitleBarAccess { get => DragableGrid; }
+    public FrameworkElement TitleBarCaptionAccess { get => DragableGrid; }
+
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public GamePackageOperationViewModel DataContext { get => (GamePackageOperationViewModel)RootGrid.DataContext; }
 

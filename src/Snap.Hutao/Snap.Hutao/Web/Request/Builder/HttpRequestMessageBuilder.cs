@@ -21,30 +21,26 @@ internal sealed class HttpRequestMessageBuilder :
     IRequestUriBuilder,
     IHttpMethodBuilder
 {
-    private readonly HttpContentSerializer httpContentSerializer;
-    private readonly IServiceProvider serviceProvider;
-    private HttpRequestMessage httpRequestMessage;
-
     public HttpRequestMessageBuilder(IServiceProvider serviceProvider, HttpContentSerializer httpContentSerializer, HttpRequestMessage? httpRequestMessage = default)
     {
-        this.serviceProvider = serviceProvider;
-        this.httpContentSerializer = httpContentSerializer;
-        this.httpRequestMessage = httpRequestMessage ?? new();
+        ServiceProvider = serviceProvider;
+        HttpContentSerializer = httpContentSerializer;
+        HttpRequestMessage = httpRequestMessage ?? new();
     }
 
     public HttpRequestMessage HttpRequestMessage
     {
-        get => httpRequestMessage;
+        get;
         set
         {
             ArgumentNullException.ThrowIfNull(value);
-            httpRequestMessage = value;
+            field = value;
         }
     }
 
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public IServiceProvider ServiceProvider { get; }
 
-    public HttpContentSerializer HttpContentSerializer { get => httpContentSerializer; }
+    public HttpContentSerializer HttpContentSerializer { get; }
 
     HttpContentHeaders IHttpHeadersBuilder<HttpContentHeaders>.Headers
     {

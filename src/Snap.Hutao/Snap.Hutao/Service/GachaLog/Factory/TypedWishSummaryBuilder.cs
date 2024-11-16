@@ -8,10 +8,6 @@ using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 类型化祈愿统计信息构建器
-/// </summary>
-[HighQuality]
 internal sealed class TypedWishSummaryBuilder
 {
     private readonly TypedWishSummaryBuilderContext context;
@@ -38,12 +34,6 @@ internal sealed class TypedWishSummaryBuilder
         this.context = context;
     }
 
-    /// <summary>
-    /// 追踪物品
-    /// </summary>
-    /// <param name="item">祈愿物品</param>
-    /// <param name="source">对应武器</param>
-    /// <param name="isUp">是否为Up物品</param>
     public void Track(GachaItem item, ISummaryItemConvertible source, bool isUp)
     {
         if (!context.TypeEvaluator(item.GachaType))

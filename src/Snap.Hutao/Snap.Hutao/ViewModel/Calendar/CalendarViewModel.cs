@@ -31,9 +31,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
 
-    private AdvancedCollectionView<CalendarDay>? weekDays;
-
-    public AdvancedCollectionView<CalendarDay>? WeekDays { get => weekDays; set => SetProperty(ref weekDays, value); }
+    public AdvancedCollectionView<CalendarDay>? WeekDays { get; set => SetProperty(ref field, value); }
 
     protected override async Task LoadAsync()
     {

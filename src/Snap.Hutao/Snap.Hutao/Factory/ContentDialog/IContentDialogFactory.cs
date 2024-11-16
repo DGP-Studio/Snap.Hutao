@@ -17,12 +17,8 @@ internal interface IContentDialogFactory
 
     ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync(string title);
 
-    TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
-        where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
-
     ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
 
-    [SuppressMessage("", "SH003")]
     ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog);
 }

@@ -11,21 +11,16 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
 {
-    private readonly HomeCardOptions homeCardOptions = new();
-    private readonly AppOptions appOptions;
+    public HomeCardOptions HomeCardOptions { get; } = new();
 
-    private NameValue<Region>? selectedRegion;
-
-    public HomeCardOptions HomeCardOptions { get => homeCardOptions; }
-
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     public NameValue<Region>? SelectedRegion
     {
-        get => selectedRegion ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
+        get => field ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
         set
         {
-            if (SetProperty(ref selectedRegion, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 AppOptions.Region = value.Value;
             }

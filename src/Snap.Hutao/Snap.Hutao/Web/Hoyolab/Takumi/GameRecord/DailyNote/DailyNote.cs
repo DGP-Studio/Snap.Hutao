@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-/// <summary>
-/// 实时便笺
-/// </summary>
-[HighQuality]
 internal sealed class DailyNote : DailyNoteCommon
 {
     #region Binding
@@ -96,33 +92,18 @@ internal sealed class DailyNote : DailyNoteCommon
     }
     #endregion
 
-    /// <summary>
-    /// 剩余周本折扣次数
-    /// </summary>
     [JsonPropertyName("remain_resin_discount_num")]
     public int RemainResinDiscountNum { get; set; }
 
-    /// <summary>
-    /// 周本折扣总次数
-    /// </summary>
     [JsonPropertyName("resin_discount_num_limit")]
     public int ResinDiscountNumLimit { get; set; }
 
-    /// <summary>
-    /// 洞天宝钱恢复时间 <see cref="string"/>类型的秒数
-    /// </summary>
     [JsonPropertyName("home_coin_recovery_time")]
     public int HomeCoinRecoveryTime { get; set; }
 
-    /// <summary>
-    /// 日历链接
-    /// </summary>
     [JsonPropertyName("calendar_url")]
     public string CalendarUrl { get; set; } = default!;
 
-    /// <summary>
-    /// 参量质变仪
-    /// </summary>
     [JsonPropertyName("transformer")]
     public Transformer Transformer { get; set; } = default!;
 

@@ -11,6 +11,7 @@ using System.Collections.Frozen;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -68,7 +69,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
                         if (responseMessage.IsSuccessStatusCode)
                         {
-                            if (responseMessage.Content.Headers.ContentType?.MediaType is "application/json")
+                            if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
                             {
                                 string raw = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                                 logger.LogColorizedCritical("Failed to download '{Uri}' with unexpected body '{Raw}'", (uri, ConsoleColor.Red), (raw, ConsoleColor.DarkYellow));

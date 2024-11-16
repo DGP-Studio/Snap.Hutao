@@ -3,11 +3,6 @@
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
-/// <summary>
-/// 服务管理器
-/// 依赖注入的核心管理类
-/// </summary>
-[HighQuality]
 internal static partial class ServiceCollectionExtension
 {
     [EditorBrowsable(EditorBrowsableState.Never)]

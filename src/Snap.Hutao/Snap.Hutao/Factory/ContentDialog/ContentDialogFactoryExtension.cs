@@ -9,7 +9,6 @@ internal static class ContentDialogFactoryExtension
 {
     public static async ValueTask<ContentDialogScope> BlockAsync(this IContentDialogFactory contentDialogFactory, Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {
-        TaskCompletionSource dialogShowSource = new();
         ValueContentDialogTask dialogTask = contentDialogFactory.EnqueueAndShowAsync(contentDialog);
         await dialogTask.QueueTask.ConfigureAwait(false);
         contentDialog.DispatcherQueue.TryEnqueue(() => contentDialog.Focus(FocusState.Programmatic));

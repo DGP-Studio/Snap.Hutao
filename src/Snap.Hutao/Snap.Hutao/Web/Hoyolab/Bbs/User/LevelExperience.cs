@@ -3,21 +3,11 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
-/// <summary>
-/// 等级经验
-/// </summary>
-[HighQuality]
 internal sealed class LevelExperience
 {
-    /// <summary>
-    /// 等级
-    /// </summary>
     [JsonPropertyName("level")]
     public int Level { get; set; }
 
-    /// <summary>
-    /// 经验
-    /// </summary>
     [JsonPropertyName("exp")]
     public int Exp { get; set; }
 

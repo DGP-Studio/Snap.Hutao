@@ -14,9 +14,6 @@ internal sealed partial class AchievementGoalView : ObservableObject,
     INameIcon,
     IAdvancedCollectionViewItem
 {
-    private double finishPercent;
-    private string? finishDescription;
-
     private AchievementGoalView(AchievementGoal goal)
     {
         Id = goal.Id;
@@ -33,9 +30,9 @@ internal sealed partial class AchievementGoalView : ObservableObject,
 
     public Uri Icon { get; }
 
-    public double FinishPercent { get => finishPercent; set => SetProperty(ref finishPercent, value); }
+    public double FinishPercent { get; set => SetProperty(ref field, value); }
 
-    public string? FinishDescription { get => finishDescription; set => SetProperty(ref finishDescription, value); }
+    public string? FinishDescription { get; set => SetProperty(ref field, value); }
 
     public static AchievementGoalView From(AchievementGoal source)
     {

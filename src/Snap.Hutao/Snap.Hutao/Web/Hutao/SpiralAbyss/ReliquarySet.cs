@@ -6,32 +6,24 @@ using System.Globalization;
 
 namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
-/// <summary>
-/// 圣遗物套装
-/// </summary>
-[HighQuality]
 internal sealed class ReliquarySet : IEquatable<ReliquarySet>
 {
-    /// <summary>
-    /// 构造一个新的圣遗物套装
-    /// </summary>
-    /// <param name="set">简单套装字符串</param>
     public ReliquarySet(string set)
+        : this(set.AsSpan())
     {
-        string[] deconstructed = set.Split('-');
-
-        EquipAffixId = uint.Parse(deconstructed[0], CultureInfo.InvariantCulture);
-        Count = int.Parse(deconstructed[1], CultureInfo.InvariantCulture);
     }
 
-    /// <summary>
-    /// Id
-    /// </summary>
+    public ReliquarySet(ReadOnlySpan<char> set)
+    {
+        if (set.TrySplitIntoTwo('-', out ReadOnlySpan<char> equipAffixId, out ReadOnlySpan<char> count))
+        {
+            EquipAffixId = uint.Parse(equipAffixId, CultureInfo.InvariantCulture);
+            Count = int.Parse(count, CultureInfo.InvariantCulture);
+        }
+    }
+
     public ExtendedEquipAffixId EquipAffixId { get; }
 
-    /// <summary>
-    /// 个数
-    /// </summary>
     public int Count { get; }
 
     public bool Equals(ReliquarySet? other)

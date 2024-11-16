@@ -5,39 +5,17 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 皮肤
-/// </summary>
-[HighQuality]
 internal sealed class Costume
 {
-    /// <summary>
-    /// Id
-    /// </summary>
-    public CostumeId Id { get; set; }
+    public required CostumeId Id { get; init; }
 
-    /// <summary>
-    /// 名称
-    /// </summary>
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    /// <summary>
-    /// 描述
-    /// </summary>
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    /// <summary>
-    /// 是否为默认
-    /// </summary>
-    public bool IsDefault { get; set; }
+    public required bool IsDefault { get; init; }
 
-    /// <summary>
-    /// 图标
-    /// </summary>
-    public string FrontIcon { get; set; } = default!;
+    public string? FrontIcon { get; init; }
 
-    /// <summary>
-    /// 侧面图标
-    /// </summary>
-    public string SideIcon { get; set; } = default!;
+    public string? SideIcon { get; init; }
 }

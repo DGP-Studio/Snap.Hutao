@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Entity.Abstraction;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_items")]
-internal sealed class CultivateItem : IDbMappingForeignKeyFrom<CultivateItem, Web.Hoyolab.Takumi.Event.Calculate.Item>
+internal sealed class CultivateItem
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

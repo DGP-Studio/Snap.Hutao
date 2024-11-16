@@ -1,13 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Collections.Concurrent;
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
 using static Snap.Hutao.Service.Game.GameConstants;

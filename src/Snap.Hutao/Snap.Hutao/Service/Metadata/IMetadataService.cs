@@ -6,10 +6,6 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata;
 
-/// <summary>
-/// 元数据服务
-/// </summary>
-[HighQuality]
 internal interface IMetadataService
 {
     IMemoryCache MemoryCache { get; }

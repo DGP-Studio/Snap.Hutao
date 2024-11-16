@@ -7,10 +7,6 @@ using Snap.Hutao.ViewModel;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
-/// <summary>
-/// 标题视图
-/// </summary>
-[HighQuality]
 internal sealed partial class TitleView : UserControl
 {
     public TitleView()

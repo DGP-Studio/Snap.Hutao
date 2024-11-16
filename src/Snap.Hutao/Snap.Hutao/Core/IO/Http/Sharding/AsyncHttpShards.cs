@@ -103,8 +103,6 @@ internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
 
     internal sealed class HttpShardsDebugView
     {
-        private readonly ImmutableArray<Shard> shards;
-
         public HttpShardsDebugView(AsyncHttpShards tree)
         {
             ImmutableArray<Shard>.Builder builder = ImmutableArray.CreateBuilder<Shard>();
@@ -115,10 +113,10 @@ internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
                 current = current.Next;
             }
 
-            shards = builder.ToImmutable();
+            Shards = builder.ToImmutable();
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-        public ImmutableArray<Shard> Shards { get => shards; }
+        public ImmutableArray<Shard> Shards { get; }
     }
 }

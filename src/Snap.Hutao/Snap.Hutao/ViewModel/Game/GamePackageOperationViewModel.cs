@@ -18,10 +18,10 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     private static readonly TimeSpan ProgressTimeout = TimeSpan.FromSeconds(5);
 
-    private readonly FrozenDictionary<GamePackageOperationReportKind, object> syncRoots = FrozenDictionary.ToFrozenDictionary(
+    private readonly FrozenDictionary<GamePackageOperationReportKind, Lock> syncRoots = FrozenDictionary.ToFrozenDictionary(
     [
-        KeyValuePair.Create(GamePackageOperationReportKind.Download, new object()),
-        KeyValuePair.Create(GamePackageOperationReportKind.Install, new object()),
+        KeyValuePair.Create(GamePackageOperationReportKind.Download, new Lock()),
+        KeyValuePair.Create(GamePackageOperationReportKind.Install, new Lock()),
     ]);
 
     private readonly ILogger<GamePackageOperationViewModel> logger;
@@ -37,39 +37,30 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private long contentLength;
     private int downloadedChunks;
     private int installedChunks;
-    private int downloadTotalChunks = -1;
-    private int installTotalChunks = -1;
-    private bool isFinished;
 
-    private string title = SH.UIXamlViewSpecializedSophonProgressDefault;
-    private string downloadSpeed = ZeroBytesPerSecondSpeed;
-    private string downloadRemainingTime = UnknownRemainingTime;
-    private string installSpeed = ZeroBytesPerSecondSpeed;
-    private string installRemainingTime = UnknownRemainingTime;
-
-    public string Title { get => title; private set => SetProperty(ref title, value); }
+    public string Title { get; private set => SetProperty(ref field, value); } = SH.UIXamlViewSpecializedSophonProgressDefault;
 
     public int DownloadedChunks { get => downloadedChunks; }
 
     public string DownloadFileName { get; private set; } = default!;
 
-    public string DownloadSpeed { get => downloadSpeed; private set => SetProperty(ref downloadSpeed, value); }
+    public string DownloadSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
 
-    public string DownloadRemainingTime { get => downloadRemainingTime; private set => SetProperty(ref downloadRemainingTime, value); }
+    public string DownloadRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
 
     public int InstalledChunks { get => installedChunks; }
 
     public string InstallFileName { get; private set; } = default!;
 
-    public string InstallSpeed { get => installSpeed; private set => SetProperty(ref installSpeed, value); }
+    public string InstallSpeed { get; private set => SetProperty(ref field, value); } = ZeroBytesPerSecondSpeed;
 
-    public string InstallRemainingTime { get => installRemainingTime; private set => SetProperty(ref installRemainingTime, value); }
+    public string InstallRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
 
-    public int DownloadTotalChunks { get => downloadTotalChunks; private set => SetProperty(ref downloadTotalChunks, value); }
+    public int DownloadTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
 
-    public int InstallTotalChunks { get => installTotalChunks; private set => SetProperty(ref installTotalChunks, value); }
+    public int InstallTotalChunks { get; private set => SetProperty(ref field, value); } = -1;
 
-    public bool IsFinished { get => isFinished; private set => SetProperty(ref isFinished, value); }
+    public bool IsFinished { get; private set => SetProperty(ref field, value); }
 
     public void HandleProgressUpdate(GamePackageOperationReport status)
     {
@@ -202,7 +193,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             GamePackageOperationKind.Install => SH.ViewModelGamePakcageOperationCompleteInstall,
             GamePackageOperationKind.Verify => finish.Repaired ? SH.ViewModelGamePakcageOperationCompleteRepair : SH.ViewModelGamePakcageOperationSkipRepair,
             GamePackageOperationKind.Update => SH.ViewModelGamePakcageOperationCompleteUpdate,
-            GamePackageOperationKind.Extract => "Extracted",
+            GamePackageOperationKind.ExtractBlk or GamePackageOperationKind.ExtractExe => "Extracted",
             GamePackageOperationKind.Predownload => SH.ViewModelGamePakcageOperationCompletePredownload,
             _ => throw HutaoException.NotSupported(),
         };

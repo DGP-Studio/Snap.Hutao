@@ -7,15 +7,8 @@ using Snap.Hutao.ViewModel.Setting;
 
 namespace Snap.Hutao.UI.Xaml.View.Page;
 
-/// <summary>
-/// 设置页面
-/// </summary>
-[HighQuality]
 internal sealed partial class SettingPage : ScopedPage
 {
-    /// <summary>
-    /// 构造新的设置页面
-    /// </summary>
     public SettingPage()
     {
         InitializeWith<SettingViewModel>();

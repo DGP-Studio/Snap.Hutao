@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DataTransfer;
@@ -12,7 +11,6 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
@@ -34,10 +32,8 @@ internal sealed partial class UserViewModel : ObservableObject
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly CultureOptions cultureOptions;
     private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
@@ -45,7 +41,7 @@ internal sealed partial class UserViewModel : ObservableObject
 
     private AdvancedDbCollectionView<User, EntityUser>? users;
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
     public AdvancedDbCollectionView<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
 
@@ -123,12 +119,10 @@ internal sealed partial class UserViewModel : ObservableObject
     }
 
     [Command("LoginByThirdPartyOverseaCommand")]
-    private async Task LoginByThirdPartyOverseaAsync(string kind)
+    private async Task LoginByThirdPartyOverseaAsync(OverseaThirdPartyKind kind)
     {
-        OverseaThirdPartyKind thirdPartyKind = Enum.Parse<OverseaThirdPartyKind>(kind);
-
         await taskContext.SwitchToMainThreadAsync();
-        OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(thirdPartyKind, cultureOptions.LanguageCode);
+        OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(kind, cultureOptions.LanguageCode);
         ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
 
         await taskContext.SwitchToBackgroundAsync();
@@ -172,19 +166,6 @@ internal sealed partial class UserViewModel : ObservableObject
         }
     }
 
-    private void NavigateToLoginPage<TPage>()
-        where TPage : Page
-    {
-        if (HutaoRuntime.WebView2Version.Supported)
-        {
-            navigationService.Navigate<TPage>(INavigationAwaiter.Default);
-        }
-        else
-        {
-            infoBarService.Warning(SH.CoreWebView2HelperVersionUndetected);
-        }
-    }
-
     [Command("LoginByQRCodeCommand")]
     private async Task LoginByQRCodeAsync()
     {
@@ -222,11 +203,10 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
-        Response<LoginResult> response;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
-            response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
+            Response<LoginResult> response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
 
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
             {

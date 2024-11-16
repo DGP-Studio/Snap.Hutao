@@ -13,15 +13,14 @@ namespace Snap.Hutao.ViewModel.Wiki;
 
 internal sealed partial class BaseValueInfo : ObservableObject
 {
-    private readonly List<PropertyCurveValue> propValues;
+    private readonly ImmutableArray<PropertyCurveValue> propValues;
     private readonly ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap;
     private readonly ImmutableDictionary<PromoteLevel, Promote>? promoteMap;
 
     private uint currentLevel;
-    private List<NameValue<string>> values = default!;
     private bool promoted = true;
 
-    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
+    public BaseValueInfo(uint maxLevel, ImmutableArray<PropertyCurveValue> propValues, ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
     {
         this.propValues = propValues;
         this.growCurveMap = growCurveMap;
@@ -33,7 +32,7 @@ internal sealed partial class BaseValueInfo : ObservableObject
 
     public uint MaxLevel { get; }
 
-    public List<NameValue<string>> Values { get => values; set => SetProperty(ref values, value); }
+    public List<NameValue<string>> Values { get; set => SetProperty(ref field, value); } = default!;
 
     public uint CurrentLevel
     {
@@ -67,7 +66,7 @@ internal sealed partial class BaseValueInfo : ObservableObject
 
     private void UpdateValues(Level level, bool promoted)
     {
-        Values = propValues.SelectList(propValue => BaseValueInfoFormat.ToNameValue(propValue, level, GetPromoteLevel(level, promoted), growCurveMap, promoteMap));
+        Values = propValues.Select(propValue => BaseValueInfoFormat.ToNameValue(propValue, level, GetPromoteLevel(level, promoted), growCurveMap, promoteMap)).ToList();
     }
 
     private PromoteLevel GetPromoteLevel(in Level level, bool promoted)

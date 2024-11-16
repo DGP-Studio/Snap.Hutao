@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.QuickResponse;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
@@ -19,6 +20,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("QRCodeSource", typeof(ImageSource))]
 internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
     private readonly IQRCodeFactory qrCodeFactory;
     private readonly ITaskContext taskContext;
@@ -63,8 +65,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 
     private async ValueTask<ValueResult<bool, UidGameToken>> GetUidGameTokenCoreAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        _ = ShowAsync();
+        await contentDialogFactory.EnqueueAndShowAsync(this).QueueTask.ConfigureAwait(false);
 
         while (!userManualCancellationTokenSource.IsCancellationRequested)
         {

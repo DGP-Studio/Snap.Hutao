@@ -9,14 +9,11 @@ using Snap.Hutao.ViewModel.SpiralAbyss;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
-/// <summary>
-/// 深渊记录服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
 internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordService
@@ -26,8 +23,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    private string? uid;
-    private ObservableCollection<SpiralAbyssView>? spiralAbysses;
+    private readonly ConcurrentDictionary<string, ObservableCollection<SpiralAbyssView>> spiralAbyssCollectionCache = [];
     private SpiralAbyssMetadataContext? metadataContext;
 
     public async ValueTask<bool> InitializeAsync()
@@ -41,31 +37,26 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         return false;
     }
 
-    /// <inheritdoc/>
     public async ValueTask<ObservableCollection<SpiralAbyssView>> GetSpiralAbyssViewCollectionAsync(UserAndUid userAndUid)
     {
-        if (uid != userAndUid.Uid.Value)
+        if (spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<SpiralAbyssView>? collection))
         {
-            spiralAbysses = null;
+            return collection;
         }
 
-        uid = userAndUid.Uid.Value;
-        if (spiralAbysses is null)
-        {
-            await taskContext.SwitchToBackgroundAsync();
-            Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordRepository.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
+        await taskContext.SwitchToBackgroundAsync();
+        Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordRepository.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
 
-            ArgumentNullException.ThrowIfNull(metadataContext);
-            spiralAbysses = metadataContext.IdTowerScheduleMap.Values
-                .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
-                .OrderByDescending(e => e.ScheduleId)
-                .ToObservableCollection();
-        }
+        ArgumentNullException.ThrowIfNull(metadataContext);
+        ObservableCollection<SpiralAbyssView> result = metadataContext.IdTowerScheduleMap.Values
+            .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
+            .OrderByDescending(e => e.ScheduleId)
+            .ToObservableCollection();
 
-        return spiralAbysses;
+        spiralAbyssCollectionCache.TryAdd(userAndUid.Uid.Value, result);
+        return result;
     }
 
-    /// <inheritdoc/>
     public async ValueTask RefreshSpiralAbyssAsync(UserAndUid userAndUid)
     {
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
@@ -101,8 +92,12 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             }
         }
 
-        ArgumentNullException.ThrowIfNull(spiralAbysses);
         ArgumentNullException.ThrowIfNull(metadataContext);
+
+        if (!spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<SpiralAbyssView>? spiralAbysses))
+        {
+            return;
+        }
 
         int index = spiralAbysses.FirstIndexOf(s => s.ScheduleId == webSpiralAbyss.ScheduleId);
         if (index < 0)

@@ -3,15 +3,8 @@
 
 namespace Snap.Hutao.Web.Bridge.Model;
 
-/// <summary>
-/// 导航页面参数
-/// </summary>
-[HighQuality]
 internal sealed class PushPagePayload
 {
-    /// <summary>
-    /// 页面Url
-    /// </summary>
     [JsonPropertyName("page")]
     public string Page { get; set; } = default!;
 }

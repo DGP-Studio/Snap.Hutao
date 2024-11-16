@@ -14,12 +14,9 @@ internal sealed partial class ScriptingViewModel : Abstraction.ViewModel
 {
     private readonly ITaskContext taskContext;
 
-    private string? inputScript;
-    private string? outputResult;
+    public string? InputScript { get; set => SetProperty(ref field, value); }
 
-    public string? InputScript { get => inputScript; set => SetProperty(ref inputScript, value); }
-
-    public string? OutputResult { get => outputResult; set => SetProperty(ref outputResult, value); }
+    public string? OutputResult { get; set => SetProperty(ref field, value); }
 
     [Command("ExecuteScriptCommand")]
     private async Task ExecuteScriptAsync()

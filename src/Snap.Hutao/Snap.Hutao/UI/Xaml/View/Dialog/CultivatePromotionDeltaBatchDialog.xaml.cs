@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
@@ -12,26 +12,25 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("PromotionDelta", typeof(AvatarPromotionDelta))]
 internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
 {
-    private readonly ITaskContext taskContext;
+    private readonly IContentDialogFactory contentDialogFactory;
 
     public CultivatePromotionDeltaBatchDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
         PromotionDelta = AvatarPromotionDelta.CreateForBaseline();
     }
 
     public async ValueTask<ValueResult<bool, CultivatePromotionDeltaOptions>> GetPromotionDeltaBaselineAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialogResult result = await ShowAsync();
-
-        if (result is not ContentDialogResult.Primary)
+        if (await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is not ContentDialogResult.Primary)
         {
             return new(false, default!);
         }
+
+        await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
 
         LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, PromotionDelta.AvatarLevelCurrent);
         LocalSetting.Set(SettingKeys.CultivationAvatarLevelTarget, PromotionDelta.AvatarLevelTarget);

@@ -3,13 +3,12 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata;
 
 internal sealed class GrowCurve
 {
-    public Level Level { get; set; }
+    public required Level Level { get; init; }
 
-    public TypeValueCollection<GrowCurveType, float> Curves { get; set; } = default!;
+    public required TypeValueCollection<GrowCurveType, float> Curves { get; init; }
 }

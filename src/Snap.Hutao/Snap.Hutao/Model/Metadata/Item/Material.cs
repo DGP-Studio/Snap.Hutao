@@ -8,30 +8,23 @@ using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Model.Metadata.Item;
 
-/// <summary>
-/// 材料
-/// </summary>
 internal sealed class Material : DisplayItem
 {
     public static readonly Material Default = new()
     {
         Name = "？？？",
+        Id = default,
+        RankLevel = default,
+        ItemType = default,
+        Icon = default!,
+        Description = "？？？",
+        TypeDescription = "？？？",
     };
 
-    /// <summary>
-    /// 材料类型
-    /// </summary>
-    public MaterialType MaterialType { get; set; }
+    public MaterialType MaterialType { get; init; }
 
-    /// <summary>
-    /// 效果描述
-    /// </summary>
-    public string? EffectDescription { get; set; }
+    public string? EffectDescription { get; init; }
 
-    /// <summary>
-    /// 判断是否为物品栏物品
-    /// </summary>
-    /// <returns>是否为物品栏物品</returns>
     public bool IsInventoryItem()
     {
         // 原质
@@ -44,6 +37,11 @@ internal sealed class Material : DisplayItem
         if (Id == 202U)
         {
             return true;
+        }
+
+        if (TypeDescription is null)
+        {
+            return false;
         }
 
         if (Regex.IsMatch(TypeDescription, SHRegex.ModelMetadataMaterialLocalSpecialtyRegex))
@@ -61,12 +59,6 @@ internal sealed class Material : DisplayItem
         return IntrinsicFrozen.MaterialTypeDescriptions.Contains(TypeDescription);
     }
 
-    /// <summary>
-    /// 判断是否为当日物品
-    /// O(1) 操作
-    /// </summary>
-    /// <param name="treatSundayAsTrue">星期日视为当日材料</param>
-    /// <returns>是否为当日物品</returns>
     public bool IsTodaysItem(bool treatSundayAsTrue = false)
     {
         // TODO: support different time zone

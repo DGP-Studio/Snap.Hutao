@@ -13,9 +13,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
 
-/// <summary>
-/// 简化的实时便笺视图模型
-/// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<DailyNotePage>, IRecipient<UserRemovedMessage>
@@ -25,12 +22,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
     private readonly IMetadataService metadataService;
     private readonly IDailyNoteService dailyNoteService;
 
-    private List<DailyNoteEntry>? dailyNoteEntries;
-
-    /// <summary>
-    /// 实时便笺集合
-    /// </summary>
-    public List<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
+    public List<DailyNoteEntry>? DailyNoteEntries { get; set => SetProperty(ref field, value); }
 
     public void Receive(UserRemovedMessage message)
     {

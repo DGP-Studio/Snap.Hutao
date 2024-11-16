@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
@@ -17,19 +18,16 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [ConstructorGenerated(InitializeComponent = true)]
 internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassportMobileCaptchaProvider
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
-    private readonly ITaskContext taskContext;
-
-    private string? mobile;
-    private string? captcha;
 
     public string? Mobile
     {
-        get => mobile;
+        get;
         set
         {
-            if (SetProperty(ref mobile, value) && value is not null)
+            if (SetProperty(ref field, value) && value is not null)
             {
                 IsSendCaptchaEnabled = MobilePhoneRegex().IsMatch(value);
                 OnPropertyChanged(nameof(IsSendCaptchaEnabled));
@@ -41,10 +39,10 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
 
     public string? Captcha
     {
-        get => captcha;
+        get;
         set
         {
-            if (SetProperty(ref captcha, value))
+            if (SetProperty(ref field, value))
             {
                 IsLoginEnabled = !string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(ActionType);
                 OnPropertyChanged(nameof(IsLoginEnabled));
@@ -85,8 +83,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
 
     public async ValueTask<bool> GetMobileCaptchaAsync()
     {
-        await taskContext.SwitchToMainThreadAsync();
-        return await ShowAsync() is ContentDialogResult.Primary;
+        return await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is ContentDialogResult.Primary;
     }
 
     [GeneratedRegex(@"\d{11}")]

@@ -7,6 +7,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -19,7 +20,6 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly App app;
 
     public string Title
@@ -42,7 +42,29 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
     }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
+
+    [Command("RestartAsElevatedCommand")]
+    private static void RestartAsElevated()
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
+            UseShellExecute = true,
+            Verb = "runas",
+        });
+
+        // Current process will exit in PrivatePipeServer
+    }
+
+    [Command("OpenCompactWebView2WindowCommand")]
+    private static void OpenCompactWebView2Window()
+    {
+        if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
+        {
+            _ = new CompactWebView2Window();
+        }
+    }
 
     [Command("ShowWindowCommand")]
     private void ShowWindow()
@@ -85,27 +107,12 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         {
             await access.HandleLaunchGameActionAsync().ConfigureAwait(false);
         }
-
-        ShowWindow();
     }
 
     [Command("ExitCommand")]
     private void Exit()
     {
         app.Exit();
-    }
-
-    [Command("RestartAsElevatedCommand")]
-    private void RestartAsElevated()
-    {
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
-            UseShellExecute = true,
-            Verb = "runas",
-        });
-
-        // Current process will exit in PrivatePipeServer
     }
 
     [Command("OpenScriptingWindowCommand")]

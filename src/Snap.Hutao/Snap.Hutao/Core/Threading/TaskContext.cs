@@ -9,16 +9,14 @@ namespace Snap.Hutao.Core.Threading;
 [Injection(InjectAs.Singleton, typeof(ITaskContext))]
 internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
 {
-    private readonly DispatcherQueue dispatcherQueue;
-
     public TaskContext()
     {
-        dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        DispatcherQueueSynchronizationContext synchronizationContext = new(dispatcherQueue);
+        DispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        DispatcherQueueSynchronizationContext synchronizationContext = new(DispatcherQueue);
         SynchronizationContext.SetSynchronizationContext(synchronizationContext);
     }
 
-    public DispatcherQueue DispatcherQueue { get => dispatcherQueue; }
+    public DispatcherQueue DispatcherQueue { get; }
 
     public static ITaskContext GetForDependencyObject(DependencyObject dependencyObject)
     {
@@ -32,26 +30,26 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
 
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()
     {
-        return new(dispatcherQueue);
+        return new(DispatcherQueue);
     }
 
     public DispatcherQueueSwitchOperation SwitchToMainThreadAsync()
     {
-        return new(dispatcherQueue);
+        return new(DispatcherQueue);
     }
 
     public void InvokeOnMainThread(Action action)
     {
-        dispatcherQueue.Invoke(action);
+        DispatcherQueue.Invoke(action);
     }
 
     public T InvokeOnMainThread<T>(Func<T> action)
     {
-        return dispatcherQueue.Invoke(action);
+        return DispatcherQueue.Invoke(action);
     }
 
     public void BeginInvokeOnMainThread(Action action)
     {
-        dispatcherQueue.TryEnqueue(() => action());
+        DispatcherQueue.TryEnqueue(() => action());
     }
 }

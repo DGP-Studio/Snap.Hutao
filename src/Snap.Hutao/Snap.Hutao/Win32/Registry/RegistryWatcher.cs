@@ -26,7 +26,7 @@ internal sealed partial class RegistryWatcher : IDisposable
     private readonly HKEY hKey;
     private readonly string subKey = default!;
     private readonly Action valueChangedCallback;
-    private readonly object syncRoot = new();
+    private readonly Lock syncRoot = new();
     private bool disposed;
 
     public RegistryWatcher(string keyName, Action valueChangedCallback)

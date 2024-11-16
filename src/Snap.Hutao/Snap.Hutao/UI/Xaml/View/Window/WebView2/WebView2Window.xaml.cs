@@ -23,18 +23,16 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
 
     private readonly IServiceScope windowScope;
     private readonly IWebView2ContentProvider contentProvider;
-    private readonly AppWindow parentAppWindow;
-    private readonly HWND parentHWND;
+    private readonly WindowId parentWindowId;
 
     public WebView2Window(WindowId parentWindowId, IWebView2ContentProvider contentProvider)
     {
         windowScope = Ioc.Default.CreateScope();
 
-        parentHWND = Win32Interop.GetWindowFromWindowId(parentWindowId);
-        parentAppWindow = AppWindow.GetFromWindowId(parentWindowId);
+        this.parentWindowId = parentWindowId;
 
         // Make sure this window has a parent window before we make modal
-        SetWindowLongPtrW(this.GetWindowHandle(), WINDOW_LONG_PTR_INDEX.GWLP_HWNDPARENT, parentHWND);
+        SetWindowLongPtrW(this.GetWindowHandle(), WINDOW_LONG_PTR_INDEX.GWLP_HWNDPARENT, Win32Interop.GetWindowFromWindowId(parentWindowId));
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsModal = true;
@@ -54,24 +52,28 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
         this.InitializeController(windowScope.ServiceProvider);
     }
 
-    public FrameworkElement TitleBarAccess { get => TitleArea; }
+    public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
+
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public new void Activate()
     {
-        WindowExtension.SwitchTo(parentHWND);
-        EnableWindow(parentHWND, false);
+        HWND parentHwnd = Win32Interop.GetWindowFromWindowId(parentWindowId);
+        WindowExtension.SwitchTo(parentHwnd);
+        EnableWindow(parentHwnd, false);
         base.Activate();
 
-        double dpi = Math.Round(GetDpiForWindow(parentHWND) / 96D, 2, MidpointRounding.AwayFromZero);
-        AppWindow.MoveThenResize(contentProvider.InitializePosition(parentAppWindow.GetRect(), dpi));
+        double dpi = Math.Round(GetDpiForWindow(parentHwnd) / 96D, 2, MidpointRounding.AwayFromZero);
+        AppWindow.MoveThenResize(contentProvider.InitializePosition(AppWindow.GetFromWindowId(parentWindowId).GetRect(), dpi));
     }
 
     public void OnWindowClosed()
     {
-        EnableWindow(parentHWND, true);
+        HWND parentHwnd = Win32Interop.GetWindowFromWindowId(parentWindowId);
+        EnableWindow(parentHwnd, true);
 
         // Reactive parent window
-        SetForegroundWindow(parentHWND);
+        SetForegroundWindow(parentHwnd);
         windowScope.Dispose();
     }
 
@@ -114,8 +116,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
 
         if (WebView.CoreWebView2 is not null)
         {
-            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
-            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+            WebView.CoreWebView2.DocumentTitleChanged -= OnDocumentTitleChanged;
+            WebView.CoreWebView2.HistoryChanged -= OnHistoryChanged;
         }
 
         WebView.Loaded -= OnWebViewLoaded;

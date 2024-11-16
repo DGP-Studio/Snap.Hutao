@@ -2,27 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 料理奖励
-/// </summary>
-[HighQuality]
 internal sealed class CookBonus
 {
-    /// <summary>
-    /// 原型名称
-    /// </summary>
-    public MaterialId OriginItemId { get; set; } = default!;
+    public required MaterialId OriginItemId { get; init; }
 
-    /// <summary>
-    /// 名称
-    /// </summary>
-    public MaterialId ItemId { get; set; } = default!;
+    public required MaterialId ItemId { get; init; }
 
-    /// <summary>
-    /// 材料列表
-    /// </summary>
-    public List<MaterialId> InputList { get; set; } = default!;
+    public required ImmutableArray<MaterialId> InputList { get; init; }
 }

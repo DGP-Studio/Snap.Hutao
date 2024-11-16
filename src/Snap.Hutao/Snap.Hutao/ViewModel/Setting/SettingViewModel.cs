@@ -14,18 +14,8 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigationRecipient
 {
-    public const string UIGFImportExport = "UIGFImportExport";
+    public const string UIGFImportExport = nameof(UIGFImportExport);
 
-    private readonly SettingDangerousFeatureViewModel dangerousFeatureViewModel;
-    private readonly SettingAppearanceViewModel appearanceViewModel;
-    private readonly HutaoPassportViewModel hutaoPassportViewModel;
-    private readonly SettingGachaLogViewModel gachaLogViewModel;
-    private readonly SettingGeetestViewModel geetestViewModel;
-    private readonly SettingStorageViewModel storageViewModel;
-    private readonly SettingWebViewViewModel webViewViewModel;
-    private readonly SettingHotKeyViewModel hotKeyViewModel;
-    private readonly SettingHomeViewModel homeViewModel;
-    private readonly SettingGameViewModel gameViewModel;
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -33,25 +23,25 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     private ScrollViewer? rootScrollViewer;
     private Border? gachaLogBorder;
 
-    public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
+    public partial HutaoPassportViewModel Passport { get; }
 
-    public SettingGeetestViewModel Geetest { get => geetestViewModel; }
+    public partial SettingGeetestViewModel Geetest { get; }
 
-    public SettingAppearanceViewModel Appearance { get => appearanceViewModel; }
+    public partial SettingAppearanceViewModel Appearance { get; }
 
-    public SettingStorageViewModel Storage { get => storageViewModel; }
+    public partial SettingStorageViewModel Storage { get; }
 
-    public SettingHotKeyViewModel HotKey { get => hotKeyViewModel; }
+    public partial SettingHotKeyViewModel HotKey { get; }
 
-    public SettingHomeViewModel Home { get => homeViewModel; }
+    public partial SettingHomeViewModel Home { get; }
 
-    public SettingGameViewModel Game { get => gameViewModel; }
+    public partial SettingGameViewModel Game { get; }
 
-    public SettingGachaLogViewModel GachaLog { get => gachaLogViewModel; }
+    public partial SettingGachaLogViewModel GachaLog { get; }
 
-    public SettingWebViewViewModel WebView { get => webViewViewModel; }
+    public partial SettingWebViewViewModel WebView { get; }
 
-    public SettingDangerousFeatureViewModel DangerousFeature { get => dangerousFeatureViewModel; }
+    public partial SettingDangerousFeatureViewModel DangerousFeature { get; }
 
     public void Initialize(ISettingScrollViewerAccessor accessor)
     {
@@ -59,7 +49,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         gachaLogBorder = accessor.GachaLogBorder;
     }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {

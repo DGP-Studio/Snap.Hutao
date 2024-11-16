@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Service.Metadata;
@@ -17,21 +18,19 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    private AdvancedCollectionView<Monster>? monsters;
     private WikiMonsterMetadataContext metadataContext;
-    private BaseValueInfo? baseValueInfo;
 
     public AdvancedCollectionView<Monster>? Monsters
     {
-        get => monsters;
+        get;
         set
         {
-            if (monsters is not null)
+            if (field is not null)
             {
-                monsters.CurrentChanged -= OnCurrentMonsterChanged;
+                field.CurrentChanged -= OnCurrentMonsterChanged;
             }
 
-            SetProperty(ref monsters, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -40,7 +39,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
+    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -55,7 +54,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
                     monster.DropsView ??= monster.Drops?.SelectList(i => metadataContext.IdDisplayItemAndMaterialMap.GetValueOrDefault(i, Material.Default));
                 }
 
-                List<Monster> ordered = metadataContext.Monsters.OrderBy(m => m.RelationshipId.Value).ToList();
+                List<Monster> ordered = [.. metadataContext.Monsters.OrderBy(m => m.RelationshipId.Value)];
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
@@ -83,7 +82,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     private void UpdateBaseValueInfo(Monster? monster)
     {
-        if (monster is null || metadataContext is null)
+        if (metadataContext is null || monster is not { GrowCurves: { }, BaseValue: { } })
         {
             BaseValueInfo = null;
             return;
@@ -91,7 +90,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
         BaseValueInfo = new(
             Monster.MaxLevel,
-            monster.GrowCurves.SelectList(info => new PropertyCurveValue(info.Type, info.Value, monster.BaseValue.GetValue(info.Type))),
+            monster.GrowCurves.GetPropertyCurveValues(monster.BaseValue),
             metadataContext.LevelDictionaryMonsterGrowCurveMap);
     }
 }

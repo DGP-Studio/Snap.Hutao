@@ -1,2 +1,4 @@
 ﻿// https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.BannedApiAnalyzers/BannedApiAnalyzers.Help.md
 M:System.Collections.Generic.List`1.ForEach(System.Action{`0})
+M:Microsoft.UI.Xaml.Controls.ContentDialog.ShowAsync
+M:Microsoft.UI.Xaml.Controls.ContentDialog.ShowAsync(Microsoft.UI.Xaml.Controls.ContentDialogPlacement)

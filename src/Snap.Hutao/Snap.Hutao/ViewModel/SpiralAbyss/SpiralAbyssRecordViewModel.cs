@@ -31,17 +31,28 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
 
-    private AdvancedCollectionView<SpiralAbyssView>? spiralAbyssEntries;
+    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries
+    {
+        get;
+        set
+        {
+            if (SpiralAbyssEntries is not null)
+            {
+                SpiralAbyssEntries.CurrentChanged -= OnCurrentSpiralAbyssEntryChanged;
+            }
 
-    /// <summary>
-    /// 深渊记录
-    /// </summary>
-    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries { get => spiralAbyssEntries; set => SetProperty(ref spiralAbyssEntries, value); }
+            SetProperty(ref field, value);
 
-    public HutaoDatabaseViewModel HutaoDatabaseViewModel { get => hutaoDatabaseViewModel; }
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentSpiralAbyssEntryChanged;
+            }
+        }
+    }
+
+    public partial HutaoSpiralAbyssDatabaseViewModel HutaoSpiralAbyssDatabaseViewModel { get; }
 
     public void Receive(UserAndUidChangedMessage message)
     {
@@ -70,6 +81,11 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
 
         return true;
+    }
+
+    private void OnCurrentSpiralAbyssEntryChanged(object? sender, object? e)
+    {
+        SpiralAbyssEntries?.CurrentItem?.Floors.MoveCurrentToFirstOrDefault();
     }
 
     [SuppressMessage("", "SH003")]
@@ -134,12 +150,12 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                     .ConfigureAwait(false);
 
                 await taskContext.SwitchToMainThreadAsync();
-                ContentDialogResult result = await dialog.ShowAsync();
+                ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
 
                 switch (result)
                 {
                     case ContentDialogResult.Primary:
-                        await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+                        await navigationService.NavigateAsync<SettingPage>(INavigationCompletionSource.Default, true).ConfigureAwait(false);
                         return;
 
                     case ContentDialogResult.Secondary:
@@ -155,18 +171,20 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 HutaoSpiralAbyssClient spiralAbyssClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
                 if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
                 {
-                    Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+                    HutaoResponse response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
 
                     if (response is ILocalizableResponse localizableResponse)
                     {
                         infoBarService.PrepareInfoBarAndShow(builder =>
                         {
                             builder
-                            .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
-                            .SetMessage(localizableResponse.GetLocalizationMessage());
+                                .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
+                                .SetMessage(localizableResponse.GetLocalizationMessage());
                         });
                     }
                 }
+
+                // TODO: Handle no records
             }
         }
         else

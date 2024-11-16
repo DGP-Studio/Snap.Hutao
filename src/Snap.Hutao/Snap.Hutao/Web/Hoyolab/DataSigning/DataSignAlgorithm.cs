@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO.Hashing;
+using System.Security.Cryptography;
 
 namespace Snap.Hutao.Web.Hoyolab.DataSigning;
 
@@ -20,10 +21,7 @@ internal static class DataSignAlgorithm
             dsContent = $"{dsContent}&b={options.Body}&q={options.Query}";
         }
 
-#pragma warning disable CA1308
-        string check = Hash.MD5HexString(dsContent).ToLowerInvariant();
-#pragma warning restore CA1308
-
+        string check = Hash.ToHexStringLower(HashAlgorithmName.MD5, dsContent);
         return $"{t},{r},{check}";
     }
 }

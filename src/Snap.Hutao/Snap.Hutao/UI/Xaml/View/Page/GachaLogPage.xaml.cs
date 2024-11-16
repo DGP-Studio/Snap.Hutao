@@ -6,15 +6,8 @@ using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.UI.Xaml.View.Page;
 
-/// <summary>
-/// 祈愿记录页面
-/// </summary>
-[HighQuality]
 internal sealed partial class GachaLogPage : ScopedPage
 {
-    /// <summary>
-    /// 构造一个新的祈愿记录页面
-    /// </summary>
     public GachaLogPage()
     {
         InitializeWith<GachaLogViewModel>();

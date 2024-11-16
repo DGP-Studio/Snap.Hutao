@@ -2,36 +2,19 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Tower;
 
-/// <summary>
-/// 深渊 层
-/// </summary>
 internal sealed class TowerFloor
 {
-    /// <summary>
-    /// Id
-    /// </summary>
-    public TowerFloorId Id { get; set; }
+    public required TowerFloorId Id { get; init; }
 
-    /// <summary>
-    /// 编号 [1-12]
-    /// </summary>
-    public uint Index { get; set; }
+    public required uint Index { get; init; }
 
-    /// <summary>
-    /// 深渊间分组编号
-    /// </summary>
-    public TowerLevelGroupId LevelGroupId { get; set; }
+    public required TowerLevelGroupId LevelGroupId { get; init; }
 
-    /// <summary>
-    /// 背景图片
-    /// </summary>
-    public string Background { get; set; } = default!;
+    public required string Background { get; init; }
 
-    /// <summary>
-    /// 地脉紊乱
-    /// </summary>
-    public List<string> Descriptions { get; set; } = default!;
+    public required ImmutableArray<string> Descriptions { get; init; }
 }

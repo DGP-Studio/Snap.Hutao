@@ -21,7 +21,7 @@ namespace Snap.Hutao.Service.BackgroundImage;
 [Injection(InjectAs.Singleton, typeof(IBackgroundImageService))]
 internal sealed partial class BackgroundImageService : IBackgroundImageService
 {
-    private static readonly FrozenSet<string> AllowedFormats = FrozenSet.ToFrozenSet([".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"]);
+    private static readonly FrozenSet<string> AllowedFormats = [".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"];
 
     private readonly BackgroundImageOptions backgroundImageOptions;
     private readonly IServiceProvider serviceProvider;
@@ -65,6 +65,8 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             {
                 if (comException.HResult != HRESULT.E_FAIL)
                 {
+                    comException.Data.Add("BackgroundImageType", appOptions.BackgroundImageType);
+                    comException.Data.Add("FilePath", path);
                     throw;
                 }
 

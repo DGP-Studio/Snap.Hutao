@@ -24,7 +24,9 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
         this.InitializeController(serviceProvider);
     }
 
-    public FrameworkElement TitleBarAccess { get => TitleBarView.DragArea; }
+    public FrameworkElement TitleBarCaptionAccess { get => TitleBarView.DragArea; }
+
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public string PersistRectKey { get => SettingKeys.WindowRect; }
 

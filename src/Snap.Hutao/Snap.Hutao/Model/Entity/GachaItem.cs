@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.ComponentModel.DataAnnotations;
@@ -11,9 +10,6 @@ namespace Snap.Hutao.Model.Entity;
 
 [Table("gacha_items")]
 internal sealed class GachaItem
-    : IDbMappingForeignKeyFrom<GachaItem, GachaLogItem, uint>,
-    IDbMappingForeignKeyFrom<GachaItem, Web.Hutao.GachaLog.GachaItem>,
-    IDbMappingForeignKeyFrom<GachaItem, Hk4eItem, int>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

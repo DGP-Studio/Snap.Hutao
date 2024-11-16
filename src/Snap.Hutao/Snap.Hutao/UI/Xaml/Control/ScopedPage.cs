@@ -10,7 +10,6 @@ using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
-[HighQuality]
 [SuppressMessage("", "CA1001")]
 internal partial class ScopedPage : Page
 {
@@ -26,7 +25,7 @@ internal partial class ScopedPage : Page
     }
 
     [SuppressMessage("", "SH003")]
-    public async Task NotifyRecipientAsync(INavigationData extra)
+    public async Task NotifyRecipientAsync(INavigationExtraData extra)
     {
         if (extra.Data is not null && DataContext is INavigationRecipient recipient)
         {
@@ -68,17 +67,15 @@ internal partial class ScopedPage : Page
         }
     }
 
-    /// <inheritdoc/>
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
         DisposeViewModel();
         inFrame = false;
     }
 
-    /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.Parameter is INavigationData extra)
+        if (e.Parameter is INavigationExtraData extra)
         {
             _ = NotifyRecipientAsync(extra);
         }

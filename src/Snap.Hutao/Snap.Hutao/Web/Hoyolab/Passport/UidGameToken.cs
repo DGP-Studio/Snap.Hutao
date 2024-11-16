@@ -3,7 +3,6 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-[HighQuality]
 internal sealed class UidGameToken
 {
     [JsonPropertyName("uid")]

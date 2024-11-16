@@ -11,40 +11,31 @@ namespace Snap.Hutao.Web.Bridge;
 
 internal sealed class BridgeShareContext
 {
-    private readonly CoreWebView2 coreWebView2;
-    private readonly ITaskContext taskContext;
-    private readonly HttpClient httpClient;
-    private readonly IInfoBarService infoBarService;
-    private readonly IClipboardProvider clipboardProvider;
-    private readonly JsonSerializerOptions jsonSerializerOptions;
-    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
-    private readonly BridgeShareSaveType shareSaveType;
-
     public BridgeShareContext(CoreWebView2 coreWebView2, ITaskContext taskContext, HttpClient httpClient, IInfoBarService infoBarService, IClipboardProvider clipboardProvider, JsonSerializerOptions jsonSerializerOptions, IFileSystemPickerInteraction fileSystemPickerInteraction, BridgeShareSaveType shareSaveType)
     {
-        this.httpClient = httpClient;
-        this.taskContext = taskContext;
-        this.infoBarService = infoBarService;
-        this.clipboardProvider = clipboardProvider;
-        this.coreWebView2 = coreWebView2;
-        this.jsonSerializerOptions = jsonSerializerOptions;
-        this.fileSystemPickerInteraction = fileSystemPickerInteraction;
-        this.shareSaveType = shareSaveType;
+        HttpClient = httpClient;
+        TaskContext = taskContext;
+        InfoBarService = infoBarService;
+        ClipboardProvider = clipboardProvider;
+        CoreWebView2 = coreWebView2;
+        JsonSerializerOptions = jsonSerializerOptions;
+        FileSystemPickerInteraction = fileSystemPickerInteraction;
+        ShareSaveType = shareSaveType;
     }
 
-    public CoreWebView2 CoreWebView2 { get => coreWebView2; }
+    public CoreWebView2 CoreWebView2 { get; }
 
-    public ITaskContext TaskContext { get => taskContext; }
+    public ITaskContext TaskContext { get; }
 
-    public HttpClient HttpClient { get => httpClient; }
+    public HttpClient HttpClient { get; }
 
-    public IInfoBarService InfoBarService { get => infoBarService; }
+    public IInfoBarService InfoBarService { get; }
 
-    public IClipboardProvider ClipboardProvider { get => clipboardProvider; }
+    public IClipboardProvider ClipboardProvider { get; }
 
-    public JsonSerializerOptions JsonSerializerOptions { get => jsonSerializerOptions; }
+    public JsonSerializerOptions JsonSerializerOptions { get; }
 
-    public IFileSystemPickerInteraction FileSystemPickerInteraction { get => fileSystemPickerInteraction; }
+    public IFileSystemPickerInteraction FileSystemPickerInteraction { get; }
 
-    public BridgeShareSaveType ShareSaveType { get => shareSaveType; }
+    public BridgeShareSaveType ShareSaveType { get; }
 }

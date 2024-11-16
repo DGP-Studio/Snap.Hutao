@@ -6,7 +6,6 @@ using Snap.Hutao.Core.Threading.Abstraction;
 
 namespace Snap.Hutao.Core.Threading;
 
-[HighQuality]
 internal readonly struct DispatcherQueueSwitchOperation : IAwaitable<DispatcherQueueSwitchOperation>, ICriticalAwaiter
 {
     private readonly DispatcherQueue dispatcherQueue;

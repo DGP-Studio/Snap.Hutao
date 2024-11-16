@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Bridge.Model;
+using System.Buffers.Text;
 using System.IO;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -67,7 +68,7 @@ internal sealed class BridgeShareImplementation
 
     private static ValueTask ShareFromImageBase64Async(BridgeShareContext context, string base64ImageData)
     {
-        return ShareFromRawPixelDataAsync(context, Convert.FromBase64String(base64ImageData));
+        return ShareFromRawPixelDataAsync(context, Base64Url.DecodeFromChars(base64ImageData));
     }
 
     private static ValueTask ShareFromRawPixelDataAsync(BridgeShareContext context, byte[] rawPixelData)

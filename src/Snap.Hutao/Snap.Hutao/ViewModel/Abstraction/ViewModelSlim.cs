@@ -10,12 +10,9 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 [ConstructorGenerated]
 internal abstract partial class ViewModelSlim : ObservableObject
 {
-    private readonly IServiceProvider serviceProvider;
-    private bool isInitialized;
+    public bool IsInitialized { get; set => SetProperty(ref field, value); }
 
-    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
-
-    protected IServiceProvider ServiceProvider { get => serviceProvider; }
+    protected partial IServiceProvider ServiceProvider { get; }
 
     [Command("LoadCommand")]
     protected virtual Task LoadAsync()
@@ -32,6 +29,6 @@ internal abstract partial class ViewModelSlim<TPage> : ViewModelSlim
     protected virtual void Navigate()
     {
         INavigationService navigationService = ServiceProvider.GetRequiredService<INavigationService>();
-        navigationService.Navigate<TPage>(INavigationAwaiter.Default, true);
+        navigationService.Navigate<TPage>(INavigationCompletionSource.Default, true);
     }
 }

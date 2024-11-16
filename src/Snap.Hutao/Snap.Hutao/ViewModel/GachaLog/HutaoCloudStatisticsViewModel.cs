@@ -2,26 +2,17 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.GachaLog;
-using Snap.Hutao.Service.Hutao;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 胡桃云服务统计视图模型
-/// </summary>
 [Injection(InjectAs.Scoped)]
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
 {
     private readonly IGachaLogHutaoCloudService hutaoCloudService;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly ITaskContext taskContext;
 
-    private HutaoStatistics? statistics;
-
-    public HutaoUserOptions Options { get => hutaoUserOptions; }
-
-    public HutaoStatistics? Statistics { get => statistics; set => SetProperty(ref statistics, value); }
+    public HutaoStatistics? Statistics { get; set => SetProperty(ref field, value); }
 
     protected override async Task LoadAsync()
     {

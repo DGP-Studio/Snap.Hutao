@@ -3,27 +3,14 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
-/// <summary>
-/// ?
-/// </summary>
-[HighQuality]
 internal sealed class UserFuncStatus
 {
-    /// <summary>
-    /// ?
-    /// </summary>
     [JsonPropertyName("enable_history_view")]
     public bool EnableHistoryView { get; set; }
 
-    /// <summary>
-    /// ?
-    /// </summary>
     [JsonPropertyName("enable_recommend")]
     public bool EnableRecommend { get; set; }
 
-    /// <summary>
-    /// ?
-    /// </summary>
     [JsonPropertyName("enable_mention")]
     public bool EnableMention { get; set; }
 }

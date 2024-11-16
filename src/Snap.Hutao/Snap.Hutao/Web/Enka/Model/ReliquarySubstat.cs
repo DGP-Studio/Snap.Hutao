@@ -6,15 +6,8 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Web.Enka.Model;
 
-/// <summary>
-/// 圣遗物副属性
-/// </summary>
-[HighQuality]
 internal class ReliquarySubstat : Stat
 {
-    /// <summary>
-    /// 增加属性
-    /// </summary>
     [JsonPropertyName("appendPropId")]
     [JsonEnum(JsonEnumSerializeType.String)]
     public FightProperty AppendPropId { get; set; }

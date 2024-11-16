@@ -17,7 +17,7 @@ internal static class DiscordController
     private const long GenshinImpactId = 1175747474384760962L;
 
     private static readonly CancellationTokenSource StopTokenSource = new();
-    private static readonly object SyncRoot = new();
+    private static readonly Lock SyncRoot = new();
 
     private static long currentClientId;
     private static unsafe IDiscordCore* discordCorePtr;

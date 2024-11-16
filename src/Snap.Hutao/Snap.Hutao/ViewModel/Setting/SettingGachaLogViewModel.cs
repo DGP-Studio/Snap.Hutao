@@ -23,9 +23,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IInfoBarService infoBarService;
     private readonly IUIGFService uigfService;
-    private readonly AppOptions appOptions;
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     [Command("ImportUIGFJsonCommand")]
     private async Task ImportUIGFJsonAsync()
@@ -46,13 +45,13 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (uigf.Hk4e is null or [])
+        if (uigf.Hk4e.IsDefaultOrEmpty)
         {
             infoBarService.Warning(SH.ViewModelUIGFImportNoHk4eEntry);
             return;
         }
 
-        if (uigf.Hk4e.Select(entry => entry.Uid).ToHashSet().Count != uigf.Hk4e.Count)
+        if (uigf.Hk4e.Select(entry => entry.Uid).ToHashSet().Count != uigf.Hk4e.Length)
         {
             infoBarService.Warning(SH.ViewModelUIGFImportDuplicatedHk4eEntry);
             return;

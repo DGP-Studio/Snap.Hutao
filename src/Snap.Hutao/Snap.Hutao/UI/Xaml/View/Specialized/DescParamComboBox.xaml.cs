@@ -7,8 +7,7 @@ using Snap.Hutao.Model.Metadata;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-[HighQuality]
-[DependencyProperty("Source", typeof(List<LevelParameters<string, ParameterDescription>>), default!, nameof(OnSourceChanged))]
+[DependencyProperty("Source", typeof(IList<LevelParameters<string, ParameterDescription>>), default!, nameof(OnSourceChanged))]
 [DependencyProperty("SelectedItem", typeof(LevelParameters<string, ParameterDescription>), default!)]
 [DependencyProperty("PreferredSelectedIndex", typeof(int), 0)]
 internal sealed partial class DescParamComboBox : UserControl
@@ -22,7 +21,7 @@ internal sealed partial class DescParamComboBox : UserControl
     {
         if (sender is DescParamComboBox descParamComboBox)
         {
-            if (args.NewValue != args.OldValue && args.NewValue is List<LevelParameters<string, ParameterDescription>> list)
+            if (args.NewValue != args.OldValue && args.NewValue is IList<LevelParameters<string, ParameterDescription>> list)
             {
                 descParamComboBox.Bindings.Update();
                 descParamComboBox.SelectedItem = list.ElementAtOrDefault(descParamComboBox.PreferredSelectedIndex) ?? list.LastOrDefault();

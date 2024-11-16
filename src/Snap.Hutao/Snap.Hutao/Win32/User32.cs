@@ -21,8 +21,13 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static extern LRESULT CallNextHookEx([Optional] HHOOK hhk, int nCode, WPARAM wParam, LPARAM lParam);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static extern unsafe BOOL ClientToScreen(HWND hWnd, POINT* lpPoint);
 
+    [DebuggerStepThrough]
     public static unsafe BOOL ClientToScreen(HWND hWnd, ref POINT point)
     {
         fixed (POINT* lpPoint = &point)
@@ -35,6 +40,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern unsafe HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [Optional] PCWSTR lpClassName, [Optional] PCWSTR lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [Optional] HWND hWndParent, [Optional] HMENU hMenu, [Optional] HINSTANCE hInstance, [Optional] void* lpParam);
 
+    [DebuggerStepThrough]
     public static unsafe HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [Optional] string className, [Optional] string windowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [Optional] HWND hWndParent, [Optional] HMENU hMenu, [Optional] HINSTANCE hInstance, [Optional] void* lpParam)
     {
         fixed (char* lpClassName = className)
@@ -94,11 +100,25 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern unsafe BOOL GetClientRect(HWND hWnd, RECT* lpRect);
 
+    [DebuggerStepThrough]
     public static unsafe BOOL GetClientRect(HWND hWnd, out RECT rect)
     {
         fixed (RECT* lpRect = &rect)
         {
             return GetClientRect(hWnd, lpRect);
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern unsafe BOOL GetCursorPos(POINT* lpPoint);
+
+    [DebuggerStepThrough]
+    public static unsafe BOOL GetCursorPos(out POINT point)
+    {
+        fixed (POINT* lpPoint = &point)
+        {
+            return GetCursorPos(lpPoint);
         }
     }
 
@@ -161,6 +181,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern unsafe BOOL IntersectRect([Out] RECT* lprcDst, RECT* lprcSrc1, RECT* lprcSrc2);
 
+    [DebuggerStepThrough]
     public static unsafe BOOL IntersectRect(out RECT rcDst, ref readonly RECT rcSrc1, ref readonly RECT rcSrc2)
     {
         fixed (RECT* lprcDst = &rcDst)
@@ -185,12 +206,30 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL PostMessageW([Optional] HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static extern BOOL PostThreadMessageW(uint idThread, uint Msg, WPARAM wParam, LPARAM lParam);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern unsafe BOOL PtInRect(RECT* lprc, POINT pt);
+
+    [DebuggerStepThrough]
+    public static unsafe BOOL PtInRect(ref readonly RECT rc, POINT pt)
+    {
+        fixed (RECT* lprc = &rc)
+        {
+            return PtInRect(lprc, pt);
+        }
+    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern unsafe ushort RegisterClassW(WNDCLASSW* lpWndClass);
 
+    [DebuggerStepThrough]
     public static unsafe ushort RegisterClassW(ref readonly WNDCLASSW lpWndClass)
     {
         fixed (WNDCLASSW* pWndClass = &lpWndClass)
@@ -207,6 +246,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern uint RegisterWindowMessageW(PCWSTR lpString);
 
+    [DebuggerStepThrough]
     public static unsafe uint RegisterWindowMessageW(string @string)
     {
         fixed (char* lpString = @string)
@@ -277,6 +317,10 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL ShowWindow(HWND hWnd, SHOW_WINDOW_CMD nCmdShow);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL UnhookWindowsHookEx(HHOOK hhk);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]

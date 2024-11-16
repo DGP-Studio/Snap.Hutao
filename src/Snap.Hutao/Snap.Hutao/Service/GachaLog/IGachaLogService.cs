@@ -12,7 +12,7 @@ internal interface IGachaLogService
 {
     AdvancedDbCollectionView<GachaArchive>? Archives { get; }
 
-    ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default(CancellationToken));
+    ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default);
 
     ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive archive);
 

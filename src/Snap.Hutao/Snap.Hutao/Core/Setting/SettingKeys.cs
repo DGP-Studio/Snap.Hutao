@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Core.Setting;
 
-/// <summary>
-/// 设置键
-/// </summary>
-[HighQuality]
 internal static class SettingKeys
 {
     #region MainWindow
@@ -14,6 +10,8 @@ internal static class SettingKeys
     public const string WindowScale = "WindowScale";
     public const string GuideWindowRect = "GuideWindowRect";
     public const string GuideWindowScale = "GuideWindowScale";
+    public const string CompactWebView2WindowRect = "CompactWebView2WindowRect";
+    public const string CompactWebView2WindowScale = "CompactWebView2WindowScale";
     public const string IsNavPaneOpen = "IsNavPaneOpen";
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
 
@@ -32,6 +30,7 @@ internal static class SettingKeys
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
+    public const string LowLevelKeyboardWebView2VideoPlayPause = "LowLevelKeyboardWebView2VideoPlayPause";
     #endregion
 
     #region Passport
@@ -71,7 +70,6 @@ internal static class SettingKeys
     public const string PhysicalDriverIsAlwaysSolidState = "PhysicalDriverIsAlwaysSolidState";
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
     public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
-    public const string AllowExtractGameBlks = "AllowExtractGameBlks";
     #endregion
 
     #region Obsolete
@@ -81,5 +79,9 @@ internal static class SettingKeys
 
     [Obsolete("重置调试控制台开关")]
     public const string IsAllocConsoleDebugModeEnabledLegacy1 = "IsAllocConsoleDebugModeEnabled";
+
+    [Obsolete]
+    public const string AllowExtractGameBlks = "AllowExtractGameBlks";
+
     #endregion
 }

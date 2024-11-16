@@ -18,8 +18,6 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     private readonly IServiceProvider serviceProvider;
     private readonly RegistryWatcher watcher;
 
-    private IWebProxy innerProxy = default!;
-
     public HttpProxyUsingSystemProxy(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
@@ -42,18 +40,16 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
 
     public IWebProxy InnerProxy
     {
-        get => innerProxy;
-
-        [MemberNotNull(nameof(innerProxy))]
+        get;
         set
         {
-            if (ReferenceEquals(innerProxy, value))
+            if (ReferenceEquals(field, value))
             {
                 return;
             }
 
-            (innerProxy as IDisposable)?.Dispose();
-            innerProxy = value;
+            (field as IDisposable)?.Dispose();
+            field = value;
         }
     }
 
@@ -76,7 +72,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     public void Dispose()
     {
         watcher.Dispose();
-        (innerProxy as IDisposable)?.Dispose();
+        (InnerProxy as IDisposable)?.Dispose();
     }
 
     public void OnSystemProxySettingsChanged()
@@ -99,7 +95,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         return constructSystemProxyMethod;
     }
 
-    [MemberNotNull(nameof(innerProxy))]
+    [MemberNotNull(nameof(InnerProxy))]
     private void UpdateInnerProxy()
     {
         IWebProxy? proxy = LazyConstructSystemProxyMethod.Value.Invoke(default, default) as IWebProxy;

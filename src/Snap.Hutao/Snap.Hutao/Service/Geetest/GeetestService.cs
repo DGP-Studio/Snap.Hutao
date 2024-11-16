@@ -42,7 +42,7 @@ internal sealed partial class GeetestService : IGeetestService
         GeetestWebResponse? webResponse = JsonSerializer.Deserialize<GeetestWebResponse>(result);
         ArgumentNullException.ThrowIfNull(webResponse);
 
-        return new GeetestData()
+        return new GeetestData
         {
             Gt = gt,
             Challenge = webResponse.Challenge,

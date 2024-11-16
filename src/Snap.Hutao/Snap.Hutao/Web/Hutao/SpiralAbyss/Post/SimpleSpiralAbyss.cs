@@ -21,9 +21,9 @@ internal sealed class SimpleSpiralAbyss
 
     public int TotalWinTimes { get; set; }
 
-    public SimpleRank? Damage { get; set; } = default!;
+    public SimpleRank? Damage { get; set; }
 
-    public SimpleRank? TakeDamage { get; set; } = default!;
+    public SimpleRank? TakeDamage { get; set; }
 
-    public IEnumerable<SimpleFloor> Floors { get; set; } = default!;
+    public IEnumerable<SimpleFloor> Floors { get; set; }
 }

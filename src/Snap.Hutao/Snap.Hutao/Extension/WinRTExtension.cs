@@ -10,7 +10,7 @@ internal static class WinRTExtension
 {
     public static bool IsDisposed(this IWinRTObject obj)
     {
-        return Volatile.Read(ref GetPrivateDisposedFlags(obj.NativeObject)) is not 0;
+        return obj.NativeObject is null || Volatile.Read(ref GetPrivateDisposedFlags(obj.NativeObject)) is not 0;
     }
 
     // private const int NOT_DISPOSED = 0;

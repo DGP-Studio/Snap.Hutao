@@ -11,9 +11,7 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 [SuppressMessage("", "SA1124")]
 internal abstract partial class ViewModel : ObservableObject, IViewModel
 {
-    private bool isInitialized;
-
-    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
+    public bool IsInitialized { get; set => SetProperty(ref field, value); }
 
     public CancellationToken CancellationToken { get; set; }
 

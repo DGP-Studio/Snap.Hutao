@@ -225,6 +225,9 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>导入</value>
   </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>第 {0} 幕</value>
+  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>欢迎使用胡桃</value>
   </data>
@@ -405,6 +408,18 @@
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>一星</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
+    <value>轻简模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
+    <value>困难模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
+    <value>普通模式</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
+    <value>卓越模式</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
@@ -1988,6 +2003,9 @@
   <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
     <value>无法选择UID [{0}] 对应的账号 [{1}]，该账号不属于当前服务器</value>
   </data>
+  <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
+    <value>已抵达{0}</value>
+  </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
   </data>
@@ -2876,6 +2894,54 @@
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
     <value>选择游戏路径</value>
   </data>
+  <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
+    <value>助演</value>
+  </data>
+  <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
+    <value>试用</value>
+  </data>
+  <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
+    <value>待命角色</value>
+  </data>
+  <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
+    <value>奇妙助益</value>
+  </data>
+  <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
+    <value>神秘收获</value>
+  </data>
+  <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
+    <value>消耗「幻剧之花」</value>
+  </data>
+  <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
+    <value>开幕角色</value>
+  </data>
+  <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
+    <value>最佳记录</value>
+  </data>
+  <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
+    <value>挑战星章</value>
+  </data>
+  <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
+    <value>暂无演出数据</value>
+  </data>
+  <data name="ViewPageRoleCombatShortest" xml:space="preserve">
+    <value>最快演出</value>
+  </data>
+  <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
+    <value>特邀角色</value>
+  </data>
+  <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
+    <value>辉彩祝福</value>
+  </data>
+  <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
+    <value>场外声援</value>
+  </data>
+  <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
+    <value>助演次数</value>
+  </data>
+  <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
+    <value>演出总时长</value>
+  </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>关于 胡桃</value>
   </data>
@@ -3116,6 +3182,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseDescription" xml:space="preserve">
+    <value>更改紧凑网页窗口中控制视频播放与暂停的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVideoPlayPauseHeader" xml:space="preserve">
+    <value>紧凑网页窗口视频播放暂停</value>
+  </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
   </data>
@@ -3320,6 +3392,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
+  <data name="ViewRoleCombatHeader" xml:space="preserve">
+    <value>幻想真境剧诗</value>
+  </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>登录失败，请重新登录</value>
   </data>
@@ -3520,6 +3595,9 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器资料</value>
+  </data>
+  <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
+    <value>紧凑网页窗口（仅管理员）</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>请截图此窗口，在反馈中心内找到适合的反馈途径，并反馈至开发组</value>

@@ -17,14 +17,13 @@ namespace Snap.Hutao.Core.IO.Http.Loopback;
 internal sealed unsafe partial class LoopbackSupport : ObservableObject
 {
     private readonly string hutaoContainerStringSID;
-    private bool isLoopbackEnabled;
 
     public LoopbackSupport()
     {
         Initialize(out hutaoContainerStringSID);
     }
 
-    public bool IsLoopbackEnabled { get => isLoopbackEnabled; private set => SetProperty(ref isLoopbackEnabled, value); }
+    public bool IsLoopbackEnabled { get; private set => SetProperty(ref field, value); }
 
     public void EnableLoopback()
     {

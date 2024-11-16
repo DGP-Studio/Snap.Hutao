@@ -6,10 +6,6 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
-/// <summary>
-/// 祈愿记录物品
-/// </summary>
-[HighQuality]
 internal class GachaLogItem
 {
     [JsonPropertyName("uid")]

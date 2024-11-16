@@ -6,7 +6,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Runtime.InteropServices;
-using Windows.System;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
@@ -16,13 +15,12 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 {
     private static readonly WaitCallback RunMouseClickRepeatForever = MouseClickRepeatForever;
 
-    private readonly object syncRoot = new();
+    private readonly Lock syncRoot = new();
     private readonly HotKeyMessageWindow hotKeyMessageWindow;
 
     private volatile CancellationTokenSource? cancellationTokenSource;
 
     private bool isDisposed;
-    private HotKeyCombination mouseClickRepeatForeverKeyCombination;
 
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
@@ -31,16 +29,12 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             HotKeyPressed = OnHotKeyPressed,
         };
 
-        mouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VirtualKey.F8);
+        MouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VIRTUAL_KEY.VK_F8);
     }
 
-    public List<NameValue<VirtualKey>> VirtualKeys { get; } = HotKey.VirtualKeys.GetList();
+    public List<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.GetList();
 
-    public HotKeyCombination MouseClickRepeatForeverKeyCombination
-    {
-        get => mouseClickRepeatForeverKeyCombination;
-        set => SetProperty(ref mouseClickRepeatForeverKeyCombination, value);
-    }
+    public HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set => SetProperty(ref field, value); }
 
     public void Dispose()
     {

@@ -5,9 +5,6 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 角色基础数值
-/// </summary>
 internal sealed class AvatarBaseValue : BaseValue
 {
     public override float GetValue(FightProperty fightProperty)

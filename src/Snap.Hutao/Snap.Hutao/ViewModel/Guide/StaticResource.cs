@@ -6,10 +6,6 @@ using Windows.Storage;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-/// <summary>
-/// 静态资源
-/// </summary>
-[HighQuality]
 internal static class StaticResource
 {
     private const string ContractMap = "StaticResourceContractMap";

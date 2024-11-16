@@ -33,7 +33,7 @@ internal readonly ref struct ZipSpan<TFirst, TSecond>
             this.second = second;
         }
 
-        public readonly RefTuple<TFirst, TSecond> Current
+        public readonly RefValueTuple<TFirst, TSecond> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => new(ref first[index], ref second[index]);

@@ -52,6 +52,11 @@ internal sealed class XamlWindowController
         InitializeCore();
     }
 
+    public void UpdateDragRectangles()
+    {
+        PrivateUpdateDragRectangles();
+    }
+
     private void InitializeCore()
     {
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
@@ -301,10 +306,10 @@ internal sealed class XamlWindowController
         appTitleBar.ExtendsContentIntoTitleBar = true;
 
         UpdateTitleButtonColor();
-        xamlWindow.TitleBarAccess.ActualThemeChanged += (_, _) => UpdateTitleButtonColor();
+        xamlWindow.TitleBarCaptionAccess.ActualThemeChanged += (_, _) => UpdateTitleButtonColor();
 
-        UpdateDragRectangles();
-        xamlWindow.TitleBarAccess.SizeChanged += (_, _) => UpdateDragRectangles();
+        PrivateUpdateDragRectangles();
+        xamlWindow.TitleBarCaptionAccess.SizeChanged += (_, _) => PrivateUpdateDragRectangles();
     }
 
     private void UpdateTitleButtonColor()
@@ -319,7 +324,7 @@ internal sealed class XamlWindowController
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        bool isDarkMode = ThemeHelper.IsDarkMode(xamlWindow.TitleBarAccess.ActualTheme);
+        bool isDarkMode = ThemeHelper.IsDarkMode(xamlWindow.TitleBarCaptionAccess.ActualTheme);
 
         Color systemBaseLowColor = SystemColors.BaseLowColor(isDarkMode);
         appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
@@ -338,7 +343,7 @@ internal sealed class XamlWindowController
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
     }
 
-    private void UpdateDragRectangles()
+    private void PrivateUpdateDragRectangles()
     {
         if (window is not IXamlWindowExtendContentIntoTitleBar xamlWindow)
         {
@@ -346,11 +351,28 @@ internal sealed class XamlWindowController
         }
 
         // E_UNEXPECTED will be thrown if the Content is not loaded.
-        if (xamlWindow.TitleBarAccess.IsLoaded)
+        if (xamlWindow.TitleBarCaptionAccess.IsLoaded)
         {
-            Point position = xamlWindow.TitleBarAccess.TransformToVisual(window.Content).TransformPoint(default);
-            RectInt32 dragRect = RectInt32Convert.RectInt32(position, xamlWindow.TitleBarAccess.ActualSize).Scale(window.GetRasterizationScale());
-            window.GetInputNonClientPointerSource().SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
+            InputNonClientPointerSource inputNonClientPointerSource = window.GetInputNonClientPointerSource();
+            {
+                FrameworkElement element = xamlWindow.TitleBarCaptionAccess;
+                Point position = element.TransformToVisual(window.Content).TransformPoint(default);
+                RectInt32 rect = RectInt32Convert.RectInt32(position, element.ActualSize).Scale(window.GetRasterizationScale());
+                inputNonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, [rect]);
+            }
+
+            List<RectInt32> passthrough = [];
+            foreach (FrameworkElement element in xamlWindow.TitleBarPassthrough)
+            {
+                Point position = element.TransformToVisual(window.Content).TransformPoint(default);
+                RectInt32 rect = RectInt32Convert.RectInt32(position, element.ActualSize).Scale(window.GetRasterizationScale());
+                passthrough.Add(rect);
+            }
+
+            if (passthrough.Count > 0)
+            {
+                inputNonClientPointerSource.SetRegionRects(NonClientRegionKind.Passthrough, [.. passthrough]);
+            }
         }
     }
     #endregion

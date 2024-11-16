@@ -6,32 +6,17 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata;
 
-/// <summary>
-/// 突破加成
-/// </summary>
-[HighQuality]
 internal sealed class Promote
 {
-    private Dictionary<FightProperty, float>? addPropertyMap;
+    public required PromoteId Id { get; init; }
 
-    /// <summary>
-    /// Id
-    /// </summary>
-    public PromoteId Id { get; set; }
+    public required PromoteLevel Level { get; init; }
 
-    /// <summary>
-    /// 突破等级
-    /// </summary>
-    public PromoteLevel Level { get; set; }
+    public required TypeValueCollection<FightProperty, float> AddProperties { get; init; }
 
-    /// <summary>
-    /// 增加的属性
-    /// </summary>
-    public List<TypeValue<FightProperty, float>> AddProperties { get; set; } = default!;
-
+    [Obsolete]
     public float GetValue(FightProperty property)
     {
-        addPropertyMap ??= AddProperties.ToDictionary(a => a.Type, a => a.Value);
-        return addPropertyMap.GetValueOrDefault(property);
+        return AddProperties.GetValueOrDefault(property);
     }
 }

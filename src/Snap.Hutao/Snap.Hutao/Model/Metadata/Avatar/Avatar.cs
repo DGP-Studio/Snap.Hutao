@@ -11,6 +11,7 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.ViewModel.Wiki;
+using System.Collections.Immutable;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
@@ -24,41 +25,41 @@ internal partial class Avatar : INameQualityAccess,
     ICultivationItemsAccess,
     IAdvancedCollectionViewItem
 {
-    public AvatarId Id { get; set; }
+    public required AvatarId Id { get; init; }
 
-    public PromoteId PromoteId { get; set; }
+    public required PromoteId PromoteId { get; init; }
 
-    public uint Sort { get; set; }
+    public required uint Sort { get; init; }
 
-    public BodyType Body { get; set; } = default!;
+    public required BodyType Body { get; init; }
 
-    public string Icon { get; set; } = default!;
+    public required string Icon { get; init; }
 
-    public string SideIcon { get; set; } = default!;
+    public required string SideIcon { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; init; }
 
-    public DateTimeOffset BeginTime { get; set; }
+    public required DateTimeOffset BeginTime { get; init; }
 
-    public QualityType Quality { get; set; }
+    public required QualityType Quality { get; init; }
 
-    public WeaponType Weapon { get; set; }
+    public required WeaponType Weapon { get; init; }
 
-    public AvatarBaseValue BaseValue { get; set; } = default!;
+    public required AvatarBaseValue BaseValue { get; init; }
 
-    public TypeValueCollection<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
+    public required TypeValueCollection<FightProperty, GrowCurveType> GrowCurves { get; init; }
 
-    public SkillDepot SkillDepot { get; set; } = default!;
+    public required SkillDepot SkillDepot { get; init; }
 
-    public FetterInfo FetterInfo { get; set; } = default!;
+    public required FetterInfo FetterInfo { get; init; }
 
-    public List<Costume> Costumes { get; set; } = default!;
+    public required ImmutableArray<Costume> Costumes { get; init; }
 
-    public List<MaterialId> CultivationItems { get; set; } = default!;
+    public required ImmutableArray<MaterialId> CultivationItems { get; init; }
 
-    public NameCard NameCard { get; set; } = default!;
+    public required NameCard NameCard { get; init; }
 
     [JsonIgnore]
     public AvatarCollocationView? CollocationView { get; set; }
@@ -67,7 +68,7 @@ internal partial class Avatar : INameQualityAccess,
     public CookBonusView? CookBonusView { get; set; }
 
     [JsonIgnore]
-    public List<Material>? CultivationItemsView { get; set; }
+    public ImmutableArray<Material>? CultivationItemsView { get; set; }
 
     [SuppressMessage("", "CA1822")]
     public uint MaxLevel { get => GetMaxLevel(); }
@@ -90,7 +91,7 @@ internal partial class Avatar : INameQualityAccess,
             Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
-            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
+            Badge = ElementNameIconConverter.ElementNameToUri(FetterInfo.VisionBefore),
             Quality = Quality,
         };
     }
@@ -102,7 +103,7 @@ internal partial class Avatar : INameQualityAccess,
             Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
-            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
+            Badge = ElementNameIconConverter.ElementNameToUri(FetterInfo.VisionBefore),
             Quality = Quality,
 
             Count = count,
@@ -116,7 +117,7 @@ internal partial class Avatar : INameQualityAccess,
             Id = Id,
             Name = Name,
             Icon = AvatarIconConverter.IconNameToUri(Icon),
-            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
+            Badge = ElementNameIconConverter.ElementNameToUri(FetterInfo.VisionBefore),
             Quality = Quality,
 
             Time = time,

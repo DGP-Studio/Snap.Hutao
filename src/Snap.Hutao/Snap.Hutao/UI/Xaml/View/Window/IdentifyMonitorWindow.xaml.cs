@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Graphics;
-using Snap.Hutao.Service;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -20,7 +18,6 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         presenter.IsAlwaysOnTop = true;
         presenter.SetBorderAndTitleBar(false, false);
         AppWindow.SetPresenter(presenter);
-
         PointInt32 point = new(40, 32);
         SizeInt32 size = displayArea.WorkArea.GetSizeInt32().Scale(0.1);
         AppWindow.MoveAndResize(RectInt32Convert.RectInt32(point, size), displayArea);
@@ -41,7 +38,6 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
 
         foreach (IdentifyMonitorWindow window in windows)
         {
-            window.RemoveStyleDialogFrame();
             window.Show();
         }
 

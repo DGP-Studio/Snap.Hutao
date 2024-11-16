@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.ViewModel.Achievement;
+using System.Collections.Immutable;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -16,7 +17,7 @@ internal interface IAchievementService
 
     List<AchievementView> GetAchievementViewList(EntityArchive archive, AchievementServiceMetadataContext context);
 
-    ValueTask<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategyKind strategy);
+    ValueTask<ImportResult> ImportFromUIAFAsync(EntityArchive archive, ImmutableArray<UIAFItem> array, ImportStrategyKind strategy);
 
     ValueTask RemoveArchiveAsync(EntityArchive archive);
 

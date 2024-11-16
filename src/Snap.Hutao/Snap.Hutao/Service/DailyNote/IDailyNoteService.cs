@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-[HighQuality]
 internal interface IDailyNoteService
 {
     ValueTask AddDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default);

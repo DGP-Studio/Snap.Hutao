@@ -2,61 +2,29 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Tower;
 
-/// <summary>
-/// 深渊 间
-/// </summary>
 internal sealed class TowerLevel
 {
-    /// <summary>
-    /// Id
-    /// </summary>
-    public TowerLevelId Id { get; set; }
+    public required TowerLevelId Id { get; init; }
 
-    /// <summary>
-    /// 深渊间分组编号
-    /// </summary>
-    public TowerLevelGroupId GroupId { get; set; }
+    public required TowerLevelGroupId GroupId { get; init; }
 
-    /// <summary>
-    /// 编号
-    /// </summary>
-    public uint Index { get; set; }
+    public required uint Index { get; init; }
 
-    /// <summary>
-    /// 怪物等级
-    /// </summary>
-    public uint MonsterLevel { get; set; }
+    public required uint MonsterLevel { get; init; }
 
-    /// <summary>
-    /// 上半怪物预览
-    /// </summary>
-    public List<MonsterRelationshipId> FirstMonsters { get; set; } = default!;
+    public ImmutableArray<MonsterRelationshipId> FirstMonsters { get; init; }
 
-    /// <summary>
-    /// 上半怪物波次
-    /// </summary>
-    public List<TowerWave> FirstWaves { get; set; } = default!;
+    public ImmutableArray<TowerWave> FirstWaves { get; init; }
 
-    /// <summary>
-    /// 上半造物
-    /// </summary>
-    public NameDescription? FirstGadget { get; set; }
+    public NameDescription? FirstGadget { get; init; }
 
-    /// <summary>
-    /// 下半怪物预览
-    /// </summary>
-    public List<MonsterRelationshipId>? SecondMonsters { get; set; }
+    public ImmutableArray<MonsterRelationshipId> SecondMonsters { get; init; }
 
-    /// <summary>
-    /// 下半怪物波次
-    /// </summary>
-    public List<TowerWave> SecondWaves { get; set; } = default!;
+    public ImmutableArray<TowerWave> SecondWaves { get; init; }
 
-    /// <summary>
-    /// 下半造物
-    /// </summary>
-    public NameDescription? SecondGadget { get; set; }
+    public NameDescription? SecondGadget { get; init; }
 }

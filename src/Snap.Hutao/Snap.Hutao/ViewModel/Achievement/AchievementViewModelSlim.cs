@@ -12,9 +12,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Transient)]
 internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<AchievementPage>
 {
-    private List<AchievementStatistics>? statisticsList;
-
-    public List<AchievementStatistics>? StatisticsList { get => statisticsList; set => SetProperty(ref statisticsList, value); }
+    public List<AchievementStatistics>? StatisticsList { get; set => SetProperty(ref field, value); }
 
     protected override async Task LoadAsync()
     {

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Input.LowLevel;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
@@ -10,10 +11,9 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingHotKeyViewModel : Abstraction.ViewModel
 {
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly HotKeyOptions hotKeyOptions;
+    public partial LowLevelKeyOptions LowLevelKeyOptions { get; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
+    public partial HotKeyOptions HotKeyOptions { get; }
 }

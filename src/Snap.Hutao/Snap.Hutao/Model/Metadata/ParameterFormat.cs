@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Model.Metadata;
 
-/// <summary>
-/// 参数格式化器
-/// </summary>
-[HighQuality]
 internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
 {
     private static readonly Lazy<ParameterFormat> LazyFormat = new();
@@ -16,7 +12,6 @@ internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
         return string.Format(LazyFormat.Value, str, param);
     }
 
-    /// <inheritdoc/>
     [SuppressMessage("", "CA1305")]
     public string Format(string? fmt, object? arg, IFormatProvider? formatProvider)
     {
@@ -42,7 +37,6 @@ internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
         return arg?.ToString() ?? string.Empty;
     }
 
-    /// <inheritdoc/>
     public object? GetFormat(Type? formatType)
     {
         return formatType == typeof(ICustomFormatter)

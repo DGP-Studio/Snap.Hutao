@@ -11,10 +11,6 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.Service.Navigation;
 
-/// <summary>
-/// 导航服务
-/// </summary>
-[HighQuality]
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
 internal sealed class NavigationService : INavigationService, INavigationInitialization
 {
@@ -28,7 +24,6 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     private readonly TypedEventHandler<NavigationView, object> paneClosedEventHandler;
 
     private Frame? frame;
-    private NavigationView? navigationView;
     private NavigationViewItem? selected;
 
     public NavigationService(IServiceProvider serviceProvider)
@@ -47,35 +42,35 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
 
     private NavigationView? NavigationView
     {
-        get => navigationView;
+        get;
 
         set
         {
             // remove old listener
-            if (navigationView is not null)
+            if (field is not null)
             {
-                navigationView.ItemInvoked -= itemInvokedEventHandler;
-                navigationView.BackRequested -= backRequestedEventHandler;
-                navigationView.PaneClosed -= paneOpenedEventHandler;
-                navigationView.PaneOpened -= paneClosedEventHandler;
+                field.ItemInvoked -= itemInvokedEventHandler;
+                field.BackRequested -= backRequestedEventHandler;
+                field.PaneClosed -= paneOpenedEventHandler;
+                field.PaneOpened -= paneClosedEventHandler;
             }
 
             ArgumentNullException.ThrowIfNull(value);
-            navigationView = value;
+            field = value;
 
             // add new listener
-            if (navigationView is not null)
+            if (field is not null)
             {
-                navigationView.ItemInvoked += itemInvokedEventHandler;
-                navigationView.BackRequested += backRequestedEventHandler;
-                navigationView.PaneClosed += paneOpenedEventHandler;
-                navigationView.PaneOpened += paneClosedEventHandler;
+                field.ItemInvoked += itemInvokedEventHandler;
+                field.BackRequested += backRequestedEventHandler;
+                field.PaneClosed += paneOpenedEventHandler;
+                field.PaneOpened += paneClosedEventHandler;
             }
         }
     }
 
     /// <inheritdoc/>
-    public NavigationResult Navigate(Type pageType, INavigationAwaiter data, bool syncNavigationViewItem = false)
+    public NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool syncNavigationViewItem = false)
     {
         Type? currentType = frame?.Content?.GetType();
 
@@ -103,14 +98,14 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     }
 
     /// <inheritdoc/>
-    public NavigationResult Navigate<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
+    public NavigationResult Navigate<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
         return Navigate(typeof(TPage), data, syncNavigationViewItem);
     }
 
     /// <inheritdoc/>
-    public async ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
+    public async ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
         NavigationResult result = Navigate<TPage>(data, syncNavigationViewItem);
@@ -136,7 +131,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
                 {
                     if (frame is { Content: ScopedPage scopedPage })
                     {
-                        await scopedPage.NotifyRecipientAsync((INavigationData)data).ConfigureAwait(false);
+                        await scopedPage.NotifyRecipientAsync((INavigationExtraData)data).ConfigureAwait(false);
                     }
                 }
 
@@ -218,8 +213,8 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         // ignore item that doesn't have nav type specified
         if (targetType is not null)
         {
-            INavigationAwaiter navigationAwaiter = new NavigationExtra(NavigationViewItemHelper.GetExtraData(selected));
-            Navigate(targetType, navigationAwaiter, false);
+            INavigationCompletionSource data = new NavigationCompletionSource(NavigationViewItemHelper.GetExtraData(selected));
+            Navigate(targetType, data, false);
         }
     }
 

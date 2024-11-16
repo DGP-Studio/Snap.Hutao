@@ -9,7 +9,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.ViewModel.Guide;
 using System.IO;
 using Windows.System;
@@ -25,15 +24,12 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private SettingFolderViewModel? cacheFolderView;
-    private SettingFolderViewModel? dataFolderView;
+    public SettingFolderViewModel? CacheFolderView { get; set => SetProperty(ref field, value); }
 
-    public SettingFolderViewModel? CacheFolderView { get => cacheFolderView; set => SetProperty(ref cacheFolderView, value); }
-
-    public SettingFolderViewModel? DataFolderView { get => dataFolderView; set => SetProperty(ref dataFolderView, value); }
+    public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
     [Command("OpenBackgroundImageFolderCommand")]
-    private async Task OpenBackgroundImageFolderAsync()
+    private static async Task OpenBackgroundImageFolderAsync()
     {
         await Launcher.LaunchFolderPathAsync(HutaoRuntime.GetDataFolderBackgroundFolder());
     }

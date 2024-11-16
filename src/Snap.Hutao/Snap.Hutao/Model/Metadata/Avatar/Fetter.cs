@@ -3,19 +3,9 @@
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 好感故事
-/// </summary>
-[HighQuality]
 internal sealed class Fetter
 {
-    /// <summary>
-    /// 标题
-    /// </summary>
-    public string Title { get; set; } = default!;
+    public required string Title { get; init; }
 
-    /// <summary>
-    /// 上下文
-    /// </summary>
-    public string Context { get; set; } = default!;
+    public required string Context { get; init; }
 }

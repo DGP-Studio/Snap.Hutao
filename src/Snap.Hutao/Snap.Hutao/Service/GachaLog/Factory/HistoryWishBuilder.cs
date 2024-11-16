@@ -8,10 +8,6 @@ using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 卡池历史记录建造器
-/// </summary>
-[HighQuality]
 internal sealed class HistoryWishBuilder
 {
     private readonly GachaEvent gachaEvent;
@@ -24,11 +20,6 @@ internal sealed class HistoryWishBuilder
 
     private int totalCountTracker;
 
-    /// <summary>
-    /// 构造一个新的卡池历史记录建造器
-    /// </summary>
-    /// <param name="gachaEvent">卡池配置</param>
-    /// <param name="context">祈愿记录上下文</param>
     public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceMetadataContext context)
     {
         this.gachaEvent = gachaEvent;
@@ -53,27 +44,14 @@ internal sealed class HistoryWishBuilder
         }
     }
 
-    /// <summary>
-    /// 祈愿配置类型
-    /// </summary>
     public GachaType ConfigType { get; }
 
-    /// <inheritdoc cref="GachaEvent.From"/>
     public DateTimeOffset From { get => gachaEvent.From; }
 
-    /// <inheritdoc cref="GachaEvent.To"/>
     public DateTimeOffset To { get => gachaEvent.To; }
 
-    /// <summary>
-    /// 卡池是否为空
-    /// </summary>
     public bool IsEmpty { get => totalCountTracker <= 0; }
 
-    /// <summary>
-    /// 计数五星物品
-    /// </summary>
-    /// <param name="item">物品</param>
-    /// <returns>是否为Up物品</returns>
     public bool IncreaseOrange(IStatisticsItemConvertible item)
     {
         orangeCounter.IncreaseByOne(item);
@@ -82,10 +60,6 @@ internal sealed class HistoryWishBuilder
         return orangeUpCounter.TryIncreaseByOne(item);
     }
 
-    /// <summary>
-    /// 计数四星物品
-    /// </summary>
-    /// <param name="item">物品</param>
     public void IncreasePurple(IStatisticsItemConvertible item)
     {
         purpleUpCounter.TryIncreaseByOne(item);
@@ -93,20 +67,12 @@ internal sealed class HistoryWishBuilder
         ++totalCountTracker;
     }
 
-    /// <summary>
-    /// 计数三星武器
-    /// </summary>
-    /// <param name="item">武器</param>
     public void IncreaseBlue(IStatisticsItemConvertible item)
     {
         blueCounter.IncreaseByOne(item);
         ++totalCountTracker;
     }
 
-    /// <summary>
-    /// 转换到卡池历史记录
-    /// </summary>
-    /// <returns>卡池历史记录</returns>
     public HistoryWish ToHistoryWish()
     {
         HistoryWish historyWish = new()

@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Web.Response;
 
-/// <summary>
-/// 已知的返回代码
-/// </summary>
-[HighQuality]
 internal enum KnownReturnCode
 {
     /// <summary>

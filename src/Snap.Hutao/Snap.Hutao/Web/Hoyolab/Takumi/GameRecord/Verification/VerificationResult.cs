@@ -3,15 +3,8 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 
-/// <summary>
-/// 验证结果
-/// </summary>
-[HighQuality]
 internal sealed class VerificationResult
 {
-    /// <summary>
-    /// 极验流水号
-    /// </summary>
     [JsonPropertyName("challenge")]
     public string? Challenge { get; set; }
 }

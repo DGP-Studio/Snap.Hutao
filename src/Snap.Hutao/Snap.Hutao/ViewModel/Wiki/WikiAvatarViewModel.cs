@@ -43,16 +43,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
-    private AdvancedCollectionView<Avatar>? avatars;
-    private ObservableCollection<SearchToken>? filterTokens;
-    private string? filterToken;
-    private BaseValueInfo? baseValueInfo;
     private WikiAvatarMetadataContext? metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
     public AdvancedCollectionView<Avatar>? Avatars
     {
-        get => avatars;
+        get;
         set
         {
             if (Avatars is not null)
@@ -60,7 +56,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 Avatars.CurrentChanged -= OnCurrentAvatarChanged;
             }
 
-            SetProperty(ref avatars, value);
+            SetProperty(ref field, value);
 
             if (value is not null)
             {
@@ -69,11 +65,11 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
     }
 
-    public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
+    public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
-    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+    public string? FilterToken { get; set => SetProperty(ref field, value); }
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
@@ -88,10 +84,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         {
             metadataContext = await metadataService.GetContextAsync<WikiAvatarMetadataContext>().ConfigureAwait(false);
 
-            List<Avatar> list = metadataContext.Avatars
-                .OrderByDescending(avatar => avatar.BeginTime)
-                .ThenByDescending(avatar => avatar.Sort)
-                .ToList();
+            List<Avatar> list = [.. metadataContext.Avatars.OrderByDescending(avatar => avatar.BeginTime).ThenByDescending(avatar => avatar.Sort)];
 
             await CombineComplexDataAsync(list, metadataContext).ConfigureAwait(false);
 
@@ -111,7 +104,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 .. list.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
                 .. IntrinsicFrozen.AssociationTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.AssociationType, nv.Name, (int)nv.Value, iconUri: AssociationTypeIconConverter.AssociationTypeToIconUri(nv.Value)))),
                 .. IntrinsicFrozen.BodyTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.BodyType, nv.Name, (int)nv.Value))),
-                .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToIconUri(nv.Name)))),
+                .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToUri(nv.Name)))),
                 .. IntrinsicFrozen.ItemQualityNameValues.Where(nv => nv.Value >= QualityType.QUALITY_PURPLE).Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
                 .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
             ]);
@@ -143,7 +136,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         {
             avatar.CollocationView = hutaoCache.AvatarCollocations.GetValueOrDefault(avatar.Id);
             avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, context.IdMaterialMap);
-            avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default));
+            avatar.CultivationItemsView ??= [.. avatar.CultivationItems.Select(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default))];
         }
     }
 
@@ -219,7 +212,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         BaseValueInfo = new(
             avatar.MaxLevel,
-            avatar.GrowCurves.Select<TypeValue<FightProperty, GrowCurveType>, PropertyCurveValue>(info => new PropertyCurveValue(info.Type, info.Value, avatar.BaseValue.GetValue(info.Type))).ToList(),
+            avatar.GrowCurves.GetPropertyCurveValues(avatar.BaseValue),
             metadataContext.LevelDictionaryAvatarGrowCurveMap,
             metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId]);
     }

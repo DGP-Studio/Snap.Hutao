@@ -12,7 +12,6 @@ using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.Collections.ObjectModel;
@@ -28,25 +27,20 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly AppOptions appOptions;
-
-    private AdvancedDbCollectionView<User.User, Model.Entity.User>? users;
-    private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
 
     public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
 
-    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     public IJSBridgeUriSourceProvider VerifyUrlSource { get; } = new DailyJSBridgeUriSourceProvider();
 
-    public AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get => users; set => SetProperty(ref users, value); }
+    public AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get; set => SetProperty(ref field, value); }
 
-    public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
+    public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -113,10 +107,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         {
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                // ContentDialog must be created by main thread.
-                await taskContext.SwitchToMainThreadAsync();
                 DailyNoteNotificationDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteNotificationDialog>(entry).ConfigureAwait(true);
-                await dialog.ShowAsync();
+                await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
 
                 await taskContext.SwitchToBackgroundAsync();
                 await dailyNoteService.UpdateDailyNoteAsync(entry).ConfigureAwait(false);

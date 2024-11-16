@@ -72,8 +72,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     public async ValueTask PostUnlockAsync(CancellationToken token = default)
     {
-        ArgumentNullException.ThrowIfNull(offsets);
-
         try
         {
             using (MemoryMappedFile file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024))
@@ -171,6 +169,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
         finally
         {
+            // NEVER UNHOOK: Will cause the dll unload in game process
+            // UnhookWindowsHookEx(hHook);
             NativeLibrary.Free(hModule);
         }
     }
