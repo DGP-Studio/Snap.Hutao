@@ -5,7 +5,7 @@ using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.ViewModel.Game;
 
-internal sealed class LaunchGameWithUidData : NavigationExtra<string>
+internal sealed class LaunchGameWithUidData : NavigationCompletionSource<string>
 {
     public LaunchGameWithUidData(string uid)
         : base(uid)

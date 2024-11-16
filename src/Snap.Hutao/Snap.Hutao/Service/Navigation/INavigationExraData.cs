@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Navigation;
 
-internal interface INavigationData
+internal interface INavigationExraData
 {
     object? Data { get; set; }
 

@@ -149,14 +149,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {
             return false;
         }
 
-        if (data is LaunchGameWithUidData { Data: { } uid })
+        if (data is LaunchGameWithUidData { TypedData: { } uid })
         {
             return await userService.SelectCurrentUserByUidAsync(uid).ConfigureAwait(false);
         }

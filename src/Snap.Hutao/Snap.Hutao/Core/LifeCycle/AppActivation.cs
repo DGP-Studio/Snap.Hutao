@@ -101,8 +101,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        INavigationAwaiter navigationAwaiter = uid is null
-            ? INavigationAwaiter.Default
+        INavigationCompletionSource navigationSource = uid is null
+            ? INavigationCompletionSource.Default
             : new LaunchGameWithUidData(uid);
 
         switch (currentWindowReference.Window)
@@ -112,7 +112,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 await WaitMainWindowOrCurrentAsync().ConfigureAwait(true);
                 await serviceProvider
                     .GetRequiredService<INavigationService>()
-                    .NavigateAsync<LaunchGamePage>(navigationAwaiter, true)
+                    .NavigateAsync<LaunchGamePage>(navigationSource, true)
                     .ConfigureAwait(false);
                 return;
 
@@ -210,7 +210,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                             {
                                 await taskContext.SwitchToMainThreadAsync();
 
-                                INavigationAwaiter navigationAwaiter = new NavigationExtra(AchievementViewModel.ImportUIAFFromClipboard);
+                                INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(AchievementViewModel.ImportUIAFFromClipboard);
 #pragma warning disable CA1849
                                 // We can't await here to navigate to Achievment Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.

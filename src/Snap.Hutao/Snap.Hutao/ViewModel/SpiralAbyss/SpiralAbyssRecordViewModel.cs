@@ -155,7 +155,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 switch (result)
                 {
                     case ContentDialogResult.Primary:
-                        await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+                        await navigationService.NavigateAsync<SettingPage>(INavigationCompletionSource.Default, true).ConfigureAwait(false);
                         return;
 
                     case ContentDialogResult.Secondary:

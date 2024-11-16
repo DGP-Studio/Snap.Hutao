@@ -70,7 +70,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     }
 
     /// <inheritdoc/>
-    public NavigationResult Navigate(Type pageType, INavigationAwaiter data, bool syncNavigationViewItem = false)
+    public NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool syncNavigationViewItem = false)
     {
         Type? currentType = frame?.Content?.GetType();
 
@@ -98,14 +98,14 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     }
 
     /// <inheritdoc/>
-    public NavigationResult Navigate<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
+    public NavigationResult Navigate<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
         return Navigate(typeof(TPage), data, syncNavigationViewItem);
     }
 
     /// <inheritdoc/>
-    public async ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
+    public async ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
         NavigationResult result = Navigate<TPage>(data, syncNavigationViewItem);
@@ -131,7 +131,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
                 {
                     if (frame is { Content: ScopedPage scopedPage })
                     {
-                        await scopedPage.NotifyRecipientAsync((INavigationData)data).ConfigureAwait(false);
+                        await scopedPage.NotifyRecipientAsync((INavigationExraData)data).ConfigureAwait(false);
                     }
                 }
 
@@ -213,7 +213,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         // ignore item that doesn't have nav type specified
         if (targetType is not null)
         {
-            INavigationAwaiter navigationAwaiter = new NavigationExtra(NavigationViewItemHelper.GetExtraData(selected));
+            INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(NavigationViewItemHelper.GetExtraData(selected));
             Navigate(targetType, navigationAwaiter, false);
         }
     }

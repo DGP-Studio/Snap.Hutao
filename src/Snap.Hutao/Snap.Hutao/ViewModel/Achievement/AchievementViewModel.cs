@@ -84,7 +84,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     public string? FinishDescription { get; set => SetProperty(ref field, value); }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {

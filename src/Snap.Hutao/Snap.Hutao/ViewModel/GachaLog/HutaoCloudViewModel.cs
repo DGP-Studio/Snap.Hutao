@@ -108,7 +108,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("NavigateToSpiralAbyssRecordCommand")]
     private void NavigateToSpiralAbyssRecord()
     {
-        navigationService.Navigate<SpiralAbyssRecordPage>(INavigationAwaiter.Default, true);
+        navigationService.Navigate<SpiralAbyssRecordPage>(INavigationCompletionSource.Default, true);
     }
 
     private async ValueTask RefreshUidCollectionAsync()

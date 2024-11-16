@@ -25,7 +25,7 @@ internal partial class ScopedPage : Page
     }
 
     [SuppressMessage("", "SH003")]
-    public async Task NotifyRecipientAsync(INavigationData extra)
+    public async Task NotifyRecipientAsync(INavigationExraData extra)
     {
         if (extra.Data is not null && DataContext is INavigationRecipient recipient)
         {
@@ -75,7 +75,7 @@ internal partial class ScopedPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.Parameter is INavigationData extra)
+        if (e.Parameter is INavigationExraData extra)
         {
             _ = NotifyRecipientAsync(extra);
         }
