@@ -213,8 +213,8 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         // ignore item that doesn't have nav type specified
         if (targetType is not null)
         {
-            INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(NavigationViewItemHelper.GetExtraData(selected));
-            Navigate(targetType, navigationAwaiter, false);
+            INavigationCompletionSource data = new NavigationCompletionSource(NavigationViewItemHelper.GetExtraData(selected));
+            Navigate(targetType, data, false);
         }
     }
 

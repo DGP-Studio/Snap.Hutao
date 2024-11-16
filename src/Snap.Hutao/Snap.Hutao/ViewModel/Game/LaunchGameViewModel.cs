@@ -158,7 +158,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         if (data is LaunchGameWithUidData { TypedData: { } uid })
         {
-            return await userService.SelectCurrentUserByUidAsync(uid).ConfigureAwait(false);
+            return await userService.SetCurrentUserByUidAsync(uid).ConfigureAwait(false);
         }
 
         return false;

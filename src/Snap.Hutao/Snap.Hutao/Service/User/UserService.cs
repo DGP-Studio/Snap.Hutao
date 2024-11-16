@@ -24,7 +24,8 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IUserRepository userRepository;
-    private readonly ITaskContext taskContext;
+
+    public partial ITaskContext TaskContext { get; }
 
     public ValueTask RemoveUserAsync(BindingUser user)
     {
@@ -33,7 +34,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
     public async ValueTask UnsafeRemoveAllUsersAsync()
     {
-        await taskContext.SwitchToBackgroundAsync();
+        await TaskContext.SwitchToBackgroundAsync();
         userRepository.RemoveAllUsers();
     }
 
@@ -50,7 +51,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
         using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
+            await TaskContext.SwitchToBackgroundAsync();
             (Cookie cookie, bool _, string? deviceFp) = inputCookie;
 
             string? mid = cookie.GetValueOrDefault(Cookie.MID);
@@ -113,10 +114,5 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     public async ValueTask RefreshProfilePictureAsync(UserGameRole userGameRole)
     {
         await profilePictureService.RefreshUserGameRoleAsync(userGameRole).ConfigureAwait(false);
-    }
-
-    public ValueTask<bool> SelectCurrentUserByUidAsync(string uid)
-    {
-        return userCollectionService.SelectCurrentUserByUidAsync(uid);
     }
 }
