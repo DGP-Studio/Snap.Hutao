@@ -3597,7 +3597,7 @@
     <value>武器资料</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口</value>
+    <value>紧凑网页窗口（仅管理员）</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>请截图此窗口，在反馈中心内找到适合的反馈途径，并反馈至开发组</value>
