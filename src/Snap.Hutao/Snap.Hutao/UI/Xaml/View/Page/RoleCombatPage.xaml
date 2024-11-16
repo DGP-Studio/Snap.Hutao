@@ -519,17 +519,16 @@
                                                         </StackPanel>
                                                     </Border>
 
-                                                    <ScrollViewer CanContentRenderOutsideBounds="True">
-                                                        <ItemsRepeater ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
-                                                            <ItemsRepeater.Layout>
-                                                                <shuxcl:UniformStaggeredLayout
-                                                                    MinColumnSpacing="8"
+                                                    <ItemsControl ItemTemplate="{StaticResource RoundTemplate}" ItemsSource="{Binding Rounds}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <shuxcp:UniformStaggeredPanel
+                                                                    ColumnSpacing="8"
                                                                     MinItemWidth="560"
-                                                                    MinRowSpacing="8"/>
-                                                            </ItemsRepeater.Layout>
-                                                        </ItemsRepeater>
-                                                    </ScrollViewer>
-
+                                                                    RowSpacing="8"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                    </ItemsControl>
                                                 </StackPanel>
                                             </shuxc:StandardView>
                                         </Border>
