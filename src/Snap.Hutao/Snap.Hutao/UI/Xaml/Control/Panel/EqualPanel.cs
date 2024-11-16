@@ -24,32 +24,35 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
         maxItemWidth = 0;
         maxItemHeight = 0;
 
-        List<UIElement> elements = [.. Children.Where(element => element.Visibility == Visibility.Visible)];
+        List<UIElement> elements = Children.Where(element => element.Visibility is Visibility.Visible).ToList();
         visibleItemsCount = elements.Count;
 
+        if (visibleItemsCount <= 0)
+        {
+            return default;
+        }
+
+        if (HorizontalAlignment is not HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
+        {
+            foreach (ref readonly UIElement child in CollectionsMarshal.AsSpan(elements))
+            {
+                child.Measure(availableSize);
+                maxItemWidth = Math.Max(maxItemWidth, child.DesiredSize.Width);
+                maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
+            }
+
+            return new((maxItemWidth * visibleItemsCount) + (Spacing * (visibleItemsCount - 1)), maxItemHeight);
+        }
+
+        double totalWidth = availableSize.Width - (Spacing * (visibleItemsCount - 1));
+        maxItemWidth = totalWidth / visibleItemsCount;
         foreach (ref readonly UIElement child in CollectionsMarshal.AsSpan(elements))
         {
-            child.Measure(availableSize);
-            maxItemWidth = Math.Max(maxItemWidth, child.DesiredSize.Width);
+            child.Measure(new(maxItemWidth, availableSize.Height));
             maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
         }
 
-        if (visibleItemsCount > 0)
-        {
-            // Return equal widths based on the widest item
-            // In very specific edge cases the AvailableWidth might be infinite resulting in a crash.
-            if (HorizontalAlignment is not HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
-            {
-                return new((maxItemWidth * visibleItemsCount) + (Spacing * (visibleItemsCount - 1)), maxItemHeight);
-            }
-
-            // Equal columns based on the available width, adjust for spacing
-            double totalWidth = availableSize.Width - (Spacing * (visibleItemsCount - 1));
-            maxItemWidth = totalWidth / visibleItemsCount;
-            return new(availableSize.Width, maxItemHeight);
-        }
-
-        return new(0, 0);
+        return new(availableSize.Width, maxItemHeight);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
@@ -62,7 +65,7 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
             maxItemWidth = (finalSize.Width - (Spacing * (visibleItemsCount - 1))) / visibleItemsCount;
         }
 
-        foreach (UIElement child in Children.Where(e => e.Visibility == Visibility.Visible))
+        foreach (UIElement child in Children.Where(e => e.Visibility is Visibility.Visible))
         {
             child.Arrange(new Rect(x, 0, maxItemWidth, maxItemHeight));
             x += maxItemWidth + Spacing;
