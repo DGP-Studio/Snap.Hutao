@@ -131,7 +131,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
                 {
                     if (frame is { Content: ScopedPage scopedPage })
                     {
-                        await scopedPage.NotifyRecipientAsync((INavigationExraData)data).ConfigureAwait(false);
+                        await scopedPage.NotifyRecipientAsync((INavigationExtraData)data).ConfigureAwait(false);
                     }
                 }
 

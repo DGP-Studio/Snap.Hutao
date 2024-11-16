@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Navigation;
 
 internal interface INavigationRecipient
 {
-    ValueTask<bool> ReceiveAsync(INavigationExraData data);
+    ValueTask<bool> ReceiveAsync(INavigationExtraData data);
 }

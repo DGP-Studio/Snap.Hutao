@@ -49,7 +49,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         gachaLogBorder = accessor.GachaLogBorder;
     }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationExraData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {

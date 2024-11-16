@@ -149,7 +149,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    public async ValueTask<bool> ReceiveAsync(INavigationExraData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
         {

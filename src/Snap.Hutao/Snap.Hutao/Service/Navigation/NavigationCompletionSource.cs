@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Navigation;
 
-internal class NavigationCompletionSource : INavigationExraData, INavigationCompletionSource
+internal class NavigationCompletionSource : INavigationExtraData, INavigationCompletionSource
 {
     private readonly TaskCompletionSource navigationCompletedTaskCompletionSource = new();
 
