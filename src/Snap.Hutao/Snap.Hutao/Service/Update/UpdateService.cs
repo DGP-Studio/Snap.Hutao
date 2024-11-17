@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
@@ -45,6 +46,19 @@ internal sealed partial class UpdateService : IUpdateService
 
             checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
             checkUpdateResult.PackageInformation = packageInformation;
+
+            HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
+            if (await hutaoUserOptions.GetIsCloudServiceAllowedAsync().ConfigureAwait(false))
+            {
+                // Homa returns a HutaoPackageMirror object or sign query, and add it to the mirror list
+                HutaoPackageMirror cdnMirror = new()
+                {
+                    MirrorName = "腾讯云 CDN （胡桃云专属）",
+                    MirrorType = HutaoPackageMirrorType.Direct,
+                };
+
+                // checkUpdateResult.PackageInformation.Mirrors.Add(cdnMirror);
+            }
 
             string msixPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
 
