@@ -149,7 +149,6 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                     .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>()
                     .ConfigureAwait(false);
 
-                await taskContext.SwitchToMainThreadAsync();
                 ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
 
                 switch (result)
