@@ -1846,7 +1846,7 @@
     <value>前回 UP 時間: {0:yyyy.MM.dd}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
-    <value>前回 UP から {0} 日が経ちました</value>
+    <value>前回 UP から {0} 日が経った</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
     <value>後半</value>
