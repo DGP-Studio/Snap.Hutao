@@ -37,7 +37,7 @@ internal sealed class LevelInformation
             levelInformation.AvatarLevelTo = delta.AvatarLevelTarget;
         }
 
-        if (delta.SkillList is [{ } skillA, { } skillE, { } skillQ, ..])
+        if (!delta.SkillList.IsDefaultOrEmpty && delta.SkillList is [{ } skillA, { } skillE, { } skillQ, ..])
         {
             levelInformation.SkillALevelFrom = skillA.LevelCurrent;
             levelInformation.SkillALevelTo = skillA.LevelTarget;
