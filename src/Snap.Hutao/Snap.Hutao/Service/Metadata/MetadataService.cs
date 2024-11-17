@@ -86,8 +86,16 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
         using (Stream fileStream = File.OpenRead(path))
         {
-            ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
-            return memoryCache.Set(cacheKey, result);
+            try
+            {
+                ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
+                return memoryCache.Set(cacheKey, result);
+            }
+            catch (Exception ex)
+            {
+                ex.Data.Add("FileName", strategy.Name);
+                throw;
+            }
         }
     }
 
@@ -106,9 +114,17 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         {
             using (Stream fileStream = File.OpenRead(file))
             {
-                T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
-                ArgumentNullException.ThrowIfNull(result);
-                results.Add(result);
+                try
+                {
+                    T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
+                    ArgumentNullException.ThrowIfNull(result);
+                    results.Add(result);
+                }
+                catch (Exception ex)
+                {
+                    ex.Data.Add("FileName", $"{strategy.Name}/{Path.GetFileNameWithoutExtension(file)}");
+                    throw;
+                }
             }
         }
 

@@ -145,12 +145,15 @@
         </DataTemplate>
 
         <DataTemplate x:Key="WeaponGridTemplate">
-            <shuxcc:VerticalCard>
+            <shuxcc:VerticalCard Width="82">
                 <shuxcc:VerticalCard.Top>
                     <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
                 </shuxcc:VerticalCard.Top>
                 <shuxcc:VerticalCard.Bottom>
-                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock
+                        Margin="2,0"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"/>
                 </shuxcc:VerticalCard.Bottom>
             </shuxcc:VerticalCard>
         </DataTemplate>
@@ -393,7 +396,6 @@
                                         Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                 </StackPanel>
                                 <GridView
-                                    Padding="16,16,4,4"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
                                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
