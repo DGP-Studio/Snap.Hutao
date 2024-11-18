@@ -851,7 +851,7 @@
     <value>應用通知傳送失敗</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>開始遊戲</value>
+    <value>啟動遊戲</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>我知道了</value>
@@ -2061,7 +2061,7 @@
     <value>匯入失敗</value>
   </data>
   <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
-    <value>导入中</value>
+    <value>匯入中</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>匯入的 UIGF 檔案中不包含祈願數據</value>
@@ -2326,6 +2326,9 @@
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>免打擾模式</value>
+  </data>
+  <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
+    <value>啟動遊戲</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
     <value>長效歷練點</value>
