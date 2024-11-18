@@ -16,7 +16,6 @@ internal sealed class RoundView
         FinishTimeString = $"{FinishTime:yyyy.MM.dd HH:mm:ss}";
         Enemies = data.Enemies.Select(EnemyView.From).ToList();
         Avatars = data.Avatars.Select(avatar => AvatarView.From(avatar, context.IdAvatarMap[avatar.AvatarId])).ToList();
-        Buffs = data.Buffs.Select(BuffView.From).ToList();
         ChoiceCards = data.ChoiceCards.Select(BuffView.From).ToList();
         SplendourSummary = data.SplendourBuff.Summary.Description;
         SplendourBuffs = data.SplendourBuff.Buffs.Select(SplendourBuffView.From).ToList();
@@ -31,8 +30,6 @@ internal sealed class RoundView
     public List<EnemyView> Enemies { get; set; }
 
     public List<AvatarView> Avatars { get; set; }
-
-    public List<BuffView> Buffs { get; set; }
 
     public List<BuffView> ChoiceCards { get; set; }
 
