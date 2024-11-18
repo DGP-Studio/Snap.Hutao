@@ -851,7 +851,7 @@
     <value>应用通知发送失败</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>开始游戏</value>
+    <value>启动游戏</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>我知道了</value>
