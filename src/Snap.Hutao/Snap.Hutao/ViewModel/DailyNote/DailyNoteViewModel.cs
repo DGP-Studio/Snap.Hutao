@@ -10,10 +10,13 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
+using Snap.Hutao.ViewModel.Game;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
@@ -23,6 +26,7 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly INavigationService navigationService;
     private readonly IDailyNoteService dailyNoteService;
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly IMetadataService metadataService;
@@ -89,6 +93,18 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private async Task RefreshAsync()
     {
         await dailyNoteService.RefreshDailyNotesAsync().ConfigureAwait(false);
+    }
+
+    [Command("StartGameFromDailyNoteCommand")]
+    private async Task StartGameFromDailyNoteAsync(DailyNoteEntry? entry)
+    {
+        if (entry is not null)
+        {
+            INavigationCompletionSource navigationAwaiter = new LaunchGameWithUidData(entry.Uid);
+            await navigationService
+                .NavigateAsync<LaunchGamePage>(navigationAwaiter, true)
+                .ConfigureAwait(false);
+        }
     }
 
     [Command("RemoveDailyNoteCommand")]
