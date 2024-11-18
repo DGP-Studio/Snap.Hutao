@@ -48,6 +48,8 @@ internal sealed class Gen2GcCallback : CriticalFinalizerObject
                     return;
                 }
             }
+
+            // ReSharper disable once RedundantCatchClause
             catch
             {
                 // Ensure that we still get a chance to resurrect this object, even if the callback throws an exception.
@@ -69,6 +71,8 @@ internal sealed class Gen2GcCallback : CriticalFinalizerObject
                     return;
                 }
             }
+
+            // ReSharper disable once RedundantCatchClause
             catch
             {
                 // Ensure that we still get a chance to resurrect this object, even if the callback throws an exception.

@@ -21,8 +21,8 @@ internal sealed class BattleView
         };
         MonsterWaves = battleIndex switch
         {
-            1U => towerLevel.FirstWaves.SelectArray(w => BattleWave.From(w, context)),
-            2U => towerLevel.SecondWaves.SelectArray(w => BattleWave.From(w, context)),
+            1U => towerLevel.FirstWaves.SelectAsArray(w => BattleWave.From(w, context)),
+            2U => towerLevel.SecondWaves.SelectAsArray(w => BattleWave.From(w, context)),
             _ => default!,
         };
     }

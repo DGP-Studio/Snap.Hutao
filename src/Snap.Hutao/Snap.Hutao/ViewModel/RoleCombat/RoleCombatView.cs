@@ -53,8 +53,8 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         TimeFormatted = $"{roleCombatSchedule.Begin:yyyy.MM.dd HH:mm} - {roleCombatSchedule.End:yyyy.MM.dd HH:mm}";
 
         Elements = roleCombatSchedule.Elements;
-        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectArray(id => AvatarView.From(context.IdAvatarMap[id]));
-        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectArray(id => AvatarView.From(context.IdAvatarMap[id]));
+        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectAsArray(id => AvatarView.From(context.IdAvatarMap[id]));
+        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectAsArray(id => AvatarView.From(context.IdAvatarMap[id]));
     }
 
     public uint ScheduleId { get; }

@@ -20,7 +20,7 @@ internal sealed partial class UIGFImportDialog : ContentDialog
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
         UIGF = uigf;
-        Selections = uigf.Hk4e.SelectArray(item => new UIGFUidSelection(item.Uid));
+        Selections = uigf.Hk4e.SelectAsArray(item => new UIGFUidSelection(item.Uid));
     }
 
     public async ValueTask<ValueResult<bool, HashSet<uint>>> GetSelectedUidsAsync()

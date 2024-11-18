@@ -27,6 +27,8 @@ internal sealed class MemoryStreamFactory : IMemoryStreamFactory
 #if DEBUG
         manager.StreamDoubleDisposed += (s, e) =>
         {
+            _ = s;
+            _ = e;
             Debugger.Break();
         };
 #endif

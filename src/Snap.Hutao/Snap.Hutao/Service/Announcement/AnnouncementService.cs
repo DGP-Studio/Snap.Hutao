@@ -109,6 +109,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         }
         catch
         {
+            // ignored
         }
 
         return wrapper;

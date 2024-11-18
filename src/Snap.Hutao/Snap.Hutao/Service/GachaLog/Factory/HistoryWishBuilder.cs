@@ -28,12 +28,12 @@ internal sealed class HistoryWishBuilder
         switch (ConfigType)
         {
             case GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar:
-                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemConvertible)a, a => 0);
-                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemConvertible)a, a => 0);
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(IStatisticsItemConvertible (a) => a, a => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(IStatisticsItemConvertible (a) => a, a => 0);
                 break;
             case GachaType.ActivityWeapon:
-                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemConvertible)w, w => 0);
-                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemConvertible)w, w => 0);
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(IStatisticsItemConvertible (w) => w, w => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(IStatisticsItemConvertible (w) => w, w => 0);
                 break;
             case GachaType.ActivityCity:
 

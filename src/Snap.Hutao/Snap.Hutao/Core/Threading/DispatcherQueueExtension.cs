@@ -31,6 +31,7 @@ internal static class DispatcherQueueExtension
                 }
                 finally
                 {
+                    // ReSharper disable once AccessToDisposedClosure
                     blockEvent.Set();
                 }
             });
@@ -64,6 +65,7 @@ internal static class DispatcherQueueExtension
                 }
                 finally
                 {
+                    // ReSharper disable once AccessToDisposedClosure
                     blockEvent.Set();
                 }
             });

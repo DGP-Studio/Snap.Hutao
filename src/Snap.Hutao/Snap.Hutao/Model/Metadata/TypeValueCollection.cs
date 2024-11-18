@@ -48,7 +48,7 @@ file sealed class ConverterFactory : JsonConverterFactory
 file sealed class Converter<TType, TValue> : JsonConverter<TypeValueCollection<TType, TValue>>
     where TType : notnull
 {
-    public override TypeValueCollection<TType, TValue>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override TypeValueCollection<TType, TValue> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return new(JsonSerializer.Deserialize<ImmutableArray<TypeValue<TType, TValue>>>(ref reader, options));
     }

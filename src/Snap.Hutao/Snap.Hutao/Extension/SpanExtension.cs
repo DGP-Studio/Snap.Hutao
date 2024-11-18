@@ -58,6 +58,7 @@ internal static class SpanExtension
             count++;
         }
 
+        // ReSharper disable once IntDivisionByZero
         return unchecked((byte)(sum / count));
     }
 }

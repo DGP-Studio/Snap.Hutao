@@ -85,11 +85,11 @@ internal static class LoggerExtension
     [SuppressMessage("", "CA2254")]
     public static void LogColorized(this ILogger logger, LogLevel logLevel, EventId eventId, Exception? exception, LogMessage message, params LogArgument[] args)
     {
-        string? colorizedMessage = Colorize(message, args, out object?[] outArgs);
+        string colorizedMessage = Colorize(message, args, out object?[] outArgs);
         logger.Log(logLevel, eventId, exception, colorizedMessage, outArgs);
     }
 
-    private static string? Colorize(LogMessage message, LogArgument[] args, out object?[] outArgs)
+    private static string Colorize(LogMessage message, LogArgument[] args, out object?[] outArgs)
     {
         StringBuilder resultMessageBuilder = new(message.Message.Length);
         ReadOnlySpan<char> messageSpan = message.Message.AsSpan();
