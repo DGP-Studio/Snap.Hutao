@@ -225,9 +225,6 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Import</value>
   </data>
-  <data name="ViewModelRoleCombatRound" xml:space="preserve">
-    <value>第 {0} 幕</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Welcome to Snap Hutao, Traveler ~</value>
   </data>
@@ -2006,6 +2003,9 @@
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>已抵达{0}</value>
   </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>第 {0} 幕</value>
+  </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operation completed</value>
   </data>
@@ -2059,6 +2059,9 @@
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>Import failed</value>
+  </data>
+  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
+    <value>导入中</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>The imported UIGF file does not contain wish data</value>
