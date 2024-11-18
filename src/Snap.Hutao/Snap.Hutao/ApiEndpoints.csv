@@ -44,8 +44,8 @@ GameRecordDailyNotePath(),https://api-takumi-record.mihoyo.com/game_record/app/g
 GameRecordIndex(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()}
 GameRecordIndexPath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index,
 GameRecordRoleBasicInfo(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/roleBasicInfo?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/roleBasicInfo?{uid.ToRoleIdServerQueryString()}
-GameRecordRoleCombat(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat?{uid.ToRoleIdServerQueryString()}&need_detail=true&active=1,
-GameRecordRoleCombatPath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat,
+GameRecordRoleCombat(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat?{uid.ToRoleIdServerQueryString()}&need_detail=true&active=1,https://sg-public-api.hoyolab.com/event/game_record/genshin/api/role_combat?{uid.ToRoleIdServerQueryString()}&need_detail=true&active=1
+GameRecordRoleCombatPath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat,https://sg-public-api.hoyolab.com/event/game_record/genshin/api/role_combat
 "GameRecordSpiralAbyss(Web.Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, Web.Hoyolab.PlayerUid uid)",https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/spiralAbyss?schedule_type={(int)scheduleType}&{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/spiralAbyss?{uid.ToRoleIdServerQueryString()}&schedule_type={(int)scheduleType}
 GameRecordSpiralAbyssPath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/spiralAbyss,
 HomeNew(int gid),https://bbs-api.miyoushe.com/apihub/api/home/new?gids={gid},

@@ -105,8 +105,19 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        return ValueTask.FromException<Response<RoleCombat.RoleCombat>>(new NotSupportedException());
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordRoleCombat(userAndUid.Uid))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
+
+        Response<RoleCombat.RoleCombat>? resp = await builder
+            .SendAsync<Response<RoleCombat.RoleCombat>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
     }
 }
