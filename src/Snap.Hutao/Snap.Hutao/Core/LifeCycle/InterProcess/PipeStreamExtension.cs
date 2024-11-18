@@ -16,8 +16,8 @@ internal static class PipeStreamExtension
         {
             Span<byte> content = memoryOwner.Memory.Span[..header.ContentLength];
             stream.ReadExactly(content);
-
             HutaoException.ThrowIf(XxHash64.HashToUInt64(content) != header.Checksum, "PipePacket Content Hash incorrect");
+
             return JsonSerializer.Deserialize<TData>(content);
         }
     }
@@ -53,7 +53,7 @@ internal static class PipeStreamExtension
         stream.WritePacket(ref header, JsonSerializer.SerializeToUtf8Bytes(data));
     }
 
-    public static void WritePacket(this PipeStream stream, ref PipePacketHeader header, byte[] content)
+    public static void WritePacket(this PipeStream stream, ref PipePacketHeader header, ReadOnlySpan<byte> content)
     {
         header.ContentLength = content.Length;
         header.Checksum = XxHash64.HashToUInt64(content);
