@@ -851,7 +851,7 @@
     <value>アプリ通知の送信に失敗しました</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>ゲーム開始</value>
+    <value>ゲームを起動する</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>了解</value>
@@ -2327,6 +2327,9 @@
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>集中モード</value>
+  </data>
+  <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
+    <value>ゲームを起動する</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
     <value>長期修練ポイント</value>
