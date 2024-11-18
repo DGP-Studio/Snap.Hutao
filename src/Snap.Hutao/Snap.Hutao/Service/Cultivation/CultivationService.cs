@@ -234,7 +234,15 @@ internal sealed partial class CultivationService : ICultivationService
         if (Projects.CurrentItem is null)
         {
             await taskContext.SwitchToMainThreadAsync();
-            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            try
+            {
+                Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            }
+            catch(InvalidOperationException)
+            {
+                // Sequence contains more than one matching element
+            }
+
             if (Projects.CurrentItem is null)
             {
                 return false;
