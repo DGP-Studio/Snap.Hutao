@@ -383,7 +383,7 @@
                 <cwc:Case Value="Grid">
                     <Border Margin="16,0,16,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                         <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                            <Grid Padding="16,16,4,4">
+                            <Grid Padding="16,16,4,-6">
                                 <StackPanel VerticalAlignment="Center" Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                                     <shuxci:CachedImage
                                         Height="120"
