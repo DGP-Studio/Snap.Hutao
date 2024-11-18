@@ -136,7 +136,17 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)chunk.ChunkSizeDecompressed))
                 {
                     Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
-                    await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
+                    try
+                    {
+                        await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
+                    }
+                    catch (IOException)
+                    {
+                        conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
+                        context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));
+                        return;
+                    }
+
                     if (!chunk.ChunkDecompressedHashMd5.Equals(Hash.ToHexString(HashAlgorithmName.MD5, buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
                         conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
