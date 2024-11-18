@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.Core;
 
@@ -36,6 +37,8 @@ internal static class HutaoRuntime
     public static bool IsAppNotificationEnabled { get; } = AppNotificationManager.Default.Setting is AppNotificationSetting.Enabled;
 
     public static DateTimeOffset LaunchTime { get; } = DateTimeOffset.UtcNow;
+
+    public static string NotifyIconRegistryKey { get; } = InitializeNotifyIconRegistryKey();
 
     public static string GetDataFolderFile(string fileName)
     {
@@ -126,5 +129,35 @@ internal static class HutaoRuntime
             WindowsPrincipal principal = new(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
+    }
+
+    private static string InitializeNotifyIconRegistryKey()
+    {
+        if (!UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
+        {
+            return string.Empty;
+        }
+
+        using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Control Panel\NotifyIconSettings"))
+        {
+            ArgumentNullException.ThrowIfNull(key);
+            foreach (ref readonly string subKeyName in key.GetSubKeyNames().AsSpan())
+            {
+                using (RegistryKey? subKey = key.OpenSubKey(subKeyName))
+                {
+                    if (subKey?.GetValue("ExecutablePath") is not string executablePath)
+                    {
+                        continue;
+                    }
+
+                    if (executablePath.Equals(InstalledLocation.GetAbsolutePath("Snap.Hutao.exe"), StringComparison.OrdinalIgnoreCase))
+                    {
+                        return $@"HKEY_CURRENT_USER\Control Panel\NotifyIconSettings\{subKeyName}";
+                    }
+                }
+            }
+        }
+
+        throw HutaoException.NotSupported();
     }
 }

@@ -26,6 +26,7 @@ using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
+using Microsoft.Win32;
 using static Snap.Hutao.Win32.DwmApi;
 using static Snap.Hutao.Win32.User32;
 
@@ -164,6 +165,12 @@ internal sealed class XamlWindowController
         }
         catch (COMException)
         {
+        }
+
+        // Actual version should be above 24H2 (26100), which is 26120 without UniversalApiContract.
+        if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
+        {
+            return Registry.GetValue(HutaoRuntime.NotifyIconRegistryKey, "IsPromoted", 0) is 1;
         }
 
         if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11))
