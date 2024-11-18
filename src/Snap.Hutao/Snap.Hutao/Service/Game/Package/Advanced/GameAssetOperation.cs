@@ -38,27 +38,35 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         if (context.Operation.GameChannelSDK is not null)
         {
-            try
+            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, context.Operation.GameChannelSDK.PackageVersionFileName);
+            if (!File.Exists(sdkPackageVersionFilePath))
             {
-                using (StreamReader reader = File.OpenText(Path.Combine(context.Operation.GameFileSystem.GameDirectory, context.Operation.GameChannelSDK.PackageVersionFileName)))
+                channelSdkConflicted = true;
+            }
+            else
+            {
+                try
                 {
-                    while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { Length: > 0 } row)
+                    using (StreamReader reader = File.OpenText(sdkPackageVersionFilePath))
                     {
-                        VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonOptions);
-                        ArgumentNullException.ThrowIfNull(item);
-
-                        string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, item.RelativePath);
-                        if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                        while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { Length: > 0 } row)
                         {
-                            channelSdkConflicted = true;
-                            break;
+                            VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonOptions);
+                            ArgumentNullException.ThrowIfNull(item);
+
+                            string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, item.RelativePath);
+                            if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                            {
+                                channelSdkConflicted = true;
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            catch (JsonException)
-            {
-                channelSdkConflicted = true;
+                catch (JsonException)
+                {
+                    channelSdkConflicted = true;
+                }
             }
         }
 
