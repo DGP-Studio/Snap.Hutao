@@ -238,7 +238,7 @@ internal sealed partial class CultivationService : ICultivationService
             {
                 Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 // Sequence contains more than one matching element
             }
