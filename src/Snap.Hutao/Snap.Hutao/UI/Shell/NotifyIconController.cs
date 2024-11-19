@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Win32;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
@@ -19,6 +20,7 @@ internal sealed partial class NotifyIconController : IDisposable
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly NotifyIconMessageWindow messageWindow;
     private readonly System.Drawing.Icon icon;
+    private readonly string registryKey;
     private readonly Guid id;
 
     public NotifyIconController(IServiceProvider serviceProvider)
@@ -41,6 +43,8 @@ internal sealed partial class NotifyIconController : IDisposable
         };
 
         CreateNotifyIcon();
+
+        registryKey = InitializeNotifyIconRegistryKey();
     }
 
     public void Dispose()
@@ -53,6 +57,41 @@ internal sealed partial class NotifyIconController : IDisposable
     public RECT GetRect()
     {
         return NotifyIconMethods.GetRect(id, messageWindow.HWND);
+    }
+
+    public bool GetIsPromoted()
+    {
+        return Registry.GetValue(registryKey, "IsPromoted", 0) is 1;
+    }
+
+    private static string InitializeNotifyIconRegistryKey()
+    {
+        if (!UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
+        {
+            return string.Empty;
+        }
+
+        using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Control Panel\NotifyIconSettings"))
+        {
+            ArgumentNullException.ThrowIfNull(key);
+            foreach (ref readonly string subKeyName in key.GetSubKeyNames().AsSpan())
+            {
+                using (RegistryKey? subKey = key.OpenSubKey(subKeyName))
+                {
+                    if (subKey?.GetValue("ExecutablePath") is not string executablePath)
+                    {
+                        continue;
+                    }
+
+                    if (executablePath.Equals(InstalledLocation.GetAbsolutePath("Snap.Hutao.exe"), StringComparison.OrdinalIgnoreCase))
+                    {
+                        return $@"HKEY_CURRENT_USER\Control Panel\NotifyIconSettings\{subKeyName}";
+                    }
+                }
+            }
+        }
+
+        throw HutaoException.NotSupported();
     }
 
     private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)
