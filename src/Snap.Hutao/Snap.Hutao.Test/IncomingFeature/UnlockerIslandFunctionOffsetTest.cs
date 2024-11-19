@@ -21,38 +21,35 @@ public class UnlockerIslandFunctionOffsetTest
         // FunctionOffsetMickeyWonderMethodPartner2:
         // "4C 8B 05 ?? ?? ?? ?? 4C 89 F1 48 89 FA E8 ?? ?? ?? ?? 90 48 83 C4 28 5B 5F 5E 41 5E C3"
         // FunctionOffsetSetFieldOfView:
-        // public void set_fieldOfView(float value) -> jmp xxxxxxxx
+        // Camera: public void set_fieldOfView(float value) -> jmp xxxxxxxx
         // FunctionOffsetSetTargetFrameRate:
         // public static void set_targetFrameRate(int value) -> jmp xxxxxxxxx (to the end)
         // FunctionOffsetSetEnableFogRendering:
         // public static void set_enableFogRendering(bool value) -> jmp xxxxxxxxx (to the end)
-        // FunctionOffsetOpenTeam:
-        // public static void AJODMEAHOGI()
-        // FunctionOffsetOpenTeamPageAccordingly:
-        // public static void OEEFGJDOCJJ(bool KCBOKOCOGEI = true)
+        // FunctionOffsetOpenTeam: FunctionOffsetOpenTeamPageAccordingly: GOD HELP US
         UnlockerIslandConfigurationWrapper wrapper = new()
         {
             Chinese = new()
             {
-                FunctionOffsetMickeyWonderMethod = 0x099D1D80,
-                FunctionOffsetMickeyWonderMethodPartner = 0x0092D5F0,
-                FunctionOffsetMickeyWonderMethodPartner2 = 0x054AEF80,
-                FunctionOffsetSetFieldOfView = 0x01136D30,
-                FunctionOffsetSetTargetFrameRate = 0x0131E600,
-                FunctionOffsetSetEnableFogRendering = 0x015DC790,
-                FunctionOffsetOpenTeam = 0x07806530,
-                FunctionOffsetOpenTeamPageAccordingly = 0x0781D3F0,
+                MickeyWonderMethod = 0x08474680,
+                MickeyWonderMethodPartner = 0x00950C30,
+                MickeyWonderMethodPartner2 = 0x0588D680,
+                SetFieldOfView = 0x013F38A0,
+                SetTargetFrameRate = 0x015DB980,
+                SetEnableFogRendering = 0x0136FB00,
+                OpenTeam = 0x08699B90,
+                OpenTeamPageAccordingly = 0x08695AE0,
             },
             Oversea = new()
             {
-                FunctionOffsetMickeyWonderMethod = 0x09B37E60,
-                FunctionOffsetMickeyWonderMethodPartner = 0x0092D7D0,
-                FunctionOffsetMickeyWonderMethodPartner2 = 0x054AEE50,
-                FunctionOffsetSetFieldOfView = 0x01136F30,
-                FunctionOffsetSetTargetFrameRate = 0x0131E800,
-                FunctionOffsetSetEnableFogRendering = 0x015DC990,
-                FunctionOffsetOpenTeam = 0x0777E4F0,
-                FunctionOffsetOpenTeamPageAccordingly = 0x07779870,
+                MickeyWonderMethod = 0x0E6625F0,
+                MickeyWonderMethodPartner = 0x00955AB0,
+                MickeyWonderMethodPartner2 = 0x05892DE0,
+                SetFieldOfView = 0x013F87C0,
+                SetTargetFrameRate = 0x015E08A0,
+                SetEnableFogRendering = 0x013FBA20,
+                OpenTeam = 0x086A32A0,
+                OpenTeamPageAccordingly = 0x086A4C60,
             },
         };
 
@@ -61,27 +58,27 @@ public class UnlockerIslandFunctionOffsetTest
 
     private sealed class UnlockerIslandConfigurationWrapper
     {
-        public required UnlockerIslandConfiguration Chinese { get; set; }
+        public required UnlockerIslandFunctionOffset Chinese { get; set; }
 
-        public required UnlockerIslandConfiguration Oversea { get; set; }
+        public required UnlockerIslandFunctionOffset Oversea { get; set; }
     }
 
-    private sealed class UnlockerIslandConfiguration
+    private sealed class UnlockerIslandFunctionOffset
     {
-        public required uint FunctionOffsetMickeyWonderMethod { get; set; }
+        public required uint MickeyWonderMethod { get; set; }
 
-        public required uint FunctionOffsetMickeyWonderMethodPartner { get; set; }
+        public required uint MickeyWonderMethodPartner { get; set; }
 
-        public required uint FunctionOffsetMickeyWonderMethodPartner2 { get; set; }
+        public required uint MickeyWonderMethodPartner2 { get; set; }
 
-        public required uint FunctionOffsetSetFieldOfView { get; set; }
+        public required uint SetFieldOfView { get; set; }
 
-        public required uint FunctionOffsetSetTargetFrameRate { get; set; }
+        public required uint SetTargetFrameRate { get; set; }
 
-        public required uint FunctionOffsetSetEnableFogRendering { get; set; }
+        public required uint SetEnableFogRendering { get; set; }
 
-        public required uint FunctionOffsetOpenTeam { get; set; }
+        public required uint OpenTeam { get; set; }
 
-        public required uint FunctionOffsetOpenTeamPageAccordingly { get; set; }
+        public required uint OpenTeamPageAccordingly { get; set; }
     }
 }

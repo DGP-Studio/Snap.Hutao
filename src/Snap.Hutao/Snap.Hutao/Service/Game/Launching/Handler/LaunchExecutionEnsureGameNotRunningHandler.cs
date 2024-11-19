@@ -19,17 +19,18 @@ internal sealed class LaunchExecutionEnsureGameNotRunningHandler : ILaunchExecut
         // GetProcesses once and manually loop is O(n)
         foreach (ref readonly Process process in Process.GetProcesses().AsSpan())
         {
-            if (string.Equals(process.ProcessName, GameConstants.YuanShenProcessName, StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(process.ProcessName, GameConstants.GenshinImpactProcessName, StringComparison.OrdinalIgnoreCase))
+            if (!process.ProcessName.EqualsAny([GameConstants.YuanShenProcessName, GameConstants.GenshinImpactProcessName], StringComparison.OrdinalIgnoreCase))
             {
-                if (process.SessionId != currentSessionId)
-                {
-                    continue;
-                }
-
-                runningProcess = process;
-                return true;
+                continue;
             }
+
+            if (process.SessionId != currentSessionId)
+            {
+                continue;
+            }
+
+            runningProcess = process;
+            return true;
         }
 
         runningProcess = default;

@@ -9,7 +9,7 @@ internal readonly struct GameScreenCaptureContextCreationResult
 {
     public readonly GameScreenCaptureContextCreationResultKind Kind;
     public readonly HRESULT HResult;
-    public readonly GameScreenCaptureContext Context;
+    public readonly GameScreenCaptureContext? Context;
 
     public GameScreenCaptureContextCreationResult(GameScreenCaptureContextCreationResultKind kind, HRESULT hResult)
     {

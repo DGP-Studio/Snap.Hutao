@@ -7,6 +7,7 @@ internal sealed class LaunchExecutionEnsureSchemeHandler : ILaunchExecutionDeleg
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (context.TargetScheme is null)
         {
             context.Result.Kind = LaunchExecutionResultKind.NoActiveScheme;

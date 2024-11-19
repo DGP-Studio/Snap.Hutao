@@ -24,7 +24,7 @@ internal sealed partial class FeatureService : IFeatureService
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
             {
-                string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_{tag}");
+                string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact_{tag}");
                 return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
             }
         }
