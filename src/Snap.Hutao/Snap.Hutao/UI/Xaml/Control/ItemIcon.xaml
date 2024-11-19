@@ -8,6 +8,31 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image">
 
     <shmmc:QualityConverter x:Key="QualityConverter"/>
+    <shmmc:QualityToImageSourceConverter x:Key="QualityToImageSourceConverter">
+        <shmmc:QualityToImageSourceConverter.RedSource>
+            <BitmapImage UriSource="ms-appx:///Resource/ItemIcon/UI_QUALITY_RED.png"/>
+        </shmmc:QualityToImageSourceConverter.RedSource>
+        <shmmc:QualityToImageSourceConverter.OrangeSource>
+            <BitmapImage UriSource="ms-appx:///Resource/ItemIcon/UI_QUALITY_ORANGE.png"/>
+        </shmmc:QualityToImageSourceConverter.OrangeSource>
+        <shmmc:QualityToImageSourceConverter.PurpleSource>
+            <BitmapImage UriSource="ms-appx:///Resource/ItemIcon/UI_QUALITY_PURPLE.png"/>
+        </shmmc:QualityToImageSourceConverter.PurpleSource>
+        <shmmc:QualityToImageSourceConverter.BlueSource>
+            <BitmapImage UriSource="ms-appx:///Resource/ItemIcon/UI_QUALITY_BLUE.png"/>
+        </shmmc:QualityToImageSourceConverter.BlueSource>
+        <shmmc:QualityToImageSourceConverter.GreenSource>
+            <BitmapImage UriSource="ms-appx:///Resource/ItemIcon/UI_QUALITY_GREEN.png"/>
+        </shmmc:QualityToImageSourceConverter.GreenSource>
+        <shmmc:QualityToImageSourceConverter.WhiteSource>
+            <BitmapImage UriSource="ms-appx:///Resource/ItemIcon/UI_QUALITY_WHITE.png"/>
+        </shmmc:QualityToImageSourceConverter.WhiteSource>
+        <shmmc:QualityToImageSourceConverter.NoneSource>
+            <BitmapImage UriSource="ms-appx:///Resource/ItemIcon/UI_QUALITY_NONE.png"/>
+        </shmmc:QualityToImageSourceConverter.NoneSource>
+    </shmmc:QualityToImageSourceConverter>
+
+    <BitmapImage x:Key="Source_UI_ImgSign_ItemIcon" UriSource="ms-appx:///Resource/ItemIcon/UI_ImgSign_ItemIcon.png"/>
 
     <Style BasedOn="{StaticResource DefaultItemIconStyle}" TargetType="shuxc:ItemIcon"/>
 
@@ -17,8 +42,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="shuxc:ItemIcon">
                     <Grid CornerRadius="{StaticResource ControlCornerRadius}">
-                        <shuxci:CachedImage cw:FrameworkElementExtensions.AncestorType="shuxc:ItemIcon" Source="{Binding (cw:FrameworkElementExtensions.Ancestor).Quality, RelativeSource={RelativeSource Self}, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
-                        <shuxci:CachedImage Source="{StaticResource UI_ImgSign_ItemIcon}"/>
+                        <Image cw:FrameworkElementExtensions.AncestorType="shuxc:ItemIcon" Source="{Binding (cw:FrameworkElementExtensions.Ancestor).Quality, RelativeSource={RelativeSource Self}, Converter={StaticResource QualityToImageSourceConverter}, Mode=OneWay}"/>
+                        <Image Source="{StaticResource Source_UI_ImgSign_ItemIcon}"/>
                         <shuxci:CachedImage Opacity="{TemplateBinding IconOpacity}" Source="{TemplateBinding Icon}"/>
                         <shuxci:CachedImage
                             Margin="2"
