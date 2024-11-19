@@ -851,7 +851,7 @@
     <value>アプリ通知の送信に失敗しました</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>ゲームを起動する</value>
+    <value>ゲーム起動</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>了解</value>
@@ -2062,7 +2062,7 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
-    <value>导入中</value>
+    <value>インポート中</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>インポートされた UIGFファイルには、祈願データが含まれていません。</value>
@@ -2329,7 +2329,7 @@
     <value>集中モード</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
-    <value>ゲームを起動する</value>
+    <value>ゲームを起動するぞ！</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
     <value>長期修練ポイント</value>
