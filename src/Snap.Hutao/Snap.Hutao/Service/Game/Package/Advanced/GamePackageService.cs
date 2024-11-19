@@ -28,6 +28,7 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IGamePackageService))]
 [SuppressMessage("", "CA1001")]
+[SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1204")]
 internal sealed partial class GamePackageService : IGamePackageService
 {
@@ -462,7 +463,10 @@ internal sealed partial class GamePackageService : IGamePackageService
     #region Dev Only
 
     [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
-    private static partial Regex AssetBundlesBlock();
+    private static partial Regex AssetBundlesBlockRegex { get; }
+
+    [GeneratedRegex(@"^(Yuanshen|GenshinImpact)\.exe$", RegexOptions.IgnoreCase)]
+    private static partial Regex GameExecutableFileRegex { get; }
 
     private async ValueTask ExtractAsync(GamePackageServiceContext context)
     {
@@ -519,13 +523,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             SophonDecodedManifest manifest = decodedBuild.Manifests.First();
             SophonManifestProto proto = new();
-            proto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => AssetBundlesBlock().IsMatch(asset.AssetName)));
+            proto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
             return new(decodedBuild.TotalBytes, [new(manifest.UrlPrefix, proto)]);
         }
     }
-
-    [GeneratedRegex(@"^(Yuanshen|GenshinImpact)\.exe$", RegexOptions.IgnoreCase)]
-    private static partial Regex GameExecutableFileRegex();
 
     private async ValueTask ExtractExeAsync(GamePackageServiceContext context)
     {
@@ -556,7 +557,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             SophonDecodedManifest manifest = decodedBuild.Manifests.First();
             SophonManifestProto proto = new();
-            proto.Assets.Add(manifest.ManifestProto.Assets.Single(a => GameExecutableFileRegex().IsMatch(a.AssetName)));
+            proto.Assets.Add(manifest.ManifestProto.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
             return new(proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
         }
     }

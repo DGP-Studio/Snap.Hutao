@@ -26,6 +26,9 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
     private readonly ILogger<ScatteredFilesPackageConverter> logger;
     private readonly JsonSerializerOptions options;
 
+    [GeneratedRegex("^(?:YuanShen_Data|GenshinImpact_Data)(?=/)")]
+    private static partial Regex DataFolderRegex { get; }
+
     public async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
     {
         // 以 国服 -> 国际服 为例
@@ -214,9 +217,6 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
         }
     }
 
-    [GeneratedRegex("^(?:YuanShen_Data|GenshinImpact_Data)(?=/)")]
-    private static partial Regex DataFolderRegex();
-
     private async ValueTask<RelativePathVersionItemDictionary> GetVersionItemsAsync(Stream stream)
     {
         RelativePathVersionItemDictionary results = [];
@@ -226,7 +226,7 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
             {
                 VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, options);
                 ArgumentNullException.ThrowIfNull(item);
-                item.RelativePath = DataFolderRegex().Replace(item.RelativePath, "{0}");
+                item.RelativePath = DataFolderRegex.Replace(item.RelativePath, "{0}");
                 results.Add(item.RelativePath, item);
             }
         }

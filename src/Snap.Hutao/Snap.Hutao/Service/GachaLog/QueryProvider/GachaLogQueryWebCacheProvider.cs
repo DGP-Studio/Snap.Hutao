@@ -22,6 +22,9 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
     private readonly IGameServiceFacade gameService;
     private readonly CultureOptions cultureOptions;
 
+    [GeneratedRegex("^[1-9]+?\\.[0-9]+?\\.[0-9]+?\\.[0-9]+?$")]
+    private static partial Regex VersionRegex { get; }
+
     public static string GetCacheFile(string path)
     {
         string exeName = Path.GetFileName(path);
@@ -34,10 +37,9 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         DirectoryInfo webCacheFolder = new(Path.Combine(directory, dataFolder, "webCaches"));
         if (webCacheFolder.Exists)
         {
-            Regex versionRegex = VersionRegex();
             DirectoryInfo? lastestVersionCacheFolder = webCacheFolder
                 .EnumerateDirectories()
-                .Where(dir => versionRegex.IsMatch(dir.Name))
+                .Where(dir => VersionRegex.IsMatch(dir.Name))
                 .MaxBy(dir => new Version(dir.Name));
 
             lastestVersionCacheFolder ??= webCacheFolder;
@@ -108,7 +110,4 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
 
         return null;
     }
-
-    [GeneratedRegex("^[1-9]+?\\.[0-9]+?\\.[0-9]+?\\.[0-9]+?$")]
-    private static partial Regex VersionRegex();
 }

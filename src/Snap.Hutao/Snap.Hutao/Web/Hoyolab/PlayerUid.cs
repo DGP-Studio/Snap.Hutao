@@ -13,7 +13,7 @@ internal readonly struct PlayerUid
 
     public PlayerUid(string value, in Region? region = default)
     {
-        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
+        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex.IsMatch(value), SH.WebHoyolabInvalidUid);
         Value = value;
         Region = region ?? Region.UnsafeFromUidString(value);
     }
@@ -30,7 +30,7 @@ internal readonly struct PlayerUid
 
     public static bool IsOversea(string uid)
     {
-        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
+        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex.IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         return uid.AsSpan()[^9] switch
         {
@@ -41,7 +41,7 @@ internal readonly struct PlayerUid
 
     public static TimeSpan GetRegionTimeZoneUtcOffsetForUid(string uid)
     {
-        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
+        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex.IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         // 美服 UTC-05
         // 欧服 UTC+01

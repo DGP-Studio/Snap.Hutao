@@ -20,5 +20,5 @@ internal static partial class AnnouncementRegex
     public static readonly Regex VersionUpdatePreviewTimeRegex = new(SHRegex.ServiceAnnouncementMatchVersionUpdatePreviewTime, RegexOptions.Compiled);
 
     [GeneratedRegex("&lt;t class=\"t_(?:gl|lc)\".*?&gt;(?:<span .*?>)?(.*?)(?:</span>)?&lt;/t&gt;", RegexOptions.Multiline)]
-    public static partial Regex XmlTimeTagRegex();
+    public static partial Regex XmlTimeTagRegex { get; }
 }

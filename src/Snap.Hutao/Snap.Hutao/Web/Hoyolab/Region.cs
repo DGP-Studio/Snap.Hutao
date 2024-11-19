@@ -19,7 +19,7 @@ internal readonly struct Region
 
     public Region(string value)
     {
-        HutaoException.ThrowIfNot(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
+        HutaoException.ThrowIfNot(HoyolabRegex.RegionRegex.IsMatch(value), SH.WebHoyolabInvalidRegion);
         Value = value;
     }
 
@@ -52,7 +52,7 @@ internal readonly struct Region
 
     public static bool IsOversea(string value)
     {
-        HutaoException.ThrowIfNot(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
+        HutaoException.ThrowIfNot(HoyolabRegex.RegionRegex.IsMatch(value), SH.WebHoyolabInvalidRegion);
         return value.AsSpan()[..2] switch
         {
             "os" => true,

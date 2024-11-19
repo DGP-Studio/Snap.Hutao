@@ -29,7 +29,7 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
         {
             if (SetProperty(ref field, value) && value is not null)
             {
-                IsSendCaptchaEnabled = MobilePhoneRegex().IsMatch(value);
+                IsSendCaptchaEnabled = MobilePhoneRegex.IsMatch(value);
                 OnPropertyChanged(nameof(IsSendCaptchaEnabled));
             }
         }
@@ -55,6 +55,9 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
     public string? ActionType { get; private set; }
 
     public string? Aigis { get; set; }
+
+    [GeneratedRegex(@"\d{11}")]
+    private static partial Regex MobilePhoneRegex { get; }
 
     [Command("SendMobileCaptchaCommand")]
     public async Task SendMobileCaptchaAsync()
@@ -85,9 +88,6 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
     {
         return await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false) is ContentDialogResult.Primary;
     }
-
-    [GeneratedRegex(@"\d{11}")]
-    private static partial Regex MobilePhoneRegex();
 
     private void OnTextKeyDown(object sender, KeyRoutedEventArgs e)
     {

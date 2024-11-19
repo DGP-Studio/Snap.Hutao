@@ -59,7 +59,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                     .Replace("<br />", string.Empty)
                     .ToString();
                 item.Content = AnnouncementRegex
-                    .XmlTimeTagRegex()
+                    .XmlTimeTagRegex
                     .Replace(item.Content, x => x.Groups[1].Value);
             }
         }
