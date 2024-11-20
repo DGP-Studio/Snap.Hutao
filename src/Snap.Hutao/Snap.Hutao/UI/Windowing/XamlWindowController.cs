@@ -161,6 +161,8 @@ internal sealed class XamlWindowController
             NotifyIconController notifyIconController;
             lock (NotifyIconController.InitializationSyncRoot)
             {
+                // There is a unknown reason that user can have notifyicon created
+                // and meanwhile the notifyiconcontroller is not initialized.
                 notifyIconController = serviceProvider.GetRequiredService<NotifyIconController>();
             }
 
