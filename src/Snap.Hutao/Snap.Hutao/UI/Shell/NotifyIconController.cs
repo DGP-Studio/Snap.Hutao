@@ -47,7 +47,7 @@ internal sealed partial class NotifyIconController : IDisposable
         registryKey = InitializeNotifyIconRegistryKey();
     }
 
-    public static Lock InitializationSyncRoot { get; } => new();
+    public static Lock InitializationSyncRoot { get; } = new();
 
     public void Dispose()
     {
