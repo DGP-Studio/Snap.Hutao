@@ -418,7 +418,7 @@
                         </Border>
                     </Border>
 
-                    <!--  快捷键  -->
+                    <!--  快捷键 & 紧凑网页窗口  -->
                     <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding HotKey}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
@@ -483,14 +483,18 @@
                                             IsOn="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </cwc:SettingsCard>
+                                <TextBlock
+                                    Margin="1,13,0,5"
+                                    Style="{StaticResource SettingsCardHeaderTextBlockStyle}"
+                                    Text="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2Header}"/>
                                 <cwc:SettingsCard
-                                    Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVideoPlayPauseDescription}"
-                                    Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVideoPlayPauseHeader}"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoPlayPauseDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoPlayPauseHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE768;}"
                                     IsEnabled="{Binding RuntimeOptions.IsElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                         <shuxc:Elevation Margin="0,0,16,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                        <shuxc:SizeRestrictedContentControl Margin="0,0,128,0" VerticalAlignment="Center">
+                                        <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
                                             <ComboBox
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
@@ -501,8 +505,8 @@
                                     </StackPanel>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
-                                    Description="{shuxm:ResourceString Name=ViewPageSettingKeyVideoFastForwardOrRewindDescription}"
-                                    Header="{shuxm:ResourceString Name=ViewPageSettingKeyVideoFastForwardOrRewindHeader}"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE916;}"
                                     IsEnabled="{Binding RuntimeOptions.IsElevated}">
                                     <StackPanel
@@ -519,13 +523,13 @@
                                     </StackPanel>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
-                                    Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVideoFastForwardDescription}"
-                                    Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVideoFastForwardHeader}"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoFastForwardDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoFastForwardHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEB9D;}"
                                     IsEnabled="{Binding RuntimeOptions.IsElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                         <shuxc:Elevation Margin="0,0,16,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                        <shuxc:SizeRestrictedContentControl Margin="0,0,128,0" VerticalAlignment="Center">
+                                        <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
                                             <ComboBox
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
@@ -536,13 +540,13 @@
                                     </StackPanel>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
-                                    Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVideoRewindDescription}"
-                                    Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVideoRewindHeader}"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoRewindDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoRewindHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xEB9E;}"
                                     IsEnabled="{Binding RuntimeOptions.IsElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                         <shuxc:Elevation Margin="0,0,16,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                        <shuxc:SizeRestrictedContentControl Margin="0,0,128,0" VerticalAlignment="Center">
+                                        <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
                                             <ComboBox
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
@@ -550,6 +554,27 @@
                                                 ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoRewindKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
+                                    </StackPanel>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2InactiveOpacityDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2InactiveOpacityHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE7B3;}"
+                                    IsEnabled="{Binding RuntimeOptions.IsElevated}">
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                        <NumberBox
+                                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                            VerticalAlignment="Center"
+                                            AcceptsExpression="False"
+                                            LargeChange="10"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            SmallChange="1"
+                                            Value="{Binding CompactWebView2WindowInactiveOpacity, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </cwc:SettingsCard>
                             </StackPanel>

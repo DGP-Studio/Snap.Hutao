@@ -20,7 +20,13 @@ internal sealed partial class SettingHotKeyViewModel : Abstraction.ViewModel
 
     public int WebView2VideoFastForwardOrRewindSeconds
     {
-        get => LocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds, 5);
-        set => LocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds, value);
+        get => LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
+        set => LocalSetting.Set(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, value);
+    }
+
+    public double CompactWebView2WindowInactiveOpacity
+    {
+        get => LocalSetting.Get(SettingKeys.CompactWebView2WindowInactiveOpacity, 50D);
+        set => LocalSetting.Set(SettingKeys.CompactWebView2WindowInactiveOpacity, value);
     }
 }

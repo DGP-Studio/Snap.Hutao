@@ -30,10 +30,6 @@ internal static class SettingKeys
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
-    public const string LowLevelKeyboardWebView2VideoPlayPause = "LowLevelKeyboardWebView2VideoPlayPause";
-    public const string LowLevelKeyboardWebView2VideoFastForward = "LowLevelKeyboardWebView2VideoFastForward";
-    public const string LowLevelKeyboardWebView2VideoRewind = "LowLevelKeyboardWebView2VideoRewind";
-    public const string LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds = "LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds";
     #endregion
 
     #region Passport
@@ -62,6 +58,14 @@ internal static class SettingKeys
     public const string IsHomeCardAchievementPresented = "IsHomeCardAchievementPresented";
     public const string IsHomeCardDailyNotePresented = "IsHomeCardDailyNotePresented";
     public const string IsHomeCardCalendarPresented = "IsHomeCardCalendarPresented";
+    #endregion
+
+    #region Compact WebView2
+    public const string LowLevelKeyboardWebView2VideoPlayPause = "LowLevelKeyboardWebView2VideoPlayPause";
+    public const string LowLevelKeyboardWebView2VideoFastForward = "LowLevelKeyboardWebView2VideoFastForward";
+    public const string LowLevelKeyboardWebView2VideoRewind = "LowLevelKeyboardWebView2VideoRewind";
+    public const string WebView2VideoFastForwardOrRewindSeconds = "WebView2VideoFastForwardOrRewindSeconds";
+    public const string CompactWebView2WindowInactiveOpacity = "CompactWebView2WindowInactiveOpacity";
     #endregion
 
     #region DevTool

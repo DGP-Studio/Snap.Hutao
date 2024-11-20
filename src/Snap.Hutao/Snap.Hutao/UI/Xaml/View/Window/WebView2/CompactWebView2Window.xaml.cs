@@ -52,6 +52,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private readonly CancellationTokenSource loadCts = new();
     private readonly Lock syncRoot = new();
+    private readonly byte opacity;
 
     private readonly IServiceScope windowScope;
     private readonly LowLevelKeyOptions lowLevelKeyOptions;
@@ -64,6 +65,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     {
         windowScope = Ioc.Default.CreateScope();
         lowLevelKeyOptions = windowScope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
+
+        opacity = (byte)(LocalSetting.Get(SettingKeys.CompactWebView2WindowInactiveOpacity, 50D) * 255 / 100);
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
@@ -166,7 +169,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             else
             {
                 this.AddExStyleLayered();
-                SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+                SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), opacity, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
             }
         }
     }
@@ -212,14 +215,14 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         if (key == lowLevelKeyOptions.WebView2VideoFastForwardKey.Value)
         {
-            int seconds = LocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds, 5);
+            int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
             _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds));
             return false;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoRewindKey.Value)
         {
-            int seconds = LocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds, 5);
+            int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
             _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds));
             return false;
         }
