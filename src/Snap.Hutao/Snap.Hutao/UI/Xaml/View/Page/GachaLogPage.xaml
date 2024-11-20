@@ -275,6 +275,13 @@
                                 HeaderIcon="{shuxm:FontIcon Glyph=&#xE765;}"
                                 IsClickEnabled="True"/>
                             <cwcont:SettingsCard
+                                ActionIconToolTip="{shuxm:ResourceString Name=ViewPageGachaLogImportAction}"
+                                Command="{Binding ImportExportCommand}"
+                                Description="{shuxm:ResourceString Name=ViewPageGachaLogImportDescription}"
+                                Header="{shuxm:ResourceString Name=ViewPageGachaLogImportHeader}"
+                                HeaderIcon="{shuxm:FontIcon Glyph=&#xE8B5;}"
+                                IsClickEnabled="True"/>
+                            <cwcont:SettingsCard
                                 Description="{shuxm:ResourceString Name=ViewPageGachaLogRecoverFromHutaoCloudDescription}"
                                 FlyoutBase.AttachedFlyout="{StaticResource HutaoCloudFlyout}"
                                 Header="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloud}"

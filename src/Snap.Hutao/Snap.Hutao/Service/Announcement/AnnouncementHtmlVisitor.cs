@@ -10,6 +10,9 @@ namespace Snap.Hutao.Service.Announcement;
 
 internal static partial class AnnouncementHtmlVisitor
 {
+    [GeneratedRegex(@".*?\d\.\d.*?[~-]|.*?\d\.\d.*?$|\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
+    private static partial Regex TimeOrVersionRegex { get; }
+
     public static async ValueTask<List<string>> VisitActivityAsync(IBrowsingContext context, string content)
     {
         IDocument document = await context.OpenAsync(rsp => rsp.Content(content)).ConfigureAwait(false);
@@ -29,7 +32,7 @@ internal static partial class AnnouncementHtmlVisitor
             // All in span, special case
             if (textContent.Contains(SH.ServiceAnnouncementAdventurersBoosterBundlesDurationDescription, StringComparison.CurrentCulture))
             {
-                return TimeOrVersionRegex().Matches(textContent).Select(r => r.Value).ToList();
+                return TimeOrVersionRegex.Matches(textContent).Select(r => r.Value).ToList();
             }
 
             if (paragraph.NextElementSibling is null)
@@ -39,7 +42,7 @@ internal static partial class AnnouncementHtmlVisitor
 
             string nextTextContent = paragraph.NextElementSibling.TextContent.Trim();
 
-            return TimeOrVersionRegex().Matches(nextTextContent).Select(r => r.Value).ToList();
+            return TimeOrVersionRegex.Matches(nextTextContent).Select(r => r.Value).ToList();
         }
     }
 
@@ -65,13 +68,32 @@ internal static partial class AnnouncementHtmlVisitor
 
             if (paragraph.NextElementSibling is IHtmlParagraphElement nextParagraph)
             {
-                return TimeOrVersionRegex().Match(nextParagraph.TextContent).Value;
+                return TimeOrVersionRegex.Match(nextParagraph.TextContent).Value;
             }
         }
 
         return string.Empty;
     }
 
-    [GeneratedRegex(@".*?\d\.\d.*?[~-]|.*?\d\.\d.*?$|\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
-    private static partial Regex TimeOrVersionRegex();
+    public static async ValueTask<string> VisitUpdatePreviewAsync(IBrowsingContext context, string content)
+    {
+        IDocument document = await context.OpenAsync(rsp => rsp.Content(content)).ConfigureAwait(false);
+        IHtmlElement? body = document.Body;
+        ArgumentNullException.ThrowIfNull(body);
+
+        foreach (IElement element in body.Children)
+        {
+            if (element is not IHtmlParagraphElement paragraph)
+            {
+                continue;
+            }
+
+            if (TimeOrVersionRegex.Match(paragraph.TextContent) is { Success: true } match)
+            {
+                return match.Value;
+            }
+        }
+
+        return string.Empty;
+    }
 }

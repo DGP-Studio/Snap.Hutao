@@ -15,6 +15,9 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
     private const string RegistryKeyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神";
     private readonly ITaskContext taskContext;
 
+    [GeneratedRegex(@"\\x(?=[0-9a-f]{4})")]
+    private static partial Regex UTF16Regex { get; }
+
     public async ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
@@ -60,7 +63,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
 
     private static string Unescape(string str)
     {
-        string hex4Result = UTF16Regex().Replace(str, @"\u");
+        string hex4Result = UTF16Regex.Replace(str, @"\u");
 
         // 不包含中文
         // Some one's folder might begin with 'u'
@@ -72,7 +75,4 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
 
         return Regex.Unescape(hex4Result);
     }
-
-    [GeneratedRegex(@"\\x(?=[0-9a-f]{4})")]
-    private static partial Regex UTF16Regex();
 }

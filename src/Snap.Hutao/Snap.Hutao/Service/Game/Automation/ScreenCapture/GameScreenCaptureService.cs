@@ -39,6 +39,7 @@ internal sealed partial class GameScreenCaptureService : IGameScreenCaptureServi
         switch (result.Kind)
         {
             case GameScreenCaptureContextCreationResultKind.Success:
+                ArgumentNullException.ThrowIfNull(result.Context);
                 session = new(result.Context, logger);
                 return true;
             case GameScreenCaptureContextCreationResultKind.CreateDxgiFactoryFailed:

@@ -13,7 +13,7 @@ internal sealed class BattleWave
     private BattleWave(TowerWave towerWave, SpiralAbyssMetadataContext context)
     {
         Description = towerWave.Type.GetLocalizedDescriptionOrDefault() ?? SH.ModelMetadataTowerWaveTypeDefault;
-        Monsters = towerWave.Monsters.SelectArray(m => CreateMonsterViewOrDefault(m, context));
+        Monsters = towerWave.Monsters.SelectAsArray(m => CreateMonsterViewOrDefault(m, context));
     }
 
     public string Description { get; }

@@ -24,8 +24,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
 {
     private readonly ITaskContext taskContext;
 
-    private readonly int primaryScreenWidth;
-    private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
 
     private ImmutableArray<GamePathEntry>? gamePathEntries;
@@ -64,8 +62,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
         RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
-        primaryScreenWidth = primaryRect.Width;
-        primaryScreenHeight = primaryRect.Height;
+        ScreenWidth = primaryRect.Width;
+        ScreenHeight = primaryRect.Height;
 
         Monitors = InitializeMonitors();
         InitializeScreenFps(out primaryScreenFps);
@@ -239,7 +237,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
 
     public int ScreenWidth
     {
-        get => GetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, primaryScreenWidth);
+        get => GetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, field);
         set => SetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, value);
     }
 
@@ -251,7 +249,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
 
     public int ScreenHeight
     {
-        get => GetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, primaryScreenHeight);
+        get => GetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, field);
         set => SetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, value);
     }
 

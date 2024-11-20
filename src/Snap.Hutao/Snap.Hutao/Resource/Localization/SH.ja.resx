@@ -225,9 +225,6 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>インポート</value>
   </data>
-  <data name="ViewModelRoleCombatRound" xml:space="preserve">
-    <value>第 {0} 幕</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>胡桃へようこそ</value>
   </data>
@@ -854,7 +851,7 @@
     <value>アプリ通知の送信に失敗しました</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>ゲーム開始</value>
+    <value>ゲーム起動</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>了解</value>
@@ -1846,7 +1843,7 @@
     <value>前回 UP 時間: {0:yyyy.MM.dd}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
-    <value>前回 UP から {0} 日が経ちました</value>
+    <value>前回 UP から {0} 日が経った</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
     <value>後半</value>
@@ -2007,6 +2004,9 @@
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>{0}に到着</value>
   </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>第 {0} 幕</value>
+  </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作は完了しました</value>
   </data>
@@ -2060,6 +2060,9 @@
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>インポート失敗</value>
+  </data>
+  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
+    <value>インポート中</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>インポートされた UIGFファイルには、祈願データが含まれていません。</value>
@@ -2324,6 +2327,9 @@
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>集中モード</value>
+  </data>
+  <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
+    <value>ゲームを起動するぞ！</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
     <value>長期修練ポイント</value>
@@ -2989,6 +2995,15 @@
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行証</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
+    <value>コンパクトビュー</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
+    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
+    <value>窗口不透明度</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
   </data>
@@ -3184,11 +3199,29 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoPlayPauseDescription" xml:space="preserve">
-    <value>コンパクトビューに動画の再生と一時停止を制御するショートカットキーを変更します</value>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
+    <value>更改控制视频快进的快捷键</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoPlayPauseHeader" xml:space="preserve">
-    <value>コンパクトビューの動画再生と一時停止</value>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
+    <value>视频快进</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
+    <value>更改控制视频播放与暂停的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
+    <value>视频播放暂停</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
+    <value>更改控制视频快退的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
+    <value>视频快退</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>更改视频快进与快退的时间</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>快进快退</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
@@ -3599,7 +3632,7 @@
     <value>武器一覧</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口（仅管理员）</value>
+    <value>コンパクトウェブ (管理者のみ)</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>フィードバックの方法はフィードバックセンター内から、開発者に連絡をとってください。</value>

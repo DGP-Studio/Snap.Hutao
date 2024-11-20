@@ -59,7 +59,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                     .Replace("<br />", string.Empty)
                     .ToString();
                 item.Content = AnnouncementRegex
-                    .XmlTimeTagRegex()
+                    .XmlTimeTagRegex
                     .Replace(item.Content, x => x.Groups[1].Value);
             }
         }
@@ -109,6 +109,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         }
         catch
         {
+            // ignored
         }
 
         return wrapper;
@@ -146,12 +147,8 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // 更新预告
         if (announcements.SingleOrDefault(ann => AnnouncementRegex.VersionUpdatePreviewTitleRegex.IsMatch(ann.Title)) is { } versionUpdatePreview)
         {
-            if (AnnouncementRegex.VersionUpdatePreviewTimeRegex.Match(versionUpdatePreview.Content) is not { Success: true } versionUpdatePreviewMatch)
-            {
-                return;
-            }
-
-            DateTimeOffset versionUpdatePreviewTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdatePreviewMatch.Groups[1].ValueSpan, offset);
+            string time = await AnnouncementHtmlVisitor.VisitUpdatePreviewAsync(context, versionUpdatePreview.Content).ConfigureAwait(false);
+            DateTimeOffset versionUpdatePreviewTime = UnsafeDateTimeOffset.ParseDateTime(time, offset);
             versionStartTimes.TryAdd(VersionRegex.Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
         }
 

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using System.IO.Pipes;
 using System.Security.AccessControl;
@@ -81,7 +82,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
             switch ((header.Type, header.Command))
             {
                 case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
-                    ElevationStatusResponse resp = new(HutaoRuntime.IsProcessElevated);
+                    ElevationStatusResponse resp = new(HutaoRuntime.IsProcessElevated, Environment.ProcessId);
                     serverStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Response, PipePacketCommand.ResponseElevationStatus, resp);
                     serverStream.Flush();
                     break;
@@ -94,6 +95,11 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                     }
 
                     messageDispatcher.RedirectActivation(hutaoArgs);
+                    break;
+
+                case (PipePacketType.Request, PipePacketCommand.BetterGenshinImpactToSnapHutaoRequest):
+                    PipeRequest<JsonElement>? request = serverStream.ReadJsonContent<PipeRequest<JsonElement>>(in header);
+                    _ = request;
                     break;
 
                 case (PipePacketType.SessionTermination, _):

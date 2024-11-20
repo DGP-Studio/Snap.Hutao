@@ -21,6 +21,9 @@ internal sealed partial class IPInformation
     [JsonPropertyName("division")]
     public string Division { get; set; } = default!;
 
+    [GeneratedRegex(@"(\d+)\.(\d+)\.\d+\.\d+")]
+    private static partial Regex IpRegex { get; }
+
     public override string ToString()
     {
         if (Ip is Unknown && Division is Unknown)
@@ -28,10 +31,7 @@ internal sealed partial class IPInformation
             return SH.WebHutaoServiceUnAvailable;
         }
 
-        string maskedIp = IpRegex().Replace(Ip, "$1.$2.*.*");
+        string maskedIp = IpRegex.Replace(Ip, "$1.$2.*.*");
         return SH.FormatViewPageSettingDeviceIpDescription(maskedIp, Division);
     }
-
-    [GeneratedRegex(@"(\d+)\.(\d+)\.\d+\.\d+")]
-    private static partial Regex IpRegex();
 }

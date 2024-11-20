@@ -60,6 +60,7 @@ internal sealed partial class LaunchExecutionContext
 
     public bool TryGetGameFileSystem([NotNullWhen(true)] out GameFileSystem? gameFileSystem)
     {
+        // TODO: for safety reasons, we should lock the game file path somehow, when we acquired the game file system
         if (this.gameFileSystem is not null)
         {
             gameFileSystem = this.gameFileSystem;

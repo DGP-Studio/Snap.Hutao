@@ -218,23 +218,17 @@
                     </StackPanel>
                 </Grid>
                 <!--  间信息  -->
-                <Grid
+                <ItemsControl
                     Grid.Row="2"
                     Margin="8,8,8,0"
-                    ColumnSpacing="16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <ContentControl
-                        Grid.Column="0"
-                        Content="{Binding Battles[0]}"
-                        ContentTemplate="{StaticResource SpiralAbyssBattleTemplate}"/>
-                    <ContentControl
-                        Grid.Column="1"
-                        Content="{Binding Battles[1]}"
-                        ContentTemplate="{StaticResource SpiralAbyssBattleTemplate}"/>
-                </Grid>
+                    ItemTemplate="{StaticResource SpiralAbyssBattleTemplate}"
+                    ItemsSource="{Binding Battles}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <shuxcp:EqualPanel Spacing="16"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </Grid>
         </DataTemplate>
 

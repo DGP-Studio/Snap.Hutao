@@ -12,7 +12,7 @@ internal sealed partial class QualityConverter : ValueConverter<QualityType, Uri
     public override Uri Convert(QualityType from)
     {
         string name = Enum.GetName(from) ?? from.ToString();
-        if (name == nameof(QualityType.QUALITY_ORANGE_SP))
+        if (name is nameof(QualityType.QUALITY_ORANGE_SP))
         {
             name = "QUALITY_RED";
         }

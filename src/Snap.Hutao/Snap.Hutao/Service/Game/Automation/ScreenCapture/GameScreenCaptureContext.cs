@@ -20,12 +20,9 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
-internal struct GameScreenCaptureContext : IDisposable
+internal sealed class GameScreenCaptureContext : IDisposable
 {
-    public readonly GraphicsCaptureItem Item;
-    public readonly bool PreviewEnabled;
-
-    private const uint CreateDXGIFactoryFlag =
+    private const uint CreateFactoryFlag =
 #if DEBUG
         DXGI_CREATE_FACTORY_DEBUG;
 #else
@@ -51,16 +48,20 @@ internal struct GameScreenCaptureContext : IDisposable
     private GameScreenCaptureContext(HWND hwnd, bool preview)
     {
         this.hwnd = hwnd;
-        GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out Item);
-
+        GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out GraphicsCaptureItem item);
+        Item = item;
         PreviewEnabled = preview;
     }
+
+    public GraphicsCaptureItem Item { get; }
+
+    public bool PreviewEnabled { get; }
 
     public static GameScreenCaptureContextCreationResult Create(HWND hwnd, bool preview)
     {
         GameScreenCaptureContext context = new(hwnd, preview);
 
-        if (!DirectX.TryCreateDXGIFactory(CreateDXGIFactoryFlag, out context.factory, out HRESULT hr))
+        if (!DirectX.TryCreateDXGIFactory(CreateFactoryFlag, out context.factory, out HRESULT hr))
         {
             return new(GameScreenCaptureContextCreationResultKind.CreateDxgiFactoryFailed, hr);
         }
@@ -106,7 +107,7 @@ internal struct GameScreenCaptureContext : IDisposable
         framePool.Recreate(direct3DDevice, winrt, 2, Item.Size);
     }
 
-    public readonly GraphicsCaptureSession CreateSession(Direct3D11CaptureFramePool framePool)
+    public GraphicsCaptureSession CreateSession(Direct3D11CaptureFramePool framePool)
     {
         GraphicsCaptureSession session = framePool.CreateCaptureSession(Item);
         session.IsCursorCaptureEnabled = false;
@@ -114,7 +115,7 @@ internal struct GameScreenCaptureContext : IDisposable
         return session;
     }
 
-    public readonly bool TryGetClientBox(uint width, uint height, out D3D11_BOX clientBox)
+    public bool TryGetClientBox(uint width, uint height, out D3D11_BOX clientBox)
     {
         clientBox = default;
 
@@ -153,7 +154,7 @@ internal struct GameScreenCaptureContext : IDisposable
         return clientBox.right <= width && clientBox.bottom <= height;
     }
 
-    public readonly void AttachPreview(GameScreenCaptureDebugPreviewWindow? window)
+    public void AttachPreview(GameScreenCaptureDebugPreviewWindow? window)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -161,7 +162,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public readonly void UpdatePreview(GameScreenCaptureDebugPreviewWindow? window, IDirect3DSurface surface)
+    public void UpdatePreview(GameScreenCaptureDebugPreviewWindow? window, IDirect3DSurface surface)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -169,7 +170,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public readonly void DetachPreview(GameScreenCaptureDebugPreviewWindow? window)
+    public void DetachPreview(GameScreenCaptureDebugPreviewWindow? window)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -178,15 +179,15 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public readonly void Dispose()
+    public void Dispose()
     {
-        factory?.Dispose();
-        adapter?.Dispose();
+        factory.Dispose();
+        adapter.Dispose();
 
-        dxgiDevice?.Dispose();
-        d3d11Device?.Dispose();
+        dxgiDevice.Dispose();
+        d3d11Device.Dispose();
 
-        swapChain?.Dispose();
+        swapChain.Dispose();
     }
 
     private static (DirectXPixelFormat WinRTFormat, DXGI_FORMAT DXFormat) DeterminePixelFormat(HWND hwnd)

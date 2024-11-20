@@ -10,7 +10,7 @@ internal static class CultureOptionsExtension
 {
     public static NameValue<CultureInfo>? GetCurrentCultureForSelectionOrDefault(this CultureOptions options)
     {
-        return options.Cultures.SingleOrDefault(c => c.Value == options.CurrentCulture);
+        return options.Cultures.SingleOrDefault(c => c.Value.Equals(options.CurrentCulture));
     }
 
     public static bool LanguageCodeFitsCurrentLocale(this CultureOptions options, string? languageCode)

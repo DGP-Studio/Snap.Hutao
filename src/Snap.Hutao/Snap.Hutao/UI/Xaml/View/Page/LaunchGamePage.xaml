@@ -242,6 +242,22 @@
                                                     Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDownload}}"
                                                     IsEnabled="{Binding GamePackageViewModel.IsPredownloadButtonEnabled}"
                                                     Label="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownload}"/>
+                                                <!--  预下载开放 Icon  -->
+                                                <Grid
+                                                    Margin="4,8"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    ToolTipService.ToolTip="{Binding GamePackageViewModel.PreDownloadTitle}"
+                                                    Visibility="{Binding GamePackageViewModel.IsPredownloadButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <FontIcon
+                                                        FontSize="16"
+                                                        Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"
+                                                        Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
+                                                    <FontIcon
+                                                        FontSize="16"
+                                                        Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+                                                        Glyph="{ThemeResource InfoBarInformationalIconGlyph}"/>
+                                                </Grid>
                                                 <!--  预下载完成 Icon  -->
                                                 <Grid
                                                     Margin="4,8"
@@ -257,22 +273,6 @@
                                                         FontSize="16"
                                                         Foreground="{ThemeResource InfoBarSuccessSeverityIconForeground}"
                                                         Glyph="{ThemeResource InfoBarSuccessIconGlyph}"/>
-                                                </Grid>
-                                                <!--  预下载开放 Icon  -->
-                                                <Grid
-                                                    Margin="4,8"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Bottom"
-                                                    ToolTipService.ToolTip="{Binding GamePackageViewModel.PreDownloadTitle}"
-                                                    Visibility="{Binding GamePackageViewModel.PreVersion, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                                                    <FontIcon
-                                                        FontSize="16"
-                                                        Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"
-                                                        Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
-                                                    <FontIcon
-                                                        FontSize="16"
-                                                        Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-                                                        Glyph="{ThemeResource InfoBarInformationalIconGlyph}"/>
                                                 </Grid>
                                             </Grid>
                                         </StackPanel>

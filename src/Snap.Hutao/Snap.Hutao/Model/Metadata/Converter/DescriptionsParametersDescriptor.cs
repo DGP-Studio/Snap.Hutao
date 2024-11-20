@@ -13,6 +13,9 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 
 internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<DescriptionsParameters, IList<LevelParameters<string, ParameterDescription>>>
 {
+    [GeneratedRegex("{param([1-9][0-9]*?):(.+?)}")]
+    private static partial Regex ParamRegex { get; }
+
     public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, uint level)
     {
         return new(LevelFormat.Format(level), GetParameterDescription(from.Descriptions, from.Parameters[level]));
@@ -22,9 +25,6 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     {
         return from.Parameters.Convert(from.Descriptions, GetParameterDescription);
     }
-
-    [GeneratedRegex("{param([1-9][0-9]*?):(.+?)}")]
-    private static partial Regex ParamRegex();
 
     private static ImmutableArray<ParameterDescription> GetParameterDescription(ImmutableArray<string> descriptions, ImmutableArray<float> paramArray)
     {
@@ -38,7 +38,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
                 if (description[0] is not '#')
                 {
                     // Fast path
-                    string resultFormatted = ParamRegex().Replace(format.ToString(), match => ReplaceParamInMatch(match, paramArray));
+                    string resultFormatted = ParamRegex.Replace(format.ToString(), match => ReplaceParamInMatch(match, paramArray));
                     results.Add(new(resultFormatted, description.ToString()));
                 }
                 else
@@ -46,7 +46,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
                     string descriptionString = SpecialNameHandling.Handle(description.ToString());
                     string formatString = SpecialNameHandling.Handle(format.ToString());
 
-                    string resultFormatted = ParamRegex().Replace(formatString, match => ReplaceParamInMatch(match, paramArray));
+                    string resultFormatted = ParamRegex.Replace(formatString, match => ReplaceParamInMatch(match, paramArray));
                     results.Add(new(resultFormatted, descriptionString));
                 }
             }

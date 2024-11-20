@@ -48,7 +48,7 @@ internal static class AvatarViewBuilderExtension
         static ImmutableArray<ConstellationView> CreateConstellations(ImmutableArray<MetadataSkill> talents, List<SkillId> talentIds)
         {
             // TODO: use builder here
-            return talents.SelectArray(talent => new ConstellationView
+            return talents.SelectAsArray(talent => new ConstellationView
             {
                 Name = talent.Name,
                 Icon = SkillIconConverter.IconNameToUri(talent.Icon),
@@ -176,7 +176,7 @@ internal static class AvatarViewBuilderExtension
                 nonExtraLeveledSkills.DecreaseByValue(skillId, extraLevel);
             }
 
-            return proudSkills.SelectArray(proudSkill => new SkillView
+            return proudSkills.SelectAsArray(proudSkill => new SkillView
             {
                 Name = proudSkill.Name,
                 Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),

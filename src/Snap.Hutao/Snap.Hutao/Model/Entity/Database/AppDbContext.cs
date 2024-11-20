@@ -24,6 +24,7 @@ internal sealed partial class AppDbContext : DbContext
         }
         catch
         {
+            // ignored
         }
     }
 

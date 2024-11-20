@@ -3,6 +3,7 @@
 
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
+using System.Diagnostics;
 using System.IO.Pipes;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
@@ -29,6 +30,9 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
             // Notify previous instance to exit
             clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.Exit);
             clientStream.Flush();
+            WaitPreviousProcessExit(response);
+
+            // Retain the elevated instance
             return false;
         }
 
@@ -44,5 +48,26 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
     public void Dispose()
     {
         clientStream.Dispose();
+    }
+
+    private static void WaitPreviousProcessExit(ElevationStatusResponse response)
+    {
+        if (Process.GetProcessById(response.ProcessId) is { HasExited: false } process)
+        {
+            process.WaitForExit();
+        }
+
+        SpinWait.SpinUntil(() =>
+        {
+            try
+            {
+                _ = Process.GetProcessById(response.ProcessId);
+                return false;
+            }
+            catch (ArgumentException)
+            {
+                return true;
+            }
+        });
     }
 }

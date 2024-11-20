@@ -92,7 +92,9 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
             {
                 for (uint index = 0; index < count; index++)
                 {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     HeapFree(GetProcessHeap(), 0, pSids[index].Sid);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 }
             }
 

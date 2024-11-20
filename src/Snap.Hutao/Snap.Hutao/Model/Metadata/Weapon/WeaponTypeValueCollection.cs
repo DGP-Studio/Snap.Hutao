@@ -22,12 +22,14 @@ internal sealed class WeaponTypeValueCollection
     }
 
     internal IReadOnlyDictionary<FightProperty, GrowCurveType> TypeValues { get => typeValues; }
+
+    internal IReadOnlyDictionary<FightProperty, float> TypeInitValues { get => typeInitValues; }
 }
 
 [SuppressMessage("", "SA1402")]
 file sealed class Converter : JsonConverter<WeaponTypeValueCollection>
 {
-    public override WeaponTypeValueCollection? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override WeaponTypeValueCollection Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return new(JsonSerializer.Deserialize<ImmutableArray<WeaponTypeValue>>(ref reader, options));
     }

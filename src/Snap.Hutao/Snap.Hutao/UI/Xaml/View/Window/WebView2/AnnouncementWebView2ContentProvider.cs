@@ -43,6 +43,12 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
 
     public Action? CloseWindowAction { get; set; }
 
+    [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]
+    private static partial Regex StyleRegex { get; }
+
+    [GeneratedRegex("[0-9]+\\.[0-9]+rem")]
+    private static partial Regex RemRegex { get; }
+
     public async ValueTask InitializeAsync(IServiceProvider serviceProvider, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(CoreWebView2);
@@ -75,12 +81,6 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
         return WebView2WindowPosition.Padding(parentRect, 48);
     }
 
-    [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]
-    private static partial Regex StyleRegex();
-
-    [GeneratedRegex("[0-9]+\\.[0-9]+rem")]
-    private static partial Regex RemRegex();
-
     private static string? GenerateHtml(Announcement? announcement, ElementTheme theme)
     {
         if (announcement is null)
@@ -95,8 +95,8 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
             return null;
         }
 
-        content = StyleRegex().Replace(content, string.Empty);
-        content = RemRegex().Replace(content, "calc($0 * 10)");
+        content = StyleRegex.Replace(content, string.Empty);
+        content = RemRegex.Replace(content, "calc($0 * 10)");
 
         bool isDarkMode = ThemeHelper.IsDarkMode(theme);
 

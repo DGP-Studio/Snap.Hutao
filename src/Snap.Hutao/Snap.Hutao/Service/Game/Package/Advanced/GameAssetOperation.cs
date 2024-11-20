@@ -38,27 +38,35 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         if (context.Operation.GameChannelSDK is not null)
         {
-            try
+            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, context.Operation.GameChannelSDK.PackageVersionFileName);
+            if (!File.Exists(sdkPackageVersionFilePath))
             {
-                using (StreamReader reader = File.OpenText(Path.Combine(context.Operation.GameFileSystem.GameDirectory, context.Operation.GameChannelSDK.PackageVersionFileName)))
+                channelSdkConflicted = true;
+            }
+            else
+            {
+                try
                 {
-                    while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { Length: > 0 } row)
+                    using (StreamReader reader = File.OpenText(sdkPackageVersionFilePath))
                     {
-                        VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonOptions);
-                        ArgumentNullException.ThrowIfNull(item);
-
-                        string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, item.RelativePath);
-                        if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                        while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { Length: > 0 } row)
                         {
-                            channelSdkConflicted = true;
-                            break;
+                            VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonOptions);
+                            ArgumentNullException.ThrowIfNull(item);
+
+                            string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, item.RelativePath);
+                            if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                            {
+                                channelSdkConflicted = true;
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            catch (JsonException)
-            {
-                channelSdkConflicted = true;
+                catch (JsonException)
+                {
+                    channelSdkConflicted = true;
+                }
             }
         }
 
@@ -128,7 +136,17 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)chunk.ChunkSizeDecompressed))
                 {
                     Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
-                    await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
+                    try
+                    {
+                        await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
+                    }
+                    catch (IOException)
+                    {
+                        conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
+                        context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));
+                        return;
+                    }
+
                     if (!chunk.ChunkDecompressedHashMd5.Equals(Hash.ToHexString(HashAlgorithmName.MD5, buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
                         conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));

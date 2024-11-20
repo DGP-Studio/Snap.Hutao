@@ -6,6 +6,9 @@ using System.IO;
 
 namespace Snap.Hutao.Service.Game;
 
+/// <summary>
+/// A thin wrapper around the game's file path.
+/// </summary>
 internal sealed class GameFileSystem
 {
     public GameFileSystem(string gameFilePath)

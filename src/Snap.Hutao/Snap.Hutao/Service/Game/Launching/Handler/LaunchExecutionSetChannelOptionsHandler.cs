@@ -46,19 +46,19 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
 
         foreach (IniElement element in elements)
         {
-            if (element is IniParameter parameter)
+            if (element is not IniParameter parameter)
             {
-                if (parameter.Key is ChannelOptions.ChannelName)
-                {
+                continue;
+            }
+
+            switch (parameter.Key)
+            {
+                case ChannelOptions.ChannelName:
                     context.ChannelOptionsChanged = parameter.Set(context.TargetScheme.Channel.ToString("D")) || context.ChannelOptionsChanged;
                     continue;
-                }
-
-                if (parameter.Key is ChannelOptions.SubChannelName)
-                {
+                case ChannelOptions.SubChannelName:
                     context.ChannelOptionsChanged = parameter.Set(context.TargetScheme.SubChannel.ToString("D")) || context.ChannelOptionsChanged;
                     continue;
-                }
             }
         }
 

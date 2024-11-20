@@ -243,7 +243,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <!--  辉彩祝福  -->
                     <StackPanel Grid.Column="0" Margin="8,0,0,0">
@@ -267,14 +266,6 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
-                    </StackPanel>
-                    <!--  奇妙助益  -->
-                    <StackPanel Grid.Column="2">
-                        <TextBlock Style="{ThemeResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageRoleCombatBuffsHeader}"/>
-                        <ItemsControl
-                            ItemTemplate="{StaticResource BuffTemplate}"
-                            ItemsPanel="{ThemeResource WrapPanelSpacing6Template}"
-                            ItemsSource="{Binding Buffs}"/>
                     </StackPanel>
                 </Grid>
             </Grid>

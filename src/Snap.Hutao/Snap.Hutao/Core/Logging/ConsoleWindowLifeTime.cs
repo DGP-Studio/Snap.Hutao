@@ -19,30 +19,27 @@ internal sealed partial class ConsoleWindowLifeTime : IDisposable
 
     private readonly bool consoleWindowAllocated;
 
-    public ConsoleWindowLifeTime(IServiceProvider serviceProvider)
+    public ConsoleWindowLifeTime()
     {
-        if (LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, DebugModeEnabled))
+        if (!LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, DebugModeEnabled))
         {
-            consoleWindowAllocated = AllocConsole();
-            if (consoleWindowAllocated)
-            {
-                HANDLE inputHandle = GetStdHandle(STD_HANDLE.STD_INPUT_HANDLE);
-                if (GetConsoleMode(inputHandle, out CONSOLE_MODE mode))
-                {
-                    mode |= CONSOLE_MODE.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-                    SetConsoleMode(inputHandle, mode);
-                }
-
-                if (HutaoRuntime.IsProcessElevated)
-                {
-                    SetConsoleTitleW("Snap Hutao Debug Console [Administrator]");
-                }
-                else
-                {
-                    SetConsoleTitleW("Snap Hutao Debug Console");
-                }
-            }
+            return;
         }
+
+        consoleWindowAllocated = AllocConsole();
+        if (!consoleWindowAllocated)
+        {
+            return;
+        }
+
+        HANDLE inputHandle = GetStdHandle(STD_HANDLE.STD_INPUT_HANDLE);
+        if (GetConsoleMode(inputHandle, out CONSOLE_MODE mode))
+        {
+            mode |= CONSOLE_MODE.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(inputHandle, mode);
+        }
+
+        SetConsoleTitleW(HutaoRuntime.IsProcessElevated ? "Snap Hutao Debug Console [Administrator]" : "Snap Hutao Debug Console");
     }
 
     public void Dispose()

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
@@ -76,14 +77,21 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             GachaArchiveUids = uids,
         };
 
-        try
+        ContentDialog dialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ViewModelUIGFImportingProgressTitle)
+            .ConfigureAwait(false);
+
+        using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
-            await uigfService.ImportAsync(options).ConfigureAwait(false);
-            infoBarService.Success(SH.ViewModelUIGFImportSuccess);
-        }
-        catch (Exception ex)
-        {
-            infoBarService.Error(ex, SH.ViewModelUIGFImportError);
+            try
+            {
+                await uigfService.ImportAsync(options).ConfigureAwait(false);
+                infoBarService.Success(SH.ViewModelUIGFImportSuccess);
+            }
+            catch (Exception ex)
+            {
+                infoBarService.Error(ex, SH.ViewModelUIGFImportError);
+            }
         }
     }
 

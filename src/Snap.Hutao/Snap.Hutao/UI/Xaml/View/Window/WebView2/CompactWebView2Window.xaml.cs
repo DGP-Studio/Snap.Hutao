@@ -15,6 +15,7 @@ using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Globalization;
 using Windows.Graphics;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
@@ -35,8 +36,23 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
         """;
 
+    private const string VideoFastForwardScript = """
+        {{
+            let v = document.evaluate("//video", document, null).iterateNext();
+            v && v.currentTime += {0}
+        }}
+        """;
+
+    private const string VideoRewindScript = """
+        {{
+            let v = document.evaluate("//video", document, null).iterateNext();
+            v && v.currentTime -= {0}
+        }}
+        """;
+
     private readonly CancellationTokenSource loadCts = new();
     private readonly Lock syncRoot = new();
+    private readonly byte opacity;
 
     private readonly IServiceScope windowScope;
     private readonly LowLevelKeyOptions lowLevelKeyOptions;
@@ -49,6 +65,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     {
         windowScope = Ioc.Default.CreateScope();
         lowLevelKeyOptions = windowScope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
+
+        opacity = (byte)(LocalSetting.Get(SettingKeys.CompactWebView2WindowInactiveOpacity, 50D) * 255 / 100);
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
@@ -151,7 +169,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             else
             {
                 this.AddExStyleLayered();
-                SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 128, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+                SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), opacity, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
             }
         }
     }
@@ -188,9 +206,25 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private bool OnLowLevelKeyDown(ref readonly KBDLLHOOKSTRUCT data)
     {
-        if ((VIRTUAL_KEY)data.vkCode == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
+        VIRTUAL_KEY key = (VIRTUAL_KEY)data.vkCode;
+        if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
             _ = WebView.CoreWebView2.ExecuteScriptAsync(VideoPlayPauseScript);
+            return false;
+        }
+
+        if (key == lowLevelKeyOptions.WebView2VideoFastForwardKey.Value)
+        {
+            int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
+            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds));
+            return false;
+        }
+
+        if (key == lowLevelKeyOptions.WebView2VideoRewindKey.Value)
+        {
+            int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
+            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds));
+            return false;
         }
 
         return false;

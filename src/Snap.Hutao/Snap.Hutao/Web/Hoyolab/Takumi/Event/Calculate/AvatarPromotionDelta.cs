@@ -22,6 +22,7 @@ internal sealed class AvatarPromotionDelta
     public ElementAttributeId ElementAttrId { get; set; }
 
     [JsonPropertyName("skill_list")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ImmutableArray<PromotionDelta> SkillList { get; set; }
 
     [JsonPropertyName("weapon")]

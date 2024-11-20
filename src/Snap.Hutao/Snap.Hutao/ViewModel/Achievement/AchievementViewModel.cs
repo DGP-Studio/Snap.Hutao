@@ -84,6 +84,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     public string? FinishDescription { get; set => SetProperty(ref field, value); }
 
+    [GeneratedRegex("\\d\\.\\d")]
+    private static partial Regex VersionRegex { get; }
+
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
     {
         if (!await Initialization.Task.ConfigureAwait(false))
@@ -136,9 +139,6 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         AchievementGoals = default;
     }
-
-    [GeneratedRegex("\\d\\.\\d")]
-    private static partial Regex VersionRegex();
 
     private void OnCurrentArchiveChanged(object? sender, object? e)
     {
@@ -365,7 +365,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        if (VersionRegex().IsMatch(search))
+        if (VersionRegex.IsMatch(search))
         {
             Achievements.Filter = AchievementFilter.CompileForVersion(FilterDailyQuestItems, search);
             AchievementGoals.Filter = AchievementFilter.GoalCompile(Achievements);

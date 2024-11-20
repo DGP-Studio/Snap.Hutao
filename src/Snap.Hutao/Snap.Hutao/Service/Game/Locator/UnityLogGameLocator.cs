@@ -12,6 +12,9 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
 
+    [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)")]
+    private static partial Regex WarmupFileLine { get; }
+
     public async ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
@@ -30,7 +33,7 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
 
         string content = await File.ReadAllTextAsync(logFilePath).ConfigureAwait(false);
 
-        Match matchResult = WarmupFileLine().Match(content);
+        Match matchResult = WarmupFileLine.Match(content);
         if (!matchResult.Success)
         {
             return new(false, SH.ServiceGameLocatorUnityLogGamePathNotFound);
@@ -40,7 +43,4 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
         string fullPath = Path.GetFullPath(Path.Combine(matchResult.Value, "..", entryName));
         return new(true, fullPath);
     }
-
-    [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)")]
-    private static partial Regex WarmupFileLine();
 }

@@ -8,6 +8,15 @@ namespace Snap.Hutao.Model.Metadata;
 
 internal static partial class SpecialNameHandling
 {
+    [GeneratedRegex("\\{M#(.*?)\\}\\{F#(.*?)\\}")]
+    private static partial Regex MaleFemaleRegex { get; }
+
+    [GeneratedRegex("\\{F#(.*?)\\}\\{M#(.*?)\\}")]
+    private static partial Regex FemaleMaleRegex { get; }
+
+    [GeneratedRegex("\\{LAYOUT_MOBILE#(.+?)\\}\\{LAYOUT_PC#(.+?)\\}\\{LAYOUT_PS#(.+?)\\}")]
+    private static partial Regex LayoutRegex { get; }
+
     // Use this regex to query special names in metadata
     // "#(?!.*(?:F#|M#|NON_BREAK_SPACE|REALNAME\[ID\(1\)(\|HOSTONLY\(true\)|)\]|\{LAYOUT_MOBILE#.+?\}\{LAYOUT_PC#.+?\}\{LAYOUT_PS#.+?\})).*
     public static string Handle(string input)
@@ -34,19 +43,10 @@ internal static partial class SpecialNameHandling
 
         input = resultBuilder.ToString();
 
-        input = MaleFemaleRegex().Replace(input, "<color=#1E90FF>$1</color>/<color=#FFB6C1>$2</color>");
-        input = FemaleMaleRegex().Replace(input, "<color=#FFB6C1>$1</color>/<color=#1E90FF>$2</color>");
-        input = LayoutRegex().Replace(input, "$2");
+        input = MaleFemaleRegex.Replace(input, "<color=#1E90FF>$1</color>/<color=#FFB6C1>$2</color>");
+        input = FemaleMaleRegex.Replace(input, "<color=#FFB6C1>$1</color>/<color=#1E90FF>$2</color>");
+        input = LayoutRegex.Replace(input, "$2");
 
         return input[1..];
     }
-
-    [GeneratedRegex("\\{M#(.*?)\\}\\{F#(.*?)\\}")]
-    private static partial Regex MaleFemaleRegex();
-
-    [GeneratedRegex("\\{F#(.*?)\\}\\{M#(.*?)\\}")]
-    private static partial Regex FemaleMaleRegex();
-
-    [GeneratedRegex("\\{LAYOUT_MOBILE#(.+?)\\}\\{LAYOUT_PC#(.+?)\\}\\{LAYOUT_PS#(.+?)\\}")]
-    private static partial Regex LayoutRegex();
 }

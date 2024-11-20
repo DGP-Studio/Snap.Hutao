@@ -108,6 +108,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     public async ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
+        await taskContext.SwitchToMainThreadAsync();
         NavigationResult result = Navigate<TPage>(data, syncNavigationViewItem);
 
         switch (result)
