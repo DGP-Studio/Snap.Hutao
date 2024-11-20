@@ -47,6 +47,8 @@ internal sealed partial class NotifyIconController : IDisposable
         registryKey = InitializeNotifyIconRegistryKey();
     }
 
+    public static Lock InitializationSyncRoot { get; } = new();
+
     public void Dispose()
     {
         messageWindow.Dispose();
@@ -83,7 +85,13 @@ internal sealed partial class NotifyIconController : IDisposable
                         continue;
                     }
 
-                    if (executablePath.Equals(InstalledLocation.GetAbsolutePath("Snap.Hutao.exe"), StringComparison.OrdinalIgnoreCase))
+#if DEBUG
+                    string targetValue = InstalledLocation.GetAbsolutePath("Snap.Hutao.exe");
+#else
+                    string targetValue = HutaoRuntime.FullName;
+#endif
+
+                    if (executablePath.Contains(targetValue, StringComparison.OrdinalIgnoreCase))
                     {
                         return $@"HKEY_CURRENT_USER\Control Panel\NotifyIconSettings\{subKeyName}";
                     }

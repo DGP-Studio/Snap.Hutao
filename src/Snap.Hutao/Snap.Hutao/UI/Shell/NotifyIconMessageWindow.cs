@@ -38,6 +38,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
                 lpszClassName = className,
             };
 
+            // 0x80070582 ERROR_CLASS_ALREADY_EXISTS can happen
             atom = RegisterClassW(&wc);
         }
 
@@ -56,7 +57,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
 
         if (HWND == default)
         {
-            Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
         }
 
         WindowTable.TryAdd(HWND, this);
