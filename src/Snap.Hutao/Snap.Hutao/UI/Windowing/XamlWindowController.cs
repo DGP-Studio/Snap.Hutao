@@ -156,40 +156,47 @@ internal sealed class XamlWindowController
 
     private bool IsNotifyIconVisible()
     {
-        NotifyIconController notifyIconController = serviceProvider.GetRequiredService<NotifyIconController>();
-
-        // Actual version should be above 24H2 (26100), which is 26120 without UniversalApiContract.
-        if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
-        {
-            return notifyIconController.GetIsPromoted();
-        }
-
-        // Shell_NotifyIconGetRect can return E_FAIL in multiple cases, so we use the fallback method.
-        RECT iconRect = default;
         try
         {
-            iconRect = notifyIconController.GetRect();
+            NotifyIconController notifyIconController;
+            lock (NotifyIconController.InitializationSyncRoot)
+            {
+                notifyIconController = serviceProvider.GetRequiredService<NotifyIconController>();
+            }
+
+            // Actual version should be above 24H2 (26100), which is 26120 without UniversalApiContract.
+            if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
+            {
+                return notifyIconController.GetIsPromoted();
+            }
+
+            // Shell_NotifyIconGetRect can return E_FAIL in multiple cases, so we use the fallback method.
+            RECT iconRect = notifyIconController.GetRect();
+            if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11))
+            {
+                RECT primaryRect = DisplayArea.Primary.OuterBounds.ToRECT();
+                return IntersectRect(out _, in primaryRect, in iconRect);
+            }
+
+            HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
+            HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
+            HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
+
+            if (GetWindowRect(button, out RECT buttonRect))
+            {
+                return !EqualRect(in buttonRect, in iconRect);
+            }
+
+            return false;
         }
-        catch (COMException)
+        catch
         {
+#if DEBUG
+            throw;
+#else
+            return false;
+#endif
         }
-
-        if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11))
-        {
-            RECT primaryRect = DisplayArea.Primary.OuterBounds.ToRECT();
-            return IntersectRect(out _, in primaryRect, in iconRect);
-        }
-
-        HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
-        HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
-        HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
-
-        if (GetWindowRect(button, out RECT buttonRect))
-        {
-            return !EqualRect(in buttonRect, in iconRect);
-        }
-
-        return false;
     }
 
     #region SystemBackdrop & ElementTheme

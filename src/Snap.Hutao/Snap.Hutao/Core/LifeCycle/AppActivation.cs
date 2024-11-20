@@ -169,7 +169,10 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
 
             serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
-            _ = serviceProvider.GetRequiredService<NotifyIconController>();
+            lock (NotifyIconController.InitializationSyncRoot)
+            {
+                _ = serviceProvider.GetRequiredService<NotifyIconController>();
+            }
         }
 
         serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget(logger);
