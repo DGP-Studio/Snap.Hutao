@@ -2995,6 +2995,15 @@
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行証</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
+    <value>紧凑网页窗口</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
+    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
+    <value>窗口不透明度</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
   </data>
@@ -3190,29 +3199,29 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoFastForwardDescription" xml:space="preserve">
-    <value>更改紧凑网页窗口中控制视频快进的快捷键</value>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
+    <value>更改控制视频快进的快捷键</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoFastForwardHeader" xml:space="preserve">
-    <value>紧凑网页窗口视频快进</value>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
+    <value>视频快进</value>
   </data>
-  <data name="ViewPageSettingKeyVideoFastForwardOrRewindDescription" xml:space="preserve">
-    <value>更改紧凑网页窗口中视频快进与快退的时间</value>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
+    <value>更改控制视频播放与暂停的快捷键</value>
   </data>
-  <data name="ViewPageSettingKeyVideoFastForwardOrRewindHeader" xml:space="preserve">
-    <value>紧凑网页窗口快进快退</value>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
+    <value>视频播放暂停</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoPlayPauseDescription" xml:space="preserve">
-    <value>コンパクト的ウェブのウィンドウに動画の再生と一時停止を制御するショートカットキーを変更します</value>
+  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
+    <value>更改控制视频快退的快捷键</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoPlayPauseHeader" xml:space="preserve">
-    <value>コンパクトウェブの動画再生と一時停止</value>
+  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
+    <value>视频快退</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoRewindDescription" xml:space="preserve">
-    <value>更改紧凑网页窗口中控制视频快退的快捷键</value>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>更改视频快进与快退的时间</value>
   </data>
-  <data name="ViewPageSettingKeyShortcutVideoRewindHeader" xml:space="preserve">
-    <value>紧凑网页窗口视频快退</value>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>快进快退</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
