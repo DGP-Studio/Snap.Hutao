@@ -34,9 +34,9 @@ public class UnlockerIslandFunctionOffsetTest
                 MickeyWonderMethod = 0x08474680,
                 MickeyWonderMethodPartner = 0x00950C30,
                 MickeyWonderMethodPartner2 = 0x0588D680,
-                SetFieldOfView = 0x013F38A0,
+                SetFieldOfView = 0x0188FD10,
                 SetTargetFrameRate = 0x015DB980,
-                SetEnableFogRendering = 0x0136FB00,
+                SetEnableFogRendering = 0x013F6B00,
                 OpenTeam = 0x08699B90,
                 OpenTeamPageAccordingly = 0x08695AE0,
             },
@@ -45,7 +45,7 @@ public class UnlockerIslandFunctionOffsetTest
                 MickeyWonderMethod = 0x0916F3B0,
                 MickeyWonderMethodPartner = 0x00955AB0,
                 MickeyWonderMethodPartner2 = 0x05892DE0,
-                SetFieldOfView = 0x013F87C0,
+                SetFieldOfView = 0x01894C30,
                 SetTargetFrameRate = 0x015E08A0,
                 SetEnableFogRendering = 0x013FBA20,
                 OpenTeam = 0x086A32A0,
@@ -73,9 +73,9 @@ public class UnlockerIslandFunctionOffsetTest
 
         public required uint SetFieldOfView { get; set; }
 
-        public required uint SetTargetFrameRate { get; set; }
-
         public required uint SetEnableFogRendering { get; set; }
+
+        public required uint SetTargetFrameRate { get; set; }
 
         public required uint OpenTeam { get; set; }
 
