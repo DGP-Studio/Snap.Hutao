@@ -288,7 +288,7 @@
                             </AutoSuggestBox>
                         </CommandBar.Content>
 
-                        <AppBarElementContainer>
+                        <AppBarElementContainer AllowFocusOnInteraction="True">
                             <shuxc:SizeRestrictedContentControl Margin="2,6,3,6">
                                 <ComboBox
                                     DisplayMemberPath="Name"
