@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -224,9 +224,6 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Import</value>
-  </data>
-  <data name="ViewModelRoleCombatRound" xml:space="preserve">
-    <value>第 {0} 幕</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Welcome to Snap Hutao, Traveler ~</value>
@@ -410,16 +407,16 @@
     <value>1 Star</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
-    <value>轻简模式</value>
+    <value>Easy Mode</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
-    <value>困难模式</value>
+    <value>Hard Mode</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
-    <value>普通模式</value>
+    <value>Normal Mode</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
-    <value>卓越模式</value>
+    <value>Visionary Mode</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>Bow</value>
@@ -854,7 +851,7 @@
     <value>Failed to send notification</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>Launch Game</value>
+    <value>Launch</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>Dismiss</value>
@@ -2004,7 +2001,10 @@
     <value>Cannot select account [{1}] for UID [{0}], the account does not belong to current server</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
-    <value>已抵达{0}</value>
+    <value>Reached {0}</value>
+  </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>Act {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operation completed</value>
@@ -2059,6 +2059,9 @@
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>Import failed</value>
+  </data>
+  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
+    <value>Importing</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>The imported UIGF file does not contain wish data</value>
@@ -2323,6 +2326,9 @@
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>Do Not Disturb</value>
+  </data>
+  <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
+    <value>Launch</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
     <value>Long-Term Encounter Points</value>
@@ -2895,49 +2901,49 @@
     <value>Select Game Path</value>
   </data>
   <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
-    <value>助演</value>
+    <value>Support</value>
   </data>
   <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
-    <value>试用</value>
+    <value>Trial</value>
   </data>
   <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
-    <value>待命角色</value>
+    <value>Alternate Cast members</value>
   </data>
   <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
     <value>奇妙助益</value>
   </data>
   <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
-    <value>神秘收获</value>
+    <value>Mystery Cache</value>
   </data>
   <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
-    <value>消耗「幻剧之花」</value>
+    <value>Fantasia Flowers Used</value>
   </data>
   <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
-    <value>开幕角色</value>
+    <value>Opening Characters</value>
   </data>
   <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
-    <value>最佳记录</value>
+    <value>Best Record</value>
   </data>
   <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
-    <value>挑战星章</value>
+    <value>Star Challenge Stellas</value>
   </data>
   <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
-    <value>暂无演出数据</value>
+    <value>No performance data yet</value>
   </data>
   <data name="ViewPageRoleCombatShortest" xml:space="preserve">
     <value>最快演出</value>
   </data>
   <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
-    <value>特邀角色</value>
+    <value>Special Guest Stars</value>
   </data>
   <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
-    <value>辉彩祝福</value>
+    <value>Brilliant Blessings</value>
   </data>
   <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
-    <value>场外声援</value>
+    <value>External Audience Support</value>
   </data>
   <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
-    <value>助演次数</value>
+    <value>Supporting Times</value>
   </data>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>演出总时长</value>
@@ -2986,6 +2992,15 @@
   </data>
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
+    <value>紧凑网页窗口</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
+    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
+    <value>窗口不透明度</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copy</value>
@@ -3182,11 +3197,29 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Shortcut Keys</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
+    <value>更改控制视频快进的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
+    <value>视频快进</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>更改紧凑网页窗口中控制视频播放与暂停的快捷键</value>
+    <value>更改控制视频播放与暂停的快捷键</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>紧凑网页窗口视频播放暂停</value>
+    <value>视频播放暂停</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
+    <value>更改控制视频快退的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
+    <value>视频快退</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>更改视频快进与快退的时间</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>快进快退</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Show icon in notification area, to allow background task, restart the program to activate</value>
@@ -3393,7 +3426,7 @@
     <value>Before Ascension</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
-    <value>幻想真境剧诗</value>
+    <value>Imaginarium Theater</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>Log in failed, please log in again.</value>
