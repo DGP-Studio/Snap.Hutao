@@ -13,8 +13,15 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
 {
     public LowLevelKeyOptions()
     {
+        // TODO: once the VirtualKeys no longer duplicate, use Single instead of First
         VIRTUAL_KEY key = UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, VIRTUAL_KEY.VK__none_);
-        WebView2VideoPlayPauseKey = VirtualKeys.GetList().Single(n => n.Value == key);
+        WebView2VideoPlayPauseKey = VirtualKeys.GetList().First(n => n.Value == key);
+
+        key = UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoFastForward, VIRTUAL_KEY.VK__none_);
+        WebView2VideoFastForwardKey = VirtualKeys.GetList().First(n => n.Value == key);
+
+        key = UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoRewind, VIRTUAL_KEY.VK__none_);
+        WebView2VideoRewindKey = VirtualKeys.GetList().First(n => n.Value == key);
     }
 
     public NameValue<VIRTUAL_KEY> WebView2VideoPlayPauseKey
@@ -25,6 +32,30 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
             if (SetProperty(ref field, value) && value is not null)
             {
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, value.Value);
+            }
+        }
+    }
+
+    public NameValue<VIRTUAL_KEY> WebView2VideoFastForwardKey
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value) && value is not null)
+            {
+                UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoFastForward, value.Value);
+            }
+        }
+    }
+
+    public NameValue<VIRTUAL_KEY> WebView2VideoRewindKey
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value) && value is not null)
+            {
+                UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoRewind, value.Value);
             }
         }
     }

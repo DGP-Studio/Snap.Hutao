@@ -31,6 +31,9 @@ internal static class SettingKeys
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
     public const string LowLevelKeyboardWebView2VideoPlayPause = "LowLevelKeyboardWebView2VideoPlayPause";
+    public const string LowLevelKeyboardWebView2VideoFastForward = "LowLevelKeyboardWebView2VideoFastForward";
+    public const string LowLevelKeyboardWebView2VideoRewind = "LowLevelKeyboardWebView2VideoRewind";
+    public const string LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds = "LowLevelKeyboardWebView2VideoFastForwardOrRewindSeconds";
     #endregion
 
     #region Passport

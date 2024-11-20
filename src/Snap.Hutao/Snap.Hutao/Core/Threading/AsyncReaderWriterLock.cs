@@ -13,7 +13,7 @@ internal sealed class AsyncReaderWriterLock
     private readonly Queue<TaskCompletionSource<Releaser>> waitingWriters = [];
     private TaskCompletionSource<Releaser> waitingReader = new();
     private int readersWaiting;
-    private int status;
+    private int status; // readersReading or -1 if a writer is writing
 
     public AsyncReaderWriterLock()
     {
@@ -69,7 +69,7 @@ internal sealed class AsyncReaderWriterLock
             }
         }
 
-        toWake?.SetResult(new Releaser(this, true));
+        toWake?.SetResult(new(this, true));
     }
 
     private void WriterRelease()
@@ -89,7 +89,7 @@ internal sealed class AsyncReaderWriterLock
                 toWake = waitingReader;
                 status = readersWaiting;
                 readersWaiting = 0;
-                waitingReader = new TaskCompletionSource<Releaser>();
+                waitingReader = new();
             }
             else
             {
@@ -97,7 +97,7 @@ internal sealed class AsyncReaderWriterLock
             }
         }
 
-        toWake?.SetResult(new Releaser(this, toWakeIsWriter));
+        toWake?.SetResult(new(this, toWakeIsWriter));
     }
 
     internal readonly struct Releaser : IDisposable
@@ -111,7 +111,7 @@ internal sealed class AsyncReaderWriterLock
             this.writer = writer;
         }
 
-        public readonly void Dispose()
+        public void Dispose()
         {
             if (writer)
             {
