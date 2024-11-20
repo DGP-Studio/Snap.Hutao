@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -224,9 +224,6 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>가져오기</value>
-  </data>
-  <data name="ViewModelRoleCombatRound" xml:space="preserve">
-    <value>第 {0} 幕</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>欢迎使用胡桃</value>
@@ -2006,6 +2003,9 @@
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>已抵达{0}</value>
   </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>第 {0} 幕</value>
+  </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
   </data>
@@ -2059,6 +2059,9 @@
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>가져오기 실패</value>
+  </data>
+  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
+    <value>导入中</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>导入的 UIGF 文件中不包含祈愿数据</value>
@@ -2323,6 +2326,9 @@
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>방해 금지 모드</value>
+  </data>
+  <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
+    <value>게임 시작</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
     <value>长效历练点</value>
@@ -2987,6 +2993,15 @@
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行证</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
+    <value>紧凑网页窗口</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
+    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
+    <value>窗口不透明度</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>복사</value>
   </data>
@@ -3182,11 +3197,29 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
+    <value>更改控制视频快进的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
+    <value>视频快进</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>更改紧凑网页窗口中控制视频播放与暂停的快捷键</value>
+    <value>更改控制视频播放与暂停的快捷键</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>紧凑网页窗口视频播放暂停</value>
+    <value>视频播放暂停</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
+    <value>更改控制视频快退的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
+    <value>视频快退</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>更改视频快进与快退的时间</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>快进快退</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
