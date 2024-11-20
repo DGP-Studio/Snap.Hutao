@@ -3188,11 +3188,29 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快速鍵</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVideoFastForwardDescription" xml:space="preserve">
+    <value>更改紧凑网页窗口中控制视频快进的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVideoFastForwardHeader" xml:space="preserve">
+    <value>紧凑网页窗口视频快进</value>
+  </data>
+  <data name="ViewPageSettingKeyVideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>更改紧凑网页窗口中视频快进与快退的时间</value>
+  </data>
+  <data name="ViewPageSettingKeyVideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>紧凑网页窗口快进快退</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutVideoPlayPauseDescription" xml:space="preserve">
     <value>更改緊湊網頁視窗中控制影片播放與暫停的快速鍵</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVideoPlayPauseHeader" xml:space="preserve">
     <value>緊湊網頁視窗影片播放暫停</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVideoRewindDescription" xml:space="preserve">
+    <value>更改紧凑网页窗口中控制视频快退的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVideoRewindHeader" xml:space="preserve">
+    <value>紧凑网页窗口视频快退</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
