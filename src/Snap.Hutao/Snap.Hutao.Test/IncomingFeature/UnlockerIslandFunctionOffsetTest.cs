@@ -42,7 +42,7 @@ public class UnlockerIslandFunctionOffsetTest
             },
             Oversea = new()
             {
-                MickeyWonderMethod = 0x0E6625F0,
+                MickeyWonderMethod = 0x0916F3B0,
                 MickeyWonderMethodPartner = 0x00955AB0,
                 MickeyWonderMethodPartner2 = 0x05892DE0,
                 SetFieldOfView = 0x013F87C0,
