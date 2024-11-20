@@ -2996,7 +2996,7 @@
     <value>胡桃通行証</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
-    <value>紧凑网页窗口</value>
+    <value>コンパクトビュー</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>调整窗口的不透明度，下次打开窗口时生效</value>
