@@ -262,10 +262,10 @@
     <value>{0:f2} 回目</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
-    <value>最不運: {0} 回</value>
+    <value>最不運: {0}</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
-    <value>最幸運: {0} 回</value>
+    <value>最幸運: {0}</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
     <value>{0} 回目</value>
@@ -1870,7 +1870,7 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{0} 回引くと {1:P3} の確率で星5ｱｲﾃﾑが獲得</value>
+    <value>{0}回引くと {1:P3}の確率で星5ｱｲﾃﾑが獲得</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
     <value>次回抽選 {0:P3} の確率で星5ｱｲﾃﾑが獲得</value>
@@ -2272,7 +2272,7 @@
     <value>修練ポイント情報</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
-    <value>ﾘｱﾙﾀｲﾑﾉｰﾄが更新後に指定の Webhook へデータを送信します。</value>
+    <value>リアルタイムノートが更新後に指定の Webhook へデータを送信します</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
     <value>Webhookの設定</value>
@@ -2323,7 +2323,7 @@
     <value>通知領域アイコンを無効にすると、ウィンドウを閉じた後、自動更新が実行されなくなります</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
-    <value>プレイ中に通知をオフ</value>
+    <value>原神をプレイ中に通知しない</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>集中モード</value>
@@ -2996,13 +2996,13 @@
     <value>胡桃通行証</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
-    <value>コンパクトビュー</value>
+    <value>コンパクトウェブ</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
-    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+    <value>ウィンドウの不透明度を調整し、次にウィンドウを開いたときに有効になります</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
-    <value>窗口不透明度</value>
+    <value>ウィンドウ不透明度</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
@@ -3200,28 +3200,28 @@
     <value>ショートカットキー</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
-    <value>更改控制视频快进的快捷键</value>
+    <value>動画の早送りを制御するショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
-    <value>视频快进</value>
+    <value>動画の早送り</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>更改控制视频播放与暂停的快捷键</value>
+    <value>動画の再生と一時停止を制御するショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>视频播放暂停</value>
+    <value>動画一時停止</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
-    <value>更改控制视频快退的快捷键</value>
+    <value>動画の早戻しを制御するショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
-    <value>视频快退</value>
+    <value>動画の早戻し</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
-    <value>更改视频快进与快退的时间</value>
+    <value>動画の早送りや早戻しの時間を変更します</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
-    <value>快进快退</value>
+    <value>早送り·早戻し</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
