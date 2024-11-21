@@ -54,7 +54,7 @@ internal sealed partial class InventoryService : IInventoryService
             return;
         }
 
-        List<AvatarPromotionDelta> deltas = await minimalPromotionDelta.GetAsync().ConfigureAwait(false);
+        List<AvatarPromotionDelta> deltas = await minimalPromotionDelta.GetAsync(userAndUid).ConfigureAwait(false);
 
         BatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())

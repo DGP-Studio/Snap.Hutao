@@ -146,6 +146,60 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
+    public async ValueTask<List<Avatar>> GetAllAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        SyncAvatarFilter filter = new() { Page = 1, Size = 1000, IsAll = true };
+
+        IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(userAndUid.IsOversea);
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.CalculateAvatarList())
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .SetReferer(userAndUid.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
+            .PostJson(filter);
+
+        Response<ListWrapper<Avatar>>? resp = await builder
+            .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        Response.Response.DefaultIfNull(ref resp);
+
+        if (ResponseValidator.TryValidate(resp, serviceProvider, out ListWrapper<Avatar>? listWrapper))
+        {
+            return listWrapper.List;
+        }
+
+        return [];
+    }
+
+    public async ValueTask<List<Weapon>> GetAllWeaponsAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        SyncWeaponFilter filter = new() { WeaponLevels = [4, 5] };
+
+        Response<ListWrapper<Weapon>>? resp;
+
+        IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(userAndUid.IsOversea);
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.CalculateWeaponList())
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .SetReferer(userAndUid.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
+            .PostJson(filter);
+
+        resp = await builder
+            .SendAsync<Response<ListWrapper<Weapon>>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        Response.Response.DefaultIfNull(ref resp);
+
+        if (ResponseValidator.TryValidate(resp, serviceProvider, out ListWrapper<Weapon>? listWrapper))
+        {
+            return listWrapper.List;
+        }
+
+        return [];
+    }
+
     private class SyncAvatarFilter
     {
         [JsonPropertyName("element_attr_ids")]
@@ -160,11 +214,29 @@ internal sealed partial class CalculateClient
         [JsonPropertyName("size")]
         public int Size { get; set; } = 20;
 
+        [JsonPropertyName("is_all")]
+        public bool? IsAll { get; set; }
+
         [JsonPropertyName("uid")]
-        public string Uid { get; set; } = default!;
+        public string? Uid { get; set; }
 
         [JsonPropertyName("region")]
-        public Region Region { get; set; }
+        public Region? Region { get; set; }
+    }
+
+    private class SyncWeaponFilter
+    {
+        [JsonPropertyName("weapon_cat_ids")]
+        public List<int>? WeaponCatIds { get; set; } = [];
+
+        [JsonPropertyName("weapon_levels")]
+        public List<int>? WeaponLevels { get; set; } = [];
+
+        [JsonPropertyName("page")]
+        public int Page { get; set; } = 1;
+
+        [JsonPropertyName("size")]
+        public int Size { get; set; } = 1000;
     }
 
     private class IdCount
