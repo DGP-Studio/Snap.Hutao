@@ -24,6 +24,14 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     private bool registered;
 
+    private bool modifierHasControl;
+    private bool modifierHasShift;
+    private bool modifierHasAlt;
+    private NameValue<VIRTUAL_KEY> keyNameValue;
+    private HOT_KEY_MODIFIERS modifiers;
+    private VIRTUAL_KEY key;
+    private bool isEnabled;
+
     public unsafe HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VIRTUAL_KEY defaultKey)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
@@ -36,7 +44,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
         // Initialize Property backing fields
         {
             // Retrieve from LocalSetting
-            IsEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
+            isEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
 
             HotKeyParameter actual;
             fixed (HotKeyParameter* pDefaultHotKey = &defaultHotKeyParameter)
@@ -47,41 +55,41 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
             // HOT_KEY_MODIFIERS.MOD_WIN is reversed for use by the OS.
             // It should not be used by the application.
-            Modifiers = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
+            modifiers = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
 
             if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL))
             {
-                ModifierHasControl = true;
+                modifierHasControl = true;
             }
 
             if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT))
             {
-                ModifierHasShift = true;
+                modifierHasShift = true;
             }
 
             if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT))
             {
-                ModifierHasAlt = true;
+                modifierHasAlt = true;
             }
 
-            Key = Enum.IsDefined(actual.Key) ? actual.Key : defaultKey;
+            key = Enum.IsDefined(actual.Key) ? actual.Key : defaultKey;
 
-            KeyNameValue = VirtualKeys.GetList().Single(v => v.Value == Key);
+            keyNameValue = VirtualKeys.GetList().Single(v => v.Value == key);
         }
     }
 
-    public bool ModifierHasControl { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
+    public bool ModifierHasControl { get => modifierHasControl; set => _ = SetProperty(ref modifierHasControl, value) && UpdateModifiers(); }
 
-    public bool ModifierHasShift { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
+    public bool ModifierHasShift { get => modifierHasShift; set => _ = SetProperty(ref modifierHasShift, value) && UpdateModifiers(); }
 
-    public bool ModifierHasAlt { get; set => _ = SetProperty(ref field, value) && UpdateModifiers(); }
+    public bool ModifierHasAlt { get => modifierHasAlt; set => _ = SetProperty(ref modifierHasAlt, value) && UpdateModifiers(); }
 
     public NameValue<VIRTUAL_KEY> KeyNameValue
     {
-        get;
+        get => keyNameValue;
         set
         {
-            if (value is not null && SetProperty(ref field, value))
+            if (value is not null && SetProperty(ref keyNameValue, value))
             {
                 Key = value.Value;
             }
@@ -90,10 +98,10 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     public HOT_KEY_MODIFIERS Modifiers
     {
-        get;
+        get => modifiers;
         private set
         {
-            if (SetProperty(ref field, value))
+            if (SetProperty(ref modifiers, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
                 LocalSettingSetHotKeyParameterAndRefresh();
@@ -103,10 +111,10 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     public VIRTUAL_KEY Key
     {
-        get;
+        get => key;
         private set
         {
-            if (SetProperty(ref field, value))
+            if (SetProperty(ref key, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
                 LocalSettingSetHotKeyParameterAndRefresh();
@@ -116,10 +124,10 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     public bool IsEnabled
     {
-        get;
+        get => isEnabled;
         set
         {
-            if (SetProperty(ref field, value))
+            if (SetProperty(ref isEnabled, value))
             {
                 LocalSetting.Set($"{settingKey}.IsEnabled", value);
 
