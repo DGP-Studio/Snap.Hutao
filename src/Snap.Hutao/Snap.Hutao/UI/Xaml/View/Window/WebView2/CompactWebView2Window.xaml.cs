@@ -133,6 +133,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosed()
     {
+        LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
+
         inputPointerSource.PointerEntered -= OnWindowPointerEntered;
         inputPointerSource.PointerExited -= OnWindowPointerExited;
         inputNonClientPointerSource.PointerEntered -= OnWindowNonClientPointerEntered;
