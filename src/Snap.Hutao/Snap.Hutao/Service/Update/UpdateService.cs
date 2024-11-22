@@ -50,14 +50,12 @@ internal sealed partial class UpdateService : IUpdateService
             HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
             if (await hutaoUserOptions.GetIsCloudServiceAllowedAsync().ConfigureAwait(false))
             {
-                // Homa returns a HutaoPackageMirror object or sign query, and add it to the mirror list
-                HutaoPackageMirror cdnMirror = new()
+                HutaoDistributionClient distributionClient = scope.ServiceProvider.GetRequiredService<HutaoDistributionClient>();
+                HutaoResponse<HutaoPackageMirror> mirrorResponse = await distributionClient.GetAccMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token).ConfigureAwait(false);
+                if (mirrorResponse.Data is { } mirror)
                 {
-                    MirrorName = "腾讯云 CDN （胡桃云专属）",
-                    MirrorType = HutaoPackageMirrorType.Direct,
-                };
-
-                // checkUpdateResult.PackageInformation.Mirrors.Add(cdnMirror);
+                    checkUpdateResult.PackageInformation.Mirrors.Add(mirror);
+                }
             }
 
             string msixPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
