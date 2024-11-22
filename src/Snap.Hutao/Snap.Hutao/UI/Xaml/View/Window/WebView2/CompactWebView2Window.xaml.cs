@@ -162,6 +162,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void UpdateLayeredWindow()
     {
+        if (opacity >= 1)
+        {
+            return;
+        }
+
         lock (syncRoot)
         {
             if (GetCursorPos(out POINT pt) && GetWindowRect(this.GetWindowHandle(), out RECT rect) && PtInRect(in rect, pt))
@@ -249,6 +254,9 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
             WebView.CoreWebView2.NewWindowRequested += OnNewWindowRequested;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+
+            await taskContext.SwitchToMainThreadAsync();
+            Source = LocalSetting.Get(SettingKeys.CompactWebView2WindowPreviousSourceUrl, string.Empty);
         }
     }
 

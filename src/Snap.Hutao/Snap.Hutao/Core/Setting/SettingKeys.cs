@@ -66,6 +66,7 @@ internal static class SettingKeys
     public const string LowLevelKeyboardWebView2VideoRewind = "LowLevelKeyboardWebView2VideoRewind";
     public const string WebView2VideoFastForwardOrRewindSeconds = "WebView2VideoFastForwardOrRewindSeconds";
     public const string CompactWebView2WindowInactiveOpacity = "CompactWebView2WindowInactiveOpacity";
+    public const string CompactWebView2WindowPreviousSourceUrl = "CompactWebView2WindowPreviousSourceUrl";
     #endregion
 
     #region DevTool
