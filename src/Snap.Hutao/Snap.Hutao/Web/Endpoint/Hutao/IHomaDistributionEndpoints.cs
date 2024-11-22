@@ -5,8 +5,8 @@ namespace Snap.Hutao.Web.Endpoint.Hutao;
 
 internal interface IHomaDistributionEndpoints : IHomaRootAccess
 {
-    public string DistributionGetAccMirror(string filename)
+    public string DistributionGetAcceleratedMirror(string filename)
     {
-        return $"{Root}/Distribution/GetAccMirror?Filename={filename}";
+        return $"{Root}/Distribution/GetAcceleratedMirror?Filename={filename}";
     }
 }
