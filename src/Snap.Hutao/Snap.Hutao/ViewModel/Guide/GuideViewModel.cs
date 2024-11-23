@@ -3,6 +3,7 @@
 
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
@@ -72,6 +73,8 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     public partial AppOptions AppOptions { get; }
 
     public partial StaticResourceOptions StaticResourceOptions { get; }
+
+    public partial HttpProxyUsingSystemProxy HttpProxyUsingSystemProxy { get; }
 
     public NameValue<CultureInfo>? SelectedCulture
     {

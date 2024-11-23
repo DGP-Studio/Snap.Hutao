@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
@@ -25,6 +26,7 @@ namespace Snap.Hutao.ViewModel;
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
+    private readonly HttpProxyUsingSystemProxy httpProxyUsingSystemProxy;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
@@ -62,6 +64,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         ShowUpdateLogWindowAfterUpdate();
         NotifyIfDateFolderHasReparsePoint();
         await DoCheckUpdateAsync().ConfigureAwait(false);
+        await CheckProxyAndLoopbackAsync().ConfigureAwait(false);
         return true;
     }
 
@@ -176,6 +179,24 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         if (new DirectoryInfo(HutaoRuntime.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
         {
             infoBarService.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(HutaoRuntime.DataFolder));
+        }
+    }
+
+    private async ValueTask CheckProxyAndLoopbackAsync()
+    {
+        if (httpProxyUsingSystemProxy.IsProxyWorking)
+        {
+            return;
+        }
+
+        ContentDialogResult result = await contentDialogFactory
+            .CreateForConfirmCancelAsync(SH.ViewDialogFeedbackEnableLoopbackTitle, "检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。")
+            .ConfigureAwait(false);
+
+        if (result is ContentDialogResult.Primary)
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            httpProxyUsingSystemProxy.EnableLoopback();
         }
     }
 }
