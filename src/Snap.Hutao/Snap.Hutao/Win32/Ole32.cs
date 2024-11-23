@@ -26,7 +26,7 @@ internal static class Ole32
             fixed (Guid* riid = &iid)
             {
                 nint pv = default;
-                HRESULT hr = CoCreateInstance(rclsid, unkOuter?.ThisPtr ?? 0, dwClsContext, riid, (void**)&pv);
+                HRESULT hr = CoCreateInstance(rclsid, MarshalInterfaceHelper<object>.GetAbi(unkOuter), dwClsContext, riid, (void**)&pv);
                 v = ObjectReference<TVftbl>.Attach(ref pv, iid);
                 return hr;
             }

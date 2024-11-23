@@ -39,7 +39,7 @@ internal static class D3d11
             {
                 nint pDevice = default;
                 nint pImmediateContext = default;
-                HRESULT hr = D3D11CreateDevice(adapter?.ThisPtr ?? 0, DriverType, Software, Flags, pFeatureLevels, (uint)featureLevels.Length, SDKVersion, &pDevice, pFeatureLevel, &pImmediateContext);
+                HRESULT hr = D3D11CreateDevice(MarshalInterfaceHelper<object>.GetAbi(adapter), DriverType, Software, Flags, pFeatureLevels, (uint)featureLevels.Length, SDKVersion, &pDevice, pFeatureLevel, &pImmediateContext);
                 device = ObjectReference<ID3D11Device.Vftbl>.Attach(ref pDevice, ID3D11Device.IID);
                 immediateContext = ObjectReference<ID3D11DeviceContext.Vftbl>.Attach(ref pImmediateContext, ID3D11DeviceContext.IID);
                 return hr;
