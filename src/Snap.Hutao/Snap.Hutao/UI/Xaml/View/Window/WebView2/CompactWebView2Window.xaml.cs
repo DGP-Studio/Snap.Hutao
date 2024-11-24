@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using JetBrains.Annotations;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -29,6 +30,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     IXamlWindowRectPersisted,
     IXamlWindowClosedHandler
 {
+    /*lang=javascript*/
     private const string VideoPlayPauseScript = """
         {
             let v = document.evaluate("//video", document, null).iterateNext();
@@ -36,6 +38,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
         """;
 
+    /*lang=javascript*/
     private const string VideoFastForwardScript = """
         {{
             let v = document.evaluate("//video", document, null).iterateNext();
@@ -43,6 +46,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }}
         """;
 
+    /*lang=javascript*/
     private const string VideoRewindScript = """
         {{
             let v = document.evaluate("//video", document, null).iterateNext();
