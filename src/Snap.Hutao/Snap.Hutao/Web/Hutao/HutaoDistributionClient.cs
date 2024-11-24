@@ -21,7 +21,7 @@ internal sealed partial class HutaoDistributionClient
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<HutaoResponse<HutaoPackageMirror>> GetAccMirrorAsync(string filename, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<HutaoPackageMirror>> GetAcceleratedMirrorAsync(string filename, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().DistributionGetAcceleratedMirror(filename))

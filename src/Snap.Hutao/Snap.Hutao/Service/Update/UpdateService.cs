@@ -68,7 +68,7 @@ internal sealed partial class UpdateService : IUpdateService
             if (await hutaoUserOptions.GetIsCloudServiceAllowedAsync().ConfigureAwait(false))
             {
                 HutaoDistributionClient distributionClient = scope.ServiceProvider.GetRequiredService<HutaoDistributionClient>();
-                HutaoResponse<HutaoPackageMirror> mirrorResponse = await distributionClient.GetAccMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token).ConfigureAwait(false);
+                HutaoResponse<HutaoPackageMirror> mirrorResponse = await distributionClient.GetAcceleratedMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token).ConfigureAwait(false);
                 if (mirrorResponse.Data is { } mirror)
                 {
                     checkUpdateResult.PackageInformation.Mirrors.Add(mirror);
