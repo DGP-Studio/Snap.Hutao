@@ -24,7 +24,7 @@
         <ListView
             Header="{shuxm:ResourceString Name=ViewDialogUpdatePackageMirrorHeader}"
             ItemsSource="{x:Bind Mirrors}"
-            SelectedItem="{x:Bind SelectedItem}">
+            SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding MirrorName}"/>

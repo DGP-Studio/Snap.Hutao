@@ -22,6 +22,12 @@ internal static class HutaoUserOptionsExtension
         return options.Token;
     }
 
+    public static async ValueTask<bool> GetIsCloudServiceAllowedAsync(this HutaoUserOptions options)
+    {
+        await options.PostInitialization.Task.ConfigureAwait(false);
+        return options.IsCloudServiceAllowed;
+    }
+
     public static async ValueTask<bool> PostLoginSucceedAsync(this HutaoUserOptions options, IServiceProvider serviceProvider, string username, string password, string? token)
     {
         LocalSetting.Set(SettingKeys.PassportUserName, username);
@@ -56,6 +62,8 @@ internal static class HutaoUserOptionsExtension
             string unescaped = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt);
             options.GachaLogExpireAt = string.Format(CultureInfo.CurrentCulture, unescaped, userInfo.GachaLogExpireAt);
             options.GachaLogExpireAtSlim = $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}";
+
+            options.PostInitialization.TrySetResult();
         }
     }
 

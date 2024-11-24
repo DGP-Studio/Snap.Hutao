@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
@@ -60,6 +61,17 @@ internal sealed partial class UpdateService : IUpdateService
 
                     checkUpdateResult.Kind = CheckUpdateResultKind.AlreayUpdated;
                     return checkUpdateResult;
+                }
+            }
+
+            HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
+            if (await hutaoUserOptions.GetIsCloudServiceAllowedAsync().ConfigureAwait(false))
+            {
+                HutaoDistributionClient distributionClient = scope.ServiceProvider.GetRequiredService<HutaoDistributionClient>();
+                HutaoResponse<HutaoPackageMirror> mirrorResponse = await distributionClient.GetAcceleratedMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token).ConfigureAwait(false);
+                if (mirrorResponse.Data is { } mirror)
+                {
+                    checkUpdateResult.PackageInformation.Mirrors.Add(mirror);
                 }
             }
 
