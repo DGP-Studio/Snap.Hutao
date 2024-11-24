@@ -176,8 +176,6 @@ internal sealed partial class CalculateClient
     {
         SyncWeaponFilter filter = new() { WeaponLevels = [4, 5] };
 
-        Response<ListWrapper<Weapon>>? resp;
-
         IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(userAndUid.IsOversea);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -186,7 +184,7 @@ internal sealed partial class CalculateClient
             .SetReferer(userAndUid.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
             .PostJson(filter);
 
-        resp = await builder
+        Response<ListWrapper<Weapon>>? resp = await builder
             .SendAsync<Response<ListWrapper<Weapon>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 

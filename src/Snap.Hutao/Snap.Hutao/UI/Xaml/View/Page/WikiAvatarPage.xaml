@@ -717,12 +717,9 @@
                                                                     VerticalAlignment="Center"
                                                                     Spacing="8">
                                                                     <TextBlock
-                                                                        Grid.Row="0"
                                                                         Style="{ThemeResource BaseTextBlockStyle}"
                                                                         Text="{Binding Name}"/>
                                                                     <TextBlock
-                                                                        Grid.Row="1"
-                                                                        Grid.Column="1"
                                                                         Text="{Binding Description}"
                                                                         TextTrimming="None"
                                                                         TextWrapping="Wrap"/>
@@ -769,13 +766,9 @@
                                                                 Grid.Column="2"
                                                                 Margin="16,0,0,0">
                                                                 <TextBlock
-                                                                    Grid.Row="2"
-                                                                    Grid.ColumnSpan="4"
                                                                     Text="{Binding Item.Description}"
                                                                     TextWrapping="Wrap"/>
                                                                 <TextBlock
-                                                                    Grid.Row="3"
-                                                                    Grid.ColumnSpan="4"
                                                                     Margin="0,16,0,0"
                                                                     Text="{Binding Item.EffectDescription}"
                                                                     TextWrapping="Wrap"/>

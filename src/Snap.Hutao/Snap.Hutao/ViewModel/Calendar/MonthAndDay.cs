@@ -5,7 +5,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 
 namespace Snap.Hutao.ViewModel.Calendar;
 
-internal readonly struct MonthAndDay
+internal readonly struct MonthAndDay : IEquatable<MonthAndDay>
 {
     public readonly uint Month;
     public readonly uint Day;
@@ -24,5 +24,15 @@ internal readonly struct MonthAndDay
     public override int GetHashCode()
     {
         return HashCode.Combine(Month, Day);
+    }
+
+    public bool Equals(MonthAndDay other)
+    {
+        return Month == other.Month && Day == other.Day;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is MonthAndDay other && Equals(other);
     }
 }

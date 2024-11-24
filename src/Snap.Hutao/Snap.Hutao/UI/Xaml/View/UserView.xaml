@@ -425,7 +425,6 @@
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewUserRole}"/>
                                     <ListView
-                                        Grid.Row="1"
                                         Margin="4"
                                         ItemTemplate="{StaticResource UserGameRoleTemplate}"
                                         ItemsSource="{Binding Users.CurrentItem.UserGameRoles}"
@@ -438,7 +437,6 @@
                                     Style="{StaticResource BaseTextBlockStyle}"
                                     Text="{shuxm:ResourceString Name=ViewUserUser}"/>
                                 <ListView
-                                    Grid.Row="1"
                                     Margin="4"
                                     AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                                     CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"

@@ -180,7 +180,7 @@
             </Pivot.RightHeader>
 
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameOptionsHeader}">
-                <ScrollViewer Grid.RowSpan="2">
+                <ScrollViewer>
                     <StackPanel Margin="16" Spacing="16">
                         <!--  需要管理员权限的操作  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
@@ -421,7 +421,6 @@
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
                                                 <Grid
-                                                    Grid.Row="1"
                                                     ColumnSpacing="16"
                                                     RowSpacing="16">
                                                     <Grid.ColumnDefinitions>
@@ -461,7 +460,6 @@
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
                                                 <Grid
-                                                    Grid.Row="1"
                                                     ColumnSpacing="16"
                                                     RowSpacing="16">
                                                     <Grid.ColumnDefinitions>
