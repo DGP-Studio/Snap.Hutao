@@ -31,9 +31,9 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         watcher.Start(serviceProvider.GetRequiredService<ILogger<HttpProxyUsingSystemProxy>>());
     }
 
-    public bool IsProxyWorking
+    public bool IsUsingProxyAndNotWorking
     {
-        get => GetProxy(ProxyTestDestination) is not null && loopbackSupport.IsLoopbackEnabled;
+        get => GetProxy(ProxyTestDestination) is not null && !loopbackSupport.IsLoopbackEnabled;
     }
 
     public string CurrentProxyUri

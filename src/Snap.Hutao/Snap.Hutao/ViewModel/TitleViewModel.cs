@@ -184,13 +184,13 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     private async ValueTask CheckProxyAndLoopbackAsync()
     {
-        if (httpProxyUsingSystemProxy.IsProxyWorking)
+        if (!httpProxyUsingSystemProxy.IsUsingProxyAndNotWorking)
         {
             return;
         }
 
         ContentDialogResult result = await contentDialogFactory
-            .CreateForConfirmCancelAsync(SH.ViewDialogFeedbackEnableLoopbackTitle, "检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。")
+            .CreateForConfirmCancelAsync(SH.ViewDialogFeedbackEnableLoopbackTitle, SH.ViewDialogFeedbackEnableLoopbackDescription)
             .ConfigureAwait(false);
 
         if (result is ContentDialogResult.Primary)

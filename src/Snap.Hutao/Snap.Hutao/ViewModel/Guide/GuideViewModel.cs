@@ -74,8 +74,6 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public partial StaticResourceOptions StaticResourceOptions { get; }
 
-    public partial HttpProxyUsingSystemProxy HttpProxyUsingSystemProxy { get; }
-
     public NameValue<CultureInfo>? SelectedCulture
     {
         get => field ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
