@@ -1383,6 +1383,9 @@
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>制限を解除した後にループバックを復元するには他のツールが必要です</value>
   </data>
+  <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
+    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+  </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>ループバック制限解除の確認</value>
   </data>
@@ -3004,6 +3007,30 @@
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>ウィンドウ不透明度</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
+    <value>動画の早送りを制御するショートカットキーを変更します</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
+    <value>動画の早送り</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>動画の早送りや早戻しの時間を変更します</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>早送り·早戻し</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
+    <value>動画の再生と一時停止を制御するショートカットキーを変更します</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
+    <value>動画一時停止</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
+    <value>動画の早戻しを制御するショートカットキーを変更します</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
+    <value>動画の早戻し</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
   </data>
@@ -3198,30 +3225,6 @@
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
-    <value>動画の早送りを制御するショートカットキーを変更します</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
-    <value>動画の早送り</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>動画の再生と一時停止を制御するショートカットキーを変更します</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>動画一時停止</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
-    <value>動画の早戻しを制御するショートカットキーを変更します</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
-    <value>動画の早戻し</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
-    <value>動画の早送りや早戻しの時間を変更します</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
-    <value>早送り·早戻し</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
