@@ -7,11 +7,46 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
+        <DataTemplate x:Key="CountdownHistoryTemplate" x:DataType="shvg:CountdownHistory">
+            <Grid ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding FormattedVersionOrder}"/>
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding FormattedTime}"/>
+                </Grid>
+
+                <shuxci:CachedImage
+                    Grid.Column="1"
+                    Width="320"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                    Source="{Binding Banner}"/>
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate x:Key="CountdownTemplate" x:DataType="shvg:Countdown">
             <Grid
                 Margin="8,0,8,4"
@@ -21,6 +56,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
                 <shuxcc:VerticalCard Width="66">
@@ -67,8 +103,30 @@
                         Opacity="0.6"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="{Binding FormattedVersionOrder}"/>
-
                 </Grid>
+
+                <Button
+                    Grid.Column="2"
+                    MinWidth="32"
+                    MinHeight="32"
+                    Padding="0"
+                    VerticalAlignment="Bottom"
+                    Content="&#xE81C;"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    Style="{ThemeResource SettingButtonStyle}">
+                    <Button.Flyout>
+                        <Flyout
+                            FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}"
+                            Placement="Right"
+                            ShouldConstrainToRootBounds="False">
+                            <ListView
+                                ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
+                                ItemTemplate="{StaticResource CountdownHistoryTemplate}"
+                                ItemsSource="{x:Bind Histories, Mode=OneWay}"
+                                SelectionMode="None"/>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
