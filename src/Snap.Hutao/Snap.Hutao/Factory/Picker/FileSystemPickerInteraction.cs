@@ -191,27 +191,29 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
         }
     }
 
-    private static unsafe void SetFileTypes(ObjectReference<IFileDialog.Vftbl> fileDialog, (string Name, string Type)[] filters)
+    private static unsafe void SetFileTypes(ObjectReference<IFileDialog.Vftbl> fileDialog, ReadOnlySpan<(string Name, string Type)> filters)
     {
-        List<nint> unmanagedStringPtrs = new(filters.Length * 2);
-        List<COMDLG_FILTERSPEC> filterSpecs = new(filters.Length);
-        foreach ((string name, string type) in filters)
+        Span<nint> unmanagedStringPtrs = stackalloc nint[filters.Length * 2];
+        Span<COMDLG_FILTERSPEC> filterSpecs = stackalloc COMDLG_FILTERSPEC[filters.Length];
+
+        for (int index = 0; index < filters.Length; index++)
         {
-            nint pName = Marshal.StringToHGlobalUni(name);
-            nint pType = Marshal.StringToHGlobalUni(type);
-            unmanagedStringPtrs.Add(pName);
-            unmanagedStringPtrs.Add(pType);
+            (string name, string type) = filters[index];
+            nint pName = Marshal.StringToCoTaskMemUni(name);
+            nint pType = Marshal.StringToCoTaskMemUni(type);
+            unmanagedStringPtrs[index * 2] = pName;
+            unmanagedStringPtrs[(index * 2) + 1] = pType;
             COMDLG_FILTERSPEC spec = default;
             spec.pszName = *(PCWSTR*)&pName;
             spec.pszSpec = *(PCWSTR*)&pType;
-            filterSpecs.Add(spec);
+            filterSpecs[index] = spec;
         }
 
-        fileDialog.SetFileTypes(CollectionsMarshal.AsSpan(filterSpecs));
+        fileDialog.SetFileTypes(filterSpecs);
 
-        foreach (ref readonly nint ptr in CollectionsMarshal.AsSpan(unmanagedStringPtrs))
+        foreach (ref readonly nint ptr in unmanagedStringPtrs)
         {
-            Marshal.FreeHGlobal(ptr);
+            CoTaskMemFree((void*)ptr);
         }
     }
 
