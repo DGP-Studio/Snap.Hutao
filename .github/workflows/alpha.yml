@@ -106,7 +106,3 @@ jobs:
           Write-Host "Cleaning up NuGet cache..."
           Remove-Item -Recurse -Force "$env:USERPROFILE\.nuget\packages"
           Write-Host "NuGet cache cleaned."
-
-          Write-Host "Cleaning up .NET install folder..."
-          Remove-Item -Recurse -Force "C:\Users\Public\Documents\dotnet_install"
-          Write-Host ".NET install folder cleaned."
