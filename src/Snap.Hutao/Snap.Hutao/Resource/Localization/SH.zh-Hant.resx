@@ -121,10 +121,10 @@
     <value>胡桃 Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃 Dev {0} [系統管理員]</value>
+    <value>胡桃Dev {0} [管理员]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
-    <value>胡桃 {0} [系統管理員]</value>
+    <value>胡桃 {0} [管理员]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
@@ -1381,6 +1381,9 @@
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>解除限制後需使用其他工具恢復限制</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
+    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>是否解除 Loopback 限制</value>
@@ -3002,6 +3005,30 @@
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>視窗不透明度</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
+    <value>更改控制影片快轉的快速鍵</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
+    <value>影片快轉</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>更改影片快轉與快退的時間</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>快轉快退</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
+    <value>更改控制影片播放與暫停的快速鍵</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
+    <value>影片播放暫停</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
+    <value>更改控制影片快退的快速鍵</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
+    <value>影片快退</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>複製</value>
   </data>
@@ -3196,30 +3223,6 @@
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快速鍵</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
-    <value>更改控制影片快轉的快速鍵</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
-    <value>影片快轉</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>更改控制影片播放與暫停的快速鍵</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>影片播放暫停</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
-    <value>更改控制影片快退的快速鍵</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
-    <value>影片快退</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
-    <value>更改影片快轉與快退的時間</value>
-  </data>
-  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
-    <value>快轉快退</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
