@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-internal sealed partial class AvatarView : INameIconSide,
+internal sealed partial class AvatarView : INameIconSide<Uri>,
     ICalculableSource<ICalculableAvatar>,
     IAdvancedCollectionViewItem
 {

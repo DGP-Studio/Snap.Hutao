@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
 
-internal sealed class EnemyView : INameIcon
+internal sealed class EnemyView : INameIcon<Uri>
 {
     private EnemyView(RoleCombatEnemy roleCombatEnemy)
     {

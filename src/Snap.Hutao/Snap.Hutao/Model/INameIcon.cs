@@ -3,11 +3,9 @@
 
 namespace Snap.Hutao.Model;
 
-internal interface INameIcon<TIcon>
+internal interface INameIcon<out TIcon>
 {
     string Name { get; }
 
     TIcon Icon { get; }
 }
-
-internal interface INameIcon : INameIcon<Uri>;
