@@ -3,7 +3,6 @@
 
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
