@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.IO.Http.Loopback;
 using Snap.Hutao.Win32.Registry;
 using System.Net;
 using System.Reflection;
@@ -14,24 +15,32 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     private const string ProxySettingPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections";
 
     private static readonly Lazy<MethodInfo> LazyConstructSystemProxyMethod = new(GetConstructSystemProxyMethod);
+    private static readonly Uri ProxyTestDestination = "https://hut.ao".ToUri();
 
     private readonly IServiceProvider serviceProvider;
+    private readonly LoopbackSupport loopbackSupport;
     private readonly RegistryWatcher watcher;
 
     public HttpProxyUsingSystemProxy(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
+        loopbackSupport = serviceProvider.GetRequiredService<LoopbackSupport>();
         UpdateInnerProxy();
 
         watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
         watcher.Start(serviceProvider.GetRequiredService<ILogger<HttpProxyUsingSystemProxy>>());
     }
 
+    public bool IsUsingProxyAndNotWorking
+    {
+        get => GetProxy(ProxyTestDestination) is not null && !loopbackSupport.IsLoopbackEnabled;
+    }
+
     public string CurrentProxyUri
     {
         get
         {
-            Uri? proxyUri = GetProxy("https://hut.ao".ToUri());
+            Uri? proxyUri = GetProxy(ProxyTestDestination);
             return proxyUri is null
                 ? SH.ViewPageFeedbackCurrentProxyNoProxyDescription
                 : proxyUri.AbsoluteUri;
@@ -82,6 +91,12 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         // TaskContext can't be injected directly since there are some recursive dependencies.
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
+    }
+
+    [Command("EnableLoopbackCommand")]
+    public void EnableLoopback()
+    {
+        loopbackSupport.EnableLoopback();
     }
 
     private static MethodInfo GetConstructSystemProxyMethod()
