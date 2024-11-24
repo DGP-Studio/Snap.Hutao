@@ -113,11 +113,11 @@ internal sealed partial class UniformStaggeredPanel : Microsoft.UI.Xaml.Controls
             StartX = index * (width + spacing);
         }
 
-        public double StartX { get; set; }
+        public double StartX { get; }
 
         public Dictionary<int, Rect> ChildrenRectMap { get; } = [];
 
-        public Size Size { get; set; }
+        public Size Size { get; private set; }
 
         public void Add(int childIndex, Point position, Size size)
         {

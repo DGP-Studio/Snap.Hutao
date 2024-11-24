@@ -11,7 +11,7 @@ internal sealed class LaunchStatus
         Description = description;
     }
 
-    public LaunchPhase Phase { get; set; }
+    public LaunchPhase Phase { get; }
 
-    public string Description { get; set; }
+    public string Description { get; }
 }

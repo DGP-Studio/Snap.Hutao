@@ -14,9 +14,9 @@ internal sealed class UserAndUid
         Uid = role;
     }
 
-    public EntityUser User { get; private set; }
+    public EntityUser User { get; }
 
-    public PlayerUid Uid { get; private set; }
+    public PlayerUid Uid { get; }
 
     public bool IsOversea { get => User.IsOversea; }
 

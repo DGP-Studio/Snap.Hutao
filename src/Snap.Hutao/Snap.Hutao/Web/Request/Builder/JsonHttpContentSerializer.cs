@@ -16,7 +16,7 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
         JsonSerializerOptions = jsonSerializerOptions;
     }
 
-    internal JsonSerializerOptions? JsonSerializerOptions { get; set; }
+    internal JsonSerializerOptions? JsonSerializerOptions { get; }
 
     protected override HttpContent? SerializeCore(object? content, Type contentType, Encoding encoding)
     {

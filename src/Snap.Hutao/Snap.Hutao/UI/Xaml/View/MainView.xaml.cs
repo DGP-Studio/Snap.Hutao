@@ -47,9 +47,9 @@ internal sealed partial class MainView : UserControl
             Frame = frame;
         }
 
-        public NavigationView NavigationView { get; private set; }
+        public NavigationView NavigationView { get; }
 
-        public Frame Frame { get; private set; }
+        public Frame Frame { get; }
     }
 
     private class BackgroundImagePresenterAccessor : IBackgroundImagePresenterAccessor
@@ -59,6 +59,6 @@ internal sealed partial class MainView : UserControl
             BackgroundImagePresenter = backgroundImagePresenter;
         }
 
-        public Image BackgroundImagePresenter { get; private set; }
+        public Image BackgroundImagePresenter { get; }
     }
 }

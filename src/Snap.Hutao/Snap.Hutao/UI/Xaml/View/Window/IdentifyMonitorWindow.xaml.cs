@@ -23,7 +23,7 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         AppWindow.MoveAndResize(RectInt32Convert.RectInt32(point, size), displayArea);
     }
 
-    public string Monitor { get; private set; }
+    public string Monitor { get; }
 
     public static async ValueTask IdentifyAllMonitorsAsync(int secondsDelay)
     {

@@ -14,5 +14,5 @@ internal sealed partial class UIGFUidSelection : ObservableObject
 
     public bool IsSelected { get; set => SetProperty(ref field, value); } = true;
 
-    public uint Uid { get; set; }
+    public uint Uid { get; }
 }

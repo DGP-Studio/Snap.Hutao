@@ -14,11 +14,11 @@ internal sealed class BuffView
         Description = roleCombatBuff.Description.Replace("\\n", "\n", StringComparison.OrdinalIgnoreCase);
     }
 
-    public Uri Icon { get; set; }
+    public Uri Icon { get; }
 
-    public string Name { get; set; }
+    public string Name { get; }
 
-    public string Description { get; set; }
+    public string Description { get; }
 
     public static BuffView From(RoleCombatBuff roleCombatBuff)
     {

@@ -23,7 +23,7 @@ internal sealed class DailyNoteArchonQuestView
             .ToList();
     }
 
-    public List<ChapterId> Ids { get; set; }
+    public List<ChapterId> Ids { get; }
 
     public int ProgressValue
     {

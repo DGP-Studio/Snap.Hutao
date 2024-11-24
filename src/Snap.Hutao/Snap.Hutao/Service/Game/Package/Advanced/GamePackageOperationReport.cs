@@ -16,11 +16,11 @@ internal abstract class GamePackageOperationReport
             FileName = fileName;
         }
 
-        public long BytesRead { get; private set; }
+        public long BytesRead { get; }
 
-        public int Chunks { get; private set; }
+        public int Chunks { get; }
 
-        public string FileName { get; set; }
+        public string FileName { get; }
     }
 
     internal sealed class Download : Update
@@ -66,13 +66,13 @@ internal abstract class GamePackageOperationReport
             ContentLength = contentLength;
         }
 
-        public string Title { get; set; }
+        public string Title { get; }
 
-        public int DownloadTotalChunks { get; set; }
+        public int DownloadTotalChunks { get; }
 
-        public int InstallTotalChunks { get; set; }
+        public int InstallTotalChunks { get; }
 
-        public long ContentLength { get; set; }
+        public long ContentLength { get; }
     }
 
     internal sealed class Finish : GamePackageOperationReport

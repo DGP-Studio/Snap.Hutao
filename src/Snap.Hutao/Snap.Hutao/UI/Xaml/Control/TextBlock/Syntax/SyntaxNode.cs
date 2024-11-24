@@ -21,13 +21,13 @@ internal abstract class SyntaxNode<TSelf, TKind>
         Position = position;
     }
 
-    public TKind Kind { get; protected set; }
+    public TKind Kind { get; }
 
     public List<TSelf> Children { get; } = [];
 
-    public TextPosition Position { get; protected set; }
+    public TextPosition Position { get; }
 
     public ReadOnlySpan<char> Span { get => Text.AsSpan().Slice(Position.Start, Position.Length); }
 
-    protected string Text { get; set; } = default!;
+    protected string Text { get; }
 }

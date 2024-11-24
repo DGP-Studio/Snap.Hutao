@@ -24,7 +24,7 @@ internal sealed class TypedWishSummarySlim
     /// <summary>
     /// 卡池名称
     /// </summary>
-    public string Name { get; set; } = default!;
+    public string Name { get; }
 
     /// <summary>
     /// 距上个五星抽数
@@ -39,10 +39,10 @@ internal sealed class TypedWishSummarySlim
     /// <summary>
     /// 五星保底阈值
     /// </summary>
-    public int GuaranteeOrangeThreshold { get; set; }
+    public int GuaranteeOrangeThreshold { get; }
 
     /// <summary>
     /// 四星保底阈值
     /// </summary>
-    public int GuaranteePurpleThreshold { get; set; }
+    public int GuaranteePurpleThreshold { get; }
 }

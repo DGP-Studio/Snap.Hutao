@@ -21,23 +21,23 @@ internal sealed class RoundView
         SplendourBuffs = data.SplendourBuff.Buffs.Select(SplendourBuffView.From).ToList();
     }
 
-    public string RoundId { get; set; }
+    public string RoundId { get; }
 
-    public bool IsGetMedal { get; set; }
+    public bool IsGetMedal { get; }
 
-    public string FinishTimeString { get; set; }
+    public string FinishTimeString { get; }
 
-    public List<EnemyView> Enemies { get; set; }
+    public List<EnemyView> Enemies { get; }
 
-    public List<AvatarView> Avatars { get; set; }
+    public List<AvatarView> Avatars { get; }
 
-    public List<BuffView> ChoiceCards { get; set; }
+    public List<BuffView> ChoiceCards { get; }
 
-    public string SplendourSummary { get; set; }
+    public string SplendourSummary { get; }
 
-    public List<SplendourBuffView> SplendourBuffs { get; set; }
+    public List<SplendourBuffView> SplendourBuffs { get; }
 
-    internal DateTimeOffset FinishTime { get; set; }
+    internal DateTimeOffset FinishTime { get; }
 
     public static RoundView From(RoleCombatRoundData data, in TimeSpan offset, RoleCombatMetadataContext context)
     {

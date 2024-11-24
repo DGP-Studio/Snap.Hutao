@@ -16,11 +16,11 @@ internal sealed partial class InventoryItemView : ObservableObject, IEntityAcces
         SaveCountCommand = saveCommand;
     }
 
-    public Model.Entity.InventoryItem Entity { get; set; }
+    public Model.Entity.InventoryItem Entity { get; }
 
-    public Material Inner { get; set; }
+    public Material Inner { get; }
 
-    public ICommand SaveCountCommand { get; set; }
+    public ICommand SaveCountCommand { get; }
 
     public uint Count
     {

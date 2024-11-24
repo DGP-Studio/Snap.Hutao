@@ -18,7 +18,7 @@ internal sealed partial class PretokenStringContainer : DependencyObject, IToken
         Text = text;
     }
 
-    public bool IsLast { get; private set; }
+    public bool IsLast { get; }
 
     public override string ToString()
     {

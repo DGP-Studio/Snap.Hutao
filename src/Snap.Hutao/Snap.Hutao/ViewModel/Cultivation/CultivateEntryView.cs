@@ -92,5 +92,5 @@ internal sealed class CultivateEntryView : Item
 
     public string Description { get; }
 
-    internal Guid EntryId { get; set; }
+    internal Guid EntryId { get; }
 }

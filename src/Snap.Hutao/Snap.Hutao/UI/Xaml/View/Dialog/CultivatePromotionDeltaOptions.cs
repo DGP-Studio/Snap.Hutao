@@ -14,7 +14,7 @@ internal sealed class CultivatePromotionDeltaOptions
         Strategy = strategy;
     }
 
-    public AvatarPromotionDelta Delta { get; set; }
+    public AvatarPromotionDelta Delta { get; }
 
-    public ConsumptionSaveStrategyKind Strategy { get; set; }
+    public ConsumptionSaveStrategyKind Strategy { get; }
 }
