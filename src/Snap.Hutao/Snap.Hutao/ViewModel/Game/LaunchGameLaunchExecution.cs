@@ -20,12 +20,14 @@ internal static class LaunchGameLaunchExecution
 
             try
             {
-                LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, targetScheme, launchExecution.SelectedGameAccount, userAndUid);
-                LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
-
-                if (result.Kind is not LaunchExecutionResultKind.Ok)
+                using (LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, targetScheme, launchExecution.SelectedGameAccount, userAndUid))
                 {
-                    infoBarService.Warning(result.ErrorMessage);
+                    LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+
+                    if (result.Kind is not LaunchExecutionResultKind.Ok)
+                    {
+                        infoBarService.Warning(result.ErrorMessage);
+                    }
                 }
             }
             catch (Exception ex)

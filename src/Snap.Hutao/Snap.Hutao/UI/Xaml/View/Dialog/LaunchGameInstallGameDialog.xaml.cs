@@ -11,7 +11,6 @@ using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using System.IO;
-using PackageOperationGameFileSystem = Snap.Hutao.Service.Game.Package.Advanced.PackageOperationGameFileSystem;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 

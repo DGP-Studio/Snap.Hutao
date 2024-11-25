@@ -345,46 +345,49 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (!gameFileSystem.TryGetGameVersion(out string? localVersion))
+        using (gameFileSystem)
         {
-            return;
+            if (!gameFileSystem.TryGetGameVersion(out string? localVersion))
+            {
+                return;
+            }
+
+            (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
+            if (!isOk)
+            {
+                return;
+            }
+
+            string message = $"""
+                              Local: {localVersion}
+                              Remote: {gameBranch.PreDownload.Tag}
+                              Extract Directory: {extractDirectory}
+
+                              Please ensure local game is integrated.
+                              We need some of old blocks to patch up.
+                              """;
+
+            ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+                    "Extract Game Blocks",
+                    message)
+                .ConfigureAwait(false);
+
+            if (result is not ContentDialogResult.Primary)
+            {
+                return;
+            }
+
+            GamePackageOperationContext context = new(
+                serviceProvider,
+                GamePackageOperationKind.ExtractBlk,
+                gameFileSystem,
+                gameBranch.Main.GetTaggedCopy(localVersion),
+                gameBranch.PreDownload,
+                default,
+                extractDirectory);
+
+            await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
         }
-
-        (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
-        if (!isOk)
-        {
-            return;
-        }
-
-        string message = $"""
-            Local: {localVersion}
-            Remote: {gameBranch.PreDownload.Tag}
-            Extract Directory: {extractDirectory}
-            
-            Please ensure local game is integrated.
-            We need some of old blocks to patch up.
-            """;
-
-        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
-            "Extract Game Blocks",
-            message)
-            .ConfigureAwait(false);
-
-        if (result is not ContentDialogResult.Primary)
-        {
-            return;
-        }
-
-        GamePackageOperationContext context = new(
-            serviceProvider,
-            GamePackageOperationKind.ExtractBlk,
-            gameFileSystem,
-            gameBranch.Main.GetTaggedCopy(localVersion),
-            gameBranch.PreDownload,
-            default,
-            extractDirectory);
-
-        await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
     }
 
     [Command("ExtractGameExeCommand")]

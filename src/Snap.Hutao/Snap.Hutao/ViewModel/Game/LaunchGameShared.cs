@@ -77,24 +77,27 @@ internal sealed partial class LaunchGameShared
             return;
         }
 
-        bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-
-        LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
-            .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
-            .ConfigureAwait(false);
-
-        await taskContext.SwitchToMainThreadAsync();
-        dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
-        dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-        (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        using (gameFileSystem)
         {
-            return;
-        }
+            bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
 
-        gameFileSystem.TryFixConfigurationFile(launchScheme);
-        infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+            LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
+                .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
+                .ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+            dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
+            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
+            (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
+
+            if (!isOk)
+            {
+                return;
+            }
+
+            gameFileSystem.TryFixConfigurationFile(launchScheme);
+            infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+        }
     }
 
     [Command("HandleGamePathNullOrEmptyCommand")]

@@ -11,7 +11,7 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.Game.Launching;
 
 [ConstructorGenerated]
-internal sealed partial class LaunchExecutionContext
+internal sealed partial class LaunchExecutionContext : IDisposable
 {
     private readonly ILogger<LaunchExecutionContext> logger;
 
@@ -84,6 +84,12 @@ internal sealed partial class LaunchExecutionContext
         ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selectedEntry);
 
         // invalidate game file system
+        gameFileSystem?.Dispose();
         gameFileSystem = null;
+    }
+
+    public void Dispose()
+    {
+        gameFileSystem?.Dispose();
     }
 }
