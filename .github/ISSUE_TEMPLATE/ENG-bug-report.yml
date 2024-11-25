@@ -10,22 +10,6 @@ body:
         > **Please use one sentence to briefly describe your issue as title above**
         > Please follow the instruction below to fill the form, so we can locate the issue quickly
 
-  - type: checkboxes
-    id: checklist
-    attributes:
-      label: Checklist
-      description: |-
-        Please complete the checklist, otherwise your issue may be ignored
-      options:
-        - label: I have read [FAQ page](https://hut.ao/advanced/FAQ.html) and [Exception page](https://hut.ao/advanced/exceptions.html) in Snap Hutao document, and my issue is not answered
-          required: true
-
-        - label: I and tried **search feature** in Snap Hutao document site, and no associated article
-          required: true
-
-        - label: My issue is not a [finished issue](https://github.com/DGP-Studio/Snap.Hutao/issues?q=is%3Aopen+is%3Aissue+label%3A%E5%B7%B2%E5%AE%8C%E6%88%90), and it's not a duplicated issue
-          required: true
-
   - type: input
     id: winver
     attributes:

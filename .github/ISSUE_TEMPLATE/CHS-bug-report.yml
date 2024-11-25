@@ -10,22 +10,6 @@ body:
         > **请在上方以一句话简短地概括你的问题作为标题**
         > 请按下方的要求填写完整的问题表单，以便我们更快的定位问题。
 
-  - type: checkboxes
-    id: checklist
-    attributes:
-      label: 检查清单
-      description: |-
-        请确保你已完整执行检查清单，否则你的议题可能会被忽略
-      options:
-        - label: 我已阅读 Snap Hutao 文档中的[常见问题](https://hut.ao/advanced/FAQ.html)和[常见程序异常](https://hut.ao/advanced/exceptions.html)，我的问题没有在文档中得到解答
-          required: true
-
-        - label: 我知道[文档站](https://hut.ao/zh/menu.html)的导航栏中有**搜索功能**，且已经搜索过相关关键词
-          required: true
-
-        - label: 我的问题不是[已完成](https://github.com/DGP-Studio/Snap.Hutao/issues?q=is%3Aopen+is%3Aissue+label%3A%E5%B7%B2%E5%AE%8C%E6%88%90)的问题也不是一个别人已发布的**重复的**问题
-          required: true
-
   - type: input
     id: winver
     attributes:
