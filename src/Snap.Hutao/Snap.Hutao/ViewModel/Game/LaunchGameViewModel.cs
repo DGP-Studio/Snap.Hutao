@@ -138,7 +138,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 return;
             }
 
-            launchOptions.GamePath = value?.Path ?? string.Empty;
+            if (launchOptions.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
+            {
+                using (releaser)
+                {
+                    launchOptions.GamePath = value?.Path ?? string.Empty;
+                }
+            }
+
             GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
         }
     }

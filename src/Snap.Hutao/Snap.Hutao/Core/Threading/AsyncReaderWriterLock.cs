@@ -39,6 +39,22 @@ internal sealed class AsyncReaderWriterLock
         }
     }
 
+    public bool TryReaderLock(out Releaser releaser)
+    {
+        lock (waitingWriters)
+        {
+            if (status >= 0 && waitingWriters.Count == 0)
+            {
+                ++status;
+                releaser = new(this, false);
+                return true;
+            }
+        }
+
+        releaser = default;
+        return false;
+    }
+
     public Task<Releaser> WriterLockAsync()
     {
         lock (waitingWriters)
@@ -53,6 +69,22 @@ internal sealed class AsyncReaderWriterLock
             waitingWriters.Enqueue(waiter);
             return waiter.Task;
         }
+    }
+
+    public bool TryWriterLock(out Releaser releaser)
+    {
+        lock (waitingWriters)
+        {
+            if (status == 0)
+            {
+                status = -1;
+                releaser = new(this, true);
+                return true;
+            }
+        }
+
+        releaser = default;
+        return false;
     }
 
     private void ReaderRelease()

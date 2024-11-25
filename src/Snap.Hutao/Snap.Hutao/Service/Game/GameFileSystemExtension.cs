@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class GameFileSystemExtension
 {
-    public static bool TryGetGameVersion(this GameFileSystem gameFileSystem, [NotNullWhen(true)] out string? version)
+    public static bool TryGetGameVersion(this IGameFileSystem gameFileSystem, [NotNullWhen(true)] out string? version)
     {
         version = default!;
         if (File.Exists(gameFileSystem.GameConfigFilePath))
@@ -36,7 +36,7 @@ internal static class GameFileSystemExtension
         return false;
     }
 
-    public static void GenerateConfigurationFile(this GameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
+    public static void GenerateConfigurationFile(this IGameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         string content = $$$"""
@@ -56,7 +56,7 @@ internal static class GameFileSystemExtension
         File.WriteAllText(gameFileSystem.GameConfigFilePath, content);
     }
 
-    public static void UpdateConfigurationFile(this GameFileSystem gameFileSystem, string version)
+    public static void UpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
     {
         List<IniElement> ini = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath);
         IniParameter gameVersion = (IniParameter)ini.Single(e => e is IniParameter { Key: "game_version" });
@@ -64,7 +64,7 @@ internal static class GameFileSystemExtension
         IniSerializer.SerializeToFile(gameFileSystem.GameConfigFilePath, ini);
     }
 
-    public static bool TryFixConfigurationFile(this GameFileSystem gameFileSystem, LaunchScheme launchScheme)
+    public static bool TryFixConfigurationFile(this IGameFileSystem gameFileSystem, LaunchScheme launchScheme)
     {
         if (!File.Exists(gameFileSystem.ScriptVersionFilePath))
         {
@@ -77,7 +77,7 @@ internal static class GameFileSystemExtension
         return true;
     }
 
-    public static bool TryFixScriptVersion(this GameFileSystem gameFileSystem)
+    public static bool TryFixScriptVersion(this IGameFileSystem gameFileSystem)
     {
         if (!File.Exists(gameFileSystem.GameConfigFilePath))
         {

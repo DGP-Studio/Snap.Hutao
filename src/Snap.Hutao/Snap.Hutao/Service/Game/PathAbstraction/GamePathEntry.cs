@@ -6,10 +6,7 @@ namespace Snap.Hutao.Service.Game.PathAbstraction;
 internal sealed class GamePathEntry
 {
     [JsonPropertyName("Path")]
-    public string Path { get; set; } = default!;
-
-    [JsonIgnore]
-    public GamePathEntryKind Kind { get => GetKind(Path); }
+    public string Path { get; private set; } = default!;
 
     public static GamePathEntry Create(string path)
     {
@@ -17,10 +14,5 @@ internal sealed class GamePathEntry
         {
             Path = path,
         };
-    }
-
-    private static GamePathEntryKind GetKind(string path)
-    {
-        return GamePathEntryKind.None;
     }
 }

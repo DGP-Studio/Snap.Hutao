@@ -1,25 +1,21 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
-// Licensed under the MIT license.
+// // Copyright (c) DGP Studio. All rights reserved.
+// // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Scheme;
 using System.IO;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Package.Advanced;
 
-internal sealed partial class GameFileSystem : IGameFileSystem
+internal sealed partial class PackageOperationGameFileSystem : IGameFileSystem
 {
-    private readonly AsyncReaderWriterLock.Releaser releaser;
-
-    public GameFileSystem(string gameFilePath, AsyncReaderWriterLock.Releaser releaser)
+    public PackageOperationGameFileSystem(string gameFilePath)
     {
         GameFilePath = gameFilePath;
-        this.releaser = releaser;
     }
 
-    public GameFileSystem(string gameFilePath, AsyncReaderWriterLock.Releaser releaser, GameAudioSystem gameAudioSystem)
+    public PackageOperationGameFileSystem(string gameFilePath, GameAudioSystem gameAudioSystem)
     {
         GameFilePath = gameFilePath;
-        this.releaser = releaser;
         Audio = gameAudioSystem;
     }
 
@@ -47,6 +43,7 @@ internal sealed partial class GameFileSystem : IGameFileSystem
     [field: MaybeNull]
     public string GameConfigFilePath { get => field ??= Path.Combine(GameDirectory, GameConstants.ConfigFileName); }
 
+    // ReSharper disable once InconsistentNaming
     [field: MaybeNull]
     public string PCGameSDKFilePath { get => field ??= Path.Combine(GameDirectory, GameConstants.PCGameSDKFilePath); }
 
@@ -65,6 +62,5 @@ internal sealed partial class GameFileSystem : IGameFileSystem
 
     public void Dispose()
     {
-        releaser.Dispose();
     }
 }

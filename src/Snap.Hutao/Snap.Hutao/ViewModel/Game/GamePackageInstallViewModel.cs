@@ -62,14 +62,14 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
         dialog.KnownSchemes = KnownLaunchSchemes.Get();
         dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-        (bool isOk, GameInstallOptions gameInstallOptions) = await dialog.GetGameFileSystemAsync().ConfigureAwait(false);
+        (bool isOk, GameInstallOptions gameInstallOptions) = await dialog.GetGameInstallOptionsAsync().ConfigureAwait(false);
 
         if (!isOk)
         {
             return;
         }
 
-        (GameFileSystem gameFileSystem, LaunchScheme launchScheme) = gameInstallOptions;
+        (IGameFileSystem gameFileSystem, LaunchScheme launchScheme) = gameInstallOptions;
 
         GameBranchesWrapper? branchesWrapper;
         GameChannelSDKsWrapper? channelSDKsWrapper;

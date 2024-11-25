@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using JetBrains.Annotations;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Abstraction;
 
@@ -15,14 +16,14 @@ internal static class InfoBarOptionsBuilderExtension
         return builder;
     }
 
-    public static TBuilder SetTitle<TBuilder>(this TBuilder builder, string? title)
+    public static TBuilder SetTitle<TBuilder>(this TBuilder builder, [LocalizationRequired] string? title)
         where TBuilder : IInfoBarOptionsBuilder
     {
         builder.Configure(builder => builder.Options.Title = title);
         return builder;
     }
 
-    public static IInfoBarOptionsBuilder SetMessage<TBuilder>(this TBuilder builder, string? message)
+    public static IInfoBarOptionsBuilder SetMessage<TBuilder>(this TBuilder builder, [LocalizationRequired] string? message)
         where TBuilder : IInfoBarOptionsBuilder
     {
         builder.Configure(builder => builder.Options.Message = message);
@@ -36,7 +37,7 @@ internal static class InfoBarOptionsBuilderExtension
         return builder;
     }
 
-    public static IInfoBarOptionsBuilder SetActionButtonContent<TBuilder>(this TBuilder builder, string? buttonContent)
+    public static IInfoBarOptionsBuilder SetActionButtonContent<TBuilder>(this TBuilder builder, [LocalizationRequired] string? buttonContent)
         where TBuilder : IInfoBarOptionsBuilder
     {
         builder.Configure(builder => builder.Options.ActionButtonContent = buttonContent);
