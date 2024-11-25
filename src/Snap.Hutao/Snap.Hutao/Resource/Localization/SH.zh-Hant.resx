@@ -121,10 +121,10 @@
     <value>胡桃 Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [管理员]</value>
+    <value>胡桃 Dev {0} [系統管理員]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
-    <value>胡桃 {0} [管理员]</value>
+    <value>胡桃 {0} [系統管理員]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
@@ -1383,7 +1383,7 @@
     <value>解除限制後需使用其他工具恢復限制</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+    <value>檢測到系統代理已設定，但未解除 Loopback 限制，胡桃將無法正常聯網。</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>是否解除 Loopback 限制</value>
