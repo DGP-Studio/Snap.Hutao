@@ -82,6 +82,11 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         IProgress<UpdateStatus> progress = progressFactory.CreateForMainThread<UpdateStatus>(status => UpdateStatus = status);
         CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync(progress).ConfigureAwait(false);
 
+        if (currentXamlWindowReference.Window is null)
+        {
+            return;
+        }
+
         if (checkUpdateResult.Kind is CheckUpdateResultKind.NeedDownload)
         {
             UpdatePackageDownloadConfirmDialog dialog = await contentDialogFactory
