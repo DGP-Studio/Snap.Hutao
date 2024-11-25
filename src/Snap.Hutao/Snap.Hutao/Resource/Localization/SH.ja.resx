@@ -1384,7 +1384,7 @@
     <value>制限を解除した後にループバックを復元するには他のツールが必要です</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+    <value>システムのプロクシーが設定されていることを検出しましたが Loopback 制限が未解除ため、胡桃は正しくネットワークに接続することができません。</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>ループバック制限解除の確認</value>
