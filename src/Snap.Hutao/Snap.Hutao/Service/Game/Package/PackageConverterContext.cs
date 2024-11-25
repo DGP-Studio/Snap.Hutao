@@ -84,7 +84,7 @@ internal readonly struct PackageConverterContext
 
     public LaunchScheme TargetScheme { get => Common.TargetScheme; }
 
-    public GameFileSystem GameFileSystem { get => Common.GameFileSystem; }
+    public IGameFileSystem GameFileSystem { get => Common.GameFileSystem; }
 
     public GameChannelSDK? GameChannelSDK { get => Common.GameChannelSDK; }
 
@@ -123,7 +123,7 @@ internal readonly struct PackageConverterContext
         public readonly HttpClient HttpClient;
         public readonly LaunchScheme CurrentScheme;
         public readonly LaunchScheme TargetScheme;
-        public readonly GameFileSystem GameFileSystem;
+        public readonly IGameFileSystem GameFileSystem;
         public readonly GameChannelSDK? GameChannelSDK;
         public readonly DeprecatedFilesWrapper? DeprecatedFiles;
         public readonly IProgress<PackageConvertStatus> Progress;
@@ -132,7 +132,7 @@ internal readonly struct PackageConverterContext
             HttpClient httpClient,
             LaunchScheme currentScheme,
             LaunchScheme targetScheme,
-            GameFileSystem gameFileSystem,
+            IGameFileSystem gameFileSystem,
             GameChannelSDK? gameChannelSDK,
             DeprecatedFilesWrapper? deprecatedFiles,
             IProgress<PackageConvertStatus> progress)

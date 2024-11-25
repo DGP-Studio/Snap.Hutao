@@ -16,7 +16,7 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
     public ChannelOptions GetChannelOptions()
     {
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return ChannelOptions.GamePathNullOrEmpty();
         }

@@ -340,7 +340,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
@@ -359,13 +359,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
 
             string message = $"""
-                              Local: {localVersion}
-                              Remote: {gameBranch.PreDownload.Tag}
-                              Extract Directory: {extractDirectory}
+                Local: {localVersion}
+                Remote: {gameBranch.PreDownload.Tag}
+                Extract Directory: {extractDirectory}
 
-                              Please ensure local game is integrated.
-                              We need some of old blocks to patch up.
-                              """;
+                Please ensure local game is integrated.
+                We need some of old blocks to patch up.
+                """;
 
             ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
                     "Extract Game Blocks",
@@ -386,7 +386,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 default,
                 extractDirectory);
 
-            await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+            await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
         }
     }
 
@@ -447,7 +447,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 default,
                 default);
 
-            await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+            await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
         }
     }
 

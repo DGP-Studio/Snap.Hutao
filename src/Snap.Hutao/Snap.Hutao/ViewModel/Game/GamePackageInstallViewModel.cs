@@ -106,7 +106,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
         gameFileSystem.GenerateConfigurationFile(branch.Main.Tag, launchScheme);
 
-        if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
+        if (!await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false))
         {
             // Operation canceled
         }

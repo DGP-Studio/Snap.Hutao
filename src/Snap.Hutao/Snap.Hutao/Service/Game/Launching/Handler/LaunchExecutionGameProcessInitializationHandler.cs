@@ -9,7 +9,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
@@ -21,7 +21,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
         }
     }
 
-    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, GameFileSystem gameFileSystem)
+    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, IGameFileSystem gameFileSystem)
     {
         LaunchOptions launchOptions = context.Options;
 

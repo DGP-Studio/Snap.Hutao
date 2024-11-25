@@ -100,7 +100,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     {
         get
         {
-            if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
             {
                 return false;
             }
@@ -125,9 +125,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public async ValueTask ForceLoadAsync()
     {
-        await LoadOverrideAsync().ConfigureAwait(false);
+        bool result = await LoadOverrideAsync().ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();
-        IsInitialized = true;
+        IsInitialized = result;
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
@@ -149,37 +149,37 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             }
         }
 
-        if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is { } branch)
+        if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is not { } branch)
         {
-            await taskContext.SwitchToMainThreadAsync();
-            GameBranch = branch;
-            LaunchScheme = launchScheme;
-
-            RemoteVersion = new(branch.Main.Tag);
-            PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
-
-            if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
-            {
-                return true;
-            }
-
-            using (gameFileSystem)
-            {
-                if (gameFileSystem.TryGetGameVersion(out string? localVersion))
-                {
-                    LocalVersion = new(localVersion);
-                }
-
-                if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.PredownloadStatusPath))
-                {
-                    File.Delete(gameFileSystem.PredownloadStatusPath);
-                }
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
+        await taskContext.SwitchToMainThreadAsync();
+        GameBranch = branch;
+        LaunchScheme = launchScheme;
+
+        RemoteVersion = new(branch.Main.Tag);
+        PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
+
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        {
+            return false;
+        }
+
+        using (gameFileSystem)
+        {
+            if (gameFileSystem.TryGetGameVersion(out string? localVersion))
+            {
+                LocalVersion = new(localVersion);
+            }
+
+            if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.PredownloadStatusPath))
+            {
+                File.Delete(gameFileSystem.PredownloadStatusPath);
+            }
+        }
+
+        return true;
     }
 
     [Command("StartCommand")]
@@ -192,7 +192,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         GamePackageOperationKind operationKind = Enum.Parse<GamePackageOperationKind>(state);
 
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
@@ -228,7 +228,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 gameChannelSDK,
                 default);
 
-            if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
+            if (!await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false))
             {
                 // Operation canceled
                 return;

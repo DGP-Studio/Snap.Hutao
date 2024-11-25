@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class RestrictedGamePathAccessExtension
 {
-    public static bool TryGetGameFileSystem(this IRestrictedGamePathAccess access, [NotNullWhen(true)] out GameFileSystem? fileSystem)
+    public static bool TryGetGameFileSystem(this IRestrictedGamePathAccess access, [NotNullWhen(true)] out IGameFileSystem? fileSystem)
     {
         string gamePath = access.GamePath;
 
@@ -25,7 +25,7 @@ internal static class RestrictedGamePathAccessExtension
             return false;
         }
 
-        fileSystem = new(gamePath, releaser);
+        fileSystem = new GameFileSystem(gamePath, releaser);
         return true;
     }
 

@@ -45,7 +45,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     private CancellationTokenSource? operationCts;
     private TaskCompletionSource? operationTcs;
 
-    public async ValueTask<bool> StartOperationAsync(GamePackageOperationContext operationContext)
+    public async ValueTask<bool> ExecuteOperationAsync(GamePackageOperationContext operationContext)
     {
         await CancelOperationAsync().ConfigureAwait(false);
 

@@ -72,7 +72,7 @@ internal sealed partial class LaunchGameShared
     [Command("HandleConfigurationFileNotFoundCommand")]
     private async Task HandleConfigurationFileNotFoundAsync()
     {
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }

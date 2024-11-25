@@ -11,7 +11,7 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             // context.Result is set in TryGetGameFileSystem
             return;

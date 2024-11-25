@@ -26,7 +26,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
@@ -60,7 +60,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         await next().ConfigureAwait(false);
     }
 
-    private static bool ShouldConvert(LaunchExecutionContext context, GameFileSystem gameFileSystem)
+    private static bool ShouldConvert(LaunchExecutionContext context, IGameFileSystem gameFileSystem)
     {
         // Configuration file changed
         if (context.ChannelOptionsChanged)
@@ -86,7 +86,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         return false;
     }
 
-    private static async ValueTask<bool> EnsureGameResourceAsync(LaunchExecutionContext context, GameFileSystem gameFileSystem, IProgress<PackageConvertStatus> progress)
+    private static async ValueTask<bool> EnsureGameResourceAsync(LaunchExecutionContext context, IGameFileSystem gameFileSystem, IProgress<PackageConvertStatus> progress)
     {
         string gameFolder = gameFileSystem.GameDirectory;
         context.Logger.LogInformation("Game folder: {GameFolder}", gameFolder);
