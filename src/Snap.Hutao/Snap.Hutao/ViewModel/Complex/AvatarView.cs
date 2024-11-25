@@ -8,7 +8,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-internal class AvatarView : RateAndDelta, INameIconSide
+internal class AvatarView : RateAndDelta, INameIconSide<Uri>
 {
     public AvatarView(Avatar avatar, double rate, double? lastRate = default)
         : base(rate, lastRate)

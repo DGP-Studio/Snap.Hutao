@@ -5,7 +5,7 @@ using Snap.Hutao.Model;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-internal abstract class NameIconDescription : NameDescription, INameIcon
+internal abstract class NameIconDescription : NameDescription, INameIcon<Uri>
 {
     public Uri Icon { get; set; } = default!;
 }

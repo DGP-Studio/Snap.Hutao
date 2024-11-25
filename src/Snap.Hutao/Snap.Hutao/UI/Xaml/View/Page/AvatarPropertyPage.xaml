@@ -610,7 +610,6 @@
                         </cwcont:Case>
                         <cwcont:Case Value="List">
                             <SplitView
-                                Grid.Row="1"
                                 DisplayMode="Inline"
                                 IsPaneOpen="True"
                                 OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
@@ -663,8 +662,6 @@
                                                         AspectRatio="840:400"
                                                         CornerRadius="{ThemeResource ControlCornerRadius}">
                                                         <shuxci:CachedImage
-                                                            Grid.RowSpan="2"
-                                                            Grid.ColumnSpan="2"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             Source="{Binding Summary.Avatars.CurrentItem.NameCard}"

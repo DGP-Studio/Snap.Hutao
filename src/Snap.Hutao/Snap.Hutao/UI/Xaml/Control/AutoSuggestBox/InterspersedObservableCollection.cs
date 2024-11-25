@@ -43,7 +43,7 @@ internal sealed partial class InterspersedObservableCollection : IList, IEnumera
 
     public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-    public IList ItemsSource { get; private set; }
+    public IList ItemsSource { get; }
 
     public bool IsFixedSize
     {

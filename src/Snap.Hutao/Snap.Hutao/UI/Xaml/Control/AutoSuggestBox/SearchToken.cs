@@ -21,7 +21,7 @@ internal sealed class SearchToken
 
     public SearchTokenKind Kind { get; }
 
-    public string Value { get; set; } = default!;
+    public string Value { get; }
 
     public Uri? IconUri { get; }
 

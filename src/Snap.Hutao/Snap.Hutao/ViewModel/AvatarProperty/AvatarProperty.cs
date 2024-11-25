@@ -9,7 +9,7 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-internal sealed partial class AvatarProperty : ObservableObject, INameIcon
+internal sealed partial class AvatarProperty : ObservableObject, INameIcon<Uri>
 {
     private static readonly FrozenDictionary<FightProperty, Uri> PropertyIcons = FrozenDictionary.ToFrozenDictionary(
     [

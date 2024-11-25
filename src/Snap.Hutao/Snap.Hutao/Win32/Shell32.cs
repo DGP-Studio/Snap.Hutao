@@ -27,7 +27,7 @@ internal static class Shell32
             fixed (Guid* riid = &iid)
             {
                 nint pv = default;
-                HRESULT hr = SHCreateItemFromParsingName(pszPath, bc?.ThisPtr ?? 0, riid, (void**)&pv);
+                HRESULT hr = SHCreateItemFromParsingName(pszPath, MarshalInterfaceHelper<object>.GetAbi(bc), riid, (void**)&pv);
                 v = ObjectReference<TVftbl>.Attach(ref pv, iid);
                 return hr;
             }

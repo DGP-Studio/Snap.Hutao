@@ -66,7 +66,6 @@
                         TextWrapping="NoWrap"/>
 
                     <shuxcc:CardProgressBar
-                        Grid.Column="0"
                         Description="{Binding LastOrangePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
@@ -74,7 +73,6 @@
                         TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull, Mode=OneWay}"/>
                     <shuxcc:CardProgressBar
-                        Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
@@ -98,7 +96,6 @@
                         TextWrapping="NoWrap"/>
 
                     <shuxcc:CardProgressBar
-                        Grid.Column="0"
                         Description="{Binding LastOrangePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
@@ -106,7 +103,6 @@
                         TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull}"/>
                     <shuxcc:CardProgressBar
-                        Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
@@ -129,7 +125,6 @@
                         TextWrapping="NoWrap"/>
 
                     <shuxcc:CardProgressBar
-                        Grid.Column="0"
                         Description="{Binding LastOrangePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
@@ -137,7 +132,6 @@
                         TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull}"/>
                     <shuxcc:CardProgressBar
-                        Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"

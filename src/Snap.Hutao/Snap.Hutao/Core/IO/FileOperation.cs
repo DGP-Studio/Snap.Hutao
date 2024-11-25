@@ -76,7 +76,7 @@ internal static class FileOperation
 
             using (shellItem)
             {
-                fileOperation.DeleteItem(shellItem, default!);
+                fileOperation.DeleteItem(shellItem, default);
                 return SUCCEEDED(fileOperation.PerformOperations());
             }
         }
@@ -105,7 +105,7 @@ internal static class FileOperation
 
                 using (destShellItem)
                 {
-                    fileOperation.MoveItem(sourceShellItem, destShellItem, default, default!);
+                    fileOperation.MoveItem(sourceShellItem, destShellItem, default, default);
                     return SUCCEEDED(fileOperation.PerformOperations());
                 }
             }

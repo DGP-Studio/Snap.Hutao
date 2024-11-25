@@ -25,7 +25,6 @@
     <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchAvatarLevelTarget}">
             <NumberBox
-                Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
                 VerticalAlignment="Center"
                 Maximum="90"
@@ -35,7 +34,6 @@
         </cwc:SettingsCard>
         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchSkillATarget}">
             <NumberBox
-                Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
                 VerticalAlignment="Center"
                 Maximum="10"
@@ -45,7 +43,6 @@
         </cwc:SettingsCard>
         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchSkillETarget}">
             <NumberBox
-                Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
                 VerticalAlignment="Center"
                 Maximum="10"
@@ -55,7 +52,6 @@
         </cwc:SettingsCard>
         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchSkillQTarget}">
             <NumberBox
-                Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
                 VerticalAlignment="Center"
                 Maximum="10"
@@ -65,7 +61,6 @@
         </cwc:SettingsCard>
         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchWeaponLevelTarget}">
             <NumberBox
-                Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
                 VerticalAlignment="Center"
                 Maximum="90"

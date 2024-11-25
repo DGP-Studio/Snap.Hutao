@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-internal sealed class MonsterView : INameIcon
+internal sealed class MonsterView : INameIcon<Uri>
 {
     private MonsterView(in MonsterRelationshipId id)
     {

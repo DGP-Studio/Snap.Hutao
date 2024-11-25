@@ -24,7 +24,7 @@ internal sealed partial class RegistryWatcher : IDisposable
     private readonly CancellationTokenSource cancellationTokenSource = new();
 
     private readonly HKEY hKey;
-    private readonly string subKey = default!;
+    private readonly string subKey;
     private readonly Action valueChangedCallback;
     private readonly Lock syncRoot = new();
     private bool disposed;

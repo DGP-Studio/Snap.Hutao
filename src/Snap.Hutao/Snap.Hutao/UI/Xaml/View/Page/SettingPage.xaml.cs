@@ -25,8 +25,8 @@ internal sealed partial class SettingPage : ScopedPage
             GachaLogBorder = gachaLogBorder;
         }
 
-        public ScrollViewer ScrollViewer { get; private set; }
+        public ScrollViewer ScrollViewer { get; }
 
-        public Border GachaLogBorder { get; private set; }
+        public Border GachaLogBorder { get; }
     }
 }

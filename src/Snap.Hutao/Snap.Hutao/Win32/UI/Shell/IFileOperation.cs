@@ -22,25 +22,25 @@ internal static unsafe class IFileOperation
         return objRef.Vftbl.SetOperationFlags(objRef.ThisPtr, dwOperationFlags);
     }
 
-    public static HRESULT RenameItem(this ObjectReference<Vftbl> objRef, ObjectReference<IShellItem.Vftbl> siItem, ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
+    public static HRESULT RenameItem(this ObjectReference<Vftbl> objRef, ObjectReference<IShellItem.Vftbl> siItem, ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl>? fopsItem)
     {
         fixed (char* pszNewName = szNewName)
         {
-            return objRef.Vftbl.RenameItem(objRef.ThisPtr, siItem.ThisPtr, pszNewName, fopsItem?.ThisPtr ?? 0);
+            return objRef.Vftbl.RenameItem(objRef.ThisPtr, siItem.ThisPtr, pszNewName, MarshalInterfaceHelper<object>.GetAbi(fopsItem));
         }
     }
 
-    public static HRESULT MoveItem(this ObjectReference<Vftbl> objRef, ObjectReference<IShellItem.Vftbl> siItem, ObjectReference<IShellItem.Vftbl> siDestinationFolder, [Optional] ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
+    public static HRESULT MoveItem(this ObjectReference<Vftbl> objRef, ObjectReference<IShellItem.Vftbl> siItem, ObjectReference<IShellItem.Vftbl> siDestinationFolder, [Optional] ReadOnlySpan<char> szNewName, ObjectReference<IFileOperationProgressSink.Vftbl>? fopsItem)
     {
         fixed (char* pszNewName = szNewName)
         {
-            return objRef.Vftbl.MoveItem(objRef.ThisPtr, siItem.ThisPtr, siDestinationFolder.ThisPtr, pszNewName, fopsItem?.ThisPtr ?? 0);
+            return objRef.Vftbl.MoveItem(objRef.ThisPtr, siItem.ThisPtr, siDestinationFolder.ThisPtr, pszNewName, MarshalInterfaceHelper<object>.GetAbi(fopsItem));
         }
     }
 
-    public static HRESULT DeleteItem(this ObjectReference<Vftbl> objRef, ObjectReference<IShellItem.Vftbl> siItem, ObjectReference<IFileOperationProgressSink.Vftbl> fopsItem)
+    public static HRESULT DeleteItem(this ObjectReference<Vftbl> objRef, ObjectReference<IShellItem.Vftbl> siItem, ObjectReference<IFileOperationProgressSink.Vftbl>? fopsItem)
     {
-        return objRef.Vftbl.DeleteItem(objRef.ThisPtr, siItem.ThisPtr, fopsItem?.ThisPtr ?? 0);
+        return objRef.Vftbl.DeleteItem(objRef.ThisPtr, siItem.ThisPtr, MarshalInterfaceHelper<object>.GetAbi(fopsItem));
     }
 
     public static HRESULT PerformOperations(this ObjectReference<Vftbl> objRef)

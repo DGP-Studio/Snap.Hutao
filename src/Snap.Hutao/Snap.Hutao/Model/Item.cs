@@ -5,7 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model;
 
-internal class Item : INameIcon
+internal class Item : INameIcon<Uri>
 {
     public string Name { get; init; } = default!;
 

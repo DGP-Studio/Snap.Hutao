@@ -11,6 +11,6 @@ internal static class ISwapChainPanelNativeExtension
 {
     public static unsafe HRESULT SetSwapChain(this ISwapChainPanelNative native, ObjectReference<IDXGISwapChain.Vftbl>? swapChain)
     {
-        return native.SetSwapChain(swapChain?.ThisPtr ?? 0);
+        return native.SetSwapChain(MarshalInterfaceHelper<object>.GetAbi(swapChain));
     }
 }

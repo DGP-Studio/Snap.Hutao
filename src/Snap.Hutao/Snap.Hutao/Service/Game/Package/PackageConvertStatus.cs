@@ -22,17 +22,17 @@ internal sealed class PackageConvertStatus
         Description = $"{Converters.ToFileSizeString(bytesRead)}/{Converters.ToFileSizeString(totalBytes)}";
     }
 
-    public string Name { get; set; } = default!;
+    public string Name { get; }
 
     /// <summary>
     /// 描述
     /// </summary>
-    public string Description { get; set; } = default!;
+    public string Description { get; } = default!;
 
     /// <summary>
     /// 进度
     /// </summary>
-    public double Percent { get; set; } = -1;
+    public double Percent { get; } = -1;
 
     /// <summary>
     /// 是否有进度

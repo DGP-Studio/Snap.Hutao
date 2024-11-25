@@ -26,7 +26,7 @@ internal sealed class CharacterData
     public List<AvatarId>? CharacterIds { get; }
 
     [JsonPropertyName("role_id")]
-    public string Uid { get; } = default!;
+    public string Uid { get; }
 
     [JsonPropertyName("server")]
     public Region Server { get; }

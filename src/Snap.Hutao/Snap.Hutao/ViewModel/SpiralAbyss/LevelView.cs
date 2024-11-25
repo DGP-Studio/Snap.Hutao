@@ -18,9 +18,9 @@ internal sealed class LevelView
 
     public int Star { get; private set; }
 
-    public List<BattleView> Battles { get; private set; }
+    public List<BattleView> Battles { get; }
 
-    internal uint IndexValue { get; set; }
+    internal uint IndexValue { get; }
 
     public static LevelView From(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
     {

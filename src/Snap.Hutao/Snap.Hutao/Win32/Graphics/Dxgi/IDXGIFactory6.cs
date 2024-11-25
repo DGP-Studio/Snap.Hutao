@@ -24,7 +24,7 @@ internal static unsafe class IDXGIFactory6
                 .IDXGIFactory4Vftbl
                 .IDXGIFactory3Vftbl
                 .IDXGIFactory2Vftbl
-                .CreateSwapChainForComposition(objRef.ThisPtr, device.ThisPtr, pDesc, restrictToOutput?.ThisPtr ?? 0, &pSwapChain);
+                .CreateSwapChainForComposition(objRef.ThisPtr, device.ThisPtr, pDesc, MarshalInterfaceHelper<object>.GetAbi(restrictToOutput), &pSwapChain);
             swapChain = ObjectReference<IDXGISwapChain1.Vftbl>.Attach(ref pSwapChain, IDXGISwapChain1.IID);
             return hr;
         }

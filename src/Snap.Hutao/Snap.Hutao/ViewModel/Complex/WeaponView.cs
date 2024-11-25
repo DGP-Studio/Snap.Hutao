@@ -8,7 +8,7 @@ using Snap.Hutao.Model.Metadata.Weapon;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-internal sealed class WeaponView : RateAndDelta, INameIcon
+internal sealed class WeaponView : RateAndDelta, INameIcon<Uri>
 {
     public WeaponView(Weapon weapon, double rate, double? lastRate)
         : base(rate, lastRate)

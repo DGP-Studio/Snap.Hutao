@@ -15,9 +15,9 @@ internal sealed class GachaLogFetchStatus
 
     public bool AuthKeyTimeout { get; set; }
 
-    public GachaType ConfigType { get; set; }
+    public GachaType ConfigType { get; }
 
-    public List<Item> Items { get; set; } = new(20);
+    public List<Item> Items { get; } = new(20);
 
     public string Header
     {

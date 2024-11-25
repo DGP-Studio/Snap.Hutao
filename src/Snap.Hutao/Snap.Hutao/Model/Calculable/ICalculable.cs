@@ -5,7 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.Calculable;
 
-internal interface ICalculable : INameIcon
+internal interface ICalculable : INameIcon<Uri>
 {
     QualityType Quality { get; }
 

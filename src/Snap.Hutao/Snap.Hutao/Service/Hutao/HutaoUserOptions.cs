@@ -25,4 +25,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     internal string? Token { get; set; }
 
     internal TaskCompletionSource Initialization { get; } = new();
+
+    internal TaskCompletionSource PostInitialization { get; } = new();
 }

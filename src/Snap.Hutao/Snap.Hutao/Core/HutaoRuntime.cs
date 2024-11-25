@@ -25,7 +25,7 @@ internal static class HutaoRuntime
     public static string LocalCache { get; } = ApplicationData.Current.LocalCacheFolder.Path;
 
     public static string FamilyName { get; } = Package.Current.Id.FamilyName;
-    
+
     public static string FullName { get; } = Package.Current.Id.FullName;
 
     public static string DeviceId { get; } = InitializeDeviceId();

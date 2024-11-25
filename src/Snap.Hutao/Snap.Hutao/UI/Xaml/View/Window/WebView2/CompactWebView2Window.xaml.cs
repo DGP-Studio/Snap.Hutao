@@ -29,6 +29,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     IXamlWindowRectPersisted,
     IXamlWindowClosedHandler
 {
+    /*lang=javascript*/
     private const string VideoPlayPauseScript = """
         {
             let v = document.evaluate("//video", document, null).iterateNext();
@@ -36,17 +37,19 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
         """;
 
+    /*lang=javascript*/
     private const string VideoFastForwardScript = """
         {{
             let v = document.evaluate("//video", document, null).iterateNext();
-            v && v.currentTime += {0}
+            v && (v.currentTime += {0})
         }}
         """;
 
+    /*lang=javascript*/
     private const string VideoRewindScript = """
         {{
             let v = document.evaluate("//video", document, null).iterateNext();
-            v && v.currentTime -= {0}
+            v && (v.currentTime -= {0})
         }}
         """;
 
@@ -55,6 +58,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private readonly byte opacity;
 
     private readonly IServiceScope windowScope;
+    private readonly ITaskContext taskContext;
     private readonly LowLevelKeyOptions lowLevelKeyOptions;
     private readonly InputPointerSource inputPointerSource;
     private readonly InputNonClientPointerSource inputNonClientPointerSource;
@@ -64,6 +68,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     public CompactWebView2Window()
     {
         windowScope = Ioc.Default.CreateScope();
+        taskContext = windowScope.ServiceProvider.GetRequiredService<ITaskContext>();
         lowLevelKeyOptions = windowScope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
 
         opacity = (byte)(LocalSetting.Get(SettingKeys.CompactWebView2WindowInactiveOpacity, 50D) * 255 / 100);
@@ -131,6 +136,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosed()
     {
+        LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
+
         inputPointerSource.PointerEntered -= OnWindowPointerEntered;
         inputPointerSource.PointerExited -= OnWindowPointerExited;
         inputNonClientPointerSource.PointerEntered -= OnWindowNonClientPointerEntered;
@@ -160,6 +167,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void UpdateLayeredWindow()
     {
+        if (opacity >= 1)
+        {
+            return;
+        }
+
         lock (syncRoot)
         {
             if (GetCursorPos(out POINT pt) && GetWindowRect(this.GetWindowHandle(), out RECT rect) && PtInRect(in rect, pt))
@@ -209,21 +221,24 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         VIRTUAL_KEY key = (VIRTUAL_KEY)data.vkCode;
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
-            _ = WebView.CoreWebView2.ExecuteScriptAsync(VideoPlayPauseScript);
+            taskContext.BeginInvokeOnMainThread(() =>
+            _ = WebView.CoreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));
             return false;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoFastForwardKey.Value)
         {
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
-            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds));
+            taskContext.BeginInvokeOnMainThread(() =>
+            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds)));
             return false;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoRewindKey.Value)
         {
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
-            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds));
+            taskContext.BeginInvokeOnMainThread(() =>
+            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds)));
             return false;
         }
 
@@ -244,6 +259,9 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
             WebView.CoreWebView2.NewWindowRequested += OnNewWindowRequested;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+
+            await taskContext.SwitchToMainThreadAsync();
+            Source = LocalSetting.Get(SettingKeys.CompactWebView2WindowPreviousSourceUrl, string.Empty);
         }
     }
 

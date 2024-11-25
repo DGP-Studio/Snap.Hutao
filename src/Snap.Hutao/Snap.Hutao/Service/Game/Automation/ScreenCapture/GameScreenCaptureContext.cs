@@ -20,7 +20,7 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
-internal sealed class GameScreenCaptureContext : IDisposable
+internal sealed partial class GameScreenCaptureContext : IDisposable
 {
     private const uint CreateFactoryFlag =
 #if DEBUG

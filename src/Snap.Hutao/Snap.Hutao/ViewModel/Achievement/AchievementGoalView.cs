@@ -11,7 +11,7 @@ using Snap.Hutao.UI.Xaml.Data;
 namespace Snap.Hutao.ViewModel.Achievement;
 
 internal sealed partial class AchievementGoalView : ObservableObject,
-    INameIcon,
+    INameIcon<Uri>,
     IAdvancedCollectionViewItem
 {
     private AchievementGoalView(AchievementGoal goal)

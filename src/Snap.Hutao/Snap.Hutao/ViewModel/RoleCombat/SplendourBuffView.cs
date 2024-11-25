@@ -15,13 +15,13 @@ internal sealed class SplendourBuffView
         Effects = roleCombatSplendourBuff.LevelEffects.Select(e => e.Description.Replace("\\n", "\n", StringComparison.OrdinalIgnoreCase)).ToList();
     }
 
-    public Uri Icon { get; set; }
+    public Uri Icon { get; }
 
-    public int Level { get; set; }
+    public int Level { get; }
 
-    public string Name { get; set; }
+    public string Name { get; }
 
-    public List<string> Effects { get; set; }
+    public List<string> Effects { get; }
 
     public static SplendourBuffView From(RoleCombatSplendourBuff roleCombatSplendourBuff)
     {

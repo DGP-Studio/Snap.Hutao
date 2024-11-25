@@ -49,7 +49,7 @@ internal static class DirectoryOperation
             using (shellItem)
             {
                 fileOperation.SetOperationFlags(flags);
-                fileOperation.RenameItem(shellItem, name, default!);
+                fileOperation.RenameItem(shellItem, name, default);
 
                 return SUCCEEDED(fileOperation.PerformOperations());
             }

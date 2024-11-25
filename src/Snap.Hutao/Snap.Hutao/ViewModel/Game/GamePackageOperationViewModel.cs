@@ -35,12 +35,10 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private long totalBytesInstalled;
     private long bytesInstalledLastRefreshTime;
     private long contentLength;
-    private int downloadedChunks;
-    private int installedChunks;
 
     public string Title { get; private set => SetProperty(ref field, value); } = SH.UIXamlViewSpecializedSophonProgressDefault;
 
-    public int DownloadedChunks { get => downloadedChunks; }
+    public int DownloadedChunks { get; private set; }
 
     public string DownloadFileName { get; private set; } = default!;
 
@@ -48,7 +46,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public string DownloadRemainingTime { get; private set => SetProperty(ref field, value); } = UnknownRemainingTime;
 
-    public int InstalledChunks { get => installedChunks; }
+    public int InstalledChunks { get; private set; }
 
     public string InstallFileName { get; private set; } = default!;
 
@@ -81,12 +79,12 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     internal void TestProgress()
     {
         Title = "HOMO";
-        downloadedChunks = 114514;
+        DownloadedChunks = 114514;
         DownloadSpeed = "11.45 MB/s";
         DownloadFileName = "Hill";
         DownloadRemainingTime = "11:45:14";
         DownloadTotalChunks = 1919810;
-        installedChunks = 114514;
+        InstalledChunks = 114514;
         InstallFileName = "HomoHat";
         InstallSpeed = "19.19 MB/s";
         InstallRemainingTime = "19:19:810";
@@ -155,7 +153,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         totalBytesDownloaded += download.BytesRead;
         bytesDownloadedSinceLastUpdate += download.BytesRead;
-        downloadedChunks += download.Chunks;
+        DownloadedChunks += download.Chunks;
         DownloadFileName = download.FileName;
     }
 
@@ -163,14 +161,14 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         totalBytesInstalled += install.BytesRead;
         bytesInstalledSinceLastUpdate += install.BytesRead;
-        installedChunks += install.Chunks;
+        InstalledChunks += install.Chunks;
         InstallFileName = install.FileName;
     }
 
     private void ResetProgress(GamePackageOperationReport.Reset reset)
     {
-        downloadedChunks = 0;
-        installedChunks = 0;
+        DownloadedChunks = 0;
+        InstalledChunks = 0;
         totalBytesDownloaded = 0;
         bytesDownloadedSinceLastUpdate = 0;
         bytesDownloadedLastRefreshTime = Stopwatch.GetTimestamp();

@@ -8,7 +8,7 @@ internal class Calculable : PromotionDelta
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonPropertyName("icon_url")]
+    [JsonPropertyName("icon")]
     public Uri Icon { get; set; } = default!;
 
     [JsonPropertyName("max_level")]

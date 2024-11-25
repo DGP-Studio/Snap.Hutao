@@ -18,13 +18,13 @@ internal sealed class UpdateStatus
             : string.Empty;
     }
 
-    public string? Version { get; set; }
+    public string? Version { get; }
 
     public string VersionDescription { get; }
 
-    public double BytesRead { get; set; }
+    public double BytesRead { get; }
 
-    public double TotalBytes { get; set; }
+    public double TotalBytes { get; }
 
     public string ProgressDescription { get; }
 }

@@ -14,12 +14,14 @@ internal sealed partial class AchievementView : ObservableObject,
 {
     public const int FullProgressPlaceholder = int.MaxValue;
 
+    private bool isChecked;
+
     public AchievementView(Model.Entity.Achievement entity, Model.Metadata.Achievement.Achievement inner)
     {
         Entity = entity;
         Inner = inner;
 
-        IsChecked = entity.Status >= AchievementStatus.STATUS_FINISHED;
+        isChecked = entity.Status >= AchievementStatus.STATUS_FINISHED;
     }
 
     public Model.Entity.Achievement Entity { get; }
@@ -33,10 +35,10 @@ internal sealed partial class AchievementView : ObservableObject,
 
     public bool IsChecked
     {
-        get;
+        get => isChecked;
         set
         {
-            if (SetProperty(ref field, value))
+            if (SetProperty(ref isChecked, value))
             {
                 (Entity.Status, Entity.Time) = value
                     ? (AchievementStatus.STATUS_REWARD_TAKEN, DateTimeOffset.UtcNow)
