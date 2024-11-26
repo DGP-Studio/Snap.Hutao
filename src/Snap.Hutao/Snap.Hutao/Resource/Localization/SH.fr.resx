@@ -1419,16 +1419,16 @@
     <value>安装游戏</value>
   </data>
   <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
-    <value>汉语</value>
+    <value>Chinois</value>
   </data>
   <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
-    <value>英语</value>
+    <value>Anglais</value>
   </data>
   <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
-    <value>日语</value>
+    <value>Japonais</value>
   </data>
   <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
-    <value>韩语</value>
+    <value>Coréen</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
     <value>请输入请求接口的 Url 复合模板</value>
@@ -1554,16 +1554,16 @@
     <value>如果自动更新下载过慢，可以手动下载并安装</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
-    <value>下载源</value>
+    <value>Télécharger la source</value>
   </data>
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
-    <value>更新</value>
+    <value>Renouvellement</value>
   </data>
   <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
-    <value>请输入账号</value>
+    <value>Veuillez entrer le compte actuel</value>
   </data>
   <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
-    <value>请输入密码</value>
+    <value>Veuillez saisir le mot de passe</value>
   </data>
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
     <value>账号密码登录</value>
@@ -1593,7 +1593,7 @@
     <value>手机验证码登录</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
-    <value>设置 Cookie</value>
+    <value>Définir le cookie</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>反馈中心</value>
@@ -1626,10 +1626,10 @@
     <value>稍后可以在设置中修改</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
-    <value>文档</value>
+    <value>Documentations</value>
   </data>
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
-    <value>环境</value>
+    <value>Environnements</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
     <value>安装完成后重启胡桃以查看是否正常生效</value>
@@ -1647,10 +1647,10 @@
     <value>下载并自行安装运行时</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
-    <value>语言</value>
+    <value>Langues</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
-    <value>资源</value>
+    <value>ressource</value>
   </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>图像资源设置</value>
@@ -1701,7 +1701,7 @@
     <value>不能添加名称无效的存档</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
-    <value>UIAF 文件</value>
+    <value>format UIAF</value>
   </data>
   <data name="ViewModelAchievementImportProgress" xml:space="preserve">
     <value>导入成就中</value>
@@ -1938,19 +1938,19 @@
     <value>Terminer</value>
   </data>
   <data name="ViewModelGuideActionNext" xml:space="preserve">
-    <value>下一步</value>
+    <value>Étape suivante</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
     <value>下载资源文件中，请稍候</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
-    <value>高质量</value>
+    <value>Haute Qualité</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
     <value>原图</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>请输入正确的邮箱</value>
+    <value>Veuillez entrer l'email correct.</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>剪贴板中的文本格式不正确</value>
@@ -2085,7 +2085,7 @@
     <value>此 Cookie 不完整，操作失败</value>
   </data>
   <data name="ViewModelUserInvalid" xml:space="preserve">
-    <value>此 Cookie 无效，操作失败</value>
+    <value>Ce cookie n'est pas valide et l'opération a échoué</value>
   </data>
   <data name="ViewModelUserRemoved" xml:space="preserve">
     <value>用户 [{0}] 成功移除</value>
@@ -2868,10 +2868,10 @@
     <value>兼容模式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
-    <value>禁用</value>
+    <value>Désactivé</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
-    <value>启用</value>
+    <value>Activé</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
     <value>使用当前选中的 米游社 / HoYoLAB 用户登录，需要启用「启动参数」</value>
@@ -2967,7 +2967,7 @@
     <value>设置呈现语言</value>
   </data>
   <data name="ViewPageSettingApperanceLanguageHeader" xml:space="preserve">
-    <value>语言</value>
+    <value>Langues</value>
   </data>
   <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
     <value>更改窗体的背景材质</value>
@@ -3030,7 +3030,7 @@
     <value>视频快退</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
-    <value>复制</value>
+    <value>Copier</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
     <value>创建</value>
@@ -3117,7 +3117,7 @@
     <value>游戏</value>
   </data>
   <data name="ViewPageSettingGeetestCustomUrlAction" xml:space="preserve">
-    <value>配置</value>
+    <value>Configuration</value>
   </data>
   <data name="ViewPageSettingGeetestCustomUrlDescription" xml:space="preserve">
     <value>配置当请求触发人机验证时使用的验证接口</value>
@@ -3144,7 +3144,7 @@
     <value>成就管理</value>
   </data>
   <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Calendrier</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>实时便笺</value>
@@ -3183,7 +3183,7 @@
     <value>已认证的合作开发者</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLoginAction" xml:space="preserve">
-    <value>登录</value>
+    <value>S'identifier</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLogoutAction" xml:space="preserve">
     <value>退出登录</value>
@@ -3201,7 +3201,7 @@
     <value>使用兑换码</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
-    <value>注册</value>
+    <value>Créer un compte</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>修改密码</value>
