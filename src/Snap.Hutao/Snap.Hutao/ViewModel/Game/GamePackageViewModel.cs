@@ -107,14 +107,14 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
             using (gameFileSystem)
             {
-                if (!File.Exists(gameFileSystem.PredownloadStatusPath))
+                if (!File.Exists(gameFileSystem.GetPredownloadStatusPath()))
                 {
                     return false;
                 }
 
-                if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(gameFileSystem.PredownloadStatusPath)) is { } predownloadStatus)
+                if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(gameFileSystem.GetPredownloadStatusPath())) is { } predownloadStatus)
                 {
-                    int fileCount = Directory.GetFiles(gameFileSystem.ChunksDirectory).Length - 1;
+                    int fileCount = Directory.GetFiles(gameFileSystem.GetChunksDirectory()).Length - 1;
                     return predownloadStatus.Finished && fileCount == predownloadStatus.TotalBlocks;
                 }
             }
@@ -173,9 +173,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 LocalVersion = new(localVersion);
             }
 
-            if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.PredownloadStatusPath))
+            if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.GetPredownloadStatusPath()))
             {
-                File.Delete(gameFileSystem.PredownloadStatusPath);
+                File.Delete(gameFileSystem.GetPredownloadStatusPath());
             }
         }
 

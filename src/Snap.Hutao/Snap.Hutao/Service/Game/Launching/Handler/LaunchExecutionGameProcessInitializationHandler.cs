@@ -52,7 +52,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
                 FileName = gameFileSystem.GameFilePath,
                 UseShellExecute = true,
                 Verb = "runas",
-                WorkingDirectory = gameFileSystem.GameDirectory,
+                WorkingDirectory = gameFileSystem.GetGameDirectory(),
             },
         };
     }

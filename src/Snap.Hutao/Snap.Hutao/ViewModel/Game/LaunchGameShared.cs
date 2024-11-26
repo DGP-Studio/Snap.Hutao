@@ -79,13 +79,14 @@ internal sealed partial class LaunchGameShared
 
         using (gameFileSystem)
         {
-            bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-
             LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
                 .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
                 .ConfigureAwait(false);
 
+            bool isOversea = gameFileSystem.IsOversea();
+
             await taskContext.SwitchToMainThreadAsync();
+
             dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
             dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
             (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);

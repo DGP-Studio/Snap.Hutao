@@ -49,8 +49,8 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                     return;
                 }
 
-                // Backup config file, recover when a incompatible launcher deleted it.
-                context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>().Backup(gameFileSystem.GameConfigFilePath);
+                // Backup config file, recover when an incompatible launcher deleted it.
+                context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>().Backup(gameFileSystem.GetGameConfigurationFilePath());
 
                 await context.TaskContext.SwitchToMainThreadAsync();
                 context.UpdateGamePathEntry();
@@ -69,7 +69,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         }
 
         // Executable name not match
-        if (!context.TargetScheme.ExecutableMatches(gameFileSystem.GameFileName))
+        if (!context.TargetScheme.ExecutableMatches(gameFileSystem.GetGameFileName()))
         {
             return true;
         }
@@ -77,7 +77,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         if (!context.TargetScheme.IsOversea)
         {
             // [It's Bilibili channel xor PCGameSDK.dll exists] means we need to convert
-            if (context.TargetScheme.Channel is ChannelType.Bili ^ File.Exists(gameFileSystem.PCGameSDKFilePath))
+            if (context.TargetScheme.Channel is ChannelType.Bili ^ File.Exists(gameFileSystem.GetPcGameSdkFilePath()))
             {
                 return true;
             }
@@ -88,7 +88,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
     private static async ValueTask<bool> EnsureGameResourceAsync(LaunchExecutionContext context, IGameFileSystem gameFileSystem, IProgress<PackageConvertStatus> progress)
     {
-        string gameFolder = gameFileSystem.GameDirectory;
+        string gameFolder = gameFileSystem.GetGameDirectory();
         context.Logger.LogInformation("Game folder: {GameFolder}", gameFolder);
 
         if (!CheckDirectoryPermissions(gameFolder))
@@ -103,7 +103,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         HoyoPlayClient hoyoPlayClient = context.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
         Response<GameChannelSDKsWrapper> sdkResponse = await hoyoPlayClient.GetChannelSDKAsync(context.TargetScheme).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidateWithoutUINotification(sdkResponse, out GameChannelSDKsWrapper? channelSDKs))
+        if (!ResponseValidator.TryValidateWithoutUINotification(sdkResponse, out GameChannelSDKsWrapper? channelSdks))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
             context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(sdkResponse);
@@ -128,7 +128,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                 context.CurrentScheme,
                 context.TargetScheme,
                 gameFileSystem,
-                channelSDKs.GameChannelSDKs.SingleOrDefault(),
+                channelSdks.GameChannelSDKs.SingleOrDefault(),
                 deprecatedFileConfigs.DeprecatedFileConfigurations.SingleOrDefault(),
                 progress);
 
@@ -174,7 +174,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
             IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(type);
 
-            if (!context.TargetScheme.ExecutableMatches(gameFileSystem.GameFileName))
+            if (!context.TargetScheme.ExecutableMatches(gameFileSystem.GetGameFileName()))
             {
                 if (!await packageConverter.EnsureGameResourceAsync(packageConverterContext).ConfigureAwait(false))
                 {

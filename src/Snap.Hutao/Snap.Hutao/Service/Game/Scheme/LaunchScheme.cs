@@ -35,6 +35,7 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
 
     public bool IsNotCompatOnly { get; private protected set; } = true;
 
+    [Obsolete("Use IGameFileSystem.IsOversea instead")]
     public static bool ExecutableIsOversea(string gameFileName)
     {
         return gameFileName.ToUpperInvariant() switch

@@ -74,8 +74,8 @@ internal readonly struct PackageConverterContext
             ? (YuanShenData, GenshinImpactData)
             : (GenshinImpactData, YuanShenData);
 
-        FromDataFolder = Path.Combine(common.GameFileSystem.GameDirectory, FromDataFolderName);
-        ToDataFolder = Path.Combine(common.GameFileSystem.GameDirectory, ToDataFolderName);
+        FromDataFolder = Path.Combine(common.GameFileSystem.GetGameDirectory(), FromDataFolderName);
+        ToDataFolder = Path.Combine(common.GameFileSystem.GetGameDirectory(), ToDataFolderName);
     }
 
     public HttpClient HttpClient { get => Common.HttpClient; }
@@ -109,7 +109,7 @@ internal readonly struct PackageConverterContext
 
     public readonly string GetGameFolderFilePath(string filePath)
     {
-        return Path.Combine(Common.GameFileSystem.GameDirectory, filePath);
+        return Path.Combine(Common.GameFileSystem.GetGameDirectory(), filePath);
     }
 
     [SuppressMessage("", "SH003")]

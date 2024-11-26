@@ -29,15 +29,15 @@ internal readonly struct GamePackageOperationContext
         string? extractDirectory)
     {
         Kind = kind;
-        Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GameDirectory);
+        Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GetGameDirectory());
         GameFileSystem = gameFileSystem;
         LocalBranch = localBranch;
         RemoteBranch = remoteBranch;
         GameChannelSDK = gameChannelSDK;
-        ExtractOrGameDirectory = extractDirectory ?? gameFileSystem.GameDirectory;
+        ExtractOrGameDirectory = extractDirectory ?? gameFileSystem.GetGameDirectory();
 
         ProxiedChunksDirectory = kind is GamePackageOperationKind.Verify
-            ? Path.Combine(gameFileSystem.ChunksDirectory, "repair")
-            : gameFileSystem.ChunksDirectory;
+            ? Path.Combine(gameFileSystem.GetChunksDirectory(), "repair")
+            : gameFileSystem.GetChunksDirectory();
     }
 }

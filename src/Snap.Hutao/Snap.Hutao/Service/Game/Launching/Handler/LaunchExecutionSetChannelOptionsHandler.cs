@@ -18,7 +18,7 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             return;
         }
 
-        string configPath = gameFileSystem.GameConfigFilePath;
+        string configPath = gameFileSystem.GetGameConfigurationFilePath();
         context.Logger.LogInformation("Game config file path: {ConfigPath}", configPath);
 
         ImmutableArray<IniElement> elements;

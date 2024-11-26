@@ -38,7 +38,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         if (context.Operation.GameChannelSDK is not null)
         {
-            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, context.Operation.GameChannelSDK.PackageVersionFileName);
+            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), context.Operation.GameChannelSDK.PackageVersionFileName);
             if (!File.Exists(sdkPackageVersionFilePath))
             {
                 channelSdkConflicted = true;
@@ -54,7 +54,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                             VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonOptions);
                             ArgumentNullException.ThrowIfNull(item);
 
-                            string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, item.RelativePath);
+                            string path = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), item.RelativePath);
                             if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                             {
                                 channelSdkConflicted = true;
@@ -102,7 +102,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         using (Stream sdkStream = await context.HttpClient.GetStreamAsync(context.Operation.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
         {
-            ZipFile.ExtractToDirectory(sdkStream, context.Operation.GameFileSystem.GameDirectory, true);
+            ZipFile.ExtractToDirectory(sdkStream, context.Operation.GameFileSystem.GetGameDirectory(), true);
         }
     }
 
@@ -110,7 +110,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     {
         CancellationToken token = context.CancellationToken;
 
-        string assetPath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.AssetProperty.AssetName);
+        string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.AssetProperty.AssetName);
 
         if (asset.AssetProperty.AssetType is 64)
         {
@@ -237,7 +237,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     {
         if (asset.NewAsset.AssetType is 64)
         {
-            Directory.CreateDirectory(Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.NewAsset.AssetName));
+            Directory.CreateDirectory(Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.NewAsset.AssetName));
             return;
         }
 
@@ -270,7 +270,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
-            string oldAssetPath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.OldAsset.AssetName);
+            string oldAssetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.OldAsset.AssetName);
             if (!File.Exists(oldAssetPath))
             {
                 // File not found, skip this asset and repair later

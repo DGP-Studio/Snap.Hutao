@@ -88,4 +88,20 @@ internal sealed class HutaoException : Exception
     {
         throw new OperationCanceledException(message, innerException);
     }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static ObjectDisposedException ObjectDisposed(string objectName)
+    {
+        throw new ObjectDisposedException(objectName);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void ObjectDisposedIf(bool condition, string objectName)
+    {
+        if (condition)
+        {
+            throw new ObjectDisposedException(objectName);
+        }
+    }
 }

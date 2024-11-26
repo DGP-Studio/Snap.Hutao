@@ -78,19 +78,20 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
     public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
     {
         // Just try to delete these files, always download from server when needed
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, "sdk_pkg_version"));
+        string gameDirectory = context.GameFileSystem.GetGameDirectory();
+        FileOperation.Delete(Path.Combine(gameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(gameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(gameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameDirectory, "sdk_pkg_version"));
 
         if (context.GameChannelSDK is not null)
         {
             using (Stream sdkWebStream = await context.HttpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
             {
-                ZipFile.ExtractToDirectory(sdkWebStream, context.GameFileSystem.GameDirectory, true);
+                ZipFile.ExtractToDirectory(sdkWebStream, gameDirectory, true);
             }
         }
 
@@ -98,7 +99,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
         {
             foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
             {
-                string filePath = Path.Combine(context.GameFileSystem.GameDirectory, file.Name);
+                string filePath = Path.Combine(gameDirectory, file.Name);
                 FileOperation.Move(filePath, $"{filePath}.backup", true);
             }
         }
@@ -378,7 +379,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
     {
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
-            string oldAssetPath = Path.Combine(context.GameFileSystem.GameDirectory, asset.OldAsset.AssetName);
+            string oldAssetPath = Path.Combine(context.GameFileSystem.GetGameDirectory(), asset.OldAsset.AssetName);
             if (!File.Exists(oldAssetPath))
             {
                 // File not found, skip this asset and repair later
