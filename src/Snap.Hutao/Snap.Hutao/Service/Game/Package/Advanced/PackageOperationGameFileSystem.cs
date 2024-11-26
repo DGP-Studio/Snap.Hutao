@@ -8,16 +8,10 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed partial class PackageOperationGameFileSystem : IGameFileSystem
 {
-    public PackageOperationGameFileSystem(string gameFilePath)
+    public PackageOperationGameFileSystem(string gameFilePath, GameAudioSystem? gameAudioSystem = default)
     {
         GameFilePath = gameFilePath;
-        Audio = new(GameFilePath);
-    }
-
-    public PackageOperationGameFileSystem(string gameFilePath, GameAudioSystem gameAudioSystem)
-    {
-        GameFilePath = gameFilePath;
-        Audio = gameAudioSystem;
+        Audio = gameAudioSystem ?? new(this.GetGameDirectory());
     }
 
     public string GameFilePath { get; }

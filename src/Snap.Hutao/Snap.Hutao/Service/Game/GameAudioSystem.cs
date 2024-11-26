@@ -7,15 +7,12 @@ namespace Snap.Hutao.Service.Game;
 
 internal sealed class GameAudioSystem
 {
-    public GameAudioSystem(string gameFilePath)
+    public GameAudioSystem(string gameDirectory)
     {
-        string? directory = Path.GetDirectoryName(gameFilePath);
-        ArgumentException.ThrowIfNullOrEmpty(directory);
-
-        Chinese = File.Exists(Path.Combine(directory, GameConstants.AudioChinesePkgVersion));
-        English = File.Exists(Path.Combine(directory, GameConstants.AudioEnglishPkgVersion));
-        Japanese = File.Exists(Path.Combine(directory, GameConstants.AudioJapanesePkgVersion));
-        Korean = File.Exists(Path.Combine(directory, GameConstants.AudioKoreanPkgVersion));
+        Chinese = File.Exists(Path.Combine(gameDirectory, GameConstants.AudioChinesePkgVersion));
+        English = File.Exists(Path.Combine(gameDirectory, GameConstants.AudioEnglishPkgVersion));
+        Japanese = File.Exists(Path.Combine(gameDirectory, GameConstants.AudioJapanesePkgVersion));
+        Korean = File.Exists(Path.Combine(gameDirectory, GameConstants.AudioKoreanPkgVersion));
     }
 
     public GameAudioSystem(bool chinese, bool english, bool japanese, bool korean)

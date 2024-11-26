@@ -68,8 +68,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             return true;
         }
 
-        // Executable name not match
-        if (!context.TargetScheme.ExecutableMatches(gameFileSystem.GetGameFileName()))
+        if (context.TargetScheme.IsOversea ^ gameFileSystem.IsOversea())
         {
             return true;
         }
@@ -174,7 +173,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
             IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(type);
 
-            if (!context.TargetScheme.ExecutableMatches(gameFileSystem.GetGameFileName()))
+            if (context.TargetScheme.IsOversea ^ gameFileSystem.IsOversea())
             {
                 if (!await packageConverter.EnsureGameResourceAsync(packageConverterContext).ConfigureAwait(false))
                 {

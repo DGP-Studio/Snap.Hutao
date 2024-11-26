@@ -133,11 +133,17 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         get;
         set
         {
+            if (value is not null && !launchOptions.GamePathEntries.Contains(value))
+            {
+                HutaoException.InvalidOperation("Selected game path entry is not in the game path entries.");
+            }
+
             if (!SetProperty(ref field, value))
             {
                 return;
             }
 
+            // We are selecting from existing entries, so we don't need to update GamePathEntries
             if (launchOptions.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
             {
                 using (releaser)

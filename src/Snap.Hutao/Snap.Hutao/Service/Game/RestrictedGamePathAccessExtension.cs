@@ -25,7 +25,7 @@ internal static class RestrictedGamePathAccessExtension
             return false;
         }
 
-        fileSystem = new GameFileSystem(gamePath, releaser);
+        fileSystem = GameFileSystem.Create(gamePath, releaser);
         return true;
     }
 

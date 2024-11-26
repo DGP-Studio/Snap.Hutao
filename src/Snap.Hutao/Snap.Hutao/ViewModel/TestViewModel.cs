@@ -436,7 +436,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         if (result is ContentDialogResult.Primary)
         {
-            IGameFileSystem gameFileSystem = new PackageOperationGameFileSystem(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
+            IGameFileSystem gameFileSystem = GameFileSystem.CreateForPackageOperation(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
 
             GamePackageOperationContext context = new(
                 serviceProvider,

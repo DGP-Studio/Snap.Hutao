@@ -59,7 +59,7 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
         GameAudioSystem gameAudioSystem = new(Chinese, English, Japanese, Korean);
         string gamePath = Path.Combine(GameDirectory, SelectedScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName);
-        return new(true, new(new PackageOperationGameFileSystem(gamePath, gameAudioSystem), SelectedScheme));
+        return new(true, new(GameFileSystem.CreateForPackageOperation(gamePath, gameAudioSystem), SelectedScheme));
     }
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
