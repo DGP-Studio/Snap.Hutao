@@ -9,7 +9,12 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using WinRT;
+using WinRT.Interop;
 
 namespace Snap.Hutao;
 
@@ -49,6 +54,12 @@ public sealed partial class App : Application
         this.serviceProvider = serviceProvider;
     }
 
+    private static ref readonly Guid IApplicationIID
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => ref MemoryMarshal.AsRef<Guid>([231, 244, 168, 6, 70, 17, 175, 85, 130, 13, 235, 213, 86, 67, 176, 33]);
+    }
+
     public new void Exit()
     {
         XamlApplicationLifetime.Exiting = true;
@@ -76,6 +87,7 @@ public sealed partial class App : Application
             LogDiagnosticInformation();
 
             // Manually invoke
+            UnsafeAdjustRequestedThemeSettable();
             activation.ActivateAndInitialize(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
         }
         catch (Exception ex)
@@ -83,6 +95,11 @@ public sealed partial class App : Application
             logger.LogError(ex, "Application failed in App.OnLaunched");
             Process.GetCurrentProcess().Kill();
         }
+    }
+
+    private unsafe void UnsafeAdjustRequestedThemeSettable()
+    {
+        *(BOOLEAN*)(((IWinRTObject)this).NativeObject.As<IUnknownVftbl>(IApplicationIID).ThisPtr + 0x118U) = true;
     }
 
     private void LogDiagnosticInformation()

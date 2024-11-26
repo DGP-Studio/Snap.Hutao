@@ -179,16 +179,6 @@
                     Header="Test GamePackageOperationWindow"
                     IsClickEnabled="True"/>
 
-                <cwc:SettingsCard
-                    Command="{Binding BypassRequestedThemeSettableCommand}"
-                    Header="ByPass RequestedTheme Settable"
-                    IsClickEnabled="True"/>
-
-                <cwc:SettingsCard
-                    Command="{Binding ReverseRequestedThemeCommand}"
-                    Header="Reverse RequestedTheme"
-                    IsClickEnabled="True"/>
-
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Game Package"/>
                 <cwc:SettingsCard
                     Command="{Binding ExtractGameBlocksCommand}"
