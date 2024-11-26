@@ -18,7 +18,6 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
     ISelectable,
     IAdvancedCollectionViewItem
 {
-    private readonly EntityUser inner;
     private readonly IServiceProvider serviceProvider;
 
     private AdvancedCollectionView<UserGameRole> userGameRoles = default!;
@@ -26,7 +25,7 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     private User(EntityUser user, IServiceProvider serviceProvider)
     {
-        inner = user;
+        Entity = user;
         this.serviceProvider = serviceProvider;
     }
 
@@ -53,41 +52,41 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
         }
     }
 
-    public string? Fingerprint { get => inner.Fingerprint; }
+    public string? Fingerprint { get => Entity.Fingerprint; }
 
-    public Guid InnerId { get => inner.InnerId; }
+    public Guid InnerId { get => Entity.InnerId; }
 
     public bool IsSelected
     {
-        get => inner.IsSelected;
-        set => inner.IsSelected = value;
+        get => Entity.IsSelected;
+        set => Entity.IsSelected = value;
     }
 
     public Cookie? CookieToken
     {
-        get => inner.CookieToken;
-        set => inner.CookieToken = value;
+        get => Entity.CookieToken;
+        set => Entity.CookieToken = value;
     }
 
     public Cookie? LToken
     {
-        get => inner.LToken;
-        set => inner.LToken = value;
+        get => Entity.LToken;
+        set => Entity.LToken = value;
     }
 
     public Cookie? SToken
     {
-        get => inner.SToken;
-        set => inner.SToken = value;
+        get => Entity.SToken;
+        set => Entity.SToken = value;
     }
 
     public bool IsOversea { get => Entity.IsOversea; }
 
-    public EntityUser Entity { get => inner; }
+    public EntityUser Entity { get; }
 
     public bool NeedDbUpdateAfterResume { get; set; }
 
-    public string? PreferredUid { get => inner.PreferredUid; }
+    public string? PreferredUid { get => Entity.PreferredUid; }
 
     public static User From(EntityUser user, IServiceProvider provider)
     {
@@ -101,12 +100,12 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     private void OnCurrentUserGameRoleChanged(object? sender, object? e)
     {
-        if (userGameRoles.CurrentItem is { } item && inner.PreferredUid != item.GameUid)
+        if (userGameRoles.CurrentItem is { } item && Entity.PreferredUid != item.GameUid)
         {
-            inner.PreferredUid = item.GameUid;
+            Entity.PreferredUid = item.GameUid;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(inner);
+                scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(Entity);
             }
         }
 

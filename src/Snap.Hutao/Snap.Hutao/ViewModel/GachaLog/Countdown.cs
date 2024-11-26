@@ -24,11 +24,11 @@ internal sealed class Countdown
         get => LastTime <= DateTimeOffset.Now ? SH.FormatViewModelGachaLogCountdownLastTime(LastTime) : SH.ViewModelGachaLogCountdownCurrentWish;
     }
 
-    public string FormattedVersionOrder { get; set; }
+    public string FormattedVersionOrder { get; }
 
-    public string FormattedCountdown { get; set; }
+    public string FormattedCountdown { get; }
 
-    public Item Item { get; set; }
+    public Item Item { get; }
 
-    internal DateTimeOffset LastTime { get; set; }
+    internal DateTimeOffset LastTime { get; }
 }

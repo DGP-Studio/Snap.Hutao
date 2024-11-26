@@ -40,7 +40,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
 
     public partial LaunchOptions Options { get; }
 
-    public IViewModelSupportLaunchExecution ViewModel { get; private set; } = default!;
+    public IViewModelSupportLaunchExecution ViewModel { get; } = default!;
 
     public LaunchScheme CurrentScheme { get; private set; } = default!;
 

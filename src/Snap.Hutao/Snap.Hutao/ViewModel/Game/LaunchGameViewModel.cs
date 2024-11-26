@@ -33,7 +33,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
-    private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -42,7 +41,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
-    public LaunchOptions LaunchOptions { get => launchOptions; }
+    public partial LaunchOptions LaunchOptions { get; }
 
     public partial LaunchStatusOptions LaunchStatusOptions { get; }
 
@@ -133,7 +132,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         get;
         set
         {
-            if (value is not null && !launchOptions.GamePathEntries.Contains(value))
+            if (value is not null && !LaunchOptions.GamePathEntries.Contains(value))
             {
                 HutaoException.InvalidOperation("Selected game path entry is not in the game path entries.");
             }
@@ -144,15 +143,15 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             // We are selecting from existing entries, so we don't need to update GamePathEntries
-            if (launchOptions.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
+            if (LaunchOptions.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
             {
                 using (releaser)
                 {
-                    launchOptions.GamePath = value?.Path ?? string.Empty;
+                    LaunchOptions.GamePath = value?.Path ?? string.Empty;
                 }
             }
 
-            GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
+            GamePathSelectedAndValid = File.Exists(LaunchOptions.GamePath);
         }
     }
 
@@ -179,7 +178,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     protected override ValueTask<bool> LoadOverrideAsync()
     {
-        SetGamePathEntriesAndSelectedGamePathEntry(launchOptions.GetGamePathEntries(out GamePathEntry? entry), entry);
+        SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions.GetGamePathEntries(out GamePathEntry? entry), entry);
         return ValueTask.FromResult(true);
     }
 
@@ -199,7 +198,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        GamePathEntries = launchOptions.UpdateGamePath(path);
+        GamePathEntries = LaunchOptions.UpdateGamePath(path);
     }
 
     [Command("ResetGamePathCommand")]
@@ -211,7 +210,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("RemoveGamePathEntryCommand")]
     private void RemoveGamePathEntry(GamePathEntry? entry)
     {
-        GamePathEntries = launchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
+        GamePathEntries = LaunchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
         SelectedGamePathEntry = selected;
     }
 
@@ -276,7 +275,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
-        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        if (!LaunchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }

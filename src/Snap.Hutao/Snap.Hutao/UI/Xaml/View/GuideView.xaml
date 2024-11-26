@@ -31,7 +31,7 @@
                 Margin="0,0,4,4"
                 Style="{StaticResource BorderCardStyle}">
                 <StackPanel Margin="8">
-                    <TextBlock Text="{Binding DisplayName}"/>
+                    <TextBlock Text="{Binding Filename}"/>
                     <ProgressBar
                         Margin="0,4,0,0"
                         Maximum="1"

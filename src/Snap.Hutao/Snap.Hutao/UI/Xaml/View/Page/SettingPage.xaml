@@ -189,7 +189,7 @@
                                 <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingCardHutaoPassportHeader}"/>
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
                                     <cwc:SettingsExpander
-                                        Description="{Binding User.UserName}"
+                                        Description="{Binding HutaoUserOptions.UserName}"
                                         Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE716;}"
                                         IsExpanded="True">
@@ -198,24 +198,24 @@
                                                 Command="{Binding LoginCommand}"
                                                 Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLoginAction}"
                                                 Style="{ThemeResource SettingButtonStyle}"
-                                                Visibility="{Binding User.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                             <Button
                                                 Command="{Binding RegisterCommand}"
                                                 Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRegisterAction}"
                                                 Style="{ThemeResource SettingButtonStyle}"
-                                                Visibility="{Binding User.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                             <Button
                                                 Command="{Binding LogoutCommand}"
                                                 Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLogoutAction}"
                                                 Style="{ThemeResource SettingButtonStyle}"
-                                                Visibility="{Binding User.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                         </StackPanel>
                                         <cwc:SettingsExpander.Items>
                                             <cwc:SettingsCard
                                                 Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
                                                 Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperDescription}"
                                                 Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperHeader}"
-                                                Visibility="{Binding User.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                Visibility="{Binding HutaoUserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
                                                 <Button
                                                     Command="{Binding OpenTestPageCommand}"
                                                     Content="TEST"
@@ -225,8 +225,8 @@
                                                 Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
                                                 Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
                                                 Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
-                                                Visibility="{Binding User.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <cwc:SettingsCard Description="{Binding User.GachaLogExpireAtSlim}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
+                                                Visibility="{Binding HutaoUserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            <cwc:SettingsCard Description="{Binding HutaoUserOptions.GachaLogExpireAtSlim}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
                                             <cwc:SettingsCard
                                                 Command="{Binding OpenRedeemWebsiteCommand}"
                                                 Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeDescription}"

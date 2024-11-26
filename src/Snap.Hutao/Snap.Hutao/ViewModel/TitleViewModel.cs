@@ -33,13 +33,8 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
 
-    public partial RuntimeOptions RuntimeOptions { get; }
-
-    public partial HotKeyOptions HotKeyOptions { get; }
-
-    public string Title
+    public static string Title
     {
-        [SuppressMessage("", "IDE0027")]
         get
         {
             string name = new StringBuilder()
@@ -56,6 +51,10 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             return string.Format(CultureInfo.CurrentCulture, format, HutaoRuntime.Version);
         }
     }
+
+    public partial RuntimeOptions RuntimeOptions { get; }
+
+    public partial HotKeyOptions HotKeyOptions { get; }
 
     public UpdateStatus? UpdateStatus { get; set => SetProperty(ref field, value); }
 

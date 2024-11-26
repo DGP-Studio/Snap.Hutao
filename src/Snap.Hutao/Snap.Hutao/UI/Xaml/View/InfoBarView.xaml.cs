@@ -12,15 +12,13 @@ namespace Snap.Hutao.UI.Xaml.View;
 [DependencyProperty("InfoBars", typeof(ObservableCollection<InfoBarOptions>))]
 internal sealed partial class InfoBarView : UserControl
 {
-    private readonly IInfoBarService infoBarService;
-
     public InfoBarView()
     {
         InitializeComponent();
         DataContext = this;
 
         IServiceProvider serviceProvider = Ioc.Default;
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         InfoBars = infoBarService.Collection;
         InfoBars.CollectionChanged += OnInfoBarsCollectionChanged;
         Unloaded += OnUnloaded;

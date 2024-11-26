@@ -31,11 +31,10 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private readonly MetadataOptions metadataOptions;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
-    private readonly IMemoryCache memoryCache;
 
     private bool isInitialized;
 
-    public IMemoryCache MemoryCache { get => memoryCache; }
+    public partial IMemoryCache MemoryCache { get; }
 
     public async ValueTask<bool> InitializeAsync()
     {
@@ -63,7 +62,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         Verify.Operation(isInitialized, SH.ServiceMetadataNotInitialized);
         string cacheKey = $"{nameof(MetadataService)}.Cache.{strategy.Name}";
 
-        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        if (MemoryCache.TryGetValue(cacheKey, out object? value))
         {
             ArgumentNullException.ThrowIfNull(value);
             return (ImmutableArray<T>)value;
@@ -89,7 +88,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             try
             {
                 ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
-                return memoryCache.Set(cacheKey, result);
+                return MemoryCache.Set(cacheKey, result);
             }
             catch (Exception ex)
             {
@@ -128,7 +127,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             }
         }
 
-        return memoryCache.Set(cacheKey, results.ToImmutable());
+        return MemoryCache.Set(cacheKey, results.ToImmutable());
     }
 
     private async ValueTask<bool> DownloadMetadataDescriptionFileAndCheckAsync(CancellationToken token)

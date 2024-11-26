@@ -12,11 +12,9 @@ namespace Snap.Hutao.UI.Xaml.Media.Backdrop;
 
 internal sealed partial class SystemBackdropDesktopWindowXamlSourceAccess : SystemBackdrop
 {
-    private readonly SystemBackdrop? innerBackdrop;
-
     public SystemBackdropDesktopWindowXamlSourceAccess(SystemBackdrop? systemBackdrop)
     {
-        innerBackdrop = systemBackdrop;
+        InnerBackdrop = systemBackdrop;
     }
 
     public DesktopWindowXamlSource? DesktopWindowXamlSource
@@ -24,23 +22,23 @@ internal sealed partial class SystemBackdropDesktopWindowXamlSourceAccess : Syst
         get; private set;
     }
 
-    public SystemBackdrop? InnerBackdrop { get => innerBackdrop; }
+    public SystemBackdrop? InnerBackdrop { get; }
 
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
     {
         DesktopWindowXamlSource = DesktopWindowXamlSource.FromAbi(target.As<IInspectable>().ThisPtr);
-        if (innerBackdrop is not null)
+        if (InnerBackdrop is not null)
         {
-            ProtectedOnTargetConnected(innerBackdrop, target, xamlRoot);
+            ProtectedOnTargetConnected(InnerBackdrop, target, xamlRoot);
         }
     }
 
     protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop target)
     {
         DesktopWindowXamlSource = null;
-        if (innerBackdrop is not null)
+        if (InnerBackdrop is not null)
         {
-            ProtectedOnTargetDisconnected(innerBackdrop, target);
+            ProtectedOnTargetDisconnected(InnerBackdrop, target);
         }
     }
 

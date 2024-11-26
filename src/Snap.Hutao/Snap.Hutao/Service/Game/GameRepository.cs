@@ -11,13 +11,11 @@ namespace Snap.Hutao.Service.Game;
 [Injection(InjectAs.Singleton, typeof(IGameRepository))]
 internal sealed partial class GameRepository : IGameRepository
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public IServiceProvider ServiceProvider { get => serviceProvider; }
+    public partial IServiceProvider ServiceProvider { get; }
 
     public ObservableReorderableDbCollection<GameAccount> GetGameAccountCollection()
     {
-        return this.Query(query => query.ToObservableReorderableDbCollection(serviceProvider));
+        return this.Query(query => query.ToObservableReorderableDbCollection(ServiceProvider));
     }
 
     public void AddGameAccount(GameAccount gameAccount)

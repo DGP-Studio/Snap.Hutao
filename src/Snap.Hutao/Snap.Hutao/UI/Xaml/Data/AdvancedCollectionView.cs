@@ -18,8 +18,6 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
     where T : class, IAdvancedCollectionViewItem
 {
     private readonly bool created;
-    private readonly List<T> view;
-    private readonly ObservableCollection<SortDescription> sortDescriptions;
 
     private IList<T> source;
     private Predicate<T>? filter;
@@ -28,9 +26,9 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public AdvancedCollectionView(IList<T> source)
     {
-        view = [];
-        sortDescriptions = [];
-        sortDescriptions.CollectionChanged += SortDescriptionsCollectionChanged;
+        View = [];
+        SortDescriptions = [];
+        SortDescriptions.CollectionChanged += SortDescriptionsCollectionChanged;
         Source = source;
 
         created = true;
@@ -46,7 +44,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public int Count
     {
-        get => view.Count;
+        get => View.Count;
     }
 
     [Obsolete("IsReadOnly is not supported")]
@@ -59,7 +57,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public T? CurrentItem
     {
-        get => CurrentPosition > -1 && CurrentPosition < view.Count ? view[CurrentPosition] : default;
+        get => CurrentPosition > -1 && CurrentPosition < View.Count ? View[CurrentPosition] : default;
         set => MoveCurrentTo(value);
     }
 
@@ -67,7 +65,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public bool HasMoreItems { get => source is ISupportIncrementalLoading { HasMoreItems: true }; }
 
-    public bool IsCurrentAfterLast { get => CurrentPosition >= view.Count; }
+    public bool IsCurrentAfterLast { get => CurrentPosition >= View.Count; }
 
     public bool IsCurrentBeforeFirst { get => CurrentPosition < 0; }
 
@@ -86,11 +84,11 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         }
     }
 
-    public ObservableCollection<SortDescription> SortDescriptions { get => sortDescriptions; }
+    public ObservableCollection<SortDescription> SortDescriptions { get; }
 
     public IList<T> SourceCollection { get => source; }
 
-    public List<T> View { get => view; }
+    public List<T> View { get; }
 
     private IList<T> Source
     {
@@ -136,8 +134,8 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public T this[int index]
     {
-        get => view[index];
-        set => view[index] = value;
+        get => View[index];
+        set => View[index] = value;
     }
 
     public void Refresh()
@@ -157,12 +155,12 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public IEnumerator<T> GetEnumerator()
     {
-        return view.GetEnumerator();
+        return View.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return view.GetEnumerator();
+        return View.GetEnumerator();
     }
 
     public void Add(T item)
@@ -177,12 +175,12 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public bool Contains(T item)
     {
-        return view.Contains(item);
+        return View.Contains(item);
     }
 
     public void CopyTo(T[] array, int arrayIndex)
     {
-        view.CopyTo(array, arrayIndex);
+        View.CopyTo(array, arrayIndex);
     }
 
     public bool Remove(T item)
@@ -192,7 +190,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public int IndexOf(T item)
     {
-        return view.IndexOf(item);
+        return View.IndexOf(item);
     }
 
     public void Insert(int index, T item)
@@ -202,7 +200,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public void RemoveAt(int index)
     {
-        Remove(view[index]);
+        Remove(View[index]);
     }
 
     [SuppressMessage("", "SH007")]
@@ -223,7 +221,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     public bool MoveCurrentToLast()
     {
-        return MoveCurrentToIndex(view.Count - 1);
+        return MoveCurrentToIndex(View.Count - 1);
     }
 
     public bool MoveCurrentToNext()
@@ -248,7 +246,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     int IComparer<T>.Compare(T? x, T? y)
     {
-        foreach (SortDescription sd in sortDescriptions)
+        foreach (SortDescription sd in SortDescriptions)
         {
             object? cx, cy;
 
@@ -298,7 +296,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             return;
         }
 
-        int oldIndex = view.IndexOf(typedItem);
+        int oldIndex = View.IndexOf(typedItem);
 
         // Check if item is in view
         if (oldIndex < 0)
@@ -306,8 +304,8 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             return;
         }
 
-        view.RemoveAt(oldIndex);
-        int targetIndex = view.BinarySearch(typedItem, comparer: this);
+        View.RemoveAt(oldIndex);
+        int targetIndex = View.BinarySearch(typedItem, comparer: this);
         if (targetIndex < 0)
         {
             targetIndex = ~targetIndex;
@@ -319,7 +317,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             bool itemWasCurrent = oldIndex == CurrentPosition;
             OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, typedItem));
 
-            view.Insert(targetIndex, typedItem);
+            View.Insert(targetIndex, typedItem);
 
             OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, typedItem));
 
@@ -328,7 +326,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         }
         else
         {
-            view.Insert(targetIndex, typedItem);
+            View.Insert(targetIndex, typedItem);
         }
     }
 
@@ -366,7 +364,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     private void HandleSortChanged()
     {
-        view.Sort(this);
+        View.Sort(this);
         OnVectorChanged(new VectorChangedEventArgs(CollectionChange.Reset));
     }
 
@@ -374,9 +372,9 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
     {
         if (filter is not null)
         {
-            for (int index = 0; index < view.Count; index++)
+            for (int index = 0; index < View.Count; index++)
             {
-                T item = view[index];
+                T item = View[index];
                 if (filter(item))
                 {
                     continue;
@@ -387,7 +385,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             }
         }
 
-        HashSet<T> viewSet = new(view);
+        HashSet<T> viewSet = new(View);
         int viewIndex = 0;
         for (int index = 0; index < source.Count; index++)
         {
@@ -408,10 +406,10 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
     private void HandleSourceChanged()
     {
         T? currentItem = CurrentItem;
-        view.Clear();
-        view.TrimExcess();
+        View.Clear();
+        View.TrimExcess();
 
-        if (filter is null && sortDescriptions.Count <= 0)
+        if (filter is null && SortDescriptions.Count <= 0)
         {
             // Fast path
             View.AddRange(Source);
@@ -425,19 +423,19 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
                     continue;
                 }
 
-                if (sortDescriptions.Count > 0)
+                if (SortDescriptions.Count > 0)
                 {
-                    int targetIndex = view.BinarySearch(item, this);
+                    int targetIndex = View.BinarySearch(item, this);
                     if (targetIndex < 0)
                     {
                         targetIndex = ~targetIndex;
                     }
 
-                    view.Insert(targetIndex, item);
+                    View.Insert(targetIndex, item);
                 }
                 else
                 {
-                    view.Add(item);
+                    View.Add(item);
                 }
             }
         }
@@ -513,9 +511,9 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
         int newViewIndex = newStartingIndex;
 
-        if (sortDescriptions.Count > 0)
+        if (SortDescriptions.Count > 0)
         {
-            newViewIndex = view.BinarySearch(newItem, this);
+            newViewIndex = View.BinarySearch(newItem, this);
             if (newViewIndex < 0)
             {
                 newViewIndex = ~newViewIndex;
@@ -529,13 +527,13 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
                 return false;
             }
 
-            if (newStartingIndex == 0 || view.Count == 0)
+            if (newStartingIndex == 0 || View.Count == 0)
             {
                 newViewIndex = 0;
             }
             else if (newStartingIndex == source.Count - 1)
             {
-                newViewIndex = view.Count;
+                newViewIndex = View.Count;
             }
             else if (viewIndex.HasValue)
             {
@@ -551,7 +549,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
                         break;
                     }
 
-                    if (Equals(view[j], source[i]))
+                    if (Equals(View[j], source[i]))
                     {
                         j++;
                     }
@@ -559,7 +557,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             }
         }
 
-        view.Insert(newViewIndex, newItem);
+        View.Insert(newViewIndex, newItem);
         if (newViewIndex <= CurrentPosition)
         {
             CurrentPosition++;
@@ -576,9 +574,9 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             return;
         }
 
-        if (oldStartingIndex < 0 || oldStartingIndex >= view.Count || !Equals(view[oldStartingIndex], oldItem))
+        if (oldStartingIndex < 0 || oldStartingIndex >= View.Count || !Equals(View[oldStartingIndex], oldItem))
         {
-            oldStartingIndex = view.IndexOf(oldItem);
+            oldStartingIndex = View.IndexOf(oldItem);
         }
 
         if (oldStartingIndex < 0)
@@ -591,13 +589,13 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
 
     private void RemoveFromView(int itemIndex, T item)
     {
-        view.RemoveAt(itemIndex);
+        View.RemoveAt(itemIndex);
         if (itemIndex <= CurrentPosition)
         {
             CurrentPosition--;
 
             // Removed item is last item
-            if (view.Count == itemIndex)
+            if (View.Count == itemIndex)
             {
                 OnCurrentChanged();
             }
@@ -623,7 +621,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             return false;
         }
 
-        if (i < -1 || i >= view.Count)
+        if (i < -1 || i >= View.Count)
         {
             // view is empty, i is 0, current pos is -1
             OnPropertyChanged(nameof(CurrentItem));

@@ -23,11 +23,10 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly INavigationService navigationService;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    public HutaoUserOptions User { get => hutaoUserOptions; }
+    public partial HutaoUserOptions HutaoUserOptions { get; }
 
     [Command("OpenRedeemWebsiteCommand")]
     private async Task OpenRedeemWebsiteAsync()
@@ -67,7 +66,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
             {
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await hutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
+                await HutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
             }
         }
     }
@@ -100,7 +99,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
 
                 await taskContext.SwitchToMainThreadAsync();
-                hutaoUserOptions.PostLogoutOrUnregister();
+                HutaoUserOptions.PostLogoutOrUnregister();
             }
         }
     }
@@ -131,7 +130,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
             {
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await hutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
+                await HutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
             }
         }
     }
@@ -139,7 +138,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("LogoutCommand")]
     private void LogoutAsync()
     {
-        hutaoUserOptions.PostLogoutOrUnregister();
+        HutaoUserOptions.PostLogoutOrUnregister();
     }
 
     [Command("ResetPasswordCommand")]
@@ -168,7 +167,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
             {
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await hutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
+                await HutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
             }
         }
     }

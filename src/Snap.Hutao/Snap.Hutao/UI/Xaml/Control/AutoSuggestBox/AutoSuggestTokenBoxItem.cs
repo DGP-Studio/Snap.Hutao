@@ -24,8 +24,6 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
     private const string TextTokensCounter = nameof(TextTokensCounter);
     private const string QueryButton = nameof(QueryButton);
 
-    private Microsoft.UI.Xaml.Controls.AutoSuggestBox? autoSuggestBox;
-    private TextBox? autoSuggestTextBox;
     private bool isSelectedFocusOnFirstCharacter;
     private bool isSelectedFocusOnLastCharacter;
 
@@ -40,32 +38,32 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
     public event TypedEventHandler<AutoSuggestTokenBoxItem, RoutedEventArgs>? ClearAllAction;
 
-    public Microsoft.UI.Xaml.Controls.AutoSuggestBox? AutoSuggestBox { get => autoSuggestBox; }
+    public Microsoft.UI.Xaml.Controls.AutoSuggestBox? AutoSuggestBox { get; private set; }
 
-    public TextBox? AutoSuggestTextBox { get => autoSuggestTextBox; }
+    public TextBox? AutoSuggestTextBox { get; private set; }
 
     public bool UseCharacterAsUser { get; set; }
 
     private bool IsAllSelected
     {
-        get => autoSuggestTextBox?.SelectedText == autoSuggestTextBox?.Text && !string.IsNullOrEmpty(autoSuggestTextBox?.Text);
+        get => AutoSuggestTextBox?.SelectedText == AutoSuggestTextBox?.Text && !string.IsNullOrEmpty(AutoSuggestTextBox?.Text);
     }
 
     private bool IsCaretAtStart
     {
-        get => autoSuggestTextBox?.SelectionStart is 0;
+        get => AutoSuggestTextBox?.SelectionStart is 0;
     }
 
     private bool IsCaretAtEnd
     {
-        get => autoSuggestTextBox?.SelectionStart == autoSuggestTextBox?.Text.Length || autoSuggestTextBox?.SelectionStart + autoSuggestTextBox?.SelectionLength == autoSuggestTextBox?.Text.Length;
+        get => AutoSuggestTextBox?.SelectionStart == AutoSuggestTextBox?.Text.Length || AutoSuggestTextBox?.SelectionStart + AutoSuggestTextBox?.SelectionLength == AutoSuggestTextBox?.Text.Length;
     }
 
     public void UpdateText(string text)
     {
-        if (autoSuggestBox is not null)
+        if (AutoSuggestBox is not null)
         {
-            autoSuggestBox.Text = text;
+            AutoSuggestBox.Text = text;
             return;
         }
 
@@ -73,9 +71,9 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
         void WaitForLoad(object s, RoutedEventArgs eargs)
         {
-            if (autoSuggestTextBox is not null)
+            if (AutoSuggestTextBox is not null)
             {
-                autoSuggestTextBox.Text = text;
+                AutoSuggestTextBox.Text = text;
             }
 
             AutoSuggestTextBoxLoaded -= WaitForLoad;
@@ -96,44 +94,44 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
     private void OnAutoSuggestBoxApplyTemplate(Microsoft.UI.Xaml.Controls.AutoSuggestBox asb)
     {
         // Revoke previous events
-        if (autoSuggestBox is not null)
+        if (AutoSuggestBox is not null)
         {
-            autoSuggestBox.Loaded -= OnAutoSuggestBoxLoaded;
+            AutoSuggestBox.Loaded -= OnAutoSuggestBoxLoaded;
 
-            autoSuggestBox.QuerySubmitted -= OnAutoSuggestBoxQuerySubmitted;
-            autoSuggestBox.SuggestionChosen -= OnAutoSuggestBoxSuggestionChosen;
-            autoSuggestBox.TextChanged -= OnAutoSuggestBoxTextChanged;
-            autoSuggestBox.PointerEntered -= OnAutoSuggestBoxPointerEntered;
-            autoSuggestBox.PointerExited -= OnAutoSuggestBoxPointerExited;
-            autoSuggestBox.PointerCanceled -= OnAutoSuggestBoxPointerExited;
-            autoSuggestBox.PointerCaptureLost -= OnAutoSuggestBoxPointerExited;
-            autoSuggestBox.GotFocus -= OnAutoSuggestBoxGotFocus;
-            autoSuggestBox.LostFocus -= OnAutoSuggestBoxLostFocus;
+            AutoSuggestBox.QuerySubmitted -= OnAutoSuggestBoxQuerySubmitted;
+            AutoSuggestBox.SuggestionChosen -= OnAutoSuggestBoxSuggestionChosen;
+            AutoSuggestBox.TextChanged -= OnAutoSuggestBoxTextChanged;
+            AutoSuggestBox.PointerEntered -= OnAutoSuggestBoxPointerEntered;
+            AutoSuggestBox.PointerExited -= OnAutoSuggestBoxPointerExited;
+            AutoSuggestBox.PointerCanceled -= OnAutoSuggestBoxPointerExited;
+            AutoSuggestBox.PointerCaptureLost -= OnAutoSuggestBoxPointerExited;
+            AutoSuggestBox.GotFocus -= OnAutoSuggestBoxGotFocus;
+            AutoSuggestBox.LostFocus -= OnAutoSuggestBoxLostFocus;
 
             // Remove any previous QueryIcon
-            autoSuggestBox.QueryIcon = default;
+            AutoSuggestBox.QueryIcon = default;
         }
 
-        autoSuggestBox = asb;
+        AutoSuggestBox = asb;
 
-        if (autoSuggestBox is not null)
+        if (AutoSuggestBox is not null)
         {
-            autoSuggestBox.Loaded += OnAutoSuggestBoxLoaded;
+            AutoSuggestBox.Loaded += OnAutoSuggestBoxLoaded;
 
-            autoSuggestBox.QuerySubmitted += OnAutoSuggestBoxQuerySubmitted;
-            autoSuggestBox.SuggestionChosen += OnAutoSuggestBoxSuggestionChosen;
-            autoSuggestBox.TextChanged += OnAutoSuggestBoxTextChanged;
-            autoSuggestBox.PointerEntered += OnAutoSuggestBoxPointerEntered;
-            autoSuggestBox.PointerExited += OnAutoSuggestBoxPointerExited;
-            autoSuggestBox.PointerCanceled += OnAutoSuggestBoxPointerExited;
-            autoSuggestBox.PointerCaptureLost += OnAutoSuggestBoxPointerExited;
-            autoSuggestBox.GotFocus += OnAutoSuggestBoxGotFocus;
-            autoSuggestBox.LostFocus += OnAutoSuggestBoxLostFocus;
+            AutoSuggestBox.QuerySubmitted += OnAutoSuggestBoxQuerySubmitted;
+            AutoSuggestBox.SuggestionChosen += OnAutoSuggestBoxSuggestionChosen;
+            AutoSuggestBox.TextChanged += OnAutoSuggestBoxTextChanged;
+            AutoSuggestBox.PointerEntered += OnAutoSuggestBoxPointerEntered;
+            AutoSuggestBox.PointerExited += OnAutoSuggestBoxPointerExited;
+            AutoSuggestBox.PointerCanceled += OnAutoSuggestBoxPointerExited;
+            AutoSuggestBox.PointerCaptureLost += OnAutoSuggestBoxPointerExited;
+            AutoSuggestBox.GotFocus += OnAutoSuggestBoxGotFocus;
+            AutoSuggestBox.LostFocus += OnAutoSuggestBoxLostFocus;
 
             // Setup a binding to the QueryIcon of the Parent if we're the last box.
             if (Content is ITokenStringContainer str)
             {
-                autoSuggestBox.Text = str.Text;
+                AutoSuggestBox.Text = str.Text;
 
                 if (str.IsLast)
                 {
@@ -159,7 +157,7 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
                     IconSourceElement iconSourceElement = new();
                     iconSourceElement.SetBinding(IconSourceElement.IconSourceProperty, iconBinding);
-                    autoSuggestBox.QueryIcon = iconSourceElement;
+                    AutoSuggestBox.QueryIcon = iconSourceElement;
                 }
             }
         }
@@ -179,28 +177,28 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
     private void OnAutoSuggestBoxLoaded(object sender, RoutedEventArgs e)
     {
-        ArgumentNullException.ThrowIfNull(autoSuggestBox);
-        if (autoSuggestBox.FindDescendant(QueryButton) is Button queryButton)
+        ArgumentNullException.ThrowIfNull(AutoSuggestBox);
+        if (AutoSuggestBox.FindDescendant(QueryButton) is Button queryButton)
         {
             queryButton.Visibility = Owner.QueryIcon is not null ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        if (autoSuggestTextBox is not null)
+        if (AutoSuggestTextBox is not null)
         {
-            autoSuggestTextBox.PreviewKeyDown -= OnAutoSuggestTextBoxPreviewKeyDown;
-            autoSuggestTextBox.TextChanging -= OnAutoSuggestTextBoxTextChanging;
-            autoSuggestTextBox.SelectionChanged -= OnAutoSuggestTextBoxSelectionChanged;
-            autoSuggestTextBox.SelectionChanging -= OnAutoSuggestTextBoxSelectionChanging;
+            AutoSuggestTextBox.PreviewKeyDown -= OnAutoSuggestTextBoxPreviewKeyDown;
+            AutoSuggestTextBox.TextChanging -= OnAutoSuggestTextBoxTextChanging;
+            AutoSuggestTextBox.SelectionChanged -= OnAutoSuggestTextBoxSelectionChanged;
+            AutoSuggestTextBox.SelectionChanging -= OnAutoSuggestTextBoxSelectionChanging;
         }
 
-        autoSuggestTextBox = autoSuggestBox.FindDescendant<TextBox>();
+        AutoSuggestTextBox = AutoSuggestBox.FindDescendant<TextBox>();
 
-        if (autoSuggestTextBox is not null)
+        if (AutoSuggestTextBox is not null)
         {
-            autoSuggestTextBox.PreviewKeyDown += OnAutoSuggestTextBoxPreviewKeyDown;
-            autoSuggestTextBox.TextChanging += OnAutoSuggestTextBoxTextChanging;
-            autoSuggestTextBox.SelectionChanged += OnAutoSuggestTextBoxSelectionChanged;
-            autoSuggestTextBox.SelectionChanging += OnAutoSuggestTextBoxSelectionChanging;
+            AutoSuggestTextBox.PreviewKeyDown += OnAutoSuggestTextBoxPreviewKeyDown;
+            AutoSuggestTextBox.TextChanging += OnAutoSuggestTextBoxTextChanging;
+            AutoSuggestTextBox.SelectionChanged += OnAutoSuggestTextBoxSelectionChanged;
+            AutoSuggestTextBox.SelectionChanging += OnAutoSuggestTextBoxSelectionChanging;
 
             AutoSuggestTextBoxLoaded?.Invoke(this, e);
         }
