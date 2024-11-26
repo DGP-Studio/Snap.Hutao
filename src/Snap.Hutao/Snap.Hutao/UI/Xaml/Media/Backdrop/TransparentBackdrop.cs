@@ -11,11 +11,11 @@ namespace Snap.Hutao.UI.Xaml.Media.Backdrop;
 
 internal sealed partial class TransparentBackdrop : SystemBackdrop, IBackdropNeedEraseBackground
 {
-    private object? compositorLock;
+    private readonly Color tintColor;
 
-    private Color tintColor;
     private Windows.UI.Composition.CompositionColorBrush? brush;
     private Windows.UI.Composition.Compositor? compositor;
+    private object? compositorLock;
 
     public TransparentBackdrop()
         : this(Colors.Transparent)

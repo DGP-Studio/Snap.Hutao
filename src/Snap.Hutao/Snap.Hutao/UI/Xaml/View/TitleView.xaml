@@ -39,7 +39,7 @@
             <StackPanel
                 Orientation="Horizontal"
                 Spacing="6"
-                Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding RuntimeOptions.IsElevated}">
                 <ToggleButton
                     VerticalAlignment="Center"
                     IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsOn, Mode=OneWay}"

@@ -22,9 +22,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     private readonly IServiceProvider serviceProvider;
     private readonly App app;
 
-    public string Title
+    public static string Title
     {
-        [SuppressMessage("", "IDE0027")]
         get
         {
             string name = new StringBuilder()
