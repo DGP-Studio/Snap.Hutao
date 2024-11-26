@@ -14,36 +14,31 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="CountdownHistoryTemplate" x:DataType="shvg:CountdownHistory">
-            <Grid ColumnSpacing="8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0" VerticalAlignment="Stretch">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{Binding FormattedVersionOrder}"/>
-                    <TextBlock
-                        Grid.Row="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{Binding FormattedTime}"/>
-                </Grid>
-
+            <Grid>
                 <shuxci:CachedImage
-                    Grid.Column="1"
-                    Width="320"
+                    Width="300"
                     CornerRadius="{ThemeResource ControlCornerRadius}"
                     Source="{Binding Banner}"/>
+                <Grid Padding="8" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0.6,0">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Offset="0" Color="#80000000"/>
+                                <GradientStop Offset="1" Color="Transparent"/>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <StackPanel VerticalAlignment="Bottom">
+                        <TextBlock
+                            Foreground="#FFFFFFFF"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="{Binding FormattedVersionOrder}"/>
+                        <TextBlock
+                            Foreground="#FFFFFFFF"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="{Binding FormattedTime}"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </DataTemplate>
 
@@ -113,13 +108,16 @@
                     VerticalAlignment="Bottom"
                     Content="&#xE81C;"
                     FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    Opacity="0.7"
                     Style="{ThemeResource SettingButtonStyle}">
                     <Button.Flyout>
                         <Flyout
-                            FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}"
+                            FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding8Style}"
                             Placement="Right"
                             ShouldConstrainToRootBounds="False">
                             <ListView
+                                MaxHeight="640"
+                                Margin="0,-4,0,0"
                                 ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
                                 ItemTemplate="{StaticResource CountdownHistoryTemplate}"
                                 ItemsSource="{x:Bind Histories}"

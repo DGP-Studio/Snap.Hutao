@@ -31,6 +31,12 @@
         <Setter Property="Padding" Value="6"/>
     </Style>
     <Style
+        x:Key="FlyoutPresenterPadding8Style"
+        BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
+        TargetType="FlyoutPresenter">
+        <Setter Property="Padding" Value="8"/>
+    </Style>
+    <Style
         x:Key="FlyoutPresenterPadding16And10Style"
         BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
         TargetType="FlyoutPresenter">
