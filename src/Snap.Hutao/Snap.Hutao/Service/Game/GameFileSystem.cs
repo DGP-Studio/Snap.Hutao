@@ -16,13 +16,6 @@ internal sealed partial class GameFileSystem : IGameFileSystem
         this.releaser = releaser;
     }
 
-    public GameFileSystem(string gameFilePath, AsyncReaderWriterLock.Releaser releaser, GameAudioSystem gameAudioSystem)
-    {
-        GameFilePath = gameFilePath;
-        this.releaser = releaser;
-        Audio = gameAudioSystem;
-    }
-
     public string GameFilePath { get; }
 
     [field: MaybeNull]
@@ -50,15 +43,20 @@ internal sealed partial class GameFileSystem : IGameFileSystem
     [field: MaybeNull]
     public string PCGameSDKFilePath { get => field ??= Path.Combine(GameDirectory, GameConstants.PCGameSDKFilePath); }
 
-    public string ScreenShotDirectory { get => Path.Combine(GameDirectory, "ScreenShot"); }
+    [field: MaybeNull]
+    public string ScreenShotDirectory { get => field ??= Path.Combine(GameDirectory, "ScreenShot"); }
 
-    public string DataDirectory { get => Path.Combine(GameDirectory, LaunchScheme.ExecutableIsOversea(GameFileName) ? GameConstants.GenshinImpactData : GameConstants.YuanShenData); }
+    [field: MaybeNull]
+    public string DataDirectory { get => field ??= Path.Combine(GameDirectory, LaunchScheme.ExecutableIsOversea(GameFileName) ? GameConstants.GenshinImpactData : GameConstants.YuanShenData); }
 
-    public string ScriptVersionFilePath { get => Path.Combine(DataDirectory, "Persistent", "ScriptVersion"); }
+    [field: MaybeNull]
+    public string ScriptVersionFilePath { get => field ??= Path.Combine(DataDirectory, "Persistent", "ScriptVersion"); }
 
-    public string ChunksDirectory { get => Path.Combine(GameDirectory, "chunks"); }
+    [field: MaybeNull]
+    public string ChunksDirectory { get => field ??= Path.Combine(GameDirectory, "chunks"); }
 
-    public string PredownloadStatusPath { get => Path.Combine(ChunksDirectory, "snap_hutao_predownload_status.json"); }
+    [field: MaybeNull]
+    public string PredownloadStatusPath { get => field ??= Path.Combine(ChunksDirectory, "snap_hutao_predownload_status.json"); }
 
     [field: MaybeNull]
     public GameAudioSystem Audio { get => field ??= new(GameFilePath); }

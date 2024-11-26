@@ -347,7 +347,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
 
-        context.Operation.GameFileSystem.UpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
+        context.Operation.GameFileSystem.TryUpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
 
         if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
         {

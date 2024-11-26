@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Configuration;
+using System.Collections.Immutable;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -20,10 +21,10 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
         string configPath = gameFileSystem.GameConfigFilePath;
         context.Logger.LogInformation("Game config file path: {ConfigPath}", configPath);
 
-        List<IniElement> elements;
+        ImmutableArray<IniElement> elements;
         try
         {
-            elements = [.. IniSerializer.DeserializeFromFile(configPath)];
+            elements = IniSerializer.DeserializeFromFile(configPath);
         }
         catch (FileNotFoundException)
         {

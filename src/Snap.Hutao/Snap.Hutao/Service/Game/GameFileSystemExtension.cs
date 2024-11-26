@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
+using System.Collections.Immutable;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -15,7 +16,7 @@ internal static class GameFileSystemExtension
         version = default!;
         if (File.Exists(gameFileSystem.GameConfigFilePath))
         {
-            foreach (ref readonly IniElement element in CollectionsMarshal.AsSpan(IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath)))
+            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).AsSpan())
             {
                 if (element is IniParameter { Key: "game_version" } parameter)
                 {
@@ -56,12 +57,22 @@ internal static class GameFileSystemExtension
         File.WriteAllText(gameFileSystem.GameConfigFilePath, content);
     }
 
-    public static void UpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
+    public static bool TryUpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
     {
-        List<IniElement> ini = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath);
-        IniParameter gameVersion = (IniParameter)ini.Single(e => e is IniParameter { Key: "game_version" });
-        gameVersion.Set(version);
+        bool updated = false;
+        ImmutableArray<IniElement> ini = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath);
+        foreach (ref readonly IniElement element in ini.AsSpan())
+        {
+            if (element is not IniParameter { Key: "game_version" } parameter)
+            {
+                continue;
+            }
+
+            updated = parameter.Set(version);
+        }
+
         IniSerializer.SerializeToFile(gameFileSystem.GameConfigFilePath, ini);
+        return updated;
     }
 
     public static bool TryFixConfigurationFile(this IGameFileSystem gameFileSystem, LaunchScheme launchScheme)
@@ -85,7 +96,7 @@ internal static class GameFileSystemExtension
         }
 
         string? version = default;
-        foreach (ref readonly IniElement element in CollectionsMarshal.AsSpan(IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath)))
+        foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).AsSpan())
         {
             if (element is IniParameter { Key: "game_version" } parameter)
             {

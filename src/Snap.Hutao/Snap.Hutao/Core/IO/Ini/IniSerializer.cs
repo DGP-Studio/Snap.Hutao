@@ -1,13 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO.Ini;
 
 internal static class IniSerializer
 {
-    public static List<IniElement> DeserializeFromFile(string filePath)
+    public static ImmutableArray<IniElement> DeserializeFromFile(string filePath)
     {
         using (StreamReader reader = File.OpenText(filePath))
         {
@@ -15,9 +16,9 @@ internal static class IniSerializer
         }
     }
 
-    public static List<IniElement> Deserialize(Stream fileStream)
+    public static ImmutableArray<IniElement> Deserialize(Stream stream)
     {
-        using (StreamReader reader = new(fileStream))
+        using (StreamReader reader = new(stream))
         {
             return DeserializeCore(reader);
         }
@@ -39,9 +40,9 @@ internal static class IniSerializer
         }
     }
 
-    private static List<IniElement> DeserializeCore(StreamReader reader)
+    private static ImmutableArray<IniElement> DeserializeCore(StreamReader reader)
     {
-        List<IniElement> results = [];
+        ImmutableArray<IniElement>.Builder builder = ImmutableArray.CreateBuilder<IniElement>();
         IniSection? currentSection = default;
 
         while (reader.ReadLine() is { } line)
@@ -56,26 +57,26 @@ internal static class IniSerializer
             if (lineSpan[0] is '[')
             {
                 IniSection section = new(lineSpan[1..^1].ToString());
-                results.Add(section);
+                builder.Add(section);
                 currentSection = section;
             }
 
             if (lineSpan[0] is ';')
             {
                 IniComment comment = new(lineSpan[1..].ToString());
-                results.Add(comment);
+                builder.Add(comment);
                 currentSection?.Children.Add(comment);
             }
 
             if (lineSpan.TrySplitIntoTwo('=', out ReadOnlySpan<char> left, out ReadOnlySpan<char> right))
             {
                 IniParameter parameter = new(left.Trim().ToString(), right.Trim().ToString());
-                results.Add(parameter);
+                builder.Add(parameter);
                 currentSection?.Children.Add(parameter);
             }
         }
 
-        return results;
+        return builder.ToImmutable();
     }
 
     private static void SerializeCore(StreamWriter writer, IEnumerable<IniElement> elements)

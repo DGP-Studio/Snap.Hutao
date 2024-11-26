@@ -16,7 +16,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
     private readonly ITaskContext taskContext;
 
     [GeneratedRegex(@"\\x(?=[0-9a-f]{4})")]
-    private static partial Regex UTF16Regex { get; }
+    private static partial Regex Utf16Regex { get; }
 
     public async ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
     {
@@ -36,8 +36,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
         string? escapedPath;
         using (FileStream stream = File.OpenRead(configPath))
         {
-            IEnumerable<IniElement> elements = IniSerializer.Deserialize(stream);
-            escapedPath = elements
+            escapedPath = IniSerializer.Deserialize(stream)
                 .OfType<IniParameter>()
                 .FirstOrDefault(p => p.Key == "game_install_path")?.Value;
         }
@@ -63,13 +62,13 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
 
     private static string Unescape(string str)
     {
-        string hex4Result = UTF16Regex.Replace(str, @"\u");
+        string hex4Result = Utf16Regex.Replace(str, @"\u");
 
         // 不包含中文
-        // Some one's folder might begin with 'u'
+        // Someone's folder might begin with 'u'
         if (!hex4Result.Contains(@"\u", StringComparison.Ordinal))
         {
-            // fix path with \
+            // Fix path with \
             hex4Result = hex4Result.Replace(@"\", @"\\", StringComparison.Ordinal);
         }
 

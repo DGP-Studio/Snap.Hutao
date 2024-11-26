@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Game.Configuration;
 
@@ -48,9 +49,30 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
                 return ChannelOptions.ConfigurationFileNotFound(gameFileSystem.GameConfigFilePath);
             }
 
-            List<IniParameter> parameters = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).OfType<IniParameter>().ToList();
-            string? channel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.ChannelName)?.Value;
-            string? subChannel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.SubChannelName)?.Value;
+            string? channel = default;
+            string? subChannel = default;
+            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).AsSpan())
+            {
+                if (element is not IniParameter parameter)
+                {
+                    continue;
+                }
+
+                switch (parameter.Key)
+                {
+                    case ChannelOptions.ChannelName:
+                        channel = parameter.Value;
+                        break;
+                    case ChannelOptions.SubChannelName:
+                        subChannel = parameter.Value;
+                        break;
+                }
+
+                if (channel is not null && subChannel is not null)
+                {
+                    break;
+                }
+            }
 
             return new(channel, subChannel, isOversea);
         }
