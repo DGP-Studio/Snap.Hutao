@@ -3,6 +3,7 @@
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
@@ -29,7 +30,9 @@ using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using WinRT;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -449,6 +452,26 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
         }
+    }
+
+    [Command("BypassRequestedThemeSettableCommand")]
+    private unsafe void BypassRequestedThemeSettable()
+    {
+        checked
+        {
+            App app = serviceProvider.GetRequiredService<App>();
+            *(BOOLEAN*)(IntPtr)(GetApplicationObjectReference(app).ThisPtr + 0x118U) = true;
+        }
+    }
+
+    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get__objRef_global__Microsoft_UI_Xaml_IApplication")]
+    private static extern IObjectReference GetApplicationObjectReference(Application app);
+
+    [Command("ReverseRequestedThemeCommand")]
+    private void ReverseRequestedTheme()
+    {
+        App app = serviceProvider.GetRequiredService<App>();
+        app.RequestedTheme = app.RequestedTheme is ApplicationTheme.Dark ? ApplicationTheme.Light : ApplicationTheme.Dark;
     }
 
     internal sealed class ExtractOptions
