@@ -11,11 +11,11 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.Game.Launching;
 
 [ConstructorGenerated]
-internal sealed partial class LaunchExecutionContext
+internal sealed partial class LaunchExecutionContext : IDisposable
 {
     private readonly ILogger<LaunchExecutionContext> logger;
 
-    private GameFileSystem? gameFileSystem;
+    private IGameFileSystem? gameFileSystem;
 
     [SuppressMessage("", "SH007")]
     public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? targetScheme, GameAccount? account, UserAndUid? userAndUid)
@@ -58,9 +58,8 @@ internal sealed partial class LaunchExecutionContext
 
     public System.Diagnostics.Process Process { get; set; } = default!;
 
-    public bool TryGetGameFileSystem([NotNullWhen(true)] out GameFileSystem? gameFileSystem)
+    public bool TryGetGameFileSystem([NotNullWhen(true)] out IGameFileSystem? gameFileSystem)
     {
-        // TODO: for safety reasons, we should lock the game file path somehow, when we acquired the game file system
         if (this.gameFileSystem is not null)
         {
             gameFileSystem = this.gameFileSystem;
@@ -80,10 +79,16 @@ internal sealed partial class LaunchExecutionContext
 
     public void UpdateGamePathEntry()
     {
+        // Invalidate game file system
+        gameFileSystem?.Dispose();
+        gameFileSystem = null;
+
         ImmutableArray<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
         ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selectedEntry);
+    }
 
-        // invalidate game file system
-        gameFileSystem = null;
+    public void Dispose()
+    {
+        gameFileSystem?.Dispose();
     }
 }

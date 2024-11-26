@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Game.Configuration;
 
@@ -16,40 +17,62 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
     public ChannelOptions GetChannelOptions()
     {
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return ChannelOptions.GamePathNullOrEmpty();
         }
 
-        bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-
-        if (!File.Exists(gameFileSystem.GameConfigFilePath))
+        using (gameFileSystem)
         {
-            // Try restore the configuration file if it does not exist
-            // The configuration file may be deleted by a incompatible launcher
-            gameConfigurationFileService.Restore(gameFileSystem.GameConfigFilePath);
-        }
-
-        if (!File.Exists(gameFileSystem.ScriptVersionFilePath))
-        {
-            // Try to fix ScriptVersion by reading game_version from the configuration file
-            // Will check the configuration file first
-            // If the configuration file and ScriptVersion file are both missing, the game content is corrupted
-            if (!gameFileSystem.TryFixScriptVersion())
+            if (!File.Exists(gameFileSystem.GetGameConfigurationFilePath()))
             {
-                return ChannelOptions.GameContentCorrupted(gameFileSystem.GameDirectory);
+                // Try restore the configuration file if it does not exist
+                // The configuration file may be deleted by an incompatible launcher
+                gameConfigurationFileService.Restore(gameFileSystem.GetGameConfigurationFilePath());
             }
+
+            if (!File.Exists(gameFileSystem.GetScriptVersionFilePath()))
+            {
+                // Try to fix ScriptVersion by reading game_version from the configuration file
+                // Will check the configuration file first
+                // If the configuration file and ScriptVersion file are both missing, the game content is corrupted
+                if (!gameFileSystem.TryFixScriptVersion())
+                {
+                    return ChannelOptions.GameContentCorrupted(gameFileSystem.GetGameDirectory());
+                }
+            }
+
+            if (!File.Exists(gameFileSystem.GetGameConfigurationFilePath()))
+            {
+                return ChannelOptions.ConfigurationFileNotFound(gameFileSystem.GetGameConfigurationFilePath());
+            }
+
+            string? channel = default;
+            string? subChannel = default;
+            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath()).AsSpan())
+            {
+                if (element is not IniParameter parameter)
+                {
+                    continue;
+                }
+
+                switch (parameter.Key)
+                {
+                    case ChannelOptions.ChannelName:
+                        channel = parameter.Value;
+                        break;
+                    case ChannelOptions.SubChannelName:
+                        subChannel = parameter.Value;
+                        break;
+                }
+
+                if (channel is not null && subChannel is not null)
+                {
+                    break;
+                }
+            }
+
+            return new(channel, subChannel, gameFileSystem.IsOversea());
         }
-
-        if (!File.Exists(gameFileSystem.GameConfigFilePath))
-        {
-            return ChannelOptions.ConfigurationFileNotFound(gameFileSystem.GameConfigFilePath);
-        }
-
-        List<IniParameter> parameters = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).OfType<IniParameter>().ToList();
-        string? channel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.ChannelName)?.Value;
-        string? subChannel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.SubChannelName)?.Value;
-
-        return new(channel, subChannel, isOversea);
     }
 }

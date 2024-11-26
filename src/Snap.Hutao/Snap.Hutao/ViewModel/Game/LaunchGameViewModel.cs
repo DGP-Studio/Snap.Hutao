@@ -133,12 +133,25 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         get;
         set
         {
+            if (value is not null && !launchOptions.GamePathEntries.Contains(value))
+            {
+                HutaoException.InvalidOperation("Selected game path entry is not in the game path entries.");
+            }
+
             if (!SetProperty(ref field, value))
             {
                 return;
             }
 
-            launchOptions.GamePath = value?.Path ?? string.Empty;
+            // We are selecting from existing entries, so we don't need to update GamePathEntries
+            if (launchOptions.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
+            {
+                using (releaser)
+                {
+                    launchOptions.GamePath = value?.Path ?? string.Empty;
+                }
+            }
+
             GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
         }
     }
@@ -263,13 +276,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
 
-        Directory.CreateDirectory(gameFileSystem.ScreenShotDirectory);
-        await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
+        using (gameFileSystem)
+        {
+            Directory.CreateDirectory(gameFileSystem.GetScreenShotDirectory());
+            await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.GetScreenShotDirectory());
+        }
     }
 
     [SuppressMessage("", "SH003")]

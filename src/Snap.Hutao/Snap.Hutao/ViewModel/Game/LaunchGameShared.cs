@@ -72,29 +72,33 @@ internal sealed partial class LaunchGameShared
     [Command("HandleConfigurationFileNotFoundCommand")]
     private async Task HandleConfigurationFileNotFoundAsync()
     {
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
 
-        bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-
-        LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
-            .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
-            .ConfigureAwait(false);
-
-        await taskContext.SwitchToMainThreadAsync();
-        dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
-        dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-        (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        using (gameFileSystem)
         {
-            return;
-        }
+            LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
+                .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
+                .ConfigureAwait(false);
 
-        gameFileSystem.TryFixConfigurationFile(launchScheme);
-        infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+            bool isOversea = gameFileSystem.IsOversea();
+
+            await taskContext.SwitchToMainThreadAsync();
+
+            dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
+            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
+            (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
+
+            if (!isOk)
+            {
+                return;
+            }
+
+            gameFileSystem.TryFixConfigurationFile(launchScheme);
+            infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+        }
     }
 
     [Command("HandleGamePathNullOrEmptyCommand")]

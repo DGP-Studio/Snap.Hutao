@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
@@ -153,25 +154,25 @@ internal abstract partial class DbStoreOptions : ObservableObject
 
     protected bool SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => v, propertyName);
+        return SetOption(ref storage, key, value, static v => v, propertyName);
     }
 
     protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => $"{v}", propertyName);
+        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
     protected bool SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => $"{v}", propertyName);
+        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
     protected bool SetOption(ref float? storage, string key, float value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => $"{v}", propertyName);
+        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
-    protected bool SetOption<T>(ref T? storage, string key, T value, Func<T, string?> serializer, [CallerMemberName] string? propertyName = null)
+    protected bool SetOption<T>(ref T? storage, string key, T value, [RequireStaticDelegate] Func<T, string?> serializer, [CallerMemberName] string? propertyName = null)
     {
         if (!SetProperty(ref storage, value, propertyName))
         {

@@ -29,7 +29,7 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
 
-    public async ValueTask<ValueResult<bool, GameInstallOptions>> GetGameFileSystemAsync()
+    public async ValueTask<ValueResult<bool, GameInstallOptions>> GetGameInstallOptionsAsync()
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         if (result is not ContentDialogResult.Primary)
@@ -41,25 +41,25 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
         if (string.IsNullOrWhiteSpace(GameDirectory))
         {
-            infoBarService.Error("安装路径未选择");
+            infoBarService.Error("未选择安装路径");
             return new(false, default!);
         }
 
         if (SelectedScheme is null)
         {
-            infoBarService.Error("游戏区服未选择");
+            infoBarService.Error("未选择游戏区服");
             return new(false, default!);
         }
 
         if (!Chinese && !English && !Japanese && !Korean)
         {
-            infoBarService.Error("语音包未选择");
+            infoBarService.Error("未选择语音包");
             return new(false, default!);
         }
 
         GameAudioSystem gameAudioSystem = new(Chinese, English, Japanese, Korean);
         string gamePath = Path.Combine(GameDirectory, SelectedScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName);
-        return new(true, new(new(gamePath, gameAudioSystem), SelectedScheme));
+        return new(true, new(GameFileSystem.CreateForPackageOperation(gamePath, gameAudioSystem), SelectedScheme));
     }
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

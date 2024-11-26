@@ -12,7 +12,7 @@ internal readonly struct GamePackageOperationContext
 {
     public readonly GamePackageOperationKind Kind;
     public readonly IGameAssetOperation Asset;
-    public readonly GameFileSystem GameFileSystem;
+    public readonly IGameFileSystem GameFileSystem;
     public readonly BranchWrapper LocalBranch;
     public readonly BranchWrapper RemoteBranch;
     public readonly GameChannelSDK? GameChannelSDK;
@@ -22,22 +22,22 @@ internal readonly struct GamePackageOperationContext
     public GamePackageOperationContext(
         IServiceProvider serviceProvider,
         GamePackageOperationKind kind,
-        GameFileSystem gameFileSystem,
+        IGameFileSystem gameFileSystem,
         BranchWrapper localBranch,
         BranchWrapper remoteBranch,
         GameChannelSDK? gameChannelSDK,
         string? extractDirectory)
     {
         Kind = kind;
-        Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GameDirectory);
+        Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GetGameDirectory());
         GameFileSystem = gameFileSystem;
         LocalBranch = localBranch;
         RemoteBranch = remoteBranch;
         GameChannelSDK = gameChannelSDK;
-        ExtractOrGameDirectory = extractDirectory ?? gameFileSystem.GameDirectory;
+        ExtractOrGameDirectory = extractDirectory ?? gameFileSystem.GetGameDirectory();
 
         ProxiedChunksDirectory = kind is GamePackageOperationKind.Verify
-            ? Path.Combine(gameFileSystem.ChunksDirectory, "repair")
-            : gameFileSystem.ChunksDirectory;
+            ? Path.Combine(gameFileSystem.GetChunksDirectory(), "repair")
+            : gameFileSystem.GetChunksDirectory();
     }
 }

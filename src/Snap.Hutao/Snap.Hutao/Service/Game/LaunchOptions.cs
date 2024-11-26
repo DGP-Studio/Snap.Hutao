@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Controls;
+using JetBrains.Annotations;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
@@ -13,94 +14,56 @@ using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using System.Collections.Immutable;
 using System.Globalization;
-using Windows.Graphics;
+using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Gdi32;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game;
 
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchExecutionProcessStatusChangedMessage>
+internal sealed partial class LaunchOptions : DbStoreOptions,
+    IRestrictedGamePathAccess,
+    IRecipient<LaunchExecutionProcessStatusChangedMessage>
 {
     private readonly ITaskContext taskContext;
-
-    private readonly int primaryScreenWidth;
-    private readonly int primaryScreenHeight;
-    private readonly int primaryScreenFps;
-
-    private ImmutableArray<GamePathEntry>? gamePathEntries;
-
-    private bool? usingHoyolabAccount;
-    private bool? areCommandLineArgumentsEnabled;
-    private bool? isFullScreen;
-    private bool? isBorderless;
-    private bool? isExclusive;
-    private int? screenWidth;
-    private bool? isScreenWidthEnabled;
-    private int? screenHeight;
-    private bool? isScreenHeightEnabled;
-
-    private bool? isIslandEnabled;
-    private bool? hookingSetFieldOfView;
-    private bool? isSetFieldOfViewEnabled;
-    private float? targetFov;
-    private bool? fixLowFovScene;
-    private bool? disableFog;
-    private bool? isSetTargetFrameRateEnabled;
-    private int? targetFps;
-    private bool? hookingOpenTeam;
-    private bool? removeOpenTeamProgress;
-    private bool? hookingMickyWonderPartner2;
-    private bool? isMonitorEnabled;
-    private bool? usingCloudThirdPartyMobile;
-    private bool? isWindowsHDREnabled;
-    private bool? usingStarwardPlayTimeStatistics;
-    private bool? usingBetterGenshinImpactAutomation;
-    private bool? setDiscordActivityWhenPlaying;
+    private Fields fields;
 
     public LaunchOptions(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
-        RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
-        primaryScreenWidth = primaryRect.Width;
-        primaryScreenHeight = primaryRect.Height;
-
-        Monitors = InitializeMonitors();
-        InitializeScreenFps(out primaryScreenFps);
-
         // Batch initialization, boost up performance
         InitializeOptions(entry => entry.Key.StartsWith("Launch."), (key, value) =>
         {
             _ = key switch
             {
-                SettingEntry.LaunchUsingHoyolabAccount => InitializeBooleanValue(ref usingHoyolabAccount, value),
-                SettingEntry.LaunchAreCommandLineArgumentsEnabled => InitializeBooleanValue(ref areCommandLineArgumentsEnabled, value),
-                SettingEntry.LaunchIsFullScreen => InitializeBooleanValue(ref isFullScreen, value),
-                SettingEntry.LaunchIsBorderless => InitializeBooleanValue(ref isBorderless, value),
-                SettingEntry.LaunchIsExclusive => InitializeBooleanValue(ref isExclusive, value),
-                SettingEntry.LaunchScreenWidth => InitializeInt32Value(ref screenWidth, value),
-                SettingEntry.LaunchIsScreenWidthEnabled => InitializeBooleanValue(ref isScreenWidthEnabled, value),
-                SettingEntry.LaunchScreenHeight => InitializeInt32Value(ref screenHeight, value),
-                SettingEntry.LaunchIsScreenHeightEnabled => InitializeBooleanValue(ref isScreenHeightEnabled, value),
-                SettingEntry.LaunchIsMonitorEnabled => InitializeBooleanValue(ref isMonitorEnabled, value),
-                SettingEntry.LaunchUsingCloudThirdPartyMobile => InitializeBooleanValue(ref usingCloudThirdPartyMobile, value),
-                SettingEntry.LaunchIsWindowsHDREnabled => InitializeBooleanValue(ref isWindowsHDREnabled, value),
-                SettingEntry.LaunchUsingStarwardPlayTimeStatistics => InitializeBooleanValue(ref usingStarwardPlayTimeStatistics, value),
-                SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeBooleanValue(ref usingBetterGenshinImpactAutomation, value),
-                SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeBooleanValue(ref setDiscordActivityWhenPlaying, value),
-                SettingEntry.LaunchIsIslandEnabled => InitializeBooleanValue(ref isIslandEnabled, value),
-                SettingEntry.LaunchHookingSetFieldOfView => InitializeBooleanValue(ref hookingSetFieldOfView, value),
-                SettingEntry.LaunchIsSetFieldOfViewEnabled => InitializeBooleanValue(ref isSetFieldOfViewEnabled, value),
-                SettingEntry.LaunchTargetFov => InitializeFloatValue(ref targetFov, value),
-                SettingEntry.LaunchFixLowFovScene => InitializeBooleanValue(ref fixLowFovScene, value),
-                SettingEntry.LaunchDisableFog => InitializeBooleanValue(ref disableFog, value),
-                SettingEntry.LaunchIsSetTargetFrameRateEnabled => InitializeBooleanValue(ref isSetTargetFrameRateEnabled, value),
-                SettingEntry.LaunchTargetFps => InitializeInt32Value(ref targetFps, value),
-                SettingEntry.LaunchHookingOpenTeam => InitializeBooleanValue(ref hookingOpenTeam, value),
-                SettingEntry.LaunchRemoveOpenTeamProgress => InitializeBooleanValue(ref removeOpenTeamProgress, value),
-                SettingEntry.LaunchHookingMickyWonderPartner2 => InitializeBooleanValue(ref hookingMickyWonderPartner2, value),
+                SettingEntry.LaunchUsingHoyolabAccount => InitializeNullableBooleanValue(ref fields.UsingHoyolabAccount, value),
+                SettingEntry.LaunchAreCommandLineArgumentsEnabled => InitializeNullableBooleanValue(ref fields.AreCommandLineArgumentsEnabled, value),
+                SettingEntry.LaunchIsFullScreen => InitializeNullableBooleanValue(ref fields.IsFullScreen, value),
+                SettingEntry.LaunchIsBorderless => InitializeNullableBooleanValue(ref fields.IsBorderless, value),
+                SettingEntry.LaunchIsExclusive => InitializeNullableBooleanValue(ref fields.IsExclusive, value),
+                SettingEntry.LaunchScreenWidth => InitializeNullableInt32Value(ref fields.ScreenWidth, value),
+                SettingEntry.LaunchIsScreenWidthEnabled => InitializeNullableBooleanValue(ref fields.IsScreenWidthEnabled, value),
+                SettingEntry.LaunchScreenHeight => InitializeNullableInt32Value(ref fields.ScreenHeight, value),
+                SettingEntry.LaunchIsScreenHeightEnabled => InitializeNullableBooleanValue(ref fields.IsScreenHeightEnabled, value),
+                SettingEntry.LaunchIsMonitorEnabled => InitializeNullableBooleanValue(ref fields.IsMonitorEnabled, value),
+                SettingEntry.LaunchUsingCloudThirdPartyMobile => InitializeNullableBooleanValue(ref fields.UsingCloudThirdPartyMobile, value),
+                SettingEntry.LaunchIsWindowsHDREnabled => InitializeNullableBooleanValue(ref fields.IsWindowsHDREnabled, value),
+                SettingEntry.LaunchUsingStarwardPlayTimeStatistics => InitializeNullableBooleanValue(ref fields.UsingStarwardPlayTimeStatistics, value),
+                SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeNullableBooleanValue(ref fields.UsingBetterGenshinImpactAutomation, value),
+                SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeNullableBooleanValue(ref fields.SetDiscordActivityWhenPlaying, value),
+                SettingEntry.LaunchIsIslandEnabled => InitializeNullableBooleanValue(ref fields.IsIslandEnabled, value),
+                SettingEntry.LaunchHookingSetFieldOfView => InitializeNullableBooleanValue(ref fields.HookingSetFieldOfView, value),
+                SettingEntry.LaunchIsSetFieldOfViewEnabled => InitializeNullableBooleanValue(ref fields.IsSetFieldOfViewEnabled, value),
+                SettingEntry.LaunchTargetFov => InitializeNullableFloatValue(ref fields.TargetFov, value),
+                SettingEntry.LaunchFixLowFovScene => InitializeNullableBooleanValue(ref fields.FixLowFovScene, value),
+                SettingEntry.LaunchDisableFog => InitializeNullableBooleanValue(ref fields.DisableFog, value),
+                SettingEntry.LaunchIsSetTargetFrameRateEnabled => InitializeNullableBooleanValue(ref fields.IsSetTargetFrameRateEnabled, value),
+                SettingEntry.LaunchTargetFps => InitializeNullableInt32Value(ref fields.TargetFps, value),
+                SettingEntry.LaunchHookingOpenTeam => InitializeNullableBooleanValue(ref fields.HookingOpenTeam, value),
+                SettingEntry.LaunchRemoveOpenTeamProgress => InitializeNullableBooleanValue(ref fields.RemoveOpenTeamProgress, value),
+                SettingEntry.LaunchHookingMickyWonderPartner2 => InitializeNullableBooleanValue(ref fields.HookingMickyWonderPartner2, value),
                 _ => default,
             };
         });
@@ -108,74 +71,43 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         IslandFeatureStateMachine = new(this);
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
-        static Void InitializeBooleanValue(ref bool? storage, string? value)
+        static Void InitializeNullableBooleanValue(ref bool? storage, string? value)
         {
-            if (value is not null)
+            if (value is null)
             {
-                bool.TryParse(value, out bool result);
-                storage = result;
+                return default;
             }
+
+            bool.TryParse(value, out bool result);
+            storage = result;
 
             return default;
         }
 
-        static Void InitializeInt32Value(ref int? storage, string? value)
+        static Void InitializeNullableInt32Value(ref int? storage, string? value)
         {
-            if (value is not null)
+            if (value is null)
             {
-                int.TryParse(value, CultureInfo.InvariantCulture, out int result);
-                storage = result;
+                return default;
             }
+
+            int.TryParse(value, CultureInfo.InvariantCulture, out int result);
+            storage = result;
 
             return default;
         }
 
-        static Void InitializeFloatValue(ref float? storage, string? value)
+        static Void InitializeNullableFloatValue(ref float? storage, string? value)
         {
-            if (value is not null)
+            if (value is null)
             {
-                float.TryParse(value, CultureInfo.InvariantCulture, out float result);
-                storage = result;
+                return default;
             }
+
+            float.TryParse(value, CultureInfo.InvariantCulture, out float result);
+            storage = result;
 
             return default;
-        }
-
-        static ImmutableArray<NameValue<int>> InitializeMonitors()
-        {
-            ImmutableArray<NameValue<int>>.Builder monitors = ImmutableArray.CreateBuilder<NameValue<int>>();
-            try
-            {
-                // This list can't use foreach
-                // https://github.com/microsoft/CsWinRT/issues/747
-                IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
-                for (int i = 0; i < displayAreas.Count; i++)
-                {
-                    DisplayArea displayArea = displayAreas[i];
-                    int index = i + 1;
-                    monitors.Add(new($"{displayArea.DisplayId.Value:X8}:{index}", index));
-                }
-            }
-            catch
-            {
-                monitors.Clear();
-            }
-
-            return monitors.ToImmutable();
-        }
-
-        static void InitializeScreenFps(out int fps)
-        {
-            HDC hDC = default;
-            try
-            {
-                hDC = GetDC(default);
-                fps = GetDeviceCaps(hDC, GET_DEVICE_CAPS_INDEX.VREFRESH);
-            }
-            finally
-            {
-                _ = ReleaseDC(default, hDC);
-            }
         }
     }
 
@@ -190,26 +122,25 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
     {
         // Because DbStoreOptions can't detect collection change, We use
         // ImmutableList to imply that the whole list needs to be replaced
-        get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []).Value;
-        set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, v => JsonSerializer.Serialize(v));
+        get => GetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []).Value;
+        set => SetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, value, static v => JsonSerializer.Serialize(v));
     }
 
-    #region Launch Prefixed Options
-
-    #region CLI Options
+    public AsyncReaderWriterLock GamePathLock { get; } = new();
 
     public bool UsingHoyolabAccount
     {
-        get => GetOption(ref usingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, false);
-        set => SetOption(ref usingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, value);
+        get => GetOption(ref fields.UsingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, false);
+        set => SetOption(ref fields.UsingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, value);
     }
 
+    [UsedImplicitly]
     public bool AreCommandLineArgumentsEnabled
     {
-        get => GetOption(ref areCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, true);
+        get => GetOption(ref fields.AreCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, true);
         set
         {
-            if (SetOption(ref areCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, value))
+            if (SetOption(ref fields.AreCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, value))
             {
                 if (!value)
                 {
@@ -219,51 +150,57 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         }
     }
 
+    [UsedImplicitly]
     public bool IsFullScreen
     {
-        get => GetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen, false);
-        set => SetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen, value);
+        get => GetOption(ref fields.IsFullScreen, SettingEntry.LaunchIsFullScreen, false);
+        set => SetOption(ref fields.IsFullScreen, SettingEntry.LaunchIsFullScreen, value);
     }
 
+    [UsedImplicitly]
     public bool IsBorderless
     {
-        get => GetOption(ref isBorderless, SettingEntry.LaunchIsBorderless);
-        set => SetOption(ref isBorderless, SettingEntry.LaunchIsBorderless, value);
+        get => GetOption(ref fields.IsBorderless, SettingEntry.LaunchIsBorderless);
+        set => SetOption(ref fields.IsBorderless, SettingEntry.LaunchIsBorderless, value);
     }
 
+    [UsedImplicitly]
     public bool IsExclusive
     {
-        get => GetOption(ref isExclusive, SettingEntry.LaunchIsExclusive);
-        set => SetOption(ref isExclusive, SettingEntry.LaunchIsExclusive, value);
+        get => GetOption(ref fields.IsExclusive, SettingEntry.LaunchIsExclusive);
+        set => SetOption(ref fields.IsExclusive, SettingEntry.LaunchIsExclusive, value);
     }
 
     public int ScreenWidth
     {
-        get => GetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, primaryScreenWidth);
-        set => SetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, value);
+        get => GetOption(ref fields.ScreenWidth, SettingEntry.LaunchScreenWidth, DisplayArea.Primary.OuterBounds.Width);
+        set => SetOption(ref fields.ScreenWidth, SettingEntry.LaunchScreenWidth, value);
     }
 
+    [UsedImplicitly]
     public bool IsScreenWidthEnabled
     {
-        get => GetOption(ref isScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, true);
-        set => SetOption(ref isScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, value);
+        get => GetOption(ref fields.IsScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, true);
+        set => SetOption(ref fields.IsScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, value);
     }
 
     public int ScreenHeight
     {
-        get => GetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, primaryScreenHeight);
-        set => SetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, value);
+        get => GetOption(ref fields.ScreenHeight, SettingEntry.LaunchScreenHeight, DisplayArea.Primary.OuterBounds.Height);
+        set => SetOption(ref fields.ScreenHeight, SettingEntry.LaunchScreenHeight, value);
     }
 
+    [UsedImplicitly]
     public bool IsScreenHeightEnabled
     {
-        get => GetOption(ref isScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, true);
-        set => SetOption(ref isScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, value);
+        get => GetOption(ref fields.IsScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, true);
+        set => SetOption(ref fields.IsScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, value);
     }
 
-    public ImmutableArray<NameValue<int>> Monitors { get; }
+    public ImmutableArray<NameValue<int>> Monitors { get; } = InitializeMonitors();
 
-    [NotNull]
+    [UsedImplicitly]
+    [System.Diagnostics.CodeAnalysis.NotNull]
     public NameValue<int>? Monitor
     {
         get
@@ -280,154 +217,164 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         {
             if (value is not null)
             {
-                SetOption(ref field, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
+                SetOption(ref field, SettingEntry.LaunchMonitor, value, static selected => selected.Value.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
 
+    [UsedImplicitly]
     public bool IsMonitorEnabled
     {
-        get => GetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, true);
-        set => SetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
+        get => GetOption(ref fields.IsMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, true);
+        set => SetOption(ref fields.IsMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
     }
 
+    [UsedImplicitly]
     public bool UsingCloudThirdPartyMobile
     {
-        get => GetOption(ref usingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, false);
-        set => SetOption(ref usingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, value);
+        get => GetOption(ref fields.UsingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, false);
+        set => SetOption(ref fields.UsingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, value);
     }
 
+    // ReSharper disable once InconsistentNaming
+    [UsedImplicitly]
     public bool IsWindowsHDREnabled
     {
-        get => GetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, false);
-        set => SetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
+        get => GetOption(ref fields.IsWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, false);
+        set => SetOption(ref fields.IsWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
     }
-    #endregion
 
-    #region InterProcess
-
+    [UsedImplicitly]
     public bool UsingStarwardPlayTimeStatistics
     {
-        get => GetOption(ref usingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, false);
-        set => SetOption(ref usingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, value);
+        get => GetOption(ref fields.UsingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, false);
+        set => SetOption(ref fields.UsingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, value);
     }
 
+    [UsedImplicitly]
     public bool UsingBetterGenshinImpactAutomation
     {
-        get => GetOption(ref usingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, false);
-        set => SetOption(ref usingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, value);
+        get => GetOption(ref fields.UsingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, false);
+        set => SetOption(ref fields.UsingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, value);
     }
 
+    [UsedImplicitly]
     public bool SetDiscordActivityWhenPlaying
     {
-        get => GetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, true);
-        set => SetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
+        get => GetOption(ref fields.SetDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, true);
+        set => SetOption(ref fields.SetDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
     }
-    #endregion
-
-    #region Island Features
 
     public LaunchOptionsIslandFeatureStateMachine IslandFeatureStateMachine { get; }
 
+    [UsedImplicitly]
     public bool IsIslandEnabled
     {
-        get => GetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
+        get => GetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
         set
         {
-            if (SetOption(ref isIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value))
+            if (SetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value))
             {
                 IslandFeatureStateMachine.Update(this);
             }
         }
     }
 
+    [UsedImplicitly]
     public bool HookingSetFieldOfView
     {
-        get => GetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, true);
+        get => GetOption(ref fields.HookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, true);
         set
         {
-            if (SetOption(ref hookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value))
+            if (SetOption(ref fields.HookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value))
             {
                 IslandFeatureStateMachine.Update(this);
             }
         }
     }
 
+    [UsedImplicitly]
     public bool IsSetFieldOfViewEnabled
     {
-        get => GetOption(ref isSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, true);
+        get => GetOption(ref fields.IsSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, true);
         set
         {
-            if (SetOption(ref isSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value))
+            if (SetOption(ref fields.IsSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value))
             {
                 IslandFeatureStateMachine.Update(this);
             }
         }
     }
 
+    [UsedImplicitly]
     public float TargetFov
     {
-        get => GetOption(ref targetFov, SettingEntry.LaunchTargetFov, 45f);
-        set => SetOption(ref targetFov, SettingEntry.LaunchTargetFov, value);
+        get => GetOption(ref fields.TargetFov, SettingEntry.LaunchTargetFov, 45f);
+        set => SetOption(ref fields.TargetFov, SettingEntry.LaunchTargetFov, value);
     }
 
+    [UsedImplicitly]
     public bool FixLowFovScene
     {
-        get => GetOption(ref fixLowFovScene, SettingEntry.LaunchFixLowFovScene, true);
-        set => SetOption(ref fixLowFovScene, SettingEntry.LaunchFixLowFovScene, value);
+        get => GetOption(ref fields.FixLowFovScene, SettingEntry.LaunchFixLowFovScene, true);
+        set => SetOption(ref fields.FixLowFovScene, SettingEntry.LaunchFixLowFovScene, value);
     }
 
+    [UsedImplicitly]
     public bool DisableFog
     {
-        get => GetOption(ref disableFog, SettingEntry.LaunchDisableFog, false);
-        set => SetOption(ref disableFog, SettingEntry.LaunchDisableFog, value);
+        get => GetOption(ref fields.DisableFog, SettingEntry.LaunchDisableFog, false);
+        set => SetOption(ref fields.DisableFog, SettingEntry.LaunchDisableFog, value);
     }
 
+    [UsedImplicitly]
     public bool IsSetTargetFrameRateEnabled
     {
-        get => GetOption(ref isSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, true);
+        get => GetOption(ref fields.IsSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, true);
         set
         {
-            if (SetOption(ref isSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value))
+            if (SetOption(ref fields.IsSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value))
             {
                 IslandFeatureStateMachine.Update(this);
             }
         }
     }
 
+    [UsedImplicitly]
     public int TargetFps
     {
-        get => GetOption(ref targetFps, SettingEntry.LaunchTargetFps, primaryScreenFps);
-        set => SetOption(ref targetFps, SettingEntry.LaunchTargetFps, value);
+        get => GetOption(ref fields.TargetFps, SettingEntry.LaunchTargetFps, InitializeScreenFps);
+        set => SetOption(ref fields.TargetFps, SettingEntry.LaunchTargetFps, value);
     }
 
+    [UsedImplicitly]
     public bool HookingOpenTeam
     {
-        get => GetOption(ref hookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, true);
+        get => GetOption(ref fields.HookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, true);
         set
         {
-            if (SetOption(ref hookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, value))
+            if (SetOption(ref fields.HookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, value))
             {
                 IslandFeatureStateMachine.Update(this);
             }
         }
     }
 
+    [UsedImplicitly]
     public bool RemoveOpenTeamProgress
     {
-        get => GetOption(ref removeOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, false);
-        set => SetOption(ref removeOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, value);
+        get => GetOption(ref fields.RemoveOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, false);
+        set => SetOption(ref fields.RemoveOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, value);
     }
 
+    [UsedImplicitly]
     public bool HookingMickyWonderPartner2
     {
-        get => GetOption(ref hookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, true);
-        set => SetOption(ref hookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, value);
+        get => GetOption(ref fields.HookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, true);
+        set => SetOption(ref fields.HookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, value);
     }
-    #endregion
 
-    #endregion
-
+    [UsedImplicitly]
     public ImmutableArray<AspectRatio> AspectRatios { get; } =
     [
         new(3840, 2160),
@@ -437,6 +384,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
         new(1920, 1080),
     ];
 
+    [UsedImplicitly]
     public AspectRatio? SelectedAspectRatio
     {
         get;
@@ -460,5 +408,78 @@ internal sealed partial class LaunchOptions : DbStoreOptions, IRecipient<LaunchE
             IslandFeatureStateMachine.Update(this);
             OnPropertyChanged(nameof(IsGameRunning));
         });
+    }
+
+    private static int InitializeScreenFps()
+    {
+        HDC dc = default;
+        try
+        {
+            dc = GetDC(default);
+            return GetDeviceCaps(dc, GET_DEVICE_CAPS_INDEX.VREFRESH);
+        }
+        finally
+        {
+            _ = ReleaseDC(default, dc);
+        }
+    }
+
+    private static ImmutableArray<NameValue<int>> InitializeMonitors()
+    {
+        ImmutableArray<NameValue<int>>.Builder monitors = ImmutableArray.CreateBuilder<NameValue<int>>();
+        try
+        {
+            // This list can't use foreach
+            // https://github.com/microsoft/CsWinRT/issues/747
+            IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
+            for (int i = 0; i < displayAreas.Count; i++)
+            {
+                DisplayArea displayArea = displayAreas[i];
+                int index = i + 1;
+                monitors.Add(new($"{displayArea.DisplayId.Value:X8}:{index}", index));
+            }
+        }
+        catch
+        {
+            monitors.Clear();
+        }
+
+        return monitors.ToImmutable();
+    }
+
+    [StructLayout(LayoutKind.Auto)]
+    private struct Fields
+    {
+        public ImmutableArray<GamePathEntry>? GamePathEntries;
+
+        public bool? UsingHoyolabAccount;
+        public bool? AreCommandLineArgumentsEnabled;
+        public bool? IsFullScreen;
+        public bool? IsBorderless;
+        public bool? IsExclusive;
+        public int? ScreenWidth;
+        public bool? IsScreenWidthEnabled;
+        public int? ScreenHeight;
+        public bool? IsScreenHeightEnabled;
+
+        public bool? IsIslandEnabled;
+        public bool? HookingSetFieldOfView;
+        public bool? IsSetFieldOfViewEnabled;
+        public float? TargetFov;
+        public bool? FixLowFovScene;
+        public bool? DisableFog;
+        public bool? IsSetTargetFrameRateEnabled;
+        public int? TargetFps;
+        public bool? HookingOpenTeam;
+        public bool? RemoveOpenTeamProgress;
+        public bool? HookingMickyWonderPartner2;
+        public bool? IsMonitorEnabled;
+        public bool? UsingCloudThirdPartyMobile;
+
+        // ReSharper disable once InconsistentNaming
+        public bool? IsWindowsHDREnabled;
+        public bool? UsingStarwardPlayTimeStatistics;
+        public bool? UsingBetterGenshinImpactAutomation;
+        public bool? SetDiscordActivityWhenPlaying;
     }
 }
