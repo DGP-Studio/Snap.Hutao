@@ -17,7 +17,7 @@ namespace Snap.Hutao.Service.Inventory;
 [Injection(InjectAs.Singleton, typeof(IInventoryService))]
 internal sealed partial class InventoryService : IInventoryService
 {
-    private readonly MinimalPromotionDelta minimalPromotionDelta;
+    private readonly PromotionDeltaFactory promotionDeltaFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInventoryRepository inventoryRepository;
     private readonly IInfoBarService infoBarService;
@@ -54,7 +54,7 @@ internal sealed partial class InventoryService : IInventoryService
             return;
         }
 
-        List<AvatarPromotionDelta> deltas = await minimalPromotionDelta.GetAsync(userAndUid).ConfigureAwait(false);
+        List<AvatarPromotionDelta> deltas = await promotionDeltaFactory.GetAsync(userAndUid).ConfigureAwait(false);
 
         BatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
