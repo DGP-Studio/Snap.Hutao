@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.WinUI.Controls;
 using JetBrains.Annotations;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
@@ -369,14 +368,11 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     }
 
     [UsedImplicitly]
-    public ImmutableArray<AspectRatio> AspectRatios { get; } =
-    [
-        new(3840, 2160),
-        new(2560, 1600),
-        new(2560, 1440),
-        new(2410, 1080),
-        new(1920, 1080),
-    ];
+    public ImmutableArray<AspectRatio> AspectRatios
+    {
+        get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
+        set => SetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, value, static v => JsonSerializer.Serialize(v));
+    }
 
     [UsedImplicitly]
     public AspectRatio? SelectedAspectRatio
@@ -445,6 +441,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     private struct Fields
     {
         public ImmutableArray<GamePathEntry>? GamePathEntries;
+        public ImmutableArray<AspectRatio>? AspectRatios;
 
         public bool? UsingHoyolabAccount;
         public bool? AreCommandLineArgumentsEnabled;

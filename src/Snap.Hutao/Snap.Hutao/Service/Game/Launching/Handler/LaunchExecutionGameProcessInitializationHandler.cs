@@ -40,6 +40,11 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
                 .AppendIf(launchOptions.UsingCloudThirdPartyMobile, "-platform_type CLOUD_THIRD_PARTY_MOBILE")
                 .AppendIf(launchOptions.UsingHoyolabAccount && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentSeparator.Equal)
                 .ToString();
+
+            context.TaskContext.InvokeOnMainThread(() =>
+            {
+                launchOptions.SaveAspectRatio(new(launchOptions.ScreenWidth, launchOptions.ScreenHeight));
+            });
         }
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);

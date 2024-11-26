@@ -120,6 +120,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public ImmutableArray<GamePathEntry> GamePathEntries { get; set => SetProperty(ref field, value); } = [];
 
+    public ImmutableArray<AspectRatio> AspectRatios { get; set => SetProperty(ref field, value); } = [];
+
     /// <summary>
     /// Update this property will also:
     /// <br/>
@@ -179,6 +181,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     protected override ValueTask<bool> LoadOverrideAsync()
     {
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
+        AspectRatios = LaunchOptions.AspectRatios;
         return ValueTask.FromResult(true);
     }
 
@@ -214,11 +217,21 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selected;
     }
 
+    [Command("RemoveAspectRatioCommand")]
+    private void RemoveAspectRatio(AspectRatio aspectRatio)
+    {
+        AspectRatios = LaunchOptions.RemoveAspectRatio(aspectRatio);
+    }
+
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
         await this.LaunchExecutionAsync(SelectedScheme, userAndUid).ConfigureAwait(false);
+
+        // AspectRatios might be updated during the launch
+        await taskContext.SwitchToMainThreadAsync();
+        AspectRatios = LaunchOptions.AspectRatios;
     }
 
     [Command("DetectGameAccountCommand")]
