@@ -48,7 +48,7 @@ internal sealed partial class CultureOptions : DbStoreOptions
 
     public DayOfWeek FirstDayOfWeek
     {
-        get => GetOption(ref firstDayOfWeek, SettingEntry.FirstDayOfWeek, EnumParse<DayOfWeek>, CurrentCulture.DateTimeFormat.FirstDayOfWeek).Value;
+        get => GetOption(ref firstDayOfWeek, SettingEntry.FirstDayOfWeek, Enum.Parse<DayOfWeek>, CurrentCulture.DateTimeFormat.FirstDayOfWeek);
         set => SetOption(ref firstDayOfWeek, SettingEntry.FirstDayOfWeek, value, EnumToStringOrEmpty);
     }
 }

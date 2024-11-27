@@ -73,39 +73,33 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
         static Void InitializeNullableBooleanValue(ref bool? storage, string? value)
         {
-            if (value is null)
+            if (value is not null)
             {
-                return default;
+                _ = bool.TryParse(value, out bool result);
+                storage = result;
             }
-
-            bool.TryParse(value, out bool result);
-            storage = result;
 
             return default;
         }
 
         static Void InitializeNullableInt32Value(ref int? storage, string? value)
         {
-            if (value is null)
+            if (value is not null)
             {
-                return default;
+                _ = int.TryParse(value, CultureInfo.InvariantCulture, out int result);
+                storage = result;
             }
-
-            int.TryParse(value, CultureInfo.InvariantCulture, out int result);
-            storage = result;
 
             return default;
         }
 
         static Void InitializeNullableFloatValue(ref float? storage, string? value)
         {
-            if (value is null)
+            if (value is not null)
             {
-                return default;
+                _ = float.TryParse(value, CultureInfo.InvariantCulture, out float result);
+                storage = result;
             }
-
-            float.TryParse(value, CultureInfo.InvariantCulture, out float result);
-            storage = result;
 
             return default;
         }
@@ -122,7 +116,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     {
         // Because DbStoreOptions can't detect collection change, We use
         // ImmutableList to imply that the whole list needs to be replaced
-        get => GetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []).Value;
+        get => GetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []);
         set => SetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, value, static v => JsonSerializer.Serialize(v));
     }
 

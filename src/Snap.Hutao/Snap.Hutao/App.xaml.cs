@@ -86,8 +86,13 @@ public sealed partial class App : Application
             logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
             LogDiagnosticInformation();
 
+            unsafe
+            {
+                // m_isRequestedThemeSettable = true
+                *(BOOLEAN*)(((IWinRTObject)this).NativeObject.As<IUnknownVftbl>(IApplicationIID).ThisPtr + 0x118U) = true;
+            }
+
             // Manually invoke
-            UnsafeAdjustRequestedThemeSettable();
             activation.ActivateAndInitialize(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
         }
         catch (Exception ex)
@@ -95,11 +100,6 @@ public sealed partial class App : Application
             logger.LogError(ex, "Application failed in App.OnLaunched");
             Process.GetCurrentProcess().Kill();
         }
-    }
-
-    private unsafe void UnsafeAdjustRequestedThemeSettable()
-    {
-        *(BOOLEAN*)(((IWinRTObject)this).NativeObject.As<IUnknownVftbl>(IApplicationIID).ThisPtr + 0x118U) = true;
     }
 
     private void LogDiagnosticInformation()
