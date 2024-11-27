@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO.Ini;
-using Snap.Hutao.Service.Game.Scheme;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Game.Configuration;
 

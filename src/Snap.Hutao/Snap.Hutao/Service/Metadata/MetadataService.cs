@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
 using System.Net;
@@ -32,6 +33,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
 
+    private FrozenSet<string>? fileNames;
     private bool isInitialized;
 
     public partial IMemoryCache MemoryCache { get; }
@@ -111,6 +113,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         ImmutableArray<T>.Builder results = ImmutableArray.CreateBuilder<T>();
         foreach (string file in Directory.GetFiles(path, "*.json"))
         {
+            string fileName = $"{strategy.Name}/{Path.GetFileNameWithoutExtension(file)}";
+            if (fileNames is not null && !fileNames.Contains(fileName))
+            {
+                continue;
+            }
+
             using (Stream fileStream = File.OpenRead(file))
             {
                 try
@@ -121,7 +129,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 }
                 catch (Exception ex)
                 {
-                    ex.Data.Add("FileName", $"{strategy.Name}/{Path.GetFileNameWithoutExtension(file)}");
+                    ex.Data.Add("FileName", fileName);
                     throw;
                 }
             }
@@ -137,21 +145,22 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             return true;
         }
 
-        if (await DownloadMetadataDescriptionFileAsync(token).ConfigureAwait(false) is not { } metadataFileHashs)
+        if (await DownloadMetadataDescriptionFileAsync(token).ConfigureAwait(false) is not { } metadataFileHashes)
         {
             return false;
         }
 
-        await CheckMetadataSourceFilesAsync(metadataFileHashs, token).ConfigureAwait(false);
+        await CheckMetadataSourceFilesAsync(metadataFileHashes, token).ConfigureAwait(false);
 
-        // save metadataFile
+        // Save metadataFile
         using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName)))
         {
             await JsonSerializer
-                .SerializeAsync(metaFileStream, metadataFileHashs, options, token)
+                .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
                 .ConfigureAwait(false);
         }
 
+        fileNames = [.. metadataFileHashes.Select(entry => entry.Key)];
         return true;
     }
 
@@ -159,26 +168,26 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     {
         try
         {
-            ImmutableDictionary<string, string>? metadataFileHashs;
+            ImmutableDictionary<string, string>? metadataFileHashes;
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
                 IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
                 using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
                 {
                     // Download meta check file
-                    metadataFileHashs = await httpClient
+                    metadataFileHashes = await httpClient
                         .GetFromJsonAsync<ImmutableDictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
                         .ConfigureAwait(false);
                 }
             }
 
-            if (metadataFileHashs is null)
+            if (metadataFileHashes is null)
             {
                 infoBarService.Error(SH.ServiceMetadataParseFailed);
                 return default;
             }
 
-            return metadataFileHashs;
+            return metadataFileHashes;
         }
         catch (JsonException ex)
         {
