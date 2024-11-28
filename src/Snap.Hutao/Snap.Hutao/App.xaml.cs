@@ -9,7 +9,10 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Service;
+using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.Win32.Foundation;
+using Snap.WinUI.FrameworkTheming;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -54,12 +57,6 @@ public sealed partial class App : Application
         this.serviceProvider = serviceProvider;
     }
 
-    private static ref readonly Guid IApplicationIID
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => ref MemoryMarshal.AsRef<Guid>([231, 244, 168, 6, 70, 17, 175, 85, 130, 13, 235, 213, 86, 67, 176, 33]);
-    }
-
     public new void Exit()
     {
         XamlApplicationLifetime.Exiting = true;
@@ -86,11 +83,7 @@ public sealed partial class App : Application
             logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
             LogDiagnosticInformation();
 
-            unsafe
-            {
-                // m_isRequestedThemeSettable = true
-                *(BOOLEAN*)(((IWinRTObject)this).NativeObject.As<IUnknownVftbl>(IApplicationIID).ThisPtr + 0x118U) = true;
-            }
+            FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(serviceProvider.GetRequiredService<AppOptions>().ElementTheme));
 
             // Manually invoke
             activation.ActivateAndInitialize(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));

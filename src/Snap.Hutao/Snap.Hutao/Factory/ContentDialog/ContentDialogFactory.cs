@@ -14,7 +14,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IContentDialogQueue contentDialogQueue;
     private readonly IServiceProvider serviceProvider;
-    private readonly AppOptions appOptions;
 
     public bool IsDialogShowing
     {
@@ -34,7 +33,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             Content = content,
             DefaultButton = ContentDialogButton.Primary,
             PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText,
-            RequestedTheme = appOptions.ElementTheme,
         };
 
         return await EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
@@ -52,7 +50,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             DefaultButton = defaultButton,
             PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText,
             CloseButtonText = SH.ContentDialogCancelCloseButtonText,
-            RequestedTheme = appOptions.ElementTheme,
         };
 
         return await EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
@@ -67,7 +64,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = new ProgressBar { IsIndeterminate = true },
-            RequestedTheme = appOptions.ElementTheme,
         };
 
         return dialog;
@@ -80,7 +76,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
 
         TContentDialog contentDialog = ActivatorUtilities.CreateInstance<TContentDialog>(serviceProvider, parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
-        contentDialog.RequestedTheme = appOptions.ElementTheme;
 
         return contentDialog;
     }
