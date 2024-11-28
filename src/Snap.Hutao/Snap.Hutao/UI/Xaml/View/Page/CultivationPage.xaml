@@ -450,8 +450,8 @@
                                     Visibility="{Binding ElementName=MaterialListPivot, Path=SelectedItem.Tag, Converter={StaticResource MaterialListSelectedItemIsStatisticsViewConverter}}"/>
                                 <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="体力预估">
                                     <AppBarButton.Flyout>
-                                        <Flyout Placement="BottomEdgeAlignedRight">
-                                            <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                                        <Flyout Placement="BottomEdgeAlignedRight" ShouldConstrainToRootBounds="False">
+                                            <StackPanel DataContext="{Binding ResinStatistics}" Spacing="{ThemeResource SettingsCardSpacing}">
                                                 <Grid
                                                     Padding="4"
                                                     HorizontalAlignment="Stretch"
@@ -471,16 +471,16 @@
                                                         AllowFocusOnInteraction="True">
                                                         <ComboBox
                                                             DisplayMemberPath="WorldLevel"
-                                                            ItemsSource="{Binding ResinStatistics.WorldDropProabilities}"
-                                                            SelectedItem="{Binding ResinStatistics.SelectedWorldDropProability, Mode=TwoWay}"/>
+                                                            ItemsSource="{Binding WorldDropProabilities}"
+                                                            SelectedItem="{Binding SelectedWorldDropProability, Mode=TwoWay}"/>
                                                     </shuxc:SizeRestrictedContentControl>
                                                 </Grid>
-                                                <ContentPresenter Content="{Binding ResinStatistics.BlossomOfRevelation}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding ResinStatistics.BlossomOfWealth}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding ResinStatistics.TalentBooks}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding ResinStatistics.WeaponAscension}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding ResinStatistics.NormalBoss}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding ResinStatistics.WeeklyBoss}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
+                                                <ContentPresenter Content="{Binding BlossomOfRevelation}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
+                                                <ContentPresenter Content="{Binding BlossomOfWealth}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
+                                                <ContentPresenter Content="{Binding TalentBooks}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
+                                                <ContentPresenter Content="{Binding WeaponAscension}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
+                                                <ContentPresenter Content="{Binding NormalBoss}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
+                                                <ContentPresenter Content="{Binding WeeklyBoss}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
                                             </StackPanel>
                                         </Flyout>
                                     </AppBarButton.Flyout>

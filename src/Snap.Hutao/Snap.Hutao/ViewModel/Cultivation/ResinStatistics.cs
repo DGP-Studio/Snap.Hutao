@@ -22,7 +22,8 @@ internal sealed class ResinStatistics
             NormalBoss.SelectedWorldDropProability = value;
             WeeklyBoss.SelectedWorldDropProability = value;
         }
-    } = WorldDropProability.Nine;
+    }
+        = WorldDropProability.Nine;
 
     public ResinStatisticsItem BlossomOfWealth { get; } = new("藏金之花", ResinStatisticsItemKind.BlossomOfWealth, 20, true);
 

@@ -26,14 +26,15 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
         get;
         set
         {
-            if (SetProperty(ref field, value))
+            if (value is not null && SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(TotalResin));
                 OnPropertyChanged(nameof(CondensedResin));
                 OnPropertyChanged(nameof(Days));
             }
         }
-    } = WorldDropProability.Nine;
+    }
+        = WorldDropProability.Nine;
 
     public int ResinPerBlossom { get; }
 

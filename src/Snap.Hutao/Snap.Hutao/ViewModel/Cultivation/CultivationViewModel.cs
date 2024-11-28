@@ -62,7 +62,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get; set => SetProperty(ref field, value); }
 
-    public ResinStatistics ResinStatistics { get; set => SetProperty(ref field, value); }
+    public ResinStatistics? ResinStatistics { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -244,6 +244,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         // Coercively clear the list and bring view to the top to prevent UI dead loop
         await taskContext.SwitchToMainThreadAsync();
         StatisticsItems = null;
+        ResinStatistics = null;
 
         if (Projects?.CurrentItem is null)
         {
