@@ -72,7 +72,6 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                     using (CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(acutalThemeChangedCts.Token, periodicTimerStopCts.Token))
                     {
                         await timer.WaitForNextTickAsync(linkedCts.Token).ConfigureAwait(false);
-                        taskContext.BeginInvokeOnMainThread(TryExecuteCommand);
                     }
                 }
                 catch (OperationCanceledException)
@@ -82,6 +81,8 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                         break;
                     }
                 }
+
+                taskContext.BeginInvokeOnMainThread(TryExecuteCommand);
 
                 acutalThemeChangedCts.Dispose();
                 acutalThemeChangedCts = new();
