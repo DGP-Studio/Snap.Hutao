@@ -121,19 +121,19 @@ internal sealed partial class CultivationService : ICultivationService
 
         foreach (StatisticsCultivateItem statisticsCultivateItem in statisticsCultivateItems)
         {
+            if (statisticsCultivateItem.IsFinished)
+            {
+                continue;
+            }
+
             Material material = statisticsCultivateItem.Inner;
-            if (material.TypeDescription is null)
+            if (material.TypeDescription is null || material.Id == 104319U)
             {
                 continue;
             }
 
             if (material.Id == 202U)
             {
-                if (statisticsCultivateItem.Count < statisticsCultivateItem.TotalCount)
-                {
-                    continue;
-                }
-
                 double times = statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount;
                 statistics.BlossomOfWealth.RawItemCount += times;
                 continue;
@@ -141,11 +141,6 @@ internal sealed partial class CultivationService : ICultivationService
 
             if (material.Id == 104003U)
             {
-                if (statisticsCultivateItem.Count < statisticsCultivateItem.TotalCount)
-                {
-                    continue;
-                }
-
                 double times = (statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount) * 20000D;
                 statistics.BlossomOfRevelation.RawItemCount += times;
                 continue;
@@ -153,11 +148,6 @@ internal sealed partial class CultivationService : ICultivationService
 
             if (material.TypeDescription.Equals(SH.ModelMetadataMaterialCharacterTalentMaterial, StringComparison.CurrentCulture))
             {
-                if (statisticsCultivateItem.Count < statisticsCultivateItem.TotalCount)
-                {
-                    continue;
-                }
-
                 int pieces = material.RankLevel switch
                 {
                     QualityType.QUALITY_GREEN => 1,
@@ -173,11 +163,6 @@ internal sealed partial class CultivationService : ICultivationService
 
             if (material.TypeDescription.Equals(SH.ModelMetadataMaterialCharacterLevelUpMaterial, StringComparison.CurrentCulture))
             {
-                if (statisticsCultivateItem.Count < statisticsCultivateItem.TotalCount)
-                {
-                    continue;
-                }
-
                 double times = statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount;
                 switch (material.RankLevel)
                 {
@@ -194,11 +179,6 @@ internal sealed partial class CultivationService : ICultivationService
 
             if (material.TypeDescription.Equals(SH.ModelMetadataMaterialWeaponAscensionMaterial, StringComparison.CurrentCulture))
             {
-                if (statisticsCultivateItem.Count < statisticsCultivateItem.TotalCount)
-                {
-                    continue;
-                }
-
                 int pieces = material.RankLevel switch
                 {
                     QualityType.QUALITY_GREEN => 1,
