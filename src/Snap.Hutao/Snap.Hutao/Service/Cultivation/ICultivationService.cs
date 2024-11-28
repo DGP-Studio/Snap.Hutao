@@ -17,8 +17,9 @@ internal interface ICultivationService
 
     ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntryCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
 
-    ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(
-        CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token);
+    ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token);
+
+    ValueTask<ResinStatistics> GetResinStatisticsAsync(ObservableCollection<StatisticsCultivateItem> statisticsCultivateItems, CancellationToken token);
 
     ValueTask RemoveCultivateEntryAsync(Guid entryId);
 

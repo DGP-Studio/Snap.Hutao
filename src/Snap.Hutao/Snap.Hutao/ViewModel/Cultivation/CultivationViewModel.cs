@@ -62,6 +62,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get; set => SetProperty(ref field, value); }
 
+    public ResinStatistics ResinStatistics { get; set => SetProperty(ref field, value); }
+
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
@@ -254,10 +256,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         statisticsCancellationTokenSource = new();
         CancellationToken token = statisticsCancellationTokenSource.Token;
         ObservableCollection<StatisticsCultivateItem> statistics;
+        ResinStatistics resinStatistics;
         try
         {
             CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
             statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(Projects.CurrentItem, context, token).ConfigureAwait(false);
+            resinStatistics = await cultivationService.GetResinStatisticsAsync(statistics, token).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
@@ -275,6 +279,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToMainThreadAsync();
         StatisticsItems = statistics;
+        ResinStatistics = resinStatistics;
     }
 
     private async ValueTask UpdateInventoryItemsAsync()

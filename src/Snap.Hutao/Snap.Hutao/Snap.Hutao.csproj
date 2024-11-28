@@ -128,6 +128,8 @@
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_211.png" />
     <None Remove="Resource\Navigation\Achievement.png" />
     <None Remove="Resource\Navigation\Announcement.png" />
     <None Remove="Resource\Navigation\AvatarProperty.png" />
@@ -228,6 +230,8 @@
     <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
     <Content Include="Resource\Icon\UI_Img_RoleCombat_EventDetail_Pic_Chance.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_211.png" />
     <Content Include="Resource\ItemIcon\UI_ImgSign_ItemIcon.png" />
     <Content Include="Resource\ItemIcon\UI_QUALITY_BLUE.png" />
     <Content Include="Resource\ItemIcon\UI_QUALITY_GREEN.png" />
