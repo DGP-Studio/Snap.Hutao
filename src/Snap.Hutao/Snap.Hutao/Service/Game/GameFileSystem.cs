@@ -34,6 +34,11 @@ internal sealed partial class GameFileSystem : IGameFileSystem
 
     public void Dispose()
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+
         releaser.Dispose();
         IsDisposed = true;
     }

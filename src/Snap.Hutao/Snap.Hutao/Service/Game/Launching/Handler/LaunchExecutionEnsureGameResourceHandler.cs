@@ -311,7 +311,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
 
         public void Dispose()
         {
-            Value.Dispose();
+            Value?.Dispose();
         }
     }
 }
