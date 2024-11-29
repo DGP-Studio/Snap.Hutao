@@ -12,7 +12,7 @@ internal readonly struct GachaLogQuery
     public GachaLogQuery(string query)
     {
         Query = query;
-        IsOversea = query.Contains("hk4e_global", StringComparison.OrdinalIgnoreCase);
+        IsOversea = query.Contains("region=os_", StringComparison.OrdinalIgnoreCase);
         Message = string.Empty;
     }
 
