@@ -17,6 +17,7 @@ internal sealed class Material : DisplayItem
         RankLevel = default,
         ItemType = default,
         Icon = default!,
+        Rank = default,
         Description = "？？？",
         TypeDescription = "？？？",
     };
@@ -57,6 +58,23 @@ internal sealed class Material : DisplayItem
         // Weapon Enhancement Material               // 魔矿
         // Weapon Ascension Material                 // 武器本
         return IntrinsicFrozen.MaterialTypeDescriptions.Contains(TypeDescription);
+    }
+
+    public bool IsResinItem()
+    {
+        // 摩拉 大英雄的经验
+        if (Id == 202U || Id == 104003U)
+        {
+            return true;
+        }
+
+        // 智识之冕
+        if (TypeDescription is null || Id == 104319U)
+        {
+            return false;
+        }
+
+        return IntrinsicFrozen.ResinMaterialTypeDescriptions.Contains(TypeDescription);
     }
 
     public bool IsTodaysItem(bool treatSundayAsTrue = false)

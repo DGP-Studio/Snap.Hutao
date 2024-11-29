@@ -10,14 +10,14 @@ internal sealed class StatisticsCultivateItem
     public StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
     {
         Inner = inner;
-        Count = entity.Count;
+        Count = (int)entity.Count;
     }
 
     public Material Inner { get; }
 
-    public uint Count { get; set; }
+    public int Count { get; set; }
 
-    public uint TotalCount { get; set; }
+    public int TotalCount { get; set; }
 
     public bool IsFinished { get => TotalCount >= Count; }
 

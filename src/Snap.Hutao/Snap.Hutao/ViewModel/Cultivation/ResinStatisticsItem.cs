@@ -42,7 +42,7 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
 
     public bool HasData
     {
-        get => RawItemCount is not 0D;
+        get => RawItemCount > 0D;
     }
 
     public int TotalResin

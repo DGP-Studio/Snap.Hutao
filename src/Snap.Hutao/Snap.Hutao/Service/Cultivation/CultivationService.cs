@@ -94,7 +94,7 @@ internal sealed partial class CultivationService : ICultivationService
 
                 if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is { } existedItem)
                 {
-                    existedItem.Count += item.Count;
+                    existedItem.Count += (int)item.Count;
                 }
                 else
                 {
@@ -107,7 +107,7 @@ internal sealed partial class CultivationService : ICultivationService
         {
             if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
             {
-                existedItem.TotalCount += inventoryItem.Count;
+                existedItem.TotalCount += (int)inventoryItem.Count;
             }
         }
 
@@ -119,78 +119,177 @@ internal sealed partial class CultivationService : ICultivationService
         await taskContext.SwitchToBackgroundAsync();
         ResinStatistics statistics = new();
 
-        foreach (StatisticsCultivateItem statisticsCultivateItem in statisticsCultivateItems)
+        IEnumerable<IGrouping<uint, StatisticsCultivateItem>> groupedItems = statisticsCultivateItems
+            .Where(i => i.Inner.IsResinItem())
+            .GroupBy(i => i.Inner.Rank);
+
+        foreach ((uint rank, IEnumerable<StatisticsCultivateItem> items) in groupedItems)
         {
-            if (statisticsCultivateItem.IsFinished)
+            // 摩拉
+            if (rank is 10U)
             {
-                continue;
-            }
+                StatisticsCultivateItem item = items.Single();
+                if (item.IsFinished)
+                {
+                    continue;
+                }
 
-            Material material = statisticsCultivateItem.Inner;
-            if (material.TypeDescription is null || material.Id == 104319U)
-            {
-                continue;
-            }
-
-            if (material.Id == 202U)
-            {
-                double times = statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount;
+                double times = item.Count - item.TotalCount;
                 statistics.BlossomOfWealth.RawItemCount += times;
                 continue;
             }
 
-            if (material.Id == 104003U)
+            if (rank is 100U)
             {
-                double times = (statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount) * 20000D;
+                StatisticsCultivateItem item = items.Single();
+                if (item.IsFinished)
+                {
+                    continue;
+                }
+
+                double times = (item.Count - item.TotalCount) * 20000D;
                 statistics.BlossomOfRevelation.RawItemCount += times;
                 continue;
             }
 
-            if (material.TypeDescription.Equals(SH.ModelMetadataMaterialCharacterTalentMaterial, StringComparison.CurrentCulture))
+            if (rank is 11101U)
             {
-                int pieces = material.RankLevel switch
+                foreach (StatisticsCultivateItem item in items)
                 {
-                    QualityType.QUALITY_GREEN => 1,
-                    QualityType.QUALITY_BLUE => 3,
-                    QualityType.QUALITY_PURPLE => 9,
-                    _ => throw HutaoException.NotSupported(),
-                };
+                    double times = item.Count - item.TotalCount;
+                    switch (item.Inner.RankLevel)
+                    {
+                        case QualityType.QUALITY_PURPLE:
+                            statistics.NormalBoss.RawItemCount += times;
+                            continue;
+                        case QualityType.QUALITY_ORANGE:
+                            statistics.WeeklyBoss.RawItemCount += times;
+                            continue;
+                        default:
+                            throw HutaoException.NotSupported();
+                    }
+                }
 
-                double times = (statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount) * pieces;
-                statistics.TalentBooks.RawItemCount += times;
                 continue;
             }
 
-            if (material.TypeDescription.Equals(SH.ModelMetadataMaterialCharacterLevelUpMaterial, StringComparison.CurrentCulture))
+            // 天赋书，武器突破材料。一次循环最多为4个
+            double greenItems = 0D;
+            double blueItems = 0D;
+            double purpleItems = 0D;
+            double orangeItems = 0D;
+
+            ResinStatisticsItem targetStatisticsItem = ((rank / 1000) % 10) switch
             {
-                double times = statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount;
-                switch (material.RankLevel)
+                3 => statistics.TalentBooks,
+                5 => statistics.WeaponAscension,
+                _ => throw HutaoException.NotSupported(),
+            };
+
+            foreach (StatisticsCultivateItem item in items)
+            {
+                switch (item.Inner.RankLevel)
                 {
+                    case QualityType.QUALITY_GREEN:
+                        greenItems += item.Count - item.TotalCount;
+                        continue;
+                    case QualityType.QUALITY_BLUE:
+                        blueItems += item.Count - item.TotalCount;
+                        continue;
                     case QualityType.QUALITY_PURPLE:
-                        statistics.NormalBoss.RawItemCount += times;
+                        purpleItems += item.Count - item.TotalCount;
                         continue;
                     case QualityType.QUALITY_ORANGE:
-                        statistics.WeeklyBoss.RawItemCount += times;
+                        orangeItems += item.Count - item.TotalCount;
                         continue;
                     default:
                         throw HutaoException.NotSupported();
                 }
             }
 
-            if (material.TypeDescription.Equals(SH.ModelMetadataMaterialWeaponAscensionMaterial, StringComparison.CurrentCulture))
-            {
-                int pieces = material.RankLevel switch
-                {
-                    QualityType.QUALITY_GREEN => 1,
-                    QualityType.QUALITY_BLUE => 3,
-                    QualityType.QUALITY_PURPLE => 9,
-                    QualityType.QUALITY_ORANGE => 27,
-                    _ => throw HutaoException.NotSupported(),
-                };
+            blueItems *= 3D;
+            purpleItems *= 9D;
+            orangeItems *= 27D;
 
-                double times = (statisticsCultivateItem.Count - statisticsCultivateItem.TotalCount) * pieces;
-                statistics.WeaponAscension.RawItemCount += times;
-                continue;
+            // TODO: Refactor this
+            if (orangeItems > 0)
+            {
+                if (purpleItems > 0)
+                {
+                    if (blueItems > 0)
+                    {
+                        targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
+                    }
+                    else
+                    {
+                        if (greenItems > 0)
+                        {
+                            double orangeAndPurpleNeed = orangeItems + purpleItems;
+                            double blue = -blueItems > orangeAndPurpleNeed ? orangeAndPurpleNeed : -blueItems;
+                            targetStatisticsItem.RawItemCount += orangeAndPurpleNeed + greenItems - blue;
+                        }
+                        else
+                        {
+                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
+                        }
+                    }
+                }
+                else
+                {
+                    if (blueItems > 0)
+                    {
+                        double purple = -purpleItems > orangeItems ? orangeItems : -purpleItems;
+                        targetStatisticsItem.RawItemCount += orangeItems - purple + blueItems + greenItems;
+                    }
+                    else
+                    {
+                        if (greenItems > 0)
+                        {
+                            double purpleAndBlue = -(purpleItems + blueItems) > orangeItems ? orangeItems : -(purpleItems + blueItems);
+                            targetStatisticsItem.RawItemCount += orangeItems - purpleAndBlue + greenItems;
+                        }
+                        else
+                        {
+                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (purpleItems > 0)
+                {
+                    if (blueItems > 0)
+                    {
+                        targetStatisticsItem.RawItemCount += purpleItems + blueItems + greenItems;
+                    }
+                    else
+                    {
+                        if (greenItems > 0)
+                        {
+                            double blue = -blueItems > purpleItems ? purpleItems : -blueItems;
+                            targetStatisticsItem.RawItemCount += purpleItems - blue + greenItems;
+                        }
+                        else
+                        {
+                            targetStatisticsItem.RawItemCount += purpleItems + blueItems + greenItems;
+                        }
+                    }
+                }
+                else
+                {
+                    if (blueItems > 0)
+                    {
+                        targetStatisticsItem.RawItemCount += blueItems + greenItems;
+                    }
+                    else
+                    {
+                        if (greenItems > 0)
+                        {
+                            targetStatisticsItem.RawItemCount += greenItems;
+                        }
+                    }
+                }
             }
         }
 
