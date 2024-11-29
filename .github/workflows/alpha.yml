@@ -3,9 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
       - develop
-      - 'feat/*'
     paths-ignore:
       - '.gitattributes'
       - '.github/**'
@@ -90,10 +88,7 @@ jobs:
         run: |
           $summary = "
           > [!WARNING]
-          > 该版本是由 CI 程序自动打包生成的 `Alpha` 测试版本，**仅供开发者测试使用**
-
-          > [!TIP]
-          > 普通用户请 [点击这里](https://github.com/DGP-Studio/Snap.Hutao/releases/latest/) 下载最新的稳定版本
+          > 该版本是由 CI 程序自动打包生成的 `Alpha` 测试版本，包含已经基本完工的新功能及问题修复
 
           > [!IMPORTANT]
           > 请先安装 **[DGP_Studio_CA.crt](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate-ca/DGP_Studio_CA.crt)** 到 **受信任的根证书颁发机构** 以安装测试版安装包

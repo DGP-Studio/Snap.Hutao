@@ -1,0 +1,82 @@
+name: Snap Hutao Canary
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - develop
+      - main
+      - release
+      - dependabot/**
+    paths-ignore:
+      - '.gitattributes'
+      - '.github/**'
+      - '.gitignore'
+      - '.gitmodules'
+      - '**.md'
+      - 'LICENSE'
+      - '**.yml'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Merge all branches into develop locally
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
+          git checkout origin/develop
+          $response = curl -s https://api.github.com/repos/DGP-Studio/Snap.Hutao/pulls?state=open
+          $refs = $response | ConvertFrom-Json | Where-Object { $_.draft -eq $false } | ForEach-Object { $_.head.ref }
+          foreach ($ref in $refs) {
+              echo "Merging $ref into develop"
+              git merge "origin/$ref" --strategy=ort --allow-unrelated-histories -m "Merge $ref into develop"
+          }
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/Snap.Hutao.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Cake
+        id: cake
+        shell: pwsh
+        run: dotnet tool restore && dotnet cake
+        env:
+          CERTIFICATE: ${{ secrets.CERTIFICATE }}
+          PW: ${{ secrets.PW }}
+
+      - name: Upload signed msix
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Snap.Hutao.Canary-${{ steps.cake.outputs.version }}
+          path: ${{ github.workspace }}/src/output/Snap.Hutao.Canary-${{ steps.cake.outputs.version }}.msix
+
+      - name: Add summary
+        if: success()
+        shell: pwsh
+        run: |
+          $summary = "
+          > [!WARNING]
+          > 该版本是由 CI 程序自动打包生成的 `Canary` 测试版本，包含新功能原型及问题修复
+
+          > [!IMPORTANT]
+          > 请先安装 **[DGP_Studio_CA.crt](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate-ca/DGP_Studio_CA.crt)** 到 **受信任的根证书颁发机构** 以安装测试版安装包
+          "
+
+          echo $summary >> $Env:GITHUB_STEP_SUMMARY

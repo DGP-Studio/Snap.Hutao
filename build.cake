@@ -53,17 +53,28 @@ if (GitHubActions.IsRunningOnGitHubActions)
     }
     else
     {
-        var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
-        version = HttpGet(
-            "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
-            new HttpSettings
-            {
-                Headers = new Dictionary<string, string>
-                    {
+        if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Alpha")
+        {
+            var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
+            version = HttpGet(
+                "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
+                new HttpSettings
+                {
+                    Headers = new Dictionary<string, string>
+                        {
                     { "Authorization", versionAuth }
-                    }
-            }
-        );
+                        }
+                }
+            );
+        }
+        else if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Canary")
+        {
+            version = System.DateTime.Now.ToString("yyyy.M.d.") + ((int)((System.DateTime.Now - System.DateTime.Today).TotalSeconds / 86400 * 65535)).ToString();
+        }
+        else
+        {
+            throw new Exception("Unsupported workflow.");
+        }
 
         var certificateBase64 = HasEnvironmentVariable("CERTIFICATE") ? EnvironmentVariable("CERTIFICATE") : throw new Exception("Cannot find CERTIFICATE");
         pw = HasEnvironmentVariable("PW") ? EnvironmentVariable("PW") : throw new Exception("Cannot find PW");
@@ -134,11 +145,29 @@ Task("Generate AppxManifest")
     if (GitHubActions.IsRunningOnGitHubActions)
     {
         Information("Using CI configuraion");
-        content = content
-            .Replace("Snap Hutao", "Snap Hutao Alpha")
-            .Replace("胡桃", "胡桃 Alpha")
-            .Replace("DGP Studio", "DGP Studio CI");
-        content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"7f0db578-026f-4e0b-a75b-d5d06bb0a74c\"");
+        if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Alpha")
+        {
+            Information("Using Alpha configuration");
+            content = content
+                .Replace("Snap Hutao", "Snap Hutao Alpha")
+                .Replace("胡桃", "胡桃 Alpha")
+                .Replace("DGP Studio", "DGP Studio CI");
+            content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"7f0db578-026f-4e0b-a75b-d5d06bb0a74c\"");
+        }
+        else if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Canary")
+        {
+            Information("Using Canary configuration");
+            content = content
+                .Replace("Snap Hutao", "Snap Hutao Canary")
+                .Replace("胡桃", "胡桃 Canary")
+                .Replace("DGP Studio", "DGP Studio CI");
+            content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"52127695-c6a7-406e-916a-693b905e8ba7\"");
+        }
+        else
+        {
+            throw new Exception("Unsupported workflow.");
+        }
+
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"E=admin@dgp-studio.cn, CN=DGP Studio CI, OU=CI, O=DGP-Studio, L=San Jose, S=CA, C=US\"");
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Version=\"([0-9\\.]+)\"", $"  Version=\"{version}\"");
     }
@@ -214,7 +243,18 @@ Task("Build MSIX")
     var arguments = "arguments";
     if (GitHubActions.IsRunningOnGitHubActions)
     {
-        arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix");
+        if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Alpha")
+        {
+            arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix");
+        }
+        else if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Canary")
+        {
+            arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Canary-{version}.msix");
+        }
+        else
+        {
+            throw new Exception("Unsupported workflow.");
+        }
     }
     else if (AppVeyor.IsRunningOnAppVeyor)
     {
@@ -258,7 +298,20 @@ Task("Sign")
         }
 
         var signPath = System.IO.Path.Combine(winsdkBinPath, "signtool.exe");
-        var arguments = $"sign /debug /v /a /fd SHA256 /f {pfxPath} /p {pw} {System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")}";
+        var arguments = "arguments";
+
+        if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Alpha")
+        {
+            arguments = $"sign /debug /v /a /fd SHA256 /f {pfxPath} /p {pw} {System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")}";
+        }
+        else if (GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Canary")
+        {
+            arguments = $"sign /debug /v /a /fd SHA256 /f {pfxPath} /p {pw} {System.IO.Path.Combine(outputPath, $"Snap.Hutao.Canary-{version}.msix")}";
+        }
+        else
+        {
+            throw new Exception("Unsupported workflow.");
+        }
 
         var p = StartProcess(
             signPath,
