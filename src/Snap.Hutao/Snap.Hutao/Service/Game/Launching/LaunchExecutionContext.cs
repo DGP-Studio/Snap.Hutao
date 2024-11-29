@@ -77,14 +77,23 @@ internal sealed partial class LaunchExecutionContext : IDisposable
         return true;
     }
 
-    public void UpdateGamePathEntry()
+    public void PerformGamePathEntrySynchronization()
     {
         // Invalidate game file system
         gameFileSystem?.Dispose();
         gameFileSystem = null;
 
-        ImmutableArray<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
-        ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selectedEntry);
+        ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(Options);
+    }
+
+    public void UpdateGamePath(string gamePath)
+    {
+        // Invalidate game file system
+        gameFileSystem?.Dispose();
+        gameFileSystem = null;
+
+        Options.GamePath = gamePath;
+        PerformGamePathEntrySynchronization();
     }
 
     public void Dispose()

@@ -26,13 +26,13 @@ namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterType.SophonChunks)]
-internal sealed partial class SophonChunksPackageConverter : IPackageConverter
+internal sealed partial class SophonChunksPackageConverter : PackageConverter
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly ILogger<SophonChunksPackageConverter> logger;
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
+    public override async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
     {
         // 基本步骤与 ScatteredPackageConverter 相同
         // 以 国服 -> 国际服 为例
@@ -73,36 +73,6 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
 
         // Step 4
         return ReplaceGameResource(context, diffOperations);
-    }
-
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
-    {
-        // Just try to delete these files, always download from server when needed
-        string gameDirectory = context.GameFileSystem.GetGameDirectory();
-        FileOperation.Delete(Path.Combine(gameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(gameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(gameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(gameDirectory, "sdk_pkg_version"));
-
-        if (context.GameChannelSDK is not null)
-        {
-            using (Stream sdkWebStream = await context.HttpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
-            {
-                ZipFile.ExtractToDirectory(sdkWebStream, gameDirectory, true);
-            }
-        }
-
-        if (context.DeprecatedFiles is not null)
-        {
-            foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
-            {
-                string filePath = Path.Combine(gameDirectory, file.Name);
-                FileOperation.Move(filePath, $"{filePath}.backup", true);
-            }
-        }
     }
 
     private static IEnumerable<PackageItemOperationForSophonChunks> GetDiffOperations(SophonDecodedBuild currentDecodedBuild, SophonDecodedBuild targetDecodedBuild)

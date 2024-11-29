@@ -7,5 +7,5 @@ internal interface IPackageConverter
 {
     ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context);
 
-    ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context);
+    ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterDeprecationContext context);
 }

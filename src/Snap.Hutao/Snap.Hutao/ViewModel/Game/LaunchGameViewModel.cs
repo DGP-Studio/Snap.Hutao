@@ -178,7 +178,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     protected override ValueTask<bool> LoadOverrideAsync()
     {
-        SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions.GetGamePathEntries(out GamePathEntry? entry), entry);
+        this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
         return ValueTask.FromResult(true);
     }
 
