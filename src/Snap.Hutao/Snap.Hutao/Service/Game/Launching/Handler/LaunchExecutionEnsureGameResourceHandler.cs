@@ -298,7 +298,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
             private get;
             set
             {
-                field.Dispose();
+                field?.Dispose();
                 field = value;
             }
         }

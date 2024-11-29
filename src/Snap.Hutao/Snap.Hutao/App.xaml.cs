@@ -11,13 +11,8 @@ using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using Snap.Hutao.Win32.Foundation;
 using Snap.WinUI.FrameworkTheming;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using WinRT;
-using WinRT.Interop;
 
 namespace Snap.Hutao;
 

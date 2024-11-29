@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.User;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
