@@ -172,14 +172,12 @@ internal static class GameFileSystemExtension
         {
             foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath()).AsSpan())
             {
-                if (element is IniParameter { Key: "game_version" } parameter)
+                if (element is IniParameter { Key: "game_version", Value: { Length: > 0 } value })
                 {
-                    version = parameter.Value;
-                    break;
+                    version = value;
+                    return true;
                 }
             }
-
-            return true;
         }
 
         if (File.Exists(gameFileSystem.GetScriptVersionFilePath()))
