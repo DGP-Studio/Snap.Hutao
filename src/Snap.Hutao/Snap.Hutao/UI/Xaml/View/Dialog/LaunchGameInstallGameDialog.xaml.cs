@@ -45,6 +45,18 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
             return new(false, default!);
         }
 
+        if (!Directory.Exists(GameDirectory))
+        {
+            infoBarService.Error("安装路径不存在");
+            return new(false, default!);
+        }
+
+        if (Directory.EnumerateFileSystemEntries(GameDirectory).Any())
+        {
+            infoBarService.Error("安装路径不为空");
+            return new(false, default!);
+        }
+
         if (SelectedScheme is null)
         {
             infoBarService.Error("未选择游戏区服");
