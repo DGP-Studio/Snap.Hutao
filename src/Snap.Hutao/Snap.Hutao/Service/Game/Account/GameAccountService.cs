@@ -55,7 +55,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
             if (isOk)
             {
-                account = GameAccount.From(name, registrySdk, schemeType);
+                account = gameAccounts.SingleOrDefault(a => a.Name == name) ?? GameAccount.From(name, registrySdk, schemeType);
 
                 // sync database
                 await taskContext.SwitchToBackgroundAsync();
