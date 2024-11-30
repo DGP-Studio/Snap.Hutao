@@ -384,6 +384,7 @@
                         cw:ScrollViewerExtensions.HorizontalScrollBarMargin="0,0,-16,0"
                         HorizontalScrollBarVisibility="Auto"
                         HorizontalScrollMode="Enabled"
+                        VerticalScrollBarVisibility="Disabled"
                         VerticalScrollMode="Disabled">
                         <shuxcp:HorizontalEqualPanel
                             Margin="0,16"

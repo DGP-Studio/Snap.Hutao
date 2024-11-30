@@ -3,7 +3,6 @@ on:
   workflow_dispatch:
   push:
     branches-ignore:
-      - develop
       - l10n_develop
       - main
       - release
