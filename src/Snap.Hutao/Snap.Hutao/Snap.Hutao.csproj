@@ -90,9 +90,6 @@
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="BannedSymbols.txt" />
     <None Remove="CodeMetricsConfig.txt" />
-    <None Remove="Control\Image\CachedImage.xaml" />
-    <None Remove="Control\Loading.xaml" />
-    <None Remove="Control\Panel\LayoutSwitch.xaml" />
     <None Remove="Resource\Icon\UI_IconSmall_EP.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType1.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType2.png" />
@@ -148,10 +145,7 @@
     <None Remove="UI\Xaml\Control\Theme\TransitionCollection.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Uri.xaml" />
     <None Remove="UI\Xaml\Control\Theme\WindowOverride.xaml" />
-    <None Remove="GuideWindow.xaml" />
-    <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
-    <None Remove="LaunchGameWindow.xaml" />
     <None Remove="Resource\BlurBackground.png" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
@@ -178,7 +172,6 @@
     <None Remove="Resource\Navigation\WikiAvatar.png" />
     <None Remove="Resource\Navigation\WikiMonster.png" />
     <None Remove="Resource\Navigation\WikiWeapon.png" />
-    <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
     <None Remove="UI\Xaml\View\Card\CalendarCard.xaml" />
@@ -453,48 +446,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Image\CachedImage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Loading.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="GuideWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="IdentifyMonitorWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <!-- Pages -->
-  <ItemGroup>
-    <Page Update="LaunchGameWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Control\Panel\LayoutSwitch.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Control\Style\FontStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
+    <ItemGroup>
     <Page Update="UI\Xaml\Control\Card\HorizontalCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

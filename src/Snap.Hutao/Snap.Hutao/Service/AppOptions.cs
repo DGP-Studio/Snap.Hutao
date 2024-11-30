@@ -80,7 +80,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     public Region Region
     {
         get => GetOption(ref region, SettingEntry.AnnouncementRegion, Region.FromRegionString, Region.CNGF01).Value;
-        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, v => v.ToStringOrEmpty());
+        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, static v => v.ToStringOrEmpty());
     }
 
     [field: AllowNull]

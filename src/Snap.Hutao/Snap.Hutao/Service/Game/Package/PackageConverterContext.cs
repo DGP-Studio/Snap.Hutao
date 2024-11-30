@@ -4,8 +4,6 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Collections.Concurrent;
 using System.IO;

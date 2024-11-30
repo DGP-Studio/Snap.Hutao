@@ -23,7 +23,7 @@ internal sealed partial class CultureOptions : DbStoreOptions
     public CultureInfo CurrentCulture
     {
         get => GetOption(ref field, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
-        set => SetOption(ref field, SettingEntry.Culture, value, v => v.Name);
+        set => SetOption(ref field, SettingEntry.Culture, value, static v => v.Name);
     }
 
     public CultureInfo SystemCulture { get; set; } = default!;

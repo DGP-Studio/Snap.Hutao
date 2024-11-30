@@ -5,14 +5,11 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using static Snap.Hutao.Service.Game.GameConstants;
 using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<string, Snap.Hutao.Service.Game.Package.VersionItem>;
 
 namespace Snap.Hutao.Service.Game.Package;

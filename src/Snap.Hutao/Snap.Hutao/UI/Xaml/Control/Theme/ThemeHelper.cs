@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.WinUI.FrameworkTheming;
 
 namespace Snap.Hutao.UI.Xaml.Control.Theme;
 
