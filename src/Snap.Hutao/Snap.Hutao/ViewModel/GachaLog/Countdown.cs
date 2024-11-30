@@ -28,6 +28,8 @@ internal sealed class Countdown
         }
     }
 
+    public string FormattedHistoryCount { get => $"累计 UP 次数：{Histories.Count}"; }
+
     public Item Item { get; }
 
     public List<CountdownHistory> Histories { get; set; } = [];

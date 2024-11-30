@@ -121,7 +121,11 @@
                                 ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
                                 ItemTemplate="{StaticResource CountdownHistoryTemplate}"
                                 ItemsSource="{x:Bind Histories}"
-                                SelectionMode="None"/>
+                                SelectionMode="None">
+                                <ListView.Header>
+                                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding FormattedHistoryCount}"/>
+                                </ListView.Header>
+                            </ListView>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
