@@ -23,6 +23,7 @@ namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
+[SuppressMessage("", "SA1201")]
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
@@ -32,6 +33,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
+    private readonly App app;
 
     public static string Title
     {
@@ -203,4 +205,28 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             httpProxyUsingSystemProxy.EnableLoopback();
         }
     }
+
+    #region Dev Debug Only
+
+    public static bool IsDebug
+    {
+        get =>
+#if DEBUG
+            true;
+#else
+            false;
+#endif
+    }
+
+    [Command("ReverseAppThemeCommand")]
+    private void ReverseAppTheme()
+    {
+#if DEBUG
+        WinUI.FrameworkTheming.FrameworkTheming.SetTheme(app.RequestedTheme is Microsoft.UI.Xaml.ApplicationTheme.Dark
+            ? WinUI.FrameworkTheming.Theme.Light
+            : WinUI.FrameworkTheming.Theme.Dark);
+#endif
+    }
+
+    #endregion
 }

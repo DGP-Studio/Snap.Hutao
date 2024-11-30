@@ -36,6 +36,12 @@
             Margin="0,0,6,0"
             Orientation="Horizontal"
             Spacing="6">
+
+            <Button
+                Command="{Binding ReverseAppThemeCommand}"
+                Content="Reverse Theme"
+                Visibility="{Binding IsDebug}"/>
+
             <StackPanel
                 Orientation="Horizontal"
                 Spacing="6"
