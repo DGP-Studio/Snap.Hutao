@@ -19,6 +19,7 @@
                     Width="300"
                     CornerRadius="{ThemeResource ControlCornerRadius}"
                     Source="{Binding Banner}"/>
+                <Border Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}" IsHitTestVisible="False"/>
                 <Grid Padding="8" VerticalAlignment="Stretch">
                     <Grid.Background>
                         <LinearGradientBrush StartPoint="0,1" EndPoint="0.6,0">
