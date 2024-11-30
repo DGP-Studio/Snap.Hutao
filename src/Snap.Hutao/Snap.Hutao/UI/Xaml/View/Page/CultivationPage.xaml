@@ -16,6 +16,7 @@
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -225,61 +226,6 @@
                 </ItemContainer>
             </DataTemplate>
 
-            <DataTemplate x:Key="ResinStatisticsItemTemplate" x:DataType="shvcu:ResinStatisticsItem">
-                <Grid Padding="4" Visibility="{Binding HasData}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock
-                        Grid.RowSpan="3"
-                        VerticalAlignment="Center"
-                        Text="{Binding Title}"/>
-
-                    <StackPanel
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="2">
-                        <BitmapIcon
-                            Width="20"
-                            ShowAsMonochrome="False"
-                            UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_210.png"/>
-                        <TextBlock Text="{Binding TotalResin}"/>
-                    </StackPanel>
-
-                    <StackPanel
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="2"
-                        Visibility="{Binding CondensedResin, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                        <BitmapIcon
-                            Width="20"
-                            ShowAsMonochrome="False"
-                            UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_211.png"/>
-                        <TextBlock Text="{Binding CondensedResin}"/>
-                    </StackPanel>
-
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Text="{Binding Days}"/>
-                </Grid>
-            </DataTemplate>
-
             <DataTemplate x:Key="InventoryItemTemplate">
                 <ItemContainer>
                     <ItemContainer.Resources>
@@ -475,12 +421,12 @@
                                                             SelectedItem="{Binding SelectedWorldDropProability, Mode=TwoWay}"/>
                                                     </shuxc:SizeRestrictedContentControl>
                                                 </Grid>
-                                                <ContentPresenter Content="{Binding BlossomOfRevelation}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding BlossomOfWealth}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding TalentBooks}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding WeaponAscension}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding NormalBoss}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
-                                                <ContentPresenter Content="{Binding WeeklyBoss}" ContentTemplate="{StaticResource ResinStatisticsItemTemplate}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfRevelation}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfWealth}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding TalentBooks}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding WeaponAscension}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding NormalBoss}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding WeeklyBoss}"/>
                                             </StackPanel>
                                         </Flyout>
                                     </AppBarButton.Flyout>
