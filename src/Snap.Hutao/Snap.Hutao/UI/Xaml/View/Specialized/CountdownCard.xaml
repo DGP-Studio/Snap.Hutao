@@ -112,20 +112,35 @@
                     Style="{ThemeResource SettingButtonStyle}">
                     <Button.Flyout>
                         <Flyout
-                            FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding8Style}"
+                            FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding0Style}"
                             Placement="Right"
                             ShouldConstrainToRootBounds="False">
-                            <ListView
-                                MaxHeight="640"
-                                Margin="0,-4,0,0"
-                                ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
-                                ItemTemplate="{StaticResource CountdownHistoryTemplate}"
-                                ItemsSource="{x:Bind Histories}"
-                                SelectionMode="None">
-                                <ListView.Header>
-                                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding FormattedHistoryCount}"/>
-                                </ListView.Header>
-                            </ListView>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid
+                                    Grid.Row="0"
+                                    Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="0,0,0,1">
+                                    <TextBlock
+                                        Margin="8"
+                                        VerticalAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{Binding FormattedHistoryCount}"/>
+                                </Grid>
+                                <ListView
+                                    Grid.Row="1"
+                                    MaxHeight="640"
+                                    Margin="8,4,8,8"
+                                    ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
+                                    ItemTemplate="{StaticResource CountdownHistoryTemplate}"
+                                    ItemsSource="{x:Bind Histories}"
+                                    SelectionMode="None"/>
+                            </Grid>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
