@@ -139,6 +139,7 @@ internal sealed partial class CultivationService : ICultivationService
                 continue;
             }
 
+            // 技能书
             if (rank is 100U)
             {
                 StatisticsCultivateItem item = items.Single();
@@ -152,6 +153,7 @@ internal sealed partial class CultivationService : ICultivationService
                 continue;
             }
 
+            // BOSS 掉落
             if (rank is 11101U)
             {
                 foreach (StatisticsCultivateItem item in items)
@@ -178,7 +180,8 @@ internal sealed partial class CultivationService : ICultivationService
                 continue;
             }
 
-            // 天赋书，武器突破材料。一次循环最多为4个
+            // 天赋书，武器突破材料
+            // items.Count in [0..4]
             double greenItems = 0D;
             double blueItems = 0D;
             double purpleItems = 0D;
@@ -216,122 +219,7 @@ internal sealed partial class CultivationService : ICultivationService
             purpleItems *= 9D;
             orangeItems *= 27D;
 
-            // TODO: Refactor this
-            if (orangeItems > 0)
-            {
-                if (purpleItems > 0)
-                {
-                    if (blueItems > 0)
-                    {
-                        if (greenItems > 0)
-                        {
-                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
-                        }
-                        else
-                        {
-                            double need = orangeItems + purpleItems + blueItems;
-                            double green = -greenItems > need ? need : -greenItems;
-                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems - green;
-                        }
-                    }
-                    else
-                    {
-                        double orangeAndPurpleNeed = orangeItems + purpleItems;
-                        if (greenItems > 0)
-                        {
-                            double blue = -blueItems > orangeAndPurpleNeed ? orangeAndPurpleNeed : -blueItems;
-                            targetStatisticsItem.RawItemCount += orangeAndPurpleNeed + greenItems - blue;
-                        }
-                        else
-                        {
-                            double blueAndGreen = -(blueItems + greenItems) > orangeAndPurpleNeed ? orangeAndPurpleNeed : -(blueItems + greenItems);
-                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems - blueAndGreen;
-                        }
-                    }
-                }
-                else
-                {
-                    if (blueItems > 0)
-                    {
-                        double purple = -purpleItems > orangeItems ? orangeItems : -purpleItems;
-                        if (greenItems > 0)
-                        {
-                            targetStatisticsItem.RawItemCount += orangeItems - purple + blueItems + greenItems;
-                        }
-                        else
-                        {
-                            double green = -greenItems > orangeItems - purple + blueItems ? orangeItems - purple + blueItems : -greenItems;
-                            targetStatisticsItem.RawItemCount += orangeItems - purple + blueItems - green;
-                        }
-                    }
-                    else
-                    {
-                        if (greenItems > 0)
-                        {
-                            double purpleAndBlue = -(purpleItems + blueItems) > orangeItems ? orangeItems : -(purpleItems + blueItems);
-                            targetStatisticsItem.RawItemCount += orangeItems - purpleAndBlue + greenItems;
-                        }
-                        else
-                        {
-                            double purpleAndBlueAndGreen = -(purpleItems + blueItems + greenItems) > orangeItems ? orangeItems : -(purpleItems + blueItems + greenItems);
-                            targetStatisticsItem.RawItemCount += orangeItems - purpleAndBlueAndGreen;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (purpleItems > 0)
-                {
-                    if (blueItems > 0)
-                    {
-                        if (greenItems > 0)
-                        {
-                            targetStatisticsItem.RawItemCount += purpleItems + blueItems + greenItems;
-                        }
-                        else
-                        {
-                            double green = -greenItems > purpleItems + blueItems ? purpleItems + blueItems : -greenItems;
-                            targetStatisticsItem.RawItemCount += purpleItems + blueItems - green;
-                        }
-                    }
-                    else
-                    {
-                        if (greenItems > 0)
-                        {
-                            double blue = -blueItems > purpleItems ? purpleItems : -blueItems;
-                            targetStatisticsItem.RawItemCount += purpleItems - blue + greenItems;
-                        }
-                        else
-                        {
-                            double blueAndGreen = -(blueItems + greenItems) > purpleItems ? purpleItems : -(blueItems + greenItems);
-                            targetStatisticsItem.RawItemCount += purpleItems - blueAndGreen;
-                        }
-                    }
-                }
-                else
-                {
-                    if (blueItems > 0)
-                    {
-                        if (greenItems > 0)
-                        {
-                            targetStatisticsItem.RawItemCount += blueItems + greenItems;
-                        }
-                        else
-                        {
-                            double green = -greenItems > blueItems ? blueItems : -greenItems;
-                            targetStatisticsItem.RawItemCount += blueItems - green;
-                        }
-                    }
-                    else
-                    {
-                        if (greenItems > 0)
-                        {
-                            targetStatisticsItem.RawItemCount += greenItems;
-                        }
-                    }
-                }
-            }
+            targetStatisticsItem.RawItemCount += CombinableCalculator.Calculate(orangeItems, purpleItems, blueItems, greenItems);
         }
 
         return statistics;
