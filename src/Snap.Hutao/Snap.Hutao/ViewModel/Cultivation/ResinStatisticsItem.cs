@@ -13,10 +13,11 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
 
     public ResinStatisticsItem(string title, ResinStatisticsItemKind kind, int resinPerBlossom, bool isCondensedResinAvailable)
     {
-        Title = title;
         this.kind = kind;
-        ResinPerBlossom = resinPerBlossom;
         this.isCondensedResinAvailable = isCondensedResinAvailable;
+        Title = title;
+        ResinPerBlossom = resinPerBlossom;
+        SelectedWorldDropProability = WorldDropProability.Nine;
     }
 
     public string Title { get; }
@@ -34,7 +35,6 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
             }
         }
     }
-        = WorldDropProability.Nine;
 
     public int ResinPerBlossom { get; }
 

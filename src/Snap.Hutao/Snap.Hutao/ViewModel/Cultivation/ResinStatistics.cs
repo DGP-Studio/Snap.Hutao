@@ -7,6 +7,11 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed class ResinStatistics
 {
+    public ResinStatistics()
+    {
+        SelectedWorldDropProability = WorldDropProability.Nine;
+    }
+
     public ImmutableArray<WorldDropProability> WorldDropProabilities { get; } = WorldDropProability.WorldDropProabilities;
 
     public WorldDropProability SelectedWorldDropProability
@@ -23,7 +28,6 @@ internal sealed class ResinStatistics
             WeeklyBoss.SelectedWorldDropProability = value;
         }
     }
-        = WorldDropProability.Nine;
 
     public ResinStatisticsItem BlossomOfWealth { get; } = new("藏金之花", ResinStatisticsItemKind.BlossomOfWealth, 20, true);
 
