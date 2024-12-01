@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata.Item;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
@@ -9,12 +10,12 @@ internal sealed class ResinStatistics
 {
     public ResinStatistics()
     {
-        SelectedWorldDropProability = WorldDropProability.Nine;
+        SelectedWorldDropProability = MaterialDropDistribution.Nine;
     }
 
-    public ImmutableArray<WorldDropProability> WorldDropProabilities { get; } = WorldDropProability.WorldDropProabilities;
+    public ImmutableArray<MaterialDropDistribution> WorldDropProabilities { get; } = MaterialDropDistribution.Distributions;
 
-    public WorldDropProability SelectedWorldDropProability
+    public MaterialDropDistribution SelectedWorldDropProability
     {
         get;
         set

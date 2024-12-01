@@ -17,7 +17,6 @@ internal sealed class Material : DisplayItem
         RankLevel = default,
         ItemType = default,
         Icon = default!,
-        Rank = default,
         Description = "？？？",
         TypeDescription = "？？？",
     };
@@ -68,7 +67,7 @@ internal sealed class Material : DisplayItem
             return true;
         }
 
-        // 智识之冕
+        // 无类型 智识之冕
         if (TypeDescription is null || Id == 104319U)
         {
             return false;

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Model.Metadata.Item;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
@@ -17,12 +18,12 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
         this.isCondensedResinAvailable = isCondensedResinAvailable;
         Title = title;
         ResinPerBlossom = resinPerBlossom;
-        SelectedWorldDropProability = WorldDropProability.Nine;
+        SelectedWorldDropProability = MaterialDropDistribution.Nine;
     }
 
     public string Title { get; }
 
-    public WorldDropProability SelectedWorldDropProability
+    public MaterialDropDistribution SelectedWorldDropProability
     {
         get;
         set

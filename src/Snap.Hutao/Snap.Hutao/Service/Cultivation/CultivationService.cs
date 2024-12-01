@@ -215,11 +215,7 @@ internal sealed partial class CultivationService : ICultivationService
                 }
             }
 
-            blueItems *= 3D;
-            purpleItems *= 9D;
-            orangeItems *= 27D;
-
-            targetStatisticsItem.RawItemCount += CombinableCalculator.Calculate(orangeItems, purpleItems, blueItems, greenItems);
+            targetStatisticsItem.RawItemCount += AlchemyCrafting.UnWeighted(orangeItems, purpleItems, blueItems, greenItems);
         }
 
         return statistics;
