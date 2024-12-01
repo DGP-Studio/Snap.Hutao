@@ -105,7 +105,8 @@
         <shvg:AspectRatioComboBoxTemplateSelector x:Key="AspectRatioComboBoxTemplateSelector">
             <shvg:AspectRatioComboBoxTemplateSelector.ListTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <!--  ComboBoxItemThemePadding 11,5,11,7  -->
+                    <Grid Margin="1,-1,-7,-3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
@@ -610,7 +611,8 @@
                                                         ItemTemplateSelector="{StaticResource AspectRatioComboBoxTemplateSelector}"
                                                         ItemsSource="{Binding LaunchOptions.AspectRatios}"
                                                         PlaceholderText="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
-                                                        SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"/>
+                                                        SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"
+                                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </cwc:SettingsCard>
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}" Header="-screen-width">

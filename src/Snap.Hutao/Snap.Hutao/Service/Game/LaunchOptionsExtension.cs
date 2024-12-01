@@ -9,18 +9,21 @@ internal static class LaunchOptionsExtension
 {
     public static ImmutableArray<AspectRatio> SaveAspectRatio(this LaunchOptions options, AspectRatio aspectRatio)
     {
-        if (options.AspectRatios.Contains(aspectRatio))
+        if (!options.AspectRatios.Contains(aspectRatio))
         {
-            return options.AspectRatios;
+            options.AspectRatios = options.AspectRatios.Add(aspectRatio);
         }
 
-        options.AspectRatios = options.AspectRatios.Add(aspectRatio);
         return options.AspectRatios;
     }
 
     public static ImmutableArray<AspectRatio> RemoveAspectRatio(this LaunchOptions options, AspectRatio aspectRatio)
     {
-        options.SelectedAspectRatio = default;
+        if (aspectRatio == options.SelectedAspectRatio)
+        {
+            options.SelectedAspectRatio = default;
+        }
+
         options.AspectRatios = options.AspectRatios.Remove(aspectRatio);
         return options.AspectRatios;
     }

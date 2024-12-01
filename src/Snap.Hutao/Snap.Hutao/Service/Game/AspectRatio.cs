@@ -19,7 +19,7 @@ internal sealed class AspectRatio : IEquatable<AspectRatio>
 
     public override string ToString()
     {
-        return Width + ":" + Height;
+        return $"{Width}:{Height}";
     }
 
     public override int GetHashCode()
