@@ -969,7 +969,7 @@
     <value>UIGF 檔案的語言：{0} 與胡桃的語言：{1} 不對應，請切換到對應語言重試</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
-    <value>名称为 {0} 的账号已存在</value>
+    <value>名稱為 {0} 的帳號已存在</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多個對應帳號，請刪除重複的帳號</value>
@@ -1515,22 +1515,22 @@
     <value>正在修複設定檔案</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
-    <value>选择的安装路径不存在且无法创建</value>
+    <value>選擇的安裝路徑不存在且無法創建</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
-    <value>选择的安装路径存在文件或文件夹</value>
+    <value>選擇的安裝路徑存在檔案或資料夾</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
-    <value>选择的安装路径无效</value>
+    <value>選擇的安裝路徑無效</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
-    <value>未选择语音包</value>
+    <value>未選擇語音包</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
-    <value>未选择游戏区服</value>
+    <value>未選擇遊戲區服</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
-    <value>选择安装路径</value>
+    <value>選擇安裝路徑</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>轉換可能需要花費一段時間，請勿關閉胡桃</value>
@@ -1863,7 +1863,7 @@
     <value>距離 UP 結束還有 {0} 天</value>
   </data>
   <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
-    <value>累计 UP 次数：{0}</value>
+    <value>累計 UP 次數：{0}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
     <value>上次 UP 時間: {0:yyyy.MM.dd}</value>
