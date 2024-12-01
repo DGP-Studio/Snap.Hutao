@@ -92,10 +92,9 @@ internal sealed partial class HutaoRoleCombatStatisticsCache : IHutaoRoleCombatS
         {
             IHutaoRoleCombatService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoRoleCombatService>();
             raw = await hutaoService.GetRoleCombatStatisticsItemAsync(false).ConfigureAwait(false);
-            rawLast = await hutaoService.GetRoleCombatStatisticsItemAsync(true).ConfigureAwait(false);
         }
 
         RecordTotal = raw.RecordTotal;
-        AvatarAppearances = CurrentLeftJoinLast(raw.BackupAvatarRates.SortByDescending(ir => ir.Rate), rawLast?.BackupAvatarRates, data => data.Item, (data, dataLast) => new AvatarView(idAvatarMap[data.Item], data.Rate, dataLast?.Rate)).ToList();
+        AvatarAppearances = CurrentLeftJoinLast(raw.BackupAvatarRates.SortByDescending(ir => ir.Rate), null, data => data.Item, (data, dataLast) => new AvatarView(idAvatarMap[data.Item], data.Rate, dataLast?.Rate)).ToList();
     }
 }
