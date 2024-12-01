@@ -127,6 +127,7 @@
                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                     BorderThickness="0,0,0,1">
                                     <TextBlock
+                                        MaxWidth="300"
                                         Margin="8"
                                         VerticalAlignment="Center"
                                         HorizontalTextAlignment="Center"

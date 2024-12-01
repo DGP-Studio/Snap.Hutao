@@ -28,7 +28,7 @@ internal sealed class Countdown
         }
     }
 
-    public string FormattedHistoryCount { get => $"累计 UP 次数：{Histories.Count}"; }
+    public string FormattedHistoryCount { get => SH.FormatViewModelGachaLogCountdownHistoryCount(Histories.Count); }
 
     public Item Item { get; }
 

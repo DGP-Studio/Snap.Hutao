@@ -69,7 +69,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
         await next().ConfigureAwait(false);
     }
 
-    private static bool ShouldConvert(LaunchExecutionContext context, UnsafeRelaxedGameFileSystemReference reference)
+    private static bool ShouldConvert(LaunchExecutionContext context, IGameFileSystem gameFileSystem)
     {
         // Configuration file changed
         if (context.ChannelOptionsChanged)
@@ -77,7 +77,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
             return true;
         }
 
-        if (context.TargetScheme.IsOversea ^ reference.IsOversea())
+        if (context.TargetScheme.IsOversea ^ gameFileSystem.IsOversea())
         {
             return true;
         }
@@ -85,7 +85,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
         if (!context.TargetScheme.IsOversea)
         {
             // [It's Bilibili channel xor PCGameSDK.dll exists] means we need to convert
-            if (context.TargetScheme.Channel is ChannelType.Bili ^ File.Exists(reference.GetPcGameSdkFilePath()))
+            if (context.TargetScheme.Channel is ChannelType.Bili ^ File.Exists(gameFileSystem.GetPcGameSdkFilePath()))
             {
                 return true;
             }
@@ -311,7 +311,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
 
         public void Dispose()
         {
-            Value?.Dispose();
+            Value.Dispose();
         }
     }
 }

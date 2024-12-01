@@ -87,7 +87,7 @@ internal sealed partial class HutaoRoleCombatStatisticsCache : IHutaoRoleCombatS
     [SuppressMessage("", "SH003")]
     private async Task AvatarAppearancesAsync(ImmutableDictionary<AvatarId, Avatar> idAvatarMap)
     {
-        RoleCombatStatisticsItem raw, rawLast;
+        RoleCombatStatisticsItem raw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoRoleCombatService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoRoleCombatService>();

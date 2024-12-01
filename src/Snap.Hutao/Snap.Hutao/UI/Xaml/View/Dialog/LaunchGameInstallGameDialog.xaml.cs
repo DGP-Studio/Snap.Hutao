@@ -19,7 +19,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("English", typeof(bool))]
 [DependencyProperty("Japanese", typeof(bool))]
 [DependencyProperty("Korean", typeof(bool))]
-[DependencyProperty("KnownSchemes", typeof(IEnumerable<LaunchScheme>))]
+[DependencyProperty("KnownSchemes", typeof(IList<LaunchScheme>))]
 [DependencyProperty("SelectedScheme", typeof(LaunchScheme))]
 [DependencyProperty("GameDirectory", typeof(string), default(string), nameof(OnGameDirectoryChanged))]
 [DependencyProperty("IsParallelSupported", typeof(bool), true)]
@@ -41,31 +41,32 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
         if (string.IsNullOrWhiteSpace(GameDirectory))
         {
-            infoBarService.Error("未选择安装路径");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryInvalid);
             return new(false, default!);
         }
 
+        Directory.CreateDirectory(GameDirectory);
         if (!Directory.Exists(GameDirectory))
         {
-            infoBarService.Error("安装路径不存在");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryCreationFailed);
             return new(false, default!);
         }
 
         if (Directory.EnumerateFileSystemEntries(GameDirectory).Any())
         {
-            infoBarService.Error("安装路径不为空");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry);
             return new(false, default!);
         }
 
         if (SelectedScheme is null)
         {
-            infoBarService.Error("未选择游戏区服");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameNoSchemeSelected);
             return new(false, default!);
         }
 
         if (!Chinese && !English && !Japanese && !Korean)
         {
-            infoBarService.Error("未选择语音包");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameNoAudioPackageSelected);
             return new(false, default!);
         }
 
@@ -77,14 +78,13 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         // TODO: refine infobar title
-        LaunchGameInstallGameDialog dialog = (LaunchGameInstallGameDialog)sender;
-        dialog.IsParallelSupported = PhysicalDriver.DangerousGetIsSolidState((string)args.NewValue);
+        ((LaunchGameInstallGameDialog)sender).IsParallelSupported = PhysicalDriver.DangerousGetIsSolidState((string)args.NewValue);
     }
 
     [Command("PickGameDirectoryCommand")]
     private void PickGameDirectory()
     {
-        (bool isPickerOk, string gameDirectory) = fileSystemPickerInteraction.PickFolder("选择安装路径");
+        (bool isPickerOk, string gameDirectory) = fileSystemPickerInteraction.PickFolder(SH.ViewDialogLaunchGameInstallGamePickDirectoryTitle);
 
         if (isPickerOk)
         {
