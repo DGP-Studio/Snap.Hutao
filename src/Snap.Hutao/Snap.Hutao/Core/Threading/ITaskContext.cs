@@ -3,9 +3,6 @@
 
 namespace Snap.Hutao.Core.Threading;
 
-/// <summary>
-/// 任务上下文
-/// </summary>
 internal interface ITaskContext
 {
     void BeginInvokeOnMainThread(Action action);
