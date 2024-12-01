@@ -156,6 +156,11 @@ internal sealed partial class CultivationService : ICultivationService
             {
                 foreach (StatisticsCultivateItem item in items)
                 {
+                    if (item.IsFinished)
+                    {
+                        continue;
+                    }
+
                     double times = item.Count - item.TotalCount;
                     switch (item.Inner.RankLevel)
                     {
@@ -218,19 +223,29 @@ internal sealed partial class CultivationService : ICultivationService
                 {
                     if (blueItems > 0)
                     {
-                        targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
+                        if (greenItems > 0)
+                        {
+                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
+                        }
+                        else
+                        {
+                            double need = orangeItems + purpleItems + blueItems;
+                            double green = -greenItems > need ? need : -greenItems;
+                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems - green;
+                        }
                     }
                     else
                     {
+                        double orangeAndPurpleNeed = orangeItems + purpleItems;
                         if (greenItems > 0)
                         {
-                            double orangeAndPurpleNeed = orangeItems + purpleItems;
                             double blue = -blueItems > orangeAndPurpleNeed ? orangeAndPurpleNeed : -blueItems;
                             targetStatisticsItem.RawItemCount += orangeAndPurpleNeed + greenItems - blue;
                         }
                         else
                         {
-                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
+                            double blueAndGreen = -(blueItems + greenItems) > orangeAndPurpleNeed ? orangeAndPurpleNeed : -(blueItems + greenItems);
+                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems - blueAndGreen;
                         }
                     }
                 }
@@ -239,7 +254,15 @@ internal sealed partial class CultivationService : ICultivationService
                     if (blueItems > 0)
                     {
                         double purple = -purpleItems > orangeItems ? orangeItems : -purpleItems;
-                        targetStatisticsItem.RawItemCount += orangeItems - purple + blueItems + greenItems;
+                        if (greenItems > 0)
+                        {
+                            targetStatisticsItem.RawItemCount += orangeItems - purple + blueItems + greenItems;
+                        }
+                        else
+                        {
+                            double green = -greenItems > orangeItems - purple + blueItems ? orangeItems - purple + blueItems : -greenItems;
+                            targetStatisticsItem.RawItemCount += orangeItems - purple + blueItems - green;
+                        }
                     }
                     else
                     {
@@ -250,7 +273,8 @@ internal sealed partial class CultivationService : ICultivationService
                         }
                         else
                         {
-                            targetStatisticsItem.RawItemCount += orangeItems + purpleItems + blueItems + greenItems;
+                            double purpleAndBlueAndGreen = -(purpleItems + blueItems + greenItems) > orangeItems ? orangeItems : -(purpleItems + blueItems + greenItems);
+                            targetStatisticsItem.RawItemCount += orangeItems - purpleAndBlueAndGreen;
                         }
                     }
                 }
@@ -261,7 +285,15 @@ internal sealed partial class CultivationService : ICultivationService
                 {
                     if (blueItems > 0)
                     {
-                        targetStatisticsItem.RawItemCount += purpleItems + blueItems + greenItems;
+                        if (greenItems > 0)
+                        {
+                            targetStatisticsItem.RawItemCount += purpleItems + blueItems + greenItems;
+                        }
+                        else
+                        {
+                            double green = -greenItems > purpleItems + blueItems ? purpleItems + blueItems : -greenItems;
+                            targetStatisticsItem.RawItemCount += purpleItems + blueItems - green;
+                        }
                     }
                     else
                     {
@@ -272,7 +304,8 @@ internal sealed partial class CultivationService : ICultivationService
                         }
                         else
                         {
-                            targetStatisticsItem.RawItemCount += purpleItems + blueItems + greenItems;
+                            double blueAndGreen = -(blueItems + greenItems) > purpleItems ? purpleItems : -(blueItems + greenItems);
+                            targetStatisticsItem.RawItemCount += purpleItems - blueAndGreen;
                         }
                     }
                 }
@@ -280,7 +313,15 @@ internal sealed partial class CultivationService : ICultivationService
                 {
                     if (blueItems > 0)
                     {
-                        targetStatisticsItem.RawItemCount += blueItems + greenItems;
+                        if (greenItems > 0)
+                        {
+                            targetStatisticsItem.RawItemCount += blueItems + greenItems;
+                        }
+                        else
+                        {
+                            double green = -greenItems > blueItems ? blueItems : -greenItems;
+                            targetStatisticsItem.RawItemCount += blueItems - green;
+                        }
                     }
                     else
                     {
