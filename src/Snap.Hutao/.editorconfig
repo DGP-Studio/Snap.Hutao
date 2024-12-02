@@ -1,9 +1,15 @@
-[*]
+﻿[*]
+# General
 charset = utf-8
+end_of_line = crlf
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
 
 [*.cs]
 # General
-end_of_line = crlf
 indent_size = 4
 tab_width = 4
 
@@ -14,6 +20,7 @@ csharp_prefer_braces = true:silent
 csharp_prefer_simple_default_expression = false:suggestion
 csharp_prefer_simple_using_statement = false:suggestion
 csharp_prefer_static_local_function = false:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
 
 csharp_space_around_binary_operators = before_and_after
 
@@ -86,12 +93,7 @@ dotnet_style_prefer_inferred_tuple_names = true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
-dotnet_style_qualification_for_event = false:suggestion
-dotnet_style_qualification_for_field = false:suggestion
-dotnet_style_qualification_for_method = false:suggestion
-dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_readonly_field = true:suggestion
-dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
 
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
@@ -193,5 +195,3 @@ dotnet_diagnostic.SA1623.severity = none        # SA1623: Property summary docum
 dotnet_diagnostic.SA1629.severity = none        # SA1629: Documentation text should end with a period
 dotnet_diagnostic.SA1636.severity = none        # SA1636: File header copyright text should match
 dotnet_diagnostic.SA1642.severity = none        # SA1642: Constructor summary documentation should begin with standard text
-
-dotnet_diagnostic.VSTHRD111.severity = silent   # VSTHRD111: Use ConfigureAwait(bool)
