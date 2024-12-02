@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
-[SuppressMessage("", "SA1124")]
 internal abstract partial class ViewModel : ObservableObject, IViewModel
 {
     public bool IsInitialized { get; set => SetProperty(ref field, value); }

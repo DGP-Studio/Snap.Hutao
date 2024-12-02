@@ -15,7 +15,6 @@ using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-[SuppressMessage("", "SA1124")]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel

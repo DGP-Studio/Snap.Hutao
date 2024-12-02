@@ -12,7 +12,6 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]
-[SuppressMessage("", "CA2000")]
 internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 {
     public override async ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild)

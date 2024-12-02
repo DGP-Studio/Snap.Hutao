@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 [INotifyPropertyChanged]
-[SuppressMessage("", "SA1124")]
 internal sealed partial class TypedWishSummary : Wish
 {
     public string? TypeName { get; set; }
