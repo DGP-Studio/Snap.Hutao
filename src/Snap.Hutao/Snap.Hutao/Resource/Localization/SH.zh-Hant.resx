@@ -1817,6 +1817,27 @@
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
     <value>確定要刪除目前計劃嗎？</value>
   </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
+    <value>启示之花</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
+    <value>藏金之花</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
+    <value>还需 {0} 天</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
+    <value>世界 BOSS</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
+    <value>角色天賦素材</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeaponAscensionTitle" xml:space="preserve">
+    <value>武器突破素材</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
+    <value>周常 BOSS</value>
+  </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>即時便箋 Webhook URL 設定成功</value>
   </data>
@@ -2263,6 +2284,12 @@
   </data>
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
     <value>未集齊優先</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
+    <value>树脂预估</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
+    <value>世界等级</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>材料統計</value>
