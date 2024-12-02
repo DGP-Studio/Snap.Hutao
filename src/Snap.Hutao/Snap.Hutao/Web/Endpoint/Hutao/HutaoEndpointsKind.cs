@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Web.Endpoint.Hutao;
@@ -6,6 +6,7 @@ namespace Snap.Hutao.Web.Endpoint.Hutao;
 internal enum HutaoEndpointsKind
 {
     AlphaCN,
+    AlphaFJ,
     AlphaOS,
     Release,
 }

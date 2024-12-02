@@ -3,10 +3,11 @@
 
 namespace Snap.Hutao.Web.Endpoint.Hutao;
 
+// 福建
 [Injection(InjectAs.Singleton, typeof(IHutaoEndpoints), Key = HutaoEndpointsKind.AlphaCN)]
-internal sealed class HutaoEndpointsForAlphaCN : IHutaoEndpoints
+internal sealed class HutaoEndpointsForAlphaFJ : IHutaoEndpoints
 {
     string IHomaRootAccess.Root { get => "https://homa.snapgenshin.com"; }
 
-    string IInfrastructureRootAccess.Root { get => "https://alpha.snapgenshin.cn/cn"; }
+    string IInfrastructureRootAccess.Root { get => "https://alpha.snapgenshin.cn/fj"; }
 }

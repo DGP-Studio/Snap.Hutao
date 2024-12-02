@@ -1,4 +1,4 @@
-﻿<shuxc:ScopedPage
+<shuxc:ScopedPage
     x:Class="Snap.Hutao.UI.Xaml.View.Page.CultivationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -16,6 +16,7 @@
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -179,7 +180,7 @@
                 </ItemContainer>
             </DataTemplate>
 
-            <DataTemplate x:Key="StatisticsItemTemplate">
+            <DataTemplate x:Key="StatisticsItemTemplate" x:DataType="shvcu:StatisticsCultivateItem">
                 <ItemContainer Margin="0,0,0,16">
                     <ItemContainer.Resources>
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
@@ -393,6 +394,43 @@
                                     IsChecked="{Binding IncompleteFirst, Mode=TwoWay}"
                                     Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListIncompleteFirstLabel}"
                                     Visibility="{Binding ElementName=MaterialListPivot, Path=SelectedItem.Tag, Converter={StaticResource MaterialListSelectedItemIsStatisticsViewConverter}}"/>
+                                <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListResinStatisticsLabel}">
+                                    <AppBarButton.Flyout>
+                                        <Flyout Placement="BottomEdgeAlignedRight" ShouldConstrainToRootBounds="False">
+                                            <StackPanel DataContext="{Binding ResinStatistics}" Spacing="{ThemeResource SettingsCardSpacing}">
+                                                <Grid
+                                                    Padding="4"
+                                                    HorizontalAlignment="Stretch"
+                                                    ColumnSpacing="2">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Grid.Column="0"
+                                                        VerticalAlignment="Center"
+                                                        Text="{shuxm:ResourceString Name=ViewPageCultivationMaterialListWorldLevelTitle}"/>
+                                                    <shuxc:SizeRestrictedContentControl
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        AllowFocusOnInteraction="True">
+                                                        <ComboBox
+                                                            DisplayMemberPath="WorldLevel"
+                                                            ItemsSource="{Binding DropDistributions}"
+                                                            SelectedItem="{Binding SelectedDropDistribution, Mode=TwoWay}"/>
+                                                    </shuxc:SizeRestrictedContentControl>
+                                                </Grid>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfRevelation}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfWealth}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding TalentAscension}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding WeaponAscension}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding NormalBoss}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding WeeklyBoss}"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
                             </CommandBar>
                         </Pivot.RightHeader>
                         <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}">

@@ -59,6 +59,23 @@ internal sealed class Material : DisplayItem
         return IntrinsicFrozen.MaterialTypeDescriptions.Contains(TypeDescription);
     }
 
+    public bool IsResinItem()
+    {
+        // 摩拉 大英雄的经验
+        if (Id == 202U || Id == 104003U)
+        {
+            return true;
+        }
+
+        // 无类型 智识之冕
+        if (TypeDescription is null || Id == 104319U)
+        {
+            return false;
+        }
+
+        return IntrinsicFrozen.ResinMaterialTypeDescriptions.Contains(TypeDescription);
+    }
+
     public bool IsTodaysItem(bool treatSundayAsTrue = false)
     {
         // TODO: support different time zone

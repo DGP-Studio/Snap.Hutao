@@ -18,6 +18,8 @@ internal class DisplayItem
 
     public required string Name { get; init; }
 
+    public uint Rank { get; init; }
+
     public string? Description { get; init; }
 
     public string? TypeDescription { get; init; }
