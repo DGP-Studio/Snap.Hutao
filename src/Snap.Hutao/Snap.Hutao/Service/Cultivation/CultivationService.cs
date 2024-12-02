@@ -6,7 +6,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;

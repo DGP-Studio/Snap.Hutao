@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Graphics;
@@ -76,7 +76,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
 
     public HWND HWND { get; }
 
-    public void Dispose()
+    public unsafe void Dispose()
     {
         if (isDisposed)
         {
@@ -88,13 +88,18 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
         DestroyWindow(HWND);
         WindowTable.TryRemove(HWND, out _);
 
+        fixed (char* className = WindowClassName)
+        {
+            UnregisterClassW(className);
+        }
+
         GC.SuppressFinalize(this);
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnWindowProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam)
     {
-        if (!WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window))
+        if (!WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window) || XamlApplicationLifetime.Exiting)
         {
             return DefWindowProcW(hwnd, uMsg, wParam, lParam);
         }

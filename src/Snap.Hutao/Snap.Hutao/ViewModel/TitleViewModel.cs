@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -63,7 +63,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
         ShowUpdateLogWindowAfterUpdate();
-        NotifyIfDateFolderHasReparsePoint();
+        NotifyIfDataFolderHasReparsePoint();
         await DoCheckUpdateAsync().ConfigureAwait(false);
         await CheckProxyAndLoopbackAsync().ConfigureAwait(false);
         return true;
@@ -180,7 +180,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         return downloadSuccess;
     }
 
-    private void NotifyIfDateFolderHasReparsePoint()
+    private void NotifyIfDataFolderHasReparsePoint()
     {
         if (new DirectoryInfo(HutaoRuntime.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
         {

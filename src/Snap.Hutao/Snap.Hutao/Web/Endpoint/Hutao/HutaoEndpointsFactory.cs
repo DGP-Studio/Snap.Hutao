@@ -19,8 +19,10 @@ internal sealed partial class HutaoEndpointsFactory : IHutaoEndpointsFactory
 #elif DEBUG && FORCE_USE_RELEASE_ENDPOINT
         return serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.Release);
 #else
-        return Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.AlphaBuildUseCNPatchEndpoint, false)
-            ? serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.AlphaCN)
+        return Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.AlphaBuildUseCnPatchEndpoint, false)
+            ? Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.AlphaBuildUseFjPatchEndpoint, false)
+                ? serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.AlphaFJ)
+                : serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.AlphaCN)
             : serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.AlphaOS);
 #endif
     }

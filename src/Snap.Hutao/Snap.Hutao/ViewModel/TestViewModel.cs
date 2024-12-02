@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -151,7 +151,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     public bool AlphaBuildUseCNPatchEndpoint
     {
-        get => LocalSetting.Get(SettingKeys.AlphaBuildUseCNPatchEndpoint, false);
+        get => LocalSetting.Get(SettingKeys.AlphaBuildUseCnPatchEndpoint, false);
         set
         {
             if (IsViewDisposed)
@@ -159,7 +159,22 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 return;
             }
 
-            LocalSetting.Set(SettingKeys.AlphaBuildUseCNPatchEndpoint, value);
+            LocalSetting.Set(SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
+            OnPropertyChanged();
+        }
+    }
+
+    public bool AlphaBuildUseFJPatchEndpoint
+    {
+        get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
         }
     }
 

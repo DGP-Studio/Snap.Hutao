@@ -77,7 +77,8 @@ internal static class SettingKeys
     public const string OverridePhysicalDriverType = "OverridePhysicalDriverType";
     public const string PhysicalDriverIsAlwaysSolidState = "PhysicalDriverIsAlwaysSolidState";
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
-    public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
+    public const string AlphaBuildUseCnPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
+    public const string AlphaBuildUseFjPatchEndpoint = "AlphaBuildUseFJPatchEndpoint";
     #endregion
 
     #region Obsolete

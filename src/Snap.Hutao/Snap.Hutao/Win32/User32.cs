@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
@@ -321,6 +321,10 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL UnhookWindowsHookEx(HHOOK hhk);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL UnregisterClassW(PCWSTR lpClassName, [Optional] HINSTANCE hInstance);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
