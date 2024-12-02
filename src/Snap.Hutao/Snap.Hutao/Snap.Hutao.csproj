@@ -91,8 +91,6 @@
     <None Remove="BannedSymbols.txt" />
     <None Remove="CodeMetricsConfig.txt" />
     <None Remove="Resource\Icon\UI_IconSmall_EP.png" />
-    <None Remove="Resource\Icon\UI_Icon_RelicType1.png" />
-    <None Remove="Resource\Icon\UI_Icon_RelicType2.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType3.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType4.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType5.png" />
@@ -119,42 +117,14 @@
     <None Remove="Resource\ThirdParty\hoyolab_ic_launcher_foreground.webp" />
     <None Remove="Resource\ThirdParty\miyoushe_ic_launcher.png" />
     <None Remove="Resource\ThirdParty\Twitter.png" />
-    <None Remove="UI\Xaml\Control\AutoSuggestBox\AutoSuggestTokenBox.xaml" />
-    <None Remove="UI\Xaml\Control\Card\CardBlock.xaml" />
-    <None Remove="UI\Xaml\Control\Card\HorizontalCard.xaml" />
-    <None Remove="UI\Xaml\Control\Card\VerticalCard.xaml" />
-    <None Remove="UI\Xaml\Control\Elevation.xaml" />
-    <None Remove="UI\Xaml\Control\ItemIcon.xaml" />
-    <None Remove="UI\Xaml\Control\StandardView.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\Card.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\Color.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\ComboBox.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\Converter.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\CornerRadius.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\FlyoutStyle.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\FontStyle.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\Glyph.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\InfoBarOverride.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\ItemsPanelTemplate.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\NumericValue.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\PageOverride.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\PivotOverride.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\ScrollViewer.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\SettingsStyle.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\Thickness.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\TransitionCollection.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\Uri.xaml" />
-    <None Remove="UI\Xaml\Control\Theme\WindowOverride.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="Resource\BlurBackground.png" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
     <None Remove="Resource\GuideStaticResourceQualityComparison.png" />
     <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
-    <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
-    <None Remove="Resource\Icon\UI_Icon_Gift.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
@@ -174,36 +144,6 @@
     <None Remove="Resource\Navigation\WikiWeapon.png" />
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
-    <None Remove="UI\Xaml\View\Card\CalendarCard.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\LaunchGameInstallGameDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\UIGFExportDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\UIGFImportDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\UserMobileCaptchaDialog.xaml" />
-    <None Remove="UI\Xaml\View\Window\ScriptingWindow.xaml" />
-    <None Remove="UI\Xaml\View\Window\WebView2Window.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\AchievementArchiveCreateDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\AchievementImportDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\CultivateProjectDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\CultivatePromotionDeltaBatchDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\CultivatePromotionDeltaDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\DailyNoteNotificationDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\DailyNoteWebhookDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\GachaLogRefreshProgressDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\GachaLogUrlDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\GeetestCustomUrlDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\HutaoPassportLoginDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\HutaoPassportRegisterDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\HutaoPassportResetPasswordDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\HutaoPassportUnregisterDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\LaunchGameAccountNameDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\LaunchGameConfigurationFixDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\LaunchGamePackageConvertDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\ReconfirmDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\SpiralAbyssUploadRecordHomaNotLoginDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\UpdatePackageDownloadConfirmDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\UserDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\UserQRCodeDialog.xaml" />
-    <None Remove="UI\Xaml\View\Window\WebView2\CompactWebView2Window.xaml" />
   </ItemGroup>
 
   <!-- Analyzer Files -->
@@ -278,14 +218,10 @@
     <Content Include="Resource\Font\MiSans-Regular.ttf" />
     <Content Include="Resource\GuideStaticResourceQualityComparison.png" />
     <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
-    <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <Content Include="Resource\Icon\UI_IconSmall_EP.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
-    <Content Include="Resource\Icon\UI_Icon_Gift.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
-    <Content Include="Resource\Icon\UI_Icon_RelicType1.png" />
-    <Content Include="Resource\Icon\UI_Icon_RelicType2.png" />
     <Content Include="Resource\Icon\UI_Icon_RelicType3.png" />
     <Content Include="Resource\Icon\UI_Icon_RelicType4.png" />
     <Content Include="Resource\Icon\UI_Icon_RelicType5.png" />
@@ -405,80 +341,5 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Window\WebView2\CompactWebView2Window.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Card\CalendarCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Window\ScriptingWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Dialog\UserMobileCaptchaDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Dialog\LaunchGameInstallGameDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Dialog\UIGFExportDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Dialog\UIGFImportDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\Control\StandardView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-    <ItemGroup>
-    <Page Update="UI\Xaml\Control\Card\HorizontalCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\Control\Card\CardBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\Control\ItemIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\Control\Card\VerticalCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\Control\Elevation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Window\WebView2Window.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\Control\AutoSuggestBox\AutoSuggestTokenBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 </Project>
