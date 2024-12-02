@@ -4,12 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Visibility="{x:Bind Item.HasData, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <Grid
-        Padding="4"
-        ColumnSpacing="8"
-        Visibility="{x:Bind Item.HasData, Mode=OneWay}">
+    <Grid Padding="4" ColumnSpacing="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="96"/>
             <ColumnDefinition Width="64"/>

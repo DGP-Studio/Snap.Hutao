@@ -229,11 +229,7 @@ internal sealed partial class CultivationService : ICultivationService
 
     public async ValueTask<ConsumptionSaveResultKind> SaveConsumptionAsync(InputConsumption inputConsumption)
     {
-        if (inputConsumption is { Strategy: not ConsumptionSaveStrategyKind.OverwriteExisting, Items: [] })
-        {
-            return ConsumptionSaveResultKind.NoItem;
-        }
-
+        // No selected project
         if (!await EnsureCurrentProjectAsync().ConfigureAwait(false))
         {
             return ConsumptionSaveResultKind.NoProject;
@@ -243,12 +239,19 @@ internal sealed partial class CultivationService : ICultivationService
 
         await taskContext.SwitchToBackgroundAsync();
 
+        // PreserveExisting or CreateNewEntry, but no item
+        if (inputConsumption is { Strategy: not ConsumptionSaveStrategyKind.OverwriteExisting, Items: [] })
+        {
+            return ConsumptionSaveResultKind.NoItem;
+        }
+
+        // PreserveExisting or OverwriteExisting
         if (inputConsumption.Strategy is not ConsumptionSaveStrategyKind.CreateNewEntry)
         {
             // Check for existing entries
             List<CultivateEntry> entries = cultivationRepository.GetCultivateEntryListByProjectIdAndItemId(Projects.CurrentItem.InnerId, inputConsumption.ItemId);
 
-            if (entries is [_, ..])
+            if (entries.Count > 0)
             {
                 if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.PreserveExisting)
                 {
@@ -268,6 +271,13 @@ internal sealed partial class CultivationService : ICultivationService
                     {
                         return ConsumptionSaveResultKind.Removed;
                     }
+                }
+            }
+            else
+            {
+                if (inputConsumption.Items is [])
+                {
+                    return ConsumptionSaveResultKind.NoItem;
                 }
             }
         }
