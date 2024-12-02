@@ -9,4 +9,9 @@ internal sealed class HutaoEndpointsForAlphaCN : IHutaoEndpoints
     string IHomaRootAccess.Root { get => "https://homa.snapgenshin.com"; }
 
     string IInfrastructureRootAccess.Root { get => "https://alpha.snapgenshin.cn/cn"; }
+
+    public string PatchSnapHutao()
+    {
+        return $"{((IInfrastructureRootAccess)(this)).Root}/patch/alpha";
+    }
 }
