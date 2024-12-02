@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Snap.Hutao.UI.Xaml.View.Specialized.ResinStatisticsItemView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,26 +6,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="4" Visibility="{x:Bind Item.HasData, Mode=OneWay}">
+    <Grid
+        Padding="4"
+        ColumnSpacing="8"
+        Visibility="{x:Bind Item.HasData, Mode=OneWay}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="96"/>
+            <ColumnDefinition Width="64"/>
+            <ColumnDefinition Width="64"/>
+            <ColumnDefinition Width="96"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
 
         <TextBlock
-            Grid.RowSpan="3"
+            Grid.Column="0"
             VerticalAlignment="Center"
             Text="{x:Bind Item.Title, Mode=OneWay}"/>
 
         <StackPanel
-            Grid.Row="0"
             Grid.Column="1"
-            HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Spacing="2">
@@ -37,9 +35,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            HorizontalAlignment="Right"
+            Grid.Column="2"
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Spacing="2"
@@ -52,9 +48,7 @@
         </StackPanel>
 
         <TextBlock
-            Grid.Row="2"
-            Grid.Column="1"
-            HorizontalAlignment="Right"
+            Grid.Column="3"
             VerticalAlignment="Center"
             Text="{x:Bind Item.Days, Mode=OneWay}"/>
     </Grid>

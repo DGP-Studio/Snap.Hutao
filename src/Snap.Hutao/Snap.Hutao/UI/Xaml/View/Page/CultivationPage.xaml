@@ -1,4 +1,4 @@
-﻿<shuxc:ScopedPage
+<shuxc:ScopedPage
     x:Class="Snap.Hutao.UI.Xaml.View.Page.CultivationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -180,7 +180,7 @@
                 </ItemContainer>
             </DataTemplate>
 
-            <DataTemplate x:Key="StatisticsItemTemplate">
+            <DataTemplate x:Key="StatisticsItemTemplate" x:DataType="shvcu:StatisticsCultivateItem">
                 <ItemContainer Margin="0,0,0,16">
                     <ItemContainer.Resources>
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
@@ -394,7 +394,7 @@
                                     IsChecked="{Binding IncompleteFirst, Mode=TwoWay}"
                                     Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListIncompleteFirstLabel}"
                                     Visibility="{Binding ElementName=MaterialListPivot, Path=SelectedItem.Tag, Converter={StaticResource MaterialListSelectedItemIsStatisticsViewConverter}}"/>
-                                <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="体力预估">
+                                <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListResinStatisticsLabel}">
                                     <AppBarButton.Flyout>
                                         <Flyout Placement="BottomEdgeAlignedRight" ShouldConstrainToRootBounds="False">
                                             <StackPanel DataContext="{Binding ResinStatistics}" Spacing="{ThemeResource SettingsCardSpacing}">
@@ -409,7 +409,7 @@
                                                     <TextBlock
                                                         Grid.Column="0"
                                                         VerticalAlignment="Center"
-                                                        Text="世界等级"/>
+                                                        Text="{shuxm:ResourceString Name=ViewPageCultivationMaterialListWorldLevelTitle}"/>
                                                     <shuxc:SizeRestrictedContentControl
                                                         Grid.Column="1"
                                                         HorizontalAlignment="Right"
@@ -417,13 +417,13 @@
                                                         AllowFocusOnInteraction="True">
                                                         <ComboBox
                                                             DisplayMemberPath="WorldLevel"
-                                                            ItemsSource="{Binding WorldDropProabilities}"
-                                                            SelectedItem="{Binding SelectedWorldDropProability, Mode=TwoWay}"/>
+                                                            ItemsSource="{Binding DropDistributions}"
+                                                            SelectedItem="{Binding SelectedDropDistribution, Mode=TwoWay}"/>
                                                     </shuxc:SizeRestrictedContentControl>
                                                 </Grid>
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfRevelation}"/>
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfWealth}"/>
-                                                <shuxvs:ResinStatisticsItemView Item="{Binding TalentBooks}"/>
+                                                <shuxvs:ResinStatisticsItemView Item="{Binding TalentAscension}"/>
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding WeaponAscension}"/>
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding NormalBoss}"/>
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding WeeklyBoss}"/>

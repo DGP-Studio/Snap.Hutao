@@ -7,7 +7,7 @@ internal enum ResinStatisticsItemKind
 {
     BlossomOfWealth,
     BlossomOfRevelation,
-    TalentBooks,
+    TalentAscension,
     WeaponAscension,
     NormalBoss,
     WeeklyBoss,

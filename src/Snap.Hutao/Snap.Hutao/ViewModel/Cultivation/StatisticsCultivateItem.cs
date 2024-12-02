@@ -17,11 +17,11 @@ internal sealed class StatisticsCultivateItem
 
     public int Count { get; set; }
 
-    public int TotalCount { get; set; }
+    public int Current { get; set; }
 
-    public bool IsFinished { get => TotalCount >= Count; }
+    public bool IsFinished { get => Current >= Count; }
 
-    public string CountFormatted { get => $"{TotalCount}/{Count}"; }
+    public string CountFormatted { get => $"{Current}/{Count}"; }
 
     public bool IsToday { get => Inner.IsTodaysItem(true); }
 }

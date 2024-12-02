@@ -1,7 +1,8 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using JetBrains.Annotations;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Item;
 
@@ -9,21 +10,24 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed partial class ResinStatisticsItem : ObservableObject
 {
-    private readonly bool isCondensedResinAvailable;
+    private readonly bool canUseCondensedResin;
     private readonly ResinStatisticsItemKind kind;
 
-    public ResinStatisticsItem(string title, ResinStatisticsItemKind kind, int resinPerBlossom, bool isCondensedResinAvailable)
+    public ResinStatisticsItem(string title, ResinStatisticsItemKind kind, int resinPerBlossom, bool canUseCondensedResin)
     {
         this.kind = kind;
-        this.isCondensedResinAvailable = isCondensedResinAvailable;
+        this.canUseCondensedResin = canUseCondensedResin;
         Title = title;
         ResinPerBlossom = resinPerBlossom;
-        SelectedWorldDropProability = MaterialDropDistribution.Nine;
+        SelectedDropDistribution = MaterialDropDistribution.Nine;
     }
 
     public string Title { get; }
 
-    public MaterialDropDistribution SelectedWorldDropProability
+    public int ResinPerBlossom { get; }
+
+    [AllowNull]
+    public MaterialDropDistribution SelectedDropDistribution
     {
         get;
         set
@@ -37,10 +41,9 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
         }
     }
 
-    public int ResinPerBlossom { get; }
-
     public double RawItemCount { get; set; }
 
+    [UsedImplicitly]
     public bool HasData
     {
         get => RawItemCount > 0D;
@@ -53,12 +56,12 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
 
     public int? CondensedResin
     {
-        get => isCondensedResinAvailable ? TotalResin / 40 : null;
+        get => canUseCondensedResin ? (int)Math.Ceiling(TotalResin / 40D) : null;
     }
 
     public string Days
     {
-        get => $"还需 {TotalResin / 200D:F1} 天";
+        get => SH.FormatViewModelCultivationResinStatisticsItemRemainDays((int)Math.Ceiling(TotalResin / (1440D / 8)));
     }
 
     internal int RawTimes
@@ -67,12 +70,12 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
         {
             double expectation = kind switch
             {
-                ResinStatisticsItemKind.BlossomOfWealth => SelectedWorldDropProability.BlossomOfWealth,
-                ResinStatisticsItemKind.BlossomOfRevelation => SelectedWorldDropProability.BlossomOfRevelation,
-                ResinStatisticsItemKind.TalentBooks => SelectedWorldDropProability.TalentBooks,
-                ResinStatisticsItemKind.WeaponAscension => SelectedWorldDropProability.WeaponAscension,
-                ResinStatisticsItemKind.NormalBoss => SelectedWorldDropProability.NormalBoss,
-                ResinStatisticsItemKind.WeeklyBoss => SelectedWorldDropProability.WeeklyBoss,
+                ResinStatisticsItemKind.BlossomOfWealth => SelectedDropDistribution.BlossomOfWealth,
+                ResinStatisticsItemKind.BlossomOfRevelation => SelectedDropDistribution.BlossomOfRevelation,
+                ResinStatisticsItemKind.TalentAscension => SelectedDropDistribution.TalentBooks,
+                ResinStatisticsItemKind.WeaponAscension => SelectedDropDistribution.WeaponAscension,
+                ResinStatisticsItemKind.NormalBoss => SelectedDropDistribution.NormalBoss,
+                ResinStatisticsItemKind.WeeklyBoss => SelectedDropDistribution.WeeklyBoss,
                 _ => throw HutaoException.NotSupported(),
             };
 

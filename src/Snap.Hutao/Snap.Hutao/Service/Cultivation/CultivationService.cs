@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
@@ -13,6 +13,7 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -107,7 +108,7 @@ internal sealed partial class CultivationService : ICultivationService
         {
             if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
             {
-                existedItem.TotalCount += (int)inventoryItem.Count;
+                existedItem.Current += (int)inventoryItem.Count;
             }
         }
 
@@ -134,21 +135,22 @@ internal sealed partial class CultivationService : ICultivationService
                     continue;
                 }
 
-                double times = item.Count - item.TotalCount;
+                double times = item.Count - item.Current;
                 statistics.BlossomOfWealth.RawItemCount += times;
                 continue;
             }
 
-            // 技能书
+            // 经验
             if (rank is 100U)
             {
                 StatisticsCultivateItem item = items.Single();
+                Debug.Assert(item.Inner.RankLevel is QualityType.QUALITY_PURPLE, "经验书必须是紫色品质");
                 if (item.IsFinished)
                 {
                     continue;
                 }
 
-                double times = (item.Count - item.TotalCount) * 20000D;
+                double times = (item.Count - item.Current) * 20000D;
                 statistics.BlossomOfRevelation.RawItemCount += times;
                 continue;
             }
@@ -163,18 +165,13 @@ internal sealed partial class CultivationService : ICultivationService
                         continue;
                     }
 
-                    double times = item.Count - item.TotalCount;
-                    switch (item.Inner.RankLevel)
+                    double times = item.Count - item.Current;
+                    _ = item.Inner.RankLevel switch
                     {
-                        case QualityType.QUALITY_PURPLE:
-                            statistics.NormalBoss.RawItemCount += times;
-                            continue;
-                        case QualityType.QUALITY_ORANGE:
-                            statistics.WeeklyBoss.RawItemCount += times;
-                            continue;
-                        default:
-                            throw HutaoException.NotSupported();
-                    }
+                        QualityType.QUALITY_PURPLE => statistics.NormalBoss.RawItemCount += times,
+                        QualityType.QUALITY_ORANGE => statistics.WeeklyBoss.RawItemCount += times,
+                        _ => throw HutaoException.NotSupported(),
+                    };
                 }
 
                 continue;
@@ -187,32 +184,25 @@ internal sealed partial class CultivationService : ICultivationService
             double purpleItems = 0D;
             double orangeItems = 0D;
 
+            // ABCDE -> B
             ResinStatisticsItem targetStatisticsItem = ((rank / 1000) % 10) switch
             {
-                3 => statistics.TalentBooks,
+                3 => statistics.TalentAscension,
                 5 => statistics.WeaponAscension,
                 _ => throw HutaoException.NotSupported(),
             };
 
             foreach (StatisticsCultivateItem item in items)
             {
-                switch (item.Inner.RankLevel)
+                double times = item.Count - item.Current;
+                _ = item.Inner.RankLevel switch
                 {
-                    case QualityType.QUALITY_GREEN:
-                        greenItems += item.Count - item.TotalCount;
-                        continue;
-                    case QualityType.QUALITY_BLUE:
-                        blueItems += item.Count - item.TotalCount;
-                        continue;
-                    case QualityType.QUALITY_PURPLE:
-                        purpleItems += item.Count - item.TotalCount;
-                        continue;
-                    case QualityType.QUALITY_ORANGE:
-                        orangeItems += item.Count - item.TotalCount;
-                        continue;
-                    default:
-                        throw HutaoException.NotSupported();
-                }
+                    QualityType.QUALITY_GREEN => greenItems += times,
+                    QualityType.QUALITY_BLUE => blueItems += times,
+                    QualityType.QUALITY_PURPLE => purpleItems += times,
+                    QualityType.QUALITY_ORANGE => orangeItems += times,
+                    _ => throw HutaoException.NotSupported(),
+                };
             }
 
             targetStatisticsItem.RawItemCount += AlchemyCrafting.UnWeighted(orangeItems, purpleItems, blueItems, greenItems);
