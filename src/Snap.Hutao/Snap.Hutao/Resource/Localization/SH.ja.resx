@@ -969,7 +969,7 @@
     <value>UIGF ファイルの言語：{0} と胡桃の設定言語：{1} と一致しません。言語を切り替えて再度試してください</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
-    <value>名称为 {0} 的账号已存在</value>
+    <value>名前は {0} のアカウントは既に存在します</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>一致するアカウントが複数見つかりました。重複しているアカウントを削除してください。</value>
@@ -1516,22 +1516,22 @@
     <value>設定ファイルを修復中</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
-    <value>选择的安装路径不存在且无法创建</value>
+    <value>選択されたパスは存在せず且つ作成できません</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
-    <value>选择的安装路径存在文件或文件夹</value>
+    <value>選択されたパスには、ファイルまたはフォルダーが存在しています</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
-    <value>选择的安装路径无效</value>
+    <value>選択されたパスは無効です</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
-    <value>未选择语音包</value>
+    <value>音声拡張パックが選択されていません</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
-    <value>未选择游戏区服</value>
+    <value>具体的なサーバーが選択されていません</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
-    <value>选择安装路径</value>
+    <value>インストールパスの選択</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>切り換えに時間がかかる場合があります、アプリを閉じないでください</value>
@@ -1864,7 +1864,7 @@
     <value>{0} 日までに UP 終了</value>
   </data>
   <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
-    <value>累计 UP 次数：{0}</value>
+    <value>累積 UP 回数：{0}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
     <value>前回 UP 時間: {0:yyyy.MM.dd}</value>
