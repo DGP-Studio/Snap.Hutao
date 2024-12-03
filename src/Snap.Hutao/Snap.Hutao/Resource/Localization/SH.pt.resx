@@ -2667,7 +2667,7 @@
     <value>Recursos avançados</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>Atalho para a taxa de resolução</value>
+    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>Resolução da tela</value>
