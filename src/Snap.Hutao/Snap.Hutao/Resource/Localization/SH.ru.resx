@@ -2667,7 +2667,7 @@
     <value>启动高级功能</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>快速切换到指定的分辨率</value>
+    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>分辨率</value>
