@@ -398,10 +398,7 @@
                                 <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListResinStatisticsLabel}">
                                     <AppBarButton.Flyout>
                                         <Flyout Placement="BottomEdgeAlignedRight" ShouldConstrainToRootBounds="False">
-                                            <StackPanel
-                                                shuxcp:PanelHelper.AreChildrenDataRows="True"
-                                                DataContext="{Binding ResinStatistics}"
-                                                Spacing="{ThemeResource SettingsCardSpacing}">
+                                            <shuxcp:DataRowStackPanel DataContext="{Binding ResinStatistics}" Spacing="{ThemeResource SettingsCardSpacing}">
                                                 <Grid
                                                     Padding="4"
                                                     HorizontalAlignment="Stretch"
@@ -431,7 +428,7 @@
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding WeaponAscension}"/>
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding NormalBoss}"/>
                                                 <shuxvs:ResinStatisticsItemView Item="{Binding WeeklyBoss}"/>
-                                            </StackPanel>
+                                            </shuxcp:DataRowStackPanel>
                                         </Flyout>
                                     </AppBarButton.Flyout>
                                 </AppBarButton>

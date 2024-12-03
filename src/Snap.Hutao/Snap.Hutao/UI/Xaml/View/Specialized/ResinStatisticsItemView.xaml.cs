@@ -28,7 +28,7 @@ internal sealed partial class ResinStatisticsItemView : UserControl, IDataRow
                 .GroupBy(element => Grid.GetColumn((FrameworkElement)element))
                 .Select(group => group.MaxBy(a =>
                 {
-                    a.Measure(InfiniteSize);
+                    //a.Measure(InfiniteSize);
                     return a.DesiredSize.Width;
                 }))
                 .Select(a => a.DesiredSize.Width)
