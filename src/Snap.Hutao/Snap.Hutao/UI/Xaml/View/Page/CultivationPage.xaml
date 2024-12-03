@@ -14,6 +14,7 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
@@ -397,7 +398,10 @@
                                 <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListResinStatisticsLabel}">
                                     <AppBarButton.Flyout>
                                         <Flyout Placement="BottomEdgeAlignedRight" ShouldConstrainToRootBounds="False">
-                                            <StackPanel DataContext="{Binding ResinStatistics}" Spacing="{ThemeResource SettingsCardSpacing}">
+                                            <StackPanel
+                                                shuxcp:PanelHelper.AreChildrenDataRows="True"
+                                                DataContext="{Binding ResinStatistics}"
+                                                Spacing="{ThemeResource SettingsCardSpacing}">
                                                 <Grid
                                                     Padding="4"
                                                     HorizontalAlignment="Stretch"

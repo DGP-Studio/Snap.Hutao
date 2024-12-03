@@ -7,12 +7,15 @@
     Visibility="{x:Bind Item.HasData, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <Grid Padding="4" ColumnSpacing="8">
+    <Grid
+        x:Name="RootGrid"
+        Padding="4"
+        ColumnSpacing="8">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="96"/>
-            <ColumnDefinition Width="64"/>
-            <ColumnDefinition Width="64"/>
-            <ColumnDefinition Width="96"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock
