@@ -46,6 +46,42 @@ internal sealed class ResinStatistics
 
     public ResinStatisticsItem WeeklyBoss { get; } = new(SH.ViewModelCultivationResinStatisticsWeeklyBossTitle, ResinStatisticsItemKind.WeeklyBoss, 60, false);
 
+    public IEnumerable<ResinStatisticsItem> ItemsSource
+    {
+        get
+        {
+            if (BlossomOfWealth.HasData)
+            {
+                yield return BlossomOfWealth;
+            }
+
+            if (BlossomOfRevelation.HasData)
+            {
+                yield return BlossomOfRevelation;
+            }
+
+            if (TalentAscension.HasData)
+            {
+                yield return TalentAscension;
+            }
+
+            if (WeaponAscension.HasData)
+            {
+                yield return WeaponAscension;
+            }
+
+            if (NormalBoss.HasData)
+            {
+                yield return NormalBoss;
+            }
+
+            if (WeeklyBoss.HasData)
+            {
+                yield return WeeklyBoss;
+            }
+        }
+    }
+
     public void RefreshBlossomOfWealth()
     {
         BlossomOfWealth.MiscMoraEarned = BlossomOfRevelation.Mora +

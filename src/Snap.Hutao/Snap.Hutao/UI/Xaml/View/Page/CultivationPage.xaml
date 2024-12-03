@@ -14,10 +14,9 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
-    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
+    xmlns:shuxcpd="using:Snap.Hutao.UI.Xaml.Control.Panel.DataTable"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -397,8 +396,8 @@
                                     Visibility="{Binding ElementName=MaterialListPivot, Path=SelectedItem.Tag, Converter={StaticResource MaterialListSelectedItemIsStatisticsViewConverter}}"/>
                                 <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListResinStatisticsLabel}">
                                     <AppBarButton.Flyout>
-                                        <Flyout Placement="BottomEdgeAlignedRight" ShouldConstrainToRootBounds="False">
-                                            <shuxcp:DataRowStackPanel DataContext="{Binding ResinStatistics}" Spacing="{ThemeResource SettingsCardSpacing}">
+                                        <Flyout Placement="BottomEdgeAlignedRight">
+                                            <StackPanel DataContext="{Binding ResinStatistics}">
                                                 <Grid
                                                     Padding="4"
                                                     HorizontalAlignment="Stretch"
@@ -422,13 +421,57 @@
                                                             SelectedItem="{Binding SelectedDropDistribution, Mode=TwoWay}"/>
                                                     </shuxc:SizeRestrictedContentControl>
                                                 </Grid>
-                                                <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfRevelation}"/>
-                                                <shuxvs:ResinStatisticsItemView Item="{Binding BlossomOfWealth}"/>
-                                                <shuxvs:ResinStatisticsItemView Item="{Binding TalentAscension}"/>
-                                                <shuxvs:ResinStatisticsItemView Item="{Binding WeaponAscension}"/>
-                                                <shuxvs:ResinStatisticsItemView Item="{Binding NormalBoss}"/>
-                                                <shuxvs:ResinStatisticsItemView Item="{Binding WeeklyBoss}"/>
-                                            </shuxcp:DataRowStackPanel>
+                                                <cwcont:HeaderedItemsControl ItemsSource="{Binding ItemsSource}">
+                                                    <cwcont:HeaderedItemsControl.Header>
+                                                        <shuxcpd:DataTable ColumnSpacing="8">
+                                                            <shuxcpd:DataColumn CanResize="False" Content="类型"/>
+                                                            <shuxcpd:DataColumn CanResize="False" Content="脆弱树脂"/>
+                                                            <shuxcpd:DataColumn CanResize="False" Content="浓缩树脂"/>
+                                                            <shuxcpd:DataColumn CanResize="False" Content="等效天数"/>
+                                                            <shuxcpd:DataColumn/>
+                                                        </shuxcpd:DataTable>
+                                                    </cwcont:HeaderedItemsControl.Header>
+                                                    <cwcont:HeaderedItemsControl.ItemTemplate>
+                                                        <DataTemplate x:DataType="shvcu:ResinStatisticsItem">
+                                                            <shuxcpd:DataRow>
+                                                                <TextBlock
+                                                                    Margin="4,0,0,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="{Binding Title, Mode=OneWay}"/>
+
+                                                                <StackPanel
+                                                                    VerticalAlignment="Center"
+                                                                    Orientation="Horizontal"
+                                                                    Spacing="2">
+                                                                    <BitmapIcon
+                                                                        Width="20"
+                                                                        ShowAsMonochrome="False"
+                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_210.png"/>
+                                                                    <TextBlock Text="{Binding TotalResin, Mode=OneWay}"/>
+                                                                </StackPanel>
+
+                                                                <StackPanel
+                                                                    VerticalAlignment="Center"
+                                                                    Orientation="Horizontal"
+                                                                    Spacing="2">
+                                                                    <BitmapIcon
+                                                                        Width="20"
+                                                                        ShowAsMonochrome="False"
+                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_211.png"/>
+                                                                    <TextBlock Text="{Binding CondensedResin, Mode=OneWay}"/>
+                                                                </StackPanel>
+
+                                                                <TextBlock
+                                                                    Margin="4,0,0,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="{Binding Days, Mode=OneWay}"/>
+
+                                                                <Border/>
+                                                            </shuxcpd:DataRow>
+                                                        </DataTemplate>
+                                                    </cwcont:HeaderedItemsControl.ItemTemplate>
+                                                </cwcont:HeaderedItemsControl>
+                                            </StackPanel>
                                         </Flyout>
                                     </AppBarButton.Flyout>
                                 </AppBarButton>
