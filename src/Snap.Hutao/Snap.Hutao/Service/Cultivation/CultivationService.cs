@@ -207,6 +207,7 @@ internal sealed partial class CultivationService : ICultivationService
             targetStatisticsItem.RawItemCount += AlchemyCrafting.UnWeighted(orangeItems, purpleItems, blueItems, greenItems);
         }
 
+        statistics.RefreshBlossomOfWealth();
         return statistics;
     }
 

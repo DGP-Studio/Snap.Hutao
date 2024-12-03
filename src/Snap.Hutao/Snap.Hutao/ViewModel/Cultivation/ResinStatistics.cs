@@ -23,12 +23,14 @@ internal sealed class ResinStatistics
         set
         {
             field = value;
-            BlossomOfWealth.SelectedDropDistribution = value;
             BlossomOfRevelation.SelectedDropDistribution = value;
             TalentAscension.SelectedDropDistribution = value;
             WeaponAscension.SelectedDropDistribution = value;
             NormalBoss.SelectedDropDistribution = value;
             WeeklyBoss.SelectedDropDistribution = value;
+
+            RefreshBlossomOfWealth();
+            BlossomOfWealth.SelectedDropDistribution = value;
         }
     }
 
@@ -43,4 +45,13 @@ internal sealed class ResinStatistics
     public ResinStatisticsItem NormalBoss { get; } = new(SH.ViewModelCultivationResinStatisticsNormalBossTitle, ResinStatisticsItemKind.NormalBoss, 40, false);
 
     public ResinStatisticsItem WeeklyBoss { get; } = new(SH.ViewModelCultivationResinStatisticsWeeklyBossTitle, ResinStatisticsItemKind.WeeklyBoss, 60, false);
+
+    public void RefreshBlossomOfWealth()
+    {
+        BlossomOfWealth.MiscMoraEarned = BlossomOfRevelation.Mora +
+            TalentAscension.Mora +
+            WeaponAscension.Mora +
+            NormalBoss.Mora +
+            WeeklyBoss.Mora;
+    }
 }

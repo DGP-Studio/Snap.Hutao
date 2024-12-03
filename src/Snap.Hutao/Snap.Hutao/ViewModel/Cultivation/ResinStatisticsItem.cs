@@ -43,10 +43,15 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
 
     public double RawItemCount { get; set; }
 
+    /// <summary>
+    /// ONLY BlossomOfWealth has value.
+    /// </summary>
+    public double MiscMoraEarned { get; set; }
+
     [UsedImplicitly]
     public bool HasData
     {
-        get => RawItemCount > 0D;
+        get => ItemCount > 0D;
     }
 
     public int TotalResin
@@ -79,7 +84,34 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
                 _ => throw HutaoException.NotSupported(),
             };
 
-            return (int)Math.Ceiling(RawItemCount / expectation);
+            return (int)Math.Ceiling(ItemCount / expectation);
         }
+    }
+
+    internal double Mora
+    {
+        get
+        {
+            if (kind is ResinStatisticsItemKind.BlossomOfWealth)
+            {
+                throw HutaoException.NotSupported();
+            }
+
+            double expectation = kind switch
+            {
+                ResinStatisticsItemKind.TalentAscension => SelectedDropDistribution.TalentBooksMora,
+                ResinStatisticsItemKind.WeaponAscension => SelectedDropDistribution.WeaponAscensionMora,
+                ResinStatisticsItemKind.NormalBoss => SelectedDropDistribution.NormalBossMora,
+                ResinStatisticsItemKind.WeeklyBoss => SelectedDropDistribution.WeeklyBossMora,
+                _ => 0D,
+            };
+
+            return (RawTimes * expectation) + (TotalResin * MaterialDropDistribution.MoraPerResin);
+        }
+    }
+
+    internal double ItemCount
+    {
+        get => RawItemCount - MiscMoraEarned;
     }
 }
