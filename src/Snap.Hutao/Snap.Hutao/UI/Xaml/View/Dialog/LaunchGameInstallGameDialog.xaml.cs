@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -19,7 +19,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("English", typeof(bool))]
 [DependencyProperty("Japanese", typeof(bool))]
 [DependencyProperty("Korean", typeof(bool))]
-[DependencyProperty("KnownSchemes", typeof(IEnumerable<LaunchScheme>))]
+[DependencyProperty("KnownSchemes", typeof(IList<LaunchScheme>))]
 [DependencyProperty("SelectedScheme", typeof(LaunchScheme))]
 [DependencyProperty("GameDirectory", typeof(string), default(string), nameof(OnGameDirectoryChanged))]
 [DependencyProperty("IsParallelSupported", typeof(bool), true)]
@@ -29,7 +29,7 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
 
-    public async ValueTask<ValueResult<bool, GameInstallOptions>> GetGameFileSystemAsync()
+    public async ValueTask<ValueResult<bool, GameInstallOptions>> GetGameInstallOptionsAsync()
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         if (result is not ContentDialogResult.Primary)
@@ -41,38 +41,50 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
         if (string.IsNullOrWhiteSpace(GameDirectory))
         {
-            infoBarService.Error("安装路径未选择");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryInvalid);
+            return new(false, default!);
+        }
+
+        Directory.CreateDirectory(GameDirectory);
+        if (!Directory.Exists(GameDirectory))
+        {
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryCreationFailed);
+            return new(false, default!);
+        }
+
+        if (Directory.EnumerateFileSystemEntries(GameDirectory).Any())
+        {
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry);
             return new(false, default!);
         }
 
         if (SelectedScheme is null)
         {
-            infoBarService.Error("游戏区服未选择");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameNoSchemeSelected);
             return new(false, default!);
         }
 
         if (!Chinese && !English && !Japanese && !Korean)
         {
-            infoBarService.Error("语音包未选择");
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameNoAudioPackageSelected);
             return new(false, default!);
         }
 
         GameAudioSystem gameAudioSystem = new(Chinese, English, Japanese, Korean);
         string gamePath = Path.Combine(GameDirectory, SelectedScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName);
-        return new(true, new(new(gamePath, gameAudioSystem), SelectedScheme));
+        return new(true, new(GameFileSystem.CreateForPackageOperation(gamePath, gameAudioSystem), SelectedScheme));
     }
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         // TODO: refine infobar title
-        LaunchGameInstallGameDialog dialog = (LaunchGameInstallGameDialog)sender;
-        dialog.IsParallelSupported = PhysicalDriver.DangerousGetIsSolidState((string)args.NewValue);
+        ((LaunchGameInstallGameDialog)sender).IsParallelSupported = PhysicalDriver.DangerousGetIsSolidState((string)args.NewValue);
     }
 
     [Command("PickGameDirectoryCommand")]
     private void PickGameDirectory()
     {
-        (bool isPickerOk, string gameDirectory) = fileSystemPickerInteraction.PickFolder("选择安装路径");
+        (bool isPickerOk, string gameDirectory) = fileSystemPickerInteraction.PickFolder(SH.ViewDialogLaunchGameInstallGamePickDirectoryTitle);
 
         if (isPickerOk)
         {

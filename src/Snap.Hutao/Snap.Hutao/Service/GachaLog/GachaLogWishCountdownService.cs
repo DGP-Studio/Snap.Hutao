@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
@@ -65,18 +65,37 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             {
                 foreach (uint avatarId in gachaEvent.UpOrangeList)
                 {
-                    if (!AvatarIds.IsStandardWish(avatarId) && ids.Add(avatarId))
+                    if (!AvatarIds.IsStandardWish(avatarId))
                     {
-                        orangeAvatarCountdowns.Insert(0, new(context.GetAvatar(avatarId).ToItem<Item>(), gachaEvent));
+                        Countdown countdown;
+                        if (ids.Add(avatarId))
+                        {
+                            countdown = new(context.GetAvatar(avatarId).ToItem<Item>());
+                            orangeAvatarCountdowns.Insert(0, countdown);
+                        }
+                        else
+                        {
+                            countdown = orangeAvatarCountdowns.Single(c => c.Item.Id == avatarId);
+                        }
+
+                        countdown.Histories.Add(new(gachaEvent));
                     }
                 }
 
                 foreach (uint avatarId in gachaEvent.UpPurpleList)
                 {
+                    Countdown countdown;
                     if (ids.Add(avatarId))
                     {
-                        purpleAvatarCountdowns.Insert(0, new(context.GetAvatar(avatarId).ToItem<Item>(), gachaEvent));
+                        countdown = new(context.GetAvatar(avatarId).ToItem<Item>());
+                        purpleAvatarCountdowns.Insert(0, countdown);
                     }
+                    else
+                    {
+                        countdown = purpleAvatarCountdowns.Single(c => c.Item.Id == avatarId);
+                    }
+
+                    countdown.Histories.Add(new(gachaEvent));
                 }
 
                 continue;
@@ -86,18 +105,37 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             {
                 foreach (uint weaponId in gachaEvent.UpOrangeList)
                 {
-                    if (!WeaponIds.IsStandardWish(weaponId) && ids.Add(weaponId))
+                    if (!WeaponIds.IsStandardWish(weaponId))
                     {
-                        orangeWeaponCountdowns.Insert(0, new(context.GetWeapon(weaponId).ToItem<Item>(), gachaEvent));
+                        Countdown countdown;
+                        if (ids.Add(weaponId))
+                        {
+                            countdown = new(context.GetWeapon(weaponId).ToItem<Item>());
+                            orangeWeaponCountdowns.Insert(0, countdown);
+                        }
+                        else
+                        {
+                            countdown = orangeWeaponCountdowns.Single(c => c.Item.Id == weaponId);
+                        }
+
+                        countdown.Histories.Add(new(gachaEvent));
                     }
                 }
 
                 foreach (uint weaponId in gachaEvent.UpPurpleList)
                 {
+                    Countdown countdown;
                     if (ids.Add(weaponId))
                     {
-                        purpleWeaponCountdowns.Insert(0, new(context.GetWeapon(weaponId).ToItem<Item>(), gachaEvent));
+                        countdown = new(context.GetWeapon(weaponId).ToItem<Item>());
+                        purpleWeaponCountdowns.Insert(0, countdown);
                     }
+                    else
+                    {
+                        countdown = purpleWeaponCountdowns.Single(c => c.Item.Id == weaponId);
+                    }
+
+                    countdown.Histories.Add(new(gachaEvent));
                 }
 
                 continue;
@@ -107,38 +145,77 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             {
                 foreach (uint itemId in gachaEvent.UpOrangeList)
                 {
-                    if (!(AvatarIds.IsStandardWish(itemId) || WeaponIds.IsStandardWish(itemId)) && ids.Add(itemId))
+                    if (!(AvatarIds.IsStandardWish(itemId) || WeaponIds.IsStandardWish(itemId)))
                     {
+                        Countdown countdown;
                         switch (itemId.StringLength())
                         {
                             case 8U:
-                                orangeAvatarCountdowns.Insert(0, new(context.GetAvatar(itemId).ToItem<Item>(), gachaEvent));
+                                if (ids.Add(itemId))
+                                {
+                                    countdown = new(context.GetAvatar(itemId).ToItem<Item>());
+                                    orangeAvatarCountdowns.Insert(0, countdown);
+                                }
+                                else
+                                {
+                                    countdown = orangeAvatarCountdowns.Single(c => c.Item.Id == itemId);
+                                }
+
                                 break;
                             case 5U:
-                                orangeWeaponCountdowns.Insert(0, new(context.GetWeapon(itemId).ToItem<Item>(), gachaEvent));
+                                if (ids.Add(itemId))
+                                {
+                                    countdown = new(context.GetWeapon(itemId).ToItem<Item>());
+                                    orangeWeaponCountdowns.Insert(0, countdown);
+                                }
+                                else
+                                {
+                                    countdown = orangeWeaponCountdowns.Single(c => c.Item.Id == itemId);
+                                }
+
                                 break;
                             default:
                                 throw HutaoException.NotSupported();
                         }
+
+                        countdown.Histories.Add(new(gachaEvent));
                     }
                 }
 
                 foreach (uint itemId in gachaEvent.UpPurpleList)
                 {
-                    if (ids.Add(itemId))
+                    Countdown countdown;
+                    switch (itemId.StringLength())
                     {
-                        switch (itemId.StringLength())
-                        {
-                            case 8U:
-                                purpleAvatarCountdowns.Insert(0, new(context.GetAvatar(itemId).ToItem<Item>(), gachaEvent));
-                                break;
-                            case 5U:
-                                purpleWeaponCountdowns.Insert(0, new(context.GetWeapon(itemId).ToItem<Item>(), gachaEvent));
-                                break;
-                            default:
-                                throw HutaoException.NotSupported();
-                        }
+                        case 8U:
+                            if (ids.Add(itemId))
+                            {
+                                countdown = new(context.GetAvatar(itemId).ToItem<Item>());
+                                purpleAvatarCountdowns.Insert(0, countdown);
+                            }
+                            else
+                            {
+                                countdown = purpleAvatarCountdowns.Single(c => c.Item.Id == itemId);
+                            }
+
+                            break;
+                        case 5U:
+                            if (ids.Add(itemId))
+                            {
+                                countdown = new(context.GetWeapon(itemId).ToItem<Item>());
+                                purpleWeaponCountdowns.Insert(0, countdown);
+                            }
+                            else
+                            {
+                                countdown = purpleWeaponCountdowns.Single(c => c.Item.Id == itemId);
+                            }
+
+                            break;
+                        default:
+                            throw HutaoException.NotSupported();
                     }
+
+                    countdown.Histories.Add(new(gachaEvent));
                 }
             }
         }

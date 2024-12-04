@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
@@ -28,13 +28,8 @@ internal sealed partial class GachaLogService : IGachaLogService
     private readonly ITaskContext taskContext;
 
     private GachaLogServiceMetadataContext context;
-    private AdvancedDbCollectionView<GachaArchive>? archives;
 
-    public AdvancedDbCollectionView<GachaArchive>? Archives
-    {
-        get => archives;
-        private set => archives = value;
-    }
+    public AdvancedDbCollectionView<GachaArchive>? Archives { get; private set; }
 
     public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
     {
@@ -100,7 +95,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
     public async ValueTask RemoveArchiveAsync(GachaArchive archive)
     {
-        ArgumentNullException.ThrowIfNull(archives);
+        ArgumentNullException.ThrowIfNull(Archives);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
@@ -108,7 +103,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archives.Remove(archive);
+        Archives.Remove(archive);
     }
 
     public async ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default)

@@ -12,27 +12,24 @@ using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Response;
 using System.Buffers;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Security.Cryptography;
-using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterType.SophonChunks)]
-internal sealed partial class SophonChunksPackageConverter : IPackageConverter
+internal sealed partial class SophonChunksPackageConverter : PackageConverter
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly ILogger<SophonChunksPackageConverter> logger;
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
+    public override async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
     {
         // 基本步骤与 ScatteredPackageConverter 相同
         // 以 国服 -> 国际服 为例
@@ -73,35 +70,6 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
 
         // Step 4
         return ReplaceGameResource(context, diffOperations);
-    }
-
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
-    {
-        // Just try to delete these files, always download from server when needed
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, "sdk_pkg_version"));
-
-        if (context.GameChannelSDK is not null)
-        {
-            using (Stream sdkWebStream = await context.HttpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
-            {
-                ZipFile.ExtractToDirectory(sdkWebStream, context.GameFileSystem.GameDirectory, true);
-            }
-        }
-
-        if (context.DeprecatedFiles is not null)
-        {
-            foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
-            {
-                string filePath = Path.Combine(context.GameFileSystem.GameDirectory, file.Name);
-                FileOperation.Move(filePath, $"{filePath}.backup", true);
-            }
-        }
     }
 
     private static IEnumerable<PackageItemOperationForSophonChunks> GetDiffOperations(SophonDecodedBuild currentDecodedBuild, SophonDecodedBuild targetDecodedBuild)
@@ -378,7 +346,7 @@ internal sealed partial class SophonChunksPackageConverter : IPackageConverter
     {
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
-            string oldAssetPath = Path.Combine(context.GameFileSystem.GameDirectory, asset.OldAsset.AssetName);
+            string oldAssetPath = Path.Combine(context.GameFileSystem.GetGameDirectory(), asset.OldAsset.AssetName);
             if (!File.Exists(oldAssetPath))
             {
                 // File not found, skip this asset and repair later

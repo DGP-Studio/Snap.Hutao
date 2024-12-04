@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
@@ -14,13 +14,11 @@ internal sealed partial class GameScreenCaptureMemoryPool : MemoryPool<byte>
     private readonly LinkedList<GameScreenCaptureBuffer> unrentedBuffers = [];
     private readonly LinkedList<GameScreenCaptureBuffer> rentedBuffers = [];
 
-    private int bufferCount;
-
     public static new GameScreenCaptureMemoryPool Shared { get => LazyShared.Value; }
 
     public override int MaxBufferSize { get => Array.MaxLength; }
 
-    public int BufferCount { get => bufferCount; }
+    public int BufferCount { get; private set; }
 
     public override IMemoryOwner<byte> Rent(int minBufferSize = -1)
     {
@@ -40,7 +38,7 @@ internal sealed partial class GameScreenCaptureMemoryPool : MemoryPool<byte>
 
             GameScreenCaptureBuffer newBuffer = new(this, minBufferSize);
             rentedBuffers.AddLast(newBuffer);
-            ++bufferCount;
+            ++BufferCount;
             return newBuffer;
         }
     }

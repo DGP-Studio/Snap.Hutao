@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
 using System.Net;
@@ -31,11 +32,11 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private readonly MetadataOptions metadataOptions;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
-    private readonly IMemoryCache memoryCache;
 
+    private FrozenSet<string>? fileNames;
     private bool isInitialized;
 
-    public IMemoryCache MemoryCache { get => memoryCache; }
+    public partial IMemoryCache MemoryCache { get; }
 
     public async ValueTask<bool> InitializeAsync()
     {
@@ -63,7 +64,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         Verify.Operation(isInitialized, SH.ServiceMetadataNotInitialized);
         string cacheKey = $"{nameof(MetadataService)}.Cache.{strategy.Name}";
 
-        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        if (MemoryCache.TryGetValue(cacheKey, out object? value))
         {
             ArgumentNullException.ThrowIfNull(value);
             return (ImmutableArray<T>)value;
@@ -89,7 +90,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             try
             {
                 ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
-                return memoryCache.Set(cacheKey, result);
+                return MemoryCache.Set(cacheKey, result);
             }
             catch (Exception ex)
             {
@@ -112,6 +113,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         ImmutableArray<T>.Builder results = ImmutableArray.CreateBuilder<T>();
         foreach (string file in Directory.GetFiles(path, "*.json"))
         {
+            string fileName = $"{strategy.Name}/{Path.GetFileNameWithoutExtension(file)}";
+            if (fileNames is not null && !fileNames.Contains(fileName))
+            {
+                continue;
+            }
+
             using (Stream fileStream = File.OpenRead(file))
             {
                 try
@@ -122,13 +129,13 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 }
                 catch (Exception ex)
                 {
-                    ex.Data.Add("FileName", $"{strategy.Name}/{Path.GetFileNameWithoutExtension(file)}");
+                    ex.Data.Add("FileName", fileName);
                     throw;
                 }
             }
         }
 
-        return memoryCache.Set(cacheKey, results.ToImmutable());
+        return MemoryCache.Set(cacheKey, results.ToImmutable());
     }
 
     private async ValueTask<bool> DownloadMetadataDescriptionFileAndCheckAsync(CancellationToken token)
@@ -138,21 +145,22 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             return true;
         }
 
-        if (await DownloadMetadataDescriptionFileAsync(token).ConfigureAwait(false) is not { } metadataFileHashs)
+        if (await DownloadMetadataDescriptionFileAsync(token).ConfigureAwait(false) is not { } metadataFileHashes)
         {
             return false;
         }
 
-        await CheckMetadataSourceFilesAsync(metadataFileHashs, token).ConfigureAwait(false);
+        await CheckMetadataSourceFilesAsync(metadataFileHashes, token).ConfigureAwait(false);
 
-        // save metadataFile
+        // Save metadataFile
         using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName)))
         {
             await JsonSerializer
-                .SerializeAsync(metaFileStream, metadataFileHashs, options, token)
+                .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
                 .ConfigureAwait(false);
         }
 
+        fileNames = [.. metadataFileHashes.Select(entry => entry.Key)];
         return true;
     }
 
@@ -160,26 +168,26 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     {
         try
         {
-            ImmutableDictionary<string, string>? metadataFileHashs;
+            ImmutableDictionary<string, string>? metadataFileHashes;
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
                 IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
                 using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
                 {
                     // Download meta check file
-                    metadataFileHashs = await httpClient
+                    metadataFileHashes = await httpClient
                         .GetFromJsonAsync<ImmutableDictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
                         .ConfigureAwait(false);
                 }
             }
 
-            if (metadataFileHashs is null)
+            if (metadataFileHashes is null)
             {
                 infoBarService.Error(SH.ServiceMetadataParseFailed);
                 return default;
             }
 
-            return metadataFileHashs;
+            return metadataFileHashes;
         }
         catch (JsonException ex)
         {

@@ -1,66 +1,30 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Service.Game.PathAbstraction;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game;
 
 internal static class LaunchOptionsExtension
 {
-    public static bool TryGetGameFileSystem(this LaunchOptions options, [NotNullWhen(true)] out GameFileSystem? fileSystem)
+    public static ImmutableArray<AspectRatio> SaveAspectRatio(this LaunchOptions options, AspectRatio aspectRatio)
     {
-        string gamePath = options.GamePath;
-
-        if (string.IsNullOrEmpty(gamePath))
+        if (!options.AspectRatios.Contains(aspectRatio))
         {
-            fileSystem = default;
-            return false;
+            options.AspectRatios = options.AspectRatios.Add(aspectRatio);
         }
 
-        fileSystem = new(gamePath);
-        return true;
+        return options.AspectRatios;
     }
 
-    public static ImmutableArray<GamePathEntry> GetGamePathEntries(this LaunchOptions options, out GamePathEntry? selected)
+    public static ImmutableArray<AspectRatio> RemoveAspectRatio(this LaunchOptions options, AspectRatio aspectRatio)
     {
-        string gamePath = options.GamePath;
-
-        if (string.IsNullOrEmpty(gamePath))
+        if (aspectRatio == options.SelectedAspectRatio)
         {
-            selected = default;
-            return options.GamePathEntries;
+            options.SelectedAspectRatio = default;
         }
 
-        if (options.GamePathEntries.SingleOrDefault(entry => string.Equals(entry.Path, options.GamePath, StringComparison.OrdinalIgnoreCase)) is { } existed)
-        {
-            selected = existed;
-            return options.GamePathEntries;
-        }
-
-        selected = GamePathEntry.Create(options.GamePath);
-        return options.GamePathEntries = options.GamePathEntries.Add(selected);
-    }
-
-    public static ImmutableArray<GamePathEntry> RemoveGamePathEntry(this LaunchOptions options, GamePathEntry? entry, out GamePathEntry? selected)
-    {
-        if (entry is null)
-        {
-            return options.GetGamePathEntries(out selected);
-        }
-
-        if (string.Equals(options.GamePath, entry.Path, StringComparison.OrdinalIgnoreCase))
-        {
-            options.GamePath = string.Empty;
-        }
-
-        options.GamePathEntries = options.GamePathEntries.Remove(entry);
-        return options.GetGamePathEntries(out selected);
-    }
-
-    public static ImmutableArray<GamePathEntry> UpdateGamePath(this LaunchOptions options, string gamePath)
-    {
-        options.GamePath = gamePath;
-        return options.GetGamePathEntries(out _);
+        options.AspectRatios = options.AspectRatios.Remove(aspectRatio);
+        return options.AspectRatios;
     }
 }

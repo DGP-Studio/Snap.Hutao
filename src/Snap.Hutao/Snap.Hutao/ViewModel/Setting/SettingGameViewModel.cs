@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
@@ -17,9 +17,8 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 {
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
-    private readonly AppOptions appOptions;
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     public NameValue<PackageConverterType>? SelectedPackageConverterType
     {
@@ -35,8 +34,8 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 
     public int KiloBytesPerSecondLimit
     {
-        get => appOptions.DownloadSpeedLimitPerSecondInKiloByte;
-        set => appOptions.DownloadSpeedLimitPerSecondInKiloByte = value;
+        get => AppOptions.DownloadSpeedLimitPerSecondInKiloByte;
+        set => AppOptions.DownloadSpeedLimitPerSecondInKiloByte = value;
     }
 
     [Command("DeleteGameWebCacheCommand")]

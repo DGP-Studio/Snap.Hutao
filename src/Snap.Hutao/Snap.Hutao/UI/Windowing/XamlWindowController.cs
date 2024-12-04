@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI;
@@ -75,9 +75,7 @@ internal sealed class XamlWindowController
             RecoverOrInitWindowSize(xamlWindow2);
         }
 
-        // Element Theme & Immersive Dark
-        UpdateElementTheme(window, appOptions.ElementTheme);
-
+        // Immersive Dark
         if (window is IXamlWindowContentAsFrameworkElement xamlWindow3)
         {
             UpdateImmersiveDarkMode(xamlWindow3.ContentAccess, default!);
@@ -212,7 +210,6 @@ internal sealed class XamlWindowController
         _ = e.PropertyName switch
         {
             nameof(AppOptions.BackdropType) => UpdateSystemBackdrop(options.BackdropType),
-            nameof(AppOptions.ElementTheme) => UpdateElementTheme(window, options.ElementTheme),
             _ => false,
         };
     }

@@ -123,8 +123,18 @@
                     <ToggleSwitch IsOn="{Binding AlwaysIsFirstRunAfterUpdate, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
-                <cwc:SettingsCard Header="Alpha Build Use CN Patch Endpoint">
-                    <ToggleSwitch IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"/>
+                <cwc:SettingsCard Header="Alpha Build Generic API Endpoint">
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleSwitch
+                            IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"
+                            OffContent="Oversea Endpoints"
+                            OnContent="Chinese Endpoints"/>
+                        <ToggleSwitch
+                            IsEnabled="{Binding AlphaBuildUseCNPatchEndpoint}"
+                            IsOn="{Binding AlphaBuildUseFJPatchEndpoint, Mode=TwoWay}"
+                            OffContent="No Secondary Endpoints"
+                            OnContent="Fujian Endpoints"/>
+                    </StackPanel>
                 </cwc:SettingsCard>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 [INotifyPropertyChanged]
-[SuppressMessage("", "SA1124")]
 internal sealed partial class TypedWishSummary : Wish
 {
     public string? TypeName { get; set; }

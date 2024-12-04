@@ -1,25 +1,22 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using static Snap.Hutao.Service.Game.GameConstants;
 using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<string, Snap.Hutao.Service.Game.Package.VersionItem>;
 
 namespace Snap.Hutao.Service.Game.Package;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IPackageConverter), Key = PackageConverterType.ScatteredFiles)]
-internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
+internal sealed partial class ScatteredFilesPackageConverter : PackageConverter
 {
     private const string PackageVersion = "pkg_version";
 
@@ -29,7 +26,7 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
     [GeneratedRegex("^(?:YuanShen_Data|GenshinImpact_Data)(?=/)")]
     private static partial Regex DataFolderRegex { get; }
 
-    public async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
+    public override async ValueTask<bool> EnsureGameResourceAsync(PackageConverterContext context)
     {
         // 以 国服 -> 国际服 为例
         // 1. 下载国际服的 pkg_version 文件，转换为索引字典
@@ -54,7 +51,7 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
         // Step 1
         context.Progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
         RelativePathVersionItemDictionary remoteItems = await GetRemoteItemsAsync(context).ConfigureAwait(false);
-        RelativePathVersionItemDictionary localItems = await GetLocalItemsAsync(context.GameFileSystem.GameDirectory).ConfigureAwait(false);
+        RelativePathVersionItemDictionary localItems = await GetLocalItemsAsync(context.GameFileSystem.GetGameDirectory()).ConfigureAwait(false);
 
         // Step 2
         List<PackageItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).ToList();
@@ -65,35 +62,6 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
 
         // Step 4
         return await ReplaceGameResourceAsync(context, diffOperations).ConfigureAwait(false);
-    }
-
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(PackageConverterContext context)
-    {
-        // Just try to delete these files, always download from server when needed
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
-        FileOperation.Delete(Path.Combine(context.GameFileSystem.GameDirectory, "sdk_pkg_version"));
-
-        if (context.GameChannelSDK is not null)
-        {
-            using (Stream sdkWebStream = await context.HttpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
-            {
-                ZipFile.ExtractToDirectory(sdkWebStream, context.GameFileSystem.GameDirectory, true);
-            }
-        }
-
-        if (context.DeprecatedFiles is not null)
-        {
-            foreach (DeprecatedFile file in context.DeprecatedFiles.DeprecatedFiles)
-            {
-                string filePath = Path.Combine(context.GameFileSystem.GameDirectory, file.Name);
-                FileOperation.Move(filePath, $"{filePath}.backup", true);
-            }
-        }
     }
 
     private static IEnumerable<PackageItemOperationInfo> GetItemOperationInfos(RelativePathVersionItemDictionary remote, RelativePathVersionItemDictionary local)
@@ -196,7 +164,7 @@ internal sealed partial class ScatteredFilesPackageConverter : IPackageConverter
 
     private static async ValueTask ReplacePackageVersionFilesAsync(PackageConverterContext context)
     {
-        foreach (string versionFilePath in Directory.EnumerateFiles(context.GameFileSystem.GameDirectory, "*pkg_version"))
+        foreach (string versionFilePath in Directory.EnumerateFiles(context.GameFileSystem.GetGameDirectory(), "*pkg_version"))
         {
             string versionFileName = Path.GetFileName(versionFilePath);
 

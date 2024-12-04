@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
@@ -33,7 +33,6 @@ internal sealed partial class DownloadSummary : ObservableObject
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HttpClient httpClient;
 
-    private readonly string fileName;
     private readonly string fileUrl;
     private readonly IProgress<StreamCopyStatus> progress;
 
@@ -47,13 +46,13 @@ internal sealed partial class DownloadSummary : ObservableObject
 
         this.serviceProvider = serviceProvider;
 
-        this.fileName = fileName;
+        Filename = fileName;
         fileUrl = StaticResourcesEndpoints.StaticZip(fileName);
 
         progress = serviceProvider.GetRequiredService<IProgressFactory>().CreateForMainThread<StreamCopyStatus>(UpdateProgressStatus);
     }
 
-    public string DisplayName { get => fileName; }
+    public string Filename { get; }
 
     public string Description { get; private set => SetProperty(ref field, value); } = SH.ViewModelWelcomeDownloadSummaryDefault;
 
@@ -149,7 +148,7 @@ internal sealed partial class DownloadSummary : ObservableObject
         {
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
-                string destPath = imageCacheFilePathOperation.GetFileFromCategoryAndName(fileName, entry.FullName);
+                string destPath = imageCacheFilePathOperation.GetFileFromCategoryAndName(Filename, entry.FullName);
                 try
                 {
                     entry.ExtractToFile(destPath, true);

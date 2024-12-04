@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -50,7 +50,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public BackdropType BackdropType
     {
-        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, EnumParse<BackdropType>, BackdropType.Mica).Value;
+        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, Enum.Parse<BackdropType>, BackdropType.Mica);
         set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, EnumToStringOrEmpty);
     }
 
@@ -63,7 +63,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public ElementTheme ElementTheme
     {
-        get => GetOption(ref elementTheme, SettingEntry.ElementTheme, EnumParse<ElementTheme>, ElementTheme.Default).Value;
+        get => GetOption(ref elementTheme, SettingEntry.ElementTheme, Enum.Parse<ElementTheme>, ElementTheme.Default);
         set => SetOption(ref elementTheme, SettingEntry.ElementTheme, value, EnumToStringOrEmpty);
     }
 
@@ -71,7 +71,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public BackgroundImageType BackgroundImageType
     {
-        get => GetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, EnumParse<BackgroundImageType>, BackgroundImageType.None).Value;
+        get => GetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, Enum.Parse<BackgroundImageType>, BackgroundImageType.None);
         set => SetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, value, EnumToStringOrEmpty);
     }
 
@@ -79,8 +79,8 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public Region Region
     {
-        get => GetOption(ref region, SettingEntry.AnnouncementRegion, v => Region.FromRegionString(v), Region.CNGF01).Value;
-        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, v => v.ToStringOrEmpty());
+        get => GetOption(ref region, SettingEntry.AnnouncementRegion, Region.FromRegionString, Region.CNGF01).Value;
+        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, static v => v.ToStringOrEmpty());
     }
 
     [field: AllowNull]
@@ -100,7 +100,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public PackageConverterType PackageConverterType
     {
-        get => GetOption(ref packageConverterType, SettingEntry.PackageConverterType, EnumParse<PackageConverterType>, PackageConverterType.ScatteredFiles).Value;
+        get => GetOption(ref packageConverterType, SettingEntry.PackageConverterType, Enum.Parse<PackageConverterType>, PackageConverterType.ScatteredFiles);
         set => SetOption(ref packageConverterType, SettingEntry.PackageConverterType, value, EnumToStringOrEmpty);
     }
 
@@ -108,7 +108,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public BridgeShareSaveType BridgeShareSaveType
     {
-        get => GetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, EnumParse<BridgeShareSaveType>, BridgeShareSaveType.CopyToClipboard).Value;
+        get => GetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, Enum.Parse<BridgeShareSaveType>, BridgeShareSaveType.CopyToClipboard);
         set => SetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, value, EnumToStringOrEmpty);
     }
 }

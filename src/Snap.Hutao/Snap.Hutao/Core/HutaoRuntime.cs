@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
@@ -86,12 +86,12 @@ internal static class HutaoRuntime
         string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 #if IS_ALPHA_BUILD
-        string folderName = "HutaoAlpha";
+        const string FolderName = "HutaoAlpha";
 #else
         // 使得迁移能正常生成
-        string folderName = "Hutao";
+        const string FolderName = "Hutao";
 #endif
-        string path = Path.GetFullPath(Path.Combine(myDocuments, folderName));
+        string path = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
         Directory.CreateDirectory(path);
         return path;
     }

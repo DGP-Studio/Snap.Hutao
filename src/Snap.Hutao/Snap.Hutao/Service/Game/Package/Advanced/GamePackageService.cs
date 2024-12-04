@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ComponentModel;
@@ -9,7 +9,6 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
-using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
@@ -45,7 +44,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     private CancellationTokenSource? operationCts;
     private TaskCompletionSource? operationTcs;
 
-    public async ValueTask<bool> StartOperationAsync(GamePackageOperationContext operationContext)
+    public async ValueTask<bool> ExecuteOperationAsync(GamePackageOperationContext operationContext)
     {
         await CancelOperationAsync().ConfigureAwait(false);
 
@@ -347,7 +346,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
 
-        context.Operation.GameFileSystem.UpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
+        context.Operation.GameFileSystem.TryUpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
 
         if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
         {
@@ -378,13 +377,13 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, totalBlocks, 0, totalBytes));
 
-        if (!Directory.Exists(context.Operation.GameFileSystem.ChunksDirectory))
+        if (!Directory.Exists(context.Operation.GameFileSystem.GetChunksDirectory()))
         {
-            Directory.CreateDirectory(context.Operation.GameFileSystem.ChunksDirectory);
+            Directory.CreateDirectory(context.Operation.GameFileSystem.GetChunksDirectory());
         }
 
         PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, uniqueTotalBlocks);
-        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
         {
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
         }
@@ -393,7 +392,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
 
-        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
         {
             predownloadStatus.Finished = true;
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
@@ -409,7 +408,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             ISophonClient client = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
-                .Create(LaunchScheme.ExecutableIsOversea(context.Operation.GameFileSystem.GameFileName));
+                .Create(context.Operation.GameFileSystem.IsOversea());
 
             Response<SophonBuild> response = await client.GetBuildAsync(branch, token).ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(response, serviceProvider, out build))
@@ -499,7 +498,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             .Where(ao => ao.Kind is SophonAssetOperationKind.Modify)
             .Select(ao => Path.GetFileName(ao.OldAsset.AssetName))
             .ToList();
-        string oldBlksDirectory = Path.Combine(context.Operation.GameFileSystem.DataDirectory, @"StreamingAssets\AssetBundles\blocks");
+        string oldBlksDirectory = Path.Combine(context.Operation.GameFileSystem.GetDataDirectory(), @"StreamingAssets\AssetBundles\blocks");
         foreach (string file in Directory.GetFiles(oldBlksDirectory, "*.blk", SearchOption.AllDirectories))
         {
             string fileName = Path.GetFileName(file);

@@ -167,7 +167,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void UpdateLayeredWindow()
     {
-        if (opacity >= 1)
+        if (opacity >= 255)
         {
             return;
         }

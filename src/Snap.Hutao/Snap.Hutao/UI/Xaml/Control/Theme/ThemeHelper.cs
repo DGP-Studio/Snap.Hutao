@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -7,6 +7,11 @@ namespace Snap.Hutao.UI.Xaml.Control.Theme;
 
 internal static class ThemeHelper
 {
+    public static unsafe Snap.WinUI.FrameworkTheming.Theme ElementToFramework(ElementTheme elementTheme)
+    {
+        return *(Snap.WinUI.FrameworkTheming.Theme*)&elementTheme;
+    }
+
     public static ApplicationTheme ElementToApplication(ElementTheme applicationTheme)
     {
         return applicationTheme switch

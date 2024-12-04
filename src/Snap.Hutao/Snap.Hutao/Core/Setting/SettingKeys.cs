@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Core.Setting;
@@ -77,7 +77,8 @@ internal static class SettingKeys
     public const string OverridePhysicalDriverType = "OverridePhysicalDriverType";
     public const string PhysicalDriverIsAlwaysSolidState = "PhysicalDriverIsAlwaysSolidState";
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
-    public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
+    public const string AlphaBuildUseCnPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
+    public const string AlphaBuildUseFjPatchEndpoint = "AlphaBuildUseFJPatchEndpoint";
     #endregion
 
     #region Obsolete

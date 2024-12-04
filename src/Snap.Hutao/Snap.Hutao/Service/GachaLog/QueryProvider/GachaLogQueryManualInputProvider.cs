@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Factory.ContentDialog;
@@ -19,11 +19,17 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         GachaLogUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogUrlDialog>().ConfigureAwait(false);
-        (bool isOk, string queryString) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
+        (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (!isOk)
         {
             return new(false, default);
+        }
+
+        string? queryString = Match(url, "index.html") ?? Match(url, "getGachaLog");
+        if (queryString is null)
+        {
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderManualInputInvalid));
         }
 
         NameValueCollection query = HttpUtility.ParseQueryString(queryString);
@@ -40,6 +46,20 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
             return new(false, GachaLogQuery.Invalid(message));
         }
 
-        return new(true, new(queryString));
+        return new(true, new(url));
+    }
+
+    private static string? Match(string url, string match)
+    {
+        ReadOnlySpan<char> urlSpan = url;
+
+        int index = urlSpan.LastIndexOf(match);
+        if (index >= 0)
+        {
+            index += match.Length;
+            return urlSpan[index..].ToString();
+        }
+
+        return null;
     }
 }

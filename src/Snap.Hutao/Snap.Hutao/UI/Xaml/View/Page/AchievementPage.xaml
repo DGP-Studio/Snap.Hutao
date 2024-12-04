@@ -1,4 +1,4 @@
-﻿<shuxc:ScopedPage
+<shuxc:ScopedPage
     x:Class="Snap.Hutao.UI.Xaml.View.Page.AchievementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -159,10 +159,10 @@
                             VerticalAlignment="Center"
                             Text="{Binding Time}"
                             Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                        <shuxci:CachedImage
+                        <Image
                             Grid.Column="2"
                             shux:FrameworkElementHelper.SquareLength="32"
-                            Source="{StaticResource UI_ItemIcon_201}"/>
+                            Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
                         <TextBlock
                             Grid.Column="3"
                             Margin="12,0,0,0"

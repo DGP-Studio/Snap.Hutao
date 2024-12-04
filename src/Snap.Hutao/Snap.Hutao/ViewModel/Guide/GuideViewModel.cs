@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
@@ -15,7 +15,6 @@ using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-[SuppressMessage("", "SA1124")]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel

@@ -1,4 +1,4 @@
-﻿<Application
+<Application
     x:Class="Snap.Hutao.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/HorizontalCard.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/VerticalCard.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Image/CachedImage.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Panel/DataTable/DataColumn.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TextBlock/RateDeltaTextBlock.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Card.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Color.xaml"/>

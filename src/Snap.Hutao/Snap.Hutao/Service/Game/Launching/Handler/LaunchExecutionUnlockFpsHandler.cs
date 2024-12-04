@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
@@ -16,7 +16,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
 
-            if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
             {
                 return;
             }

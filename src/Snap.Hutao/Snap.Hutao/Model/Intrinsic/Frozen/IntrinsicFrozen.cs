@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using System.Collections.Frozen;
@@ -57,6 +57,13 @@ internal static class IntrinsicFrozen
         SH.ModelMetadataMaterialCharacterTalentMaterial,
         SH.ModelMetadataMaterialCharacterLevelUpMaterial,
         SH.ModelMetadataMaterialWeaponEnhancementMaterial,
+        SH.ModelMetadataMaterialWeaponAscensionMaterial,
+    ];
+
+    public static FrozenSet<string> ResinMaterialTypeDescriptions { get; } =
+    [
+        SH.ModelMetadataMaterialCharacterTalentMaterial,
+        SH.ModelMetadataMaterialCharacterLevelUpMaterial,
         SH.ModelMetadataMaterialWeaponAscensionMaterial,
     ];
 

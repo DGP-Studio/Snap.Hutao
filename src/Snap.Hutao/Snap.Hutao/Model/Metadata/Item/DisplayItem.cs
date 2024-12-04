@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
@@ -17,6 +17,8 @@ internal class DisplayItem
     public required string Icon { get; init; }
 
     public required string Name { get; init; }
+
+    public uint Rank { get; init; }
 
     public string? Description { get; init; }
 

@@ -1,21 +1,19 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.User;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
 [ConstructorGenerated]
-internal sealed partial class LaunchExecutionContext
+internal sealed partial class LaunchExecutionContext : IDisposable
 {
     private readonly ILogger<LaunchExecutionContext> logger;
 
-    private GameFileSystem? gameFileSystem;
+    private IGameFileSystem? gameFileSystem;
 
     [SuppressMessage("", "SH007")]
     public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? targetScheme, GameAccount? account, UserAndUid? userAndUid)
@@ -40,7 +38,7 @@ internal sealed partial class LaunchExecutionContext
 
     public partial LaunchOptions Options { get; }
 
-    public IViewModelSupportLaunchExecution ViewModel { get; private set; } = default!;
+    public IViewModelSupportLaunchExecution ViewModel { get; } = default!;
 
     public LaunchScheme CurrentScheme { get; private set; } = default!;
 
@@ -58,9 +56,8 @@ internal sealed partial class LaunchExecutionContext
 
     public System.Diagnostics.Process Process { get; set; } = default!;
 
-    public bool TryGetGameFileSystem([NotNullWhen(true)] out GameFileSystem? gameFileSystem)
+    public bool TryGetGameFileSystem([NotNullWhen(true)] out IGameFileSystem? gameFileSystem)
     {
-        // TODO: for safety reasons, we should lock the game file path somehow, when we acquired the game file system
         if (this.gameFileSystem is not null)
         {
             gameFileSystem = this.gameFileSystem;
@@ -78,12 +75,27 @@ internal sealed partial class LaunchExecutionContext
         return true;
     }
 
-    public void UpdateGamePathEntry()
+    public void PerformGamePathEntrySynchronization()
     {
-        ImmutableArray<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
-        ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selectedEntry);
-
-        // invalidate game file system
+        // Invalidate game file system
+        gameFileSystem?.Dispose();
         gameFileSystem = null;
+
+        ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(Options);
+    }
+
+    public void UpdateGamePath(string gamePath)
+    {
+        // Invalidate game file system
+        gameFileSystem?.Dispose();
+        gameFileSystem = null;
+
+        Options.GamePath = gamePath;
+        PerformGamePathEntrySynchronization();
+    }
+
+    public void Dispose()
+    {
+        gameFileSystem?.Dispose();
     }
 }

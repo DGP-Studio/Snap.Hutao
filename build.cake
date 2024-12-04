@@ -118,6 +118,7 @@ Information($"Windows SDK: {winsdkPath}");
 Task("Build")
     .IsDependentOn("Build binary package")
     .IsDependentOn("Copy files")
+    .IsDependentOn("Remove unused files")
     .IsDependentOn("Build MSIX")
     .IsDependentOn("Sign");
 
@@ -235,9 +236,25 @@ Task("Copy files")
     );
 });
 
+Task("Remove unused files")
+    .IsDependentOn("Build binary package")
+    .Does(() =>
+{
+    Information("Removing unused files...");
+
+    Information("Removing xbf...");
+    System.IO.Directory.Delete(System.IO.Path.Combine(binPath, "Service"), true);
+    System.IO.Directory.Delete(System.IO.Path.Combine(binPath, "UI"), true);
+    System.IO.File.Delete(System.IO.Path.Combine(binPath, "App.xbf"));
+
+    Information("Removing appxrecipe...");
+    System.IO.File.Delete(System.IO.Path.Combine(binPath, "Snap.Hutao.build.appxrecipe"));
+});
+
 Task("Build MSIX")
     .IsDependentOn("Build binary package")
     .IsDependentOn("Copy files")
+    .IsDependentOn("Remove unused files")
     .Does(() =>
 {
     var arguments = "arguments";

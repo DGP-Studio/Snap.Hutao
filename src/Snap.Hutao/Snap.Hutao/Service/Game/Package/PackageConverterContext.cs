@@ -1,11 +1,9 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Collections.Concurrent;
 using System.IO;
@@ -74,8 +72,8 @@ internal readonly struct PackageConverterContext
             ? (YuanShenData, GenshinImpactData)
             : (GenshinImpactData, YuanShenData);
 
-        FromDataFolder = Path.Combine(common.GameFileSystem.GameDirectory, FromDataFolderName);
-        ToDataFolder = Path.Combine(common.GameFileSystem.GameDirectory, ToDataFolderName);
+        FromDataFolder = Path.Combine(common.GameFileSystem.GetGameDirectory(), FromDataFolderName);
+        ToDataFolder = Path.Combine(common.GameFileSystem.GetGameDirectory(), ToDataFolderName);
     }
 
     public HttpClient HttpClient { get => Common.HttpClient; }
@@ -84,11 +82,7 @@ internal readonly struct PackageConverterContext
 
     public LaunchScheme TargetScheme { get => Common.TargetScheme; }
 
-    public GameFileSystem GameFileSystem { get => Common.GameFileSystem; }
-
-    public GameChannelSDK? GameChannelSDK { get => Common.GameChannelSDK; }
-
-    public DeprecatedFilesWrapper? DeprecatedFiles { get => Common.DeprecatedFiles; }
+    public IGameFileSystem GameFileSystem { get => Common.GameFileSystem; }
 
     public IProgress<PackageConvertStatus> Progress { get => Common.Progress; }
 
@@ -109,7 +103,7 @@ internal readonly struct PackageConverterContext
 
     public readonly string GetGameFolderFilePath(string filePath)
     {
-        return Path.Combine(Common.GameFileSystem.GameDirectory, filePath);
+        return Path.Combine(Common.GameFileSystem.GetGameDirectory(), filePath);
     }
 
     [SuppressMessage("", "SH003")]
@@ -123,26 +117,20 @@ internal readonly struct PackageConverterContext
         public readonly HttpClient HttpClient;
         public readonly LaunchScheme CurrentScheme;
         public readonly LaunchScheme TargetScheme;
-        public readonly GameFileSystem GameFileSystem;
-        public readonly GameChannelSDK? GameChannelSDK;
-        public readonly DeprecatedFilesWrapper? DeprecatedFiles;
+        public readonly IGameFileSystem GameFileSystem;
         public readonly IProgress<PackageConvertStatus> Progress;
 
         public CommonReferences(
             HttpClient httpClient,
             LaunchScheme currentScheme,
             LaunchScheme targetScheme,
-            GameFileSystem gameFileSystem,
-            GameChannelSDK? gameChannelSDK,
-            DeprecatedFilesWrapper? deprecatedFiles,
+            IGameFileSystem gameFileSystem,
             IProgress<PackageConvertStatus> progress)
         {
             HttpClient = httpClient;
             CurrentScheme = currentScheme;
             TargetScheme = targetScheme;
             GameFileSystem = gameFileSystem;
-            GameChannelSDK = gameChannelSDK;
-            DeprecatedFiles = deprecatedFiles;
             Progress = progress;
         }
     }

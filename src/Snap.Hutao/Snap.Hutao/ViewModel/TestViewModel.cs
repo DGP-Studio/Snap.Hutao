@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -151,7 +151,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     public bool AlphaBuildUseCNPatchEndpoint
     {
-        get => LocalSetting.Get(SettingKeys.AlphaBuildUseCNPatchEndpoint, false);
+        get => LocalSetting.Get(SettingKeys.AlphaBuildUseCnPatchEndpoint, false);
         set
         {
             if (IsViewDisposed)
@@ -159,7 +159,22 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 return;
             }
 
-            LocalSetting.Set(SettingKeys.AlphaBuildUseCNPatchEndpoint, value);
+            LocalSetting.Set(SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
+            OnPropertyChanged();
+        }
+    }
+
+    public bool AlphaBuildUseFJPatchEndpoint
+    {
+        get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
         }
     }
 
@@ -340,51 +355,54 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
 
-        if (!gameFileSystem.TryGetGameVersion(out string? localVersion))
+        using (gameFileSystem)
         {
-            return;
+            if (!gameFileSystem.TryGetGameVersion(out string? localVersion))
+            {
+                return;
+            }
+
+            (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
+            if (!isOk)
+            {
+                return;
+            }
+
+            string message = $"""
+                Local: {localVersion}
+                Remote: {gameBranch.PreDownload.Tag}
+                Extract Directory: {extractDirectory}
+
+                Please ensure local game is integrated.
+                We need some of old blocks to patch up.
+                """;
+
+            ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+                    "Extract Game Blocks",
+                    message)
+                .ConfigureAwait(false);
+
+            if (result is not ContentDialogResult.Primary)
+            {
+                return;
+            }
+
+            GamePackageOperationContext context = new(
+                serviceProvider,
+                GamePackageOperationKind.ExtractBlk,
+                gameFileSystem,
+                gameBranch.Main.GetTaggedCopy(localVersion),
+                gameBranch.PreDownload,
+                default,
+                extractDirectory);
+
+            await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
         }
-
-        (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
-        if (!isOk)
-        {
-            return;
-        }
-
-        string message = $"""
-            Local: {localVersion}
-            Remote: {gameBranch.PreDownload.Tag}
-            Extract Directory: {extractDirectory}
-            
-            Please ensure local game is integrated.
-            We need some of old blocks to patch up.
-            """;
-
-        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
-            "Extract Game Blocks",
-            message)
-            .ConfigureAwait(false);
-
-        if (result is not ContentDialogResult.Primary)
-        {
-            return;
-        }
-
-        GamePackageOperationContext context = new(
-            serviceProvider,
-            GamePackageOperationKind.ExtractBlk,
-            gameFileSystem,
-            gameBranch.Main.GetTaggedCopy(localVersion),
-            gameBranch.PreDownload,
-            default,
-            extractDirectory);
-
-        await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
     }
 
     [Command("ExtractGameExeCommand")]
@@ -433,7 +451,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         if (result is ContentDialogResult.Primary)
         {
-            GameFileSystem gameFileSystem = new(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
+            IGameFileSystem gameFileSystem = GameFileSystem.CreateForPackageOperation(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
 
             GamePackageOperationContext context = new(
                 serviceProvider,
@@ -444,7 +462,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 default,
                 default);
 
-            await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+            await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
         }
     }
 

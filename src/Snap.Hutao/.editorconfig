@@ -1,374 +1,197 @@
-﻿charset = utf-8-bom
-
-[*.cs]
-
-# SA1101: Prefix local calls with this
-dotnet_diagnostic.SA1101.severity = none
-csharp_using_directive_placement = outside_namespace:silent
-csharp_style_expression_bodied_methods = false:silent
-csharp_style_expression_bodied_constructors = false:silent
-csharp_style_expression_bodied_operators = false:silent
-csharp_style_expression_bodied_properties = false:silent
-csharp_style_expression_bodied_indexers = false:silent
-csharp_style_expression_bodied_accessors = when_on_single_line:suggestion
-csharp_style_expression_bodied_lambdas = when_on_single_line:silent
-csharp_style_expression_bodied_local_functions = false:silent
-csharp_style_conditional_delegate_call = true:suggestion
-csharp_style_var_for_built_in_types = false:warning
-csharp_style_var_when_type_is_apparent = false:warning
-csharp_style_var_elsewhere = false:warning
-csharp_prefer_simple_using_statement = false:suggestion
-csharp_prefer_braces = true:silent
-csharp_style_namespace_declarations = file_scoped:silent
-csharp_prefer_static_local_function = false:suggestion
-
-[*.{cs,vb}]
+﻿[*]
+# General
+charset = utf-8
 end_of_line = crlf
 dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_event = false:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
-dotnet_code_quality_unused_parameters = non_public:suggestion
-dotnet_style_readonly_field = true:suggestion
+
+[*.cs]
+# General
 indent_size = 4
 tab_width = 4
-dotnet_style_operator_placement_when_wrapping = beginning_of_line
-dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:silent
-dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:silent
-dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:silent
-dotnet_style_parentheses_in_other_operators = never_if_unnecessary:silent
+
+# C# Specific
+csharp_indent_labels = one_less_than_current
+
+csharp_prefer_braces = true:silent
+csharp_prefer_simple_default_expression = false:suggestion
+csharp_prefer_simple_using_statement = false:suggestion
+csharp_prefer_static_local_function = false:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
+
+csharp_space_around_binary_operators = before_and_after
+
+csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:silent
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:silent
+csharp_style_allow_embedded_statements_on_same_line_experimental = false:silent
+csharp_style_conditional_delegate_call = true:suggestion
+csharp_style_deconstructed_variable_declaration = true:suggestion
+csharp_style_expression_bodied_accessors = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_indexers = false:silent
+csharp_style_expression_bodied_lambdas = when_on_single_line:silent
+csharp_style_expression_bodied_local_functions = false:silent
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = false:silent
+csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
+csharp_style_inlined_variable_declaration = true:suggestion
+csharp_style_namespace_declarations = file_scoped:silent
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_prefer_extended_property_pattern = true:suggestion
+csharp_style_prefer_index_operator = true:suggestion
+csharp_style_prefer_local_over_anonymous_function = true:suggestion
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_not_pattern = true:suggestion
+csharp_style_prefer_null_check_over_type_check = true:suggestion
+csharp_style_prefer_parameter_null_checking = true:suggestion
+csharp_style_prefer_pattern_matching = true:silent
+csharp_style_prefer_primary_constructors = false:none
+csharp_style_prefer_range_operator = true:suggestion
+csharp_style_prefer_readonly_struct = true:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_tuple_swap = true:suggestion
+csharp_style_prefer_utf8_string_literals = true:suggestion
+csharp_style_throw_expression = true:suggestion
+csharp_style_unused_value_assignment_preference = discard_variable:silent
+csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+csharp_style_var_elsewhere = false:warning
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_when_type_is_apparent = false:warning
+
+csharp_using_directive_placement = outside_namespace:silent
+
+# .NET Specific
+dotnet_code_quality_unused_parameters = non_public:suggestion
+
 dotnet_style_allow_multiple_blank_lines_experimental = false:silent
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 dotnet_style_coalesce_expression = true:suggestion
-dotnet_style_null_propagation = true:suggestion
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
-dotnet_style_prefer_auto_properties = false:silent
-dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
-dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
-dotnet_style_prefer_conditional_expression_over_assignment = true:silent
-dotnet_style_prefer_conditional_expression_over_return = true:silent
 dotnet_style_explicit_tuple_names = true:suggestion
-dotnet_style_prefer_inferred_tuple_names = true:suggestion
-dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
-dotnet_style_prefer_compound_assignment = true:suggestion
-dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:silent
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:silent
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary:silent
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:silent
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
 dotnet_style_predefined_type_for_member_access = true:silent
-dotnet_diagnostic.CA1000.severity = suggestion
-[*.cs]
-#### 命名样式 ####
-
-# 命名规则
+dotnet_style_prefer_auto_properties = false:silent
+dotnet_style_prefer_compound_assignment = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_simplified_interpolation = true:suggestion
+dotnet_style_readonly_field = true:suggestion
 
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
-dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
-
-dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.types_should_be_pascal_case.symbols = types
-dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
-
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 
-# 符号规范
-
-dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.required_modifiers =
-
-dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
+dotnet_naming_symbols.non_field_members.required_modifiers =
 dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
 dotnet_naming_symbols.types.required_modifiers =
 
-dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
-dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.non_field_members.required_modifiers =
-
-# 命名样式
-
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator =
-dotnet_naming_style.begins_with_i.capitalization = pascal_case
-
+dotnet_naming_style.pascal_case.capitalization = pascal_case
 dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix =
 dotnet_naming_style.pascal_case.word_separator =
-dotnet_naming_style.pascal_case.capitalization = pascal_case
 
-dotnet_naming_style.pascal_case.required_prefix =
-dotnet_naming_style.pascal_case.required_suffix =
-dotnet_naming_style.pascal_case.word_separator =
-dotnet_naming_style.pascal_case.capitalization = pascal_case
-dotnet_diagnostic.SA1629.severity = none
-dotnet_diagnostic.SA1642.severity = none
-
-dotnet_diagnostic.IDE0005.severity = warning
-dotnet_diagnostic.IDE0060.severity = none
-
-# SA1208: System using directives should be placed before other using directives
-dotnet_diagnostic.SA1208.severity = none
-
-# SA1404: Code analysis suppression should have justification
-dotnet_diagnostic.SA1404.severity = none
-
-# SA1623: Property summary documentation should match accessors
-dotnet_diagnostic.SA1623.severity = none
-
-# SA1636: File header copyright text should match
-dotnet_diagnostic.SA1636.severity = none
-
-# SA0001: XML comment analysis disabled
-dotnet_diagnostic.SA0001.severity = none
-csharp_style_prefer_parameter_null_checking = true:suggestion
-csharp_style_prefer_method_group_conversion = true:silent
-csharp_space_around_binary_operators = before_and_after
-csharp_indent_labels = one_less_than_current
-csharp_style_allow_embedded_statements_on_same_line_experimental = false:silent
-csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:silent
-csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:silent
-csharp_style_prefer_switch_expression = true:suggestion
-csharp_style_prefer_pattern_matching = true:silent
-csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
-csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
-csharp_style_prefer_not_pattern = true:suggestion
-csharp_style_prefer_extended_property_pattern = true:suggestion
-csharp_style_throw_expression = true:suggestion
-csharp_style_prefer_null_check_over_type_check = true:suggestion
-csharp_prefer_simple_default_expression = false:suggestion
-csharp_style_prefer_local_over_anonymous_function = true:suggestion
-csharp_style_prefer_index_operator = true:suggestion
-csharp_style_prefer_range_operator = true:suggestion
-csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
-csharp_style_prefer_tuple_swap = true:suggestion
-csharp_style_inlined_variable_declaration = true:suggestion
-csharp_style_deconstructed_variable_declaration = true:suggestion
-csharp_style_unused_value_assignment_preference = discard_variable:silent
-csharp_style_unused_value_expression_statement_preference = discard_variable:silent
-
-# CA1001: 具有可释放字段的类型应该是可释放的
-dotnet_diagnostic.CA1001.severity = warning
-
-# CA1309: 使用序数字符串比较
-dotnet_diagnostic.CA1309.severity = suggestion
-
-# CA1805: 避免进行不必要的初始化
-dotnet_diagnostic.CA1805.severity = suggestion
-
-# VSTHRD111: Use ConfigureAwait(bool)
-dotnet_diagnostic.VSTHRD111.severity = silent
-csharp_style_prefer_top_level_statements = true:silent
-csharp_style_prefer_readonly_struct = true:suggestion
-csharp_style_prefer_utf8_string_literals = true:suggestion
-
-# SA1600: Elements should be documented
-dotnet_diagnostic.SA1600.severity = none
-dotnet_diagnostic.SA1601.severity = silent
-dotnet_diagnostic.SA1602.severity = silent
-
-# CA1008: 枚举应具有零值
-dotnet_diagnostic.CA1008.severity = suggestion
-
-# CA1010: 还应实现泛型接口
-dotnet_diagnostic.CA1010.severity = suggestion
-
-# CA1012: 抽象类型不应具有公共构造函数
-dotnet_diagnostic.CA1012.severity = suggestion
-
-# CA1024: 在适用处使用属性
-dotnet_diagnostic.CA1024.severity = suggestion
-
-# CA1034: 嵌套类型应不可见
-dotnet_diagnostic.CA1034.severity = suggestion
-
-# CA1036: 重写可比较类型中的方法
-dotnet_diagnostic.CA1036.severity = suggestion
-
-# CA1040: 避免使用空接口
-dotnet_diagnostic.CA1040.severity = suggestion
-
-# CA1044: 属性不应是只写的
-dotnet_diagnostic.CA1044.severity = suggestion
-
-# CA1043: 将整型或字符串参数用于索引器
-dotnet_diagnostic.CA1043.severity = suggestion
-
-# CA1046: 不要对引用类型重载相等运算符
-dotnet_diagnostic.CA1046.severity = suggestion
-
-# CA1051: 不要声明可见实例字段
-dotnet_diagnostic.CA1051.severity = suggestion
-
-# CA1052: 静态容器类型应为 Static 或 NotInheritable
-dotnet_diagnostic.CA1052.severity = suggestion
-
-# CA1058: 类型不应扩展某些基类型
-dotnet_diagnostic.CA1058.severity = suggestion
-
-# CA1063: 正确实现 IDisposable
-dotnet_diagnostic.CA1063.severity = suggestion
-
-# CA1065: 不要在意外的位置引发异常
-dotnet_diagnostic.CA1065.severity = suggestion
-
-# CA1066: 重写 Object.Equals 时实现 IEquatable
-dotnet_diagnostic.CA1066.severity = suggestion
-
-# CA1304: 指定 CultureInfo
-dotnet_diagnostic.CA1304.severity = suggestion
-
-# CA1305: 指定 IFormatProvider
-dotnet_diagnostic.CA1305.severity = suggestion
-
-# CA1307: 为了清晰起见，请指定 StringComparison
-dotnet_diagnostic.CA1307.severity = suggestion
-
-# CA1310: 为了确保正确，请指定 StringComparison
-dotnet_diagnostic.CA1310.severity = suggestion
-
-# CA1308: 将字符串规范化为大写
-dotnet_diagnostic.CA1308.severity = suggestion
-
-# CA1501: 避免过度继承
-dotnet_diagnostic.CA1501.severity = suggestion
-
-# CA1502: 避免过度复杂性
-dotnet_diagnostic.CA1502.severity = suggestion
-
-# CA1505: 避免使用无法维护的代码
-dotnet_diagnostic.CA1505.severity = suggestion
-
-# CA1506: 避免过度的类耦合
-dotnet_diagnostic.CA1506.severity = suggestion
-
-# CA1508: 避免死条件代码
-dotnet_diagnostic.CA1508.severity = suggestion
-
-# CA1810: 以内联方式初始化引用类型的静态字段
-dotnet_diagnostic.CA1810.severity = suggestion
-
-# CA1813: 避免使用非密封特性
-dotnet_diagnostic.CA1813.severity = suggestion
-
-# CA1814: 与多维数组相比，首选使用交错数组
-dotnet_diagnostic.CA1814.severity = suggestion
-
-# CA1819: 属性不应返回数组
-dotnet_diagnostic.CA1819.severity = suggestion
-
-# CA1820: 使用字符串长度测试是否有空字符串
-dotnet_diagnostic.CA1820.severity = suggestion
-
-# CA1823: 避免未使用的私有字段
-dotnet_diagnostic.CA1823.severity = suggestion
-
-# CA1849: 当在异步方法中时，调用异步方法
-dotnet_diagnostic.CA1849.severity = suggestion
-
-# CA1852: 密封内部类型
-dotnet_diagnostic.CA1852.severity = suggestion
-
-# CA2000: 丢失范围之前释放对象
-dotnet_diagnostic.CA2000.severity = suggestion
-
-# CA2002: 不要锁定具有弱标识的对象
-dotnet_diagnostic.CA2002.severity = suggestion
-
-# CA2007: 考虑对等待的任务调用 ConfigureAwait
-dotnet_diagnostic.CA2007.severity = suggestion
-
-# CA2008: 不要在未传递 TaskScheduler 的情况下创建任务
-dotnet_diagnostic.CA2008.severity = suggestion
-
-# CA2100: 检查 SQL 查询是否存在安全漏洞
-dotnet_diagnostic.CA2100.severity = suggestion
-
-# CA2109: 检查可见的事件处理程序
-dotnet_diagnostic.CA2109.severity = suggestion
-
-# CA2119: 密封满足私有接口的方法
-dotnet_diagnostic.CA2119.severity = suggestion
-
-# CA2153: 不要捕获损坏状态异常
-dotnet_diagnostic.CA2153.severity = suggestion
-
-# CA2201: 不要引发保留的异常类型
-dotnet_diagnostic.CA2201.severity = suggestion
-
-# CA2207: 以内联方式初始化值类型的静态字段
-dotnet_diagnostic.CA2207.severity = suggestion
-
-# CA2213: 应释放可释放的字段
-dotnet_diagnostic.CA2213.severity = suggestion
-
-# CA2214: 不要在构造函数中调用可重写的方法
-dotnet_diagnostic.CA2214.severity = suggestion
-
-# CA2215: Dispose 方法应调用基类释放
-dotnet_diagnostic.CA2215.severity = suggestion
-
-# CA2216: 可释放类型应声明终结器
-dotnet_diagnostic.CA2216.severity = suggestion
-
-# CA2227: 集合属性应为只读
-dotnet_diagnostic.CA2227.severity = suggestion
-
-# CA2251: 使用 “string.Equals”
-dotnet_diagnostic.CA2251.severity = suggestion
-
-csharp_style_prefer_primary_constructors = false:none
-dotnet_diagnostic.SA1124.severity = none
-dotnet_diagnostic.SA1405.severity = none
-
-[*.vb]
-#### 命名样式 ####
-
-# 命名规则
-
-dotnet_naming_rule.interface_should_be_以_i_开始.severity = suggestion
-dotnet_naming_rule.interface_should_be_以_i_开始.symbols = interface
-dotnet_naming_rule.interface_should_be_以_i_开始.style = 以_i_开始
-
-dotnet_naming_rule.类型_should_be_帕斯卡拼写法.severity = suggestion
-dotnet_naming_rule.类型_should_be_帕斯卡拼写法.symbols = 类型
-dotnet_naming_rule.类型_should_be_帕斯卡拼写法.style = 帕斯卡拼写法
-
-dotnet_naming_rule.非字段成员_should_be_帕斯卡拼写法.severity = suggestion
-dotnet_naming_rule.非字段成员_should_be_帕斯卡拼写法.symbols = 非字段成员
-dotnet_naming_rule.非字段成员_should_be_帕斯卡拼写法.style = 帕斯卡拼写法
-
-# 符号规范
-
-dotnet_naming_symbols.interface.applicable_kinds = interface
-dotnet_naming_symbols.interface.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.interface.required_modifiers =
-
-dotnet_naming_symbols.类型.applicable_kinds = class, struct, interface, enum
-dotnet_naming_symbols.类型.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.类型.required_modifiers =
-
-dotnet_naming_symbols.非字段成员.applicable_kinds = property, event, method
-dotnet_naming_symbols.非字段成员.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.非字段成员.required_modifiers =
-
-# 命名样式
-
-dotnet_naming_style.以_i_开始.required_prefix = I
-dotnet_naming_style.以_i_开始.required_suffix =
-dotnet_naming_style.以_i_开始.word_separator =
-dotnet_naming_style.以_i_开始.capitalization = pascal_case
-
-dotnet_naming_style.帕斯卡拼写法.required_prefix =
-dotnet_naming_style.帕斯卡拼写法.required_suffix =
-dotnet_naming_style.帕斯卡拼写法.word_separator =
-dotnet_naming_style.帕斯卡拼写法.capitalization = pascal_case
-
-dotnet_naming_style.帕斯卡拼写法.required_prefix =
-dotnet_naming_style.帕斯卡拼写法.required_suffix =
-dotnet_naming_style.帕斯卡拼写法.word_separator =
-dotnet_naming_style.帕斯卡拼写法.capitalization = pascal_case
+dotnet_diagnostic.IDE0005.severity = warning    # IDE0005: 删除不必要的 using 指令
+dotnet_diagnostic.IDE0060.severity = none       # IDE0060: 删除未使用的参数
+
+dotnet_diagnostic.CA1000.severity = suggestion  # CA1000: 不要在泛型类型中声明静态成员
+dotnet_diagnostic.CA1001.severity = warning     # CA1001: 具有可释放字段的类型应该是可释放的
+dotnet_diagnostic.CA1008.severity = suggestion  # CA1008: 枚举应具有零值
+dotnet_diagnostic.CA1010.severity = suggestion  # CA1010: 还应实现泛型接口
+dotnet_diagnostic.CA1012.severity = suggestion  # CA1012: 抽象类型不应具有公共构造函数
+dotnet_diagnostic.CA1024.severity = suggestion  # CA1024: 在适用处使用属性
+dotnet_diagnostic.CA1034.severity = suggestion  # CA1034: 嵌套类型应不可见
+dotnet_diagnostic.CA1036.severity = suggestion  # CA1036: 重写可比较类型中的方法
+dotnet_diagnostic.CA1040.severity = suggestion  # CA1040: 避免使用空接口
+dotnet_diagnostic.CA1043.severity = suggestion  # CA1043: 将整型或字符串参数用于索引器
+dotnet_diagnostic.CA1044.severity = suggestion  # CA1044: 属性不应是只写的
+dotnet_diagnostic.CA1046.severity = suggestion  # CA1046: 不要对引用类型重载相等运算符
+dotnet_diagnostic.CA1051.severity = suggestion  # CA1051: 不要声明可见实例字段
+dotnet_diagnostic.CA1052.severity = suggestion  # CA1052: 静态容器类型应为 Static 或 NotInheritable
+dotnet_diagnostic.CA1058.severity = suggestion  # CA1058: 类型不应扩展某些基类型
+dotnet_diagnostic.CA1063.severity = suggestion  # CA1063: 正确实现 IDisposable
+dotnet_diagnostic.CA1065.severity = suggestion  # CA1065: 不要在意外的位置引发异常
+dotnet_diagnostic.CA1066.severity = suggestion  # CA1066: 重写 Object.Equals 时实现 IEquatable
+dotnet_diagnostic.CA1304.severity = suggestion  # CA1304: 指定 CultureInfo
+dotnet_diagnostic.CA1305.severity = suggestion  # CA1305: 指定 IFormatProvider
+dotnet_diagnostic.CA1307.severity = suggestion  # CA1307: 为了清晰起见，请指定 StringComparison
+dotnet_diagnostic.CA1308.severity = suggestion  # CA1308: 将字符串规范化为大写
+dotnet_diagnostic.CA1309.severity = suggestion  # CA1309: 使用序数字符串比较
+dotnet_diagnostic.CA1310.severity = suggestion  # CA1310: 为了确保正确，请指定 StringComparison
+dotnet_diagnostic.CA1501.severity = suggestion  # CA1501: 避免过度继承
+dotnet_diagnostic.CA1502.severity = suggestion  # CA1502: 避免过度复杂性
+dotnet_diagnostic.CA1505.severity = suggestion  # CA1505: 避免使用无法维护的代码
+dotnet_diagnostic.CA1506.severity = suggestion  # CA1506: 避免过度的类耦合
+dotnet_diagnostic.CA1508.severity = suggestion  # CA1508: 避免死条件代码
+dotnet_diagnostic.CA1805.severity = suggestion  # CA1805: 避免进行不必要的初始化
+dotnet_diagnostic.CA1810.severity = suggestion  # CA1810: 以内联方式初始化引用类型的静态字段
+dotnet_diagnostic.CA1813.severity = suggestion  # CA1813: 避免使用非密封特性
+dotnet_diagnostic.CA1814.severity = suggestion  # CA1814: 与多维数组相比，首选使用交错数组
+dotnet_diagnostic.CA1819.severity = suggestion  # CA1819: 属性不应返回数组
+dotnet_diagnostic.CA1820.severity = suggestion  # CA1820: 使用字符串长度测试是否有空字符串
+dotnet_diagnostic.CA1823.severity = suggestion  # CA1823: 避免未使用的私有字段
+dotnet_diagnostic.CA1849.severity = suggestion  # CA1849: 当在异步方法中时，调用异步方法
+dotnet_diagnostic.CA1852.severity = suggestion  # CA1852: 密封内部类型
+dotnet_diagnostic.CA2000.severity = none        # CA2000: 丢失范围之前释放对象
+dotnet_diagnostic.CA2002.severity = suggestion  # CA2002: 不要锁定具有弱标识的对象
+dotnet_diagnostic.CA2007.severity = suggestion  # CA2007: 考虑对等待的任务调用 ConfigureAwait
+dotnet_diagnostic.CA2008.severity = suggestion  # CA2008: 不要在未传递 TaskScheduler 的情况下创建任务
+dotnet_diagnostic.CA2100.severity = suggestion  # CA2100: 检查 SQL 查询是否存在安全漏洞
+dotnet_diagnostic.CA2109.severity = suggestion  # CA2109: 检查可见的事件处理程序
+dotnet_diagnostic.CA2119.severity = suggestion  # CA2119: 密封满足私有接口的方法
+dotnet_diagnostic.CA2153.severity = suggestion  # CA2153: 不要捕获损坏状态异常
+dotnet_diagnostic.CA2201.severity = suggestion  # CA2201: 不要引发保留的异常类型
+dotnet_diagnostic.CA2207.severity = suggestion  # CA2207: 以内联方式初始化值类型的静态字段
+dotnet_diagnostic.CA2213.severity = suggestion  # CA2213: 应释放可释放的字段
+dotnet_diagnostic.CA2214.severity = suggestion  # CA2214: 不要在构造函数中调用可重写的方法
+dotnet_diagnostic.CA2215.severity = suggestion  # CA2215: Dispose 方法应调用基类释放
+dotnet_diagnostic.CA2216.severity = suggestion  # CA2216: 可释放类型应声明终结器
+dotnet_diagnostic.CA2227.severity = suggestion  # CA2227: 集合属性应为只读
+dotnet_diagnostic.CA2251.severity = suggestion  # CA2251: 使用 “string.Equals”
+
+dotnet_diagnostic.SA0001.severity = none        # SA0001: XML comment analysis disabled
+dotnet_diagnostic.SA1101.severity = none        # SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1124.severity = none        # SA1124: Do not use regions
+dotnet_diagnostic.SA1208.severity = none        # SA1208: System using directives should be placed before other using directives
+dotnet_diagnostic.SA1404.severity = none        # SA1404: Code analysis suppression should have justification
+dotnet_diagnostic.SA1405.severity = none        # SA1405: Debug.Assert should provide message text
+dotnet_diagnostic.SA1600.severity = none        # SA1600: Elements should be documented
+dotnet_diagnostic.SA1601.severity = silent      # SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1602.severity = silent      # SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1623.severity = none        # SA1623: Property summary documentation should match accessors
+dotnet_diagnostic.SA1629.severity = none        # SA1629: Documentation text should end with a period
+dotnet_diagnostic.SA1636.severity = none        # SA1636: File header copyright text should match
+dotnet_diagnostic.SA1642.severity = none        # SA1642: Constructor summary documentation should begin with standard text

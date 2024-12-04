@@ -1,12 +1,12 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using System.Globalization;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
@@ -15,13 +15,11 @@ namespace Snap.Hutao.Service.Abstraction;
 [ConstructorGenerated]
 internal abstract partial class DbStoreOptions : ObservableObject
 {
-    private readonly IServiceProvider serviceProvider;
+    private static readonly Func<bool> TrueFunc = static () => true;
 
-    protected static T? EnumParse<T>(string input)
-        where T : struct, Enum
-    {
-        return Enum.Parse<T>(input);
-    }
+    private static readonly Func<bool> FalseFunc = static () => false;
+
+    private readonly IServiceProvider serviceProvider;
 
     protected static string EnumToStringOrEmpty<T>(T? input)
         where T : struct, Enum
@@ -64,24 +62,12 @@ internal abstract partial class DbStoreOptions : ObservableObject
 
     protected bool GetOption(ref bool? storage, string key, bool defaultValue = false)
     {
-        return GetOption(ref storage, key, () => defaultValue);
+        return GetOption(ref storage, key, defaultValue ? TrueFunc : FalseFunc);
     }
 
     protected bool GetOption(ref bool? storage, string key, Func<bool> defaultValueFactory)
     {
-        if (storage is not null)
-        {
-            return storage.Value;
-        }
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValueFactory() : bool.Parse(value);
-        }
-
-        return storage.Value;
+        return GetOption(ref storage, key, bool.Parse, defaultValueFactory);
     }
 
     protected int GetOption(ref int? storage, string key, int defaultValue = 0)
@@ -91,19 +77,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
 
     protected int GetOption(ref int? storage, string key, Func<int> defaultValueFactory)
     {
-        if (storage is not null)
-        {
-            return storage.Value;
-        }
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValueFactory() : int.Parse(value, CultureInfo.InvariantCulture);
-        }
-
-        return storage.Value;
+        return GetOption(ref storage, key, int.Parse, defaultValueFactory);
     }
 
     protected float GetOption(ref float? storage, string key, float defaultValue = 0f)
@@ -113,28 +87,24 @@ internal abstract partial class DbStoreOptions : ObservableObject
 
     protected float GetOption(ref float? storage, string key, Func<float> defaultValueFactory)
     {
-        if (storage is not null)
-        {
-            return storage.Value;
-        }
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValueFactory() : float.Parse(value, CultureInfo.InvariantCulture);
-        }
-
-        return storage.Value;
+        return GetOption(ref storage, key, float.Parse, defaultValueFactory);
     }
 
     [return: NotNullIfNotNull(nameof(defaultValue))]
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
+        where T : class
+    {
+        return GetOption(ref storage, key, deserializer, () => defaultValue);
+    }
+
+    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
+        where T : struct
     {
         return GetOption(ref storage, key, deserializer, () => defaultValue);
     }
 
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, Func<T> defaultValueFactory)
+        where T : class
     {
         if (storage is not null)
         {
@@ -151,27 +121,45 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return storage;
     }
 
+    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, Func<T> defaultValueFactory)
+        where T : struct
+    {
+        if (storage is not null)
+        {
+            return storage.Value;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
+            storage = value is null ? defaultValueFactory() : deserializer(value);
+        }
+
+        return storage.Value;
+    }
+
     protected bool SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => v, propertyName);
+        return SetOption(ref storage, key, value, static v => v, propertyName);
     }
 
     protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => $"{v}", propertyName);
+        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
     protected bool SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => $"{v}", propertyName);
+        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
     protected bool SetOption(ref float? storage, string key, float value, [CallerMemberName] string? propertyName = null)
     {
-        return SetOption(ref storage, key, value, v => $"{v}", propertyName);
+        return SetOption(ref storage, key, value, static v => $"{v}", propertyName);
     }
 
-    protected bool SetOption<T>(ref T? storage, string key, T value, Func<T, string?> serializer, [CallerMemberName] string? propertyName = null)
+    protected bool SetOption<T>(ref T? storage, string key, T value, [RequireStaticDelegate] Func<T, string?> serializer, [CallerMemberName] string? propertyName = null)
     {
         if (!SetProperty(ref storage, value, propertyName))
         {

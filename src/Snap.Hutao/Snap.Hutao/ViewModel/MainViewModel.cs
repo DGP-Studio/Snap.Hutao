@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Animations;
@@ -20,12 +20,11 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     private readonly IBackgroundImageService backgroundImageService;
     private readonly ILogger<MainViewModel> logger;
     private readonly ITaskContext taskContext;
-    private readonly AppOptions appOptions;
 
     private BackgroundImage? previousBackgroundImage;
     private Image? backgroundImagePresenter;
 
-    public AppOptions AppOptions { get => appOptions; }
+    public partial AppOptions AppOptions { get; }
 
     public void Initialize(IBackgroundImagePresenterAccessor accessor)
     {
@@ -35,13 +34,13 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
 
     protected override ValueTask<bool> LoadOverrideAsync()
     {
-        appOptions.PropertyChanged += OnAppOptionsPropertyChanged;
+        AppOptions.PropertyChanged += OnAppOptionsPropertyChanged;
         return ValueTask.FromResult(true);
     }
 
     protected override void UninitializeOverride()
     {
-        appOptions.PropertyChanged -= OnAppOptionsPropertyChanged;
+        AppOptions.PropertyChanged -= OnAppOptionsPropertyChanged;
     }
 
     private void OnAppOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)

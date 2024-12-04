@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
@@ -33,7 +33,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
-    private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -42,7 +41,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
-    public LaunchOptions LaunchOptions { get => launchOptions; }
+    public partial LaunchOptions LaunchOptions { get; }
 
     public partial LaunchStatusOptions LaunchStatusOptions { get; }
 
@@ -121,6 +120,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public ImmutableArray<GamePathEntry> GamePathEntries { get; set => SetProperty(ref field, value); } = [];
 
+    public ImmutableArray<AspectRatio> AspectRatios { get; set => SetProperty(ref field, value); } = [];
+
     /// <summary>
     /// Update this property will also:
     /// <br/>
@@ -133,13 +134,26 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         get;
         set
         {
+            if (value is not null && !LaunchOptions.GamePathEntries.Contains(value))
+            {
+                HutaoException.InvalidOperation("Selected game path entry is not in the game path entries.");
+            }
+
             if (!SetProperty(ref field, value))
             {
                 return;
             }
 
-            launchOptions.GamePath = value?.Path ?? string.Empty;
-            GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
+            // We are selecting from existing entries, so we don't need to update GamePathEntries
+            if (LaunchOptions.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
+            {
+                using (releaser)
+                {
+                    LaunchOptions.GamePath = value?.Path ?? string.Empty;
+                }
+            }
+
+            GamePathSelectedAndValid = File.Exists(LaunchOptions.GamePath);
         }
     }
 
@@ -166,7 +180,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     protected override ValueTask<bool> LoadOverrideAsync()
     {
-        SetGamePathEntriesAndSelectedGamePathEntry(launchOptions.GetGamePathEntries(out GamePathEntry? entry), entry);
+        this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
+        AspectRatios = LaunchOptions.AspectRatios;
         return ValueTask.FromResult(true);
     }
 
@@ -186,7 +201,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        GamePathEntries = launchOptions.UpdateGamePath(path);
+        GamePathEntries = LaunchOptions.UpdateGamePath(path);
     }
 
     [Command("ResetGamePathCommand")]
@@ -198,8 +213,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("RemoveGamePathEntryCommand")]
     private void RemoveGamePathEntry(GamePathEntry? entry)
     {
-        GamePathEntries = launchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
+        GamePathEntries = LaunchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
         SelectedGamePathEntry = selected;
+    }
+
+    [Command("RemoveAspectRatioCommand")]
+    private void RemoveAspectRatio(AspectRatio aspectRatio)
+    {
+        AspectRatios = LaunchOptions.RemoveAspectRatio(aspectRatio);
     }
 
     [Command("LaunchCommand")]
@@ -207,6 +228,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
         await this.LaunchExecutionAsync(SelectedScheme, userAndUid).ConfigureAwait(false);
+
+        // AspectRatios might be updated during the launch
+        await taskContext.SwitchToMainThreadAsync();
+        AspectRatios = LaunchOptions.AspectRatios;
     }
 
     [Command("DetectGameAccountCommand")]
@@ -263,13 +288,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
-        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!LaunchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
 
-        Directory.CreateDirectory(gameFileSystem.ScreenShotDirectory);
-        await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
+        using (gameFileSystem)
+        {
+            Directory.CreateDirectory(gameFileSystem.GetScreenShotDirectory());
+            await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.GetScreenShotDirectory());
+        }
     }
 
     [SuppressMessage("", "SH003")]

@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
@@ -12,7 +12,6 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]
-[SuppressMessage("", "CA2000")]
 internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 {
     public override async ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild)

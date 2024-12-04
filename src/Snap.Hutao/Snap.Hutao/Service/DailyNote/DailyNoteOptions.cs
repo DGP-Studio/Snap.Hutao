@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Quartz;
@@ -63,7 +63,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         {
             if (value is not null)
             {
-                SetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, value, v => $"{v.Value}");
+                SetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, value, static v => $"{v.Value}");
                 quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                 {
                     return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(value.Value).RepeatForever());

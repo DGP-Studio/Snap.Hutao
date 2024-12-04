@@ -1,15 +1,18 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -91,7 +94,7 @@ internal sealed partial class CultivationService : ICultivationService
 
                 if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is { } existedItem)
                 {
-                    existedItem.Count += item.Count;
+                    existedItem.Count += (int)item.Count;
                 }
                 else
                 {
@@ -104,11 +107,108 @@ internal sealed partial class CultivationService : ICultivationService
         {
             if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
             {
-                existedItem.TotalCount += inventoryItem.Count;
+                existedItem.Current += (int)inventoryItem.Count;
             }
         }
 
         return resultItems.SortBy(item => item.Inner.Id, MaterialIdComparer.Shared).ToObservableCollection();
+    }
+
+    public async ValueTask<ResinStatistics> GetResinStatisticsAsync(ObservableCollection<StatisticsCultivateItem> statisticsCultivateItems, CancellationToken token)
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        ResinStatistics statistics = new();
+
+        IEnumerable<IGrouping<uint, StatisticsCultivateItem>> groupedItems = statisticsCultivateItems
+            .Where(i => i.Inner.IsResinItem())
+            .GroupBy(i => i.Inner.Rank);
+
+        foreach ((uint rank, IEnumerable<StatisticsCultivateItem> items) in groupedItems)
+        {
+            // 摩拉
+            if (rank is 10U)
+            {
+                StatisticsCultivateItem item = items.Single();
+                if (item.IsFinished)
+                {
+                    continue;
+                }
+
+                double times = item.Count - item.Current;
+                statistics.BlossomOfWealth.RawItemCount += times;
+                continue;
+            }
+
+            // 经验
+            if (rank is 100U)
+            {
+                StatisticsCultivateItem item = items.Single();
+                Debug.Assert(item.Inner.RankLevel is QualityType.QUALITY_PURPLE, "经验书必须是紫色品质");
+                if (item.IsFinished)
+                {
+                    continue;
+                }
+
+                double times = (item.Count - item.Current) * 20000D;
+                statistics.BlossomOfRevelation.RawItemCount += times;
+                continue;
+            }
+
+            // BOSS 掉落
+            if (rank is 11101U)
+            {
+                foreach (StatisticsCultivateItem item in items)
+                {
+                    if (item.IsFinished)
+                    {
+                        continue;
+                    }
+
+                    double times = item.Count - item.Current;
+                    _ = item.Inner.RankLevel switch
+                    {
+                        QualityType.QUALITY_PURPLE => statistics.NormalBoss.RawItemCount += times,
+                        QualityType.QUALITY_ORANGE => statistics.WeeklyBoss.RawItemCount += times,
+                        _ => throw HutaoException.NotSupported(),
+                    };
+                }
+
+                continue;
+            }
+
+            // 天赋书，武器突破材料
+            // items.Count in [0..4]
+            double greenItems = 0D;
+            double blueItems = 0D;
+            double purpleItems = 0D;
+            double orangeItems = 0D;
+
+            // ABCDE -> B
+            ResinStatisticsItem targetStatisticsItem = ((rank / 1000) % 10) switch
+            {
+                3 => statistics.TalentAscension,
+                5 => statistics.WeaponAscension,
+                _ => throw HutaoException.NotSupported(),
+            };
+
+            foreach (StatisticsCultivateItem item in items)
+            {
+                double times = item.Count - item.Current;
+                _ = item.Inner.RankLevel switch
+                {
+                    QualityType.QUALITY_GREEN => greenItems += times,
+                    QualityType.QUALITY_BLUE => blueItems += times,
+                    QualityType.QUALITY_PURPLE => purpleItems += times,
+                    QualityType.QUALITY_ORANGE => orangeItems += times,
+                    _ => throw HutaoException.NotSupported(),
+                };
+            }
+
+            targetStatisticsItem.RawItemCount += AlchemyCrafting.UnWeighted(orangeItems, purpleItems, blueItems, greenItems);
+        }
+
+        statistics.RefreshBlossomOfWealth();
+        return statistics;
     }
 
     public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
@@ -130,11 +230,7 @@ internal sealed partial class CultivationService : ICultivationService
 
     public async ValueTask<ConsumptionSaveResultKind> SaveConsumptionAsync(InputConsumption inputConsumption)
     {
-        if (inputConsumption is { Strategy: not ConsumptionSaveStrategyKind.OverwriteExisting, Items: [] })
-        {
-            return ConsumptionSaveResultKind.NoItem;
-        }
-
+        // No selected project
         if (!await EnsureCurrentProjectAsync().ConfigureAwait(false))
         {
             return ConsumptionSaveResultKind.NoProject;
@@ -144,12 +240,19 @@ internal sealed partial class CultivationService : ICultivationService
 
         await taskContext.SwitchToBackgroundAsync();
 
+        // PreserveExisting or CreateNewEntry, but no item
+        if (inputConsumption is { Strategy: not ConsumptionSaveStrategyKind.OverwriteExisting, Items: [] })
+        {
+            return ConsumptionSaveResultKind.NoItem;
+        }
+
+        // PreserveExisting or OverwriteExisting
         if (inputConsumption.Strategy is not ConsumptionSaveStrategyKind.CreateNewEntry)
         {
             // Check for existing entries
             List<CultivateEntry> entries = cultivationRepository.GetCultivateEntryListByProjectIdAndItemId(Projects.CurrentItem.InnerId, inputConsumption.ItemId);
 
-            if (entries is [_, ..])
+            if (entries.Count > 0)
             {
                 if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.PreserveExisting)
                 {
@@ -169,6 +272,13 @@ internal sealed partial class CultivationService : ICultivationService
                     {
                         return ConsumptionSaveResultKind.Removed;
                     }
+                }
+            }
+            else
+            {
+                if (inputConsumption.Items is [])
+                {
+                    return ConsumptionSaveResultKind.NoItem;
                 }
             }
         }

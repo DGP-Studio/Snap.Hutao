@@ -1,4 +1,4 @@
-﻿<Button
+<Button
     x:Class="Snap.Hutao.UI.Xaml.View.Card.GachaStatisticsCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

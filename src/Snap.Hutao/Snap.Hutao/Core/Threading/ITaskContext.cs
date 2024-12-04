@@ -1,11 +1,8 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Core.Threading;
 
-/// <summary>
-/// 任务上下文
-/// </summary>
 internal interface ITaskContext
 {
     void BeginInvokeOnMainThread(Action action);

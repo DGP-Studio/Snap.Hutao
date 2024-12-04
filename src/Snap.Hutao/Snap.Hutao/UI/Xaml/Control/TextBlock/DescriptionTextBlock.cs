@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using Windows.Foundation;
 using Windows.UI;
 using MUXCTextBlock = Microsoft.UI.Xaml.Controls.TextBlock;
 
@@ -18,8 +17,6 @@ namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
-    private readonly TypedEventHandler<FrameworkElement, object> actualThemeChangedEventHandler;
-
     public DescriptionTextBlock()
     {
         this.DisableInteraction();
@@ -30,8 +27,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             Style = TextStyle,
         };
 
-        actualThemeChangedEventHandler = OnActualThemeChanged;
-        ActualThemeChanged += actualThemeChangedEventHandler;
+        ActualThemeChanged += OnActualThemeChanged;
     }
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

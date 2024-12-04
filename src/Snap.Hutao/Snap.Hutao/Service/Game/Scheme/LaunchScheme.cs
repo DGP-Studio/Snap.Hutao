@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
@@ -35,28 +35,8 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
 
     public bool IsNotCompatOnly { get; private protected set; } = true;
 
-    public static bool ExecutableIsOversea(string gameFileName)
-    {
-        return gameFileName.ToUpperInvariant() switch
-        {
-            GameConstants.GenshinImpactFileNameUpper => true,
-            GameConstants.YuanShenFileNameUpper => false,
-            _ => throw Requires.Fail("Invalid game executable file name：{0}", gameFileName),
-        };
-    }
-
     public bool Equals(ChannelOptions other)
     {
         return Channel == other.Channel && SubChannel == other.SubChannel && IsOversea == other.IsOversea;
-    }
-
-    public bool ExecutableMatches(string gameFileName)
-    {
-        return (IsOversea, gameFileName) switch
-        {
-            (true, GameConstants.GenshinImpactFileName) => true,
-            (false, GameConstants.YuanShenFileName) => true,
-            _ => false,
-        };
     }
 }

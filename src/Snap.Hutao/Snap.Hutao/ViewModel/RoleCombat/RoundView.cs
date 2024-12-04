@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
@@ -17,7 +17,7 @@ internal sealed class RoundView
         Enemies = data.Enemies.Select(EnemyView.From).ToList();
         Avatars = data.Avatars.Select(avatar => AvatarView.From(avatar, context.IdAvatarMap[avatar.AvatarId])).ToList();
         ChoiceCards = data.ChoiceCards.Select(BuffView.From).ToList();
-        SplendourSummary = data.SplendourBuff.Summary.Description;
+        SplendourSummary = data.SplendourBuff.Summary.Description.Replace("\\n", "\n", StringComparison.OrdinalIgnoreCase);
         SplendourBuffs = data.SplendourBuff.Buffs.Select(SplendourBuffView.From).ToList();
     }
 

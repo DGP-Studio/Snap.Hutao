@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -28,13 +28,12 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IDailyNoteService dailyNoteService;
-    private readonly DailyNoteOptions dailyNoteOptions;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
-    public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
+    public partial DailyNoteOptions DailyNoteOptions { get; }
 
     public partial RuntimeOptions RuntimeOptions { get; }
 
@@ -136,13 +135,13 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private async Task ConfigDailyNoteWebhookUrlAsync()
     {
         DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>().ConfigureAwait(true);
-        dialog.Text = dailyNoteOptions.WebhookUrl;
+        dialog.Text = DailyNoteOptions.WebhookUrl;
         (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
         {
             await taskContext.SwitchToMainThreadAsync();
-            dailyNoteOptions.WebhookUrl = url;
+            DailyNoteOptions.WebhookUrl = url;
             infoBarService.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete);
         }
     }

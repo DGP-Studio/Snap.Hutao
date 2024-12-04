@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -23,6 +23,7 @@ namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
+[SuppressMessage("", "SA1201")]
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
@@ -32,14 +33,10 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
+    private readonly App app;
 
-    public partial RuntimeOptions RuntimeOptions { get; }
-
-    public partial HotKeyOptions HotKeyOptions { get; }
-
-    public string Title
+    public static string Title
     {
-        [SuppressMessage("", "IDE0027")]
         get
         {
             string name = new StringBuilder()
@@ -57,12 +54,16 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
     }
 
+    public partial RuntimeOptions RuntimeOptions { get; }
+
+    public partial HotKeyOptions HotKeyOptions { get; }
+
     public UpdateStatus? UpdateStatus { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
         ShowUpdateLogWindowAfterUpdate();
-        NotifyIfDateFolderHasReparsePoint();
+        NotifyIfDataFolderHasReparsePoint();
         await DoCheckUpdateAsync().ConfigureAwait(false);
         await CheckProxyAndLoopbackAsync().ConfigureAwait(false);
         return true;
@@ -81,6 +82,11 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     {
         IProgress<UpdateStatus> progress = progressFactory.CreateForMainThread<UpdateStatus>(status => UpdateStatus = status);
         CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync(progress).ConfigureAwait(false);
+
+        if (currentXamlWindowReference.Window is null)
+        {
+            return;
+        }
 
         if (checkUpdateResult.Kind is CheckUpdateResultKind.NeedDownload)
         {
@@ -174,7 +180,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         return downloadSuccess;
     }
 
-    private void NotifyIfDateFolderHasReparsePoint()
+    private void NotifyIfDataFolderHasReparsePoint()
     {
         if (new DirectoryInfo(HutaoRuntime.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
         {
@@ -199,4 +205,28 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             httpProxyUsingSystemProxy.EnableLoopback();
         }
     }
+
+    #region Dev Debug Only
+
+    public static bool IsDebug
+    {
+        get =>
+#if DEBUG
+            true;
+#else
+            false;
+#endif
+    }
+
+    [Command("ReverseAppThemeCommand")]
+    private void ReverseAppTheme()
+    {
+#if DEBUG
+        WinUI.FrameworkTheming.FrameworkTheming.SetTheme(app.RequestedTheme is Microsoft.UI.Xaml.ApplicationTheme.Dark
+            ? WinUI.FrameworkTheming.Theme.Light
+            : WinUI.FrameworkTheming.Theme.Dark);
+#endif
+    }
+
+    #endregion
 }

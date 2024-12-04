@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
@@ -9,7 +9,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
         }
@@ -21,7 +21,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
         }
     }
 
-    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, GameFileSystem gameFileSystem)
+    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, IGameFileSystem gameFileSystem)
     {
         LaunchOptions launchOptions = context.Options;
 
@@ -40,6 +40,11 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
                 .AppendIf(launchOptions.UsingCloudThirdPartyMobile, "-platform_type CLOUD_THIRD_PARTY_MOBILE")
                 .AppendIf(launchOptions.UsingHoyolabAccount && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentSeparator.Equal)
                 .ToString();
+
+            context.TaskContext.InvokeOnMainThread(() =>
+            {
+                launchOptions.SaveAspectRatio(new(launchOptions.ScreenWidth, launchOptions.ScreenHeight));
+            });
         }
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);
@@ -52,7 +57,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
                 FileName = gameFileSystem.GameFilePath,
                 UseShellExecute = true,
                 Verb = "runas",
-                WorkingDirectory = gameFileSystem.GameDirectory,
+                WorkingDirectory = gameFileSystem.GetGameDirectory(),
             },
         };
     }

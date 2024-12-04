@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Web.Hoyolab;
@@ -7,7 +7,6 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// 键部分
 /// </summary>
 [SuppressMessage("", "SA1310")]
-[SuppressMessage("", "SA1600")]
 internal sealed partial class Cookie
 {
     public const string LOGIN_TICKET = "login_ticket";

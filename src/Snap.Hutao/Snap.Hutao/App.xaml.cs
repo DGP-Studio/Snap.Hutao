@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -9,6 +9,9 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Service;
+using Snap.Hutao.UI.Xaml.Control.Theme;
+using Snap.WinUI.FrameworkTheming;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
@@ -74,6 +77,8 @@ public sealed partial class App : Application
 
             logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
             LogDiagnosticInformation();
+
+            FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(serviceProvider.GetRequiredService<AppOptions>().ElementTheme));
 
             // Manually invoke
             activation.ActivateAndInitialize(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));

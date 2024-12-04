@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -14,7 +14,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IContentDialogQueue contentDialogQueue;
     private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
     public bool IsDialogShowing
@@ -22,11 +21,11 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         get => contentDialogQueue.IsDialogShowing;
     }
 
-    public ITaskContext TaskContext { get => taskContext; }
+    public partial ITaskContext TaskContext { get; }
 
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
     {
-        await taskContext.SwitchToMainThreadAsync();
+        await TaskContext.SwitchToMainThreadAsync();
 
         Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
@@ -43,7 +42,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
 
     public async ValueTask<ContentDialogResult> CreateForConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close)
     {
-        await taskContext.SwitchToMainThreadAsync();
+        await TaskContext.SwitchToMainThreadAsync();
 
         Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
@@ -61,7 +60,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
 
     public async ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync(string title)
     {
-        await taskContext.SwitchToMainThreadAsync();
+        await TaskContext.SwitchToMainThreadAsync();
 
         Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
@@ -77,7 +76,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     public async ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
-        await taskContext.SwitchToMainThreadAsync();
+        await TaskContext.SwitchToMainThreadAsync();
 
         TContentDialog contentDialog = ActivatorUtilities.CreateInstance<TContentDialog>(serviceProvider, parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();

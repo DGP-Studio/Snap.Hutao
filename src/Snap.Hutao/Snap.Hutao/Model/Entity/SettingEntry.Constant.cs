@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Model.Entity;
@@ -10,6 +10,7 @@ internal sealed partial class SettingEntry
 {
     public const string GamePath = "GamePath";
     public const string GamePathEntries = "GamePathEntries";
+    public const string AspectRatios = "AspectRatios";
     public const string Culture = "Culture";
     public const string FirstDayOfWeek = "FirstDayOfWeek";
 

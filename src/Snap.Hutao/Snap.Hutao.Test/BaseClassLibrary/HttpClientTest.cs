@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 
 namespace Snap.Hutao.Test.BaseClassLibrary;
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
@@ -6,6 +6,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -16,6 +17,7 @@ namespace Snap.Hutao.Service.Game.Account;
 internal sealed partial class GameAccountService : IGameAccountService
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IInfoBarService infoBarService;
     private readonly IGameRepository gameRepository;
     private readonly ITaskContext taskContext;
 
@@ -55,6 +57,12 @@ internal sealed partial class GameAccountService : IGameAccountService
 
             if (isOk)
             {
+                if (gameAccounts.Any(a => a.Name == name))
+                {
+                    infoBarService.Warning(SH.FormatServiceGameAccountDetectInputNameAlreadyExists(name));
+                    return default;
+                }
+
                 account = GameAccount.From(name, registrySdk, schemeType);
 
                 // sync database

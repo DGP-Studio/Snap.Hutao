@@ -101,6 +101,33 @@
                     ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountRemoveToolTip}"/>
             </Grid>
         </DataTemplate>
+
+        <shvg:AspectRatioComboBoxTemplateSelector x:Key="AspectRatioComboBoxTemplateSelector">
+            <shvg:AspectRatioComboBoxTemplateSelector.ListTemplate>
+                <DataTemplate>
+                    <!--  ComboBoxItemThemePadding 11,5,11,7  -->
+                    <Grid Margin="1,-1,-7,-3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock VerticalAlignment="Center" Text="{Binding}"/>
+                        <Button
+                            Grid.Column="1"
+                            MinWidth="32"
+                            MinHeight="32"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            Command="{Binding DataContext.RemoveAspectRatioCommand, Source={StaticResource BindingProxy}}"
+                            CommandParameter="{Binding}"
+                            Content="&#xE711;"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Style="{ThemeResource SettingButtonStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </shvg:AspectRatioComboBoxTemplateSelector.ListTemplate>
+        </shvg:AspectRatioComboBoxTemplateSelector>
     </Page.Resources>
 
     <shuxc:StandardView ShowCondition="{Binding GamePathSelectedAndValid, Mode=OneWay}" Style="{ThemeResource DefaultStandardViewStyle}">
@@ -420,9 +447,7 @@
                                                 Padding="16"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
-                                                <Grid
-                                                    ColumnSpacing="16"
-                                                    RowSpacing="16">
+                                                <Grid ColumnSpacing="16" RowSpacing="16">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition/>
@@ -459,9 +484,7 @@
                                                 Padding="16"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="0,0,0,1">
-                                                <Grid
-                                                    ColumnSpacing="16"
-                                                    RowSpacing="16">
+                                                <Grid ColumnSpacing="16" RowSpacing="16">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition/>
@@ -585,9 +608,11 @@
                                                 <shuxc:SizeRestrictedContentControl Margin="0,0,130,0" VerticalAlignment="Center">
                                                     <ComboBox
                                                         MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
+                                                        ItemTemplateSelector="{StaticResource AspectRatioComboBoxTemplateSelector}"
                                                         ItemsSource="{Binding LaunchOptions.AspectRatios}"
                                                         PlaceholderText="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
-                                                        SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"/>
+                                                        SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"
+                                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </cwc:SettingsCard>
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}" Header="-screen-width">

@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Threading.RateLimiting;
@@ -49,12 +49,11 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
         long bytesReadSinceCopyStart = 0;
         long bytesReadSinceLastReport = 0;
 
-        int bytesRead;
-
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
         {
             Memory<byte> buffer = memoryOwner.Memory;
 
+            int bytesRead;
             do
             {
                 bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(false);
@@ -84,14 +83,13 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
         long bytesReadSinceCopyStart = 0;
         long bytesReadSinceLastReport = 0;
 
-        int bytesRead;
-
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
         {
             Memory<byte> buffer = memoryOwner.Memory;
 
             do
             {
+                int bytesRead;
                 if (rateLimiterBox.Value is { } rateLimiter)
                 {
                     if (!rateLimiter.TryAcquire(buffer.Length, out int bytesToRead, out TimeSpan retryAfter))

@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Text;
@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using Windows.Foundation;
 using Windows.UI;
 using MUXCTextBlock = Microsoft.UI.Xaml.Controls.TextBlock;
 
@@ -27,8 +26,6 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
     private static readonly int BoldTagFullLength = "<b></b>".Length;
     private static readonly int BoldTagLeftLength = "<b>".Length;
 
-    private readonly TypedEventHandler<FrameworkElement, object> actualThemeChangedEventHandler;
-
     /// <summary>
     /// 构造一个新的呈现描述文本的文本块
     /// </summary>
@@ -42,8 +39,7 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
             Style = TextStyle,
         };
 
-        actualThemeChangedEventHandler = OnActualThemeChanged;
-        ActualThemeChanged += actualThemeChangedEventHandler;
+        ActualThemeChanged += OnActualThemeChanged;
     }
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

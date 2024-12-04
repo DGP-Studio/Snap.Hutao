@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Snap.Hutao.UI.Xaml.View.TitleView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -36,10 +36,16 @@
             Margin="0,0,6,0"
             Orientation="Horizontal"
             Spacing="6">
+
+            <Button
+                Command="{Binding ReverseAppThemeCommand}"
+                Content="Reverse Theme"
+                Visibility="{Binding IsDebug}"/>
+
             <StackPanel
                 Orientation="Horizontal"
                 Spacing="6"
-                Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding RuntimeOptions.IsElevated}">
                 <ToggleButton
                     VerticalAlignment="Center"
                     IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsOn, Mode=OneWay}"

@@ -1,4 +1,4 @@
-﻿<Flyout
+<Flyout
     x:Class="Snap.Hutao.UI.Shell.NotifyIconContextMenu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -184,7 +184,11 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+        <Grid
+            Grid.Row="0"
+            Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
             <TextBlock
                 Margin="8"
                 Style="{StaticResource BodyTextBlockStyle}"
@@ -211,7 +215,11 @@
                 Text="{shuxm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"/>
         </StackPanel>
 
-        <Grid Grid.Row="2" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+        <Grid
+            Grid.Row="2"
+            Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0">
             <StackPanel
                 Margin="4,0"
                 HorizontalAlignment="Right"
