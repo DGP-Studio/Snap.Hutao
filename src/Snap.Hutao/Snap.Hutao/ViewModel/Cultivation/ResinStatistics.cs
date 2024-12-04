@@ -86,7 +86,8 @@ internal sealed class ResinStatistics : ObservableObject
 
     public void RefreshBlossomOfWealth()
     {
-        BlossomOfWealth.MiscMoraEarned = BlossomOfRevelation.Mora +
+        BlossomOfWealth.MiscMoraEarned =
+            BlossomOfRevelation.Mora +
             TalentAscension.Mora +
             WeaponAscension.Mora +
             NormalBoss.Mora +
