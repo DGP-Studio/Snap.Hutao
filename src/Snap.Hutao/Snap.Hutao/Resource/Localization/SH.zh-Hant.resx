@@ -121,10 +121,10 @@
     <value>胡桃 Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [管理员]</value>
+    <value>胡桃 Dev {0} [系統管理員]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
-    <value>胡桃 {0} [管理员]</value>
+    <value>胡桃 {0} [系統管理員]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
@@ -968,6 +968,9 @@
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
     <value>UIGF 檔案的語言：{0} 與胡桃的語言：{1} 不對應，請切換到對應語言重試</value>
   </data>
+  <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
+    <value>名稱為 {0} 的帳號已存在</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多個對應帳號，請刪除重複的帳號</value>
   </data>
@@ -1383,7 +1386,7 @@
     <value>解除限制後需使用其他工具恢復限制</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+    <value>檢測到系統代理已設定，但未解除 Loopback 限制，胡桃將無法正常聯網。</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>是否解除 Loopback 限制</value>
@@ -1510,6 +1513,24 @@
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
     <value>正在修複設定檔案</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
+    <value>選擇的安裝路徑不存在且無法創建</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
+    <value>選擇的安裝路徑存在檔案或資料夾</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
+    <value>選擇的安裝路徑無效</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
+    <value>未選擇語音包</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
+    <value>未選擇遊戲區服</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
+    <value>選擇安裝路徑</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>轉換可能需要花費一段時間，請勿關閉胡桃</value>
@@ -1796,6 +1817,27 @@
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
     <value>確定要刪除目前計劃嗎？</value>
   </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
+    <value>启示之花</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
+    <value>藏金之花</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
+    <value>还需 {0} 天</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
+    <value>世界 BOSS</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
+    <value>角色天賦素材</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeaponAscensionTitle" xml:space="preserve">
+    <value>武器突破素材</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
+    <value>周常 BOSS</value>
+  </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>即時便箋 Webhook URL 設定成功</value>
   </data>
@@ -1840,6 +1882,9 @@
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
     <value>距離 UP 結束還有 {0} 天</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
+    <value>累計 UP 次數：{0}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
     <value>上次 UP 時間: {0:yyyy.MM.dd}</value>
@@ -2240,6 +2285,12 @@
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
     <value>未集齊優先</value>
   </data>
+  <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
+    <value>树脂预估</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
+    <value>世界等级</value>
+  </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>材料統計</value>
   </data>
@@ -2616,7 +2667,7 @@
     <value>進階功能</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>快速切換到指定的顯示器解析度</value>
+    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>顯示器解析度</value>

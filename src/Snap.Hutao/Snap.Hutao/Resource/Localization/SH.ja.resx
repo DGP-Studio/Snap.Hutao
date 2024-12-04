@@ -968,6 +968,9 @@
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
     <value>UIGF ファイルの言語：{0} と胡桃の設定言語：{1} と一致しません。言語を切り替えて再度試してください</value>
   </data>
+  <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
+    <value>名前は {0} のアカウントは既に存在します</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>一致するアカウントが複数見つかりました。重複しているアカウントを削除してください。</value>
   </data>
@@ -1512,6 +1515,24 @@
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
     <value>設定ファイルを修復中</value>
   </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
+    <value>選択されたパスは存在せず且つ作成できません</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
+    <value>選択されたパスには、ファイルまたはフォルダーが存在しています</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
+    <value>選択されたパスは無効です</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
+    <value>音声拡張パックが選択されていません</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
+    <value>具体的なサーバーが選択されていません</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
+    <value>インストールパスの選択</value>
+  </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>切り換えに時間がかかる場合があります、アプリを閉じないでください</value>
   </data>
@@ -1797,6 +1818,27 @@
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
     <value>現在の計画を削除してもよろしいですか？</value>
   </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
+    <value>啓示の花</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
+    <value>蔵金の花</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
+    <value>{0} 日掛かる</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
+    <value>フィールドボス</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
+    <value>キャラクター天賦素材</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeaponAscensionTitle" xml:space="preserve">
+    <value>武器突破素材</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
+    <value>週ボス</value>
+  </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>リアルタイムノートのWebhook URLの設定に成功しました。</value>
   </data>
@@ -1841,6 +1883,9 @@
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
     <value>{0} 日までに UP 終了</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
+    <value>累積 UP 回数：{0}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
     <value>前回 UP 時間: {0:yyyy.MM.dd}</value>
@@ -2241,6 +2286,12 @@
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
     <value>収集未完成に優先</value>
   </data>
+  <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
+    <value>樹脂概算</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
+    <value>世界ランク</value>
+  </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>素材情報</value>
   </data>
@@ -2618,7 +2669,7 @@
     <value>高度な機能</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>指定した解像度に素早く切り替えます</value>
+    <value>指定の解像度に素早く切り替え、ゲームを起動して現在の解像度を保存できます</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>解像度</value>
