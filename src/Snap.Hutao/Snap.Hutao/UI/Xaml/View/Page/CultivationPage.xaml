@@ -396,48 +396,49 @@
                                     Visibility="{Binding ElementName=MaterialListPivot, Path=SelectedItem.Tag, Converter={StaticResource MaterialListSelectedItemIsStatisticsViewConverter}}"/>
                                 <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE946;}" Label="{shuxm:ResourceString Name=ViewPageCultivationMaterialListResinStatisticsLabel}">
                                     <AppBarButton.Flyout>
-                                        <Flyout Placement="BottomEdgeAlignedRight">
+                                        <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding0Style}" Placement="BottomEdgeAlignedRight">
                                             <StackPanel DataContext="{Binding ResinStatistics}">
-                                                <Grid
-                                                    Padding="4"
-                                                    HorizontalAlignment="Stretch"
-                                                    ColumnSpacing="2">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock
-                                                        Grid.Column="0"
-                                                        VerticalAlignment="Center"
-                                                        Text="{shuxm:ResourceString Name=ViewPageCultivationMaterialListWorldLevelTitle}"/>
-                                                    <shuxc:SizeRestrictedContentControl
-                                                        Grid.Column="1"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Center"
-                                                        AllowFocusOnInteraction="True">
-                                                        <ComboBox
-                                                            DisplayMemberPath="WorldLevel"
-                                                            ItemsSource="{Binding DropDistributions}"
-                                                            SelectedItem="{Binding SelectedDropDistribution, Mode=TwoWay}"/>
-                                                    </shuxc:SizeRestrictedContentControl>
-                                                </Grid>
-                                                <cwcont:HeaderedItemsControl ItemsSource="{Binding ItemsSource}">
+                                                <Border
+                                                    Padding="8"
+                                                    Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                    BorderThickness="0,0,0,1">
+                                                    <Grid HorizontalAlignment="Stretch" ColumnSpacing="2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock
+                                                            Grid.Column="0"
+                                                            Margin="8,0,0,0"
+                                                            VerticalAlignment="Center"
+                                                            Text="{shuxm:ResourceString Name=ViewPageCultivationMaterialListWorldLevelTitle}"/>
+                                                        <shuxc:SizeRestrictedContentControl
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            AllowFocusOnInteraction="True">
+                                                            <ComboBox
+                                                                DisplayMemberPath="WorldLevel"
+                                                                ItemsSource="{Binding DropDistributions}"
+                                                                SelectedItem="{Binding SelectedDropDistribution, Mode=TwoWay}"/>
+                                                        </shuxc:SizeRestrictedContentControl>
+                                                    </Grid>
+                                                </Border>
+
+                                                <cwcont:HeaderedItemsControl Margin="0,8,0,4" ItemsSource="{Binding ItemsSource}">
                                                     <cwcont:HeaderedItemsControl.Header>
                                                         <shuxcpd:DataTable ColumnSpacing="8">
-                                                            <shuxcpd:DataColumn CanResize="False" Content="类型"/>
-                                                            <shuxcpd:DataColumn CanResize="False" Content="脆弱树脂"/>
-                                                            <shuxcpd:DataColumn CanResize="False" Content="浓缩树脂"/>
-                                                            <shuxcpd:DataColumn CanResize="False" Content="等效天数"/>
-                                                            <shuxcpd:DataColumn/>
+                                                            <shuxcpd:DataColumn CanResize="False"/>
+                                                            <shuxcpd:DataColumn CanResize="False"/>
+                                                            <shuxcpd:DataColumn CanResize="False"/>
+                                                            <shuxcpd:DataColumn CanResize="False"/>
                                                         </shuxcpd:DataTable>
                                                     </cwcont:HeaderedItemsControl.Header>
                                                     <cwcont:HeaderedItemsControl.ItemTemplate>
                                                         <DataTemplate x:DataType="shvcu:ResinStatisticsItem">
-                                                            <shuxcpd:DataRow>
-                                                                <TextBlock
-                                                                    Margin="4,0,0,0"
-                                                                    VerticalAlignment="Center"
-                                                                    Text="{Binding Title, Mode=OneWay}"/>
+                                                            <shuxcpd:DataRow Margin="16,0,16,8">
+                                                                <TextBlock VerticalAlignment="Center" Text="{Binding Title, Mode=OneWay}"/>
 
                                                                 <StackPanel
                                                                     VerticalAlignment="Center"
@@ -457,16 +458,12 @@
                                                                     <BitmapIcon
                                                                         Width="20"
                                                                         ShowAsMonochrome="False"
-                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_211.png"/>
+                                                                        UriSource="ms-appx:///Resource/Icon/UI_ItemIcon_211.png"
+                                                                        Visibility="{Binding CondensedResin, Converter={StaticResource EmptyObjectToBoolConverter}}"/>
                                                                     <TextBlock Text="{Binding CondensedResin, Mode=OneWay}"/>
                                                                 </StackPanel>
 
-                                                                <TextBlock
-                                                                    Margin="4,0,0,0"
-                                                                    VerticalAlignment="Center"
-                                                                    Text="{Binding Days, Mode=OneWay}"/>
-
-                                                                <Border/>
+                                                                <TextBlock VerticalAlignment="Center" Text="{Binding Days, Mode=OneWay}"/>
                                                             </shuxcpd:DataRow>
                                                         </DataTemplate>
                                                     </cwcont:HeaderedItemsControl.ItemTemplate>
