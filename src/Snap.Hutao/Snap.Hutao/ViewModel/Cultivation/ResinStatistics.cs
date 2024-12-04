@@ -1,13 +1,14 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Model.Metadata.Item;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-internal sealed class ResinStatistics
+internal sealed class ResinStatistics : ObservableObject
 {
     public ResinStatistics()
     {
@@ -31,6 +32,7 @@ internal sealed class ResinStatistics
 
             RefreshBlossomOfWealth();
             BlossomOfWealth.SelectedDropDistribution = value;
+            OnPropertyChanged(nameof(ItemsSource));
         }
     }
 

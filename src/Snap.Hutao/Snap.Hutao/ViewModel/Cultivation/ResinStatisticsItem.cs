@@ -1,14 +1,13 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Item;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-internal sealed partial class ResinStatisticsItem : ObservableObject
+internal sealed partial class ResinStatisticsItem
 {
     private readonly bool canUseCondensedResin;
     private readonly ResinStatisticsItemKind kind;
@@ -32,21 +31,14 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
         get;
         set
         {
-            if (value is not null && SetProperty(ref field, value))
+            if (value is not null)
             {
-                OnPropertyChanged(nameof(TotalResin));
-                OnPropertyChanged(nameof(CondensedResin));
-                OnPropertyChanged(nameof(Days));
+                field = value;
             }
         }
     }
 
     public double RawItemCount { get; set; }
-
-    /// <summary>
-    /// ONLY BlossomOfWealth has value.
-    /// </summary>
-    public double MiscMoraEarned { get; set; }
 
     [UsedImplicitly]
     public bool HasData
@@ -68,6 +60,11 @@ internal sealed partial class ResinStatisticsItem : ObservableObject
     {
         get => SH.FormatViewModelCultivationResinStatisticsItemRemainDays((int)Math.Ceiling(TotalResin / (1440D / 8)));
     }
+
+    /// <summary>
+    /// ONLY BlossomOfWealth has value.
+    /// </summary>
+    internal double MiscMoraEarned { get; set; }
 
     internal int RawTimes
     {
