@@ -1,4 +1,4 @@
-﻿<shuxc:ScopedPage
+<shuxc:ScopedPage
     x:Class="Snap.Hutao.UI.Xaml.View.Page.GachaLogPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

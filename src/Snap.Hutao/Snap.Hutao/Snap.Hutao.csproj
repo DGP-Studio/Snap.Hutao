@@ -48,6 +48,7 @@
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
     <WindowsSdkPackageVersion>10.0.26100.56</WindowsSdkPackageVersion>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>

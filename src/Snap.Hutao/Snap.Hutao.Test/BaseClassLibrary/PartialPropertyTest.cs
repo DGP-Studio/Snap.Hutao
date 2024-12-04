@@ -1,4 +1,4 @@
-﻿namespace Snap.Hutao.Test.BaseClassLibrary;
+namespace Snap.Hutao.Test.BaseClassLibrary;
 
 [TestClass]
 public class PartialPropertyTest
