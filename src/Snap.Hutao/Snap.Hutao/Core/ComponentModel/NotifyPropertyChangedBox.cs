@@ -7,24 +7,25 @@ namespace Snap.Hutao.Core.ComponentModel;
 
 internal sealed partial class NotifyPropertyChangedBox<TNotifyPropertyChanged, T> : StrongBox<T>, IDisposable
     where TNotifyPropertyChanged : INotifyPropertyChanged
+    where T : class, IDisposable
 {
-    private readonly TNotifyPropertyChanged notifyPropertyChanged;
-    private readonly string propertyName;
+    private readonly TNotifyPropertyChanged source;
     private readonly Func<TNotifyPropertyChanged, T> valueFactory;
+    private readonly string propertyName;
 
-    public NotifyPropertyChangedBox(T value, TNotifyPropertyChanged notifyPropertyChanged, string propertyName, Func<TNotifyPropertyChanged, T> valueFactory)
+    public NotifyPropertyChangedBox(T value, TNotifyPropertyChanged source, string propertyName, Func<TNotifyPropertyChanged, T> valueFactory)
         : base(value)
     {
-        this.notifyPropertyChanged = notifyPropertyChanged;
+        this.source = source;
         this.propertyName = propertyName;
         this.valueFactory = valueFactory;
-        notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
+        source.PropertyChanged += OnPropertyChanged;
     }
 
     public void Dispose()
     {
-        notifyPropertyChanged.PropertyChanged -= OnPropertyChanged;
-        (Value as IDisposable)?.Dispose();
+        source.PropertyChanged -= OnPropertyChanged;
+        Value?.Dispose();
     }
 
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs args)
@@ -34,7 +35,7 @@ internal sealed partial class NotifyPropertyChangedBox<TNotifyPropertyChanged, T
             return;
         }
 
-        (Value as IDisposable)?.Dispose();
-        Value = valueFactory(notifyPropertyChanged);
+        Value?.Dispose();
+        Value = valueFactory(source);
     }
 }

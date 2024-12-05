@@ -138,7 +138,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 {
                     using (IMemoryBufferReference reference = sourceBuffer.CreateReference())
                     {
-                        byte value = theme is ElementTheme.Light ? (byte)0x00 : (byte)0xFF;
+                        byte value = (byte)(theme is ElementTheme.Light ? 0x00 : 0xFF);
                         SyncConvertToMonoChrome(reference.As<IMemoryBufferByteAccess>(), value);
                     }
                 }
