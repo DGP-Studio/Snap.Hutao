@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using System.Buffers;
 using System.IO;
@@ -78,7 +79,7 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
         }
     }
 
-    public async ValueTask CopyAsync(StrongBox<TokenBucketRateLimiter?> rateLimiterBox, IProgress<TStatus> progress, CancellationToken token = default)
+    public async ValueTask CopyAsync(IDisposableObservableBox<TokenBucketRateLimiter?> rateLimiterBox, IProgress<TStatus> progress, CancellationToken token = default)
     {
         long bytesReadSinceCopyStart = 0;
         long bytesReadSinceLastReport = 0;

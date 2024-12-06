@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
+using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
 using System.IO;
@@ -18,11 +19,11 @@ internal readonly struct GamePackageServiceContext
     public readonly ParallelOptions ParallelOptions;
     public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
     public readonly HttpClient HttpClient;
-    public readonly StrongBox<TokenBucketRateLimiter?> StreamCopyRateLimiter;
+    public readonly IDisposableObservableBox<TokenBucketRateLimiter?> StreamCopyRateLimiter;
 
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, StrongBox<TokenBucketRateLimiter?> rateLimiter)
+    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, IDisposableObservableBox<TokenBucketRateLimiter?> rateLimiter)
     {
         Operation = operation;
         Progress = progress;
@@ -31,9 +32,9 @@ internal readonly struct GamePackageServiceContext
         StreamCopyRateLimiter = rateLimiter;
     }
 
-    public readonly CancellationToken CancellationToken { get => ParallelOptions.CancellationToken; }
+    public CancellationToken CancellationToken { get => ParallelOptions.CancellationToken; }
 
-    public readonly bool EnsureAvailableFreeSpace(long totalBytes)
+    public bool EnsureAvailableFreeSpace(long totalBytes)
     {
         long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.ExtractOrGameDirectory);
 
@@ -49,7 +50,7 @@ internal readonly struct GamePackageServiceContext
         return true;
     }
 
-    public readonly string EnsureAssetTargetDirectoryExists(string assetName)
+    public string EnsureAssetTargetDirectoryExists(string assetName)
     {
         if (Operation.Kind is GamePackageOperationKind.ExtractBlk or GamePackageOperationKind.ExtractExe)
         {
@@ -66,7 +67,7 @@ internal readonly struct GamePackageServiceContext
     }
 
     [SuppressMessage("", "SH003")]
-    public readonly Task<AsyncKeyedLock<string>.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token)
+    public Task<AsyncKeyedLock<string>.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token)
     {
         return chunkLocks.LockAsync(chunkName);
     }

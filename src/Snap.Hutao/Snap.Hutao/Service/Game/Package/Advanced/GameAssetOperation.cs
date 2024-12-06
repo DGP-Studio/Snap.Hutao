@@ -191,7 +191,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         {
             if (File.Exists(chunkPath))
             {
-                string chunkXxh64 = await XXH64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
+                string chunkXxh64 = await XxHash64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
                 if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                 {
                     context.Progress.Report(new GamePackageOperationReport.Download(sophonChunk.AssetChunk.ChunkSize, 1, sophonChunk.AssetChunk.ChunkName));
@@ -212,7 +212,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         await worker.CopyAsync(context.StreamCopyRateLimiter, context.Progress, token).ConfigureAwait(false);
 
                         fileStream.Position = 0;
-                        string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
+                        string chunkXxh64 = await XxHash64.HashAsync(fileStream, token).ConfigureAwait(false);
                         if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                         {
                             context.Progress.Report(new GamePackageOperationReport.Download(0, 1, sophonChunk.AssetChunk.ChunkName));

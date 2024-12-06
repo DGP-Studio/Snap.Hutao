@@ -24,10 +24,10 @@ internal partial class PackageSegment
     public string DisplayName { get => System.IO.Path.GetFileName(Url); }
 
     [Command("CopyPathCommand")]
-    private void CopyPathToClipboard()
+    private async Task CopyPathToClipboardAsync()
     {
         IServiceProvider serviceProvider = Ioc.Default;
-        serviceProvider.GetRequiredService<IClipboardProvider>().SetText(Url);
+        await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(Url).ConfigureAwait(false);
         serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.WebGameResourcePathCopySucceed);
     }
 }

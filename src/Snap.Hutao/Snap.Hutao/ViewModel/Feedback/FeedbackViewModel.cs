@@ -102,11 +102,11 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     }
 
     [Command("CopyDeviceIdCommand")]
-    private void CopyDeviceId()
+    private async Task CopyDeviceIdAsync()
     {
         try
         {
-            clipboardProvider.SetText(HutaoRuntime.DeviceId);
+            await clipboardProvider.SetTextAsync(HutaoRuntime.DeviceId).ConfigureAwait(false);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)

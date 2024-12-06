@@ -10,11 +10,7 @@ internal interface IClipboardProvider
     ValueTask<T?> DeserializeFromJsonAsync<T>()
         where T : class;
 
-    bool SetBitmap(IRandomAccessStream stream);
-
     ValueTask<bool> SetBitmapAsync(IRandomAccessStream stream);
-
-    bool SetText(string text);
 
     ValueTask<bool> SetTextAsync(string text);
 }

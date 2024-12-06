@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.IO.Http.Loopback;
 using Snap.Hutao.Win32.Registry;
+using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 
@@ -88,7 +89,8 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     {
         UpdateInnerProxy();
 
-        // TaskContext can't be injected directly since there are some recursive dependencies.
+        Debug.Assert(XamlApplicationLifetime.IsDispatcherQueueInitialized, "DispatcherQueue not initialized");
+        // TaskContext can't be injected directly, we have to retrieve it from the service provider after
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
     }

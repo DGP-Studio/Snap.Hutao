@@ -65,9 +65,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
         {
-            using (NotifyPropertyChangedBox<AppOptions, TokenBucketRateLimiter?> limiterBox = StreamCopyRateLimiter.Create(serviceProvider))
+            using (DisposableObservableBox<AppOptions, TokenBucketRateLimiter?> limiter = StreamCopyRateLimiter.Create(serviceProvider))
             {
-                GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiterBox);
+                GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
 
                 Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
                 {

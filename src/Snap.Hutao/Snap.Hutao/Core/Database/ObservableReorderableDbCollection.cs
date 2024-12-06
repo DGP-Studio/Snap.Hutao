@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
@@ -16,7 +17,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
     private readonly IServiceProvider serviceProvider;
 
     public ObservableReorderableDbCollection(List<TEntity> items, IServiceProvider serviceProvider)
-        : base(AdjustIndex(items.SortBy(x => x.Index)))
+        : base(AdjustIndex(items.SortBy(x => x.Index))) // Normalized index
     {
         this.serviceProvider = serviceProvider;
     }
@@ -95,13 +96,18 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
         return list;
     }
 
+    private static TEntity AccessEntity(TEntityAccess access)
+    {
+        return access.Entity;
+    }
+
     private void OnReorder()
     {
         AdjustIndex((List<TEntityAccess>)Items);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            scope.ServiceProvider.GetRequiredService<AppDbContext>().Set<TEntity>().UpdateRangeAndSave(Items.Select(i => i.Entity));
+            scope.ServiceProvider.GetRequiredService<AppDbContext>().Set<TEntity>().UpdateRangeAndSave(Items.Select(AccessEntity));
         }
     }
 }

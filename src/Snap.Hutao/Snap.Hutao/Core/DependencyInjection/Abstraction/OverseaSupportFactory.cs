@@ -11,7 +11,7 @@ internal abstract partial class OverseaSupportFactory<TClient, TClientCN, TClien
 {
     private readonly IServiceProvider serviceProvider;
 
-    public virtual TClient Create(bool isOversea)
+    public TClient Create(bool isOversea)
     {
         return isOversea
             ? serviceProvider.GetRequiredService<TClientOS>()

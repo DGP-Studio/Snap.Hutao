@@ -334,14 +334,14 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     }
 
     [Command("ExportToTextCommand")]
-    private void ExportToText()
+    private async Task ExportToTextAsync()
     {
         if (Summary is not { Avatars.CurrentItem: { } avatar })
         {
             return;
         }
 
-        if (scopeContext.ClipboardProvider.SetText(AvatarViewTextTemplating.GetTemplatedText(avatar)))
+        if (await scopeContext.ClipboardProvider.SetTextAsync(AvatarViewTextTemplating.GetTemplatedText(avatar)).ConfigureAwait(false))
         {
             scopeContext.InfoBarService.Success(SH.ViewModelAvatatPropertyExportTextSuccess);
         }

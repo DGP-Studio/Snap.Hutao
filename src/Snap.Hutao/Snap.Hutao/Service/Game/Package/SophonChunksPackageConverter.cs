@@ -148,7 +148,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
         {
             if (File.Exists(chunkPath))
             {
-                string chunkXxh64 = await XXH64.HashFileAsync(chunkPath).ConfigureAwait(false);
+                string chunkXxh64 = await XxHash64.HashFileAsync(chunkPath).ConfigureAwait(false);
                 if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                 {
                     return;
@@ -168,7 +168,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
                         await worker.CopyAsync(context.Progress).ConfigureAwait(false);
 
                         fileStream.Position = 0;
-                        string chunkXxh64 = await XXH64.HashAsync(fileStream).ConfigureAwait(false);
+                        string chunkXxh64 = await XxHash64.HashAsync(fileStream).ConfigureAwait(false);
                         if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                         {
                             return;

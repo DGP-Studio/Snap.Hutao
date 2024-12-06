@@ -45,7 +45,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
-                users = userList.ToAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
+                users = userList.AsAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
                 users.CurrentChanged += OnCurrentUserChanged;
             }
         }

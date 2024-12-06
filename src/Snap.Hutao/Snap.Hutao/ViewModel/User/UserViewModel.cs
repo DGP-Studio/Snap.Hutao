@@ -242,7 +242,7 @@ internal sealed partial class UserViewModel : ObservableObject
     }
 
     [Command("CopyCookieCommand")]
-    private void CopyCookie(User? user)
+    private async Task CopyCookieAsync(User? user)
     {
         try
         {
@@ -254,7 +254,7 @@ internal sealed partial class UserViewModel : ObservableObject
                 .AppendIf(user.LToken is not null, ';')
                 .Append(user.CookieToken)
                 .ToString();
-            serviceProvider.GetRequiredService<IClipboardProvider>().SetText(cookieString);
+            await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(cookieString).ConfigureAwait(false);
 
             ArgumentNullException.ThrowIfNull(user.UserInfo);
             infoBarService.Success(SH.FormatViewModelUserCookieCopied(user.UserInfo.Nickname));

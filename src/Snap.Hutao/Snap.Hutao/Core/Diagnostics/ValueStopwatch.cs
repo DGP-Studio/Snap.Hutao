@@ -27,8 +27,7 @@ internal readonly struct ValueStopwatch
 
     public static MeasureExecutionToken MeasureExecution(ILogger logger, [CallerMemberName] string callerName = default!)
     {
-        ValueStopwatch stopwatch = StartNew();
-        return new MeasureExecutionToken(stopwatch, logger, callerName);
+        return new(StartNew(), logger, callerName);
     }
 
     public TimeSpan GetElapsedTime()

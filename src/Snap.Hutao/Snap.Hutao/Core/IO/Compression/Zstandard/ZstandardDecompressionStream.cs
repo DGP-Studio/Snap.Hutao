@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.ZStandard;
 using System.Buffers;
 using System.IO;
@@ -65,32 +66,32 @@ internal sealed partial class ZstandardDecompressionStream : Stream
 
     public override bool CanWrite { get => false; }
 
-    public override long Length { get => throw new NotSupportedException(); }
+    public override long Length { get => throw HutaoException.NotSupported(); }
 
     public override long Position
     {
-        get => throw new NotSupportedException();
-        set => throw new NotSupportedException();
+        get => throw HutaoException.NotSupported();
+        set => throw HutaoException.NotSupported();
     }
 
     public override void Flush()
     {
-        throw new NotSupportedException();
+        throw HutaoException.NotSupported();
     }
 
     public override long Seek(long offset, SeekOrigin origin)
     {
-        throw new NotSupportedException();
+        throw HutaoException.NotSupported();
     }
 
     public override void SetLength(long value)
     {
-        throw new NotSupportedException();
+        throw HutaoException.NotSupported();
     }
 
     public override void Write(byte[] buffer, int offset, int count)
     {
-        throw new NotSupportedException();
+        throw HutaoException.NotSupported();
     }
 
     public override unsafe int Read(Span<byte> buffer)
@@ -103,7 +104,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     {
         CheckParamsValid(buffer, offset, count);
         ObjectDisposedException.ThrowIf(decompressStreamContext is null, this);
-        return ReadInternal(new Span<byte>(buffer, offset, count));
+        return ReadInternal(new(buffer, offset, count));
     }
 
     public override unsafe ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken token = default)
@@ -116,7 +117,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     {
         CheckParamsValid(buffer, offset, count);
         ObjectDisposedException.ThrowIf(decompressStreamContext is null, this);
-        return ReadInternalAsync(new Memory<byte>(buffer, offset, count), token).AsTask();
+        return ReadInternalAsync(new(buffer, offset, count), token).AsTask();
     }
 
     protected override unsafe void Dispose(bool disposing)

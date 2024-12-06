@@ -11,7 +11,7 @@ internal static class StreamCopyRateLimiter
 {
     private const double ReplenishmentCountPerSecond = 20;
 
-    public static NotifyPropertyChangedBox<AppOptions, TokenBucketRateLimiter?> Create(IServiceProvider serviceProvider)
+    public static DisposableObservableBox<AppOptions, TokenBucketRateLimiter?> Create(IServiceProvider serviceProvider)
     {
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
 #pragma warning disable CA2000
@@ -37,6 +37,6 @@ internal static class StreamCopyRateLimiter
             AutoReplenishment = true,
         };
 
-        return new TokenBucketRateLimiter(options);
+        return new(options);
     }
 }

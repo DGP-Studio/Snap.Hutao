@@ -1,11 +1,13 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+// ReSharper disable InconsistentNaming
 namespace Snap.Hutao.Win32.Registry;
 
 // RAIIFree: RegCloseKey
 // InvalidHandleValue: -1, 0
 [SuppressMessage("", "SA1310")]
+[SuppressMessage("", "CS0649")]
 internal readonly struct HKEY
 {
     public static readonly HKEY HKEY_CLASSES_ROOT = unchecked((int)0x80000000);
