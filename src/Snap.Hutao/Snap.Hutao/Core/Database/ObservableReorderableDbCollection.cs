@@ -40,8 +40,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
         Span<TEntity> span = CollectionsMarshal.AsSpan(list);
         for (int i = 0; i < span.Length; i++)
         {
-            ref readonly TEntity item = ref span[i];
-            item.Index = i;
+            span[i].Index = i;
         }
 
         return list;
@@ -89,8 +88,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
         Span<TEntityAccess> span = CollectionsMarshal.AsSpan(list);
         for (int i = 0; i < span.Length; i++)
         {
-            ref readonly TEntityAccess item = ref span[i];
-            item.Entity.Index = i;
+            span[i].Entity.Index = i;
         }
 
         return list;

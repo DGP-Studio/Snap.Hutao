@@ -85,17 +85,6 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         (InnerProxy as IDisposable)?.Dispose();
     }
 
-    public void OnSystemProxySettingsChanged()
-    {
-        UpdateInnerProxy();
-
-        Debug.Assert(XamlApplicationLifetime.IsDispatcherQueueInitialized, "DispatcherQueue not initialized");
-        // TaskContext can't be injected directly, we have to retrieve it from the service provider after
-        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
-    }
-
-    [Command("EnableLoopbackCommand")]
     public void EnableLoopback()
     {
         loopbackSupport.EnableLoopback();
@@ -119,5 +108,16 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         ArgumentNullException.ThrowIfNull(proxy);
 
         InnerProxy = proxy;
+    }
+
+    private void OnSystemProxySettingsChanged()
+    {
+        UpdateInnerProxy();
+
+        Debug.Assert(XamlApplicationLifetime.IsDispatcherQueueInitialized, "DispatcherQueue not initialized");
+
+        // TaskContext can't be injected directly, we have to retrieve it from the service provider after
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
     }
 }

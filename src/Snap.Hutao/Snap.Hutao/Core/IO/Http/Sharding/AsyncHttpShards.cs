@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
+[Obsolete("Dangerous to use")]
 [DebuggerTypeProxy(typeof(HttpShardsDebugView))]
 internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
 {

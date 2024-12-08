@@ -35,7 +35,7 @@
             MaxWidth="360"
             Margin="0,16,0,0"
             IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"
-            Password="{x:Bind Password, Mode=TwoWay}"
+            Password="{x:Bind Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             PasswordChar="*"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
         <TextBlock

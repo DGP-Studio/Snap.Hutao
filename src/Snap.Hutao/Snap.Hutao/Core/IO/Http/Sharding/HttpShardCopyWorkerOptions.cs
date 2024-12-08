@@ -8,6 +8,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
+[Obsolete("Dangerous to use")]
 internal sealed class HttpShardCopyWorkerOptions<TStatus>
 {
     private readonly LazySlim<SafeFileHandle> lazyDestinationFileHandle;

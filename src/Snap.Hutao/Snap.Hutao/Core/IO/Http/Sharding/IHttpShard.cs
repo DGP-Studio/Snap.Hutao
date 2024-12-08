@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
+[Obsolete("Dangerous to use")]
 internal interface IHttpShard
 {
     long Start { get; }

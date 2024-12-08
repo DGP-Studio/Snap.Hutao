@@ -9,6 +9,7 @@ using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
+[Obsolete("Dangerous to use")]
 internal static class HttpShardCopyWorker
 {
     public static async ValueTask<IHttpShardCopyWorker<TStatus>> CreateAsync<TStatus>(HttpShardCopyWorkerOptions<TStatus> options)
@@ -18,6 +19,7 @@ internal static class HttpShardCopyWorker
     }
 }
 
+[Obsolete("Dangerous to use")]
 [SuppressMessage("", "SA1402")]
 internal sealed partial class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
 {
