@@ -277,31 +277,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("TestHttpShardDownload")]
-    private async Task TestHttpShardDownloadAsync()
-    {
-        using (HttpClient httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
-        {
-            HttpShardCopyWorkerOptions<Void> options = new()
-            {
-                HttpClient = httpClient,
-                SourceUrl = "https://ghproxy.qhy04.cc/https://github.com/DGP-Studio/Snap.Hutao/releases/download/1.11.0/Snap.Hutao.1.11.0.msix",
-                DestinationFilePath = "D://test.file",
-                StatusFactory = (bytesRead, totalBytes) => default,
-            };
-
-            Progress<Void> progress = new();
-
-            using (IHttpShardCopyWorker<Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
-            {
-                await worker.CopyAsync(progress).ConfigureAwait(false);
-            }
-        }
-
-        string result = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, "D://test.file").ConfigureAwait(false);
-        logger.LogInformation("File SHA256: {SHA256}", result);
-    }
-
     [Command("RunCodeCommand")]
     private async Task RunCodeAsync()
     {
