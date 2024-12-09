@@ -145,13 +145,13 @@
     <value>Simpan</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到结果</value>
+    <value>Tidak ada hasil yang ditemukan</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
     <value>Hapus</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
-    <value>选择全部</value>
+    <value>Pilih Semua</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Invalid Url</value>
@@ -199,25 +199,25 @@
     <value>[{0}] Hotkey [{1}] gagal terdaftar</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>batalkan</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>Luncurkan</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Hutao sedang berlari di latar belakang.</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Jendela</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>深色</value>
+    <value>Gelap</value>
   </data>
   <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>浅色</value>
+    <value>Terang</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
-    <value>跟随系统</value>
+    <value>Ikuti setelan sistem</value>
   </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Ekspor</value>
@@ -407,16 +407,16 @@
     <value>1 Star</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
-    <value>轻简模式</value>
+    <value>Mode Ringan</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
-    <value>困难模式</value>
+    <value>Mode Sulit</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
-    <value>普通模式</value>
+    <value>Mode Normal</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
-    <value>卓越模式</value>
+    <value>Model Keunggulan</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>Busur</value>
@@ -683,13 +683,13 @@
     <value>Terdapat beberapa ID pencapaian yang identik dalam satu arsip pencapaian</value>
   </data>
   <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
-    <value>【上架时间】</value>
+    <value>[Waktu tersedia]</value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
-    <value>永久开放</value>
+    <value>dibuka permanen</value>
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
-    <value>〓更新时间〓</value>
+    <value>〓waktu pembaruan〓</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
@@ -764,7 +764,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
-    <value>受治疗加成</value>
+    <value>Bonus penyembuhan</value>
   </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>HP</value>
