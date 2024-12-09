@@ -1034,6 +1034,9 @@
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
     <value>游戏本体</value>
   </data>
+  <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
+    <value>游戏运行中，无法读取 Unity 日志文件</value>
+  </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity 로그 파일을 찾을 수 없음</value>
   </data>
