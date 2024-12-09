@@ -17,12 +17,12 @@ internal sealed partial class GamePathService : IGamePathService
         // Cannot find in setting
         if (string.IsNullOrEmpty(launchOptions.GamePath))
         {
-            // Try locate by unity log
+            // Try to locate by unity log
             (bool isOk, string path) = await gameLocatorFactory.LocateAsync(GameLocationSource.UnityLog).ConfigureAwait(false);
 
             if (!isOk)
             {
-                // Try locate by registry
+                // Try to locate by registry
                 (isOk, path) = await gameLocatorFactory.LocateAsync(GameLocationSource.Registry).ConfigureAwait(false);
             }
 

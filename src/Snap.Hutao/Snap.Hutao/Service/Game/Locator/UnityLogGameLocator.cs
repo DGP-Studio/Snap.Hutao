@@ -31,7 +31,15 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
             return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
         }
 
-        string content = await File.ReadAllTextAsync(logFilePath).ConfigureAwait(false);
+        string content;
+        try
+        {
+            content = await File.ReadAllTextAsync(logFilePath).ConfigureAwait(false);
+        }
+        catch (IOException)
+        {
+            return new(false, SH.ServiceGameLocatorUnityLogCannotOpenRead);
+        }
 
         Match matchResult = WarmupFileLine.Match(content);
         if (!matchResult.Success)
