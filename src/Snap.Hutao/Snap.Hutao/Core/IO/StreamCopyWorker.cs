@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.Threading.RateLimiting;
 using System.Buffers;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.RateLimiting;
@@ -15,7 +16,7 @@ internal delegate TStatus StreamCopyStatusFactory<out TStatus>(long bytesReadSin
 internal sealed partial class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
 {
     public StreamCopyWorker(Stream source, Stream destination, long totalBytes, int bufferSize = 81920)
-        : base(source, destination, (lastReport, copyStart) => new StreamCopyStatus(lastReport, copyStart, totalBytes), bufferSize)
+        : base(source, destination, (lastReport, copyStart) => new(lastReport, copyStart, totalBytes), bufferSize)
     {
     }
 }
@@ -79,7 +80,7 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
         }
     }
 
-    public async ValueTask CopyAsync(IDisposableObservableBox<TokenBucketRateLimiter?> rateLimiterBox, IProgress<TStatus> progress, CancellationToken token = default)
+    public async ValueTask CopyAsync(IAsyncDisposableObservableBox<TokenBucketRateLimiter?> rateLimiterBox, IProgress<TStatus> progress, CancellationToken token = default)
     {
         long bytesReadSinceCopyStart = 0;
         long bytesReadSinceLastReport = 0;
@@ -91,20 +92,25 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
             do
             {
                 int bytesRead;
-                if (rateLimiterBox.Value is { } rateLimiter)
-                {
-                    if (!rateLimiter.TryAcquire(buffer.Length, out int bytesToRead, out TimeSpan retryAfter))
-                    {
-                        await Task.Delay(retryAfter, token).ConfigureAwait(false);
-                        continue;
-                    }
 
-                    bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(false);
-                    rateLimiter.Replenish(bytesToRead - bytesRead);
-                }
-                else
+                // We must lock the box to prevent accidental disposal of the rate limiter.
+                using (await rateLimiterBox.SyncRoot.LockAsync().ConfigureAwait(false))
                 {
-                    bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(false);
+                    if (rateLimiterBox.Value is { } rateLimiter)
+                    {
+                        if (!rateLimiter.TryAcquire(buffer.Length, out int bytesToRead, out TimeSpan retryAfter))
+                        {
+                            await Task.Delay(retryAfter, token).ConfigureAwait(false);
+                            continue;
+                        }
+
+                        bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(false);
+                        rateLimiter.Replenish(bytesToRead - bytesRead);
+                    }
+                    else
+                    {
+                        bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(false);
+                    }
                 }
 
                 if (bytesRead is 0)

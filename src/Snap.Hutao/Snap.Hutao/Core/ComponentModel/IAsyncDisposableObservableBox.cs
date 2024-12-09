@@ -3,8 +3,10 @@
 
 namespace Snap.Hutao.Core.ComponentModel;
 
-internal interface IDisposableObservableBox<out T> : IDisposable
+internal interface IAsyncDisposableObservableBox<out T> : IAsyncDisposable
     where T : class?, IDisposable?
 {
     T Value { get; }
+
+    AsyncLock SyncRoot { get; }
 }

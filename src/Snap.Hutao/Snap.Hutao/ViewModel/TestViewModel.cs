@@ -7,8 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;

@@ -7,7 +7,7 @@ internal static class XamlApplicationLifetime
 {
     public static bool IsFirstRunAfterUpdate { get; set; }
 
-    public static bool IsDispatcherQueueInitialized { get; set; }
+    public static bool DispatcherQueueInitialized { get; set; }
 
     public static bool LaunchedWithNotifyIcon { get; set; }
 

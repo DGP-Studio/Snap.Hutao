@@ -32,21 +32,9 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         watcher.Start(serviceProvider.GetRequiredService<ILogger<HttpProxyUsingSystemProxy>>());
     }
 
-    public bool IsUsingProxyAndNotWorking
-    {
-        get => GetProxy(ProxyTestDestination) is not null && !loopbackSupport.IsLoopbackEnabled;
-    }
+    public bool IsUsingProxyAndNotWorking { get => GetProxy(ProxyTestDestination) is not null && !loopbackSupport.IsLoopbackEnabled; }
 
-    public string CurrentProxyUri
-    {
-        get
-        {
-            Uri? proxyUri = GetProxy(ProxyTestDestination);
-            return proxyUri is null
-                ? SH.ViewPageFeedbackCurrentProxyNoProxyDescription
-                : proxyUri.AbsoluteUri;
-        }
-    }
+    public string CurrentProxyUri { get => GetProxy(ProxyTestDestination)?.AbsoluteUri ?? SH.ViewPageFeedbackCurrentProxyNoProxyDescription; }
 
     public IWebProxy InnerProxy
     {
@@ -114,7 +102,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     {
         UpdateInnerProxy();
 
-        Debug.Assert(XamlApplicationLifetime.IsDispatcherQueueInitialized, "DispatcherQueue not initialized");
+        Debug.Assert(XamlApplicationLifetime.DispatcherQueueInitialized, "DispatcherQueue not initialized");
 
         // TaskContext can't be injected directly, we have to retrieve it from the service provider after
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();

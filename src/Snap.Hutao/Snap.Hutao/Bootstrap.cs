@@ -61,7 +61,7 @@ public static partial class Bootstrap
         IServiceProvider serviceProvider = Ioc.Default;
 
         _ = serviceProvider.GetRequiredService<ITaskContext>();
-        XamlApplicationLifetime.IsDispatcherQueueInitialized = true;
+        XamlApplicationLifetime.DispatcherQueueInitialized = true;
         _ = serviceProvider.GetRequiredService<App>();
     }
 }

@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.IO.Ini;
 
@@ -43,7 +44,7 @@ internal static class IniSerializer
     private static ImmutableArray<IniElement> DeserializeCore(StreamReader reader)
     {
         ImmutableArray<IniElement>.Builder builder = ImmutableArray.CreateBuilder<IniElement>();
-        IniSection? currentSection = default;
+        IniSection.Builder? currentSectionBuilder = default;
 
         while (reader.ReadLine() is { } line)
         {
@@ -56,24 +57,48 @@ internal static class IniSerializer
 
             if (lineSpan[0] is '[')
             {
-                IniSection section = new(lineSpan[1..^1].ToString());
-                builder.Add(section);
-                currentSection = section;
+                if (currentSectionBuilder is not null)
+                {
+                    IniSection section = currentSectionBuilder.ToSection();
+                    builder.Add(section);
+                    builder.AddRange(section.Children);
+                }
+
+                currentSectionBuilder = new(lineSpan[1..^1].ToString());
             }
 
             if (lineSpan[0] is ';')
             {
                 IniComment comment = new(lineSpan[1..].ToString());
-                builder.Add(comment);
-                currentSection?.Children.Add(comment);
+                if (currentSectionBuilder is null)
+                {
+                    builder.Add(comment);
+                }
+                else
+                {
+                    currentSectionBuilder.Add(comment);
+                }
             }
 
             if (lineSpan.TrySplitIntoTwo('=', out ReadOnlySpan<char> left, out ReadOnlySpan<char> right))
             {
                 IniParameter parameter = new(left.Trim().ToString(), right.Trim().ToString());
-                builder.Add(parameter);
-                currentSection?.Children.Add(parameter);
+                if (currentSectionBuilder is null)
+                {
+                    builder.Add(parameter);
+                }
+                else
+                {
+                    currentSectionBuilder.Add(parameter);
+                }
             }
+        }
+
+        if (currentSectionBuilder is not null)
+        {
+            IniSection section = currentSectionBuilder.ToSection();
+            builder.Add(section);
+            builder.AddRange(section.Children);
         }
 
         return builder.ToImmutable();

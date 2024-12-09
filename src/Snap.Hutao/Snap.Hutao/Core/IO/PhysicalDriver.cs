@@ -30,9 +30,9 @@ internal static class PhysicalDriver
         ArgumentException.ThrowIfNullOrWhiteSpace(root, "The path does not contain a root.");
 
         GetDeviceNumber($@"\\.\{root[..^1]}", out uint deviceNumber);
-        GetIsSSD($@"\\.\PHYSICALDRIVE{deviceNumber}", out bool isSSD);
+        GetIsSsd($@"\\.\PHYSICALDRIVE{deviceNumber}", out bool isSsd);
 
-        return isSSD;
+        return isSsd;
     }
 
     private static unsafe void GetDeviceNumber(string fileName, out uint deviceNumber)
@@ -85,7 +85,7 @@ internal static class PhysicalDriver
         }
     }
 
-    private static unsafe void GetIsSSD(string fileName, out bool isSSD)
+    private static unsafe void GetIsSsd(string fileName, out bool isSsd)
     {
         HANDLE hPhysicalDriver = default;
         try
@@ -103,7 +103,7 @@ internal static class PhysicalDriver
 
             if (!deviceTrim.TrimEnabled)
             {
-                isSSD = false;
+                isSsd = false;
                 return;
             }
 
@@ -114,7 +114,7 @@ internal static class PhysicalDriver
                 Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
             }
 
-            isSSD = !seekPenalty.IncursSeekPenalty;
+            isSsd = !seekPenalty.IncursSeekPenalty;
         }
         finally
         {

@@ -19,11 +19,11 @@ internal readonly struct GamePackageServiceContext
     public readonly ParallelOptions ParallelOptions;
     public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
     public readonly HttpClient HttpClient;
-    public readonly IDisposableObservableBox<TokenBucketRateLimiter?> StreamCopyRateLimiter;
+    public readonly IAsyncDisposableObservableBox<TokenBucketRateLimiter?> StreamCopyRateLimiter;
 
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, IDisposableObservableBox<TokenBucketRateLimiter?> rateLimiter)
+    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, IAsyncDisposableObservableBox<TokenBucketRateLimiter?> rateLimiter)
     {
         Operation = operation;
         Progress = progress;
