@@ -18,28 +18,24 @@ internal sealed partial class GamePathService : IGamePathService
         if (string.IsNullOrEmpty(launchOptions.GamePath))
         {
             // Try to locate by unity log
-            (bool isOk, string path) = await gameLocatorFactory.LocateAsync(GameLocationSource.UnityLog).ConfigureAwait(false);
-
-            if (!isOk)
+            if (await gameLocatorFactory.LocateAsync(GameLocationSource.UnityLog).ConfigureAwait(false) is (true, { } path1))
             {
-                // Try to locate by registry
-                (isOk, path) = await gameLocatorFactory.LocateAsync(GameLocationSource.Registry).ConfigureAwait(false);
+                launchOptions.UpdateGamePath(path1);
+                return new(true, launchOptions.GamePath);
             }
 
-            if (isOk)
+            // Try to locate by registry
+            if (await gameLocatorFactory.LocateAsync(GameLocationSource.Registry).ConfigureAwait(false) is (true, { } path2))
             {
-                // Save result.
-                launchOptions.UpdateGamePath(path);
+                launchOptions.UpdateGamePath(path2);
+                return new(true, launchOptions.GamePath);
             }
-            else
+
+            // If it's still null or empty
+            if (string.IsNullOrEmpty(launchOptions.GamePath))
             {
                 return new(false, SH.ServiceGamePathLocateFailed);
             }
-        }
-
-        if (string.IsNullOrEmpty(launchOptions.GamePath))
-        {
-            return new(false, default!);
         }
 
         return new(true, launchOptions.GamePath);
