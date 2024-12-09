@@ -11,8 +11,8 @@ internal sealed class AsyncDisposableObservableBox<TNotifyPropertyChanged, T> : 
     private readonly Func<TNotifyPropertyChanged, T> valueFactory;
     private readonly string propertyName;
 
-    private volatile CancellationTokenSource? currentCts;
-    private volatile TaskCompletionSource? currentTcs;
+    private volatile CancellationTokenSource? cts;
+    private volatile TaskCompletionSource? tcs;
     private bool isDisposed;
 
     public AsyncDisposableObservableBox(T value, TNotifyPropertyChanged source, string propertyName, Func<TNotifyPropertyChanged, T> valueFactory)
@@ -44,16 +44,16 @@ internal sealed class AsyncDisposableObservableBox<TNotifyPropertyChanged, T> : 
 
             isDisposed = true;
             source.PropertyChanged -= OnPropertyChanged;
-            if (currentCts is not null)
+            if (cts is not null)
             {
-                await currentCts.CancelAsync().ConfigureAwait(false);
+                await cts.CancelAsync().ConfigureAwait(false);
 
-                if (currentTcs is not null)
+                if (tcs is not null)
                 {
-                    await currentTcs.Task.ConfigureAwait(false);
+                    await tcs.Task.ConfigureAwait(false);
                 }
 
-                currentCts.Dispose();
+                cts.Dispose();
             }
 
             Value?.Dispose();
@@ -69,28 +69,28 @@ internal sealed class AsyncDisposableObservableBox<TNotifyPropertyChanged, T> : 
     [SuppressMessage("", "SH003")]
     private async Task OnPropertyChangedAsync(PropertyChangedEventArgs args)
     {
-        if (currentCts is not null)
+        if (cts is not null)
         {
-            await currentCts.CancelAsync().ConfigureAwait(false);
+            await cts.CancelAsync().ConfigureAwait(false);
 
-            if (currentTcs is not null)
+            if (tcs is not null)
             {
-                await currentTcs.Task.ConfigureAwait(false);
+                await tcs.Task.ConfigureAwait(false);
             }
 
             // Must await currentTcs before dispose currentCts.
-            currentCts.Dispose();
+            cts.Dispose();
         }
 
         // Capture current tcs reference.
-        TaskCompletionSource tcs = new();
-        currentTcs = tcs;
-        currentCts = new();
+        TaskCompletionSource currentTcs = new();
+        tcs = currentTcs;
+        cts = new();
 
         try
         {
             // Capture current cts reference.
-            CancellationToken token = currentCts.Token;
+            CancellationToken token = cts.Token;
             using (await SyncRoot.LockAsync().ConfigureAwait(false))
             {
                 if (token.IsCancellationRequested)
@@ -109,7 +109,7 @@ internal sealed class AsyncDisposableObservableBox<TNotifyPropertyChanged, T> : 
         }
         finally
         {
-            tcs.TrySetResult();
+            currentTcs.TrySetResult();
         }
     }
 }

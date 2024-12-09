@@ -45,5 +45,5 @@ internal static class TokenBucketRateLimiterExtension
 
     // private readonly TokenBucketRateLimiterOptions _options;
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_options")]
-    private static extern ref readonly TokenBucketRateLimiterOptions PrivateGetOptions(TokenBucketRateLimiter rateLimiter);
+    private static extern ref TokenBucketRateLimiterOptions PrivateGetOptions(TokenBucketRateLimiter rateLimiter);
 }
