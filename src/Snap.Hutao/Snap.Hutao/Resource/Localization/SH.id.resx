@@ -803,7 +803,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
-    <value>冷却缩减</value>
+    <value>Pengurangan CD</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>Dev Plan: N/A</value>
@@ -848,7 +848,7 @@
     <value>Beberapa rencana pengembangan dipilih</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
-    <value>应用通知发送失败</value>
+    <value>Kegagalan pengiriman pemberitahuan aplikasi</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>Luncurkan</value>
@@ -920,7 +920,7 @@
     <value>Event Wish Karakter</value>
   </data>
   <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>Kumpulan Wish</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
     <value>Wanderlust Invocation</value>
@@ -951,7 +951,7 @@
     <value>Tidak dapat menemukan URL yang tersedia</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
-    <value>游戏正在运行中，关闭游戏后重试</value>
+    <value>Permainan sedang berjalan, tutup permainan dan coba lagi!</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>URL yang diberikan tidak valid</value>
@@ -969,7 +969,7 @@
     <value>Bahasa berkas UIGF: {0} tidak cocok dengan bahasa Snap Hutao: {1}, silakan coba lagi setelah mengganti bahasa klien ke bahasa berkas UIGF yang dituju</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
-    <value>名称为 {0} 的账号已存在</value>
+    <value>Akun dengan nama {0} sudah ada</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Terdeteksi beberapa akun yang mirip, harap hapus akun ganda</value>
@@ -1017,16 +1017,16 @@
     <value>Menunggu proses game tertutup...</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
-    <value>解锁模块注入游戏进程，非常危险，但容易成功</value>
+    <value>Membuka kunci modul untuk menyuntikkan ke dalam proses game sangat berbahaya, tetapi mudah berhasil.</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
-    <value>注入</value>
+    <value>Injekt</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>经典的进程外内存操作，较为危险，但容易失败</value>
+    <value>Memanipulasi memori eksternal berbahaya dan sering gagal.</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
-    <value>经典</value>
+    <value>Klasik</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>Pilih exe game</value>
@@ -1041,7 +1041,7 @@
     <value>Path Game tidak ditemukan di berkas Unity log</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
-    <value>清单数据解析失败</value>
+    <value>Proses penguraian data inventaris gagal</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
     <value>磁盘空间不足，需要 {0}，剩余 {1}</value>
