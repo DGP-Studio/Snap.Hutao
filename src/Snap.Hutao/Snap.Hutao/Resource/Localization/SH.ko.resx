@@ -1034,6 +1034,9 @@
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
     <value>游戏本体</value>
   </data>
+  <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
+    <value>游戏运行中，无法读取 Unity 日志文件</value>
+  </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity 로그 파일을 찾을 수 없음</value>
   </data>
@@ -2430,7 +2433,7 @@
     <value>胡桃服务可用性监控</value>
   </data>
   <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
-    <value>胡桃服务</value>
+    <value>호두 서비스</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>전체 동기화</value>
