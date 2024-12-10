@@ -1011,7 +1011,7 @@
     <value>Successfully unlocked frame rate limit</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>Trying to unlock frame rate limit…</value>
+    <value>正在获取注入配置信息</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>Waiting for the game process to close…</value>
