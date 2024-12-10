@@ -17,6 +17,6 @@ internal static class CurrentXamlWindowReferenceExtension
 
     public static HWND GetWindowHandle(this ICurrentXamlWindowReference reference)
     {
-        return WindowExtension.GetWindowHandle(reference.Window);
+        return reference.Window.GetWindowHandle();
     }
 }

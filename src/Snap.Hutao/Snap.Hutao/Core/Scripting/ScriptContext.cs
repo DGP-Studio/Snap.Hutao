@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using JetBrains.Annotations;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hoyolab;
@@ -11,6 +12,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Core.Scripting;
 
+[UsedImplicitly]
 [SuppressMessage("", "SH001", Justification = "ScriptContext must be public in order to be exposed to the scripting environment")]
 public sealed class ScriptContext
 {
@@ -93,7 +95,7 @@ public sealed class ScriptContext
                 builder.SetStringContent(body);
             }
 
-            if (ParseDSFromString(ds) is { } sign)
+            if (ParseDsFromString(ds) is { } sign)
             {
                 await sign(builder).ConfigureAwait(false);
             }
@@ -107,7 +109,7 @@ public sealed class ScriptContext
         }
     }
 
-    private static Func<HttpRequestMessageBuilder, ValueTask>? ParseDSFromString(string? instruction)
+    private static Func<HttpRequestMessageBuilder, ValueTask>? ParseDsFromString(string? instruction)
     {
         if (string.IsNullOrEmpty(instruction))
         {

@@ -11,8 +11,7 @@ internal static class UnsafeDateTimeOffset
 {
     public static DateTimeOffset ParseDateTime(ReadOnlySpan<char> span, TimeSpan offset)
     {
-        DateTime dateTime = DateTime.Parse(span, CultureInfo.InvariantCulture);
-        return new(dateTime, offset);
+        return new(DateTime.Parse(span, CultureInfo.InvariantCulture), offset);
     }
 
     [Pure]

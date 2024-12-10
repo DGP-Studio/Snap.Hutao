@@ -11,7 +11,7 @@ internal static class EnumerableExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
     {
-        return new ObservableCollection<T>(source);
+        return new(source);
     }
 
     public static string ToString<T>(this IEnumerable<T> collection, char separator)

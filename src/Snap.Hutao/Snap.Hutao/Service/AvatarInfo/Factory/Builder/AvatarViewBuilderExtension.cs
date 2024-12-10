@@ -147,7 +147,7 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.SetRefreshTimeFormat(refreshTime == DateTimeOffsetExtension.DatebaseDefaultTime ? defaultValue : format(refreshTime.ToLocalTime()));
+        return builder.SetRefreshTimeFormat(refreshTime == DateTimeOffsetExtension.DatabaseDefaultTime ? defaultValue : format(refreshTime.ToLocalTime()));
     }
 
     public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, string refreshTimeFormat)
