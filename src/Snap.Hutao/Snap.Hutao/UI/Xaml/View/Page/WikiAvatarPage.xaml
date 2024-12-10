@@ -716,9 +716,7 @@
                                                                     Grid.Column="1"
                                                                     VerticalAlignment="Center"
                                                                     Spacing="8">
-                                                                    <TextBlock
-                                                                        Style="{ThemeResource BaseTextBlockStyle}"
-                                                                        Text="{Binding Name}"/>
+                                                                    <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="{Binding Name}"/>
                                                                     <TextBlock
                                                                         Text="{Binding Description}"
                                                                         TextTrimming="None"
@@ -765,9 +763,7 @@
                                                                 Grid.RowSpan="4"
                                                                 Grid.Column="2"
                                                                 Margin="16,0,0,0">
-                                                                <TextBlock
-                                                                    Text="{Binding Item.Description}"
-                                                                    TextWrapping="Wrap"/>
+                                                                <TextBlock Text="{Binding Item.Description}" TextWrapping="Wrap"/>
                                                                 <TextBlock
                                                                     Margin="0,16,0,0"
                                                                     Text="{Binding Item.EffectDescription}"
