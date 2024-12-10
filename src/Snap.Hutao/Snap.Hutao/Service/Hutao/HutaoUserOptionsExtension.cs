@@ -91,10 +91,12 @@ internal static class HutaoUserOptionsExtension
     {
         options.UserName = SH.ViewServiceHutaoUserLoginFailHint;
         options.Initialization.TrySetResult();
+        options.PostInitialization.TrySetResult();
     }
 
     public static void PostLoginSkipped(this HutaoUserOptions options)
     {
         options.Initialization.TrySetResult();
+        options.PostInitialization.TrySetResult();
     }
 }
