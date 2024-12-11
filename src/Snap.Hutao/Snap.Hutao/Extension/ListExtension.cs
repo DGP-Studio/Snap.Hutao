@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -40,8 +39,7 @@ internal static class ListExtension
         {
             int middle = (left + right) / 2;
             ref readonly T current = ref span[middle];
-            int compareResult = comparer(current);
-            switch (compareResult)
+            switch (comparer(current))
             {
                 case 0:
                     return current;
@@ -202,11 +200,5 @@ internal static class ListExtension
     {
         list.Sort((left, right) => comparison(keySelector(right), keySelector(left)));
         return list;
-    }
-
-    public static ZipSpan<TFirst, TSecond> ZipList<TFirst, TSecond>(this List<TFirst> first, List<TSecond> second)
-    {
-        HutaoException.ThrowIfNot(first.Count == second.Count, "The number of elements in the two lists is not equal.");
-        return new ZipSpan<TFirst, TSecond>(CollectionsMarshal.AsSpan(first), CollectionsMarshal.AsSpan(second));
     }
 }

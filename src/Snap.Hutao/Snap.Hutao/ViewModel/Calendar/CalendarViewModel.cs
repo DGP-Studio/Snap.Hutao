@@ -193,7 +193,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
         AdvancedCollectionView<CalendarDay> weekDays = Enumerable
             .Range(0, 7)
             .Select(i => CreateCalendarDay(nearestStartOfWeek.AddDays(i), context2, dailyMaterials))
-            .ToAdvancedCollectionView();
+            .AsAdvancedCollectionView();
         return weekDays;
     }
 }

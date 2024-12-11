@@ -156,12 +156,12 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.RefreshTimeFormat = refreshTimeFormat);
     }
 
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
+    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<ProudSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.SetSkills(CreateSkills(proudSkills, skillLevels, extraLevels));
 
-        static ImmutableArray<SkillView> CreateSkills(ImmutableArray<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
+        static ImmutableArray<SkillView> CreateSkills(ImmutableArray<ProudSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
         {
             if (skillLevels is { Count: 0 })
             {

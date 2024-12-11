@@ -17,16 +17,21 @@ internal static class AdvancedCollectionViewExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static AdvancedCollectionView<T> ToAdvancedCollectionView<T>(this IList<T> source)
+    public static AdvancedCollectionView<T> AsAdvancedCollectionView<T>(this IList<T> source)
         where T : class, IAdvancedCollectionViewItem
     {
-        return new AdvancedCollectionView<T>(source);
+        return new(source);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static AdvancedCollectionView<T> ToAdvancedCollectionView<T>(this IEnumerable<T> source)
+    public static AdvancedCollectionView<T> AsAdvancedCollectionView<T>(this IEnumerable<T> source)
         where T : class, IAdvancedCollectionViewItem
     {
-        return new AdvancedCollectionView<T>(source.ToList());
+        if (source is IList<T> list)
+        {
+            return new(list);
+        }
+
+        return new([.. source]);
     }
 }

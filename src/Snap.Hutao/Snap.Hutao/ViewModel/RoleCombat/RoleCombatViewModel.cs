@@ -71,7 +71,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
                     .ConfigureAwait(false);
             }
 
-            AdvancedCollectionView<RoleCombatView> roleCombatEntries = collection.ToAdvancedCollectionView();
+            AdvancedCollectionView<RoleCombatView> roleCombatEntries = collection.AsAdvancedCollectionView();
 
             await taskContext.SwitchToMainThreadAsync();
             RoleCombatEntries = roleCombatEntries;

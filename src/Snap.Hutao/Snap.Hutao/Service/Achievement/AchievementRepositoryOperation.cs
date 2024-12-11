@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Collection;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Abstraction;
@@ -53,10 +54,9 @@ internal sealed partial class AchievementRepositoryOperation
                             continue;
                         case (not null, null):
                             continue; // Skipped
+                        case (null, null):
+                            throw HutaoException.InvalidOperation("Both entity and uiaf are null.");
                         default:
-                            ArgumentNullException.ThrowIfNull(entity);
-                            ArgumentNullException.ThrowIfNull(uiaf);
-
                             switch (entity.Id.CompareTo(uiaf.Id))
                             {
                                 case < 0:

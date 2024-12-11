@@ -24,37 +24,37 @@ internal static class RepositoryExtension
     public static int Add<TEntity>(this IRepository<TEntity> repository, TEntity entity)
         where TEntity : class
     {
-        return repository.Execute(dbset => dbset.AddAndSave(entity));
+        return repository.Execute(dbSet => dbSet.AddAndSave(entity));
     }
 
     public static int AddRange<TEntity>(this IRepository<TEntity> repository, IEnumerable<TEntity> entities)
         where TEntity : class
     {
-        return repository.Execute(dbset => dbset.AddRangeAndSave(entities));
+        return repository.Execute(dbSet => dbSet.AddRangeAndSave(entities));
     }
 
     public static int Delete<TEntity>(this IRepository<TEntity> repository)
         where TEntity : class
     {
-        return repository.Execute(dbset => dbset.ExecuteDelete());
+        return repository.Execute(dbSet => dbSet.ExecuteDelete());
     }
 
     public static int Delete<TEntity>(this IRepository<TEntity> repository, TEntity entity)
         where TEntity : class
     {
-        return repository.Execute(dbset => dbset.RemoveAndSave(entity));
+        return repository.Execute(dbSet => dbSet.RemoveAndSave(entity));
     }
 
     public static int Delete<TEntity>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate)
         where TEntity : class
     {
-        return repository.Execute(dbset => dbset.Where(predicate).ExecuteDelete());
+        return repository.Execute(dbSet => dbSet.Where(predicate).ExecuteDelete());
     }
 
     public static TResult Query<TEntity, TResult>(this IRepository<TEntity> repository, Func<IQueryable<TEntity>, TResult> func)
         where TEntity : class
     {
-        return repository.Execute(dbset => func(dbset.AsNoTracking()));
+        return repository.Execute(dbSet => func(dbSet.AsNoTracking()));
     }
 
     public static TEntity Single<TEntity>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate)
@@ -107,6 +107,6 @@ internal static class RepositoryExtension
     public static int Update<TEntity>(this IRepository<TEntity> repository, TEntity entity)
         where TEntity : class
     {
-        return repository.Execute(dbset => dbset.UpdateAndSave(entity));
+        return repository.Execute(dbSet => dbSet.UpdateAndSave(entity));
     }
 }

@@ -16,10 +16,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     private readonly IServiceProvider serviceProvider;
     private readonly AppOptions appOptions;
 
-    public bool IsDialogShowing
-    {
-        get => contentDialogQueue.IsDialogShowing;
-    }
+    public bool IsDialogShowing { get => contentDialogQueue.IsDialogShowing; }
 
     public partial ITaskContext TaskContext { get; }
 

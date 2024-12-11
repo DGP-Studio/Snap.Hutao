@@ -203,7 +203,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         return new()
         {
             // history
-            HistoryWishes = historyWishes.ToAdvancedCollectionView(),
+            HistoryWishes = historyWishes.AsAdvancedCollectionView(),
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),

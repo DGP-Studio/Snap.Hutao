@@ -5,19 +5,20 @@ using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.InterChange.Achievement;
 
+// ReSharper disable once InconsistentNaming
 internal sealed class UIAFItem
 {
     [JsonPropertyName("id")]
-    public uint Id { get; set; }
+    public uint Id { get; init; }
 
     [JsonPropertyName("timestamp")]
-    public long Timestamp { get; set; }
+    public long Timestamp { get; init; }
 
     [JsonPropertyName("current")]
-    public uint Current { get; set; }
+    public uint Current { get; init; }
 
     [JsonPropertyName("status")]
-    public AchievementStatus Status { get; set; }
+    public AchievementStatus Status { get; init; }
 
     public static UIAFItem From(Entity.Achievement source)
     {
