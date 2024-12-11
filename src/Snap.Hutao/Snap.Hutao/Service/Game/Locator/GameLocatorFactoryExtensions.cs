@@ -20,6 +20,6 @@ internal static class GameLocatorFactoryExtensions
             return locator2.LocateMultipleGamePathAsync();
         }
 
-        return ValueTask.FromResult<>(ImmutableArray<string>.Empty);
+        return ValueTask.FromResult(ImmutableArray<string>.Empty);
     }
 }
