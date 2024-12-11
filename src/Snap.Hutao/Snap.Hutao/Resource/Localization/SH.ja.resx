@@ -1011,7 +1011,7 @@
     <value>FPS上限解除成功</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>FPS上限の解除を試みています</value>
+    <value>注入の配置情報を取得中</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>プロセスが終了するまで待機中</value>
@@ -1033,6 +1033,9 @@
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
     <value>ゲーム本体</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
+    <value>ゲーム実行中に Unity ログファイルを読み込めません</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity ログファイルが見つかりません</value>

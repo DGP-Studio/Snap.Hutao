@@ -1011,7 +1011,7 @@
     <value>解锁帧率上限成功</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在尝试解锁帧率上限</value>
+    <value>正在获取注入配置信息</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>等待游戏进程退出</value>
@@ -1033,6 +1033,9 @@
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
     <value>游戏本体</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
+    <value>游戏运行中，无法读取 Unity 日志文件</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>找不到 Unity 日志文件</value>
