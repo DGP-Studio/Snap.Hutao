@@ -19,7 +19,7 @@ internal static class LaunchOptionsExtension
 
     public static ImmutableArray<AspectRatio> RemoveAspectRatio(this LaunchOptions options, AspectRatio aspectRatio)
     {
-        if (aspectRatio == options.SelectedAspectRatio)
+        if (aspectRatio.Equals(options.SelectedAspectRatio))
         {
             options.SelectedAspectRatio = default;
         }

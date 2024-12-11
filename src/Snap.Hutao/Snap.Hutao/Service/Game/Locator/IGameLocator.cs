@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Game.Locator;
 
 internal interface IGameLocator
 {
-    ValueTask<ValueResult<bool, string>> LocateGamePathAsync();
+    ValueTask<ValueResult<bool, string>> LocateSingleGamePathAsync();
 }

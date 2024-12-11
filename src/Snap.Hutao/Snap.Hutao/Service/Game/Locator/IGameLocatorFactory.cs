@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Game.Locator;
 
 internal interface IGameLocatorFactory
 {
-    IGameLocator Create(GameLocationSource source);
+    IGameLocator Create(GameLocationSourceKind source);
 }

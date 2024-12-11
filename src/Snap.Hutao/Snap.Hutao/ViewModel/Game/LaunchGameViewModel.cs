@@ -178,11 +178,17 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         return false;
     }
 
-    protected override ValueTask<bool> LoadOverrideAsync()
+    protected override async ValueTask<bool> LoadOverrideAsync()
     {
+        if (LaunchOptions.GamePathEntries.IsDefaultOrEmpty)
+        {
+            await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
         AspectRatios = LaunchOptions.AspectRatios;
-        return ValueTask.FromResult(true);
+        return true;
     }
 
     [Command("IdentifyMonitorsCommand")]
@@ -194,7 +200,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {
-        (bool isOk, string path) = await gameLocatorFactory.LocateAsync(GameLocationSource.Manual).ConfigureAwait(false);
+        (bool isOk, string path) = await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.Manual).ConfigureAwait(false);
         if (!isOk)
         {
             return;
