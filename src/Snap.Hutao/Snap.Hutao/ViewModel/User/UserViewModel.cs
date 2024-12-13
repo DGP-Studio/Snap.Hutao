@@ -21,6 +21,7 @@ using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Text;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
@@ -45,7 +46,7 @@ internal sealed partial class UserViewModel : ObservableObject
 
     public AdvancedDbCollectionView<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
 
-    public List<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = CollectionsNameValue.FromEnum<OverseaThirdPartyKind>(static kind => kind is OverseaThirdPartyKind.Twitter ? ThirdPartyIconConverter.TwitterName : kind.ToString());
+    public ImmutableArray<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = ImmutableCollectionsNameValue.FromEnum<OverseaThirdPartyKind>(static kind => kind is OverseaThirdPartyKind.Twitter ? ThirdPartyIconConverter.TwitterName : kind.ToString());
 
     internal void HandleUserOptionResult(UserOptionResult optionResult, string uid)
     {

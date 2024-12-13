@@ -6,13 +6,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Web.Hutao;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
 [Injection(InjectAs.Singleton)]
 internal sealed partial class StaticResourceOptions : ObservableObject
 {
-    public List<NameValue<StaticResourceQuality>> ImageQualities { get; } = CollectionsNameValue.FromEnum<StaticResourceQuality>(q => q.GetLocalizedDescription());
+    public ImmutableArray<NameValue<StaticResourceQuality>> ImageQualities { get; } = ImmutableCollectionsNameValue.FromEnum<StaticResourceQuality>(q => q.GetLocalizedDescription());
 
     public NameValue<StaticResourceQuality>? ImageQuality
     {
@@ -27,7 +28,7 @@ internal sealed partial class StaticResourceOptions : ObservableObject
         }
     }
 
-    public List<NameValue<StaticResourceArchive>> ImageArchives { get; } = CollectionsNameValue.FromEnum<StaticResourceArchive>(a => a.GetLocalizedDescription());
+    public ImmutableArray<NameValue<StaticResourceArchive>> ImageArchives { get; } = ImmutableCollectionsNameValue.FromEnum<StaticResourceArchive>(a => a.GetLocalizedDescription());
 
     public NameValue<StaticResourceArchive>? ImageArchive
     {
