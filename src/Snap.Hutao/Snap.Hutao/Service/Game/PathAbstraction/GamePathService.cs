@@ -12,6 +12,7 @@ internal sealed partial class GamePathService : IGamePathService
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchOptions launchOptions;
+    private readonly ITaskContext taskContext;
 
     public async ValueTask<ValueResult<bool, string>> SilentGetGamePathAsync()
     {
@@ -62,6 +63,7 @@ internal sealed partial class GamePathService : IGamePathService
             builder.AddRange(paths.Select(GamePathEntry.Create));
 
             // Since all path we add are not in original list, we can skip calling PerformGamePathEntrySynchronization
+            await taskContext.SwitchToMainThreadAsync();
             launchOptions.GamePathEntries = builder.ToImmutable();
         }
     }
