@@ -15,7 +15,7 @@ internal sealed partial class GameRepository : IGameRepository
 
     public ObservableReorderableDbCollection<GameAccount> GetGameAccountCollection()
     {
-        return this.Query(query => query.ToObservableReorderableDbCollection(ServiceProvider));
+        return this.Query(query => query.AsObservableReorderableDbCollection(ServiceProvider));
     }
 
     public void AddGameAccount(GameAccount gameAccount)

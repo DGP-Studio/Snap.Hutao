@@ -11,6 +11,6 @@ internal static class PackageVersionExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Version ToVersion(this PackageVersion packageVersion)
     {
-        return new Version(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+        return new(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
     }
 }

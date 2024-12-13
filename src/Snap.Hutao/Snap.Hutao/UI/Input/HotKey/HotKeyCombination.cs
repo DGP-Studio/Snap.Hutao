@@ -74,7 +74,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
             key = Enum.IsDefined(actual.Key) ? actual.Key : defaultKey;
 
-            keyNameValue = VirtualKeys.GetList().Single(v => v.Value == key);
+            keyNameValue = VirtualKeys.Values.Single(v => v.Value == key);
         }
     }
 

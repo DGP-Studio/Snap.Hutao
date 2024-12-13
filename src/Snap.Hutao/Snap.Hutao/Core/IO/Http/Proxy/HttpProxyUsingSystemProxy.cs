@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.IO.Http.Loopback;
 using Snap.Hutao.Win32.Registry;
+using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 
@@ -31,21 +32,9 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         watcher.Start(serviceProvider.GetRequiredService<ILogger<HttpProxyUsingSystemProxy>>());
     }
 
-    public bool IsUsingProxyAndNotWorking
-    {
-        get => GetProxy(ProxyTestDestination) is not null && !loopbackSupport.IsLoopbackEnabled;
-    }
+    public bool IsUsingProxyAndNotWorking { get => GetProxy(ProxyTestDestination) is not null && !loopbackSupport.IsLoopbackEnabled; }
 
-    public string CurrentProxyUri
-    {
-        get
-        {
-            Uri? proxyUri = GetProxy(ProxyTestDestination);
-            return proxyUri is null
-                ? SH.ViewPageFeedbackCurrentProxyNoProxyDescription
-                : proxyUri.AbsoluteUri;
-        }
-    }
+    public string CurrentProxyUri { get => GetProxy(ProxyTestDestination)?.AbsoluteUri ?? SH.ViewPageFeedbackCurrentProxyNoProxyDescription; }
 
     public IWebProxy InnerProxy
     {
@@ -84,16 +73,6 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         (InnerProxy as IDisposable)?.Dispose();
     }
 
-    public void OnSystemProxySettingsChanged()
-    {
-        UpdateInnerProxy();
-
-        // TaskContext can't be injected directly since there are some recursive dependencies.
-        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
-    }
-
-    [Command("EnableLoopbackCommand")]
     public void EnableLoopback()
     {
         loopbackSupport.EnableLoopback();
@@ -117,5 +96,16 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         ArgumentNullException.ThrowIfNull(proxy);
 
         InnerProxy = proxy;
+    }
+
+    private void OnSystemProxySettingsChanged()
+    {
+        UpdateInnerProxy();
+
+        Debug.Assert(XamlApplicationLifetime.DispatcherQueueInitialized, "DispatcherQueue not initialized");
+
+        // TaskContext can't be injected directly, we have to retrieve it from the service provider after
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
     }
 }

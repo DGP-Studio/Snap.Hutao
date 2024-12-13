@@ -41,17 +41,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         get;
         set
         {
-            if (field is not null)
-            {
-                field.CurrentChanged -= OnCurrentArchiveChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentArchiveChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentArchiveChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(value, OnCurrentArchiveChanged);
         }
     }
 
@@ -62,17 +54,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         get;
         set
         {
-            if (field is not null)
-            {
-                field.CurrentChanged -= OnCurrentAchievementGoalChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentAchievementGoalChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentAchievementGoalChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(value, OnCurrentAchievementGoalChanged);
         }
     }
 
@@ -118,7 +102,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 .GetAchievementGoalArrayAsync(CancellationToken)
                 .ConfigureAwait(false);
 
-            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().ToAdvancedCollectionView();
+            sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().AsAdvancedCollectionView();
         }
 
         IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);
@@ -292,7 +276,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         try
         {
-            view = scopeContext.AchievementService.GetAchievementViewList(archive, context).ToAdvancedCollectionView();
+            view = scopeContext.AchievementService.GetAchievementViewList(archive, context).AsAdvancedCollectionView();
             return true;
         }
         catch (HutaoException ex)

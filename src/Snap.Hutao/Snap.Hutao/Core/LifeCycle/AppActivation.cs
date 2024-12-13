@@ -45,15 +45,15 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public void Activate(HutaoActivationArguments args)
     {
+        if (Volatile.Read(ref isActivating) is 1)
+        {
+            return;
+        }
+
         HandleActivationExclusivelyAsync(args).SafeForget(logger);
 
         async ValueTask HandleActivationExclusivelyAsync(HutaoActivationArguments args)
         {
-            if (Volatile.Read(ref isActivating) is 1)
-            {
-                return;
-            }
-
             using (await activateLock.LockAsync().ConfigureAwait(false))
             {
                 if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
@@ -74,15 +74,15 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public void ActivateAndInitialize(HutaoActivationArguments args)
     {
+        if (Volatile.Read(ref isActivating) is 1)
+        {
+            return;
+        }
+
         ActivateAndInitializeAsync().SafeForget(logger);
 
         async ValueTask ActivateAndInitializeAsync()
         {
-            if (Volatile.Read(ref isActivating) is 1)
-            {
-                return;
-            }
-
             using (await activateLock.LockAsync().ConfigureAwait(false))
             {
                 if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
@@ -101,10 +101,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        INavigationCompletionSource navigationSource = uid is null
-            ? INavigationCompletionSource.Default
-            : new LaunchGameWithUidData(uid);
-
         switch (currentWindowReference.Window)
         {
             case null:
@@ -112,7 +108,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 await WaitMainWindowOrCurrentAsync().ConfigureAwait(true);
                 await serviceProvider
                     .GetRequiredService<INavigationService>()
-                    .NavigateAsync<LaunchGamePage>(navigationSource, true)
+                    .NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true)
                     .ConfigureAwait(false);
                 return;
 
@@ -166,12 +162,11 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
         {
-            XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
-
             serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
             lock (NotifyIconController.InitializationSyncRoot)
             {
                 _ = serviceProvider.GetRequiredService<NotifyIconController>();
+                XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
             }
         }
 
@@ -215,9 +210,10 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
                                 INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(AchievementViewModel.ImportUIAFFromClipboard);
 #pragma warning disable CA1849
-                                // We can't await here to navigate to Achievment Page, the Achievement
+                                // We can't await here to navigate to Achievement Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.
                                 // Which is initialized in the link:AppActivation.cs#L102
+                                // ReSharper disable once MethodHasAsyncOverload
                                 serviceProvider
                                     .GetRequiredService<INavigationService>()
                                     .Navigate<AchievementPage>(navigationAwaiter, true);
@@ -239,37 +235,40 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask HandleLaunchActivationAsync(bool isRedirectTo)
     {
-        if (!isRedirectTo)
+        if (isRedirectTo)
         {
-            // Increase launch times
-            LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
+            await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
+            return;
+        }
 
-            // If the guide is completed, we check if there's any unfulfilled resource category present.
-            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
+        // Increase launch times
+        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
+
+        // If the guide is completed, we check if there's any unfulfilled resource category present.
+        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
+        {
+            if (StaticResource.IsAnyUnfulfilledCategoryPresent())
             {
-                if (StaticResource.IsAnyUnfulfilledCategoryPresent())
-                {
-                    UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
-                }
+                UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
             }
+        }
 
-            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
-            {
-                await taskContext.SwitchToMainThreadAsync();
+        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+        {
+            await taskContext.SwitchToMainThreadAsync();
 
-                GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
-                currentWindowReference.Window = guideWindow;
+            GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
+            currentWindowReference.Window = guideWindow;
 
-                guideWindow.SwitchTo();
-                guideWindow.BringToForeground();
-                return;
-            }
+            guideWindow.SwitchTo();
+            guideWindow.BringToForeground();
+            return;
+        }
 
-            if (Version.Parse(LocalSetting.Get(SettingKeys.LastVersion, "0.0.0.0")) < HutaoRuntime.Version)
-            {
-                XamlApplicationLifetime.IsFirstRunAfterUpdate = true;
-                LocalSetting.Set(SettingKeys.LastVersion, $"{HutaoRuntime.Version}");
-            }
+        if (Version.Parse(LocalSetting.Get(SettingKeys.LastVersion, "0.0.0.0")) < HutaoRuntime.Version)
+        {
+            XamlApplicationLifetime.IsFirstRunAfterUpdate = true;
+            LocalSetting.Set(SettingKeys.LastVersion, $"{HutaoRuntime.Version}");
         }
 
         await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
@@ -279,7 +278,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         if (arguments.TryGetValue(Action, out string? action))
         {
-            if (action == LaunchGame)
+            if (action is LaunchGame)
             {
                 _ = arguments.TryGetValue(Uid, out string? uid);
                 await HandleLaunchGameActionAsync(uid).ConfigureAwait(false);

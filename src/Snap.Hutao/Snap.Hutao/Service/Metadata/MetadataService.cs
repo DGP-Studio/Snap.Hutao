@@ -225,12 +225,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             bool skip = false;
             if (File.Exists(fileFullPath))
             {
-                skip = hash == await XXH64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                skip = hash == await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
             }
 
             if (!skip)
             {
-                logger.LogInformation("{Hash} of {File} not matched, begin downloading", nameof(XXH64), fileFullName);
+                logger.LogInformation("{Hash} of {File} not matched, begin downloading", nameof(XxHash64), fileFullName);
                 await DownloadMetadataSourceFilesAsync(fileFullName, token).ConfigureAwait(true);
             }
         });

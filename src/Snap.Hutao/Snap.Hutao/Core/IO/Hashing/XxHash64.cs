@@ -6,11 +6,11 @@ using System.IO.Hashing;
 
 namespace Snap.Hutao.Core.IO.Hashing;
 
-internal static class XXH64
+internal static class XxHash64
 {
     public static async ValueTask<string> HashAsync(Stream stream, CancellationToken token = default)
     {
-        XxHash64 xxHash64 = new();
+        System.IO.Hashing.XxHash64 xxHash64 = new();
         await xxHash64.AppendAsync(stream, token).ConfigureAwait(false);
         byte[] bytes = xxHash64.GetHashAndReset();
         return Convert.ToHexString(bytes);

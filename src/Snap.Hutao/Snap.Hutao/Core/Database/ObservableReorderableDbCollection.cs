@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
@@ -16,7 +17,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
     private readonly IServiceProvider serviceProvider;
 
     public ObservableReorderableDbCollection(List<TEntity> items, IServiceProvider serviceProvider)
-        : base(AdjustIndex(items.SortBy(x => x.Index)))
+        : base(AdjustIndex(items.SortBy(x => x.Index))) // Normalized index
     {
         this.serviceProvider = serviceProvider;
     }
@@ -39,8 +40,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
         Span<TEntity> span = CollectionsMarshal.AsSpan(list);
         for (int i = 0; i < span.Length; i++)
         {
-            ref readonly TEntity item = ref span[i];
-            item.Index = i;
+            span[i].Index = i;
         }
 
         return list;
@@ -88,11 +88,15 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
         Span<TEntityAccess> span = CollectionsMarshal.AsSpan(list);
         for (int i = 0; i < span.Length; i++)
         {
-            ref readonly TEntityAccess item = ref span[i];
-            item.Entity.Index = i;
+            span[i].Entity.Index = i;
         }
 
         return list;
+    }
+
+    private static TEntity AccessEntity(TEntityAccess access)
+    {
+        return access.Entity;
     }
 
     private void OnReorder()
@@ -101,7 +105,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            scope.ServiceProvider.GetRequiredService<AppDbContext>().Set<TEntity>().UpdateRangeAndSave(Items.Select(i => i.Entity));
+            scope.ServiceProvider.GetRequiredService<AppDbContext>().Set<TEntity>().UpdateRangeAndSave(Items.Select(AccessEntity));
         }
     }
 }

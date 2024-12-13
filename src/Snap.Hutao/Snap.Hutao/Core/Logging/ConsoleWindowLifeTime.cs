@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.Console;
+using System.Text;
 using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Core.Logging;
@@ -32,14 +31,12 @@ internal sealed partial class ConsoleWindowLifeTime : IDisposable
             return;
         }
 
-        HANDLE inputHandle = GetStdHandle(STD_HANDLE.STD_INPUT_HANDLE);
-        if (GetConsoleMode(inputHandle, out CONSOLE_MODE mode))
-        {
-            mode |= CONSOLE_MODE.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-            SetConsoleMode(inputHandle, mode);
-        }
+        StringBuilder titleBuilder = new StringBuilder()
+            .Append("Snap Hutao Debug Console")
+            .AppendIf(HutaoRuntime.IsProcessElevated, " [Administrator]")
+            .Append(HutaoRuntime.Version);
 
-        SetConsoleTitleW(HutaoRuntime.IsProcessElevated ? "Snap Hutao Debug Console [Administrator]" : "Snap Hutao Debug Console");
+        SetConsoleTitleW(titleBuilder.ToString());
     }
 
     public void Dispose()

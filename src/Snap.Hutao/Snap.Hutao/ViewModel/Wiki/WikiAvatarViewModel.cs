@@ -90,7 +90,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                AdvancedCollectionView<Avatar> avatarsView = list.ToAdvancedCollectionView();
+                AdvancedCollectionView<Avatar> avatarsView = list.AsAdvancedCollectionView();
 
                 await taskContext.SwitchToMainThreadAsync();
                 Avatars = avatarsView;

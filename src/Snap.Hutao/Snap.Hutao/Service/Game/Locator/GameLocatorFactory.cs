@@ -9,7 +9,7 @@ internal sealed partial class GameLocatorFactory : IGameLocatorFactory
 {
     private readonly IServiceProvider serviceProvider;
 
-    public IGameLocator Create(GameLocationSource source)
+    public IGameLocator Create(GameLocationSourceKind source)
     {
         return serviceProvider.GetRequiredKeyedService<IGameLocator>(source);
     }

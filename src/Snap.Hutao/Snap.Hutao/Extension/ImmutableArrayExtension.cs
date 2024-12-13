@@ -1,8 +1,10 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Documents;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Extension;
 
@@ -22,15 +24,21 @@ internal static class ImmutableArrayExtension
     [Pure]
     public static ImmutableArray<TResult> SelectAsArray<TSource, TResult>(this ImmutableArray<TSource> array, Func<TSource, int, TResult> selector)
     {
-        ReadOnlySpan<TSource> span = array.AsSpan();
-        ImmutableArray<TResult>.Builder builder = ImmutableArray.CreateBuilder<TResult>(span.Length);
-
-        int index = -1;
-        foreach (ref readonly TSource item in span)
+        int length = array.Length;
+        if (length == 0)
         {
-            builder.Add(selector(item, ++index));
+            return [];
         }
 
-        return builder.ToImmutable();
+        ReadOnlySpan<TSource> sourceSpan = array.AsSpan();
+        TResult[] results = GC.AllocateUninitializedArray<TResult>(length);
+
+        Span<TResult> resultSpan = results.AsSpan();
+        for (int index = 0; index < sourceSpan.Length; index++)
+        {
+            resultSpan[index] = selector(sourceSpan[index], index);
+        }
+
+        return ImmutableCollectionsMarshal.AsImmutableArray(results);
     }
 }

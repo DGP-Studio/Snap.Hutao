@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Json;
 
-[CollectionBuilder(typeof(JsonExtensionDataDictionary), nameof(InitialzieWithIgnoredKeys))]
+[CollectionBuilder(typeof(JsonExtensionDataDictionary), nameof(InitializeWithIgnoredKeys))]
 internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, JsonElement>
 {
     private readonly Dictionary<string, JsonElement> inner = [];
@@ -45,9 +45,9 @@ internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, 
         set => inner[key] = value;
     }
 
-    public static JsonExtensionDataDictionary InitialzieWithIgnoredKeys(ReadOnlySpan<string> keys)
+    public static JsonExtensionDataDictionary InitializeWithIgnoredKeys(ReadOnlySpan<string> keys)
     {
-        return new JsonExtensionDataDictionary(keys);
+        return new(keys);
     }
 
     public void Add(string key, JsonElement value)

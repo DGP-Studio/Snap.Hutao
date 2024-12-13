@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Model.Calculable;
 
@@ -16,13 +17,13 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
 {
     private readonly SkillType type;
 
-    private CalculableSkill(ProudableSkill skill, SkillType type)
+    private CalculableSkill(ProudSkill skill, SkillType type)
     {
         this.type = type;
 
         GroupId = skill.GroupId;
         LevelMin = 1;
-        LevelMax = ProudableSkill.GetMaxLevel();
+        LevelMax = ProudSkill.GetMaxLevel();
         Name = skill.Name;
         Icon = SkillIconConverter.IconNameToUri(skill.Icon);
         Quality = QualityType.QUALITY_NONE;
@@ -34,7 +35,7 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
 
         GroupId = skill.GroupId;
         LevelMin = skill.LevelNumber;
-        LevelMax = ProudableSkill.GetMaxLevel();
+        LevelMax = ProudSkill.GetMaxLevel();
         Name = skill.Name;
         Icon = skill.Icon;
         Quality = QualityType.QUALITY_NONE;
@@ -64,7 +65,7 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
         set => SetProperty(LevelTarget, value, v => LocalSetting.Set(SettingKeyTargetFromSkillType(type), v));
     }
 
-    public static CalculableSkill From(ProudableSkill source, SkillType type)
+    public static CalculableSkill From(ProudSkill source, SkillType type)
     {
         return new(source, type);
     }
@@ -74,6 +75,7 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
         return new(source, type);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string SettingKeyCurrentFromSkillType(SkillType type)
     {
         return type switch
@@ -85,6 +87,7 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
         };
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string SettingKeyTargetFromSkillType(SkillType type)
     {
         return type switch

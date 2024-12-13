@@ -34,7 +34,7 @@ internal sealed partial class SummaryFactory : ISummaryFactory
 
         return new()
         {
-            Avatars = views.ToAdvancedCollectionView(),
+            Avatars = views.AsAdvancedCollectionView(),
         };
     }
 }

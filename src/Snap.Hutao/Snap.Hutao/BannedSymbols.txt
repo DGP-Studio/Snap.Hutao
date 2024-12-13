@@ -2,3 +2,4 @@
 M:System.Collections.Generic.List`1.ForEach(System.Action{`0})
 M:Microsoft.UI.Xaml.Controls.ContentDialog.ShowAsync
 M:Microsoft.UI.Xaml.Controls.ContentDialog.ShowAsync(Microsoft.UI.Xaml.Controls.ContentDialogPlacement)
+P:Microsoft.UI.Xaml.UIElement.RasterizationScale

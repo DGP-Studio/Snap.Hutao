@@ -58,7 +58,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
-                    AdvancedCollectionView<Monster> monstersView = ordered.ToAdvancedCollectionView();
+                    AdvancedCollectionView<Monster> monstersView = ordered.AsAdvancedCollectionView();
 
                     await taskContext.SwitchToMainThreadAsync();
                     Monsters = monstersView;

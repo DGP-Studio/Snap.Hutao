@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Core.IO.Http.Sharding;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
@@ -134,25 +133,28 @@ internal sealed partial class ScatteredFilesPackageConverter : PackageConverter
         Directory.CreateDirectory(directory);
 
         string remoteUrl = context.GetScatteredFilesUrl(remoteName);
-        HttpShardCopyWorkerOptions<PackageConvertStatus> options = new()
+        using (HttpResponseMessage responseMessage = await context.HttpClient.GetAsync(remoteUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
         {
-            HttpClient = context.HttpClient,
-            SourceUrl = remoteUrl,
-            DestinationFilePath = cacheFile,
-            StatusFactory = (bytesRead, totalBytes) => new(remoteName, bytesRead, totalBytes),
-        };
-
-        using (IHttpShardCopyWorker<PackageConvertStatus> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
-        {
-            try
+            responseMessage.EnsureSuccessStatusCode();
+            long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
+            using (Stream webStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
-                await worker.CopyAsync(context.Progress).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                // System.IO.IOException: The response ended prematurely.
-                // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
-                HutaoException.Throw(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName), ex);
+                using (FileStream fileStream = File.Create(cacheFile))
+                {
+                    using (StreamCopyWorker<PackageConvertStatus> worker = new(webStream, fileStream, (_, bytesRead) => new(remoteName, bytesRead, totalBytes)))
+                    {
+                        try
+                        {
+                            await worker.CopyAsync(context.Progress).ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            // System.IO.IOException: The response ended prematurely.
+                            // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+                            HutaoException.Throw(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName), ex);
+                        }
+                    }
+                }
             }
         }
 

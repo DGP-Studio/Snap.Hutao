@@ -16,11 +16,11 @@ namespace Snap.Hutao.Core.IO.Http.Loopback;
 [Injection(InjectAs.Singleton)]
 internal sealed unsafe partial class LoopbackSupport : ObservableObject
 {
-    private readonly string hutaoContainerStringSID;
+    private readonly string hutaoContainerStringSid;
 
     public LoopbackSupport()
     {
-        Initialize(out hutaoContainerStringSID);
+        Initialize(out hutaoContainerStringSid);
     }
 
     public bool IsLoopbackEnabled { get; private set => SetProperty(ref field, value); }
@@ -34,16 +34,16 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
             sids.Add(*(pSids + i));
         }
 
-        ConvertStringSidToSidW(hutaoContainerStringSID, out PSID pSid);
+        ConvertStringSidToSidW(hutaoContainerStringSid, out PSID pSid);
         SID_AND_ATTRIBUTES sidAndAttributes = default;
         sidAndAttributes.Sid = pSid;
         sids.Add(sidAndAttributes);
         IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig(CollectionsMarshal.AsSpan(sids)) is WIN32_ERROR.ERROR_SUCCESS;
     }
 
-    private void Initialize(out string containerStringSID)
+    private void Initialize(out string containerStringSid)
     {
-        containerStringSID = string.Empty;
+        containerStringSid = string.Empty;
 
         INET_FIREWALL_APP_CONTAINER* pContainers = default;
         try
@@ -57,7 +57,7 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
                 if (appContainerName.Equals(HutaoRuntime.FamilyName, StringComparison.Ordinal))
                 {
                     ConvertSidToStringSidW(pContainer->appContainerSid, out PWSTR stringSid);
-                    containerStringSID = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();
+                    containerStringSid = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();
                     break;
                 }
             }
@@ -79,7 +79,7 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
             {
                 ConvertSidToStringSidW((pSids + i)->Sid, out PWSTR stringSid);
                 ReadOnlySpan<char> stringSidSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid);
-                if (stringSidSpan.Equals(containerStringSID, StringComparison.Ordinal))
+                if (stringSidSpan.Equals(containerStringSid, StringComparison.Ordinal))
                 {
                     IsLoopbackEnabled = true;
                     break;

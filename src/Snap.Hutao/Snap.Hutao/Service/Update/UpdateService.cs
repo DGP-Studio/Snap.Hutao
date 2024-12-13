@@ -153,7 +153,7 @@ internal sealed partial class UpdateService : IUpdateService
                 case HutaoPackageMirrorType.Direct:
                     using (FileStream fileStream = File.Create(filePath))
                     {
-                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, (_, bytesRead) => new UpdateStatus(version, bytesRead, totalBytes)))
+                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, (_, bytesRead) => new(version, bytesRead, totalBytes)))
                         {
                             await worker.CopyAsync(progress, token).ConfigureAwait(false);
                         }
@@ -163,7 +163,7 @@ internal sealed partial class UpdateService : IUpdateService
                 case HutaoPackageMirrorType.Archive:
                     using (TempFileStream tempFileStream = new(FileMode.Create, FileAccess.ReadWrite))
                     {
-                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, tempFileStream, (_, bytesRead) => new UpdateStatus(version, bytesRead, totalBytes)))
+                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, tempFileStream, (_, bytesRead) => new(version, bytesRead, totalBytes)))
                         {
                             await worker.CopyAsync(progress, token).ConfigureAwait(false);
                         }

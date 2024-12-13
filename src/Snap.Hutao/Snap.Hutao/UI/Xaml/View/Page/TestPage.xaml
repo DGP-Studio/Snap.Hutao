@@ -175,11 +175,6 @@
                     IsClickEnabled="True"/>
 
                 <cwc:SettingsCard
-                    Command="{Binding TestHttpShardDownload}"
-                    Header="Http Shard Test"
-                    IsClickEnabled="True"/>
-
-                <cwc:SettingsCard
                     Command="{Binding RunCodeCommand}"
                     Header="Run Script Code"
                     IsClickEnabled="True"/>

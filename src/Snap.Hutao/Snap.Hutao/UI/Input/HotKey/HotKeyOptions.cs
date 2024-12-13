@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.User32;
 
@@ -32,7 +33,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         MouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VIRTUAL_KEY.VK_F8);
     }
 
-    public List<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.GetList();
+    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.Values;
 
     public HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set => SetProperty(ref field, value); }
 

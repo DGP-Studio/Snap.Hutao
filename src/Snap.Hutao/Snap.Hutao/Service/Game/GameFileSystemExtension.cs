@@ -7,6 +7,7 @@ using Snap.Hutao.Service.Game.Scheme;
 using System.Collections.Immutable;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -212,15 +213,22 @@ internal static class GameFileSystemExtension
     public static bool TryUpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
     {
         bool updated = false;
-        ImmutableArray<IniElement> ini = IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath());
-        foreach (ref readonly IniElement element in ini.AsSpan())
+        IniElement[]? ini = ImmutableCollectionsMarshal.AsArray(IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath()));
+
+        if (ini is null)
+        {
+            return false;
+        }
+
+        foreach (ref IniElement element in ini.AsSpan())
         {
             if (element is not IniParameter { Key: "game_version" } parameter)
             {
                 continue;
             }
 
-            updated = parameter.Set(version);
+            element = parameter.WithValue(version, out updated);
+            break;
         }
 
         IniSerializer.SerializeToFile(gameFileSystem.GetGameConfigurationFilePath(), ini);

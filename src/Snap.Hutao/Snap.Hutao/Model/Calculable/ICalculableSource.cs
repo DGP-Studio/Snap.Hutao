@@ -8,9 +8,3 @@ internal interface ICalculableSource<out TResult>
 {
     public TResult ToCalculable();
 }
-
-internal interface ITypedCalculableSource<out TResult, in TType>
-    where TResult : ICalculable
-{
-    public TResult ToCalculable(TType param);
-}

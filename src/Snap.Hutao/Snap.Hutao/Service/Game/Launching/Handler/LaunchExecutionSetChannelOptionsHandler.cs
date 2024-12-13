@@ -5,6 +5,7 @@ using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Configuration;
 using System.Collections.Immutable;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -21,10 +22,11 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
         string configPath = gameFileSystem.GetGameConfigurationFilePath();
         context.Logger.LogInformation("Game config file path: {ConfigPath}", configPath);
 
-        ImmutableArray<IniElement> elements;
+        IniElement[]? elements;
         try
         {
-            elements = IniSerializer.DeserializeFromFile(configPath);
+            elements = ImmutableCollectionsMarshal.AsArray(IniSerializer.DeserializeFromFile(configPath));
+            ArgumentNullException.ThrowIfNull(elements);
         }
         catch (FileNotFoundException)
         {
@@ -45,7 +47,19 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             return;
         }
 
-        foreach (IniElement element in elements)
+        SetChannelOptions(context, elements);
+
+        if (context.ChannelOptionsChanged)
+        {
+            IniSerializer.SerializeToFile(configPath, elements);
+        }
+
+        await next().ConfigureAwait(false);
+    }
+
+    private static void SetChannelOptions(LaunchExecutionContext context, IniElement[] elements)
+    {
+        foreach (ref IniElement element in elements.AsSpan())
         {
             if (element is not IniParameter parameter)
             {
@@ -55,19 +69,19 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             switch (parameter.Key)
             {
                 case ChannelOptions.ChannelName:
-                    context.ChannelOptionsChanged = parameter.Set(context.TargetScheme.Channel.ToString("D")) || context.ChannelOptionsChanged;
-                    continue;
+                    {
+                        element = parameter.WithValue(context.TargetScheme.Channel.ToString("D"), out bool changed);
+                        context.ChannelOptionsChanged = changed || context.ChannelOptionsChanged;
+                        continue;
+                    }
+
                 case ChannelOptions.SubChannelName:
-                    context.ChannelOptionsChanged = parameter.Set(context.TargetScheme.SubChannel.ToString("D")) || context.ChannelOptionsChanged;
-                    continue;
+                    {
+                        element = parameter.WithValue(context.TargetScheme.SubChannel.ToString("D"), out bool changed);
+                        context.ChannelOptionsChanged = changed || context.ChannelOptionsChanged;
+                        continue;
+                    }
             }
         }
-
-        if (context.ChannelOptionsChanged)
-        {
-            IniSerializer.SerializeToFile(configPath, elements);
-        }
-
-        await next().ConfigureAwait(false);
     }
 }

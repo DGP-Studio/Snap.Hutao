@@ -45,7 +45,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
         BlessingName = towerSchedule.BuffName;
         Blessings = towerSchedule.Descriptions;
-        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdTowerFloorMap[id], context)).Reverse().ToAdvancedCollectionView();
+        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdTowerFloorMap[id], context)).Reverse().AsAdvancedCollectionView();
     }
 
     public uint ScheduleId { get; }

@@ -68,8 +68,6 @@ internal sealed class Achievement : IAppDbEntityHasArchive,
             && Time == other.Time;
     }
 
-    #region Object
-
     public override bool Equals(object? obj)
     {
         return Equals(obj as Achievement);
@@ -79,5 +77,4 @@ internal sealed class Achievement : IAppDbEntityHasArchive,
     {
         return HashCode.Combine(ArchiveId, Id, Current, Status, Time);
     }
-    #endregion
 }

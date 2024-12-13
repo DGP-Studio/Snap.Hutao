@@ -21,7 +21,7 @@ internal sealed partial class RegistryWatcher : IDisposable
         REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET |
         REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_SECURITY;
 
-    private readonly CancellationTokenSource cancellationTokenSource = new();
+    private readonly CancellationTokenSource cts = new();
 
     private readonly HKEY hKey;
     private readonly string subKey;
@@ -40,6 +40,8 @@ internal sealed partial class RegistryWatcher : IDisposable
             nameof(HKEY.HKEY_LOCAL_MACHINE) => HKEY.HKEY_LOCAL_MACHINE,
             nameof(HKEY.HKEY_USERS) => HKEY.HKEY_USERS,
             nameof(HKEY.HKEY_CURRENT_CONFIG) => HKEY.HKEY_CURRENT_CONFIG,
+
+            // ReSharper disable once LocalizableElement
             _ => throw new ArgumentException($"The registry hive '{pathArray[0]}' is not supported", nameof(keyName)),
         };
 
@@ -50,7 +52,7 @@ internal sealed partial class RegistryWatcher : IDisposable
     public void Start(ILogger logger)
     {
         ObjectDisposedException.ThrowIf(disposed, this);
-        WatchAsync(cancellationTokenSource.Token).SafeForget(logger);
+        WatchAsync(cts.Token).SafeForget(logger);
     }
 
     public void Dispose()
@@ -69,12 +71,10 @@ internal sealed partial class RegistryWatcher : IDisposable
             }
 
             // Cancel the outer while loop
-            cancellationTokenSource.Cancel();
-            cancellationTokenSource.Dispose();
+            cts.Cancel();
+            cts.Dispose();
 
             disposed = true;
-
-            GC.SuppressFinalize(this);
         }
     }
 
@@ -82,6 +82,7 @@ internal sealed partial class RegistryWatcher : IDisposable
     {
         while (!token.IsCancellationRequested)
         {
+            // Yield at every iteration to prevent thread starvation (maybe).
             await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
 
             HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyExW(hKey, subKey, 0, RegSamFlags, out HKEY registryKey));
@@ -89,12 +90,10 @@ internal sealed partial class RegistryWatcher : IDisposable
 
             using (AutoResetEvent notifyEvent = new(false))
             {
-                HANDLE hEvent = notifyEvent.SafeWaitHandle.DangerousGetHandle();
-
                 try
                 {
-                    HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true));
-                    Marshal.ThrowExceptionForHR(hRESULT);
+                    HRESULT hr = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, notifyEvent.SafeWaitHandle.DangerousGetHandle(), true));
+                    Marshal.ThrowExceptionForHR(hr);
 
                     if (WaitHandle.WaitAny([notifyEvent, token.WaitHandle]) is 0)
                     {

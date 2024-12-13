@@ -7,12 +7,12 @@ using Snap.Hutao.Factory.Picker;
 namespace Snap.Hutao.Service.Game.Locator;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGameLocator), Key = GameLocationSource.Manual)]
+[Injection(InjectAs.Transient, typeof(IGameLocator), Key = GameLocationSourceKind.Manual)]
 internal sealed partial class ManualGameLocator : IGameLocator
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
 
-    public ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
+    public ValueTask<ValueResult<bool, string>> LocateSingleGamePathAsync()
     {
         (bool isPickerOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
             SH.ServiceGameLocatorFileOpenPickerCommitText,

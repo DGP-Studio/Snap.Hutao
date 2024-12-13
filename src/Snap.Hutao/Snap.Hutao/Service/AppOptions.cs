@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service;
 
@@ -46,7 +47,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref isUnobtainedWishItemVisible, SettingEntry.IsUnobtainedWishItemVisible, value);
     }
 
-    public List<NameValue<BackdropType>> BackdropTypes { get; } = CollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);
+    public ImmutableArray<NameValue<BackdropType>> BackdropTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);
 
     public BackdropType BackdropType
     {
@@ -67,7 +68,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref elementTheme, SettingEntry.ElementTheme, value, EnumToStringOrEmpty);
     }
 
-    public List<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = CollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription());
+    public ImmutableArray<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription());
 
     public BackgroundImageType BackgroundImageType
     {
@@ -96,7 +97,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
     }
 
-    public List<NameValue<PackageConverterType>> PackageConverterTypes { get; } = CollectionsNameValue.FromEnum<PackageConverterType>();
+    public ImmutableArray<NameValue<PackageConverterType>> PackageConverterTypes { get; } = ImmutableCollectionsNameValue.FromEnum<PackageConverterType>();
 
     public PackageConverterType PackageConverterType
     {
@@ -104,7 +105,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref packageConverterType, SettingEntry.PackageConverterType, value, EnumToStringOrEmpty);
     }
 
-    public List<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = CollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription());
+    public ImmutableArray<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription());
 
     public BridgeShareSaveType BridgeShareSaveType
     {

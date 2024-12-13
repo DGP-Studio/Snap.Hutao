@@ -7,8 +7,15 @@ namespace Snap.Hutao.ViewModel.Game;
 
 internal sealed class LaunchGameWithUidData : NavigationCompletionSource<string>
 {
-    public LaunchGameWithUidData(string uid)
+    private LaunchGameWithUidData(string uid)
         : base(uid)
     {
+    }
+
+    public static INavigationCompletionSource CreateForUid(string? uid)
+    {
+        return uid is null
+            ? INavigationCompletionSource.Default
+            : new LaunchGameWithUidData(uid);
     }
 }

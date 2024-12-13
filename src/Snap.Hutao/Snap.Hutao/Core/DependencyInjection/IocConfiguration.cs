@@ -33,7 +33,9 @@ internal static class IocConfiguration
             }
 
             builder
+#if DEBUG
                 .EnableSensitiveDataLogging()
+#endif
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseSqlite(sqlConnectionString);
         }

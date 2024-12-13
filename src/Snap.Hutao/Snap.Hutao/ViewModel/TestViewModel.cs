@@ -7,8 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
@@ -275,31 +273,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             bool isSolidState = PhysicalDriver.DangerousGetIsSolidState(file);
             infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
         }
-    }
-
-    [Command("TestHttpShardDownload")]
-    private async Task TestHttpShardDownloadAsync()
-    {
-        using (HttpClient httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
-        {
-            HttpShardCopyWorkerOptions<Void> options = new()
-            {
-                HttpClient = httpClient,
-                SourceUrl = "https://ghproxy.qhy04.cc/https://github.com/DGP-Studio/Snap.Hutao/releases/download/1.11.0/Snap.Hutao.1.11.0.msix",
-                DestinationFilePath = "D://test.file",
-                StatusFactory = (bytesRead, totalBytes) => default,
-            };
-
-            Progress<Void> progress = new();
-
-            using (IHttpShardCopyWorker<Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
-            {
-                await worker.CopyAsync(progress).ConfigureAwait(false);
-            }
-        }
-
-        string result = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, "D://test.file").ConfigureAwait(false);
-        logger.LogInformation("File SHA256: {SHA256}", result);
     }
 
     [Command("RunCodeCommand")]

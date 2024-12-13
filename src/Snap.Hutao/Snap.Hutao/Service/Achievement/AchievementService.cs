@@ -16,6 +16,8 @@ namespace Snap.Hutao.Service.Achievement;
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
+    private readonly AsyncLock archivesLock = new();
+
     private readonly AchievementRepositoryOperation achievementDbBulkOperation;
     private readonly IAchievementRepository achievementRepository;
     private readonly IServiceProvider serviceProvider;
@@ -28,7 +30,10 @@ internal sealed partial class AchievementService : IAchievementService
         if (archives is null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            archives = new(achievementRepository.GetAchievementArchiveCollection(), serviceProvider);
+            using (await archivesLock.LockAsync().ConfigureAwait(false))
+            {
+                archives ??= new(achievementRepository.GetAchievementArchiveCollection(), serviceProvider);
+            }
         }
 
         return archives;
@@ -41,7 +46,7 @@ internal sealed partial class AchievementService : IAchievementService
         foreach (ref readonly Model.Metadata.Achievement.Achievement meta in context.Achievements.AsSpan())
         {
             EntityAchievement entity = entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id);
-            results.Add(new AchievementView(entity, meta));
+            results.Add(new(entity, meta));
         }
 
         return results;
@@ -126,7 +131,7 @@ internal sealed partial class AchievementService : IAchievementService
 
         return new()
         {
-            Info = UIAFInfo.Create(),
+            Info = UIAFInfo.CreateForExport(),
             List = entities.Select(UIAFItem.From).ToImmutableArray(),
         };
     }

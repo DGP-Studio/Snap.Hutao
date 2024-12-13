@@ -12,6 +12,11 @@ internal static class Random
         return buffer.ToString();
     }
 
+    public static void GetLowerHexString(Span<char> destination)
+    {
+        System.Random.Shared.GetItems("0123456789abcdef", destination);
+    }
+
     public static string GetUpperAndNumberString(int length)
     {
         Span<char> buffer = stackalloc char[length];
@@ -19,10 +24,20 @@ internal static class Random
         return buffer.ToString();
     }
 
+    public static void GetUpperAndNumberString(Span<char> destination)
+    {
+        System.Random.Shared.GetItems("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", destination);
+    }
+
     public static string GetLowerAndNumberString(int length)
     {
         Span<char> buffer = stackalloc char[length];
         System.Random.Shared.GetItems("0123456789abcdefghijklmnopqrstuvwxyz", buffer);
         return buffer.ToString();
+    }
+
+    public static void GetLowerAndNumberString(Span<char> destination)
+    {
+        System.Random.Shared.GetItems("0123456789abcdefghijklmnopqrstuvwxyz", destination);
     }
 }

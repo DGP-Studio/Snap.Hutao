@@ -14,19 +14,19 @@ public class UnlockerIslandFunctionOffsetTest
     [TestMethod]
     public void GenerateJson()
     {
-        // FunctionOffsetMickeyWonderMethod:
+        // MickeyWonderMethod:
         // public static byte[] AnonymousMethod43(int nType) -> jmp xxxxxxxx -> another xref to xxxxxxxx
-        // FunctionOffsetMickeyWonderMethodPartner:
+        // MickeyWonderMethodPartner:
         // public static string get_unityVersion() -> jmp
-        // FunctionOffsetMickeyWonderMethodPartner2:
+        // MickeyWonderMethodPartner2:
         // "4C 8B 05 ?? ?? ?? ?? 4C 89 F1 48 89 FA E8 ?? ?? ?? ?? 90 48 83 C4 28 5B 5F 5E 41 5E C3"
-        // FunctionOffsetSetFieldOfView:
+        // SetFieldOfView:
         // Camera: public void set_fieldOfView(float value) -> jmp xxxxxxxx
-        // FunctionOffsetSetTargetFrameRate:
+        // SetTargetFrameRate:
         // public static void set_targetFrameRate(int value) -> jmp xxxxxxxxx (to the end)
-        // FunctionOffsetSetEnableFogRendering:
+        // SetEnableFogRendering:
         // public static void set_enableFogRendering(bool value) -> jmp xxxxxxxxx (to the end)
-        // FunctionOffsetOpenTeam: FunctionOffsetOpenTeamPageAccordingly: GOD HELP US
+        // OpenTeam: OpenTeamPageAccordingly: CheckCanEnter GOD HELP US
         UnlockerIslandConfigurationWrapper wrapper = new()
         {
             Chinese = new()
@@ -39,6 +39,7 @@ public class UnlockerIslandFunctionOffsetTest
                 SetEnableFogRendering = 0x013F6B00,
                 OpenTeam = 0x08699B90,
                 OpenTeamPageAccordingly = 0x08695AE0,
+                CheckCanEnter = 0x0724A030
             },
             Oversea = new()
             {
@@ -50,6 +51,7 @@ public class UnlockerIslandFunctionOffsetTest
                 SetEnableFogRendering = 0x013FBA20,
                 OpenTeam = 0x086A32A0,
                 OpenTeamPageAccordingly = 0x086A4C60,
+                CheckCanEnter = 0x0711ED60
             },
         };
 
@@ -80,5 +82,7 @@ public class UnlockerIslandFunctionOffsetTest
         public required uint OpenTeam { get; set; }
 
         public required uint OpenTeamPageAccordingly { get; set; }
+
+        public required uint CheckCanEnter { get; set; }
     }
 }

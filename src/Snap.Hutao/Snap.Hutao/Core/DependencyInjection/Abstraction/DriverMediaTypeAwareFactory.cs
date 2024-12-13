@@ -6,17 +6,17 @@ using Snap.Hutao.Core.IO;
 namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 [ConstructorGenerated]
-internal abstract partial class DriverMediaTypeAwareFactory<TService, TServiceSSD, TServiceHDD> : IDriverMediaTypeAwareFactory<TService>
+internal abstract partial class DriverMediaTypeAwareFactory<TService, TServiceSsd, TServiceHdd> : IDriverMediaTypeAwareFactory<TService>
     where TService : notnull
-    where TServiceSSD : TService
-    where TServiceHDD : TService
+    where TServiceSsd : TService
+    where TServiceHdd : TService
 {
     private readonly IServiceProvider serviceProvider;
 
     public virtual TService Create(string path)
     {
         return PhysicalDriver.DangerousGetIsSolidState(path)
-            ? serviceProvider.GetRequiredService<TServiceSSD>()
-            : serviceProvider.GetRequiredService<TServiceHDD>();
+            ? serviceProvider.GetRequiredService<TServiceSsd>()
+            : serviceProvider.GetRequiredService<TServiceHdd>();
     }
 }

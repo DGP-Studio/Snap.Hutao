@@ -44,6 +44,8 @@ internal sealed partial class AchievementRepository : IAchievementRepository
             .Where(a => a.ArchiveId == archiveId)
             .Where(a => a.Status >= AchievementStatus.STATUS_FINISHED)
 #pragma warning disable CA1305 // EF Core does not support IFormatProvider
+
+            // TODO: Test if we really need ToString for this
             .OrderByDescending(a => a.Time.ToString())
 #pragma warning restore CA1305
             .Take(take));

@@ -47,8 +47,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         get => View.Count;
     }
 
-    [Obsolete("IsReadOnly is not supported")]
-    public bool IsReadOnly { get => source is null; }
+    public bool IsReadOnly { get => source.IsReadOnly; }
 
     public IObservableVector<object> CollectionGroups
     {
@@ -315,11 +314,11 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         if (targetIndex != oldIndex)
         {
             bool itemWasCurrent = oldIndex == CurrentPosition;
-            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, typedItem));
+            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex));
 
             View.Insert(targetIndex, typedItem);
 
-            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, typedItem));
+            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex));
 
             // Restore current position if it was the CurrentItem that changed
             _ = !itemWasCurrent || MoveCurrentToIndex(targetIndex);
@@ -563,7 +562,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             CurrentPosition++;
         }
 
-        OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, newViewIndex, newItem));
+        OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, newViewIndex));
         return true;
     }
 
@@ -601,7 +600,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
             }
         }
 
-        OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item));
+        OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex));
     }
 
     private void SortDescriptionsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

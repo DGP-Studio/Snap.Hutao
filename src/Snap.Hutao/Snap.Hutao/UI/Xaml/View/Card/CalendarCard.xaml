@@ -165,7 +165,7 @@
                             MinWidth="0"
                             Padding="0"
                             VerticalAlignment="Stretch"
-                            Background="{Binding Highlight, Converter={StaticResource BoolToBrushSelector}}"
+                            Background="{Binding Highlight, Converter={ThemeResource BoolToBrushSelector}}"
                             Style="{ThemeResource SettingButtonStyle}">
 
                             <shuxci:CachedImage

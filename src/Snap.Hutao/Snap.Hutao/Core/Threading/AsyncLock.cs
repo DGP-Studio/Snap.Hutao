@@ -14,7 +14,7 @@ internal sealed class AsyncLock
 
     public AsyncLock()
     {
-        semaphore = new AsyncSemaphore(1, 1);
+        semaphore = new(1, 1);
         releaser = Task.FromResult(new Releaser(this));
     }
 
@@ -28,7 +28,7 @@ internal sealed class AsyncLock
     private static Releaser RunContinuation(Task task, object? state)
     {
         ArgumentNullException.ThrowIfNull(state);
-        return new Releaser((AsyncLock)state);
+        return new((AsyncLock)state);
     }
 
     internal readonly struct Releaser : IDisposable

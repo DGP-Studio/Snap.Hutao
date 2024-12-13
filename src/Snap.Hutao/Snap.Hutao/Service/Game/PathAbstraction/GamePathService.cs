@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Locator;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.PathAbstraction;
 
@@ -14,34 +15,54 @@ internal sealed partial class GamePathService : IGamePathService
 
     public async ValueTask<ValueResult<bool, string>> SilentGetGamePathAsync()
     {
-        // Cannot find in setting
-        if (string.IsNullOrEmpty(launchOptions.GamePath))
+        // Found in setting
+        if (!string.IsNullOrEmpty(launchOptions.GamePath))
         {
-            // Try locate by unity log
-            (bool isOk, string path) = await gameLocatorFactory.LocateAsync(GameLocationSource.UnityLog).ConfigureAwait(false);
-
-            if (!isOk)
-            {
-                // Try locate by registry
-                (isOk, path) = await gameLocatorFactory.LocateAsync(GameLocationSource.Registry).ConfigureAwait(false);
-            }
-
-            if (isOk)
-            {
-                // Save result.
-                launchOptions.UpdateGamePath(path);
-            }
-            else
-            {
-                return new(false, SH.ServiceGamePathLocateFailed);
-            }
+            return new(true, launchOptions.GamePath);
         }
 
-        if (string.IsNullOrEmpty(launchOptions.GamePath))
+        // Try to locate by unity log
+        if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.UnityLog).ConfigureAwait(false) is (true, { } path1))
         {
-            return new(false, default!);
+            launchOptions.UpdateGamePath(path1);
+            return new(true, launchOptions.GamePath);
         }
 
-        return new(true, launchOptions.GamePath);
+        // Try to locate by registry
+        if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.Registry).ConfigureAwait(false) is (true, { } path2))
+        {
+            launchOptions.UpdateGamePath(path2);
+            return new(true, launchOptions.GamePath);
+        }
+
+        return new(false, SH.ServiceGamePathLocateFailed);
+    }
+
+    public async ValueTask SilentLocateAllGamePathAsync()
+    {
+        HashSet<string> paths = [];
+        foreach (string path in await gameLocatorFactory.LocateMultipleAsync(GameLocationSourceKind.UnityLog).ConfigureAwait(false))
+        {
+            paths.Add(path);
+        }
+
+        foreach (string path in await gameLocatorFactory.LocateMultipleAsync(GameLocationSourceKind.Registry).ConfigureAwait(false))
+        {
+            paths.Add(path);
+        }
+
+        using (await launchOptions.GamePathLock.WriterLockAsync().ConfigureAwait(false))
+        {
+            foreach (GamePathEntry entry in launchOptions.GamePathEntries)
+            {
+                paths.Remove(entry.Path);
+            }
+
+            ImmutableArray<GamePathEntry>.Builder builder = launchOptions.GamePathEntries.ToBuilder();
+            builder.AddRange(paths.Select(GamePathEntry.Create));
+
+            // Since all path we add are not in original list, we can skip calling PerformGamePathEntrySynchronization
+            launchOptions.GamePathEntries = builder.ToImmutable();
+        }
     }
 }

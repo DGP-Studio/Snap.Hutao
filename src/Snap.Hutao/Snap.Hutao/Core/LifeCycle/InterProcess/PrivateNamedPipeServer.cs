@@ -32,7 +32,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
             SecurityIdentifier everyOne = new(WellKnownSidType.WorldSid, null);
 
             pipeSecurity = new();
-            pipeSecurity.AddAccessRule(new PipeAccessRule(everyOne, PipeAccessRights.FullControl, AccessControlType.Allow));
+            pipeSecurity.AddAccessRule(new(everyOne, PipeAccessRights.FullControl, AccessControlType.Allow));
         }
 
         serverStream = NamedPipeServerStreamAcl.Create(

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using JetBrains.Annotations;
 using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
@@ -45,12 +46,14 @@ internal static partial class IocHttpClientConfiguration
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static partial IServiceCollection AddHttpClients(this IServiceCollection services);
 
+    [UsedImplicitly]
     private static void DefaultConfiguration(IServiceProvider serviceProvider, HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
     }
 
+    [UsedImplicitly]
     private static void XRpcConfiguration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
@@ -61,6 +64,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId36);
     }
 
+    [UsedImplicitly]
     private static void XRpc2Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
@@ -76,6 +80,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-sdk_version", "2.16.0");
     }
 
+    [UsedImplicitly]
     private static void XRpc3Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
@@ -87,6 +92,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId36);
     }
 
+    [UsedImplicitly]
     [SuppressMessage("", "IDE0051")]
     private static void XRpc4Configuration(HttpClient client)
     {
@@ -97,6 +103,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
     }
 
+    [UsedImplicitly]
     private static void XRpc5Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
@@ -106,6 +113,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "3");
     }
 
+    [UsedImplicitly]
     private static void XRpc6Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;

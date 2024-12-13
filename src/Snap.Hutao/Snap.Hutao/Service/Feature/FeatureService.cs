@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Unlocker.Island;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -24,7 +25,7 @@ internal sealed partial class FeatureService : IFeatureService
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
             {
-                string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact_{tag}");
+                string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}");
                 return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
             }
         }
