@@ -181,7 +181,7 @@
     <value>無法開啟檔案選擇器</value>
   </data>
   <data name="CoreIOTempFileCreateFail" xml:space="preserve">
-    <value>權限不足，創建臨時檔案失敗</value>
+    <value>權限不足，建立臨時檔案失敗</value>
   </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
     <value>啟動遊戲</value>
@@ -987,7 +987,7 @@
     <value>解鎖 FPS 上限失敗</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
-    <value>遊戲處理程序執行中</value>
+    <value>遊戲處理程序運行中</value>
   </data>
   <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
     <value>請選擇遊戲路徑</value>
@@ -1011,7 +1011,7 @@
     <value>解鎖 FPS 上限成功</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在嘗試解鎖 FPS 上限</value>
+    <value>正在獲取注入設定資訊</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>等待遊戲處理程序退出</value>
@@ -1033,6 +1033,9 @@
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
     <value>遊戲本體</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
+    <value>遊戲運行中，無法讀取 Unity 記錄檔</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>找不到 Unity 記錄檔</value>
@@ -1167,7 +1170,7 @@
     <value>輸入的 Cookie 中必須包含 Mid</value>
   </data>
   <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
-    <value>輸入的 Cookie 中必須包含 SToken</value>
+    <value>輸入的 Cookie 必須包含 SToken</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>輸入的 Cookie 無法獲取使用者資訊</value>
@@ -1329,7 +1332,7 @@
     <value>在此處輸入計劃名稱</value>
   </data>
   <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
-    <value>創建新的養成計劃</value>
+    <value>建立新的養成計劃</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>批次添加或更新到目前養成計劃</value>
@@ -1338,7 +1341,7 @@
     <value>添加或更新到目前養成計劃</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
-    <value>總是創建新的養成目標物品</value>
+    <value>總是建立新的養成目標物品</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
     <value>儲存方式</value>
@@ -1515,7 +1518,7 @@
     <value>正在修複設定檔案</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
-    <value>選擇的安裝路徑不存在且無法創建</value>
+    <value>選擇的安裝路徑不存在且無法建立</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
     <value>選擇的安裝路徑存在檔案或資料夾</value>
@@ -1599,7 +1602,7 @@
     <value>操作文件</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>在此處輸入包含 SToken 字段的 Cookie</value>
+    <value>在此處輸入包含 SToken 的 Cookie</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
     <value>請輸入收到的驗證碼</value>
@@ -1785,7 +1788,7 @@
     <value>選擇的等級不需要養成材料</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
-    <value>尚未創建並選擇養成計劃</value>
+    <value>尚未建立並選擇養成計劃</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>已存在該物品的養成項目</value>
@@ -1794,7 +1797,7 @@
     <value>已成功新增至目前養成計劃</value>
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
-    <value>請先前往養成計劃頁面創建計劃並選中</value>
+    <value>請先前往養成計劃頁面建立計劃並選中</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>重新添加物品以檢視養成描述</value>
@@ -1818,13 +1821,13 @@
     <value>確定要刪除目前計劃嗎？</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
-    <value>启示之花</value>
+    <value>啟示之花</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
     <value>藏金之花</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
-    <value>还需 {0} 天</value>
+    <value>還需 {0} 天</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
     <value>世界 BOSS</value>
@@ -1836,7 +1839,7 @@
     <value>武器突破素材</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
-    <value>周常 BOSS</value>
+    <value>週常 BOSS</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>即時便箋 Webhook URL 設定成功</value>
@@ -2004,7 +2007,7 @@
     <value>數據格式不正確</value>
   </data>
   <data name="ViewModelImportWarningMessage2" xml:space="preserve">
-    <value>請先創建一個成就存檔</value>
+    <value>請先建立一個成就存檔</value>
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>匯入失敗</value>
@@ -2070,7 +2073,7 @@
     <value>複製成功</value>
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
-    <value>創建桌面捷徑失敗</value>
+    <value>建立桌面捷徑失敗</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
     <value>後續轉換會重新下載所需檔案，確定要刪除嗎？</value>
@@ -2286,10 +2289,10 @@
     <value>未集齊優先</value>
   </data>
   <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
-    <value>树脂预估</value>
+    <value>樹脂預估</value>
   </data>
   <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
-    <value>世界等级</value>
+    <value>世界等級</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>材料統計</value>
@@ -2358,7 +2361,7 @@
     <value>移除角色</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
-    <value>本周已消耗減半次數</value>
+    <value>本週已消耗減半次數</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
     <value>自動重新整理</value>
@@ -2667,7 +2670,7 @@
     <value>進階功能</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
+    <value>快速切換到指定的解析度，啟動遊戲以儲存目前解析度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>顯示器解析度</value>
@@ -2676,7 +2679,7 @@
     <value>快速設定顯示器解析度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
-    <value>將視窗創建為彈出視窗，不帶邊框</value>
+    <value>將視窗建立為彈出視窗，不帶邊框</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
     <value>無邊框</value>
@@ -2685,7 +2688,7 @@
     <value>啟用內建觸控佈局，不會回應鍵鼠輸入</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
-    <value>與遊戲内瀏覽器不兼容，切屏等操作也能使遊戲閃退</value>
+    <value>與遊戲内瀏覽器不相容，切屏等操作也能使遊戲閃退</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
     <value>獨占全屏</value>
@@ -2724,7 +2727,7 @@
     <value>自動化任務</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
-    <value>當出現錯誤代碼 31-4302 時請啟用此選項</value>
+    <value>當出現錯誤程式碼 31-4302 時請啟用此選項</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
     <value>讓我進去！</value>
@@ -2913,7 +2916,7 @@
     <value>解鎖方式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
-    <value>當出現錯誤代碼 31-4302 時請啟用此選項，啟用後將禁止調整視野與迷霧，僅在啟動遊戲前切換此開關才會生效</value>
+    <value>當出現錯誤程式碼 31-4302 時請啟用此選項，啟用後將禁止調整視野與迷霧，僅在啟動遊戲前切換此開關才會生效</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
     <value>相容模式</value>
@@ -3084,13 +3087,13 @@
     <value>複製</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
-    <value>創建</value>
+    <value>建立</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>在桌面上創建預設以系統管理員身份啟動的捷徑</value>
+    <value>在桌面上建立預設以系統管理員身份啟動的捷徑</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
-    <value>創建捷徑</value>
+    <value>建立捷徑</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>執行</value>
@@ -3342,7 +3345,7 @@
     <value>贊助我們</value>
   </data>
   <data name="ViewPageSettingStorageHeader" xml:space="preserve">
-    <value>存儲空間</value>
+    <value>儲存空間</value>
   </data>
   <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
     <value>開啟</value>
@@ -3783,7 +3786,7 @@
     <value>「每日委託」獎勵已領取</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>預計 {0} {1:HH:mm} 達到存儲上限</value>
+    <value>預計 {0} {1:HH:mm} 達到儲存上限</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>尚未解鎖洞天</value>
