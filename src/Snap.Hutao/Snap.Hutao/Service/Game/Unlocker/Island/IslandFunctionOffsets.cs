@@ -22,4 +22,6 @@ internal struct IslandFunctionOffsets
     public uint OpenTeam;
     [JsonInclude]
     public uint OpenTeamPageAccordingly;
+    [JsonInclude]
+    public uint CheckCanEnter;
 }

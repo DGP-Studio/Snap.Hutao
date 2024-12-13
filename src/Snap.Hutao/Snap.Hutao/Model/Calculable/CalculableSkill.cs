@@ -75,7 +75,7 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
         return new(source, type);
     }
 
-    [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string SettingKeyCurrentFromSkillType(SkillType type)
     {
         return type switch
@@ -87,7 +87,7 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
         };
     }
 
-    [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string SettingKeyTargetFromSkillType(SkillType type)
     {
         return type switch

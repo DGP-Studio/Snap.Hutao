@@ -22,14 +22,6 @@ internal sealed partial class FeatureService : IFeatureService
     {
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-#if DEBUG || IS_ALPHA_BUILD
-            // TODO: Remove this code block when we have a completed plan.
-            if (!scope.ServiceProvider.GetRequiredService<HutaoUserOptions>().IsLicensedDeveloper)
-            {
-                return null;
-            }
-#endif
-
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
             {
