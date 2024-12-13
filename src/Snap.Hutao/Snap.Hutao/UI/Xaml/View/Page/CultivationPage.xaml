@@ -227,45 +227,39 @@
             </DataTemplate>
 
             <DataTemplate x:Key="InventoryItemTemplate">
-                <ItemContainer>
-                    <ItemContainer.Resources>
-                        <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
-                        <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
-                    </ItemContainer.Resources>
-                    <Button
-                        Padding="0"
-                        Background="Transparent"
-                        BorderBrush="{x:Null}"
-                        BorderThickness="0">
-                        <shuxcc:VerticalCard>
-                            <shuxcc:VerticalCard.Top>
-                                <shuxc:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
-                            </shuxcc:VerticalCard.Top>
-                            <shuxcc:VerticalCard.Bottom>
-                                <TextBlock Text="{Binding Count, Mode=OneWay}"/>
-                            </shuxcc:VerticalCard.Bottom>
-                        </shuxcc:VerticalCard>
-                        <Button.Flyout>
-                            <Flyout>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Inner.Name}"/>
-                                    <NumberBox
-                                        Grid.Row="1"
-                                        MinWidth="160"
-                                        Margin="0,16,0,0"
-                                        Maximum="4294967295"
-                                        Minimum="0"
-                                        Value="{Binding Count, Mode=TwoWay}"/>
-                                </Grid>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
-                </ItemContainer>
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}"
+                    BorderThickness="0">
+                    <shuxcc:VerticalCard Width="82">
+                        <shuxcc:VerticalCard.Top>
+                            <shuxc:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
+                        </shuxcc:VerticalCard.Top>
+                        <shuxcc:VerticalCard.Bottom>
+                            <TextBlock Text="{Binding Count, Mode=OneWay}"/>
+                        </shuxcc:VerticalCard.Bottom>
+                    </shuxcc:VerticalCard>
+                    <Button.Flyout>
+                        <Flyout>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Inner.Name}"/>
+                                <NumberBox
+                                    Grid.Row="1"
+                                    MinWidth="160"
+                                    Margin="0,16,0,0"
+                                    Maximum="4294967295"
+                                    Minimum="0"
+                                    Value="{Binding Count, Mode=TwoWay}"/>
+                            </Grid>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
@@ -520,17 +514,12 @@
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationInventoryItem}">
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                        <!--  Add a ScrollView for smooth scrolling  -->
-                        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                            <ItemsRepeater
-                                Margin="16"
-                                ItemTemplate="{StaticResource InventoryItemTemplate}"
-                                ItemsSource="{Binding InventoryItems}">
-                                <ItemsRepeater.Layout>
-                                    <shuxcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
-                                </ItemsRepeater.Layout>
-                            </ItemsRepeater>
-                        </ScrollViewer>
+                        <GridView
+                            Padding="16,16,16,4"
+                            ItemContainerStyle="{ThemeResource LargeGridViewItemStyle}"
+                            ItemTemplate="{StaticResource InventoryItemTemplate}"
+                            ItemsSource="{Binding InventoryItems}"
+                            SelectionMode="None"/>
                     </Border>
                 </Border>
             </PivotItem>
