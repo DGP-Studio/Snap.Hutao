@@ -3599,6 +3599,9 @@
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自動連續點按</value>
   </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自动连按</value>
+  </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安裝更新</value>
   </data>
