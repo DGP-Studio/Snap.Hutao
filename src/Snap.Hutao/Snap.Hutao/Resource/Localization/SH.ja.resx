@@ -3601,6 +3601,9 @@
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>オートクリック</value>
   </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自动连按</value>
+  </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>
   </data>
