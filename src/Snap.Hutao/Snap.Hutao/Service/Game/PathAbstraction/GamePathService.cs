@@ -29,13 +29,6 @@ internal sealed partial class GamePathService : IGamePathService
             return new(true, launchOptions.GamePath);
         }
 
-        // Try to locate by registry
-        if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.Registry).ConfigureAwait(false) is (true, { } path2))
-        {
-            launchOptions.UpdateGamePath(path2);
-            return new(true, launchOptions.GamePath);
-        }
-
         return new(false, SH.ServiceGamePathLocateFailed);
     }
 
@@ -43,11 +36,6 @@ internal sealed partial class GamePathService : IGamePathService
     {
         HashSet<string> paths = [];
         foreach (string path in await gameLocatorFactory.LocateMultipleAsync(GameLocationSourceKind.UnityLog).ConfigureAwait(false))
-        {
-            paths.Add(path);
-        }
-
-        foreach (string path in await gameLocatorFactory.LocateMultipleAsync(GameLocationSourceKind.Registry).ConfigureAwait(false))
         {
             paths.Add(path);
         }

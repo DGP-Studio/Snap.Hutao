@@ -5,7 +5,6 @@ namespace Snap.Hutao.Service.Game.Locator;
 
 internal enum GameLocationSourceKind
 {
-    Registry,
     UnityLog,
     Manual,
 }

@@ -21,7 +21,7 @@ internal sealed partial class HotKeyMessageWindow : IDisposable
 
     private bool isDisposed;
 
-    public unsafe HotKeyMessageWindow()
+    private unsafe HotKeyMessageWindow()
     {
         ushort atom;
         fixed (char* className = WindowClassName)
@@ -37,14 +37,14 @@ internal sealed partial class HotKeyMessageWindow : IDisposable
 
         ArgumentOutOfRangeException.ThrowIfZero(atom);
 
-        HWND = CreateWindowExW(0, WindowClassName, WindowClassName, 0, 0, 0, 0, 0, default, default, default, default);
+        Hwnd = CreateWindowExW(0, WindowClassName, WindowClassName, 0, 0, 0, 0, 0, default, default, default, default);
 
-        if (HWND == default)
+        if (Hwnd == default)
         {
             Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
         }
 
-        WindowTable.TryAdd(HWND, this);
+        WindowTable.TryAdd(Hwnd, this);
     }
 
     ~HotKeyMessageWindow()
@@ -52,9 +52,17 @@ internal sealed partial class HotKeyMessageWindow : IDisposable
         Dispose();
     }
 
-    public Action<HotKeyParameter>? HotKeyPressed { get; set; }
+    public HWND Hwnd { get; }
 
-    public HWND HWND { get; }
+    private Action<HotKeyParameter>? HotKeyPressed { get; set; }
+
+    public static HotKeyMessageWindow Create(Action<HotKeyParameter>? hotKeyPressed)
+    {
+        return new()
+        {
+            HotKeyPressed = hotKeyPressed,
+        };
+    }
 
     public void Dispose()
     {
@@ -65,8 +73,9 @@ internal sealed partial class HotKeyMessageWindow : IDisposable
 
         isDisposed = true;
 
-        DestroyWindow(HWND);
-        WindowTable.TryRemove(HWND, out _);
+        HotKeyPressed = null;
+        DestroyWindow(Hwnd);
+        WindowTable.TryRemove(Hwnd, out _);
 
         GC.SuppressFinalize(this);
     }

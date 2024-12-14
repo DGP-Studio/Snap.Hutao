@@ -13,7 +13,7 @@ internal sealed partial class UnityLogGameLocator : IGameLocator, IGameLocator2
 {
     private readonly ITaskContext taskContext;
 
-    [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)")]
+    [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)", RegexOptions.IgnoreCase)]
     private static partial Regex WarmupFileLine { get; }
 
     public async ValueTask<ValueResult<bool, string>> LocateSingleGamePathAsync()
