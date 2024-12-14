@@ -51,6 +51,14 @@ internal static unsafe class IFileDialog
         return objRef.Vftbl.SetOptions(objRef.ThisPtr, fos);
     }
 
+    public static HRESULT GetOptions(this ObjectReference<Vftbl> objRef, out FILEOPENDIALOGOPTIONS fos)
+    {
+        fixed (FILEOPENDIALOGOPTIONS* pfos = &fos)
+        {
+            return objRef.Vftbl.GetOptions(objRef.ThisPtr, pfos);
+        }
+    }
+
     public static HRESULT SetTitle(this ObjectReference<Vftbl> objRef, string szTitle)
     {
         fixed (char* pszTitle = szTitle)

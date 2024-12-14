@@ -33,7 +33,8 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
                 FILEOPENDIALOGOPTIONS.FOS_FORCEFILESYSTEM |
                 FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(Options);
+            fileDialog.GetOptions(out FILEOPENDIALOGOPTIONS original);
+            fileDialog.SetOptions(original | Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(defaultFileName))
@@ -94,7 +95,8 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
                 FILEOPENDIALOGOPTIONS.FOS_STRICTFILETYPES |
                 FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(Options);
+            fileDialog.GetOptions(out FILEOPENDIALOGOPTIONS original);
+            fileDialog.SetOptions(original | Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(defaultFileName))
@@ -154,7 +156,8 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
                 FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS |
                 FILEOPENDIALOGOPTIONS.FOS_NOCHANGEDIR;
 
-            fileDialog.SetOptions(Options);
+            fileDialog.GetOptions(out FILEOPENDIALOGOPTIONS original);
+            fileDialog.SetOptions(original | Options);
             SetDesktopAsStartupFolder(fileDialog);
 
             if (!string.IsNullOrEmpty(title))

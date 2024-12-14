@@ -90,6 +90,11 @@ internal sealed partial class RegistryLauncherGameLocator : IGameLocator, IGameL
         ArgumentException.ThrowIfNullOrEmpty(path);
         string configPath = Path.Combine(path, GameConstants.ConfigFileName);
 
+        if (!File.Exists(configPath))
+        {
+            return new(false, string.Empty);
+        }
+
         string? escapedPath;
         using (FileStream stream = File.OpenRead(configPath))
         {
