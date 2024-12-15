@@ -39,7 +39,7 @@
 
             <Button
                 Command="{Binding ReverseAppThemeCommand}"
-                Content="Reverse Theme"
+                Content="[Dev] Reverse Theme"
                 Visibility="{Binding IsDebug}"/>
 
             <StackPanel
@@ -65,6 +65,27 @@
                             VerticalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
+                    </Grid>
+                </ToggleButton>
+                <ToggleButton
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
+                    IsHitTestVisible="False"
+                    Visibility="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="{shuxm:ResourceString Name=ViewTitleAutoPressing}"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
                     </Grid>
                 </ToggleButton>
             </StackPanel>

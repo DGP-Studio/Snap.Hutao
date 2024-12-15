@@ -3270,10 +3270,16 @@
     <value>高级功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改自动连点功能的快捷键</value>
+    <value>更改鼠标左键自动连点功能的快捷键</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>自动连点</value>
+    <value>鼠标左键自动连点</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>更改键盘 F 键自动连按功能的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>键盘 F 键自动连按</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
@@ -3592,6 +3598,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自动连点</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自动连按</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安装更新</value>

@@ -4,9 +4,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
+using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+using static Snap.Hutao.Win32.Kernel32;
+using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
@@ -15,27 +18,36 @@ namespace Snap.Hutao.UI.Input.HotKey;
 internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 {
     private static readonly WaitCallback RunMouseClickRepeatForever = MouseClickRepeatForever;
+    private static readonly WaitCallback RunKeyPressRepeatForever = KeyPressRepeatForever;
 
-    private readonly Lock syncRoot = new();
     private readonly HotKeyMessageWindow hotKeyMessageWindow;
-
-    private volatile CancellationTokenSource? cancellationTokenSource;
 
     private bool isDisposed;
 
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
-        hotKeyMessageWindow = new()
-        {
-            HotKeyPressed = OnHotKeyPressed,
-        };
+        hotKeyMessageWindow = HotKeyMessageWindow.Create(OnHotKeyPressed);
 
-        MouseClickRepeatForeverKeyCombination = new(serviceProvider, hotKeyMessageWindow.HWND, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VIRTUAL_KEY.VK_F8);
+        HWND hwnd = hotKeyMessageWindow.Hwnd;
+        MouseClickRepeatForeverKeyCombination = new(serviceProvider, hwnd, SettingKeys.HotKeyMouseClickRepeatForever, 100000);
+        KeyPressRepeatForeverKeyCombination = new(serviceProvider, hwnd, SettingKeys.HotKeyKeyPressRepeatForever, 100001);
     }
 
-    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.Values;
+    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.HotKeyValues;
 
-    public HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set => SetProperty(ref field, value); }
+    public ImmutableArray<NameValue<VIRTUAL_KEY>> AllVirtualKeys { get; } = Input.VirtualKeys.Values;
+
+    [ObservableProperty]
+    public partial HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set; }
+
+    [ObservableProperty]
+    public partial HotKeyCombination KeyPressRepeatForeverKeyCombination { get; set; }
+
+    public void RegisterAll()
+    {
+        MouseClickRepeatForeverKeyCombination.Register();
+        KeyPressRepeatForeverKeyCombination.Register();
+    }
 
     public void Dispose()
     {
@@ -46,15 +58,10 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
         isDisposed = true;
 
-        MouseClickRepeatForeverKeyCombination.Unregister();
+        MouseClickRepeatForeverKeyCombination.Dispose();
+        KeyPressRepeatForeverKeyCombination.Dispose();
 
         hotKeyMessageWindow.Dispose();
-        cancellationTokenSource?.Dispose();
-    }
-
-    public void RegisterAll()
-    {
-        MouseClickRepeatForeverKeyCombination.Register();
     }
 
     private static INPUT CreateInputForMouseEvent(MOUSE_EVENT_FLAGS flags)
@@ -62,6 +69,15 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         INPUT input = default;
         input.type = INPUT_TYPE.INPUT_MOUSE;
         input.Anonymous.mi.dwFlags = flags;
+        return input;
+    }
+
+    private static INPUT CreateInputForKeyEvent(KEYBD_EVENT_FLAGS flags, VIRTUAL_KEY key)
+    {
+        INPUT input = default;
+        input.type = INPUT_TYPE.INPUT_KEYBOARD;
+        input.Anonymous.ki.dwFlags = flags;
+        input.Anonymous.ki.wVk = key;
         return input;
     }
 
@@ -81,7 +97,35 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
             if (SendInput(inputs.AsSpan(), sizeof(INPUT)) is 0)
             {
-                Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            }
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            Thread.Sleep(Random.Shared.Next(100, 150));
+        }
+    }
+
+    [SuppressMessage("", "SH007")]
+    private static unsafe void KeyPressRepeatForever(object? state)
+    {
+        CancellationToken token = (CancellationToken)state!;
+
+        // We want to use this thread for a long time
+        while (!token.IsCancellationRequested)
+        {
+            INPUT[] inputs =
+            [
+                CreateInputForKeyEvent(default, VIRTUAL_KEY.VK_F),
+                CreateInputForKeyEvent(KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP, VIRTUAL_KEY.VK_F),
+            ];
+
+            if (SendInput(inputs.AsSpan(), sizeof(INPUT)) is 0)
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
             }
 
             if (token.IsCancellationRequested)
@@ -97,28 +141,14 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     {
         if (parameter.Equals(MouseClickRepeatForeverKeyCombination))
         {
-            ToggleMouseClickRepeatForever();
+            MouseClickRepeatForeverKeyCombination.Toggle(RunMouseClickRepeatForever);
+            return;
         }
-    }
 
-    private void ToggleMouseClickRepeatForever()
-    {
-        lock (syncRoot)
+        if (parameter.Equals(KeyPressRepeatForeverKeyCombination))
         {
-            if (MouseClickRepeatForeverKeyCombination.IsOn)
-            {
-                // Turn off
-                cancellationTokenSource?.Cancel();
-                cancellationTokenSource = default;
-                MouseClickRepeatForeverKeyCombination.IsOn = false;
-            }
-            else
-            {
-                // Turn on
-                cancellationTokenSource = new();
-                ThreadPool.QueueUserWorkItem(RunMouseClickRepeatForever, cancellationTokenSource.Token);
-                MouseClickRepeatForeverKeyCombination.IsOn = true;
-            }
+            KeyPressRepeatForeverKeyCombination.Toggle(RunKeyPressRepeatForever);
+            return;
         }
     }
 }

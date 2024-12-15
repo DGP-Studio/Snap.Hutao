@@ -483,6 +483,66 @@
                                             IsOn="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutAutoPressingDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutAutoPressingHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE92E;}"
+                                    IsEnabled="{Binding RuntimeOptions.IsElevated}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                        <Button
+                                            MinWidth="32"
+                                            MinHeight="32"
+                                            Padding="0"
+                                            VerticalAlignment="Center"
+                                            Content="&#xEDA7;"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                            Style="{ThemeResource SettingButtonStyle}">
+                                            <Button.Flyout>
+                                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}" ShouldConstrainToRootBounds="False">
+                                                    <cwc:UniformGrid
+                                                        ColumnSpacing="16"
+                                                        Columns="2"
+                                                        Orientation="Horizontal"
+                                                        RowSpacing="0">
+                                                        <CheckBox
+                                                            MinWidth="64"
+                                                            VerticalAlignment="Center"
+                                                            Content="Win"
+                                                            IsEnabled="False"/>
+                                                        <CheckBox
+                                                            MinWidth="64"
+                                                            VerticalAlignment="Center"
+                                                            Content="Ctrl"
+                                                            IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
+                                                        <CheckBox
+                                                            MinWidth="64"
+                                                            VerticalAlignment="Center"
+                                                            Content="Shift"
+                                                            IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
+                                                        <CheckBox
+                                                            MinWidth="64"
+                                                            VerticalAlignment="Center"
+                                                            Content="Alt"
+                                                            IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
+                                                    </cwc:UniformGrid>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
+                                        <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
+                                            <ComboBox
+                                                MinWidth="120"
+                                                VerticalAlignment="Center"
+                                                DisplayMemberPath="Name"
+                                                ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
+                                                SelectedItem="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"/>
+                                        </shuxc:SizeRestrictedContentControl>
+                                        <ToggleSwitch
+                                            MinWidth="120"
+                                            VerticalAlignment="Center"
+                                            IsOn="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </cwc:SettingsCard>
                                 <TextBlock
                                     Margin="1,13,0,5"
                                     Style="{StaticResource SettingsCardHeaderTextBlockStyle}"
@@ -499,7 +559,7 @@
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
-                                                ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
+                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoPlayPauseKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
@@ -534,7 +594,7 @@
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
-                                                ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
+                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoFastForwardKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
@@ -551,7 +611,7 @@
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
-                                                ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
+                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoRewindKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>

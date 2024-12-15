@@ -2,79 +2,69 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using JetBrains.Annotations;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
+using System.Runtime.CompilerServices;
 using System.Text;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
-internal sealed partial class HotKeyCombination : ObservableObject
+internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 {
     private readonly IInfoBarService infoBarService;
 
+    private readonly Lock syncRoot = new();
     private readonly HWND hwnd;
     private readonly string settingKey;
     private readonly int hotKeyId;
-    private readonly HotKeyParameter defaultHotKeyParameter;
 
+    // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+    private readonly HotKeyParameter parameter;
+
+    private CancellationTokenSource? cts = new();
     private bool registered;
 
+    // IMPORTANT: DO NOT CONVERT TO AUTO PROPERTIES
     private bool modifierHasControl;
     private bool modifierHasShift;
     private bool modifierHasAlt;
     private NameValue<VIRTUAL_KEY> keyNameValue;
     private HOT_KEY_MODIFIERS modifiers;
-    private VIRTUAL_KEY key;
     private bool isEnabled;
+    private VIRTUAL_KEY key;
 
-    public unsafe HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VIRTUAL_KEY defaultKey)
+    public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
         this.hwnd = hwnd;
         this.settingKey = settingKey;
         this.hotKeyId = hotKeyId;
-        defaultHotKeyParameter = new(defaultModifiers, defaultKey);
+        parameter = new(default, VIRTUAL_KEY.VK__none_);
 
         // Initialize Property backing fields
         {
             // Retrieve from LocalSetting
             isEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
 
-            HotKeyParameter actual;
-            fixed (HotKeyParameter* pDefaultHotKey = &defaultHotKeyParameter)
-            {
-                int value = LocalSetting.Get(settingKey, *(int*)pDefaultHotKey);
-                actual = *(HotKeyParameter*)&value;
-            }
+            int value = LocalSetting.Get(settingKey, Unsafe.As<HotKeyParameter, int>(ref parameter));
+            HotKeyParameter actual = Unsafe.As<int, HotKeyParameter>(ref value);
 
             // HOT_KEY_MODIFIERS.MOD_WIN is reversed for use by the OS.
-            // It should not be used by the application.
+            // This line should keep exists, we allow user to set it long time ago.
             modifiers = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
+            modifierHasControl = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL);
+            modifierHasShift = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT);
+            modifierHasAlt = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT);
 
-            if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL))
-            {
-                modifierHasControl = true;
-            }
-
-            if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT))
-            {
-                modifierHasShift = true;
-            }
-
-            if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT))
-            {
-                modifierHasAlt = true;
-            }
-
-            key = Enum.IsDefined(actual.Key) ? actual.Key : defaultKey;
-
-            keyNameValue = VirtualKeys.Values.Single(v => v.Value == key);
+            keyNameValue = VirtualKeys.HotKeyValues.SingleOrDefault(nk => nk.Value == actual.Key) ?? VirtualKeys.HotKeyValues.Last();
+            key = keyNameValue.Value;
         }
     }
 
@@ -84,6 +74,7 @@ internal sealed partial class HotKeyCombination : ObservableObject
 
     public bool ModifierHasAlt { get => modifierHasAlt; set => _ = SetProperty(ref modifierHasAlt, value) && UpdateModifiers(); }
 
+    [AllowNull]
     public NameValue<VIRTUAL_KEY> KeyNameValue
     {
         get => keyNameValue;
@@ -141,7 +132,9 @@ internal sealed partial class HotKeyCombination : ObservableObject
         }
     }
 
-    public bool IsOn { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    [UsedImplicitly]
+    public partial bool IsOn { get; set; }
 
     public string DisplayName { get => ToString(); }
 
@@ -157,32 +150,22 @@ internal sealed partial class HotKeyCombination : ObservableObject
             return true;
         }
 
-        BOOL result = RegisterHotKey(hwnd, hotKeyId, Modifiers, (uint)Key);
-        registered = result;
+        registered = RegisterHotKey(hwnd, hotKeyId, Modifiers, (uint)Key);
 
-        if (!result)
+        if (!registered)
         {
             infoBarService.Warning(SH.FormatCoreWindowHotkeyCombinationRegisterFailed(SH.ViewPageSettingKeyShortcutAutoClickingHeader, DisplayName));
         }
 
-        return result;
+        return registered;
     }
 
-    public bool Unregister()
+    public void Dispose()
     {
-        if (!HutaoRuntime.IsProcessElevated)
-        {
-            return false;
-        }
+        cts?.Cancel();
+        cts?.Dispose();
 
-        if (!registered)
-        {
-            return true;
-        }
-
-        BOOL result = UnregisterHotKey(hwnd, hotKeyId);
-        registered = !result;
-        return result;
+        Unregister();
     }
 
     public override string ToString()
@@ -207,6 +190,43 @@ internal sealed partial class HotKeyCombination : ObservableObject
         stringBuilder.Append(Key);
 
         return stringBuilder.ToString();
+    }
+
+    internal void Toggle(WaitCallback callback)
+    {
+        lock (syncRoot)
+        {
+            if (IsOn)
+            {
+                // Turn off
+                cts?.Cancel();
+                cts = default;
+                IsOn = false;
+            }
+            else
+            {
+                // Turn on
+                cts = new();
+                ThreadPool.QueueUserWorkItem(callback, cts.Token);
+                IsOn = true;
+            }
+        }
+    }
+
+    private bool Unregister()
+    {
+        if (!HutaoRuntime.IsProcessElevated)
+        {
+            return false;
+        }
+
+        if (!registered)
+        {
+            return true;
+        }
+
+        registered = !UnregisterHotKey(hwnd, hotKeyId);
+        return registered;
     }
 
     private bool UpdateModifiers()
