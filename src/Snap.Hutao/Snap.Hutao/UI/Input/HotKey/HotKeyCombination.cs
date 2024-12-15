@@ -63,9 +63,8 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             modifierHasShift = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_SHIFT);
             modifierHasAlt = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_ALT);
 
-            key = Enum.IsDefined(actual.Key) ? actual.Key : VIRTUAL_KEY.VK__none_;
-
-            keyNameValue = VirtualKeys.HotKeyValues.Single(v => v.Value == key);
+            keyNameValue = VirtualKeys.HotKeyValues.SingleOrDefault(nk => nk.Value == actual.Key) ?? VirtualKeys.HotKeyValues.Last();
+            key = keyNameValue.Value;
         }
     }
 
@@ -133,8 +132,9 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         }
     }
 
+    [ObservableProperty]
     [UsedImplicitly]
-    public bool IsOn { get; set => SetProperty(ref field, value); }
+    public partial bool IsOn { get; set; }
 
     public string DisplayName { get => ToString(); }
 
