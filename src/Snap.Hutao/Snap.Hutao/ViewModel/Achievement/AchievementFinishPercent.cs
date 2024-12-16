@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -24,14 +25,14 @@ internal static class AchievementFinishPercent
             return;
         }
 
-        if (achievements.SourceCollection is not List<AchievementView> list)
+        if (achievements.SourceCollection is not ImmutableArray<AchievementView> array)
         {
-            throw HutaoException.InvalidCast<IEnumerable<AchievementView>, List<AchievementView>>("AchievementViewModel.Achievements.SourceCollection");
+            throw HutaoException.InvalidCast<IList<AchievementView>, ImmutableArray<AchievementView>>("AchievementViewModel.Achievements.SourceCollection");
         }
 
         Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.SourceCollection.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
 
-        foreach (ref readonly AchievementView achievementView in CollectionsMarshal.AsSpan(list))
+        foreach (ref readonly AchievementView achievementView in array.AsSpan())
         {
             ref AchievementGoalStatistics goalStat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievementView.Inner.Goal);
 
