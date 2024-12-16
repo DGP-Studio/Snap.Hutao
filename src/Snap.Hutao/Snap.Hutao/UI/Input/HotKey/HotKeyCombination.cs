@@ -56,7 +56,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             int value = LocalSetting.Get(settingKey, Unsafe.As<HotKeyParameter, int>(ref parameter));
             HotKeyParameter actual = Unsafe.As<int, HotKeyParameter>(ref value);
 
-            // HOT_KEY_MODIFIERS.MOD_WIN is reversed for use by the OS.
+            // HOT_KEY_MODIFIERS.MOD_WIN is reserved for use by the OS.
             // This line should keep exists, we allow user to set it long time ago.
             modifiers = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
             modifierHasControl = Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL);

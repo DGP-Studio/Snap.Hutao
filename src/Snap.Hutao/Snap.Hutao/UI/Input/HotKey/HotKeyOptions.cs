@@ -139,6 +139,13 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
     private void OnHotKeyPressed(HotKeyParameter parameter)
     {
+        if (parameter.Key is VIRTUAL_KEY.VK__none_)
+        {
+            // We have user reported issue that the key is exactly VK__none_.
+            // Under normal circumstances, this should not happen.
+            return;
+        }
+
         if (parameter.Equals(MouseClickRepeatForeverKeyCombination))
         {
             MouseClickRepeatForeverKeyCombination.Toggle(RunMouseClickRepeatForever);
