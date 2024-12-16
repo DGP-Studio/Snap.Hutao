@@ -26,8 +26,6 @@ using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
-using System.Net.Http;
-using System.Security.Cryptography;
 
 namespace Snap.Hutao.ViewModel;
 

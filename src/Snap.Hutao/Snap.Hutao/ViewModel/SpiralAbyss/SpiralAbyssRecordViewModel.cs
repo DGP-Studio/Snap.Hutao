@@ -33,7 +33,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly HutaoUserOptions hutaoUserOptions;
 
-    public AdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries
+    public IAdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries
     {
         get;
         set
@@ -101,7 +101,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                     .ConfigureAwait(false);
             }
 
-            AdvancedCollectionView<SpiralAbyssView> spiralAbyssEntries = collection.AsAdvancedCollectionView();
+            IAdvancedCollectionView<SpiralAbyssView> spiralAbyssEntries = collection.AsAdvancedCollectionView();
 
             await taskContext.SwitchToMainThreadAsync();
             SpiralAbyssEntries = spiralAbyssEntries;

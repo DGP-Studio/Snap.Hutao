@@ -47,9 +47,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    public AdvancedCollectionView<AchievementView>? Achievements { get; set => SetProperty(ref field, value); }
+    public IAdvancedCollectionView<AchievementView>? Achievements { get; set => SetProperty(ref field, value); }
 
-    public AdvancedCollectionView<AchievementGoalView>? AchievementGoals
+    public IAdvancedCollectionView<AchievementGoalView>? AchievementGoals
     {
         get;
         set
@@ -94,7 +94,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return false;
         }
 
-        AdvancedCollectionView<AchievementGoalView> sortedGoals;
+        IAdvancedCollectionView<AchievementGoalView> sortedGoals;
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
@@ -105,7 +105,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             sortedGoals = goals.OrderBy(goal => goal.Order).Select(AchievementGoalView.From).ToList().AsAdvancedCollectionView();
         }
 
-        IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);
+        IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchiveCollectionAsync(CancellationToken).ConfigureAwait(false);
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
 
         AchievementGoals = sortedGoals;
@@ -260,7 +260,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             .GetContextAsync<AchievementServiceMetadataContext>(CancellationToken)
             .ConfigureAwait(false);
 
-        if (!TryGetAchievements(archive, context, out AdvancedCollectionView<AchievementView>? combined))
+        if (!TryGetAchievements(archive, context, out IAdvancedCollectionView<AchievementView>? combined))
         {
             return;
         }
@@ -272,11 +272,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         UpdateAchievementsSort();
     }
 
-    private bool TryGetAchievements(EntityArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out AdvancedCollectionView<AchievementView>? view)
+    private bool TryGetAchievements(EntityArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out IAdvancedCollectionView<AchievementView>? view)
     {
         try
         {
-            view = scopeContext.AchievementService.GetAchievementViewList(archive, context).AsAdvancedCollectionView();
+            view = scopeContext.AchievementService.GetAchievementViewCollection(archive, context);
             return true;
         }
         catch (HutaoException ex)

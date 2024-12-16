@@ -12,6 +12,6 @@ internal enum City : uint
     Inazuma = 3,
     Sumeru = 4,
     Fontaine = 5,
-    Natlan,
+    Natlan = 6,
     Snezhnaya,
 }

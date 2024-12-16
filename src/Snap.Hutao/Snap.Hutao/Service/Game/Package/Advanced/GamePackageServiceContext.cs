@@ -7,7 +7,6 @@ using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;

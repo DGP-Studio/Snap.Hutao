@@ -13,12 +13,14 @@ internal static class HttpRequestMessageExtension
 
     public static void Resurrect(this HttpRequestMessage httpRequestMessage)
     {
+        // Mark the message as not yet sent
         Interlocked.Exchange(ref GetPrivateSendStatus(httpRequestMessage), MessageNotYetSent);
 
         if (httpRequestMessage.Content is { } content)
         {
-            Volatile.Write(ref GetPrivatedBufferedContent(content), default);
-            Volatile.Write(ref GetPrivatedDisposed(content), false);
+            // Clear the buffered content, so that it can trigger a new read attempt
+            Volatile.Write(ref GetPrivateBufferedContent(content), default);
+            Volatile.Write(ref GetPrivateDisposed(content), false);
         }
     }
 
@@ -28,9 +30,9 @@ internal static class HttpRequestMessageExtension
 
     // private bool _disposed
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposed")]
-    private static extern ref bool GetPrivatedDisposed(HttpContent content);
+    private static extern ref bool GetPrivateDisposed(HttpContent content);
 
     // private MemoryStream? _bufferedContent
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_bufferedContent")]
-    private static extern ref MemoryStream? GetPrivatedBufferedContent(HttpContent content);
+    private static extern ref MemoryStream? GetPrivateBufferedContent(HttpContent content);
 }

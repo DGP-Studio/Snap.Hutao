@@ -25,7 +25,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
-    public AdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get; set => SetProperty(ref field, value); }
+    public IAdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get; set => SetProperty(ref field, value); }
 
     public partial HutaoRoleCombatDatabaseViewModel HutaoRoleCombatDatabaseViewModel { get; }
 
@@ -71,7 +71,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
                     .ConfigureAwait(false);
             }
 
-            AdvancedCollectionView<RoleCombatView> roleCombatEntries = collection.AsAdvancedCollectionView();
+            IAdvancedCollectionView<RoleCombatView> roleCombatEntries = collection.AsAdvancedCollectionView();
 
             await taskContext.SwitchToMainThreadAsync();
             RoleCombatEntries = roleCombatEntries;

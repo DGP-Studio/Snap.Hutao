@@ -15,7 +15,7 @@ internal sealed class GachaStatistics
 
     public TypedWishSummary StandardWish { get; set; } = default!;
 
-    public AdvancedCollectionView<HistoryWish> HistoryWishes { get; set; } = default!;
+    public IAdvancedCollectionView<HistoryWish> HistoryWishes { get; set; } = default!;
 
     public List<StatisticsItem> OrangeAvatars { get; set; } = default!;
 

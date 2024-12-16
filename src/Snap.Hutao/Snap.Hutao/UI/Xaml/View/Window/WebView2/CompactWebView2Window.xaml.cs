@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -16,6 +15,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using Windows.Graphics;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
@@ -23,8 +23,8 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
-[INotifyPropertyChanged]
 internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
+    INotifyPropertyChanged,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowRectPersisted,
     IXamlWindowClosedHandler
@@ -100,6 +100,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         LowLevelInputKeyboardSource.KeyDown += OnLowLevelKeyDown;
     }
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
 
     public string Source
@@ -115,7 +117,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
                 if (Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
                 {
-                    SetProperty(WebView.Source, uri, WebView, static (view, v) => view.Source = v);
+                    if (!EqualityComparer<Uri>.Default.Equals(WebView.Source, uri))
+                    {
+                        WebView.Source = uri;
+                        OnPropertyChanged();
+                    }
                 }
             }
         }
@@ -323,5 +329,10 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void OnDocumentTitleSizeChanged(object sender, SizeChangedEventArgs e)
     {
         this.GetController()?.UpdateDragRectangles();
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new(propertyName));
     }
 }

@@ -46,7 +46,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private WikiAvatarMetadataContext? metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    public AdvancedCollectionView<Avatar>? Avatars
+    public IAdvancedCollectionView<Avatar>? Avatars
     {
         get;
         set
@@ -90,7 +90,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                AdvancedCollectionView<Avatar> avatarsView = list.AsAdvancedCollectionView();
+                IAdvancedCollectionView<Avatar> avatarsView = list.AsAdvancedCollectionView();
 
                 await taskContext.SwitchToMainThreadAsync();
                 Avatars = avatarsView;

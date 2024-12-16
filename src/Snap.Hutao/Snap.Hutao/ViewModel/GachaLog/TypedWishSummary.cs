@@ -1,13 +1,14 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-[INotifyPropertyChanged]
-internal sealed partial class TypedWishSummary : Wish
+internal sealed partial class TypedWishSummary : Wish, INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public string? TypeName { get; set; }
 
     public string MaxOrangePullFormatted
@@ -67,8 +68,6 @@ internal sealed partial class TypedWishSummary : Wish
 
     public List<SummaryItem> OrangeList { get; set; } = default!;
 
-    #region Internal properties for string formatting
-
     internal int MaxOrangePull { get; set; }
 
     internal int MinOrangePull { get; set; }
@@ -119,5 +118,20 @@ internal sealed partial class TypedWishSummary : Wish
         }
     }
 
-    #endregion
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new(propertyName));
+    }
+
+    private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (!EqualityComparer<T>.Default.Equals(field, value))
+        {
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        return false;
+    }
 }

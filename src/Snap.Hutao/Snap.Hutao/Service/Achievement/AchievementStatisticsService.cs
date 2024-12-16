@@ -32,7 +32,7 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
             {
                 DisplayName = archive.Name,
                 FinishDescription = AchievementStatistics.Format(finishedCount, totalCount, out _),
-                Achievements = achievements.SelectList(entity => new AchievementView(entity, context.IdAchievementMap[entity.Id])),
+                Achievements = achievements.SelectList(entity => AchievementView.Create(entity, context.IdAchievementMap[entity.Id])),
             });
         }
 

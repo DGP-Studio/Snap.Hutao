@@ -30,7 +30,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
 
             await taskContext.SwitchToMainThreadAsync();
-            user.UserGameRoles = new([]);
+            user.UserGameRoles = new AdvancedCollectionView<UserGameRole>([]);
         }
 
         return user;

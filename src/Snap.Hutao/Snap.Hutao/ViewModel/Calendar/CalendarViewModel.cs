@@ -31,7 +31,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
 
-    public AdvancedCollectionView<CalendarDay>? WeekDays { get; set => SetProperty(ref field, value); }
+    public IAdvancedCollectionView<CalendarDay>? WeekDays { get; set => SetProperty(ref field, value); }
 
     protected override async Task LoadAsync()
     {
@@ -40,7 +40,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             return;
         }
 
-        AdvancedCollectionView<CalendarDay> weekDays;
+        IAdvancedCollectionView<CalendarDay> weekDays;
         using (ValueStopwatch.MeasureExecution(logger, nameof(CreateWeekDays)))
         {
             weekDays = await CreateWeekDays().ConfigureAwait(false);
@@ -140,7 +140,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
         return default;
     }
 
-    private async ValueTask<AdvancedCollectionView<CalendarDay>> CreateWeekDays()
+    private async ValueTask<IAdvancedCollectionView<CalendarDay>> CreateWeekDays()
     {
         CalendarMetadataContext metadataContext = await metadataService.GetContextAsync<CalendarMetadataContext>().ConfigureAwait(false);
         ILookup<MonthAndDay, Avatar> avatarBirthdays = metadataContext.Avatars.ToLookup(MonthAndDay.Create);
@@ -190,7 +190,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             nearestStartOfWeek = nearestStartOfWeek.AddDays(-7);
         }
 
-        AdvancedCollectionView<CalendarDay> weekDays = Enumerable
+        IAdvancedCollectionView<CalendarDay> weekDays = Enumerable
             .Range(0, 7)
             .Select(i => CreateCalendarDay(nearestStartOfWeek.AddDays(i), context2, dailyMaterials))
             .AsAdvancedCollectionView();

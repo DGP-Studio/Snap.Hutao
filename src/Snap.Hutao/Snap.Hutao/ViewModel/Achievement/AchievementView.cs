@@ -12,11 +12,10 @@ internal sealed partial class AchievementView : ObservableObject,
     IEntityAccessWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>,
     IAdvancedCollectionViewItem
 {
-    public const int FullProgressPlaceholder = int.MaxValue;
-
+    // DO NOT CONVERT TO AUTO PROPERTY
     private bool isChecked;
 
-    public AchievementView(Model.Entity.Achievement entity, Model.Metadata.Achievement.Achievement inner)
+    private AchievementView(Model.Entity.Achievement entity, Model.Metadata.Achievement.Achievement inner)
     {
         Entity = entity;
         Inner = inner;
@@ -52,5 +51,10 @@ internal sealed partial class AchievementView : ObservableObject,
     public string Time
     {
         get => $"{Entity.Time.ToLocalTime():yyyy.MM.dd HH:mm:ss}";
+    }
+
+    public static AchievementView Create(Model.Entity.Achievement entity, Model.Metadata.Achievement.Achievement inner)
+    {
+        return new(entity, inner);
     }
 }

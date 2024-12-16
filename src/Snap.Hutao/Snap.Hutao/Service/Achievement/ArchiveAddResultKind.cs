@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Achievement;
 internal enum ArchiveAddResultKind
 {
     Added,
+    ArchivesNotInitialized,
     InvalidName,
     AlreadyExists,
 }

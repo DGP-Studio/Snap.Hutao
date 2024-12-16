@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
@@ -25,7 +26,7 @@ internal interface IAchievementRepository : IRepository<EntityArchive>, IReposit
 
     List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId);
 
-    Dictionary<AchievementId, EntityAchievement> GetAchievementMapByArchiveId(Guid archiveId);
+    FrozenDictionary<AchievementId, EntityAchievement> GetAchievementMapByArchiveId(Guid archiveId);
 
     int GetFinishedAchievementCountByArchiveId(Guid archiveId);
 

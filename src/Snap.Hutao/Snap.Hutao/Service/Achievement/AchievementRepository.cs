@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
@@ -17,13 +18,13 @@ internal sealed partial class AchievementRepository : IAchievementRepository
 {
     public partial IServiceProvider ServiceProvider { get; }
 
-    public Dictionary<AchievementId, EntityAchievement> GetAchievementMapByArchiveId(Guid archiveId)
+    public FrozenDictionary<AchievementId, EntityAchievement> GetAchievementMapByArchiveId(Guid archiveId)
     {
         try
         {
-            return this.Query<EntityAchievement, Dictionary<AchievementId, EntityAchievement>>(query => query
+            return this.Query<EntityAchievement, FrozenDictionary<AchievementId, EntityAchievement>>(query => query
                 .Where(a => a.ArchiveId == archiveId)
-                .ToDictionary(a => (AchievementId)a.Id));
+                .ToFrozenDictionary(a => (AchievementId)a.Id));
         }
         catch (ArgumentException ex)
         {

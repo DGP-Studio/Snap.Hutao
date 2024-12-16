@@ -44,7 +44,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private WikiWeaponMetadataContext metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    public AdvancedCollectionView<Weapon>? Weapons
+    public IAdvancedCollectionView<Weapon>? Weapons
     {
         get;
         set
@@ -86,7 +86,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
-                    AdvancedCollectionView<Weapon> weaponsView = list.AsAdvancedCollectionView();
+                    IAdvancedCollectionView<Weapon> weaponsView = list.AsAdvancedCollectionView();
 
                     await taskContext.SwitchToMainThreadAsync();
                     Weapons = weaponsView;
