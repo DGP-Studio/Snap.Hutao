@@ -3272,16 +3272,16 @@
     <value>高度な機能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改鼠标左键自动连点功能的快捷键</value>
+    <value>左クリックの自動押し機能のショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>鼠标左键自动连点</value>
+    <value>マウス左ボタンの自動クリック</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
-    <value>更改键盘 F 键自动连按功能的快捷键</value>
+    <value>F キーの自動押し機能のショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
-    <value>键盘 F 键自动连按</value>
+    <value>キーボード F キーの自動連打</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
@@ -3599,10 +3599,10 @@
     <value>胡桃 ver {0} の準備が整いました</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>自動クリック</value>
   </data>
   <data name="ViewTitleAutoPressing" xml:space="preserve">
-    <value>自动连按</value>
+    <value>自動連打</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>
