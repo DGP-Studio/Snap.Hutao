@@ -2778,7 +2778,7 @@
     <value>遊戲啟動後可以即時切換</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>將消息模組注入遊戲，以便實現一些高級但危險的功能</value>
+    <value>將訊息模組注入遊戲，以便實現一些高級但危險的功能</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
@@ -3930,13 +3930,13 @@
     <value>狀態：{0} | 訊息：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
-    <value>請重新整理 Cookie，原始消息：{0}</value>
+    <value>請重新整理 Cookie，原始訊息：{0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 網路請求異常，請稍後再試</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登入失敗，請前往 HoYoLAB 初始化帳號，原始消息：{0}</value>
+    <value>登入失敗，請前往 HoYoLAB 初始化帳號，原始訊息：{0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>
