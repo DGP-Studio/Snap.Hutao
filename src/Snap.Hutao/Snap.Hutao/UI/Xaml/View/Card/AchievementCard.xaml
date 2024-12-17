@@ -74,7 +74,7 @@
 
     <Grid>
         <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid Visibility="{Binding StatisticsList.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+            <Grid Visibility="{Binding StatisticsList.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
                 <FlipView
                     x:Name="RootFlipView"
                     Background="{x:Null}"
@@ -85,14 +85,14 @@
                     Height="16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    NumberOfPages="{Binding StatisticsList.Count}"
+                    NumberOfPages="{Binding StatisticsList.Length}"
                     SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"/>
             </Grid>
 
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Visibility="{Binding StatisticsList.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                Visibility="{Binding StatisticsList.Length, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                 <Image
                     Width="80"
                     Height="80"
