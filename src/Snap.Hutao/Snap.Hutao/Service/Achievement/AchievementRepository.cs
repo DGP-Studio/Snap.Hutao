@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
@@ -39,9 +40,9 @@ internal sealed partial class AchievementRepository : IAchievementRepository
             .Count(a => a.Status >= AchievementStatus.STATUS_FINISHED));
     }
 
-    public List<EntityAchievement> GetLatestFinishedAchievementListByArchiveId(Guid archiveId, int take)
+    public ImmutableArray<EntityAchievement> GetLatestFinishedAchievementImmutableArrayByArchiveId(Guid archiveId, int take)
     {
-        return this.List<EntityAchievement, EntityAchievement>(query => query
+        return this.ImmutableArray<EntityAchievement, EntityAchievement>(query => query
             .Where(a => a.ArchiveId == archiveId)
             .Where(a => a.Status >= AchievementStatus.STATUS_FINISHED)
 #pragma warning disable CA1305 // EF Core does not support IFormatProvider
@@ -72,14 +73,14 @@ internal sealed partial class AchievementRepository : IAchievementRepository
         this.Delete(archive);
     }
 
-    public List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId)
+    public ImmutableArray<EntityAchievement> GetAchievementImmutableArrayByArchiveId(Guid archiveId)
     {
-        return this.ListByArchiveId<EntityAchievement>(archiveId);
+        return this.ImmutableArrayByArchiveId<EntityAchievement>(archiveId);
     }
 
-    public List<AchievementArchive> GetAchievementArchiveList()
+    public ImmutableArray<AchievementArchive> GetAchievementArchiveImmutableArray()
     {
-        return this.List<AchievementArchive>();
+        return this.ImmutableArray<AchievementArchive>();
     }
 
     public AchievementArchive? GetAchievementArchiveById(Guid archiveId)

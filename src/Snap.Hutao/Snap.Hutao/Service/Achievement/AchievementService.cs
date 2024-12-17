@@ -151,12 +151,12 @@ internal sealed partial class AchievementService : IAchievementService
     public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<EntityAchievement> entities = achievementRepository.GetAchievementListByArchiveId(archive.InnerId);
+        ImmutableArray<EntityAchievement> entities = achievementRepository.GetAchievementImmutableArrayByArchiveId(archive.InnerId);
 
         return new()
         {
             Info = UIAFInfo.CreateForExport(),
-            List = [.. entities.Select(UIAFItem.From)],
+            List = entities.SelectAsArray(UIAFItem.From),
         };
     }
 }

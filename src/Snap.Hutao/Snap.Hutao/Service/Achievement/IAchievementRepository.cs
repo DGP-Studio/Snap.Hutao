@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
@@ -16,7 +17,7 @@ internal interface IAchievementRepository : IRepository<EntityArchive>, IReposit
 
     ObservableCollection<EntityArchive> GetAchievementArchiveCollection();
 
-    List<EntityArchive> GetAchievementArchiveList();
+    ImmutableArray<EntityArchive> GetAchievementArchiveImmutableArray();
 
     EntityArchive? GetAchievementArchiveById(Guid archiveId);
 
@@ -24,13 +25,13 @@ internal interface IAchievementRepository : IRepository<EntityArchive>, IReposit
 
     void RemoveAchievementArchive(EntityArchive archive);
 
-    List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId);
+    ImmutableArray<EntityAchievement> GetAchievementImmutableArrayByArchiveId(Guid archiveId);
 
     FrozenDictionary<AchievementId, EntityAchievement> GetAchievementMapByArchiveId(Guid archiveId);
 
     int GetFinishedAchievementCountByArchiveId(Guid archiveId);
 
-    List<EntityAchievement> GetLatestFinishedAchievementListByArchiveId(Guid archiveId, int take);
+    ImmutableArray<EntityAchievement> GetLatestFinishedAchievementImmutableArrayByArchiveId(Guid archiveId, int take);
 
     void OverwriteAchievement(EntityAchievement achievement);
 }

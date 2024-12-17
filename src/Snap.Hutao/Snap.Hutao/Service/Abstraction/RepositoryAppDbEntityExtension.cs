@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity.Abstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Abstraction;
 
@@ -23,5 +24,11 @@ internal static class RepositoryAppDbEntityExtension
         where TEntity : class, IAppDbEntityHasArchive
     {
         return repository.Query(query => query.Where(e => e.ArchiveId == archiveId).ToList());
+    }
+
+    public static ImmutableArray<TEntity> ImmutableArrayByArchiveId<TEntity>(this IRepository<TEntity> repository, Guid archiveId)
+        where TEntity : class, IAppDbEntityHasArchive
+    {
+        return repository.Query(query => query.Where(e => e.ArchiveId == archiveId).ToImmutableArray());
     }
 }
