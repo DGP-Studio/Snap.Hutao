@@ -7,6 +7,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -63,6 +64,19 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                     .Replace(item.Content, x => x.Groups[1].Value);
             }
         }
+    }
+
+    private static DateTimeOffset ParseTime(IReadOnlyDictionary<string, DateTimeOffset> versionStartTimes, TimeSpan offset, string text)
+    {
+        if (VersionRegex.Match(text) is { Success: true } version)
+        {
+            if (versionStartTimes.TryGetValue(version.Groups[1].Value, out DateTimeOffset versionStartTime))
+            {
+                return versionStartTime;
+            }
+        }
+
+        return UnsafeDateTimeOffset.ParseDateTime(text, offset);
     }
 
     [SuppressMessage("", "SH003")]
@@ -130,9 +144,10 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // "x.x" -> DTO
         Dictionary<string, DateTimeOffset> versionStartTimes = [];
 
+        // TODO: Can we remove this now?
         // Workaround for some long-term activities
-        versionStartTimes.TryAdd("5.0", UnsafeDateTimeOffset.ParseDateTime("2024/08/28 06:00".AsSpan(), offset));
-        versionStartTimes.TryAdd("5.1", UnsafeDateTimeOffset.ParseDateTime("2024/10/09 06:00".AsSpan(), offset));
+        versionStartTimes.TryAdd("5.0", new(2024, 8, 28, 6, 0, 0, offset));
+        versionStartTimes.TryAdd("5.1", new(2024, 10, 9, 6, 0, 0, offset));
 
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
@@ -154,24 +169,25 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         foreach (WebAnnouncement announcement in activities)
         {
-            List<string> times = await AnnouncementHtmlVisitor.VisitActivityAsync(context, announcement.Content).ConfigureAwait(false);
+            ImmutableArray<string> times = await AnnouncementHtmlVisitor.VisitActivityAsync(context, announcement.Content).ConfigureAwait(false);
             logger.LogInformation("{Title} '{Time}'", announcement.Subtitle, string.Join(",", times));
 
-            if (times.Count is 0)
+            // ReSharper disable once ConvertIfStatementToSwitchStatement
+            if (times is [])
             {
                 continue;
             }
 
-            if (times.Count is 1 && times[0].Contains(SH.ServiceAnnouncementPermanentKeyword, StringComparison.InvariantCulture))
+            if (times is [{ } time] && time.Contains(SH.ServiceAnnouncementPermanentKeyword, StringComparison.CurrentCulture))
             {
-                announcement.StartTime = ParseTime(times[0]);
+                announcement.StartTime = ParseTime(versionStartTimes, offset, time);
                 continue;
             }
 
-            List<DateTimeOffset> timeOffsets = times.Select(ParseTime).ToList().SortBy(dto => dto);
-
+            ImmutableArray<DateTimeOffset> timeOffsets = [.. times.Select(text => ParseTime(versionStartTimes, offset, text)).Order()];
             DateTimeOffset startTime = timeOffsets.First();
             DateTimeOffset endTime = timeOffsets.Last();
+
             if (startTime == endTime)
             {
                 endTime += TimeSpan.FromDays(42);
@@ -179,19 +195,6 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
             announcement.StartTime = startTime;
             announcement.EndTime = endTime;
-
-            DateTimeOffset ParseTime(string text)
-            {
-                if (VersionRegex.Match(text) is { Success: true } version)
-                {
-                    if (versionStartTimes.TryGetValue(version.Groups[1].Value, out DateTimeOffset versionStartTime))
-                    {
-                        return versionStartTime;
-                    }
-                }
-
-                return UnsafeDateTimeOffset.ParseDateTime(text, offset);
-            }
         }
     }
 }
