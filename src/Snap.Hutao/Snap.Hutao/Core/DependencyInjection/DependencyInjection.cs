@@ -25,6 +25,7 @@ internal static class DependencyInjection
                 builder
                     .SetMinimumLevel(LogLevel.Trace)
                     .AddFilter(DbLoggerCategory.Database.Command.Name, level => level >= LogLevel.Information)
+                    .AddFilter(DbLoggerCategory.Query.Name, level => level >= LogLevel.Information)
                     .AddDebug()
                     .AddConsoleWindow();
             })
