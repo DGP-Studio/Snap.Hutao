@@ -152,7 +152,12 @@ internal static class HttpRequestMessageBuilderExtension
 
     private static async ValueTask TryAttachNameServerInfoAsync(HttpContext context, Exception ex)
     {
-        if (ex is not HttpRequestException { InnerException: SocketException })
+        if (ex is not HttpRequestException httpRequestException)
+        {
+            return;
+        }
+
+        if (httpRequestException.HttpRequestError is not HttpRequestError.SecureConnectionError && httpRequestException.InnerException is not SocketException)
         {
             return;
         }

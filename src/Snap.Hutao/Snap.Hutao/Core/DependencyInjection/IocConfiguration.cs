@@ -37,6 +37,7 @@ internal static class IocConfiguration
                 .EnableSensitiveDataLogging()
 #endif
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .UseLoggerFactory(serviceProvider.GetRequiredService<ILoggerFactory>())
                 .UseSqlite(sqlConnectionString);
         }
     }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
@@ -23,6 +24,7 @@ internal static class DependencyInjection
             {
                 builder
                     .SetMinimumLevel(LogLevel.Trace)
+                    .AddFilter(DbLoggerCategory.Database.Command.Name, level => level >= LogLevel.Information)
                     .AddDebug()
                     .AddConsoleWindow();
             })
