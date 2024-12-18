@@ -10,8 +10,9 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Response;
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
@@ -24,12 +25,12 @@ internal sealed partial class AvatarInfoRepositoryOperation
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosAsync(UserAndUid userAndUid, CancellationToken token)
+    public async ValueTask<ImmutableArray<EntityAvatarInfo>> UpdateDbAvatarInfosAsync(UserAndUid userAndUid, CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = avatarInfoRepository.GetAvatarInfoListByUid(uid);
-        EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
+        ImmutableArray<EntityAvatarInfo> dbInfos = avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(uid);
+        EnsureItemsAvatarIdUnique(dbInfos, uid, out FrozenDictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -39,7 +40,8 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
                 .CreateFor(userAndUid);
 
-            // manual refresh avatars
+            // This is a tricky way to immediately update the avatar info, this behavior
+            // can change in the future by miHoYo, so it's not recommended to rely on this.
             await gameRecordClient.GetPlayerInfoAsync(userAndUid, token).ConfigureAwait(false);
 
             Response<ListWrapper<Character>> listResponse = await gameRecordClient
@@ -48,7 +50,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
 
             if (!ResponseValidator.TryValidate(listResponse, serviceProvider, out ListWrapper<Character>? charactersWrapper))
             {
-                return avatarInfoRepository.GetAvatarInfoListByUid(uid);
+                return avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(uid);
             }
 
             List<AvatarId> characterIds = charactersWrapper.List.SelectList(info => info.Id);
@@ -58,7 +60,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
 
             if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, out ListWrapper<DetailedCharacter>? detailsWrapper))
             {
-                return avatarInfoRepository.GetAvatarInfoListByUid(uid);
+                return avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(uid);
             }
 
             foreach (DetailedCharacter character in detailsWrapper.List)
@@ -68,12 +70,14 @@ internal sealed partial class AvatarInfoRepositoryOperation
                     continue;
                 }
 
+                // We can only obtain new avatar, and we can't lose the avatar we already have.
+                // So we don't need to remove any avatar info from the database.
                 EntityAvatarInfo? entity = dbInfoMap.GetValueOrDefault(character.Base.Id);
                 AddOrUpdateAvatarInfo(entity, uid, appDbContext, character);
             }
         }
 
-        return avatarInfoRepository.GetAvatarInfoListByUid(uid);
+        return avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(uid);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -92,18 +96,19 @@ internal sealed partial class AvatarInfoRepositoryOperation
         appDbContext.AvatarInfos.UpdateAndSave(entity);
     }
 
-    private void EnsureItemsAvatarIdUnique(ref List<EntityAvatarInfo> dbInfos, string uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap)
+    private void EnsureItemsAvatarIdUnique(ImmutableArray<EntityAvatarInfo> dbInfos, string uid, out FrozenDictionary<AvatarId, EntityAvatarInfo> dbInfoMap)
     {
-        dbInfoMap = [];
-        foreach (ref readonly EntityAvatarInfo info in CollectionsMarshal.AsSpan(dbInfos))
+        Dictionary<AvatarId, EntityAvatarInfo> infoMap = [];
+        foreach (ref readonly EntityAvatarInfo info in dbInfos.AsSpan())
         {
-            if (info.Info2 is null || !dbInfoMap.TryAdd(info.Info2.Base.Id, info))
+            if (info.Info2 is null || !infoMap.TryAdd(info.Info2.Base.Id, info))
             {
                 avatarInfoRepository.RemoveAvatarInfoRangeByUid(uid);
-                dbInfoMap.Clear();
-                dbInfos.Clear();
+                dbInfoMap = FrozenDictionary<AvatarId, EntityAvatarInfo>.Empty;
                 return;
             }
         }
+
+        dbInfoMap = infoMap.ToFrozenDictionary();
     }
 }

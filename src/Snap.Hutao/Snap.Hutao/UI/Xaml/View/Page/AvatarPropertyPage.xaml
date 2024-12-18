@@ -198,7 +198,7 @@
                             HorizontalAlignment="Right"
                             FontSize="11"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding RefreshTimeFormat}"
+                            Text="{Binding FormattedRefreshTime}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
                     </StackPanel>

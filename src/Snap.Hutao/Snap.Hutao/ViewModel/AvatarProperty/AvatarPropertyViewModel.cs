@@ -56,7 +56,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            _ = RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken);
+            _ = RefreshCoreAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
         }
     }
 
@@ -72,7 +72,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).ConfigureAwait(false);
+            await RefreshCoreAsync(userAndUid, RefreshOptionKind.None, CancellationToken).ConfigureAwait(false);
         }
 
         return true;
@@ -83,12 +83,12 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
+            await RefreshCoreAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
         }
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOption option, CancellationToken token)
+    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOptionKind optionKind, CancellationToken token)
     {
         try
         {
@@ -105,7 +105,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
                     summaryResult = await scopeContext.AvatarInfoService
-                        .GetSummaryAsync(userAndUid, option, token)
+                        .GetSummaryAsync(userAndUid, optionKind, token)
                         .ConfigureAwait(false);
                 }
             }

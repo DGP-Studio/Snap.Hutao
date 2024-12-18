@@ -3,8 +3,9 @@
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-internal enum RefreshOption
+internal enum RefreshOptionKind
 {
+    // This means load data directly from the database.
     None,
     RequestFromHoyolabGameRecord,
 }

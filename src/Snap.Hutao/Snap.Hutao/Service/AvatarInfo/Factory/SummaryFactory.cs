@@ -30,11 +30,6 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             .ThenBy(a => a.Weapon?.WeaponType)
             .ThenByDescending(a => a.FetterLevel);
 
-        IList<AvatarView> views = [.. avatars];
-
-        return new()
-        {
-            Avatars = views.AsAdvancedCollectionView(),
-        };
+        return Summary.Create(avatars.AsAdvancedCollectionView());
     }
 }

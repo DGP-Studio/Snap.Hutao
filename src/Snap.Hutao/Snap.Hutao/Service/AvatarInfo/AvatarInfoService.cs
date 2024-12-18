@@ -6,6 +6,7 @@ using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.ViewModel.User;
+using System.Collections.Immutable;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
@@ -20,25 +21,25 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
     private readonly IMetadataService metadataService;
     private readonly ISummaryFactory summaryFactory;
 
-    public async ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default)
+    public async ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default)
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             return new(RefreshResultKind.MetadataNotInitialized, null);
         }
 
-        switch (refreshOption)
+        switch (refreshOptionKind)
         {
-            case RefreshOption.RequestFromHoyolabGameRecord:
+            case RefreshOptionKind.RequestFromHoyolabGameRecord:
                 {
-                    List<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosAsync(userAndUid, token).ConfigureAwait(false);
+                    ImmutableArray<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosAsync(userAndUid, token).ConfigureAwait(false);
                     Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary);
                 }
 
             default:
                 {
-                    List<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoListByUid(userAndUid.Uid.Value);
+                    ImmutableArray<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(userAndUid.Uid.Value);
                     Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary.Avatars.Count == 0 ? null : summary);
                 }

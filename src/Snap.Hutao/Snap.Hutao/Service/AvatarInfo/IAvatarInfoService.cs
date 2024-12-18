@@ -8,5 +8,5 @@ namespace Snap.Hutao.Service.AvatarInfo;
 
 internal interface IAvatarInfoService
 {
-    ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default);
+    ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default);
 }

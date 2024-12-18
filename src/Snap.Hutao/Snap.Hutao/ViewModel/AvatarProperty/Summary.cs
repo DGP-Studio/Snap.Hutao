@@ -10,4 +10,12 @@ internal sealed class Summary
     public IAdvancedCollectionView<AvatarView> Avatars { get; set; } = default!;
 
     public string Message { get; set; } = default!;
+
+    public static Summary Create(IAdvancedCollectionView<AvatarView> avatars)
+    {
+        return new()
+        {
+            Avatars = avatars,
+        };
+    }
 }

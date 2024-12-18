@@ -30,9 +30,9 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public WeaponView? Weapon { get; set; }
 
-    public RecommandPropertiesView RecommendedProperties { get; set; } = default!;
+    public RecommendPropertiesView RecommendedProperties { get; set; } = default!;
 
-    public List<ReliquaryView> Reliquaries { get; set; } = default!;
+    public ImmutableArray<ReliquaryView> Reliquaries { get; set; } = default!;
 
     public ImmutableArray<ConstellationView> Constellations { get; set; }
 
@@ -40,11 +40,11 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public ImmutableArray<SkillView> Skills { get; set; }
 
-    public List<AvatarProperty> Properties { get; set; } = default!;
+    public ImmutableArray<AvatarProperty> Properties { get; set; } = default!;
 
     public uint FetterLevel { get; set; }
 
-    public string RefreshTimeFormat { get; set; } = default!;
+    public string FormattedRefreshTime { get; set; } = default!;
 
     internal AvatarId Id { get; set; }
 

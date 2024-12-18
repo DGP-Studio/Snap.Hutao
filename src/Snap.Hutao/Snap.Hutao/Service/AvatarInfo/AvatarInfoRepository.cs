@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
@@ -12,9 +13,9 @@ internal sealed partial class AvatarInfoRepository : IAvatarInfoRepository
 {
     public partial IServiceProvider ServiceProvider { get; }
 
-    public List<EntityAvatarInfo> GetAvatarInfoListByUid(string uid)
+    public ImmutableArray<EntityAvatarInfo> GetAvatarInfoImmutableArrayByUid(string uid)
     {
-        return this.List(i => i.Uid == uid);
+        return this.ImmutableArray(i => i.Uid == uid);
     }
 
     public void RemoveAvatarInfoRangeByUid(string uid)

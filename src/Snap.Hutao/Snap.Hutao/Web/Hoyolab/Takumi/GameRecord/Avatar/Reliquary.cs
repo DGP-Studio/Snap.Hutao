@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
@@ -36,5 +37,5 @@ internal sealed class Reliquary
     public ReliquaryProperty MainProperty { get; set; } = default!;
 
     [JsonPropertyName("sub_property_list")]
-    public List<ReliquaryProperty> SubPropertyList { get; set; } = default!;
+    public ImmutableArray<ReliquaryProperty> SubPropertyList { get; set; }
 }
