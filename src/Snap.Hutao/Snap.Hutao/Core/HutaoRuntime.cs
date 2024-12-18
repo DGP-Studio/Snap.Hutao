@@ -4,6 +4,7 @@
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Microsoft.Windows.AppNotifications;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.IO;
@@ -92,7 +93,17 @@ internal static class HutaoRuntime
         const string FolderName = "Hutao";
 #endif
         string path = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
-        Directory.CreateDirectory(path);
+        try
+        {
+            Directory.CreateDirectory(path);
+        }
+        catch (Exception ex)
+        {
+            // FileNotFoundException | UnauthorizedAccessException
+            // We don't have enough permission
+            HutaoException.InvalidOperation($"Failed to create data folder: {path}", ex);
+        }
+
         return path;
     }
 
