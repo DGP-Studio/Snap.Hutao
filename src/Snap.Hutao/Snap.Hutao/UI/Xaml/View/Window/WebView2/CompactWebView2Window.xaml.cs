@@ -96,8 +96,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         this.InitializeController(windowScope.ServiceProvider);
 
         UpdateLayeredWindow();
-        LowLevelInputKeyboardSource.Initialize();
-        LowLevelInputKeyboardSource.KeyDown += OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Initialize();
+        InputLowLevelKeyboardSource.KeyDown += OnLowLevelKeyDown;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -149,6 +149,18 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         inputNonClientPointerSource.PointerEntered -= OnWindowNonClientPointerEntered;
         inputNonClientPointerSource.PointerExited -= OnWindowNonClientPointerExited;
         windowScope.Dispose();
+    }
+
+    private static void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
+    {
+        args.Cancel = true;
+    }
+
+    private static void OnNewWindowRequested(object? sender, CoreWebView2NewWindowRequestedEventArgs args)
+    {
+        args.Handled = true;
+        ArgumentNullException.ThrowIfNull(sender);
+        ((CoreWebView2)sender).Navigate(args.Uri);
     }
 
     private void OnWindowPointerEntered(InputPointerSource source, PointerEventArgs args)
@@ -222,14 +234,19 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         Close();
     }
 
-    private bool OnLowLevelKeyDown(ref readonly KBDLLHOOKSTRUCT data)
+    private void OnLowLevelKeyDown(LowLevelKeyEventArgs args)
     {
-        VIRTUAL_KEY key = (VIRTUAL_KEY)data.vkCode;
+        if (args.Handled)
+        {
+            return;
+        }
+
+        VIRTUAL_KEY key = (VIRTUAL_KEY)args.Data.vkCode;
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
             taskContext.BeginInvokeOnMainThread(() =>
             _ = WebView.CoreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));
-            return false;
+            return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoFastForwardKey.Value)
@@ -237,7 +254,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
             taskContext.BeginInvokeOnMainThread(() =>
             _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds)));
-            return false;
+            return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoRewindKey.Value)
@@ -245,10 +262,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
             taskContext.BeginInvokeOnMainThread(() =>
             _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds)));
-            return false;
+            return;
         }
-
-        return false;
     }
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
@@ -273,8 +288,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void OnWebViewUnloaded(object sender, RoutedEventArgs e)
     {
-        LowLevelInputKeyboardSource.KeyDown -= OnLowLevelKeyDown;
-        LowLevelInputKeyboardSource.Uninitialize();
+        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Uninitialize();
 
         loadCts.Cancel();
         loadCts.Dispose();
@@ -304,18 +319,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void OnSourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
     {
         OnPropertyChanged(nameof(Source));
-    }
-
-    private void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
-    {
-        args.Cancel = true;
-    }
-
-    private void OnNewWindowRequested(object? sender, CoreWebView2NewWindowRequestedEventArgs args)
-    {
-        args.Handled = true;
-        ArgumentNullException.ThrowIfNull(sender);
-        ((CoreWebView2)sender).Navigate(args.Uri);
     }
 
     private void OnSourceTextBoxKeyDown(object sender, KeyRoutedEventArgs args)

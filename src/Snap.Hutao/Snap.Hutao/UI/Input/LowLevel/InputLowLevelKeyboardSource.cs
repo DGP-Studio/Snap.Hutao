@@ -11,19 +11,19 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.LowLevel;
 
-internal delegate bool LowLevelInputKeyboardSourceEventHandler(ref readonly KBDLLHOOKSTRUCT args);
+internal delegate void InputLowLevelKeyboardSourceEventHandler(LowLevelKeyEventArgs args);
 
-internal static class LowLevelInputKeyboardSource
+internal static class InputLowLevelKeyboardSource
 {
     private static HHOOK keyboard;
 
-    public static event LowLevelInputKeyboardSourceEventHandler? KeyDown;
+    public static event InputLowLevelKeyboardSourceEventHandler? KeyDown;
 
-    public static event LowLevelInputKeyboardSourceEventHandler? KeyUp;
+    public static event InputLowLevelKeyboardSourceEventHandler? KeyUp;
 
-    public static event LowLevelInputKeyboardSourceEventHandler? SystemKeyDown;
+    public static event InputLowLevelKeyboardSourceEventHandler? SystemKeyDown;
 
-    public static event LowLevelInputKeyboardSourceEventHandler? SystemKeyUp;
+    public static event InputLowLevelKeyboardSourceEventHandler? SystemKeyUp;
 
     public static unsafe void Initialize()
     {
@@ -51,17 +51,24 @@ internal static class LowLevelInputKeyboardSource
     {
         if (nCode >= 0)
         {
-            ref KBDLLHOOKSTRUCT data = ref *(KBDLLHOOKSTRUCT*)lParam;
-            bool handled = (uint)wParam switch
+            LowLevelKeyEventArgs args = new(*(KBDLLHOOKSTRUCT*)lParam);
+            switch ((uint)wParam)
             {
-                WM_KEYDOWN => KeyDown?.Invoke(in data) ?? false,
-                WM_KEYUP => KeyUp?.Invoke(in data) ?? false,
-                WM_SYSKEYDOWN => SystemKeyDown?.Invoke(in data) ?? false,
-                WM_SYSKEYUP => SystemKeyUp?.Invoke(in data) ?? false,
-                _ => false,
-            };
+                case WM_KEYDOWN:
+                    KeyDown?.Invoke(args);
+                    break;
+                case WM_KEYUP:
+                    KeyUp?.Invoke(args);
+                    break;
+                case WM_SYSKEYDOWN:
+                    SystemKeyDown?.Invoke(args);
+                    break;
+                case WM_SYSKEYUP:
+                    SystemKeyUp?.Invoke(args);
+                    break;
+            }
 
-            if (handled)
+            if (args.Handled)
             {
                 return BOOL.TRUE;
             }
