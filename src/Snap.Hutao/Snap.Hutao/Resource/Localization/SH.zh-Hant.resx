@@ -691,6 +691,15 @@
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓更新時間〓</value>
   </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>美服 UTC -5</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>其他 UTC +8</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>欧服 UTC -1</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻擊力</value>
     <comment>Need EXACT same string in game</comment>
@@ -2778,7 +2787,7 @@
     <value>遊戲啟動後可以即時切換</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>將消息模組注入遊戲，以便實現一些高級但危險的功能</value>
+    <value>將訊息模組注入遊戲，以便實現一些高級但危險的功能</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
@@ -3188,6 +3197,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>公告所屬伺服器</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>选择材料日历获取当天日期时使用的游戏服务器时区</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>日历服务器</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主頁儀表板中的卡片</value>
   </data>
@@ -3270,10 +3285,16 @@
     <value>進階功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改自動連續點按功能的快速鍵</value>
+    <value>更改鼠标左键自动连点功能的快捷键</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>自動連續點按</value>
+    <value>鼠标左键自动连点</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>更改键盘 F 键自动连按功能的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>键盘 F 键自动连按</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快速鍵</value>
@@ -3592,6 +3613,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自動連續點按</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自动连按</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安裝更新</value>
@@ -3921,13 +3945,13 @@
     <value>狀態：{0} | 訊息：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
-    <value>請重新整理 Cookie，原始消息：{0}</value>
+    <value>請重新整理 Cookie，原始訊息：{0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 網路請求異常，請稍後再試</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登入失敗，請前往 HoYoLAB 初始化帳號，原始消息：{0}</value>
+    <value>登入失敗，請前往 HoYoLAB 初始化帳號，原始訊息：{0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>

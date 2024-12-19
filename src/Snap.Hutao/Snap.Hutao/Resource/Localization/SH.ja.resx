@@ -691,6 +691,15 @@
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓更新時期〓</value>
   </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>美服 UTC -5</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>其他 UTC +8</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>欧服 UTC -1</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
     <comment>Need EXACT same string in game</comment>
@@ -3190,6 +3199,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>お知らせのサーバー</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>选择材料日历获取当天日期时使用的游戏服务器时区</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>日历服务器</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>ホームのダッシュボードでカードを管理する</value>
   </data>
@@ -3272,10 +3287,16 @@
     <value>高度な機能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>オートクリック機能のショートカットキーを変更します</value>
+    <value>左クリックの自動押し機能のショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>マウス左ボタンの自動クリック</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>F キーの自動押し機能のショートカットキーを変更します</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>キーボード F キーの自動連打</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
@@ -3593,7 +3614,10 @@
     <value>胡桃 ver {0} の準備が整いました</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>自動クリック</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自動連打</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>
