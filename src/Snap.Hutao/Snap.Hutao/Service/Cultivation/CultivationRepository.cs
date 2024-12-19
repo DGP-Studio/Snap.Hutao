@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -14,19 +15,19 @@ internal sealed partial class CultivationRepository : ICultivationRepository
 {
     public partial IServiceProvider ServiceProvider { get; }
 
-    public List<CultivateEntry> GetCultivateEntryListByProjectId(Guid projectId)
+    public ImmutableArray<CultivateEntry> GetCultivateEntryImmutaleArrayByProjectId(Guid projectId)
     {
-        return this.List<CultivateEntry>(e => e.ProjectId == projectId);
+        return this.ImmutableArray<CultivateEntry>(e => e.ProjectId == projectId);
     }
 
-    public List<CultivateEntry> GetCultivateEntryListIncludingLevelInformationByProjectId(Guid projectId)
+    public ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayIncludingLevelInformationByProjectId(Guid projectId)
     {
-        return this.List<CultivateEntry, CultivateEntry>(query => query.Where(e => e.ProjectId == projectId).Include(e => e.LevelInformation));
+        return this.ImmutableArray<CultivateEntry, CultivateEntry>(query => query.Where(e => e.ProjectId == projectId).Include(e => e.LevelInformation));
     }
 
-    public List<CultivateItem> GetCultivateItemListByEntryId(Guid entryId)
+    public ImmutableArray<CultivateItem> GetCultivateItemImmutableArrayByEntryId(Guid entryId)
     {
-        return this.List<CultivateItem, CultivateItem>(query => query.Where(i => i.EntryId == entryId).OrderBy(i => i.ItemId));
+        return this.ImmutableArray<CultivateItem, CultivateItem>(query => query.Where(i => i.EntryId == entryId).OrderBy(i => i.ItemId));
     }
 
     public void RemoveCultivateEntryById(Guid entryId)

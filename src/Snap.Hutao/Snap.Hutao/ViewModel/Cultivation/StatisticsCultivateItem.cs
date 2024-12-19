@@ -7,7 +7,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed class StatisticsCultivateItem
 {
-    public StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
+    private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
     {
         Inner = inner;
         Count = (int)entity.Count;
@@ -24,4 +24,9 @@ internal sealed class StatisticsCultivateItem
     public string CountFormatted { get => $"{Current}/{Count}"; }
 
     public bool IsToday { get => Inner.IsTodaysItem(true); }
+
+    public static StatisticsCultivateItem Create(Material inner, Model.Entity.CultivateItem entity)
+    {
+        return new(inner, entity);
+    }
 }

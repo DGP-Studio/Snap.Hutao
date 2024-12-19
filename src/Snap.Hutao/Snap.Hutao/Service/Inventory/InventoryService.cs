@@ -10,6 +10,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
@@ -27,7 +28,7 @@ internal sealed partial class InventoryService : IInventoryService
     public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
-        List<InventoryItem> entities = inventoryRepository.GetInventoryItemListByProjectId(projectId);
+        ImmutableArray<InventoryItem> entities = inventoryRepository.GetInventoryItemImmutableArrayByProjectId(projectId);
 
         List<InventoryItemView> results = [];
         foreach (Material meta in context.EnumerateInventoryMaterial())

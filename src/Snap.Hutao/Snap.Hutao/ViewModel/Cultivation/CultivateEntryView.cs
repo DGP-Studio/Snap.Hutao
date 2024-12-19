@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed class CultivateEntryView : Item
 {
-    public CultivateEntryView(CultivateEntry entry, Item item, List<CultivateItemView> items)
+    private CultivateEntryView(CultivateEntry entry, Item item, ImmutableArray<CultivateItemView> items)
     {
         Id = entry.Id;
         EntryId = entry.InnerId;
@@ -24,8 +24,8 @@ internal sealed class CultivateEntryView : Item
 
         Description = ParseDescription(entry);
         IsToday = items.Any(i => i.IsToday);
-        RotationalItemIds = items.Where(i => i.DaysOfWeek is not DaysOfWeek.Any).Select(i => i.Inner.Id).ToImmutableArray();
-        DaysOfWeek = MaterialIds.GetDaysOfWeek(RotationalItemIds.FirstOrDefault());
+        RotationalItemIds = [.. items.Where(i => i.DaysOfWeek is not DaysOfWeek.Any).Select(i => i.Inner.Id)];
+        DaysOfWeek = MaterialIds.GetDaysOfWeek(RotationalItemIds.AsSpan());
 
         static string ParseDescription(CultivateEntry entry)
         {
@@ -82,7 +82,7 @@ internal sealed class CultivateEntryView : Item
         }
     }
 
-    public List<CultivateItemView> Items { get; set; }
+    public ImmutableArray<CultivateItemView> Items { get; set; }
 
     public ImmutableArray<MaterialId> RotationalItemIds { get; }
 
@@ -93,4 +93,9 @@ internal sealed class CultivateEntryView : Item
     public string Description { get; }
 
     internal Guid EntryId { get; }
+
+    public static CultivateEntryView Create(CultivateEntry entry, Item item, ImmutableArray<CultivateItemView> items)
+    {
+        return new(entry, item, items);
+    }
 }

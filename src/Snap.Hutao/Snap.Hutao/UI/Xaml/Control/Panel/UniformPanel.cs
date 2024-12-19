@@ -11,27 +11,27 @@ namespace Snap.Hutao.UI.Xaml.Control.Panel;
 [DependencyProperty("RowSpacing", typeof(double))]
 internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
 {
-    private int columns;
+    private int columnCount;
 
     protected override Size MeasureOverride(Size availableSize)
     {
         // https://hut.ao/tasks/86
         // Handle when MinItemWith > availableSize.Width
-        columns = Math.Max(1, (int)((availableSize.Width + ColumnSpacing) / (MinItemWidth + ColumnSpacing)));
-        double availableItemWidth = ((availableSize.Width + ColumnSpacing) / columns) - ColumnSpacing;
+        columnCount = Math.Max(1, (int)((availableSize.Width + ColumnSpacing) / (MinItemWidth + ColumnSpacing)));
+        double availableItemWidth = ((availableSize.Width + ColumnSpacing) / columnCount) - ColumnSpacing;
 
         double maxDesiredHeight = 0;
         foreach (UIElement child in Children)
         {
-            child.Measure(new Size(availableItemWidth, availableSize.Height));
+            child.Measure(new(availableItemWidth, availableSize.Height));
             maxDesiredHeight = Math.Max(maxDesiredHeight, child.DesiredSize.Height);
         }
 
-        int desiredRows = (int)Math.Ceiling(Children.Count / (double)columns);
+        int desiredRows = (int)Math.Ceiling(Children.Count / (double)columnCount);
         double desiredHeight = ((maxDesiredHeight + RowSpacing) * desiredRows) - RowSpacing;
         desiredHeight = Math.Max(0, desiredHeight);
 
-        return new Size(availableSize.Width, desiredHeight);
+        return new(availableSize.Width, desiredHeight);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
@@ -45,19 +45,19 @@ internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
             }
         }
 
-        double itemWidth = ((finalSize.Width + ColumnSpacing) / columns) - ColumnSpacing;
+        double itemWidth = ((finalSize.Width + ColumnSpacing) / columnCount) - ColumnSpacing;
 
         for (int index = 0; index < Children.Count; index++)
         {
             UIElement child = Children[index];
 
-            int row = index / columns;
-            int column = index % columns;
+            int row = index / columnCount;
+            int column = index % columnCount;
 
             double x = column * (itemWidth + ColumnSpacing);
             double y = row * (maxItemHeight + RowSpacing);
 
-            child.Arrange(new Rect(x, y, itemWidth, child.DesiredSize.Height));
+            child.Arrange(new(x, y, itemWidth, child.DesiredSize.Height));
         }
 
         return finalSize;

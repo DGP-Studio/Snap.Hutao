@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using JetBrains.Annotations;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Graphics.Imaging;
@@ -73,8 +74,11 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 return new(false, default!);
             }
 
-            SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight);
-            Rgba32 accentColor = softwareBitmap.GetRgba32AccentColor();
+            Rgba32 accentColor;
+            using (SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight))
+            {
+                accentColor = softwareBitmap.GetRgba32AccentColor();
+            }
 
             await taskContext.SwitchToMainThreadAsync();
 
@@ -126,7 +130,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
         return availableBackgroundPathSet ??= [];
 
-        async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
+        async Task SetCurrentBackgroundPathSetAsync([RequireStaticDelegate] Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
         {
             HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
             Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);

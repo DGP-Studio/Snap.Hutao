@@ -9,7 +9,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed partial class CultivateItemView : ObservableObject, IEntityAccessWithMetadata<Model.Entity.CultivateItem, Material>
 {
-    public CultivateItemView(Model.Entity.CultivateItem entity, Material inner)
+    private CultivateItemView(Model.Entity.CultivateItem entity, Material inner)
     {
         Entity = entity;
         Inner = inner;
@@ -28,4 +28,9 @@ internal sealed partial class CultivateItemView : ObservableObject, IEntityAcces
     public bool IsToday { get => Inner.IsTodaysItem(true); }
 
     public DaysOfWeek DaysOfWeek { get => Inner.GetDaysOfWeek(); }
+
+    public static CultivateItemView Create(Model.Entity.CultivateItem entity, Material inner)
+    {
+        return new(entity, inner);
+    }
 }

@@ -31,7 +31,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private CancellationTokenSource statisticsCancellationTokenSource = new();
+    private CancellationTokenSource statisticsCts = new();
 
     public AdvancedDbCollectionView<CultivateProject>? Projects
     {
@@ -241,7 +241,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private async Task UpdateStatisticsItemsAsync()
     {
         // https://github.com/DGP-Studio/Snap.Hutao/issues/2044
-        // Coercively clear the list and bring view to the top to prevent UI dead loop
+        // Force clear the list and bring view to the top to prevent UI dead loop
         await taskContext.SwitchToMainThreadAsync();
         StatisticsItems = null;
         ResinStatistics = null;
@@ -253,14 +253,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToBackgroundAsync();
 
-        await statisticsCancellationTokenSource.CancelAsync().ConfigureAwait(false);
-        statisticsCancellationTokenSource = new();
-        CancellationToken token = statisticsCancellationTokenSource.Token;
+        await statisticsCts.CancelAsync().ConfigureAwait(false);
+        statisticsCts = new();
+        CancellationToken token = statisticsCts.Token;
         ObservableCollection<StatisticsCultivateItem> statistics;
         ResinStatistics resinStatistics;
         try
         {
-            CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
+            // TODO: cache context
+            CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>(token).ConfigureAwait(false);
             statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(Projects.CurrentItem, context, token).ConfigureAwait(false);
             resinStatistics = await cultivationService.GetResinStatisticsAsync(statistics, token).ConfigureAwait(false);
         }

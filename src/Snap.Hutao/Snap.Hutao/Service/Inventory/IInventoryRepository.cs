@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
@@ -14,5 +15,5 @@ internal interface IInventoryRepository : IRepository<InventoryItem>
 
     void UpdateInventoryItem(InventoryItem item);
 
-    List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId);
+    ImmutableArray<InventoryItem> GetInventoryItemImmutableArrayByProjectId(Guid projectId);
 }
