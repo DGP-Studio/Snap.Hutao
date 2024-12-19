@@ -53,7 +53,7 @@ internal sealed partial class ExceptionHandlingSupport
 
         serviceProvider
             .GetRequiredService<ITaskContext>()
-            .InvokeOnMainThread(() => ExceptionWindow.Show(message));
+            .BeginInvokeOnMainThread(() => ExceptionWindow.Show(message));
 
         e.Handled = true;
     }

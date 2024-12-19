@@ -42,7 +42,7 @@ internal static class ThemeHelper
     {
         return elementTheme switch
         {
-            ElementTheme.Default => applicationTheme == ApplicationTheme.Dark,
+            ElementTheme.Default => applicationTheme is ApplicationTheme.Dark,
             ElementTheme.Dark => true,
             _ => false,
         };

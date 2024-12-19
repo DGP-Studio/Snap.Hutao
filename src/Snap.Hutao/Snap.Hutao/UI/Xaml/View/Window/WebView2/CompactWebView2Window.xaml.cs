@@ -242,6 +242,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
 
         VIRTUAL_KEY key = (VIRTUAL_KEY)args.Data.vkCode;
+        if (key is VIRTUAL_KEY.VK__none_)
+        {
+            // Skipping VK__none_ handling
+            return;
+        }
+
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
             taskContext.BeginInvokeOnMainThread(() =>

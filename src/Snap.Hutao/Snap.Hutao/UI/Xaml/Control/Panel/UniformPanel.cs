@@ -15,7 +15,9 @@ internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        columns = (int)((availableSize.Width + ColumnSpacing) / (MinItemWidth + ColumnSpacing));
+        // https://hut.ao/tasks/86
+        // Handle when MinItemWith > availableSize.Width
+        columns = Math.Max(1, (int)((availableSize.Width + ColumnSpacing) / (MinItemWidth + ColumnSpacing)));
         double availableItemWidth = ((availableSize.Width + ColumnSpacing) / columns) - ColumnSpacing;
 
         double maxDesiredHeight = 0;
