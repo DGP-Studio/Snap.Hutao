@@ -685,6 +685,17 @@
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                                 <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEC92;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.CalendarServerTimeZoneOffsets}"
+                                            SelectedItem="{Binding SelectedCalendarServerTimeZoneOffset, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE8E4;}">

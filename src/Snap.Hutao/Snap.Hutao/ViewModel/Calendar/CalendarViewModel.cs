@@ -13,6 +13,7 @@ using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
@@ -23,13 +24,14 @@ namespace Snap.Hutao.ViewModel.Calendar;
 
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
+internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<CultivationPage>
 {
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CalendarViewModel> logger;
     private readonly IMetadataService metadataService;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
 
     public IAdvancedCollectionView<CalendarDay>? WeekDays { get; set => SetProperty(ref field, value); }
 
@@ -182,7 +184,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             [DayOfWeek.Saturday] = materials36,
         };
 
-        DateTimeOffset today = DateTimeOffset.Now.Date;
+        DateTimeOffset today = DateTimeOffset.Now.ToOffset(appOptions.CalendarServerTimeZoneOffset).Date;
         DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
         DateTimeOffset nearestStartOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
         if (nearestStartOfWeek > today)

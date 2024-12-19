@@ -28,6 +28,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private int? downloadSpeedLimitPerSecondInKiloByte;
     private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
+    private TimeSpan? calendarServerTimeZoneOffset;
 
     public bool IsNotifyIconEnabled
     {
@@ -111,5 +112,18 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, Enum.Parse<BridgeShareSaveType>, BridgeShareSaveType.CopyToClipboard);
         set => SetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, value, EnumToStringOrEmpty);
+    }
+
+    public ImmutableArray<NameValue<TimeSpan>> CalendarServerTimeZoneOffsets { get; } =
+    [
+        new(SH.ServiceAppOptionsCalendarServerTimeZoneAmerica, ServerRegionTimeZone.AmericaServerOffset),
+        new(SH.ServiceAppOptionsCalendarServerTimeZoneEurope, ServerRegionTimeZone.EuropeServerOffset),
+        new(SH.ServiceAppOptionsCalendarServerTimeZoneCommon, ServerRegionTimeZone.CommonOffset),
+    ];
+
+    public TimeSpan CalendarServerTimeZoneOffset
+    {
+        get => GetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, TimeSpan.Parse, ServerRegionTimeZone.CommonOffset);
+        set => SetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, value, static v => v.ToString());
     }
 }
