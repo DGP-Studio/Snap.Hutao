@@ -3617,6 +3617,9 @@
   <data name="ViewTitleAutoPressing" xml:space="preserve">
     <value>自动连按</value>
   </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>正在初始化元数据</value>
+  </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>Installing New Version Patch</value>
   </data>
