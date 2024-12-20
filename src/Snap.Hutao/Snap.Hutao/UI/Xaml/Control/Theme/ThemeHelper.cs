@@ -2,14 +2,41 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.UI.Xaml.Control.Theme;
 
 internal static class ThemeHelper
 {
-    public static unsafe Snap.WinUI.FrameworkTheming.Theme ElementToFramework(ElementTheme elementTheme)
+    public static Snap.WinUI.FrameworkTheming.Theme ElementToFramework(ElementTheme elementTheme)
     {
-        return *(Snap.WinUI.FrameworkTheming.Theme*)&elementTheme;
+        return elementTheme switch
+        {
+            ElementTheme.Default => WinUI.FrameworkTheming.Theme.None,
+            ElementTheme.Light => WinUI.FrameworkTheming.Theme.Light,
+            ElementTheme.Dark => WinUI.FrameworkTheming.Theme.Dark,
+            _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {elementTheme}."),
+        };
+    }
+
+    public static unsafe Snap.WinUI.FrameworkTheming.Theme ApplicationToFramework(ApplicationTheme applicationTheme)
+    {
+        return applicationTheme switch
+        {
+            ApplicationTheme.Light => WinUI.FrameworkTheming.Theme.Light,
+            ApplicationTheme.Dark => WinUI.FrameworkTheming.Theme.Dark,
+            _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {applicationTheme}."),
+        };
+    }
+
+    public static unsafe Snap.WinUI.FrameworkTheming.Theme ApplicationToFrameworkInvert(ApplicationTheme applicationTheme)
+    {
+        return applicationTheme switch
+        {
+            ApplicationTheme.Light => WinUI.FrameworkTheming.Theme.Dark,
+            ApplicationTheme.Dark => WinUI.FrameworkTheming.Theme.Light,
+            _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {applicationTheme}."),
+        };
     }
 
     public static ApplicationTheme ElementToApplication(ElementTheme applicationTheme)
@@ -32,6 +59,11 @@ internal static class ThemeHelper
         };
     }
 
+    public static bool IsDarkMode(ApplicationTheme applicationTheme)
+    {
+        return applicationTheme is ApplicationTheme.Dark;
+    }
+
     public static bool IsDarkMode(ElementTheme elementTheme)
     {
         ApplicationTheme appTheme = Ioc.Default.GetRequiredService<App>().RequestedTheme;
@@ -42,7 +74,7 @@ internal static class ThemeHelper
     {
         return elementTheme switch
         {
-            ElementTheme.Default => applicationTheme is ApplicationTheme.Dark,
+            ElementTheme.Default => IsDarkMode(applicationTheme),
             ElementTheme.Dark => true,
             _ => false,
         };

@@ -8,10 +8,13 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
 using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
+using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hutao;
@@ -29,7 +32,9 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly HttpProxyUsingSystemProxy httpProxyUsingSystemProxy;
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IMetadataService metadataService;
     private readonly IProgressFactory progressFactory;
+    private readonly ILogger<TitleViewModel> logger;
     private readonly IInfoBarService infoBarService;
     private readonly IUpdateService updateService;
     private readonly ITaskContext taskContext;
@@ -60,10 +65,13 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     public UpdateStatus? UpdateStatus { get; set => SetProperty(ref field, value); }
 
+    public bool IsMetadataInitialized { get; set => SetProperty(ref field, value); }
+
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
         ShowUpdateLogWindowAfterUpdate();
         NotifyIfDataFolderHasReparsePoint();
+        WaitMetadataInitializationAsync().SafeForget(logger);
         await DoCheckUpdateAsync().ConfigureAwait(false);
         await CheckProxyAndLoopbackAsync().ConfigureAwait(false);
         return true;
@@ -206,8 +214,22 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
     }
 
-    #region Dev Debug Only
+    private async ValueTask WaitMetadataInitializationAsync()
+    {
+        try
+        {
+            await metadataService.InitializeAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            IsMetadataInitialized = true;
+        }
+    }
+}
 
+internal sealed partial class TitleViewModel
+{
     public static bool IsDebug
     {
         get =>
@@ -218,15 +240,11 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 #endif
     }
 
-    [Command("ReverseAppThemeCommand")]
-    private void ReverseAppTheme()
-    {
 #if DEBUG
-        WinUI.FrameworkTheming.FrameworkTheming.SetTheme(app.RequestedTheme is Microsoft.UI.Xaml.ApplicationTheme.Dark
-            ? WinUI.FrameworkTheming.Theme.Light
-            : WinUI.FrameworkTheming.Theme.Dark);
-#endif
+    [Command("InvertAppThemeCommand")]
+    private void InvertAppTheme()
+    {
+        WinUI.FrameworkTheming.FrameworkTheming.SetTheme(ThemeHelper.ApplicationToFrameworkInvert(app.RequestedTheme));
     }
-
-    #endregion
+#endif
 }
