@@ -692,13 +692,13 @@
     <value>〓更新時期〓</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
-    <value>美服 UTC -5</value>
+    <value>北アメリカ UTC -5</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
-    <value>其他 UTC +8</value>
+    <value>他のサーバ UTC +8</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC -1</value>
+    <value>ヨーロッパ UTC -1</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
@@ -3200,10 +3200,10 @@
     <value>お知らせのサーバー</value>
   </data>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
-    <value>选择材料日历获取当天日期时使用的游戏服务器时区</value>
+    <value>素材カレンダーが当日の日付を取得する際に使用するゲームサーバーのタイムゾーンを選択します</value>
   </data>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
-    <value>日历服务器</value>
+    <value>カレンダーサーバー</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>ホームのダッシュボードでカードを管理する</value>
