@@ -32,7 +32,7 @@ public sealed partial class App : Application
                               |_|
         
         Snap.Hutao is a open source software developed by DGP Studio.
-        Copyright (C) 2022 - 2024 DGP Studio, All Rights Reserved.
+        Copyright (C) 2022 - 2025 DGP Studio, All Rights Reserved.
         ----------------------------------------------------------------
         """;
 

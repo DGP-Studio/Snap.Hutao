@@ -8,37 +8,35 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 
 internal static class WeaponIds
 {
-    public static readonly WeaponId SwordFalcon = 11501;
-    public static readonly WeaponId SwordDvalin = 11502;
-
-    public static readonly WeaponId ClaymoreDvalin = 12501;
-    public static readonly WeaponId ClaymoreWolfmound = 12502;
-
-    public static readonly WeaponId PoleDvalin = 13502;
-    public static readonly WeaponId PoleMorax = 13505;
-
-    public static readonly WeaponId CatalystDvalin = 14501;
-    public static readonly WeaponId CatalystFourwinds = 14502;
-
-    public static readonly WeaponId BowDvalin = 15501;
-    public static readonly WeaponId BowAmos = 15502;
-
-    private static readonly FrozenSet<WeaponId> StandardWishIds =
+    public static readonly FrozenSet<uint> BlueStandardWeaponIds =
     [
-        SwordFalcon,
-        SwordDvalin,
-        ClaymoreDvalin,
-        ClaymoreWolfmound,
-        PoleDvalin,
-        PoleMorax,
-        CatalystDvalin,
-        CatalystFourwinds,
-        BowDvalin,
-        BowAmos,
+        11301U, 11302U, 11306U,
+        12301U, 12302U, 12305U,
+        13303U,
+        14301U, 14302U, 14304U,
+        15301U, 15302U, 15304U
     ];
 
-    public static bool IsStandardWish(in WeaponId weaponId)
+    public static readonly FrozenSet<uint> PurpleStandardWeaponIds =
+    [
+        11401U, 11402U, 11403U, 11405U,
+        12401U, 12402U, 12403U, 12405U,
+        13401U, 13407U,
+        14401U, 14402U, 14403U, 14409U,
+        15401U, 15402U, 15403U, 15405U
+    ];
+
+    public static readonly FrozenSet<WeaponId> OrangeStandardWishIds =
+    [
+        11501U, 11502U,
+        12501U, 12502U,
+        13502U, 13505U,
+        14501U, 14502U,
+        15501U, 15502U,
+    ];
+
+    public static bool IsOrangeStandardWish(in WeaponId weaponId)
     {
-        return StandardWishIds.Contains(weaponId);
+        return OrangeStandardWishIds.Contains(weaponId);
     }
 }

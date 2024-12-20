@@ -105,7 +105,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             {
                 foreach (uint weaponId in gachaEvent.UpOrangeList)
                 {
-                    if (!WeaponIds.IsStandardWish(weaponId))
+                    if (!WeaponIds.IsOrangeStandardWish(weaponId))
                     {
                         Countdown countdown;
                         if (ids.Add(weaponId))
@@ -145,7 +145,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
             {
                 foreach (uint itemId in gachaEvent.UpOrangeList)
                 {
-                    if (!(AvatarIds.IsStandardWish(itemId) || WeaponIds.IsStandardWish(itemId)))
+                    if (!(AvatarIds.IsStandardWish(itemId) || WeaponIds.IsOrangeStandardWish(itemId)))
                     {
                         Countdown countdown;
                         switch (itemId.StringLength())
