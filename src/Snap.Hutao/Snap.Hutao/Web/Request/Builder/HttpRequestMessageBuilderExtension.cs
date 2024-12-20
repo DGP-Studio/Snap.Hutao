@@ -45,7 +45,6 @@ internal static class HttpRequestMessageBuilderExtension
                 context.Exception?.Throw();
                 ArgumentNullException.ThrowIfNull(context.Response);
 
-                context.Response.EnsureSuccessStatusCode();
                 showInfo = false;
                 TResult? body = await builder.HttpContentSerializer.DeserializeAsync<TResult>(context.Response.Content, token).ConfigureAwait(false);
                 return new(context.Response.Headers, body);
@@ -78,6 +77,7 @@ internal static class HttpRequestMessageBuilderExtension
         {
             context.Request = builder.HttpRequestMessage;
             context.Response = await context.HttpClient.SendAsync(context.Request, context.RequestAborted).ConfigureAwait(false);
+            context.Response.EnsureSuccessStatusCode();
         }
         catch (Exception ex)
         {

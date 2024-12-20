@@ -26,26 +26,9 @@ internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
 
     public string Uid { get; set; } = default!;
 
-    [NotMapped]
-    public UserGameRole? UserGameRole { get; set; }
-
     public DailyNote? DailyNote { get; set; }
 
-    [NotMapped]
-    public DailyNoteArchonQuestView ArchonQuestView { get; set; } = default!;
-
     public DateTimeOffset RefreshTime { get; set; }
-
-    [NotMapped]
-    public string RefreshTimeFormatted
-    {
-        get
-        {
-            return RefreshTime == default
-                ? SH.ModelEntityDailyNoteNotRefreshed
-                : SH.FormatModelEntityDailyNoteRefreshTimeFormat(RefreshTime.ToLocalTime());
-        }
-    }
 
     public int ResinNotifyThreshold { get; set; }
 
@@ -67,6 +50,23 @@ internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
 
     public bool ExpeditionNotifySuppressed { get; set; }
 
+    [NotMapped]
+    public UserGameRole? UserGameRole { get; set; }
+
+    [NotMapped]
+    public DailyNoteArchonQuestView? ArchonQuestView { get; set; }
+
+    [NotMapped]
+    public string RefreshTimeFormatted
+    {
+        get
+        {
+            return RefreshTime == default
+                ? SH.ModelEntityDailyNoteNotRefreshed
+                : SH.FormatModelEntityDailyNoteRefreshTimeFormat(RefreshTime.ToLocalTime());
+        }
+    }
+
     public static DailyNoteEntry From(UserAndUid userAndUid)
     {
         return new()
@@ -78,7 +78,7 @@ internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
         };
     }
 
-    public void UpdateDailyNote(DailyNote? dailyNote)
+    public void Update(DailyNote? dailyNote)
     {
         DailyNote = dailyNote;
         OnPropertyChanged(nameof(DailyNote));
@@ -89,7 +89,7 @@ internal sealed partial class DailyNoteEntry : ObservableObject, IAppDbEntity
 
     public void CopyTo(DailyNoteEntry other)
     {
-        other.UpdateDailyNote(DailyNote);
+        other.Update(DailyNote);
 
         other.ResinNotifySuppressed = ResinNotifySuppressed;
         other.OnPropertyChanged(nameof(ResinNotifySuppressed));

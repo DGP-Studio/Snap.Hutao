@@ -132,7 +132,7 @@
                                 BorderBrush="{x:Null}"
                                 BorderThickness="0"
                                 CornerRadius="{ThemeResource ControlCornerRadius}"
-                                Maximum="{Binding ArchonQuestView.Ids.Count, Mode=OneWay}"
+                                Maximum="{Binding ArchonQuestView.Ids.Length, Mode=OneWay}"
                                 Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
                                 Value="{Binding ArchonQuestView.ProgressValue, Mode=OneWay}"/>
                             <shuxci:CachedImage
@@ -147,13 +147,13 @@
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding ArchonQuestView.ProgressFormatted, Mode=OneWay}"
+                                    Text="{Binding ArchonQuestView.FormattedProgress, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
                                 <TextBlock
                                     Opacity="0.6"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding ArchonQuestView.ChapterFormatted, Mode=OneWay}"
+                                    Text="{Binding ArchonQuestView.FormattedChapter, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
                             </StackPanel>

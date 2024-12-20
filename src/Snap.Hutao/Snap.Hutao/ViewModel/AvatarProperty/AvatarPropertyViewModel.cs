@@ -11,8 +11,10 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Service.AvatarInfo;
+using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
@@ -36,6 +38,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 {
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
+    private SummaryFactoryMetadataContext? metadataContext;
     private Summary? summary;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
@@ -62,6 +65,13 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
+        if (!await scopeContext.MetadataService.InitializeAsync().ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        metadataContext = await scopeContext.MetadataService.GetContextAsync<SummaryFactoryMetadataContext>().ConfigureAwait(false);
+
         FilterTokens = [];
         availableTokens = FrozenDictionary.ToFrozenDictionary(
         [
@@ -90,6 +100,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [SuppressMessage("", "SH003")]
     private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOptionKind optionKind, CancellationToken token)
     {
+        ArgumentNullException.ThrowIfNull(metadataContext);
+
         try
         {
             await scopeContext.TaskContext.SwitchToMainThreadAsync();
@@ -105,7 +117,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
                     summaryResult = await scopeContext.AvatarInfoService
-                        .GetSummaryAsync(userAndUid, optionKind, token)
+                        .GetSummaryAsync(metadataContext, userAndUid, optionKind, token)
                         .ConfigureAwait(false);
                 }
             }

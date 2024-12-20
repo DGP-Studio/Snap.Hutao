@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 internal interface ISummaryFactory
 {
-    ValueTask<Summary> CreateAsync(IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token);
+    ValueTask<Summary> CreateAsync(SummaryFactoryMetadataContext context, IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token);
 }

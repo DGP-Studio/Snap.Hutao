@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 
@@ -23,6 +24,8 @@ internal sealed partial class AvatarPropertyViewModelScopeContext
     public partial IAvatarInfoService AvatarInfoService { get; }
 
     public partial IClipboardProvider ClipboardProvider { get; }
+
+    public partial IMetadataService MetadataService { get; }
 
     public partial IInfoBarService InfoBarService { get; }
 

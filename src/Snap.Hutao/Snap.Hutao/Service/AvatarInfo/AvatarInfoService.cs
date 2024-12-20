@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Service.AvatarInfo.Factory;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.ViewModel.User;
 using System.Collections.Immutable;
@@ -18,39 +17,33 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
     private readonly AvatarInfoRepositoryOperation avatarInfoDbBulkOperation;
     private readonly IAvatarInfoRepository avatarInfoRepository;
     private readonly ILogger<AvatarInfoService> logger;
-    private readonly IMetadataService metadataService;
     private readonly ISummaryFactory summaryFactory;
 
-    public async ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default)
+    public async ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(SummaryFactoryMetadataContext context, UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default)
     {
-        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
-        {
-            return new(RefreshResultKind.MetadataNotInitialized, null);
-        }
-
         switch (refreshOptionKind)
         {
             case RefreshOptionKind.RequestFromHoyolabGameRecord:
                 {
                     ImmutableArray<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosAsync(userAndUid, token).ConfigureAwait(false);
-                    Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
+                    Summary summary = await GetSummaryCoreAsync(context, list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary);
                 }
 
             default:
                 {
                     ImmutableArray<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(userAndUid.Uid.Value);
-                    Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
+                    Summary summary = await GetSummaryCoreAsync(context, list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary.Avatars.Count == 0 ? null : summary);
                 }
         }
     }
 
-    private async ValueTask<Summary> GetSummaryCoreAsync(IEnumerable<EntityAvatarInfo> avatarInfos, CancellationToken token)
+    private async ValueTask<Summary> GetSummaryCoreAsync(SummaryFactoryMetadataContext context, IEnumerable<EntityAvatarInfo> avatarInfos, CancellationToken token)
     {
         using (ValueStopwatch.MeasureExecution(logger))
         {
-            return await summaryFactory.CreateAsync(avatarInfos, token).ConfigureAwait(false);
+            return await summaryFactory.CreateAsync(context, avatarInfos, token).ConfigureAwait(false);
         }
     }
 }
