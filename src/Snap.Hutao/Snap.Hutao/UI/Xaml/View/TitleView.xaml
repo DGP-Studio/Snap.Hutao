@@ -106,7 +106,7 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Text="正在初始化元数据"/>
+                        Text="{shuxm:ResourceString Name=ViewTitleMetadataInitializing}"/>
                 </StackPanel>
             </Border>
 
