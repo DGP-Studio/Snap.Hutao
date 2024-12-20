@@ -692,13 +692,13 @@
     <value>〓更新时间〓</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
-    <value>美服 UTC -5</value>
+    <value>美服 UTC-05</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
-    <value>其他 UTC +8</value>
+    <value>其他 UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC -1</value>
+    <value>欧服 UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value></value>
