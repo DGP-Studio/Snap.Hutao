@@ -16,7 +16,7 @@ internal static class DiscordController
     private const long YuanshenId = 1175743396028088370L;
     private const long GenshinImpactId = 1175747474384760962L;
 
-    private static readonly CancellationTokenSource StopTokenSource = new();
+    private static readonly CancellationTokenSource StopCts = new();
     private static readonly Lock SyncRoot = new();
 
     private static long currentClientId;
@@ -26,12 +26,10 @@ internal static class DiscordController
     public static async ValueTask<DiscordResult> SetDefaultActivityAsync(DateTimeOffset startTime)
     {
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        return SetDefaultActivity(startTime);
+        ResetManagerOrIgnore(HutaoAppId);
 
-        static unsafe DiscordResult SetDefaultActivity(in DateTimeOffset startTime)
+        unsafe
         {
-            ResetManagerOrIgnore(HutaoAppId);
-
             if (discordCorePtr is null)
             {
                 return DiscordResult.Ok;
@@ -57,12 +55,10 @@ internal static class DiscordController
     public static async ValueTask<DiscordResult> SetPlayingYuanShenAsync()
     {
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        return SetPlayingYuanShen();
+        ResetManagerOrIgnore(YuanshenId);
 
-        static unsafe DiscordResult SetPlayingYuanShen()
+        unsafe
         {
-            ResetManagerOrIgnore(YuanshenId);
-
             if (discordCorePtr is null)
             {
                 return DiscordResult.Ok;
@@ -92,12 +88,10 @@ internal static class DiscordController
     public static async ValueTask<DiscordResult> SetPlayingGenshinImpactAsync()
     {
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        return SetPlayingGenshinImpact();
+        ResetManagerOrIgnore(GenshinImpactId);
 
-        static unsafe DiscordResult SetPlayingGenshinImpact()
+        unsafe
         {
-            ResetManagerOrIgnore(GenshinImpactId);
-
             if (discordCorePtr is null)
             {
                 return DiscordResult.Ok;
@@ -133,7 +127,7 @@ internal static class DiscordController
 
         lock (SyncRoot)
         {
-            StopTokenSource.Cancel();
+            StopCts.Cancel();
             try
             {
                 discordCorePtr = default;
@@ -170,7 +164,7 @@ internal static class DiscordController
             return;
         }
 
-        _ = DiscordRunCallbacksAsync(StopTokenSource.Token);
+        _ = DiscordRunCallbacksAsync(StopCts.Token);
         isCallbackInitialized = true;
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
@@ -202,7 +196,12 @@ internal static class DiscordController
                     {
                         try
                         {
-                            DiscordResult result = RunDiscordCoreRunCallbacks();
+                            DiscordResult result;
+                            unsafe
+                            {
+                                result = discordCorePtr is not null ? discordCorePtr->run_callbacks(discordCorePtr) : DiscordResult.Ok;
+                            }
+
                             if (result is not DiscordResult.Ok)
                             {
                                 if (result is DiscordResult.NotRunning)
@@ -231,11 +230,6 @@ internal static class DiscordController
             catch (OperationCanceledException)
             {
             }
-        }
-
-        unsafe DiscordResult RunDiscordCoreRunCallbacks()
-        {
-            return discordCorePtr is not null ? discordCorePtr->run_callbacks(discordCorePtr) : DiscordResult.Ok;
         }
     }
 

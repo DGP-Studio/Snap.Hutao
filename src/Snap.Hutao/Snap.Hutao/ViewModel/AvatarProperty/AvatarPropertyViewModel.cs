@@ -71,8 +71,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         metadataContext = await scopeContext.MetadataService.GetContextAsync<SummaryFactoryMetadataContext>().ConfigureAwait(false);
-
-        FilterTokens = [];
         availableTokens = FrozenDictionary.ToFrozenDictionary(
         [
             .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToUri(nv.Name)))),
@@ -85,6 +83,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             await RefreshCoreAsync(userAndUid, RefreshOptionKind.None, CancellationToken).ConfigureAwait(false);
         }
 
+        await scopeContext.TaskContext.SwitchToMainThreadAsync();
+        FilterTokens = [];
         return true;
     }
 

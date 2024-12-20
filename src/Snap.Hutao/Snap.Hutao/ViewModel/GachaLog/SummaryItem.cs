@@ -11,6 +11,7 @@ internal sealed class SummaryItem : Item
 
     public bool IsGuarantee { get; set; }
 
+    // Used in ListView for ProgressBar Maximum Value
     public int GuaranteeOrangeThreshold { get; set; }
 
     public int LastPull { get; set; }
