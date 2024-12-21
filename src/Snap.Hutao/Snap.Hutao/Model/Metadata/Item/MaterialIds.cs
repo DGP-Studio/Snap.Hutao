@@ -84,6 +84,11 @@ internal static class MaterialIds
 
     public static DaysOfWeek GetDaysOfWeek(ReadOnlySpan<MaterialId> ids)
     {
+        if (ids.IsEmpty)
+        {
+            return DaysOfWeek.Any;
+        }
+
         DaysOfWeek first = GetDaysOfWeek(ids[0]);
         foreach (ref readonly MaterialId id in ids[1..])
         {
