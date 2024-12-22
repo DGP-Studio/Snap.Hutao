@@ -8,7 +8,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Windows.Foundation;
-using FrameworkElement = Microsoft.UI.Xaml.FrameworkElement;
 
 namespace Snap.Hutao.Service.Navigation;
 
@@ -39,7 +38,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         paneClosedEventHandler = OnPaneStateChanged;
     }
 
-    public Type? CurrentPageType { get => frame?.Content.GetType(); }
+    public Type? CurrentPageType { get => frame?.Content?.GetType(); }
 
     private NavigationView? NavigationView
     {
