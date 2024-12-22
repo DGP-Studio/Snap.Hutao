@@ -692,13 +692,13 @@
     <value>〓更新時期〓</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
-    <value>美服 UTC-05</value>
+    <value>北アメリカ UTC-05</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
-    <value>其他 UTC+08</value>
+    <value>他のサーバ UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC-01</value>
+    <value>ヨーロッパ UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
@@ -3620,7 +3620,7 @@
     <value>自動連打</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
-    <value>正在初始化元数据</value>
+    <value>メタデータを初期化中</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>
