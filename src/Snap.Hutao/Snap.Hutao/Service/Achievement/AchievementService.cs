@@ -125,22 +125,22 @@ internal sealed partial class AchievementService : IAchievementService
         {
             case ImportStrategyKind.AggressiveMerge:
                 {
-                    IOrderedEnumerable<UIAFItem> orederedUIAF = array.OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Merge(archiveId, orederedUIAF, true);
+                    IOrderedEnumerable<UIAFItem> orderedUIAF = array.OrderBy(a => a.Id);
+                    return achievementDbBulkOperation.Merge(archiveId, orderedUIAF, true);
                 }
 
             case ImportStrategyKind.LazyMerge:
                 {
-                    IOrderedEnumerable<UIAFItem> orederedUIAF = array.OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Merge(archiveId, orederedUIAF, false);
+                    IOrderedEnumerable<UIAFItem> orderedUIAF = array.OrderBy(a => a.Id);
+                    return achievementDbBulkOperation.Merge(archiveId, orderedUIAF, false);
                 }
 
             case ImportStrategyKind.Overwrite:
                 {
-                    IEnumerable<EntityAchievement> orederedUIAF = array
+                    IEnumerable<EntityAchievement> orderedUIAF = array
                         .Select(uiaf => EntityAchievement.From(archiveId, uiaf))
                         .OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Overwrite(archiveId, orederedUIAF);
+                    return achievementDbBulkOperation.Overwrite(archiveId, orderedUIAF);
                 }
 
             default:

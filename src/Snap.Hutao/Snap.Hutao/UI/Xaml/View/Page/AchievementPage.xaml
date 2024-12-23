@@ -232,7 +232,7 @@
             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <Grid Style="{ThemeResource AcrylicSecondaryGridCardStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
+                        <ColumnDefinition Width="{StaticResource CompatGridLength}"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
@@ -243,22 +243,20 @@
                             LocalSettingKeySuffixForCurrent="AchievementPage.AchievementGoals"/>
                         <Viewbox
                             Height="32"
-                            MaxWidth="190"
-                            Margin="8,0,0,0"
+                            MaxWidth="156"
+                            Margin="8,0,8,0"
                             HorizontalAlignment="Left"
                             Stretch="Uniform"
                             StretchDirection="DownOnly">
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
                                 Text="{Binding FinishDescription}"/>
                         </Viewbox>
                     </StackPanel>
 
-                    <CommandBar
-                        Grid.Column="1"
-                        Margin="16,0,0,0"
-                        DefaultLabelPosition="Right">
+                    <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
                         <CommandBar.Resources>
                             <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
                             <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
@@ -268,7 +266,7 @@
                             <AutoSuggestBox
                                 Width="300"
                                 Height="36"
-                                Margin="3,6,6,0"
+                                Margin="4,6,6,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
                                 PlaceholderText="{shuxm:ResourceString Name=ViewPageAchievementSearchPlaceholder}"
