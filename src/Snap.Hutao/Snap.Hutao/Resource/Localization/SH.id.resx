@@ -1128,7 +1128,7 @@
     <value>解锁帧率失败：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>Layanan cadangan data riwayat keinginan akan berakhir pada \n{0:yyyy.MM.dd HH:mm:ss}</value>
+    <value>祈愿记录上传服务有效期至</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Tidak dapat menemukan berkas metadata yang di-cache</value>
