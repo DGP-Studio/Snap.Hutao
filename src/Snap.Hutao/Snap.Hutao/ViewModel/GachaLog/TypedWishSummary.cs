@@ -9,84 +9,84 @@ internal sealed partial class TypedWishSummary : Wish, INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public string? TypeName { get; set; }
+    public required string TypeName { get; init; }
 
-    public string MaxOrangePullFormatted
+    public string FormattedMaxOrangePull
     {
         get => SH.FormatModelBindingGachaTypedWishSummaryMaxOrangePullFormat(MaxOrangePull);
     }
 
-    public string MinOrangePullFormatted
+    public string FormattedMinOrangePull
     {
         get => SH.FormatModelBindingGachaTypedWishSummaryMinOrangePullFormat(MinOrangePull);
     }
 
-    public int LastOrangePull { get; set; }
+    public required int LastOrangePull { get; init; }
 
-    public int LastPurplePull { get; set; }
+    public required int LastPurplePull { get; init; }
 
-    public int GuaranteeOrangeThreshold { get; set; }
+    public required int GuaranteeOrangeThreshold { get; init; }
 
-    public int GuaranteePurpleThreshold { get; set; }
+    public required int GuaranteePurpleThreshold { get; init; }
 
-    public string TotalOrangeFormatted
+    public string FormattedTotalOrange
     {
         get => $"{TotalOrangePull} [{(TotalOrangePercent is double.NaN ? 0D : TotalOrangePercent),6:p2}]";
     }
 
-    public string TotalPurpleFormatted
+    public string FormattedTotalPurple
     {
         get => $"{TotalPurplePull} [{(TotalPurplePercent is double.NaN ? 0D : TotalPurplePercent),6:p2}]";
     }
 
-    public string TotalBlueFormatted
+    public string FormattedTotalBlue
     {
         get => $"{TotalBluePull} [{(TotalBluePercent is double.NaN ? 0D : TotalBluePercent),6:p2}]";
     }
 
-    public string AverageOrangePullFormatted
+    public string FormattedAverageOrangePull
     {
         get => SH.FormatModelBindingGachaTypedWishSummaryAveragePullFormat(AverageOrangePull);
     }
 
     public bool IsPredictPullAvailable { get; set => SetProperty(ref field, value); }
 
-    public string AverageUpOrangePullFormatted
+    public string FormattedAverageUpOrangePull
     {
         get => SH.FormatModelBindingGachaTypedWishSummaryAveragePullFormat(AverageUpOrangePull);
     }
 
-    public string PredictedPullLeftToOrangeFormatted
+    public string FormattedPredictedPullLeftToOrange
     {
         get => SH.FormatViewModelGachaLogPredictedPullLeftToOrange(PredictedPullLeftToOrange, ProbabilityOfPredictedPullLeftToOrange);
     }
 
-    public string ProbabilityOfNextPullIsOrangeFormatted
+    public string FormattedProbabilityOfNextPullIsOrange
     {
         get => SH.FormatViewModelGachaLogProbabilityOfNextPullIsOrange(ProbabilityOfNextPullIsOrange);
     }
 
-    public List<SummaryItem> OrangeList { get; set; } = default!;
+    public required List<SummaryItem> OrangeList { get; init; }
 
-    internal int MaxOrangePull { get; set; }
+    internal required int MaxOrangePull { get; init; }
 
-    internal int MinOrangePull { get; set; }
+    internal required int MinOrangePull { get; init; }
 
-    internal int TotalOrangePull { get; set; }
+    internal required int TotalOrangePull { get; init; }
 
-    internal double TotalOrangePercent { get; set; }
+    internal required double TotalOrangePercent { get; init; }
 
-    internal int TotalPurplePull { get; set; }
+    internal required int TotalPurplePull { get; init; }
 
-    internal double TotalPurplePercent { get; set; }
+    internal required double TotalPurplePercent { get; init; }
 
-    internal int TotalBluePull { get; set; }
+    internal required int TotalBluePull { get; init; }
 
-    internal double TotalBluePercent { get; set; }
+    internal required double TotalBluePercent { get; init; }
 
-    internal double AverageOrangePull { get; set; }
+    internal required double AverageOrangePull { get; init; }
 
-    internal double AverageUpOrangePull { get; set; }
+    internal required double AverageUpOrangePull { get; init; }
 
     internal int PredictedPullLeftToOrange
     {
@@ -94,7 +94,7 @@ internal sealed partial class TypedWishSummary : Wish, INotifyPropertyChanged
         set
         {
             field = value;
-            OnPropertyChanged(nameof(PredictedPullLeftToOrangeFormatted));
+            OnPropertyChanged(nameof(FormattedPredictedPullLeftToOrange));
         }
     }
 
@@ -104,7 +104,7 @@ internal sealed partial class TypedWishSummary : Wish, INotifyPropertyChanged
         set
         {
             field = value;
-            OnPropertyChanged(nameof(PredictedPullLeftToOrangeFormatted));
+            OnPropertyChanged(nameof(FormattedPredictedPullLeftToOrange));
         }
     }
 
@@ -114,7 +114,7 @@ internal sealed partial class TypedWishSummary : Wish, INotifyPropertyChanged
         set
         {
             field = value;
-            OnPropertyChanged(nameof(ProbabilityOfNextPullIsOrangeFormatted));
+            OnPropertyChanged(nameof(FormattedProbabilityOfNextPullIsOrange));
         }
     }
 

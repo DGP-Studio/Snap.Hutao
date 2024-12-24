@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Collections;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Core.Collection;

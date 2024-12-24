@@ -10,9 +10,6 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 简化的祈愿统计工厂
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaStatisticsSlimFactory))]
 internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimFactory

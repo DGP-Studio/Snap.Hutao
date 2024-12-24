@@ -24,15 +24,17 @@ internal sealed class HutaoStatisticsFactory
     public HutaoStatisticsFactory(in HutaoStatisticsFactoryMetadataContext context)
     {
         this.context = context;
-
-        // when in new verion
-        // due to lack of newer metadata
-        // this can crash
         DateTimeOffset now = DateTimeOffset.UtcNow;
-        avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityAvatar);
-        avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.SpecialActivityAvatar);
-        weaponEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityWeapon);
-        chronicledEvent = context.GachaEvents.SingleOrDefault(g => g.From < now && g.To > now && g.Type == GachaType.ActivityCity);
+
+        // Sort the events by time, make next action take O(n) in average
+        List<GachaEvent> events = [.. context.GachaEvents];
+        events.SortBy(b => b.From);
+
+        // When in new version, due to lack of newer metadata, these can crash
+        avatarEvent = events.Last(g => g.From < now && g.To > now && g.Type is GachaType.ActivityAvatar);
+        avatarEvent2 = events.Last(g => g.From < now && g.To > now && g.Type is GachaType.SpecialActivityAvatar);
+        weaponEvent = events.Last(g => g.From < now && g.To > now && g.Type is GachaType.ActivityWeapon);
+        chronicledEvent = events.LastOrDefault(g => g.From < now && g.To > now && g.Type is GachaType.ActivityCity);
     }
 
     public HutaoStatistics Create(GachaEventStatistics raw)
@@ -75,7 +77,7 @@ internal sealed class HutaoStatisticsFactory
                     QualityType.QUALITY_ORANGE => orangeItems,
                     QualityType.QUALITY_PURPLE => purpleItems,
                     QualityType.QUALITY_BLUE => blueItems,
-                    _ => throw HutaoException.NotSupported("意外的物品等级"),
+                    _ => throw HutaoException.NotSupported("Unexpected item quality type."),
                 };
 
                 list.Add(statisticsItem);

@@ -13,10 +13,10 @@ internal static class NavigationExtraDataSupport
         {
             return NotifyRecipientAsync(target, extra);
         }
-        
+
         return Task.CompletedTask;
     }
-    
+
     public static async Task NotifyRecipientAsync(object? target, INavigationExtraData extra)
     {
         if (target is FrameworkElement { DataContext: INavigationRecipient recipient } && extra.Data is not null)

@@ -53,7 +53,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         using (ValueStopwatch.MeasureExecution(logger))
         {
             List<GachaItem> items = gachaLogRepository.GetGachaItemListByArchiveId(archive.InnerId);
-            return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
+            return await gachaStatisticsFactory.CreateAsync(context, items).ConfigureAwait(false);
         }
     }
 

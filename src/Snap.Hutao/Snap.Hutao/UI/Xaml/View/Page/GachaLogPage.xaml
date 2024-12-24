@@ -189,7 +189,7 @@
                     Margin="0,8,0,0"
                     HorizontalAlignment="Right"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{Binding TotalCountFormatted}"/>
+                    Text="{Binding FormattedTotalCount}"/>
                 <ItemsControl
                     Grid.Row="1"
                     MaxWidth="124"
@@ -210,7 +210,7 @@
                     Grid.Row="2"
                     Margin="0,6,0,8"
                     Opacity="0.6"
-                    Text="{Binding TimeSpanFormatted}"/>
+                    Text="{Binding FormattedTimeSpan}"/>
             </Grid>
         </DataTemplate>
 

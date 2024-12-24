@@ -7,9 +7,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 祈愿配置类型比较器
-/// </summary>
 internal sealed class GachaTypeComparer : IComparer<GachaType>
 {
     private static readonly Lazy<GachaTypeComparer> LazyShared = new(() => new());
@@ -23,12 +20,8 @@ internal sealed class GachaTypeComparer : IComparer<GachaType>
         KeyValuePair.Create(GachaType.NewBie, 5),
     ]);
 
-    /// <summary>
-    /// 共享的比较器
-    /// </summary>
     public static GachaTypeComparer Shared { get => LazyShared.Value; }
 
-    /// <inheritdoc/>
     public int Compare(GachaType x, GachaType y)
     {
         return OrderOf(x) - OrderOf(y);

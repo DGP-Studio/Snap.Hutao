@@ -8,5 +8,5 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 
 internal interface IGachaStatisticsFactory
 {
-    ValueTask<GachaStatistics> CreateAsync(List<GachaItem> items, GachaLogServiceMetadataContext context);
+    ValueTask<GachaStatistics> CreateAsync(GachaLogServiceMetadataContext context, List<GachaItem> items);
 }

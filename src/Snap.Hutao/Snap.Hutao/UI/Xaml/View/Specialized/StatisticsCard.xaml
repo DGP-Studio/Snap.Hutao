@@ -156,7 +156,7 @@
                             Margin="0,0,6,0"
                             VerticalAlignment="Center"
                             FontSize="20"
-                            Text="{Binding TotalCountFormatted}"
+                            Text="{Binding FormattedTotalCount}"
                             Visibility="{x:Bind DetailExpander.IsExpanded, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}"/>
                         <shuxc:LayoutSwitch
                             x:Name="ItemsPanelSelector"
@@ -221,7 +221,7 @@
                         HorizontalAlignment="Center"
                         Opacity="0.6"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding TimeSpanFormatted}"/>
+                        Text="{Binding FormattedTimeSpan}"/>
                     <MenuFlyoutSeparator Grid.Column="2"/>
                 </Grid>
 
@@ -251,7 +251,7 @@
                                             Opacity="0.8"
                                             Style="{StaticResource CaptionTextBlockStyle}"
                                             Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeAveragePullText}"/>
-                                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding AverageOrangePullFormatted}"/>
+                                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FormattedAverageOrangePull}"/>
                                     </StackPanel>
                                 </Viewbox>
                             </Border>
@@ -266,7 +266,7 @@
                                                 Opacity="0.8"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"/>
-                                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding AverageUpOrangePullFormatted}"/>
+                                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FormattedAverageUpOrangePull}"/>
                                         </StackPanel>
                                         <TextBlock
                                             HorizontalAlignment="Center"
@@ -289,7 +289,7 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{Binding MaxOrangePullFormatted}"/>
+                                            Text="{Binding FormattedMaxOrangePull}"/>
                                     </Viewbox>
                                 </Border>
                                 <Border Grid.Row="1" Style="{ThemeResource BorderCardStyle}">
@@ -298,7 +298,7 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{Binding MinOrangePullFormatted}"/>
+                                            Text="{Binding FormattedMinOrangePull}"/>
                                     </Viewbox>
                                 </Border>
                             </Grid>
@@ -321,7 +321,7 @@
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                                     <Viewbox StretchDirection="DownOnly">
-                                        <TextBlock Foreground="{StaticResource OrangeColorBrush}" Text="{Binding TotalOrangeFormatted}"/>
+                                        <TextBlock Foreground="{StaticResource OrangeColorBrush}" Text="{Binding FormattedTotalOrange}"/>
                                     </Viewbox>
                                 </StackPanel>
                             </Grid>
@@ -335,7 +335,7 @@
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                                     <Viewbox StretchDirection="DownOnly">
-                                        <TextBlock Foreground="{StaticResource PurpleColorBrush}" Text="{Binding TotalPurpleFormatted}"/>
+                                        <TextBlock Foreground="{StaticResource PurpleColorBrush}" Text="{Binding FormattedTotalPurple}"/>
                                     </Viewbox>
                                 </StackPanel>
                             </Grid>
@@ -349,7 +349,7 @@
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
                                     <Viewbox StretchDirection="DownOnly">
-                                        <TextBlock Foreground="{StaticResource BlueColorBrush}" Text="{Binding TotalBlueFormatted}"/>
+                                        <TextBlock Foreground="{StaticResource BlueColorBrush}" Text="{Binding FormattedTotalBlue}"/>
                                     </Viewbox>
                                 </StackPanel>
                             </Grid>
@@ -367,7 +367,7 @@
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding PredictedPullLeftToOrangeFormatted}"/>
+                                        Text="{Binding FormattedPredictedPullLeftToOrange}"/>
                                 </Viewbox>
                             </Border>
                             <Border Grid.Row="1" Style="{ThemeResource BorderCardStyle}">
@@ -376,7 +376,7 @@
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding ProbabilityOfNextPullIsOrangeFormatted}"/>
+                                        Text="{Binding FormattedProbabilityOfNextPullIsOrange}"/>
                                 </Viewbox>
                             </Border>
                         </Grid>

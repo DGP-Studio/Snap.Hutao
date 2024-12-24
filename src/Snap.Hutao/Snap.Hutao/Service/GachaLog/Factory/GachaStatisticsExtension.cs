@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -37,13 +38,10 @@ internal static class GachaStatisticsExtension
         summaryItems.Reverse();
     }
 
-    public static List<StatisticsItem> ToStatisticsList<TItem>(this Dictionary<TItem, int> dict)
+    public static ImmutableArray<StatisticsItem> ToStatisticsImmutableArray<TItem>(this Dictionary<TItem, int> countDict)
         where TItem : IStatisticsItemConvertible
     {
-        IOrderedEnumerable<StatisticsItem> result = dict
-            .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
-            .OrderByDescending(item => item.Count);
-        return [.. result];
+        return [.. countDict.Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value)).OrderByDescending(item => item.Count)];
     }
 
     [SuppressMessage("", "IDE0057")]

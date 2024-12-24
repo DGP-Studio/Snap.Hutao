@@ -1,27 +1,25 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Hutao.GachaLog;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
 internal readonly struct GachaStatisticsFactoryContext
 {
-    public readonly ITaskContext TaskContext;
-    public readonly HomaGachaLogClient GachaLogClient;
+    public readonly IServiceProvider ServiceProvider;
     public readonly List<Model.Entity.GachaItem> Items;
-    public readonly List<HistoryWishBuilder> HistoryWishBuilders;
+    public readonly ImmutableArray<HistoryWishBuilder> HistoryWishBuilders;
     public readonly GachaLogServiceMetadataContext Metadata;
     private readonly AppOptions appOptions;
 
-    public GachaStatisticsFactoryContext(ITaskContext taskContext, HomaGachaLogClient gachaLogClient, List<Model.Entity.GachaItem> items, List<HistoryWishBuilder> historyWishBuilders, GachaLogServiceMetadataContext metadata, AppOptions appOptions)
+    public GachaStatisticsFactoryContext(IServiceProvider serviceProvider, List<Model.Entity.GachaItem> items, ImmutableArray<HistoryWishBuilder> historyWishBuilders, GachaLogServiceMetadataContext metadata)
     {
-        TaskContext = taskContext;
-        GachaLogClient = gachaLogClient;
+        ServiceProvider = serviceProvider;
         Items = items;
         HistoryWishBuilders = historyWishBuilders;
         Metadata = metadata;
-        this.appOptions = appOptions;
+        this.appOptions = serviceProvider.GetRequiredService<AppOptions>();
     }
 
     public bool IsUnobtainedWishItemVisible { get => appOptions.IsUnobtainedWishItemVisible; }
