@@ -38,7 +38,7 @@
                     <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.LoadCommand}"/>
                 </mxi:Interaction.Behaviors>
                 <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsGachaLogCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -48,7 +48,7 @@
                             <StackPanel Margin="0,0,0,12">
                                 <TextBlock
                                     HorizontalTextAlignment="Center"
-                                    Text="祈愿记录上传服务有效期至"
+                                    Text="{shuxm:ResourceString Name=ServiceHutaoUserGachaLogExpiredAt}"
                                     TextAlignment="Center"/>
                                 <TextBlock
                                     HorizontalTextAlignment="Center"
@@ -119,7 +119,7 @@
                             CommandParameter="{Binding Archives.CurrentItem}"
                             Content="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudUpload}"/>
                     </Grid>
-                    <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                    <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding HutaoCloudViewModel.Options.IsGachaLogCloudServiceAllowed, Converter={StaticResource BoolToVisibilityRevertConverter}}">
                         <StackPanel.Resources>
                             <Thickness x:Key="SettingsCardPadding">16</Thickness>
                             <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>

@@ -113,7 +113,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
     private async ValueTask RefreshUidCollectionAsync()
     {
-        if (Options.IsCloudServiceAllowed)
+        if (Options.IsGachaLogCloudServiceAllowed)
         {
             Response<List<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 

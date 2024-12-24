@@ -12,13 +12,17 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
     public bool IsLoggedIn { get; set => SetProperty(ref field, value); }
 
-    public bool IsCloudServiceAllowed { get; set => SetProperty(ref field, value); }
+    public bool IsGachaLogCloudServiceAllowed { get; set => SetProperty(ref field, value); }
+
+    public bool IsCdnAllowed { get; set => SetProperty(ref field, value); }
 
     public bool IsLicensedDeveloper { get; set => SetProperty(ref field, value); }
 
     public bool IsMaintainer { get; set => SetProperty(ref field, value); }
 
     public string? GachaLogExpireAt { get; set => SetProperty(ref field, value); }
+
+    public string? CdnExpireAt { get; set => SetProperty(ref field, value); }
 
     internal string? Token { get; set; }
 

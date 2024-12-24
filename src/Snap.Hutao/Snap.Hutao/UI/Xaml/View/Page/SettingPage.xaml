@@ -227,6 +227,7 @@
                                                 Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
                                                 Visibility="{Binding HutaoUserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                             <cwc:SettingsCard Description="{Binding HutaoUserOptions.GachaLogExpireAt}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
+                                            <cwc:SettingsCard Description="{Binding HutaoUserOptions.CdnExpireAt}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportCdnExpiredAtHeader}"/>
                                             <cwc:SettingsCard
                                                 Command="{Binding OpenRedeemWebsiteCommand}"
                                                 Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeDescription}"
