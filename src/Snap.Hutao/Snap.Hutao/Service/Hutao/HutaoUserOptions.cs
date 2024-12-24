@@ -20,8 +20,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
     public string? GachaLogExpireAt { get; set => SetProperty(ref field, value); }
 
-    public string? GachaLogExpireAtSlim { get; set => SetProperty(ref field, value); }
-
     internal string? Token { get; set; }
 
     internal TaskCompletionSource Initialization { get; } = new();

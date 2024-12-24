@@ -1119,7 +1119,7 @@
     <value>解锁帧率失败：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>O serviço de backup de dados do histórico de orações expirará em \n{0:dd.MM.yyyy HH:mm:ss}</value>
+    <value>O serviço de backup de dados do histórico de orações expirará em</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Não foi possível localizar o arquivo de metadados em cache</value>

@@ -48,6 +48,10 @@
                             <StackPanel Margin="0,0,0,12">
                                 <TextBlock
                                     HorizontalTextAlignment="Center"
+                                    Text="祈愿记录上传服务有效期至"
+                                    TextAlignment="Center"/>
+                                <TextBlock
+                                    HorizontalTextAlignment="Center"
                                     Text="{Binding HutaoCloudViewModel.Options.GachaLogExpireAt}"
                                     TextAlignment="Center"/>
                                 <TextBlock

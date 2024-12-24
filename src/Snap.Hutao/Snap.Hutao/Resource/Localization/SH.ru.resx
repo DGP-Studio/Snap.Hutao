@@ -1119,7 +1119,7 @@
     <value>Не удалось разблокировать частоту кадров: Ошибка 0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>Запись молитв доступна до \n{0:yyyy.MM.dd HH:mm:ss}</value>
+    <value>Запись молитв доступна до</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Невозможно найти кэш файл метаданных</value>

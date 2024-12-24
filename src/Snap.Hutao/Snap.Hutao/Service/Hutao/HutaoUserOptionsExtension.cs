@@ -59,9 +59,7 @@ internal static class HutaoUserOptionsExtension
             options.IsMaintainer = userInfo.IsMaintainer;
 
             options.IsCloudServiceAllowed = options.IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.UtcNow;
-            string unescaped = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt);
-            options.GachaLogExpireAt = string.Format(CultureInfo.CurrentCulture, unescaped, userInfo.GachaLogExpireAt);
-            options.GachaLogExpireAtSlim = $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}";
+            options.GachaLogExpireAt = $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}";
 
             options.PostInitialization.TrySetResult();
         }
@@ -82,7 +80,6 @@ internal static class HutaoUserOptionsExtension
             options.IsLicensedDeveloper = false;
             options.IsMaintainer = false;
             options.GachaLogExpireAt = null;
-            options.GachaLogExpireAtSlim = null;
             options.IsCloudServiceAllowed = false;
         }
     }
