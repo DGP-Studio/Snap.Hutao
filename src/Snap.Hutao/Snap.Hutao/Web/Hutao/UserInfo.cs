@@ -19,4 +19,6 @@ internal sealed class UserInfo
     /// 祈愿记录服务到期时间
     /// </summary>
     public DateTimeOffset GachaLogExpireAt { get; set; }
+
+    public DateTimeOffset CdnExpireAt { get; set; }
 }

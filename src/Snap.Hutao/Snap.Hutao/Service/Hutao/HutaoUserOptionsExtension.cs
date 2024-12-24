@@ -22,10 +22,10 @@ internal static class HutaoUserOptionsExtension
         return options.Token;
     }
 
-    public static async ValueTask<bool> GetIsCloudServiceAllowedAsync(this HutaoUserOptions options)
+    public static async ValueTask<bool> GetIsCdnAllowedAsync(this HutaoUserOptions options)
     {
         await options.PostInitialization.Task.ConfigureAwait(false);
-        return options.IsCloudServiceAllowed;
+        return options.IsCdnAllowed;
     }
 
     public static async ValueTask<bool> PostLoginSucceedAsync(this HutaoUserOptions options, IServiceProvider serviceProvider, string username, string password, string? token)
@@ -58,8 +58,10 @@ internal static class HutaoUserOptionsExtension
             options.IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
             options.IsMaintainer = userInfo.IsMaintainer;
 
-            options.IsCloudServiceAllowed = options.IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.UtcNow;
+            options.IsGachaLogCloudServiceAllowed = options.IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.UtcNow;
+            options.IsCdnAllowed = options.IsLicensedDeveloper || userInfo.CdnExpireAt > DateTimeOffset.UtcNow;
             options.GachaLogExpireAt = $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}";
+            options.CdnExpireAt = $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}";
 
             options.PostInitialization.TrySetResult();
         }
@@ -80,7 +82,9 @@ internal static class HutaoUserOptionsExtension
             options.IsLicensedDeveloper = false;
             options.IsMaintainer = false;
             options.GachaLogExpireAt = null;
-            options.IsCloudServiceAllowed = false;
+            options.CdnExpireAt = null;
+            options.IsGachaLogCloudServiceAllowed = false;
+            options.IsCdnAllowed = false;
         }
     }
 
