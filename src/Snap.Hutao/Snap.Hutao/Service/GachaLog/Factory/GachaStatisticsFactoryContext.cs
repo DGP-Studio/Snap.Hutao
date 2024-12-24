@@ -19,7 +19,7 @@ internal readonly struct GachaStatisticsFactoryContext
         Items = items;
         HistoryWishBuilders = historyWishBuilders;
         Metadata = metadata;
-        this.appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        appOptions = serviceProvider.GetRequiredService<AppOptions>();
     }
 
     public bool IsUnobtainedWishItemVisible { get => appOptions.IsUnobtainedWishItemVisible; }

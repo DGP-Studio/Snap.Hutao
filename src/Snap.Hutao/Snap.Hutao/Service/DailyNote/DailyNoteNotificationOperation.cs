@@ -8,8 +8,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote.NotifySuppression;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.DailyNote;
 

@@ -4,8 +4,6 @@
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
-using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Hutao;
 
