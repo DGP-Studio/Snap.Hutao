@@ -81,6 +81,12 @@ internal sealed class SummaryAvatarFactory
         HashSet<SkillId> constellationIds = [];
         Dictionary<SkillId, SkillLevel> levels = [];
 
+        // 达达利亚天赋：普攻技能等级+1
+        if (depot.Inherents is [_, _, { } inherent] && inherent.GroupId == 3323U)
+        {
+            levels.Add(depot.CompositeSkillsNoInherents[0].Id, 1);
+        }
+
         foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(constellations))
         {
             // Constellations are activated in order, so if the current constellation is
