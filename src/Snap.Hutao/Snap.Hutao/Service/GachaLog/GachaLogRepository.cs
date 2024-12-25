@@ -98,7 +98,7 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
         return this.SingleOrDefault<GachaArchive>(a => a.Uid == uid);
     }
 
-    public void AddGachaItemRange(List<GachaItem> items)
+    public void AddGachaItemRange(IEnumerable<GachaItem> items)
     {
         this.AddRange(items);
     }

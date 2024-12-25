@@ -7,6 +7,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using System.Collections.Immutable;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.GachaLog;
@@ -81,7 +82,7 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<List<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<ImmutableArray<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
     {
         UidAndEndIds uidAndEndIds = new(uid, endIds);
 
@@ -91,8 +92,8 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        HutaoResponse<List<GachaItem>>? resp = await builder
-            .SendAsync<HutaoResponse<List<GachaItem>>>(httpClient, logger, token)
+        HutaoResponse<ImmutableArray<GachaItem>>? resp = await builder
+            .SendAsync<HutaoResponse<ImmutableArray<GachaItem>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

@@ -12,6 +12,7 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -126,15 +127,15 @@ internal sealed partial class GachaLogService : IGachaLogService
     private async ValueTask<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(Archives);
+        GachaLogFetchContext fetchContext = new(gachaLogRepository, context, isLazy);
 
-        GachaLogFetchContext fetchContext = new(gachaLogRepository, taskContext, context, isLazy);
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             GachaInfoClient gachaInfoClient = scope.ServiceProvider.GetRequiredService<GachaInfoClient>();
 
             foreach (GachaType configType in GachaLog.QueryTypes)
             {
-                fetchContext.ResetForProcessingType(configType, query);
+                fetchContext.ResetType(configType, query);
 
                 do
                 {
@@ -142,14 +143,15 @@ internal sealed partial class GachaLogService : IGachaLogService
                         .GetGachaLogPageAsync(fetchContext.TypedQueryOptions, token)
                         .ConfigureAwait(false);
 
+                    // Fast break fetching if authkey timeout
                     if (!ResponseValidator.TryValidateWithoutUINotification(response, out GachaLogPage? page))
                     {
                         fetchContext.Report(progress, isAuthKeyTimeout: true);
                         break;
                     }
 
-                    List<GachaLogItem> items = page.List;
-                    fetchContext.ResetForProcessingPage();
+                    fetchContext.ResetCurrentPage();
+                    ImmutableArray<GachaLogItem> items = page.List;
 
                     foreach (GachaLogItem item in items)
                     {
@@ -161,32 +163,34 @@ internal sealed partial class GachaLogService : IGachaLogService
                         }
                         else
                         {
-                            fetchContext.CompleteAdding();
+                            fetchContext.CompleteCurrentTypeAdding();
                             break;
                         }
                     }
 
                     fetchContext.Report(progress);
+                    await Task.Delay(Random.Shared.Next(1000, 2000), token).ConfigureAwait(false);
 
-                    if (fetchContext.ItemsHaveReachEnd(items))
+                    if (fetchContext.HasReachCurrentTypeEnd(items))
                     {
-                        // exit current type fetch loop
+                        // Exit current type fetch loop
                         break;
                     }
-
-                    await Task.Delay(Random.Shared.Next(1000, 2000), token).ConfigureAwait(false);
                 }
                 while (true);
 
+                // Fast break query type loop if authkey timeout, skip saving items
                 if (fetchContext.FetchStatus.AuthKeyTimeout)
                 {
                     break;
                 }
 
-                // save items for each queryType
+                // Save items for each queryType
                 token.ThrowIfCancellationRequested();
                 fetchContext.SaveItems();
-                await Task.Delay((int)(Random.Shared.NextDouble() * (2000 - 1000)) + 1000, token).ConfigureAwait(false);
+
+                // Delay between query types
+                await Task.Delay(Random.Shared.Next(1000, 2000), token).ConfigureAwait(false);
             }
         }
 

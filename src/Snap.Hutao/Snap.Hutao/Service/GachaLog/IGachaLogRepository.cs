@@ -12,7 +12,7 @@ internal interface IGachaLogRepository : IRepository<GachaArchive>, IRepository<
 {
     void AddGachaArchive(GachaArchive archive);
 
-    void AddGachaItemRange(List<GachaItem> items);
+    void AddGachaItemRange(IEnumerable<GachaItem> items);
 
     void RemoveGachaArchiveById(Guid archiveId);
 

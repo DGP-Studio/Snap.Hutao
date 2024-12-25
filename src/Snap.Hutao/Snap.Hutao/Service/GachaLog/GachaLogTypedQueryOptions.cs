@@ -22,9 +22,6 @@ internal struct GachaLogTypedQueryOptions
     public GachaLogTypedQueryOptions(in GachaLogQuery query, GachaType queryType)
     {
         IsOversea = query.IsOversea;
-
-        // 对于每个类型我们需要单独创建
-        // 对应类型的 GachaLogQueryOptions
         Type = queryType;
         innerQuery = HttpUtility.ParseQueryString(query.Query);
         innerQuery.Set("gacha_type", $"{queryType:D}");

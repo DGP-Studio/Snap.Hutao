@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -17,215 +17,85 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Transient, typeof(IGachaLogWishCountdownService))]
 internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountdownService
 {
-    private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
 
-    private GachaLogWishCountdownServiceMetadataContext? context;
-
-    public async ValueTask<bool> InitializeAsync()
+    public async ValueTask<WishCountdownBundle> GetWishCountdownBundleAsync(GachaLogWishCountdownServiceMetadataContext context)
     {
-        if (context is { IsInitialized: true })
-        {
-            return true;
-        }
-
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
-        {
-            context = await metadataService.GetContextAsync<GachaLogWishCountdownServiceMetadataContext>()
-                .ConfigureAwait(false);
-            return true;
-        }
-
-        return false;
+        await taskContext.SwitchToBackgroundAsync();
+        return GetWishCountdownBundleCore(context);
     }
 
-    public async ValueTask<ValueResult<bool, WishCountdowns>> GetWishCountdownsAsync()
+    private static WishCountdownBundle GetWishCountdownBundleCore(GachaLogWishCountdownServiceMetadataContext context)
     {
-        if (!await InitializeAsync().ConfigureAwait(false))
+        Dictionary<uint, Countdown> idToCountdown = [];
+
+        ImmutableArray<Countdown>.Builder orangeAvatarCountdowns = ImmutableArray.CreateBuilder<Countdown>();
+        ImmutableArray<Countdown>.Builder purpleAvatarCountdowns = ImmutableArray.CreateBuilder<Countdown>();
+        ImmutableArray<Countdown>.Builder orangeWeaponCountdowns = ImmutableArray.CreateBuilder<Countdown>();
+        ImmutableArray<Countdown>.Builder purpleWeaponCountdowns = ImmutableArray.CreateBuilder<Countdown>();
+
+        ImmutableArray<GachaEvent> events = [.. context.GachaEvents.OrderByDescending(b => b.From)];
+        foreach (ref readonly GachaEvent gachaEvent in events.AsSpan())
         {
-            return new(false, default!);
-        }
-
-        return new(true, GetWishCountdownsCore());
-    }
-
-    private WishCountdowns GetWishCountdownsCore()
-    {
-        ArgumentNullException.ThrowIfNull(context);
-
-        HashSet<uint> ids = [];
-
-        List<Countdown> orangeAvatarCountdowns = [];
-        List<Countdown> purpleAvatarCountdowns = [];
-        List<Countdown> orangeWeaponCountdowns = [];
-        List<Countdown> purpleWeaponCountdowns = [];
-
-        foreach (GachaEvent gachaEvent in context.GachaEvents.Reverse())
-        {
-            if (gachaEvent.Type is GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar)
+            foreach (uint itemId in gachaEvent.UpOrangeList)
             {
-                foreach (uint avatarId in gachaEvent.UpOrangeList)
+                switch (itemId.StringLength())
                 {
-                    if (!AvatarIds.IsStandardWish(avatarId))
-                    {
-                        Countdown countdown;
-                        if (ids.Add(avatarId))
+                    case 8U:
+                        if (!AvatarIds.IsStandardWish(itemId))
                         {
-                            countdown = new(context.GetAvatar(avatarId).ToItem<Item>());
-                            orangeAvatarCountdowns.Insert(0, countdown);
-                        }
-                        else
-                        {
-                            countdown = orangeAvatarCountdowns.Single(c => c.Item.Id == avatarId);
+                            TrackItemId(context, idToCountdown, orangeAvatarCountdowns, gachaEvent, itemId);
                         }
 
-                        countdown.Histories.Add(new(gachaEvent));
-                    }
+                        break;
+
+                    case 5U:
+                        if (!WeaponIds.IsOrangeStandardWish(itemId))
+                        {
+                            TrackItemId(context, idToCountdown, orangeWeaponCountdowns, gachaEvent, itemId);
+                        }
+
+                        break;
+
+                    default:
+                        throw HutaoException.NotSupported();
                 }
-
-                foreach (uint avatarId in gachaEvent.UpPurpleList)
-                {
-                    Countdown countdown;
-                    if (ids.Add(avatarId))
-                    {
-                        countdown = new(context.GetAvatar(avatarId).ToItem<Item>());
-                        purpleAvatarCountdowns.Insert(0, countdown);
-                    }
-                    else
-                    {
-                        countdown = purpleAvatarCountdowns.Single(c => c.Item.Id == avatarId);
-                    }
-
-                    countdown.Histories.Add(new(gachaEvent));
-                }
-
-                continue;
             }
 
-            if (gachaEvent.Type is GachaType.ActivityWeapon)
+            foreach (uint itemId in gachaEvent.UpPurpleList)
             {
-                foreach (uint weaponId in gachaEvent.UpOrangeList)
+                switch (itemId.StringLength())
                 {
-                    if (!WeaponIds.IsOrangeStandardWish(weaponId))
-                    {
-                        Countdown countdown;
-                        if (ids.Add(weaponId))
-                        {
-                            countdown = new(context.GetWeapon(weaponId).ToItem<Item>());
-                            orangeWeaponCountdowns.Insert(0, countdown);
-                        }
-                        else
-                        {
-                            countdown = orangeWeaponCountdowns.Single(c => c.Item.Id == weaponId);
-                        }
-
-                        countdown.Histories.Add(new(gachaEvent));
-                    }
-                }
-
-                foreach (uint weaponId in gachaEvent.UpPurpleList)
-                {
-                    Countdown countdown;
-                    if (ids.Add(weaponId))
-                    {
-                        countdown = new(context.GetWeapon(weaponId).ToItem<Item>());
-                        purpleWeaponCountdowns.Insert(0, countdown);
-                    }
-                    else
-                    {
-                        countdown = purpleWeaponCountdowns.Single(c => c.Item.Id == weaponId);
-                    }
-
-                    countdown.Histories.Add(new(gachaEvent));
-                }
-
-                continue;
-            }
-
-            if (gachaEvent.Type is GachaType.ActivityCity)
-            {
-                foreach (uint itemId in gachaEvent.UpOrangeList)
-                {
-                    if (!(AvatarIds.IsStandardWish(itemId) || WeaponIds.IsOrangeStandardWish(itemId)))
-                    {
-                        Countdown countdown;
-                        switch (itemId.StringLength())
-                        {
-                            case 8U:
-                                if (ids.Add(itemId))
-                                {
-                                    countdown = new(context.GetAvatar(itemId).ToItem<Item>());
-                                    orangeAvatarCountdowns.Insert(0, countdown);
-                                }
-                                else
-                                {
-                                    countdown = orangeAvatarCountdowns.Single(c => c.Item.Id == itemId);
-                                }
-
-                                break;
-                            case 5U:
-                                if (ids.Add(itemId))
-                                {
-                                    countdown = new(context.GetWeapon(itemId).ToItem<Item>());
-                                    orangeWeaponCountdowns.Insert(0, countdown);
-                                }
-                                else
-                                {
-                                    countdown = orangeWeaponCountdowns.Single(c => c.Item.Id == itemId);
-                                }
-
-                                break;
-                            default:
-                                throw HutaoException.NotSupported();
-                        }
-
-                        countdown.Histories.Add(new(gachaEvent));
-                    }
-                }
-
-                foreach (uint itemId in gachaEvent.UpPurpleList)
-                {
-                    Countdown countdown;
-                    switch (itemId.StringLength())
-                    {
-                        case 8U:
-                            if (ids.Add(itemId))
-                            {
-                                countdown = new(context.GetAvatar(itemId).ToItem<Item>());
-                                purpleAvatarCountdowns.Insert(0, countdown);
-                            }
-                            else
-                            {
-                                countdown = purpleAvatarCountdowns.Single(c => c.Item.Id == itemId);
-                            }
-
-                            break;
-                        case 5U:
-                            if (ids.Add(itemId))
-                            {
-                                countdown = new(context.GetWeapon(itemId).ToItem<Item>());
-                                purpleWeaponCountdowns.Insert(0, countdown);
-                            }
-                            else
-                            {
-                                countdown = purpleWeaponCountdowns.Single(c => c.Item.Id == itemId);
-                            }
-
-                            break;
-                        default:
-                            throw HutaoException.NotSupported();
-                    }
-
-                    countdown.Histories.Add(new(gachaEvent));
+                    case 8U:
+                        TrackItemId(context, idToCountdown, purpleAvatarCountdowns, gachaEvent, itemId);
+                        break;
+                    case 5U:
+                        TrackItemId(context, idToCountdown, purpleWeaponCountdowns, gachaEvent, itemId);
+                        break;
+                    default:
+                        throw HutaoException.NotSupported();
                 }
             }
         }
 
         return new()
         {
-            OrangeAvatars = orangeAvatarCountdowns,
-            PurpleAvatars = purpleAvatarCountdowns,
-            OrangeWeapons = orangeWeaponCountdowns,
-            PurpleWeapons = purpleWeaponCountdowns,
+            OrangeAvatars = orangeAvatarCountdowns.ToImmutable(),
+            PurpleAvatars = purpleAvatarCountdowns.ToImmutable(),
+            OrangeWeapons = orangeWeaponCountdowns.ToImmutable(),
+            PurpleWeapons = purpleWeaponCountdowns.ToImmutable(),
         };
+    }
+
+    private static void TrackItemId(GachaLogWishCountdownServiceMetadataContext context, Dictionary<uint, Countdown> idToCountdown, ImmutableArray<Countdown>.Builder builder, GachaEvent gachaEvent, uint itemId)
+    {
+        ref Countdown? countdown = ref CollectionsMarshal.GetValueRefOrAddDefault(idToCountdown, itemId, out _);
+        if (countdown is null)
+        {
+            countdown = new(context.GetAvatar(itemId).GetOrCreateItem());
+            builder.Insert(0, countdown);
+        }
+
+        countdown.Histories.Add(new(gachaEvent));
     }
 }

@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
@@ -10,20 +12,22 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class WishCountdownViewModel : Abstraction.ViewModelSlim
 {
     private readonly IGachaLogWishCountdownService gachaLogWishCountdownService;
+    private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    public WishCountdowns? WishCountdowns { get; set => SetProperty(ref field, value); }
+    public WishCountdownBundle? WishCountdowns { get; set => SetProperty(ref field, value); }
 
     protected override async Task LoadAsync()
     {
-        await taskContext.SwitchToBackgroundAsync();
-        (bool isOk, WishCountdowns countdowns) = await gachaLogWishCountdownService.GetWishCountdownsAsync().ConfigureAwait(false);
-
-        if (isOk)
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToMainThreadAsync();
-            WishCountdowns = countdowns;
-            IsInitialized = true;
+            return;
         }
+
+        GachaLogWishCountdownServiceMetadataContext context = await metadataService.GetContextAsync<GachaLogWishCountdownServiceMetadataContext>().ConfigureAwait(false);
+        WishCountdownBundle countdowns = await gachaLogWishCountdownService.GetWishCountdownBundleAsync(context).ConfigureAwait(false);
+        await taskContext.SwitchToMainThreadAsync();
+        WishCountdowns = countdowns;
+        IsInitialized = true;
     }
 }
