@@ -382,7 +382,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
         HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
 
-        LaunchScheme launchScheme = KnownLaunchSchemes.Get().First(s => s.IsOversea == ExtractExeOptions.IsOversea);
+        LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(s => s.IsOversea == ExtractExeOptions.IsOversea);
 
         Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
         if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))

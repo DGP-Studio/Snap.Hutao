@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Scheme;
 
@@ -22,32 +23,24 @@ internal static class KnownLaunchSchemes
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelEpic = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Epic);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelGoogle = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Google);
 
-    /// <summary>
-    /// 获取已知的启动方案
-    /// </summary>
-    /// <returns>已知的启动方案</returns>
-    public static List<LaunchScheme> Get()
-    {
-        return
-        [
+    public static ImmutableArray<LaunchScheme> Values { get; } =
+    [
+        // 官服
+        ServerChineseChannelDefaultSubChannelDefaultCompat,
+        ServerChineseChannelOfficialSubChannelDefault,
+        ServerChineseChannelOfficialSubChannelOfficial,
+        ServerChineseChannelOfficialSubChannelNoTapTap,
+        ServerChineseChannelOfficialSubChannelEpicCompat,
 
-            // 官服
-            ServerChineseChannelDefaultSubChannelDefaultCompat,
-            ServerChineseChannelOfficialSubChannelDefault,
-            ServerChineseChannelOfficialSubChannelOfficial,
-            ServerChineseChannelOfficialSubChannelNoTapTap,
-            ServerChineseChannelOfficialSubChannelEpicCompat,
+        // 渠道服
+        ServerChineseChannelBilibiliSubChannelDefault,
+        ServerChineseChannelBilibiliSubChannelOfficialCompat,
 
-            // 渠道服
-            ServerChineseChannelBilibiliSubChannelDefault,
-            ServerChineseChannelBilibiliSubChannelOfficialCompat,
-
-            // 国际服
-            ServerGlobalChannelDefaultSubChannelDefaultCompat,
-            ServerGlobalChannelOfficialSubChannelDefault,
-            ServerGlobalChannelOfficialSubChannelOfficial,
-            ServerGlobalChannelOfficialSubChannelEpic,
-            ServerGlobalChannelOfficialSubChannelGoogle,
-        ];
-    }
+        // 国际服
+        ServerGlobalChannelDefaultSubChannelDefaultCompat,
+        ServerGlobalChannelOfficialSubChannelDefault,
+        ServerGlobalChannelOfficialSubChannelOfficial,
+        ServerGlobalChannelOfficialSubChannelEpic,
+        ServerGlobalChannelOfficialSubChannelGoogle,
+    ];
 }

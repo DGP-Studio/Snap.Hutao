@@ -16,7 +16,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
     {
         if (context.Options.UsingHoyolabAccount)
         {
-            if (!await HandleMiYouSheAccountAsync(context).ConfigureAwait(false))
+            if (!await HandleHoyolabAccountAsync(context).ConfigureAwait(false))
             {
                 return;
             }
@@ -39,7 +39,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
         await next().ConfigureAwait(false);
     }
 
-    private static async ValueTask<bool> HandleMiYouSheAccountAsync(LaunchExecutionContext context)
+    private static async ValueTask<bool> HandleHoyolabAccountAsync(LaunchExecutionContext context)
     {
         if (context.TargetScheme.GetSchemeType() is SchemeType.ChineseBilibili)
         {

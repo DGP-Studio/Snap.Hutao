@@ -10,9 +10,6 @@ using System.Text;
 
 namespace Snap.Hutao.Service.Game.Account;
 
-/// <summary>
-/// 注册表操作
-/// </summary>
 internal static class RegistryInterop
 {
     private const string ChineseKeyName = @"HKEY_CURRENT_USER\Software\miHoYo\原神";

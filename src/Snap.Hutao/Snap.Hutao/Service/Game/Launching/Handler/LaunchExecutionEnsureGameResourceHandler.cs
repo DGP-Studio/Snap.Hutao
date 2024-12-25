@@ -293,6 +293,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
             Value = value;
         }
 
+        [field: MaybeNull]
         public IGameFileSystem Value
         {
             private get;

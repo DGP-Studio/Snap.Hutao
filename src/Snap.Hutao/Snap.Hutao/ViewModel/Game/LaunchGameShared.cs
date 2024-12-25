@@ -33,7 +33,7 @@ internal sealed partial class LaunchGameShared
             case ChannelOptionsErrorKind.None:
                 try
                 {
-                    return KnownLaunchSchemes.Get().Single(scheme => scheme.Equals(options));
+                    return KnownLaunchSchemes.Values.Single(scheme => scheme.Equals(options));
                 }
                 catch (InvalidOperationException)
                 {
@@ -87,7 +87,7 @@ internal sealed partial class LaunchGameShared
 
             await taskContext.SwitchToMainThreadAsync();
 
-            dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
+            dialog.KnownSchemes = KnownLaunchSchemes.Values.Where(scheme => scheme.IsOversea == isOversea);
             dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
             (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
 

@@ -51,7 +51,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public partial GamePackageViewModel GamePackageViewModel { get; }
 
-    public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
+    public ImmutableArray<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Values;
 
     public LaunchScheme? SelectedScheme
     {

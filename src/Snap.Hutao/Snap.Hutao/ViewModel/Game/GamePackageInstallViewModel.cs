@@ -28,7 +28,8 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        LaunchScheme launchScheme = KnownLaunchSchemes.Get().First(scheme => scheme.IsNotCompatOnly);
+        // TODO: Why we are using this instead of Selected one?
+        LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(scheme => scheme.IsNotCompatOnly);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -60,7 +61,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         }
 
         LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
-        dialog.KnownSchemes = KnownLaunchSchemes.Get();
+        dialog.KnownSchemes = KnownLaunchSchemes.Values;
         dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
         (bool isOk, GameInstallOptions gameInstallOptions) = await dialog.GetGameInstallOptionsAsync().ConfigureAwait(false);
 
