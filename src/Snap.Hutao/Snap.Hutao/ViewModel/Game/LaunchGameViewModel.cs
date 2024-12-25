@@ -32,7 +32,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 

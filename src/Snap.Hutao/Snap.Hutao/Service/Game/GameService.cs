@@ -12,8 +12,8 @@ using Snap.Hutao.Service.Game.PathAbstraction;
 namespace Snap.Hutao.Service.Game;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGameServiceFacade))]
-internal sealed partial class GameServiceFacade : IGameServiceFacade
+[Injection(InjectAs.Singleton, typeof(IGameService))]
+internal sealed partial class GameService : IGameService
 {
     private readonly IGameChannelOptionsService gameChannelOptionsService;
     private readonly IGameAccountService gameAccountService;

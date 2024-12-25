@@ -20,7 +20,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly CultureOptions cultureOptions;
 
     [GeneratedRegex("^[1-9]+?\\.[0-9]+?\\.[0-9]+?\\.[0-9]+?$")]

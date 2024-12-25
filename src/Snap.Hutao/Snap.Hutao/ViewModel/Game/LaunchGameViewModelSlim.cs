@@ -19,7 +19,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 {
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 

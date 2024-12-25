@@ -8,7 +8,7 @@ using Snap.Hutao.Service.Game.Configuration;
 
 namespace Snap.Hutao.Service.Game;
 
-internal interface IGameServiceFacade
+internal interface IGameService
 {
     ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme);
 

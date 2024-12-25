@@ -19,7 +19,7 @@ internal sealed partial class LaunchGameShared
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;

@@ -70,7 +70,6 @@ internal static class GameFileSystemExtension
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
-        // ReSharper disable once InconsistentNaming
         if (GameFileSystemPcGameSdkFilePaths.TryGetValue(gameFileSystem, out string? pcGameSdkFilePath))
         {
             return pcGameSdkFilePath;
