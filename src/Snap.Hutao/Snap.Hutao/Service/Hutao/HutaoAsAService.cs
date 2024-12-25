@@ -25,6 +25,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
     {
         if (announcements is null)
         {
+            // Strong reference
             RelayCommand<HutaoAnnouncement> dismissCommand = new(DismissAnnouncement);
 
             ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, []);

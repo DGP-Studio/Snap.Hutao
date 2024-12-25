@@ -10,6 +10,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 using Snap.Hutao.Web.Hutao.Geetest;
 using Snap.Hutao.Web.Response;
+using System.Buffers.Text;
 using System.Text;
 
 namespace Snap.Hutao.Service.Geetest;
@@ -42,7 +43,7 @@ internal sealed partial class GeetestService : IGeetestService
         GeetestWebResponse? webResponse = JsonSerializer.Deserialize<GeetestWebResponse>(result);
         ArgumentNullException.ThrowIfNull(webResponse);
 
-        return new GeetestData
+        return new()
         {
             Gt = gt,
             Challenge = webResponse.Challenge,
@@ -93,7 +94,7 @@ internal sealed partial class GeetestService : IGeetestService
 
         GeetestWebResponse result = new(data.Challenge, data.Validate);
 
-        provider.Aigis = $"{session.SessionId};{Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result)))}";
+        provider.Aigis = $"{session.SessionId};{Convert.ToBase64String(JsonSerializer.SerializeToUtf8Bytes(result))}";
         return true;
     }
 

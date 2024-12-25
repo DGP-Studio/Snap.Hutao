@@ -20,6 +20,7 @@
     xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
+    xmlns:shwhh="using:Snap.Hutao.Web.Hutao.HutaoAsAService"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -160,13 +161,14 @@
             </ItemsControl>
         </DataTemplate>
 
-        <DataTemplate x:Key="HutaoAnnouncementTemplate">
+        <DataTemplate x:Key="HutaoAnnouncementTemplate" x:DataType="shwhh:Announcement">
             <InfoBar
                 Title="{Binding Title}"
                 Margin="0,0,0,0"
                 shuxc:InfoBarHelper.IsTextSelectionEnabled="True"
                 CloseButtonCommand="{Binding DismissCommand}"
                 CloseButtonCommandParameter="{Binding}"
+                IsClosable="{Binding CanDismiss}"
                 IsOpen="True"
                 Message="{Binding Content}"
                 Severity="{Binding Severity}">
