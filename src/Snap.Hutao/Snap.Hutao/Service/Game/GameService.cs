@@ -56,6 +56,6 @@ internal sealed partial class GameService : IGameService
 
     public bool IsGameRunning()
     {
-        return LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out _);
+        return LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning();
     }
 }

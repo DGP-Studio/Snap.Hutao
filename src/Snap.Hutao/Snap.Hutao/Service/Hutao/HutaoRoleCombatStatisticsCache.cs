@@ -20,7 +20,7 @@ internal sealed partial class HutaoRoleCombatStatisticsCache : IHutaoRoleCombatS
 
     private ImmutableDictionary<AvatarId, Avatar>? idAvatarExtendedMap;
 
-    private TaskCompletionSource<bool>? databaseViewModelTaskSource;
+    private TaskCompletionSource<bool>? databaseViewModelTcs;
 
     public int RecordTotal { get; set; }
 
@@ -28,22 +28,22 @@ internal sealed partial class HutaoRoleCombatStatisticsCache : IHutaoRoleCombatS
 
     public async ValueTask<bool> InitializeForRoleCombatViewAsync()
     {
-        if (databaseViewModelTaskSource is not null)
+        if (databaseViewModelTcs is not null)
         {
-            return await databaseViewModelTaskSource.Task.ConfigureAwait(false);
+            return await databaseViewModelTcs.Task.ConfigureAwait(false);
         }
 
-        databaseViewModelTaskSource = new();
+        databaseViewModelTcs = new();
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             ImmutableDictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
             await AvatarAppearancesAsync(idAvatarMap).ConfigureAwait(false);
 
-            databaseViewModelTaskSource.TrySetResult(true);
+            databaseViewModelTcs.TrySetResult(true);
             return true;
         }
 
-        databaseViewModelTaskSource.TrySetResult(false);
+        databaseViewModelTcs.TrySetResult(false);
         return false;
     }
 

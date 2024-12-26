@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Game.Scheme;
 
 namespace Snap.Hutao.Service.Game;
 
-internal static class GameServiceFacadeExtension
+internal static class GameServiceExtension
 {
     public static GameAccount? DetectCurrentGameAccount(this IGameService gameService, LaunchScheme scheme)
     {
