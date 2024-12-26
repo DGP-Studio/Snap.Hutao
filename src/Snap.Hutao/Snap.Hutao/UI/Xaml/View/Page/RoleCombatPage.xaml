@@ -189,6 +189,13 @@
                     Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="0,0,0,1"/>
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="8"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{Binding FinishTimeString}"
+                    TextAlignment="Center"/>
                 <StackPanel
                     Grid.Row="0"
                     Grid.Column="0"
@@ -207,13 +214,6 @@
                         Visibility="{Binding IsGetMedal, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                     <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding RoundId}"/>
                 </StackPanel>
-                <TextBlock
-                    Grid.Row="0"
-                    Margin="8"
-                    HorizontalAlignment="Right"
-                    Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{Binding FinishTimeString}"
-                    TextAlignment="Center"/>
 
                 <Grid
                     Grid.Row="1"
@@ -548,17 +548,12 @@
                                         Quality="{Binding Quality}"/>
                                 </shuxcc:HorizontalCard.Left>
                                 <shuxcc:HorizontalCard.Right>
-                                    <StackPanel
+                                    <TextBlock
                                         Width="64"
-                                        Margin="8,8,8,8"
+                                        Margin="8"
                                         HorizontalAlignment="Center"
-                                        Spacing="2">
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/>
-                                        <shuxct:RateDeltaTextBlock
-                                            HorizontalAlignment="Center"
-                                            Text="{Binding RateDelta}"
-                                            TextStyle="{StaticResource CaptionTextBlockStyle}"/>
-                                    </StackPanel>
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Rate}"/>
                                 </shuxcc:HorizontalCard.Right>
                             </shuxcc:HorizontalCard>
                         </DataTemplate>
