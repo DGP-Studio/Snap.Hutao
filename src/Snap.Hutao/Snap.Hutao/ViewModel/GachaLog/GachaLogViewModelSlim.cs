@@ -18,7 +18,7 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    public IReadOnlyList<GachaStatisticsSlim> StatisticsList { get; set => SetProperty(ref field, value); } = [];
+    public ImmutableArray<GachaStatisticsSlim> StatisticsList { get; set => SetProperty(ref field, value); } = [];
 
     protected override async Task LoadAsync()
     {
