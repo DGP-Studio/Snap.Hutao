@@ -13,8 +13,13 @@ namespace Snap.Hutao.Model.Calculable;
 
 internal sealed partial class CalculableWeapon : ObservableObject, ICalculableWeapon
 {
+    // Only persists current level for non-view weapons
+    private readonly bool persistsLevel;
+
     private CalculableWeapon(Weapon weapon)
     {
+        persistsLevel = true;
+
         WeaponId = weapon.Id;
         LevelMin = 1;
         LevelMax = weapon.MaxLevel;
@@ -23,11 +28,12 @@ internal sealed partial class CalculableWeapon : ObservableObject, ICalculableWe
         Quality = weapon.RankLevel;
 
         LevelCurrent = LevelMin;
-        LevelTarget = LevelMax;
     }
 
     private CalculableWeapon(WeaponView weapon)
     {
+        persistsLevel = false;
+
         WeaponId = weapon.Id;
         LevelMin = weapon.LevelNumber;
         LevelMax = weapon.MaxLevel;
@@ -36,7 +42,6 @@ internal sealed partial class CalculableWeapon : ObservableObject, ICalculableWe
         Quality = weapon.Quality;
 
         LevelCurrent = LevelMin;
-        LevelTarget = LevelMax;
     }
 
     public WeaponId WeaponId { get; }
@@ -53,8 +58,8 @@ internal sealed partial class CalculableWeapon : ObservableObject, ICalculableWe
 
     public uint LevelCurrent
     {
-        get => LocalSetting.Get(SettingKeyCurrentFromQualityType(Quality), LevelMin);
-        set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromQualityType(Quality), v));
+        get => persistsLevel ? LocalSetting.Get(SettingKeyCurrentFromQualityType(Quality), LevelMin) : field;
+        set => _ = persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromQualityType(Quality), v)) : SetProperty(ref field, value);
     }
 
     public uint LevelTarget

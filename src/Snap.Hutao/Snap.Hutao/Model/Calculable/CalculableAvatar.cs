@@ -14,8 +14,13 @@ namespace Snap.Hutao.Model.Calculable;
 
 internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAvatar
 {
+    // Only persists current level for non-view avatars
+    private readonly bool persistsLevel;
+
     private CalculableAvatar(Avatar avatar)
     {
+        persistsLevel = true;
+
         AvatarId = avatar.Id;
         LevelMin = 1;
         LevelMax = avatar.MaxLevel;
@@ -23,10 +28,14 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         Quality = avatar.Quality;
+
+        LevelCurrent = LevelMin;
     }
 
     private CalculableAvatar(AvatarView avatar)
     {
+        persistsLevel = false;
+
         AvatarId = avatar.Id;
         LevelMin = avatar.LevelNumber;
         LevelMax = Avatar.GetMaxLevel();
@@ -34,6 +43,8 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Name = avatar.Name;
         Icon = avatar.Icon;
         Quality = avatar.Quality;
+
+        LevelCurrent = LevelMin;
     }
 
     public AvatarId AvatarId { get; }
@@ -52,8 +63,8 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public uint LevelCurrent
     {
-        get => LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin);
-        set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v));
+        get => persistsLevel ? LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin) : field;
+        set => _ = persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value);
     }
 
     public uint LevelTarget
