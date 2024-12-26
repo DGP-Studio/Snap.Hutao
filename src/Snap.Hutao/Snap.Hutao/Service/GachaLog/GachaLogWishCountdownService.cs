@@ -44,7 +44,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
                     case 8U:
                         if (!AvatarIds.IsStandardWish(itemId))
                         {
-                            TrackItemId(context, idToCountdown, orangeAvatarCountdowns, gachaEvent, itemId);
+                            TrackAvatarItemId(context, idToCountdown, orangeAvatarCountdowns, gachaEvent, itemId);
                         }
 
                         break;
@@ -52,7 +52,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
                     case 5U:
                         if (!WeaponIds.IsOrangeStandardWish(itemId))
                         {
-                            TrackItemId(context, idToCountdown, orangeWeaponCountdowns, gachaEvent, itemId);
+                            TrackWeaponItemId(context, idToCountdown, orangeWeaponCountdowns, gachaEvent, itemId);
                         }
 
                         break;
@@ -67,10 +67,10 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
                 switch (itemId.StringLength())
                 {
                     case 8U:
-                        TrackItemId(context, idToCountdown, purpleAvatarCountdowns, gachaEvent, itemId);
+                        TrackAvatarItemId(context, idToCountdown, purpleAvatarCountdowns, gachaEvent, itemId);
                         break;
                     case 5U:
-                        TrackItemId(context, idToCountdown, purpleWeaponCountdowns, gachaEvent, itemId);
+                        TrackWeaponItemId(context, idToCountdown, purpleWeaponCountdowns, gachaEvent, itemId);
                         break;
                     default:
                         throw HutaoException.NotSupported();
@@ -87,12 +87,24 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
         };
     }
 
-    private static void TrackItemId(GachaLogWishCountdownServiceMetadataContext context, Dictionary<uint, Countdown> idToCountdown, ImmutableArray<Countdown>.Builder builder, GachaEvent gachaEvent, uint itemId)
+    private static void TrackAvatarItemId(GachaLogWishCountdownServiceMetadataContext context, Dictionary<uint, Countdown> idToCountdown, ImmutableArray<Countdown>.Builder builder, GachaEvent gachaEvent, uint itemId)
     {
         ref Countdown? countdown = ref CollectionsMarshal.GetValueRefOrAddDefault(idToCountdown, itemId, out _);
         if (countdown is null)
         {
             countdown = new(context.GetAvatar(itemId).GetOrCreateItem());
+            builder.Insert(0, countdown);
+        }
+
+        countdown.Histories.Add(new(gachaEvent));
+    }
+
+    private static void TrackWeaponItemId(GachaLogWishCountdownServiceMetadataContext context, Dictionary<uint, Countdown> idToCountdown, ImmutableArray<Countdown>.Builder builder, GachaEvent gachaEvent, uint itemId)
+    {
+        ref Countdown? countdown = ref CollectionsMarshal.GetValueRefOrAddDefault(idToCountdown, itemId, out _);
+        if (countdown is null)
+        {
+            countdown = new(context.GetWeapon(itemId).GetOrCreateItem());
             builder.Insert(0, countdown);
         }
 
