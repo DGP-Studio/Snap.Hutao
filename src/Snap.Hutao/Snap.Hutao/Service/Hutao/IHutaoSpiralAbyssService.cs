@@ -2,22 +2,23 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Hutao;
 
 internal interface IHutaoSpiralAbyssService
 {
-    ValueTask<List<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false);
+    ValueTask<IReadOnlyList<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false);
 
-    ValueTask<List<AvatarCollocation>> GetAvatarCollocationsAsync(bool last = false);
+    ValueTask<IReadOnlyList<AvatarCollocation>> GetAvatarCollocationsAsync(bool last = false);
 
-    ValueTask<List<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(bool last = false);
+    ValueTask<IReadOnlyList<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(bool last = false);
 
-    ValueTask<List<AvatarUsageRank>> GetAvatarUsageRanksAsync(bool last = false);
+    ValueTask<IReadOnlyList<AvatarUsageRank>> GetAvatarUsageRanksAsync(bool last = false);
 
     ValueTask<Overview> GetOverviewAsync(bool last = false);
 
-    ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync(bool last = false);
+    ValueTask<IReadOnlyList<TeamAppearance>> GetTeamAppearancesAsync(bool last = false);
 
-    ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync(bool last = false);
+    ValueTask<IReadOnlyList<WeaponCollocation>> GetWeaponCollocationsAsync(bool last = false);
 }

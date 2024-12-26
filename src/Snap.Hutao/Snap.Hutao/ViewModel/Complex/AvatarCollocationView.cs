@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
 internal sealed class AvatarCollocationView
 {
-    public AvatarId AvatarId { get; set; }
+    public required AvatarId AvatarId { get; init; }
 
-    public List<AvatarView> Avatars { get; set; } = default!;
+    public required ImmutableArray<AvatarView> Avatars { get; init; }
 
-    public List<WeaponView> Weapons { get; set; } = default!;
+    public required ImmutableArray<WeaponView> Weapons { get; init; }
 
-    public List<ReliquarySetView> ReliquarySets { get; set; } = default!;
+    public required ImmutableArray<ReliquarySetView> ReliquarySets { get; init; }
 }

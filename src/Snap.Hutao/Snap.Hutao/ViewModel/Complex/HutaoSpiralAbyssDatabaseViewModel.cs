@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
@@ -11,19 +14,20 @@ namespace Snap.Hutao.ViewModel.Complex;
 internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
+    private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    public List<AvatarRankView>? AvatarUsageRanks { get; set => SetProperty(ref field, value); }
+    public ImmutableArray<AvatarRankView> AvatarUsageRanks { get; set => SetProperty(ref field, value); }
 
     public AvatarRankView? SelectedAvatarUsageRank { get; set => SetProperty(ref field, value); }
 
-    public List<AvatarRankView>? AvatarAppearanceRanks { get; set => SetProperty(ref field, value); }
+    public ImmutableArray<AvatarRankView> AvatarAppearanceRanks { get; set => SetProperty(ref field, value); }
 
     public AvatarRankView? SelectedAvatarAppearanceRank { get; set => SetProperty(ref field, value); }
 
-    public List<AvatarConstellationInfoView>? AvatarConstellationInfos { get; set => SetProperty(ref field, value); }
+    public ImmutableArray<AvatarConstellationInfoView> AvatarConstellationInfos { get; set => SetProperty(ref field, value); }
 
-    public List<TeamAppearanceView>? TeamAppearances { get; set => SetProperty(ref field, value); }
+    public ImmutableArray<TeamAppearanceView> TeamAppearances { get; set => SetProperty(ref field, value); }
 
     public TeamAppearanceView? SelectedTeamAppearance { get; set => SetProperty(ref field, value); }
 
@@ -31,20 +35,25 @@ internal sealed partial class HutaoSpiralAbyssDatabaseViewModel : Abstraction.Vi
 
     protected override async Task LoadAsync()
     {
-        if (await hutaoCache.InitializeForSpiralAbyssViewAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToMainThreadAsync();
-            AvatarAppearanceRanks = hutaoCache.AvatarAppearanceRanks;
-            SelectedAvatarAppearanceRank = AvatarAppearanceRanks?.FirstOrDefault();
-
-            AvatarUsageRanks = hutaoCache.AvatarUsageRanks;
-            SelectedAvatarUsageRank = AvatarUsageRanks?.FirstOrDefault();
-
-            TeamAppearances = hutaoCache.TeamAppearances;
-            SelectedTeamAppearance = TeamAppearances?.FirstOrDefault();
-
-            AvatarConstellationInfos = hutaoCache.AvatarConstellationInfos;
-            Overview = hutaoCache.Overview;
+            return;
         }
+
+        HutaoSpiralAbyssStatisticsMetadataContext context = await metadataService.GetContextAsync<HutaoSpiralAbyssStatisticsMetadataContext>().ConfigureAwait(false);
+        await hutaoCache.InitializeForSpiralAbyssViewAsync(context).ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        AvatarAppearanceRanks = hutaoCache.AvatarAppearanceRanks;
+        SelectedAvatarAppearanceRank = AvatarAppearanceRanks.FirstOrDefault();
+
+        AvatarUsageRanks = hutaoCache.AvatarUsageRanks;
+        SelectedAvatarUsageRank = AvatarUsageRanks.FirstOrDefault();
+
+        TeamAppearances = hutaoCache.TeamAppearances;
+        SelectedTeamAppearance = TeamAppearances.FirstOrDefault();
+
+        AvatarConstellationInfos = hutaoCache.AvatarConstellationInfos;
+        Overview = hutaoCache.Overview;
     }
 }

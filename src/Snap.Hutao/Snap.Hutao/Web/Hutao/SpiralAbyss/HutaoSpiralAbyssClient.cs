@@ -14,6 +14,7 @@ using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.SpiralAbyss;

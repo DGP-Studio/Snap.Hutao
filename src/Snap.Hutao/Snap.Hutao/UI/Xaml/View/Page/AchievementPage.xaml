@@ -28,11 +28,18 @@
                     <ColumnDefinition Width="36"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <shuxci:CachedImage
+                <Border
                     Grid.Column="0"
-                    Width="36"
-                    Height="36"
-                    Source="{Binding Icon}"/>
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource LightOnlyIconBackgroundColorBrush}"
+                    CornerRadius="{ThemeResource ControlCornerRadius}">
+                    <shuxci:CachedImage
+                        Grid.Column="0"
+                        Width="36"
+                        Height="36"
+                        Source="{Binding Icon}"/>
+                </Border>
+
                 <StackPanel Grid.Column="1" Margin="12,0,0,2">
                     <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
                     <TextBlock

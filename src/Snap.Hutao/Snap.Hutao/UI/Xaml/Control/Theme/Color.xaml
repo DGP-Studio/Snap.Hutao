@@ -4,11 +4,13 @@
             <Color x:Key="AvatarPropertyAddValueColor">#FF74BF00</Color>
             <Color x:Key="CompatBackgroundColor">#FFF4F4F4</Color>
             <Color x:Key="DarkOnlyOverlayMaskColor">#00000000</Color>
+            <Color x:Key="LightOnlyIconBackgroundColor">#A0000000</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <Color x:Key="AvatarPropertyAddValueColor">#FF90E800</Color>
             <Color x:Key="CompatBackgroundColor">#FF242424</Color>
             <Color x:Key="DarkOnlyOverlayMaskColor">#60000000</Color>
+            <Color x:Key="LightOnlyIconBackgroundColor">#00000000</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -27,5 +29,6 @@
     <SolidColorBrush x:Key="UpPullColorBrush" Color="{ThemeResource UpPullColor}"/>
 
     <SolidColorBrush x:Key="DarkOnlyOverlayMaskColorBrush" Color="{ThemeResource DarkOnlyOverlayMaskColor}"/>
+    <SolidColorBrush x:Key="LightOnlyIconBackgroundColorBrush" Color="{ThemeResource LightOnlyIconBackgroundColor}"/>
     <SolidColorBrush x:Key="AvatarPropertyAddValueColorBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
 </ResourceDictionary>

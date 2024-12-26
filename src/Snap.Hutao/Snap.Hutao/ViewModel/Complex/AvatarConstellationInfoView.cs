@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
@@ -12,5 +13,5 @@ internal sealed class AvatarConstellationInfoView : AvatarView
     {
     }
 
-    public List<RateAndDelta> Rates { get; set; } = default!;
+    public required ImmutableArray<RateAndDelta> Rates { get; init; }
 }

@@ -63,48 +63,48 @@
                     Foreground="{ThemeResource UpPullColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpText}"
-                    Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding UpItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                     ItemsSource="{Binding UpItems}"
-                    Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding UpItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <TextBlock
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource OrangeColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                    Visibility="{Binding OrangeItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding OrangeItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                     ItemsSource="{Binding OrangeItems}"
-                    Visibility="{Binding OrangeItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding OrangeItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <TextBlock
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource PurpleColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                    Visibility="{Binding PurpleItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding PurpleItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                     ItemsSource="{Binding PurpleItems}"
-                    Visibility="{Binding PurpleItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding PurpleItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <TextBlock
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource BlueColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"
-                    Visibility="{Binding BlueItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding BlueItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
                     ItemsSource="{Binding BlueItems}"
-                    Visibility="{Binding BlueItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                    Visibility="{Binding BlueItems.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

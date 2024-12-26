@@ -449,7 +449,7 @@
                                                 Margin="0,8,0,0"
                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                             <GridView
                                                 ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                                 ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList}"
@@ -459,7 +459,7 @@
                                                 Margin="0,8,0,0"
                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                             <GridView
                                                 ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                                 ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList}"
@@ -469,7 +469,7 @@
                                                 Margin="0,8,0,0"
                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"
-                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.BlueList.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                             <GridView
                                                 ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                                 ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.BlueList}"

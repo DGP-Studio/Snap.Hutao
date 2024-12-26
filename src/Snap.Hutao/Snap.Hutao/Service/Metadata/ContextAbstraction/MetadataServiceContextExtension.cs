@@ -73,6 +73,11 @@ internal static class MetadataServiceContextExtension
 
         // Dictionary
         {
+            if (context is IMetadataDictionaryExtendedEquipAffixIdReliquarySetSource dictionaryExtendedEquipAffixIdReliquarySetSource)
+            {
+                dictionaryExtendedEquipAffixIdReliquarySetSource.IdReliquarySetMap = await metadataService.GetExtendedEquipAffixIdToReliquarySetMapAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataDictionaryIdAchievementSource dictionaryIdAchievementSource)
             {
                 dictionaryIdAchievementSource.IdAchievementMap = await metadataService.GetIdToAchievementMapAsync(token).ConfigureAwait(false);

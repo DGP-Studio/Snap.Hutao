@@ -2,30 +2,32 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Hutao;
 
 internal interface IHutaoSpiralAbyssStatisticsCache
 {
-    List<AvatarRankView>? AvatarUsageRanks { get; set; }
+    ImmutableArray<AvatarRankView> AvatarUsageRanks { get; set; }
 
-    List<AvatarRankView>? AvatarAppearanceRanks { get; set; }
+    ImmutableArray<AvatarRankView> AvatarAppearanceRanks { get; set; }
 
-    List<AvatarConstellationInfoView>? AvatarConstellationInfos { get; set; }
+    ImmutableArray<AvatarConstellationInfoView> AvatarConstellationInfos { get; set; }
 
-    List<TeamAppearanceView>? TeamAppearances { get; set; }
+    ImmutableArray<TeamAppearanceView> TeamAppearances { get; set; }
 
     Overview? Overview { get; set; }
 
-    Dictionary<AvatarId, AvatarCollocationView>? AvatarCollocations { get; set; }
+    ImmutableDictionary<AvatarId, AvatarCollocationView>? AvatarCollocations { get; set; }
 
-    Dictionary<WeaponId, WeaponCollocationView>? WeaponCollocations { get; set; }
+    ImmutableDictionary<WeaponId, WeaponCollocationView>? WeaponCollocations { get; set; }
 
-    ValueTask<bool> InitializeForSpiralAbyssViewAsync();
+    ValueTask InitializeForSpiralAbyssViewAsync(HutaoSpiralAbyssStatisticsMetadataContext context);
 
-    ValueTask<bool> InitializeForWikiAvatarViewAsync();
+    ValueTask InitializeForWikiAvatarViewAsync(HutaoSpiralAbyssStatisticsMetadataContext context);
 
-    ValueTask<bool> InitializeForWikiWeaponViewAsync();
+    ValueTask InitializeForWikiWeaponViewAsync(HutaoSpiralAbyssStatisticsMetadataContext context);
 }

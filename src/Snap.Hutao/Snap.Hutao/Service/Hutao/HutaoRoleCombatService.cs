@@ -9,12 +9,12 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoRoleCombatService))]
 internal sealed partial class HutaoRoleCombatService : ObjectCacheService, IHutaoRoleCombatService
 {
-    public async ValueTask<RoleCombatStatisticsItem> GetRoleCombatStatisticsItemAsync(bool last = false)
+    public async ValueTask<RoleCombatStatisticsItem> GetRoleCombatStatisticsItemAsync()
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
             HutaoRoleCombatClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoRoleCombatClient>();
-            return await FromCacheOrWebAsync(nameof(RoleCombatStatisticsItem), last, homaClient.GetStatisticsAsync).ConfigureAwait(false);
+            return await FromCacheOrWebAsync(nameof(RoleCombatStatisticsItem), false, homaClient.GetStatisticsAsync).ConfigureAwait(false);
         }
     }
 }

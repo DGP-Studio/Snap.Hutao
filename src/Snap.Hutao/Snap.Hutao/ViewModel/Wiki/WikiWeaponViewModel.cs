@@ -120,15 +120,14 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
     private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, WikiWeaponMetadataContext context)
     {
-        if (await hutaoCache.InitializeForWikiWeaponViewAsync().ConfigureAwait(false))
-        {
-            ArgumentNullException.ThrowIfNull(hutaoCache.WeaponCollocations);
+        HutaoSpiralAbyssStatisticsMetadataContext context2 = await metadataService.GetContextAsync<HutaoSpiralAbyssStatisticsMetadataContext>().ConfigureAwait(false);
+        await hutaoCache.InitializeForWikiWeaponViewAsync(context2).ConfigureAwait(false);
+        ArgumentNullException.ThrowIfNull(hutaoCache.WeaponCollocations);
 
-            foreach (Weapon weapon in weapons)
-            {
-                weapon.CollocationView = hutaoCache.WeaponCollocations.GetValueOrDefault(weapon.Id);
-                weapon.CultivationItemsView ??= [.. weapon.CultivationItems.Select(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default))];
-            }
+        foreach (Weapon weapon in weapons)
+        {
+            weapon.CollocationView = hutaoCache.WeaponCollocations.GetValueOrDefault(weapon.Id);
+            weapon.CultivationItemsView ??= [.. weapon.CultivationItems.Select(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default))];
         }
     }
 

@@ -125,11 +125,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
     {
-        if (!await hutaoCache.InitializeForWikiAvatarViewAsync().ConfigureAwait(false))
-        {
-            return;
-        }
-
+        HutaoSpiralAbyssStatisticsMetadataContext context2 = await metadataService.GetContextAsync<HutaoSpiralAbyssStatisticsMetadataContext>().ConfigureAwait(false);
+        await hutaoCache.InitializeForWikiAvatarViewAsync(context2).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(hutaoCache.AvatarCollocations);
 
         foreach (Avatar avatar in avatars)

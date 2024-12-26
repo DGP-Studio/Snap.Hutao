@@ -33,6 +33,5 @@ internal sealed partial class HutaoCloudStatisticsViewModel : Abstraction.ViewMo
             // Ignore
             // Parent view model has been disposed
         }
-
     }
 }
