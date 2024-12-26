@@ -145,7 +145,7 @@
 
     <Grid>
         <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid Visibility="{Binding StatisticsList.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+            <Grid Visibility="{Binding StatisticsList.Length, Converter={StaticResource Int32ToVisibilityConverter}}">
                 <FlipView
                     x:Name="RootFlipView"
                     Background="{x:Null}"
