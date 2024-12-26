@@ -691,6 +691,15 @@
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓更新時間〓</value>
   </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>美服 UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>其他 UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>歐服 UTC-01</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻擊力</value>
     <comment>Need EXACT same string in game</comment>
@@ -1119,7 +1128,7 @@
     <value>解鎖 FPS 失敗：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈願紀錄上傳服務有效期至</value>
+    <value>祈願記錄上傳服務有效期限至</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>無法找到快取的後設資料檔案</value>
@@ -2778,7 +2787,7 @@
     <value>遊戲啟動後可以即時切換</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>將消息模組注入遊戲，以便實現一些高級但危險的功能</value>
+    <value>將訊息模組注入遊戲，以便實現一些高級但危險的功能</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
@@ -3188,6 +3197,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>公告所屬伺服器</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>選擇材料日曆以取得當天日期時使用的遊戲伺服器時區</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>日曆伺服器</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主頁儀表板中的卡片</value>
   </data>
@@ -3225,7 +3240,7 @@
     <value>危險操作</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃雲服務到期時間</value>
+    <value>胡桃雲祈願記錄服務到期時間</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行證帳號</value>
@@ -3270,10 +3285,16 @@
     <value>進階功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改自動連續點按功能的快速鍵</value>
+    <value>變更滑鼠左鍵自動連點功能的快速鍵</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>自動連續點按</value>
+    <value>滑鼠左鍵自動連點</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>變更鍵盤 F 鍵自動連按功能的快速鍵</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>鍵盤 F 鍵自動連按</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快速鍵</value>
@@ -3592,6 +3613,12 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自動連續點按</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>鍵盤 F 鍵自動連按</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>正在初始化元數據</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安裝更新</value>
@@ -3921,15 +3948,18 @@
     <value>狀態：{0} | 訊息：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
-    <value>請重新整理 Cookie，原始消息：{0}</value>
+    <value>請重新整理 Cookie，原始訊息：{0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 網路請求異常，請稍後再試</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登入失敗，請前往 HoYoLAB 初始化帳號，原始消息：{0}</value>
+    <value>登入失敗，請前往 HoYoLAB 初始化帳號，原始訊息：{0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>胡桃雲 CDN 到期時間</value>
   </data>
 </root>
