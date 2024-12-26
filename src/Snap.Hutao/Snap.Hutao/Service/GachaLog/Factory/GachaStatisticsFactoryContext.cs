@@ -8,12 +8,12 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 internal readonly struct GachaStatisticsFactoryContext
 {
     public readonly IServiceProvider ServiceProvider;
-    public readonly List<Model.Entity.GachaItem> Items;
+    public readonly ImmutableArray<Model.Entity.GachaItem> Items;
     public readonly ImmutableArray<HistoryWishBuilder> HistoryWishBuilders;
     public readonly GachaLogServiceMetadataContext Metadata;
     private readonly AppOptions appOptions;
 
-    public GachaStatisticsFactoryContext(IServiceProvider serviceProvider, List<Model.Entity.GachaItem> items, ImmutableArray<HistoryWishBuilder> historyWishBuilders, GachaLogServiceMetadataContext metadata)
+    public GachaStatisticsFactoryContext(IServiceProvider serviceProvider, ImmutableArray<Model.Entity.GachaItem> items, ImmutableArray<HistoryWishBuilder> historyWishBuilders, GachaLogServiceMetadataContext metadata)
     {
         ServiceProvider = serviceProvider;
         Items = items;

@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
 
@@ -10,12 +12,13 @@ internal static class CultivationServiceExtension
 {
     public static async ValueTask<ObservableCollection<CultivateEntryView>?> GetCultivateEntryCollectionForCurrentProjectAsync(this ICultivationService cultivationService, ICultivationMetadataContext context)
     {
-        if (!await cultivationService.EnsureCurrentProjectAsync().ConfigureAwait(false))
+        IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
+        if (!await cultivationService.EnsureCurrentProjectAsync(projects).ConfigureAwait(false))
         {
             return default;
         }
 
-        ArgumentNullException.ThrowIfNull(cultivationService.Projects.CurrentItem);
-        return await cultivationService.GetCultivateEntryCollectionAsync(cultivationService.Projects.CurrentItem, context).ConfigureAwait(false);
+        ArgumentNullException.ThrowIfNull(projects.CurrentItem);
+        return await cultivationService.GetCultivateEntryCollectionAsync(projects.CurrentItem, context).ConfigureAwait(false);
     }
 }

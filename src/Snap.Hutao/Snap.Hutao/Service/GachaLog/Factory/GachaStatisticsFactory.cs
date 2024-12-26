@@ -23,7 +23,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async ValueTask<GachaStatistics> CreateAsync(GachaLogServiceMetadataContext metadata, List<GachaItem> items)
+    public async ValueTask<GachaStatistics> CreateAsync(GachaLogServiceMetadataContext metadata, ImmutableArray<GachaItem> items)
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -45,7 +45,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             .ToDictionary(g => g.Key, g => g.ToList().SortBy(b => b.From));
 
         // Items are ordered by precise time, first is oldest
-        foreach (ref readonly GachaItem item in CollectionsMarshal.AsSpan(context.Items))
+        foreach (ref readonly GachaItem item in context.Items.AsSpan())
         {
             // Find target history wish to operate. // banner.From <= item.Time <= banner.To
             HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not (GachaType.Standard or GachaType.NewBie)

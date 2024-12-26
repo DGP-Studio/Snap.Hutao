@@ -11,6 +11,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
@@ -115,16 +116,16 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     {
         if (Options.IsGachaLogCloudServiceAllowed)
         {
-            Response<List<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
+            Response<ImmutableArray<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 
-            if (ResponseValidator.TryValidate(resp, infoBarService, out List<GachaEntry>? entries))
+            if (ResponseValidator.TryValidate(resp, infoBarService, out ImmutableArray<GachaEntry> entries))
             {
-                ObservableCollection<HutaoCloudEntryOperationViewModel> collcetion = entries
-                    .SelectList(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
+                ObservableCollection<HutaoCloudEntryOperationViewModel> collection = entries
+                    .SelectAsArray(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
                     .ToObservableCollection();
 
                 await taskContext.SwitchToMainThreadAsync();
-                UidOperations = collcetion;
+                UidOperations = collection;
             }
         }
     }

@@ -12,6 +12,7 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -33,22 +34,14 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private CancellationTokenSource statisticsCts = new();
 
-    public AdvancedDbCollectionView<CultivateProject>? Projects
+    public IAdvancedDbCollectionView<CultivateProject>? Projects
     {
         get;
         set
         {
-            if (field is not null)
-            {
-                field.CurrentChanged -= OnCurrentProjectChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentProjectChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentProjectChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentProjectChanged);
         }
     }
 
@@ -70,8 +63,9 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         {
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
+                IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
                 await taskContext.SwitchToMainThreadAsync();
-                Projects = cultivationService.Projects;
+                Projects = projects;
                 Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
             }
 

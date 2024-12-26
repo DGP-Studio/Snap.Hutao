@@ -25,18 +25,15 @@ internal static class KnownLaunchSchemes
 
     public static ImmutableArray<LaunchScheme> Values { get; } =
     [
-        // 官服
         ServerChineseChannelDefaultSubChannelDefaultCompat,
         ServerChineseChannelOfficialSubChannelDefault,
         ServerChineseChannelOfficialSubChannelOfficial,
         ServerChineseChannelOfficialSubChannelNoTapTap,
         ServerChineseChannelOfficialSubChannelEpicCompat,
 
-        // 渠道服
         ServerChineseChannelBilibiliSubChannelDefault,
         ServerChineseChannelBilibiliSubChannelOfficialCompat,
 
-        // 国际服
         ServerGlobalChannelDefaultSubChannelDefaultCompat,
         ServerGlobalChannelOfficialSubChannelDefault,
         ServerGlobalChannelOfficialSubChannelOfficial,

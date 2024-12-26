@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Hutao.Response;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -14,7 +15,7 @@ internal interface IGachaLogHutaoCloudService
 
     ValueTask<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default);
 
-    ValueTask<HutaoResponse<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default);
+    ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default);
 
     ValueTask<ValueResult<bool, Guid>> RetrieveGachaArchiveIdAsync(string uid, CancellationToken token = default);
 

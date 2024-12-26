@@ -46,7 +46,7 @@ internal struct GachaLogFetchContext
         FetchStatus = new(CurrentType);
     }
 
-    public void EnsureArchiveAndEndId(GachaLogItem item, AdvancedDbCollectionView<GachaArchive> archives, IGachaLogRepository repository)
+    public void EnsureArchiveAndEndId(GachaLogItem item, IAdvancedDbCollectionView<GachaArchive> archives, IGachaLogRepository repository)
     {
         TargetArchive ??= GachaArchiveOperation.GetOrAdd(repository, item.Uid, archives);
         DbEndId ??= repository.GetNewestGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);

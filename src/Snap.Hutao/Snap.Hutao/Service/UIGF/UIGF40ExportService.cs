@@ -41,26 +41,26 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
         }
     }
 
-    private void ExportGachaArchives(Model.InterChange.GachaLog.UIGF uigf, List<uint> uids)
+    private void ExportGachaArchives(Model.InterChange.GachaLog.UIGF uigf, ImmutableArray<uint> uids)
     {
-        if (uids.Count <= 0)
+        if (uids.Length <= 0)
         {
             return;
         }
 
         IGachaLogRepository gachaLogRepository = serviceProvider.GetRequiredService<IGachaLogRepository>();
 
-        ImmutableArray<UIGFEntry<Hk4eItem>>.Builder results = ImmutableArray.CreateBuilder<UIGFEntry<Hk4eItem>>(uids.Count);
+        ImmutableArray<UIGFEntry<Hk4eItem>>.Builder results = ImmutableArray.CreateBuilder<UIGFEntry<Hk4eItem>>(uids.Length);
         foreach (uint uid in uids)
         {
             GachaArchive? archive = gachaLogRepository.GetGachaArchiveByUid($"{uid}");
             ArgumentNullException.ThrowIfNull(archive);
-            List<GachaItem> dbItems = gachaLogRepository.GetGachaItemListByArchiveId(archive.InnerId);
+            ImmutableArray<GachaItem> dbItems = gachaLogRepository.GetGachaItemImmutableArrayByArchiveId(archive.InnerId);
             UIGFEntry<Hk4eItem> entry = new()
             {
                 Uid = uid,
                 TimeZone = 0,
-                List = dbItems.Select(Hk4eItem.From).ToImmutableArray(),
+                List = dbItems.SelectAsArray(Hk4eItem.From),
             };
 
             results.Add(entry);

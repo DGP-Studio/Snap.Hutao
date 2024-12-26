@@ -52,7 +52,7 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().GachaLogEntries())
@@ -60,8 +60,8 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        HutaoResponse<List<GachaEntry>>? resp = await builder
-            .SendAsync<HutaoResponse<List<GachaEntry>>>(httpClient, logger, token)
+        HutaoResponse<ImmutableArray<GachaEntry>>? resp = await builder
+            .SendAsync<HutaoResponse<ImmutableArray<GachaEntry>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -99,7 +99,7 @@ internal sealed partial class HomaGachaLogClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse> UploadGachaItemsAsync(string uid, List<GachaItem> gachaItems, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> UploadGachaItemsAsync(string uid, IReadOnlyList<GachaItem> gachaItems, CancellationToken token = default)
     {
         UidAndItems uidAndItems = new(uid, gachaItems);
 
@@ -146,14 +146,14 @@ internal sealed partial class HomaGachaLogClient
 
     private sealed class UidAndItems
     {
-        public UidAndItems(string uid, List<GachaItem> gachaItems)
+        public UidAndItems(string uid, IReadOnlyList<GachaItem> gachaItems)
         {
             Uid = uid;
             Items = gachaItems;
         }
 
-        public string Uid { get; set; }
+        public string Uid { get; }
 
-        public List<GachaItem> Items { get; set; }
+        public IReadOnlyList<GachaItem> Items { get; }
     }
 }

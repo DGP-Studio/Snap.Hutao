@@ -40,9 +40,9 @@ internal sealed partial class CultivationRepository : ICultivationRepository
         this.Update(item);
     }
 
-    public List<CultivateEntry> GetCultivateEntryListByProjectIdAndItemId(Guid projectId, uint itemId)
+    public ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayByProjectIdAndItemId(Guid projectId, uint itemId)
     {
-        return this.List<CultivateEntry>(e => e.ProjectId == projectId && e.Id == itemId);
+        return this.ImmutableArray<CultivateEntry>(e => e.ProjectId == projectId && e.Id == itemId);
     }
 
     public void AddCultivateEntry(CultivateEntry entry)

@@ -81,9 +81,9 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
                 entries = entryList.ToObservableCollection();
             }
-        }
 
-        return entries;
+            return entries;
+        }
     }
 
     public ValueTask RefreshDailyNotesAsync(CancellationToken token = default)

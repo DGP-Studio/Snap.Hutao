@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.Achievement;
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
-    private readonly Lock archivesLock = new();
+    private readonly AsyncLock archivesLock = new();
     private readonly ConcurrentDictionary<Guid, Lock> viewCollectionLocks = [];
     private readonly ConcurrentDictionary<Guid, IAdvancedCollectionView<AchievementView>> viewCollectionCache = [];
 
@@ -32,16 +32,10 @@ internal sealed partial class AchievementService : IAchievementService
 
     public async ValueTask<IAdvancedDbCollectionView<AchievementArchive>> GetArchiveCollectionAsync(CancellationToken token = default)
     {
-        if (archives is null)
+        using (await archivesLock.LockAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
-            lock (archivesLock)
-            {
-                archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
-            }
+            return archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
         }
-
-        return archives;
     }
 
     public IAdvancedCollectionView<AchievementView> GetAchievementViewCollection(AchievementArchive archive, AchievementServiceMetadataContext context)

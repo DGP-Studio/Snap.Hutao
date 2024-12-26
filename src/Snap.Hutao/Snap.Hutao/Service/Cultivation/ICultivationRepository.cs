@@ -41,7 +41,7 @@ internal interface ICultivationRepository : IRepository<CultivateEntryLevelInfor
 
     ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayIncludingLevelInformationByProjectId(Guid projectId);
 
-    List<CultivateEntry> GetCultivateEntryListByProjectIdAndItemId(Guid projectId, uint itemId);
+    ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayByProjectIdAndItemId(Guid projectId, uint itemId);
 
     Guid GetCultivateProjectIdByEntryId(Guid entryId);
 }

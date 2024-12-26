@@ -22,7 +22,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
 
-    public ValueTask<HutaoResponse<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
+    public ValueTask<HutaoResponse<ImmutableArray<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -103,26 +103,26 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
             }
         }
 
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            HutaoStatisticsFactoryMetadataContext context = await metadataService
-                .GetContextAsync<HutaoStatisticsFactoryMetadataContext>(token)
-                .ConfigureAwait(false);
-
-            try
-            {
-                HutaoStatisticsFactory factory = new(context);
-                HutaoStatistics statistics = factory.Create(raw);
-                return new(true, statistics);
-            }
-            catch
-            {
-                // 元数据未能即时更新导致异常
-                return new(false, default!);
-            }
+            return new(false, default!);
         }
 
-        return new(false, default!);
+        HutaoStatisticsFactoryMetadataContext context = await metadataService
+            .GetContextAsync<HutaoStatisticsFactoryMetadataContext>(token)
+            .ConfigureAwait(false);
+
+        try
+        {
+            HutaoStatisticsFactory factory = new(context);
+            HutaoStatistics statistics = factory.Create(raw);
+            return new(true, statistics);
+        }
+        catch
+        {
+            // 元数据未能即时更新导致异常
+            return new(false, default!);
+        }
     }
 
     private async ValueTask<EndIds?> GetNewestEndIdsFromCloudAsync(string uid, CancellationToken token = default)

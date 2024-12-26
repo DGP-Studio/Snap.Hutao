@@ -2,8 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Page;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
@@ -11,10 +14,11 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<GachaLogPage>
 {
+    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    public List<GachaStatisticsSlim>? StatisticsList { get; set => SetProperty(ref field, value); }
+    public ImmutableArray<GachaStatisticsSlim> StatisticsList { get; set => SetProperty(ref field, value); } = [];
 
     protected override async Task LoadAsync()
     {
@@ -22,14 +26,15 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
         {
             IGachaLogService gachaLogService = scope.ServiceProvider.GetRequiredService<IGachaLogService>();
 
-            if (await gachaLogService.InitializeAsync().ConfigureAwait(false))
+            if (await metadataService.InitializeAsync().ConfigureAwait(false))
             {
                 try
                 {
-                    List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimListAsync().ConfigureAwait(false);
+                    GachaLogServiceMetadataContext context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>();
+                    ImmutableArray<GachaStatisticsSlim> array = await gachaLogService.GetStatisticsSlimImmutableArrayAsync(context).ConfigureAwait(false);
 
                     await taskContext.SwitchToMainThreadAsync();
-                    StatisticsList = list;
+                    StatisticsList = array;
                     IsInitialized = true;
                 }
                 catch (Exception ex)

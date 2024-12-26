@@ -11,6 +11,7 @@ using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.UIGF;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
@@ -108,10 +109,10 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        List<uint> allUids = gachaLogRepository.GetGachaArchiveUidList().SelectList(uint.Parse);
+        ImmutableArray<uint> allUids = gachaLogRepository.GetGachaArchiveUidImmutableArray().SelectAsArray(uint.Parse);
         UIGFExportDialog exportDialog = await contentDialogFactory.CreateInstanceAsync<UIGFExportDialog>(allUids).ConfigureAwait(false);
 
-        (bool isOk2, List<uint> uids) = await exportDialog.GetSelectedUidsAsync().ConfigureAwait(false);
+        (bool isOk2, ImmutableArray<uint> uids) = await exportDialog.GetSelectedUidsAsync().ConfigureAwait(false);
         if (!isOk2)
         {
             return;

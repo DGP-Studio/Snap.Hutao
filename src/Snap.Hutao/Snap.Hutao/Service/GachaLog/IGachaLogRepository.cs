@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -22,13 +23,13 @@ internal interface IGachaLogRepository : IRepository<GachaArchive>, IRepository<
 
     GachaArchive? GetGachaArchiveByUid(string uid);
 
-    List<string> GetGachaArchiveUidList();
+    ImmutableArray<string> GetGachaArchiveUidImmutableArray();
 
     ObservableCollection<GachaArchive> GetGachaArchiveCollection();
 
-    List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId);
+    ImmutableArray<GachaItem> GetGachaItemImmutableArrayByArchiveId(Guid archiveId);
 
-    List<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemListByArchiveIdAndQueryTypeNewerThanEndId(Guid archiveId, GachaType queryType, long endId);
+    ImmutableArray<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemListByArchiveIdAndQueryTypeNewerThanEndId(Guid archiveId, GachaType queryType, long endId);
 
     long GetNewestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaType queryType);
 
