@@ -5,6 +5,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
@@ -28,10 +30,13 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
+    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly HutaoUserOptions hutaoUserOptions;
+
+    private SpiralAbyssMetadataContext? metadataContext;
 
     public IAdvancedCollectionView<SpiralAbyssView>? SpiralAbyssEntries
     {
@@ -68,16 +73,19 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        if (await spiralAbyssRecordService.InitializeAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
-            {
-                await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
-            }
-            else
-            {
-                infoBarService.Warning(SH.MustSelectUserAndUid);
-            }
+            return false;
+        }
+
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
+        {
+            metadataContext = await metadataService.GetContextAsync<SpiralAbyssMetadataContext>().ConfigureAwait(false);
+            await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
+        }
+        else
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
         }
 
         return true;
@@ -91,13 +99,18 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [SuppressMessage("", "SH003")]
     private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
+        if (metadataContext is null)
+        {
+            return;
+        }
+
         try
         {
             ObservableCollection<SpiralAbyssView> collection;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 collection = await spiralAbyssRecordService
-                    .GetSpiralAbyssViewCollectionAsync(userAndUid)
+                    .GetSpiralAbyssViewCollectionAsync(metadataContext, userAndUid)
                     .ConfigureAwait(false);
             }
 
@@ -115,6 +128,11 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [Command("RefreshCommand")]
     private async Task RefreshAsync()
     {
+        if (metadataContext is null)
+        {
+            return;
+        }
+
         if (SpiralAbyssEntries is not null)
         {
             if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
@@ -124,7 +142,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                     using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
                         await spiralAbyssRecordService
-                            .RefreshSpiralAbyssAsync(userAndUid)
+                            .RefreshSpiralAbyssAsync(metadataContext, userAndUid)
                             .ConfigureAwait(false);
                     }
                 }

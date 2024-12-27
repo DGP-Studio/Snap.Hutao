@@ -53,10 +53,9 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
             return false;
         }
 
-        metadataContext = await metadataService.GetContextAsync<RoleCombatMetadataContext>().ConfigureAwait(false);
-
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
+            metadataContext = await metadataService.GetContextAsync<RoleCombatMetadataContext>().ConfigureAwait(false);
             await UpdateRoleCombatCollectionAsync(userAndUid).ConfigureAwait(false);
         }
         else
