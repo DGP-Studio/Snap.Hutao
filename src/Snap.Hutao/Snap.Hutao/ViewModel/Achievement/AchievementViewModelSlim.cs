@@ -15,7 +15,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<AchievementPage>
 {
     [ObservableProperty]
-    public partial ImmutableArray<AchievementStatistics> StatisticsList { get; set; } = ImmutableArray<AchievementStatistics>.Empty;
+    public partial ImmutableArray<AchievementStatistics> StatisticsList { get; set; } = [];
 
     protected override async Task LoadAsync()
     {
