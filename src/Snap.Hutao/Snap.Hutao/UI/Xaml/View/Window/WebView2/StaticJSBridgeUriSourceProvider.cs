@@ -19,6 +19,6 @@ internal sealed partial class StaticJSBridgeUriSourceProvider : DependencyObject
 
     public string GetSource(UserAndUid userAndUid)
     {
-        return userAndUid.User.IsOversea ? OverseaSource : ChineseSource;
+        return userAndUid.IsOversea ? OverseaSource : ChineseSource;
     }
 }

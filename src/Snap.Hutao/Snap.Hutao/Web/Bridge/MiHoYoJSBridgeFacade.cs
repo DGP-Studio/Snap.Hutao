@@ -254,7 +254,7 @@ internal class MiHoYoJSBridgeFacade
         {
             IUserClient userClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
-                .Create(userAndUid.User.IsOversea);
+                .Create(userAndUid.IsOversea);
 
             Response<UserFullInfoWrapper> response = await userClient
                 .GetUserFullInfoAsync(userAndUid.User)

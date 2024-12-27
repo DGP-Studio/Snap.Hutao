@@ -65,7 +65,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
 
             // request the index first
             await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
@@ -82,7 +82,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
 
             Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetSpiralAbyssAsync(userAndUid, schedule)
                 .ConfigureAwait(false);
 

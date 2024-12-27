@@ -12,14 +12,14 @@ internal sealed class SignInJSBridgeUriSourceProvider : DependencyObject, IJSBri
 {
     public MiHoYoJSBridgeFacade CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
-        return userAndUid.User.IsOversea
+        return userAndUid.IsOversea
             ? ActivatorUtilities.CreateInstance<SignInJSBridgeOversea>(serviceProvider, coreWebView2, userAndUid)
             : ActivatorUtilities.CreateInstance<SignInJSBridge>(serviceProvider, coreWebView2, userAndUid);
     }
 
     public string GetSource(UserAndUid userAndUid)
     {
-        return userAndUid.User.IsOversea
+        return userAndUid.IsOversea
             ? "https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481"
             : "https://act.mihoyo.com/bbs/event/signin/hk4e/index.html?act_id=e202311201442471";
     }

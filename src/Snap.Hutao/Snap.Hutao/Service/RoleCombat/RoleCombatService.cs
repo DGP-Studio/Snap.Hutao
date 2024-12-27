@@ -54,12 +54,12 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 
             // request the index first
             await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
             Response<Web.Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat> response = await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetRoleCombatAsync(userAndUid)
                 .ConfigureAwait(false);
 

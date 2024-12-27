@@ -11,6 +11,6 @@ internal interface IOverseaSupportFactory<out TClient>
 
     TClient CreateFor(UserAndUid userAndUid)
     {
-        return Create(userAndUid.User.IsOversea);
+        return Create(userAndUid.IsOversea);
     }
 }

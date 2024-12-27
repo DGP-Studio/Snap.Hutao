@@ -26,7 +26,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
             return new(false, GachaLogQuery.Invalid(SH.MustSelectUserAndUid));
         }
 
-        if (userAndUid.User.IsOversea)
+        if (userAndUid.IsOversea)
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderStokenUnsupported));
         }

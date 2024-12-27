@@ -102,7 +102,7 @@ internal sealed partial class CalculateClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
-            .SetReferer(userAndUid.User.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
+            .SetReferer(userAndUid.IsOversea ? apiEndpoints.ActHoyolabReferer() : apiEndpoints.WebStaticReferer())
             .Get();
 
         Response<AvatarDetail>? resp = await builder

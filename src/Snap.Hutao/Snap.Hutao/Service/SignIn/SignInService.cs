@@ -20,7 +20,7 @@ internal sealed partial class SignInService : ISignInService
         {
             ISignInClient signInClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
-                .Create(userAndUid.User.IsOversea);
+                .Create(userAndUid.IsOversea);
 
             Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User, token).ConfigureAwait(false);
 
