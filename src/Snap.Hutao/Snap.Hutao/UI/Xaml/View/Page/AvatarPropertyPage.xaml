@@ -90,6 +90,7 @@
                         <shuxci:CachedImage
                             MaxWidth="368"
                             MaxHeight="101"
+                            VerticalAlignment="Center"
                             Opacity="0.5"
                             Source="{Binding NameCard}"
                             Stretch="UniformToFill"/>
