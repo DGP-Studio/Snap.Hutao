@@ -68,6 +68,8 @@ internal sealed partial class UserViewModel : ObservableObject
                 infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
             case UserOptionResult.CookieUpdated:
+                ArgumentNullException.ThrowIfNull(Users);
+                taskContext.InvokeOnMainThread(Users.Refresh);
                 infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
                 break;
             default:
