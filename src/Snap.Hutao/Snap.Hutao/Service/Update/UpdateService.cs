@@ -59,7 +59,7 @@ internal sealed partial class UpdateService : IUpdateService
                         File.Delete(msixPath);
                     }
 
-                    checkUpdateResult.Kind = CheckUpdateResultKind.AlreayUpdated;
+                    checkUpdateResult.Kind = CheckUpdateResultKind.AlreadyUpdated;
                     return checkUpdateResult;
                 }
             }
@@ -83,7 +83,7 @@ internal sealed partial class UpdateService : IUpdateService
                 return checkUpdateResult;
             }
 
-            if (File.Exists(msixPath) && await CheckUpdateCacheSHA256Async(msixPath, sha256, token).ConfigureAwait(false))
+            if (File.Exists(msixPath) && await CheckUpdateCacheSha256Async(msixPath, sha256, token).ConfigureAwait(false))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.NeedInstall;
                 return checkUpdateResult;
@@ -128,7 +128,7 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    private static async ValueTask<bool> CheckUpdateCacheSHA256Async(string filePath, string remoteHash, CancellationToken token = default)
+    private static async ValueTask<bool> CheckUpdateCacheSha256Async(string filePath, string remoteHash, CancellationToken token = default)
     {
         string localHash = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, filePath, token).ConfigureAwait(false);
         return string.Equals(localHash, remoteHash, StringComparison.OrdinalIgnoreCase);
@@ -192,13 +192,14 @@ internal sealed partial class UpdateService : IUpdateService
             }
 
             string remoteHash = mirrorInformation.Validation;
-            if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
+            if (await CheckUpdateCacheSha256Async(filePath, remoteHash, token).ConfigureAwait(false))
             {
                 return true;
             }
         }
         catch
         {
+            // Ignore
         }
 
         return false;
