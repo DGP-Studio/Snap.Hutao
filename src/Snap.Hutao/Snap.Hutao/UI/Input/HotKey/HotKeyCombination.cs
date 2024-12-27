@@ -200,7 +200,6 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             {
                 // Turn off
                 cts?.Cancel();
-                cts?.Dispose();
                 cts = default;
                 IsOn = false;
             }
@@ -227,7 +226,6 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         }
 
         cts?.Cancel();
-        cts?.Dispose();
         cts = default;
         IsOn = false;
 
