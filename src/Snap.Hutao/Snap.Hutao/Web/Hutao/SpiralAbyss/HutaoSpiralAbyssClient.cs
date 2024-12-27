@@ -187,7 +187,8 @@ internal sealed partial class HutaoSpiralAbyssClient
         if (ResponseValidator.TryValidate(spiralAbyssResponse, serviceProvider, out Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss))
         {
             HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-            return new(userAndUid.Uid.Value, detailsWrapper.List, spiralAbyss, options.GetActualUserName());
+            string? userName = await options.GetActualUserNameAsync().ConfigureAwait(false);
+            return new(userAndUid.Uid.Value, detailsWrapper.List, spiralAbyss, userName);
         }
 
         return default;

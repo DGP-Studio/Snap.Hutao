@@ -20,10 +20,10 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 {
-    private readonly INavigationService navigationService;
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGachaLogHutaoCloudService hutaoCloudService;
-    private readonly IHutaoUserService hutaoUserService;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly INavigationService navigationService;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
@@ -47,7 +47,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        await hutaoUserService.InitializeAsync().ConfigureAwait(false);
+        await hutaoUserOptions.WaitUserInfoInitializationAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
         return true;
     }
@@ -114,7 +114,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
     private async ValueTask RefreshUidCollectionAsync()
     {
-        if (Options.IsGachaLogCloudServiceAllowed)
+        if (Options.IsHutaoCloudAllowed)
         {
             Response<ImmutableArray<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 

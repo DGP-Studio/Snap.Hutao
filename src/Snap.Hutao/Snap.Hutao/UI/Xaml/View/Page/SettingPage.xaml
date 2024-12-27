@@ -215,7 +215,7 @@
                                                 Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
                                                 Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperDescription}"
                                                 Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperHeader}"
-                                                Visibility="{Binding HutaoUserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                Visibility="{Binding HutaoUserOptions.IsDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
                                                 <Button
                                                     Command="{Binding OpenTestPageCommand}"
                                                     Content="TEST"
@@ -226,7 +226,7 @@
                                                 Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
                                                 Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
                                                 Visibility="{Binding HutaoUserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <cwc:SettingsCard Description="{Binding HutaoUserOptions.GachaLogExpireAt}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
+                                            <cwc:SettingsCard Description="{Binding HutaoUserOptions.CloudExpireAt}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
                                             <cwc:SettingsCard Description="{Binding HutaoUserOptions.CdnExpireAt}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportCdnExpiredAtHeader}"/>
                                             <cwc:SettingsCard
                                                 Command="{Binding OpenRedeemWebsiteCommand}"

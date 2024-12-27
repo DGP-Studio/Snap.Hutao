@@ -27,7 +27,7 @@ internal sealed class AsyncManualResetEvent
         while (true)
         {
             TaskCompletionSource tcs = this.tcs;
-            if (!tcs.Task.IsCompleted || Interlocked.CompareExchange(ref this.tcs, new TaskCompletionSource(), tcs) == tcs)
+            if (!tcs.Task.IsCompleted || Interlocked.CompareExchange(ref this.tcs, new(), tcs) == tcs)
             {
                 return;
             }

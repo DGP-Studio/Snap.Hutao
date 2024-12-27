@@ -172,15 +172,11 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget(logger);
         serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget(logger);
+        serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);
 
         if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
         {
             metadataServiceInitialization.InitializeInternalAsync().SafeForget(logger);
-        }
-
-        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
-        {
-            hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget(logger);
         }
     }
 

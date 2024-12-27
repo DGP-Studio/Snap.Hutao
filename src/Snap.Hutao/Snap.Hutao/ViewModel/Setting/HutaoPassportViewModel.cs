@@ -4,13 +4,9 @@
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Endpoint.Hutao;
-using Snap.Hutao.Web.Hutao;
-using Snap.Hutao.Web.Hutao.Response;
-using Snap.Hutao.Web.Response;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -21,10 +17,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly INavigationService navigationService;
-    private readonly IInfoBarService infoBarService;
-    private readonly ITaskContext taskContext;
 
     public partial HutaoUserOptions HutaoUserOptions { get; }
 
@@ -58,17 +51,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             return;
         }
 
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
-        {
-            HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-            HutaoResponse<string> response = await hutaoPassportClient.RegisterAsync(username, password, verifyCode).ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
-            {
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await HutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
-            }
-        }
+        await HutaoUserOptions.RegisterAsync(username, password, verifyCode).ConfigureAwait(false);
     }
 
     [Command("UnregisterCommand")]
@@ -89,19 +72,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             return;
         }
 
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
-        {
-            HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-            HutaoResponse response = await hutaoPassportClient.UnregisterAsync(username, password, verifyCode).ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(response, infoBarService))
-            {
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
-
-                await taskContext.SwitchToMainThreadAsync();
-                HutaoUserOptions.PostLogoutOrUnregister();
-            }
-        }
+        await HutaoUserOptions.UnregisterAsync(username, password, verifyCode).ConfigureAwait(false);
     }
 
     [Command("LoginCommand")]
@@ -122,23 +93,13 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             return;
         }
 
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
-        {
-            HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-            HutaoResponse<string> response = await hutaoPassportClient.LoginAsync(username, password).ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
-            {
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await HutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
-            }
-        }
+        await HutaoUserOptions.LoginAsync(username, password, false).ConfigureAwait(false);
     }
 
     [Command("LogoutCommand")]
-    private void LogoutAsync()
+    private async Task LogoutAsync()
     {
-        HutaoUserOptions.PostLogoutOrUnregister();
+        await HutaoUserOptions.LogoutAsync().ConfigureAwait(false);
     }
 
     [Command("ResetPasswordCommand")]
@@ -159,16 +120,6 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
             return;
         }
 
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
-        {
-            HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-            HutaoResponse<string> response = await hutaoPassportClient.ResetPasswordAsync(username, password, verifyCode).ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(response, infoBarService, out string? token))
-            {
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                await HutaoUserOptions.PostLoginSucceedAsync(scope.ServiceProvider, username, password, token).ConfigureAwait(false);
-            }
-        }
+        await HutaoUserOptions.ResetPasswordAsync(username, password, verifyCode).ConfigureAwait(false);
     }
 }
