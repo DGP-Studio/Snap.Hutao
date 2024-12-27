@@ -172,7 +172,7 @@ internal sealed partial class HutaoSpiralAbyssClient
         }
 
         Response<ListWrapper<DetailedCharacter>> detailResponse = await gameRecordClient
-            .GetCharacterDetailAsync(userAndUid, charactersWrapper.List.SelectList(c => c.Id), token)
+            .GetCharacterDetailAsync(userAndUid, charactersWrapper.List.SelectAsArray(c => c.Id), token)
             .ConfigureAwait(false);
 
         if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, out ListWrapper<DetailedCharacter>? detailsWrapper))

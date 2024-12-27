@@ -229,23 +229,6 @@ internal sealed class XamlWindowController
 
         return true;
     }
-
-    private static bool UpdateElementTheme(Window window, ElementTheme theme)
-    {
-        if (window is IXamlWindowContentAsFrameworkElement xamlWindow)
-        {
-            xamlWindow.ContentAccess.RequestedTheme = theme;
-            return true;
-        }
-
-        if (window.Content is FrameworkElement frameworkElement)
-        {
-            frameworkElement.RequestedTheme = theme;
-            return true;
-        }
-
-        return false;
-    }
     #endregion
 
     #region IXamlWindowContentAsFrameworkElement

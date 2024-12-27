@@ -24,6 +24,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
@@ -234,7 +235,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         BatchCultivateResult result = default;
         using (await scopeContext.ContentDialogFactory.BlockAsync(progressDialog).ConfigureAwait(false))
         {
-            List<CalculatorAvatarPromotionDelta> deltas = [];
+            ImmutableArray<CalculatorAvatarPromotionDelta>.Builder deltasBuilder = ImmutableArray.CreateBuilder<CalculatorAvatarPromotionDelta>();
             foreach (AvatarView avatar in avatars)
             {
                 if (!deltaOptions.Delta.TryGetNonErrorCopy(avatar, out CalculatorAvatarPromotionDelta? copy))
@@ -243,8 +244,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     continue;
                 }
 
-                deltas.Add(copy);
+                deltasBuilder.Add(copy);
             }
+
+            ImmutableArray<CalculatorAvatarPromotionDelta> deltas = deltasBuilder.ToImmutable();
 
             CalculatorBatchConsumption? batchConsumption;
             using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())

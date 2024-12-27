@@ -48,6 +48,7 @@ internal sealed class WrapLayoutState
         }
         catch
         {
+            // Ignore
         }
 
         items.Clear();
@@ -57,7 +58,7 @@ internal sealed class WrapLayoutState
     {
         if (index >= items.Count)
         {
-            // Item was added/removed but we haven't realized that far yet
+            // Item was added/removed, but we haven't realized that far yet
             return;
         }
 

@@ -40,20 +40,20 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         return wrapper;
     }
 
-    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
+    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, ImmutableArray<AnnouncementListWrapper> announcementListWrappers)
     {
         // 将公告内容联入公告列表
-        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
+        foreach (ref readonly AnnouncementListWrapper listWrapper in announcementListWrappers.AsSpan())
         {
-            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            foreach (ref readonly WebAnnouncement item in listWrapper.List.AsSpan())
             {
                 item.Content = contentMap.GetValueOrDefault(item.AnnId, string.Empty);
             }
         }
 
-        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
+        foreach (ref readonly AnnouncementListWrapper listWrapper in announcementListWrappers.AsSpan())
         {
-            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            foreach (ref readonly WebAnnouncement item in listWrapper.List.AsSpan())
             {
                 item.Subtitle = new StringBuilder(item.Subtitle)
                     .Replace("\r<br>", string.Empty)
@@ -84,7 +84,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        List<AnnouncementContent>? contents;
+        ImmutableArray<AnnouncementContent> contents;
         AnnouncementWrapper? wrapper;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
@@ -114,7 +114,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         Dictionary<int, string> contentMap = contents.ToDictionary(id => id.AnnId, content => content.Content);
 
         // 将活动公告置于前方
-        wrapper.List.Reverse();
+        wrapper.List = wrapper.List.Reverse();
 
         PreprocessAnnouncements(contentMap, wrapper.List);
         try
@@ -129,15 +129,15 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         return wrapper;
     }
 
-    private async ValueTask AdjustAnnouncementTimeAsync(List<AnnouncementListWrapper> announcementListWrappers, TimeSpan offset)
+    private async ValueTask AdjustAnnouncementTimeAsync(ImmutableArray<AnnouncementListWrapper> announcementListWrappers, TimeSpan offset)
     {
         // 活动公告
-        List<WebAnnouncement> activities = announcementListWrappers
+        ImmutableArray<WebAnnouncement> activities = announcementListWrappers
             .Single(wrapper => wrapper.TypeId is 1)
             .List;
 
         // 游戏公告
-        List<WebAnnouncement> announcements = announcementListWrappers
+        ImmutableArray<WebAnnouncement> announcements = announcementListWrappers
             .Single(wrapper => wrapper.TypeId is 2)
             .List;
 

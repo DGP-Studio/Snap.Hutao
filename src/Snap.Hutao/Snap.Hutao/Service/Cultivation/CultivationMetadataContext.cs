@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
@@ -10,9 +11,6 @@ namespace Snap.Hutao.Service.Cultivation;
 
 internal class CultivationMetadataContext : ICultivationMetadataContext
 {
-    private readonly Dictionary<AvatarId, Item> avatarItemCache = [];
-    private readonly Dictionary<WeaponId, Item> weaponItemCache = [];
-
     public ImmutableArray<Material> Materials { get; set; } = default!;
 
     public ImmutableDictionary<MaterialId, Material> IdMaterialMap { get; set; } = default!;
@@ -23,23 +21,11 @@ internal class CultivationMetadataContext : ICultivationMetadataContext
 
     public Item GetAvatarItem(AvatarId avatarId)
     {
-        if (!avatarItemCache.TryGetValue(avatarId, out Item? item))
-        {
-            item = IdAvatarMap[avatarId].ToItem<Item>();
-            avatarItemCache[avatarId] = item;
-        }
-
-        return item;
+        return IdAvatarMap[avatarId].GetOrCreateItem();
     }
 
     public Item GetWeaponItem(WeaponId weaponId)
     {
-        if (!weaponItemCache.TryGetValue(weaponId, out Item? item))
-        {
-            item = IdWeaponMap[weaponId].ToItem<Item>();
-            weaponItemCache[weaponId] = item;
-        }
-
-        return item;
+        return IdWeaponMap[weaponId].GetOrCreateItem();
     }
 }

@@ -10,6 +10,8 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoSpiralAbyssService))]
 internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHutaoSpiralAbyssService
 {
+    public override string TypeName { get; } = nameof(HutaoSpiralAbyssService);
+
     public async ValueTask<Overview> GetOverviewAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())

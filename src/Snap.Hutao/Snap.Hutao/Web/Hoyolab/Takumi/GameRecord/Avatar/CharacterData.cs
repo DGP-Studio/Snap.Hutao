@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
@@ -13,7 +14,7 @@ internal sealed class CharacterData
         Server = uid.Region;
     }
 
-    public CharacterData(PlayerUid uid, List<AvatarId> characterIds)
+    public CharacterData(PlayerUid uid, ImmutableArray<AvatarId> characterIds)
         : this(uid)
     {
         CharacterIds = characterIds;
@@ -23,7 +24,7 @@ internal sealed class CharacterData
     public uint SortType { get; } = 1;
 
     [JsonPropertyName("character_ids")]
-    public List<AvatarId>? CharacterIds { get; }
+    public ImmutableArray<AvatarId>? CharacterIds { get; }
 
     [JsonPropertyName("role_id")]
     public string Uid { get; }

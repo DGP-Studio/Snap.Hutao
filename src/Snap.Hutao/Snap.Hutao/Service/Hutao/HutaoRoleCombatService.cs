@@ -9,6 +9,8 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoRoleCombatService))]
 internal sealed partial class HutaoRoleCombatService : ObjectCacheService, IHutaoRoleCombatService
 {
+    public override string TypeName { get; } = nameof(HutaoRoleCombatService);
+
     public async ValueTask<RoleCombatStatisticsItem> GetRoleCombatStatisticsItemAsync()
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())

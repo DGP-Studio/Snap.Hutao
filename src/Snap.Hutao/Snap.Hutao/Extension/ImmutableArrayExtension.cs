@@ -9,9 +9,24 @@ namespace Snap.Hutao.Extension;
 
 internal static class ImmutableArrayExtension
 {
+    [Pure]
     public static ImmutableArray<TElement> EmptyIfDefault<TElement>(this ImmutableArray<TElement> array)
     {
         return array.IsDefault ? [] : array;
+    }
+
+    [Pure]
+    public static ImmutableArray<TElement> Reverse<TElement>(this ImmutableArray<TElement> array)
+    {
+        if (array.IsEmpty)
+        {
+            return array;
+        }
+
+        TElement[] reversed = GC.AllocateUninitializedArray<TElement>(array.Length);
+        array.AsSpan().CopyTo(reversed);
+        Array.Reverse(reversed);
+        return ImmutableCollectionsMarshal.AsImmutableArray(reversed);
     }
 
     [Pure]

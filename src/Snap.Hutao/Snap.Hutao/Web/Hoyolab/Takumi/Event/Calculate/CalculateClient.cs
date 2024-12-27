@@ -7,6 +7,7 @@ using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
@@ -27,7 +28,7 @@ internal sealed partial class CalculateClient
         return await BatchComputeAsync(userAndUid, [delta], syncInventory, token).ConfigureAwait(false);
     }
 
-    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, bool syncInventory = false, CancellationToken token = default)
+    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, ImmutableArray<AvatarPromotionDelta> deltas, bool syncInventory = false, CancellationToken token = default)
     {
         BatchConsumptionData data = new()
         {
@@ -89,7 +90,7 @@ internal sealed partial class CalculateClient
 
             await Task.Delay(Random.Shared.Next(0, 1000), token).ConfigureAwait(false);
         }
-        while (resp.Data is { List.Count: 20 });
+        while (resp.Data is { List.Length: 20 });
 
         return avatars;
     }
@@ -128,9 +129,9 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, List<Item> items, CancellationToken token)
+    public async ValueTask<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, ImmutableArray<Item> items, CancellationToken token)
     {
-        ListWrapper<IdCount> data = new() { List = items.Select(i => new IdCount { Id = i.Id, Count = i.Num }).ToList() };
+        ListWrapper<IdCount> data = new() { List = items.SelectAsArray(i => new IdCount { Id = i.Id, Count = i.Num }) };
 
         IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(user.IsOversea);
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -146,7 +147,7 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<List<Avatar>> GetAllAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<ImmutableArray<Avatar>> GetAllAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         SyncAvatarFilter filter = new() { Page = 1, Size = 1000, IsAll = true };
 
@@ -172,7 +173,7 @@ internal sealed partial class CalculateClient
         return [];
     }
 
-    public async ValueTask<List<Weapon>> GetAllWeaponsAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<ImmutableArray<Weapon>> GetAllWeaponsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         SyncWeaponFilter filter = new() { WeaponLevels = [4, 5] };
 
@@ -249,12 +250,12 @@ internal sealed partial class CalculateClient
     private class BatchConsumptionData
     {
         [JsonPropertyName("items")]
-        public List<AvatarPromotionDelta> Items { get; set; } = default!;
+        public required ImmutableArray<AvatarPromotionDelta> Items { get; init; }
 
         [JsonPropertyName("region")]
-        public Region Region { get; set; }
+        public required Region Region { get; init; }
 
         [JsonPropertyName("uid")]
-        public string Uid { get; set; } = default!;
+        public required string Uid { get; init; }
     }
 }
