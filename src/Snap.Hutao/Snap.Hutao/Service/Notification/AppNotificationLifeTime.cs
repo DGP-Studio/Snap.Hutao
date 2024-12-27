@@ -5,9 +5,9 @@ using Microsoft.Windows.AppNotifications;
 
 namespace Snap.Hutao.Service.Notification;
 
+[Injection(InjectAs.Singleton, typeof(IAppNotificationLifeTime))]
 internal sealed partial class AppNotificationLifeTime : IAppNotificationLifeTime
 {
-    /// <inheritdoc/>
     public void Dispose()
     {
         // 用于在程序退出时尝试清除所有的系统通知
@@ -18,6 +18,7 @@ internal sealed partial class AppNotificationLifeTime : IAppNotificationLifeTime
         }
         catch
         {
+            // Ignored
         }
     }
 }

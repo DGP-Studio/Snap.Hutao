@@ -3,6 +3,8 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.RoleCombat;
 using Snap.Hutao.Service.User;
@@ -21,9 +23,12 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
 {
     private readonly IRoleCombatService roleCombatService;
     private readonly IServiceProvider serviceProvider;
+    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+
+    private RoleCombatMetadataContext? metadataContext;
 
     public IAdvancedCollectionView<RoleCombatView>? RoleCombatEntries { get; set => SetProperty(ref field, value); }
 
@@ -43,16 +48,20 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        if (await roleCombatService.InitializeAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
-            {
-                await UpdateRoleCombatCollectionAsync(userAndUid).ConfigureAwait(false);
-            }
-            else
-            {
-                infoBarService.Warning(SH.MustSelectUserAndUid);
-            }
+            return false;
+        }
+
+        metadataContext = await metadataService.GetContextAsync<RoleCombatMetadataContext>().ConfigureAwait(false);
+
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
+        {
+            await UpdateRoleCombatCollectionAsync(userAndUid).ConfigureAwait(false);
+        }
+        else
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
         }
 
         return true;
@@ -61,13 +70,18 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     [SuppressMessage("", "SH003")]
     private async Task UpdateRoleCombatCollectionAsync(UserAndUid userAndUid)
     {
+        if (metadataContext is null)
+        {
+            return;
+        }
+
         try
         {
             ObservableCollection<RoleCombatView> collection;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 collection = await roleCombatService
-                    .GetRoleCombatViewCollectionAsync(userAndUid)
+                    .GetRoleCombatViewCollectionAsync(metadataContext, userAndUid)
                     .ConfigureAwait(false);
             }
 
@@ -85,6 +99,11 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     [Command("RefreshCommand")]
     private async Task RefreshAsync()
     {
+        if (metadataContext is null)
+        {
+            return;
+        }
+
         if (RoleCombatEntries is not null)
         {
             if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
@@ -94,7 +113,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
                     using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
                         await roleCombatService
-                            .RefreshRoleCombatAsync(userAndUid)
+                            .RefreshRoleCombatAsync(metadataContext, userAndUid)
                             .ConfigureAwait(false);
                     }
                 }

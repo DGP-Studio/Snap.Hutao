@@ -29,6 +29,18 @@ internal static class ImmutableArrayExtension
         return ImmutableCollectionsMarshal.AsImmutableArray(reversed);
     }
 
+    public static void ReverseInPlace<TElement>(this ImmutableArray<TElement> array)
+    {
+        if (array.IsEmpty)
+        {
+            return;
+        }
+
+        TElement[]? raw = ImmutableCollectionsMarshal.AsArray(array);
+        ArgumentNullException.ThrowIfNull(raw);
+        Array.Reverse(raw);
+    }
+
     [Pure]
     public static ImmutableArray<TResult> SelectAsArray<TSource, TResult>(this ImmutableArray<TSource> array, Func<TSource, TResult> selector)
     {

@@ -40,6 +40,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
 
     public Type? CurrentPageType { get => frame?.Content?.GetType(); }
 
+    [DisallowNull]
     private NavigationView? NavigationView
     {
         get;
@@ -55,7 +56,6 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
                 field.PaneOpened -= paneClosedEventHandler;
             }
 
-            ArgumentNullException.ThrowIfNull(value);
             field = value;
 
             // add new listener

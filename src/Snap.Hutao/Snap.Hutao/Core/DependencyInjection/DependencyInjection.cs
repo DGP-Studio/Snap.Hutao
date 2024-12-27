@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -47,6 +48,7 @@ internal static class DependencyInjection
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
+        serviceProvider.InitializeNotification();
         serviceProvider.InitializeConsoleWindow();
         serviceProvider.InitializeCulture();
 
@@ -80,5 +82,11 @@ internal static class DependencyInjection
     private static void InitializeConsoleWindow(this IServiceProvider serviceProvider)
     {
         _ = serviceProvider.GetRequiredService<ConsoleWindowLifeTime>();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void InitializeNotification(this IServiceProvider serviceProvider)
+    {
+        _ = serviceProvider.GetRequiredService<IAppNotificationLifeTime>();
     }
 }

@@ -4,13 +4,13 @@
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.RoleCombat;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 using Snap.Hutao.Web.Response;
 using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.RoleCombat;
@@ -21,24 +21,11 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 {
     private readonly IRoleCombatRepository roleCombatRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
     private readonly ConcurrentDictionary<string, ObservableCollection<RoleCombatView>> roleCombatCollectionCache = [];
-    private RoleCombatMetadataContext? metadataContext;
 
-    public async ValueTask<bool> InitializeAsync()
-    {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
-        {
-            metadataContext = await metadataService.GetContextAsync<RoleCombatMetadataContext>().ConfigureAwait(false);
-            return true;
-        }
-
-        return false;
-    }
-
-    public async ValueTask<ObservableCollection<RoleCombatView>> GetRoleCombatViewCollectionAsync(UserAndUid userAndUid)
+    public async ValueTask<ObservableCollection<RoleCombatView>> GetRoleCombatViewCollectionAsync(RoleCombatMetadataContext context, UserAndUid userAndUid)
     {
         if (roleCombatCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<RoleCombatView>? collection))
         {
@@ -46,11 +33,11 @@ internal sealed partial class RoleCombatService : IRoleCombatService
         }
 
         await taskContext.SwitchToBackgroundAsync();
-        Dictionary<uint, RoleCombatEntry> entryMap = roleCombatRepository.GetRoleCombatEntryMapByUid(userAndUid.Uid.Value);
+        FrozenDictionary<uint, RoleCombatEntry> entryMap = roleCombatRepository.GetRoleCombatEntryMapByUid(userAndUid.Uid.Value);
 
-        ArgumentNullException.ThrowIfNull(metadataContext);
-        ObservableCollection<RoleCombatView> result = metadataContext.IdRoleCombatScheduleMap.Values
-            .Select(sch => RoleCombatView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
+        ArgumentNullException.ThrowIfNull(context);
+        ObservableCollection<RoleCombatView> result = context.IdRoleCombatScheduleMap.Values
+            .Select(sch => RoleCombatView.From(entryMap.GetValueOrDefault(sch.Id), sch, context))
             .OrderByDescending(e => e.ScheduleId)
             .ToObservableCollection();
 
@@ -58,7 +45,7 @@ internal sealed partial class RoleCombatService : IRoleCombatService
         return result;
     }
 
-    public async ValueTask RefreshRoleCombatAsync(UserAndUid userAndUid)
+    public async ValueTask RefreshRoleCombatAsync(RoleCombatMetadataContext context, UserAndUid userAndUid)
     {
         Web.Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat? webRoleCombat;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
@@ -89,18 +76,18 @@ internal sealed partial class RoleCombatService : IRoleCombatService
                 continue;
             }
 
-            await RefreshRoleCombatCoreAsync(userAndUid, roleCombatData).ConfigureAwait(false);
+            await RefreshRoleCombatCoreAsync(context, userAndUid, roleCombatData).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask RefreshRoleCombatCoreAsync(UserAndUid userAndUid, RoleCombatData roleCombatData)
+    private async ValueTask RefreshRoleCombatCoreAsync(RoleCombatMetadataContext context, UserAndUid userAndUid, RoleCombatData roleCombatData)
     {
         if (!roleCombatCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<RoleCombatView>? roleCombats))
         {
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(metadataContext);
+        ArgumentNullException.ThrowIfNull(context);
 
         int index = roleCombats.FirstIndexOf(s => s.ScheduleId == roleCombatData.Schedule.ScheduleId);
         if (index < 0)
@@ -127,6 +114,6 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 
         await taskContext.SwitchToMainThreadAsync();
         roleCombats.RemoveAt(index);
-        roleCombats.Insert(index, RoleCombatView.From(targetEntry, metadataContext));
+        roleCombats.Insert(index, RoleCombatView.From(targetEntry, context));
     }
 }
