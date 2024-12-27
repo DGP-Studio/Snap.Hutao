@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-internal sealed class ResinStatistics : ObservableObject
+internal sealed partial class ResinStatistics : ObservableObject
 {
     public ResinStatistics()
     {

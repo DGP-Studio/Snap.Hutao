@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Hutao;
 

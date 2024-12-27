@@ -34,7 +34,6 @@
                     Background="{ThemeResource LightOnlyIconBackgroundColorBrush}"
                     CornerRadius="{ThemeResource ControlCornerRadius}">
                     <shuxci:CachedImage
-                        Grid.Column="0"
                         Width="36"
                         Height="36"
                         Source="{Binding Icon}"/>

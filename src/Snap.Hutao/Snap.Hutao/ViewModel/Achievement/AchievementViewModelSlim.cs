@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -13,7 +14,8 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Transient)]
 internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSlim<AchievementPage>
 {
-    public ImmutableArray<AchievementStatistics> StatisticsList { get; set => SetProperty(ref field, value); } = ImmutableArray<AchievementStatistics>.Empty;
+    [ObservableProperty]
+    public partial ImmutableArray<AchievementStatistics> StatisticsList { get; set; } = ImmutableArray<AchievementStatistics>.Empty;
 
     protected override async Task LoadAsync()
     {

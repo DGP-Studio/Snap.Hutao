@@ -10,8 +10,6 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 using Snap.Hutao.Web.Hutao.Geetest;
 using Snap.Hutao.Web.Response;
-using System.Buffers.Text;
-using System.Text;
 
 namespace Snap.Hutao.Service.Geetest;
 

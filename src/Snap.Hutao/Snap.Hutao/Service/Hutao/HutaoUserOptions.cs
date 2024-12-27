@@ -25,21 +25,29 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
     private AuthTokenExpiration authTokenExpiration;
 
-    public bool IsLoggedIn { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsLoggedIn { get; set; }
 
-    public string? UserName { get; set => SetProperty(ref field, value); } = SH.ViewServiceHutaoUserLoginOrRegisterHint;
+    [ObservableProperty]
+    public partial string? UserName { get; set; } = SH.ViewServiceHutaoUserLoginOrRegisterHint;
 
-    public bool IsHutaoCloudAllowed { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsHutaoCloudAllowed { get; set; }
 
-    public string? CloudExpireAt { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? CloudExpireAt { get; set; }
 
-    public bool IsHutaoCdnAllowed { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsHutaoCdnAllowed { get; set; }
 
-    public string? CdnExpireAt { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? CdnExpireAt { get; set; }
 
-    public bool IsDeveloper { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsDeveloper { get; set; }
 
-    public bool IsMaintainer { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsMaintainer { get; set; }
 
     public async ValueTask<string?> GetActualUserNameAsync()
     {

@@ -11,7 +11,7 @@ internal sealed class AchievementStatistics
 
     public string FinishDescription { get; set; } = default!;
 
-    public ImmutableArray<AchievementView> Achievements { get; set; } = default!;
+    public ImmutableArray<AchievementView> Achievements { get; set; }
 
     /// <summary>
     /// 格式化完成进度

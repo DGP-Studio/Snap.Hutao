@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Linq;
 using Snap.Hutao.Model;
@@ -33,7 +34,8 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
-    public IAdvancedCollectionView<CalendarDay>? WeekDays { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IAdvancedCollectionView<CalendarDay>? WeekDays { get; set; }
 
     protected override async Task LoadAsync()
     {

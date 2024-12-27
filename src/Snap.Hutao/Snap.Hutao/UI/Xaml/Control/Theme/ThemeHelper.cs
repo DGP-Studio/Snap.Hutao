@@ -19,7 +19,7 @@ internal static class ThemeHelper
         };
     }
 
-    public static unsafe Snap.WinUI.FrameworkTheming.Theme ApplicationToFramework(ApplicationTheme applicationTheme)
+    public static Snap.WinUI.FrameworkTheming.Theme ApplicationToFramework(ApplicationTheme applicationTheme)
     {
         return applicationTheme switch
         {
@@ -29,7 +29,7 @@ internal static class ThemeHelper
         };
     }
 
-    public static unsafe Snap.WinUI.FrameworkTheming.Theme ApplicationToFrameworkInvert(ApplicationTheme applicationTheme)
+    public static Snap.WinUI.FrameworkTheming.Theme ApplicationToFrameworkInvert(ApplicationTheme applicationTheme)
     {
         return applicationTheme switch
         {

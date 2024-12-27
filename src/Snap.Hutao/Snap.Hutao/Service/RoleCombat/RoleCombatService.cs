@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.RoleCombat;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;

@@ -54,9 +54,11 @@ internal sealed partial class DownloadSummary : ObservableObject
 
     public string Filename { get; }
 
-    public string Description { get; private set => SetProperty(ref field, value); } = SH.ViewModelWelcomeDownloadSummaryDefault;
+    [ObservableProperty]
+    public partial string Description { get; private set; } = SH.ViewModelWelcomeDownloadSummaryDefault;
 
-    public double ProgressValue { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial double ProgressValue { get; set; }
 
     public async ValueTask<bool> DownloadAndExtractAsync()
     {

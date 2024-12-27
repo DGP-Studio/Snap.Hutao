@@ -7,7 +7,7 @@ using Snap.Hutao.Model.Metadata.Item;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-internal sealed partial class ResinStatisticsItem
+internal sealed class ResinStatisticsItem
 {
     private readonly bool canUseCondensedResin;
     private readonly ResinStatisticsItemKind kind;

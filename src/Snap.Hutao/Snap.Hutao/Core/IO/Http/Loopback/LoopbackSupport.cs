@@ -23,7 +23,8 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
         Initialize(out hutaoContainerStringSid);
     }
 
-    public bool IsLoopbackEnabled { get; private set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsLoopbackEnabled { get; private set; }
 
     public void EnableLoopback()
     {

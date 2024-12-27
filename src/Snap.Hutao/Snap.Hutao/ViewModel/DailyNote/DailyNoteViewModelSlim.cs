@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
@@ -23,7 +24,8 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
 
     private DailyNoteMetadataContext? metadataContext;
 
-    public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set; }
 
     /// <inheritdoc/>
     protected override async Task LoadAsync()

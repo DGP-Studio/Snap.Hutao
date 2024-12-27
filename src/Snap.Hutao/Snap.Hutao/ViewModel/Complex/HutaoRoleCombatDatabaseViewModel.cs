@@ -27,7 +27,7 @@ internal sealed partial class HutaoRoleCombatDatabaseViewModel : Abstraction.Vie
             return;
         }
 
-        HutaoRoleCombatStatisticsMetadataContext context = await metadataService.GetContextAsync<HutaoRoleCombatStatisticsMetadataContext>();
+        HutaoRoleCombatStatisticsMetadataContext context = await metadataService.GetContextAsync<HutaoRoleCombatStatisticsMetadataContext>().ConfigureAwait(false);
         await hutaoCache.InitializeForRoleCombatViewAsync(context).ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();
 

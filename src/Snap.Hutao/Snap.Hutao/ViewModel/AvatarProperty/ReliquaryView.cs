@@ -7,7 +7,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 internal sealed class ReliquaryView : EquipView
 {
-    public ImmutableArray<ReliquaryComposedSubProperty> ComposedSubProperties { get; set; } = default!;
+    public ImmutableArray<ReliquaryComposedSubProperty> ComposedSubProperties { get; set; }
 
     public string SetName { get; set; } = default!;
 }

@@ -9,5 +9,6 @@ namespace Snap.Hutao.Service.BackgroundImage;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class BackgroundImageOptions : ObservableObject
 {
-    public Wallpaper? Wallpaper { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial Wallpaper? Wallpaper { get; set; }
 }

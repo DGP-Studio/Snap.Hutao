@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -18,7 +19,8 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    public ImmutableArray<GachaStatisticsSlim> StatisticsList { get; set => SetProperty(ref field, value); } = [];
+    [ObservableProperty]
+    public partial ImmutableArray<GachaStatisticsSlim> StatisticsList { get; set; } = [];
 
     protected override async Task LoadAsync()
     {
@@ -30,7 +32,7 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
             {
                 try
                 {
-                    GachaLogServiceMetadataContext context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>();
+                    GachaLogServiceMetadataContext context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>().ConfigureAwait(false);
                     ImmutableArray<GachaStatisticsSlim> array = await gachaLogService.GetStatisticsSlimImmutableArrayAsync(context).ConfigureAwait(false);
 
                     await taskContext.SwitchToMainThreadAsync();

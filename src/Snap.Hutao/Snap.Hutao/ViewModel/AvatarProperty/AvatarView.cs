@@ -32,7 +32,7 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public RecommendPropertiesView RecommendedProperties { get; set; } = default!;
 
-    public ImmutableArray<ReliquaryView> Reliquaries { get; set; } = default!;
+    public ImmutableArray<ReliquaryView> Reliquaries { get; set; }
 
     public ImmutableArray<ConstellationView> Constellations { get; set; }
 
@@ -40,7 +40,7 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public ImmutableArray<SkillView> Skills { get; set; }
 
-    public ImmutableArray<AvatarProperty> Properties { get; set; } = default!;
+    public ImmutableArray<AvatarProperty> Properties { get; set; }
 
     public uint FetterLevel { get; set; }
 

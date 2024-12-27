@@ -10,7 +10,6 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
 using GachaItem = Snap.Hutao.Model.Entity.GachaItem;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;

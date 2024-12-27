@@ -8,7 +8,6 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using WebAnnouncement = Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement.Announcement;
