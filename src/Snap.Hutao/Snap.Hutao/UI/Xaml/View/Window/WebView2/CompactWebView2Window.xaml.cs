@@ -92,6 +92,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         WebView.Loaded += OnWebViewLoaded;
         WebView.Unloaded += OnWebViewUnloaded;
+        WebView.NavigationStarting += OnWebViewNavigationStarting;
+        WebView.NavigationCompleted += OnWebViewNavigationCompleted;
 
         this.InitializeController(windowScope.ServiceProvider);
 
@@ -219,6 +221,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         WebView.CoreWebView2.Reload();
     }
 
+    [Command("StopRefreshCommand")]
+    private void StopRefresh()
+    {
+        WebView.CoreWebView2.Stop();
+    }
+
     [Command("ToggleLockCommand")]
     private void ToggleLock()
     {
@@ -343,5 +351,19 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new(propertyName));
+    }
+
+    private void OnWebViewNavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
+    {
+        RefreshButton.Content = "\uF78A";
+        RefreshButton.Command = StopRefreshCommand;
+        ProgressRing.Visibility = Visibility.Visible;
+    }
+
+    private void OnWebViewNavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+    {
+        RefreshButton.Content = "\uE72C";
+        RefreshButton.Command = RefreshCommand;
+        ProgressRing.Visibility = Visibility.Collapsed;
     }
 }
