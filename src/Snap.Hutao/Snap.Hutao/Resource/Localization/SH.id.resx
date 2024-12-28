@@ -691,6 +691,15 @@
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓waktu pembaruan〓</value>
   </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>美服 UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>其他 UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>欧服 UTC-01</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
     <comment>Need EXACT same string in game</comment>
@@ -1119,7 +1128,7 @@
     <value>解锁帧率失败：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>Layanan cadangan data riwayat keinginan akan berakhir pada</value>
+    <value>祈愿记录上传服务有效期至</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Tidak dapat menemukan berkas metadata yang di-cache</value>
@@ -3188,6 +3197,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>Pemberitahuan Server</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>选择材料日历获取当天日期时使用的游戏服务器时区</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>日历服务器</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Mengelola Cards di dasbor utama</value>
   </data>
@@ -3218,6 +3233,9 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>Beranda</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>胡桃云 CDN 到期时间</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>Lanjutkan dengan hati-hati</value>
   </data>
@@ -3225,7 +3243,7 @@
     <value>Zona Berbahaya</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>Snap Hutao Cloud akan kadaluarsa pada</value>
+    <value>胡桃云祈愿记录服务到期时间</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao Passport</value>
@@ -3270,13 +3288,22 @@
     <value>Aktifkan Fitur Lanjutan</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>Ubah Pintasan Auto Click</value>
+    <value>更改鼠标左键自动连点功能的快捷键</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>Auto Click</value>
+    <value>鼠标左键自动连点</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>更改键盘 F 键自动连按功能的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>键盘 F 键自动连按</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Tombol Pintas</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
@@ -3592,6 +3619,12 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自动连按</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>正在初始化元数据</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安装更新</value>
