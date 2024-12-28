@@ -43,7 +43,8 @@
                     Height="16"
                     Margin="16,2,4,2"
                     IsActive="True"
-                    IsIndeterminate="True"/>
+                    IsIndeterminate="True"
+                    Visibility="Collapsed"/>
                 <Grid x:Name="TitleArea" Grid.Column="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
