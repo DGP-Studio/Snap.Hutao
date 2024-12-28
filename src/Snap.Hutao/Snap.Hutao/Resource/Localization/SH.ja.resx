@@ -691,6 +691,15 @@
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓更新時期〓</value>
   </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>北アメリカ UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>他のサーバ UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>ヨーロッパ UTC-01</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
     <comment>Need EXACT same string in game</comment>
@@ -1120,7 +1129,7 @@
     <value>フレームレートロック解除に失敗しました：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈願履歴のアップロード期限は</value>
+    <value>祈願履歴のアップロードサービス期限は</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
@@ -3190,6 +3199,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>お知らせのサーバー</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>素材カレンダーが当日の日付を取得する際に使用するゲームサーバーのタイムゾーンを選択します</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>カレンダーサーバー</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>ホームのダッシュボードでカードを管理する</value>
   </data>
@@ -3220,6 +3235,9 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>ホーム</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>胡桃クラウド CDN 有効期限</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>考え直して！！</value>
   </data>
@@ -3227,7 +3245,7 @@
     <value>危険な操作</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃クラウドサービスの有効期限</value>
+    <value>胡桃クラウド祈願履歴サービスの有効期限</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃アカウント</value>
@@ -3272,13 +3290,22 @@
     <value>高度な機能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>オートクリック機能のショートカットキーを変更します</value>
+    <value>左クリックの自動押し機能のショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>マウス左ボタンの自動クリック</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>F キーの自動押し機能のショートカットキーを変更します</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>キーボード F キーの自動連打</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
@@ -3593,7 +3620,13 @@
     <value>胡桃 ver {0} の準備が整いました</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>自動クリック</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自動連打</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>メタデータを初期化中</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>
