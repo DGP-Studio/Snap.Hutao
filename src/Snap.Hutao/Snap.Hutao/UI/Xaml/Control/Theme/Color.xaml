@@ -24,7 +24,7 @@
     <Color x:Key="UpPullColor">#FFFFA400</Color>
 
     <SolidColorBrush x:Key="SolidBackgroundFillColorTransparentBrush" Color="{ThemeResource SolidBackgroundFillColorTransparent}"/>
-    
+
     <SolidColorBrush x:Key="BlueColorBrush" Color="{ThemeResource BlueColor}"/>
     <SolidColorBrush x:Key="PurpleColorBrush" Color="{ThemeResource PurpleColor}"/>
     <SolidColorBrush x:Key="OrangeColorBrush" Color="{ThemeResource OrangeColor}"/>

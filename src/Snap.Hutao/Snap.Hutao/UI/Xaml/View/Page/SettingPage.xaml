@@ -424,6 +424,11 @@
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
                                 <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutHeader}"/>
+                                <InfoBar
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutWarningDescription}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"

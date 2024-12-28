@@ -9,6 +9,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
+using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Text;
 using static Snap.Hutao.Win32.User32;
@@ -17,17 +18,20 @@ namespace Snap.Hutao.UI.Input.HotKey;
 
 internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 {
+    private static readonly ConcurrentDictionary<HotKeyParameter, Void> RegisteredHotKeys = [];
+
     private readonly IInfoBarService infoBarService;
 
     private readonly Lock syncRoot = new();
-    private readonly HWND hwnd;
+    private readonly HWND messageHwnd;
+    private readonly string name;
     private readonly string settingKey;
     private readonly int hotKeyId;
 
-    // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-    private readonly HotKeyParameter parameter;
-
+#pragma warning disable CA2213
     private CancellationTokenSource? cts = new();
+#pragma warning restore CA2213
+
     private bool registered;
 
     // IMPORTANT: DO NOT CONVERT TO AUTO PROPERTIES
@@ -39,20 +43,21 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     private bool isEnabled;
     private VIRTUAL_KEY key;
 
-    public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId)
+    public HotKeyCombination(IServiceProvider serviceProvider, HWND messageHwnd, string name, string settingKey, int hotKeyId)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
-        this.hwnd = hwnd;
+        this.messageHwnd = messageHwnd;
+        this.name = name;
         this.settingKey = settingKey;
         this.hotKeyId = hotKeyId;
-        parameter = new(default, VIRTUAL_KEY.VK__none_);
 
         // Initialize Property backing fields
         {
             // Retrieve from LocalSetting
             isEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
 
+            HotKeyParameter parameter = new(default, VIRTUAL_KEY.VK__none_);
             int value = LocalSetting.Get(settingKey, Unsafe.As<HotKeyParameter, int>(ref parameter));
             HotKeyParameter actual = Unsafe.As<int, HotKeyParameter>(ref value);
 
@@ -95,7 +100,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             if (SetProperty(ref modifiers, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
-                LocalSettingSetHotKeyParameterAndRefresh();
+                SaveAndRefresh();
             }
         }
     }
@@ -108,11 +113,14 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             if (SetProperty(ref key, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
-                LocalSettingSetHotKeyParameterAndRefresh();
+                SaveAndRefresh();
             }
         }
     }
 
+    /// <summary>
+    /// Can perform the action.
+    /// </summary>
     public bool IsEnabled
     {
         get => isEnabled;
@@ -132,15 +140,20 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         }
     }
 
+    /// <summary>
+    /// Is performing the action.
+    /// </summary>
     [ObservableProperty]
     [UsedImplicitly]
-    public partial bool IsOn { get; set; }
+    public partial bool IsOn { get; private set; }
 
     public string DisplayName { get => ToString(); }
 
+    private HotKeyParameter Parameter { get => new(Modifiers, Key); }
+
     public bool Register()
     {
-        if (!HutaoRuntime.IsProcessElevated || !IsEnabled)
+        if (!HutaoRuntime.IsProcessElevated || !IsEnabled || key is VIRTUAL_KEY.VK__none_)
         {
             return false;
         }
@@ -150,11 +163,20 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             return true;
         }
 
-        registered = RegisterHotKey(hwnd, hotKeyId, Modifiers, (uint)Key);
-
-        if (!registered)
+        if (RegisteredHotKeys.TryGetValue(Parameter, out _))
         {
-            infoBarService.Warning(SH.FormatCoreWindowHotkeyCombinationRegisterFailed(SH.ViewPageSettingKeyShortcutAutoClickingHeader, DisplayName));
+            return false;
+        }
+
+        registered = RegisterHotKey(messageHwnd, hotKeyId, Modifiers, (uint)Key);
+
+        if (registered)
+        {
+            RegisteredHotKeys.TryAdd(Parameter, default);
+        }
+        else
+        {
+            infoBarService.Warning(SH.FormatCoreWindowHotkeyCombinationRegisterFailed(name, DisplayName));
         }
 
         return registered;
@@ -163,7 +185,6 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     public void Dispose()
     {
         cts?.Cancel();
-        cts?.Dispose();
 
         Unregister();
     }
@@ -190,6 +211,11 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         stringBuilder.Append(Key);
 
         return stringBuilder.ToString();
+    }
+
+    internal bool CanToggle(HotKeyParameter parameter)
+    {
+        return IsEnabled && Modifiers == parameter.Modifiers && Key == parameter.Key;
     }
 
     internal void Toggle(WaitCallback callback)
@@ -229,7 +255,12 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         cts = default;
         IsOn = false;
 
-        registered = !UnregisterHotKey(hwnd, hotKeyId);
+        registered = !UnregisterHotKey(messageHwnd, hotKeyId);
+        if (!registered)
+        {
+            RegisteredHotKeys.TryRemove(Parameter, out _);
+        }
+
         return registered;
     }
 
@@ -256,9 +287,9 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         return true;
     }
 
-    private unsafe void LocalSettingSetHotKeyParameterAndRefresh()
+    private unsafe void SaveAndRefresh()
     {
-        HotKeyParameter current = new(Modifiers, Key);
+        HotKeyParameter current = Parameter;
         LocalSetting.Set(settingKey, *(int*)&current);
 
         Unregister();

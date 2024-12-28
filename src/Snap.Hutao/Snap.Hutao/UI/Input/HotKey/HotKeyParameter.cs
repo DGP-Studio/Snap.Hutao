@@ -5,7 +5,7 @@ using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
-internal readonly struct HotKeyParameter : IEquatable<HotKeyCombination>
+internal readonly struct HotKeyParameter
 {
     // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 4
     public readonly ushort NativeModifiers;
@@ -27,13 +27,8 @@ internal readonly struct HotKeyParameter : IEquatable<HotKeyCombination>
         get => NativeKey;
     }
 
-    public bool Equals(HotKeyCombination? other)
+    public override int GetHashCode()
     {
-        if (other is null)
-        {
-            return false;
-        }
-
-        return Modifiers == other.Modifiers && Key == other.Key;
+        return HashCode.Combine(NativeModifiers, NativeKey);
     }
 }
