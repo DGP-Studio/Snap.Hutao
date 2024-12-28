@@ -3233,6 +3233,9 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>主頁</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>胡桃雲 CDN 到期時間</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>三思而後行</value>
   </data>
@@ -3298,6 +3301,9 @@
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快速鍵</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
@@ -3958,8 +3964,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>
-  </data>
-  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
-    <value>胡桃雲 CDN 到期時間</value>
   </data>
 </root>
