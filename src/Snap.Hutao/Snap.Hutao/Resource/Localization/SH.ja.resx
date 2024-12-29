@@ -1482,6 +1482,9 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>胡桃通行証のパスワードをリセット</value>
   </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>重置胡桃通行证邮箱</value>
+  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>胡桃アカウントを削除</value>
   </data>
@@ -2650,6 +2653,9 @@
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>ログイン</value>
   </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>请输入新邮箱</value>
+  </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>パスワードを入力してください</value>
   </data>
@@ -3279,6 +3285,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>パスワードの変更</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>修改邮箱</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>アカウントの削除</value>
