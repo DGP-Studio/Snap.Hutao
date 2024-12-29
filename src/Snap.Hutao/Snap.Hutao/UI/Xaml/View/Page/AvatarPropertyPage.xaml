@@ -460,7 +460,7 @@
             <DataTemplate x:Key="TokenTemplate">
                 <Grid Height="22" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="24"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Ellipse

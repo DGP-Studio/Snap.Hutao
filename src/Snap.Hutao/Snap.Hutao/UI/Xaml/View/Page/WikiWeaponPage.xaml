@@ -27,7 +27,7 @@
         <DataTemplate x:Key="TokenTemplate">
             <Grid Height="22" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="24"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Ellipse
@@ -342,8 +342,11 @@
                                                     </StackPanel>
                                                 </Border>
 
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
-                                                    <StackPanel Spacing="16" Visibility="{Binding Weapons.CurrentItem.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                <Border
+                                                    Padding="16"
+                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Visibility="{Binding Weapons.CurrentItem.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    <StackPanel Spacing="16">
                                                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Weapons.CurrentItem.Affix.Name}"/>
                                                         <Pivot
                                                             Margin="-16,-16,0,0"

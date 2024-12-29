@@ -38,13 +38,8 @@
                 <shuxct:DescriptionTextBlock
                     Grid.ColumnSpan="{Binding ElementName=ProudSelector, Path=Visibility, Converter={StaticResource VisibilityToColumnSpanConverter}}"
                     VerticalAlignment="Top"
-                    Description="{Binding Description}">
-                    <shuxct:DescriptionTextBlock.Resources>
-                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                            <Setter Property="TextWrapping" Value="Wrap"/>
-                        </Style>
-                    </shuxct:DescriptionTextBlock.Resources>
-                </shuxct:DescriptionTextBlock>
+                    Description="{Binding Description}"
+                    TextStyle="{StaticResource BodyTextBlockStyle}"/>
                 <shuxvs:DescParamComboBox
                     x:Name="ProudSelector"
                     Grid.Column="1"
@@ -56,19 +51,16 @@
         </DataTemplate>
 
         <DataTemplate x:Key="TalentDataTemplate">
-            <shuxct:DescriptionTextBlock Margin="0,12,0,0" Description="{Binding Description}">
-                <shuxct:DescriptionTextBlock.Resources>
-                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                    </Style>
-                </shuxct:DescriptionTextBlock.Resources>
-            </shuxct:DescriptionTextBlock>
+            <shuxct:DescriptionTextBlock
+                Margin="0,12,0,0"
+                Description="{Binding Description}"
+                TextStyle="{StaticResource BodyTextBlockStyle}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="TokenTemplate">
             <Grid Height="22" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="24"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Ellipse
