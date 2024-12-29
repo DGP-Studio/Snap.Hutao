@@ -1482,9 +1482,6 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>胡桃通行証のパスワードをリセット</value>
   </data>
-  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
-    <value>重置胡桃通行证邮箱</value>
-  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>胡桃アカウントを削除</value>
   </data>
@@ -1584,7 +1581,7 @@
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>深境螺旋のデータをアップロード</value>
   </data>
-  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+  <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
     <value>更新ログを表示</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
@@ -2653,9 +2650,6 @@
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>ログイン</value>
   </data>
-  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
-    <value>请输入新邮箱</value>
-  </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>パスワードを入力してください</value>
   </data>
@@ -3286,9 +3280,6 @@
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>パスワードの変更</value>
   </data>
-  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
-    <value>修改邮箱</value>
-  </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>アカウントの削除</value>
   </data>
@@ -3613,9 +3604,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>データをアップロード</value>
   </data>
-  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>今すぐダウンロードしますか？</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>更新パッチのダウンロードに失敗しました</value>
   </data>
@@ -3636,6 +3624,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>メタデータを初期化中</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>今すぐダウンロードしますか？</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>
