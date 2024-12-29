@@ -52,6 +52,11 @@ internal sealed partial class HutaoPassportClient
             data["IsCancelRegistration"] = true;
         }
 
+        if (requestType.HasFlag(VerifyCodeRequestType.ResetUserName))
+        {
+            data["IsResetUsername"] = true;
+        }
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().PassportVerify())
             .PostJson(data);
@@ -102,6 +107,26 @@ internal sealed partial class HutaoPassportClient
 
         HutaoResponse? resp = await builder
             .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse<string>> ResetUserNameAsync(string email, string newUserName, string verifyCode, CancellationToken token = default)
+    {
+        Dictionary<string, string> data = new()
+        {
+            ["UserName"] = Encrypt(email),
+            ["NewUserName"] = Encrypt(newUserName),
+            ["VerifyCode"] = Encrypt(verifyCode),
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportResetUserName())
+            .PostJson(data);
+
+        HutaoResponse<string>? resp = await builder
+            .SendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

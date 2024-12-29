@@ -196,6 +196,25 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
+    public async ValueTask ResetUserNameAsync(string username, string newUserName, string verifyCode, CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(ResetUserNameAsync)).ConfigureAwait(false))
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
+                HutaoResponse<string> response = await hutaoPassportClient.ResetUserNameAsync(username, newUserName, verifyCode, token).ConfigureAwait(false);
+
+                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
+                {
+                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                    string password = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
+                    await AcceptAuthTokenAsync(newUserName, password, authToken, token).ConfigureAwait(false);
+                }
+            }
+        }
+    }
+
     public async ValueTask ResetPasswordAsync(string username, string password, string verifyCode, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(ResetPasswordAsync)).ConfigureAwait(false))

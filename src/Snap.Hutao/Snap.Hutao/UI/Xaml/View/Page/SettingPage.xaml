@@ -239,6 +239,10 @@
                                                 Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneHeader}">
                                                 <StackPanel Orientation="Horizontal" Spacing="16">
                                                     <Button
+                                                        Command="{Binding ResetUsernameCommand}"
+                                                        Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportResetUserNameAction}"
+                                                        Style="{ThemeResource SettingButtonStyle}"/>
+                                                    <Button
                                                         Command="{Binding ResetPasswordCommand}"
                                                         Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportResetPasswordAction}"
                                                         Style="{ThemeResource SettingButtonStyle}"/>
