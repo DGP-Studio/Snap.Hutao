@@ -65,6 +65,7 @@
                 Text="{shuxm:ResourceString Name=ViewLaunchGameHeader}"/>
             <StackPanel
                 Grid.Row="2"
+                Grid.Column="0"
                 Grid.ColumnSpan="3"
                 VerticalAlignment="Bottom"
                 Spacing="8"
@@ -72,13 +73,13 @@
                 <TextBlock
                     Opacity="0.7"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding LaunchStatusOptions.LaunchStatus.Description, Mode=OneWay}"/>
+                    Text="{Binding LaunchStatusOptions.LaunchStatus.Description, FallbackValue={x:Null}, Mode=OneWay}"/>
                 <shuxc:SizeRestrictedContentControl VerticalAlignment="Bottom">
                     <ComboBox
                         DisplayMemberPath="Name"
                         ItemsSource="{Binding GameAccountsView}"
                         PlaceholderText="{shuxm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
-                        SelectedItem="{Binding GameAccountsView.CurrentItem, Mode=TwoWay}"/>
+                        SelectedItem="{Binding GameAccountsView.CurrentItem, FallbackValue={x:Null}, Mode=TwoWay}"/>
                 </shuxc:SizeRestrictedContentControl>
             </StackPanel>
         </Grid>

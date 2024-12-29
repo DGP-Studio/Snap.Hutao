@@ -26,13 +26,12 @@
     </mxi:Interaction.Behaviors>
 
     <Button.Resources>
-        <DataTemplate x:Key="AchievementTempate" x:DataType="shva:AchievementView">
+        <DataTemplate x:Key="AchievementTemplate" x:DataType="shva:AchievementView">
             <StackPanel Margin="0,4,0,0">
                 <TextBlock
                     Opacity="0.8"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{Binding Inner.Title}"
-                    TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap"/>
                 <TextBlock
                     Opacity="0.6"
@@ -42,7 +41,7 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="AchievementArchiveTempate" x:DataType="shva:AchievementStatistics">
+        <DataTemplate x:Key="AchievementArchiveTemplate" x:DataType="shva:AchievementStatistics">
             <Grid Margin="12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -66,7 +65,7 @@
                 </Viewbox>
                 <ItemsControl
                     Grid.Row="2"
-                    ItemTemplate="{StaticResource AchievementTempate}"
+                    ItemTemplate="{StaticResource AchievementTemplate}"
                     ItemsSource="{Binding Achievements}"/>
             </Grid>
         </DataTemplate>
@@ -78,7 +77,7 @@
                 <FlipView
                     x:Name="RootFlipView"
                     Background="{x:Null}"
-                    ItemTemplate="{StaticResource AchievementArchiveTempate}"
+                    ItemTemplate="{StaticResource AchievementArchiveTemplate}"
                     ItemsSource="{Binding StatisticsList}"/>
 
                 <PipsPager

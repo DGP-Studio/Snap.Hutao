@@ -25,7 +25,7 @@ internal static class ServiceProviderExtension
             return true;
         }
     }
-    
+
     public static TService LockAndGetRequiredService<TService>(this IServiceProvider serviceProvider, Lock locker)
         where TService : notnull
     {

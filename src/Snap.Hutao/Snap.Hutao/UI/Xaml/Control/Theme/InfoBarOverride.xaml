@@ -101,7 +101,11 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Grid x:Name="StandardIconArea" Visibility="Collapsed">
+                            <Grid
+                                x:Name="StandardIconArea"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Visibility="Collapsed">
                                 <TextBlock
                                     x:Name="IconBackground"
                                     Grid.Column="0"
@@ -124,6 +128,7 @@
                             </Grid>
                             <Viewbox
                                 x:Name="UserIconBox"
+                                Grid.Row="0"
                                 Grid.Column="0"
                                 MaxWidth="{ThemeResource InfoBarIconFontSize}"
                                 MaxHeight="{ThemeResource InfoBarIconFontSize}"
@@ -132,6 +137,7 @@
                                 Child="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IconElement}"
                                 Visibility="Collapsed"/>
                             <InfoBarPanel
+                                Grid.Row="0"
                                 Grid.Column="1"
                                 Margin="{StaticResource InfoBarPanelMargin}"
                                 VerticalAlignment="Center"
@@ -176,6 +182,7 @@
                             </InfoBarPanel>
                             <Button
                                 Name="CloseButton"
+                                Grid.Row="0"
                                 Grid.Column="2"
                                 VerticalAlignment="Top"
                                 Command="{TemplateBinding CloseButtonCommand}"

@@ -106,6 +106,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                     <CheckBox
                         Grid.Column="0"
                         MinWidth="0"
@@ -146,7 +147,6 @@
                                         IsTextSelectionEnabled="True"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding Inner.Version}"
-                                        TextTrimming="CharacterEllipsis"
                                         TextWrapping="NoWrap"/>
                                 </Border>
                             </StackPanel>
@@ -156,7 +156,6 @@
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Inner.Description}"
-                                TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap"/>
                         </StackPanel>
                         <TextBlock
@@ -265,6 +264,7 @@
                     <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
                         <CommandBar.Resources>
                             <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
+                            <!--  ReSharper disable once Xaml.RedundantResource  -->
                             <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
                         </CommandBar.Resources>
 

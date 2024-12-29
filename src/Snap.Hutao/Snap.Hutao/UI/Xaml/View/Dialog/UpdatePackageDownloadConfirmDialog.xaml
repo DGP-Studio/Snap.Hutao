@@ -13,9 +13,9 @@
 
     <StackPanel Spacing="16">
         <TextBlock>
-            <Run Text="{shuxm:ResourceString Name=ViewTitileUpdatePackageDownloadContent}"/>
+            <Run Text="{shuxm:ResourceString Name=ViewTitleUpdatePackageDownloadContent}"/>
             <Hyperlink NavigateUri="https://hut.ao/statements/update-log.html">
-                <Run Text="{shuxm:ResourceString Name=ViewDialogUpdatePackageDownloadUpdatelogLinkContent}"/>
+                <Run Text="{shuxm:ResourceString Name=ViewDialogUpdatePackageDownloadUpdateLogLinkContent}"/>
             </Hyperlink>
             <!--  We leave a Run here to prevent the Hyperlink Stretch  -->
             <Run/>

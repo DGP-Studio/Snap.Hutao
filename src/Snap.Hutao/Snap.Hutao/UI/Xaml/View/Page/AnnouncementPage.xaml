@@ -21,6 +21,7 @@
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
     xmlns:shwhh="using:Snap.Hutao.Web.Hutao.HutaoAsAService"
+    xmlns:shwhhca="using:Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -28,9 +29,7 @@
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
     <shuxc:ScopedPage.Resources>
-        <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
-
-        <DataTemplate x:Key="AnnouncementTemplate">
+        <DataTemplate x:Key="AnnouncementTemplate" x:DataType="shwhhca:Announcement">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{StaticResource AcrylicBorderCardStyle}">
                     <Grid>
@@ -147,7 +146,7 @@
             </ItemContainer>
         </DataTemplate>
 
-        <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
+        <DataTemplate x:Key="AnnouncementPivotItemContentTemplate" x:DataType="shwhhca:AnnouncementListWrapper">
             <ItemsControl ItemTemplate="{StaticResource AnnouncementTemplate}" ItemsSource="{Binding List}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -189,8 +188,10 @@
         <DataTemplate x:Key="CardTemplate" x:DataType="shuxcc:CardReference">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <ItemContainer.Resources>
+                    <!--  ReSharper disable Xaml.RedundantResource  -->
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                     <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
+                    <!--  ReSharper restore Xaml.RedundantResource  -->
                 </ItemContainer.Resources>
 
                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
