@@ -1481,6 +1481,9 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>重置胡桃通行证密码</value>
   </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>重置胡桃通行证邮箱</value>
+  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>注销胡桃通行证账号</value>
   </data>
@@ -2648,6 +2651,9 @@
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Войти</value>
   </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>请输入新邮箱</value>
+  </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>Введите пароль</value>
   </data>
@@ -3277,6 +3283,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>修改密码</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>修改邮箱</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>注销账号</value>
