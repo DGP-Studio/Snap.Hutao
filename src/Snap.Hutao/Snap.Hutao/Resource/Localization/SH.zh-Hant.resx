@@ -3575,9 +3575,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上傳數據</value>
   </data>
-  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下載？</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下載更新失敗</value>
   </data>
@@ -3592,6 +3589,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自動連續點按</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>是否立即下載？</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安裝更新</value>

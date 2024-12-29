@@ -204,6 +204,11 @@ internal static class LocalSetting
         Set<int>(key, modifier(Get<int>(key, defaultValue)));
     }
 
+    public static void Update(string key, string defaultValue, Func<string, string> modifier)
+    {
+        Set<string>(key, modifier(Get<string>(key, defaultValue)));
+    }
+
     private static T Get<T>(string key, T defaultValue = default!)
     {
         if (Container.Values.TryGetValue(key, out object? value))

@@ -3577,9 +3577,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>データをアップロード</value>
   </data>
-  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
-    <value>今すぐダウンロードしますか？</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>更新パッチのダウンロードに失敗しました</value>
   </data>
@@ -3594,6 +3591,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>オートクリック</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>今すぐダウンロードしますか？</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>

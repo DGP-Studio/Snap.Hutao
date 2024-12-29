@@ -208,8 +208,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
                 {
                     infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                    string password = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
-                    await AcceptAuthTokenAsync(newUserName, password, authToken, token).ConfigureAwait(false);
+                    await AcceptAuthTokenAsync(newUserName, default, authToken, token).ConfigureAwait(false);
                 }
             }
         }
@@ -233,12 +232,12 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
-    private async ValueTask AcceptAuthTokenAsync(string username, string password, string authToken, CancellationToken token = default)
+    private async ValueTask AcceptAuthTokenAsync(string? username, string? password, string authToken, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(AcceptAuthTokenAsync)).ConfigureAwait(false))
         {
-            LocalSetting.Set(SettingKeys.PassportUserName, username);
-            LocalSetting.Set(SettingKeys.PassportPassword, password);
+            LocalSetting.Update(SettingKeys.PassportUserName, string.Empty, old => username ?? old);
+            LocalSetting.Update(SettingKeys.PassportPassword, string.Empty, old => password ?? old);
 
             await taskContext.SwitchToMainThreadAsync();
             UserName = username;

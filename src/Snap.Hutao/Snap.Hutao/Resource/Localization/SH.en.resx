@@ -3575,9 +3575,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Upload Data</value>
   </data>
-  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
-    <value>Download Now?</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Failed to Download Update Patch</value>
   </data>
@@ -3592,6 +3589,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>Download Now?</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>Installing New Version Patch</value>
