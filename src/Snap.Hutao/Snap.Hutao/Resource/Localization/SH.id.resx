@@ -1481,9 +1481,6 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>Atur ulang kata sandi Snap Hutao Passport</value>
   </data>
-  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
-    <value>重置胡桃通行证邮箱</value>
-  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Hapus Snap Hutao Passport</value>
   </data>
@@ -1583,7 +1580,7 @@
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>上传深渊数据</value>
   </data>
-  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+  <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
     <value>查看更新日志</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
@@ -2651,9 +2648,6 @@
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Log In</value>
   </data>
-  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
-    <value>请输入新邮箱</value>
-  </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>Masukkan kata sandi</value>
   </data>
@@ -3284,9 +3278,6 @@
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>Ubah Kata Sandi</value>
   </data>
-  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
-    <value>修改邮箱</value>
-  </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>Hapus Akun</value>
   </data>
@@ -3611,9 +3602,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Mengunggah Data</value>
   </data>
-  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载？</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下载更新失败</value>
   </data>
@@ -3634,6 +3622,9 @@
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>正在初始化元数据</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>是否立即下载？</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安装更新</value>
