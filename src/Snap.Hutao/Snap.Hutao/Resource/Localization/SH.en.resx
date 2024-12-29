@@ -1481,6 +1481,9 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>Reset Password of Snap Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>重置胡桃通行证邮箱</value>
+  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Delete Snap Hutao Passport</value>
   </data>
@@ -2648,6 +2651,9 @@
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>请输入新邮箱</value>
+  </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>Enter your password</value>
   </data>
@@ -3277,6 +3283,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>Change Password</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>修改邮箱</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>Delete Account</value>
