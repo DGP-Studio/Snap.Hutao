@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>Anda harus masuk ke akun MiHoYo Bbs Anda dan pilih pengguna.</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>Menghapus {1} catatan wish dari Uid: {0}</value>
   </data>
@@ -630,6 +633,9 @@
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>Permintaan verifikasi gagal, alamat email saat ini sudah terdaftar.</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱未注册</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>Permintaan validasi terlalu sering. Silakan coba lagi dalam 1 menit.</value>
