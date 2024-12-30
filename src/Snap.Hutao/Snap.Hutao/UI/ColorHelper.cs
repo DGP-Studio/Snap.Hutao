@@ -29,8 +29,8 @@ internal static class ColorHelper
         // Step2: Rgba32:RRGGBBAA(0xAABBGGRR) -> UInt32:00RRGGBB(0xRRGGBB00)
         uint rgb = *(uint*)&rgba32 << 8;
 
-        // Step2: UInt32:00RRGGBB(0xRRGGBB00) + UInt32:AA000000(0x000000AA) -> UInt32:AARRGGBB(0xRRGGBBAA)
-        uint rgba = rgb + a;
+        // Step2: UInt32:00RRGGBB(0xRRGGBB00) | UInt32:AA000000(0x000000AA) -> UInt32:AARRGGBB(0xRRGGBBAA)
+        uint rgba = rgb | a;
 
         return *(Color*)&rgba;
     }
@@ -41,13 +41,13 @@ internal static class ColorHelper
         return *(Color*)&reversed;
     }
 
-    public static Hsla32 ToHsla32(Rgba32 rgba32)
+    public static Hsla256 ToHsla32(Rgba32 rgba32)
     {
-        const double toDouble = 1.0 / 255;
+        const double ToDouble = 1.0 / 255;
 
-        double r = toDouble * rgba32.R;
-        double g = toDouble * rgba32.G;
-        double b = toDouble * rgba32.B;
+        double r = ToDouble * rgba32.R;
+        double g = ToDouble * rgba32.G;
+        double b = ToDouble * rgba32.B;
         double max = Math.Max(Math.Max(r, g), b);
         double min = Math.Min(Math.Min(r, g), b);
         double chroma = max - min;
@@ -75,20 +75,20 @@ internal static class ColorHelper
         double lightness = 0.5 * (max + min);
         double saturation = chroma == 0 ? 0 : chroma / (1 - Math.Abs((2 * lightness) - 1));
 
-        Hsla32 ret;
+        Hsla256 ret;
         ret.H = 60 * h1;
         ret.S = saturation;
         ret.L = lightness;
-        ret.A = toDouble * rgba32.A;
+        ret.A = ToDouble * rgba32.A;
         return ret;
     }
 
-    public static Rgba32 ToRgba32(Hsla32 hsla32)
+    public static Rgba32 ToRgba32(Hsla256 hsla256)
     {
-        double chroma = (1 - Math.Abs((2 * hsla32.L) - 1)) * hsla32.S;
-        double h1 = hsla32.H / 60;
+        double chroma = (1 - Math.Abs((2 * hsla256.L) - 1)) * hsla256.S;
+        double h1 = hsla256.H / 60;
         double x = chroma * (1 - Math.Abs((h1 % 2) - 1));
-        double m = hsla32.L - (0.5 * chroma);
+        double m = hsla256.L - (0.5 * chroma);
         (double r1, double g1, double b1) = ((double, double, double))(h1 switch
         {
             < 1 => (chroma, x, 0),
@@ -102,7 +102,7 @@ internal static class ColorHelper
         byte r = (byte)(255 * (r1 + m));
         byte g = (byte)(255 * (g1 + m));
         byte b = (byte)(255 * (b1 + m));
-        byte a = (byte)(255 * hsla32.A);
+        byte a = (byte)(255 * hsla256.A);
 
         return new Rgba32(r, g, b, a);
     }

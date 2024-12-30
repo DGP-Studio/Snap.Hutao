@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Graphics.Display;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Content;
@@ -255,13 +256,23 @@ internal sealed class XamlWindowController
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
             RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
-            RectInt32 persistedRect = nonDpiPersistedRect.Scale(LocalSetting.Get(rectPersisted.PersistScaleKey, 1.0));
+            double scale = LocalSetting.Get(rectPersisted.PersistScaleKey, 0.0);
+
+            // Never persisted before
+            if (scale == 0.0)
+            {
+                // Move to the target screen and get the scale
+                window.AppWindow.Move(rect.GetPointInt32(PointInt32Kind.TopLeft));
+                scale = window.GetRasterizationScale();
+            }
+
+            RectInt32 persistedRect = nonDpiPersistedRect.Scale(scale);
 
             // If the persisted size is less than min size, we want to reset to the init size.
-            // So we only recover the size when it's greater than or equal to the min size.
-            if (persistedRect.Size() >= xamlWindow.MinSize.Size())
+            SizeInt32 scaledMinSize = xamlWindow.MinSize.Scale(scale);
+            if (persistedRect.Size() < scaledMinSize.Size())
             {
-                rect = persistedRect;
+                rect = scaledMinSize.ToRectInt32();
             }
         }
 

@@ -6,6 +6,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32.Foundation;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -58,7 +59,7 @@ internal sealed partial class NotifyIconController : IDisposable
 
     public RECT GetRect()
     {
-        return NotifyIconMethods.GetRect(id, messageWindow.HWND);
+        return NotifyIconMethods.GetRect(id, messageWindow.Hwnd);
     }
 
     public bool GetIsPromoted()
@@ -105,7 +106,7 @@ internal sealed partial class NotifyIconController : IDisposable
     private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)
     {
         NotifyIconMethods.Delete(id);
-        if (!NotifyIconMethods.Add(id, window.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
+        if (!NotifyIconMethods.Add(id, window.Hwnd, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
         {
             HutaoException.InvalidOperation("Failed to recreate NotifyIcon");
         }
@@ -119,7 +120,7 @@ internal sealed partial class NotifyIconController : IDisposable
     private void CreateNotifyIcon()
     {
         NotifyIconMethods.Delete(id);
-        if (!NotifyIconMethods.Add(id, messageWindow.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
+        if (!NotifyIconMethods.Add(id, messageWindow.Hwnd, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
         {
             HutaoException.InvalidOperation("Failed to create NotifyIcon");
         }
@@ -134,6 +135,7 @@ internal sealed partial class NotifyIconController : IDisposable
     {
         if (XamlApplicationLifetime.Exiting)
         {
+            Debugger.Break();
             return;
         }
 

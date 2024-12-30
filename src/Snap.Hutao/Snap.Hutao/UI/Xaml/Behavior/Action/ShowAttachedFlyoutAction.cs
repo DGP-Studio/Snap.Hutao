@@ -9,7 +9,7 @@ namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 
 internal sealed class ShowAttachedFlyoutAction : DependencyObject, IAction
 {
-    public object? Execute(object sender, object parameter)
+    public object? Execute(object? sender, object parameter)
     {
         if (sender is null)
         {

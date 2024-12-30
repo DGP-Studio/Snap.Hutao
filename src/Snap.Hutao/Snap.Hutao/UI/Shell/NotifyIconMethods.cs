@@ -9,7 +9,7 @@ using static Snap.Hutao.Win32.Shell32;
 
 namespace Snap.Hutao.UI.Shell;
 
-internal sealed class NotifyIconMethods
+internal static class NotifyIconMethods
 {
     public static BOOL Add(ref readonly NOTIFYICONDATAW data)
     {
