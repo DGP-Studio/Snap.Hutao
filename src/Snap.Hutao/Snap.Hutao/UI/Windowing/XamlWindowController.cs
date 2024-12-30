@@ -255,24 +255,27 @@ internal sealed class XamlWindowController
 
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
-            RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
             double scale = LocalSetting.Get(rectPersisted.PersistScaleKey, 0.0);
 
             // Never persisted before
             if (scale == 0.0)
             {
-                // Move to the target screen and get the scale
-                window.AppWindow.Move(rect.GetPointInt32(PointInt32Kind.TopLeft));
+                // Move to the primary screen and get the scale
+                window.AppWindow.Move(DisplayArea.Primary.WorkArea.GetPointInt32(PointInt32Kind.TopLeft));
                 scale = window.GetRasterizationScale();
             }
 
-            RectInt32 persistedRect = nonDpiPersistedRect.Scale(scale);
+            RectInt32 persistedRect = ((RectInt32)(RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, 0UL)).Scale(scale);
 
             // If the persisted size is less than min size, we want to reset to the init size.
             SizeInt32 scaledMinSize = xamlWindow.MinSize.Scale(scale);
-            if (persistedRect.Size() < scaledMinSize.Size())
+            if (persistedRect.Width < scaledMinSize.Width || persistedRect.Height < scaledMinSize.Height)
             {
                 rect = scaledMinSize.ToRectInt32();
+            }
+            else
+            {
+                rect = persistedRect;
             }
         }
 
