@@ -7,6 +7,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -14,28 +15,40 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("UserName", typeof(string))]
 [DependencyProperty("NewUserName", typeof(string))]
 [DependencyProperty("VerifyCode", typeof(string))]
+[DependencyProperty("NewVerifyCode", typeof(string))]
 internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
 
-    public async ValueTask<ValueResult<bool, (string UserName, string NewUserName, string VerifyCode)>> GetInputAsync()
+    public async ValueTask<ValueResult<bool, (string UserName, string NewUserName, string VerifyCode, string NewVerifyCode)>> GetInputAsync()
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
-        return new(result is ContentDialogResult.Primary, (UserName, NewUserName, VerifyCode));
+        return new(result is ContentDialogResult.Primary, (UserName, NewUserName, VerifyCode, NewVerifyCode));
     }
 
-    [Command("VerifyCommand")]
-    private async Task VerifyAsync()
+    [Command("VerifyOldCommand")]
+    private async Task VerifyOldAsync()
     {
-        if (string.IsNullOrEmpty(UserName))
+        await VerifyCoreAsync(UserName, VerifyCodeRequestType.ResetUserName).ConfigureAwait(false);
+    }
+
+    [Command("VerifyNewCommand")]
+    private async Task VerifyNewAsync()
+    {
+        await VerifyCoreAsync(NewUserName, VerifyCodeRequestType.ResetUserNameNew).ConfigureAwait(false);
+    }
+
+    private async ValueTask VerifyCoreAsync(string userName, VerifyCodeRequestType type)
+    {
+        if (string.IsNullOrEmpty(userName))
         {
             return;
         }
 
-        if (!UserName.IsEmail())
+        if (!userName.IsEmail())
         {
             infoBarService.Warning(SH.ViewModelHutaoPassportEmailNotValidHint);
             return;
@@ -45,7 +58,12 @@ internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
         {
             HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
 
-            HutaoResponse response = await hutaoPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.ResetUserName).ConfigureAwait(false);
+            HutaoResponse response = await hutaoPassportClient.RequestVerifyAsync(userName, type).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                return;
+            }
+
             infoBarService.Information(response.GetLocalizationMessage());
         }
     }

@@ -27,7 +27,7 @@
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Stretch"
-                Command="{x:Bind VerifyCommand}"
+                Command="{x:Bind VerifyOldCommand}"
                 Content="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"/>
         </Grid>
         <TextBox
@@ -37,5 +37,21 @@
             IsSpellCheckEnabled="False"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportNewUserNameHint}"
             Text="{x:Bind NewUserName, Mode=TwoWay}"/>
+        <Grid Margin="0,16,0,0" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"
+                PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeHint}"
+                Text="{x:Bind NewVerifyCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                Command="{x:Bind VerifyNewCommand}"
+                Content="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"
+                IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"/>
+        </Grid>
     </StackPanel>
 </ContentDialog>

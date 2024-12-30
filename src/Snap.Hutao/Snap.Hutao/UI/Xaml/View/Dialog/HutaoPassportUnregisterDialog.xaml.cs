@@ -7,6 +7,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -46,6 +47,11 @@ internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
             HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
 
             HutaoResponse response = await hutaoPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.CancelRegistration).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                return;
+            }
+
             infoBarService.Information(response.GetLocalizationMessage());
         }
     }

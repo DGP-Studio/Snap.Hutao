@@ -174,16 +174,13 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse response = await hutaoPassportClient.UnregisterAsync(username, password, verifyCode, token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+                if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
                 {
-                    // Should not happen
-                    Debugger.Break();
+                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
+
+                    await taskContext.SwitchToMainThreadAsync();
+                    await LogoutOrUnregisterAsync().ConfigureAwait(false);
                 }
-
-                infoBarService.Information(response.GetLocalizationMessageOrMessage());
-
-                await taskContext.SwitchToMainThreadAsync();
-                await LogoutOrUnregisterAsync().ConfigureAwait(false);
             }
         }
     }
@@ -196,14 +193,14 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
-    public async ValueTask ResetUserNameAsync(string username, string newUserName, string verifyCode, CancellationToken token = default)
+    public async ValueTask ResetUserNameAsync(string username, string newUserName, string verifyCode, string newVerifyCode, CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(ResetUserNameAsync)).ConfigureAwait(false))
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
-                HutaoResponse<string> response = await hutaoPassportClient.ResetUserNameAsync(username, newUserName, verifyCode, token).ConfigureAwait(false);
+                HutaoResponse<string> response = await hutaoPassportClient.ResetUserNameAsync(username, newUserName, verifyCode, newVerifyCode, token).ConfigureAwait(false);
 
                 if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
                 {

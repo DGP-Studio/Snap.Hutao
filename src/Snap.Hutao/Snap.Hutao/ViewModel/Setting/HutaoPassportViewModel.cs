@@ -106,21 +106,21 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private async Task ResetUsernameAsync()
     {
         HutaoPassportResetUsernameDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportResetUsernameDialog>().ConfigureAwait(false);
-        ValueResult<bool, (string UserName, string NewUserName, string VerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
+        ValueResult<bool, (string UserName, string NewUserName, string VerifyCode, string NewVerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
 
         if (!result.IsOk)
         {
             return;
         }
 
-        (string username, string newUserName, string verifyCode) = result.Value;
+        (string username, string newUserName, string verifyCode, string newVerifyCode) = result.Value;
 
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(newUserName) || string.IsNullOrEmpty(verifyCode))
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(newUserName) || string.IsNullOrEmpty(verifyCode) || string.IsNullOrEmpty(newVerifyCode))
         {
             return;
         }
 
-        await HutaoUserOptions.ResetUserNameAsync(username, newUserName, verifyCode).ConfigureAwait(false);
+        await HutaoUserOptions.ResetUserNameAsync(username, newUserName, verifyCode, newVerifyCode).ConfigureAwait(false);
     }
 
     [Command("ResetPasswordCommand")]

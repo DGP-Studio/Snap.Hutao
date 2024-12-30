@@ -10,4 +10,5 @@ internal enum VerifyCodeRequestType
     ResetPassword = 0b0001,
     CancelRegistration = 0b0010,
     ResetUserName = 0b0100,
+    ResetUserNameNew = 0b1000,
 }
