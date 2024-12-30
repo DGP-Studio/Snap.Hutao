@@ -1483,7 +1483,7 @@
     <value>胡桃通行証のパスワードをリセット</value>
   </data>
   <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
-    <value>重置胡桃通行证邮箱</value>
+    <value>胡桃通行証のメールアドレスをリセット</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>胡桃アカウントを削除</value>
@@ -2654,7 +2654,7 @@
     <value>ログイン</value>
   </data>
   <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
-    <value>请输入新邮箱</value>
+    <value>新しいメールアドレスを入力してください</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>パスワードを入力してください</value>
@@ -3287,7 +3287,7 @@
     <value>パスワードの変更</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
-    <value>修改邮箱</value>
+    <value>メールアドレス変更</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>アカウントの削除</value>
@@ -3314,7 +3314,7 @@
     <value>ショートカットキー</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
-    <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
+    <value>異なる機能に同じショートカットキーを設定すると、予期せぬ結果を招く場合が可能で、正常に戻すには追加の操作やアプリの再起動が必要になるかもしれません</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
