@@ -14,7 +14,7 @@ internal sealed partial class CultureOptions : DbStoreOptions
 {
     private DayOfWeek? firstDayOfWeek;
 
-    public List<NameValue<CultureInfo>> Cultures { get; } = SupportedCultures.Get();
+    public List<NameValue<CultureInfo>> Cultures { get; } = SupportedCultures.Values;
 
     [field: MaybeNull]
     public List<NameValue<DayOfWeek>> DayOfWeeks { get => field ??= Enum.GetValues<DayOfWeek>().Select(v => new NameValue<DayOfWeek>(CurrentCulture.DateTimeFormat.GetDayName(v), v)).ToList(); }

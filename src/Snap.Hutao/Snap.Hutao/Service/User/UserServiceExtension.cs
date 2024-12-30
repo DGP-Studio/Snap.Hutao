@@ -9,6 +9,7 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
+// For performance reason, extension method should avoid using LINQ
 internal static class UserServiceExtension
 {
     public static ValueTask<bool> RefreshCookieTokenAsync(this IUserService userService, BindingUser user)
@@ -19,7 +20,18 @@ internal static class UserServiceExtension
     public static async ValueTask<UserGameRole?> GetUserGameRoleByUidAsync(this IUserService userService, string uid)
     {
         AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);
-        return users.SourceCollection.SelectMany(user => user.UserGameRoles.SourceCollection).FirstOrDefault(role => role.GameUid == uid);
+        foreach (BindingUser bindingUser in users.SourceCollection)
+        {
+            foreach (UserGameRole role in bindingUser.UserGameRoles.SourceCollection)
+            {
+                if (role.GameUid == uid)
+                {
+                    return role;
+                }
+            }
+        }
+
+        return default;
     }
 
     public static async ValueTask<string?> GetCurrentUidAsync(this IUserService userService)
@@ -54,6 +66,14 @@ internal static class UserServiceExtension
     public static async ValueTask<BindingUser?> GetUserByMidAsync(this IUserService userService, string mid)
     {
         AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);
-        return users.SourceCollection.SingleOrDefault(u => u.Entity.Mid == mid);
+        foreach (BindingUser user in users.SourceCollection)
+        {
+            if (user.Entity.Mid == mid)
+            {
+                return user;
+            }
+        }
+
+        return default;
     }
 }

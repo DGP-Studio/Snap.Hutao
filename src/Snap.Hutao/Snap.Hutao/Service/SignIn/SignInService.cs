@@ -23,14 +23,12 @@ internal sealed partial class SignInService : ISignInService
                 .Create(userAndUid.IsOversea);
 
             Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User, token).ConfigureAwait(false);
-
             if (!ResponseValidator.TryValidate(rewardResponse, serviceProvider, out Reward? reward))
             {
                 return new(false, SH.ServiceSignInRewardListRequestFailed);
             }
 
             Response<SignInResult> resultResponse = await signInClient.SignAsync(userAndUid, token).ConfigureAwait(false);
-
             if (!ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? result))
             {
                 string message = resultResponse.Message;

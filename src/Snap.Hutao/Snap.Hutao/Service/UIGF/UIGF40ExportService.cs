@@ -51,7 +51,7 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
         IGachaLogRepository gachaLogRepository = serviceProvider.GetRequiredService<IGachaLogRepository>();
 
         ImmutableArray<UIGFEntry<Hk4eItem>>.Builder results = ImmutableArray.CreateBuilder<UIGFEntry<Hk4eItem>>(uids.Length);
-        foreach (uint uid in uids)
+        foreach (ref readonly uint uid in uids.AsSpan())
         {
             GachaArchive? archive = gachaLogRepository.GetGachaArchiveByUid($"{uid}");
             ArgumentNullException.ThrowIfNull(archive);

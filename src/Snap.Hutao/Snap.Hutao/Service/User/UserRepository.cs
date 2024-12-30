@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.User;
 
@@ -17,9 +18,9 @@ internal sealed partial class UserRepository : IUserRepository
         this.DeleteByInnerId(id);
     }
 
-    public List<Model.Entity.User> GetUserList()
+    public ImmutableArray<Model.Entity.User> GetUserList()
     {
-        return this.List();
+        return this.ImmutableArray();
     }
 
     public void UpdateUser(Model.Entity.User user)
@@ -34,6 +35,6 @@ internal sealed partial class UserRepository : IUserRepository
 
     public void ClearUserSelection()
     {
-        this.Execute(dbset => dbset.ExecuteUpdate(update => update.SetProperty(user => user.IsSelected, user => false)));
+        this.Execute(dbSet => dbSet.ExecuteUpdate(update => update.SetProperty(user => user.IsSelected, user => false)));
     }
 }

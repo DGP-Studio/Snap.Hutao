@@ -16,27 +16,15 @@ internal sealed class InputCookie : IDeconstruct<Cookie, bool, string?>
         DeviceFp = deviceFp;
     }
 
-    private InputCookie(Cookie cookie, bool isOversea, string? deviceFp)
-    {
-        Cookie = cookie;
-        IsOversea = isOversea;
-        DeviceFp = deviceFp;
-    }
-
     public Cookie Cookie { get; }
 
     public bool IsOversea { get; }
 
     public string? DeviceFp { get; }
 
-    public static InputCookie Create(Cookie cookie, bool isOversea, string? deviceFp)
-    {
-        return new InputCookie(cookie, isOversea, deviceFp);
-    }
-
     public static InputCookie CreateForDeviceFpInference(Cookie cookie, bool isOversea)
     {
-        return new InputCookie(cookie, isOversea);
+        return new(cookie, isOversea);
     }
 
     public void Deconstruct(out Cookie cookie, out bool isOversea, out string? deviceFp)

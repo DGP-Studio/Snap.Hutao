@@ -77,7 +77,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, value, EnumToStringOrEmpty);
     }
 
-    public Lazy<List<NameValue<Region>>> LazyRegions { get; } = new(KnownRegions.Get);
+    public Lazy<ImmutableArray<NameValue<Region>>> LazyRegions { get; } = new(() => KnownRegions.Value);
 
     public Region Region
     {

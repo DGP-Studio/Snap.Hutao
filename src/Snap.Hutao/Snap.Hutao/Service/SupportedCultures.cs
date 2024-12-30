@@ -6,9 +6,14 @@ using System.Globalization;
 
 namespace Snap.Hutao.Service;
 
+[SuppressMessage("", "SA1500")]
+[SuppressMessage("", "SA1513")]
 internal static class SupportedCultures
 {
-    private static readonly List<NameValue<CultureInfo>> Cultures =
+    public static List<NameValue<CultureInfo>> Values
+    {
+        get;
+    } =
     [
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
@@ -26,11 +31,6 @@ internal static class SupportedCultures
         /*ToNameValue(CultureInfo.GetCultureInfo("tr")),*/
         ToNameValue(CultureInfo.GetCultureInfo("vi")),
     ];
-
-    public static List<NameValue<CultureInfo>> Get()
-    {
-        return Cultures;
-    }
 
     private static NameValue<CultureInfo> ToNameValue(CultureInfo info)
     {

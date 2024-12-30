@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.User;
 
@@ -11,7 +12,7 @@ internal interface IUserRepository : IRepository<Model.Entity.User>
 
     void RemoveAllUsers();
 
-    List<Model.Entity.User> GetUserList();
+    ImmutableArray<Model.Entity.User> GetUserList();
 
     void UpdateUser(Model.Entity.User user);
 

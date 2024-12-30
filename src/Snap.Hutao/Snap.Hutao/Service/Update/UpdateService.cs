@@ -24,6 +24,7 @@ internal sealed partial class UpdateService : IUpdateService
 {
     private const string UpdaterFilename = "Snap.Hutao.Deployment.exe";
 
+    // Avoid try injecting services directly
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<CheckUpdateResult> CheckUpdateAsync(IProgress<UpdateStatus> progress, CancellationToken token = default)
@@ -71,7 +72,7 @@ internal sealed partial class UpdateService : IUpdateService
                 HutaoResponse<HutaoPackageMirror> mirrorResponse = await distributionClient.GetAcceleratedMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token).ConfigureAwait(false);
                 if (mirrorResponse.Data is { } mirror)
                 {
-                    checkUpdateResult.PackageInformation.Mirrors.Add(mirror);
+                    checkUpdateResult.PackageInformation.Mirrors.Insert(0, mirror);
                 }
             }
 
@@ -83,6 +84,7 @@ internal sealed partial class UpdateService : IUpdateService
                 return checkUpdateResult;
             }
 
+            // Whether the package does not exist or the hash is inconsistent, VersionApiInvalidSha256 will be returned
             if (File.Exists(msixPath) && await CheckUpdateCacheSha256Async(msixPath, sha256, token).ConfigureAwait(false))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.NeedInstall;
@@ -112,6 +114,7 @@ internal sealed partial class UpdateService : IUpdateService
 
         try
         {
+            // The updater will request UAC permissions itself
             Process? process = Process.Start(new ProcessStartInfo
             {
                 Arguments = commandLine,
