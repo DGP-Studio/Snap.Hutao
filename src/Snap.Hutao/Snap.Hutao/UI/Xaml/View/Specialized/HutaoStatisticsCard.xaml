@@ -17,7 +17,7 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="GridTemplate" d:DataType="shvg:StatisticsItem">
+        <DataTemplate x:Key="GridTemplate" x:DataType="shvg:StatisticsItem">
             <shuxcc:VerticalCard>
                 <shuxcc:VerticalCard.Top>
                     <shuxc:ItemIcon

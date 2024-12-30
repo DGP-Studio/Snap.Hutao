@@ -80,8 +80,7 @@
                                     HorizontalAlignment="Center"
                                     Opacity="0.7"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="Copyright © 2022 - 2025 DGP Studio. All Rights Reserved."
-                                    TextWrapping="Wrap"/>
+                                    Text="Copyright © 2022 - 2025 DGP Studio. All Rights Reserved."/>
                             </Grid>
 
                             <cwc:SettingsExpander
@@ -159,8 +158,7 @@
                                                 Margin="12,0,0,0"
                                                 Opacity="0.7"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="Copyright © 2022 - 2025 DGP Studio. All Rights Reserved."
-                                                TextWrapping="Wrap"/>
+                                                Text="Copyright © 2022 - 2025 DGP Studio. All Rights Reserved."/>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>

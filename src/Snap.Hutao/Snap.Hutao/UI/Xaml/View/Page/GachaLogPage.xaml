@@ -9,7 +9,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -64,10 +63,7 @@
                         </Grid>
                         <ScrollViewer Grid.Row="1" Margin="0,0,0,8">
                             <ScrollViewer.Resources>
-                                <shux:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
-                                <shux:BindingProxy x:Key="HutaoCloudViewModelBindingProxy" DataContext="{Binding HutaoCloudViewModel}"/>
-
-                                <DataTemplate x:Key="UidOperationTemplate">
+                                <DataTemplate x:Key="UidOperationTemplate" x:DataType="shvg:HutaoCloudEntryOperationViewModel">
                                     <Grid Margin="0,0,0,8">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
@@ -121,10 +117,12 @@
                     </Grid>
                     <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding HutaoCloudViewModel.Options.IsHutaoCloudAllowed, Converter={StaticResource BoolToVisibilityRevertConverter}}">
                         <StackPanel.Resources>
+                            <!--  ReSharper disable Xaml.RedundantResource  -->
                             <Thickness x:Key="SettingsCardPadding">16</Thickness>
                             <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                             <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                             <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                            <!--  ReSharper restore Xaml.RedundantResource  -->
                         </StackPanel.Resources>
 
                         <TextBlock
@@ -152,7 +150,7 @@
             </Grid>
         </Flyout>
 
-        <DataTemplate x:Key="HistoryWishItemTemplate">
+        <DataTemplate x:Key="HistoryWishItemTemplate" x:DataType="shvg:StatisticsItem">
             <Border Width="40" Style="{StaticResource BorderCardStyle}">
                 <StackPanel>
                     <shuxc:ItemIcon
@@ -170,7 +168,7 @@
             </Border>
         </DataTemplate>
 
-        <DataTemplate x:Key="HistoryWishListTemplate">
+        <DataTemplate x:Key="HistoryWishListTemplate" x:DataType="shvg:HistoryWish">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -190,6 +188,7 @@
                 </StackPanel>
 
                 <TextBlock
+                    Grid.Row="0"
                     Margin="0,8,0,0"
                     HorizontalAlignment="Right"
                     Style="{StaticResource BaseTextBlockStyle}"
@@ -218,7 +217,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="HistoryWishGridTemplate">
+        <DataTemplate x:Key="HistoryWishGridTemplate" x:DataType="shvg:StatisticsItem">
             <Grid>
                 <shuxc:ItemIcon
                     Badge="{Binding Badge}"
@@ -316,6 +315,7 @@
                 <CommandBar DefaultLabelPosition="Right">
                     <CommandBar.Resources>
                         <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
+                        <!--  ReSharper disable once Xaml.RedundantResource  -->
                         <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
                     </CommandBar.Resources>
                     <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE72C;}" Label="{shuxm:ResourceString Name=ViewPageGachaLogRefresh}">

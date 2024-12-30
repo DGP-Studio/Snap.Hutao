@@ -6,27 +6,29 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shwhhpc="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect"
-    xmlns:shwhhpcp="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package"
+    xmlns:shwhhc="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect"
+    xmlns:shwhhcp="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package"
     HorizontalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
-    d:DataContext="{d:DesignInstance shwhhpcp:Package}"
+    d:DataContext="{d:DesignInstance shwhhcp:Package}"
     BorderThickness="0"
     IsExpanded="True"
     ItemsSource="{Binding AllPackages}"
     mc:Ignorable="d">
 
     <cwc:SettingsExpander.Resources>
+        <!--  ReSharper disable Xaml.RedundantResource  -->
         <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+        <!--  ReSharper restore Xaml.RedundantResource  -->
     </cwc:SettingsExpander.Resources>
 
     <cwc:SettingsExpander.ItemTemplate>
-        <DataTemplate x:DataType="shwhhpc:PackageSegment">
+        <DataTemplate x:DataType="shwhhc:PackageSegment">
             <cwc:SettingsCard
                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                 ActionIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCopy}}"

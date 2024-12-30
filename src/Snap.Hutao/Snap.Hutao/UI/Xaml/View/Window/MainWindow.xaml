@@ -14,6 +14,5 @@
             x:Name="TitleBarView"
             Height="44"
             Margin="44,0,0,0"/>
-
     </Grid>
 </Window>

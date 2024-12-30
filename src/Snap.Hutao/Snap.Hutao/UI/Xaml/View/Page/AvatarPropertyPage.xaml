@@ -61,7 +61,7 @@
                 </shuxdcs:LayoutSwitchModeConverter.GridValue>
             </shuxdcs:LayoutSwitchModeConverter>
 
-            <DataTemplate x:Key="AvatarGridViewSkillTemplate">
+            <DataTemplate x:Key="AvatarGridViewSkillTemplate" x:DataType="shva:SkillView">
                 <shuxcc:VerticalCard>
                     <shuxcc:VerticalCard.Top>
                         <shuxci:CachedImage
@@ -80,7 +80,7 @@
                 </shuxcc:VerticalCard>
             </DataTemplate>
 
-            <DataTemplate x:Key="AvatarGridViewTemplate">
+            <DataTemplate x:Key="AvatarGridViewTemplate" x:DataType="shva:AvatarView">
                 <Grid Style="{ThemeResource GridCardStyle}">
 
                     <Border
@@ -163,7 +163,7 @@
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="AvatarListViewTemplate">
+            <DataTemplate x:Key="AvatarListViewTemplate" x:DataType="shva:AvatarView">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -187,7 +187,6 @@
                             Opacity="0.7"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding Level}"
-                            TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
                     </StackPanel>
                     <StackPanel
@@ -200,13 +199,12 @@
                             FontSize="11"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding FormattedRefreshTime}"
-                            TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
                     </StackPanel>
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="AvatarConstellationTemplate">
+            <DataTemplate x:Key="AvatarConstellationTemplate" x:DataType="shva:ConstellationView">
                 <Button
                     Margin="0,0,2,0"
                     Padding="2"
@@ -228,19 +226,16 @@
                     </Button.Content>
                     <Button.Flyout>
                         <Flyout Placement="Bottom">
-                            <shuxct:DescriptionTextBlock MaxWidth="320" Description="{Binding Description}">
-                                <shuxct:DescriptionTextBlock.Resources>
-                                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap"/>
-                                    </Style>
-                                </shuxct:DescriptionTextBlock.Resources>
-                            </shuxct:DescriptionTextBlock>
+                            <shuxct:DescriptionTextBlock
+                                MaxWidth="320"
+                                Description="{Binding Description}"
+                                TextStyle="{StaticResource BodyTextBlockStyle}"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
             </DataTemplate>
 
-            <DataTemplate x:Key="AvatarSkillTemplate">
+            <DataTemplate x:Key="AvatarSkillTemplate" x:DataType="shva:SkillView">
                 <Button
                     Margin="0,2,0,0"
                     Padding="4"
@@ -271,18 +266,14 @@
                         <Flyout Placement="Left">
                             <StackPanel MaxWidth="320">
                                 <StackPanel.Resources>
+                                    <!--  ReSharper disable Xaml.RedundantResource  -->
                                     <Thickness x:Key="SettingsCardPadding">16</Thickness>
                                     <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                     <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                    <!--  ReSharper restore Xaml.RedundantResource  -->
                                 </StackPanel.Resources>
-                                <shuxct:DescriptionTextBlock Description="{Binding Description}">
-                                    <shuxct:DescriptionTextBlock.Resources>
-                                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                            <Setter Property="TextWrapping" Value="Wrap"/>
-                                        </Style>
-                                    </shuxct:DescriptionTextBlock.Resources>
-                                </shuxct:DescriptionTextBlock>
+                                <shuxct:DescriptionTextBlock Description="{Binding Description}" TextStyle="{StaticResource BodyTextBlockStyle}"/>
                                 <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -301,7 +292,7 @@
                 </Button>
             </DataTemplate>
 
-            <DataTemplate x:Key="AvatarPropertyTemplate">
+            <DataTemplate x:Key="AvatarPropertyTemplate" x:DataType="shva:AvatarProperty">
                 <Grid
                     Padding="16,8"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -342,7 +333,7 @@
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="AvatarReliquarySubPropertyTemplate">
+            <DataTemplate x:Key="AvatarReliquarySubPropertyTemplate" x:DataType="shva:ReliquaryComposedSubProperty">
                 <Grid ColumnSpacing="6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -352,7 +343,6 @@
                     <TextBlock
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="{Binding Name}"
-                        TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
                     <TextBlock Grid.Column="1" Text="{Binding Value}"/>
                     <Grid Grid.Column="2" Opacity="1">
@@ -380,21 +370,7 @@
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="AvatarReliquarySparseSubPropertyTemplate">
-                <Grid Opacity="{Binding Opacity}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Text="{Binding Name}"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap"/>
-                    <TextBlock Grid.Column="1" Text="{Binding Value}"/>
-                </Grid>
-            </DataTemplate>
-
-            <DataTemplate x:Key="AvatarReliquaryTemplate">
+            <DataTemplate x:Key="AvatarReliquaryTemplate" x:DataType="shva:ReliquaryView">
                 <Grid Style="{ThemeResource GridCardStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -442,10 +418,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{Binding MainProperty.Name}"
-                                TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding MainProperty.Name}"/>
                             <TextBlock Grid.Column="1" Text="{Binding MainProperty.Value}"/>
                         </Grid>
                         <ItemsControl
@@ -457,7 +430,7 @@
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="TokenTemplate">
+            <DataTemplate x:Key="TokenTemplate" x:DataType="shuxca:SearchToken">
                 <Grid Height="22" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="24"/>
@@ -669,12 +642,16 @@
                                                             Stretch="UniformToFill"/>
                                                     </cwcont:ConstrainedBox>
                                                     <Border
+                                                        Grid.Row="0"
                                                         Grid.RowSpan="2"
+                                                        Grid.Column="0"
                                                         Grid.ColumnSpan="2"
                                                         Background="#33000000"
                                                         CornerRadius="{ThemeResource ControlCornerRadius}"
                                                         IsHitTestVisible="False"/>
                                                     <StackPanel
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
                                                         Margin="16"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Top">
@@ -735,10 +712,12 @@
                                                                     <Flyout Placement="BottomEdgeAlignedLeft">
                                                                         <StackPanel>
                                                                             <StackPanel.Resources>
+                                                                                <!--  ReSharper disable Xaml.RedundantResource  -->
                                                                                 <x:Double x:Key="SettingsCardSpacing">3</x:Double>
                                                                                 <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
                                                                                 <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                                                                 <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                                                                <!--  ReSharper restore Xaml.RedundantResource  -->
                                                                             </StackPanel.Resources>
                                                                             <cwcont:SettingsCard
                                                                                 Margin="0,2,0,0"

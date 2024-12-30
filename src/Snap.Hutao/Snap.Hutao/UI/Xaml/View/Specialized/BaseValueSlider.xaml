@@ -9,10 +9,12 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
+        <!--  ReSharper disable Xaml.RedundantResource  -->
         <Thickness x:Key="SettingsCardPadding">16,8</Thickness>
         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
         <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
         <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+        <!--  ReSharper restore Xaml.RedundantResource  -->
 
         <DataTemplate x:Key="BaseValueTemplate">
             <cwc:SettingsCard

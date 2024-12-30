@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using System.Collections.Immutable;
 using System.Globalization;
 
 namespace Snap.Hutao.Service;
@@ -10,7 +11,7 @@ namespace Snap.Hutao.Service;
 [SuppressMessage("", "SA1513")]
 internal static class SupportedCultures
 {
-    public static List<NameValue<CultureInfo>> Values
+    public static ImmutableArray<NameCultureInfoValue> Values
     {
         get;
     } =
@@ -32,7 +33,7 @@ internal static class SupportedCultures
         ToNameValue(CultureInfo.GetCultureInfo("vi")),
     ];
 
-    private static NameValue<CultureInfo> ToNameValue(CultureInfo info)
+    private static NameCultureInfoValue ToNameValue(CultureInfo info)
     {
         return new(info.NativeName, info);
     }

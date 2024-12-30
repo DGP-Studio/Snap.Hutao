@@ -7,6 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shmmi="using:Snap.Hutao.Model.Metadata.Item"
+    xmlns:shmmw="using:Snap.Hutao.Model.Metadata.Weapon"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
@@ -15,6 +17,7 @@
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
+    xmlns:shvc="using:Snap.Hutao.ViewModel.Complex"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiWeaponViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -24,7 +27,7 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
-        <DataTemplate x:Key="TokenTemplate">
+        <DataTemplate x:Key="TokenTemplate" x:DataType="shuxca:SearchToken">
             <Grid Height="22" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="24"/>
@@ -65,7 +68,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="WeaponListTemplate">
+        <DataTemplate x:Key="WeaponListTemplate" x:DataType="shmmw:Weapon">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -85,7 +88,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="CultivationItemTemplate">
+        <DataTemplate x:Key="CultivationItemTemplate" x:DataType="shmmi:Material">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
                     <shuxc:ItemIcon
@@ -103,21 +106,18 @@
             </shuxcc:HorizontalCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="AffixPivotHeaderTemplate">
-            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
+        <DataTemplate x:Key="AffixPivotHeaderTemplate" x:DataType="shmmw:LevelDescription">
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding FormattedLevel}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="AffixPivotItemTemplate">
-            <shuxct:DescriptionTextBlock Margin="16,8,0,0" Description="{Binding Description}">
-                <shuxct:DescriptionTextBlock.Resources>
-                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                    </Style>
-                </shuxct:DescriptionTextBlock.Resources>
-            </shuxct:DescriptionTextBlock>
+        <DataTemplate x:Key="AffixPivotItemTemplate" x:DataType="shmmw:LevelDescription">
+            <shuxct:DescriptionTextBlock
+                Margin="16,8,0,0"
+                Description="{Binding Description}"
+                TextStyle="{StaticResource BodyTextBlockStyle}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="CollocationTemplate">
+        <DataTemplate x:Key="CollocationTemplate" x:DataType="shvc:CollocationView">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
                     <shuxc:ItemIcon
@@ -144,7 +144,7 @@
             </shuxcc:HorizontalCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="WeaponGridTemplate">
+        <DataTemplate x:Key="WeaponGridTemplate" x:DataType="shmmw:Weapon">
             <shuxcc:VerticalCard Width="82">
                 <shuxcc:VerticalCard.Top>
                     <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
@@ -261,7 +261,7 @@
                                                             </Grid.ColumnDefinitions>
                                                             <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
 
-                                                            <Grid Grid.ColumnSpan="2">
+                                                            <Grid Grid.Column="0" Grid.ColumnSpan="2">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="176*"/>
                                                                     <ColumnDefinition Width="848*"/>

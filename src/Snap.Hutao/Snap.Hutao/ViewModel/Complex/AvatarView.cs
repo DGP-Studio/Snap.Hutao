@@ -1,14 +1,13 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-internal class AvatarView : RateAndDelta, INameIconSide<Uri>
+internal class AvatarView : CollocationView
 {
     public AvatarView(Avatar avatar, double rate, double? lastRate = default)
         : base(rate, lastRate)
@@ -19,11 +18,11 @@ internal class AvatarView : RateAndDelta, INameIconSide<Uri>
         Quality = avatar.Quality;
     }
 
-    public string Name { get; }
+    public override string Name { get; }
 
-    public Uri Icon { get; }
+    public override Uri Icon { get; }
+    
+    public override QualityType Quality { get; }
 
     public Uri SideIcon { get; }
-
-    public QualityType Quality { get; }
 }

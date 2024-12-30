@@ -17,6 +17,6 @@ internal sealed partial class TitleView : UserControl
 
     public FrameworkElement DragArea
     {
-        get => DragableGrid;
+        get => DraggableGrid;
     }
 }

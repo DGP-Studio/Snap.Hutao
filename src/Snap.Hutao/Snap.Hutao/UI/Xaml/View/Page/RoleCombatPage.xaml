@@ -387,9 +387,11 @@
                                                     </StackPanel>
                                                     <Border>
                                                         <Border.Resources>
+                                                            <!--  ReSharper disable Xaml.RedundantResource  -->
                                                             <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                                             <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                                             <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                            <!--  ReSharper restore Xaml.RedundantResource  -->
                                                         </Border.Resources>
 
                                                         <ItemsControl>
@@ -570,10 +572,12 @@
                                                 Margin="0,-29,0,0"
                                                 Spacing="{StaticResource SettingsCardSpacing}">
                                                 <StackPanel.Resources>
+                                                    <!--  ReSharper disable Xaml.RedundantResource  -->
                                                     <Thickness x:Key="SettingsCardPadding">16</Thickness>
                                                     <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                                     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                                     <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                    <!--  ReSharper restore Xaml.RedundantResource  -->
                                                 </StackPanel.Resources>
                                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewDataCollect}"/>
                                                 <cwc:SettingsCard Content="{Binding RecordTotal}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRecordTotal}"/>

@@ -11,10 +11,12 @@
     Visibility="{x:Bind SelectedItem.Parameters.Length, Converter={StaticResource Int32ToVisibilityConverter}, Mode=OneWay}"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <!--  ReSharper disable Xaml.RedundantResource  -->
         <Thickness x:Key="SettingsCardPadding">16,8</Thickness>
         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
         <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
         <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+        <!--  ReSharper restore Xaml.RedundantResource  -->
 
         <DataTemplate x:Key="ParameterDescriptionTemplate" x:DataType="shmm:ParameterDescription">
             <cwc:SettingsCard

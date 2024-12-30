@@ -69,7 +69,6 @@
                             HorizontalTextAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding Item.Name}"
-                            TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
                     </shuxcc:VerticalCard.Bottom>
                 </shuxcc:VerticalCard>

@@ -16,7 +16,7 @@ internal sealed class SummaryItem : Item
 
     public int LastPull { get; set; }
 
-    public string TimeFormatted
+    public string FormattedTime
     {
         get => $"{Time.ToLocalTime():yyy.MM.dd HH:mm:ss}";
     }

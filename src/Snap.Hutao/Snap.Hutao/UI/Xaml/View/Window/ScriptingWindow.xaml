@@ -70,6 +70,7 @@
                                     Margin="0,16,0,0"
                                     Padding="8"
                                     Style="{ThemeResource BorderCardStyle}">
+                                    <!--  ReSharper disable once InconsistentNaming  -->
                                     <TextBlock
                                         x:Name="TextBlock_ServiceProvider"
                                         FontFamily="Consolas"
@@ -83,6 +84,7 @@
                                     Margin="0,16,0,0"
                                     Padding="8"
                                     Style="{ThemeResource BorderCardStyle}">
+                                    <!--  ReSharper disable once InconsistentNaming  -->
                                     <TextBlock
                                         x:Name="TextBlock_FormatJson"
                                         FontFamily="Consolas"
@@ -96,6 +98,7 @@
                                     Margin="0,16,0,0"
                                     Padding="8"
                                     Style="{ThemeResource BorderCardStyle}">
+                                    <!--  ReSharper disable once InconsistentNaming  -->
                                     <TextBlock
                                         x:Name="TextBlock_RequestAsync"
                                         FontFamily="Consolas"
@@ -125,6 +128,7 @@
                                     Margin="0,16,0,0"
                                     Padding="8"
                                     Style="{ThemeResource BorderCardStyle}">
+                                    <!--  ReSharper disable once InconsistentNaming  -->
                                     <TextBlock
                                         x:Name="TextBlock_RequestWithCurrentUserAndUidAsync"
                                         FontFamily="Consolas"

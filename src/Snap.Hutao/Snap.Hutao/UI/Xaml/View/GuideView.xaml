@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shm="using:Snap.Hutao.Model"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Guide"
@@ -18,7 +19,7 @@
     </mxi:Interaction.Behaviors>
 
     <UserControl.Resources>
-        <DataTemplate x:Key="LanguageTemplate">
+        <DataTemplate x:Key="LanguageTemplate" x:DataType="shm:NameCultureInfoValue">
             <StackPanel MinWidth="240" Margin="16">
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}"/>
                 <TextBlock Opacity="0.8" Text="{Binding Value}"/>
@@ -57,7 +58,10 @@
             VerticalAlignment="Bottom"
             Opacity="0.20"
             Source="ms-appx:///Resource/WelcomeView_Background.png"/>
-        <cwc:SwitchPresenter ContentTransitions="{ThemeResource EntranceThemeTransitions}" Value="{Binding State, Mode=OneWay}">
+        <cwc:SwitchPresenter
+            Grid.Row="0"
+            ContentTransitions="{ThemeResource EntranceThemeTransitions}"
+            Value="{Binding State, Mode=OneWay}">
             <cwc:Case Value="{shuxm:UInt32 Value=0}">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <GridView

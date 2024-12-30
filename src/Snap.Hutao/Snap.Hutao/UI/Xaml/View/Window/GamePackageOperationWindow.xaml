@@ -20,7 +20,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid
-            x:Name="DragableGrid"
+            x:Name="DraggableGrid"
             Grid.Row="0"
             Height="32"/>
 
