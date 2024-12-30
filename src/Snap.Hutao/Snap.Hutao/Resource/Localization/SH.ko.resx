@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
   </data>
@@ -630,6 +633,9 @@
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>验证请求失败，当前邮箱已被注册</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱未注册</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>验证请求过快，请 1 分钟后再试</value>
