@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>Необходимо войти в учетную запись miHoYo/HoYoLAB и выбрать пользователя с персонажем</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>Удален Uid: {0} из {1} записи пожеланий</value>
   </data>
@@ -630,6 +633,9 @@
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>Ошибка проверки запроса, текущий адрес электронной почты уже зарегистрирован</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱未注册</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>Слишком частые запросы проверки, пожалуйста, повторите через 1 минуту</value>
