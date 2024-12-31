@@ -2033,6 +2033,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
   </data>
@@ -2048,11 +2051,11 @@
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>修复完成</value>
   </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>尚未设置游戏目录</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>识别显示器</value>
-  </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>게임 경로가 잘못되었습니다. 설정에서 경로를 변경하세요</value>
@@ -2672,7 +2675,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>비밀번호 재설정</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>注销账号的数据将永远丢失，无法恢复</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
@@ -3526,6 +3529,12 @@
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想真境剧诗</value>
+  </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>未开通祈愿记录上传服务或已到期</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>로그인 실패, 다시 로그인해주세요.</value>
