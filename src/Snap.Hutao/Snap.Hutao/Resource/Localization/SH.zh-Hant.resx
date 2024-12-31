@@ -3303,13 +3303,13 @@
     <value>進階功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>變更滑鼠左鍵自動連點功能的快速鍵</value>
+    <value>更改滑鼠左鍵自動連點功能的快速鍵</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
     <value>滑鼠左鍵自動連點</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
-    <value>變更鍵盤 F 鍵自動連按功能的快速鍵</value>
+    <value>更改鍵盤 F 鍵自動連按功能的快速鍵</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
     <value>鍵盤 F 鍵自動連按</value>
@@ -3633,7 +3633,7 @@
     <value>自動連續點按</value>
   </data>
   <data name="ViewTitleAutoPressing" xml:space="preserve">
-    <value>鍵盤 F 鍵自動連按</value>
+    <value>自動連按</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
     <value>正在初始化元數據</value>
