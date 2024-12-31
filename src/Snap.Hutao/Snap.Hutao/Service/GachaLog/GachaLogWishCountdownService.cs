@@ -37,6 +37,11 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
         ImmutableArray<GachaEvent> events = [.. context.GachaEvents.OrderByDescending(b => b.From)];
         foreach (ref readonly GachaEvent gachaEvent in events.AsSpan())
         {
+            if (gachaEvent.From > DateTimeOffset.Now)
+            {
+                continue;
+            }
+
             foreach (uint itemId in gachaEvent.UpOrangeList)
             {
                 switch (itemId.StringLength())
