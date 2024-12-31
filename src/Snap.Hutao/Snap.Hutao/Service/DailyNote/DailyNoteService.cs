@@ -59,6 +59,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
         dailyNoteRepository.AddDailyNoteEntry(newEntry);
 
+        // Set navigation property before adding to the database will cause a corresponding insert operation.
         newEntry.User = userAndUid.User;
         await taskContext.SwitchToMainThreadAsync();
         entries?.Add(newEntry);

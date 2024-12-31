@@ -37,6 +37,8 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
         ImmutableArray<GachaEvent> events = [.. context.GachaEvents.OrderByDescending(b => b.From)];
         foreach (ref readonly GachaEvent gachaEvent in events.AsSpan())
         {
+            // Skip events that have not yet started,
+            // those events will cause incorrect countdowns
             if (gachaEvent.From > DateTimeOffset.Now)
             {
                 continue;

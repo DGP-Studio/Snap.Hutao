@@ -23,15 +23,21 @@ internal static class NotifySuppressionInvoker
         where T : INotifySuppressionChecker, new()
     {
         T checker = new();
-        if (checker.SuppressCondition(context))
-        {
-            if (!checker.GetSuppressed(context))
-            {
-                context.Add(checker.SuppressInfo(context));
-                checker.SetSuppressed(context, true);
-            }
 
-            checker.SetSuppressed(context, false);
+        // Reach the notify threshold
+        if (checker.ShouldNotify(context))
+        {
+            // If the suppression status is not set, we need to append notify info
+            if (!checker.GetIsSuppressed(context))
+            {
+                context.Add(checker.NotifyInfo(context));
+                checker.SetIsSuppressed(context, true);
+            }
+        }
+        else
+        {
+            // Reset suppression status
+            checker.SetIsSuppressed(context, false);
         }
     }
 }
