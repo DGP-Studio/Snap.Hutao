@@ -57,9 +57,9 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         newEntry.UserGameRole = await userService.GetUserGameRoleByUidAsync(roleUid).ConfigureAwait(false);
         newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
-        newEntry.User = userAndUid.User;
         dailyNoteRepository.AddDailyNoteEntry(newEntry);
 
+        newEntry.User = userAndUid.User;
         await taskContext.SwitchToMainThreadAsync();
         entries?.Add(newEntry);
     }
