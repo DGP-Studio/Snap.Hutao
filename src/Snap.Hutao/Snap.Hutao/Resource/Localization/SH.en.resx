@@ -2033,6 +2033,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>The currently selected user and game server do not match. Please re-select</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>Unable to read game config file: {0}, file may be not exist or insufficient permission</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>The currently selected game directory {0} is corrupted. Please manually delete the folder and reinstall the game</value>
   </data>
@@ -2048,11 +2051,11 @@
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>Fix Complete</value>
   </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>尚未设置游戏目录</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identify Monitors</value>
-  </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>Unable to read game config file: {0}, file may be not exist or insufficient permission</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>Game program path is incorrect. Change it in the Settings Page.</value>
@@ -2672,7 +2675,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Reset Password</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Delete Snap Hutao Passport will cause your data to lose without any recovery option</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
@@ -3526,6 +3529,12 @@
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Imaginarium Theater</value>
+  </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>No valid wish history backup service privilege</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>Log in failed, please log in again.</value>
