@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shme="using:Snap.Hutao.Model.Entity"
+    xmlns:shsg="using:Snap.Hutao.Service.Game"
     xmlns:shsgp="using:Snap.Hutao.Service.Game.PathAbstraction"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
@@ -108,7 +109,7 @@
 
         <shvg:AspectRatioComboBoxTemplateSelector x:Key="AspectRatioComboBoxTemplateSelector">
             <shvg:AspectRatioComboBoxTemplateSelector.ListTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="shsg:AspectRatio">
                     <!--  ComboBoxItemThemePadding 11,5,11,7  -->
                     <Grid Margin="1,-1,-7,-3">
                         <Grid.ColumnDefinitions>
@@ -202,6 +203,7 @@
                     <AppBarButton
                         Command="{Binding ResetGamePathCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xEBC4;}"
+                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
                         Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"/>
                     <AppBarButton
                         Command="{Binding LaunchCommand}"
