@@ -569,7 +569,7 @@
     <value>必須登入 米遊社 / HoYoLAB 並選擇一個使用者與角色</value>
   </data>
   <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>未開通胡桃雲 CDN 或已到期</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願紀錄</value>
@@ -635,7 +635,7 @@
     <value>驗證請求失敗，目前電子郵件地址已被註冊</value>
   </data>
   <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱未注册</value>
+    <value>驗證請求失敗，目前電子郵件地址未註冊</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>驗證請求過快，請 1 分鐘後再試</value>
@@ -1488,7 +1488,7 @@
     <value>重設胡桃通行證使用者密碼</value>
   </data>
   <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
-    <value>重置胡桃通行证邮箱</value>
+    <value>重設胡桃通行證電子郵件地址</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>刪除胡桃通行證帳號</value>
@@ -2658,7 +2658,7 @@
     <value>登入</value>
   </data>
   <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
-    <value>请输入新邮箱</value>
+    <value>請輸入新電子郵件地址</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>請輸入密碼</value>
@@ -3210,7 +3210,7 @@
     <value>公告所屬伺服器</value>
   </data>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
-    <value>選擇材料日曆以取得當天日期時使用的遊戲伺服器時區</value>
+    <value>選擇材料日曆獲取當天日期時使用的遊戲伺服器時區</value>
   </data>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>日曆伺服器</value>
@@ -3291,7 +3291,7 @@
     <value>重設密碼</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
-    <value>修改邮箱</value>
+    <value>修改電子郵件地址</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>刪除帳號</value>
@@ -3318,7 +3318,7 @@
     <value>快速鍵</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
-    <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
+    <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用才能恢復正常</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
@@ -3636,7 +3636,7 @@
     <value>自動連按</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
-    <value>正在初始化元數據</value>
+    <value>正在初始化後設資料</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>是否立即下載？</value>
