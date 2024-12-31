@@ -147,9 +147,6 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // Why does the project team extend the fucking end time for the fucking activity?
         versionStartTimes.TryAdd("5.0", new(2024, 8, 28, 6, 0, 0, offset));
 
-        // Can be removed after January 1, 2025
-        versionStartTimes.TryAdd("5.1", new(2024, 10, 9, 6, 0, 0, offset));
-
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
         // 更新公告
