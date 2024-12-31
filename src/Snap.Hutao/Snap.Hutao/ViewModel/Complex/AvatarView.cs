@@ -21,7 +21,7 @@ internal class AvatarView : CollocationView
     public override string Name { get; }
 
     public override Uri Icon { get; }
-    
+
     public override QualityType Quality { get; }
 
     public Uri SideIcon { get; }

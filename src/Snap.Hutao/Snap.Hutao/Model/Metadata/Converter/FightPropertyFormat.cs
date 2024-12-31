@@ -24,7 +24,7 @@ internal static class FightPropertyFormat
     {
         return new(property.GetLocalizedDescription(), FormatValue(property, value));
     }
-    
+
     public static NameDescription ToNameDescription(FightProperty property, float value)
     {
         return new(property.GetLocalizedDescription(), FormatValue(property, value));

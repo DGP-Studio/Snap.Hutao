@@ -63,7 +63,7 @@ internal sealed partial class HutaoPassportResetPasswordDialog : ContentDialog
         {
             return;
         }
-        
+
         UserName = userName;
         UserNameTextBox.IsEnabled = false;
     }

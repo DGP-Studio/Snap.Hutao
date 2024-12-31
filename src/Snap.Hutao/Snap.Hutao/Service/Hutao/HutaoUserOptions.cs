@@ -7,7 +7,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -252,13 +251,13 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 IsMaintainer = userInfo.IsMaintainer;
 
                 IsHutaoCloudAllowed = IsDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
-                CloudExpireAt = userInfo.GachaLogExpireAt > DateTimeOffset.Now 
-                    ? $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}" 
+                CloudExpireAt = userInfo.GachaLogExpireAt > DateTimeOffset.Now
+                    ? $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}"
                     : SH.ViewServiceHutaoUserCloudNotAllowedDescription;
 
                 IsHutaoCdnAllowed = IsDeveloper || userInfo.CdnExpireAt > DateTimeOffset.Now;
-                CdnExpireAt = userInfo.CdnExpireAt > DateTimeOffset.Now 
-                    ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}" 
+                CdnExpireAt = userInfo.CdnExpireAt > DateTimeOffset.Now
+                    ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
                     : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
             }
 
