@@ -2033,7 +2033,7 @@
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identify Monitors</value>
   </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Unable to read game config file: {0}, file may be not exist or insufficient permission</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">

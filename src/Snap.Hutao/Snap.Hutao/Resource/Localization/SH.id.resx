@@ -2033,7 +2033,7 @@
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identifikasi Monitor</value>
   </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Tidak dapat membaca file konfigurasi game: {0}, file mungkin tidak ada atau kurang izin pengguna</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">

@@ -48,14 +48,14 @@ internal sealed partial class LaunchGameShared
             case ChannelOptionsErrorKind.ConfigurationFileNotFound:
                 infoBarService.Warning(
                     $"{options.ErrorKind}",
-                    SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath),
+                    SH.FormatViewModelLaunchGameConfigurationFileNotFound(options.FilePath),
                     SH.ViewModelLaunchGameFixConfigurationFileButtonText,
                     HandleConfigurationFileNotFoundCommand);
                 break;
             case ChannelOptionsErrorKind.GamePathNullOrEmpty:
                 infoBarService.Warning(
                     $"{options.ErrorKind}",
-                    SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath),
+                    SH.ViewModelLaunchGameGamePathNullOrEmpty,
                     SH.ViewModelLaunchGameSetGamePathButtonText,
                     HandleGamePathNullOrEmptyCommand);
                 break;

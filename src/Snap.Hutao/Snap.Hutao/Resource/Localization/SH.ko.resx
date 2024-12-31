@@ -2033,7 +2033,7 @@
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>识别显示器</value>
   </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
