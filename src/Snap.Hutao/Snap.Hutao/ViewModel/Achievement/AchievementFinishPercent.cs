@@ -4,6 +4,8 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -35,6 +37,7 @@ internal static class AchievementFinishPercent
         foreach (ref readonly AchievementView achievementView in array.AsSpan())
         {
             ref AchievementGoalStatistics goalStat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievementView.Inner.Goal);
+            Debug.Assert(!Unsafe.IsNullRef(in goalStat));
 
             goalStat.TotalCount += 1;
             totalCount += 1;

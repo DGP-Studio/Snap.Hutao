@@ -31,10 +31,10 @@ internal sealed partial class AchievementGoalView : ObservableObject,
     public Uri Icon { get; }
 
     [ObservableProperty]
-    public partial double FinishPercent { get; set; }
+    public partial double FinishPercent { get; private set; }
 
     [ObservableProperty]
-    public partial string? FinishDescription { get; set; }
+    public partial string? FinishDescription { get; private set; }
 
     public static AchievementGoalView From(AchievementGoal source)
     {

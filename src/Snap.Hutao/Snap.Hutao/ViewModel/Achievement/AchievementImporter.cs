@@ -105,6 +105,7 @@ internal sealed partial class AchievementImporter
             result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
         }
 
+        // ReSharper disable once LocalizableElement
         scopeContext.InfoBarService.Success($"{result}");
         return true;
     }

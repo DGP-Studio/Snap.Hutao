@@ -9,6 +9,9 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
+using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
@@ -174,10 +177,11 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
                 using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
                 {
+                    IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+                    HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(MetaFileName));
+
                     // Download meta check file
-                    metadataFileHashes = await httpClient
-                        .GetFromJsonAsync<ImmutableDictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
-                        .ConfigureAwait(false);
+                    metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, logger, token).ConfigureAwait(false);
                 }
             }
 

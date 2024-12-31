@@ -7,11 +7,11 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 internal sealed class AchievementStatistics
 {
-    public string DisplayName { get; set; } = default!;
+    public required string DisplayName { get; init; }
 
-    public string FinishDescription { get; set; } = default!;
+    public required string FinishDescription { get; init; }
 
-    public ImmutableArray<AchievementView> Achievements { get; set; }
+    public required ImmutableArray<AchievementView> Achievements { get; init; }
 
     /// <summary>
     /// 格式化完成进度
