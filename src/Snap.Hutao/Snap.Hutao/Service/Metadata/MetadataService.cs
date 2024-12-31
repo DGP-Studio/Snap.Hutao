@@ -11,13 +11,11 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
-using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Service.Metadata;
 
