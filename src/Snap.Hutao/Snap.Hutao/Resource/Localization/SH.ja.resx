@@ -2034,6 +2034,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>現在選択されているユーザーとサーバーが一致しません。もう一度選択してください。</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>現在選択されているゲームパス {0} が壊れています。フォルダーを手動で削除しゲームを再インストールしてください</value>
   </data>
@@ -2049,11 +2052,11 @@
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>修復完了</value>
   </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>尚未设置游戏目录</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>モニターの識別</value>
-  </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>ゲームのパスが間違っています。設定で変更してください。</value>
@@ -2674,7 +2677,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>パスワードをリセット</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>削除されたアカウントのデータは永久的に削除され、復元することは出来ません。</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
@@ -3528,6 +3531,12 @@
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想シアター</value>
+  </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>祈願履歴のアップロードサービスが無効か、有効期限が切れています。</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>ログインできません。もう一度お試しください。</value>
