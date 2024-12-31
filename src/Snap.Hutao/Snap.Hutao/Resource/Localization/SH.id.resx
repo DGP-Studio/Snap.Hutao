@@ -2651,7 +2651,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Atur ulang Kata Sandi</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Menghapus Snap Hutao Passport akan menyebabkan kehilangan data tanpa opsi pemulihan.</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">

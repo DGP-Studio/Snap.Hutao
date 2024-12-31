@@ -2651,7 +2651,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>비밀번호 재설정</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>注销账号的数据将永远丢失，无法恢复</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">

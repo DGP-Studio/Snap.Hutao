@@ -2653,7 +2653,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>パスワードをリセット</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>削除されたアカウントのデータは永久的に削除され、復元することは出来ません。</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">

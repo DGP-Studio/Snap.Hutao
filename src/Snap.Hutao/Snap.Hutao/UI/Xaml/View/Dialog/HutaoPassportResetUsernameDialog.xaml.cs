@@ -22,8 +22,9 @@ internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
 
-    public async ValueTask<ValueResult<bool, (string UserName, string NewUserName, string VerifyCode, string NewVerifyCode)>> GetInputAsync()
+    public async ValueTask<ValueResult<bool, (string UserName, string NewUserName, string VerifyCode, string NewVerifyCode)>> GetInputAsync(string? userName)
     {
+        InitializeUserNameTextBox(userName);
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
         return new(result is ContentDialogResult.Primary, (UserName, NewUserName, VerifyCode, NewVerifyCode));
@@ -66,5 +67,16 @@ internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
 
             infoBarService.Information(response.GetLocalizationMessage());
         }
+    }
+
+    private void InitializeUserNameTextBox(string? userName)
+    {
+        if (string.IsNullOrEmpty(userName))
+        {
+            return;
+        }
+        
+        UserName = userName;
+        UserNameTextBox.IsEnabled = false;
     }
 }

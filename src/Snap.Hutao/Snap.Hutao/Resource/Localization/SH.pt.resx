@@ -2651,7 +2651,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Redefinir senha</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Excluir o passaporte do Snap Hutao fará com que seus dados sejam perdidos sem nenhuma opção de recuperação</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">

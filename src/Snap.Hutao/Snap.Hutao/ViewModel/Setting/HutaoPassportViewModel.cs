@@ -57,8 +57,10 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("UnregisterCommand")]
     private async Task UnregisterAsync()
     {
+        string? userName = await HutaoUserOptions.GetActualUserNameAsync().ConfigureAwait(false);
+
         HutaoPassportUnregisterDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUnregisterDialog>().ConfigureAwait(false);
-        ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
+        ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync(userName).ConfigureAwait(false);
 
         if (!result.IsOk)
         {
@@ -105,8 +107,10 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("ResetUsernameCommand")]
     private async Task ResetUsernameAsync()
     {
+        string? userName = await HutaoUserOptions.GetActualUserNameAsync().ConfigureAwait(false);
+
         HutaoPassportResetUsernameDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportResetUsernameDialog>().ConfigureAwait(false);
-        ValueResult<bool, (string UserName, string NewUserName, string VerifyCode, string NewVerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
+        ValueResult<bool, (string UserName, string NewUserName, string VerifyCode, string NewVerifyCode)> result = await dialog.GetInputAsync(userName).ConfigureAwait(false);
 
         if (!result.IsOk)
         {
@@ -126,8 +130,10 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("ResetPasswordCommand")]
     private async Task ResetPasswordAsync()
     {
+        string? userName = await HutaoUserOptions.GetActualUserNameAsync().ConfigureAwait(false);
+
         HutaoPassportResetPasswordDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportResetPasswordDialog>().ConfigureAwait(false);
-        ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
+        ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync(userName).ConfigureAwait(false);
 
         if (!result.IsOk)
         {

@@ -14,11 +14,12 @@
 
     <StackPanel Margin="0,8,0,0">
         <InfoBar
-            Title="{shuxm:ResourceString Name=ViewPageHutaoPassportResetPasswordHint}"
+            Title="{shuxm:ResourceString Name=ViewPageHutaoPassportUnregisterHint}"
             IsClosable="False"
             IsOpen="True"
             Severity="Error"/>
         <TextBox
+            x:Name="UserNameTextBox"
             Margin="0,16,0,0"
             InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"

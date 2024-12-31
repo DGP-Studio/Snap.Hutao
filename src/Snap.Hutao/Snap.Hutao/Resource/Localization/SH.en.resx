@@ -2651,7 +2651,7 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Reset Password</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Delete Snap Hutao Passport will cause your data to lose without any recovery option</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
