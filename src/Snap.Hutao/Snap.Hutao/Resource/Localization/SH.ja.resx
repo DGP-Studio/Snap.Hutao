@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>米游社 / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件削除しました</value>
   </data>
@@ -631,6 +634,9 @@
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>認証リクエストに失敗しました。このメールアドレスは既に登録されています。</value>
   </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱未注册</value>
+  </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
   </data>
@@ -690,6 +696,15 @@
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓更新時期〓</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>北アメリカ UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>他のサーバ UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>ヨーロッパ UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
@@ -1120,7 +1135,7 @@
     <value>フレームレートロック解除に失敗しました：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈願履歴のアップロード期限は</value>
+    <value>祈願履歴のアップロードサービス期限は</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
@@ -1472,6 +1487,9 @@
   </data>
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>胡桃通行証のパスワードをリセット</value>
+  </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>胡桃通行証のメールアドレスをリセット</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>胡桃アカウントを削除</value>
@@ -2016,6 +2034,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>現在選択されているユーザーとサーバーが一致しません。もう一度選択してください。</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>現在選択されているゲームパス {0} が壊れています。フォルダーを手動で削除しゲームを再インストールしてください</value>
   </data>
@@ -2031,11 +2052,11 @@
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>修復完了</value>
   </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>尚未设置游戏目录</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>モニターの識別</value>
-  </data>
-  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
-    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>ゲームのパスが間違っています。設定で変更してください。</value>
@@ -2641,6 +2662,9 @@
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>ログイン</value>
   </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>新しいメールアドレスを入力してください</value>
+  </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>パスワードを入力してください</value>
   </data>
@@ -3190,6 +3214,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>お知らせのサーバー</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>素材カレンダーが当日の日付を取得する際に使用するゲームサーバーのタイムゾーンを選択します</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>カレンダーサーバー</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>ホームのダッシュボードでカードを管理する</value>
   </data>
@@ -3220,6 +3250,9 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>ホーム</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>胡桃クラウド CDN 有効期限</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>考え直して！！</value>
   </data>
@@ -3227,7 +3260,7 @@
     <value>危険な操作</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃クラウドサービスの有効期限</value>
+    <value>胡桃クラウド祈願履歴サービスの有効期限</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃アカウント</value>
@@ -3262,6 +3295,9 @@
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>パスワードの変更</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>メールアドレス変更</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>アカウントの削除</value>
   </data>
@@ -3272,13 +3308,22 @@
     <value>高度な機能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>オートクリック機能のショートカットキーを変更します</value>
+    <value>左クリックの自動押し機能のショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>マウス左ボタンの自動クリック</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>F キーの自動押し機能のショートカットキーを変更します</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>キーボード F キーの自動連打</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>異なる機能に同じショートカットキーを設定すると、予期せぬ結果を招く場合が可能で、正常に戻すには追加の操作やアプリの再起動が必要になるかもしれません</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
@@ -3487,6 +3532,12 @@
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想シアター</value>
   </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>祈願履歴のアップロードサービスが無効か、有効期限が切れています。</value>
+  </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>ログインできません。もう一度お試しください。</value>
   </data>
@@ -3590,7 +3641,13 @@
     <value>胡桃 ver {0} の準備が整いました</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>自動クリック</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自動連打</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>メタデータを初期化中</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>今すぐダウンロードしますか？</value>
