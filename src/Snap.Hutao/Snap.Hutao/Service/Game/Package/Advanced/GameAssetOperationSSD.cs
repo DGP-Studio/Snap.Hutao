@@ -37,9 +37,9 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
     {
         await Parallel.ForEachAsync(diffAssets, context.ParallelOptions, (asset, token) =>
         {
-            IEnumerable<SophonChunk> chunks = asset.Kind switch
+            IList<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
+                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)).ToList(),
                 SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
@@ -63,7 +63,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         await Parallel.ForEachAsync(info.ConflictedAssets, context.ParallelOptions, (asset, token) => EnsureAssetAsync(context, asset)).ConfigureAwait(false);
     }
 
-    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IEnumerable<SophonChunk> sophonChunks)
+    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IList<SophonChunk> sophonChunks)
     {
         await Parallel.ForEachAsync(sophonChunks, context.ParallelOptions, (chunk, token) => DownloadChunkAsync(context, chunk)).ConfigureAwait(false);
     }

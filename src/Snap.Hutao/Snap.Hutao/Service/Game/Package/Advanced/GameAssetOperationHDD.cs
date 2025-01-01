@@ -45,9 +45,9 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         foreach (SophonAssetOperation asset in diffAssets)
         {
-            IEnumerable<SophonChunk> chunks = asset.Kind switch
+            IList<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
+                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)).ToList(),
                 SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
@@ -80,7 +80,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
         }
     }
 
-    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IEnumerable<SophonChunk> sophonChunks)
+    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IList<SophonChunk> sophonChunks)
     {
         foreach (SophonChunk chunk in sophonChunks)
         {

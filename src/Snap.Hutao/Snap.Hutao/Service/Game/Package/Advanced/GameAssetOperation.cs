@@ -229,24 +229,33 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     protected abstract ValueTask RepairAssetsAsync(GamePackageServiceContext context, GamePackageIntegrityInfo info);
 
-    protected abstract ValueTask DownloadChunksAsync(GamePackageServiceContext context, IEnumerable<SophonChunk> sophonChunks);
+    protected abstract ValueTask DownloadChunksAsync(GamePackageServiceContext context, IList<SophonChunk> sophonChunks);
 
     protected abstract ValueTask MergeNewAssetAsync(GamePackageServiceContext context, AssetProperty assetProperty);
 
     protected async ValueTask EnsureAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
     {
+        string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.NewAsset.AssetName);
+        
         if (asset.NewAsset.AssetType is 64)
         {
-            Directory.CreateDirectory(Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.NewAsset.AssetName));
+            Directory.CreateDirectory(assetPath);
             return;
         }
 
-        IEnumerable<SophonChunk> chunks = asset.Kind switch
+        IList<SophonChunk> chunks = asset.Kind switch
         {
-            SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)),
+            SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)).ToList(),
             SophonAssetOperationKind.Modify => asset.DiffChunks,
             _ => [],
         };
+
+        if (File.Exists(assetPath) && asset.NewAsset.AssetHashMd5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, assetPath, context.CancellationToken).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+        {
+            context.Progress.Report(new GamePackageOperationReport.Download(0, chunks.Count));
+            context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count));
+            return;
+        }
 
         await DownloadChunksAsync(context, chunks).ConfigureAwait(false);
         await MergeAssetAsync(context, asset).ConfigureAwait(false);
