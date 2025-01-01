@@ -569,7 +569,7 @@
     <value>米游社 / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
   <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>胡桃クラウド CDN が未開通か、有効期限が切れています</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件削除しました</value>
@@ -635,7 +635,7 @@
     <value>認証リクエストに失敗しました。このメールアドレスは既に登録されています。</value>
   </data>
   <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱未注册</value>
+    <value>認証リクエストに失敗しました。このメールアドレスは登録されていません。</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
@@ -2035,7 +2035,7 @@
     <value>現在選択されているユーザーとサーバーが一致しません。もう一度選択してください。</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
-    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
+    <value>ゲーム設定ファイル {0} は読み込めませんでした，ファイルが無い、また権限不足の可能性があります。</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>現在選択されているゲームパス {0} が壊れています。フォルダーを手動で削除しゲームを再インストールしてください</value>
@@ -2053,7 +2053,7 @@
     <value>修復完了</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
-    <value>尚未设置游戏目录</value>
+    <value>ゲームパス未設定</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>モニターの識別</value>
@@ -2678,7 +2678,7 @@
     <value>パスワードをリセット</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
-    <value>削除されたアカウントのデータは永久的に削除され、復元することは出来ません。</value>
+    <value>アカウントを削除するとデータは永久に失われて復元できません！</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>メールアドレスを入力してください。</value>
@@ -3533,10 +3533,10 @@
     <value>幻想シアター</value>
   </data>
   <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>胡桃クラウド CDN が未開通か、有効期限が切れています</value>
   </data>
   <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
-    <value>祈願履歴のアップロードサービスが無効か、有効期限が切れています。</value>
+    <value>祈願履歴のアップロードサービスが未開通か、有効期限が切れています。</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>ログインできません。もう一度お試しください。</value>
