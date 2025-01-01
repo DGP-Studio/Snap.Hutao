@@ -2052,7 +2052,7 @@
     <value>修複完成</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
-    <value>尚未设置游戏目录</value>
+    <value>尚未設定遊戲目錄</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>識別顯示器</value>
