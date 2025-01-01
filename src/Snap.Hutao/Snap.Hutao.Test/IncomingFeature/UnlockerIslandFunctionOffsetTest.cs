@@ -38,7 +38,7 @@ public class UnlockerIslandFunctionOffsetTest
                 SetTargetFrameRate = 0x00F0EC30,
                 SetEnableFogRendering = 0x00F0D5A0,
                 OpenTeam = 0x07C97130,
-                OpenTeamPageAccordingly = 0x07CB42C0,
+                OpenTeamPageAccordingly = 0x07CB71C0,
                 CheckCanEnter = 0x069F0C00
             },
             Oversea = new()
@@ -50,7 +50,7 @@ public class UnlockerIslandFunctionOffsetTest
                 SetTargetFrameRate = 0x00F0CC30,
                 SetEnableFogRendering = 0x00F0B5A0,
                 OpenTeam = 0x07EB04C0,
-                OpenTeamPageAccordingly = 0x07EB5890,
+                OpenTeamPageAccordingly = 0x07EC3A40,
                 CheckCanEnter = 0x06147B80
             },
         };
