@@ -203,7 +203,7 @@
                     <AppBarButton
                         Command="{Binding ResetGamePathCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xEBC4;}"
-                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
+                        IsEnabled="{Binding CanResetGamePathEntry}"
                         Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"/>
                     <AppBarButton
                         Command="{Binding LaunchCommand}"

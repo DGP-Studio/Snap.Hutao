@@ -35,6 +35,7 @@ internal sealed class LaunchExecutionInvoker
     {
         try
         {
+            context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(false));
             await RecursiveInvokeHandlerAsync(context, 0).ConfigureAwait(false);
             return context.Result;
         }
@@ -46,6 +47,7 @@ internal sealed class LaunchExecutionInvoker
             }
 
             context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
+            context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(true));
         }
     }
 
