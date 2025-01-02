@@ -1050,7 +1050,7 @@
     <value>Game client</value>
   </data>
   <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
-    <value>游戏运行中，无法读取 Unity 日志文件</value>
+    <value>Unable to read Unity log file while game is running</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity log file not found</value>
@@ -2052,7 +2052,7 @@
     <value>Fix Complete</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
-    <value>尚未设置游戏目录</value>
+    <value>Game directory not set</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identify Monitors</value>
@@ -3216,7 +3216,7 @@
     <value>选择材料日历获取当天日期时使用的游戏服务器时区</value>
   </data>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
-    <value>日历服务器</value>
+    <value>Calendar Server</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
@@ -3294,7 +3294,7 @@
     <value>Change Password</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
-    <value>修改邮箱</value>
+    <value>Change email</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>Delete Account</value>
@@ -3309,13 +3309,13 @@
     <value>更改鼠标左键自动连点功能的快捷键</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>鼠标左键自动连点</value>
+    <value>Left mouse button auto-pointing</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
-    <value>更改键盘 F 键自动连按功能的快捷键</value>
+    <value>Changing the keyboard shortcut for the F-key auto-repeat function</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
-    <value>键盘 F 键自动连按</value>
+    <value>Auto Press F-key</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Shortcut Keys</value>
@@ -3531,7 +3531,7 @@
     <value>Imaginarium Theater</value>
   </data>
   <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>Hutao Passport CDN not activated or expired</value>
   </data>
   <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
     <value>No valid wish history backup service privilege</value>
@@ -3642,10 +3642,10 @@
     <value>Auto Click</value>
   </data>
   <data name="ViewTitleAutoPressing" xml:space="preserve">
-    <value>自动连按</value>
+    <value>Auto Click</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
-    <value>正在初始化元数据</value>
+    <value>Initializing metadata</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
     <value>Download Now?</value>
@@ -3744,7 +3744,7 @@
     <value>Weapon WIKI</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口（仅管理员）</value>
+    <value>Compact web window (Admin only)</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>Please take a screenshot of this window and find the appropriate feedback channel in the Feedback Center and send it to the development team.</value>
