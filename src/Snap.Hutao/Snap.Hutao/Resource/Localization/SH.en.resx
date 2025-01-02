@@ -1134,7 +1134,7 @@
     <value>Failed to unlock frame rate：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务有效期至</value>
+    <value>Wish record uploading service is valid until</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
@@ -1404,7 +1404,7 @@
     <value>You need other tools to restore the loopback after it is exempted</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+    <value>Detects that the system agent has been configured, but the Loopback restriction has not been lifted and Hutao will not be able to network properly.</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>Confirm to Config Loopback Exemption</value>
@@ -1488,7 +1488,7 @@
     <value>Reset Password of Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
-    <value>重置胡桃通行证邮箱</value>
+    <value>Reset Email of Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Delete Snap Hutao Passport</value>
@@ -1536,22 +1536,22 @@
     <value>Fixing configuration file</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
-    <value>选择的安装路径不存在且无法创建</value>
+    <value>The selected installation path does not exist and cannot be created</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
-    <value>选择的安装路径存在文件或文件夹</value>
+    <value>File or folder exists in the selected installation path</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
-    <value>选择的安装路径无效</value>
+    <value>The selected installation path is invalid</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
-    <value>未选择语音包</value>
+    <value>No voice pack selected</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
-    <value>未选择游戏区服</value>
+    <value>No game server selected</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
-    <value>选择安装路径</value>
+    <value>Select Installation Path</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>Switching may take some time. Please don't close HuTao.</value>
@@ -1845,10 +1845,10 @@
     <value>藏金之花</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
-    <value>还需 {0} 天</value>
+    <value>{0} Days left</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
-    <value>世界 BOSS</value>
+    <value>World BOSS</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
     <value>Character Talent Materials</value>
@@ -1857,7 +1857,7 @@
     <value>Weapon Ascension Materials</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
-    <value>周常 BOSS</value>
+    <value>Weekly BOSS</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>Realtime Note Webhook URL successfully configured</value>
@@ -2310,10 +2310,10 @@
     <value>Uncollected First</value>
   </data>
   <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
-    <value>树脂预估</value>
+    <value>Resin Estimation</value>
   </data>
   <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
-    <value>世界等级</value>
+    <value>WL</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>Material Statistics</value>
@@ -2661,7 +2661,7 @@
     <value>Login</value>
   </data>
   <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
-    <value>请输入新邮箱</value>
+    <value>Enter a new email address</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>Enter your password</value>
@@ -2694,7 +2694,7 @@
     <value>Advanced Features</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
+    <value>Quickly switch to the specified resolution and start the game to save the current resolution</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>Screen Resolution</value>
@@ -3012,7 +3012,7 @@
     <value>No performance data yet</value>
   </data>
   <data name="ViewPageRoleCombatShortest" xml:space="preserve">
-    <value>最快演出</value>
+    <value>Fastest performance</value>
   </data>
   <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
     <value>Special Guest Stars</value>
@@ -3027,7 +3027,7 @@
     <value>Supporting Times</value>
   </data>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
-    <value>演出总时长</value>
+    <value>Total Duration</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
@@ -3075,13 +3075,13 @@
     <value>Hutao Passport</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
-    <value>紧凑网页窗口</value>
+    <value>Compact Page Window</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
-    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+    <value>Adjust the opacity of the window to take effect the next time you open the window</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
-    <value>窗口不透明度</value>
+    <value>Window Opacity</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>更改控制视频快进的快捷键</value>
@@ -3099,7 +3099,7 @@
     <value>更改控制视频播放与暂停的快捷键</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>视频播放暂停</value>
+    <value>Video playback paused</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
     <value>更改控制视频快退的快捷键</value>
@@ -3249,7 +3249,7 @@
     <value>Home</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
-    <value>胡桃云 CDN 到期时间</value>
+    <value>Hutao Cloud CDN expiration time</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>Proceed with caution</value>
@@ -3306,7 +3306,7 @@
     <value>Advanced Features</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改鼠标左键自动连点功能的快捷键</value>
+    <value>Change Auto Click Shortcut</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
     <value>Left mouse button auto-pointing</value>
