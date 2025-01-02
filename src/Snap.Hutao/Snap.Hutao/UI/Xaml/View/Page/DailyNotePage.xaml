@@ -416,7 +416,7 @@
                             <ItemsPanelTemplate>
                                 <shuxcp:UniformPanel
                                     ColumnSpacing="8"
-                                    MinItemWidth="100"
+                                    MinItemWidth="140"
                                     RowSpacing="8"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
