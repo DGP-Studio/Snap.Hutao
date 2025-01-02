@@ -16,6 +16,7 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
@@ -189,7 +190,7 @@
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding DailyNote.ResinFormatted, Mode=OneWay}"
+                                    Text="{Binding DailyNote.FormattedResin, Mode=OneWay}"
                                     TextWrapping="NoWrap"/>
                                 <TextBlock
                                     Opacity="0.6"
@@ -227,12 +228,12 @@
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding DailyNote.HomeCoinFormatted, Mode=OneWay}"
+                                    Text="{Binding DailyNote.FormattedHomeCoin, Mode=OneWay}"
                                     TextWrapping="NoWrap"/>
                                 <TextBlock
                                     Opacity="0.6"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted, Mode=OneWay}"
+                                    Text="{Binding DailyNote.FormattedHomeCoinRecoveryTargetTime, Mode=OneWay}"
                                     TextWrapping="NoWrap"/>
                             </StackPanel>
                         </Grid>
@@ -266,7 +267,7 @@
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding DailyNote.TaskFormatted, Mode=OneWay}"
+                                    Text="{Binding DailyNote.FormattedTask, Mode=OneWay}"
                                     TextWrapping="NoWrap"/>
                                 <TextBlock
                                     Opacity="0.6"
@@ -356,7 +357,7 @@
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding DailyNote.ResinDiscountFormatted, Mode=OneWay}"
+                                    Text="{Binding DailyNote.FormattedResinDiscount, Mode=OneWay}"
                                     TextWrapping="NoWrap"/>
                                 <TextBlock
                                     Opacity="0.6"
@@ -413,9 +414,9 @@
                         ItemsSource="{Binding DailyNote.Expeditions, Mode=OneWay}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <cwcont:UniformGrid
+                                <shuxcp:UniformPanel
                                     ColumnSpacing="8"
-                                    Columns="2"
+                                    MinItemWidth="100"
                                     RowSpacing="8"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>

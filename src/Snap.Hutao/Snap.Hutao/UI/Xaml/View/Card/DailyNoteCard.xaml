@@ -64,7 +64,7 @@
                     DotVisibility="{Binding ResinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                     IconSquareLength="64"
                     ImageSource="{StaticResource UI_ItemIcon_210}"
-                    Text="{Binding DailyNote.ResinFormatted, FallbackValue={x:Null}}"/>
+                    Text="{Binding DailyNote.FormattedResin, FallbackValue={x:Null}}"/>
 
                 <Grid
                     Grid.Row="1"
@@ -78,12 +78,12 @@
                         Grid.Row="0"
                         DotVisibility="{Binding HomeCoinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_ItemIcon_204}"
-                        Text="{Binding DailyNote.HomeCoinFormatted, FallbackValue={x:Null}}"/>
+                        Text="{Binding DailyNote.FormattedHomeCoin, FallbackValue={x:Null}}"/>
                     <shuxcc:CardBlock
                         Grid.Row="1"
                         DotVisibility="{Binding DailyTaskNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_MarkQuest_Events_Proce}"
-                        Text="{Binding DailyNote.TaskFormatted, FallbackValue={x:Null}}"/>
+                        Text="{Binding DailyNote.FormattedTask, FallbackValue={x:Null}}"/>
                 </Grid>
                 <Grid
                     Grid.Row="1"
@@ -96,7 +96,7 @@
                     <shuxcc:CardBlock
                         Grid.Row="0"
                         ImageSource="{StaticResource UI_MarkTower}"
-                        Text="{Binding DailyNote.ResinDiscountFormatted, FallbackValue={x:Null}}"/>
+                        Text="{Binding DailyNote.FormattedResinDiscount, FallbackValue={x:Null}}"/>
                     <shuxcc:CardBlock
                         Grid.Row="1"
                         DotVisibility="{Binding TransformerNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
