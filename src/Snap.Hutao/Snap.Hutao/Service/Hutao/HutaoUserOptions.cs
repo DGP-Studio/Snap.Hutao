@@ -175,10 +175,8 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
                 if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
                 {
-                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
-
-                    await taskContext.SwitchToMainThreadAsync();
                     await LogoutOrUnregisterAsync().ConfigureAwait(false);
+                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
                 }
             }
         }
