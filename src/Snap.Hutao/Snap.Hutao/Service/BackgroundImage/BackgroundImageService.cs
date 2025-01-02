@@ -57,13 +57,18 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
         using (FileStream fileStream = File.OpenRead(path))
         {
-            BitmapDecoder decoder;
+            Rgba32 accentColor;
             try
             {
-                decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+                using (SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight))
+                {
+                    accentColor = softwareBitmap.GetRgba32AccentColor();
+                }
             }
             catch (COMException comException)
             {
+                // 0xC00D36BE MF_E_INVALID_FILE_FORMAT: Throw to let user know which file is invalid
                 if (comException.HResult != HRESULT.E_FAIL)
                 {
                     comException.Data.Add("BackgroundImageType", appOptions.BackgroundImageType);
@@ -72,12 +77,6 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 }
 
                 return new(false, default!);
-            }
-
-            Rgba32 accentColor;
-            using (SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight))
-            {
-                accentColor = softwareBitmap.GetRgba32AccentColor();
             }
 
             await taskContext.SwitchToMainThreadAsync();
