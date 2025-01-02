@@ -173,11 +173,13 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse response = await hutaoPassportClient.UnregisterAsync(username, password, verifyCode, token).ConfigureAwait(false);
 
-                if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
                 {
-                    await LogoutOrUnregisterAsync().ConfigureAwait(false);
-                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                    return;
                 }
+
+                await LogoutOrUnregisterAsync().ConfigureAwait(false);
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
             }
         }
     }
@@ -199,11 +201,13 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse<string> response = await hutaoPassportClient.ResetUserNameAsync(username, newUserName, verifyCode, newVerifyCode, token).ConfigureAwait(false);
 
-                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
                 {
-                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                    await AcceptAuthTokenAsync(newUserName, default, authToken, token).ConfigureAwait(false);
+                    return;
                 }
+
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                await AcceptAuthTokenAsync(newUserName, default, authToken, token).ConfigureAwait(false);
             }
         }
     }
@@ -217,11 +221,13 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse<string> response = await hutaoPassportClient.ResetPasswordAsync(username, password, verifyCode, token).ConfigureAwait(false);
 
-                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
                 {
-                    infoBarService.Information(response.GetLocalizationMessageOrMessage());
-                    await AcceptAuthTokenAsync(username, password, authToken, token).ConfigureAwait(false);
+                    return;
                 }
+
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                await AcceptAuthTokenAsync(username, password, authToken, token).ConfigureAwait(false);
             }
         }
     }
@@ -242,22 +248,26 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             await taskContext.SwitchToBackgroundAsync();
             HutaoPassportClient passportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();
             Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
-            if (ResponseValidator.TryValidate(userInfoResponse, serviceProvider, out UserInfo? userInfo))
+
+            if (!ResponseValidator.TryValidate(userInfoResponse, serviceProvider, out UserInfo? userInfo))
             {
-                await taskContext.SwitchToMainThreadAsync();
-                IsDeveloper = userInfo.IsLicensedDeveloper;
-                IsMaintainer = userInfo.IsMaintainer;
-
-                IsHutaoCloudAllowed = IsDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
-                CloudExpireAt = userInfo.GachaLogExpireAt > DateTimeOffset.Now
-                    ? $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}"
-                    : SH.ViewServiceHutaoUserCloudNotAllowedDescription;
-
-                IsHutaoCdnAllowed = IsDeveloper || userInfo.CdnExpireAt > DateTimeOffset.Now;
-                CdnExpireAt = userInfo.CdnExpireAt > DateTimeOffset.Now
-                    ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
-                    : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
+                infoEvent.Set();
+                return;
             }
+
+            await taskContext.SwitchToMainThreadAsync();
+            IsDeveloper = userInfo.IsLicensedDeveloper;
+            IsMaintainer = userInfo.IsMaintainer;
+
+            IsHutaoCloudAllowed = IsDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
+            CloudExpireAt = userInfo.GachaLogExpireAt > DateTimeOffset.Now
+                ? $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}"
+                : SH.ViewServiceHutaoUserCloudNotAllowedDescription;
+
+            IsHutaoCdnAllowed = IsDeveloper || userInfo.CdnExpireAt > DateTimeOffset.Now;
+            CdnExpireAt = userInfo.CdnExpireAt > DateTimeOffset.Now
+                ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
+                : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
 
             infoEvent.Set();
         }
