@@ -304,12 +304,22 @@
                 </Grid>
             </cwc:Case>
             <cwc:Case Value="{shuxm:UInt32 Value=5}">
-                <StackPanel Margin="32,0" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
                     <TextBlock
-                        Margin="1,16,0,5"
+                        Grid.Row="0"
+                        Margin="33,16,0,5"
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="{shuxm:ResourceString Name=ViewWelcomeBase}"/>
-                    <ScrollViewer>
+
+                    <ScrollViewer
+                        Grid.Row="1"
+                        Margin="32,0"
+                        HorizontalAlignment="Left">
                         <ItemsControl
                             Margin="0,0,-4,0"
                             HorizontalAlignment="Left"
@@ -318,7 +328,17 @@
                             ItemsPanel="{StaticResource WrapPanelSpacing0Template}"
                             ItemsSource="{Binding DownloadSummaries}"/>
                     </ScrollViewer>
-                </StackPanel>
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{shuxm:ResourceString Name=ViewGuideStepStaticResourceDownloadIncompleteHint}"/>
+                </Grid>
+
             </cwc:Case>
         </cwc:SwitchPresenter>
         <Grid Grid.Row="1">
