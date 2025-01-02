@@ -20,7 +20,7 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Bridge;
 
-internal class MiHoYoJSBridgeFacade
+internal class MiHoYoJSBridge
 {
     private const string InitializeJsInterfaceScript = """
         window.MiHoYoJSInterface = {
@@ -81,11 +81,11 @@ internal class MiHoYoJSBridgeFacade
 
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly ILogger<MiHoYoJSBridgeFacade> logger;
+    private readonly ILogger<MiHoYoJSBridge> logger;
 
     private CoreWebView2 coreWebView2;
 
-    public MiHoYoJSBridgeFacade(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
         this.serviceProvider = serviceProvider;
 
@@ -93,7 +93,7 @@ internal class MiHoYoJSBridgeFacade
         this.userAndUid = userAndUid;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridgeFacade>>();
+        logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridge>>();
 
         coreWebView2.WebMessageReceived += OnWebMessageReceived;
         coreWebView2.DOMContentLoaded += OnDOMContentLoaded;
@@ -106,6 +106,12 @@ internal class MiHoYoJSBridgeFacade
 
     public void Detach()
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (coreWebView2 is null)
+        {
+            return;
+        }
+
         coreWebView2.WebMessageReceived -= OnWebMessageReceived;
         coreWebView2.DOMContentLoaded -= OnDOMContentLoaded;
         coreWebView2.NavigationStarting -= OnNavigationStarting;
@@ -282,17 +288,17 @@ internal class MiHoYoJSBridgeFacade
 
     protected virtual async ValueTask<IJsBridgeResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
-        const string bbsSchema = "mihoyobbs://";
+        const string BbsSchema = "mihoyobbs://";
         string pageUrl = param.Payload.Page;
 
         string targetUrl = pageUrl;
-        if (pageUrl.AsSpan().StartsWith(bbsSchema, StringComparison.OrdinalIgnoreCase))
+        if (pageUrl.AsSpan().StartsWith(BbsSchema, StringComparison.OrdinalIgnoreCase))
         {
-            if (pageUrl.AsSpan(bbsSchema.Length).StartsWith("article/"))
+            if (pageUrl.AsSpan(BbsSchema.Length).StartsWith("article/"))
             {
                 targetUrl = pageUrl.Replace("mihoyobbs://article/", "https://m.miyoushe.com/ys/#/article/", StringComparison.OrdinalIgnoreCase);
             }
-            else if (pageUrl.AsSpan(bbsSchema.Length).StartsWith("webview?link="))
+            else if (pageUrl.AsSpan(BbsSchema.Length).StartsWith("webview?link="))
             {
                 string encoded = pageUrl.Replace("mihoyobbs://webview?link=", string.Empty, StringComparison.OrdinalIgnoreCase);
                 targetUrl = Uri.UnescapeDataString(encoded);
@@ -391,6 +397,8 @@ internal class MiHoYoJSBridgeFacade
         logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", bridgeId, callback, payload);
 
         await taskContext.SwitchToMainThreadAsync();
+
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (coreWebView2 is null || coreWebView2.IsDisposed())
         {
             return string.Empty;
@@ -399,6 +407,7 @@ internal class MiHoYoJSBridgeFacade
         return await coreWebView2.ExecuteScriptAsync(js);
     }
 
+    // ReSharper disable once AsyncVoidMethod
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();

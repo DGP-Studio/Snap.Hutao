@@ -11,9 +11,9 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 
 internal sealed class DailyJSBridgeUriSourceProvider : IJSBridgeUriSourceProvider
 {
-    public MiHoYoJSBridgeFacade CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
-        return ActivatorUtilities.CreateInstance<MiHoYoJSBridgeFacade>(serviceProvider, coreWebView2, userAndUid);
+        return ActivatorUtilities.CreateInstance<MiHoYoJSBridge>(serviceProvider, coreWebView2, userAndUid);
     }
 
     public string GetSource(UserAndUid userAndUid)
