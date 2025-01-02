@@ -1694,6 +1694,9 @@
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>资源</value>
   </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* 当遇到有部分或全部文件下载失败的情况，无需担心，我们会在图片将要展示时自动尝试补全</value>
+  </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>图像资源设置</value>
   </data>
