@@ -264,7 +264,9 @@ internal sealed class XamlWindowController
                 scale = window.GetRasterizationScale();
             }
 
-            RectInt32 persistedRect = ((RectInt32)(RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, 0UL)).Scale(scale);
+            // DO NOT INLINE, implicit conversion requires a local variable.
+            RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, 0UL);
+            RectInt32 persistedRect = nonDpiPersistedRect.Scale(scale);
 
             // If the persisted size is less than min size, we want to reset to the init size.
             SizeInt32 scaledMinSize = xamlWindow.MinSize.Scale(scale);
@@ -296,7 +298,10 @@ internal sealed class XamlWindowController
         // We save the non-dpi rect here
         double scale = window.GetRasterizationScale();
         LocalSetting.Set(rectPersisted.PersistScaleKey, scale);
-        LocalSetting.Set(rectPersisted.PersistRectKey, (RectInt16)window.AppWindow.GetRect().Scale(1.0 / scale));
+
+        // DO NOT INLINE, implicit conversion requires a local variable.
+        RectInt16 rect = (RectInt16)window.AppWindow.GetRect().Scale(1.0 / scale);
+        LocalSetting.Set(rectPersisted.PersistRectKey, rect);
     }
     #endregion
 
