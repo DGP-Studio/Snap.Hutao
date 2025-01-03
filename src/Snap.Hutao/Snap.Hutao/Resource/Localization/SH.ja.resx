@@ -1719,6 +1719,9 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深境螺旋集計</value>
   </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行証</value>
+  </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>すべて消去</value>
   </data>
@@ -2680,6 +2683,9 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>パスワードをリセット</value>
   </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>スポンサー</value>
+  </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>アカウントを削除するとデータは永久に失われて復元できません！</value>
   </data>
@@ -3291,6 +3297,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>引き換えコードの使用</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>更新</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>登録</value>
