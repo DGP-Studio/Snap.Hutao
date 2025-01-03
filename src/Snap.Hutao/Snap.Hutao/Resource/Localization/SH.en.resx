@@ -154,7 +154,7 @@
     <value>Select All</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>无效的 URI</value>
+    <value>Invalid URL</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -680,10 +680,10 @@
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF JSON 文件</value>
+    <value>UIAF JSON files</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>打开 UIAF JSON 文件</value>
+    <value>Open UIAF JSON file</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
@@ -963,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 URL</value>
+    <value>No available URL found</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>Game is running, please close the game and retry</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>提供的 URL 无效</value>
+    <value>The URL provided is invalid</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLab account does not support refreshing wish history using SToken</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>URL 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>URL language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target URL language</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Unsupported Item ID: {0}</value>
@@ -1389,10 +1389,10 @@
     <value>Parametric Transformer Notification</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>Input URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>实时便笺 Webhook URL</value>
+    <value>Realtime Note Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
     <value>Select UID to export records</value>
@@ -1413,7 +1413,7 @@
     <value>Import wish history</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈愿记录 URL 已失效，请重新获取</value>
+    <value>Wish history URL is expired. Please get it again.</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>Fetching {0}</value>
@@ -1422,10 +1422,10 @@
     <value>Getting wish items</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>Input URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>手动输入祈愿记录 URL</value>
+    <value>Input Wish History URL Manually</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
     <value>Game Server</value>
@@ -1452,10 +1452,10 @@
     <value>Korean</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>请输入请求接口的 URL 复合模板</value>
+    <value>Input request Url with composit template</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>接口需要返回形如上方所示的 JSON 数据，多余的数据会被忽略</value>
+    <value>The interface requires a return of JSON data as shown above. Extra data will be ignored</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>If "code" is 0, the authentication is successful, otherwise the authentication is failed</value>
@@ -1761,7 +1761,7 @@
     <value>Are you sure to delete archive {0}?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIAF JSON 文件到指定路径</value>
+    <value>Export UIAF Json file to the selected path</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Fetching ascension materials...</value>
@@ -1863,7 +1863,7 @@
     <value>Weekly BOSS</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>实时便笺 Webhook URL 配置成功</value>
+    <value>Realtime Note Webhook URL successfully configured</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLab account does not support Realtime Notes verification</value>
@@ -1923,7 +1923,7 @@
     <value>First Half</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF JSON 文件</value>
+    <value>UIAF JSON files</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>Import completed</value>
@@ -1962,13 +1962,13 @@
     <value>Sync Wish History from Snap Hutao Cloud Service</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIGF JSON 文件到指定路径</value>
+    <value>Export UIGF JSON file to the selected path</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Uploading to Snap Hutao Cloud Service</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>导入 UIGF JSON 文件</value>
+    <value>Import UIGF JSON file</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Local version: {0}</value>
@@ -2109,7 +2109,7 @@
     <value>Used disk space: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>无感验证复合 URL 配置成功</value>
+    <value>CAPTCHA Verification composite URL successfully configured</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>Resetting Static Resource</value>
@@ -2538,10 +2538,10 @@
     <value>Fetch</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 URL</value>
+    <value>Input URL manually</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 URL 刷新祈愿记录</value>
+    <value>Use provided wish history URL to refresh record</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken Refresh</value>
