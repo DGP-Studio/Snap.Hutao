@@ -41,6 +41,11 @@
                                     Style="{ThemeResource SettingButtonStyle}"
                                     Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                 <Button
+                                    Command="{Binding RefreshUserInfoCommand}"
+                                    Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRefreshAction}"
+                                    Style="{ThemeResource SettingButtonStyle}"
+                                    Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <Button
                                     Command="{Binding LogoutCommand}"
                                     Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLogoutAction}"
                                     Style="{ThemeResource SettingButtonStyle}"

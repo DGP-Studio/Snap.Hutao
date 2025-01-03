@@ -3296,6 +3296,9 @@
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>使用兑换码</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>刷新</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>注册</value>
   </data>

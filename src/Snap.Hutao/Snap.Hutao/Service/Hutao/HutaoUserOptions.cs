@@ -60,7 +60,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         return IsHutaoCdnAllowed;
     }
 
-    public async ValueTask<string?> GetAuthTokenAsync()
+    public async ValueTask<string?> GetAuthTokenAsync(CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(GetAuthTokenAsync)).ConfigureAwait(false))
         {
@@ -74,7 +74,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             if (authTokenExpiration.ExpireAt < DateTimeOffset.UtcNow)
             {
                 // Re-initialize to refresh the token
-                await InitializeAsync().ConfigureAwait(false);
+                await InitializeAsync(token).ConfigureAwait(false);
             }
 
             if (!IsLoggedIn)
@@ -110,6 +110,21 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     public Task WaitUserInfoInitializationAsync()
     {
         return infoEvent.WaitAsync();
+    }
+
+    public async ValueTask RefreshUserInfoAsync(CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(RefreshUserInfoAsync)).ConfigureAwait(false))
+        {
+            // Wait previous Info Event
+            await infoEvent.WaitAsync().ConfigureAwait(false);
+            infoEvent.Reset();
+
+            if (await GetAuthTokenAsync(token).ConfigureAwait(false) is { } authToken)
+            {
+                await RefreshUserInfoCoreAsync(token).ConfigureAwait(false);
+            }
+        }
     }
 
     public async ValueTask LoginAsync(string username, string password, bool resuming = false, CancellationToken token = default)
@@ -245,6 +260,34 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             IsLoggedIn = true;
             loginEvent.Set();
 
+            await RefreshUserInfoCoreAsync(token).ConfigureAwait(false);
+        }
+    }
+
+    private async ValueTask LogoutOrUnregisterAsync()
+    {
+        using (await operationLock.LockAsync(nameof(LogoutOrUnregisterAsync)).ConfigureAwait(false))
+        {
+            LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
+            LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
+
+            await taskContext.SwitchToMainThreadAsync();
+            authTokenExpiration = default;
+            UserName = default;
+            IsLoggedIn = false;
+            IsDeveloper = false;
+            IsMaintainer = false;
+            IsHutaoCloudAllowed = false;
+            CloudExpireAt = default;
+            IsHutaoCdnAllowed = false;
+            CdnExpireAt = default;
+        }
+    }
+
+    private async ValueTask RefreshUserInfoCoreAsync(CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(RefreshUserInfoCoreAsync)).ConfigureAwait(false))
+        {
             await taskContext.SwitchToBackgroundAsync();
             HutaoPassportClient passportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();
             Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
@@ -270,26 +313,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
 
             infoEvent.Set();
-        }
-    }
-
-    private async ValueTask LogoutOrUnregisterAsync()
-    {
-        using (await operationLock.LockAsync(nameof(LogoutOrUnregisterAsync)).ConfigureAwait(false))
-        {
-            LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
-            LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
-
-            await taskContext.SwitchToMainThreadAsync();
-            authTokenExpiration = default;
-            UserName = default;
-            IsLoggedIn = false;
-            IsDeveloper = false;
-            IsMaintainer = false;
-            IsHutaoCloudAllowed = false;
-            CloudExpireAt = default;
-            IsHutaoCdnAllowed = false;
-            CdnExpireAt = default;
         }
     }
 

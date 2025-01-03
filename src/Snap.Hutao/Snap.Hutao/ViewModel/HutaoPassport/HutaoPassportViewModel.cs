@@ -149,4 +149,10 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
         await HutaoUserOptions.ResetPasswordAsync(username, password, verifyCode).ConfigureAwait(false);
     }
+
+    [Command("RefreshUserInfoCommand")]
+    private async Task RefreshUserInfoAsync()
+    {
+        await HutaoUserOptions.RefreshUserInfoAsync().ConfigureAwait(false);
+    }
 }
