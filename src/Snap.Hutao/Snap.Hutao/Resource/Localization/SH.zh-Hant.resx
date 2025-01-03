@@ -154,7 +154,7 @@
     <value>選擇全部</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>无效的 URI</value>
+    <value>無效的 URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -680,10 +680,10 @@
     <value>新增：{0} 個成就 | 更新：{1} 個成就 | 删除：{2} 個成就</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF JSON 文件</value>
+    <value>UIAF JSON 檔案</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>打开 UIAF JSON 文件</value>
+    <value>開啟 UIAF JSON 檔案</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>單個成就存檔內發現多個相同的成就 Id</value>
@@ -963,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 URL</value>
+    <value>找不到可用的 URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>遊戲正在執行中，關閉遊戲後重試</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>提供的 URL 无效</value>
+    <value>提供的 URL 無效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLAB 帳號不支援使用 SToken 重新整理祈願紀錄</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>URL 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>URL 中的語言：{0} 與 Snap Hutao 的語言：{1} 不對應，請切換到對應語言重試</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>不支援的 Item Id：{0}</value>
@@ -1389,10 +1389,10 @@
     <value>參數質變儀提醒</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>請輸入 URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>实时便笺 Webhook URL</value>
+    <value>即時便箋 Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
     <value>選擇要匯出紀錄的 UID</value>
@@ -1413,7 +1413,7 @@
     <value>匯入祈願紀錄</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈愿记录 URL 已失效，请重新获取</value>
+    <value>祈願紀錄 URL 已失效，請重新獲取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>正在獲取 {0}</value>
@@ -1422,10 +1422,10 @@
     <value>獲取祈願物品中</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>請輸入 URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>手动输入祈愿记录 URL</value>
+    <value>手動輸入祈願紀錄 URL</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
     <value>遊戲伺服器</value>
@@ -1452,10 +1452,10 @@
     <value>韓語</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>请输入请求接口的 URL 复合模板</value>
+    <value>請輸入請求介面的 URL 複合模板</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>接口需要返回形如上方所示的 JSON 数据，多余的数据会被忽略</value>
+    <value>介面需要返回形如上方所示的 JSON 數據，多餘的數據會被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>"code" 為 0 時，指示驗證成功，其他的值均視為驗證失敗</value>
@@ -1718,6 +1718,9 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深淵統計</value>
   </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行證</value>
+  </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>清除所有通知</value>
   </data>
@@ -1761,7 +1764,7 @@
     <value>確定要刪除存檔 {0} 嗎？</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIAF JSON 文件到指定路径</value>
+    <value>匯出 UIAF JSON 檔案到指定路徑</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>獲取培養材料中，請稍後...</value>
@@ -1863,7 +1866,7 @@
     <value>週常 BOSS</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>实时便笺 Webhook URL 配置成功</value>
+    <value>即時便箋 Webhook URL 設定成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLAB 帳號不支援驗證即時便箋</value>
@@ -1923,7 +1926,7 @@
     <value>上半</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF JSON 文件</value>
+    <value>UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>匯入完成</value>
@@ -1962,13 +1965,13 @@
     <value>從胡桃雲服務同步祈願紀錄</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIGF JSON 文件到指定路径</value>
+    <value>匯出 UIGF JSON 檔案到指定路徑</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>正在上傳到胡桃雲服務</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>导入 UIGF JSON 文件</value>
+    <value>導入 UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
@@ -2109,7 +2112,7 @@
     <value>已使用磁碟空間：{0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>无感验证复合 URL 配置成功</value>
+    <value>無感驗證複合 URL 設定成功</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>正在重設圖片資源</value>
@@ -2538,10 +2541,10 @@
     <value>獲取</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 URL</value>
+    <value>手動輸入 URL</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 URL 刷新祈愿记录</value>
+    <value>使用由你提供的 URL 重新整理祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 重新整理</value>
@@ -2677,6 +2680,9 @@
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>重設密碼</value>
+  </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>贊助</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>刪除帳號的數據將永遠丢失，無法恢復</value>
@@ -3289,6 +3295,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>使用兌換碼</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>刷新</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>註冊</value>
