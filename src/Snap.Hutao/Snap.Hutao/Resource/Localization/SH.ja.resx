@@ -2488,7 +2488,7 @@
     <value>開発者アカウントは無期限にサービスを利用できます</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Snap Hutaoクラウド記録なし</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>胡桃クラウドのサービス期限が切れました。</value>
