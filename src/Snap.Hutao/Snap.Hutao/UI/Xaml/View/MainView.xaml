@@ -63,6 +63,10 @@
                     Content="{shuxm:ResourceString Name=ViewAnnouncementHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"/>
                 <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:HutaoPassportPage"
+                    Content="{shuxm:ResourceString Name=ViewHutaoPassportHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Feedback.png}"/>
+                <NavigationViewItem
                     shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:FeedbackPage"
                     Content="{shuxm:ResourceString Name=ViewFeedbackHeader}"
                     Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Feedback.png}"/>

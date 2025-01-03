@@ -13,7 +13,7 @@ namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 [DependencyProperty("SourceProvider", typeof(IJSBridgeUriSourceProvider))]
 internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
 {
-    private MiHoYoJSBridgeFacade? jsBridge;
+    private MiHoYoJSBridge? jsBridge;
 
     public ElementTheme ActualTheme { get; set; }
 

@@ -1,11 +1,13 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
@@ -25,7 +27,8 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, INavigationRecipient
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution, INavigationRecipient,
+    IRecipient<LaunchExecutionGameFileSystemExclusiveAccessChangedMessage>
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
@@ -157,6 +160,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
+    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = true;
+
     public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableArray<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
     {
         GamePathEntries = gamePathEntries;
@@ -176,6 +181,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
 
         return false;
+    }
+
+    public void Receive(LaunchExecutionGameFileSystemExclusiveAccessChangedMessage message)
+    {
+        taskContext.BeginInvokeOnMainThread(() => CanResetGamePathEntry = message.CanAccess);
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync()

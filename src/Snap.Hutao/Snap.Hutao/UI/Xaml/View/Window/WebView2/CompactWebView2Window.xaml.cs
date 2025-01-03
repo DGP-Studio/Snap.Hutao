@@ -80,6 +80,9 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
 
         InitializeComponent();
+
+        TitleBarPassthrough = [SourceTextBox];
+
         RootGrid.DataContext = this;
 
         inputPointerSource = this.GetInputPointerSource();
@@ -129,10 +132,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
     }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough
-    {
-        get { yield return SourceTextBox; }
-    }
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get; }
 
     public string PersistRectKey { get => SettingKeys.CompactWebView2WindowRect; }
 

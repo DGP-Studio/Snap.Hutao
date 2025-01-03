@@ -6,7 +6,7 @@ using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.Web.Bridge;
 
-internal sealed class SignInJSBridge : MiHoYoJSBridgeFacade
+internal sealed class SignInJSBridge : MiHoYoJSBridge
 {
     public SignInJSBridge(IServiceProvider serviceProvider, CoreWebView2 webView, UserAndUid userAndUid)
         : base(serviceProvider, webView, userAndUid)

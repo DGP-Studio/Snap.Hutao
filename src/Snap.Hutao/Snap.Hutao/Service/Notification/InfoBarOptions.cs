@@ -20,4 +20,6 @@ internal sealed class InfoBarOptions
     public ICommand? ActionButtonCommand { get; set; }
 
     public int MilliSecondsDelay { get; set; }
+
+    public bool IsTextSelectionEnabled { get => Severity is InfoBarSeverity.Error; }
 }

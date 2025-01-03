@@ -24,4 +24,14 @@ internal interface IHomaServiceEndpoints : IHomaRootAccess
     {
         return $"{Root}/Service/GachaLog/Designation?userName={userName}&days={days}";
     }
+
+    public string CdnCompensation(int days)
+    {
+        return $"{Root}/Service/Distribution/Compensation?days={days}";
+    }
+
+    public string CdnDesignation(string userName, int days)
+    {
+        return $"{Root}/Service/Distribution/Designation?userName={userName}&days={days}";
+    }
 }

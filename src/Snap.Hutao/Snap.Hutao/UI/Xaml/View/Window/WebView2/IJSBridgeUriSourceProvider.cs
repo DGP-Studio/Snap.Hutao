@@ -9,7 +9,7 @@ namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 internal interface IJSBridgeUriSourceProvider
 {
-    MiHoYoJSBridgeFacade CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid);
+    MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid);
 
     string GetSource(UserAndUid userAndUid);
 }

@@ -50,6 +50,8 @@ internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
             HutaoResponse response = await hutaoPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.CancelRegistration).ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
+                await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
+                Hide();
                 return;
             }
 

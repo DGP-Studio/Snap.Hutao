@@ -223,5 +223,10 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         Avatars.Filter = FilterTokens is null or [] ? default! : AvatarFilter.Compile(FilterTokens);
+
+        if (Avatars.CurrentItem is null)
+        {
+            Avatars.MoveCurrentToFirstOrDefault();
+        }
     }
 }

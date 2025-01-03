@@ -46,6 +46,14 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     public ExtractOptions ExtractExeOptions { get; } = new();
 
+    public int GachaLogCompensationDays { get; set; } = 15;
+
+    public DesignationOptions GachaLogDesignationOptions { get; } = new();
+
+    public int CdnCompensationDays { get; set; } = 15;
+
+    public DesignationOptions CdnDesignationOptions { get; } = new();
+
     public bool SuppressMetadataInitialization
     {
         get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
@@ -223,15 +231,91 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("CompensationGachaLogServiceTimeCommand")]
     private async Task CompensationGachaLogServiceTimeAsync()
     {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Compensation Gacha Log Service Time For {GachaLogCompensationDays} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
+            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(GachaLogCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
-                await taskContext.SwitchToMainThreadAsync();
-                Announcement = new();
+            }
+        }
+    }
+
+    [Command("DesignationGachaLogServiceTimeCommand")]
+    private async Task DesignationGachaLogServiceTimeAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Designation Gacha Log Service Time To {GachaLogDesignationOptions.UserName} For {GachaLogDesignationOptions.Days} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Response response = await hutaoAsAServiceClient.GachaLogDesignationAsync(GachaLogDesignationOptions.UserName, GachaLogDesignationOptions.Days).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                infoBarService.Success(response.Message);
+            }
+        }
+    }
+
+    [Command("CompensationCdnServiceTimeCommand")]
+    private async Task CompensationCdnServiceTimeAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Compensation CDN Service Time For {CdnCompensationDays} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Response response = await hutaoAsAServiceClient.CdnCompensationAsync(CdnCompensationDays).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                infoBarService.Success(response.Message);
+            }
+        }
+    }
+
+    [Command("DesignationCdnServiceTimeCommand")]
+    private async Task DesignationCdnServiceTimeAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Designation CDN Service Time To {CdnDesignationOptions.UserName} For {CdnDesignationOptions.Days} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Response response = await hutaoAsAServiceClient.CdnDesignationAsync(CdnDesignationOptions.UserName, CdnDesignationOptions.Days).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                infoBarService.Success(response.Message);
             }
         }
     }
@@ -442,5 +526,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         public bool IsOversea { get; set; }
 
         public bool IsPredownload { get; set; }
+    }
+
+    internal sealed class DesignationOptions
+    {
+        public string UserName { get; set; } = default!;
+
+        public int Days { get; set; }
     }
 }

@@ -236,7 +236,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     protected async ValueTask EnsureAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
     {
         string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.NewAsset.AssetName);
-        
+
         if (asset.NewAsset.AssetType is 64)
         {
             Directory.CreateDirectory(assetPath);

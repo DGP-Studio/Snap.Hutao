@@ -7,7 +7,7 @@ internal sealed class DailyNote : DailyNoteCommon
 {
     #region Binding
     [JsonIgnore]
-    public string ResinFormatted
+    public string FormattedResin
     {
         get => $"{CurrentResin}/{MaxResin}";
     }
@@ -37,7 +37,7 @@ internal sealed class DailyNote : DailyNoteCommon
     }
 
     [JsonIgnore]
-    public string TaskFormatted
+    public string FormattedTask
     {
         get => $"{FinishedTaskNum}/{TotalTaskNum}";
     }
@@ -62,19 +62,19 @@ internal sealed class DailyNote : DailyNoteCommon
     }
 
     [JsonIgnore]
-    public string ResinDiscountFormatted
+    public string FormattedResinDiscount
     {
         get => $"{ResinDiscountUsedNum}/{ResinDiscountNumLimit}";
     }
 
     [JsonIgnore]
-    public string HomeCoinFormatted
+    public string FormattedHomeCoin
     {
         get => MaxHomeCoin == 0 ? SH.WebDailyNoteHomeLocked : $"{CurrentHomeCoin}/{MaxHomeCoin}";
     }
 
     [JsonIgnore]
-    public string HomeCoinRecoveryTargetTimeFormatted
+    public string FormattedHomeCoinRecoveryTargetTime
     {
         get
         {

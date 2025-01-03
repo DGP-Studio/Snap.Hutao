@@ -217,5 +217,10 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
 
         Weapons.Filter = FilterTokens is null or [] ? default! : WeaponFilter.Compile(FilterTokens);
+
+        if (Weapons.CurrentItem is null)
+        {
+            Weapons.MoveCurrentToFirstOrDefault();
+        }
     }
 }

@@ -18,17 +18,6 @@ internal sealed class AsyncSemaphore
         this.maxCount = maxCount;
     }
 
-    public int CurrentCount
-    {
-        get
-        {
-            lock (waiters)
-            {
-                return currentCount;
-            }
-        }
-    }
-
     public Task WaitAsync()
     {
         lock (waiters)
@@ -45,9 +34,10 @@ internal sealed class AsyncSemaphore
         }
     }
 
-    public void Release()
+    public int Release()
     {
         TaskCompletionSource? toRelease = default;
+        int currentCountForReturn;
         lock (waiters)
         {
             if (waiters.Count > 0)
@@ -58,8 +48,11 @@ internal sealed class AsyncSemaphore
             {
                 currentCount = Math.Min(currentCount + 1, maxCount);
             }
+
+            currentCountForReturn = currentCount;
         }
 
         toRelease?.SetResult();
+        return currentCountForReturn;
     }
 }

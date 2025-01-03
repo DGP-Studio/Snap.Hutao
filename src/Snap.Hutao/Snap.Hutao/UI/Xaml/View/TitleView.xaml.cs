@@ -15,8 +15,7 @@ internal sealed partial class TitleView : UserControl
         InitializeComponent();
     }
 
-    public FrameworkElement DragArea
-    {
-        get => DraggableGrid;
-    }
+    public FrameworkElement DragArea { get => DraggableGrid; }
+
+    public IEnumerable<FrameworkElement> Passthrough { get; } = [];
 }

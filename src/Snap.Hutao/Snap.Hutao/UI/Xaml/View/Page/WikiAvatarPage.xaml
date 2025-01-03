@@ -369,7 +369,7 @@
                                 </SplitView.Pane>
                                 <SplitView.Content>
                                     <Grid>
-                                        <StackPanel VerticalAlignment="Center" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                                        <StackPanel VerticalAlignment="Center" Visibility="{Binding Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
                                             <shuxci:CachedImage
                                                 Height="120"
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
@@ -380,7 +380,7 @@
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
-                                        <ScrollViewer Padding="16,0" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                        <ScrollViewer Padding="16,0" Visibility="{Binding Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                             <StackPanel
                                                 Margin="0,16"
                                                 HorizontalAlignment="Left"

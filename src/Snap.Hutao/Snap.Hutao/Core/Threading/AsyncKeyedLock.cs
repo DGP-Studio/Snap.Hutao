@@ -25,20 +25,18 @@ internal sealed class AsyncKeyedLock<TKey>
 
     public Task<Releaser> LockAsync(TKey key)
     {
-        Task wait;
         lock (semaphores)
         {
-            wait = semaphores.GetOrAdd(key, _ => new(1, 1)).WaitAsync();
+            Task wait = semaphores.GetOrAdd(key, _ => new(1, 1)).WaitAsync();
+            State stateObj = new(this, key);
+            return wait.IsCompleted ? Task.FromResult<Releaser>(new(stateObj)) : wait.ContinueWith(Continuation, stateObj, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
         }
-
-        State stateObj = new(this, key);
-        return wait.IsCompleted ? Task.FromResult<Releaser>(new(stateObj)) : wait.ContinueWith(Continuation, stateObj, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
     }
 
     private static Releaser RunContinuation(Task task, object? state)
     {
         ArgumentNullException.ThrowIfNull(state);
-        return new Releaser((State)state);
+        return new((State)state);
     }
 
     internal readonly struct Releaser : IDisposable
@@ -50,14 +48,13 @@ internal sealed class AsyncKeyedLock<TKey>
             this.state = state;
         }
 
-        public readonly void Dispose()
+        public void Dispose()
         {
             lock (state.ToRelease.semaphores)
             {
                 if (state.ToRelease.semaphores.TryGetValue(state.Key, out AsyncSemaphore? semaphore))
                 {
-                    semaphore.Release();
-                    if (semaphore.CurrentCount is 1)
+                    if (semaphore.Release() is 1)
                     {
                         state.ToRelease.semaphores.TryRemove(state.Key, out _);
                     }

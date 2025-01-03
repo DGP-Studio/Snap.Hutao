@@ -81,4 +81,34 @@ internal sealed partial class HutaoAsAServiceClient
 
         return Web.Response.Response.DefaultIfNull(resp);
     }
+
+    public async ValueTask<HutaoResponse> CdnCompensationAsync(int days, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().CdnCompensation(days))
+            .Get();
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        HutaoResponse? resp = await builder
+            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse> CdnDesignationAsync(string userName, int days, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().CdnDesignation(userName, days))
+            .Get();
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        HutaoResponse? resp = await builder
+            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
 }

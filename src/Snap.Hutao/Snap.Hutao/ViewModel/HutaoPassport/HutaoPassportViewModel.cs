@@ -9,7 +9,7 @@ using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Windows.System;
 
-namespace Snap.Hutao.ViewModel.Setting;
+namespace Snap.Hutao.ViewModel.HutaoPassport;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
@@ -148,5 +148,11 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         }
 
         await HutaoUserOptions.ResetPasswordAsync(username, password, verifyCode).ConfigureAwait(false);
+    }
+
+    [Command("RefreshUserInfoCommand")]
+    private async Task RefreshUserInfoAsync()
+    {
+        await HutaoUserOptions.RefreshUserInfoAsync().ConfigureAwait(false);
     }
 }

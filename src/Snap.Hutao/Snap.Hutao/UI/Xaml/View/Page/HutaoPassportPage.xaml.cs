@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.ViewModel.AvatarProperty;
+using Snap.Hutao.ViewModel.HutaoPassport;
 
 namespace Snap.Hutao.UI.Xaml.View.Page;
 
-internal sealed partial class AvatarPropertyPage : ScopedPage
+internal sealed partial class HutaoPassportPage : ScopedPage
 {
-    public AvatarPropertyPage()
+    public HutaoPassportPage()
     {
-        InitializeWith<AvatarPropertyViewModel>();
+        InitializeWith<HutaoPassportViewModel>();
         InitializeComponent();
     }
 }
