@@ -20,6 +20,7 @@
         <DataTemplate x:Key="InfoBarTemplate" x:DataType="shsn:InfoBarOptions">
             <InfoBar
                 Title="{Binding Title}"
+                shuxc:InfoBarHelper.IsTextSelectionEnabled="{Binding IsTextSelectionEnabled}"
                 Closed="OnInfoBarClosed"
                 Content="{Binding Content}"
                 IsOpen="True"
