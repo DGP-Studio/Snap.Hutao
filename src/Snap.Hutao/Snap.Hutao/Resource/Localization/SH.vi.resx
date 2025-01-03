@@ -2486,6 +2486,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Tài khoản nhà phát triển không bị ảnh hưởng bởi thời gian hết hạn dịch vụ</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>无云端记录</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Thời gian sử dụng dịch vụ Snap Hutao Cloud không đủ</value>
   </data>
