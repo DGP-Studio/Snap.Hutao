@@ -154,7 +154,7 @@
     <value>选择全部</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Uri inválido</value>
+    <value>无效的 URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -680,10 +680,10 @@
     <value>Novo: {0} Conquistas | Atualizado: {1} conquistas | Excluir: {2} conquistas</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>Arquivo Json UIAF</value>
+    <value>UIAF JSON 文件</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>Abrir arquivo Json UIAF</value>
+    <value>打开 UIAF JSON 文件</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Várias IDs de conquistas idênticas encontradas em um único arquivo de conquistas</value>
@@ -963,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>Não é possível encontrar o URL disponível</value>
+    <value>未找到可用的 URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>游戏正在运行中，关闭游戏后重试</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>URL inválido fornecido</value>
+    <value>提供的 URL 无效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>A atualização do SToken não é compatível com a conta do HoYoLab</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Idioma do arquivo UIGF: {0} não corresponde ao idioma do Snap Hutao: {1}, tente novamente após alternar o idioma do cliente para o idioma do arquivo UIGF de destino</value>
+    <value>URL 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>ID de item não suportado: {0}</value>
@@ -1389,10 +1389,10 @@
     <value>Notificação de Transformador Paramétrico</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>URL de entrada</value>
+    <value>请输入 URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>URL do webhook do lembrete de tempo real</value>
+    <value>实时便笺 Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
     <value>选择要导出记录的 UID</value>
@@ -1413,7 +1413,7 @@
     <value>Importar histórico de orações</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>O URL do histórico de orações expirou. Por favor, obtenha-o novamente.</value>
+    <value>祈愿记录 URL 已失效，请重新获取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>Buscando {0}</value>
@@ -1422,10 +1422,10 @@
     <value>Obtendo itens de oração</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>Insira o URL</value>
+    <value>请输入 URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>Insira manualmente o URL do histórico de orações</value>
+    <value>手动输入祈愿记录 URL</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
     <value>游戏服务器</value>
@@ -1452,10 +1452,10 @@
     <value>韩语</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>Url da solicitação de entrada com modelo composto</value>
+    <value>请输入请求接口的 URL 复合模板</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>A interface requer um retorno de dados Json, conforme mostrado acima. Dados extras serão ignorados</value>
+    <value>接口需要返回形如上方所示的 JSON 数据，多余的数据会被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>Se "code" for 0, a autenticação foi bem-sucedida; caso contrário, a autenticação falhou</value>
@@ -1695,7 +1695,7 @@
     <value>Recursos</value>
   </data>
   <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
-    <value>* 当遇到有部分或全部文件下载失败的情况，无需担心，我们会在图片将要展示时自动尝试补全</value>
+    <value>* 当遇到文件下载失败的情况时无需担心，我们会在图片将要展示时自动尝试补全</value>
   </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>图像资源设置</value>
@@ -1761,7 +1761,7 @@
     <value>Tem certeza de que deseja excluir o arquivo {0}?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>Exportar o arquivo Json UIAF para o caminho selecionado</value>
+    <value>导出 UIAF JSON 文件到指定路径</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Obtendo materiais de ascensão...</value>
@@ -1863,7 +1863,7 @@
     <value>周常 BOSS</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>URL do webhook de lembrete de tempo real configurado com sucesso</value>
+    <value>实时便笺 Webhook URL 配置成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>A conta do HoYoLab não é compatível com a verificação de lembrete de tempo real</value>
@@ -1923,7 +1923,7 @@
     <value>上半</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>Arquivo UIGF Json</value>
+    <value>UIGF JSON 文件</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>Importação concluída</value>
@@ -1962,13 +1962,13 @@
     <value>Sincronizar histórico de orações do serviço Cloud Snap Hutao</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>Exportar o arquivo Json UIGF para o caminho selecionado</value>
+    <value>导出 UIGF JSON 文件到指定路径</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Enviando para o serviço Cloud Snap Hutao</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>Importar arquivo UIGF Json</value>
+    <value>导入 UIGF JSON 文件</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
@@ -2109,7 +2109,7 @@
     <value>Espaço em disco utilizado: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>URL composto de verificação de CAPTCHA configurado com sucesso</value>
+    <value>无感验证复合 URL 配置成功</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>正在重置图片资源</value>
@@ -2538,10 +2538,10 @@
     <value>Buscar</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>Inserir URL manualmente</value>
+    <value>手动输入 URL</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>Usamos o URL fornecido para atualizar seu histórico de orações</value>
+    <value>使用由你提供的 URL 刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>Atualizar SToken</value>
