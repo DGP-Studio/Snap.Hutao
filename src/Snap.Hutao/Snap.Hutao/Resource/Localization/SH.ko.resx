@@ -1718,6 +1718,9 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>나선 비경 통계</value>
   </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
+  </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>모든 알림 지우기</value>
   </data>
@@ -2678,6 +2681,9 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>비밀번호 재설정</value>
   </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>赞助</value>
+  </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>계정 삭제 시 데이터는 영구적으로 손실되며 복구할 수 없습니다</value>
   </data>
@@ -3289,6 +3295,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>교환 코드 사용</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>동기화</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>회원가입</value>
