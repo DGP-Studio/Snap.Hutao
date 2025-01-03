@@ -518,52 +518,52 @@
     <value>Vague 2 du groupe C : Différents groupes sont présents simultanément, chacun avec sa propre vague.</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
-    <value>C组第三波：不同的组同时在场，各自分波独立</value>
+    <value>Groupe C troisième vague : 不同的组同时在场，各自分波独立</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
-    <value>D组：不同的组同时在场，各自分波独立</value>
+    <value>Groupe D : 不同的组同时在场，各自分波独立</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
-    <value>D组第一波：不同的组同时在场，各自分波独立</value>
+    <value>Groupe D première vague : 不同的组同时在场，各自分波独立</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
-    <value>D组第二波：不同的组同时在场，各自分波独立</value>
+    <value>Groupe D vague 2 : Différents groupes coexistent et ont des vagues indépendantes.</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
-    <value>D组第三波：不同的组同时在场，各自分波独立</value>
+    <value>Groupe D vague 3 : Différents groupes coexistent et ont des vagues indépendantes.</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
-    <value>与其他怪物独立</value>
+    <value>Indépendant des autres monstres</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
-    <value>暂时没有分波信息</value>
+    <value>Aucune donnée de vague pour le moment</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
-    <value>第一波：击败所有怪物，下一波才会出现</value>
+    <value>Première vague : Éliminez tous les monstres pour que la vague suivante apparaisse.</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
-    <value>第一波附加：增援第一波怪物</value>
+    <value>Première vague additionnelle : renfort de la première vague de monstres</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
-    <value>第二波：击败所有怪物，下一波才会出现</value>
+    <value>Deuxième vague : Éliminez tous les monstres pour que la vague suivante apparaisse.</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave3" xml:space="preserve">
-    <value>第三波：击败所有怪物，下一波才会出现</value>
+    <value>Troisième vague : battez tous les monstres, la vague suivante apparaîtra.</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
-    <value>第四波：击败所有怪物，下一波才会出现</value>
+    <value>Quatrième vague : battez tous les monstres, la vague suivante apparaîtra.</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
     <value>Maintenir 4 monstres Pilleurs de trésors sur le terrain, les remplacer immédiatement après leur élimination, pour un total de 12.</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
-    <value>请更新角色橱窗数据</value>
+    <value>Veuillez mettre à jour les données de la vitrine de personnage</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暂无数据</value>
+    <value>Pas de données</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
-    <value>精炼 {0} 阶</value>
+    <value>Raffiner {0} niveau</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
@@ -575,109 +575,109 @@
     <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
-    <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
+    <value>Le nombre d'archives de l'historique des vœux enregistrées sur le Snap Hutao Cloud a atteint la limite maximale du compte actuel.</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
-    <value>未开通祈愿记录上传服务或已到期</value>
+    <value>Le service de téléchargement de l'historique des vœux n'est pas activé ou a expiré.</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>祈愿数据存在无效的物品，无法保存至胡桃云</value>
+    <value>Les données de vœux contiennent des éléments non valides, impossible de les enregistrer sur Hutao Cloud</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
+    <value>Données anormales, impossible d'enregistrer sur le cloud. Veuillez ne pas effectuer de téléversement entre plusieurs comptes ou essayer de supprimer les données cloud puis réessayer.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
-    <value>请先登录或注册胡桃账号</value>
+    <value>Veuillez d'abord vous connecter ou enregistrer un compte Snap Hutao</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
-    <value>登录成功</value>
+    <value>Connexion réussie</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
-    <value>注册成功</value>
+    <value>Enregistrement réussi</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
-    <value>新密码设置成功</value>
+    <value>Nouveau mot de passe défini avec succès</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>当前邮箱尚未注册</value>
+    <value>L'adresse e-mail actuelle n'est pas enregistrée</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
-    <value>当前邮箱已被注册</value>
+    <value>L'adresse e-mail actuelle est enregistrée</value>
   </data>
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
-    <value>注册失败，服务器异常，请尽快联系开发者解决</value>
+    <value>L'inscription a échoué, erreur du serveur, veuillez contacter le développeur dès que possible pour résoudre ce problème</value>
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>用户不存在，注销失败</value>
+    <value>L'utilisateur n'existe pas, la suppression du compte a échoué</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
-    <value>用户注销成功</value>
+    <value>Désinscription de l'utilisateur réussie</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
-    <value>用户不存在，获取用户信息失败</value>
+    <value>L'utilisateur n'existe pas, impossible de récupérer les informations de l'utilisateur</value>
   </data>
   <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
-    <value>用户名或密码错误</value>
+    <value>Nom d’utilisateur ou mot de passe incorrect</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
-    <value>验证失败</value>
+    <value>Échec de la vérification</value>
   </data>
   <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
-    <value>验证请求失败，不是当前登录的账号</value>
+    <value>La demande de vérification a échoué, ce n'est pas le compte actuellement connecté</value>
   </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
-    <value>验证码已发送至邮箱</value>
+    <value>Le code de vérification a été envoyé à l'adresse e-mail</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱已被注册</value>
+    <value>La demande de vérification a échoué, l'adresse e-mail actuelle est déjà enregistrée</value>
   </data>
   <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
     <value>La demande de vérification a échoué, l'e-mail actuel n'est pas enregistré</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
-    <value>验证请求过快，请 1 分钟后再试</value>
+    <value>La demande de vérification est trop fréquente, veuillez réessayer dans 1 minute</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
     <value>上传深渊记录失败，当前 Uid 已被胡桃数据库封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>上传深渊记录失败，正在计算统计数据</value>
+    <value>Échec du chargement de l'enregistrement de l'Abysse spiralé, calcul des statistiques en cours</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
-    <value>获取数据失败，正在计算统计数据</value>
+    <value>Échec de la récupération des données, calcul des statistiques en cours</value>
   </data>
   <data name="ServerRecordInternalException" xml:space="preserve">
-    <value>上传深渊记录失败，服务器异常，请尽快联系开发者解决</value>
+    <value>Échec du chargement de l'enregistrement de l'Abîme, erreur du serveur, veuillez contacter le développeur dès que possible pour résoudre le problème</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>上传深渊记录失败，存在无效的数据</value>
+    <value>Échec du chargement de l'enregistrement de l'Abîme, données non valides détectées</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
     <value>无效的 Uid</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>上传深渊记录失败，不是本期数据</value>
+    <value>Échec du chargement de l'enregistrement de l'Abîme. Il ne s'agit pas des données du calendrier actuel.</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
     <value>上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
-    <value>上传深渊记录成功，获赠祈愿记录上传服务时长</value>
+    <value>Téléchargement des enregistrements de l'Abîme réussi, la durée du service de téléchargement des enregistrements de vœux a été étendue</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上传深渊记录成功，但未登录胡桃通行证，无法获赠祈愿记录上传服务时长</value>
+    <value>Téléchargement des enregistrements de l'Abîme réussi, mais aucun compte Hutao Passport n'est connecté, la durée du service de téléchargement des enregistrements de vœux n'a pas été étendue</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
-    <value>上传深渊记录成功，但无法找到用户，无法获赠祈愿记录上传服务时长</value>
+    <value>Téléchargement réussi de l'enregistrement de l'abysse, mais impossible de trouver l'utilisateur, impossible de recevoir la durée du service de téléchargement de l'enregistrement de vœux.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>上传深渊记录成功，但不是本期首次提交，无法获赠祈愿记录上传服务时长</value>
+    <value>Téléchargement réussi de l'enregistrement de l'abysse, mais ce n'est pas la première soumission de cette période, impossible de recevoir la durée du service de téléchargement de l'enregistrement de vœux.</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
-    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
+    <value>Nouveau : {0} succès | Mis à jour : {1} succès | Supprimer : {2} succès</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
     <value>Fichiers JSON UIAF</value>
@@ -707,124 +707,124 @@
     <value>Serveur EU UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
-    <value>攻击力</value>
+    <value>ATQ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
-    <value>基础攻击力</value>
+    <value>ATQ de base</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseDef" xml:space="preserve">
-    <value>基础防御力</value>
+    <value>DÉF de base</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseHp" xml:space="preserve">
-    <value>基础生命值</value>
+    <value>PV de base</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCDmg" xml:space="preserve">
-    <value>暴击伤害</value>
+    <value>DGT CRIT</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCE" xml:space="preserve">
-    <value>元素充能效率</value>
+    <value>Taux de recharge d'énergie</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCR" xml:space="preserve">
-    <value>暴击率</value>
+    <value>Taux CRIT</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBElec" xml:space="preserve">
-    <value>雷元素伤害加成</value>
+    <value>Bonus de DGT Électro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBFire" xml:space="preserve">
-    <value>火元素伤害加成</value>
+    <value>Bonus de DGT Pyro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBGrass" xml:space="preserve">
-    <value>草元素伤害加成</value>
+    <value>Bonus de DGT Dendro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBIce" xml:space="preserve">
-    <value>冰元素伤害加成</value>
+    <value>Bonus de DGT Cryo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBPhyiscal" xml:space="preserve">
-    <value>物理伤害加成</value>
+    <value>Bonus de DGT physiques</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBRock" xml:space="preserve">
-    <value>岩元素伤害加成</value>
+    <value>Bonus de DGT Géo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWater" xml:space="preserve">
-    <value>水元素伤害加成</value>
+    <value>Bonus de DGT Hydro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWind" xml:space="preserve">
-    <value>风元素伤害加成</value>
+    <value>Bonus de DGT Anémo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDef" xml:space="preserve">
-    <value>防御力</value>
+    <value>DÉF</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyEM" xml:space="preserve">
-    <value>元素精通</value>
+    <value>Maîtrise élémentaire</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHB" xml:space="preserve">
-    <value>治疗加成</value>
+    <value>Bonus de soins</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
     <value>Bonus de soins reçus</value>
   </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
-    <value>生命值</value>
+    <value>PV</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
-    <value>雷元素抗性</value>
+    <value>RÉS Électro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESFire" xml:space="preserve">
-    <value>火元素抗性</value>
+    <value>Résistance Pyro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESGrass" xml:space="preserve">
-    <value>草元素抗性</value>
+    <value>Résistance Dendro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESIce" xml:space="preserve">
-    <value>冰元素抗性</value>
+    <value>Résistance Cryo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESPhysical" xml:space="preserve">
-    <value>物理抗性</value>
+    <value>Résistance physique</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESRock" xml:space="preserve">
-    <value>岩元素抗性</value>
+    <value>Résistance Géo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
-    <value>水元素抗性</value>
+    <value>Résistance Hydro</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
-    <value>风元素抗性</value>
+    <value>Résistance Anémo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
     <value>Réduction du délai de récupération</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
-    <value>养成计算：尚未刷新</value>
+    <value>Calculateur de progression : Non actualisé</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
-    <value>养成计算：{0:MM-dd HH:mm}</value>
+    <value>Calculateur de progression : {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
     <value>Chroniques de bataille : Non actualisé</value>
@@ -836,10 +836,10 @@
     <value>Non rafraîchie</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
-    <value>角色橱窗：尚未刷新</value>
+    <value>Vitrine de personnage : Non actualisée</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
-    <value>角色橱窗：{0:MM-dd HH:mm}</value>
+    <value>Vitrine de personnage : {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
     <value>Image du jour de Bing</value>
@@ -857,10 +857,10 @@
     <value>Pas d'image de fond</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
-    <value>保存养成计划状态失败</value>
+    <value>Échec de l’enregistrement de l’état du plan de développement</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
-    <value>存在多个选中的养成计划</value>
+    <value>Plusieurs plans de développement sont sélectionnés</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Échec de l'envoi de la notification de l'application</value>
@@ -869,94 +869,94 @@
     <value>Lanceur de jeu</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
-    <value>我知道了</value>
+    <value>J'ai compris</value>
   </data>
   <data name="ServiceDailyNoteNotifierAttribution" xml:space="preserve">
-    <value>请求异常</value>
+    <value>Requête anormale</value>
   </data>
   <data name="ServiceDailyNoteNotifierDailyTask" xml:space="preserve">
-    <value>每日委托</value>
+    <value>Délégations quotidiennes</value>
   </data>
   <data name="ServiceDailyNoteNotifierDailyTaskHint" xml:space="preserve">
-    <value>奖励未领取</value>
+    <value>Récompense non réclamée</value>
   </data>
   <data name="ServiceDailyNoteNotifierExpedition" xml:space="preserve">
-    <value>探索派遣</value>
+    <value>Expéditions</value>
   </data>
   <data name="ServiceDailyNoteNotifierExpeditionAdaptiveHint" xml:space="preserve">
-    <value>已完成</value>
+    <value>Terminé</value>
   </data>
   <data name="ServiceDailyNoteNotifierExpeditionHint" xml:space="preserve">
-    <value>探索派遣已完成</value>
+    <value>Les expéditions sont terminées</value>
   </data>
   <data name="ServiceDailyNoteNotifierHomeCoin" xml:space="preserve">
-    <value>洞天宝钱</value>
+    <value>Monnaie du Royaume</value>
   </data>
   <data name="ServiceDailyNoteNotifierHomeCoinCurrent" xml:space="preserve">
-    <value>当前洞天宝钱：{0}</value>
+    <value>Monnaie du Royaume actuelle : {0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierMultiValueReached" xml:space="preserve">
-    <value>多个提醒项达到设定值</value>
+    <value>Plusieurs rappels ont atteint la valeur définie</value>
   </data>
   <data name="ServiceDailyNoteNotifierResin" xml:space="preserve">
-    <value>原粹树脂</value>
+    <value>Résine originelle</value>
   </data>
   <data name="ServiceDailyNoteNotifierResinCurrent" xml:space="preserve">
-    <value>当前原粹树脂：{0}</value>
+    <value>Résine originelle actuelle : {0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierTitle" xml:space="preserve">
-    <value>实时便笺提醒</value>
+    <value>Rappel de notes en temps réel</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformer" xml:space="preserve">
-    <value>参量质变仪</value>
+    <value>Transformateur paramétrique</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerAdaptiveHint" xml:space="preserve">
-    <value>准备完成</value>
+    <value>Prêt</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
-    <value>参量质变仪已准备完成</value>
+    <value>Le Transformateur paramétrique est prêt</value>
   </data>
   <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
     <value>Autorisation insuffisante, impossible de définir votre statut d'activité Discord</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
-    <value>正在提瓦特大陆中探索</value>
+    <value>Exploration en cours à Teyvat</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
-    <value>由 {0} 启动</value>
+    <value>Lancé par {0}</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录：{0}</value>
+    <value>Impossible de récupérer l'historique des vœux : {0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录 End Id</value>
+    <value>Impossible de récupérer l’ID de fin de l’historique des vœux</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
-    <value>角色活动</value>
+    <value>Vœu événement de personnage</value>
   </data>
   <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
     <value>Vœu Chronique</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
-    <value>奔行世间</value>
+    <value>Invocation au gré du voyage</value>
   </data>
   <data name="ServiceGachaLogFactoryWeaponWishName" xml:space="preserve">
-    <value>神铸赋形</value>
+    <value>Invocation divine</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
-    <value>获取云端祈愿记录失败</value>
+    <value>Échec de la récupération de l'historique des vœux dans Hutao Cloud</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
-    <value>祈愿记录上传服务不可用</value>
+    <value>Le service de téléchargement de l'historique des vœux n'est pas disponible</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>数据包含异常物品, Id：{0}</value>
+    <value>Les données contiennent un élément inattendu, Id : {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>请求验证密钥失败</value>
+    <value>Échec de la demande de &lt;0&gt;clé de vérification&lt;/0&gt;</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
-    <value>未正确提供原神路径，或当前设置的路径不正确</value>
+    <value>Le chemin du jeu Genshin Impact n'est pas correctement défini ou n'est pas correct</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
     <value>Impossible de trouver le chemin d’accès au cache du navigateur intégré de Genshin Impact :
@@ -972,31 +972,31 @@
     <value>L'URL fournie n'est pas valide</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>HoYoLab 账号不支持使用 SToken 刷新祈愿记录</value>
+    <value>Le compte HoYoLab ne prend pas en charge l'actualisation de l'historique des vœux à l'aide de SToken</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
     <value>La langue de l'URL : {0} ne correspond pas à la langue de Snap Hutao : {1}. Veuillez changer de langue pour réessayer.</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
-    <value>不支持的 Item Id：{0}</value>
+    <value>ID d'objet non pris en charge : {0}</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>La langue du fichier UIGF : {0} ne correspond pas à la langue de Snap Hutao : {1}. Veuillez réessayer après avoir changé la langue du client pour qu'elle corresponde à la langue du fichier UIGF cible.</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Le compte nommé {0} existe déjà</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
-    <value>存在多个匹配账号，请删除重复的账号</value>
+    <value>Plusieurs comptes correspondants détectés, veuillez supprimer les comptes en double</value>
   </data>
   <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
-    <value>文件系统权限不足，无法转换服务器</value>
+    <value>Autorisation d'écriture insuffisante dans le système de fichiers, impossible de démarrer la conversion du serveur.</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>Télécharger l'index des ressources du jeu</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>游戏文件操作失败：{0}</value>
+    <value>Échec de l'opération sur le fichier de jeu : {0}</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
     <value>Échec du déverrouillage de la limite de fréquence d'images</value>
@@ -1011,25 +1011,25 @@
     <value>Échec du téléchargement de l’index des ressources du jeu : {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
-    <value>游戏进程已退出</value>
+    <value>Processus du jeu fermé</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessInitializing" xml:space="preserve">
-    <value>正在初始化游戏进程</value>
+    <value>Initialisation du processus de jeu</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
-    <value>游戏进程已启动</value>
+    <value>Le processus de jeu a démarré</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
-    <value>解锁帧率上限失败，正在结束游戏进程</value>
+    <value>Échec du déverrouillage de la limite de fréquence d’images, fermeture du processus de jeu</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
-    <value>解锁帧率上限成功</value>
+    <value>Déverrouillage de la limite de fréquence d’images réussi</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
     <value>Obtention des informations de configuration d'injection</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
-    <value>等待游戏进程退出</value>
+    <value>En attente de la fermeture du processus de jeu</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
     <value>Débloque l'injection du module dans le processus du jeu, ce qui est dangereux, mais facile à réussir.</value>
@@ -1044,19 +1044,19 @@
     <value>Classique</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
-    <value>选择游戏本体</value>
+    <value>Choisir l'exécutable du jeu</value>
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
-    <value>游戏本体</value>
+    <value>Client du jeu</value>
   </data>
   <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
     <value>Impossible de lire le fichier journal Unity pendant que le jeu est en cours d'exécution</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
-    <value>找不到 Unity 日志文件</value>
+    <value>Fichier journal Unity introuvable</value>
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
-    <value>在 Unity 日志文件中找不到游戏路径</value>
+    <value>Chemin d'accès au jeu introuvable dans le fichier journal Unity</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>Échec de l'analyse des données du manifeste</value>
@@ -1080,55 +1080,55 @@
     <value>Vérification de l'intégrité du jeu en cours</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
-    <value>备份：{0}</value>
+    <value>Sauvegarde : {0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
-    <value>重命名：{0} 到：{1}</value>
+    <value>Renommer : {0} vers : {1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
-    <value>替换：{0}</value>
+    <value>Remplacer : {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>Un problème est survenu lors de la lecture de la version du package local. La réparation du jeu pourrait être utile.</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
-    <value>重命名数据文件夹名称失败</value>
+    <value>Échec du changement de nom du dossier de données</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
-    <value>获取 Package Version</value>
+    <value>Récupération de la version du package</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
-    <value>获取 Package Version 失败</value>
+    <value>Échec de la récupération de la version du package</value>
   </data>
   <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
-    <value>下载客户端文件失败：{0}</value>
+    <value>Échec du téléchargement du fichier client : {0}</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
-    <value>无法找到游戏路径，请前往设置修改</value>
+    <value>Impossible de trouver le chemin du jeu. Veuillez le modifier dans les paramètres.</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
-    <value>未开启长路径功能，无法设置注册表键值</value>
+    <value>Impossible de définir la clé de registre sans activer la fonctionnalité de chemin long</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>无法读取游戏配置文件 {0}，可能是文件不存在</value>
+    <value>Impossible de lire le fichier de configuration du jeu {0}, il est possible qu'il n'existe pas</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
-    <value>无法读取或保存配置文件，请以管理员模式重试</value>
+    <value>Impossible de lire ou d'enregistrer le profil, veuillez réessayer en mode administrateur</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成，请重试</value>
+    <value>Erreur lors de la recherche des modules nécessaires : impossible de lire un module, le pilote de protection est peut-être chargé. Veuillez réessayer</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：查找模块超时，请重试</value>
+    <value>Erreur lors de la recherche des modules nécessaires : délai d’attente dépassé lors de la recherche du module. Veuillez réessayer</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>在匹配内存时遇到问题：无法匹配到期望的内容</value>
+    <value>Problème lors de la correspondance de la mémoire : impossible de trouver le contenu attendu</value>
   </data>
   <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
-    <value>在读取必要的模块内存时遇到问题：无法将模块内存复制到指定位置</value>
+    <value>Problème lors de la lecture de la mémoire des modules nécessaires : impossible de copier la mémoire du module vers la destination</value>
   </data>
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
-    <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
+    <value>Problème lors de la lecture de la mémoire du processus de jeu : impossible de lire une valeur valide à l’adresse spécifiée</value>
   </data>
   <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
     <value>Échec du déverrouillage de la fréquence d’images : 0x{0:X8}</value>
@@ -1137,58 +1137,58 @@
     <value>Le service de téléchargement des enregistrements de vœux est valide jusqu'au</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
-    <value>无法找到缓存的元数据文件</value>
+    <value>Impossible de trouver le fichier de métadonnées mis en cache</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
+    <value>HTTP {0} | Erreur :{1} : Échec du téléchargement du fichier de vérification des métadonnées</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
-    <value>元数据服务尚未初始化，或初始化失败</value>
+    <value>Le service de métadonnées n'est pas encore initialisé ou son initialisation a échoué</value>
   </data>
   <data name="ServiceMetadataParseFailed" xml:space="preserve">
-    <value>元数据校验文件解析失败</value>
+    <value>Échec de l'analyse du fichier de validation des métadonnées</value>
   </data>
   <data name="ServiceMetadataRequestFailed" xml:space="preserve">
-    <value>元数据校验文件下载失败</value>
+    <value>Échec du téléchargement du fichier de validation des métadonnées</value>
   </data>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
-    <value>你的胡桃版本过低，请尽快升级</value>
+    <value>Votre version de Snap Hutao est trop ancienne, veuillez la mettre à jour dès que possible</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>签到失败，{0}</value>
+    <value>Échec de la connexion, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
-    <value>获取签到次数失败</value>
+    <value>Échec de la récupération du nombre de connexions</value>
   </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
-    <value>获取奖励列表失败</value>
+    <value>Échec de la récupération de la liste des récompenses</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>验证失败，请前往米游社原神签到页面自行领取奖励</value>
+    <value>Échec de la vérification, veuillez vous rendre sur la page de connexion de 米游社 pour réclamer la récompense manuellement</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
-    <value>签到成功，{0}×{1}</value>
+    <value>Enregistrement réussi, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
-    <value>不支持的 UIGF 版本</value>
+    <value>Version UIGF non prise en charge</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
-    <value>发现新版本 {0}</value>
+    <value>Nouvelle version {0} détectée</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
-    <value>多个用户记录为选中状态</value>
+    <value>Plusieurs utilisateurs sont sélectionnés</value>
   </data>
   <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
-    <value>用户 {0} 状态保存失败</value>
+    <value>Échec de l'enregistrement de l'état de l'utilisateur {0}</value>
   </data>
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
-    <value>输入的 Cookie 必须包含 Mid</value>
+    <value>Le cookie saisi doit inclure Mid</value>
   </data>
   <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
-    <value>输入的 Cookie 必须包含 SToken</value>
+    <value>Le cookie saisi doit inclure SToken</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
-    <value>输入的 Cookie 无法获取用户信息</value>
+    <value>Impossible d'obtenir les informations de l'utilisateur avec le cookie saisi</value>
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Récupération des informations de l'utilisateur, veuillez patienter...</value>
@@ -1215,19 +1215,19 @@
     <value>Veuillez effectuer la vérification</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
-    <value>成就管理</value>
+    <value>Gestion des succès</value>
   </data>
   <data name="ViewAnnouncementHeader" xml:space="preserve">
-    <value>主页</value>
+    <value>Accueil</value>
   </data>
   <data name="ViewAvatarPropertyHeader" xml:space="preserve">
-    <value>我的角色</value>
+    <value>Mes personnages</value>
   </data>
   <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
-    <value>同步角色信息</value>
+    <value>Synchroniser les données des personnages</value>
   </data>
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
-    <value>成就统计</value>
+    <value>Statistiques des succès</value>
   </data>
   <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
     <value>Tous les donjons de matériaux peuvent être défiés</value>
@@ -1236,124 +1236,124 @@
     <value>Aucun personnage n'a son anniversaire ce jour-là</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
-    <value>保底计数</value>
+    <value>Compteur de pitié</value>
   </data>
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
-    <value>选择账号或直接启动</value>
+    <value>Choisir le compte à lancer ou démarrer directement</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
-    <value>等级</value>
+    <value>Niveau</value>
   </data>
   <data name="ViewControlBaseValueSliderPromoted" xml:space="preserve">
-    <value>突破后</value>
+    <value>Après l'élévation</value>
   </data>
   <data name="ViewControlElevationText" xml:space="preserve">
-    <value>需要管理员权限</value>
+    <value>Privilèges administrateur requis</value>
   </data>
   <data name="ViewControlLoadingText" xml:space="preserve">
-    <value>加载中，请稍候</value>
+    <value>Chargement, veuillez patienter</value>
   </data>
   <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
-    <value>三星</value>
+    <value>3 Étoiles</value>
   </data>
   <data name="ViewControlStatisticsCardGuaranteeText" xml:space="preserve">
-    <value>保底</value>
+    <value>Garantie</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
-    <value>五星平均抽数</value>
+    <value>Moyenne de tirages 5 Étoiles</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeText" xml:space="preserve">
-    <value>五星</value>
+    <value>5 Étoiles</value>
   </data>
   <data name="ViewControlStatisticsCardPullText" xml:space="preserve">
-    <value>抽</value>
+    <value>Tirages</value>
   </data>
   <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
-    <value>四星</value>
+    <value>4 Étoiles</value>
   </data>
   <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
-    <value>距上个五星</value>
+    <value>Dernier 5 Étoiles</value>
   </data>
   <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
-    <value>距上个四星</value>
+    <value>Dernier 4 Étoiles</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
-    <value>UP 平均抽数</value>
+    <value>Moyenne de tirages UP</value>
   </data>
   <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
     <value>UP</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
-    <value>预测</value>
+    <value>Prédiction</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
-    <value>比例</value>
+    <value>Proportion</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
-    <value>统计</value>
+    <value>Statistiques</value>
   </data>
   <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
-    <value>当前 WebView2 版本不支持管理配置，继续使用可能会导致异常，请尽快升级</value>
+    <value>La version actuelle de WebView2 ne prend pas en charge la configuration de la gestion, la poursuite de l'utilisation peut entraîner des anomalies, veuillez effectuer la mise à niveau dès que possible.</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
-    <value>养成计划</value>
+    <value>Plan de développement</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>Bloc-notes en temps réel</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
-    <value>数据</value>
+    <value>Données</value>
   </data>
   <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
-    <value>在此处输入</value>
+    <value>Saisir ici</value>
   </data>
   <data name="ViewDialogAchievementArchiveCreateTitle" xml:space="preserve">
-    <value>设置成就存档的名称</value>
+    <value>Définir le nom de l'archive de succès</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategy" xml:space="preserve">
-    <value>导入模式</value>
+    <value>Mode d'importation</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
-    <value>贪婪（添加新数据，更新已完成项）</value>
+    <value>Gourmand (ajouter de nouvelles données, mettre à jour les enregistrements complétés)</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
-    <value>懒惰（添加新数据，跳过已完成项）</value>
+    <value>Paresse (ajouter de nouvelles données, ignorer les éléments terminés)</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
-    <value>覆盖（删除老数据，添加新的数据）</value>
+    <value>Écraser (supprimer les anciennes données, ajouter de nouvelles données)</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
-    <value>为当前存档导入成就</value>
+    <value>Importer les succès pour l'archive actuelle</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
-    <value>角色目标等级</value>
+    <value>Niveau cible du personnage</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
-    <value>普通攻击目标等级</value>
+    <value>Niveau cible de l'attaque normale</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
-    <value>元素战技目标等级</value>
+    <value>Niveau cible de compétence élémentaire</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
-    <value>元素爆发目标等级</value>
+    <value>Niveau cible de déchaînement élémentaire</value>
   </data>
   <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
-    <value>武器目标等级</value>
+    <value>Niveau cible de l'arme</value>
   </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
-    <value>绑定当前用户与角色</value>
+    <value>Lier l'utilisateur actuel et le rôle</value>
   </data>
   <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
-    <value>在此处输入计划名称</value>
+    <value>Saisir le nom du plan ici</value>
   </data>
   <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
-    <value>创建新的养成计划</value>
+    <value>Créer un nouveau plan</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
-    <value>批量添加或更新到当前养成计划</value>
+    <value>Ajouter ou mettre à jour en lot au plan de développement actuel</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>添加或更新到当前养成计划</value>
+    <value>Ajouter ou mettre à jour au plan de développement actuel</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
     <value>Toujours créer de nouveaux éléments d'objectif de développement</value>
@@ -1368,25 +1368,25 @@
     <value>Conserver les entrées d'objectif de développement existantes</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
-    <value>每日委托上线提醒</value>
+    <value>Rappel de disponibilité des Commissions quotidiennes</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
-    <value>探索派遣完成提醒</value>
+    <value>Rappel de fin d'expédition</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>洞天宝钱提醒阈值</value>
+    <value>Seuil de notification de Moras du royaume</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>原粹树脂提醒阈值</value>
+    <value>Seuil de notification de résine originelle</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
-    <value>在主页显示卡片</value>
+    <value>Afficher le widget sur la page d'accueil</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
-    <value>实时便笺通知设置</value>
+    <value>Paramètres de notification des notes en temps réel</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
-    <value>参量质变仪提醒</value>
+    <value>Notification du Transformateur Paramétrique</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
     <value>Veuillez saisir l'URL</value>
@@ -1410,16 +1410,16 @@
     <value>Voulez-vous supprimer la restriction de Loopback ?</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
-    <value>导入祈愿记录</value>
+    <value>Importer l'historique des vœux</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
     <value>L'URL de l'historique de vœux a expiré. Veuillez la récupérer.</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
-    <value>正在获取 {0}</value>
+    <value>Récupération de {0}</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
-    <value>获取祈愿物品中</value>
+    <value>Obtention des objets de vœu</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
     <value>Veuillez saisir l'URL</value>
@@ -1458,64 +1458,64 @@
     <value>L'interface doit renvoyer des données JSON comme indiqué ci-dessus. Les données supplémentaires seront ignorées.</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
-    <value>"code" 为 0 时，指示验证成功，其他的值均视为验证失败</value>
+    <value>Si "code" est 0, l'authentification est réussie ; sinon, l'authentification a échoué</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
-    <value>返回数据</value>
+    <value>Données retournées</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} 将在实际请求时替换为 gt</value>
+    <value>{0} sera remplacé par « gt » lors d'une requête</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} 将在实际请求时替换为 challenge</value>
+    <value>{1} sera remplacé par "challenge" lors de la requête réelle</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
-    <value>将会通过 GET 方式对接口发送请求</value>
+    <value>Les requêtes seront envoyées aux interfaces via GET</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
-    <value>示例</value>
+    <value>Exemple</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
-    <value>配置无感验证接口</value>
+    <value>Configurer l'API de vérification "无感验证"</value>
   </data>
   <data name="ViewDialogHutaoPassportLoginTitle" xml:space="preserve">
-    <value>登录胡桃通行证</value>
+    <value>Se connecter à Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportRegisterTitle" xml:space="preserve">
-    <value>注册胡桃通行证</value>
+    <value>S’inscrire au Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
-    <value>重置胡桃通行证密码</value>
+    <value>Réinitialiser le mot de passe du Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
     <value>Réinitialiser l'e-mail du Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
-    <value>注销胡桃通行证账号</value>
+    <value>Supprimer le compte Hutao Passport</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
-    <value>导出 App</value>
+    <value>Exporter l'application</value>
   </data>
   <data name="ViewDialogImportExportAppVersion" xml:space="preserve">
-    <value>导出 App 版本</value>
+    <value>Exporter la version de l'application</value>
   </data>
   <data name="ViewDialogImportExportTime" xml:space="preserve">
-    <value>导出时间</value>
+    <value>Heure d'exportation</value>
   </data>
   <data name="ViewDialogImportUIAFExportListCount" xml:space="preserve">
-    <value>成就个数</value>
+    <value>Nombre de succès</value>
   </data>
   <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
-    <value>UIAF 版本</value>
+    <value>Version UIAF</value>
   </data>
   <data name="ViewDialogImportUIGFExportListCount" xml:space="preserve">
-    <value>记录条数</value>
+    <value>Nombre total d'enregistrements</value>
   </data>
   <data name="ViewDialogImportUIGFExportUid" xml:space="preserve">
     <value>UID</value>
   </data>
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
-    <value>UIGF 版本</value>
+    <value>Version UIGF</value>
   </data>
   <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
     <value>Sélectionnez l'UID pour importer les enregistrements</value>
@@ -1524,10 +1524,10 @@
     <value>Importer un fichier UIGF</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
-    <value>在此处输入名称</value>
+    <value>Saisir le nom ici</value>
   </data>
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
-    <value>为账号命名</value>
+    <value>Nommer le compte</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
     <value>Veuillez sélectionner le serveur de jeu correspondant au chemin de jeu actuel</value>
@@ -1554,13 +1554,13 @@
     <value>Sélectionner le chemin d'installation</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
-    <value>转换可能需要花费一段时间，请勿关闭胡桃</value>
+    <value>La conversion peut prendre un certain temps, veuillez ne pas fermer Snap Hutao.</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
-    <value>正在转换客户端</value>
+    <value>Conversion du client en cours</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>使用米游社扫描二维码</value>
+    <value>Utiliser l'application MiHoYo BBS pour scanner le code QR</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
     <value>Afin de garantir que les utilisateurs des fonctions disposent d'une capacité de jugement indépendante, nous mettrons à jour irrégulièrement les conditions d'activation de ces fonctionnalités. Si vous êtes un créateur de contenu, veuillez ne pas partager de méthodes d'activation spécifiques avec votre public lors de la création de contenu relatif à Snap Hutao.</value>
@@ -1572,10 +1572,10 @@
     <value>Vous activez une fonctionnalité dangereuse</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
-    <value>该操作是不可逆的，所有用户登录状态会丢失</value>
+    <value>Cette action est irréversible, et toutes les informations de connexion seront perdues.</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
-    <value>是否永久删除用户数据</value>
+    <value>Supprimer définitivement les données utilisateur ?</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>Aucun compte Snap Hutao n'est connecté. Le chargement des données de l'Abysse ne vous donnera pas de temps d'utilisation de Hutao Cloud.</value>
@@ -1611,16 +1611,16 @@
     <value>Connexion avec compte et mot de passe</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
-    <value>立即前往</value>
+    <value>Y aller</value>
   </data>
   <data name="ViewDialogUserDocumentDescription" xml:space="preserve">
-    <value>进入文档页面并按指示操作</value>
+    <value>Accédez à la page du document et suivez les instructions</value>
   </data>
   <data name="ViewDialogUserDocumentHeader" xml:space="preserve">
-    <value>操作文档</value>
+    <value>Document</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>在此处输入包含 SToken 的 Cookie</value>
+    <value>Saisissez ici le cookie contenant le SToken</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
     <value>Veuillez entrer le code que vous avez reçu</value>
@@ -1641,25 +1641,25 @@
     <value>Centre de commentaires</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
-    <value>祈愿记录</value>
+    <value>Historique des vœux</value>
   </data>
   <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
     <value>Taille de téléchargement attendue : {0}</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>我已阅读并同意</value>
+    <value>J'ai lu et j'accepte</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
-    <value>问题报告方式与流程</value>
+    <value>Méthode et processus de signalement des problèmes</value>
   </data>
   <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
-    <value>Snap Hutao 开源许可</value>
+    <value>Licence Open Source Snap Hutao</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
-    <value>用户数据与隐私权益</value>
+    <value>Données utilisateur et politique de confidentialité</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
-    <value>用户使用协议与法律声明</value>
+    <value>Accord d'utilisation et mentions légales</value>
   </data>
   <data name="ViewGuideStepCommonSetting" xml:space="preserve">
     <value>Paramètres de base</value>
@@ -1674,19 +1674,19 @@
     <value>Environnements</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
-    <value>安装完成后重启胡桃以查看是否正常生效</value>
+    <value>Redémarrez Snap Hutao après l'installation pour vérifier si elle prend effet</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
     <value>Si les icônes ci-dessus sont illisibles ou ne se chargent pas, veuillez consulter</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
-    <value>下载并自行安装图标字体</value>
+    <value>Téléchargez et installez vous-même la police d'icônes</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>若未检测到 WebView2 运行时信息，可以前往</value>
+    <value>Si aucune information sur le moteur d'exécution WebView2 n'est détectée, vous pouvez vous rendre sur</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下载并自行安装运行时</value>
+    <value>Téléchargez et installez vous-même le moteur d'exécution</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Langues</value>
@@ -1716,7 +1716,10 @@
     <value>Qualité des ressources d'images</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
-    <value>深渊统计</value>
+    <value>Statistiques de l'Abysse</value>
+  </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Effacer toutes les notifications</value>
@@ -1728,7 +1731,7 @@
     <value>Toutes les notifications</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
-    <value>有新的通知</value>
+    <value>Nouvelle notification</value>
   </data>
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>Lanceur de jeu</value>
@@ -1737,52 +1740,52 @@
     <value>Impossible de réorganiser en mode administrateur</value>
   </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
-    <value>存档 [{0}] 添加成功</value>
+    <value>Archive [{0}] ajouté avec succès</value>
   </data>
   <data name="ViewModelAchievementArchiveAlreadyExists" xml:space="preserve">
-    <value>不能添加名称重复的存档 [{0}]</value>
+    <value>Impossible d'ajouter un archive avec un nom dupliqué [{0}]</value>
   </data>
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
-    <value>不能添加名称无效的存档</value>
+    <value>Impossible d'ajouter un archive avec un nom invalide</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>format UIAF</value>
   </data>
   <data name="ViewModelAchievementImportProgress" xml:space="preserve">
-    <value>导入成就中</value>
+    <value>Importation des succès en cours</value>
   </data>
   <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
-    <value>数据的 UIAF 版本过低，无法导入</value>
+    <value>La version UIAF des données est trop basse pour être importée</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
-    <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失</value>
+    <value>Cette opération est irréversible, l'archive et tous les états de succès qu'elle contient seront perdus</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
-    <value>确定要删除存档 {0} 吗？</value>
+    <value>Voulez-vous vraiment supprimer l'archive {0} ?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>Exporter le fichier JSON UIAF vers le chemin sélectionné</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
-    <value>获取培养材料中，请稍候...</value>
+    <value>Récupération des matériaux d'amélioration, veuillez patienter...</value>
   </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
-    <value>当前角色无法计算，请同步信息后再试</value>
+    <value>Le personnage actuel ne peut pas être calculé, veuillez synchroniser les informations et réessayer.</value>
   </data>
   <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
-    <value>角色信息服务 [Enka API] 当前不可用</value>
+    <value>Le service d'informations sur les personnages [Enka API] n'est pas disponible actuellement.</value>
   </data>
   <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
-    <value>已导出到剪贴板</value>
+    <value>Exporté vers le presse-papiers.</value>
   </data>
   <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
-    <value>获取数据中</value>
+    <value>Récupération des données.</value>
   </data>
   <data name="ViewModelAvatarPropertyOpenClipboardFail" xml:space="preserve">
-    <value>打开剪贴板失败</value>
+    <value>Échec de l'ouverture du presse-papiers.</value>
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
-    <value>角色展柜尚未开启，请前往游戏操作后重试</value>
+    <value>La vitrine de personnage n'est pas activée, veuillez l'activer dans le jeu et réessayer.</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>{0} personnage{plural, one { au total} other {s} au total}</value>
@@ -1794,10 +1797,10 @@
     <value>Détails du personnage copiés avec succès</value>
   </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
-    <value>无圣遗物或散件</value>
+    <value>Pas d'ensemble d'artéfacts ou de pièces détachées</value>
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
-    <value>养成计划添加失败</value>
+    <value>Échec de l'ajout au plan de développement</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
     <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
@@ -1815,22 +1818,22 @@
     <value>Il existe déjà un projet d'amélioration pour cet objet</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
-    <value>已成功添加至当前养成计划</value>
+    <value>Ajouté avec succès au plan de développement actuel</value>
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
-    <value>请先前往养成计划页面创建计划并选中</value>
+    <value>Veuillez d'abord créer un plan et le sélectionner sur la page du plan de progression de l'amélioration</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
-    <value>重新添加物品以查看养成描述</value>
+    <value>Rajoutez un objet pour consulter la description du plan</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
-    <value>添加成功</value>
+    <value>Ajouté avec succès</value>
   </data>
   <data name="ViewModelCultivationProjectAlreadyExists" xml:space="preserve">
-    <value>不能添加名称重复的计划</value>
+    <value>Impossible d'ajouter un plan avec un nom en double</value>
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
-    <value>不能添加名称无效的计划</value>
+    <value>Impossible d'ajouter un plan avec un nom invalide</value>
   </data>
   <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
     <value>Synchronisation des objets de l'inventaire</value>
@@ -1866,7 +1869,7 @@
     <value>URL Webhook des notes en temps réel configurée avec succès</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
-    <value>HoYoLab 账号不支持验证实时便笺</value>
+    <value>Le compte HoYoLab ne prend pas en charge la vérification des notes en temps réel</value>
   </data>
   <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
     <value>Échec de la modification de la tâche planifiée</value>
@@ -1887,19 +1890,19 @@
     <value>8 min | 1 Résine</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
-    <value>正在获取实时便笺信息，请稍候</value>
+    <value>Obtention des informations de Notes en temps réel, veuillez patienter</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
-    <value>成功保存到指定位置</value>
+    <value>Enregistré avec succès à l'emplacement sélectionné</value>
   </data>
   <data name="ViewModelExportSuccessTitle" xml:space="preserve">
-    <value>导出成功</value>
+    <value>Exportation réussie</value>
   </data>
   <data name="ViewModelExportWarningMessage" xml:space="preserve">
-    <value>写入文件时遇到问题</value>
+    <value>Problème lors de l'écriture du fichier</value>
   </data>
   <data name="ViewModelExportWarningTitle" xml:space="preserve">
-    <value>导出失败</value>
+    <value>Échec de l'exportation</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
     <value>卡池 actuel</value>
@@ -1926,46 +1929,46 @@
     <value>Fichiers JSON UIGF</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
-    <value>导入完成</value>
+    <value>Importation terminée</value>
   </data>
   <data name="ViewModelGachaLogImportProgress" xml:space="preserve">
-    <value>导入祈愿记录中</value>
+    <value>Importation de l'historique des vœux en cours</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
-    <value>数据的 UIGF 版本过低，无法导入</value>
+    <value>La version UIGF des données est trop ancienne pour être importée</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
-    <value>导入数据中包含了不支持的物品</value>
+    <value>Les données importées contiennent des éléments non pris en charge</value>
   </data>
   <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
-    <value>导入失败</value>
+    <value>Échec de l'importation</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:P3} 概率 {0} 抽后获得五星物品</value>
+    <value>Probabilité de {1:P3} d'obtenir un objet 5 étoiles après {0} tirage{0, plural, one{ } other{s}}</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:P3} 概率下一抽获得五星物品</value>
+    <value>Probabilité de {0:P3} d'obtenir un objet 5 étoiles au prochain tirage</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
-    <value>获取祈愿记录失败</value>
+    <value>Échec de la récupération de l'historique de vœux</value>
   </data>
   <data name="ViewModelGachaLogRefreshOperationCancel" xml:space="preserve">
-    <value>祈愿记录刷新操作被异常取消</value>
+    <value>L'actualisation de l'historique de vœux a été annulée de manière inattendue</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
-    <value>该操作是不可逆的，该存档和其内的所有祈愿数据会丢失</value>
+    <value>Cette opération est irréversible. L'archive et toutes les données d'invocation qu'elle contient seront perdues.</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
-    <value>确定要删除存档 {0} 吗？</value>
+    <value>Êtes-vous sûr de vouloir supprimer l'archive {0} ?</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
-    <value>从胡桃云服务同步祈愿记录</value>
+    <value>Synchronisation de l'historique d'invocation depuis Snap Hutao Cloud</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
     <value>Exporter le fichier JSON UIGF vers le chemin sélectionné</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
-    <value>正在上传到胡桃云服务</value>
+    <value>Téléchargement vers Snap Hutao Cloud en cours</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>Importer le fichier JSON UIGF</value>
@@ -2001,7 +2004,7 @@
     <value>Le jeu est complet, pas besoin de réparer</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
-    <value>我已阅读并同意上方的条款</value>
+    <value>J'ai lu et j'accepte les conditions ci-dessus</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>Terminer</value>
@@ -2010,7 +2013,7 @@
     <value>Étape suivante</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
-    <value>下载资源文件中，请稍候</value>
+    <value>Téléchargement des ressources, veuillez patienter</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
     <value>Haute Qualité</value>
@@ -2022,16 +2025,16 @@
     <value>Veuillez entrer l'email correct.</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
-    <value>剪贴板中的文本格式不正确</value>
+    <value>Le format du texte dans le presse-papiers est incorrect</value>
   </data>
   <data name="ViewModelImportWarningMessage" xml:space="preserve">
-    <value>数据格式不正确</value>
+    <value>Format de données incorrect</value>
   </data>
   <data name="ViewModelImportWarningMessage2" xml:space="preserve">
-    <value>请先创建一个成就存档</value>
+    <value>Veuillez d'abord créer une archive de succès</value>
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
-    <value>导入失败</value>
+    <value>Échec de l'importation</value>
   </data>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>L'utilisateur et le serveur de jeu actuellement sélectionnés ne correspondent pas, veuillez sélectionner à nouveau</value>
@@ -2046,7 +2049,7 @@
     <value>Échec de la connexion avec l'utilisateur 米游社 / HoYoLAB, veuillez vous reconnecter</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
-    <value>切换服务器失败</value>
+    <value>Échec du changement de serveur</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
     <value>Réparer le fichier de configuration</value>
@@ -2061,19 +2064,19 @@
     <value>Identifier les moniteurs</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
-    <value>游戏路径不正确，前往设置更改游戏路径</value>
+    <value>Le chemin d'accès au jeu est incorrect, veuillez le modifier dans les paramètres</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
-    <value>尚未选择任何服务器</value>
+    <value>Aucun serveur sélectionné</value>
   </data>
   <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
     <value>Définir le répertoire du jeu</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
-    <value>切换账号失败</value>
+    <value>Échec du changement de compte</value>
   </data>
   <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
-    <value>无法选择UID [{0}] 对应的账号 [{1}]，该账号不属于当前服务器</value>
+    <value>Impossible de sélectionner le compte [{1}] pour l'UID [{0}], ce compte n'appartient pas au serveur actuel</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>Atteint {0}</value>
@@ -2082,22 +2085,22 @@
     <value>Acte {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
-    <value>操作完成</value>
+    <value>Opération terminée</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
-    <value>清除失败，文件目录权限不足，请使用管理员模式重试</value>
+    <value>Échec de l'effacement, les autorisations du répertoire de fichiers sont insuffisantes, veuillez réessayer en mode administrateur</value>
   </data>
   <data name="ViewModelSettingClearWebCachePathInvalid" xml:space="preserve">
-    <value>清除失败，找不到目录：{0}</value>
+    <value>Échec de la suppression, impossible de trouver le répertoire : {0}</value>
   </data>
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
-    <value>清除完成</value>
+    <value>Suppression terminée</value>
   </data>
   <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
-    <value>复制成功</value>
+    <value>Copié</value>
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
-    <value>创建桌面快捷方式失败</value>
+    <value>Échec de la création du raccourci sur le bureau</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
     <value>Les conversions suivantes téléchargeront à nouveau les fichiers nécessaires. Êtes-vous sûr de vouloir supprimer ?</value>
@@ -2106,7 +2109,7 @@
     <value>Supprimer le cache du client de jeu de conversion de serveur</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
-    <value>已使用磁盘空间：{0}</value>
+    <value>Espace disque utilisé : {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>Configuration réussie de l'URL composite de vérification sans identification</value>
@@ -2115,10 +2118,10 @@
     <value>Réinitialisation des ressources d'image en cours</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
-    <value>设置数据目录成功，重启以应用更改</value>
+    <value>Le répertoire de données a été défini avec succès. Redémarrez pour appliquer les modifications.</value>
   </data>
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
-    <value>保存游戏路径失败</value>
+    <value>Échec de la sauvegarde du chemin du jeu</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Le répertoire de données actuel '{0}' contient un ou plusieurs points d'analyse (Reparse points), ce qui peut empêcher certaines fonctions dépendantes du dossier de données de fonctionner correctement. Veuillez modifier le chemin dans les paramètres.</value>
@@ -2148,31 +2151,31 @@
     <value>Importation réussie</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
-    <value>用户 [{0}] 添加成功</value>
+    <value>Utilisateur [{0}] ajouté avec succès</value>
   </data>
   <data name="ViewModelUserCookieCopied" xml:space="preserve">
-    <value>用户 [{0}] 的 Cookie 复制成功</value>
+    <value>Cookie de l'utilisateur [{0}] copié avec succès</value>
   </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
-    <value>此 Cookie 不完整，操作失败</value>
+    <value>Ce cookie n'est pas valide et l'opération a échoué</value>
   </data>
   <data name="ViewModelUserInvalid" xml:space="preserve">
     <value>Ce cookie n'est pas valide et l'opération a échoué</value>
   </data>
   <data name="ViewModelUserRemoved" xml:space="preserve">
-    <value>用户 [{0}] 成功移除</value>
+    <value>L'utilisateur [{0}] a été supprimé avec succès</value>
   </data>
   <data name="ViewModelUserUpdated" xml:space="preserve">
-    <value>用户 [{0}] 的 Cookie 更新成功</value>
+    <value>Le cookie de l'utilisateur [{0}] a été mis à jour avec succès</value>
   </data>
   <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
-    <value>页面资源已经被释放，操作取消</value>
+    <value>La ressource de la page a été libérée, l'opération a été annulée</value>
   </data>
   <data name="ViewModelWelcomeDownloadCompleteMessage" xml:space="preserve">
-    <value>现在可以开始使用胡桃了</value>
+    <value>Vous pouvez maintenant commencer à utiliser Snap Hutao</value>
   </data>
   <data name="ViewModelWelcomeDownloadCompleteTitle" xml:space="preserve">
-    <value>下载完成</value>
+    <value>Téléchargement terminé</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
     <value>Terminer</value>
@@ -2181,16 +2184,16 @@
     <value>Le contenu de la réponse n'est pas un flux d'octets de fichier valide</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
-    <value>等待中</value>
+    <value>En attente</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
-    <value>文件下载异常</value>
+    <value>Erreur de téléchargement de fichier</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
-    <value>创建新存档</value>
+    <value>Créer une nouvelle archive</value>
   </data>
   <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
-    <value>创建新存档以继续</value>
+    <value>Créer une nouvelle archive pour continuer</value>
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>Exporter</value>
@@ -2199,115 +2202,115 @@
     <value>Uniquement les succès de commission</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
-    <value>从剪贴板导入</value>
+    <value>Importer depuis le presse-papiers</value>
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
-    <value>从 UIAF 文件导入</value>
+    <value>Importer depuis un format UIAF</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Importer</value>
   </data>
   <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
-    <value>删除当前存档</value>
+    <value>Supprimer l'archive actuelle</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>搜索成就名称，描述，版本或编号</value>
+    <value>Rechercher le nom, la description, la version ou l’identifiant du succès</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
-    <value>优先未完成</value>
+    <value>Priorité aux non terminés</value>
   </data>
   <data name="ViewPageAnnouncementActivity" xml:space="preserve">
-    <value>活动公告</value>
+    <value>Annonces d'activité</value>
   </data>
   <data name="ViewPageAnnouncementGame" xml:space="preserve">
-    <value>游戏公告</value>
+    <value>Annonces du jeu</value>
   </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
-    <value>查看详情</value>
+    <value>Voir les détails</value>
   </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
-    <value>圣遗物评分</value>
+    <value>Score des artéfacts</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
-    <value>所有角色与武器</value>
+    <value>Tous les personnages et armes</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
-    <value>当前角色与武器</value>
+    <value>Personnage et arme actuels</value>
   </data>
   <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
-    <value>双暴评分</value>
+    <value>Score CRIT</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
-    <value>尚未获取任何角色信息</value>
+    <value>Aucune donnée de personnage n'a été récupérée</value>
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
-    <value>导出图片</value>
+    <value>Exporter en tant qu'image</value>
   </data>
   <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
     <value>Exporter le texte vers le presse-papiers</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
-    <value>角色属性</value>
+    <value>Attributs du personnage</value>
   </data>
   <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
-    <value>初始词条</value>
+    <value>Stats secondaires initiales</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshAction" xml:space="preserve">
-    <value>同步</value>
+    <value>Synchroniser</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApi" xml:space="preserve">
-    <value>从游戏内角色橱窗同步</value>
+    <value>Synchroniser depuis la vitrine de personnages en jeu</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>同步游戏内角色展柜中的信息</value>
+    <value>Synchroniser les données depuis la vitrine de personnages en jeu</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
-    <value>从米游社养成计算同步</value>
+    <value>Synchroniser depuis le calculateur de progression de 米游社</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
-    <value>同步角色天赋信息</value>
+    <value>Synchroniser les données des talents de personnage</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
     <value>Synchroniser depuis les chroniques de combat de 米游社</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
-    <value>同步角色天赋外的大部分信息</value>
+    <value>Synchroniser la plupart des données à l'exception des talents du personnage</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
-    <value>刷新时间</value>
+    <value>Heure de la mise à jour</value>
   </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
-    <value>评分</value>
+    <value>Évaluation</value>
   </data>
   <data name="ViewPageAvatarPropertySecondaryProperties" xml:space="preserve">
-    <value>强化词条</value>
+    <value>Propriété secondaire améliorée</value>
   </data>
   <data name="ViewPageCultivateCalculate" xml:space="preserve">
-    <value>养成计算</value>
+    <value>Calcul de développement</value>
   </data>
   <data name="ViewPageCultivationAddProject" xml:space="preserve">
-    <value>新建计划</value>
+    <value>Créer un plan</value>
   </data>
   <data name="ViewPageCultivationAddProjectAction" xml:space="preserve">
-    <value>新建</value>
+    <value>Créer</value>
   </data>
   <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
-    <value>新建养成计划以继续</value>
+    <value>Créer un plan pour continuer</value>
   </data>
   <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
-    <value>稍后可以前往其他页面添加养成计划项</value>
+    <value>Vous pouvez ajouter des éléments de plan de développement plus tard à partir d'autres pages</value>
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
-    <value>添加我的角色与武器到养成计划</value>
+    <value>Ajouter mes personnages et armes au plan de développement</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
-    <value>养成物品</value>
+    <value>Objets de développement</value>
   </data>
   <data name="ViewPageCultivationInventoryItem" xml:space="preserve">
-    <value>背包物品</value>
+    <value>Objets de l'inventaire</value>
   </data>
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
-    <value>材料清单</value>
+    <value>Liste de matériaux</value>
   </data>
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
     <value>Non collecté en premier</value>
@@ -2319,25 +2322,25 @@
     <value>Niveau du monde</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
-    <value>材料统计</value>
+    <value>Statistiques des matériaux</value>
   </data>
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
-    <value>前往</value>
+    <value>Aller à</value>
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
     <value>Synchroniser les objets de l'inventaire</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
-    <value>删除清单</value>
+    <value>Supprimer la liste</value>
   </data>
   <data name="ViewPageCultivationRemoveProject" xml:space="preserve">
-    <value>删除当前计划</value>
+    <value>Supprimer le plan actuel</value>
   </data>
   <data name="ViewPageCultivationWikiAvatarDescription" xml:space="preserve">
-    <value>添加任意角色到养成计划</value>
+    <value>Ajouter n'importe quel personnage au plan de développement</value>
   </data>
   <data name="ViewPageCultivationWikiWeaponDescription" xml:space="preserve">
-    <value>添加任意武器到养成计划</value>
+    <value>Ajouter n'importe quelle arme au plan de développement</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
     <value>Ajouter un pense-bête en temps réel</value>
@@ -2346,46 +2349,46 @@
     <value>Ajouter une note en temps réel pour actualiser régulièrement</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
-    <value>添加</value>
+    <value>Ajouter</value>
   </data>
   <data name="ViewPageDailyNoteAttendanceStatusInfo" xml:space="preserve">
-    <value>历练点获取详情</value>
+    <value>Détails d'acquisition des points d'entraînement</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
-    <value>在实时便笺刷新后推送到指定的 Webhook</value>
+    <value>Envoyer vers un Webhook spécifique après l'actualisation du Snap Hutao en temps réel</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
-    <value>配置 Webhook</value>
+    <value>Configurer le Webhook</value>
   </data>
   <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
-    <value>数据互操作</value>
+    <value>Interopérabilité des données</value>
   </data>
   <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
-    <value>通知</value>
+    <value>Notification</value>
   </data>
   <data name="ViewPageDailyNoteNotificationSetting" xml:space="preserve">
-    <value>通知设置</value>
+    <value>Paramètres de notification</value>
   </data>
   <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
     <value>L’autorisation de notification de Snap Hutao a été désactivée</value>
   </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
-    <value>立即刷新</value>
+    <value>Actualiser</value>
   </data>
   <data name="ViewPageDailyNoteRefreshTime" xml:space="preserve">
-    <value>刷新间隔时间</value>
+    <value>Intervalle de rafraîchissement</value>
   </data>
   <data name="ViewPageDailyNoteReminderDescription" xml:space="preserve">
-    <value>防止通知自动收入操作中心</value>
+    <value>Empêche la notification d'être automatiquement enregistrée dans le centre de notifications</value>
   </data>
   <data name="ViewPageDailyNoteReminderHeader" xml:space="preserve">
-    <value>提醒通知</value>
+    <value>Notifications de rappel</value>
   </data>
   <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
-    <value>移除角色</value>
+    <value>Supprimer le rôle</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
-    <value>本周已消耗减半次数</value>
+    <value>Réductions de coût utilisées cette semaine</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
     <value>Actualisation automatique</value>
@@ -2677,6 +2680,9 @@
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Réinitialiser le mot de passe</value>
+  </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>赞助</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>La suppression des données du compte entraînera une perte définitive et irrécupérable de vos données.</value>
@@ -3289,6 +3295,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>Utiliser le code d'échange</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>刷新</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Créer un compte</value>
