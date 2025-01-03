@@ -124,7 +124,7 @@
     <value>胡桃Dev {0} [管理员]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
-    <value>胡桃 {0} [管理员]</value>
+    <value>Snap Hutao {0} [관리자]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>호두</value>
@@ -145,13 +145,13 @@
     <value>저장</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到结果</value>
+    <value>결과를 찾을 수 없음</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
     <value>삭제</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
-    <value>选择全部</value>
+    <value>모두 선택</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>잘못된 Uri</value>
@@ -169,7 +169,7 @@
     <value>목록</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
-    <value>数据库已损坏：{0}</value>
+    <value>데이터베이스가 손상되었습니다: {0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
     <value>손상된 사용자 데이터: {0}</value>
@@ -196,7 +196,7 @@
     <value>WebView2 런타임이 감지되지 않음</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value>[{0}] 热键 [{1}] 注册失败</value>
+    <value>[{0}] 단축키 [{1}] 등록 실패</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
     <value>退出</value>
@@ -205,16 +205,16 @@
     <value>게임 시작</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao가 백그라운드에서 실행 중입니다.</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
     <value>窗口</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>深色</value>
+    <value>어두운 테마</value>
   </data>
   <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>浅色</value>
+    <value>밝은 색</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
     <value>跟随系统</value>
