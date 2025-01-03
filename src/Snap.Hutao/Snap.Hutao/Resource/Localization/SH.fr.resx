@@ -2486,6 +2486,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Les comptes développeurs ignorent la date d'expiration du service</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>无云端记录</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Durée du service Snap Hutao Cloud insuffisante</value>
   </data>
