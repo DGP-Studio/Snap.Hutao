@@ -373,5 +373,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         Summary.Avatars.Filter = FilterTokens is null or [] ? default! : AvatarViewFilter.Compile(FilterTokens);
         OnPropertyChanged(nameof(TotalAvatarCount));
+
+        if (Summary.Avatars.CurrentItem is null)
+        {
+            Summary.Avatars.MoveCurrentToFirstOrDefault();
+        }
     }
 }
