@@ -1718,6 +1718,9 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Abyss Stats</value>
   </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>Hutao Passport</value>
+  </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Clear all notifications</value>
   </data>
@@ -2678,6 +2681,9 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Reset Password</value>
   </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Delete Snap Hutao Passport will cause your data to lose without any recovery option</value>
   </data>
@@ -3289,6 +3295,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>Use Redemption Code</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Register</value>
