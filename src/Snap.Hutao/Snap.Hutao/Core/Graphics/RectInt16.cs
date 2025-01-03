@@ -7,22 +7,22 @@ namespace Snap.Hutao.Core.Graphics;
 
 internal readonly struct RectInt16
 {
-    public readonly short x;
-    public readonly short y;
-    public readonly short width;
-    public readonly short height;
+    public readonly short X;
+    public readonly short Y;
+    public readonly short Width;
+    public readonly short Height;
 
     private RectInt16(int x, int y, int width, int height)
     {
-        this.x = (short)x;
-        this.y = (short)y;
-        this.width = (short)width;
-        this.height = (short)height;
+        this.X = (short)x;
+        this.Y = (short)y;
+        this.Width = (short)width;
+        this.Height = (short)height;
     }
 
     public static implicit operator RectInt32(RectInt16 rect)
     {
-        return new(rect.x, rect.y, rect.width, rect.height);
+        return new(rect.X, rect.Y, rect.Width, rect.Height);
     }
 
     public static explicit operator RectInt16(RectInt32 rect)

@@ -9,7 +9,7 @@ using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Windows.System;
 
-namespace Snap.Hutao.ViewModel.Setting;
+namespace Snap.Hutao.ViewModel.HutaoPassport;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
