@@ -137,11 +137,84 @@
                     </StackPanel>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Hutao Cloud"/>
                 <cwc:SettingsCard
                     Command="{Binding CompensationGachaLogServiceTimeCommand}"
-                    Header="Compensation GachaLog Service Time For 15 Days"
-                    IsClickEnabled="True"/>
+                    Header="Compensation GachaLog Service Time"
+                    IsClickEnabled="True">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <NumberBox
+                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                            VerticalAlignment="Center"
+                            AcceptsExpression="False"
+                            Value="{Binding GachaLogCompensationDays, Mode=TwoWay}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Days"/>
+                    </StackPanel>
+                </cwc:SettingsCard>
+
+                <cwc:SettingsCard
+                    Command="{Binding DesignationGachaLogServiceTimeCommand}"
+                    Header="Designation GachaLog Service Time"
+                    IsClickEnabled="True">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <TextBlock VerticalAlignment="Center" Text="UserName"/>
+                        <TextBox
+                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                            VerticalAlignment="Center"
+                            Text="{Binding GachaLogDesignationOptions.UserName, Mode=TwoWay}"/>
+                        <NumberBox
+                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                            VerticalAlignment="Center"
+                            AcceptsExpression="False"
+                            Value="{Binding GachaLogDesignationOptions.Days, Mode=TwoWay}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Days"/>
+                    </StackPanel>
+                </cwc:SettingsCard>
+
+                <cwc:SettingsCard
+                    Command="{Binding CompensationCdnServiceTimeCommand}"
+                    Header="Compensation Cdn Service Time"
+                    IsClickEnabled="True">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <NumberBox
+                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                            VerticalAlignment="Center"
+                            AcceptsExpression="False"
+                            Value="{Binding CdnCompensationDays, Mode=TwoWay}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Days"/>
+                    </StackPanel>
+                </cwc:SettingsCard>
+
+                <cwc:SettingsCard
+                    Command="{Binding DesignationCdnServiceTimeCommand}"
+                    Header="Designation Cdn Service Time"
+                    IsClickEnabled="True">
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <TextBlock VerticalAlignment="Center" Text="UserName"/>
+                        <TextBox
+                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                            VerticalAlignment="Center"
+                            Text="{Binding CdnDesignationOptions.UserName, Mode=TwoWay}"/>
+                        <NumberBox
+                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                            VerticalAlignment="Center"
+                            AcceptsExpression="False"
+                            Value="{Binding CdnDesignationOptions.Days, Mode=TwoWay}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Days"/>
+                    </StackPanel>
+                </cwc:SettingsCard>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Testing"/>
                 <cwc:SettingsCard
