@@ -154,7 +154,7 @@
     <value>Pilih Semua</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>无效的 URI</value>
+    <value>UID salah</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -680,10 +680,10 @@
     <value>Baru: {0} Achievements | Diperbarui: {1} Achievements | Hapus: {2} Achievements</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF JSON 文件</value>
+    <value>UIAF Json File</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>打开 UIAF JSON 文件</value>
+    <value>Buka berkas UIAF Json</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Terdapat beberapa ID pencapaian yang identik dalam satu arsip pencapaian</value>
@@ -963,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 URL</value>
+    <value>Tidak dapat menemukan URL yang tersedia</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>Permainan sedang berjalan, tutup permainan dan coba lagi!</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>提供的 URL 无效</value>
+    <value>URL yang diberikan tidak valid</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>Pembaruan SToken tidak mendukung akun HoYoLab</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>URL 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>Bahasa berkas UIGF: {0} tidak cocok dengan bahasa Snap Hutao: {1}, silakan coba lagi setelah mengganti bahasa klien ke bahasa berkas UIGF yang dituju</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>ID Item tidak didukung: {0}</value>
@@ -1389,10 +1389,10 @@
     <value>Pemberitahuan Parametric Transformer</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>Masukan URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>实时便笺 Webhook URL</value>
+    <value>Catatan Realtime Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
     <value>Pilih UID untuk mengekspor catatan</value>
@@ -1413,7 +1413,7 @@
     <value>Mengimpor riwayat wish</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈愿记录 URL 已失效，请重新获取</value>
+    <value>URL riwayat Wish telah kedaluwarsa. Mohon dapatkan kembali.</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>Fetching {0}</value>
@@ -1422,10 +1422,10 @@
     <value>Mengambil item wish</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>Masukan URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>手动输入祈愿记录 URL</value>
+    <value>Masukan histori wish URL secara manual</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
     <value>Server game</value>
@@ -1452,10 +1452,10 @@
     <value>Bahasa Korea</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>请输入请求接口的 URL 复合模板</value>
+    <value>Masukkan URL permintaan dengan template Composit</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>接口需要返回形如上方所示的 JSON 数据，多余的数据会被忽略</value>
+    <value>Antarmuka ini memerlukan pengembalian data JSON seperti yang ditunjukkan di atas. Data tambahan akan diabaikan.</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>Jika "code" adalah 0, otentikasi berhasil, jika tidak, otentikasi gagal</value>
@@ -1761,7 +1761,7 @@
     <value>Apakah Anda yakin ingin menghapus arsip {0}?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIAF JSON 文件到指定路径</value>
+    <value>Ekspor file Json UIAF ke path yang dipilih</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Mengambil bahan kenaikan tingkat...</value>
@@ -1863,7 +1863,7 @@
     <value>Boss Mingguan</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>实时便笺 Webhook URL 配置成功</value>
+    <value>URL Webhook Catatan Realtime berhasil dikonfigurasi.</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>Akun HoYoLab tidak mendukung verifikasi Catatan Realtime.</value>
@@ -1923,7 +1923,7 @@
     <value>Paruh pertama</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF JSON 文件</value>
+    <value>UIGF Json File</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>Impor Selesai</value>
@@ -1962,13 +1962,13 @@
     <value>Sinkronisasi Riwayat Wish dari Layanan Cloud Snap Hutao</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIGF JSON 文件到指定路径</value>
+    <value>Ekspor berkas Json UIGF ke path yang dipilih.</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Mengunggah ke Layanan Cloud Snap Hutao</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>导入 UIGF JSON 文件</value>
+    <value>Impor berkas Json UIGF</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Versi lokal: {0}</value>
@@ -2109,7 +2109,7 @@
     <value>Ruang disk yang digunakan: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>无感验证复合 URL 配置成功</value>
+    <value>URL Komposit Verifikasi berhasil dikonfigurasi</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>Sedang Setel ulang Sumber Daya Gambar</value>
@@ -2538,10 +2538,10 @@
     <value>Dapatkan</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 URL</value>
+    <value>Masukan URL Secara Manual</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 URL 刷新祈愿记录</value>
+    <value>Kami menggunakan URL yang disediakan untuk menyegarkan riwayat Wish Anda</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>Perbarui SToken</value>
