@@ -418,8 +418,15 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding MainProperty.Name}"/>
-                            <TextBlock Grid.Column="1" Text="{Binding MainProperty.Value}"/>
+                            <TextBlock
+                                FontWeight="Bold"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{Binding MainProperty.Name}"/>
+                            <TextBlock
+                                Grid.Column="1"
+                                FontWeight="Bold"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{Binding MainProperty.Value}"/>
                         </Grid>
                         <ItemsControl
                             Grid.Row="1"
@@ -611,7 +618,6 @@
                                 <SplitView.Content>
                                     <ScrollViewer>
                                         <StackPanel
-                                            Name="ListImageExportPanel"
                                             MaxWidth="800"
                                             Margin="16"
                                             HorizontalAlignment="Left"
