@@ -296,7 +296,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
         }
     }
-    
+
     [Command("DesignationCdnServiceTimeCommand")]
     private async Task DesignationCdnServiceTimeAsync()
     {
