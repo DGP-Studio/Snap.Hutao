@@ -2486,6 +2486,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>开发者账号无视服务到期时间</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>无云端记录</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>胡桃云服务时长不足</value>
   </data>

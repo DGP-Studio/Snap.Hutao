@@ -37,6 +37,7 @@
             ShouldConstrainToRootBounds="False">
             <Flyout.FlyoutPresenterStyle>
                 <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                    <Setter Property="MinHeight" Value="0"/>
                     <Setter Property="Padding" Value="0"/>
                 </Style>
             </Flyout.FlyoutPresenterStyle>
@@ -46,7 +47,7 @@
                 </mxi:Interaction.Behaviors>
                 <shuxc:StandardView ShowCondition="{Binding HutaoCloudViewModel.Options.IsHutaoCloudAllowed}" Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                     <shuxc:StandardView.EmptyContent>
-                        <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                        <StackPanel Padding="16" Spacing="{StaticResource SettingsCardSpacing}">
                             <StackPanel.Resources>
                                 <!--  ReSharper disable Xaml.RedundantResource  -->
                                 <Thickness x:Key="SettingsCardPadding">16</Thickness>
@@ -86,11 +87,12 @@
                                 BorderThickness="0,0,0,1"
                                 Spacing="8">
                                 <TextBlock
-                                    Margin="0,8,0,0"
+                                    Margin="16,8,16,0"
                                     HorizontalTextAlignment="Center"
                                     Text="{shuxm:ResourceString Name=ServiceHutaoUserGachaLogExpiredAt}"
                                     TextAlignment="Center"/>
                                 <TextBlock
+                                    Margin="16,0,16,8"
                                     HorizontalTextAlignment="Center"
                                     Text="{Binding HutaoCloudViewModel.Options.CloudExpireAt}"
                                     TextAlignment="Center"/>
@@ -106,7 +108,16 @@
                                 </Border>
                             </StackPanel>
                         </Grid>
-                        <ScrollViewer Grid.Row="1" Margin="16,0">
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="16"
+                            HorizontalAlignment="Center"
+                            Text="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudNoEntryHint}"
+                            Visibility="{Binding HutaoCloudViewModel.UidOperations.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                        <ScrollViewer
+                            Grid.Row="1"
+                            Margin="16,0"
+                            Visibility="{Binding HutaoCloudViewModel.UidOperations.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                             <ScrollViewer.Resources>
                                 <DataTemplate x:Key="UidOperationTemplate" x:DataType="shvg:HutaoCloudEntryOperationViewModel">
                                     <Grid>
