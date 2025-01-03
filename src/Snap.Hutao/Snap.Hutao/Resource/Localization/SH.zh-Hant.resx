@@ -680,10 +680,10 @@
     <value>新增：{0} 個成就 | 更新：{1} 個成就 | 删除：{2} 個成就</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF Json 檔案</value>
+    <value>UIAF JSON 檔案</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>開啟 UIAF Json 檔案</value>
+    <value>開啟 UIAF JSON 檔案</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>單個成就存檔內發現多個相同的成就 Id</value>
@@ -975,7 +975,7 @@
     <value>HoYoLAB 帳號不支援使用 SToken 重新整理祈願紀錄</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>URL 中的語言：{0} 與胡桃的語言：{1} 不對應，請切換到對應語言重試</value>
+    <value>URL 中的語言：{0} 與 Snap Hutao 的語言：{1} 不對應，請切換到對應語言重試</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>不支援的 Item Id：{0}</value>
@@ -1455,7 +1455,7 @@
     <value>請輸入請求介面的 URL 複合模板</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>介面需要返回形如上方所示的 Json 數據，多餘的數據會被忽略</value>
+    <value>介面需要返回形如上方所示的 JSON 數據，多餘的數據會被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>"code" 為 0 時，指示驗證成功，其他的值均視為驗證失敗</value>
@@ -1694,6 +1694,9 @@
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>資源</value>
   </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* 當遇到檔案下載失敗的情況時無需擔心，我們會在圖片將要展示時自動嘗試補全</value>
+  </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>圖像資源設定</value>
   </data>
@@ -1714,6 +1717,9 @@
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深淵統計</value>
+  </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行證</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>清除所有通知</value>
@@ -1758,7 +1764,7 @@
     <value>確定要刪除存檔 {0} 嗎？</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>匯出 UIAF Json 檔案到指定路徑</value>
+    <value>匯出 UIAF JSON 檔案到指定路徑</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>獲取培養材料中，請稍後...</value>
@@ -1920,7 +1926,7 @@
     <value>上半</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF Json 檔案</value>
+    <value>UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>匯入完成</value>
@@ -1959,13 +1965,13 @@
     <value>從胡桃雲服務同步祈願紀錄</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>匯出 UIGF Json 檔案到指定路徑</value>
+    <value>匯出 UIGF JSON 檔案到指定路徑</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>正在上傳到胡桃雲服務</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>匯入 UIGF Json 檔案</value>
+    <value>導入 UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
@@ -2052,7 +2058,7 @@
     <value>修複完成</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
-    <value>尚未设置游戏目录</value>
+    <value>尚未設定遊戲目錄</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>識別顯示器</value>
@@ -2106,7 +2112,7 @@
     <value>已使用磁碟空間：{0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>無感驗證復合 URL 設定成功</value>
+    <value>無感驗證複合 URL 設定成功</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>正在重設圖片資源</value>
@@ -2674,6 +2680,9 @@
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>重設密碼</value>
+  </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>贊助</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>刪除帳號的數據將永遠丢失，無法恢復</value>
@@ -3286,6 +3295,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>使用兌換碼</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>刷新</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>註冊</value>

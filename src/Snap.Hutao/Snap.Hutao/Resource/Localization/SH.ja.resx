@@ -154,7 +154,7 @@
     <value>すべて選択</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>無効なURL</value>
+    <value>无效的 URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -569,7 +569,7 @@
     <value>米游社 / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
   <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>胡桃クラウド CDN が未開通か、有効期限が切れています</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件削除しました</value>
@@ -635,7 +635,7 @@
     <value>認証リクエストに失敗しました。このメールアドレスは既に登録されています。</value>
   </data>
   <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱未注册</value>
+    <value>認証リクエストに失敗しました。このメールアドレスは登録されていません。</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
@@ -680,10 +680,10 @@
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF Json ファイル</value>
+    <value>UIAF JSON 文件</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>UIAF Json ファイルを開く</value>
+    <value>打开 UIAF JSON 文件</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>単一のアーカイブに同一のアチーブメント ID が複数存在しています</value>
@@ -963,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>利用可能なUrlが見つかりません</value>
+    <value>未找到可用的 URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>ゲームは実行中で、一旦ゲームを閉じてから再試行してください。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>無効なURLです</value>
+    <value>提供的 URL 无效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLAB アカウントは SToken で祈願履歴を更新することをサポートできません。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url の言語：{0} と胡桃の設定言語：{1} と一致しません。言語を切り替えて再度試してください</value>
+    <value>URL 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>サポートされていない Item Id：{0}</value>
@@ -1390,10 +1390,10 @@
     <value>参量物質変化器の通知</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>URL を入力してください</value>
+    <value>请输入 URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>リアルタイムノート Webhook URL</value>
+    <value>实时便笺 Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
     <value>記録をエクスポートする UID を選択してください</value>
@@ -1414,7 +1414,7 @@
     <value>祈願記録をインポート</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈願履歴 URL が無効で、再試行してください</value>
+    <value>祈愿记录 URL 已失效，请重新获取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>{0} を取得中</value>
@@ -1423,10 +1423,10 @@
     <value>祈願履歴を取得中</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>URL を入力してください</value>
+    <value>请输入 URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>祈願履歴 URL を手動で入力する</value>
+    <value>手动输入祈愿记录 URL</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
     <value>ゲームサーバー</value>
@@ -1453,10 +1453,10 @@
     <value>韓国語</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>リクエスト URL の複合テンプレートを入力してください</value>
+    <value>请输入请求接口的 URL 复合模板</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>認証サービスは、上記のようなJsonデータを返す必要があります。この例以外のデータは無視されます。</value>
+    <value>接口需要返回形如上方所示的 JSON 数据，多余的数据会被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>"code" は 0 の場合のみ認証成功です。他の戻り値は認証失敗となります。</value>
@@ -1695,6 +1695,9 @@
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>リソース</value>
   </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* ファイルのダウンロードに失敗した場合でも、ご心配はいりません。画像が表示される際に自動的に補完を試みます。</value>
+  </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>画像アセットの設定</value>
   </data>
@@ -1715,6 +1718,9 @@
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深境螺旋集計</value>
+  </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行証</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>すべて消去</value>
@@ -1759,7 +1765,7 @@
     <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>UIAF Json ファイルを指定した場所へエクスポート</value>
+    <value>导出 UIAF JSON 文件到指定路径</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>素材リスト取得中、しばらくお待ちください</value>
@@ -1861,7 +1867,7 @@
     <value>週ボス</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>リアルタイムノートのWebhook URLの設定に成功しました。</value>
+    <value>实时便笺 Webhook URL 配置成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLAB アカウントはリアルタイムノート認証に対応していません。</value>
@@ -1921,7 +1927,7 @@
     <value>前半</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF Json ファイル</value>
+    <value>UIGF JSON 文件</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>インポート完了</value>
@@ -1960,13 +1966,13 @@
     <value>胡桃クラウドから祈願履歴を同期</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>UIGF Json ファイルを指定した場所へエクスポート</value>
+    <value>导出 UIGF JSON 文件到指定路径</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドにアップロード中</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>UIGF Json ファイルをインポート</value>
+    <value>导入 UIGF JSON 文件</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>ローカルバージョン: {0}</value>
@@ -2035,7 +2041,7 @@
     <value>現在選択されているユーザーとサーバーが一致しません。もう一度選択してください。</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
-    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
+    <value>ゲーム設定ファイル {0} は読み込めませんでした，ファイルが無い、また権限不足の可能性があります。</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>現在選択されているゲームパス {0} が壊れています。フォルダーを手動で削除しゲームを再インストールしてください</value>
@@ -2053,7 +2059,7 @@
     <value>修復完了</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
-    <value>尚未设置游戏目录</value>
+    <value>ゲームパス未設定</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>モニターの識別</value>
@@ -2107,7 +2113,7 @@
     <value>使用済みディスク容量: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>シームレス認証複合 URL の構成に成功しました</value>
+    <value>无感验证复合 URL 配置成功</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>画像リソースをリセット中</value>
@@ -2536,10 +2542,10 @@
     <value>取得</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手動で URL を入力</value>
+    <value>手动输入 URL</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>旅人さんが提供した URLで祈願履歴を更新します</value>
+    <value>使用由你提供的 URL 刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken で更新</value>
@@ -2677,8 +2683,11 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>パスワードをリセット</value>
   </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>スポンサー</value>
+  </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
-    <value>削除されたアカウントのデータは永久的に削除され、復元することは出来ません。</value>
+    <value>アカウントを削除するとデータは永久に失われて復元できません！</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>メールアドレスを入力してください。</value>
@@ -3289,6 +3298,9 @@
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>引き換えコードの使用</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>更新</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>登録</value>
   </data>
@@ -3533,10 +3545,10 @@
     <value>幻想シアター</value>
   </data>
   <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>胡桃クラウド CDN が未開通か、有効期限が切れています</value>
   </data>
   <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
-    <value>祈願履歴のアップロードサービスが無効か、有効期限が切れています。</value>
+    <value>祈願履歴のアップロードサービスが未開通か、有効期限が切れています。</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>ログインできません。もう一度お試しください。</value>
