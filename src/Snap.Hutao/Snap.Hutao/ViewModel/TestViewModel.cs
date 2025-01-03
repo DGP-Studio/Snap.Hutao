@@ -250,7 +250,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
         }
     }
-    
+
     [Command("DesignationGachaLogServiceTimeCommand")]
     private async Task DesignationGachaLogServiceTimeAsync()
     {
@@ -273,7 +273,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
         }
     }
-    
+
     [Command("CompensationCdnServiceTimeCommand")]
     private async Task CompensationCdnServiceTimeAsync()
     {
