@@ -1718,6 +1718,9 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Статистика Бездны</value>
   </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
+  </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Очистить все уведомления</value>
   </data>
@@ -2678,6 +2681,9 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Сбросить пароль</value>
   </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>赞助</value>
+  </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Данные учетной записи будут навсегда утеряны и не могут быть восстановлены</value>
   </data>
@@ -3289,6 +3295,9 @@
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>Использовать код погашения</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>Обновить</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Регистрация</value>
