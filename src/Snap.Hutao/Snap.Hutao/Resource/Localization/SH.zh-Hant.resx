@@ -2487,7 +2487,7 @@
     <value>開發者帳號無視服務到期時間</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>無 Snap Hutao 雲端記錄</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>胡桃雲服務時長不足</value>
