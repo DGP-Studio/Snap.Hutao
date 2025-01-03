@@ -301,6 +301,11 @@ internal sealed class XamlWindowController
 
         // DO NOT INLINE, implicit conversion requires a local variable.
         RectInt16 rect = (RectInt16)window.AppWindow.GetRect().Scale(1.0 / scale);
+        if (rect.width < 0 || rect.height < 0)
+        {
+            return;
+        }
+
         LocalSetting.Set(rectPersisted.PersistRectKey, rect);
     }
     #endregion
@@ -372,9 +377,18 @@ internal sealed class XamlWindowController
             List<RectInt32> passthrough = [];
             foreach (FrameworkElement element in xamlWindow.TitleBarPassthrough)
             {
+                if (element.Visibility is not Visibility.Visible)
+                {
+                    continue;
+                }
+
                 Point position = element.TransformToVisual(window.Content).TransformPoint(default);
                 RectInt32 rect = RectInt32Convert.RectInt32(position, element.ActualSize).Scale(window.GetRasterizationScale());
-                passthrough.Add(rect);
+
+                if (rect.Size() > 0)
+                {
+                    passthrough.Add(rect);
+                }
             }
 
             if (passthrough.Count > 0)

@@ -38,6 +38,7 @@
             Spacing="6">
 
             <Button
+                x:Name="ToggleThemeButton"
                 Padding="6"
                 Command="{Binding InvertAppThemeCommand}"
                 Content="[Dev] Invert Theme"

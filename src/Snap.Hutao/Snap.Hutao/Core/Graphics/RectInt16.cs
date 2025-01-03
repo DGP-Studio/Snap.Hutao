@@ -7,10 +7,10 @@ namespace Snap.Hutao.Core.Graphics;
 
 internal readonly struct RectInt16
 {
-    private readonly short x;
-    private readonly short y;
-    private readonly short width;
-    private readonly short height;
+    public readonly short x;
+    public readonly short y;
+    public readonly short width;
+    public readonly short height;
 
     private RectInt16(int x, int y, int width, int height)
     {
