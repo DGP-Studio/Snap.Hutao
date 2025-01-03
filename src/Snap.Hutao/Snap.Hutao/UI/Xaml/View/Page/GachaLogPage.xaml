@@ -185,7 +185,6 @@
                 </shuxc:StandardView>
                 <shuxc:Loading
                     MinWidth="240"
-                    Margin="-16"
                     IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"
                     Style="{ThemeResource DefaultLoadingCardStyle}"/>
             </Grid>
