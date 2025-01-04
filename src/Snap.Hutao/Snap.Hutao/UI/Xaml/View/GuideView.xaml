@@ -84,7 +84,7 @@
                     <Image
                         Grid.Column="0"
                         Height="152"
-                        Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                        Source="ms-appx:///Assets/InAppLogo.png"/>
                     <StackPanel
                         Grid.Column="1"
                         VerticalAlignment="Center"

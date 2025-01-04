@@ -45,7 +45,7 @@
                                     MaxWidth="120"
                                     MaxHeight="120"
                                     Margin="48,48"
-                                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                                    Source="ms-appx:///Assets/InAppLogo.png"/>
                                 <cwc:UniformGrid
                                     Grid.Row="1"
                                     Margin="16"
