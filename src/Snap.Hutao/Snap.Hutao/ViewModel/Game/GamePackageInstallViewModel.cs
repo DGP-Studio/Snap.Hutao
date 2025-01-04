@@ -107,7 +107,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             gameChannelSDK,
             default);
 
-        if (!GameInstallLocker.TryLock(gameFileSystem, branch.Main.Tag, launchScheme, out GameInstallLocker? locker))
+        if (!GameInstallPrerequisite.TryLock(gameFileSystem, branch.Main.Tag, launchScheme, out GameInstallPrerequisite? installToken))
         {
             infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry);
             return;
@@ -119,6 +119,6 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             return;
         }
 
-        locker.Release();
+        installToken.Release();
     }
 }
