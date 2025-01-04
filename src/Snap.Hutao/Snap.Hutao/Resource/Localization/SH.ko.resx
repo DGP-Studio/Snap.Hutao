@@ -2667,7 +2667,7 @@
     <value>파티 모습</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
+    <value>해당 기간을 획득하면 Snap Hutao 업데이트 시 중국 내 CDN 미러를 선택하여 더 나은 업데이트 환경을 경험할 수 있습니다.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
     <value>胡桃云 CDN 服务</value>
