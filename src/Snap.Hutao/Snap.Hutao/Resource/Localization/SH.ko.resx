@@ -2667,7 +2667,7 @@
     <value>파티 모습</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够在胡桃版本更新时选择国内的 CDN 镜像，以获得更好的更新体验。</value>
+    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
     <value>胡桃云 CDN 服务</value>
