@@ -2667,7 +2667,7 @@
     <value>Tim</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>Setelah mendapatkan durasi, Anda akan dapat memilih mirror CDN domestik saat memperbarui Snap Hutao untuk mendapatkan pengalaman pembaruan yang lebih baik.</value>
+    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
     <value>Layanan CDN Hutao Cloud</value>
