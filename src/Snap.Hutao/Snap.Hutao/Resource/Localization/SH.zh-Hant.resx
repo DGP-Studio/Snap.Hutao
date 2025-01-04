@@ -2667,7 +2667,7 @@
     <value>隊伍出場</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>獲得時長後您將能夠在 Snap Hutao 版本更新時選擇國內的 CDN 鏡像，以獲得更好的更新體驗。</value>
+    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
     <value>Hutao Cloud CDN 服務</value>
