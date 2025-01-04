@@ -130,7 +130,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                             }
                         }
 
-                        if (context.Operation.Kind is GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
+                        if (context.Operation.Kind is GamePackageOperationKind.Install or GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
                         {
                             FileOperation.Delete(chunkPath);
                         }
