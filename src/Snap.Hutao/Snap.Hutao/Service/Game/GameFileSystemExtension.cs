@@ -192,14 +192,12 @@ internal static class GameFileSystemExtension
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         string content = $$$"""
-            [General]
+            [general]
+            uapc={"{{{gameBiz}}}":{"uapc":""},"hyp":{"uapc":""}}
             channel={{{launchScheme.Channel:D}}}
-            cps=mihoyo
-            game_version={{{version}}}
             sub_channel={{{launchScheme.SubChannel:D}}}
-            sdk_version=
-            game_biz={{{gameBiz}}}
-            uapc={"hk4e_cn":{"uapc":""},"hyp":{"uapc":""}}
+            cps=gw_pc
+            game_version={{{version}}}
             """;
 
         string? directory = Path.GetDirectoryName(gameFileSystem.GetGameConfigurationFilePath());

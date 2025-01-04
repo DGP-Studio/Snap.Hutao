@@ -5,6 +5,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
@@ -20,6 +21,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
     public Version? RemoteVersion { get; set => SetProperty(ref field, value, nameof(RemoteVersionText)); }
@@ -105,11 +107,18 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             gameChannelSDK,
             default);
 
-        gameFileSystem.GenerateConfigurationFile(branch.Main.Tag, launchScheme);
+        if (!GameInstallLocker.TryLock(gameFileSystem, branch.Main.Tag, launchScheme, out GameInstallLocker? locker))
+        {
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry);
+            return;
+        }
 
         if (!await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false))
         {
-            // Operation canceled
+            // Operation canceled or failed
+            return;
         }
+
+        locker.Release();
     }
 }
