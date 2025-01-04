@@ -2669,16 +2669,16 @@
     <value>出場パーティー</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
+    <value>利用期間を取得すると、胡桃のバージョンアップデート時に中国国内の CDN ミラーを選択でき、より快適な更新体験を得るようになります。</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>Hutao Cloud CDNサービス</value>
+    <value>胡桃クラウド CDN サービス</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>期間を取得すると、当社のサーバーを通じて最大<b>5</b>つのUIDの祈願記録をダウンロード/アップロード/削除できるようになります。深境螺旋ページでは、各期の挑戦で初めて記録をアップロードすると、無料の期間を獲得できます！</value>
+    <value>利用期限を獲得すると、私達のサーバーを通じて最多 5 つの UID の祈願履歴をダウンロード/アップロード/削除できるようになります。深境螺旋ページでは毎期の挑戦記録を初めてアップロードする際に、無料の利用期限を取得できます！</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>Hutao Cloud 祈願記録サービス</value>
+    <value>胡桃クラウド祈願記録サービス</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>ログイン</value>
