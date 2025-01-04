@@ -33,6 +33,7 @@ internal static class ConstValues
     public const uint NIN_SELECT = 0x00000400U;
     public const uint NIN_POPUPOPEN = 0x00000406U;
     public const uint NIN_POPUPCLOSE = 0x00000407U;
+    public const int RPC_X_NULL_REF_POINTER = 0x000006F4;
     public const uint IOCTL_STORAGE_GET_DEVICE_NUMBER = 0x002D1080U;
     public const uint IOCTL_STORAGE_QUERY_PROPERTY = 0x002D1400U;
     public const uint IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS = 0x00560000U;

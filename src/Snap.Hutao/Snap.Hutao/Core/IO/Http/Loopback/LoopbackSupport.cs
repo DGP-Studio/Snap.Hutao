@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.NetworkManagement.WindowsFirewall;
 using Snap.Hutao.Win32.Security;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.AdvApi32;
+using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.FirewallApi;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;
@@ -62,6 +64,17 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
                     break;
                 }
             }
+        }
+        catch (COMException exception)
+        {
+            // 0x800706f4 RPC_X_NULL_REF_POINTER
+            // https://github.com/DGP-Studio/Snap.Hutao/issues/2339
+            if (exception.HResult == HRESULT_FROM_WIN32((WIN32_ERROR)RPC_X_NULL_REF_POINTER))
+            {
+                return;
+            }
+
+            throw;
         }
         finally
         {
