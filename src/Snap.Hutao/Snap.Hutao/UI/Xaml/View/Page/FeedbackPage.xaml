@@ -100,12 +100,6 @@
                                             IsClickEnabled="True"/>
                                         <cwcont:SettingsCard
                                             Command="{Binding NavigateToUriCommand}"
-                                            CommandParameter="https://github.com/orgs/DGP-Studio/projects/2"
-                                            Description="{shuxm:ResourceString Name=ViewPageFeedbackRoadmapDescription}"
-                                            Header="GitHub Projects"
-                                            IsClickEnabled="True"/>
-                                        <cwcont:SettingsCard
-                                            Command="{Binding NavigateToUriCommand}"
                                             CommandParameter="https://status.snapgenshin.cn/status"
                                             Description="{shuxm:ResourceString Name=ViewPageFeedbackServerStatusDescription}"
                                             Header="{shuxm:ResourceString Name=ViewPageFeedbackServerStatusHeader}"
