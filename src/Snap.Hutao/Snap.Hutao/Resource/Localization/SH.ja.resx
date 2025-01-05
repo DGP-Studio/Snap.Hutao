@@ -136,7 +136,7 @@
     <value>キャンセル</value>
   </data>
   <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
-    <value>OK</value>
+    <value>完了</value>
   </data>
   <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
     <value>確定</value>
@@ -2497,7 +2497,7 @@
     <value>このUidのクラウドバックアップをダウンロードする</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>毎期の深境螺旋記録を初回アップロードすると、胡桃クラウドの使用が3日間無料になります。</value>
+    <value>毎期の深境螺旋記録を初回アップロードすると、3 日間の利用期限を無料に獲得できます</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>螺旋の記録をアップロード</value>
@@ -2669,7 +2669,7 @@
     <value>出場パーティー</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>利用期間を取得すると、胡桃のバージョンアップデート時に中国国内の CDN ミラーを選択でき、より快適な更新体験を得るようになります。</value>
+    <value>利用期限を獲得すると、胡桃のバージョンアップデート時に中国国内の CDN ミラーを選択でき、より快適な更新体験を得るようになります。</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
     <value>胡桃クラウド CDN サービス</value>
