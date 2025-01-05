@@ -13,7 +13,7 @@ internal sealed partial class UnityLogGameLocator : IGameLocator, IGameLocator2
 {
     private readonly ITaskContext taskContext;
 
-    [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@".:(?:\\|/).+(?:GenshinImpact|YuanShen)(?=_Data)", RegexOptions.IgnoreCase)]
     private static partial Regex WarmupFileLine { get; }
 
     public async ValueTask<ValueResult<bool, string>> LocateSingleGamePathAsync()
@@ -43,22 +43,14 @@ internal sealed partial class UnityLogGameLocator : IGameLocator, IGameLocator2
 
         ImmutableArray<string>.Builder builder = ImmutableArray.CreateBuilder<string>(2);
 
-        if (File.Exists(logFilePathOversea))
+        if (await LocateGamePathAsync(logFilePathOversea).ConfigureAwait(false) is { IsOk: true } result1)
         {
-            ValueResult<bool, string> result = await LocateGamePathAsync(logFilePathOversea).ConfigureAwait(false);
-            if (result.IsOk)
-            {
-                builder.Add(result.Value);
-            }
+            builder.Add(result1.Value);
         }
 
-        if (File.Exists(logFilePathChinese))
+        if (await LocateGamePathAsync(logFilePathChinese).ConfigureAwait(false) is { IsOk: true } result2)
         {
-            ValueResult<bool, string> result = await LocateGamePathAsync(logFilePathChinese).ConfigureAwait(false);
-            if (result.IsOk)
-            {
-                builder.Add(result.Value);
-            }
+            builder.Add(result2.Value);
         }
 
         return builder.ToImmutable();
@@ -81,14 +73,13 @@ internal sealed partial class UnityLogGameLocator : IGameLocator, IGameLocator2
             return new(false, SH.ServiceGameLocatorUnityLogCannotOpenRead);
         }
 
-        Match matchResult = WarmupFileLine.Match(content);
-        if (!matchResult.Success)
+        if (WarmupFileLine.Match(content) is not { Success: true } matchResult)
         {
             return new(false, SH.ServiceGameLocatorUnityLogGamePathNotFound);
         }
 
-        string entryName = $"{matchResult.Value}.exe";
-        string fullPath = Path.GetFullPath(Path.Combine(matchResult.Value, "..", entryName));
+        string fullPath = Path.GetFullPath($"{matchResult.Value}.exe");
+
         if (!File.Exists(fullPath))
         {
             return new(false, default!);
