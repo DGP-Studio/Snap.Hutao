@@ -25,8 +25,15 @@ internal sealed partial class UnityLogGameLocator : IGameLocator, IGameLocator2
         string logFilePathChinese = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
 
         // Fallback to the CN server.
-        string logFilePath = File.Exists(logFilePathOversea) ? logFilePathOversea : logFilePathChinese;
-        return await LocateGamePathAsync(logFilePath).ConfigureAwait(false);
+        ValueResult<bool, string> resultOversea = await LocateGamePathAsync(logFilePathOversea).ConfigureAwait(false);
+        if (resultOversea.IsOk && File.Exists(resultOversea.Value))
+        {
+            return resultOversea;
+        }
+        else
+        {
+            return await LocateGamePathAsync(logFilePathChinese).ConfigureAwait(false);
+        }
     }
 
     public async ValueTask<ImmutableArray<string>> LocateMultipleGamePathAsync()
