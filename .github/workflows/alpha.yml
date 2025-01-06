@@ -34,7 +34,7 @@ jobs:
       - name: Select runner
         id: select_runner
         run: |
-          runner_id=37
+          runner_id=${{ vars.RUNNER_ID }}
           runner_status=$(curl -s -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${{ secrets.RUNNER_CHECK_TOKEN }}" https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id | jq -r '.status')
           if [ "$runner_status" == "online" ]; then
             runner=self-hosted
