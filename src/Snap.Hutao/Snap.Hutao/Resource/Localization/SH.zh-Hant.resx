@@ -145,7 +145,7 @@
     <value>儲存</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到結果</value>
+    <value>找不到結果</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
     <value>刪除</value>
@@ -569,7 +569,7 @@
     <value>必須登入 米遊社 / HoYoLAB 並選擇一個使用者與角色</value>
   </data>
   <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
-    <value>未開通胡桃雲 CDN 或已到期</value>
+    <value>未開通 Hutao Cloud CDN 或已到期</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願紀錄</value>
@@ -1968,10 +1968,10 @@
     <value>匯出 UIGF JSON 檔案到指定路徑</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
-    <value>正在上傳到胡桃雲服務</value>
+    <value>正在上傳到 Hutao Cloud 服務</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>導入 UIGF JSON 檔案</value>
+    <value>匯入 UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
@@ -2472,7 +2472,7 @@
     <value>尚未獲取任何祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
-    <value>胡桃雲</value>
+    <value>Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
     <value>前往爱发电購買相關服務</value>
@@ -2490,7 +2490,7 @@
     <value>無 Snap Hutao 雲端記錄</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
-    <value>胡桃雲服務時長不足</value>
+    <value>Hutao Cloud 服務時長不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
     <value>下載此UID的雲端存檔</value>
@@ -2535,7 +2535,7 @@
     <value>四星武器</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>從胡桃雲恢復祈願紀錄</value>
+    <value>從 Hutao Cloud 恢復祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>重新整理</value>
@@ -2667,13 +2667,13 @@
     <value>隊伍出場</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
+    <value>獲得時長後您將能夠在胡桃版本更新時選擇中國國內的 CDN 鏡像，以獲得更好的更新體驗。</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
     <value>Hutao Cloud CDN 服務</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>獲得時長後您將能夠通過我們的伺服器下載/上傳/刪除最多 5 個 UID 的祈願記錄。深境螺旋頁面中，每期挑戰首次上傳記錄時會獲得免費的時長！</value>
+    <value>獲得時長後您將能夠通過我們的伺服器下載/上傳/刪除最多 5 個 UID 的祈願紀錄。深境螺旋頁面中，每期挑戰首次上傳記錄時會獲得免費的時長！</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
     <value>Hutao Cloud 祈願記錄服務</value>
@@ -3273,7 +3273,7 @@
     <value>主頁</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
-    <value>胡桃雲 CDN 到期時間</value>
+    <value>Hutao Cloud CDN 到期時間</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>三思而後行</value>
@@ -3282,7 +3282,7 @@
     <value>危險操作</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃雲祈願記錄服務到期時間</value>
+    <value>Hutao Cloud 祈願記錄服務到期時間</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行證帳號</value>
@@ -3312,7 +3312,7 @@
     <value>使用兌換碼</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
-    <value>刷新</value>
+    <value>重新整理</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>註冊</value>
