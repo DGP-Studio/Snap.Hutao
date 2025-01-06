@@ -111,11 +111,11 @@
                 <cwc:SettingsCard Header="Override Hard Drive Type">
                     <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
                         <ToggleSwitch
-                            IsEnabled="{Binding OverrideHardDriveType}"
+                            IsEnabled="{x:Bind HardDriveTypeToggle.IsOn, Mode=OneWay}"
                             IsOn="{Binding OverrideHardDriveTypeIsSolidState, Mode=TwoWay}"
                             OffContent="HDD"
                             OnContent="SSD"/>
-                        <ToggleSwitch IsOn="{Binding OverrideHardDriveType, Mode=TwoWay}"/>
+                        <ToggleSwitch x:Name="HardDriveTypeToggle" IsOn="{Binding OverrideHardDriveType, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
 
@@ -124,13 +124,14 @@
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Alpha Build Generic API Endpoint">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
                         <ToggleSwitch
+                            x:Name="GenericApiEndPointToggle"
                             IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"
                             OffContent="Oversea Endpoints"
                             OnContent="Chinese Endpoints"/>
                         <ToggleSwitch
-                            IsEnabled="{Binding AlphaBuildUseCNPatchEndpoint}"
+                            IsEnabled="{x:Bind GenericApiEndPointToggle.IsOn, Mode=OneWay}"
                             IsOn="{Binding AlphaBuildUseFJPatchEndpoint, Mode=TwoWay}"
                             OffContent="No Secondary Endpoints"
                             OnContent="Fujian Endpoints"/>
@@ -220,11 +221,6 @@
                 <cwc:SettingsCard
                     Command="{Binding ScreenCaptureCommand}"
                     Header="Screen Capture Test"
-                    IsClickEnabled="True"/>
-
-                <cwc:SettingsCard
-                    Command="{Binding FileOperationRenameCommand}"
-                    Header="Rename Desktop TestFolder"
                     IsClickEnabled="True"/>
 
                 <cwc:SettingsCard

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
 using Snap.Hutao.Win32.Graphics.Dwm;
@@ -110,8 +111,16 @@ internal sealed partial class GameScreenCaptureContext : IDisposable
     public GraphicsCaptureSession CreateSession(Direct3D11CaptureFramePool framePool)
     {
         GraphicsCaptureSession session = framePool.CreateCaptureSession(Item);
-        session.IsCursorCaptureEnabled = false;
-        session.IsBorderRequired = false;
+        if (UniversalApiContract.IsPresent(WindowsVersion.Windows10Version2004))
+        {
+            session.IsCursorCaptureEnabled = true;
+
+            if (UniversalApiContract.IsPresent(WindowsVersion.Windows10Version2104))
+            {
+                session.IsBorderRequired = false;
+            }
+        }
+
         return session;
     }
 

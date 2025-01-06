@@ -306,7 +306,7 @@ internal sealed class XamlWindowController
             return;
         }
 
-        LocalSetting.Set(rectPersisted.PersistRectKey, rect);
+        LocalSetting.Set<ulong>(rectPersisted.PersistRectKey, (ulong)rect);
     }
     #endregion
 

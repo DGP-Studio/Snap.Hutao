@@ -30,7 +30,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
             // Strong reference
             dismissCommand = new RelayCommand<HutaoAnnouncement>(DismissAnnouncement);
 
-            ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, []);
+            ApplicationDataCompositeValue excludedIds = LocalSetting.Get<ApplicationDataCompositeValue>(SettingKeys.ExcludedAnnouncementIds, []);
             ImmutableArray<long> data = [.. excludedIds.Select(kvp => long.Parse(kvp.Key, CultureInfo.InvariantCulture))];
 
             ImmutableArray<HutaoAnnouncement> array;
@@ -60,7 +60,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
     {
         if (announcement is not null && announcements is not null)
         {
-            ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, []);
+            ApplicationDataCompositeValue excludedIds = LocalSetting.Get<ApplicationDataCompositeValue>(SettingKeys.ExcludedAnnouncementIds, []);
             DateTimeOffset minTime = DateTimeOffset.UtcNow - TimeSpan.FromDays(AnnouncementDuration);
 
             foreach ((string key, object value) in excludedIds)

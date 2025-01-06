@@ -25,7 +25,7 @@ internal readonly struct RectInt16
         return new(rect.X, rect.Y, rect.Width, rect.Height);
     }
 
-    public static explicit operator RectInt16(RectInt32 rect)
+    public static implicit operator RectInt16(RectInt32 rect)
     {
         return new(rect.X, rect.Y, rect.Width, rect.Height);
     }
@@ -35,7 +35,7 @@ internal readonly struct RectInt16
         return *(RectInt16*)&value;
     }
 
-    public static unsafe implicit operator ulong(RectInt16 rect)
+    public static unsafe explicit operator ulong(RectInt16 rect)
     {
         return *(ulong*)&rect;
     }

@@ -25,6 +25,7 @@ using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
+using System.Data.SqlTypes;
 using System.IO;
 
 namespace Snap.Hutao.ViewModel;
@@ -57,129 +58,55 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     public bool SuppressMetadataInitialization
     {
         get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.SuppressMetadataInitialization, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.SuppressMetadataInitialization, value);
     }
 
     public bool OverrideElevationRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverrideElevationRequirement, value);
     }
 
     public bool OverrideUpdateVersionComparison
     {
         get => LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverrideUpdateVersionComparison, value);
     }
 
     public bool OverridePackageConvertDirectoryPermissionsRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
     }
 
     public bool OverrideHardDriveType
     {
         get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverridePhysicalDriverType, value);
-            OnPropertyChanged();
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverridePhysicalDriverType, value);
     }
 
     public bool OverrideHardDriveTypeIsSolidState
     {
         get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
     }
 
     public bool AlwaysIsFirstRunAfterUpdate
     {
         get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
     }
 
     public bool AlphaBuildUseCNPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseCnPatchEndpoint, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
-            OnPropertyChanged();
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
     }
 
     public bool AlphaBuildUseFJPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
     }
 
     [Command("ResetGuideStateCommand")]
@@ -466,6 +393,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
         HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
 
+        // TODO: Refactor
         LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(s => s.IsOversea == ExtractExeOptions.IsOversea);
 
         Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
@@ -487,21 +415,20 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             return;
         }
 
-        (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
-        if (!isOk)
+        if (fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks") is not (true, { } extractDirectory))
         {
             return;
         }
 
         string message = $"""
-                          Version: {branch.Tag}
-                          IsOversea: {ExtractExeOptions.IsOversea}
-                          Extract Directory: {extractDirectory}
-                          """;
+            Version: {branch.Tag}
+            IsOversea: {ExtractExeOptions.IsOversea}
+            Extract Directory: {extractDirectory}
+            """;
 
         ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
-                "Extract Game Blocks",
-                message)
+            "Extract Game Blocks",
+            message)
             .ConfigureAwait(false);
 
         if (result is ContentDialogResult.Primary)
