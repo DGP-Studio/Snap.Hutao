@@ -53,19 +53,19 @@ internal static class LocalSetting
         Container.Values[key] = value;
     }
 
-    public static void SetIf<T>(bool condition, string key, T Value)
+    public static void SetIf<T>(bool condition, string key, T value)
     {
         if (condition)
         {
-            Set(key, Value);
+            Set(key, value);
         }
     }
 
-    public static void SetIfNot<T>(bool condition, string key, T Value)
+    public static void SetIfNot<T>(bool condition, string key, T value)
     {
         if (!condition)
         {
-            Set(key, Value);
+            Set(key, value);
         }
     }
 
