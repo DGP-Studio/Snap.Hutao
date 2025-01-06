@@ -8,6 +8,20 @@ namespace Snap.Hutao.Extension;
 
 internal static class SpanExtension
 {
+    public static ReadOnlySpan<T> After<T>(this ReadOnlySpan<T> span, T separator)
+        where T : IEquatable<T>
+    {
+        int indexOfSeparator = span.IndexOf(separator);
+        return indexOfSeparator > 0 ? span[(indexOfSeparator + 1)..] : span;
+    }
+
+    public static ReadOnlySpan<T> Before<T>(this ReadOnlySpan<T> span, T separator)
+        where T : IEquatable<T>
+    {
+        int indexOfSeparator = span.IndexOf(separator);
+        return indexOfSeparator > 0 ? span[..indexOfSeparator] : span;
+    }
+
     [Pure]
     public static T? BinarySearch<TItem, T>(this ReadOnlySpan<T> span, TItem item, Func<TItem, T, int> compare)
         where T : class

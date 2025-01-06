@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
+using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
@@ -23,18 +24,18 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     public abstract ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild);
 
-    public abstract ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets);
+    public abstract ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets);
 
-    public abstract ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets);
+    public abstract ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets);
 
     public async ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(GamePackageServiceContext context, SophonDecodedBuild build)
     {
         CancellationToken token = context.CancellationToken;
 
-        List<SophonAssetOperation> conflictedAssets = [];
+        ImmutableArray<SophonAssetOperation>.Builder conflictedAssetsBuilder = ImmutableArray.CreateBuilder<SophonAssetOperation>();
         bool channelSdkConflicted = false;
 
-        await VerifyManifestsAsync(context, build, conflictedAssets.Add).ConfigureAwait(false);
+        await VerifyManifestsAsync(context, build, conflictedAssetsBuilder.Add).ConfigureAwait(false);
 
         if (context.Operation.GameChannelSDK is not null)
         {
@@ -72,7 +73,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         return new()
         {
-            ConflictedAssets = conflictedAssets,
+            ConflictedAssets = conflictedAssetsBuilder.ToImmutable(),
             ChannelSdkConflicted = channelSdkConflicted,
         };
     }
@@ -109,10 +110,10 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     protected static async ValueTask VerifyAssetAsync(GamePackageServiceContext context, SophonAsset asset, Action<SophonAssetOperation> conflictHandler)
     {
         CancellationToken token = context.CancellationToken;
-
+        token.ThrowIfCancellationRequested();
         string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.AssetProperty.AssetName);
 
-        if (asset.AssetProperty.AssetType is 64)
+        if (asset.AssetProperty.AssetType is 0x40)
         {
             Directory.CreateDirectory(assetPath);
             return;
@@ -130,24 +131,24 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         using (SafeFileHandle fileHandle = File.OpenHandle(assetPath))
         {
+            // Reading same file can't be done in parallel
             for (int i = 0; i < chunks.Count; i++)
             {
                 AssetChunk chunk = chunks[i];
                 using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)chunk.ChunkSizeDecompressed))
                 {
                     Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
+                    bool readFailed = false;
                     try
                     {
                         await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
                     }
                     catch (IOException)
                     {
-                        conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
-                        context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));
-                        return;
+                        readFailed = true;
                     }
 
-                    if (!chunk.ChunkDecompressedHashMd5.Equals(Hash.ToHexString(HashAlgorithmName.MD5, buffer.Span), StringComparison.OrdinalIgnoreCase))
+                    if (readFailed || !chunk.ChunkDecompressedHashMd5.Equals(Hash.ToHexString(HashAlgorithmName.MD5, buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
                         conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
                         context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));
@@ -162,6 +163,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     protected static ValueTask DeleteAssetAsync(GamePackageServiceContext context, AssetProperty asset)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
         string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
 
         if (asset.AssetType is 0x40)
@@ -183,7 +185,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     protected static async ValueTask DownloadChunkAsync(GamePackageServiceContext context, SophonChunk sophonChunk)
     {
         CancellationToken token = context.CancellationToken;
-
+        token.ThrowIfCancellationRequested();
         Directory.CreateDirectory(context.Operation.ProxiedChunksDirectory);
         string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, sophonChunk.AssetChunk.ChunkName);
 
@@ -191,8 +193,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         {
             if (File.Exists(chunkPath))
             {
-                string chunkXxh64 = await XxHash64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
-                if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                if (ChunkNameMatches(sophonChunk.AssetChunk.ChunkName, await XxHash64.HashFileAsync(chunkPath, token).ConfigureAwait(false)))
                 {
                     context.Progress.Report(new GamePackageOperationReport.Download(sophonChunk.AssetChunk.ChunkSize, 1, sophonChunk.AssetChunk.ChunkName));
                     return;
@@ -212,11 +213,12 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         await worker.CopyAsync(context.StreamCopyRateLimiter, context.Progress, token).ConfigureAwait(false);
 
                         fileStream.Position = 0;
-                        string chunkXxh64 = await XxHash64.HashAsync(fileStream, token).ConfigureAwait(false);
-                        if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                        if (ChunkNameMatches(sophonChunk.AssetChunk.ChunkName, await XxHash64.HashAsync(fileStream, token).ConfigureAwait(false)))
                         {
                             context.Progress.Report(new GamePackageOperationReport.Download(0, 1, sophonChunk.AssetChunk.ChunkName));
                         }
+
+                        // No need to delete the file if the hash doesn't match, it will be checked when verifying the asset
                     }
                 }
             }
@@ -229,28 +231,30 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     protected abstract ValueTask RepairAssetsAsync(GamePackageServiceContext context, GamePackageIntegrityInfo info);
 
-    protected abstract ValueTask DownloadChunksAsync(GamePackageServiceContext context, IList<SophonChunk> sophonChunks);
+    protected abstract ValueTask DownloadChunksAsync(GamePackageServiceContext context, IReadOnlyList<SophonChunk> sophonChunks);
 
     protected abstract ValueTask MergeNewAssetAsync(GamePackageServiceContext context, AssetProperty assetProperty);
 
     protected async ValueTask EnsureAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
     {
+        CancellationToken token = context.CancellationToken;
+        token.ThrowIfCancellationRequested();
         string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.NewAsset.AssetName);
 
-        if (asset.NewAsset.AssetType is 64)
+        if (asset.NewAsset.AssetType is 0x40)
         {
             Directory.CreateDirectory(assetPath);
             return;
         }
 
-        IList<SophonChunk> chunks = asset.Kind switch
+        IReadOnlyList<SophonChunk> chunks = asset.Kind switch
         {
-            SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)).ToList(),
+            SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk))],
             SophonAssetOperationKind.Modify => asset.DiffChunks,
             _ => [],
         };
 
-        if (File.Exists(assetPath) && asset.NewAsset.AssetHashMd5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, assetPath, context.CancellationToken).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+        if (File.Exists(assetPath) && asset.NewAsset.AssetHashMd5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, assetPath, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
         {
             context.Progress.Report(new GamePackageOperationReport.Download(0, chunks.Count));
             context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count));
@@ -261,31 +265,34 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         await MergeAssetAsync(context, asset).ConfigureAwait(false);
     }
 
-    private async ValueTask MergeAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
+    private static bool ChunkNameMatches(string chunkName, string hash)
     {
-        ValueTask task = asset.Kind switch
+        return hash.AsSpan().Equals(chunkName.AsSpan().Before('_'), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private ValueTask MergeAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
+    {
+        return asset.Kind switch
         {
             SophonAssetOperationKind.AddOrRepair => MergeNewAssetAsync(context, asset.NewAsset),
             SophonAssetOperationKind.Modify => MergeDiffAssetAsync(context, asset),
             _ => ValueTask.CompletedTask,
         };
-
-        await task.ConfigureAwait(false);
     }
 
     private async ValueTask MergeDiffAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
     {
         CancellationToken token = context.CancellationToken;
 
+        string oldAssetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.OldAsset.AssetName);
+        if (!File.Exists(oldAssetPath))
+        {
+            // File not found, skip this asset and repair later
+            return;
+        }
+
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
-            string oldAssetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.OldAsset.AssetName);
-            if (!File.Exists(oldAssetPath))
-            {
-                // File not found, skip this asset and repair later
-                return;
-            }
-
             using (SafeFileHandle oldAssetHandle = File.OpenHandle(oldAssetPath, options: FileOptions.RandomAccess))
             {
                 foreach (AssetChunk chunk in asset.NewAsset.AssetChunks)

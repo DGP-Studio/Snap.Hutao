@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal interface IGameAssetOperation
@@ -11,9 +13,9 @@ internal interface IGameAssetOperation
 
     ValueTask RepairGamePackageAsync(GamePackageServiceContext context, GamePackageIntegrityInfo info);
 
-    ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets);
+    ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets);
 
-    ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets);
+    ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets);
 
     ValueTask EnsureChannelSdkAsync(GamePackageServiceContext context);
 }
