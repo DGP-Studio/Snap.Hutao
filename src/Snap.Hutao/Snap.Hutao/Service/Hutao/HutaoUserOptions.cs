@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Redeem;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 
@@ -123,6 +124,26 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             if (await GetAuthTokenAsync(token).ConfigureAwait(false) is { } authToken)
             {
                 await RefreshUserInfoCoreAsync(token).ConfigureAwait(false);
+            }
+        }
+    }
+
+    public async ValueTask UseRedeemCodeAsync(string code, CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(UseRedeemCodeAsync)).ConfigureAwait(false))
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HutaoRedeemCodeClient hutaoRedeemCodeClient = scope.ServiceProvider.GetRequiredService<HutaoRedeemCodeClient>();
+                HutaoResponse<RedeemUseResponse> response = await hutaoRedeemCodeClient.UseRedeemCodeAsync(new(code), token).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+                {
+                    return;
+                }
+
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
+                await RefreshUserInfoAsync(token).ConfigureAwait(false);
             }
         }
     }

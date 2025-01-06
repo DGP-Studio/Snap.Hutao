@@ -34,4 +34,9 @@ internal interface IHomaServiceEndpoints : IHomaRootAccess
     {
         return $"{Root}/Service/Distribution/Designation?userName={userName}&days={days}";
     }
+
+    public string RedeemCodeGenerate()
+    {
+        return $"{Root}/Service/Redeem/Generate";
+    }
 }

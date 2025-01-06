@@ -13,6 +13,7 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shwhr="using:Snap.Hutao.Web.Hutao.Redeem"
     d:DataContext="{d:DesignInstance shv:TestViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -216,6 +217,48 @@
                         <TextBlock VerticalAlignment="Center" Text="Days"/>
                     </StackPanel>
                 </cwc:SettingsCard>
+
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Header="Generate Redeem Code"
+                    IsExpanded="True">
+                    <StackPanel Spacing="8">
+                        <NumberBox
+                            Header="Count"
+                            PlaceholderText="Code count"
+                            Text="{Binding RedeemCodeGenerateOption.Count, Mode=TwoWay}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <CheckBox Content="IsTimeLimited" IsChecked="{Binding RedeemCodeGenerateOption.IsTimeLimited, Mode=TwoWay}"/>
+                            <CheckBox Content="IsTimesLimited" IsChecked="{Binding RedeemCodeGenerateOption.IsTimesLimited, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <shuxc:SizeRestrictedContentControl>
+                            <ComboBox
+                                Header="ServiceType"
+                                ItemsSource="{cwh:EnumValues Type=shwhr:RedeemCodeTargetServiceType}"
+                                SelectedItem="{Binding RedeemCodeGenerateOption.ServiceType, Mode=TwoWay}"/>
+                        </shuxc:SizeRestrictedContentControl>
+                        <NumberBox
+                            Header="Value"
+                            PlaceholderText="Days"
+                            Text="{Binding RedeemCodeGenerateOption.Value, Mode=TwoWay}"/>
+                        <TextBox
+                            Header="Description"
+                            PlaceholderText="Code description"
+                            Text="{Binding RedeemCodeGenerateOption.Description, Mode=TwoWay}"/>
+                        <NumberBox
+                            Header="Expire Hours"
+                            IsEnabled="{Binding RedeemCodeGenerateOption.IsTimeLimited}"
+                            PlaceholderText="72"
+                            Text="{Binding RedeemCodeGenerateOption.ExpireHours, Mode=TwoWay}"/>
+                        <NumberBox
+                            Header="Times"
+                            IsEnabled="{Binding RedeemCodeGenerateOption.IsTimesLimited}"
+                            PlaceholderText="Limited times"
+                            Text="{Binding RedeemCodeGenerateOption.Times, Mode=TwoWay}"/>
+                        <Button Command="{Binding GenerateRedeemCodeCommand}" Content="Generate"/>
+                    </StackPanel>
+                </Expander>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Testing"/>
                 <cwc:SettingsCard

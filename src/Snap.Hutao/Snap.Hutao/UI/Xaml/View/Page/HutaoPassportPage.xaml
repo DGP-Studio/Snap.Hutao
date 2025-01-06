@@ -127,7 +127,7 @@
                             </Button>
                         </cwc:SettingsCard>
                         <cwc:SettingsCard
-                            Command="{Binding OpenRedeemWebsiteCommand}"
+                            Command="{Binding UseRedeemCodeCommand}"
                             Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeDescription}"
                             Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeHeader}"
                             IsClickEnabled="True"/>

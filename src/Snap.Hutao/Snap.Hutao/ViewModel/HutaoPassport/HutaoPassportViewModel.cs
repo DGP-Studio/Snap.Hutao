@@ -7,7 +7,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Endpoint.Hutao;
-using Windows.System;
 
 namespace Snap.Hutao.ViewModel.HutaoPassport;
 
@@ -20,12 +19,6 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private readonly INavigationService navigationService;
 
     public partial HutaoUserOptions HutaoUserOptions { get; }
-
-    [Command("OpenRedeemWebsiteCommand")]
-    private async Task OpenRedeemWebsiteAsync()
-    {
-        await Launcher.LaunchUriAsync(hutaoEndpointsFactory.Create().HomaWebsite("redeem.html").ToUri());
-    }
 
     [Command("OpenTestPageCommand")]
     private async Task OpenTestPageAsync()
@@ -148,6 +141,25 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         }
 
         await HutaoUserOptions.ResetPasswordAsync(username, password, verifyCode).ConfigureAwait(false);
+    }
+
+    [Command("UseRedeemCodeCommand")]
+    private async Task UseRedeemCodeAsync()
+    {
+        HutaoPassportUseRedeemCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUseRedeemCodeDialog>().ConfigureAwait(false);
+        (bool isOk, string redeemCode) = await dialog.GetInputAsync().ConfigureAwait(false);
+
+        if (!isOk)
+        {
+            return;
+        }
+
+        if (string.IsNullOrEmpty(redeemCode))
+        {
+            return;
+        }
+
+        await HutaoUserOptions.UseRedeemCodeAsync(redeemCode).ConfigureAwait(false);
     }
 
     [Command("RefreshUserInfoCommand")]
