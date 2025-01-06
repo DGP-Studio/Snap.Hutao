@@ -1,12 +1,37 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Frozen;
+using System.Diagnostics;
 using Windows.Storage;
 
 namespace Snap.Hutao.Core.Setting;
 
 internal static class LocalSetting
 {
+    private static readonly FrozenSet<Type> SupportedTypes =
+    [
+        typeof(byte),
+        typeof(short),
+        typeof(ushort),
+        typeof(int),
+        typeof(uint),
+        typeof(long),
+        typeof(ulong),
+        typeof(float),
+        typeof(double),
+        typeof(bool),
+        typeof(char),
+        typeof(string),
+        typeof(DateTimeOffset),
+        typeof(TimeSpan),
+        typeof(Guid),
+        typeof(Windows.Foundation.Point),
+        typeof(Windows.Foundation.Size),
+        typeof(Windows.Foundation.Rect),
+        typeof(ApplicationDataCompositeValue)
+    ];
+
     private static readonly ApplicationDataContainer Container = ApplicationData.Current.LocalSettings;
 
     public static byte Get(string key, byte defaultValue)
@@ -199,14 +224,10 @@ internal static class LocalSetting
         Set<ApplicationDataCompositeValue>(key, value);
     }
 
-    public static void Update(string key, int defaultValue, Func<int, int> modifier)
+    public static void Update<T>(string key, T defaultValue, Func<T, T> modifier)
     {
-        Set<int>(key, modifier(Get<int>(key, defaultValue)));
-    }
-
-    public static void Update(string key, string defaultValue, Func<string, string> modifier)
-    {
-        Set<string>(key, modifier(Get<string>(key, defaultValue)));
+        Debug.Assert(SupportedTypes.Contains(typeof(T)));
+        Set(key, modifier(Get(key, defaultValue)));
     }
 
     private static T Get<T>(string key, T defaultValue = default!)

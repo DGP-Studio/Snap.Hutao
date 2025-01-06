@@ -26,10 +26,11 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
-        <cwconv:DoubleToObjectConverter x:Key="DoubleToOpacityConverter" GreaterThan="0">
-            <cwconv:DoubleToObjectConverter.TrueValue>1.0</cwconv:DoubleToObjectConverter.TrueValue>
-            <cwconv:DoubleToObjectConverter.FalseValue>0.4</cwconv:DoubleToObjectConverter.FalseValue>
-        </cwconv:DoubleToObjectConverter>
+        <cwconv:DoubleToObjectConverter
+            x:Key="DoubleToOpacityConverter"
+            FalseValue="0.4"
+            GreaterThan="0"
+            TrueValue="1.0"/>
 
         <Flyout
             x:Key="HutaoCloudFlyout"

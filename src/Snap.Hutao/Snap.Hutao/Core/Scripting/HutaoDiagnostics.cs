@@ -13,6 +13,8 @@ internal sealed partial class HutaoDiagnostics : IHutaoDiagnostics
 {
     private readonly IServiceProvider serviceProvider;
 
+    public ApplicationDataContainer LocalSetting { get => ApplicationData.Current.LocalSettings; }
+
     public async ValueTask<string> GetPathFromApplicationUrlAsync(string url)
     {
         StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(url.ToUri());
