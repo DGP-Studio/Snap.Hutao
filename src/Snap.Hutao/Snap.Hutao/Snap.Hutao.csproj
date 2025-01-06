@@ -82,7 +82,6 @@
     <None Remove="Assets\Square44x44Logo.targetsize-16.png" />
     <None Remove="Assets\Square44x44Logo.targetsize-256.png" />
     <None Remove="Assets\Square44x44Logo.targetsize-48.png" />
-    <None Remove="Assets\StoreLogo.png" />
     <None Remove="Assets\StoreLogo.scale-100.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\StoreLogo.scale-400.png" />
@@ -111,6 +110,7 @@
     <None Remove="Resource\ItemIcon\UI_QUALITY_PURPLE.png" />
     <None Remove="Resource\ItemIcon\UI_QUALITY_RED.png" />
     <None Remove="Resource\ItemIcon\UI_QUALITY_WHITE.png" />
+    <None Remove="Resource\Navigation\Passport.png" />
     <None Remove="Resource\Navigation\RoleCombat.png" />
     <None Remove="Resource\ThirdParty\Apple.png" />
     <None Remove="Resource\ThirdParty\Facebook.png" />
@@ -207,7 +207,6 @@
     <Content Update="Assets\Square44x44Logo.targetsize-16.png" />
     <Content Update="Assets\Square44x44Logo.targetsize-256.png" />
     <Content Update="Assets\Square44x44Logo.targetsize-48.png" />
-    <Content Update="Assets\StoreLogo.png" />
     <Content Update="Assets\StoreLogo.scale-100.png" />
     <Content Update="Assets\StoreLogo.scale-200.png" />
     <Content Update="Assets\StoreLogo.scale-400.png" />
@@ -253,6 +252,7 @@
     <Content Include="Resource\Navigation\Feedback.png" />
     <Content Include="Resource\Navigation\GachaLog.png" />
     <Content Include="Resource\Navigation\LaunchGame.png" />
+    <Content Include="Resource\Navigation\Passport.png" />
     <Content Include="Resource\Navigation\SpiralAbyss.png" />
     <Content Include="Resource\Navigation\WikiAvatar.png" />
     <Content Include="Resource\Navigation\WikiMonster.png" />
