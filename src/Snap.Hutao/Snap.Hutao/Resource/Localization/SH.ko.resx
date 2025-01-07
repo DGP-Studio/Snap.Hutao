@@ -1493,6 +1493,9 @@
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Snap Hutao Passport 계정 삭제</value>
   </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>Snap Hutao 클라우드 교환 코드 사용</value>
+  </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>앱 내보내기</value>
   </data>
@@ -2486,6 +2489,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>개발자 계정은 서비스 만료 시간을 무시합니다.</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>无云端记录</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Snap Hutao Cloud 서비스 시간이 부족합니다.</value>
   </data>
@@ -2663,6 +2669,18 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>파티 모습</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>해당 기간을 획득하면 Snap Hutao 업데이트 시 중국 내 CDN 미러를 선택하여 더 나은 업데이트 환경을 경험할 수 있습니다.</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>胡桃云 CDN 服务</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>胡桃云祈愿记录服务</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>로그인</value>
   </data>
@@ -2674,6 +2692,9 @@
   </data>
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>최소 8글자 이상</value>
+  </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>교환 코드를 입력하세요</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>회원가입</value>

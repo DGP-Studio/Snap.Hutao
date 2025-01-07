@@ -145,7 +145,7 @@
     <value>儲存</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到結果</value>
+    <value>找不到結果</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
     <value>刪除</value>
@@ -169,10 +169,10 @@
     <value>清單</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
-    <value>數據庫已損壞：{0}</value>
+    <value>資料庫已損壞：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>使用者數據已損壞：{0}</value>
+    <value>使用者資料已損壞：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>請勿在系統管理員模式下使用此功能 {0}</value>
@@ -557,10 +557,10 @@
     <value>維持場上 4 個盜寶團怪物，擊殺後立即替換，總數 12 個</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
-    <value>請更新角色櫥窗數據</value>
+    <value>請更新角色櫥窗資料</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暫無數據</value>
+    <value>暫無資料</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>精煉 {0} 階</value>
@@ -569,22 +569,22 @@
     <value>必須登入 米遊社 / HoYoLAB 並選擇一個使用者與角色</value>
   </data>
   <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
-    <value>未開通胡桃雲 CDN 或已到期</value>
+    <value>未開通 Hutao Cloud CDN 或已到期</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願紀錄</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
-    <value>胡桃雲儲存的祈願紀錄存檔數已達目前帳號上限</value>
+    <value>Hutao Cloud 儲存的祈願紀錄存檔數已達目前帳號上限</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
     <value>未開通祈願紀錄上傳服務或已到期</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>祈願數據存在無效的物品，無法儲存至胡桃雲</value>
+    <value>祈願資料存在無效的物品，無法儲存至 Hutao Cloud</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>數據異常，無法儲存至雲端，請勿跨帳號上傳或嘗試删除雲端數據後重試</value>
+    <value>資料異常，無法儲存至雲端，請勿跨帳號上傳或嘗試删除雲端數據後重試</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
     <value>上傳了 UID：{0} 的 {1} 筆祈願紀錄，儲存了 {2} 筆</value>
@@ -641,25 +641,25 @@
     <value>驗證請求過快，請 1 分鐘後再試</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上傳深淵紀錄失敗，目前 UID 已被胡桃數據庫封鎖</value>
+    <value>上傳深淵紀錄失敗，目前 UID 已被胡桃資料庫封鎖</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>上傳深淵紀錄失敗，正在計算統計數據</value>
+    <value>上傳深淵紀錄失敗，正在計算統計資料</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
-    <value>獲取數據失敗，正在計算統計數據</value>
+    <value>獲取資料失敗，正在計算統計資料</value>
   </data>
   <data name="ServerRecordInternalException" xml:space="preserve">
     <value>上傳深淵紀錄失敗，伺服器異常，請盡快聯繫開發者解決</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>上傳深淵紀錄失敗，存在無效的數據</value>
+    <value>上傳深淵紀錄失敗，存在無效的資料</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
     <value>無效的 UID</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>上傳深淵紀錄失敗，不是本期數據</value>
+    <value>上傳深淵紀錄失敗，不是本期資料</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
     <value>上傳深淵紀錄失敗，目前 UID 的紀錄仍在處理中，請勿重複操作</value>
@@ -950,7 +950,7 @@
     <value>祈願紀錄上傳服務不可用</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>數據包含異常物品, Id：{0}</value>
+    <value>封包含異常物品, Id：{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>請求驗證金鑰失敗</value>
@@ -1059,7 +1059,7 @@
     <value>在 Unity 記錄檔中無法找到遊戲路徑</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
-    <value>清單數據解析失敗</value>
+    <value>清單資料解析失敗</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
     <value>磁碟機空間不足，需要 {0}，剩餘 {1}</value>
@@ -1092,7 +1092,7 @@
     <value>在讀取本地 Package Version 時遇到問題，修復遊戲可能會有所幫助</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
-    <value>重新命名數據資料夾名稱失敗</value>
+    <value>重新命名資料資料夾名稱失敗</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
     <value>正在獲取 Package Version</value>
@@ -1209,7 +1209,7 @@
     <value>複製圖像</value>
   </data>
   <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
-    <value>正在獲取清單數據</value>
+    <value>正在獲取清單資料</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
     <value>請完成驗證</value>
@@ -1314,13 +1314,13 @@
     <value>匯入模式</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
-    <value>貪婪（添加新數據，更新已完成項）</value>
+    <value>貪婪（添加新資料，更新已完成項）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
-    <value>懶惰（添加新數據，跳過已完成項）</value>
+    <value>懶惰（添加新資料，跳過已完成項）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
-    <value>覆蓋（刪除舊數據，添加新的數據）</value>
+    <value>覆蓋（刪除舊資料，添加新的資料）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>為目前存檔匯入成就</value>
@@ -1455,13 +1455,13 @@
     <value>請輸入請求介面的 URL 複合模板</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>介面需要返回形如上方所示的 JSON 數據，多餘的數據會被忽略</value>
+    <value>介面需要返回形如上方所示的 JSON 資料，多餘的資料會被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>"code" 為 0 時，指示驗證成功，其他的值均視為驗證失敗</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
-    <value>返回數據</value>
+    <value>返回資料</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
     <value>{0} 將在實際請求時替換為 gt</value>
@@ -1492,6 +1492,9 @@
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>刪除胡桃通行證帳號</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>使用胡桃云兑换码</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>匯出 App</value>
@@ -1575,10 +1578,10 @@
     <value>該操作是不可逆的，所有使用者登入狀態會丟失</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
-    <value>是否永久刪除使用者數據</value>
+    <value>是否永久刪除使用者資料</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
-    <value>目前未登入胡桃帳號，上傳深淵數據無法獲贈胡桃雲時長</value>
+    <value>目前未登入胡桃帳號，上傳深淵資料無法獲贈 Hutao Cloud 時長</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
     <value>前往登入畫面</value>
@@ -1587,7 +1590,7 @@
     <value>繼續上傳</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>上傳深淵數據</value>
+    <value>上傳深淵資料</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
     <value>查看更新記錄檔</value>
@@ -1656,7 +1659,7 @@
     <value>Snap Hutao 開源許可</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
-    <value>使用者數據與隱私權益</value>
+    <value>使用者資料與隱私權益</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
     <value>使用者使用協議與法律聲明</value>
@@ -1755,7 +1758,7 @@
     <value>匯入成就中</value>
   </data>
   <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
-    <value>數據的 UIAF 版本過低，無法匯入</value>
+    <value>資料的 UIAF 版本過低，無法匯入</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
     <value>該操作是不可逆的，該存檔和其內的所有成就狀態會丟失</value>
@@ -1779,7 +1782,7 @@
     <value>已匯出到剪貼簿</value>
   </data>
   <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
-    <value>獲取數據中</value>
+    <value>獲取資料中</value>
   </data>
   <data name="ViewModelAvatarPropertyOpenClipboardFail" xml:space="preserve">
     <value>開啟剪貼簿失敗</value>
@@ -1935,10 +1938,10 @@
     <value>匯入祈願紀錄中</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
-    <value>數據的 UIGF 版本過低，無法匯入</value>
+    <value>資料的 UIGF 版本過低，無法匯入</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
-    <value>匯入數據中包含了不支援的物品</value>
+    <value>匯入資料中包含了不支援的物品</value>
   </data>
   <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
     <value>匯入失敗</value>
@@ -1956,22 +1959,22 @@
     <value>祈願紀錄重新整理操作被異常取消</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
-    <value>該操作是不可逆的，該存檔和其內的所有祈願紀錄會丟失</value>
+    <value>該操作是不可逆的，該存檔和其內的所有祈願資料會丟失</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
     <value>確定要刪除存檔 {0} 嗎？</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
-    <value>從胡桃雲服務同步祈願紀錄</value>
+    <value>從 Hutao Cloud 服務同步祈願紀錄</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
     <value>匯出 UIGF JSON 檔案到指定路徑</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
-    <value>正在上傳到胡桃雲服務</value>
+    <value>正在上傳到 Hutao Cloud 服務</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>導入 UIGF JSON 檔案</value>
+    <value>匯入 UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
@@ -2028,7 +2031,7 @@
     <value>剪貼簿中的文字格式不正確</value>
   </data>
   <data name="ViewModelImportWarningMessage" xml:space="preserve">
-    <value>數據格式不正確</value>
+    <value>資料格式不正確</value>
   </data>
   <data name="ViewModelImportWarningMessage2" xml:space="preserve">
     <value>請先建立一個成就存檔</value>
@@ -2118,13 +2121,13 @@
     <value>正在重設圖片資源</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
-    <value>設置數據目錄成功，重新啟動以應用更改</value>
+    <value>設置資料目錄成功，重新啟動以應用更改</value>
   </data>
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>儲存遊戲路徑失敗</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
-    <value>目前數據目錄 '{0}' 包含了一個或多個重新剖析點（Reparse points），可能會導致部分依賴數據資料夾的功能無法正常工作，請前往設定更改路徑</value>
+    <value>目前資料目錄 '{0}' 包含了一個或多個重新剖析點（Reparse points），可能會導致部分依賴資料資料夾的功能無法正常工作，請前往設定更改路徑</value>
   </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>匯出失敗</value>
@@ -2142,10 +2145,10 @@
     <value>匯入中</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
-    <value>匯入的 UIGF 檔案中不包含祈願數據</value>
+    <value>匯入的 UIGF 檔案中不包含祈願資料</value>
   </data>
   <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
-    <value>請選擇至少一個 UID 以匯入數據</value>
+    <value>請選擇至少一個 UID 以匯入資料</value>
   </data>
   <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
     <value>匯入成功</value>
@@ -2262,7 +2265,7 @@
     <value>從 Enka API 同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>同步遊戲內角色展櫃中的訊息</value>
+    <value>同步遊戲內角色展櫃中的資訊</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
     <value>從 HoYoLAB - 養成計算器同步</value>
@@ -2472,7 +2475,7 @@
     <value>尚未獲取任何祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
-    <value>胡桃雲</value>
+    <value>Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
     <value>前往爱发电購買相關服務</value>
@@ -2486,8 +2489,11 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>開發者帳號無視服務到期時間</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>無 Snap Hutao 雲端記錄</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
-    <value>胡桃雲服務時長不足</value>
+    <value>Hutao Cloud 服務時長不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
     <value>下載此UID的雲端存檔</value>
@@ -2505,7 +2511,7 @@
     <value>匯入</value>
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
-    <value>匯入來自其他 APP 的數據</value>
+    <value>匯入來自其他 APP 的資料</value>
   </data>
   <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
     <value>匯入/匯出紀錄</value>
@@ -2532,7 +2538,7 @@
     <value>四星武器</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>從胡桃雲恢復祈願紀錄</value>
+    <value>從 Hutao Cloud 恢復祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>重新整理</value>
@@ -2634,16 +2640,16 @@
     <value>持有</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewDataCollect" xml:space="preserve">
-    <value>數據收集統計</value>
+    <value>資料收集統計</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewRecordTotal" xml:space="preserve">
     <value>上傳紀錄總數</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewRefreshTime" xml:space="preserve">
-    <value>數據重新整理時間</value>
+    <value>資料重新整理時間</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyss" xml:space="preserve">
-    <value>深淵數據統計</value>
+    <value>深淵資料統計</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage" xml:space="preserve">
     <value>平均戰鬥次數</value>
@@ -2663,6 +2669,18 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>隊伍出場</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>獲得時長後您將能夠在胡桃版本更新時選擇中國國內的 CDN 鏡像，以獲得更好的更新體驗。</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>Hutao Cloud CDN 服務</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>獲得時長後您將能夠通過我們的伺服器下載/上傳/刪除最多 5 個 UID 的祈願紀錄。深境螺旋頁面中，每期挑戰首次上傳記錄時會獲得免費的時長！</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>Hutao Cloud 祈願記錄服務</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>登入</value>
   </data>
@@ -2675,6 +2693,9 @@
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>至少需要 8 個字元</value>
   </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>请输入兑换码</value>
+  </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>註冊</value>
   </data>
@@ -2685,7 +2706,7 @@
     <value>贊助</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
-    <value>刪除帳號的數據將永遠丢失，無法恢復</value>
+    <value>刪除帳號的資料將永遠丢失，無法恢復</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>請輸入電子郵件地址</value>
@@ -2802,10 +2823,10 @@
     <value>檔案</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
-    <value>修正角色/隊伍設定/祈願/紀行等特殊界面的視野</value>
+    <value>修正角色/隊伍設定/祈願/紀行等特殊介面的視野</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
-    <value>特殊界面修正</value>
+    <value>特殊介面修正</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>遊戲啟動後可以即時切換</value>
@@ -2865,7 +2886,7 @@
     <value>隊伍設定冷開關</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
-    <value>移除開啟隊伍設定界面時顯示的進度條</value>
+    <value>移除開啟隊伍設定介面時顯示的進度條</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressHeader" xml:space="preserve">
     <value>移除隊伍設定進度條</value>
@@ -2976,7 +2997,7 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登入 米哈遊通行證，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網路通訊只發生於你的電腦與米哈遊伺服器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁檢視表登入 米哈遊通行證，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 資訊，由此檢視表發起的網路通訊只發生於你的電腦與米哈遊伺服器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
@@ -3018,7 +3039,7 @@
     <value>挑戰星章</value>
   </data>
   <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
-    <value>暫無演出數據</value>
+    <value>暫無演出資料</value>
   </data>
   <data name="ViewPageRoleCombatShortest" xml:space="preserve">
     <value>最快演出</value>
@@ -3039,7 +3060,7 @@
     <value>演出總時長</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
-    <value>關於 胡桃</value>
+    <value>關於 Snap Hutao</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>選擇適合你的一週中的首日</value>
@@ -3138,10 +3159,10 @@
     <value>除非開發人員明確要求你這樣做，否則不應嘗試執行下方的操作！</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>使用者數據 / 後設資料 存放在此</value>
+    <value>使用者資料 / 後設資料 存放在此</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>數據 資料夾</value>
+    <value>資料 資料夾</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>刪除</value>
@@ -3258,7 +3279,7 @@
     <value>主頁</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
-    <value>胡桃雲 CDN 到期時間</value>
+    <value>Hutao Cloud CDN 到期時間</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>三思而後行</value>
@@ -3267,13 +3288,13 @@
     <value>危險操作</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃雲祈願記錄服務到期時間</value>
+    <value>Hutao Cloud 祈願記錄服務到期時間</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行證帳號</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLicensedDeveloperDescription" xml:space="preserve">
-    <value>您可以無限制使用任何基於胡桃雲服務的功能</value>
+    <value>您可以無限制使用任何基於 Hutao Cloud 服務的功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLicensedDeveloperHeader" xml:space="preserve">
     <value>已認證的合作開發者</value>
@@ -3291,13 +3312,13 @@
     <value>胡桃開發 / 營運</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
-    <value>我們有時會向某些使用者贈送胡桃雲兌換碼</value>
+    <value>我們有時會向某些使用者贈送 Hutao Cloud 兌換碼</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>使用兌換碼</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
-    <value>刷新</value>
+    <value>重新整理</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>註冊</value>
@@ -3369,10 +3390,10 @@
     <value>啟動遊戲 - 解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目錄後需要手動移動目錄内的數據，否則會重新創建使用者數據</value>
+    <value>更改目錄後需要手動移動目錄内的資料，否則會重新建立使用者資料</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
-    <value>更改數據目錄</value>
+    <value>更改資料目錄</value>
   </data>
   <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
     <value>設置路徑</value>
@@ -3429,7 +3450,7 @@
     <value>匯出/匯入 UIGF 4 檔案</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
-    <value>數據遷移</value>
+    <value>資料遷移</value>
   </data>
   <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
     <value>匯入</value>
@@ -3543,7 +3564,7 @@
     <value>幻想真境劇詩</value>
   </data>
   <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
-    <value>未開通胡桃雲 CDN 或已到期</value>
+    <value>未開通 Hutao Cloud CDN 或已到期</value>
   </data>
   <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
     <value>未開通祈願紀錄上傳服務或已到期</value>
@@ -3579,7 +3600,7 @@
     <value>角色使用率 = 本層上陣該角色次數（層內重複出現只記一次）/ 持有該角色的深淵記錄總數</value>
   </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
-    <value>戰鬥數據</value>
+    <value>戰鬥資料</value>
   </data>
   <data name="ViewSpiralAbyssBattleTimes" xml:space="preserve">
     <value>戰鬥次數</value>
@@ -3618,7 +3639,7 @@
     <value>攻擊地脈鎮石</value>
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
-    <value>重新整理數據</value>
+    <value>重新整理資料</value>
   </data>
   <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
     <value>同步 HoYoLAB 的深淵挑戰記錄</value>
@@ -3636,7 +3657,7 @@
     <value>獲得淵星</value>
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
-    <value>上傳數據</value>
+    <value>上傳資料</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下載更新失敗</value>
@@ -3987,7 +4008,7 @@
     <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB - 工具箱 - 戰績」頁面查看。</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
-    <value>狀態：{0} | 訊息：{1}</value>
+    <value>狀態：{0} | 資訊：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
     <value>請重新整理 Cookie，原始訊息：{0}</value>

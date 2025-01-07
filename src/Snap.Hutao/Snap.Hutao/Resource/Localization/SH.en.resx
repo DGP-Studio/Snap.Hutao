@@ -1493,6 +1493,9 @@
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Delete Snap Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>使用胡桃云兑换码</value>
+  </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
   </data>
@@ -1695,7 +1698,7 @@
     <value>Assets</value>
   </data>
   <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
-    <value>* If some or all files fail to download, don't worry, we will automatically try to complete them when the pictures are about to be displayed.</value>
+    <value>* Don't worry if a file download fails; we will automatically attempt to complete it when the image is about to be displayed.</value>
   </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>Image Assets Settings</value>
@@ -1704,13 +1707,13 @@
     <value>* Unless uninstall and reinstall Snap Hutao, you cannot change this setting</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
-    <value>Image Assets Archive</value>
+    <value>Image Assets Package</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
-    <value>Full Archive</value>
+    <value>Full Package</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
-    <value>Minimum Archive</value>
+    <value>Minimum Package</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>Image Assets Quality</value>
@@ -2016,10 +2019,10 @@
     <value>Dowloading Assets</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
-    <value>Raw</value>
+    <value>High Quality</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
-    <value>High Quality</value>
+    <value>Original Quality</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address</value>
@@ -2486,6 +2489,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lifetime developer license</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>No Hutao Cloud record</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Snap Hutao Cloud Service Expired</value>
   </data>
@@ -2663,6 +2669,18 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>Teams</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>After obtaining the duration, you will be able to select the Chinese CDN mirror when updating Snap Hutao version for a better experience.</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>Hutao Cloud CDN Service</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>After obtaining the duration, you will be able to download/upload/delete wish records for up to 5 UIDs through our server. In the Spiral Abyss page, you will get free duration when uploading records for the first time in each challenge!</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>Hutao Cloud Wish Record Service</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -2674,6 +2692,9 @@
   </data>
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>At least 8 characters required</value>
+  </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>请输入兑换码</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Register</value>

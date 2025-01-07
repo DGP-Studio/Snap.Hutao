@@ -1493,6 +1493,9 @@
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Supprimer le compte Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>Utiliser le code d'échange Snap Hutao Cloud</value>
+  </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Exporter l'application</value>
   </data>
@@ -2486,6 +2489,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Les comptes développeurs ignorent la date d'expiration du service</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>无云端记录</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Durée du service Snap Hutao Cloud insuffisante</value>
   </data>
@@ -2663,6 +2669,18 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>Apparition de l'équipe</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>Après avoir obtenu la durée, vous pourrez sélectionner le miroir CDN national chinois lors de la mise à jour de la version de Snap Hutao afin de bénéficier d'une meilleure expérience de mise à jour.</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>胡桃云 CDN 服务</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>胡桃云祈愿记录服务</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>S'identifier</value>
   </data>
@@ -2674,6 +2692,9 @@
   </data>
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>Au moins 8 caractères sont requis</value>
+  </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>Veuillez saisir le code d'échange</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Créer un compte</value>

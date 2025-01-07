@@ -1493,6 +1493,9 @@
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Hapus Snap Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>使用胡桃云兑换码</value>
+  </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Ekpor App</value>
   </data>
@@ -2486,6 +2489,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lisensi pengembang seumur hidup</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>Tidak ada catatan Hutao Cloud</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Layanan Cloud Snap Hutao Kadaluarsa</value>
   </data>
@@ -2663,6 +2669,18 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>Tim</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>Setelah mendapatkan durasi, Anda akan dapat memilih mirror CDN Tiongkok saat pembaruan versi Snap Hutao untuk mendapatkan pengalaman pembaruan yang lebih baik.</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>Layanan CDN Hutao Cloud</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>Setelah mendapatkan durasi, Anda akan dapat mengunduh/mengunggah/menghapus catatan permohonan untuk maksimal 5 UID melalui server kami. Di halaman Spiral Abyss, Anda akan mendapatkan durasi gratis saat mengunggah catatan untuk pertama kalinya di setiap tantangan!</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>Layanan Catatan Permohonan Hutao Cloud</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Log In</value>
   </data>
@@ -2674,6 +2692,9 @@
   </data>
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>Diperlukan setidaknya 8 karakter</value>
+  </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>请输入兑换码</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Registrasi</value>
