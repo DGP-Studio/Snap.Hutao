@@ -46,6 +46,7 @@ internal sealed partial class DownloadSummary : ObservableObject
         httpClient = serviceProvider.GetRequiredService<HttpClient>();
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
         imageCache = serviceProvider.GetRequiredService<IImageCache>();
+        hutaoUserOptions = serviceProvider.GetRequiredService<HutaoUserOptions>();
 
         this.serviceProvider = serviceProvider;
 
