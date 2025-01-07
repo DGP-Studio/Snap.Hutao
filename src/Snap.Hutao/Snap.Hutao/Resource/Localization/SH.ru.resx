@@ -1493,6 +1493,9 @@
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Отменить регистрацию учетной записи Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>使用胡桃云兑换码</value>
+  </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Экспорт приложения</value>
   </data>
@@ -2689,6 +2692,9 @@
   </data>
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>Требуется не менее 8 символов</value>
+  </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>请输入兑换码</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Регистрация</value>
