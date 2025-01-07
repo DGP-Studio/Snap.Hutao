@@ -484,13 +484,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         RedeemGenerateRequest request = new()
         {
-            Count = (uint)RedeemCodeGenerateOption.Count,
+            Count = RedeemCodeGenerateOption.Count,
             Type = type,
             ServiceType = RedeemCodeGenerateOption.ServiceType,
             Value = RedeemCodeGenerateOption.Value,
             Description = RedeemCodeGenerateOption.Description,
             ExpireTime = DateTimeOffset.UtcNow.AddHours(RedeemCodeGenerateOption.ExpireHours),
-            Times = (uint)RedeemCodeGenerateOption.Times,
+            Times = RedeemCodeGenerateOption.Times,
         };
 
         using (IServiceScope scope = serviceProvider.CreateScope())

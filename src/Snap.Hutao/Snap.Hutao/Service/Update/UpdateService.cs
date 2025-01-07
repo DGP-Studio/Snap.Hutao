@@ -35,7 +35,7 @@ internal sealed partial class UpdateService : IUpdateService
             await taskContext.SwitchToBackgroundAsync();
 
             HutaoInfrastructureClient infrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            HutaoResponse<HutaoPackageInformation> response = await infrastructureClient.GetHutaoVersionInfomationAsync(token).ConfigureAwait(false);
+            HutaoResponse<HutaoPackageInformation> response = await infrastructureClient.GetHutaoVersionInformationAsync(token).ConfigureAwait(false);
 
             CheckUpdateResult checkUpdateResult = new();
 

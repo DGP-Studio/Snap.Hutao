@@ -148,6 +148,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask UnsynchronizedHandleInitializationAsync()
     {
+        serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);
+
         // In guide
         if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
@@ -172,7 +174,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget(logger);
         serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget(logger);
-        serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);
 
         if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
         {

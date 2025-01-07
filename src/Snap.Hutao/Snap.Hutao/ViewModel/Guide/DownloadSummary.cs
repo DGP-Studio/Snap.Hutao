@@ -8,7 +8,9 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
+using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Frozen;
@@ -27,10 +29,11 @@ internal sealed partial class DownloadSummary : ObservableObject
         MediaTypeNames.Application.Zip,
     ];
 
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IImageCache imageCache;
-    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HttpClient httpClient;
 
     private readonly string fileUrl;
@@ -68,16 +71,16 @@ internal sealed partial class DownloadSummary : ObservableObject
             int retryTimes = 0;
             while (retryTimes++ < 3)
             {
-                HttpRequestMessage message = httpRequestMessageBuilderFactory
+                HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory
                     .Create()
                     .SetRequestUri(fileUrl)
                     .SetStaticResourceControlHeaders()
-                    .Get()
-                    .HttpRequestMessage;
+                    .Get();
+
+                await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
                 TimeSpan delay = default;
-
-                using (message)
+                using (HttpRequestMessage message = builder.HttpRequestMessage)
                 {
                     using (HttpResponseMessage response = await httpClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                     {
@@ -157,6 +160,7 @@ internal sealed partial class DownloadSummary : ObservableObject
                 }
                 catch
                 {
+                    // Ignored
                 }
             }
         }
