@@ -18,7 +18,6 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using Windows.ApplicationModel.Preview.InkWorkspace;
 
 namespace Snap.Hutao.Service.Metadata;
 

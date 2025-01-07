@@ -249,6 +249,11 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
+        if (metadataContext is null)
+        {
+            return;
+        }
+
         await taskContext.SwitchToBackgroundAsync();
 
         await statisticsCts.CancelAsync().ConfigureAwait(false);
@@ -258,9 +263,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         ResinStatistics resinStatistics;
         try
         {
-            // TODO: cache context
-            CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>(token).ConfigureAwait(false);
-            statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(Projects.CurrentItem, context, token).ConfigureAwait(false);
+            statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(Projects.CurrentItem, metadataContext, token).ConfigureAwait(false);
             resinStatistics = await cultivationService.GetResinStatisticsAsync(statistics, token).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
