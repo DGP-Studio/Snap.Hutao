@@ -1,9 +1,11 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
@@ -23,10 +25,13 @@ using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
+using Snap.Hutao.Web.Hutao.Redeem;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
-using System.Data.SqlTypes;
 using System.IO;
+
+// ReSharper disable LocalizableElement
 
 namespace Snap.Hutao.ViewModel;
 
@@ -38,6 +43,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IGameScreenCaptureService gameScreenCaptureService;
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IClipboardProvider clipboardProvider;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
@@ -54,6 +60,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     public int CdnCompensationDays { get; set; } = 15;
 
     public DesignationOptions CdnDesignationOptions { get; } = new();
+
+    public RedeemCodeGenerateOptions RedeemCodeGenerateOption { get; set => SetProperty(ref field, value); } = new();
 
     public bool SuppressMetadataInitialization
     {
@@ -448,6 +456,62 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("GenerateRedeemCodeCommand")]
+    private async Task GenerateRedeemCodeAsync()
+    {
+        RedeemCodeType type = RedeemCodeType.None;
+        if (RedeemCodeGenerateOption.IsTimeLimited)
+        {
+            type |= RedeemCodeType.TimeLimited;
+        }
+
+        if (RedeemCodeGenerateOption.IsTimesLimited)
+        {
+            type |= RedeemCodeType.TimesLimited;
+        }
+
+        if (type is RedeemCodeType.None)
+        {
+            infoBarService.Warning("Please select at least one type");
+            return;
+        }
+
+        if (RedeemCodeGenerateOption.ServiceType is RedeemCodeTargetServiceType.None)
+        {
+            infoBarService.Warning("Please select a service type");
+            return;
+        }
+
+        RedeemGenerateRequest request = new()
+        {
+            Count = (uint)RedeemCodeGenerateOption.Count,
+            Type = type,
+            ServiceType = RedeemCodeGenerateOption.ServiceType,
+            Value = RedeemCodeGenerateOption.Value,
+            Description = RedeemCodeGenerateOption.Description,
+            ExpireTime = DateTimeOffset.UtcNow.AddHours(RedeemCodeGenerateOption.ExpireHours),
+            Times = (uint)RedeemCodeGenerateOption.Times,
+        };
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            HutaoResponse<RedeemGenerateResult> response = await hutaoAsAServiceClient.GenerateRedeemCodesAsync(request).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out RedeemGenerateResult? generateResponse))
+            {
+                string message = $"""
+                    {response.Message}
+                    {string.Join(Environment.NewLine, generateResponse.Codes)}
+                    Copied to clipboard
+                    """;
+                await clipboardProvider.SetTextAsync(string.Join(", ", generateResponse.Codes)).ConfigureAwait(false);
+                infoBarService.Success(message, 0);
+                await taskContext.SwitchToMainThreadAsync();
+                RedeemCodeGenerateOption = new();
+            }
+        }
+    }
+
     internal sealed class ExtractOptions
     {
         public bool IsOversea { get; set; }
@@ -460,5 +524,24 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         public string UserName { get; set; } = default!;
 
         public int Days { get; set; }
+    }
+
+    internal sealed class RedeemCodeGenerateOptions : ObservableObject
+    {
+        public uint Count { get; set; }
+
+        public bool IsTimeLimited { get; set => SetProperty(ref field, value); }
+
+        public bool IsTimesLimited { get; set => SetProperty(ref field, value); }
+
+        public RedeemCodeTargetServiceType ServiceType { get; set; }
+
+        public int Value { get; set; }
+
+        public string Description { get; set; } = default!;
+
+        public int ExpireHours { get; set; }
+
+        public uint Times { get; set; }
     }
 }

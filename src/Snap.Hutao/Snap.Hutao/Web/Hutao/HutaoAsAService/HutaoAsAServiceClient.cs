@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
+using Snap.Hutao.Web.Hutao.Redeem;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -107,6 +108,21 @@ internal sealed partial class HutaoAsAServiceClient
 
         HutaoResponse? resp = await builder
             .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse<RedeemGenerateResult>> GenerateRedeemCodesAsync(RedeemGenerateRequest request, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().RedeemCodeGenerate())
+            .PostJson(request);
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        HutaoResponse<RedeemGenerateResult>? resp = await builder
+            .SendAsync<HutaoResponse<RedeemGenerateResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
