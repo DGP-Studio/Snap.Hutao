@@ -122,7 +122,7 @@
                                             Grid.Column="0"
                                             MaxWidth="120"
                                             MaxHeight="120"
-                                            Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                                            Source="ms-appx:///Assets/InAppLogo.png"/>
                                         <StackPanel
                                             Grid.Row="0"
                                             Grid.Column="1"
