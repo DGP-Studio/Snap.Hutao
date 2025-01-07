@@ -981,7 +981,7 @@
     <value>不支援的 Item Id：{0}</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF 檔案的語言：{0} 與胡桃的語言：{1} 不對應，請切換到對應語言重試</value>
+    <value>UIGF 檔案的語言：{0} 與 Snap Hutao 的語言：{1} 不對應，請切換到對應語言重試</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>名稱為 {0} 的帳號已存在</value>
@@ -2592,7 +2592,7 @@
     <value>旅行者，歡迎來到提瓦特大陸!</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
-    <value>你說的對，但是《胡桃》是由 DGP Studio 自主研發的一款...</value>
+    <value>你說的對，但是《Snap Hutao》是由 DGP Studio 自主研發的一款...</value>
   </data>
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
     <value>吶，旅行者，這是你來到提瓦特大陸的第 {0} 天哦</value>
