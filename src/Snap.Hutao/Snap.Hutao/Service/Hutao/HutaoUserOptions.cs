@@ -135,7 +135,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HutaoRedeemCodeClient hutaoRedeemCodeClient = scope.ServiceProvider.GetRequiredService<HutaoRedeemCodeClient>();
-                HutaoResponse<RedeemUseResponse> response = await hutaoRedeemCodeClient.UseRedeemCodeAsync(new(code), token).ConfigureAwait(false);
+                HutaoResponse<RedeemUseResult> response = await hutaoRedeemCodeClient.UseRedeemCodeAsync(new(code), token).ConfigureAwait(false);
 
                 if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
                 {

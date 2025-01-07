@@ -14,5 +14,5 @@ internal sealed class RedeemUseRequest
     public string? Username { get; set; }
 
     [JsonPropertyName("code")]
-    public string Code { get; set; } = default!;
+    public string Code { get; set; }
 }

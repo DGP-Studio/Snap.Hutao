@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hutao.Redeem;
 
-internal sealed class RedeemUseResponse
+internal sealed class RedeemUseResult
 {
     public RedeemStatus Status { get; set; }
 

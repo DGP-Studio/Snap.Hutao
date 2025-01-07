@@ -31,6 +31,8 @@ using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
+// ReSharper disable LocalizableElement
+
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
@@ -494,8 +496,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            HutaoResponse<RedeemGenerateResponse> response = await hutaoAsAServiceClient.GenerateRedeemCodesAsync(request).ConfigureAwait(false);
-            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out RedeemGenerateResponse? generateResponse))
+            HutaoResponse<RedeemGenerateResult> response = await hutaoAsAServiceClient.GenerateRedeemCodesAsync(request).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out RedeemGenerateResult? generateResponse))
             {
                 string message = $"""
                     {response.Message}
@@ -526,7 +528,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     internal sealed class RedeemCodeGenerateOptions : ObservableObject
     {
-        public int Count { get; set; }
+        public uint Count { get; set; }
 
         public bool IsTimeLimited { get; set => SetProperty(ref field, value); }
 
@@ -540,6 +542,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         public int ExpireHours { get; set; }
 
-        public int Times { get; set; }
+        public uint Times { get; set; }
     }
 }

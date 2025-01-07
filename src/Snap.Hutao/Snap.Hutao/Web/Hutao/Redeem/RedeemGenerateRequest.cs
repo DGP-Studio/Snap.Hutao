@@ -5,17 +5,17 @@ namespace Snap.Hutao.Web.Hutao.Redeem;
 
 internal sealed class RedeemGenerateRequest
 {
-    public uint Count { get; set; }
+    public required uint Count { get; set; }
 
-    public RedeemCodeType Type { get; set; }
+    public required RedeemCodeType Type { get; set; }
 
-    public RedeemCodeTargetServiceType ServiceType { get; set; }
+    public required RedeemCodeTargetServiceType ServiceType { get; set; }
 
-    public int Value { get; set; }
+    public required int Value { get; set; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; set; }
 
-    public DateTimeOffset ExpireTime { get; set; }
+    public required DateTimeOffset ExpireTime { get; set; }
 
-    public uint Times { get; set; }
+    public required uint Times { get; set; }
 }

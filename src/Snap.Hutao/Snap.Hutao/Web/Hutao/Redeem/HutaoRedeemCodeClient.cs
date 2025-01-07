@@ -21,7 +21,7 @@ internal sealed partial class HutaoRedeemCodeClient
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<HutaoResponse<RedeemUseResponse>> UseRedeemCodeAsync(RedeemUseRequest request, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<RedeemUseResult>> UseRedeemCodeAsync(RedeemUseRequest request, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().RedeemCodeUse())
@@ -29,8 +29,8 @@ internal sealed partial class HutaoRedeemCodeClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        HutaoResponse<RedeemUseResponse>? resp = await builder
-            .SendAsync<HutaoResponse<RedeemUseResponse>>(httpClient, logger, token)
+        HutaoResponse<RedeemUseResult>? resp = await builder
+            .SendAsync<HutaoResponse<RedeemUseResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

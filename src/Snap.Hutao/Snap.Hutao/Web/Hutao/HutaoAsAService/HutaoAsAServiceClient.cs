@@ -113,7 +113,7 @@ internal sealed partial class HutaoAsAServiceClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<RedeemGenerateResponse>> GenerateRedeemCodesAsync(RedeemGenerateRequest request, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<RedeemGenerateResult>> GenerateRedeemCodesAsync(RedeemGenerateRequest request, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().RedeemCodeGenerate())
@@ -121,8 +121,8 @@ internal sealed partial class HutaoAsAServiceClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        HutaoResponse<RedeemGenerateResponse>? resp = await builder
-            .SendAsync<HutaoResponse<RedeemGenerateResponse>>(httpClient, logger, token)
+        HutaoResponse<RedeemGenerateResult>? resp = await builder
+            .SendAsync<HutaoResponse<RedeemGenerateResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
