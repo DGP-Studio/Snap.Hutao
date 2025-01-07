@@ -45,6 +45,7 @@ internal sealed class CultivateEntryView : Item
                         if (info.AvatarLevelFrom != info.AvatarLevelTo)
                         {
                             stringBuilder.Append("Lv.").Append(info.AvatarLevelFrom).Append(" → Lv.").Append(info.AvatarLevelTo).Append(' ');
+                            stringBuilder.AppendLine();
                         }
 
                         if (info.SkillALevelFrom != info.SkillALevelTo)
@@ -62,7 +63,7 @@ internal sealed class CultivateEntryView : Item
                             stringBuilder.Append("Q: ").Append(info.SkillQLevelFrom).Append(" → ").Append(info.SkillQLevelTo).Append(' ');
                         }
 
-                        return stringBuilder.ToStringTrimEnd();
+                        return stringBuilder.ToStringTrimEndNewLine();
                     }
 
                 case Model.Entity.Primitive.CultivateType.Weapon:
