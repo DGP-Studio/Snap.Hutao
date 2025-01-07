@@ -6,6 +6,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
+using System.Collections.Immutable;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
@@ -26,7 +27,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
         }
     }
 
-    public override async ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets)
+    public override async ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets)
     {
         foreach (SophonAssetOperation asset in diffAssets)
         {
@@ -41,13 +42,13 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
         }
     }
 
-    public override async ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets)
+    public override async ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets)
     {
         foreach (SophonAssetOperation asset in diffAssets)
         {
-            IList<SophonChunk> chunks = asset.Kind switch
+            IReadOnlyList<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)).ToList(),
+                SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c))],
                 SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
@@ -80,7 +81,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
         }
     }
 
-    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IList<SophonChunk> sophonChunks)
+    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IReadOnlyList<SophonChunk> sophonChunks)
     {
         foreach (SophonChunk chunk in sophonChunks)
         {
