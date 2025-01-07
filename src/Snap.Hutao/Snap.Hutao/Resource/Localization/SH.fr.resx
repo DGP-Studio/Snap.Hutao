@@ -1493,6 +1493,9 @@
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Supprimer le compte Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>Utiliser le code d'échange Snap Hutao Cloud</value>
+  </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Exporter l'application</value>
   </data>
@@ -2689,6 +2692,9 @@
   </data>
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>Au moins 8 caractères sont requis</value>
+  </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>Veuillez saisir le code d'échange</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Créer un compte</value>
