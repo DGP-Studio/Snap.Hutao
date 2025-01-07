@@ -1495,7 +1495,7 @@
     <value>胡桃アカウントを削除</value>
   </data>
   <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
-    <value>使用胡桃云兑换码</value>
+    <value>胡桃クラウド交換コードの使用</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Appをエクスポート</value>
@@ -2696,7 +2696,7 @@
     <value>8文字以上必要です</value>
   </data>
   <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
-    <value>请输入兑换码</value>
+    <value>交換コードを入力してください</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>アカウント作成</value>
