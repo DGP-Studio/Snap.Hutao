@@ -221,7 +221,7 @@
                                     Grid.Column="1"
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{Binding CountFormatted}"/>
+                                    Text="{Binding FormattedCount}"/>
                             </Grid>
                         </shuxcc:HorizontalCard.Right>
                     </shuxcc:HorizontalCard>

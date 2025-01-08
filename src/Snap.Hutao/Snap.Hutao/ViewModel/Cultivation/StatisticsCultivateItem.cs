@@ -10,18 +10,18 @@ internal sealed class StatisticsCultivateItem
     private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
     {
         Inner = inner;
-        Count = (int)entity.Count;
+        Count = entity.Count;
     }
 
     public Material Inner { get; }
 
-    public int Count { get; set; }
+    public uint Count { get; set; }
 
-    public int Current { get; set; }
+    public uint Current { get; set; }
 
     public bool IsFinished { get => Current >= Count; }
 
-    public string CountFormatted { get => $"{Current}/{Count}"; }
+    public string FormattedCount { get => $"{Current}/{Count}"; }
 
     public bool IsToday { get => Inner.IsTodaysItem(true); }
 

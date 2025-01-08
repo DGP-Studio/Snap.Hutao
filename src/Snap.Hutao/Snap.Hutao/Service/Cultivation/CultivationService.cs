@@ -109,7 +109,7 @@ internal sealed partial class CultivationService : ICultivationService
                     ref StatisticsCultivateItem? existedItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, item.ItemId, out _);
                     if (existedItem is not null)
                     {
-                        existedItem.Count += (int)item.Count;
+                        existedItem.Count += item.Count;
                     }
                     else
                     {
@@ -123,7 +123,7 @@ internal sealed partial class CultivationService : ICultivationService
                 ref StatisticsCultivateItem existedItem = ref CollectionsMarshal.GetValueRefOrNullRef(resultItems, inventoryItem.ItemId);
                 if (!Unsafe.IsNullRef(in existedItem))
                 {
-                    existedItem.Current += (int)inventoryItem.Count;
+                    existedItem.Current += inventoryItem.Count;
                 }
             }
 
