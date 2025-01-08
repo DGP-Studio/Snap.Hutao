@@ -154,7 +154,7 @@
     <value>选择全部</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>无效的 Uri</value>
+    <value>无效的 URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
   </data>
@@ -631,6 +634,9 @@
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>验证请求失败，当前邮箱已被注册</value>
   </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱未注册</value>
+  </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>验证请求过快，请 1 分钟后再试</value>
   </data>
@@ -674,10 +680,10 @@
     <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF Json 文件</value>
+    <value>UIAF JSON 文件</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>打开 UIAF Json 文件</value>
+    <value>打开 UIAF JSON 文件</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>单个成就存档内发现多个相同的成就 Id</value>
@@ -690,6 +696,15 @@
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓更新时间〓</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>美服 UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>其他 UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>欧服 UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻击力</value>
@@ -948,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 Url</value>
+    <value>未找到可用的 URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>游戏正在运行中，关闭游戏后重试</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>提供的 Url 无效</value>
+    <value>提供的 URL 无效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLab 账号不支持使用 SToken 刷新祈愿记录</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>URL 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>不支持的 Item Id：{0}</value>
@@ -1119,7 +1134,7 @@
     <value>解锁帧率失败：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss}</value>
+    <value>祈愿记录上传服务有效期至</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>无法找到缓存的元数据文件</value>
@@ -1374,10 +1389,10 @@
     <value>参量质变仪提醒</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 Url</value>
+    <value>请输入 URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>实时便笺 Webhook Url</value>
+    <value>实时便笺 Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
     <value>选择要导出记录的 UID</value>
@@ -1398,7 +1413,7 @@
     <value>导入祈愿记录</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈愿记录 Url 已失效，请重新获取</value>
+    <value>祈愿记录 URL 已失效，请重新获取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>正在获取 {0}</value>
@@ -1407,10 +1422,10 @@
     <value>获取祈愿物品中</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 Url</value>
+    <value>请输入 URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>手动输入祈愿记录 Url</value>
+    <value>手动输入祈愿记录 URL</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
     <value>游戏服务器</value>
@@ -1437,10 +1452,10 @@
     <value>韩语</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>请输入请求接口的 Url 复合模板</value>
+    <value>请输入请求接口的 URL 复合模板</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>接口需要返回形如上方所示的 Json 数据，多余的数据会被忽略</value>
+    <value>接口需要返回形如上方所示的 JSON 数据，多余的数据会被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>"code" 为 0 时，指示验证成功，其他的值均视为验证失败</value>
@@ -1472,8 +1487,14 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>重置胡桃通行证密码</value>
   </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>重置胡桃通行证邮箱</value>
+  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>注销胡桃通行证账号</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>使用胡桃云兑换码</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>导出 App</value>
@@ -1571,7 +1592,7 @@
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>上传深渊数据</value>
   </data>
-  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+  <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
     <value>查看更新日志</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
@@ -1676,6 +1697,9 @@
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>资源</value>
   </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* 当遇到文件下载失败的情况时无需担心，我们会在图片将要展示时自动尝试补全</value>
+  </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>图像资源设置</value>
   </data>
@@ -1696,6 +1720,9 @@
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深渊统计</value>
+  </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>清除所有通知</value>
@@ -1740,7 +1767,7 @@
     <value>确定要删除存档 {0} 吗？</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIAF Json 文件到指定路径</value>
+    <value>导出 UIAF JSON 文件到指定路径</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>获取培养材料中，请稍候...</value>
@@ -1842,7 +1869,7 @@
     <value>周常 BOSS</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>实时便笺 Webhook Url 配置成功</value>
+    <value>实时便笺 Webhook URL 配置成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLab 账号不支持验证实时便笺</value>
@@ -1902,7 +1929,7 @@
     <value>上半</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF Json 文件</value>
+    <value>UIGF JSON 文件</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>导入完成</value>
@@ -1941,13 +1968,13 @@
     <value>从胡桃云服务同步祈愿记录</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIGF Json 文件到指定路径</value>
+    <value>导出 UIGF JSON 文件到指定路径</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>正在上传到胡桃云服务</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>导入 UIGF Json 文件</value>
+    <value>导入 UIGF JSON 文件</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
@@ -2015,6 +2042,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
   </data>
@@ -2030,11 +2060,11 @@
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>修复完成</value>
   </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>尚未设置游戏目录</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>识别显示器</value>
-  </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>游戏路径不正确，前往设置更改游戏路径</value>
@@ -2085,7 +2115,7 @@
     <value>已使用磁盘空间：{0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>无感验证复合 Url 配置成功</value>
+    <value>无感验证复合 URL 配置成功</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>正在重置图片资源</value>
@@ -2459,6 +2489,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>开发者账号无视服务到期时间</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>无云端记录</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>胡桃云服务时长不足</value>
   </data>
@@ -2514,10 +2547,10 @@
     <value>获取</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 Url</value>
+    <value>手动输入 URL</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 Url 刷新祈愿记录</value>
+    <value>使用由你提供的 URL 刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 刷新</value>
@@ -2636,8 +2669,23 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>队伍出场</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>胡桃云 CDN 服务</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>胡桃云祈愿记录服务</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>登录</value>
+  </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>请输入新邮箱</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>请输入密码</value>
@@ -2645,13 +2693,19 @@
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>至少需要 8 个字符</value>
   </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>请输入兑换码</value>
+  </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>注册</value>
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>重置密码</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>赞助</value>
+  </data>
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>注销账号的数据将永远丢失，无法恢复</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
@@ -3188,6 +3242,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>游戏公告所属服务器</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>选择材料日历获取当天日期时使用的游戏服务器时区</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>日历服务器</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主页仪表板中的卡片</value>
   </data>
@@ -3218,6 +3278,9 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>主页</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>胡桃云 CDN 到期时间</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>三思而后行</value>
   </data>
@@ -3225,7 +3288,7 @@
     <value>危险操作</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃云服务到期时间</value>
+    <value>胡桃云祈愿记录服务到期时间</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行证账号</value>
@@ -3254,11 +3317,17 @@
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>使用兑换码</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>刷新</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>注册</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>修改密码</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>修改邮箱</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>注销账号</value>
@@ -3283,6 +3352,9 @@
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
@@ -3491,6 +3563,12 @@
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想真境剧诗</value>
   </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>未开通胡桃云 CDN 或已到期</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>未开通祈愿记录上传服务或已到期</value>
+  </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>登录失败，请重新登录</value>
   </data>
@@ -3581,9 +3659,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上传数据</value>
   </data>
-  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载？</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下载更新失败</value>
   </data>
@@ -3601,6 +3676,12 @@
   </data>
   <data name="ViewTitleAutoPressing" xml:space="preserve">
     <value>自动连按</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>正在初始化元数据</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>是否立即下载？</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>正在安装更新</value>

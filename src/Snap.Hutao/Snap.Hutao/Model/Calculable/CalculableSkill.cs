@@ -15,10 +15,13 @@ namespace Snap.Hutao.Model.Calculable;
 
 internal sealed partial class CalculableSkill : ObservableObject, ICalculableSkill
 {
+    // Only persists current level for non-view skills
+    private readonly bool persistsLevel;
     private readonly SkillType type;
 
     private CalculableSkill(ProudSkill skill, SkillType type)
     {
+        persistsLevel = true;
         this.type = type;
 
         GroupId = skill.GroupId;
@@ -31,6 +34,7 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
 
     private CalculableSkill(SkillView skill, SkillType type)
     {
+        persistsLevel = false;
         this.type = type;
 
         GroupId = skill.GroupId;
@@ -55,8 +59,8 @@ internal sealed partial class CalculableSkill : ObservableObject, ICalculableSki
 
     public uint LevelCurrent
     {
-        get => LocalSetting.Get(SettingKeyCurrentFromSkillType(type), LevelMin);
-        set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromSkillType(type), v));
+        get => persistsLevel ? LocalSetting.Get(SettingKeyCurrentFromSkillType(type), LevelMin) : field;
+        set => _ = persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromSkillType(type), v)) : SetProperty(ref field, value);
     }
 
     public uint LevelTarget

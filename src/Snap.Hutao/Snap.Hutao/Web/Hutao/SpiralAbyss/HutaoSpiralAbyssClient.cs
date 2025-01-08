@@ -149,7 +149,7 @@ internal sealed partial class HutaoSpiralAbyssClient
     {
         IGameRecordClient gameRecordClient = serviceProvider
             .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-            .Create(userAndUid.User.IsOversea);
+            .Create(userAndUid.IsOversea);
 
         // Reduce risk verify chance.
         Response<PlayerInfo> playerInfoResponse = await gameRecordClient
@@ -171,7 +171,7 @@ internal sealed partial class HutaoSpiralAbyssClient
         }
 
         Response<ListWrapper<DetailedCharacter>> detailResponse = await gameRecordClient
-            .GetCharacterDetailAsync(userAndUid, charactersWrapper.List.SelectList(c => c.Id), token)
+            .GetCharacterDetailAsync(userAndUid, charactersWrapper.List.SelectAsArray(c => c.Id), token)
             .ConfigureAwait(false);
 
         if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, out ListWrapper<DetailedCharacter>? detailsWrapper))
@@ -186,7 +186,8 @@ internal sealed partial class HutaoSpiralAbyssClient
         if (ResponseValidator.TryValidate(spiralAbyssResponse, serviceProvider, out Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss))
         {
             HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-            return new(userAndUid.Uid.Value, detailsWrapper.List, spiralAbyss, options.GetActualUserName());
+            string? userName = await options.GetActualUserNameAsync().ConfigureAwait(false);
+            return new(userAndUid.Uid.Value, detailsWrapper.List, spiralAbyss, userName);
         }
 
         return default;

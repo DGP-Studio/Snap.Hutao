@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Configuration;
-using System.Collections.Immutable;
 using System.IO;
 using System.Runtime.InteropServices;
 

@@ -8,5 +8,6 @@ namespace Snap.Hutao.Service.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class LaunchStatusOptions : ObservableObject
 {
-    public LaunchStatus? LaunchStatus { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial LaunchStatus? LaunchStatus { get; set; }
 }

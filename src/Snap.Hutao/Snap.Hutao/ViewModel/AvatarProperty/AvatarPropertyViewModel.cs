@@ -11,8 +11,10 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Service.AvatarInfo;
+using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
@@ -22,6 +24,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
@@ -36,6 +39,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 {
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
+    private SummaryFactoryMetadataContext? metadataContext;
     private Summary? summary;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
@@ -56,13 +60,18 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            _ = RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken);
+            _ = RefreshCoreAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
         }
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        FilterTokens = [];
+        if (!await scopeContext.MetadataService.InitializeAsync().ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        metadataContext = await scopeContext.MetadataService.GetContextAsync<SummaryFactoryMetadataContext>().ConfigureAwait(false);
         availableTokens = FrozenDictionary.ToFrozenDictionary(
         [
             .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToUri(nv.Name)))),
@@ -72,9 +81,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).ConfigureAwait(false);
+            await RefreshCoreAsync(userAndUid, RefreshOptionKind.None, CancellationToken).ConfigureAwait(false);
         }
 
+        await scopeContext.TaskContext.SwitchToMainThreadAsync();
+        FilterTokens = [];
         return true;
     }
 
@@ -83,13 +94,15 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
+            await RefreshCoreAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
         }
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOption option, CancellationToken token)
+    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOptionKind optionKind, CancellationToken token)
     {
+        ArgumentNullException.ThrowIfNull(metadataContext);
+
         try
         {
             await scopeContext.TaskContext.SwitchToMainThreadAsync();
@@ -105,7 +118,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 using (await scopeContext.ContentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
                     summaryResult = await scopeContext.AvatarInfoService
-                        .GetSummaryAsync(userAndUid, option, token)
+                        .GetSummaryAsync(metadataContext, userAndUid, optionKind, token)
                         .ConfigureAwait(false);
                 }
             }
@@ -187,10 +200,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         if (!await SaveCultivationAsync(batchConsumption.Items.Single(), deltaOptions).ConfigureAwait(false))
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-            return;
         }
-
-        scopeContext.InfoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
     }
 
     [Command("BatchCultivateCommand")]
@@ -225,7 +235,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         BatchCultivateResult result = default;
         using (await scopeContext.ContentDialogFactory.BlockAsync(progressDialog).ConfigureAwait(false))
         {
-            List<CalculatorAvatarPromotionDelta> deltas = [];
+            ImmutableArray<CalculatorAvatarPromotionDelta>.Builder deltasBuilder = ImmutableArray.CreateBuilder<CalculatorAvatarPromotionDelta>();
             foreach (AvatarView avatar in avatars)
             {
                 if (!deltaOptions.Delta.TryGetNonErrorCopy(avatar, out CalculatorAvatarPromotionDelta? copy))
@@ -234,8 +244,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     continue;
                 }
 
-                deltas.Add(copy);
+                deltasBuilder.Add(copy);
             }
+
+            ImmutableArray<CalculatorAvatarPromotionDelta> deltas = deltasBuilder.ToImmutable();
 
             CalculatorBatchConsumption? batchConsumption;
             using (IServiceScope scope = scopeContext.ServiceScopeFactory.CreateScope())
@@ -361,5 +373,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         Summary.Avatars.Filter = FilterTokens is null or [] ? default! : AvatarViewFilter.Compile(FilterTokens);
         OnPropertyChanged(nameof(TotalAvatarCount));
+
+        if (Summary.Avatars.CurrentItem is null)
+        {
+            Summary.Avatars.MoveCurrentToFirstOrDefault();
+        }
     }
 }

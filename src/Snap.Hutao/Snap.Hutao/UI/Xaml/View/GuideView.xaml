@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shm="using:Snap.Hutao.Model"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Guide"
@@ -18,7 +19,7 @@
     </mxi:Interaction.Behaviors>
 
     <UserControl.Resources>
-        <DataTemplate x:Key="LanguageTemplate">
+        <DataTemplate x:Key="LanguageTemplate" x:DataType="shm:NameCultureInfoValue">
             <StackPanel MinWidth="240" Margin="16">
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}"/>
                 <TextBlock Opacity="0.8" Text="{Binding Value}"/>
@@ -57,7 +58,10 @@
             VerticalAlignment="Bottom"
             Opacity="0.20"
             Source="ms-appx:///Resource/WelcomeView_Background.png"/>
-        <cwc:SwitchPresenter ContentTransitions="{ThemeResource EntranceThemeTransitions}" Value="{Binding State, Mode=OneWay}">
+        <cwc:SwitchPresenter
+            Grid.Row="0"
+            ContentTransitions="{ThemeResource EntranceThemeTransitions}"
+            Value="{Binding State, Mode=OneWay}">
             <cwc:Case Value="{shuxm:UInt32 Value=0}">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <GridView
@@ -80,7 +84,7 @@
                     <Image
                         Grid.Column="0"
                         Height="152"
-                        Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                        Source="ms-appx:///Assets/InAppLogo.png"/>
                     <StackPanel
                         Grid.Column="1"
                         VerticalAlignment="Center"
@@ -300,12 +304,22 @@
                 </Grid>
             </cwc:Case>
             <cwc:Case Value="{shuxm:UInt32 Value=5}">
-                <StackPanel Margin="32,0" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
                     <TextBlock
-                        Margin="1,16,0,5"
+                        Grid.Row="0"
+                        Margin="33,16,0,5"
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="{shuxm:ResourceString Name=ViewWelcomeBase}"/>
-                    <ScrollViewer>
+
+                    <ScrollViewer
+                        Grid.Row="1"
+                        Margin="32,0"
+                        HorizontalAlignment="Left">
                         <ItemsControl
                             Margin="0,0,-4,0"
                             HorizontalAlignment="Left"
@@ -314,7 +328,17 @@
                             ItemsPanel="{StaticResource WrapPanelSpacing0Template}"
                             ItemsSource="{Binding DownloadSummaries}"/>
                     </ScrollViewer>
-                </StackPanel>
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{shuxm:ResourceString Name=ViewGuideStepStaticResourceDownloadIncompleteHint}"/>
+                </Grid>
+
             </cwc:Case>
         </cwc:SwitchPresenter>
         <Grid Grid.Row="1">

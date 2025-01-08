@@ -6,7 +6,10 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Achievement;
+using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
@@ -17,39 +20,45 @@ namespace Snap.Hutao.Service.Achievement;
 internal sealed partial class AchievementService : IAchievementService
 {
     private readonly AsyncLock archivesLock = new();
+    private readonly ConcurrentDictionary<Guid, Lock> viewCollectionLocks = [];
+    private readonly ConcurrentDictionary<Guid, IAdvancedCollectionView<AchievementView>> viewCollectionCache = [];
 
     private readonly AchievementRepositoryOperation achievementDbBulkOperation;
     private readonly IAchievementRepository achievementRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private AdvancedDbCollectionView<AchievementArchive>? archives;
+    private IAdvancedDbCollectionView<AchievementArchive>? archives;
 
-    public async ValueTask<IAdvancedDbCollectionView<AchievementArchive>> GetArchivesAsync(CancellationToken token = default)
+    public async ValueTask<IAdvancedDbCollectionView<AchievementArchive>> GetArchiveCollectionAsync(CancellationToken token = default)
     {
-        if (archives is null)
+        using (await archivesLock.LockAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
-            using (await archivesLock.LockAsync().ConfigureAwait(false))
-            {
-                archives ??= new(achievementRepository.GetAchievementArchiveCollection(), serviceProvider);
-            }
+            return archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
         }
-
-        return archives;
     }
 
-    public List<AchievementView> GetAchievementViewList(AchievementArchive archive, AchievementServiceMetadataContext context)
+    public IAdvancedCollectionView<AchievementView> GetAchievementViewCollection(AchievementArchive archive, AchievementServiceMetadataContext context)
     {
-        Dictionary<AchievementId, EntityAchievement> entities = achievementRepository.GetAchievementMapByArchiveId(archive.InnerId);
-        List<AchievementView> results = [];
-        foreach (ref readonly Model.Metadata.Achievement.Achievement meta in context.Achievements.AsSpan())
+        Guid innerId = archive.InnerId;
+        lock (viewCollectionLocks.GetOrAdd(innerId, _ => new()))
         {
-            EntityAchievement entity = entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id);
-            results.Add(new(entity, meta));
-        }
+            if (viewCollectionCache.TryGetValue(innerId, out IAdvancedCollectionView<AchievementView>? viewCollection))
+            {
+                return viewCollection;
+            }
 
-        return results;
+            FrozenDictionary<AchievementId, EntityAchievement> entities = achievementRepository.GetAchievementMapByArchiveId(archive.InnerId);
+            ImmutableArray<AchievementView>.Builder results = ImmutableArray.CreateBuilder<AchievementView>(context.Achievements.Length);
+            foreach (ref readonly Model.Metadata.Achievement.Achievement meta in context.Achievements.AsSpan())
+            {
+                results.Add(AchievementView.Create(entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id), meta));
+            }
+
+            IAdvancedCollectionView<AchievementView> collection = results.ToImmutable().AsAdvancedCollectionView();
+            viewCollectionCache.TryAdd(innerId, collection);
+            return collection;
+        }
     }
 
     public void SaveAchievement(AchievementView achievement)
@@ -64,7 +73,10 @@ internal sealed partial class AchievementService : IAchievementService
             return ArchiveAddResultKind.InvalidName;
         }
 
-        ArgumentNullException.ThrowIfNull(archives);
+        if (archives is null)
+        {
+            return ArchiveAddResultKind.ArchivesNotInitialized;
+        }
 
         if (archives.SourceCollection.Any(a => a.Name == newArchive.Name))
         {
@@ -86,6 +98,9 @@ internal sealed partial class AchievementService : IAchievementService
         await taskContext.SwitchToMainThreadAsync();
         archives.Remove(archive);
 
+        // Invalidate cache
+        viewCollectionCache.TryRemove(archive.InnerId, out _);
+
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
         achievementRepository.RemoveAchievementArchive(archive);
@@ -97,26 +112,29 @@ internal sealed partial class AchievementService : IAchievementService
 
         Guid archiveId = archive.InnerId;
 
+        // Invalidate cache
+        viewCollectionCache.TryRemove(archiveId, out _);
+
         switch (strategy)
         {
             case ImportStrategyKind.AggressiveMerge:
                 {
-                    IOrderedEnumerable<UIAFItem> orederedUIAF = array.OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Merge(archiveId, orederedUIAF, true);
+                    IOrderedEnumerable<UIAFItem> orderedUIAF = array.OrderBy(a => a.Id);
+                    return achievementDbBulkOperation.Merge(archiveId, orderedUIAF, true);
                 }
 
             case ImportStrategyKind.LazyMerge:
                 {
-                    IOrderedEnumerable<UIAFItem> orederedUIAF = array.OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Merge(archiveId, orederedUIAF, false);
+                    IOrderedEnumerable<UIAFItem> orderedUIAF = array.OrderBy(a => a.Id);
+                    return achievementDbBulkOperation.Merge(archiveId, orderedUIAF, false);
                 }
 
             case ImportStrategyKind.Overwrite:
                 {
-                    IEnumerable<EntityAchievement> orederedUIAF = array
+                    IEnumerable<EntityAchievement> orderedUIAF = array
                         .Select(uiaf => EntityAchievement.From(archiveId, uiaf))
                         .OrderBy(a => a.Id);
-                    return achievementDbBulkOperation.Overwrite(archiveId, orederedUIAF);
+                    return achievementDbBulkOperation.Overwrite(archiveId, orderedUIAF);
                 }
 
             default:
@@ -127,12 +145,12 @@ internal sealed partial class AchievementService : IAchievementService
     public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<EntityAchievement> entities = achievementRepository.GetAchievementListByArchiveId(archive.InnerId);
+        ImmutableArray<EntityAchievement> entities = achievementRepository.GetAchievementImmutableArrayByArchiveId(archive.InnerId);
 
         return new()
         {
             Info = UIAFInfo.CreateForExport(),
-            List = entities.Select(UIAFItem.From).ToImmutableArray(),
+            List = entities.SelectAsArray(UIAFItem.From),
         };
     }
 }

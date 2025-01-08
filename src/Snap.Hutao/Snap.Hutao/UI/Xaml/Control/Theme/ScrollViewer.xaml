@@ -43,8 +43,13 @@
                                 <ContentPresenter Grid.Column="1" Content="{Binding Path=(shuxc:ScrollViewerHelper.RightPanel), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             </Grid>
 
-                            <Grid Grid.RowSpan="2" Grid.ColumnSpan="2"/>
                             <Grid
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"/>
+                            <Grid
+                                Grid.Row="0"
                                 Grid.Column="1"
                                 Padding="{ThemeResource ScrollViewerScrollBarMargin}"
                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
@@ -59,6 +64,7 @@
                             </Grid>
                             <Grid
                                 Grid.Row="1"
+                                Grid.Column="0"
                                 Padding="{ThemeResource ScrollViewerScrollBarMargin}"
                                 Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
                                 <ScrollBar

@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -33,8 +34,8 @@ internal sealed partial class DailyNoteRepository : IDailyNoteRepository
         this.Update(entry);
     }
 
-    public List<DailyNoteEntry> GetDailyNoteEntryListIncludingUser()
+    public ImmutableArray<DailyNoteEntry> GetDailyNoteEntryImmutableArrayIncludingUser()
     {
-        return this.List(query => query.Include(n => n.User));
+        return this.ImmutableArray(query => query.Include(n => n.User));
     }
 }

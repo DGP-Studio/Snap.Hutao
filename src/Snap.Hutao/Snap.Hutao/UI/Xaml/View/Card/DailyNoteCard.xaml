@@ -61,10 +61,10 @@
                 <shuxcc:CardBlock
                     Grid.Row="1"
                     Grid.Column="0"
+                    DotVisibility="{Binding ResinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                     IconSquareLength="64"
                     ImageSource="{StaticResource UI_ItemIcon_210}"
-                    IsDotVisible="{Binding ResinNotifySuppressed}"
-                    Text="{Binding DailyNote.ResinFormatted}"/>
+                    Text="{Binding DailyNote.FormattedResin, FallbackValue={x:Null}}"/>
 
                 <Grid
                     Grid.Row="1"
@@ -76,14 +76,14 @@
                     </Grid.RowDefinitions>
                     <shuxcc:CardBlock
                         Grid.Row="0"
+                        DotVisibility="{Binding HomeCoinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_ItemIcon_204}"
-                        IsDotVisible="{Binding HomeCoinNotifySuppressed}"
-                        Text="{Binding DailyNote.HomeCoinFormatted}"/>
+                        Text="{Binding DailyNote.FormattedHomeCoin, FallbackValue={x:Null}}"/>
                     <shuxcc:CardBlock
                         Grid.Row="1"
+                        DotVisibility="{Binding DailyTaskNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_MarkQuest_Events_Proce}"
-                        IsDotVisible="{Binding DailyTaskNotifySuppressed}"
-                        Text="{Binding DailyNote.TaskFormatted}"/>
+                        Text="{Binding DailyNote.FormattedTask, FallbackValue={x:Null}}"/>
                 </Grid>
                 <Grid
                     Grid.Row="1"
@@ -96,12 +96,12 @@
                     <shuxcc:CardBlock
                         Grid.Row="0"
                         ImageSource="{StaticResource UI_MarkTower}"
-                        Text="{Binding DailyNote.ResinDiscountFormatted}"/>
+                        Text="{Binding DailyNote.FormattedResinDiscount, FallbackValue={x:Null}}"/>
                     <shuxcc:CardBlock
                         Grid.Row="1"
+                        DotVisibility="{Binding TransformerNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"
                         ImageSource="{StaticResource UI_ItemIcon_220021}"
-                        IsDotVisible="{Binding TransformerNotifySuppressed}"
-                        Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted}"/>
+                        Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted, FallbackValue={x:Null}}"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -109,7 +109,7 @@
 
     <Grid>
         <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid Visibility="{Binding DailyNoteEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+            <Grid Visibility="{Binding DailyNoteEntries.Count, FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource Int32ToVisibilityConverter}}">
                 <FlipView
                     x:Name="RootFlipView"
                     Background="{x:Null}"
@@ -120,14 +120,14 @@
                     Height="16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    NumberOfPages="{Binding DailyNoteEntries.Count}"
+                    NumberOfPages="{Binding DailyNoteEntries.Count, FallbackValue={x:Null}}"
                     SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"/>
             </Grid>
 
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Visibility="{Binding DailyNoteEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                Visibility="{Binding DailyNoteEntries.Count, FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                 <Image
                     Width="80"
                     Height="80"

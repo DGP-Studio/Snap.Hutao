@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -101,6 +102,7 @@ public sealed class UnsafeRuntimeBehaviorTest
         }
     }
 
+    [SuppressMessage("", "CS0649")]
     private readonly struct TestStruct
     {
         public readonly int Value1;

@@ -3,28 +3,13 @@
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 胡桃云祈愿统计
-/// </summary>
 internal sealed class HutaoStatistics
 {
-    /// <summary>
-    /// 角色活动
-    /// </summary>
-    public HutaoWishSummary AvatarEvent { get; set; } = default!;
+    public required HutaoWishSummary AvatarEvent { get; init; }
 
-    /// <summary>
-    /// 角色活动2
-    /// </summary>
-    public HutaoWishSummary AvatarEvent2 { get; set; } = default!;
+    public required HutaoWishSummary AvatarEvent2 { get; init; }
 
-    /// <summary>
-    /// 神铸赋形
-    /// </summary>
-    public HutaoWishSummary WeaponEvent { get; set; } = default!;
+    public required HutaoWishSummary WeaponEvent { get; init; }
 
-    /// <summary>
-    /// 集录祈愿
-    /// </summary>
-    public HutaoWishSummary? Chronicled { get; set; }
+    public required HutaoWishSummary? Chronicled { get; init; }
 }

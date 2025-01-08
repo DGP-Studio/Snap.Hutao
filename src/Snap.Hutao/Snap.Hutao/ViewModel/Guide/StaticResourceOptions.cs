@@ -53,7 +53,8 @@ internal sealed partial class StaticResourceOptions : ObservableObject
         }
     }
 
-    public string? SizeInformationText { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? SizeInformationText { get; set; }
 
     private void UpdateSizeInformationText()
     {

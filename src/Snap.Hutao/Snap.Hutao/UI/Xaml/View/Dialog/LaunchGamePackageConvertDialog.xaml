@@ -27,7 +27,6 @@
                 Grid.Column="0"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{Binding State.Name}"
-                TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap"/>
             <TextBlock
                 Grid.Column="1"

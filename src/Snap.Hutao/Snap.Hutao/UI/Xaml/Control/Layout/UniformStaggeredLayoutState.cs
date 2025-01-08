@@ -107,6 +107,7 @@ internal sealed class UniformStaggeredLayoutState
         }
         catch
         {
+            // Ignore
         }
 
         ClearColumns();

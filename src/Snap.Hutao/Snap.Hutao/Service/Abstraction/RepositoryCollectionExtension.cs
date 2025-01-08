@@ -45,6 +45,7 @@ internal static class RepositoryCollectionExtension
         return repository.Query(query1 => query(query1).ToList());
     }
 
+    // ObservableCollection<TEntity> is always not readonly.
     public static ObservableCollection<TEntity> ObservableCollection<TEntity>(this IRepository<TEntity> repository)
         where TEntity : class
     {

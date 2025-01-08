@@ -5,7 +5,7 @@ namespace Snap.Hutao.Service.Navigation;
 
 internal class NavigationCompletionSource : INavigationExtraData, INavigationCompletionSource
 {
-    private readonly TaskCompletionSource navigationCompletedTaskCompletionSource = new();
+    private readonly TaskCompletionSource navigationCompletedTcs = new();
 
     public NavigationCompletionSource(object? data = null)
     {
@@ -17,17 +17,17 @@ internal class NavigationCompletionSource : INavigationExtraData, INavigationCom
     [SuppressMessage("", "SH003")]
     public Task WaitForCompletionAsync()
     {
-        return navigationCompletedTaskCompletionSource.Task;
+        return navigationCompletedTcs.Task;
     }
 
     public void NotifyNavigationCompleted()
     {
-        navigationCompletedTaskCompletionSource.TrySetResult();
+        navigationCompletedTcs.TrySetResult();
     }
 
     public void NotifyNavigationException(Exception exception)
     {
-        navigationCompletedTaskCompletionSource.TrySetException(exception);
+        navigationCompletedTcs.TrySetException(exception);
     }
 }
 

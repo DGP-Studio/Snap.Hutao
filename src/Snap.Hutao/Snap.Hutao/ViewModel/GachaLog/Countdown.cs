@@ -32,7 +32,7 @@ internal sealed class Countdown
 
     public Item Item { get; }
 
-    public List<CountdownHistory> Histories { get; set; } = [];
+    public List<CountdownHistory> Histories { get; } = [];
 
-    internal DateTimeOffset LastTime { get => Histories.First().LastTime; }
+    internal DateTimeOffset LastTime { get => Histories.FirstOrDefault()?.LastTime ?? default; }
 }

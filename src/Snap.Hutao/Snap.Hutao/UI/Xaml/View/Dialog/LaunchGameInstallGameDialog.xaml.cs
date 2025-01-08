@@ -52,12 +52,6 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
             return new(false, default!);
         }
 
-        if (Directory.EnumerateFileSystemEntries(GameDirectory).Any())
-        {
-            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry);
-            return new(false, default!);
-        }
-
         if (SelectedScheme is null)
         {
             infoBarService.Error(SH.ViewDialogLaunchGameInstallGameNoSchemeSelected);

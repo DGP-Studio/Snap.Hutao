@@ -24,6 +24,8 @@ internal interface IAdvancedCollectionView<T> : ICollectionView
 
     IList<T> SourceCollection { get; }
 
+    IReadOnlyList<T> View { get; }
+
     object IList<object>.this[int index]
     {
         get => this[index];

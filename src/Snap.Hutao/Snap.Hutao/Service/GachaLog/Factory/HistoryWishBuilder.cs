@@ -20,7 +20,7 @@ internal sealed class HistoryWishBuilder
 
     private int totalCountTracker;
 
-    public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceMetadataContext context)
+    private HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceMetadataContext context)
     {
         this.gachaEvent = gachaEvent;
         ConfigType = gachaEvent.Type;
@@ -51,6 +51,11 @@ internal sealed class HistoryWishBuilder
     public DateTimeOffset To { get => gachaEvent.To; }
 
     public bool IsEmpty { get => totalCountTracker <= 0; }
+
+    public static HistoryWishBuilder Create(GachaEvent gachaEvent, GachaLogServiceMetadataContext context)
+    {
+        return new(gachaEvent, context);
+    }
 
     public bool IncreaseOrange(IStatisticsItemConvertible item)
     {
@@ -86,11 +91,11 @@ internal sealed class HistoryWishBuilder
             // Fill
             Version = gachaEvent.Version,
             BannerImage = gachaEvent.Banner,
-            OrangeUpList = orangeUpCounter.ToStatisticsList(),
-            PurpleUpList = purpleUpCounter.ToStatisticsList(),
-            OrangeList = orangeCounter.ToStatisticsList(),
-            PurpleList = purpleCounter.ToStatisticsList(),
-            BlueList = blueCounter.ToStatisticsList(),
+            OrangeUpList = orangeUpCounter.ToStatisticsImmutableArray(),
+            PurpleUpList = purpleUpCounter.ToStatisticsImmutableArray(),
+            OrangeList = orangeCounter.ToStatisticsImmutableArray(),
+            PurpleList = purpleCounter.ToStatisticsImmutableArray(),
+            BlueList = blueCounter.ToStatisticsImmutableArray(),
         };
 
         return historyWish;

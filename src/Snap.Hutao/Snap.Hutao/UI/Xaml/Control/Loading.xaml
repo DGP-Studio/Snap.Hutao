@@ -95,8 +95,8 @@
                     <Grid>
                         <clw:Shimmer
                             cw:FrameworkElementExtensions.AncestorType="shuxc:Loading"
-                            CornerRadius="{Binding (cw:FrameworkElementExtensions.Ancestor).CornerRadius, RelativeSource={RelativeSource Self}}"
-                            IsActive="{Binding (cw:FrameworkElementExtensions.Ancestor).IsLoading, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            IsActive="{TemplateBinding IsLoading}"
                             Duration="0:0:1"/>
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <shuxci:CachedImage
@@ -128,7 +128,7 @@
                     <clw:Shimmer
                         cw:FrameworkElementExtensions.AncestorType="shuxc:Loading"
                         CornerRadius="0"
-                        IsActive="{Binding (cw:FrameworkElementExtensions.Ancestor).IsLoading, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                        IsActive="{TemplateBinding IsLoading}"
                         Duration="0:0:1"/>
                 </DataTemplate>
             </Setter.Value>

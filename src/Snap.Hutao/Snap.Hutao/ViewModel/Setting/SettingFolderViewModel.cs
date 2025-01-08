@@ -22,7 +22,8 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
 
     public string Folder { get; }
 
-    public string? Size { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial string? Size { get; set; }
 
     [SuppressMessage("", "SH003")]
     public async Task SetFolderSizeAsync()

@@ -12,7 +12,9 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
@@ -31,28 +33,21 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private CancellationTokenSource statisticsCancellationTokenSource = new();
+    private CancellationTokenSource statisticsCts = new();
+    private CultivationMetadataContext? metadataContext;
 
-    public AdvancedDbCollectionView<CultivateProject>? Projects
+    public IAdvancedDbCollectionView<CultivateProject>? Projects
     {
         get;
         set
         {
-            if (field is not null)
-            {
-                field.CurrentChanged -= OnCurrentProjectChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentProjectChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentProjectChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentProjectChanged);
         }
     }
 
-    public List<InventoryItemView>? InventoryItems { get; set => SetProperty(ref field, value); }
+    public ImmutableArray<InventoryItemView> InventoryItems { get; set => SetProperty(ref field, value); } = [];
 
     public ObservableCollection<CultivateEntryView>? CultivateEntries { get; set => SetProperty(ref field, value); }
 
@@ -66,25 +61,28 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                Projects = cultivationService.Projects;
-                Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
-            }
-
-            // Force update when re-entering the page
-            if (Projects.CurrentItem is not null && CultivateEntries is null)
-            {
-                await UpdateEntryCollectionAsync(Projects.CurrentItem).ConfigureAwait(false);
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
+        metadataContext = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
+
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+        {
+            IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
+            await taskContext.SwitchToMainThreadAsync();
+            Projects = projects;
+            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+        }
+
+        // Force update when re-entering the page
+        if (Projects.CurrentItem is not null && CultivateEntries is null)
+        {
+            await UpdateEntryCollectionAsync(Projects.CurrentItem).ConfigureAwait(false);
+        }
+
+        return true;
     }
 
     protected override void UninitializeOverride()
@@ -216,7 +214,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RefreshInventoryCommand")]
     private async Task RefreshInventoryAsync()
     {
-        if (Projects?.CurrentItem is null)
+        if (Projects?.CurrentItem is null || metadataContext is null)
         {
             return;
         }
@@ -229,7 +227,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
-                await inventoryService.RefreshInventoryAsync(Projects.CurrentItem).ConfigureAwait(false);
+                await inventoryService.RefreshInventoryAsync(metadataContext, Projects.CurrentItem).ConfigureAwait(false);
 
                 await UpdateInventoryItemsAsync().ConfigureAwait(false);
                 await UpdateStatisticsItemsAsync().ConfigureAwait(false);
@@ -241,7 +239,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private async Task UpdateStatisticsItemsAsync()
     {
         // https://github.com/DGP-Studio/Snap.Hutao/issues/2044
-        // Coercively clear the list and bring view to the top to prevent UI dead loop
+        // Force clear the list and bring view to the top to prevent UI dead loop
         await taskContext.SwitchToMainThreadAsync();
         StatisticsItems = null;
         ResinStatistics = null;
@@ -251,17 +249,21 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
+        if (metadataContext is null)
+        {
+            return;
+        }
+
         await taskContext.SwitchToBackgroundAsync();
 
-        await statisticsCancellationTokenSource.CancelAsync().ConfigureAwait(false);
-        statisticsCancellationTokenSource = new();
-        CancellationToken token = statisticsCancellationTokenSource.Token;
+        await statisticsCts.CancelAsync().ConfigureAwait(false);
+        statisticsCts = new();
+        CancellationToken token = statisticsCts.Token;
         ObservableCollection<StatisticsCultivateItem> statistics;
         ResinStatistics resinStatistics;
         try
         {
-            CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
-            statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(Projects.CurrentItem, context, token).ConfigureAwait(false);
+            statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(Projects.CurrentItem, metadataContext, token).ConfigureAwait(false);
             resinStatistics = await cultivationService.GetResinStatisticsAsync(statistics, token).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
@@ -286,20 +288,17 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private async ValueTask UpdateInventoryItemsAsync()
     {
         // https://github.com/DGP-Studio/Snap.Hutao/issues/2044
-        // Coercively clear the list and bring view to the top to prevent UI dead loop
+        // Force clear the list and bring view to the top to prevent UI dead loop
         await taskContext.SwitchToMainThreadAsync();
-        InventoryItems = null;
+        InventoryItems = [];
 
-        if (Projects?.CurrentItem is null)
+        if (Projects?.CurrentItem is null || metadataContext is null)
         {
             return;
         }
 
-        await taskContext.SwitchToBackgroundAsync();
-        CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
-
         await taskContext.SwitchToMainThreadAsync();
-        InventoryItems = inventoryService.GetInventoryItemViews(Projects.CurrentItem, context, SaveInventoryItemCommand);
+        InventoryItems = inventoryService.GetInventoryItemViews(metadataContext, Projects.CurrentItem, SaveInventoryItemCommand);
     }
 
     [Command("NavigateToPageCommand")]

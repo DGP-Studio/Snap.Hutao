@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
@@ -12,12 +13,12 @@ internal sealed partial class SpiralAbyssRecordRepository : ISpiralAbyssRecordRe
 {
     public partial IServiceProvider ServiceProvider { get; }
 
-    public Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid)
+    public FrozenDictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid)
     {
         return this.Query(query => query
             .Where(s => s.Uid == uid)
             .OrderByDescending(s => s.ScheduleId)
-            .ToDictionary(e => e.ScheduleId));
+            .ToFrozenDictionary(e => e.ScheduleId));
     }
 
     public void UpdateSpiralAbyssEntry(SpiralAbyssEntry entry)

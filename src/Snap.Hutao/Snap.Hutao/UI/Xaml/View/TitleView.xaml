@@ -17,7 +17,7 @@
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <Grid x:Name="DragableGrid">
+    <Grid x:Name="DraggableGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="auto"/>
@@ -38,8 +38,11 @@
             Spacing="6">
 
             <Button
-                Command="{Binding ReverseAppThemeCommand}"
-                Content="[Dev] Reverse Theme"
+                x:Name="ToggleThemeButton"
+                Padding="6"
+                Command="{Binding InvertAppThemeCommand}"
+                Content="[Dev] Invert Theme"
+                Style="{ThemeResource SettingButtonStyle}"
                 Visibility="{Binding IsDebug}"/>
 
             <StackPanel
@@ -47,9 +50,11 @@
                 Spacing="6"
                 Visibility="{Binding RuntimeOptions.IsElevated}">
                 <ToggleButton
+                    Padding="6"
                     VerticalAlignment="Center"
                     IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
                     IsHitTestVisible="False"
+                    Style="{ThemeResource SettingToggleButtonStyle}"
                     Visibility="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions>
@@ -68,9 +73,11 @@
                     </Grid>
                 </ToggleButton>
                 <ToggleButton
+                    Padding="6"
                     VerticalAlignment="Center"
                     IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
                     IsHitTestVisible="False"
+                    Style="{ThemeResource SettingToggleButtonStyle}"
                     Visibility="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions>
@@ -89,6 +96,20 @@
                     </Grid>
                 </ToggleButton>
             </StackPanel>
+
+            <Border
+                Height="33"
+                Padding="6"
+                Style="{ThemeResource BorderCardStyle}"
+                Visibility="{Binding IsMetadataInitialized, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <ProgressRing Width="12" Height="12"/>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{shuxm:ResourceString Name=ViewTitleMetadataInitializing}"/>
+                </StackPanel>
+            </Border>
 
             <Grid
                 Margin="0,6"

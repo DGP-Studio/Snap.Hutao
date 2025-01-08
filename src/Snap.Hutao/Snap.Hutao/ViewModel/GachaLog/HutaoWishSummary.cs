@@ -2,36 +2,19 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 祈愿统计概览
-/// </summary>
 internal sealed class HutaoWishSummary
 {
-    /// <summary>
-    /// 卡池
-    /// </summary>
-    public GachaEvent Event { get; set; } = default!;
+    public required GachaEvent Event { get; init; }
 
-    /// <summary>
-    /// Up 物品
-    /// </summary>
-    public List<StatisticsItem> UpItems { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> UpItems { get; init; }
 
-    /// <summary>
-    /// 五星物品
-    /// </summary>
-    public List<StatisticsItem> OrangeItems { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> OrangeItems { get; init; }
 
-    /// <summary>
-    /// 四星物品
-    /// </summary>
-    public List<StatisticsItem> PurpleItems { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> PurpleItems { get; init; }
 
-    /// <summary>
-    /// 三星物品
-    /// </summary>
-    public List<StatisticsItem> BlueItems { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> BlueItems { get; init; }
 }

@@ -26,9 +26,15 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
     {
         foreach (UserGameRole userGameRole in user.UserGameRoles)
         {
-            if (uidProfilePictureRepository.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid) is { } profilePicture)
+            UidProfilePicture? profilePicture;
+            lock (syncRoot)
             {
-                if (await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false))
+                profilePicture = uidProfilePictureRepository.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid);
+            }
+
+            if (profilePicture is not null)
+            {
+                if (await TryAttachProfilePictureToUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false))
                 {
                     continue;
                 }
@@ -44,11 +50,11 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
         EnkaResponse? enkaResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            EnkaClient enkaClient = scope.ServiceProvider
-                .GetRequiredService<EnkaClient>();
+            EnkaClient enkaClient = scope.ServiceProvider.GetRequiredService<EnkaClient>();
 
-            enkaResponse = await enkaClient.GetForwardPlayerInfoAsync(userGameRole, token).ConfigureAwait(false)
-                ?? await enkaClient.GetPlayerInfoAsync(userGameRole, token).ConfigureAwait(false);
+            enkaResponse =
+                await enkaClient.GetForwardPlayerInfoAsync(userGameRole, token).ConfigureAwait(false) ??
+                await enkaClient.GetPlayerInfoAsync(userGameRole, token).ConfigureAwait(false);
         }
 
         if (enkaResponse is { PlayerInfo.ProfilePicture: { } innerProfilePicture })
@@ -63,11 +69,11 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
                 uidProfilePictureRepository.UpdateUidProfilePicture(profilePicture);
             }
 
-            await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
+            await TryAttachProfilePictureToUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask<bool> TryUpdateUserGameRoleAsync(UserGameRole userGameRole, UidProfilePicture cache, CancellationToken token = default)
+    private async ValueTask<bool> TryAttachProfilePictureToUserGameRoleAsync(UserGameRole userGameRole, UidProfilePicture cache, CancellationToken token = default)
     {
         if (cache.RefreshTime.AddDays(15) < DateTimeOffset.Now)
         {

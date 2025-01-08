@@ -80,7 +80,6 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             if (SetProperty(ref field, value) && value is not null)
             {
                 CultureOptions.CurrentCulture = value.Value;
-                ++State;
                 AppInstance.Restart(string.Empty);
             }
         }

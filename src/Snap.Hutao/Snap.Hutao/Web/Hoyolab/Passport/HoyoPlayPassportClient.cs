@@ -49,6 +49,39 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
         return Response.Response.DefaultIfNull(resp);
     }
 
+    public async ValueTask<Response<QrLogin>> CreateQrLoginAsync(CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.AccountCreateQrLogin())
+            .SetHeader("x-rpc-device_id", HoyolabOptions.DeviceId53)
+            .PostJson(default(EmptyContent));
+
+        Response<QrLogin>? resp = await builder
+            .SendAsync<Response<QrLogin>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<QrLoginResult>> QueryQrLoginStatusAsync(string ticket, CancellationToken token = default)
+    {
+        QrTicketWrapper data = new()
+        {
+            Ticket = ticket,
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.AccountQueryQrLoginStatus())
+            .SetHeader("x-rpc-device_id", HoyolabOptions.DeviceId53)
+            .PostJson(data);
+
+        Response<QrLoginResult>? resp = await builder
+            .SendAsync<Response<QrLoginResult>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
     public ValueTask<(string? Aigis, Response<LoginResult> Response)> LoginByPasswordAsync(IPassportPasswordProvider provider, CancellationToken token = default)
     {
         return ValueTask.FromException<(string? Aigis, Response<LoginResult> Response)>(new NotSupportedException());

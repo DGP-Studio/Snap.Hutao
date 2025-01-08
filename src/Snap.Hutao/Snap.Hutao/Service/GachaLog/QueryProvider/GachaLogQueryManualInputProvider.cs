@@ -19,28 +19,23 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         GachaLogUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogUrlDialog>().ConfigureAwait(false);
-        (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        if (await dialog.GetInputUrlAsync().ConfigureAwait(false) is not (true, { } url))
         {
             return new(false, default);
         }
 
-        string? queryString = Match(url, "index.html") ?? Match(url, "getGachaLog");
-        if (queryString is null)
+        if ((AfterLast(url, "index.html") ?? AfterLast(url, "getGachaLog")) is not { } queryString)
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderManualInputInvalid));
         }
 
         NameValueCollection query = HttpUtility.ParseQueryString(queryString);
-
         if (!query.TryGetSingleValue("auth_appid", out string? appId) || appId is not "webview_gacha")
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderManualInputInvalid));
         }
 
-        string? queryLanguageCode = query["lang"];
-        if (!cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
+        if (!query.TryGetSingleValue("lang", out string? queryLanguageCode) || !cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
         {
             string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
             return new(false, GachaLogQuery.Invalid(message));
@@ -49,7 +44,7 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
         return new(true, new(url));
     }
 
-    private static string? Match(string url, string match)
+    private static string? AfterLast(string url, string match)
     {
         ReadOnlySpan<char> urlSpan = url;
 
@@ -60,6 +55,6 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
             return urlSpan[index..].ToString();
         }
 
-        return null;
+        return default;
     }
 }

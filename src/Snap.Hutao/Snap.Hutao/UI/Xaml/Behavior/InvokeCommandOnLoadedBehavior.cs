@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Behaviors;
+using JetBrains.Annotations;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Input;
 
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
+[UsedImplicitly]
 [DependencyProperty("Command", typeof(ICommand))]
 [DependencyProperty("CommandParameter", typeof(object))]
 internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>

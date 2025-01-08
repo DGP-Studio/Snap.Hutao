@@ -16,10 +16,10 @@ internal sealed partial class IPInformation
     };
 
     [JsonPropertyName("ip")]
-    public string Ip { get; set; } = default!;
+    public required string Ip { get; init; }
 
     [JsonPropertyName("division")]
-    public string Division { get; set; } = default!;
+    public required string Division { get; init; }
 
     [GeneratedRegex(@"(\d+)\.(\d+)\.\d+\.\d+")]
     private static partial Regex IpRegex { get; }

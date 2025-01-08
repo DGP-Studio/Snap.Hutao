@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.ViewModel.Complex;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Hutao;
 
 internal interface IHutaoRoleCombatStatisticsCache
 {
-    int RecordTotal { get; set; }
+    int RecordTotal { get; }
 
-    List<AvatarView>? AvatarAppearances { get; set; }
+    ImmutableArray<AvatarView> AvatarAppearances { get; }
 
-    ValueTask<bool> InitializeForRoleCombatViewAsync();
+    ValueTask InitializeForRoleCombatViewAsync(HutaoRoleCombatStatisticsMetadataContext context);
 }

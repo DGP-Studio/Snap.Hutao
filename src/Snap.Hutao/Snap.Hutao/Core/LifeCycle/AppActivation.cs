@@ -148,6 +148,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask UnsynchronizedHandleInitializationAsync()
     {
+        serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);
+
         // In guide
         if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
@@ -176,11 +178,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
         {
             metadataServiceInitialization.InitializeInternalAsync().SafeForget(logger);
-        }
-
-        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
-        {
-            hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget(logger);
         }
     }
 

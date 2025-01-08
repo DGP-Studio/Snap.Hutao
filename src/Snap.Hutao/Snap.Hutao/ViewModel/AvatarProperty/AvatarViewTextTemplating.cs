@@ -4,7 +4,6 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
@@ -15,7 +14,7 @@ internal static class AvatarViewTextTemplating
     {
         string avatarTemplate = $"""
             // {avatar.Name} [{avatar.Level}, ☆{avatar.Quality:D}, C{avatar.Constellations.Count(c => c.IsActivated)}] [{FormatSkills(avatar.Skills)}]
-            
+
             """;
 
         string weaponTemplate = avatar.Weapon is { } weapon
@@ -23,18 +22,18 @@ internal static class AvatarViewTextTemplating
                 // ---------------------
                 // {weapon.Name} [{weapon.Level}, ☆{weapon.Quality:D}, R{weapon.AffixLevelNumber}]
                 // {(weapon.MainProperty is null ? string.Empty : $"[{weapon.MainProperty.Name}: {weapon.MainProperty.Value}]")} {(weapon.SubProperty is null ? string.Empty : $"[{weapon.SubProperty.Name}: {weapon.SubProperty.Value}]")}
-                
+
                 """
             : string.Empty;
 
-        string propertiesTemplate = avatar.Properties.Count > 0
+        string propertiesTemplate = avatar.Properties.Length > 0
             ? $"""
                 // ---------------------
                 {FormatProperties(avatar.Properties)}
                 """
             : string.Empty;
 
-        string reliquariesTemplate = avatar.Reliquaries.Count > 0
+        string reliquariesTemplate = avatar.Reliquaries.Length > 0
             ? $"""
                 // ---------------------
                 {FormatReliquaries(avatar.Reliquaries)}
@@ -64,10 +63,10 @@ internal static class AvatarViewTextTemplating
         return result.ToString();
     }
 
-    private static string FormatProperties(List<AvatarProperty> properties)
+    private static string FormatProperties(ImmutableArray<AvatarProperty> properties)
     {
         StringBuilder result = new();
-        foreach (ref readonly AvatarProperty property in CollectionsMarshal.AsSpan(properties))
+        foreach (ref readonly AvatarProperty property in properties.AsSpan())
         {
             result.Append("// [").Append(property.Name).Append(": ").Append(property.Value).Append(']').AppendLine();
         }
@@ -76,10 +75,10 @@ internal static class AvatarViewTextTemplating
     }
 
     [SuppressMessage("", "CA1305")]
-    private static string FormatReliquaries(List<ReliquaryView> reliquaries)
+    private static string FormatReliquaries(ImmutableArray<ReliquaryView> reliquaries)
     {
         StringBuilder result = new();
-        foreach (ref readonly ReliquaryView reliquary in CollectionsMarshal.AsSpan(reliquaries))
+        foreach (ref readonly ReliquaryView reliquary in reliquaries.AsSpan())
         {
             NameValue<string>? mainProperty = reliquary.MainProperty;
             result.Append($"""
@@ -88,7 +87,7 @@ internal static class AvatarViewTextTemplating
                     """);
             result.Append("// ");
 
-            foreach (ref readonly ReliquaryComposedSubProperty subProperty in CollectionsMarshal.AsSpan(reliquary.ComposedSubProperties))
+            foreach (ref readonly ReliquaryComposedSubProperty subProperty in reliquary.ComposedSubProperties.AsSpan())
             {
                 result.Append('[').Append(subProperty.Name).Append(": ").Append(subProperty.Value).Append(']');
             }

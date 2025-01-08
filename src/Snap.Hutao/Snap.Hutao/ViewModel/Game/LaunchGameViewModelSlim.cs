@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Scheme;
@@ -19,7 +20,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 {
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -31,7 +32,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public partial LaunchOptions LaunchOptions { get; }
 
-    public AdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial AdvancedCollectionView<GameAccount>? GameAccountsView { get; set; }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 

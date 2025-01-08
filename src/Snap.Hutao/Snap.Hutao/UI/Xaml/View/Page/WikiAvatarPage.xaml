@@ -7,6 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shmma="using:Snap.Hutao.Model.Metadata.Avatar"
+    xmlns:shmmi="using:Snap.Hutao.Model.Metadata.Item"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
@@ -16,6 +18,7 @@
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
+    xmlns:shvc="using:Snap.Hutao.ViewModel.Complex"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiAvatarViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -29,7 +32,7 @@
             CollapsedValue="{shuxm:Int32 Value=2}"
             VisibleValue="{shuxm:Int32 Value=1}"/>
 
-        <DataTemplate x:Key="SkillDataTemplate">
+        <DataTemplate x:Key="SkillDataTemplate" x:DataType="shmma:ProudSkill">
             <Grid Margin="0,16,0,0" ColumnSpacing="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -38,13 +41,8 @@
                 <shuxct:DescriptionTextBlock
                     Grid.ColumnSpan="{Binding ElementName=ProudSelector, Path=Visibility, Converter={StaticResource VisibilityToColumnSpanConverter}}"
                     VerticalAlignment="Top"
-                    Description="{Binding Description}">
-                    <shuxct:DescriptionTextBlock.Resources>
-                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                            <Setter Property="TextWrapping" Value="Wrap"/>
-                        </Style>
-                    </shuxct:DescriptionTextBlock.Resources>
-                </shuxct:DescriptionTextBlock>
+                    Description="{Binding Description}"
+                    TextStyle="{StaticResource BodyTextBlockStyle}"/>
                 <shuxvs:DescParamComboBox
                     x:Name="ProudSelector"
                     Grid.Column="1"
@@ -55,20 +53,17 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="TalentDataTemplate">
-            <shuxct:DescriptionTextBlock Margin="0,12,0,0" Description="{Binding Description}">
-                <shuxct:DescriptionTextBlock.Resources>
-                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                    </Style>
-                </shuxct:DescriptionTextBlock.Resources>
-            </shuxct:DescriptionTextBlock>
+        <DataTemplate x:Key="TalentDataTemplate" x:DataType="shmma:Skill">
+            <shuxct:DescriptionTextBlock
+                Margin="0,12,0,0"
+                Description="{Binding Description}"
+                TextStyle="{StaticResource BodyTextBlockStyle}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="TokenTemplate">
+        <DataTemplate x:Key="TokenTemplate" x:DataType="shuxca:SearchToken">
             <Grid Height="22" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="24"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Ellipse
@@ -106,7 +101,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="AvatarListTemplate">
+        <DataTemplate x:Key="AvatarListTemplate" x:DataType="shmma:Avatar">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -126,7 +121,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="CultivationItemTemplate">
+        <DataTemplate x:Key="CultivationItemTemplate" x:DataType="shmmi:Material">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
                     <shuxc:ItemIcon
@@ -144,7 +139,7 @@
             </shuxcc:HorizontalCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="CollocationTemplate">
+        <DataTemplate x:Key="CollocationTemplate" x:DataType="shvc:CollocationView">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
                     <shuxc:ItemIcon
@@ -171,7 +166,7 @@
             </shuxcc:HorizontalCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="CollocationReliquaryTemplate">
+        <DataTemplate x:Key="CollocationReliquaryTemplate" x:DataType="shvc:ReliquarySetView">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
                     <cwc:SwitchPresenter Value="{Binding Icons.Count, Mode=OneWay}">
@@ -245,7 +240,7 @@
             </shuxcc:HorizontalCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="CostumeTemplate">
+        <DataTemplate x:Key="CostumeTemplate" x:DataType="shmma:Costume">
             <Grid Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -257,6 +252,7 @@
                     Margin="0,0,16,0"
                     Source="{StaticResource UI_AvatarIcon_Costume_Card}"/>
                 <shuxci:CachedImage
+                    Grid.Column="0"
                     Width="80"
                     Height="80"
                     Margin="0,0,16,0"
@@ -271,7 +267,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="FetterStoryTemplate">
+        <DataTemplate x:Key="FetterStoryTemplate" x:DataType="shmma:Fetter">
             <cwc:SettingsCard Padding="16,8,8,8">
                 <cwc:SettingsCard.Header>
                     <shuxct:DescriptionTextBlock Description="{Binding Title}" TextStyle="{StaticResource BaseTextBlockStyle}"/>
@@ -282,7 +278,7 @@
             </cwc:SettingsCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="AvatarGridTemplate">
+        <DataTemplate x:Key="AvatarGridTemplate" x:DataType="shmma:Avatar">
             <shuxcc:VerticalCard Width="82">
                 <shuxcc:VerticalCard.Top>
                     <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
@@ -373,7 +369,7 @@
                                 </SplitView.Pane>
                                 <SplitView.Content>
                                     <Grid>
-                                        <StackPanel VerticalAlignment="Center" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                                        <StackPanel VerticalAlignment="Center" Visibility="{Binding Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
                                             <shuxci:CachedImage
                                                 Height="120"
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
@@ -384,7 +380,7 @@
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
-                                        <ScrollViewer Padding="16,0" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                        <ScrollViewer Padding="16,0" Visibility="{Binding Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                             <StackPanel
                                                 Margin="0,16"
                                                 HorizontalAlignment="Left"
@@ -429,7 +425,10 @@
 
                                                     </StackPanel>
 
-                                                    <StackPanel Grid.Column="1" Margin="16">
+                                                    <StackPanel
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Margin="16">
                                                         <StackPanel Margin="0,0,0,2" Orientation="Horizontal">
                                                             <TextBlock
                                                                 VerticalAlignment="Center"
@@ -519,7 +518,10 @@
                                                         </cwc:UniformGrid>
                                                     </StackPanel>
 
-                                                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                                                    <StackPanel
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Grid.ColumnSpan="2">
                                                         <ItemsControl
                                                             Margin="16,0,16,16"
                                                             ItemTemplate="{StaticResource CultivationItemTemplate}"
@@ -539,12 +541,14 @@
                                                 <!--  属性  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <shuxvs:BaseValueSlider
                                                         HorizontalAlignment="Stretch"
@@ -637,8 +641,10 @@
                                                 <!--  名片  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
+                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
@@ -730,8 +736,10 @@
                                                 <!--  料理  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
+                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
@@ -755,11 +763,13 @@
                                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
                                                             <TextBlock
+                                                                Grid.Row="0"
                                                                 Grid.Column="1"
                                                                 Margin="16,0,0,0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
                                                             <StackPanel
+                                                                Grid.Row="0"
                                                                 Grid.RowSpan="4"
                                                                 Grid.Column="2"
                                                                 Margin="16,0,0,0">
@@ -806,8 +816,10 @@
                                                 <!--  衣装  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
+
                                                     </Border.Resources>
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
@@ -824,12 +836,14 @@
                                                 <!--  资料  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                                                         <cwc:SettingsExpander
@@ -842,12 +856,14 @@
                                                 <!--  故事  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </Border.Resources>
                                                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                                                         <cwc:SettingsExpander

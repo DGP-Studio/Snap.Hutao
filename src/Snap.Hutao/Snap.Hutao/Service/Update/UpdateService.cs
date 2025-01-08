@@ -24,6 +24,7 @@ internal sealed partial class UpdateService : IUpdateService
 {
     private const string UpdaterFilename = "Snap.Hutao.Deployment.exe";
 
+    // Avoid try injecting services directly
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<CheckUpdateResult> CheckUpdateAsync(IProgress<UpdateStatus> progress, CancellationToken token = default)
@@ -34,7 +35,7 @@ internal sealed partial class UpdateService : IUpdateService
             await taskContext.SwitchToBackgroundAsync();
 
             HutaoInfrastructureClient infrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
-            HutaoResponse<HutaoPackageInformation> response = await infrastructureClient.GetHutaoVersionInfomationAsync(token).ConfigureAwait(false);
+            HutaoResponse<HutaoPackageInformation> response = await infrastructureClient.GetHutaoVersionInformationAsync(token).ConfigureAwait(false);
 
             CheckUpdateResult checkUpdateResult = new();
 
@@ -59,19 +60,19 @@ internal sealed partial class UpdateService : IUpdateService
                         File.Delete(msixPath);
                     }
 
-                    checkUpdateResult.Kind = CheckUpdateResultKind.AlreayUpdated;
+                    checkUpdateResult.Kind = CheckUpdateResultKind.AlreadyUpdated;
                     return checkUpdateResult;
                 }
             }
 
             HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
-            if (await hutaoUserOptions.GetIsCloudServiceAllowedAsync().ConfigureAwait(false))
+            if (await hutaoUserOptions.GetIsHutaoCdnAllowedAsync().ConfigureAwait(false))
             {
                 HutaoDistributionClient distributionClient = scope.ServiceProvider.GetRequiredService<HutaoDistributionClient>();
                 HutaoResponse<HutaoPackageMirror> mirrorResponse = await distributionClient.GetAcceleratedMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token).ConfigureAwait(false);
                 if (mirrorResponse.Data is { } mirror)
                 {
-                    checkUpdateResult.PackageInformation.Mirrors.Add(mirror);
+                    checkUpdateResult.PackageInformation.Mirrors.Insert(0, mirror);
                 }
             }
 
@@ -83,7 +84,8 @@ internal sealed partial class UpdateService : IUpdateService
                 return checkUpdateResult;
             }
 
-            if (File.Exists(msixPath) && await CheckUpdateCacheSHA256Async(msixPath, sha256, token).ConfigureAwait(false))
+            // Whether the package does not exist or the hash is inconsistent, VersionApiInvalidSha256 will be returned
+            if (File.Exists(msixPath) && await CheckUpdateCacheSha256Async(msixPath, sha256, token).ConfigureAwait(false))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.NeedInstall;
                 return checkUpdateResult;
@@ -112,6 +114,7 @@ internal sealed partial class UpdateService : IUpdateService
 
         try
         {
+            // The updater will request UAC permissions itself
             Process? process = Process.Start(new ProcessStartInfo
             {
                 Arguments = commandLine,
@@ -128,7 +131,7 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    private static async ValueTask<bool> CheckUpdateCacheSHA256Async(string filePath, string remoteHash, CancellationToken token = default)
+    private static async ValueTask<bool> CheckUpdateCacheSha256Async(string filePath, string remoteHash, CancellationToken token = default)
     {
         string localHash = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, filePath, token).ConfigureAwait(false);
         return string.Equals(localHash, remoteHash, StringComparison.OrdinalIgnoreCase);
@@ -192,13 +195,14 @@ internal sealed partial class UpdateService : IUpdateService
             }
 
             string remoteHash = mirrorInformation.Validation;
-            if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
+            if (await CheckUpdateCacheSha256Async(filePath, remoteHash, token).ConfigureAwait(false))
             {
                 return true;
             }
         }
         catch
         {
+            // Ignore
         }
 
         return false;

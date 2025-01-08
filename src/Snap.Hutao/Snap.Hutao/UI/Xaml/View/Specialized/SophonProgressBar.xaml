@@ -70,7 +70,7 @@
                 Maximum="1"
                 Value="{x:Bind ProgressValue, Mode=OneWay}"/>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" ColumnSpacing="{ThemeResource SettingsCardContentControlSpacing}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>

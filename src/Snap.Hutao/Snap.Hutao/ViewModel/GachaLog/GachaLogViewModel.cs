@@ -9,8 +9,11 @@ using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Setting;
@@ -28,27 +31,21 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private readonly IServiceProvider serviceProvider;
     private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
+    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
     private bool suppressCurrentItemChangedHandling;
+    private GachaLogServiceMetadataContext? metadataContext;
 
-    public AdvancedDbCollectionView<GachaArchive>? Archives
+    public IAdvancedDbCollectionView<GachaArchive>? Archives
     {
         get;
         set
         {
-            if (Archives is not null)
-            {
-                Archives.CurrentChanged -= OnCurrentArchiveChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentArchiveChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentArchiveChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentArchiveChanged);
         }
     }
 
@@ -76,25 +73,28 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     {
         try
         {
-            if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(false))
+            if (!await metadataService.InitializeAsync().ConfigureAwait(false))
             {
-                ArgumentNullException.ThrowIfNull(gachaLogService.Archives);
-                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    Archives = gachaLogService.Archives;
-                    HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
-                    Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrFirstOrDefault());
-                }
+                return false;
+            }
 
-                // When `Archives.CurrentItem` is not null, the `Initialization` actually completed in
-                // `UpdateStatisticsAsync`, so we return false to make the view hide until the actual
-                // initialization is complete. But we return true when no archives are available,
-                // so that the empty view can show up.
-                if (Archives.CurrentItem is null)
-                {
-                    return true;
-                }
+            metadataContext = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>().ConfigureAwait(false);
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+            {
+                IAdvancedDbCollectionView<GachaArchive> archives = await gachaLogService.GetArchiveCollectionAsync().ConfigureAwait(false);
+                await taskContext.SwitchToMainThreadAsync();
+                Archives = archives;
+                HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
+                Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrFirstOrDefault());
+            }
+
+            // When `Archives.CurrentItem` is not null, the `Initialization` actually completed in
+            // `UpdateStatisticsAsync`, so we return false to make the view hide until the actual
+            // initialization is complete. But we return true when no archives are available,
+            // so that the empty view can show up.
+            if (Archives.CurrentItem is null)
+            {
+                return true;
             }
         }
         catch (OperationCanceledException)
@@ -187,7 +187,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                     try
                     {
                         suppressCurrentItemChangedHandling = true;
-                        authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                        ArgumentNullException.ThrowIfNull(metadataContext);
+                        authkeyValid = await gachaLogService.RefreshGachaLogAsync(metadataContext, query, strategy, progress, CancellationToken).ConfigureAwait(false);
                     }
                     finally
                     {
@@ -293,7 +294,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
         try
         {
-            GachaStatistics statistics = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(metadataContext);
+            GachaStatistics statistics = await gachaLogService.GetStatisticsAsync(metadataContext, archive).ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
             Statistics = statistics;

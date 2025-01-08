@@ -6,7 +6,6 @@ namespace Snap.Hutao.Service.AvatarInfo;
 internal enum RefreshResultKind
 {
     Ok,
-    MetadataNotInitialized,
     APIUnavailable,
     StatusCodeNotSucceed,
     ShowcaseNotOpen,

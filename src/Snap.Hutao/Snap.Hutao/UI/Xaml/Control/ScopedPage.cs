@@ -25,14 +25,9 @@ internal partial class ScopedPage : Page
     }
 
     [SuppressMessage("", "SH003")]
-    public async Task NotifyRecipientAsync(INavigationExtraData extra)
+    public Task NotifyRecipientAsync(INavigationExtraData extra)
     {
-        if (extra.Data is not null && DataContext is INavigationRecipient recipient)
-        {
-            await recipient.ReceiveAsync(extra).ConfigureAwait(false);
-        }
-
-        extra.NotifyNavigationCompleted();
+        return NavigationExtraDataSupport.NotifyRecipientAsync(this, extra);
     }
 
     public virtual void UnloadObjectOverride(DependencyObject unloadableObject)
@@ -75,9 +70,11 @@ internal partial class ScopedPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.Parameter is INavigationExtraData extra)
+        if (e.Parameter is INavigationCompletionSource data)
         {
-            _ = NotifyRecipientAsync(extra);
+            NavigationExtraDataSupport
+                .NotifyRecipientAsync(this, data)
+                .SafeForget(pageScope.ServiceProvider.GetRequiredService<ILogger<ScopedPage>>());
         }
     }
 

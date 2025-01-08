@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.AvatarProperty;
 
@@ -13,13 +11,11 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 [Injection(InjectAs.Transient, typeof(ISummaryFactory))]
 internal sealed partial class SummaryFactory : ISummaryFactory
 {
-    private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
 
-    public async ValueTask<Summary> CreateAsync(IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token)
+    public async ValueTask<Summary> CreateAsync(SummaryFactoryMetadataContext context, IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token)
     {
-        SummaryFactoryMetadataContext context = await metadataService
-            .GetContextAsync<SummaryFactoryMetadataContext>(token)
-            .ConfigureAwait(false);
+        await taskContext.SwitchToBackgroundAsync();
 
         IOrderedEnumerable<AvatarView> avatars = avatarInfos
             .Where(a => a.Info2 is not null && !AvatarIds.IsPlayer(a.Info2.Base.Id))
@@ -30,11 +26,6 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             .ThenBy(a => a.Weapon?.WeaponType)
             .ThenByDescending(a => a.FetterLevel);
 
-        IList<AvatarView> views = [.. avatars];
-
-        return new()
-        {
-            Avatars = views.AsAdvancedCollectionView(),
-        };
+        return Summary.Create(avatars.AsAdvancedCollectionView());
     }
 }

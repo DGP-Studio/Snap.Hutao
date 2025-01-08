@@ -10,7 +10,7 @@ internal static class HutaoPassportHttpRequestMessageBuilderExtension
 {
     public static async ValueTask TrySetTokenAsync(this HttpRequestMessageBuilder builder, HutaoUserOptions hutaoUserOptions)
     {
-        string? token = await hutaoUserOptions.GetTokenAsync().ConfigureAwait(false);
+        string? token = await hutaoUserOptions.GetAuthTokenAsync().ConfigureAwait(false);
         builder.Headers.Authorization = string.IsNullOrEmpty(token) ? default : new("Bearer", token);
     }
 }

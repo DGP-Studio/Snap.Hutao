@@ -84,6 +84,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         set => SetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, value);
     }
 
+    [SuppressMessage("", "CA1822")]
     public string? WebhookUrl
     {
         get => GetOption(ref field, SettingEntry.DailyNoteWebhookUrl);

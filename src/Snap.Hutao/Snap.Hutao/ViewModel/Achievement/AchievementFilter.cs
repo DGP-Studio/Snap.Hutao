@@ -48,7 +48,7 @@ internal static class AchievementFilter
             : view => view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase) || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
     }
 
-    public static Predicate<AchievementGoalView>? GoalCompile(AdvancedCollectionView<AchievementView> collection)
+    public static Predicate<AchievementGoalView>? GoalCompile(IAdvancedCollectionView<AchievementView> collection)
     {
         if (collection.Filter is null)
         {

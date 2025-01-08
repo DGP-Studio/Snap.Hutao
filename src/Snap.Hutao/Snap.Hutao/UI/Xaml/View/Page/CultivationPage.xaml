@@ -26,28 +26,24 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource SolidBackgroundFillColorTransparent}">
-                        <cwconv:BoolToObjectConverter.TrueValue>
-                            <SolidColorBrush Color="#206A890A"/>
-                        </cwconv:BoolToObjectConverter.TrueValue>
-                    </cwconv:BoolToObjectConverter>
-                    <cwconv:BoolToObjectConverter x:Key="BoolToStatisticsBrushSelector" FalseValue="{StaticResource CardBackgroundFillColorDefaultBrush}">
-                        <cwconv:BoolToObjectConverter.TrueValue>
-                            <SolidColorBrush Color="#206A890A"/>
-                        </cwconv:BoolToObjectConverter.TrueValue>
-                    </cwconv:BoolToObjectConverter>
+                    <cwconv:BoolToObjectConverter
+                        x:Key="BoolToBrushSelector"
+                        FalseValue="{StaticResource SolidBackgroundFillColorTransparentBrush}"
+                        TrueValue="{StaticResource CultivationHighlightColorBrush}"/>
+                    <cwconv:BoolToObjectConverter
+                        x:Key="BoolToStatisticsBrushSelector"
+                        FalseValue="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                        TrueValue="{StaticResource CultivationHighlightColorBrush}"/>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource SolidBackgroundFillColorTransparent}">
-                        <cwconv:BoolToObjectConverter.TrueValue>
-                            <SolidColorBrush Color="#20A5D610"/>
-                        </cwconv:BoolToObjectConverter.TrueValue>
-                    </cwconv:BoolToObjectConverter>
-                    <cwconv:BoolToObjectConverter x:Key="BoolToStatisticsBrushSelector" FalseValue="{StaticResource CardBackgroundFillColorDefaultBrush}">
-                        <cwconv:BoolToObjectConverter.TrueValue>
-                            <SolidColorBrush Color="#20A5D610"/>
-                        </cwconv:BoolToObjectConverter.TrueValue>
-                    </cwconv:BoolToObjectConverter>
+                    <cwconv:BoolToObjectConverter
+                        x:Key="BoolToBrushSelector"
+                        FalseValue="{StaticResource SolidBackgroundFillColorTransparentBrush}"
+                        TrueValue="{StaticResource CultivationHighlightColorBrush}"/>
+                    <cwconv:BoolToObjectConverter
+                        x:Key="BoolToStatisticsBrushSelector"
+                        FalseValue="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                        TrueValue="{StaticResource CultivationHighlightColorBrush}"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
@@ -88,6 +84,7 @@
                             Glyph="&#xE73E;"
                             Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </Grid>
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                     <Button
                         Grid.Column="1"
                         Height="32"
@@ -121,11 +118,13 @@
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="CultivateEntryTemplate">
+            <DataTemplate x:Key="CultivateEntryTemplate" x:DataType="shvcu:CultivateEntryView">
                 <ItemContainer Margin="0,0,0,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <ItemContainer.Resources>
+                        <!--  ReSharper disable Xaml.RedundantResource  -->
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                         <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
+                        <!--  ReSharper restore Xaml.RedundantResource  -->
                     </ItemContainer.Resources>
                     <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                         <Grid.RowDefinitions>
@@ -156,6 +155,7 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                 <Button
                                     Width="48"
                                     Height="48"
@@ -173,7 +173,7 @@
                         <ScrollViewer Grid.Row="2" Margin="0,2,0,0">
                             <ItemsControl
                                 Margin="8,0,8,8"
-                                ItemTemplate="{StaticResource CultivateEntryItemTemplate}"
+                                ItemTemplate="{ThemeResource CultivateEntryItemTemplate}"
                                 ItemsSource="{Binding Items}"/>
                         </ScrollViewer>
                     </Grid>
@@ -183,8 +183,10 @@
             <DataTemplate x:Key="StatisticsItemTemplate" x:DataType="shvcu:StatisticsCultivateItem">
                 <ItemContainer Margin="0,0,0,16">
                     <ItemContainer.Resources>
+                        <!--  ReSharper disable Xaml.RedundantResource  -->
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                         <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
+                        <!--  ReSharper restore Xaml.RedundantResource  -->
                     </ItemContainer.Resources>
                     <shuxcc:HorizontalCard Background="{Binding IsToday, Converter={ThemeResource BoolToStatisticsBrushSelector}}">
                         <shuxcc:HorizontalCard.Left>
@@ -219,14 +221,14 @@
                                     Grid.Column="1"
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{Binding CountFormatted}"/>
+                                    Text="{Binding FormattedCount}"/>
                             </Grid>
                         </shuxcc:HorizontalCard.Right>
                     </shuxcc:HorizontalCard>
                 </ItemContainer>
             </DataTemplate>
 
-            <DataTemplate x:Key="InventoryItemTemplate">
+            <DataTemplate x:Key="InventoryItemTemplate" x:DataType="shvcu:InventoryItemView">
                 <Button
                     Padding="0"
                     Background="Transparent"
@@ -342,10 +344,12 @@
                                 Style="{ThemeResource AcrylicBorderCardStyle}">
                                 <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
                                     <StackPanel.Resources>
+                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                         <Thickness x:Key="SettingsCardPadding">16</Thickness>
                                         <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                         <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                        <!--  ReSharper restore Xaml.RedundantResource  -->
                                     </StackPanel.Resources>
                                     <shuxci:CachedImage
                                         Height="120"
@@ -382,6 +386,7 @@
                     <Pivot x:Name="MaterialListPivot" Style="{ThemeResource CardPivotStyle}">
                         <Pivot.RightHeader>
                             <CommandBar DefaultLabelPosition="Right">
+                                <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                 <AppBarToggleButton
                                     Command="{Binding RefreshStatisticsItemsCommand}"
                                     Icon="{shuxm:FontIcon Glyph=&#xE8CB;}"
@@ -515,7 +520,7 @@
                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                         <GridView
-                            Padding="16,16,16,4"
+                            Padding="16,16,4,4"
                             ItemContainerStyle="{ThemeResource LargeGridViewItemStyle}"
                             ItemTemplate="{StaticResource InventoryItemTemplate}"
                             ItemsSource="{Binding InventoryItems}"

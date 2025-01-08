@@ -3,13 +3,13 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.SpiralAbyss;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;
 using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
@@ -20,44 +20,34 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
 {
     private readonly ISpiralAbyssRecordRepository spiralAbyssRecordRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    private readonly ConcurrentDictionary<string, ObservableCollection<SpiralAbyssView>> spiralAbyssCollectionCache = [];
-    private SpiralAbyssMetadataContext? metadataContext;
+    private readonly ConcurrentDictionary<PlayerUid, ObservableCollection<SpiralAbyssView>> spiralAbyssCollectionCache = [];
+    private readonly AsyncLock collectionLock = new();
 
-    public async ValueTask<bool> InitializeAsync()
+    public async ValueTask<ObservableCollection<SpiralAbyssView>> GetSpiralAbyssViewCollectionAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid)
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        using (await collectionLock.LockAsync().ConfigureAwait(false))
         {
-            metadataContext = await metadataService.GetContextAsync<SpiralAbyssMetadataContext>().ConfigureAwait(false);
-            return true;
-        }
+            if (spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<SpiralAbyssView>? collection))
+            {
+                return collection;
+            }
 
-        return false;
+            await taskContext.SwitchToBackgroundAsync();
+            FrozenDictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordRepository.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
+
+            ObservableCollection<SpiralAbyssView> result = context.IdTowerScheduleMap.Values
+                .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, context))
+                .OrderByDescending(e => e.ScheduleId)
+                .ToObservableCollection();
+
+            spiralAbyssCollectionCache.TryAdd(userAndUid.Uid, result);
+            return result;
+        }
     }
 
-    public async ValueTask<ObservableCollection<SpiralAbyssView>> GetSpiralAbyssViewCollectionAsync(UserAndUid userAndUid)
-    {
-        if (spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<SpiralAbyssView>? collection))
-        {
-            return collection;
-        }
-
-        await taskContext.SwitchToBackgroundAsync();
-        Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordRepository.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
-
-        ArgumentNullException.ThrowIfNull(metadataContext);
-        ObservableCollection<SpiralAbyssView> result = metadataContext.IdTowerScheduleMap.Values
-            .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
-            .OrderByDescending(e => e.ScheduleId)
-            .ToObservableCollection();
-
-        spiralAbyssCollectionCache.TryAdd(userAndUid.Uid.Value, result);
-        return result;
-    }
-
-    public async ValueTask RefreshSpiralAbyssAsync(UserAndUid userAndUid)
+    public async ValueTask RefreshSpiralAbyssAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid)
     {
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
@@ -65,24 +55,29 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
 
             // request the index first
             await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            await RefreshSpiralAbyssCoreAsync(userAndUid, ScheduleType.Last).ConfigureAwait(false);
-            await RefreshSpiralAbyssCoreAsync(userAndUid, ScheduleType.Current).ConfigureAwait(false);
+            await RefreshSpiralAbyssCoreAsync(context, userAndUid, ScheduleType.Last).ConfigureAwait(false);
+            await RefreshSpiralAbyssCoreAsync(context, userAndUid, ScheduleType.Current).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, ScheduleType schedule)
+    private async ValueTask RefreshSpiralAbyssCoreAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid, ScheduleType schedule)
     {
+        if (!spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<SpiralAbyssView>? spiralAbysses))
+        {
+            return;
+        }
+
         Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? webSpiralAbyss;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
 
             Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetSpiralAbyssAsync(userAndUid, schedule)
                 .ConfigureAwait(false);
 
@@ -90,13 +85,6 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             {
                 return;
             }
-        }
-
-        ArgumentNullException.ThrowIfNull(metadataContext);
-
-        if (!spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<SpiralAbyssView>? spiralAbysses))
-        {
-            return;
         }
 
         int index = spiralAbysses.FirstIndexOf(s => s.ScheduleId == webSpiralAbyss.ScheduleId);
@@ -124,6 +112,6 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
 
         await taskContext.SwitchToMainThreadAsync();
         spiralAbysses.RemoveAt(index);
-        spiralAbysses.Insert(index, SpiralAbyssView.From(targetEntry, metadataContext));
+        spiralAbysses.Insert(index, SpiralAbyssView.From(targetEntry, context));
     }
 }

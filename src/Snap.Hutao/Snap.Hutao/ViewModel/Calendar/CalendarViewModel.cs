@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Linq;
 using Snap.Hutao.Model;
@@ -13,6 +14,7 @@ using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
@@ -23,15 +25,17 @@ namespace Snap.Hutao.ViewModel.Calendar;
 
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
+internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<CultivationPage>
 {
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CalendarViewModel> logger;
     private readonly IMetadataService metadataService;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
 
-    public AdvancedCollectionView<CalendarDay>? WeekDays { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial IAdvancedCollectionView<CalendarDay>? WeekDays { get; set; }
 
     protected override async Task LoadAsync()
     {
@@ -40,7 +44,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             return;
         }
 
-        AdvancedCollectionView<CalendarDay> weekDays;
+        IAdvancedCollectionView<CalendarDay> weekDays;
         using (ValueStopwatch.MeasureExecution(logger, nameof(CreateWeekDays)))
         {
             weekDays = await CreateWeekDays().ConfigureAwait(false);
@@ -140,7 +144,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
         return default;
     }
 
-    private async ValueTask<AdvancedCollectionView<CalendarDay>> CreateWeekDays()
+    private async ValueTask<IAdvancedCollectionView<CalendarDay>> CreateWeekDays()
     {
         CalendarMetadataContext metadataContext = await metadataService.GetContextAsync<CalendarMetadataContext>().ConfigureAwait(false);
         ILookup<MonthAndDay, Avatar> avatarBirthdays = metadataContext.Avatars.ToLookup(MonthAndDay.Create);
@@ -182,7 +186,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             [DayOfWeek.Saturday] = materials36,
         };
 
-        DateTimeOffset today = DateTimeOffset.Now.Date;
+        DateTimeOffset today = DateTimeOffset.Now.ToOffset(appOptions.CalendarServerTimeZoneOffset).Date;
         DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
         DateTimeOffset nearestStartOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
         if (nearestStartOfWeek > today)
@@ -190,7 +194,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim
             nearestStartOfWeek = nearestStartOfWeek.AddDays(-7);
         }
 
-        AdvancedCollectionView<CalendarDay> weekDays = Enumerable
+        IAdvancedCollectionView<CalendarDay> weekDays = Enumerable
             .Range(0, 7)
             .Select(i => CreateCalendarDay(nearestStartOfWeek.AddDays(i), context2, dailyMaterials))
             .AsAdvancedCollectionView();

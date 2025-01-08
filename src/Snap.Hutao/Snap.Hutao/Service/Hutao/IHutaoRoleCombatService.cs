@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Hutao;
 
 internal interface IHutaoRoleCombatService
 {
-    ValueTask<RoleCombatStatisticsItem> GetRoleCombatStatisticsItemAsync(bool last = false);
+    ValueTask<RoleCombatStatisticsItem> GetRoleCombatStatisticsItemAsync();
 }

@@ -154,7 +154,7 @@
     <value>Select All</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid Uri</value>
+    <value>Invalid URL</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -217,7 +217,7 @@
     <value>Light</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
-    <value>System</value>
+    <value>Follow System</value>
   </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Export</value>
@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>Must sign in to MiYouShe/HoYoLAB and select a user and role</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>Hutao Cloud CDN not activated or expired</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>Deleted {1} wish records from UID: {0}</value>
   </data>
@@ -631,6 +634,9 @@
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>The verification request failed, the current email address has been registered</value>
   </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>Verify failed, current email address is not registered</value>
+  </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>Verification request is too frequent. Please try again in 1 minute.</value>
   </data>
@@ -674,10 +680,10 @@
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF Json File</value>
+    <value>UIAF JSON files</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>Open UIAF Json File</value>
+    <value>Open UIAF JSON file</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
@@ -690,6 +696,15 @@
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓Update Schedule〓</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>US Server UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>Others UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>EU Server UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
@@ -948,13 +963,13 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>Can't find available URL</value>
+    <value>No available URL found</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>Game is running, please close the game and retry</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>Invalid URL provided</value>
+    <value>The URL provided is invalid</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLab account does not support refreshing wish history using SToken</value>
@@ -969,7 +984,7 @@
     <value>UIGF file language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target UIGF file language</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
-    <value>名称为 {0} 的账号已存在</value>
+    <value>Account {0} already exists</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Multiple matching accounts detected, please delete duplicate accounts</value>
@@ -1011,7 +1026,7 @@
     <value>Successfully unlocked frame rate limit</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在获取注入配置信息</value>
+    <value>Getting injection configuration information</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>Waiting for the game process to close…</value>
@@ -1035,7 +1050,7 @@
     <value>Game client</value>
   </data>
   <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
-    <value>游戏运行中，无法读取 Unity 日志文件</value>
+    <value>Unable to read Unity log file while game is running</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity log file not found</value>
@@ -1119,7 +1134,7 @@
     <value>Failed to unlock frame rate：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>Wish history data backup service will expire at \n{0:yyyy.MM.dd HH:mm:ss}</value>
+    <value>Wish record uploading service is valid until</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
@@ -1389,7 +1404,7 @@
     <value>You need other tools to restore the loopback after it is exempted</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+    <value>Detects that the system agent has been configured, but the Loopback restriction has not been lifted and Hutao will not be able to network properly.</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>Confirm to Config Loopback Exemption</value>
@@ -1407,10 +1422,10 @@
     <value>Getting wish items</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>Please input URL</value>
+    <value>Input URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>Input wish history URL manually</value>
+    <value>Input Wish History URL Manually</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
     <value>Game Server</value>
@@ -1440,7 +1455,7 @@
     <value>Input request Url with composit template</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>The interface requires a return of Json data as shown above. Extra data will be ignored</value>
+    <value>The interface requires a return of JSON data as shown above. Extra data will be ignored</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>If "code" is 0, the authentication is successful, otherwise the authentication is failed</value>
@@ -1472,8 +1487,14 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>Reset Password of Snap Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>Reset Email of Hutao Passport</value>
+  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Delete Snap Hutao Passport</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>使用胡桃云兑换码</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
@@ -1518,22 +1539,22 @@
     <value>Fixing configuration file</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
-    <value>选择的安装路径不存在且无法创建</value>
+    <value>The selected installation path does not exist and cannot be created</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
-    <value>选择的安装路径存在文件或文件夹</value>
+    <value>File or folder exists in the selected installation path</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
-    <value>选择的安装路径无效</value>
+    <value>The selected installation path is invalid</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
-    <value>未选择语音包</value>
+    <value>No voice pack selected</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
-    <value>未选择游戏区服</value>
+    <value>No game server selected</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
-    <value>选择安装路径</value>
+    <value>Select Installation Path</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>Switching may take some time. Please don't close HuTao.</value>
@@ -1571,7 +1592,7 @@
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>Upload Abyss Records</value>
   </data>
-  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+  <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
     <value>Check Update Logs</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
@@ -1676,6 +1697,9 @@
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Assets</value>
   </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* Don't worry if a file download fails; we will automatically attempt to complete it when the image is about to be displayed.</value>
+  </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>Image Assets Settings</value>
   </data>
@@ -1683,19 +1707,22 @@
     <value>* Unless uninstall and reinstall Snap Hutao, you cannot change this setting</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
-    <value>Image Assets Archive</value>
+    <value>Image Assets Package</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
-    <value>Full Archive</value>
+    <value>Full Package</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
-    <value>Minimum Archive</value>
+    <value>Minimum Package</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>Image Assets Quality</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Abyss Stats</value>
+  </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>Hutao Passport</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Clear all notifications</value>
@@ -1821,16 +1848,16 @@
     <value>Are you sure to delete current plan?</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
-    <value>启示之花</value>
+    <value>Blossom of Revelation</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
-    <value>藏金之花</value>
+    <value>Blossom of Wealth</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
-    <value>还需 {0} 天</value>
+    <value>{0} Days left</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
-    <value>世界 BOSS</value>
+    <value>World BOSS</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
     <value>Character Talent Materials</value>
@@ -1839,7 +1866,7 @@
     <value>Weapon Ascension Materials</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
-    <value>周常 BOSS</value>
+    <value>Weekly BOSS</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>Realtime Note Webhook URL successfully configured</value>
@@ -1887,7 +1914,7 @@
     <value>{0} days until the end of UP</value>
   </data>
   <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
-    <value>累计 UP 次数：{0}</value>
+    <value>Total UP Count: {0}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
     <value>Last UP time: {0:yyyy.MM.dd}</value>
@@ -1902,7 +1929,7 @@
     <value>First Half</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF Json File</value>
+    <value>UIAF JSON files</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>Import completed</value>
@@ -1941,13 +1968,13 @@
     <value>Sync Wish History from Snap Hutao Cloud Service</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>Export UIGF Json file to the selected path</value>
+    <value>Export UIGF JSON file to the selected path</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Uploading to Snap Hutao Cloud Service</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>Import UIGF Json file</value>
+    <value>Import UIGF JSON file</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Local version: {0}</value>
@@ -1992,10 +2019,10 @@
     <value>Dowloading Assets</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
-    <value>Raw</value>
+    <value>High Quality</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
-    <value>High Quality</value>
+    <value>Original Quality</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address</value>
@@ -2015,6 +2042,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>The currently selected user and game server do not match. Please re-select</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>Unable to read game config file: {0}, file may be not exist or insufficient permission</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>The currently selected game directory {0} is corrupted. Please manually delete the folder and reinstall the game</value>
   </data>
@@ -2030,11 +2060,11 @@
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>Fix Complete</value>
   </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>Game directory not set</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identify Monitors</value>
-  </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>Unable to read game config file: {0}, file may be not exist or insufficient permission</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>Game program path is incorrect. Change it in the Settings Page.</value>
@@ -2289,10 +2319,10 @@
     <value>Uncollected First</value>
   </data>
   <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
-    <value>树脂预估</value>
+    <value>Resin Estimation</value>
   </data>
   <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
-    <value>世界等级</value>
+    <value>WL</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>Material Statistics</value>
@@ -2459,6 +2489,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lifetime developer license</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>No Hutao Cloud record</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Snap Hutao Cloud Service Expired</value>
   </data>
@@ -2514,10 +2547,10 @@
     <value>Fetch</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>Input URL Manually</value>
+    <value>Input URL manually</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>We use provided URL to refresh your wish history</value>
+    <value>Use provided wish history URL to refresh record</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken Refresh</value>
@@ -2636,8 +2669,23 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>Teams</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>After obtaining the duration, you will be able to select the Chinese CDN mirror when updating Snap Hutao version for a better experience.</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>Hutao Cloud CDN Service</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>After obtaining the duration, you will be able to download/upload/delete wish records for up to 5 UIDs through our server. In the Spiral Abyss page, you will get free duration when uploading records for the first time in each challenge!</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>Hutao Cloud Wish Record Service</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>Enter a new email address</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>Enter your password</value>
@@ -2645,13 +2693,19 @@
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>At least 8 characters required</value>
   </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>请输入兑换码</value>
+  </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Register</value>
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Reset Password</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Delete Snap Hutao Passport will cause your data to lose without any recovery option</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
@@ -2670,7 +2724,7 @@
     <value>Advanced Features</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
+    <value>Quickly switch to the specified resolution and start the game to save the current resolution</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>Screen Resolution</value>
@@ -2967,7 +3021,7 @@
     <value>Alternate Cast members</value>
   </data>
   <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
-    <value>奇妙助益</value>
+    <value>Fantastical Blessings</value>
   </data>
   <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
     <value>Mystery Cache</value>
@@ -2988,7 +3042,7 @@
     <value>No performance data yet</value>
   </data>
   <data name="ViewPageRoleCombatShortest" xml:space="preserve">
-    <value>最快演出</value>
+    <value>Fastest performance</value>
   </data>
   <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
     <value>Special Guest Stars</value>
@@ -3003,7 +3057,7 @@
     <value>Supporting Times</value>
   </data>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
-    <value>演出总时长</value>
+    <value>Total Duration</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
@@ -3051,37 +3105,37 @@
     <value>Hutao Passport</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
-    <value>紧凑网页窗口</value>
+    <value>Compact Page Window</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
-    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+    <value>Adjust the opacity of the window to take effect the next time you open the window</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
-    <value>窗口不透明度</value>
+    <value>Window Opacity</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
-    <value>更改控制视频快进的快捷键</value>
+    <value>Change the shortcut key for controlling video fast forward</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
-    <value>视频快进</value>
+    <value>Video Fast Forward</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
-    <value>更改视频快进与快退的时间</value>
+    <value>Change the time for video fast forward and rewind</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
-    <value>快进快退</value>
+    <value>Fast forward or rewind</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>更改控制视频播放与暂停的快捷键</value>
+    <value>Change shortcut keys for controlling video playback and pausing</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>视频播放暂停</value>
+    <value>Video playback paused</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
-    <value>更改控制视频快退的快捷键</value>
+    <value>Change the shortcut key for rewinding the video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
-    <value>视频快退</value>
+    <value>Video Rewind</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copy</value>
@@ -3188,6 +3242,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>Announcement Game Server Source</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>Select the game server time zone used when getting the date on the material calendar</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>Calendar Server</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
   </data>
@@ -3217,6 +3277,9 @@
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>Hutao Cloud CDN Expiration Time</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>Proceed with caution</value>
@@ -3254,11 +3317,17 @@
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>Use Redemption Code</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Register</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>Change Password</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>Change email</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>Delete Account</value>
@@ -3273,10 +3342,19 @@
     <value>Change Auto Click Shortcut</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>Auto Click</value>
+    <value>Left mouse button auto-pointing</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>Changing the keyboard shortcut for the F-key auto-repeat function</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>Auto Press F-key</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Shortcut Keys</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>Setting the same shortcut key for different functions may cause unexpected results, and additional operations or restarting the application are required to restore normal function.</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Show icon in notification area, to allow background task, restart the program to activate</value>
@@ -3485,6 +3563,12 @@
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Imaginarium Theater</value>
   </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>Hutao Cloud CDN not activated or expired</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>No valid wish history backup service privilege</value>
+  </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>Log in failed, please log in again.</value>
   </data>
@@ -3575,9 +3659,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Upload Data</value>
   </data>
-  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>Download Now?</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Failed to Download Update Patch</value>
   </data>
@@ -3592,6 +3673,15 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>Auto Click</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>Initializing metadata</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>Download Now?</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>Installing New Version Patch</value>
@@ -3687,7 +3777,7 @@
     <value>Weapon WIKI</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口（仅管理员）</value>
+    <value>Compact web window (Admin only)</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
     <value>Please take a screenshot of this window and find the appropriate feedback channel in the Feedback Center and send it to the development team.</value>

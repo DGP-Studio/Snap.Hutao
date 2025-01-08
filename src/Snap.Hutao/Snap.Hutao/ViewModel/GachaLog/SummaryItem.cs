@@ -11,11 +11,12 @@ internal sealed class SummaryItem : Item
 
     public bool IsGuarantee { get; set; }
 
+    // Used in ListView for ProgressBar Maximum Value
     public int GuaranteeOrangeThreshold { get; set; }
 
     public int LastPull { get; set; }
 
-    public string TimeFormatted
+    public string FormattedTime
     {
         get => $"{Time.ToLocalTime():yyy.MM.dd HH:mm:ss}";
     }

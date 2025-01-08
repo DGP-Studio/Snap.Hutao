@@ -8,9 +8,11 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.ViewModel.Wiki;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Globalization;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
@@ -39,10 +41,15 @@ internal sealed class SummaryAvatarFactory
         return new SummaryAvatarFactory(context, avatarInfo).Create();
     }
 
-    public unsafe AvatarView Create()
+    public AvatarView Create()
     {
-        MetadataAvatar avatar = context.IdAvatarMap[character.Base.Id];
-        ProcessConstellations(avatar.SkillDepot, character.Constellations, out List<SkillId> activatedConstellations, out Dictionary<SkillId, SkillLevel> extraLevels);
+        MetadataAvatar avatar = context.GetAvatar(character.Base.Id);
+
+        ProcessConstellations(
+            avatar.SkillDepot,
+            character.Constellations,
+            out FrozenSet<SkillId> activatedConstellations,
+            out FrozenDictionary<SkillId, SkillLevel> extraLevels);
 
         AvatarView propertyAvatar = new AvatarViewBuilder()
             .SetId(avatar.Id)
@@ -51,13 +58,13 @@ internal sealed class SummaryAvatarFactory
             .SetNameCard(AvatarNameCardPicConverter.IconNameToUri(avatar.NameCard.PicturePrefix))
             .SetElement(ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore))
             .SetConstellations(avatar.SkillDepot.Talents, activatedConstellations)
-            .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents, character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
+            .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents, character.Skills.ToFrozenDictionary(s => s.SkillId, s => s.Level), extraLevels)
             .SetFetterLevel(character.Base.Fetter)
-            .SetProperties(character.SelectedProperties.SortBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).SelectList(&FightPropertyFormat.ToAvatarProperty))
+            .SetProperties([.. character.SelectedProperties.OrderBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).Select(FightPropertyFormat.ToAvatarProperty)])
             .SetLevelNumber(character.Base.Level)
             .SetWeapon(CreateWeapon(character.Weapon))
             .SetRecommendedProperties(character.RecommendRelicProperty.RecommendProperties)
-            .SetReliquaries(character.Relics.SelectList(relic => SummaryReliquaryFactory.Create(context, relic)))
+            .SetReliquaries(character.Relics.SelectAsArray(relic => SummaryReliquaryFactory.Create(context, relic)))
             .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)
             .View;
@@ -65,20 +72,31 @@ internal sealed class SummaryAvatarFactory
         return propertyAvatar;
     }
 
-    private static void ProcessConstellations(SkillDepot depot, List<Constellation> constellations, out List<SkillId> activatedConstellationIds, out Dictionary<SkillId, SkillLevel> extraLevels)
+    private static void ProcessConstellations(
+        SkillDepot depot,
+        ImmutableArray<Constellation> constellations,
+        out FrozenSet<SkillId> activatedConstellationIds,
+        out FrozenDictionary<SkillId, SkillLevel> extraLevels)
     {
-        activatedConstellationIds = [];
-        extraLevels = [];
+        HashSet<SkillId> constellationIds = [];
+        Dictionary<SkillId, SkillLevel> levels = [];
+
+        // 达达利亚天赋：普攻技能等级+1
+        if (depot.Inherents is [_, _, { } inherent] && inherent.GroupId == 3323U)
+        {
+            levels.Add(depot.CompositeSkillsNoInherents[0].Id, 1);
+        }
 
         foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(constellations))
         {
-            // Constellations are activated in order
+            // Constellations are activated in order, so if the current constellation is
+            // not activated, all the subsequent constellations will not be activated.
             if (!dataConstellation.IsActived)
             {
                 break;
             }
 
-            activatedConstellationIds.Add(dataConstellation.Id);
+            constellationIds.Add(dataConstellation.Id);
 
             if (metaConstellation.ExtraLevel is { } extraLevel)
             {
@@ -87,24 +105,27 @@ internal sealed class SummaryAvatarFactory
                     ExtraLevelIndexKind.NormalAttack => 0,
                     ExtraLevelIndexKind.ElementalSkill => 1,
                     ExtraLevelIndexKind.ElementalBurst => 2,
-                    _ => throw HutaoException.NotSupported(),
+                    _ => throw HutaoException.NotSupported("Unexpected extra level index."),
                 };
 
-                extraLevels.Add(depot.CompositeSkillsNoInherents[index].Id, extraLevel.Level);
+                levels.Add(depot.CompositeSkillsNoInherents[index].Id, extraLevel.Level);
             }
         }
+
+        activatedConstellationIds = constellationIds.ToFrozenSet();
+        extraLevels = levels.ToFrozenDictionary();
     }
 
     private WeaponView CreateWeapon(DetailedWeapon detailedWeapon)
     {
-        MetadataWeapon metadataWeapon = context.IdWeaponMap[detailedWeapon.Id];
+        MetadataWeapon metadataWeapon = context.GetWeapon(detailedWeapon.Id);
 
-        ImmutableArray<NameValue<string>> baseValues = metadataWeapon.GrowCurves.Select(growCurve => BaseValueInfoFormat.ToNameValue(
+        ImmutableArray<NameValue<string>> baseValues = metadataWeapon.GrowCurves.SelectAsArray(growCurve => BaseValueInfoFormat.ToNameValue(
             PropertyCurveValue.From(growCurve),
             detailedWeapon.Level,
             detailedWeapon.PromoteLevel,
             context.LevelDictionaryWeaponGrowCurveMap,
-            context.IdDictionaryWeaponLevelPromoteMap[metadataWeapon.PromoteId])).ToImmutableArray();
+            context.IdDictionaryWeaponLevelPromoteMap[metadataWeapon.PromoteId]));
 
         return new WeaponViewBuilder()
             .SetName(metadataWeapon.Name)

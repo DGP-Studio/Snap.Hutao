@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed class GamePackageIntegrityInfo
 {
-    public required List<SophonAssetOperation> ConflictedAssets { get; init; }
+    public required ImmutableArray<SophonAssetOperation> ConflictedAssets { get; init; }
 
     public required bool ChannelSdkConflicted { get; init; }
 

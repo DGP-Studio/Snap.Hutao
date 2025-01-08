@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using System.Collections.Frozen;
 using System.Diagnostics;
@@ -35,6 +36,8 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private long totalBytesInstalled;
     private long bytesInstalledLastRefreshTime;
     private long contentLength;
+
+    public partial AppOptions AppOptions { get; }
 
     public string Title { get; private set => SetProperty(ref field, value); } = SH.UIXamlViewSpecializedSophonProgressDefault;
 

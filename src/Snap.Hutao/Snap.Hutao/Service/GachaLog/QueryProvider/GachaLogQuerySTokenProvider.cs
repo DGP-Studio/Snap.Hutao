@@ -26,15 +26,15 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
             return new(false, GachaLogQuery.Invalid(SH.MustSelectUserAndUid));
         }
 
-        if (userAndUid.User.IsOversea)
+        if (userAndUid.IsOversea)
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderStokenUnsupported));
         }
 
         GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
-        Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
+        Response<GameAuthKey> authKeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(authkeyResponse, infoBarService, out GameAuthKey? authKey))
+        if (!ResponseValidator.TryValidate(authKeyResponse, infoBarService, out GameAuthKey? authKey))
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed));
         }
@@ -44,6 +44,8 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
 
     private static string ComposeQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
     {
+        // HttpUtility.ParseQueryString(string.Empty) creates an HttpUtility.HttpQSCollection
+        // Whose ToString() method returns a query string without the leading '?' character
         NameValueCollection collection = HttpUtility.ParseQueryString(string.Empty);
         collection.Set("lang", lang);
         collection.Set("auth_appid", genAuthKeyData.AuthAppId);

@@ -8,7 +8,7 @@ internal enum CheckUpdateResultKind
     None = 0,
     VersionApiInvalidResponse = 1,
     VersionApiInvalidSha256 = 2,
-    AlreayUpdated = 3,
+    AlreadyUpdated = 3,
 
     NeedDownload = 4,
     NeedInstall = 5,

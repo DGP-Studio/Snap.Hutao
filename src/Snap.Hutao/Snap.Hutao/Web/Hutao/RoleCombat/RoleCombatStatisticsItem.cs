@@ -3,12 +3,13 @@
 
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hutao.RoleCombat;
 
 internal sealed class RoleCombatStatisticsItem
 {
-    public int RecordTotal { get; set; }
+    public int RecordTotal { get; init; }
 
-    public List<ItemRate<AvatarId, double>> BackupAvatarRates { get; set; } = default!;
+    public ImmutableArray<ItemRate<AvatarId, double>> BackupAvatarRates { get; init; }
 }

@@ -6,8 +6,8 @@ using JetBrains.Annotations;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
-// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 namespace Snap.Hutao.UI.Input.LowLevel;
 
 [SuppressMessage("", "SA1500")]

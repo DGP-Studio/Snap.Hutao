@@ -2,22 +2,23 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.UI.Xaml.Data;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 internal sealed partial class HistoryWish : Wish, IAdvancedCollectionViewItem
 {
-    public string Version { get; set; } = default!;
+    public required string Version { get; init; }
 
-    public Uri BannerImage { get; set; } = default!;
+    public required Uri BannerImage { get; init; }
 
-    public List<StatisticsItem> OrangeUpList { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> OrangeUpList { get; init; }
 
-    public List<StatisticsItem> PurpleUpList { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> PurpleUpList { get; init; }
 
-    public List<StatisticsItem> OrangeList { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> OrangeList { get; init; }
 
-    public List<StatisticsItem> PurpleList { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> PurpleList { get; init; }
 
-    public List<StatisticsItem> BlueList { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> BlueList { get; init; }
 }

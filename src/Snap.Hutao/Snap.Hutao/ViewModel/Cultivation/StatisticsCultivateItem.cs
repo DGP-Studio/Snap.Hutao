@@ -7,21 +7,26 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed class StatisticsCultivateItem
 {
-    public StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
+    private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
     {
         Inner = inner;
-        Count = (int)entity.Count;
+        Count = entity.Count;
     }
 
     public Material Inner { get; }
 
-    public int Count { get; set; }
+    public uint Count { get; set; }
 
-    public int Current { get; set; }
+    public uint Current { get; set; }
 
     public bool IsFinished { get => Current >= Count; }
 
-    public string CountFormatted { get => $"{Current}/{Count}"; }
+    public string FormattedCount { get => $"{Current}/{Count}"; }
 
     public bool IsToday { get => Inner.IsTodaysItem(true); }
+
+    public static StatisticsCultivateItem Create(Material inner, Model.Entity.CultivateItem entity)
+    {
+        return new(inner, entity);
+    }
 }

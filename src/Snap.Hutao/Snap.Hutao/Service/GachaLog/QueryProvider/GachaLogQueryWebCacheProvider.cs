@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Service.Game;
+using System.Buffers;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -19,7 +20,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly CultureOptions cultureOptions;
 
     [GeneratedRegex("^[1-9]+?\\.[0-9]+?\\.[0-9]+?\\.[0-9]+?$")]
@@ -28,7 +29,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
     public static string GetCacheFile(string path)
     {
         string exeName = Path.GetFileName(path);
-        string dataFolder = exeName == GameConstants.GenshinImpactFileName
+        string dataFolder = exeName is GameConstants.GenshinImpactFileName
             ? GameConstants.GenshinImpactData
             : GameConstants.YuanShenData;
 
@@ -37,13 +38,13 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         DirectoryInfo webCacheFolder = new(Path.Combine(directory, dataFolder, "webCaches"));
         if (webCacheFolder.Exists)
         {
-            DirectoryInfo? lastestVersionCacheFolder = webCacheFolder
+            DirectoryInfo? latestVersionCacheFolder = webCacheFolder
                 .EnumerateDirectories()
                 .Where(dir => VersionRegex.IsMatch(dir.Name))
                 .MaxBy(dir => new Version(dir.Name));
 
-            lastestVersionCacheFolder ??= webCacheFolder;
-            return Path.Combine(lastestVersionCacheFolder.FullName, @"Cache\Cache_Data\data_2");
+            latestVersionCacheFolder ??= webCacheFolder;
+            return Path.Combine(latestVersionCacheFolder.FullName, @"Cache\Cache_Data\data_2");
         }
 
         return string.Empty;
@@ -93,21 +94,26 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
 
     private static unsafe string? Match(MemoryStream stream, bool isOversea)
     {
-        ReadOnlySpan<byte> span = stream.ToArray();
-        ReadOnlySpan<byte> match = isOversea
-            ? "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v3/index.html"u8
-            : "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v3/index.html"u8;
-
-        int index = span.LastIndexOf(match);
-        if (index >= 0)
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)stream.Length))
         {
-            index += match.Length;
+            Span<byte> span = memoryOwner.Memory.Span;
+            stream.Write(span);
 
-            byte* ptr = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(span[index..]));
-            ReadOnlySpan<byte> target = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
-            return Encoding.UTF8.GetString(target);
+            ReadOnlySpan<byte> match = isOversea
+                ? "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v3/index.html"u8
+                : "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v3/index.html"u8;
+
+            int index = span.LastIndexOf(match);
+            if (index >= 0)
+            {
+                index += match.Length;
+
+                byte* ptr = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(span[index..]));
+                ReadOnlySpan<byte> target = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
+                return Encoding.UTF8.GetString(target);
+            }
+
+            return null;
         }
-
-        return null;
     }
 }

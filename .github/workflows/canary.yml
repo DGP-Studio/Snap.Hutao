@@ -37,7 +37,7 @@ jobs:
           git checkout origin/develop
           $response = curl -s https://api.github.com/repos/DGP-Studio/Snap.Hutao/pulls?state=open
           $refs = $response | ConvertFrom-Json | Where-Object { $_.draft -eq $false } | ForEach-Object { $_.head.ref }
-          if ($refs.Count -eq 1 -and $refs -eq "l10n_develop") {
+          if ($refs.Count -eq 0 -or ($refs.Count -eq 1 -and $refs -eq "l10n_develop")) {
               echo "No PRs to merge"
               $continue = $false
               echo "continue=$continue" >> $Env:GITHUB_OUTPUT

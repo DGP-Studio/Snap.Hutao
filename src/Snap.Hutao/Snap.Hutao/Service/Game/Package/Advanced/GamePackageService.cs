@@ -14,6 +14,7 @@ using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -134,7 +135,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                     continue;
                 }
 
-                List<SophonChunk> diffChunks = [];
+                ImmutableArray<SophonChunk>.Builder diffChunks = ImmutableArray.CreateBuilder<SophonChunk>();
                 foreach (AssetChunk chunk in remoteAsset.AssetChunks)
                 {
                     if (localAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
@@ -143,7 +144,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                     }
                 }
 
-                yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, localAsset, remoteAsset, diffChunks);
+                yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, localAsset, remoteAsset, diffChunks.ToImmutable());
             }
 
             foreach (AssetProperty localAsset in localManifest.ManifestProto.Assets)
@@ -195,10 +196,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind, context.Operation.Kind is GamePackageOperationKind.Verify));
     }
 
-    private static int GetUniqueTotalBlocks(List<SophonAssetOperation> assets)
+    private static int GetUniqueTotalBlocks(ImmutableArray<SophonAssetOperation> assets)
     {
         HashSet<string> uniqueChunkNames = [];
-        foreach (ref readonly SophonAssetOperation asset in CollectionsMarshal.AsSpan(assets))
+        foreach (ref readonly SophonAssetOperation asset in assets.AsSpan())
         {
             switch (asset.Kind)
             {
@@ -210,7 +211,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
                     break;
                 case SophonAssetOperationKind.Modify:
-                    foreach (ref readonly SophonChunk diffChunk in CollectionsMarshal.AsSpan(asset.DiffChunks))
+                    foreach (ref readonly SophonChunk diffChunk in asset.DiffChunks.AsSpan())
                     {
                         uniqueChunkNames.Add(diffChunk.AssetChunk.ChunkName);
                     }
@@ -222,10 +223,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         return uniqueChunkNames.Count;
     }
 
-    private static int GetDownloadTotalBlocks(List<SophonAssetOperation> assets)
+    private static int GetDownloadTotalBlocks(ImmutableArray<SophonAssetOperation> assets)
     {
         int totalBlocks = 0;
-        foreach (ref readonly SophonAssetOperation asset in CollectionsMarshal.AsSpan(assets))
+        foreach (ref readonly SophonAssetOperation asset in assets.AsSpan())
         {
             switch (asset.Kind)
             {
@@ -233,7 +234,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                     totalBlocks += asset.NewAsset.AssetChunks.Count;
                     break;
                 case SophonAssetOperationKind.Modify:
-                    totalBlocks += asset.DiffChunks.Count;
+                    totalBlocks += asset.DiffChunks.Length;
                     break;
             }
         }
@@ -241,10 +242,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBlocks;
     }
 
-    private static int GetInstallTotalBlocks(List<SophonAssetOperation> assets)
+    private static int GetInstallTotalBlocks(ImmutableArray<SophonAssetOperation> assets)
     {
         int totalBlocks = 0;
-        foreach (ref readonly SophonAssetOperation asset in CollectionsMarshal.AsSpan(assets))
+        foreach (ref readonly SophonAssetOperation asset in assets.AsSpan())
         {
             switch (asset.Kind)
             {
@@ -257,10 +258,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBlocks;
     }
 
-    private static long GetTotalBytes(List<SophonAssetOperation> assets)
+    private static long GetTotalBytes(ImmutableArray<SophonAssetOperation> assets)
     {
         long totalBytes = 0;
-        foreach (ref readonly SophonAssetOperation diffAsset in CollectionsMarshal.AsSpan(assets))
+        foreach (ref readonly SophonAssetOperation diffAsset in assets.AsSpan())
         {
             switch (diffAsset.Kind)
             {
@@ -326,7 +327,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList().SortBy(a => a.Kind);
+        ImmutableArray<SophonAssetOperation> diffAssets = [.. GetDiffOperations(localBuild, remoteBuild).OrderBy(a => a.Kind)];
 
         int downloadTotalChunks = GetDownloadTotalBlocks(diffAssets);
         int installTotalChunks = GetInstallTotalBlocks(diffAssets);
@@ -363,8 +364,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
-        diffAssets.SortBy(a => a.Kind);
+        ImmutableArray<SophonAssetOperation> diffAssets = [.. GetDiffOperations(localBuild, remoteBuild).OrderBy(a => a.Kind)];
 
         int uniqueTotalBlocks = GetUniqueTotalBlocks(diffAssets);
         int totalBlocks = GetDownloadTotalBlocks(diffAssets);
@@ -479,8 +479,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         localBuild = ExtractGameAssetBundles(localBuild);
         remoteBuild = ExtractGameAssetBundles(remoteBuild);
 
-        List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
-        diffAssets.SortBy(a => a.Kind);
+        ImmutableArray<SophonAssetOperation> diffAssets = [.. GetDiffOperations(localBuild, remoteBuild).OrderBy(a => a.Kind)];
 
         int downloadTotalChunks = GetDownloadTotalBlocks(diffAssets);
         int installTotalChunks = GetInstallTotalBlocks(diffAssets);

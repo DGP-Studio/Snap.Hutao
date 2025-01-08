@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -33,6 +34,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
+    private DailyNoteMetadataContext? metadataContext;
+
     public partial DailyNoteOptions DailyNoteOptions { get; }
 
     public partial RuntimeOptions RuntimeOptions { get; }
@@ -47,23 +50,27 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            try
-            {
-                await taskContext.SwitchToBackgroundAsync();
-                AdvancedDbCollectionView<User.User, Model.Entity.User> users = await userService.GetUsersAsync().ConfigureAwait(false);
-                ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync().ConfigureAwait(false);
+            return false;
+        }
 
-                await taskContext.SwitchToMainThreadAsync();
-                Users = users;
-                DailyNoteEntries = entries;
-                return true;
-            }
-            catch (HutaoException ex)
-            {
-                infoBarService.Error(ex);
-            }
+        metadataContext = await metadataService.GetContextAsync<DailyNoteMetadataContext>().ConfigureAwait(false);
+
+        try
+        {
+            await taskContext.SwitchToBackgroundAsync();
+            AdvancedDbCollectionView<User.User, Model.Entity.User> users = await userService.GetUsersAsync().ConfigureAwait(false);
+            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync(metadataContext).ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+            Users = users;
+            DailyNoteEntries = entries;
+            return true;
+        }
+        catch (HutaoException ex)
+        {
+            infoBarService.Error(ex);
         }
 
         return false;
@@ -78,13 +85,15 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
             return;
         }
 
+        ArgumentNullException.ThrowIfNull(metadataContext);
+
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelDailyNoteRequestProgressTitle)
             .ConfigureAwait(false);
 
         using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
-            await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
+            await dailyNoteService.AddDailyNoteAsync(metadataContext, userAndUid).ConfigureAwait(false);
         }
     }
 

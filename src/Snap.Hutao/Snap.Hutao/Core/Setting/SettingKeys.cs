@@ -14,7 +14,6 @@ internal static class SettingKeys
     public const string CompactWebView2WindowScale = "CompactWebView2WindowScale";
     public const string IsNavPaneOpen = "IsNavPaneOpen";
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
-
     #endregion
 
     #region Infrastructure
@@ -51,6 +50,8 @@ internal static class SettingKeys
     public const string CultivationWeapon90LevelTarget = "CultivationWeapon90LevelTarget";
     public const string CultivationWeapon70LevelCurrent = "CultivationWeapon70LevelCurrent";
     public const string CultivationWeapon70LevelTarget = "CultivationWeapon70LevelTarget";
+
+    public const string ResinStatisticsSelectedDropDistribution = "ResinStatisticsSelectedDropDistribution";
     #endregion
 
     #region HomeCard Dashboard

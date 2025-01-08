@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using JetBrains.Annotations;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Graphics.Imaging;
@@ -56,13 +57,18 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
         using (FileStream fileStream = File.OpenRead(path))
         {
-            BitmapDecoder decoder;
+            Rgba32 accentColor;
             try
             {
-                decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+                using (SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight))
+                {
+                    accentColor = softwareBitmap.GetRgba32AccentColor();
+                }
             }
             catch (COMException comException)
             {
+                // 0xC00D36BE MF_E_INVALID_FILE_FORMAT: Throw to let user know which file is invalid
                 if (comException.HResult != HRESULT.E_FAIL)
                 {
                     comException.Data.Add("BackgroundImageType", appOptions.BackgroundImageType);
@@ -72,9 +78,6 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
                 return new(false, default!);
             }
-
-            SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight);
-            Rgba32 accentColor = softwareBitmap.GetRgba32AccentColor();
 
             await taskContext.SwitchToMainThreadAsync();
 
@@ -126,7 +129,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
         return availableBackgroundPathSet ??= [];
 
-        async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
+        async Task SetCurrentBackgroundPathSetAsync([RequireStaticDelegate] Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
         {
             HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
             Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);

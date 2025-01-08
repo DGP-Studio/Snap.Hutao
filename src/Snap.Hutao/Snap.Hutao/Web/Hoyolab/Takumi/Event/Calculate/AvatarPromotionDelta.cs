@@ -42,4 +42,20 @@ internal sealed class AvatarPromotionDelta
             Weapon = new() { LevelTarget = LocalSetting.Get(SettingKeys.CultivationWeapon90LevelTarget, 90U), },
         };
     }
+
+    public static AvatarPromotionDelta CreateForAvatarMaxConsumption(Model.Metadata.Avatar.Avatar avatar)
+    {
+        return new()
+        {
+            AvatarId = avatar.Id,
+            AvatarLevelCurrent = 1,
+            AvatarLevelTarget = 90,
+            SkillList = avatar.SkillDepot.CompositeSkillsNoInherents.SelectAsArray(skill => new PromotionDelta
+            {
+                Id = skill.GroupId,
+                LevelCurrent = 1,
+                LevelTarget = 10,
+            }),
+        };
+    }
 }

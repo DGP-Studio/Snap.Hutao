@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
@@ -10,7 +11,7 @@ internal interface ISpiralAbyssRecordRepository : IRepository<SpiralAbyssEntry>
 {
     void AddSpiralAbyssEntry(SpiralAbyssEntry entry);
 
-    Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid);
+    FrozenDictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid);
 
     void UpdateSpiralAbyssEntry(SpiralAbyssEntry entry);
 }

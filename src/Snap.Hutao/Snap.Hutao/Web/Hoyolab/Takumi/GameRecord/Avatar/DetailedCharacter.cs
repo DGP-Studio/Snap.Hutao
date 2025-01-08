@@ -1,34 +1,36 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 internal sealed class DetailedCharacter
 {
     [JsonPropertyName("base")]
-    public Character Base { get; set; } = default!;
+    public Character Base { get; init; } = default!;
 
     [JsonPropertyName("weapon")]
-    public DetailedWeapon Weapon { get; set; } = default!;
+    public DetailedWeapon Weapon { get; init; } = default!;
 
     [JsonPropertyName("relics")]
-    public List<Reliquary> Relics { get; set; } = default!;
+    public ImmutableArray<Reliquary> Relics { get; init; }
 
     [JsonPropertyName("constellations")]
-    public List<Constellation> Constellations { get; set; } = default!;
+    public ImmutableArray<Constellation> Constellations { get; init; }
 
     [JsonPropertyName("costumes")]
-    public List<Costume>? Costumes { get; set; }
+    public List<Costume>? Costumes { get; init; }
 
-    // HP ATK DEF EM
+    // HP ATK DEF EM ...
     [JsonPropertyName("selected_properties")]
-    public List<BaseProperty> SelectedProperties { get; set; } = default!;
+    public ImmutableArray<BaseProperty> SelectedProperties { get; init; }
 
     [JsonPropertyName("skills")]
-    public List<Skill> Skills { get; set; } = default!;
+    public ImmutableArray<Skill> Skills { get; init; }
 
     [JsonPropertyName("recommend_relic_property")]
-    public RecommendRelicProperty RecommendRelicProperty { get; set; } = default!;
+    public RecommendRelicProperty RecommendRelicProperty { get; init; } = default!;
 
     // Ignored field List<BaseProperty> base_properties
     // Ignored field List<BaseProperty> extra_properties

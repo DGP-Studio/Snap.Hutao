@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -14,7 +15,7 @@ internal interface IDailyNoteRepository : IRepository<DailyNoteEntry>
 
     void DeleteDailyNoteEntryById(Guid entryId);
 
-    List<DailyNoteEntry> GetDailyNoteEntryListIncludingUser();
+    ImmutableArray<DailyNoteEntry> GetDailyNoteEntryImmutableArrayIncludingUser();
 
     void UpdateDailyNoteEntry(DailyNoteEntry entry);
 }

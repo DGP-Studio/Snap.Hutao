@@ -7,7 +7,5 @@ namespace Snap.Hutao.Service.GachaLog;
 
 internal interface IGachaLogWishCountdownService
 {
-    ValueTask<bool> InitializeAsync();
-
-    ValueTask<ValueResult<bool, WishCountdowns>> GetWishCountdownsAsync();
+    ValueTask<WishCountdownBundle> GetWishCountdownBundleAsync(GachaLogWishCountdownServiceMetadataContext context);
 }

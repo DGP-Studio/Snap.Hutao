@@ -31,7 +31,7 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
 
         IGachaLogRepository gachaLogRepository = serviceProvider.GetRequiredService<IGachaLogRepository>();
 
-        foreach (UIGFEntry<Hk4eItem> entry in entries)
+        foreach (ref readonly UIGFEntry<Hk4eItem> entry in entries.AsSpan())
         {
             if (!uids.Contains(entry.Uid))
             {
@@ -49,13 +49,14 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
             Guid archiveId = archive.InnerId;
 
             List<GachaItem> fullItems = [];
+            int timeZone = entry.TimeZone;
             foreach (GachaType queryType in GachaLog.GachaLog.QueryTypes)
             {
                 long trimId = gachaLogRepository.GetOldestGachaItemIdByArchiveIdAndQueryType(archiveId, queryType);
                 List<GachaItem> currentTypedList = entry.List
                     .Where(item => item.UIGFGachaType == queryType && item.Id < trimId)
                     .OrderByDescending(item => item.Id)
-                    .Select(item => GachaItem.From(archiveId, item, entry.TimeZone))
+                    .Select(item => GachaItem.From(archiveId, item, timeZone))
                     .ToList();
 
                 fullItems.AddRange(currentTypedList);

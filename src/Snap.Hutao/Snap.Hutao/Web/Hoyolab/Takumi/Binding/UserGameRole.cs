@@ -13,7 +13,7 @@ internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollecti
     public string GameBiz { get; set; } = default!;
 
     [JsonPropertyName("region")]
-    public Region Region { get; set; } = default!;
+    public Region Region { get; set; }
 
     [JsonPropertyName("game_uid")]
     public string GameUid { get; set; } = default!;
@@ -31,7 +31,7 @@ internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollecti
     public string RegionName { get; set; } = default!;
 
     [JsonPropertyName("is_official")]
-    public bool IsOfficial { get; set; } = default!;
+    public bool IsOfficial { get; set; }
 
     [JsonIgnore]
     public string Description
@@ -40,11 +40,8 @@ internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollecti
     }
 
     [JsonIgnore]
-    public string? ProfilePictureIcon
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
+    [ObservableProperty]
+    public partial string? ProfilePictureIcon { get; set; }
 
     public static implicit operator PlayerUid(UserGameRole userGameRole)
     {

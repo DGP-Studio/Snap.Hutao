@@ -8,8 +8,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote.NotifySuppression;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -19,8 +17,7 @@ internal sealed partial class DailyNoteNotificationOperation
 {
     private const string ToastAttributionUnknown = "Unknown";
 
-    private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly DailyNoteOptions options;
@@ -44,9 +41,7 @@ internal sealed partial class DailyNoteNotificationOperation
             return;
         }
 
-        string attribution = entry.UserGameRole is not null
-            ? entry.UserGameRole.ToString()
-            : await GetUserUidAsync(entry).ConfigureAwait(false);
+        string attribution = entry.UserGameRole?.ToString() ?? ToastAttributionUnknown;
 
         string reminder = options.IsReminderNotification ? @"scenario=""reminder""" : string.Empty;
         string content;
@@ -90,7 +85,11 @@ internal sealed partial class DailyNoteNotificationOperation
                 </actions>
             </toast>
             """;
-        AppNotification notification = new(rawXml);
+        AppNotification notification = new(rawXml)
+        {
+            ExpiresOnReboot = true,
+        };
+
         if (options.IsSilentWhenPlayingGame && gameService.IsGameRunning())
         {
             notification.SuppressDisplay = true;
@@ -106,24 +105,5 @@ internal sealed partial class DailyNoteNotificationOperation
             ex.AddData("RawXml", rawXml);
             infoBarService.Error(ex, SH.ServiceDailyNoteNotificationSendExceptionTitle);
         }
-    }
-
-    private async ValueTask<string> GetUserUidAsync(DailyNoteEntry entry)
-    {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
-        {
-            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
-            Response<ListWrapper<UserGameRole>> rolesResponse = await bindingClient
-                .GetUserGameRolesOverseaAwareAsync(entry.User)
-                .ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(rolesResponse, infoBarService, out ListWrapper<UserGameRole>? listWrapper))
-            {
-                List<UserGameRole> roles = listWrapper.List;
-                return roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
-            }
-        }
-
-        return SH.ServiceDailyNoteNotifierAttribution;
     }
 }

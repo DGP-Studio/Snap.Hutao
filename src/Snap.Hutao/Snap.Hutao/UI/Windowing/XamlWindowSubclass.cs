@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
+using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -53,6 +54,12 @@ internal sealed partial class XamlWindowSubclass : IDisposable
 
         switch (uMsg)
         {
+            case WM_PAINT:
+                {
+                    DwmApi.DwmFlush();
+                    break;
+                }
+
             case WM_GETMINMAXINFO:
                 {
                     if (state.window is IXamlWindowSubclassMinMaxInfoHandler handler)

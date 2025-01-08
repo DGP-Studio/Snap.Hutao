@@ -21,12 +21,12 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
                 return;
             }
 
-            if (!gameFileSystem.TryGetGameVersion(out string? gameVerison))
+            if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
             {
                 return;
             }
 
-            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, gameVerison);
+            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, gameVersion);
 
             try
             {
@@ -36,7 +36,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
                 }
                 else
                 {
-                    HutaoException.Throw("下载解锁帧率配置文件失败");
+                    HutaoException.Throw("Failed to download island feature configuration.");
                 }
             }
             catch (Exception ex)

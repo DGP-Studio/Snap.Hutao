@@ -9,6 +9,10 @@ namespace Snap.Hutao.UI.Input;
 
 internal static class VirtualKeys
 {
+    public static ImmutableArray<NameValue<VIRTUAL_KEY>> Values { get; } = ImmutableCollectionsNameValue.FromEnum<VIRTUAL_KEY>();
+
+    public static ImmutableArray<NameValue<VIRTUAL_KEY>> HotKeyValues { get; } = ImmutableCollectionsNameValue.From(RawHotKeyValues);
+
     private static ReadOnlySpan<VIRTUAL_KEY> RawHotKeyValues
     {
         get =>
@@ -134,10 +138,6 @@ internal static class VirtualKeys
             VIRTUAL_KEY.VK__none_,
         ];
     }
-
-    public static ImmutableArray<NameValue<VIRTUAL_KEY>> Values { get; } = ImmutableCollectionsNameValue.FromEnum<VIRTUAL_KEY>();
-
-    public static ImmutableArray<NameValue<VIRTUAL_KEY>> HotKeyValues { get; } = ImmutableCollectionsNameValue.From(RawHotKeyValues);
 
     public static NameValue<VIRTUAL_KEY> First(VIRTUAL_KEY value)
     {

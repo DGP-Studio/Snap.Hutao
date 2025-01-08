@@ -1,0 +1,140 @@
+<shuxc:ScopedPage
+    x:Class="Snap.Hutao.UI.Xaml.View.Page.HutaoPassportPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvh="using:Snap.Hutao.ViewModel.HutaoPassport"
+    d:DataContext="{d:DesignInstance shvh:HutaoPassportViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <ScrollViewer>
+        <StackPanel Padding="16" Spacing="16">
+            <Border VerticalAlignment="Top" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                            <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                                <cwc:SettingsCard
+                                    Description="{Binding HutaoUserOptions.UserName}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE716;}">
+                                    <StackPanel Orientation="Horizontal" Spacing="16">
+                                        <Button
+                                            Command="{Binding LoginCommand}"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLoginAction}"
+                                            Style="{ThemeResource SettingButtonStyle}"
+                                            Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                        <Button
+                                            Command="{Binding RegisterCommand}"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRegisterAction}"
+                                            Style="{ThemeResource SettingButtonStyle}"
+                                            Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                        <Button
+                                            Command="{Binding RefreshUserInfoCommand}"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRefreshAction}"
+                                            Style="{ThemeResource SettingButtonStyle}"
+                                            Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                        <Button
+                                            Command="{Binding LogoutCommand}"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLogoutAction}"
+                                            Style="{ThemeResource SettingButtonStyle}"
+                                            Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    </StackPanel>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperHeader}"
+                                    Visibility="{Binding HutaoUserOptions.IsDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Button
+                                        Command="{Binding OpenTestPageCommand}"
+                                        Content="TEST"
+                                        Style="{ThemeResource SettingButtonStyle}"/>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
+                                    Visibility="{Binding HutaoUserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <cwc:SettingsCard
+                                    Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneHeader}">
+                                    <StackPanel Orientation="Horizontal" Spacing="16">
+                                        <Button
+                                            Command="{Binding ResetUsernameCommand}"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportResetUserNameAction}"
+                                            Style="{ThemeResource SettingButtonStyle}"/>
+                                        <Button
+                                            Command="{Binding ResetPasswordCommand}"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportResetPasswordAction}"
+                                            Style="{ThemeResource SettingButtonStyle}"/>
+                                        <Button
+                                            Command="{Binding UnregisterCommand}"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportUnregisterAction}"
+                                            Style="{ThemeResource SettingButtonStyle}"/>
+                                    </StackPanel>
+                                </cwc:SettingsCard>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Border>
+
+            <Border VerticalAlignment="Top" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
+                        <InfoBar
+                            Title="{shuxm:ResourceString Name=ViewPageHutaoPassportGachaLogCloudHeader}"
+                            IsClosable="False"
+                            IsOpen="True"
+                            Message="{shuxm:ResourceString Name=ViewPageHutaoPassportGachaLogCloudDescription}"/>
+                        <cwc:SettingsCard Description="{Binding HutaoUserOptions.CloudExpireAt}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}">
+                            <Button Content="{shuxm:ResourceString Name=ViewPageHutaoPassportSponsorAction}" Style="{ThemeResource SettingButtonStyle}">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Click">
+                                        <cwb:NavigateToUriAction NavigateUri="https://afdian.com/item/80d3b9decf9011edb5f452540025c377"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </Button>
+                        </cwc:SettingsCard>
+                        <InfoBar
+                            Title="{shuxm:ResourceString Name=ViewPageHutaoPassportCDNCloudHeader}"
+                            IsClosable="False"
+                            IsOpen="True"
+                            Message="{shuxm:ResourceString Name=ViewPageHutaoPassportCDNCloudDescription}"/>
+                        <cwc:SettingsCard Description="{Binding HutaoUserOptions.CdnExpireAt}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportCdnExpiredAtHeader}">
+                            <Button Content="{shuxm:ResourceString Name=ViewPageHutaoPassportSponsorAction}" Style="{ThemeResource SettingButtonStyle}">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Click">
+                                        <cwb:NavigateToUriAction NavigateUri="https://afdian.com/item/274f5a7cbe9911efab6552540025c377"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </Button>
+                        </cwc:SettingsCard>
+                        <cwc:SettingsCard
+                            Command="{Binding UseRedeemCodeCommand}"
+                            Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeDescription}"
+                            Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeHeader}"
+                            IsClickEnabled="True"/>
+                    </StackPanel>
+                </Border>
+            </Border>
+        </StackPanel>
+
+    </ScrollViewer>
+</shuxc:ScopedPage>

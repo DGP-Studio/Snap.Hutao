@@ -7,16 +7,15 @@ namespace Snap.Hutao.Service.DailyNote.NotifySuppression;
 
 internal sealed class NotifySuppressionContext : INotifySuppressionContext
 {
-    private readonly DailyNoteEntry entry;
     private readonly List<DailyNoteNotifyInfo> infos;
 
     public NotifySuppressionContext(DailyNoteEntry entry, List<DailyNoteNotifyInfo> infos)
     {
-        this.entry = entry;
+        Entry = entry;
         this.infos = infos;
     }
 
-    public DailyNoteEntry Entry { get => entry; }
+    public DailyNoteEntry Entry { get; }
 
     public void Add(DailyNoteNotifyInfo info)
     {

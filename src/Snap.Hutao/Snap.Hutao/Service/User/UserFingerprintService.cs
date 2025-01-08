@@ -18,7 +18,7 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
     {
         if (user.IsOversea)
         {
-            // disable HoYoLAB fp approach
+            // Disable HoYoLAB fp approach
             return;
         }
 
@@ -32,6 +32,8 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
 
         string device = Core.Random.GetUpperAndNumberString(12);
         string product = Core.Random.GetUpperAndNumberString(6);
+
+        // To anyone who finds this code, please don't fully copy this code.
         Dictionary<string, object> extendProperties = new()
         {
             { "proxyStatus", 0 },

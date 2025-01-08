@@ -11,6 +11,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -130,7 +131,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForCharacterAll, token).ConfigureAwait(false);
     }
 
-    public async ValueTask<Response<ListWrapper<DetailedCharacter>>> GetCharacterDetailAsync(UserAndUid userAndUid, List<AvatarId> characterIds, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<DetailedCharacter>>> GetCharacterDetailAsync(UserAndUid userAndUid, ImmutableArray<AvatarId> characterIds, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.GameRecordCharacterDetail())

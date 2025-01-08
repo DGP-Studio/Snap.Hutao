@@ -67,6 +67,7 @@ internal sealed class IniSection : IniElement, IEquatable<IniSection>
         {
             return new(name, children.ToImmutable());
         }
+
         public override string ToString()
         {
             throw HutaoException.NotSupported();

@@ -2,20 +2,21 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 internal sealed class RecommendProperties
 {
     [JsonPropertyName("sand_main_property_list")]
-    public List<FightProperty> SandMainPropertyList { get; set; } = default!;
+    public ImmutableArray<FightProperty> SandMainPropertyList { get; set; }
 
     [JsonPropertyName("goblet_main_property_list")]
-    public List<FightProperty> GobletMainPropertyList { get; set; } = default!;
+    public ImmutableArray<FightProperty> GobletMainPropertyList { get; set; }
 
     [JsonPropertyName("circlet_main_property_list")]
-    public List<FightProperty> CircletMainPropertyList { get; set; } = default!;
+    public ImmutableArray<FightProperty> CircletMainPropertyList { get; set; }
 
     [JsonPropertyName("sub_property_list")]
-    public List<FightProperty> SubPropertyList { get; set; } = default!;
+    public ImmutableArray<FightProperty> SubPropertyList { get; set; }
 }

@@ -148,10 +148,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
-                        <TextBlock
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"
-                            TextWrapping="Wrap"/>
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
                         <ItemsControl
                             Margin="0,8,0,0"
                             ItemTemplate="{StaticResource AvatarTemplate}"
@@ -351,9 +348,11 @@
                                                         </Flyout.FlyoutPresenterStyle>
                                                         <Grid ColumnSpacing="6">
                                                             <Grid.Resources>
+                                                                <!--  ReSharper disable Xaml.RedundantResource  -->
                                                                 <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                                                 <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                                                 <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                                <!--  ReSharper restore Xaml.RedundantResource  -->
                                                             </Grid.Resources>
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="305"/>
@@ -477,7 +476,7 @@
                                             ItemsSource="{Binding Floors}"
                                             SelectedItem="{Binding Floors.CurrentItem, Mode=TwoWay}">
                                             <cwc:Segmented.ItemTemplate>
-                                                <DataTemplate>
+                                                <DataTemplate x:DataType="shvs:FloorView">
                                                     <TextBlock Text="{Binding Index}"/>
                                                 </DataTemplate>
                                             </cwc:Segmented.ItemTemplate>
@@ -506,7 +505,7 @@
                     </mxi:Interaction.Behaviors>
 
                     <Grid.Resources>
-                        <DataTemplate x:Key="AvatarViewInTeamTemplate" d:DataType="shvcom:AvatarView">
+                        <DataTemplate x:Key="AvatarViewInTeamTemplate" x:DataType="shvcom:AvatarView">
                             <shuxc:ItemIcon
                                 Width="40"
                                 Height="40"
@@ -516,7 +515,7 @@
                                 Quality="{Binding Quality}"/>
                         </DataTemplate>
 
-                        <DataTemplate x:Key="TeamItemTemplate" d:DataType="shvcom:Team">
+                        <DataTemplate x:Key="TeamItemTemplate" x:DataType="shvcom:Team">
                             <Border Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -599,10 +598,12 @@
                                                 Margin="0,-29,0,0"
                                                 Spacing="{StaticResource SettingsCardSpacing}">
                                                 <StackPanel.Resources>
+                                                    <!--  ReSharper disable Xaml.RedundantResource  -->
                                                     <Thickness x:Key="SettingsCardPadding">16</Thickness>
                                                     <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                                     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                                     <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                    <!--  ReSharper restore Xaml.RedundantResource  -->
                                                 </StackPanel.Resources>
                                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewDataCollect}"/>
                                                 <cwc:SettingsCard Content="{Binding Overview.RefreshTime}" Header="{shuxm:ResourceString Name=ViewPageHutaoDatabaseOverviewRefreshTime}"/>

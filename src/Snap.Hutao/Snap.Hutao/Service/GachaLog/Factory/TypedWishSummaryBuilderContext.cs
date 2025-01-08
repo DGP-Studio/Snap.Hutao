@@ -9,8 +9,8 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 
 internal readonly struct TypedWishSummaryBuilderContext
 {
+    public readonly IServiceProvider ServiceProvider;
     public readonly ITaskContext TaskContext;
-    public readonly HomaGachaLogClient GachaLogClient;
     public readonly string Name;
     public readonly int GuaranteeOrangeThreshold;
     public readonly int GuaranteePurpleThreshold;
@@ -23,16 +23,15 @@ internal readonly struct TypedWishSummaryBuilderContext
     private static readonly Func<GachaType, bool> IsChronicledWish = type => type is GachaType.ActivityCity;
 
     public TypedWishSummaryBuilderContext(
-        ITaskContext taskContext,
-        HomaGachaLogClient gachaLogClient,
+        IServiceProvider serviceProvider,
         string name,
         int guaranteeOrangeThreshold,
         int guaranteePurpleThreshold,
         Func<GachaType, bool> typeEvaluator,
         GachaDistributionType distributionType)
     {
-        TaskContext = taskContext;
-        GachaLogClient = gachaLogClient;
+        ServiceProvider = serviceProvider;
+        TaskContext = serviceProvider.GetRequiredService<ITaskContext>();
         Name = name;
         GuaranteeOrangeThreshold = guaranteeOrangeThreshold;
         GuaranteePurpleThreshold = guaranteePurpleThreshold;
@@ -40,28 +39,37 @@ internal readonly struct TypedWishSummaryBuilderContext
         DistributionType = distributionType;
     }
 
-    public static TypedWishSummaryBuilderContext StandardWish(ITaskContext taskContext, HomaGachaLogClient gachaLogClient)
+    public static TypedWishSummaryBuilderContext StandardWish(GachaStatisticsFactoryContext context)
     {
-        return new(taskContext, gachaLogClient, SH.ServiceGachaLogFactoryPermanentWishName, 90, 10, IsStandardWish, GachaDistributionType.Standard);
+        return new(context.ServiceProvider, SH.ServiceGachaLogFactoryPermanentWishName, 90, 10, IsStandardWish, GachaDistributionType.Standard);
     }
 
-    public static TypedWishSummaryBuilderContext AvatarEventWish(ITaskContext taskContext, HomaGachaLogClient gachaLogClient)
+    public static TypedWishSummaryBuilderContext AvatarEventWish(GachaStatisticsFactoryContext context)
     {
-        return new(taskContext, gachaLogClient, SH.ServiceGachaLogFactoryAvatarWishName, 90, 10, IsAvatarEventWish, GachaDistributionType.AvatarEvent);
+        return new(context.ServiceProvider, SH.ServiceGachaLogFactoryAvatarWishName, 90, 10, IsAvatarEventWish, GachaDistributionType.AvatarEvent);
     }
 
-    public static TypedWishSummaryBuilderContext WeaponEventWish(ITaskContext taskContext, HomaGachaLogClient gachaLogClient)
+    public static TypedWishSummaryBuilderContext WeaponEventWish(GachaStatisticsFactoryContext context)
     {
-        return new(taskContext, gachaLogClient, SH.ServiceGachaLogFactoryWeaponWishName, 80, 10, IsWeaponEventWish, GachaDistributionType.WeaponEvent);
+        return new(context.ServiceProvider, SH.ServiceGachaLogFactoryWeaponWishName, 80, 10, IsWeaponEventWish, GachaDistributionType.WeaponEvent);
     }
 
-    public static TypedWishSummaryBuilderContext ChronicledWish(ITaskContext taskContext, HomaGachaLogClient gachaLogClient)
+    public static TypedWishSummaryBuilderContext ChronicledWish(GachaStatisticsFactoryContext context)
     {
-        return new(taskContext, gachaLogClient, SH.ServiceGachaLogFactoryChronicledWishName, 90, 10, IsChronicledWish, GachaDistributionType.Chronicled);
+        return new(context.ServiceProvider, SH.ServiceGachaLogFactoryChronicledWishName, 90, 10, IsChronicledWish, GachaDistributionType.Chronicled);
+    }
+
+    public TypedWishSummaryBuilder CreateBuilder()
+    {
+        return new(this);
     }
 
     public ValueTask<HutaoResponse<GachaDistribution>> GetGachaDistributionAsync()
     {
-        return GachaLogClient.GetGachaDistributionAsync(DistributionType);
+        using (IServiceScope scope = ServiceProvider.CreateScope())
+        {
+            HomaGachaLogClient client = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
+            return client.GetGachaDistributionAsync(DistributionType);
+        }
     }
 }

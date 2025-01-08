@@ -5,6 +5,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
@@ -20,6 +21,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
     public Version? RemoteVersion { get; set => SetProperty(ref field, value, nameof(RemoteVersionText)); }
@@ -28,7 +30,8 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        LaunchScheme launchScheme = KnownLaunchSchemes.Get().First(scheme => scheme.IsNotCompatOnly);
+        // TODO: Why we are using this instead of Selected one?
+        LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(scheme => scheme.IsNotCompatOnly);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -60,7 +63,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         }
 
         LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
-        dialog.KnownSchemes = KnownLaunchSchemes.Get();
+        dialog.KnownSchemes = KnownLaunchSchemes.Values;
         dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
         (bool isOk, GameInstallOptions gameInstallOptions) = await dialog.GetGameInstallOptionsAsync().ConfigureAwait(false);
 
@@ -104,11 +107,18 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             gameChannelSDK,
             default);
 
-        gameFileSystem.GenerateConfigurationFile(branch.Main.Tag, launchScheme);
+        if (!GameInstallPrerequisite.TryLock(gameFileSystem, branch.Main.Tag, launchScheme, out GameInstallPrerequisite? installToken))
+        {
+            infoBarService.Error(SH.ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry);
+            return;
+        }
 
         if (!await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false))
         {
-            // Operation canceled
+            // Operation canceled or failed
+            return;
         }
+
+        installToken.Release();
     }
 }

@@ -46,7 +46,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private WikiAvatarMetadataContext? metadataContext;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    public AdvancedCollectionView<Avatar>? Avatars
+    public IAdvancedCollectionView<Avatar>? Avatars
     {
         get;
         set
@@ -90,7 +90,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                AdvancedCollectionView<Avatar> avatarsView = list.AsAdvancedCollectionView();
+                IAdvancedCollectionView<Avatar> avatarsView = list.AsAdvancedCollectionView();
 
                 await taskContext.SwitchToMainThreadAsync();
                 Avatars = avatarsView;
@@ -125,11 +125,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
     {
-        if (!await hutaoCache.InitializeForWikiAvatarViewAsync().ConfigureAwait(false))
-        {
-            return;
-        }
-
+        HutaoSpiralAbyssStatisticsMetadataContext context2 = await metadataService.GetContextAsync<HutaoSpiralAbyssStatisticsMetadataContext>().ConfigureAwait(false);
+        await hutaoCache.InitializeForWikiAvatarViewAsync(context2).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(hutaoCache.AvatarCollocations);
 
         foreach (Avatar avatar in avatars)
@@ -226,5 +223,10 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         Avatars.Filter = FilterTokens is null or [] ? default! : AvatarFilter.Compile(FilterTokens);
+
+        if (Avatars.CurrentItem is null)
+        {
+            Avatars.MoveCurrentToFirstOrDefault();
+        }
     }
 }

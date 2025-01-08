@@ -20,7 +20,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     private WikiMonsterMetadataContext metadataContext;
 
-    public AdvancedCollectionView<Monster>? Monsters
+    public IAdvancedCollectionView<Monster>? Monsters
     {
         get;
         set
@@ -58,7 +58,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
-                    AdvancedCollectionView<Monster> monstersView = ordered.AsAdvancedCollectionView();
+                    IAdvancedCollectionView<Monster> monstersView = ordered.AsAdvancedCollectionView();
 
                     await taskContext.SwitchToMainThreadAsync();
                     Monsters = monstersView;

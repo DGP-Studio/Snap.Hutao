@@ -12,6 +12,6 @@ internal sealed class HutaoEndpointsForAlphaOS : IHutaoEndpoints
 
     public string PatchSnapHutao()
     {
-        return $"{((IInfrastructureRootAccess)(this)).Root}/patch/alpha";
+        return $"{((IInfrastructureRootAccess)this).Root}/patch/alpha";
     }
 }

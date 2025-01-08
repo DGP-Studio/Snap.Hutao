@@ -29,7 +29,7 @@ internal sealed class UserAndUid
     {
         if (user is { UserGameRoles.CurrentItem: { } role })
         {
-            userAndUid = new UserAndUid(user.Entity, role);
+            userAndUid = new(user.Entity, role);
             return true;
         }
 

@@ -9,9 +9,9 @@ namespace Snap.Hutao.Service.DailyNote;
 
 internal interface IDailyNoteService
 {
-    ValueTask AddDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default);
+    ValueTask AddDailyNoteAsync(DailyNoteMetadataContext context, UserAndUid userAndUid, CancellationToken token = default);
 
-    ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false, CancellationToken token = default);
+    ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(DailyNoteMetadataContext context, bool forceRefresh = false, CancellationToken token = default);
 
     ValueTask RefreshDailyNotesAsync(CancellationToken token = default);
 

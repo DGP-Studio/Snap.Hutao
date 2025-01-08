@@ -9,6 +9,8 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoSpiralAbyssService))]
 internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHutaoSpiralAbyssService
 {
+    public override string TypeName { get; } = nameof(HutaoSpiralAbyssService);
+
     public async ValueTask<Overview> GetOverviewAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
@@ -18,7 +20,7 @@ internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHut
         }
     }
 
-    public async ValueTask<List<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false)
+    public async ValueTask<IReadOnlyList<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
@@ -27,7 +29,7 @@ internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHut
         }
     }
 
-    public async ValueTask<List<AvatarUsageRank>> GetAvatarUsageRanksAsync(bool last = false)
+    public async ValueTask<IReadOnlyList<AvatarUsageRank>> GetAvatarUsageRanksAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
@@ -36,7 +38,7 @@ internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHut
         }
     }
 
-    public async ValueTask<List<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(bool last = false)
+    public async ValueTask<IReadOnlyList<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
@@ -45,7 +47,7 @@ internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHut
         }
     }
 
-    public async ValueTask<List<AvatarCollocation>> GetAvatarCollocationsAsync(bool last = false)
+    public async ValueTask<IReadOnlyList<AvatarCollocation>> GetAvatarCollocationsAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
@@ -54,7 +56,7 @@ internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHut
         }
     }
 
-    public async ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync(bool last = false)
+    public async ValueTask<IReadOnlyList<WeaponCollocation>> GetWeaponCollocationsAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
@@ -63,7 +65,7 @@ internal sealed partial class HutaoSpiralAbyssService : ObjectCacheService, IHut
         }
     }
 
-    public async ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync(bool last = false)
+    public async ValueTask<IReadOnlyList<TeamAppearance>> GetTeamAppearancesAsync(bool last = false)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {

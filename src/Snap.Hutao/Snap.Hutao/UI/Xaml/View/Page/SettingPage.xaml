@@ -25,7 +25,7 @@
         <ScrollViewer x:Name="RootScrollViewer" Style="{StaticResource TwoPanelScrollViewerStyle}">
             <shuxc:ScrollViewerHelper.RightPanel>
                 <Border
-                    x:Name="ScrollViwerRightPanel"
+                    x:Name="ScrollViewerRightPanel"
                     Width="400"
                     Margin="0,16,16,16"
                     VerticalAlignment="Top"
@@ -45,7 +45,7 @@
                                     MaxWidth="120"
                                     MaxHeight="120"
                                     Margin="48,48"
-                                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                                    Source="ms-appx:///Assets/InAppLogo.png"/>
                                 <cwc:UniformGrid
                                     Grid.Row="1"
                                     Margin="16"
@@ -80,8 +80,7 @@
                                     HorizontalAlignment="Center"
                                     Opacity="0.7"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="Copyright © 2022 - 2024 DGP Studio. All Rights Reserved."
-                                    TextWrapping="Wrap"/>
+                                    Text="Copyright © 2022 - 2025 DGP Studio. All Rights Reserved."/>
                             </Grid>
 
                             <cwc:SettingsExpander
@@ -109,7 +108,7 @@
                     Spacing="16">
 
                     <!--  关于  -->
-                    <Border x:Name="ScrollViwerTopPanel" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border x:Name="ScrollViewerTopPanel" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="Visible">
                                 <Grid MaxHeight="176" Style="{ThemeResource GridCardStyle}">
@@ -123,7 +122,7 @@
                                             Grid.Column="0"
                                             MaxWidth="120"
                                             MaxHeight="120"
-                                            Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                                            Source="ms-appx:///Assets/InAppLogo.png"/>
                                         <StackPanel
                                             Grid.Row="0"
                                             Grid.Column="1"
@@ -159,8 +158,7 @@
                                                 Margin="12,0,0,0"
                                                 Opacity="0.7"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="Copyright © 2022 - 2024 DGP Studio. All Rights Reserved."
-                                                TextWrapping="Wrap"/>
+                                                Text="Copyright © 2022 - 2025 DGP Studio. All Rights Reserved."/>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
@@ -178,78 +176,6 @@
                                             IsClickEnabled="True"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
-                            </StackPanel>
-                        </Border>
-                    </Border>
-
-                    <!--  胡桃通行证  -->
-                    <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding Passport}">
-                        <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
-                            <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingCardHutaoPassportHeader}"/>
-                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
-                                    <cwc:SettingsExpander
-                                        Description="{Binding HutaoUserOptions.UserName}"
-                                        Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportHeader}"
-                                        HeaderIcon="{shuxm:FontIcon Glyph=&#xE716;}"
-                                        IsExpanded="True">
-                                        <StackPanel Orientation="Horizontal" Spacing="16">
-                                            <Button
-                                                Command="{Binding LoginCommand}"
-                                                Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLoginAction}"
-                                                Style="{ThemeResource SettingButtonStyle}"
-                                                Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                            <Button
-                                                Command="{Binding RegisterCommand}"
-                                                Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRegisterAction}"
-                                                Style="{ThemeResource SettingButtonStyle}"
-                                                Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                            <Button
-                                                Command="{Binding LogoutCommand}"
-                                                Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLogoutAction}"
-                                                Style="{ThemeResource SettingButtonStyle}"
-                                                Visibility="{Binding HutaoUserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                        </StackPanel>
-                                        <cwc:SettingsExpander.Items>
-                                            <cwc:SettingsCard
-                                                Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
-                                                Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperDescription}"
-                                                Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperHeader}"
-                                                Visibility="{Binding HutaoUserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <Button
-                                                    Command="{Binding OpenTestPageCommand}"
-                                                    Content="TEST"
-                                                    Style="{ThemeResource SettingButtonStyle}"/>
-                                            </cwc:SettingsCard>
-                                            <cwc:SettingsCard
-                                                Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
-                                                Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
-                                                Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
-                                                Visibility="{Binding HutaoUserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <cwc:SettingsCard Description="{Binding HutaoUserOptions.GachaLogExpireAtSlim}" Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
-                                            <cwc:SettingsCard
-                                                Command="{Binding OpenRedeemWebsiteCommand}"
-                                                Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeDescription}"
-                                                Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeHeader}"
-                                                IsClickEnabled="True"/>
-                                            <cwc:SettingsCard
-                                                Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-                                                Description="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneDescription}"
-                                                Header="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneHeader}">
-                                                <StackPanel Orientation="Horizontal" Spacing="16">
-                                                    <Button
-                                                        Command="{Binding ResetPasswordCommand}"
-                                                        Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportResetPasswordAction}"
-                                                        Style="{ThemeResource SettingButtonStyle}"/>
-                                                    <Button
-                                                        Command="{Binding UnregisterCommand}"
-                                                        Content="{shuxm:ResourceString Name=ViewPageSettingHutaoPassportUnregisterAction}"
-                                                        Style="{ThemeResource SettingButtonStyle}"/>
-                                                </StackPanel>
-                                            </cwc:SettingsCard>
-                                        </cwc:SettingsExpander.Items>
-                                    </cwc:SettingsExpander>
-                                </ScrollViewer>
                             </StackPanel>
                         </Border>
                     </Border>
@@ -423,6 +349,11 @@
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
                                 <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutHeader}"/>
+                                <InfoBar
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutWarningDescription}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"
@@ -685,6 +616,17 @@
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                                 <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEC92;}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.CalendarServerTimeZoneOffsets}"
+                                            SelectedItem="{Binding SelectedCalendarServerTimeZoneOffset, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE8E4;}">
@@ -853,8 +795,8 @@
                         <cw:ControlSizeTrigger MinWidth="1140" TargetElement="{x:Bind SettingPageGrid}"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ScrollViwerRightPanel.Visibility" Value="Visible"/>
-                        <Setter Target="ScrollViwerTopPanel.Visibility" Value="Collapsed"/>
+                        <Setter Target="ScrollViewerRightPanel.Visibility" Value="Visible"/>
+                        <Setter Target="ScrollViewerTopPanel.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

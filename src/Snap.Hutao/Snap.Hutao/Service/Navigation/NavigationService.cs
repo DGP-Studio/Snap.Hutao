@@ -38,8 +38,9 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         paneClosedEventHandler = OnPaneStateChanged;
     }
 
-    public Type? Current { get => frame?.Content.GetType(); }
+    public Type? CurrentPageType { get => frame?.Content?.GetType(); }
 
+    [DisallowNull]
     private NavigationView? NavigationView
     {
         get;
@@ -55,7 +56,6 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
                 field.PaneOpened -= paneClosedEventHandler;
             }
 
-            ArgumentNullException.ThrowIfNull(value);
             field = value;
 
             // add new listener
@@ -72,11 +72,11 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     /// <inheritdoc/>
     public NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool syncNavigationViewItem = false)
     {
-        Type? currentType = frame?.Content?.GetType();
-
-        if (currentType == pageType)
+        if (CurrentPageType == pageType)
         {
             logger.LogColorizedInformation("Navigate to {Page} : {Result}, already in", (pageType, ConsoleColor.DarkGreen), ("succeed", ConsoleColor.Green));
+            NavigationExtraDataSupport.NotifyRecipientAsync(frame?.Content, data).SafeForget(logger);
+
             return NavigationResult.AlreadyNavigatedTo;
         }
 
@@ -111,32 +111,18 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         await taskContext.SwitchToMainThreadAsync();
         NavigationResult result = Navigate<TPage>(data, syncNavigationViewItem);
 
-        switch (result)
+        if (result is NavigationResult.Succeed)
         {
-            case NavigationResult.Succeed:
-                {
-                    try
-                    {
-                        await data.WaitForCompletionAsync().ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, "异步导航时发生异常");
-                        return NavigationResult.Failed;
-                    }
-                }
-
-                break;
-
-            case NavigationResult.AlreadyNavigatedTo:
-                {
-                    if (frame is { Content: ScopedPage scopedPage })
-                    {
-                        await scopedPage.NotifyRecipientAsync((INavigationExtraData)data).ConfigureAwait(false);
-                    }
-                }
-
-                break;
+            try
+            {
+                await taskContext.SwitchToBackgroundAsync();
+                await data.WaitForCompletionAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "异步导航时发生异常");
+                return NavigationResult.Failed;
+            }
         }
 
         return result;

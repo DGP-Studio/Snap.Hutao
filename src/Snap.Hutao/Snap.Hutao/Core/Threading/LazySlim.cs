@@ -7,7 +7,7 @@ internal sealed class LazySlim<T>
 {
     private readonly Func<T> valueFactory;
 
-    private bool initialized;
+    private bool isValueCreated;
     private object? syncRoot;
 
     public LazySlim(Func<T> valueFactory)
@@ -16,5 +16,7 @@ internal sealed class LazySlim<T>
     }
 
     [field: MaybeNull]
-    public T Value { get => LazyInitializer.EnsureInitialized(ref field, ref initialized, ref syncRoot, valueFactory); }
+    public T Value { get => LazyInitializer.EnsureInitialized(ref field, ref isValueCreated, ref syncRoot, valueFactory); }
+
+    public bool IsValueCreated { get => isValueCreated; }
 }

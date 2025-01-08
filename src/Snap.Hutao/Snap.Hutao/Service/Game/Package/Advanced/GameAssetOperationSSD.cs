@@ -6,6 +6,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
+using System.Collections.Immutable;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
@@ -18,12 +19,13 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
     {
         await Parallel.ForEachAsync(remoteBuild.Manifests, context.ParallelOptions, async (manifest, token) =>
         {
+            token.ThrowIfCancellationRequested();
             IEnumerable<SophonAssetOperation> assets = manifest.ManifestProto.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, asset));
             await Parallel.ForEachAsync(assets, context.ParallelOptions, (asset, token) => EnsureAssetAsync(context, asset)).ConfigureAwait(true);
         }).ConfigureAwait(false);
     }
 
-    public override async ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets)
+    public override async ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets)
     {
         await Parallel.ForEachAsync(diffAssets, context.ParallelOptions, (asset, token) => asset.Kind switch
         {
@@ -33,13 +35,14 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         }).ConfigureAwait(false);
     }
 
-    public override async ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets)
+    public override async ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, ImmutableArray<SophonAssetOperation> diffAssets)
     {
         await Parallel.ForEachAsync(diffAssets, context.ParallelOptions, (asset, token) =>
         {
-            IEnumerable<SophonChunk> chunks = asset.Kind switch
+            token.ThrowIfCancellationRequested();
+            IReadOnlyList<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
+                SophonAssetOperationKind.AddOrRepair => [.. asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c))],
                 SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
@@ -55,6 +58,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
 
     protected override async ValueTask VerifyManifestAsync(GamePackageServiceContext context, SophonDecodedManifest manifest, Action<SophonAssetOperation> conflictHandler)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
         await Parallel.ForEachAsync(manifest.ManifestProto.Assets, context.ParallelOptions, (asset, token) => VerifyAssetAsync(context, new(manifest.UrlPrefix, asset), conflictHandler)).ConfigureAwait(false);
     }
 
@@ -63,7 +67,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         await Parallel.ForEachAsync(info.ConflictedAssets, context.ParallelOptions, (asset, token) => EnsureAssetAsync(context, asset)).ConfigureAwait(false);
     }
 
-    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IEnumerable<SophonChunk> sophonChunks)
+    protected override async ValueTask DownloadChunksAsync(GamePackageServiceContext context, IReadOnlyList<SophonChunk> sophonChunks)
     {
         await Parallel.ForEachAsync(sophonChunks, context.ParallelOptions, (chunk, token) => DownloadChunkAsync(context, chunk)).ConfigureAwait(false);
     }
@@ -73,6 +77,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         string path = context.EnsureAssetTargetDirectoryExists(assetProperty.AssetName);
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: assetProperty.AssetSize))
         {
+            // ReSharper disable once AccessToDisposedClosure
             await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(context, fileHandle, chunk)).ConfigureAwait(false);
         }
     }
@@ -80,7 +85,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
     private static async ValueTask MergeChunkIntoAssetAsync(GamePackageServiceContext context, SafeFileHandle fileHandle, AssetChunk chunk)
     {
         CancellationToken token = context.CancellationToken;
-
+        token.ThrowIfCancellationRequested();
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
         {
             Memory<byte> buffer = memoryOwner.Memory;
@@ -114,7 +119,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
                     }
                 }
 
-                if (context.Operation.Kind is GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
+                if (context.Operation.Kind is GamePackageOperationKind.Install or GamePackageOperationKind.Update && !context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
                 {
                     FileOperation.Delete(chunkPath);
                 }

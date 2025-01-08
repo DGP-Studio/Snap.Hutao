@@ -15,25 +15,35 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
         Update(options);
     }
 
-    public bool CanInputTargetFov { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanInputTargetFov { get; set; }
 
-    public bool CanToggleSetFovHotSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleSetFovHotSwitch { get; set; }
 
-    public bool CanToggleSetFovColdSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleSetFovColdSwitch { get; set; }
 
-    public bool CanToggleFixLowFovHotSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleFixLowFovHotSwitch { get; set; }
 
-    public bool CanToggleDisableFogHotSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleDisableFogHotSwitch { get; set; }
 
-    public bool CanToggleTeamHotSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleTeamHotSwitch { get; set; }
 
-    public bool CanToggleTeamColdSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleTeamColdSwitch { get; set; }
 
-    public bool CanToggleLetMeInColdSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleLetMeInColdSwitch { get; set; }
 
-    public bool CanInputTargetFps { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanInputTargetFps { get; set; }
 
-    public bool CanToggleSetFpsHotSwitch { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool CanToggleSetFpsHotSwitch { get; set; }
 
     public void Update(LaunchOptions options)
     {
