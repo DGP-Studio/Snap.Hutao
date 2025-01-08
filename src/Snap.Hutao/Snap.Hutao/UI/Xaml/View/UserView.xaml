@@ -321,6 +321,13 @@
                                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                                 Margin="0,-4"
+                                                Command="{Binding LoginByQRCodeCommand}"
+                                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentQRCode}}"
+                                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>
+                                            <AppBarButton
+                                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                                Margin="0,-4"
                                                 Command="{Binding LoginByMobileCaptchaCommand}"
                                                 Icon="{shuxm:FontIcon Glyph=&#xE8EA;}"
                                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMobileCaptchaAction}"/>
