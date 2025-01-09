@@ -12,8 +12,6 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 internal sealed partial class HutaoPassportUseRedeemCodeDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IInfoBarService infoBarService;
 
     public async ValueTask<ValueResult<bool, string>> GetInputAsync()
     {
