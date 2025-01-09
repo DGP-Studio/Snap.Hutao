@@ -12,8 +12,10 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <TextBox
-        IsSpellCheckEnabled="False"
-        PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportRedeemCodeHint}"
-        Text="{x:Bind RedeemCode, Mode=TwoWay}"/>
+    <StackPanel Margin="0,8,0,0" Spacing="16">
+        <TextBox
+            IsSpellCheckEnabled="False"
+            PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportRedeemCodeHint}"
+            Text="{x:Bind RedeemCode, Mode=TwoWay}"/>
+    </StackPanel>
 </ContentDialog>

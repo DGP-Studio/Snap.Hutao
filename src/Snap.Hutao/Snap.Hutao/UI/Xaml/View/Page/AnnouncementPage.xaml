@@ -174,7 +174,7 @@
                     <HyperlinkButton
                         Content="{shuxm:ResourceString Name=ViewPageAnnouncementViewDetails}"
                         NavigateUri="{Binding Link}"
-                        Visibility="{Binding Link, Converter={StaticResource StringBoolConverter}}"/>
+                        Visibility="{Binding Link, Converter={StaticResource EmptyStringToBoolConverter}}"/>
                     <TextBlock
                         Margin="8,0,0,2"
                         VerticalAlignment="Center"

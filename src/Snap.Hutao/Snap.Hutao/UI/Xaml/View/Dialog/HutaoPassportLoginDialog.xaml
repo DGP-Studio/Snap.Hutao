@@ -12,7 +12,7 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <StackPanel Margin="0,8,0,0">
+    <StackPanel Margin="0,8,0,0" Spacing="16">
         <TextBox
             InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"
@@ -21,7 +21,6 @@
         <PasswordBox
             Width="360"
             MaxWidth="360"
-            Margin="0,16,0,0"
             Password="{x:Bind Password, Mode=TwoWay}"
             PasswordChar="*"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
