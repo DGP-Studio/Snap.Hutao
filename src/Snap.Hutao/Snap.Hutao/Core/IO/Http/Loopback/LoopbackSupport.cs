@@ -30,26 +30,26 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
     public void EnableLoopback()
     {
         ConvertStringSidToSidW(hutaoContainerStringSid, out PSID hutaoSid);
-        SID_AND_ATTRIBUTES hutaoSidAttr = default;
-        hutaoSidAttr.Sid = hutaoSid;
+        SID_AND_ATTRIBUTES hutaoSidAttribute = default;
+        hutaoSidAttribute.Sid = hutaoSid;
 
-        ReadOnlySpan<SID_AND_ATTRIBUTES> sids = default;
+        ReadOnlySpan<SID_AND_ATTRIBUTES> sidAttributes = default;
         try
         {
-            NetworkIsolationGetAppContainerConfig(out sids);
-            IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig([..sids, hutaoSidAttr]) is WIN32_ERROR.ERROR_SUCCESS;
+            NetworkIsolationGetAppContainerConfig(out sidAttributes);
+            IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig([..sidAttributes, hutaoSidAttribute]) is WIN32_ERROR.ERROR_SUCCESS;
         }
         finally
         {
-            if (!sids.IsEmpty)
+            if (!sidAttributes.IsEmpty)
             {
-                foreach (ref readonly SID_AND_ATTRIBUTES sid in sids)
+                foreach (ref readonly SID_AND_ATTRIBUTES sid in sidAttributes)
                 {
                     HeapFree(GetProcessHeap(), 0, sid.Sid);
                 }
             }
 
-            HeapFree(GetProcessHeap(), 0, hutaoSid);
+            HeapFree(GetProcessHeap(), 0, ref MemoryMarshal.GetReference(sidAttributes));
         }
     }
 
@@ -90,15 +90,15 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
             _ = NetworkIsolationFreeAppContainers(ref MemoryMarshal.GetReference(containers));
         }
 
-        ReadOnlySpan<SID_AND_ATTRIBUTES> sids = default;
+        ReadOnlySpan<SID_AND_ATTRIBUTES> sidAttributes = default;
         try
         {
-            WIN32_ERROR error = NetworkIsolationGetAppContainerConfig(out sids);
+            WIN32_ERROR error = NetworkIsolationGetAppContainerConfig(out sidAttributes);
             Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error));
 
-            foreach (ref readonly SID_AND_ATTRIBUTES sid in sids)
+            foreach (ref readonly SID_AND_ATTRIBUTES sidAttribute in sidAttributes)
             {
-                ConvertSidToStringSidW(sid.Sid, out PWSTR stringSid);
+                ConvertSidToStringSidW(sidAttribute.Sid, out PWSTR stringSid);
                 ReadOnlySpan<char> stringSidSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid);
                 if (stringSidSpan.Equals(containerStringSid, StringComparison.Ordinal))
                 {
@@ -109,15 +109,15 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
         }
         finally
         {
-            if (!sids.IsEmpty)
+            if (!sidAttributes.IsEmpty)
             {
-                foreach (ref readonly SID_AND_ATTRIBUTES sid in sids)
+                foreach (ref readonly SID_AND_ATTRIBUTES sid in sidAttributes)
                 {
                     HeapFree(GetProcessHeap(), 0, sid.Sid);
                 }
             }
 
-            HeapFree(GetProcessHeap(), 0, ref MemoryMarshal.GetReference(sids));
+            HeapFree(GetProcessHeap(), 0, ref MemoryMarshal.GetReference(sidAttributes));
         }
     }
 }
