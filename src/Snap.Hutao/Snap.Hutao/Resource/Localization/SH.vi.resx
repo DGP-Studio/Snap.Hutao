@@ -2192,6 +2192,9 @@
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>Tải xuống tệp không thành công</value>
   </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>Chưa có thông tin hướng dẫn cho nhân vật này</value>
+  </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Tạo lưu trữ mới</value>
   </data>
@@ -3532,6 +3535,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Câu chuyện</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Hướng dẫn nhân vật</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Thiên phú</value>
