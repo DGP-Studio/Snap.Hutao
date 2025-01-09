@@ -2193,7 +2193,7 @@
     <value>Исключение при загрузке файла</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暂无该角色的攻略信息</value>
+    <value>Нет информации о стратегиях для этого персонажа</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Создать новый архив</value>
@@ -3537,7 +3537,7 @@
     <value>История</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>角色攻略</value>
+    <value>Стратегии персонажа</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Таланты</value>
