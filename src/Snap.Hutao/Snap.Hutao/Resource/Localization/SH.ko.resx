@@ -2193,7 +2193,7 @@
     <value>파일 다운로드 오류</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暂无该角色的攻略信息</value>
+    <value>해당 캐릭터의 공략 정보가 없습니다.</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>새 아카이브 생성</value>
@@ -3537,7 +3537,7 @@
     <value>스토리</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>角色攻略</value>
+    <value>캐릭터 공략</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>특성</value>
