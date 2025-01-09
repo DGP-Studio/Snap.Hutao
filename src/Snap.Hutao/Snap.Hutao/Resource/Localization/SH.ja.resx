@@ -2194,7 +2194,7 @@
     <value>ファイルダウンロード異常</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暂无该角色的攻略信息</value>
+    <value>キャラクターの攻略情報は暫くありません</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>新規アーカイブ</value>
@@ -3539,7 +3539,7 @@
     <value>ストーリー</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>角色攻略</value>
+    <value>キャラ攻略</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>天賦</value>
