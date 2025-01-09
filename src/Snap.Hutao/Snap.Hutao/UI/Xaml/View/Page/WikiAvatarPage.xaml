@@ -335,6 +335,11 @@
                                 TokenItemTemplate="{StaticResource TokenTemplate}"/>
                         </AppBarElementContainer>
                         <AppBarButton
+                            Command="{Binding StrategyCommand}"
+                            CommandParameter="{Binding Avatars.CurrentItem}"
+                            Icon="{shuxm:FontIcon Glyph=&#xE7BC;}"
+                            Label="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyButtonLabel}"/>
+                        <AppBarButton
                             Command="{Binding CultivateCommand}"
                             CommandParameter="{Binding Avatars.CurrentItem}"
                             Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"

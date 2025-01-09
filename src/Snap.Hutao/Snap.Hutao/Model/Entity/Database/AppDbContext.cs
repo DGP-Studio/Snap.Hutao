@@ -52,7 +52,7 @@ internal sealed partial class AppDbContext : DbContext
 
     public DbSet<CultivateEntry> CultivateEntries { get; set; } = default!;
 
-    public DbSet<CultivateEntryLevelInformation> LevelInformations { get; set; } = default!;
+    public DbSet<CultivateEntryLevelInformation> LevelInformation { get; set; } = default!;
 
     public DbSet<CultivateItem> CultivateItems { get; set; } = default!;
 
@@ -63,6 +63,8 @@ internal sealed partial class AppDbContext : DbContext
     public DbSet<UidProfilePicture> UidProfilePictures { get; set; } = default!;
 
     public DbSet<RoleCombatEntry> RoleCombats { get; set; } = default!;
+
+    public DbSet<AvatarStrategy> AvatarStrategies { get; set; } = default!;
 
     public static AppDbContext Create(IServiceProvider serviceProvider, string sqlConnectionString)
     {

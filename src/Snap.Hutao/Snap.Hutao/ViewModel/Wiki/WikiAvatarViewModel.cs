@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
@@ -11,6 +12,7 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Hutao;
@@ -18,13 +20,16 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using Windows.System;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
@@ -34,13 +39,15 @@ namespace Snap.Hutao.ViewModel.Wiki;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 {
+    private readonly IAvatarStrategyService avatarStrategyService;
+    private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ICultivationService cultivationService;
     private readonly IMetadataService metadataService;
-    private readonly ITaskContext taskContext;
-    private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
-    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
+    private readonly CultureOptions cultureOptions;
+    private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
     private WikiAvatarMetadataContext? metadataContext;
@@ -51,17 +58,9 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         get;
         set
         {
-            if (Avatars is not null)
-            {
-                Avatars.CurrentChanged -= OnCurrentAvatarChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentAvatarChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentAvatarChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentAvatarChanged);
         }
     }
 
@@ -228,5 +227,31 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         {
             Avatars.MoveCurrentToFirstOrDefault();
         }
+    }
+
+    [Command("StrategyCommand")]
+    private async Task OpenStrategyWebViewAsync(Avatar? avatar)
+    {
+        if (avatar is null)
+        {
+            return;
+        }
+
+        AvatarStrategy? strategy = await avatarStrategyService.GetStrategyByAvatarId(avatar.Id).ConfigureAwait(false);
+
+        if (strategy is null)
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        Uri targetUri = cultureOptions.LocaleName is LocaleNames.CHS ? strategy.ChineseStrategyUrl : strategy.OverseaStrategyUrl;
+        if (string.IsNullOrEmpty(targetUri.OriginalString))
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        await Launcher.LaunchUriAsync(targetUri);
     }
 }
