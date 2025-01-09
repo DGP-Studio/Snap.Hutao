@@ -2193,7 +2193,7 @@
     <value>Pengecualian Unduhan Berkas</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暂无该角色的攻略信息</value>
+    <value>Belum ada informasi panduan untuk karakter ini</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Buat Arsip Baru</value>
@@ -3537,7 +3537,7 @@
     <value>Cerita</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>角色攻略</value>
+    <value>Panduan Karakter</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talenta</value>
