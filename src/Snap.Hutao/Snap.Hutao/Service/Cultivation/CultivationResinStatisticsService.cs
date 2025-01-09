@@ -34,7 +34,7 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
                     continue;
                 }
 
-                double times = item.Count - item.Current;
+                double times = GetStatisticsCultivateItemTimes(item);
                 statistics.BlossomOfWealth.RawItemCount += times;
                 continue;
             }
@@ -49,7 +49,7 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
                     continue;
                 }
 
-                double times = (item.Count - item.Current) * 20000D;
+                double times = GetStatisticsCultivateItemTimes(item) * 20000D;
                 statistics.BlossomOfRevelation.RawItemCount += times;
                 continue;
             }
@@ -64,7 +64,7 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
                         continue;
                     }
 
-                    double times = item.Count - item.Current;
+                    double times = GetStatisticsCultivateItemTimes(item);
                     _ = item.Inner.RankLevel switch
                     {
                         QualityType.QUALITY_PURPLE => statistics.NormalBoss.RawItemCount += times,
@@ -93,7 +93,7 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
 
             foreach (StatisticsCultivateItem item in items)
             {
-                double times = item.Count - item.Current;
+                double times = GetStatisticsCultivateItemTimes(item);
                 _ = item.Inner.RankLevel switch
                 {
                     QualityType.QUALITY_GREEN => greenItems += times,
@@ -109,5 +109,10 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
 
         statistics.RefreshBlossomOfWealth();
         return statistics;
+    }
+
+    private static double GetStatisticsCultivateItemTimes(StatisticsCultivateItem item)
+    {
+        return (long)item.Count - (long)item.Current;
     }
 }
