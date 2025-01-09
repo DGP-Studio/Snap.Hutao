@@ -2193,7 +2193,7 @@
     <value>Erro no download de arquivos</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暂无该角色的攻略信息</value>
+    <value>Não há informações de guia para este personagem</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Criar novo arquivo</value>
@@ -3537,7 +3537,7 @@
     <value>Histórias</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>角色攻略</value>
+    <value>Guia do Personagem</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talento</value>
