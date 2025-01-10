@@ -1731,7 +1731,7 @@
     <value>Statistiques de l'Abysse</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Hutao Passport</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Effacer toutes les notifications</value>
@@ -2502,7 +2502,7 @@
     <value>Les comptes développeurs ignorent la date d'expiration du service</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Aucun enregistrement dans Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Durée du service Snap Hutao Cloud insuffisante</value>
@@ -2685,13 +2685,13 @@
     <value>Après avoir obtenu la durée, vous pourrez sélectionner le miroir CDN national chinois lors de la mise à jour de la version de Snap Hutao afin de bénéficier d'une meilleure expérience de mise à jour.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Service CDN de Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>Après avoir obtenu la durée, vous pourrez télécharger/téléverser/supprimer les enregistrements de vœux pour un maximum de 5 UID via notre serveur. Dans la page Abysses spiralés, vous obtiendrez une durée gratuite lors du premier téléversement des enregistrements à chaque défi !</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Service d’enregistrement des vœux de Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>S'identifier</value>
@@ -2715,7 +2715,7 @@
     <value>Réinitialiser le mot de passe</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>Sponsoriser</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>La suppression des données du compte entraînera une perte définitive et irrécupérable de vos données.</value>
@@ -3330,7 +3330,7 @@
     <value>Utiliser le code d'échange</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
-    <value>刷新</value>
+    <value>Actualiser</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Créer un compte</value>
