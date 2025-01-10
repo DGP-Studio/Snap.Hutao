@@ -39,8 +39,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     public partial SettingWebViewViewModel WebView { get; }
 
-    public partial SettingDangerousFeatureViewModel DangerousFeature { get; }
-
     public void Initialize(ISettingScrollViewerAccessor accessor)
     {
         rootScrollViewer = accessor.ScrollViewer;
@@ -87,7 +85,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         Home.IsViewDisposed = true;
         Game.IsViewDisposed = true;
         GachaLog.IsViewDisposed = true;
-        DangerousFeature.IsViewDisposed = true;
     }
 
     [Command("CreateDesktopShortcutCommand")]
