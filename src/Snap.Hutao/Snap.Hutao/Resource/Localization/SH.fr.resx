@@ -1694,6 +1694,15 @@
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Langues</value>
   </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>Maintenu par les membres de la communauté Crowdin</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>Traduit par Google Gemini</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>Maintenu par DGP Studio</value>
+  </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>ressource</value>
   </data>
