@@ -34,7 +34,7 @@
                 Command="{x:Bind VerifyOldCommand}"
                 Content="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"/>
         </Grid>
-        <StackPanel Spacing="16" Visibility="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToVisibilityConverter}}">
+        <StackPanel Spacing="16" Visibility="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToVisibilityConverter}, Mode=OneWay}">
             <TextBox
                 InputScope="EmailSmtpAddress"
                 IsEnabled="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
