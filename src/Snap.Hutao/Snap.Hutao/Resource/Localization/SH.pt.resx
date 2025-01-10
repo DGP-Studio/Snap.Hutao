@@ -1494,7 +1494,7 @@
     <value>Excluir o passaporte do Snap Hutao</value>
   </data>
   <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
-    <value>使用胡桃云兑换码</value>
+    <value>Usar código de resgate da Hutao Cloud</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Aplicativo da exportação</value>
@@ -1693,6 +1693,15 @@
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Idioma</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>由 Crowdin 社区成员维护</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>由 Google Gemini 翻译</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>由 DGP Studio 维护</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Recursos</value>
@@ -2191,6 +2200,9 @@
   </data>
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>Erro no download de arquivos</value>
+  </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>Não há informações de guia para este personagem</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Criar novo arquivo</value>
@@ -2694,7 +2706,7 @@
     <value>São necessários pelo menos 8 caracteres</value>
   </data>
   <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
-    <value>请输入兑换码</value>
+    <value>Por favor, insira o código de resgate</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Cadastrar</value>
@@ -3532,6 +3544,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Histórias</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Guia do Personagem</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talento</value>

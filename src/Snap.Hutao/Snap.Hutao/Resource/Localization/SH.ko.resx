@@ -1694,6 +1694,15 @@
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>언어</value>
   </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>由 Crowdin 社区成员维护</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>由 Google Gemini 翻译</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>由 DGP Studio 维护</value>
+  </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>리소스</value>
   </data>
@@ -2191,6 +2200,9 @@
   </data>
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>파일 다운로드 오류</value>
+  </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>해당 캐릭터의 공략 정보가 없습니다.</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>새 아카이브 생성</value>
@@ -3532,6 +3544,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>스토리</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>캐릭터 공략</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>특성</value>

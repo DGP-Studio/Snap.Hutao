@@ -1694,6 +1694,15 @@
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Langues</value>
   </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>Maintenu par les membres de la communauté Crowdin</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>Traduit par Google Gemini</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>Maintenu par DGP Studio</value>
+  </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>ressource</value>
   </data>
@@ -2191,6 +2200,9 @@
   </data>
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>Erreur de téléchargement de fichier</value>
+  </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>Aucune information de stratégie pour ce personnage</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Créer une nouvelle archive</value>
@@ -3532,6 +3544,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Histoire</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Stratégies de personnage</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talent</value>

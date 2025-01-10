@@ -1494,7 +1494,7 @@
     <value>Hapus Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
-    <value>使用胡桃云兑换码</value>
+    <value>Gunakan kode penukaran Snap Hutao Cloud</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Ekpor App</value>
@@ -1693,6 +1693,15 @@
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Bahasa</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>由 Crowdin 社区成员维护</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>由 Google Gemini 翻译</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>由 DGP Studio 维护</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Aset</value>
@@ -2191,6 +2200,9 @@
   </data>
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>Pengecualian Unduhan Berkas</value>
+  </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>Belum ada informasi panduan untuk karakter ini</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Buat Arsip Baru</value>
@@ -2694,7 +2706,7 @@
     <value>Diperlukan setidaknya 8 karakter</value>
   </data>
   <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
-    <value>请输入兑换码</value>
+    <value>Masukkan kode penukaran</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Registrasi</value>
@@ -3532,6 +3544,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Cerita</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Panduan Karakter</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talenta</value>
