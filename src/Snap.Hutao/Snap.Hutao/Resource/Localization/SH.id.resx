@@ -1695,13 +1695,13 @@
     <value>Bahasa</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Dipelihara oleh anggota komunitas Crowdin</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Diterjemahkan oleh Google Gemini</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>Dipelihara oleh DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Aset</value>

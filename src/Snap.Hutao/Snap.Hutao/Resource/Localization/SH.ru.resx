@@ -1695,13 +1695,13 @@
     <value>Язык</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Поддерживается участниками сообщества Crowdin</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Переведено Google Gemini</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>Поддерживается DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Assets</value>
@@ -1731,7 +1731,7 @@
     <value>Статистика Бездны</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Snap Hutao Паспорт</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Очистить все уведомления</value>
@@ -2502,7 +2502,7 @@
     <value>Учетная запись разработчика игнорирует срок действия сервиса</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Нет записей в Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Недостаточно времени использования сервиса Hutao Cloud</value>
@@ -2685,13 +2685,13 @@
     <value>После получения времени вы сможете выбрать зеркало CDN для материкового Китая при обновлении версии Snap Hutao, чтобы получить лучший опыт обновления.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Сервис CDN Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>Получив время, вы сможете скачивать, загружать и удалять записи молитв для максимум 5 UID через наш сервер. На странице Витой Бездны вы получите бесплатное время при первой загрузке записей в каждом испытании!</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Сервис записей молитв Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Войти</value>
@@ -2715,7 +2715,7 @@
     <value>Сбросить пароль</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>Спонсировать</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Данные учетной записи будут навсегда утеряны и не могут быть восстановлены</value>

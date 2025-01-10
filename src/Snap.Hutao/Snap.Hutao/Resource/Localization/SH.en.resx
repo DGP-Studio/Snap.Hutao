@@ -1494,7 +1494,7 @@
     <value>Delete Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
-    <value>使用胡桃云兑换码</value>
+    <value>Use Snap Hutao Cloud Redeem Code</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
@@ -1695,13 +1695,13 @@
     <value>Language</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Maintained by Crowdin community members</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Translated by Google Gemini</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>Maintained by DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Assets</value>
@@ -2202,7 +2202,7 @@
     <value>File Download Exceptions</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暂无该角色的攻略信息</value>
+    <value>No character guides found</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Create New Archive</value>
@@ -2706,7 +2706,7 @@
     <value>At least 8 characters required</value>
   </data>
   <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
-    <value>请输入兑换码</value>
+    <value>Enter the Redemption Code</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Register</value>
@@ -3546,7 +3546,7 @@
     <value>Stories</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>角色攻略</value>
+    <value>Character Guides</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talent</value>

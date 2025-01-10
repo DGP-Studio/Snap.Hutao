@@ -154,7 +154,7 @@
     <value>Seleziona tutto</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>无效的 URI</value>
+    <value>URI non valido</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -407,16 +407,16 @@
     <value>Una stella</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
-    <value>轻简模式</value>
+    <value>Modalità facile</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
-    <value>困难模式</value>
+    <value>Modalità difficile</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
-    <value>普通模式</value>
+    <value>Modalità normale</value>
   </data>
   <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
-    <value>卓越模式</value>
+    <value>Modalità visionaria</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>Arco</value>
@@ -569,7 +569,7 @@
     <value>È necessario accedere a 米游社 / HoYoLAB e selezionare un utente e un ruolo</value>
   </data>
   <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>CDN di Hutao Cloud non attivato o scaduto</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>Eliminati {1} record dei desideri dall'UID: {0}</value>
@@ -635,7 +635,7 @@
     <value>Richiesta di verifica non riuscita, l'indirizzo email corrente è già registrato</value>
   </data>
   <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱未注册</value>
+    <value>Verifica fallita, l'indirizzo e-mail corrente non è registrato</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>Richiesta di verifica troppo frequente, riprova tra 1 minuto</value>
@@ -680,31 +680,31 @@
     <value>Nuovi: {0} obiettivi | Aggiornati: {1} obiettivi | Eliminati: {2} obiettivi</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF JSON 文件</value>
+    <value>File JSON UIAF</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>打开 UIAF JSON 文件</value>
+    <value>Apri file JSON UIAF</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Trovati più ID di achievement identici in un singolo archivio di achievement</value>
   </data>
   <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
-    <value>【上架时间】</value>
+    <value>【Data di inizio】</value>
   </data>
   <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
-    <value>永久开放</value>
+    <value>Disponibile in modo permanente</value>
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
-    <value>〓更新时间〓</value>
+    <value>〓Orario aggiornamento〓</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
-    <value>美服 UTC-05</value>
+    <value>Server USA UTC-05</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
-    <value>其他 UTC+08</value>
+    <value>Altri UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC-01</value>
+    <value>Server EU UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>Attacco</value>
@@ -779,7 +779,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
-    <value>受治疗加成</value>
+    <value>Bonus di guarigione ricevuta</value>
   </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>PS</value>
@@ -818,7 +818,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
-    <value>冷却缩减</value>
+    <value>Riduzione del CD</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>Calcolatore di avanzamento: Non disponibile</value>
@@ -833,7 +833,7 @@
     <value>Cronologia di gioco di Genshin Impact: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryNotRefreshed" xml:space="preserve">
-    <value>尚未刷新</value>
+    <value>Non aggiornato</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>Vetrina personaggi: non ancora aggiornata</value>
@@ -863,10 +863,10 @@
     <value>Sono selezionati più piani di sviluppo</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
-    <value>应用通知发送失败</value>
+    <value>Invio notifica non riuscito</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Avvia gioco</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>Ho capito</value>
@@ -963,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 URL</value>
+    <value>Nessun URL disponibile trovato</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
-    <value>游戏正在运行中，关闭游戏后重试</value>
+    <value>Il gioco è in esecuzione, chiudilo e riprova</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>提供的 URL 无效</value>
+    <value>L'URL fornito non è valido</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>L'account HoYoLab non supporta l'aggiornamento della cronologia dei desideri tramite SToken</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>URL 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>La lingua dell'URL: {0} non corrisponde alla lingua di Snap Hutao: {1}, riprova dopo aver cambiato la lingua del client nella lingua dell'URL di destinazione</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>ID oggetto non supportato: {0}</value>
@@ -984,7 +984,7 @@
     <value>La lingua del file UIGF: {0} non corrisponde alla lingua di Snap Hutao: {1}. Riprova dopo aver cambiato la lingua del client con quella del file UIGF.</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
-    <value>名称为 {0} 的账号已存在</value>
+    <value>L'account con nome {0} esiste già</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Rilevati più account corrispondenti, eliminare gli account duplicati</value>
@@ -1026,7 +1026,7 @@
     <value>Sblocco limite di frame rate riuscito</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在获取注入配置信息</value>
+    <value>Acquisizione delle informazioni di configurazione dell'iniezione</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>In attesa della chiusura del processo di gioco</value>
@@ -1050,7 +1050,7 @@
     <value>Client di gioco</value>
   </data>
   <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
-    <value>游戏运行中，无法读取 Unity 日志文件</value>
+    <value>Impossibile leggere il file di log di Unity durante l'esecuzione del gioco</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>File di log di Unity non trovato</value>
@@ -1059,25 +1059,25 @@
     <value>Percorso di gioco non trovato nel file di log di Unity</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
-    <value>清单数据解析失败</value>
+    <value>Analisi dei dati del manifesto non riuscita</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足，需要 {0}，剩余 {1}</value>
+    <value>Spazio su disco insufficiente, necessari {0}, restanti {1}</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
-    <value>正在安装游戏</value>
+    <value>Installazione del gioco in corso</value>
   </data>
   <data name="ServiceGamePackageAdvancedPredownloading" xml:space="preserve">
-    <value>正在预下载资源</value>
+    <value>Pre-download delle risorse in corso</value>
   </data>
   <data name="ServiceGamePackageAdvancedRepairing" xml:space="preserve">
-    <value>正在修复游戏</value>
+    <value>Riparazione del gioco in corso</value>
   </data>
   <data name="ServiceGamePackageAdvancedUpdating" xml:space="preserve">
-    <value>正在更新游戏</value>
+    <value>Aggiornamento del gioco in corso</value>
   </data>
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
-    <value>正在验证游戏完整性</value>
+    <value>Verifica dell'integrità del gioco in corso</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
     <value>Backup: {0}</value>
@@ -1089,7 +1089,7 @@
     <value>Sostituisci: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
-    <value>在读取本地 Package Version 时遇到问题，修复游戏可能会有所帮助</value>
+    <value>Si è verificato un problema durante la lettura della versione locale del pacchetto. Riparare il gioco potrebbe essere d'aiuto.</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>Ridenominazione della cartella dati non riuscita</value>
@@ -1134,7 +1134,7 @@
     <value>Sblocco del frame rate non riuscito: 0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务有效期至</value>
+    <value>Il servizio di caricamento della cronologia dei desideri è valido fino al</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Impossibile trovare il file di metadati nella cache</value>
@@ -1191,28 +1191,28 @@
     <value>Impossibile recuperare le informazioni dell'utente con il Cookie inserito</value>
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
-    <value>获取用户信息中，请稍候...</value>
+    <value>Recupero delle informazioni utente, attendere...</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
-    <value>追加属性推荐</value>
+    <value>Raccomandazione attributi aggiuntivi</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
-    <value>理之冠主属性推荐</value>
+    <value>Raccomandazione attributo principale Corona della ragione</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
-    <value>空之杯主属性推荐</value>
+    <value>Raccomandazione attributo principale Calice dello spazio</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
-    <value>时之沙主属性推荐</value>
+    <value>Raccomandazione attributo principale Sabbie del tempo</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>Copia immagine</value>
   </data>
   <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
-    <value>正在获取清单数据</value>
+    <value>Recupero dati del manifesto</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
-    <value>请完成验证</value>
+    <value>Completa la verifica</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Gestione degli obiettivi</value>
@@ -1230,10 +1230,10 @@
     <value>Statistiche obiettivi</value>
   </data>
   <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
-    <value>全部材料副本均可挑战</value>
+    <value>Tutte le copie dei materiali possono essere sfidate</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
-    <value>当天没有角色过生日</value>
+    <value>Oggi non è il compleanno di nessun personaggio</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>Conteggio pietà</value>
@@ -1356,16 +1356,16 @@
     <value>Aggiungi o aggiorna al piano di sviluppo attuale</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
-    <value>总是创建新的养成目标物品</value>
+    <value>Crea sempre nuove voci di oggetti per obiettivi di potenziamento</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
-    <value>保存方式</value>
+    <value>Metodo di salvataggio</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
-    <value>覆盖存在的养成目标物品</value>
+    <value>Sovrascrivi voci di oggetti per obiettivi di potenziamento esistenti</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
-    <value>保留存在的养成目标物品</value>
+    <value>Mantieni voci di oggetti per obiettivi di potenziamento esistenti</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Promemoria incarichi giornalieri</value>
@@ -1389,22 +1389,22 @@
     <value>Promemoria Trasformatore Parametrico</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>Inserisci URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>实时便笺 Webhook URL</value>
+    <value>URL Webhook per Note in tempo reale</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
-    <value>选择要导出记录的 UID</value>
+    <value>Seleziona l'UID di cui esportare la cronologia</value>
   </data>
   <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
-    <value>导出 UIGF 文件</value>
+    <value>Esporta file UIGF</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>Dopo aver rimosso la restrizione, è necessario utilizzare altri strumenti per ripristinarla</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+    <value>Rilevato che l'agente di sistema è stato configurato, ma la restrizione Loopback non è stata rimossa e Snap Hutao non sarà in grado di connettersi alla rete correttamente.</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>Confermare per configurare l'esenzione Loopback?</value>
@@ -1413,7 +1413,7 @@
     <value>Importa cronologia dei desideri</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈愿记录 URL 已失效，请重新获取</value>
+    <value>L'URL dello storico dei desideri è scaduto, ottienilo di nuovo</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>Recupero di {0}</value>
@@ -1422,40 +1422,40 @@
     <value>Recupero oggetti dei desideri</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 URL</value>
+    <value>Inserisci URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>手动输入祈愿记录 URL</value>
+    <value>Inserisci manualmente URL dello storico dei desideri</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
-    <value>游戏服务器</value>
+    <value>Server di gioco</value>
   </data>
   <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
-    <value>当前选择目录为HDD，建议使用SSD</value>
+    <value>La directory selezionata è HDD, si consiglia SSD</value>
   </data>
   <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
-    <value>设置游戏安装目录</value>
+    <value>Imposta la directory di installazione del gioco</value>
   </data>
   <data name="ViewDialogGameInstallTitle" xml:space="preserve">
-    <value>安装游戏</value>
+    <value>Installa gioco</value>
   </data>
   <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
-    <value>汉语</value>
+    <value>Cinese</value>
   </data>
   <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
-    <value>英语</value>
+    <value>Inglese</value>
   </data>
   <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
-    <value>日语</value>
+    <value>Giapponese</value>
   </data>
   <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
-    <value>韩语</value>
+    <value>Coreano</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
-    <value>请输入请求接口的 URL 复合模板</value>
+    <value>Inserisci l'URL del modello composito per l'interfaccia di richiesta</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>接口需要返回形如上方所示的 JSON 数据，多余的数据会被忽略</value>
+    <value>L'interfaccia richiede la restituzione di dati JSON come mostrato sopra. I dati extra verranno ignorati</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>Se il "code" è 0, l'autenticazione ha avuto successo, altrimenti l'autenticazione è fallita</value>
@@ -1488,13 +1488,13 @@
     <value>Reimposta la password di Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
-    <value>重置胡桃通行证邮箱</value>
+    <value>Reimposta l'e-mail di Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Elimina l'account Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
-    <value>使用胡桃云兑换码</value>
+    <value>Usa il codice riscatto di Hutao Cloud</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Esporta App</value>
@@ -1521,10 +1521,10 @@
     <value>Versione UIGF</value>
   </data>
   <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
-    <value>选择要导入记录的 UID</value>
+    <value>Seleziona l'UID di cui importare la cronologia</value>
   </data>
   <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
-    <value>导入 UIGF 文件</value>
+    <value>Importa file UIGF</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>Inserisci qui il nome</value>
@@ -1539,22 +1539,22 @@
     <value>Correzione del file di configurazione in corso</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
-    <value>选择的安装路径不存在且无法创建</value>
+    <value>Il percorso di installazione selezionato non esiste e non può essere creato</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
-    <value>选择的安装路径存在文件或文件夹</value>
+    <value>Nel percorso di installazione selezionato esiste un file o una cartella</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
-    <value>选择的安装路径无效</value>
+    <value>Il percorso di installazione selezionato non è valido</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
-    <value>未选择语音包</value>
+    <value>Nessun pacchetto vocale selezionato</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
-    <value>未选择游戏区服</value>
+    <value>Nessun server di gioco selezionato</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
-    <value>选择安装路径</value>
+    <value>Seleziona il percorso di installazione</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>La conversione potrebbe richiedere del tempo. Non chiudere Snap Hutao.</value>
@@ -1566,7 +1566,7 @@
     <value>Scansiona il codice QR con l'app MiHoYo BBS</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
-    <value>为了确保功能的启用者有独立的判断能力，我们将不定期更新这些功能的启用条件，如果您是一位内容创造者，在创作胡桃相关的内容时请不要向你的受众介绍具体的启用方法。</value>
+    <value>Per garantire che gli utilizzatori delle funzioni abbiano una capacità di giudizio indipendente, aggiorneremo irregolarmente le condizioni di abilitazione di queste funzioni. Se sei un creatore di contenuti, ti preghiamo di non condividere con il tuo pubblico i metodi specifici di attivazione quando crei contenuti relativi a Snap Hutao.</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>Per evitare l'attivazione involontaria, inserisci il &lt;b&gt;nome del titolo&lt;/b&gt; della funzione che stai abilitando</value>
@@ -1593,25 +1593,25 @@
     <value>Invia dati dell'Abisso</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
-    <value>查看更新日志</value>
+    <value>Visualizza i registri degli aggiornamenti</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
-    <value>如果自动更新下载过慢，可以手动下载并安装</value>
+    <value>Se l'aggiornamento automatico è troppo lento, puoi scaricarlo e installarlo manualmente da qui</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
-    <value>下载源</value>
+    <value>Origine download</value>
   </data>
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
-    <value>更新</value>
+    <value>Aggiorna</value>
   </data>
   <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
-    <value>请输入账号</value>
+    <value>Inserisci l'account</value>
   </data>
   <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
-    <value>请输入密码</value>
+    <value>Inserisci la password</value>
   </data>
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
-    <value>账号密码登录</value>
+    <value>Accesso con account e password</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Vai</value>
@@ -1626,16 +1626,16 @@
     <value>Inserisci qui i Cookie contenenti SToken</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
-    <value>请输入收到的验证码</value>
+    <value>Inserisci il codice di verifica ricevuto</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
-    <value>请输入手机号码</value>
+    <value>Inserisci il numero di telefono</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
-    <value>发送</value>
+    <value>Invia</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
-    <value>手机验证码登录</value>
+    <value>Accesso con codice di verifica telefonico</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Imposta Cookie</value>
@@ -1695,19 +1695,19 @@
     <value>Lingua</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Gestito dai membri della community Crowdin</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Tradotto da Google Gemini</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>Gestito da DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Risorse</value>
   </data>
   <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
-    <value>* 当遇到文件下载失败的情况时无需担心，我们会在图片将要展示时自动尝试补全</value>
+    <value>* In caso di download non riuscito di un file, non preoccuparti. Cercheremo di completarlo automaticamente quando l'immagine sta per essere visualizzata.</value>
   </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>Impostazioni delle risorse grafiche</value>
@@ -1731,16 +1731,16 @@
     <value>Statistiche dell'Abisso</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Hutao Passport</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
-    <value>清除所有通知</value>
+    <value>Cancella tutte le notifiche</value>
   </data>
   <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
-    <value>收起</value>
+    <value>Comprimi</value>
   </data>
   <data name="ViewInfoBarPanelTitle" xml:space="preserve">
-    <value>所有通知</value>
+    <value>Tutte le notifiche</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>Nuova notifica</value>
@@ -1776,7 +1776,7 @@
     <value>Eliminare l'archivio {0}?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIAF JSON 文件到指定路径</value>
+    <value>Esporta il file JSON UIAF nel percorso selezionato</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Recupero materiali di ascensione in corso, attendere...</value>
@@ -1800,13 +1800,13 @@
     <value>La vetrina del personaggio non è ancora attiva, si prega di attivare e riprovare</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
-    <value>共 {0} 位角色</value>
+    <value>Totale {0} personaggi</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
-    <value>复制角色详情失败</value>
+    <value>Esportazione dettagli personaggio non riuscita</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
-    <value>复制角色详情成功</value>
+    <value>Dettagli personaggio esportati correttamente</value>
   </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>Nessun set di artefatti o pezzi singoli</value>
@@ -1821,13 +1821,13 @@
     <value>Operazione non completamente completata: aggiunti/aggiornati {0}, saltati {1}</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
-    <value>选定的等级不需要养成材料</value>
+    <value>Il livello selezionato non richiede materiali di potenziamento</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
-    <value>尚未创建并选择养成计划</value>
+    <value>Nessun piano di potenziamento creato e selezionato</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
-    <value>已存在该物品的养成项目</value>
+    <value>Esiste già un progetto di potenziamento per questo oggetto</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Aggiunto con successo al piano di potenziamento attuale</value>
@@ -1857,28 +1857,28 @@
     <value>Confermare l'eliminazione del piano attuale?</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
-    <value>启示之花</value>
+    <value>Fiore della Rivelazione</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
-    <value>藏金之花</value>
+    <value>Fiore della Ricchezza</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
-    <value>还需 {0} 天</value>
+    <value>Mancano {0} giorni</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
-    <value>世界 BOSS</value>
+    <value>BOSS del mondo</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
-    <value>角色天赋素材</value>
+    <value>Materiali talento personaggio</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsWeaponAscensionTitle" xml:space="preserve">
-    <value>武器突破素材</value>
+    <value>Materiali ascensione arma</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
-    <value>周常 BOSS</value>
+    <value>BOSS settimanali</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>实时便笺 Webhook URL 配置成功</value>
+    <value>URL Webhook nota in tempo reale configurato correttamente</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>L'account HoYoLab non supporta la verifica delle Note in tempo reale</value>
@@ -1917,28 +1917,28 @@
     <value>Esportazione non riuscita</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
-    <value>当前卡池</value>
+    <value>Desiderio attuale</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
-    <value>距离 UP 结束还有 {0} 天</value>
+    <value>{0} giorni alla fine dell'UP</value>
   </data>
   <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
-    <value>累计 UP 次数：{0}</value>
+    <value>Numero totale di UP: {0}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
-    <value>上次 UP 时间: {0:yyyy.MM.dd}</value>
+    <value>Ultimo orario UP: {0:yyyy.MM.dd}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
-    <value>距离上次 UP 已有 {0} 天</value>
+    <value>{0} giorni dall'ultimo UP</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
-    <value>下半</value>
+    <value>Seconda metà</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderUp" xml:space="preserve">
-    <value>上半</value>
+    <value>Prima metà</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF JSON 文件</value>
+    <value>File JSON UIAF</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>Importazione completata</value>
@@ -1977,43 +1977,43 @@
     <value>Sincronizzazione della cronologia dei desideri da Snap Hutao Cloud Service</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIGF JSON 文件到指定路径</value>
+    <value>Esporta il file JSON UIGF nel percorso selezionato</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Caricamento su Snap Hutao Cloud Service in corso</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>导入 UIGF JSON 文件</value>
+    <value>Importa il file JSON UIGF</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
-    <value>本地版本: {0}</value>
+    <value>Versione locale: {0}</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
-    <value>{0} 版本预下载已开启</value>
+    <value>Il pre-scaricamento della versione {0} è ora disponibile</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
-    <value>最新版本: {0}</value>
+    <value>Ultima versione: {0}</value>
   </data>
   <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
+    <value>Annullato</value>
   </data>
   <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>Annullamento in corso</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
+    <value>Installazione completata</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>Pre-download completato</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
-    <value>修复完成</value>
+    <value>Riparazione completata</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
-    <value>更新完成</value>
+    <value>Aggiornamento completato</value>
   </data>
   <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
+    <value>Il gioco è completo, non è necessario ripararlo</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>Ho letto e accetto i termini sopra indicati</value>
@@ -2049,16 +2049,16 @@
     <value>Importazione fallita</value>
   </data>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
-    <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
+    <value>L'utente e il server di gioco selezionati non corrispondono, riprova.</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
-    <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
+    <value>Impossibile leggere il file di configurazione del gioco: {0}. Il file potrebbe non esistere o le autorizzazioni potrebbero essere insufficienti</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
-    <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+    <value>La directory di gioco selezionata {0} è danneggiata. Elimina manualmente la cartella e reinstalla il gioco.</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>使用 米游社 / HoYoLAB 用户登录失败，请重新登录</value>
+    <value>Accesso non riuscito con utente 米游社 / HoYoLAB. Riprova ad accedere</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Passaggio al server fallito</value>
@@ -2070,7 +2070,7 @@
     <value>Correzione completata</value>
   </data>
   <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
-    <value>尚未设置游戏目录</value>
+    <value>Directory di gioco non impostata</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identifica monitor</value>
@@ -2091,10 +2091,10 @@
     <value>Impossibile selezionare l'account [{1}] per l'UID [{0}], l'account non appartiene al server corrente.</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
-    <value>已抵达{0}</value>
+    <value>Raggiunto {0}</value>
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
-    <value>第 {0} 幕</value>
+    <value>Atto {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operazione completata</value>
@@ -2124,7 +2124,7 @@
     <value>Spazio su disco utilizzato: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>无感验证复合 URL 配置成功</value>
+    <value>URL composito di verifica CAPTCHA configurato correttamente</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>Ripristino delle risorse immagine</value>
@@ -2136,31 +2136,31 @@
     <value>Salvataggio del percorso di gioco fallito</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
-    <value>当前数据目录 '{0}' 包含了一个或多个重新分析点（Reparse points），可能会导致部分依赖数据文件夹的功能无法正常工作，请前往设置更改路径</value>
+    <value>La directory dati corrente '{0}' contiene uno o più punti di analisi (Reparse point), che potrebbero causare il malfunzionamento di alcune funzioni che dipendono dalla cartella dei dati. Vai alle Impostazioni per cambiare il percorso.</value>
   </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
-    <value>导出失败</value>
+    <value>Esportazione non riuscita</value>
   </data>
   <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
-    <value>导出成功</value>
+    <value>Esportazione riuscita</value>
   </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
-    <value>导入的 UIGF 文件中包含 UID 重复的祈愿记录项</value>
+    <value>I file UIGF importati contengono elementi di cronologia dei desideri con UID duplicati</value>
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
-    <value>导入失败</value>
+    <value>Importazione non riuscita</value>
   </data>
   <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
-    <value>导入中</value>
+    <value>Importazione in corso</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
-    <value>导入的 UIGF 文件中不包含祈愿数据</value>
+    <value>I file UIGF importati non contengono dati relativi ai desideri</value>
   </data>
   <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
-    <value>请选择至少一个 UID 以导入数据</value>
+    <value>Seleziona almeno un UID per importare i dati</value>
   </data>
   <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
-    <value>导入成功</value>
+    <value>Importazione completata</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>Utente [{0}] aggiunto con successo</value>
@@ -2202,7 +2202,7 @@
     <value>Eccezioni durante il download del file</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暂无该角色的攻略信息</value>
+    <value>Nessuna informazione sulla guida di questo personaggio</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Crea nuovo archivio</value>
@@ -2214,7 +2214,7 @@
     <value>Esporta</value>
   </data>
   <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
-    <value>仅委托成就</value>
+    <value>Solo incarichi giornalieri</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Importa dagli appunti</value>
@@ -2262,7 +2262,7 @@
     <value>Esporta come immagine</value>
   </data>
   <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
-    <value>导出文本到剪贴板</value>
+    <value>Esporta testo negli appunti</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>Attributi personaggio</value>
@@ -2328,13 +2328,13 @@
     <value>Lista materiali</value>
   </data>
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
-    <value>未集齐优先</value>
+    <value>Non raccolti prima</value>
   </data>
   <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
-    <value>树脂预估</value>
+    <value>Stima di resina</value>
   </data>
   <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
-    <value>世界等级</value>
+    <value>Livello del mondo</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>Statistiche materiali</value>
@@ -2427,10 +2427,10 @@
     <value>Modalità Non Disturbare</value>
   </data>
   <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Avvia gioco</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
-    <value>长效历练点</value>
+    <value>Punti Esperienza a Lungo Termine</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verifica utente e ruolo correnti</value>
@@ -2502,7 +2502,7 @@
     <value>Licenza sviluppatore a vita</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Nessun record di Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Servizio Snap Hutao Cloud scaduto</value>
@@ -2526,7 +2526,7 @@
     <value>Importa dati da altre app</value>
   </data>
   <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
-    <value>导入/导出记录</value>
+    <value>Importa/Esporta record</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>Importa Json UIGF</value>
@@ -2535,19 +2535,19 @@
     <value>Inserisci</value>
   </data>
   <data name="ViewPageGachaLogOrangeAvatarCountdown" xml:space="preserve">
-    <value>五星角色</value>
+    <value>Personaggi a cinque stelle</value>
   </data>
   <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
-    <value>五星武器</value>
+    <value>Armi a cinque stelle</value>
   </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
-    <value>计时</value>
+    <value>Conto alla rovescia</value>
   </data>
   <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
-    <value>四星角色</value>
+    <value>Personaggi a quattro stelle</value>
   </data>
   <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
-    <value>四星武器</value>
+    <value>Armi a quattro stelle</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
     <value>Ripristina i record dei desideri da Hutao Cloud</value>
@@ -2559,10 +2559,10 @@
     <value>Recupera</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 URL</value>
+    <value>Inserisci URL manualmente</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 URL 刷新祈愿记录</value>
+    <value>Usa l'URL della cronologia dei desideri fornito per aggiornare il record</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>Aggiorna SToken</value>
@@ -2682,22 +2682,22 @@
     <value>Presenza squadra</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够在胡桃版本更新时选择中国国内的 CDN 镜像，以获得更好的更新体验。</value>
+    <value>Dopo aver ottenuto la durata, potrai selezionare il mirror CDN cinese durante l'aggiornamento della versione di Snap Hutao per un'esperienza migliore.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Servizio CDN Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>Dopo aver ottenuto la durata, potrai scaricare/caricare/eliminare i record dei desideri per un massimo di 5 UID tramite il nostro server. Nella pagina dell'Abisso a spirale, otterrai una durata gratuita quando carichi i record per la prima volta in ogni sfida!</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Servizio registro desideri di Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Login</value>
   </data>
   <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
-    <value>请输入新邮箱</value>
+    <value>Inserisci una nuova e-mail</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>Inserisci password</value>
@@ -2706,7 +2706,7 @@
     <value>Richiesti almeno 8 caratteri</value>
   </data>
   <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
-    <value>请输入兑换码</value>
+    <value>Inserisci il codice riscatto</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Registrati</value>
@@ -2715,10 +2715,10 @@
     <value>Reimposta password</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>Sponsor</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
-    <value>注销账号的数据将永远丢失，无法恢复</value>
+    <value>I dati dell'account eliminato andranno persi per sempre e non potranno essere ripristinati</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>Inserisci la tua email</value>
@@ -2736,7 +2736,7 @@
     <value>Funzionalità avanzate</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
+    <value>Passa rapidamente alla risoluzione specificata e avvia il gioco per salvare la risoluzione attuale</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>Risoluzione</value>
@@ -2793,13 +2793,13 @@
     <value>Attività automatizzate</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
-    <value>当出现错误代码 31-4302 时请启用此选项</value>
+    <value>Abilita questa opzione quando compare il codice di errore 31-4302</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
-    <value>让我进去！</value>
+    <value>Fammi entrare!</value>
   </data>
   <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
-    <value>游戏启动后无法再次切换</value>
+    <value>Non è possibile cambiare nuovamente dopo l'avvio del gioco</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>Generale</value>
@@ -2808,19 +2808,19 @@
     <value>Tutte le opzioni verranno salvate solo dopo l'avvio corretto del gioco.</value>
   </data>
   <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
-    <value>注入功能非常危险且有可能会造成严重后果，请谨慎使用</value>
+    <value>L'iniezione è molto pericolosa e può avere gravi conseguenze, si prega di usarla con cautela</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
-    <value>移除光照渲染中的迷雾</value>
+    <value>Rimuovi la nebbia nel rendering della luce</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
-    <value>移除迷雾</value>
+    <value>Rimuovi nebbia</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
-    <value>保留</value>
+    <value>Mantieni</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
-    <value>移除</value>
+    <value>Rimuovi</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>Imposta lo stato Attività Discord quando sono in gioco</value>
@@ -2829,25 +2829,25 @@
     <value>Attività Discord</value>
   </data>
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
-    <value>游戏文件管理/切换游戏服务器/注入功能需要管理员权限</value>
+    <value>La gestione dei file di gioco, il cambio del server di gioco e la funzione di iniezione richiedono i permessi di amministratore</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>File</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
-    <value>修正角色/队伍配置/祈愿/纪行等特殊界面的视野</value>
+    <value>Correzione della visuale per interfacce speciali come Configurazione personaggio/squadra, Desiderio e Pass battaglia</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
-    <value>特殊界面修正</value>
+    <value>Correzione interfaccia speciale</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
-    <value>游戏启动后可以实时切换</value>
+    <value>Cambio in tempo reale dopo l'avvio del gioco</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>将消息模块注入游戏，以便实现一些高级但危险的功能</value>
+    <value>Inietti il modulo di messaggistica nel gioco per eseguire alcune funzionalità avanzate ma pericolose</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
-    <value>注入</value>
+    <value>Iniezione</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
     <value>Collegamento processo</value>
@@ -2868,19 +2868,19 @@
     <value>Opzioni di gioco</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
-    <value>安装游戏</value>
+    <value>Installa il gioco</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownload" xml:space="preserve">
-    <value>预下载</value>
+    <value>Pre-scarica</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
-    <value>已完成预下载</value>
+    <value>Pre-scaricamento completato</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
-    <value>更新游戏</value>
+    <value>Aggiorna il gioco</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationVerify" xml:space="preserve">
-    <value>修复游戏</value>
+    <value>Ripara il gioco</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
     <value>Tenta di avviare Snap Hutao dopo l'avvio del gioco per le statistiche sulla durata del gioco</value>
@@ -2895,13 +2895,13 @@
     <value>Registro</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
-    <value>队伍配置冷开关</value>
+    <value>Interruttore a freddo Configurazione squadra</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
-    <value>移除打开队伍配置界面时显示的进度条</value>
+    <value>Rimuove la barra di avanzamento quando si apre la schermata di configurazione della squadra</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressHeader" xml:space="preserve">
-    <value>移除队伍配置进度条</value>
+    <value>Rimuovi la barra di avanzamento della configurazione della squadra</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
     <value>Pacchetto OTA</value>
@@ -2949,43 +2949,43 @@
     <value>È necessario effettuare la conversione a un server che corrisponda al launcher prima di aggiornare la versione</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
-    <value>视野冷开关</value>
+    <value>Interruttore a freddo Campo visivo</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
-    <value>调整相机视野，默认 45</value>
+    <value>Regola il campo visivo della fotocamera, predefinito 45</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHeader" xml:space="preserve">
-    <value>调整视野</value>
+    <value>Regola il campo visivo</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHotSwitchHeader" xml:space="preserve">
-    <value>视野热开关</value>
+    <value>Interruttore rapido del campo visivo</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHeader" xml:space="preserve">
-    <value>目标帧率</value>
+    <value>Frequenza fotogrammi target</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
-    <value>帧率热开关</value>
+    <value>Interruttore rapido frequenza fotogrammi</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
-    <value>将鼠标悬停在功能开关/文本框上查看详细说明</value>
+    <value>Passa con il mouse sull'interruttore della funzione/casella di testo per visualizzare i dettagli</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率，将值设置为 -1 以表示无限制帧率</value>
+    <value>Disattiva l'opzione "Sincronizzazione verticale" all'interno del gioco. È necessaria una GPU ad alte prestazioni per supportare frame rate più elevati. Imposta il valore a -1 per frame rate illimitati.</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Sblocca limite FPS</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
-    <value>更改解锁帧率的工作方式</value>
+    <value>Modifica la modalità di sblocco del frame rate</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
-    <value>解锁方式</value>
+    <value>Modalità di sblocco</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
-    <value>当出现错误代码 31-4302 时请启用此选项，启用后将禁止调整视野与迷雾，仅在启动游戏前切换此开关才会生效</value>
+    <value>Abilita questa opzione quando si verifica un codice di errore 31-4302. Se abilitata, la regolazione della visuale e della nebbia verrà disabilitata solo prima di avviare il gioco.</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
-    <value>兼容模式</value>
+    <value>Modalità compatibilità</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>Disabilitato</value>
@@ -2994,10 +2994,10 @@
     <value>Abilitato</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，需要启用「启动参数」</value>
+    <value>Accedi con l'utente 米游社 / HoYoLAB attualmente selezionato. È necessario abilitare i "Parametri di avvio"</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>使用 米游社 / HoYoLAB 用户登录</value>
+    <value>Accedi con l'utente di 米游社 / HoYoLAB</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Sfrutta i monitor che supportano l'HDR per immagini più luminose, vivide e dettagliate</value>
@@ -3024,61 +3024,61 @@
     <value>Seleziona percorso di gioco</value>
   </data>
   <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
-    <value>助演</value>
+    <value>Supporto</value>
   </data>
   <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
-    <value>试用</value>
+    <value>Prova</value>
   </data>
   <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
-    <value>待命角色</value>
+    <value>Personaggi alternativi</value>
   </data>
   <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
-    <value>奇妙助益</value>
+    <value>Benedizioni fantastiche</value>
   </data>
   <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
-    <value>神秘收获</value>
+    <value>Ricompensa misteriosa</value>
   </data>
   <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
-    <value>消耗「幻剧之花」</value>
+    <value>Fiori della Fantasia usati</value>
   </data>
   <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
-    <value>开幕角色</value>
+    <value>Personaggi iniziali</value>
   </data>
   <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
-    <value>最佳记录</value>
+    <value>Miglior record</value>
   </data>
   <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
-    <value>挑战星章</value>
+    <value>Stella Sfida</value>
   </data>
   <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
-    <value>暂无演出数据</value>
+    <value>Nessun dato sulle performance</value>
   </data>
   <data name="ViewPageRoleCombatShortest" xml:space="preserve">
-    <value>最快演出</value>
+    <value>Performance più veloce</value>
   </data>
   <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
-    <value>特邀角色</value>
+    <value>Personaggi Speciali Ospiti</value>
   </data>
   <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
-    <value>辉彩祝福</value>
+    <value>Benedizioni Splendenti</value>
   </data>
   <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
-    <value>场外声援</value>
+    <value>Supporto del Pubblico Esterno</value>
   </data>
   <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
-    <value>助演次数</value>
+    <value>Numero di Supporti</value>
   </data>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
-    <value>演出总时长</value>
+    <value>Durata Totale</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>Informazioni su Snap Hutao</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
-    <value>选择适合你的一周中的首日</value>
+    <value>Seleziona il primo giorno della settimana</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
-    <value>一周中的首日</value>
+    <value>Primo giorno della settimana</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>Aspetto</value>
@@ -3117,37 +3117,37 @@
     <value>Hutao Passport</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
-    <value>紧凑网页窗口</value>
+    <value>Finestra Pagina Compatta</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
-    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+    <value>Regola l'opacità della finestra, avrà effetto al prossimo avvio</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
-    <value>窗口不透明度</value>
+    <value>Opacità Finestra</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
-    <value>更改控制视频快进的快捷键</value>
+    <value>Cambia la scorciatoia per controllare l'avanzamento rapido del video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
-    <value>视频快进</value>
+    <value>Avanzamento Rapido Video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
-    <value>更改视频快进与快退的时间</value>
+    <value>Modifica il tempo per l'avanzamento rapido e il riavvolgimento del video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
-    <value>快进快退</value>
+    <value>Avanzamento rapido o riavvolgimento</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>更改控制视频播放与暂停的快捷键</value>
+    <value>Cambia la scorciatoia per controllare riproduzione e pausa video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>视频播放暂停</value>
+    <value>Riproduzione video in pausa</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
-    <value>更改控制视频快退的快捷键</value>
+    <value>Modifica il tasto di scelta rapida per il riavvolgimento del video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
-    <value>视频快退</value>
+    <value>Riavvolgimento video</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copia</value>
@@ -3201,7 +3201,7 @@
     <value>IP dispositivo</value>
   </data>
   <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
-    <value>下载</value>
+    <value>Download</value>
   </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>La modalità amministratore influenzerà la disponibilità e il comportamento di alcune funzioni</value>
@@ -3255,10 +3255,10 @@
     <value>Server di origine annunci di gioco</value>
   </data>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
-    <value>选择材料日历获取当天日期时使用的游戏服务器时区</value>
+    <value>Seleziona il fuso orario del server di gioco utilizzato per ottenere la data nel calendario dei materiali</value>
   </data>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
-    <value>日历服务器</value>
+    <value>Server calendario</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Gestisci le schede nella dashboard della pagina principale</value>
@@ -3270,7 +3270,7 @@
     <value>Gestione degli obiettivi</value>
   </data>
   <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Calendario</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Note in tempo reale</value>
@@ -3291,7 +3291,7 @@
     <value>Home</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
-    <value>胡桃云 CDN 到期时间</value>
+    <value>Scadenza CDN di Hutao Cloud</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>Procedi con cautela</value>
@@ -3300,7 +3300,7 @@
     <value>Area di pericolo</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务到期时间</value>
+    <value>Scadenza del servizio della cronologia desideri di Hutao Cloud</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>Account Snap Hutao Passport</value>
@@ -3330,7 +3330,7 @@
     <value>Usa codice di riscatto</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
-    <value>刷新</value>
+    <value>Aggiorna</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Registrati</value>
@@ -3339,7 +3339,7 @@
     <value>Cambia password</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
-    <value>修改邮箱</value>
+    <value>Modifica e-mail</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>Elimina account</value>
@@ -3351,22 +3351,22 @@
     <value>Funzionalità avanzate</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改鼠标左键自动连点功能的快捷键</value>
+    <value>Cambia la scorciatoia per la funzione di clic automatico del tasto sinistro del mouse</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>鼠标左键自动连点</value>
+    <value>Clic automatico del tasto sinistro del mouse</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
-    <value>更改键盘 F 键自动连按功能的快捷键</value>
+    <value>Cambia la scorciatoia per la funzione di pressione automatica del tasto F della tastiera</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
-    <value>键盘 F 键自动连按</value>
+    <value>Pressione automatica tasto F</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Tasti di scelta rapida</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
-    <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
+    <value>L'impostazione della stessa scorciatoia da tastiera per funzioni diverse potrebbe causare risultati imprevisti e richiedere operazioni aggiuntive o il riavvio dell'applicazione per ripristinare il normale funzionamento.</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Mostra icona nell'area di notifica, per consentire l'esecuzione di attività in background. Riavvia il programma per attivare.</value>
@@ -3384,7 +3384,7 @@
     <value>Apri cartella immagine di sfondo</value>
   </data>
   <data name="ViewPageSettingPackageConverterTypeHeader" xml:space="preserve">
-    <value>转换服务器模式</value>
+    <value>Converti modalità server</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Ripristina</value>
@@ -3417,19 +3417,19 @@
     <value>Quando si imposta il percorso di gioco, selezionare il programma di gioco (YuanShen.exe o GenshinImpact.exe) invece dell'avvio (launcher.exe)</value>
   </data>
   <data name="ViewPageSettingShareSaveTypeDescription" xml:space="preserve">
-    <value>选择点击分享按钮后保存图片的模式</value>
+    <value>Seleziona la modalità di salvataggio dell'immagine dopo aver cliccato sul pulsante di condivisione</value>
   </data>
   <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
-    <value>分享保存模式</value>
+    <value>Modalità di salvataggio condivisione</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Esperienza Shell</value>
   </data>
   <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
-    <value>0 代表不限速</value>
+    <value>0 per velocità illimitata</value>
   </data>
   <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
-    <value>下载速度限制</value>
+    <value>Limite velocità di download</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Sostieni Snap Hutao</value>
@@ -3456,19 +3456,19 @@
     <value>Contribuisci alle traduzioni</value>
   </data>
   <data name="ViewPageSettingUIGFExportContent" xml:space="preserve">
-    <value>导出</value>
+    <value>Esporta</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
-    <value>导出/导入 UIGF 4 文件</value>
+    <value>Esporta/Importa file UIGF 4</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
-    <value>数据迁移</value>
+    <value>Migrazione dati</value>
   </data>
   <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
-    <value>导入</value>
+    <value>Importa</value>
   </data>
   <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
-    <value>升级较早版本的 UIGF 文件</value>
+    <value>Aggiorna la versione precedente dei file UIGF</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>Visualizza oggetti non ottenuti in "Esporta desideri - Personaggi" e "Esporta desideri - Armi"</value>
@@ -3528,7 +3528,7 @@
     <value>Altro</value>
   </data>
   <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
-    <value>名片</value>
+    <value>Biglietto da visita</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>Professione</value>
@@ -3546,7 +3546,7 @@
     <value>Storie</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>角色攻略</value>
+    <value>Guida del personaggio</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talento</value>
@@ -3576,13 +3576,13 @@
     <value>Prima dell'ascensione</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
-    <value>幻想真境剧诗</value>
+    <value>Teatro dell'Imaginarium</value>
   </data>
   <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
-    <value>未开通胡桃云 CDN 或已到期</value>
+    <value>CDN di Hutao Cloud non attivato o scaduto</value>
   </data>
   <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
-    <value>未开通祈愿记录上传服务或已到期</value>
+    <value>Servizio di caricamento dello storico dei desideri non attivo o scaduto</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>Accesso fallito, riprova ad accedere</value>
@@ -3690,13 +3690,13 @@
     <value>Clic automatico</value>
   </data>
   <data name="ViewTitleAutoPressing" xml:space="preserve">
-    <value>自动连按</value>
+    <value>Pressione automatica</value>
   </data>
   <data name="ViewTitleMetadataInitializing" xml:space="preserve">
-    <value>正在初始化元数据</value>
+    <value>Inizializzazione dei metadati in corso</value>
   </data>
   <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载？</value>
+    <value>Scaricare ora?</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>Installazione dell'aggiornamento in corso</value>
@@ -3717,16 +3717,16 @@
     <value>Strumenti ufficiali</value>
   </data>
   <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
-    <value>账密登录</value>
+    <value>Accesso con nome utente e password</value>
   </data>
   <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
-    <value>三方登录</value>
+    <value>Accesso di terze parti</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Login Web</value>
   </data>
   <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
-    <value>手机验证码</value>
+    <value>Codice telefonico</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>Login tramite codice QR</value>
@@ -3792,22 +3792,22 @@
     <value>Informazioni arma</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口（仅管理员）</value>
+    <value>Finestra Web Compatta (solo Amministratore)</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
-    <value>请截图此窗口，在反馈中心内找到适合的反馈途径，并反馈至开发组</value>
+    <value>Fai uno screenshot di questa finestra, trova il canale di feedback appropriato nel Centro Feedback e invialo al team di sviluppo.</value>
   </data>
   <data name="ViewWindowExceptionHeader" xml:space="preserve">
-    <value>遇到了无法恢复的致命错误</value>
+    <value>Si è verificato un errore fatale non recuperabile</value>
   </data>
   <data name="ViewWindowExceptionTitle" xml:space="preserve">
-    <value>我们遇到了一点问题</value>
+    <value>Abbiamo riscontrato alcuni problemi</value>
   </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
-    <value>执行</value>
+    <value>Esegui</value>
   </data>
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
-    <value>执行调试脚本</value>
+    <value>Esegui script di debug</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Inizia tra {0} giorni</value>
@@ -3828,19 +3828,19 @@
     <value>Copiato negli appunti</value>
   </data>
   <data name="WebBridgeShareFilePickerTitle" xml:space="preserve">
-    <value>保存分享图片</value>
+    <value>Salva l'immagine condivisa</value>
   </data>
   <data name="WebBridgeShareSaveAsFileFailed" xml:space="preserve">
-    <value>图片保存失败</value>
+    <value>Salvataggio dell'immagine non riuscito</value>
   </data>
   <data name="WebBridgeShareSaveAsFileSuccess" xml:space="preserve">
-    <value>图片保存成功</value>
+    <value>Immagine salvata correttamente</value>
   </data>
   <data name="WebBridgeShareSaveKindCopyToClipboard" xml:space="preserve">
-    <value>复制到剪贴板</value>
+    <value>Copia negli appunti</value>
   </data>
   <data name="WebBridgeShareSaveKindSaveAsFile" xml:space="preserve">
-    <value>保存为文件</value>
+    <value>Salva come file</value>
   </data>
   <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
     <value>Tutte le missioni Archon completate</value>
@@ -3879,7 +3879,7 @@
     <value>{0} min</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 时 {1} 分</value>
+    <value>{0} ora {1} minuto</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>Incarichi giornalieri insufficienti</value>
@@ -3915,7 +3915,7 @@
     <value>Sarà completamente ripristinata tra {0} alle {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
-    <value>{0:c} 后重置</value>
+    <value>Resetta dopo {0:c}</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Pronto per essere utilizzato di nuovo tra</value>
