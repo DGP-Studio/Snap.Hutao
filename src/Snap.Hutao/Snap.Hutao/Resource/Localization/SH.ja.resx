@@ -1696,13 +1696,13 @@
     <value>言語設定</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Crowdin コミュニティーメンバーによって維持</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Google Gemini によって翻訳</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>DGP Studio によって維持</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>リソース</value>
