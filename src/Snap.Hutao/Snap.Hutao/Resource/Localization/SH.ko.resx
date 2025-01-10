@@ -1695,13 +1695,13 @@
     <value>언어</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Crowdin 커뮤니티 구성원이 관리합니다.</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Google Gemini에서 번역됨</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>DGP Studio에서 관리합니다.</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>리소스</value>
@@ -1731,7 +1731,7 @@
     <value>나선 비경 통계</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Snap Hutao Passport</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>모든 알림 지우기</value>
@@ -2502,7 +2502,7 @@
     <value>개발자 계정은 서비스 만료 시간을 무시합니다.</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Snap Hutao Cloud 기록 없음</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Snap Hutao Cloud 서비스 시간이 부족합니다.</value>
@@ -2685,13 +2685,13 @@
     <value>해당 기간을 획득하면 Snap Hutao 업데이트 시 중국 내 CDN 미러를 선택하여 더 나은 업데이트 환경을 경험할 수 있습니다.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Snap Hutao Cloud CDN 서비스</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>이용 시간을 획득하면 서버를 통해 최대 5개 UID의 기원 기록을 다운로드/업로드/삭제할 수 있습니다. 나선 비경 페이지에서 각 도전의 첫 번째 기록을 업로드할 때 무료 이용 시간을 얻을 수 있습니다!</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Snap Hutao Cloud 기원 기록 서비스</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>로그인</value>
@@ -2715,7 +2715,7 @@
     <value>비밀번호 재설정</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>후원</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>계정 삭제 시 데이터는 영구적으로 손실되며 복구할 수 없습니다</value>
