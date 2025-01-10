@@ -1695,13 +1695,13 @@
     <value>Ngôn ngữ</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Được duy trì bởi thành viên cộng đồng Crowdin</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Được dịch bởi Google Gemini</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>Được duy trì bởi DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Tài nguyên</value>
@@ -1731,7 +1731,7 @@
     <value>Thống kê vực thẳm</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Hutao Passport</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Xóa tất cả thông báo</value>
@@ -2502,7 +2502,7 @@
     <value>Tài khoản nhà phát triển không bị ảnh hưởng bởi thời gian hết hạn dịch vụ</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Không có bản ghi Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Thời gian sử dụng dịch vụ Snap Hutao Cloud không đủ</value>
@@ -2685,13 +2685,13 @@
     <value>Sau khi có thời lượng, bạn sẽ có thể chọn CDN trong nước của Trung Quốc khi cập nhật phiên bản Snap Hutao để có trải nghiệm cập nhật tốt hơn.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Dịch vụ Hutao Cloud CDN</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>Sau khi có thời hạn sử dụng, bạn sẽ có thể tải xuống/tải lên/xóa tối đa 5 bản ghi ước nguyện UID thông qua máy chủ của chúng tôi. Trong trang Vực Sâu Xoắn Ốc, bạn sẽ nhận được thời hạn sử dụng miễn phí khi tải lên bản ghi lần đầu tiên trong mỗi thử thách!</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Dịch vụ bản ghi ước nguyện Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Đăng nhập</value>
@@ -2715,7 +2715,7 @@
     <value>Đặt lại mật khẩu</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>Tài trợ</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Dữ liệu của tài khoản đã hủy đăng ký sẽ bị mất vĩnh viễn và không thể khôi phục</value>
@@ -3330,7 +3330,7 @@
     <value>Sử dụng mã quy đổi</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
-    <value>刷新</value>
+    <value>Làm mới</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Đăng ký</value>
