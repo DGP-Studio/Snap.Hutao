@@ -11,6 +11,7 @@ internal static class ConstValues
     public const uint NOTIFYICON_VERSION = 0x00000003U;
     public const uint NOTIFYICON_VERSION_4 = 0x00000004U;
     public const uint D3D11_SDK_VERSION = 0x00000007U;
+    public const uint WM_PAINT = 0x0000000FU;
     public const uint WM_ERASEBKGND = 0x00000014U;
     public const uint WM_ACTIVATEAPP = 0x0000001CU;
     public const uint WM_GETMINMAXINFO = 0x00000024U;
@@ -32,6 +33,7 @@ internal static class ConstValues
     public const uint NIN_SELECT = 0x00000400U;
     public const uint NIN_POPUPOPEN = 0x00000406U;
     public const uint NIN_POPUPCLOSE = 0x00000407U;
+    public const int RPC_X_NULL_REF_POINTER = 0x000006F4;
     public const uint IOCTL_STORAGE_GET_DEVICE_NUMBER = 0x002D1080U;
     public const uint IOCTL_STORAGE_QUERY_PROPERTY = 0x002D1400U;
     public const uint IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS = 0x00560000U;

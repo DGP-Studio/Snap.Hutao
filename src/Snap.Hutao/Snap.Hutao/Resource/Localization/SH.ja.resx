@@ -136,7 +136,7 @@
     <value>キャンセル</value>
   </data>
   <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
-    <value>OK</value>
+    <value>完了</value>
   </data>
   <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
     <value>確定</value>
@@ -154,7 +154,7 @@
     <value>すべて選択</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>無効なURL</value>
+    <value>無効な URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>米游社 / HoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>胡桃クラウド CDN が未開通か、有効期限が切れています</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件削除しました</value>
   </data>
@@ -631,6 +634,9 @@
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>認証リクエストに失敗しました。このメールアドレスは既に登録されています。</value>
   </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>認証リクエストに失敗しました。このメールアドレスは登録されていません。</value>
+  </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
   </data>
@@ -674,10 +680,10 @@
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF Json ファイル</value>
+    <value>UIAF JSON ファイル</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>UIAF Json ファイルを開く</value>
+    <value>UIAF JSON ファイルを開く</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>単一のアーカイブに同一のアチーブメント ID が複数存在しています</value>
@@ -690,6 +696,15 @@
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓更新時期〓</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>北アメリカ UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>他のサーバ UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>ヨーロッパ UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
@@ -948,19 +963,19 @@
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>利用可能なUrlが見つかりません</value>
+    <value>利用可能な URL が見つかりません</value>
   </data>
   <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
     <value>ゲームは実行中で、一旦ゲームを閉じてから再試行してください。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>無効なURLです</value>
+    <value>提供された URL が無効です</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLAB アカウントは SToken で祈願履歴を更新することをサポートできません。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url の言語：{0} と胡桃の設定言語：{1} と一致しません。言語を切り替えて再度試してください</value>
+    <value>URL の言語：{0} と胡桃の設定言語：{1} と一致しません。言語を切り替えて再度試してください</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>サポートされていない Item Id：{0}</value>
@@ -1120,7 +1135,7 @@
     <value>フレームレートロック解除に失敗しました：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈願履歴のアップロード期限は\n{0:yyyy.MM.dd HH:mm:ss}です。</value>
+    <value>祈願履歴のアップロードサービス期限は</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
@@ -1441,7 +1456,7 @@
     <value>リクエスト URL の複合テンプレートを入力してください</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>認証サービスは、上記のようなJsonデータを返す必要があります。この例以外のデータは無視されます。</value>
+    <value>インターフェースは、上記のような JSON データを返す必要があります。余分なデータは無視されます。</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
     <value>"code" は 0 の場合のみ認証成功です。他の戻り値は認証失敗となります。</value>
@@ -1473,8 +1488,14 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>胡桃通行証のパスワードをリセット</value>
   </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>胡桃通行証のメールアドレスをリセット</value>
+  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>胡桃アカウントを削除</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>胡桃クラウド交換コードの使用</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Appをエクスポート</value>
@@ -1572,7 +1593,7 @@
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>深境螺旋のデータをアップロード</value>
   </data>
-  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+  <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
     <value>更新ログを表示</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
@@ -1674,8 +1695,20 @@
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>言語設定</value>
   </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>由 Crowdin 社区成员维护</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>由 Google Gemini 翻译</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>由 DGP Studio 维护</value>
+  </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>リソース</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* 画像を表示する際に自動で補完を試みるから、ファイルのダウンロードに失敗した場合でも心配ありません</value>
   </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>画像アセットの設定</value>
@@ -1697,6 +1730,9 @@
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深境螺旋集計</value>
+  </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行証</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>すべて消去</value>
@@ -1741,7 +1777,7 @@
     <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>UIAF Json ファイルを指定した場所へエクスポート</value>
+    <value>UIAF JSON ファイルを指定した場所へエクスポート</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>素材リスト取得中、しばらくお待ちください</value>
@@ -1843,7 +1879,7 @@
     <value>週ボス</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>リアルタイムノートのWebhook URLの設定に成功しました。</value>
+    <value>リアルタイムノート Webhook URL が設定に成功しました。</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLAB アカウントはリアルタイムノート認証に対応していません。</value>
@@ -1903,7 +1939,7 @@
     <value>前半</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIGF Json ファイル</value>
+    <value>UIGF JSON ファイル</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>インポート完了</value>
@@ -1942,13 +1978,13 @@
     <value>胡桃クラウドから祈願履歴を同期</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>UIGF Json ファイルを指定した場所へエクスポート</value>
+    <value>UIGF JSON ファイルを指定した場所へエクスポート</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドにアップロード中</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>UIGF Json ファイルをインポート</value>
+    <value>UIGF JSON ファイルをインポート</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>ローカルバージョン: {0}</value>
@@ -2016,6 +2052,9 @@
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>現在選択されているユーザーとサーバーが一致しません。もう一度選択してください。</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>ゲーム設定ファイル {0} は読み込めませんでした，ファイルが無い、また権限不足の可能性があります。</value>
+  </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
     <value>現在選択されているゲームパス {0} が壊れています。フォルダーを手動で削除しゲームを再インストールしてください</value>
   </data>
@@ -2031,11 +2070,11 @@
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>修復完了</value>
   </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>ゲームパス未設定</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>モニターの識別</value>
-  </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>ゲームのパスが間違っています。設定で変更してください。</value>
@@ -2162,6 +2201,9 @@
   </data>
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>ファイルダウンロード異常</value>
+  </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>キャラクターの攻略情報は暫くありません</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>新規アーカイブ</value>
@@ -2460,6 +2502,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>開発者アカウントは無期限にサービスを利用できます</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>クラウド記録なし</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>胡桃クラウドのサービス期限が切れました。</value>
   </data>
@@ -2467,7 +2512,7 @@
     <value>このUidのクラウドバックアップをダウンロードする</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>毎期の深境螺旋記録を初回アップロードすると、胡桃クラウドの使用が3日間無料になります。</value>
+    <value>毎期の深境螺旋記録を初回アップロードすると、3 日間の利用期限を無料に獲得できます</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>螺旋の記録をアップロード</value>
@@ -2638,8 +2683,23 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>出場パーティー</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>利用期限を獲得すると、胡桃のバージョンアップデート時に中国国内の CDN ミラーを選択でき、より快適な更新体験を得るようになります。</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>胡桃クラウド CDN サービス</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>利用期限を獲得すると、私達のサーバーを通じて最多 5 つの UID の祈願履歴をダウンロード/アップロード/削除できるようになります。深境螺旋ページでは毎期の挑戦記録を初めてアップロードする際に、無料の利用期限を取得できます！</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>胡桃クラウド祈願記録サービス</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>ログイン</value>
+  </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>新しいメールアドレスを入力してください</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>パスワードを入力してください</value>
@@ -2647,14 +2707,20 @@
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>8文字以上必要です</value>
   </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>交換コードを入力してください</value>
+  </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>アカウント作成</value>
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>パスワードをリセット</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
-    <value>削除されたアカウントのデータは永久的に削除され、復元することは出来ません。</value>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>スポンサー</value>
+  </data>
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
+    <value>アカウントを削除するとデータは永久に失われて復元できません！</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>メールアドレスを入力してください。</value>
@@ -3190,6 +3256,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>お知らせのサーバー</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>素材カレンダーが当日の日付を取得する際に使用するゲームサーバーのタイムゾーンを選択します</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>カレンダーサーバー</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>ホームのダッシュボードでカードを管理する</value>
   </data>
@@ -3220,6 +3292,9 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>ホーム</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>胡桃クラウド CDN 有効期限</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>考え直して！！</value>
   </data>
@@ -3227,7 +3302,7 @@
     <value>危険な操作</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃クラウドサービスの有効期限</value>
+    <value>胡桃クラウド祈願履歴サービスの有効期限</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃アカウント</value>
@@ -3256,11 +3331,17 @@
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>引き換えコードの使用</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>更新</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>登録</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>パスワードの変更</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>メールアドレス変更</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>アカウントの削除</value>
@@ -3272,13 +3353,22 @@
     <value>高度な機能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>オートクリック機能のショートカットキーを変更します</value>
+    <value>左クリックの自動押し機能のショートカットキーを変更します</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>マウス左ボタンの自動クリック</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>F キーの自動押し機能のショートカットキーを変更します</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>キーボード F キーの自動連打</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>異なる機能に同じショートカットキーを設定すると、予期せぬ結果を招く場合が可能で、正常に戻すには追加の操作やアプリの再起動が必要になるかもしれません</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
@@ -3457,6 +3547,9 @@
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>ストーリー</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>キャラ攻略</value>
+  </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>天賦</value>
   </data>
@@ -3486,6 +3579,12 @@
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想シアター</value>
+  </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>胡桃クラウド CDN が未開通か、有効期限が切れています</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>祈願履歴のアップロードサービスが未開通か、有効期限が切れています。</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>ログインできません。もう一度お試しください。</value>
@@ -3577,9 +3676,6 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>データをアップロード</value>
   </data>
-  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>今すぐダウンロードしますか？</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>更新パッチのダウンロードに失敗しました</value>
   </data>
@@ -3593,7 +3689,16 @@
     <value>胡桃 ver {0} の準備が整いました</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
-    <value>オートクリック</value>
+    <value>自動クリック</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>自動連打</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>メタデータを初期化中</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>今すぐダウンロードしますか？</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
     <value>更新をインストール中</value>

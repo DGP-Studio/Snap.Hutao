@@ -4,7 +4,6 @@
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 using System.Collections.Immutable;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
@@ -12,48 +11,34 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 
 internal sealed class DailyNoteArchonQuestView
 {
-    private readonly WebDailyNote? dailyNote;
-
     private DailyNoteArchonQuestView(WebDailyNote? dailyNote, ImmutableArray<Chapter> chapters)
     {
-        this.dailyNote = dailyNote;
-        Ids = chapters
-            .Where(chapter => chapter.QuestType is QuestType.AQ)
-            .Select(chapter => chapter.Id)
-            .ToList();
+        Ids = [.. chapters.Where(chapter => chapter.QuestType is QuestType.AQ).Select(chapter => chapter.Id)];
+
+        if (dailyNote is { ArchonQuestProgress.List: [{ } quest, ..] })
+        {
+            ProgressValue = Ids.IndexOf(quest.Id);
+            FormattedProgress = quest.Status.GetLocalizedDescription();
+            FormattedChapter = $"{quest.ChapterNum} {quest.ChapterTitle}";
+        }
+        else
+        {
+            ProgressValue = Ids.Length;
+            FormattedProgress = SH.WebDailyNoteArchonQuestStatusFinished;
+            FormattedChapter = SH.WebDailyNoteArchonQuestChapterFinished;
+        }
     }
 
-    public List<ChapterId> Ids { get; }
+    public ImmutableArray<ChapterId> Ids { get; }
 
-    public int ProgressValue
-    {
-        get => TryGetFirstArchonQuest(out ArchonQuest? quest) ? Ids.IndexOf(quest.Id) : Ids.Count;
-    }
+    public int ProgressValue { get; }
 
-    public string ProgressFormatted
-    {
-        get => TryGetFirstArchonQuest(out ArchonQuest? quest) ? quest.Status.GetLocalizedDescription() : SH.WebDailyNoteArchonQuestStatusFinished;
-    }
+    public string FormattedProgress { get; }
 
-    public string ChapterFormatted
-    {
-        get => TryGetFirstArchonQuest(out ArchonQuest? quest) ? $"{quest.ChapterNum} {quest.ChapterTitle}" : SH.WebDailyNoteArchonQuestChapterFinished;
-    }
+    public string FormattedChapter { get; }
 
     public static DailyNoteArchonQuestView Create(WebDailyNote? dailyNote, ImmutableArray<Chapter> chapters)
     {
         return new(dailyNote, chapters);
-    }
-
-    private bool TryGetFirstArchonQuest([NotNullWhen(true)] out ArchonQuest? archonQuest)
-    {
-        if (dailyNote is { ArchonQuestProgress.List: [{ } target, ..] })
-        {
-            archonQuest = target;
-            return true;
-        }
-
-        archonQuest = default;
-        return false;
     }
 }

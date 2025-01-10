@@ -1,9 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
@@ -13,13 +13,14 @@ namespace Snap.Hutao.UI.Xaml.View.Specialized;
 [DependencyProperty("Maximum", typeof(int), -1, nameof(OnChunksChanged))]
 [DependencyProperty("Description", typeof(string))]
 [DependencyProperty("IconGlyph", typeof(string))]
-[INotifyPropertyChanged]
-internal sealed partial class SophonProgressBar : UserControl
+internal sealed partial class SophonProgressBar : UserControl, INotifyPropertyChanged
 {
     public SophonProgressBar()
     {
         InitializeComponent();
     }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public double ProgressValue { get => Maximum <= 0 ? 0D : 1D * Value / Maximum; }
 
@@ -36,5 +37,10 @@ internal sealed partial class SophonProgressBar : UserControl
         sender.OnPropertyChanged(nameof(ProgressPercentFormatted));
         sender.OnPropertyChanged(nameof(ProgressFormatted));
         sender.OnPropertyChanged(nameof(IsIndeterminate));
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new(propertyName));
     }
 }

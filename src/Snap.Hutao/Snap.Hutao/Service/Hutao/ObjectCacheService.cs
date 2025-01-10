@@ -2,25 +2,28 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
 
 [ConstructorGenerated]
-internal abstract partial class ObjectCacheService
+internal abstract partial class ObjectCacheService : ITypeName
 {
     private static readonly TimeSpan CacheExpireTime = TimeSpan.FromHours(2);
 
     private readonly IObjectCacheRepository objectCacheRepository;
     private readonly IMemoryCache memoryCache;
 
+    public abstract string TypeName { get; }
+
     protected partial IServiceProvider ServiceProvider { get; }
 
     protected async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, bool last, Func<bool, CancellationToken, ValueTask<HutaoResponse<T>>> taskFunc)
         where T : class, new()
     {
-        string key = $"{GetType().Name}.Cache.{typeName}.{(last ? "Last" : "Current")}";
+        string key = $"{TypeName}.Cache.{typeName}.{(last ? "Last" : "Current")}";
         if (memoryCache.TryGetValue(key, out object? cache))
         {
             T? t = cache as T;

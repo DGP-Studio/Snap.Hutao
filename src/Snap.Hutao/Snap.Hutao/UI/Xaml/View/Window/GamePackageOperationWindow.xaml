@@ -6,11 +6,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     mc:Ignorable="d">
     <Grid x:Name="RootGrid" d:DataContext="{d:DesignInstance shvg:GamePackageOperationViewModel}">
+        <Grid.Resources>
+            <shuxdcs:BackdropTypeToOpacityConverter x:Key="BackdropTypeToOpacityConverter"/>
+        </Grid.Resources>
         <mxi:Interaction.Behaviors>
             <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding PeriodicRefreshUICommand}"/>
         </mxi:Interaction.Behaviors>
@@ -19,8 +23,19 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+            Opacity="{Binding AppOptions.BackdropType, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
+            <Border.OpacityTransition>
+                <ScalarTransition Duration="0:0:1"/>
+            </Border.OpacityTransition>
+        </Border>
+
         <Grid
-            x:Name="DragableGrid"
+            x:Name="DraggableGrid"
             Grid.Row="0"
             Height="32"/>
 
@@ -28,6 +43,8 @@
             <Grid
                 Padding="16"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,1,0,1"
                 RowSpacing="16">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>

@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Navigation;
 
 internal interface INavigationCurrent
 {
-    Type? Current { get; }
+    Type? CurrentPageType { get; }
 }

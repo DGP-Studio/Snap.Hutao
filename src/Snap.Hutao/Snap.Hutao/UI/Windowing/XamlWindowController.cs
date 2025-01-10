@@ -155,13 +155,7 @@ internal sealed class XamlWindowController
     {
         try
         {
-            NotifyIconController notifyIconController;
-            lock (NotifyIconController.InitializationSyncRoot)
-            {
-                // There is a unknown reason that user can have notifyicon created
-                // and meanwhile the notifyiconcontroller is not initialized.
-                notifyIconController = serviceProvider.GetRequiredService<NotifyIconController>();
-            }
+            NotifyIconController notifyIconController = serviceProvider.LockAndGetRequiredService<NotifyIconController>(NotifyIconController.InitializationSyncRoot);
 
             // Actual version should be above 24H2 (26100), which is 26120 without UniversalApiContract.
             if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
@@ -229,23 +223,6 @@ internal sealed class XamlWindowController
 
         return true;
     }
-
-    private static bool UpdateElementTheme(Window window, ElementTheme theme)
-    {
-        if (window is IXamlWindowContentAsFrameworkElement xamlWindow)
-        {
-            xamlWindow.ContentAccess.RequestedTheme = theme;
-            return true;
-        }
-
-        if (window.Content is FrameworkElement frameworkElement)
-        {
-            frameworkElement.RequestedTheme = theme;
-            return true;
-        }
-
-        return false;
-    }
     #endregion
 
     #region IXamlWindowContentAsFrameworkElement
@@ -277,12 +254,27 @@ internal sealed class XamlWindowController
 
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
-            RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
-            RectInt32 persistedRect = nonDpiPersistedRect.Scale(LocalSetting.Get(rectPersisted.PersistScaleKey, 1.0));
+            double scale = LocalSetting.Get(rectPersisted.PersistScaleKey, 0.0);
+
+            // Never persisted before
+            if (scale == 0.0)
+            {
+                // Move to the primary screen and get the scale
+                window.AppWindow.Move(DisplayArea.Primary.WorkArea.GetPointInt32(PointInt32Kind.TopLeft));
+                scale = window.GetRasterizationScale();
+            }
+
+            // DO NOT INLINE, implicit conversion requires a local variable.
+            RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, 0UL);
+            RectInt32 persistedRect = nonDpiPersistedRect.Scale(scale);
 
             // If the persisted size is less than min size, we want to reset to the init size.
-            // So we only recover the size when it's greater than or equal to the min size.
-            if (persistedRect.Size() >= xamlWindow.MinSize.Size())
+            SizeInt32 scaledMinSize = xamlWindow.MinSize.Scale(scale);
+            if (persistedRect.Width < scaledMinSize.Width || persistedRect.Height < scaledMinSize.Height)
+            {
+                rect = scaledMinSize.ToRectInt32();
+            }
+            else
             {
                 rect = persistedRect;
             }
@@ -306,7 +298,15 @@ internal sealed class XamlWindowController
         // We save the non-dpi rect here
         double scale = window.GetRasterizationScale();
         LocalSetting.Set(rectPersisted.PersistScaleKey, scale);
-        LocalSetting.Set(rectPersisted.PersistRectKey, (RectInt16)window.AppWindow.GetRect().Scale(1.0 / scale));
+
+        // DO NOT INLINE, implicit conversion requires a local variable.
+        RectInt16 rect = (RectInt16)window.AppWindow.GetRect().Scale(1.0 / scale);
+        if (rect.Width < 0 || rect.Height < 0)
+        {
+            return;
+        }
+
+        LocalSetting.Set<ulong>(rectPersisted.PersistRectKey, (ulong)rect);
     }
     #endregion
 
@@ -377,9 +377,18 @@ internal sealed class XamlWindowController
             List<RectInt32> passthrough = [];
             foreach (FrameworkElement element in xamlWindow.TitleBarPassthrough)
             {
+                if (element.Visibility is not Visibility.Visible)
+                {
+                    continue;
+                }
+
                 Point position = element.TransformToVisual(window.Content).TransformPoint(default);
                 RectInt32 rect = RectInt32Convert.RectInt32(position, element.ActualSize).Scale(window.GetRasterizationScale());
-                passthrough.Add(rect);
+
+                if (rect.Size() > 0)
+                {
+                    passthrough.Add(rect);
+                }
             }
 
             if (passthrough.Count > 0)

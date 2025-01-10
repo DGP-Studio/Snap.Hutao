@@ -7,7 +7,6 @@ using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
@@ -36,11 +35,13 @@ internal readonly struct GamePackageServiceContext
 
     public bool EnsureAvailableFreeSpace(long totalBytes)
     {
+        const long OneGigabyte = 1024L * 1024L * 1024L;
+        long actualTotalBytes = totalBytes + OneGigabyte;
         long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.ExtractOrGameDirectory);
 
-        if (totalBytes > availableBytes)
+        if (actualTotalBytes > availableBytes)
         {
-            string totalBytesFormatted = Converters.ToFileSizeString(totalBytes);
+            string totalBytesFormatted = Converters.ToFileSizeString(actualTotalBytes);
             string availableBytesFormatted = Converters.ToFileSizeString(availableBytes);
             string title = SH.FormatServiceGamePackageAdvancedDriverNoAvailableFreeSpace(totalBytesFormatted, availableBytesFormatted);
             Progress.Report(new GamePackageOperationReport.Reset(title));

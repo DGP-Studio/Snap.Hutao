@@ -2,28 +2,29 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.UI.Xaml.Data;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 internal sealed class GachaStatistics
 {
-    public TypedWishSummary AvatarWish { get; set; } = default!;
+    public required TypedWishSummary AvatarWish { get; init; }
 
-    public TypedWishSummary WeaponWish { get; set; } = default!;
+    public required TypedWishSummary WeaponWish { get; init; }
 
-    public TypedWishSummary ChronicledWish { get; set; } = default!;
+    public required TypedWishSummary ChronicledWish { get; init; }
 
-    public TypedWishSummary StandardWish { get; set; } = default!;
+    public required TypedWishSummary StandardWish { get; init; }
 
-    public AdvancedCollectionView<HistoryWish> HistoryWishes { get; set; } = default!;
+    public required IAdvancedCollectionView<HistoryWish> HistoryWishes { get; init; }
 
-    public List<StatisticsItem> OrangeAvatars { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> OrangeAvatars { get; init; }
 
-    public List<StatisticsItem> PurpleAvatars { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> PurpleAvatars { get; init; }
 
-    public List<StatisticsItem> OrangeWeapons { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> OrangeWeapons { get; init; }
 
-    public List<StatisticsItem> PurpleWeapons { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> PurpleWeapons { get; init; }
 
-    public List<StatisticsItem> BlueWeapons { get; set; } = default!;
+    public required ImmutableArray<StatisticsItem> BlueWeapons { get; init; }
 }

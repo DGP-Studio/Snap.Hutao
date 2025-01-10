@@ -5,6 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.ExceptionServices;
@@ -44,7 +45,6 @@ internal static class HttpRequestMessageBuilderExtension
                 context.Exception?.Throw();
                 ArgumentNullException.ThrowIfNull(context.Response);
 
-                context.Response.EnsureSuccessStatusCode();
                 showInfo = false;
                 TResult? body = await builder.HttpContentSerializer.DeserializeAsync<TResult>(context.Response.Content, token).ConfigureAwait(false);
                 return new(context.Response.Headers, body);
@@ -77,12 +77,15 @@ internal static class HttpRequestMessageBuilderExtension
         {
             context.Request = builder.HttpRequestMessage;
             context.Response = await context.HttpClient.SendAsync(context.Request, context.RequestAborted).ConfigureAwait(false);
+            context.Response.EnsureSuccessStatusCode();
         }
         catch (Exception ex)
         {
-            await TryAttachHutaoGenericApiTraceInfoAsync(context, ex).ConfigureAwait(false);
-
             ex.Data.Add("RequestUrlNoQuery", baseUrl ?? "Unknown");
+
+            await TryAttachHutaoGenericApiTraceInfoAsync(context, ex).ConfigureAwait(false);
+            await TryAttachNameServerInfoAsync(context, ex).ConfigureAwait(false);
+
             context.Exception = ExceptionDispatchInfo.Capture(ex);
             context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
@@ -142,8 +145,37 @@ internal static class HttpRequestMessageBuilderExtension
 
         if (context.Response.Content.Headers?.ContentType?.MediaType is "text/plain")
         {
-            string contentString = await content.ReadAsStringAsync().ConfigureAwait(false);
+            string contentString = await content.ReadAsStringAsync(context.RequestAborted).ConfigureAwait(false);
             context.Logger.LogDebug("Response Content: {Content}", contentString);
+        }
+    }
+
+    private static async ValueTask TryAttachNameServerInfoAsync(HttpContext context, Exception ex)
+    {
+        if (ex is not HttpRequestException httpRequestException)
+        {
+            return;
+        }
+
+        if (httpRequestException.HttpRequestError is not HttpRequestError.SecureConnectionError && httpRequestException.InnerException is not SocketException)
+        {
+            return;
+        }
+
+        string? host = context.Request?.RequestUri?.Host;
+
+        if (host is null)
+        {
+            return;
+        }
+
+        try
+        {
+            ex.Data.Add("RequestDns", JsonSerializer.Serialize(await Dns.GetHostEntryAsync(host, context.RequestAborted).ConfigureAwait(false)));
+        }
+        catch
+        {
+            // Query DNS can fail
         }
     }
 }

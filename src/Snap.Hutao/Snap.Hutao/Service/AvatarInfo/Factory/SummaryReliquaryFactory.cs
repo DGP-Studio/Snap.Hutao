@@ -41,16 +41,13 @@ internal sealed class SummaryReliquaryFactory
             .SetEquipType(metaReliquary.EquipType)
             .SetSetName(metaReliquarySet.Name)
             .SetMainProperty(FightPropertyFormat.ToNameValue(reliquary.MainProperty))
-            .SetComposedSubProperties(reliquary.SubPropertyList.SelectList(CreateSubProperty));
+            .SetComposedSubProperties(reliquary.SubPropertyList.SelectAsArray(CreateSubProperty));
 
         return reliquaryViewBuilder.View;
     }
 
     private static ReliquaryComposedSubProperty CreateSubProperty(ReliquaryProperty property)
     {
-        return new(property.PropertyType, property.Value)
-        {
-            EnhancedCount = property.Times + 1,
-        };
+        return new(property.PropertyType, property.Value, property.Times + 1);
     }
 }

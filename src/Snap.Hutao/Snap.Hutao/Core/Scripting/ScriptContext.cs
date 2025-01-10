@@ -22,7 +22,12 @@ public sealed class ScriptContext
 
     public static string FormatJson(string input)
     {
-        return JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(input), Json.JsonOptions.Default);
+        return Serialize(JsonSerializer.Deserialize<JsonElement>(input));
+    }
+
+    public static string Serialize<T>(T data)
+    {
+        return JsonSerializer.Serialize(data, Json.JsonOptions.Default);
     }
 
     public async ValueTask<string> RequestAsync(string method, string url, string[] headers, string? body = default)

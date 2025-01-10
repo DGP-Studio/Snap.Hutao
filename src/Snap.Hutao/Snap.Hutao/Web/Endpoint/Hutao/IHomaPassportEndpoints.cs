@@ -20,6 +20,11 @@ internal interface IHomaPassportEndpoints : IHomaRootAccess
         return $"{Root}/Passport/Cancel";
     }
 
+    public string PassportResetUserName()
+    {
+        return $"{Root}/Passport/ResetUsername";
+    }
+
     public string PassportResetPassword()
     {
         return $"{Root}/Passport/ResetPassword";

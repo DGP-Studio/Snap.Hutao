@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
-using System.Collections.Immutable;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -71,7 +70,6 @@ internal static class GameFileSystemExtension
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
-        // ReSharper disable once InconsistentNaming
         if (GameFileSystemPcGameSdkFilePaths.TryGetValue(gameFileSystem, out string? pcGameSdkFilePath))
         {
             return pcGameSdkFilePath;
@@ -194,14 +192,12 @@ internal static class GameFileSystemExtension
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         string content = $$$"""
-            [General]
+            [general]
+            uapc={"{{{gameBiz}}}":{"uapc":""},"hyp":{"uapc":""}}
             channel={{{launchScheme.Channel:D}}}
-            cps=mihoyo
-            game_version={{{version}}}
             sub_channel={{{launchScheme.SubChannel:D}}}
-            sdk_version=
-            game_biz={{{gameBiz}}}
-            uapc={"hk4e_cn":{"uapc":""},"hyp":{"uapc":""}}
+            cps=gw_pc
+            game_version={{{version}}}
             """;
 
         string? directory = Path.GetDirectoryName(gameFileSystem.GetGameConfigurationFilePath());

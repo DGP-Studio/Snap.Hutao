@@ -23,10 +23,10 @@ internal sealed partial class PassportClientOversea : IPassportClient
 
     public async ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
     {
-        string? stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
-        ArgumentException.ThrowIfNullOrEmpty(stoken);
+        string? sToken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
+        ArgumentException.ThrowIfNullOrEmpty(sToken);
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
-        STokenWrapper data = new(stoken, user.Aid);
+        STokenWrapper data = new(sToken, user.Aid);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.AccountGetCookieTokenBySToken())
@@ -42,10 +42,10 @@ internal sealed partial class PassportClientOversea : IPassportClient
 
     public async ValueTask<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default)
     {
-        string? stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
-        ArgumentException.ThrowIfNullOrEmpty(stoken);
+        string? sToken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
+        ArgumentException.ThrowIfNullOrEmpty(sToken);
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
-        STokenWrapper data = new(stoken, user.Aid);
+        STokenWrapper data = new(sToken, user.Aid);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.AccountGetLTokenBySToken())

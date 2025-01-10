@@ -28,31 +28,10 @@ internal static class ListExtension
     }
 
     [Pure]
-    public static T? BinarySearch<T>(this List<T> list, Func<T, int> comparer)
+    public static T? BinarySearch<TItem, T>(this List<T> list, TItem item, Func<TItem, T, int> compare)
         where T : class
     {
-        Span<T> span = CollectionsMarshal.AsSpan(list);
-        int left = 0;
-        int right = span.Length - 1;
-
-        while (left <= right)
-        {
-            int middle = (left + right) / 2;
-            ref readonly T current = ref span[middle];
-            switch (comparer(current))
-            {
-                case 0:
-                    return current;
-                case < 0:
-                    right = middle - 1;
-                    break;
-                default:
-                    left = middle + 1;
-                    break;
-            }
-        }
-
-        return default;
+        return SpanExtension.BinarySearch(CollectionsMarshal.AsSpan(list), item, compare);
     }
 
     [Pure]

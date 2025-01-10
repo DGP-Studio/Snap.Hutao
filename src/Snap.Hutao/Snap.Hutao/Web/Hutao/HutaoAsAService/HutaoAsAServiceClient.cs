@@ -5,16 +5,15 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
+using Snap.Hutao.Web.Hutao.Redeem;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using System.Collections.Immutable;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.HutaoAsAService;
 
-/// <summary>
-/// HaaS Client
-/// </summary>
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoAsAServiceClient
@@ -26,14 +25,14 @@ internal sealed partial class HutaoAsAServiceClient
     private readonly CultureOptions cultureOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<HutaoResponse<List<Announcement>>> GetAnnouncementListAsync(List<long> excluedeIds, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<ImmutableArray<Announcement>>> GetAnnouncementListAsync(ImmutableArray<long> excludedIds, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().Announcement(cultureOptions.LocaleName))
-            .PostJson(excluedeIds);
+            .PostJson(excludedIds);
 
-        HutaoResponse<List<Announcement>>? resp = await builder
-            .SendAsync<HutaoResponse<List<Announcement>>>(httpClient, logger, token)
+        HutaoResponse<ImmutableArray<Announcement>>? resp = await builder
+            .SendAsync<HutaoResponse<ImmutableArray<Announcement>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -79,6 +78,51 @@ internal sealed partial class HutaoAsAServiceClient
 
         HutaoResponse? resp = await builder
             .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse> CdnCompensationAsync(int days, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().CdnCompensation(days))
+            .Get();
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        HutaoResponse? resp = await builder
+            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse> CdnDesignationAsync(string userName, int days, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().CdnDesignation(userName, days))
+            .Get();
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        HutaoResponse? resp = await builder
+            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse<RedeemGenerateResult>> GenerateRedeemCodesAsync(RedeemGenerateRequest request, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(hutaoEndpointsFactory.Create().RedeemCodeGenerate())
+            .PostJson(request);
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        HutaoResponse<RedeemGenerateResult>? resp = await builder
+            .SendAsync<HutaoResponse<RedeemGenerateResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

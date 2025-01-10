@@ -4,6 +4,7 @@
 using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
+using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Announcement;
@@ -13,26 +14,27 @@ internal static partial class AnnouncementHtmlVisitor
     [GeneratedRegex(@".*?\d\.\d.*?[~-]|.*?\d\.\d.*?$|\d{4}/\d{2}/\d{2} \d{2}:\d{2}(?::\d{2})?")]
     private static partial Regex TimeOrVersionRegex { get; }
 
-    public static async ValueTask<List<string>> VisitActivityAsync(IBrowsingContext context, string content)
+    public static async ValueTask<ImmutableArray<string>> VisitActivityAsync(IBrowsingContext context, string content)
     {
         IDocument document = await context.OpenAsync(rsp => rsp.Content(content)).ConfigureAwait(false);
         IHtmlElement? body = document.Body;
         ArgumentNullException.ThrowIfNull(body);
 
         return body.Children
-            .Where(e => e is IHtmlParagraphElement)
-            .Where(e => AnnouncementRegex.ValidDescriptionsRegex.IsMatch(e.TextContent))
-            .Select(e => ParseElementToTimeStrings((IHtmlParagraphElement)e))
-            .MaxBy(r => r.Count) ?? [];
+            .Where(e => e is IHtmlParagraphElement && AnnouncementRegex.ValidDescriptionsRegex.IsMatch(e.TextContent))
+            .OfType<IHtmlParagraphElement>()
+            .Select(ParseElementToTimeStrings)
+            .MaxBy(r => r.Length)
+            .EmptyIfDefault();
 
-        List<string> ParseElementToTimeStrings(IHtmlParagraphElement paragraph)
+        ImmutableArray<string> ParseElementToTimeStrings(IHtmlParagraphElement paragraph)
         {
             string textContent = paragraph.TextContent.Trim();
 
             // All in span, special case
             if (textContent.Contains(SH.ServiceAnnouncementAdventurersBoosterBundlesDurationDescription, StringComparison.CurrentCulture))
             {
-                return TimeOrVersionRegex.Matches(textContent).Select(r => r.Value).ToList();
+                return [.. TimeOrVersionRegex.Matches(textContent).Select(r => r.Value)];
             }
 
             if (paragraph.NextElementSibling is null)
@@ -41,8 +43,7 @@ internal static partial class AnnouncementHtmlVisitor
             }
 
             string nextTextContent = paragraph.NextElementSibling.TextContent.Trim();
-
-            return TimeOrVersionRegex.Matches(nextTextContent).Select(r => r.Value).ToList();
+            return [.. TimeOrVersionRegex.Matches(nextTextContent).Select(r => r.Value)];
         }
     }
 

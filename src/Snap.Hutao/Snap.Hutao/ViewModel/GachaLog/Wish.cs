@@ -5,11 +5,11 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 
 internal abstract class Wish
 {
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public int TotalCount { get; set; }
+    public required int TotalCount { get; init; }
 
-    public string TimeSpanFormatted
+    public string FormattedTimeSpan
     {
         get
         {
@@ -22,12 +22,12 @@ internal abstract class Wish
         }
     }
 
-    public string TotalCountFormatted
+    public string FormattedTotalCount
     {
         get => SH.FormatModelBindingGachaWishBaseTotalCountFormat(TotalCount);
     }
 
-    internal DateTimeOffset From { get; set; }
+    internal required DateTimeOffset From { get; init; }
 
-    internal DateTimeOffset To { get; set; }
+    internal required DateTimeOffset To { get; init; }
 }

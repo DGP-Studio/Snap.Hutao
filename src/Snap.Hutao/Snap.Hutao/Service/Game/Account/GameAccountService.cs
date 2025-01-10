@@ -21,14 +21,18 @@ internal sealed partial class GameAccountService : IGameAccountService
     private readonly IGameRepository gameRepository;
     private readonly ITaskContext taskContext;
 
+    private readonly AsyncLock gameAccountLock = new();
     private ObservableReorderableDbCollection<GameAccount>? gameAccounts;
 
     public async ValueTask<ObservableReorderableDbCollection<GameAccount>> GetGameAccountCollectionAsync()
     {
-        if (gameAccounts is null)
+        using (await gameAccountLock.LockAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
-            gameAccounts = gameRepository.GetGameAccountCollection();
+            if (gameAccounts is null)
+            {
+                await taskContext.SwitchToBackgroundAsync();
+                gameAccounts = gameRepository.GetGameAccountCollection();
+            }
         }
 
         return gameAccounts;
@@ -53,9 +57,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         if (account is null)
         {
             LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
-            (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
-
-            if (isOk)
+            if (await dialog.GetInputNameAsync().ConfigureAwait(false) is (true, { } name))
             {
                 if (gameAccounts.Any(a => a.Name == name))
                 {
@@ -65,11 +67,11 @@ internal sealed partial class GameAccountService : IGameAccountService
 
                 account = GameAccount.From(name, registrySdk, schemeType);
 
-                // sync database
+                // Sync database
                 await taskContext.SwitchToBackgroundAsync();
                 gameRepository.AddGameAccount(account);
 
-                // sync cache
+                // Sync cache
                 await taskContext.SwitchToMainThreadAsync();
                 gameAccounts.Add(account);
             }

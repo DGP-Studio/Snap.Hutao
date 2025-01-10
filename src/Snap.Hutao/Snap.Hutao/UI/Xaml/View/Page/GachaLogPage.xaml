@@ -9,7 +9,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -27,44 +26,102 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
-        <cwconv:DoubleToObjectConverter x:Key="DoubleToOpacityConverter" GreaterThan="0">
-            <cwconv:DoubleToObjectConverter.TrueValue>1.0</cwconv:DoubleToObjectConverter.TrueValue>
-            <cwconv:DoubleToObjectConverter.FalseValue>0.4</cwconv:DoubleToObjectConverter.FalseValue>
-        </cwconv:DoubleToObjectConverter>
+        <cwconv:DoubleToObjectConverter
+            x:Key="DoubleToOpacityConverter"
+            FalseValue="0.4"
+            GreaterThan="0"
+            TrueValue="1.0"/>
 
-        <Flyout x:Key="HutaoCloudFlyout">
+        <Flyout
+            x:Key="HutaoCloudFlyout"
+            Placement="Bottom"
+            ShouldConstrainToRootBounds="False">
+            <Flyout.FlyoutPresenterStyle>
+                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                    <Setter Property="MinHeight" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </Flyout.FlyoutPresenterStyle>
             <Grid>
                 <mxi:Interaction.Behaviors>
                     <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.LoadCommand}"/>
                 </mxi:Interaction.Behaviors>
-                <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
+                <shuxc:StandardView ShowCondition="{Binding HutaoCloudViewModel.Options.IsHutaoCloudAllowed}" Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <shuxc:StandardView.EmptyContent>
+                        <StackPanel Padding="16" Spacing="{StaticResource SettingsCardSpacing}">
+                            <StackPanel.Resources>
+                                <!--  ReSharper disable Xaml.RedundantResource  -->
+                                <Thickness x:Key="SettingsCardPadding">16</Thickness>
+                                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                <!--  ReSharper restore Xaml.RedundantResource  -->
+                            </StackPanel.Resources>
+
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudNotAllowed}"
+                                TextAlignment="Center"/>
+                            <cwcont:SettingsCard
+                                Command="{Binding HutaoCloudViewModel.NavigateToSpiralAbyssRecordCommand}"
+                                Description="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription}"
+                                Header="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader}"
+                                IsClickEnabled="True"/>
+                            <cwcont:SettingsCard
+                                Command="{Binding HutaoCloudViewModel.NavigateToAfdianSkuCommand}"
+                                Description="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseDescription}"
+                                Header="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseHeader}"
+                                IsClickEnabled="True"/>
+                        </StackPanel>
+                    </shuxc:StandardView.EmptyContent>
+                    <Grid ColumnSpacing="16">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <StackPanel Margin="0,0,0,12">
+                            <StackPanel
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1"
+                                Spacing="8">
                                 <TextBlock
+                                    Margin="16,8,16,0"
                                     HorizontalTextAlignment="Center"
-                                    Text="{Binding HutaoCloudViewModel.Options.GachaLogExpireAt}"
+                                    Text="{shuxm:ResourceString Name=ServiceHutaoUserGachaLogExpiredAt}"
                                     TextAlignment="Center"/>
                                 <TextBlock
-                                    Margin="0,6,0,0"
+                                    Margin="16,0,16,8"
                                     HorizontalTextAlignment="Center"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudDeveloperHint}"
-                                    Visibility="{Binding HutaoCloudViewModel.Options.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    Text="{Binding HutaoCloudViewModel.Options.CloudExpireAt}"
+                                    TextAlignment="Center"/>
+                                <Border
+                                    Padding="8"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="0,1,0,0"
+                                    Visibility="{Binding HutaoCloudViewModel.Options.IsDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudDeveloperHint}"/>
+                                </Border>
                             </StackPanel>
                         </Grid>
-                        <ScrollViewer Grid.Row="1" Margin="0,0,0,8">
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="16"
+                            HorizontalAlignment="Center"
+                            Text="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudNoEntryHint}"
+                            Visibility="{Binding HutaoCloudViewModel.UidOperations.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                        <ScrollViewer
+                            Grid.Row="1"
+                            Margin="16,0"
+                            Visibility="{Binding HutaoCloudViewModel.UidOperations.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                             <ScrollViewer.Resources>
-                                <shux:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
-                                <shux:BindingProxy x:Key="HutaoCloudViewModelBindingProxy" DataContext="{Binding HutaoCloudViewModel}"/>
-
-                                <DataTemplate x:Key="UidOperationTemplate">
-                                    <Grid Margin="0,0,0,8">
+                                <DataTemplate x:Key="UidOperationTemplate" x:DataType="shvg:HutaoCloudEntryOperationViewModel">
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition Width="auto"/>
@@ -106,49 +163,35 @@
                                     </Grid>
                                 </DataTemplate>
                             </ScrollViewer.Resources>
-                            <ItemsControl ItemTemplate="{StaticResource UidOperationTemplate}" ItemsSource="{Binding HutaoCloudViewModel.UidOperations}"/>
+                            <ItemsControl
+                                Margin="0,16"
+                                ItemTemplate="{StaticResource UidOperationTemplate}"
+                                ItemsPanel="{StaticResource StackPanelSpacing8Template}"
+                                ItemsSource="{Binding HutaoCloudViewModel.UidOperations}"/>
                         </ScrollViewer>
-                        <Button
+                        <Border
                             Grid.Row="2"
+                            Padding="8"
                             HorizontalAlignment="Stretch"
-                            Command="{Binding HutaoCloudViewModel.UploadCommand}"
-                            CommandParameter="{Binding Archives.CurrentItem}"
-                            Content="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudUpload}"/>
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,1,0,0">
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding HutaoCloudViewModel.UploadCommand}"
+                                CommandParameter="{Binding Archives.CurrentItem}"
+                                Content="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudUpload}"/>
+                        </Border>
                     </Grid>
-                    <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityRevertConverter}}">
-                        <StackPanel.Resources>
-                            <Thickness x:Key="SettingsCardPadding">16</Thickness>
-                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                        </StackPanel.Resources>
-
-                        <TextBlock
-                            Margin="0,0,0,8"
-                            Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudNotAllowed}"
-                            TextAlignment="Center"/>
-                        <cwcont:SettingsCard
-                            Command="{Binding HutaoCloudViewModel.NavigateToSpiralAbyssRecordCommand}"
-                            Description="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription}"
-                            Header="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader}"
-                            IsClickEnabled="True"/>
-                        <cwcont:SettingsCard
-                            Command="{Binding HutaoCloudViewModel.NavigateToAfdianSkuCommand}"
-                            Description="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseDescription}"
-                            Header="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseHeader}"
-                            IsClickEnabled="True"/>
-                    </StackPanel>
-                </Grid>
+                </shuxc:StandardView>
                 <shuxc:Loading
                     MinWidth="240"
-                    Margin="-16"
                     IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"
                     Style="{ThemeResource DefaultLoadingCardStyle}"/>
             </Grid>
         </Flyout>
 
-        <DataTemplate x:Key="HistoryWishItemTemplate">
+        <DataTemplate x:Key="HistoryWishItemTemplate" x:DataType="shvg:StatisticsItem">
             <Border Width="40" Style="{StaticResource BorderCardStyle}">
                 <StackPanel>
                     <shuxc:ItemIcon
@@ -166,7 +209,7 @@
             </Border>
         </DataTemplate>
 
-        <DataTemplate x:Key="HistoryWishListTemplate">
+        <DataTemplate x:Key="HistoryWishListTemplate" x:DataType="shvg:HistoryWish">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -186,10 +229,11 @@
                 </StackPanel>
 
                 <TextBlock
+                    Grid.Row="0"
                     Margin="0,8,0,0"
                     HorizontalAlignment="Right"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{Binding TotalCountFormatted}"/>
+                    Text="{Binding FormattedTotalCount}"/>
                 <ItemsControl
                     Grid.Row="1"
                     MaxWidth="124"
@@ -210,11 +254,11 @@
                     Grid.Row="2"
                     Margin="0,6,0,8"
                     Opacity="0.6"
-                    Text="{Binding TimeSpanFormatted}"/>
+                    Text="{Binding FormattedTimeSpan}"/>
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="HistoryWishGridTemplate">
+        <DataTemplate x:Key="HistoryWishGridTemplate" x:DataType="shvg:StatisticsItem">
             <Grid>
                 <shuxc:ItemIcon
                     Badge="{Binding Badge}"
@@ -312,6 +356,7 @@
                 <CommandBar DefaultLabelPosition="Right">
                     <CommandBar.Resources>
                         <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
+                        <!--  ReSharper disable once Xaml.RedundantResource  -->
                         <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
                     </CommandBar.Resources>
                     <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE72C;}" Label="{shuxm:ResourceString Name=ViewPageGachaLogRefresh}">
@@ -445,7 +490,7 @@
                                                 Margin="0,8,0,0"
                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                             <GridView
                                                 ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                                 ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList}"
@@ -455,7 +500,7 @@
                                                 Margin="0,8,0,0"
                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                             <GridView
                                                 ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                                 ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList}"
@@ -465,7 +510,7 @@
                                                 Margin="0,8,0,0"
                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"
-                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                Visibility="{Binding Statistics.HistoryWishes.CurrentItem.BlueList.Length, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                             <GridView
                                                 ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                                 ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.BlueList}"

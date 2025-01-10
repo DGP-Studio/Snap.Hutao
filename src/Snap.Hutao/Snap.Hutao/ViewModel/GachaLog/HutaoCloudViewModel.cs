@@ -11,6 +11,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
@@ -19,10 +20,10 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 {
-    private readonly INavigationService navigationService;
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGachaLogHutaoCloudService hutaoCloudService;
-    private readonly IHutaoUserService hutaoUserService;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly INavigationService navigationService;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
@@ -46,15 +47,15 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        await hutaoUserService.InitializeAsync().ConfigureAwait(false);
+        await hutaoUserOptions.WaitUserInfoInitializationAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
         return true;
     }
 
     [Command("NavigateToAfdianSkuCommand")]
-    private static async Task NavigateToAfdianSkuAsync()
+    private async Task NavigateToAfdianSkuAsync()
     {
-        await Windows.System.Launcher.LaunchUriAsync("https://afdian.com/item/80d3b9decf9011edb5f452540025c377".ToUri());
+        await navigationService.NavigateAsync<HutaoPassportPage>(INavigationCompletionSource.Default, true);
     }
 
     [Command("UploadCommand")]
@@ -113,18 +114,18 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
     private async ValueTask RefreshUidCollectionAsync()
     {
-        if (Options.IsCloudServiceAllowed)
+        if (Options.IsHutaoCloudAllowed)
         {
-            Response<List<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
+            Response<ImmutableArray<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 
-            if (ResponseValidator.TryValidate(resp, infoBarService, out List<GachaEntry>? entries))
+            if (ResponseValidator.TryValidate(resp, infoBarService, out ImmutableArray<GachaEntry> entries))
             {
-                ObservableCollection<HutaoCloudEntryOperationViewModel> collcetion = entries
-                    .SelectList(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
+                ObservableCollection<HutaoCloudEntryOperationViewModel> collection = entries
+                    .SelectAsArray(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
                     .ToObservableCollection();
 
                 await taskContext.SwitchToMainThreadAsync();
-                UidOperations = collcetion;
+                UidOperations = collection;
             }
         }
     }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
@@ -18,7 +19,7 @@ internal sealed class GachaLogPage : IJsonOnDeserialized
     public string Total { get; set; } = default!;
 
     [JsonPropertyName("list")]
-    public List<GachaLogItem> List { get; set; } = default!;
+    public ImmutableArray<GachaLogItem> List { get; set; } = default!;
 
     [JsonPropertyName("region")]
     [JsonConverter(typeof(RegionConverter))]
@@ -29,7 +30,7 @@ internal sealed class GachaLogPage : IJsonOnDeserialized
         // Adjust items timezone
         TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForRegion(Region);
 
-        foreach (GachaLogItem item in List)
+        foreach (ref readonly GachaLogItem item in List.AsSpan())
         {
             item.Time = UnsafeDateTimeOffset.AdjustOffsetOnly(item.Time, offset);
         }

@@ -12,6 +12,7 @@
 
     <UserControl.Resources>
         <shmmc:SkillIconConverter x:Key="SkillIconConverter"/>
+        <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Thickness x:Key="PivotHeaderItemMargin">0,0,16,0</Thickness>
         <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
             <Setter Property="Height" Value="80"/>

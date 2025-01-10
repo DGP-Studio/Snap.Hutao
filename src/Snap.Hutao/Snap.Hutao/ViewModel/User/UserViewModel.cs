@@ -68,6 +68,8 @@ internal sealed partial class UserViewModel : ObservableObject
                 infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
             case UserOptionResult.CookieUpdated:
+                ArgumentNullException.ThrowIfNull(Users);
+                taskContext.InvokeOnMainThread(Users.Refresh);
                 infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
                 break;
             default:
@@ -171,28 +173,16 @@ internal sealed partial class UserViewModel : ObservableObject
     private async Task LoginByQRCodeAsync()
     {
         UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
-        (bool isOk, UidGameToken? token) = await dialog.GetUidGameTokenAsync().ConfigureAwait(false);
+        (bool isOk, QrLoginResult? qrLoginResult) = await dialog.GetQrLoginResultAsync().ConfigureAwait(false);
 
         if (!isOk)
         {
             return;
         }
 
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            Response<LoginResult> response = await scope.ServiceProvider
-                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-                .Create(false)
-                .LoginByGameTokenAsync(token)
-                .ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
-            {
-                Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-                (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
-                HandleUserOptionResult(optionResult, uid);
-            }
-        }
+        Cookie stokenV2 = Cookie.FromQrLoginResult(qrLoginResult);
+        (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+        HandleUserOptionResult(optionResult, uid);
     }
 
     [Command("LoginByMobileCaptchaCommand")]

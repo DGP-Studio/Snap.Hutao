@@ -11,6 +11,7 @@ using Snap.Hutao.Win32.System.Memory;
 using Snap.Hutao.Win32.System.ProcessStatus;
 using Snap.Hutao.Win32.System.Threading;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -105,6 +106,12 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern unsafe BOOL HeapFree(HANDLE hHeap, HEAP_FLAGS dwFlags, [Optional] void* lpMem);
+
+    public static unsafe BOOL HeapFree<T>(HANDLE hHeap, HEAP_FLAGS dwFlags, ref T mem)
+        where T : unmanaged
+    {
+        return HeapFree(hHeap, dwFlags, Unsafe.AsPointer(ref mem));
+    }
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern unsafe BOOL K32EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, uint cb, uint* lpcbNeeded);

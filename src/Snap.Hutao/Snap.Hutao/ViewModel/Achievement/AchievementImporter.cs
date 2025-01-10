@@ -21,7 +21,7 @@ internal sealed partial class AchievementImporter
 
     public async ValueTask<bool> FromClipboardAsync(AchievementViewModelScopeContext context)
     {
-        if (await context.AchievementService.GetArchivesAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
+        if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
             return false;
@@ -38,7 +38,7 @@ internal sealed partial class AchievementImporter
 
     public async ValueTask<bool> FromFileAsync(AchievementViewModelScopeContext context)
     {
-        if (await context.AchievementService.GetArchivesAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
+        if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
             return false;
@@ -105,6 +105,7 @@ internal sealed partial class AchievementImporter
             result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
         }
 
+        // ReSharper disable once LocalizableElement
         scopeContext.InfoBarService.Success($"{result}");
         return true;
     }

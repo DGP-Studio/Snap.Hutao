@@ -31,27 +31,27 @@ public class UnlockerIslandFunctionOffsetTest
         {
             Chinese = new()
             {
-                MickeyWonderMethod = 0x08474680,
-                MickeyWonderMethodPartner = 0x00950C30,
-                MickeyWonderMethodPartner2 = 0x0588D680,
-                SetFieldOfView = 0x0188FD10,
-                SetTargetFrameRate = 0x015DB980,
-                SetEnableFogRendering = 0x013F6B00,
-                OpenTeam = 0x08699B90,
-                OpenTeamPageAccordingly = 0x08695AE0,
-                CheckCanEnter = 0x0724A030
+                MickeyWonderMethod = 0x0929D180,
+                MickeyWonderMethodPartner = 0x00460FE0,
+                MickeyWonderMethodPartner2 = 0x05BCEC60,
+                SetFieldOfView = 0x00F0A370,
+                SetTargetFrameRate = 0x00F0EC30,
+                SetEnableFogRendering = 0x00F0D5A0,
+                OpenTeam = 0x07C97130,
+                OpenTeamPageAccordingly = 0x07CB71C0,
+                CheckCanEnter = 0x069F0C00
             },
             Oversea = new()
             {
-                MickeyWonderMethod = 0x0916F3B0,
-                MickeyWonderMethodPartner = 0x00955AB0,
-                MickeyWonderMethodPartner2 = 0x05892DE0,
-                SetFieldOfView = 0x01894C30,
-                SetTargetFrameRate = 0x015E08A0,
-                SetEnableFogRendering = 0x013FBA20,
-                OpenTeam = 0x086A32A0,
-                OpenTeamPageAccordingly = 0x086A4C60,
-                CheckCanEnter = 0x0711ED60
+                MickeyWonderMethod = 0x08FC3AA0,
+                MickeyWonderMethodPartner = 0x0045F640,
+                MickeyWonderMethodPartner2 = 0x05D1D050,
+                SetFieldOfView = 0x00F08370,
+                SetTargetFrameRate = 0x00F0CC30,
+                SetEnableFogRendering = 0x00F0B5A0,
+                OpenTeam = 0x07EB04C0,
+                OpenTeamPageAccordingly = 0x07EC3A40,
+                CheckCanEnter = 0x06147B80
             },
         };
 

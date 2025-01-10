@@ -24,12 +24,14 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
+        <!--  ReSharper disable Xaml.RedundantResource  -->
         <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
         <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+        <!--  ReSharper restore Xaml.RedundantResource  -->
 
         <cwconv:BoolToObjectConverter x:Key="BoolToLoopbackDescriptionControlConverter">
             <cwconv:BoolToObjectConverter.TrueValue>
@@ -95,12 +97,6 @@
                                             CommandParameter="https://github.com/DGP-Studio/Snap.Hutao/issues/new/choose"
                                             Description="{shuxm:ResourceString Name=ViewPageFeedbackGithubIssuesDescription}"
                                             Header="GitHub Issues"
-                                            IsClickEnabled="True"/>
-                                        <cwcont:SettingsCard
-                                            Command="{Binding NavigateToUriCommand}"
-                                            CommandParameter="https://github.com/orgs/DGP-Studio/projects/2"
-                                            Description="{shuxm:ResourceString Name=ViewPageFeedbackRoadmapDescription}"
-                                            Header="GitHub Projects"
                                             IsClickEnabled="True"/>
                                         <cwcont:SettingsCard
                                             Command="{Binding NavigateToUriCommand}"

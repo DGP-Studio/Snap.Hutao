@@ -20,7 +20,7 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 {
     private readonly IServiceProvider serviceProvider;
 
-    private AdvancedCollectionView<UserGameRole> userGameRoles = default!;
+    private IAdvancedCollectionView<UserGameRole> userGameRoles = default!;
     private bool isCurrentUserGameRoleChangedMessageSuppressed;
 
     private User(EntityUser user, IServiceProvider serviceProvider)
@@ -33,7 +33,7 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     public UserInfo? UserInfo { get; set; }
 
-    public AdvancedCollectionView<UserGameRole> UserGameRoles
+    public IAdvancedCollectionView<UserGameRole> UserGameRoles
     {
         get => userGameRoles;
         set

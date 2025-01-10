@@ -2,9 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -23,6 +25,8 @@ internal static class DependencyInjection
             {
                 builder
                     .SetMinimumLevel(LogLevel.Trace)
+                    .AddFilter(DbLoggerCategory.Database.Command.Name, level => level >= LogLevel.Information)
+                    .AddFilter(DbLoggerCategory.Query.Name, level => level >= LogLevel.Information)
                     .AddDebug()
                     .AddConsoleWindow();
             })
@@ -44,6 +48,7 @@ internal static class DependencyInjection
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
+        serviceProvider.InitializeNotification();
         serviceProvider.InitializeConsoleWindow();
         serviceProvider.InitializeCulture();
 
@@ -77,5 +82,11 @@ internal static class DependencyInjection
     private static void InitializeConsoleWindow(this IServiceProvider serviceProvider)
     {
         _ = serviceProvider.GetRequiredService<ConsoleWindowLifeTime>();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void InitializeNotification(this IServiceProvider serviceProvider)
+    {
+        _ = serviceProvider.GetRequiredService<IAppNotificationLifeTime>();
     }
 }

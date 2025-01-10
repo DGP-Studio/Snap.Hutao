@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Documents;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
@@ -10,9 +9,36 @@ namespace Snap.Hutao.Extension;
 
 internal static class ImmutableArrayExtension
 {
+    [Pure]
     public static ImmutableArray<TElement> EmptyIfDefault<TElement>(this ImmutableArray<TElement> array)
     {
         return array.IsDefault ? [] : array;
+    }
+
+    [Pure]
+    public static ImmutableArray<TElement> Reverse<TElement>(this ImmutableArray<TElement> array)
+    {
+        if (array.IsEmpty)
+        {
+            return array;
+        }
+
+        TElement[] reversed = GC.AllocateUninitializedArray<TElement>(array.Length);
+        array.AsSpan().CopyTo(reversed);
+        Array.Reverse(reversed);
+        return ImmutableCollectionsMarshal.AsImmutableArray(reversed);
+    }
+
+    public static void ReverseInPlace<TElement>(this ImmutableArray<TElement> array)
+    {
+        if (array.IsEmpty)
+        {
+            return;
+        }
+
+        TElement[]? raw = ImmutableCollectionsMarshal.AsArray(array);
+        ArgumentNullException.ThrowIfNull(raw);
+        Array.Reverse(raw);
     }
 
     [Pure]

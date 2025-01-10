@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
@@ -32,8 +33,8 @@ internal sealed partial class InventoryRepository : IInventoryRepository
         this.Update(item);
     }
 
-    public List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId)
+    public ImmutableArray<InventoryItem> GetInventoryItemImmutableArrayByProjectId(Guid projectId)
     {
-        return this.List(i => i.ProjectId == projectId);
+        return this.ImmutableArray(i => i.ProjectId == projectId);
     }
 }

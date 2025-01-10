@@ -57,6 +57,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             ? feature.Oversea
             : feature.Chinese;
 
+        DebugReplaceOffsets(ref offsets);
+
         try
         {
             InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
@@ -112,6 +114,12 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         {
             context.Logger.LogInformation("Exit PostUnlockAsync");
         }
+    }
+
+    [Conditional("DEBUG")]
+    private static void DebugReplaceOffsets(ref IslandFunctionOffsets offsets)
+    {
+        // offsets.OpenTeamPageAccordingly = 0x07CB71C0;
     }
 
     private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)

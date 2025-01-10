@@ -5,22 +5,22 @@ namespace Snap.Hutao.Service.DailyNote.NotifySuppression;
 
 internal sealed class DailyTaskNotifySuppressionChecker : INotifySuppressionChecker
 {
-    public bool SuppressCondition(INotifySuppressionContext context)
+    public bool ShouldNotify(INotifySuppressionContext context)
     {
         return context.Entry is { DailyTaskNotify: true, DailyNote.IsExtraTaskRewardReceived: false };
     }
 
-    public bool GetSuppressed(INotifySuppressionContext context)
+    public bool GetIsSuppressed(INotifySuppressionContext context)
     {
         return context.Entry.DailyTaskNotifySuppressed;
     }
 
-    public void SetSuppressed(INotifySuppressionContext context, bool suppressed)
+    public void SetIsSuppressed(INotifySuppressionContext context, bool suppressed)
     {
         context.Entry.DailyTaskNotifySuppressed = suppressed;
     }
 
-    public DailyNoteNotifyInfo SuppressInfo(INotifySuppressionContext context)
+    public DailyNoteNotifyInfo NotifyInfo(INotifySuppressionContext context)
     {
         return new(SH.ServiceDailyNoteNotifierDailyTask, SH.ServiceDailyNoteNotifierDailyTaskHint, context.DailyNote.ExtraTaskRewardDescription);
     }

@@ -3,9 +3,6 @@
 
 namespace Snap.Hutao.Service;
 
-/// <summary>
-/// 本地化名称
-/// </summary>
 internal static class LocaleNames
 {
     public const string CHS = "CHS";    // Chinese (Simplified)

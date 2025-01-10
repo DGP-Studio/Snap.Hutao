@@ -9,9 +9,7 @@ namespace Snap.Hutao.Service.RoleCombat;
 
 internal interface IRoleCombatService
 {
-    ValueTask<ObservableCollection<RoleCombatView>> GetRoleCombatViewCollectionAsync(UserAndUid userAndUid);
+    ValueTask<ObservableCollection<RoleCombatView>> GetRoleCombatViewCollectionAsync(RoleCombatMetadataContext context, UserAndUid userAndUid);
 
-    ValueTask<bool> InitializeAsync();
-
-    ValueTask RefreshRoleCombatAsync(UserAndUid userAndUid);
+    ValueTask RefreshRoleCombatAsync(RoleCombatMetadataContext context, UserAndUid userAndUid);
 }

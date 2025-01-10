@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -16,8 +15,9 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
-[INotifyPropertyChanged]
-internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWindowExtendContentIntoTitleBar, IXamlWindowClosedHandler
+internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
+    IXamlWindowExtendContentIntoTitleBar,
+    IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
 

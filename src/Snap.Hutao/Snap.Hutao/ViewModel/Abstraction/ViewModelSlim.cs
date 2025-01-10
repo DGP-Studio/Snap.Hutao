@@ -10,7 +10,8 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 [ConstructorGenerated]
 internal abstract partial class ViewModelSlim : ObservableObject
 {
-    public bool IsInitialized { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    public partial bool IsInitialized { get; set; }
 
     protected partial IServiceProvider ServiceProvider { get; }
 

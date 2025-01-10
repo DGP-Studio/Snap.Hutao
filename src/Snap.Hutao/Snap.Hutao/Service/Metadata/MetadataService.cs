@@ -8,13 +8,16 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -28,6 +31,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
     private readonly IInfoBarService infoBarService;
@@ -174,10 +178,13 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
                 using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
                 {
+                    IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+                    HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(MetaFileName)).Get();
+
+                    await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
+
                     // Download meta check file
-                    metadataFileHashes = await httpClient
-                        .GetFromJsonAsync<ImmutableDictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
-                        .ConfigureAwait(false);
+                    metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, logger, token).ConfigureAwait(false);
                 }
             }
 
@@ -243,8 +250,13 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
             {
-                using (HttpRequestMessage message = new(HttpMethod.Get, metadataOptions.GetLocalizedRemoteFile(fileFullName)))
+                IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(fileFullName)).Get();
+
+                using (HttpRequestMessage message = builder.HttpRequestMessage)
                 {
+                    await message.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
+
                     // We have too much line endings now, should cache the response.
                     using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
                     {

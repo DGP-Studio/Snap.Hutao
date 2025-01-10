@@ -3,16 +3,18 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Metadata.Item;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-internal sealed class ResinStatistics : ObservableObject
+internal sealed partial class ResinStatistics : ObservableObject
 {
     public ResinStatistics()
     {
-        SelectedDropDistribution = MaterialDropDistribution.Nine;
+        int worldLevel = LocalSetting.Get(SettingKeys.ResinStatisticsSelectedDropDistribution, MaterialDropDistribution.Nine.WorldLevel);
+        SelectedDropDistribution = DropDistributions.Single(d => d.WorldLevel == worldLevel);
     }
 
     [UsedImplicitly]
@@ -24,6 +26,7 @@ internal sealed class ResinStatistics : ObservableObject
         set
         {
             field = value;
+            LocalSetting.Set(SettingKeys.ResinStatisticsSelectedDropDistribution, value.WorldLevel);
             BlossomOfRevelation.SelectedDropDistribution = value;
             TalentAscension.SelectedDropDistribution = value;
             WeaponAscension.SelectedDropDistribution = value;

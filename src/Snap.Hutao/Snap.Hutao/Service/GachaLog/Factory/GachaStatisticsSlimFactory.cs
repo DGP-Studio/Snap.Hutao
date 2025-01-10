@@ -6,13 +6,10 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using System.Runtime.InteropServices;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 简化的祈愿统计工厂
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaStatisticsSlimFactory))]
 internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimFactory
@@ -20,7 +17,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async ValueTask<GachaStatisticsSlim> CreateAsync(GachaLogServiceMetadataContext context, List<GachaItem> items, string uid)
+    public async ValueTask<GachaStatisticsSlim> CreateAsync(GachaLogServiceMetadataContext context, ImmutableArray<GachaItem> items, string uid)
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -46,7 +43,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         }
     }
 
-    private static GachaStatisticsSlim CreateCore(in GachaLogServiceMetadataContext context, List<GachaItem> items, string uid)
+    private static GachaStatisticsSlim CreateCore(in GachaLogServiceMetadataContext context, ImmutableArray<GachaItem> items, string uid)
     {
         int standardOrangeTracker = 0;
         int standardPurpleTracker = 0;
@@ -65,7 +62,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         TypedWishSummarySlim chronicledWish = new(SH.ServiceGachaLogFactoryChronicledWishName, 90, 10);
 
         // O(n) operation
-        foreach (ref readonly GachaItem item in CollectionsMarshal.AsSpan(items))
+        foreach (ref readonly GachaItem item in items.AsSpan())
         {
             INameQualityAccess nameQuality = context.GetNameQualityByItemId(item.ItemId);
             switch (item.QueryType)

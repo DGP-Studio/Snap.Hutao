@@ -8,11 +8,11 @@ namespace Snap.Hutao.Service.BackgroundImage;
 
 internal sealed class BackgroundImage
 {
-    public string Path { get; set; } = default!;
+    public required string Path { get; init; }
 
-    public BitmapImage ImageSource { get; set; } = default!;
+    public required BitmapImage ImageSource { get; init; }
 
-    public Color AccentColor { get; set; }
+    public required Color AccentColor { get; init; }
 
-    public double Luminance { get; set; }
+    public required double Luminance { get; init; }
 }

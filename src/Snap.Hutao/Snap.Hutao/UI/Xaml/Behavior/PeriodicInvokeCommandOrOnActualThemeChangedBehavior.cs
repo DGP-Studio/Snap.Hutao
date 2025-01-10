@@ -13,7 +13,7 @@ namespace Snap.Hutao.UI.Xaml.Behavior;
 [DependencyProperty("CommandParameter", typeof(object))]
 internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavior : BehaviorBase<FrameworkElement>
 {
-    private CancellationTokenSource acutalThemeChangedCts = new();
+    private CancellationTokenSource actualThemeChangedCts = new();
     private CancellationTokenSource periodicTimerStopCts = new();
 
     protected override bool Initialize()
@@ -28,7 +28,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
         periodicTimerStopCts.Dispose();
 
         AssociatedObject.ActualThemeChanged -= OnActualThemeChanged;
-        acutalThemeChangedCts.Dispose();
+        actualThemeChangedCts.Dispose();
 
         return true;
     }
@@ -40,7 +40,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
-        acutalThemeChangedCts.Cancel();
+        actualThemeChangedCts.Cancel();
     }
 
     private void TryExecuteCommand()
@@ -69,7 +69,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                 await taskContext.SwitchToBackgroundAsync();
                 try
                 {
-                    using (CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(acutalThemeChangedCts.Token, periodicTimerStopCts.Token))
+                    using (CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(actualThemeChangedCts.Token, periodicTimerStopCts.Token))
                     {
                         await timer.WaitForNextTickAsync(linkedCts.Token).ConfigureAwait(false);
                     }
@@ -84,8 +84,8 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
 
                 taskContext.BeginInvokeOnMainThread(TryExecuteCommand);
 
-                acutalThemeChangedCts.Dispose();
-                acutalThemeChangedCts = new();
+                actualThemeChangedCts.Dispose();
+                actualThemeChangedCts = new();
                 periodicTimerStopCts.Dispose();
                 periodicTimerStopCts = new();
             }

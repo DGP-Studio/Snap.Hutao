@@ -87,12 +87,16 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 return false;
             }
 
-            if (!launchOptions.TryGetGameFileSystem(out _))
+            if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
             {
                 return false;
             }
 
-            return !IsPredownloadFinished;
+            using (gameFileSystem)
+            {
+                // IsPredownloadFinished also TryGetGameFileSystem
+                return !IsPredownloadFinished;
+            }
         }
     }
 

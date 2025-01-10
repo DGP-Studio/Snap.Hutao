@@ -42,14 +42,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="shuxc:ItemIcon">
                     <Grid CornerRadius="{StaticResource ControlCornerRadius}">
-                        <Image cw:FrameworkElementExtensions.AncestorType="shuxc:ItemIcon" Source="{Binding (cw:FrameworkElementExtensions.Ancestor).Quality, RelativeSource={RelativeSource Self}, Converter={StaticResource QualityToImageSourceConverter}, Mode=OneWay}"/>
+                        <Image Source="{Binding Quality, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource QualityToImageSourceConverter}, Mode=OneWay}"/>
                         <Image Source="{StaticResource Source_UI_ImgSign_ItemIcon}"/>
                         <shuxci:CachedImage Opacity="{TemplateBinding IconOpacity}" Source="{TemplateBinding Icon}"/>
                         <shuxci:CachedImage
                             Margin="2"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            cw:FrameworkElementExtensions.AncestorType="shuxc:ItemIcon"
                             shux:FrameworkElementHelper.SquareLength="16"
                             Source="{TemplateBinding Badge}"/>
                     </Grid>

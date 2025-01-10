@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -16,6 +15,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using Windows.Graphics;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
@@ -23,8 +23,8 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
-[INotifyPropertyChanged]
 internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
+    INotifyPropertyChanged,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowRectPersisted,
     IXamlWindowClosedHandler
@@ -80,6 +80,9 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         }
 
         InitializeComponent();
+
+        TitleBarPassthrough = [SourceTextBox];
+
         RootGrid.DataContext = this;
 
         inputPointerSource = this.GetInputPointerSource();
@@ -92,13 +95,17 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         WebView.Loaded += OnWebViewLoaded;
         WebView.Unloaded += OnWebViewUnloaded;
+        WebView.NavigationStarting += OnWebViewNavigationStarting;
+        WebView.NavigationCompleted += OnWebViewNavigationCompleted;
 
         this.InitializeController(windowScope.ServiceProvider);
 
         UpdateLayeredWindow();
-        LowLevelInputKeyboardSource.Initialize();
-        LowLevelInputKeyboardSource.KeyDown += OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Initialize();
+        InputLowLevelKeyboardSource.KeyDown += OnLowLevelKeyDown;
     }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
 
@@ -115,16 +122,17 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
                 if (Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
                 {
-                    SetProperty(WebView.Source, uri, WebView, static (view, v) => view.Source = v);
+                    if (!EqualityComparer<Uri>.Default.Equals(WebView.Source, uri))
+                    {
+                        WebView.Source = uri;
+                        OnPropertyChanged();
+                    }
                 }
             }
         }
     }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough
-    {
-        get { yield return SourceTextBox; }
-    }
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get; }
 
     public string PersistRectKey { get => SettingKeys.CompactWebView2WindowRect; }
 
@@ -143,6 +151,18 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         inputNonClientPointerSource.PointerEntered -= OnWindowNonClientPointerEntered;
         inputNonClientPointerSource.PointerExited -= OnWindowNonClientPointerExited;
         windowScope.Dispose();
+    }
+
+    private static void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
+    {
+        args.Cancel = true;
+    }
+
+    private static void OnNewWindowRequested(object? sender, CoreWebView2NewWindowRequestedEventArgs args)
+    {
+        args.Handled = true;
+        ArgumentNullException.ThrowIfNull(sender);
+        ((CoreWebView2)sender).Navigate(args.Uri);
     }
 
     private void OnWindowPointerEntered(InputPointerSource source, PointerEventArgs args)
@@ -201,6 +221,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         WebView.CoreWebView2.Reload();
     }
 
+    [Command("StopRefreshCommand")]
+    private void StopRefresh()
+    {
+        WebView.CoreWebView2.Stop();
+    }
+
     [Command("ToggleLockCommand")]
     private void ToggleLock()
     {
@@ -216,14 +242,25 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         Close();
     }
 
-    private bool OnLowLevelKeyDown(ref readonly KBDLLHOOKSTRUCT data)
+    private void OnLowLevelKeyDown(LowLevelKeyEventArgs args)
     {
-        VIRTUAL_KEY key = (VIRTUAL_KEY)data.vkCode;
+        if (args.Handled)
+        {
+            return;
+        }
+
+        VIRTUAL_KEY key = (VIRTUAL_KEY)args.Data.vkCode;
+        if (key is VIRTUAL_KEY.VK__none_)
+        {
+            // Skipping VK__none_ handling
+            return;
+        }
+
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
             taskContext.BeginInvokeOnMainThread(() =>
             _ = WebView.CoreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));
-            return false;
+            return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoFastForwardKey.Value)
@@ -231,7 +268,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
             taskContext.BeginInvokeOnMainThread(() =>
             _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds)));
-            return false;
+            return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoRewindKey.Value)
@@ -239,10 +276,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
             taskContext.BeginInvokeOnMainThread(() =>
             _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds)));
-            return false;
+            return;
         }
-
-        return false;
     }
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
@@ -267,8 +302,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void OnWebViewUnloaded(object sender, RoutedEventArgs e)
     {
-        LowLevelInputKeyboardSource.KeyDown -= OnLowLevelKeyDown;
-        LowLevelInputKeyboardSource.Uninitialize();
+        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Uninitialize();
 
         loadCts.Cancel();
         loadCts.Dispose();
@@ -300,18 +335,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         OnPropertyChanged(nameof(Source));
     }
 
-    private void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
-    {
-        args.Cancel = true;
-    }
-
-    private void OnNewWindowRequested(object? sender, CoreWebView2NewWindowRequestedEventArgs args)
-    {
-        args.Handled = true;
-        ArgumentNullException.ThrowIfNull(sender);
-        ((CoreWebView2)sender).Navigate(args.Uri);
-    }
-
     private void OnSourceTextBoxKeyDown(object sender, KeyRoutedEventArgs args)
     {
         if (args.Key is Windows.System.VirtualKey.Enter)
@@ -323,5 +346,24 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void OnDocumentTitleSizeChanged(object sender, SizeChangedEventArgs e)
     {
         this.GetController()?.UpdateDragRectangles();
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new(propertyName));
+    }
+
+    private void OnWebViewNavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
+    {
+        RefreshButton.Content = "\uF78A";
+        RefreshButton.Command = StopRefreshCommand;
+        ProgressRing.Visibility = Visibility.Visible;
+    }
+
+    private void OnWebViewNavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+    {
+        RefreshButton.Content = "\uE72C";
+        RefreshButton.Command = RefreshCommand;
+        ProgressRing.Visibility = Visibility.Collapsed;
     }
 }

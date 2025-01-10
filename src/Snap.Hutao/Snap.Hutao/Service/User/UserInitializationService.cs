@@ -21,16 +21,20 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    public async ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
+    public ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
     {
         ViewModel.User.User user = ViewModel.User.User.From(inner, serviceProvider);
+        return ResumeUserAsync(user, token);
+    }
 
+    public async ValueTask<ViewModel.User.User> ResumeUserAsync(ViewModel.User.User user, CancellationToken token = default)
+    {
         if (!await InitializeUserAsync(user, token).ConfigureAwait(false))
         {
             user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
 
             await taskContext.SwitchToMainThreadAsync();
-            user.UserGameRoles = new([]);
+            user.UserGameRoles = new AdvancedCollectionView<UserGameRole>([]);
         }
 
         return user;

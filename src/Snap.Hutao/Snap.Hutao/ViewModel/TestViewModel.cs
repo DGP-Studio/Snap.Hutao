@@ -1,9 +1,11 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
@@ -23,11 +25,13 @@ using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
+using Snap.Hutao.Web.Hutao.Redeem;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
-using System.Net.Http;
-using System.Security.Cryptography;
+
+// ReSharper disable LocalizableElement
 
 namespace Snap.Hutao.ViewModel;
 
@@ -39,6 +43,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IGameScreenCaptureService gameScreenCaptureService;
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IClipboardProvider clipboardProvider;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
@@ -48,132 +53,68 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     public ExtractOptions ExtractExeOptions { get; } = new();
 
+    public int GachaLogCompensationDays { get; set; } = 15;
+
+    public DesignationOptions GachaLogDesignationOptions { get; } = new();
+
+    public int CdnCompensationDays { get; set; } = 15;
+
+    public DesignationOptions CdnDesignationOptions { get; } = new();
+
+    public RedeemCodeGenerateOptions RedeemCodeGenerateOption { get; set => SetProperty(ref field, value); } = new();
+
     public bool SuppressMetadataInitialization
     {
         get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.SuppressMetadataInitialization, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.SuppressMetadataInitialization, value);
     }
 
     public bool OverrideElevationRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverrideElevationRequirement, value);
     }
 
     public bool OverrideUpdateVersionComparison
     {
         get => LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverrideUpdateVersionComparison, value);
     }
 
     public bool OverridePackageConvertDirectoryPermissionsRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
     }
 
     public bool OverrideHardDriveType
     {
         get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.OverridePhysicalDriverType, value);
-            OnPropertyChanged();
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.OverridePhysicalDriverType, value);
     }
 
     public bool OverrideHardDriveTypeIsSolidState
     {
         get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
     }
 
     public bool AlwaysIsFirstRunAfterUpdate
     {
         get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
     }
 
     public bool AlphaBuildUseCNPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseCnPatchEndpoint, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
-            OnPropertyChanged();
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlphaBuildUseCnPatchEndpoint, value);
     }
 
     public bool AlphaBuildUseFJPatchEndpoint
     {
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
-        set
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            LocalSetting.Set(SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
-        }
+        set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
     }
 
     [Command("ResetGuideStateCommand")]
@@ -225,15 +166,91 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("CompensationGachaLogServiceTimeCommand")]
     private async Task CompensationGachaLogServiceTimeAsync()
     {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Compensation Gacha Log Service Time For {GachaLogCompensationDays} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
-            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
+            Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(GachaLogCompensationDays).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 infoBarService.Success(response.Message);
-                await taskContext.SwitchToMainThreadAsync();
-                Announcement = new();
+            }
+        }
+    }
+
+    [Command("DesignationGachaLogServiceTimeCommand")]
+    private async Task DesignationGachaLogServiceTimeAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Designation Gacha Log Service Time To {GachaLogDesignationOptions.UserName} For {GachaLogDesignationOptions.Days} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Response response = await hutaoAsAServiceClient.GachaLogDesignationAsync(GachaLogDesignationOptions.UserName, GachaLogDesignationOptions.Days).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                infoBarService.Success(response.Message);
+            }
+        }
+    }
+
+    [Command("CompensationCdnServiceTimeCommand")]
+    private async Task CompensationCdnServiceTimeAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Compensation CDN Service Time For {CdnCompensationDays} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Response response = await hutaoAsAServiceClient.CdnCompensationAsync(CdnCompensationDays).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                infoBarService.Success(response.Message);
+            }
+        }
+    }
+
+    [Command("DesignationCdnServiceTimeCommand")]
+    private async Task DesignationCdnServiceTimeAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            "Hutao Cloud",
+            $"Designation CDN Service Time To {CdnDesignationOptions.UserName} For {CdnDesignationOptions.Days} Days?").ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Response response = await hutaoAsAServiceClient.CdnDesignationAsync(CdnDesignationOptions.UserName, CdnDesignationOptions.Days).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            {
+                infoBarService.Success(response.Message);
             }
         }
     }
@@ -384,7 +401,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
         HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
 
-        LaunchScheme launchScheme = KnownLaunchSchemes.Get().First(s => s.IsOversea == ExtractExeOptions.IsOversea);
+        // TODO: Refactor
+        LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(s => s.IsOversea == ExtractExeOptions.IsOversea);
 
         Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
         if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
@@ -405,21 +423,20 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             return;
         }
 
-        (bool isOk, string? extractDirectory) = fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks");
-        if (!isOk)
+        if (fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks") is not (true, { } extractDirectory))
         {
             return;
         }
 
         string message = $"""
-                          Version: {branch.Tag}
-                          IsOversea: {ExtractExeOptions.IsOversea}
-                          Extract Directory: {extractDirectory}
-                          """;
+            Version: {branch.Tag}
+            IsOversea: {ExtractExeOptions.IsOversea}
+            Extract Directory: {extractDirectory}
+            """;
 
         ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
-                "Extract Game Blocks",
-                message)
+            "Extract Game Blocks",
+            message)
             .ConfigureAwait(false);
 
         if (result is ContentDialogResult.Primary)
@@ -439,10 +456,92 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("GenerateRedeemCodeCommand")]
+    private async Task GenerateRedeemCodeAsync()
+    {
+        RedeemCodeType type = RedeemCodeType.None;
+        if (RedeemCodeGenerateOption.IsTimeLimited)
+        {
+            type |= RedeemCodeType.TimeLimited;
+        }
+
+        if (RedeemCodeGenerateOption.IsTimesLimited)
+        {
+            type |= RedeemCodeType.TimesLimited;
+        }
+
+        if (type is RedeemCodeType.None)
+        {
+            infoBarService.Warning("Please select at least one type");
+            return;
+        }
+
+        if (RedeemCodeGenerateOption.ServiceType is RedeemCodeTargetServiceType.None)
+        {
+            infoBarService.Warning("Please select a service type");
+            return;
+        }
+
+        RedeemGenerateRequest request = new()
+        {
+            Count = RedeemCodeGenerateOption.Count,
+            Type = type,
+            ServiceType = RedeemCodeGenerateOption.ServiceType,
+            Value = RedeemCodeGenerateOption.Value,
+            Description = RedeemCodeGenerateOption.Description,
+            ExpireTime = DateTimeOffset.UtcNow.AddHours(RedeemCodeGenerateOption.ExpireHours),
+            Times = RedeemCodeGenerateOption.Times,
+        };
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            HutaoResponse<RedeemGenerateResult> response = await hutaoAsAServiceClient.GenerateRedeemCodesAsync(request).ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out RedeemGenerateResult? generateResponse))
+            {
+                string message = $"""
+                    {response.Message}
+                    {string.Join(Environment.NewLine, generateResponse.Codes)}
+                    Copied to clipboard
+                    """;
+                await clipboardProvider.SetTextAsync(string.Join(", ", generateResponse.Codes)).ConfigureAwait(false);
+                infoBarService.Success(message, 0);
+                await taskContext.SwitchToMainThreadAsync();
+                RedeemCodeGenerateOption = new();
+            }
+        }
+    }
+
     internal sealed class ExtractOptions
     {
         public bool IsOversea { get; set; }
 
         public bool IsPredownload { get; set; }
+    }
+
+    internal sealed class DesignationOptions
+    {
+        public string UserName { get; set; } = default!;
+
+        public int Days { get; set; }
+    }
+
+    internal sealed class RedeemCodeGenerateOptions : ObservableObject
+    {
+        public uint Count { get; set; }
+
+        public bool IsTimeLimited { get; set => SetProperty(ref field, value); }
+
+        public bool IsTimesLimited { get; set => SetProperty(ref field, value); }
+
+        public RedeemCodeTargetServiceType ServiceType { get; set; }
+
+        public int Value { get; set; }
+
+        public string Description { get; set; } = default!;
+
+        public int ExpireHours { get; set; }
+
+        public uint Times { get; set; }
     }
 }

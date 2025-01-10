@@ -5,22 +5,21 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.ViewModel.GachaLog;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
 internal interface IGachaLogService
 {
-    AdvancedDbCollectionView<GachaArchive>? Archives { get; }
-
     ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default);
 
-    ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive archive);
+    ValueTask<GachaStatistics> GetStatisticsAsync(GachaLogServiceMetadataContext context, GachaArchive archive);
 
-    ValueTask<List<GachaStatisticsSlim>> GetStatisticsSlimListAsync(CancellationToken token = default);
+    ValueTask<ImmutableArray<GachaStatisticsSlim>> GetStatisticsSlimImmutableArrayAsync(GachaLogServiceMetadataContext context, CancellationToken token = default);
 
-    ValueTask<bool> InitializeAsync(CancellationToken token = default);
-
-    ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategyKind strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
+    ValueTask<bool> RefreshGachaLogAsync(GachaLogServiceMetadataContext context, GachaLogQuery query, RefreshStrategyKind strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
 
     ValueTask RemoveArchiveAsync(GachaArchive archive);
+
+    ValueTask<IAdvancedDbCollectionView<GachaArchive>> GetArchiveCollectionAsync();
 }

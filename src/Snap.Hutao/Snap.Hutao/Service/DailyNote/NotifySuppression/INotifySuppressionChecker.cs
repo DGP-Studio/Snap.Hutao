@@ -5,11 +5,11 @@ namespace Snap.Hutao.Service.DailyNote.NotifySuppression;
 
 internal interface INotifySuppressionChecker
 {
-    bool SuppressCondition(INotifySuppressionContext context);
+    bool ShouldNotify(INotifySuppressionContext context);
 
-    bool GetSuppressed(INotifySuppressionContext context);
+    bool GetIsSuppressed(INotifySuppressionContext context);
 
-    void SetSuppressed(INotifySuppressionContext context, bool suppressed);
+    void SetIsSuppressed(INotifySuppressionContext context, bool suppressed);
 
-    DailyNoteNotifyInfo SuppressInfo(INotifySuppressionContext context);
+    DailyNoteNotifyInfo NotifyInfo(INotifySuppressionContext context);
 }

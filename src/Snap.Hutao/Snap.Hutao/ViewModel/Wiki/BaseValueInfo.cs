@@ -32,7 +32,8 @@ internal sealed partial class BaseValueInfo : ObservableObject
 
     public uint MaxLevel { get; }
 
-    public List<NameValue<string>> Values { get; set => SetProperty(ref field, value); } = default!;
+    [ObservableProperty]
+    public partial List<NameValue<string>> Values { get; set; } = default!;
 
     public uint CurrentLevel
     {

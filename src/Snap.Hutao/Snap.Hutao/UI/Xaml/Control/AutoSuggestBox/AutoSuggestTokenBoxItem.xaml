@@ -282,12 +282,14 @@
                         <Border
                             x:Name="BorderElement"
                             Grid.Row="1"
+                            Grid.Column="0"
                             Grid.ColumnSpan="3"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"/>
                         <ScrollViewer
                             x:Name="ContentElement"
                             Grid.Row="1"
+                            Grid.Column="0"
                             Margin="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             win:AutomationProperties.AccessibilityView="Raw"
@@ -303,6 +305,7 @@
                         <ContentControl
                             x:Name="PlaceholderTextContentPresenter"
                             Grid.Row="1"
+                            Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Padding="{TemplateBinding Padding}"
                             VerticalContentAlignment="Center"

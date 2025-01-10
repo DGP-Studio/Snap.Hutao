@@ -53,14 +53,14 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
         // https://learn.microsoft.com/zh,cn/windows/win32/shell/taskbar#taskbar,creation,notification
         WM_TASKBARCREATED = RegisterWindowMessageW("TaskbarCreated");
 
-        HWND = CreateWindowExW(0, WindowClassName, WindowClassName, 0, 0, 0, 0, 0, default, default, default, default);
+        Hwnd = CreateWindowExW(0, WindowClassName, WindowClassName, 0, 0, 0, 0, 0, default, default, default, default);
 
-        if (HWND == default)
+        if (Hwnd == default)
         {
             Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
         }
 
-        WindowTable.TryAdd(HWND, this);
+        WindowTable.TryAdd(Hwnd, this);
     }
 
     ~NotifyIconMessageWindow()
@@ -68,13 +68,13 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
         Dispose();
     }
 
-    public Action<NotifyIconMessageWindow>? TaskbarCreated { get; set; }
+    public Action<NotifyIconMessageWindow>? TaskbarCreated { get; init; }
 
-    public Action<NotifyIconMessageWindow, PointUInt16>? ContextMenuRequested { get; set; }
+    public Action<NotifyIconMessageWindow, PointUInt16>? ContextMenuRequested { get; init; }
 
-    public Action<NotifyIconMessageWindow, PointUInt16>? IconSelected { get; set; }
+    public Action<NotifyIconMessageWindow, PointUInt16>? IconSelected { get; init; }
 
-    public HWND HWND { get; }
+    public HWND Hwnd { get; }
 
     public unsafe void Dispose()
     {
@@ -85,8 +85,8 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
 
         isDisposed = true;
 
-        DestroyWindow(HWND);
-        WindowTable.TryRemove(HWND, out _);
+        DestroyWindow(Hwnd);
+        WindowTable.TryRemove(Hwnd, out _);
 
         fixed (char* className = WindowClassName)
         {
@@ -142,6 +142,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
                     break;
             }
         }
+#if DEBUG
         else
         {
             switch (uMsg)
@@ -152,6 +153,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
                     break;
             }
         }
+#endif
 
         return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }

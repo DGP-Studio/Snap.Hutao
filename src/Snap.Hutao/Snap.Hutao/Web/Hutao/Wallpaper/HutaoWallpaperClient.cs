@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -17,6 +18,7 @@ internal sealed partial class HutaoWallpaperClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoWallpaperClient> logger;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
     public ValueTask<Response<Wallpaper>> GetBingWallpaperAsync(CancellationToken token = default)
@@ -39,6 +41,8 @@ internal sealed partial class HutaoWallpaperClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(url)
             .Get();
+
+        await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
         Response<Wallpaper>? resp = await builder.SendAsync<Response<Wallpaper>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);

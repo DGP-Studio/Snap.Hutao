@@ -4,12 +4,10 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Model.Metadata.Abstraction;
-using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
 using CalculableAvatar = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Avatar;
 using CalculableWeapon = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Weapon;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
@@ -23,15 +21,14 @@ internal sealed partial class PromotionDeltaFactory
 {
     private readonly ILogger<PromotionDeltaFactory> logger;
     private readonly IServiceProvider serviceProvider;
-    private readonly IMetadataService metadataService;
     private readonly IMemoryCache memoryCache;
 
-    public async ValueTask<List<AvatarPromotionDelta>> GetAsync(UserAndUid userAndUid)
+    public async ValueTask<ImmutableArray<AvatarPromotionDelta>> GetAsync(ICultivationMetadataContext context, UserAndUid userAndUid)
     {
-        List<AvatarPromotionDelta>? result = await memoryCache.GetOrCreateAsync($"{nameof(PromotionDeltaFactory)}.Cache", async entry =>
+        ImmutableArray<AvatarPromotionDelta> result = await memoryCache.GetOrCreateAsync($"{nameof(PromotionDeltaFactory)}.Cache", async entry =>
         {
-            List<CalculableAvatar> calculableAvatars;
-            List<CalculableWeapon> calculableWeapons;
+            ImmutableArray<CalculableAvatar> calculableAvatars;
+            ImmutableArray<CalculableWeapon> calculableWeapons;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
@@ -39,65 +36,50 @@ internal sealed partial class PromotionDeltaFactory
                 calculableWeapons = await calculateClient.GetAllWeaponsAsync(userAndUid).ConfigureAwait(false);
             }
 
-            ImmutableDictionary<AvatarId, MetadataAvatar> idToAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            ImmutableDictionary<WeaponId, MetadataWeapon> idToWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-
-            List<ICultivationItemsAccess> cultivationItemsEntryList = Create([.. calculableAvatars, .. calculableWeapons], idToAvatarMap, idToWeaponMap);
+            ImmutableArray<ICultivationItemsAccess> cultivationItemsEntryList = Create(context, calculableAvatars, calculableWeapons).Sort(CultivationItemsAccessComparer.Shared);
 
             using (ValueStopwatch.MeasureExecution(logger))
             {
-                cultivationItemsEntryList.Sort(CultivationItemsAccessComparer.Shared);
-                return ToPromotionDeltaList(cultivationItemsEntryList);
+                return ToPromotionDeltaArray(cultivationItemsEntryList);
             }
         }).ConfigureAwait(false);
 
-        ArgumentNullException.ThrowIfNull(result);
         return result;
     }
 
-    private static List<ICultivationItemsAccess> Create(List<PromotionDelta> items, ImmutableDictionary<AvatarId, MetadataAvatar> idToAvatarMap, ImmutableDictionary<WeaponId, MetadataWeapon> idToWeaponMap)
+    private static ImmutableArray<ICultivationItemsAccess> Create(ICultivationMetadataContext context, ImmutableArray<CalculableAvatar> avatars, ImmutableArray<CalculableWeapon> weapons)
     {
-        List<ICultivationItemsAccess> cultivationItems = [];
-        foreach (ref readonly PromotionDelta item in CollectionsMarshal.AsSpan(items))
+        ImmutableArray<ICultivationItemsAccess>.Builder cultivationItems = ImmutableArray.CreateBuilder<ICultivationItemsAccess>(avatars.Length + weapons.Length);
+        foreach (ref readonly CalculableAvatar item in avatars.AsSpan())
         {
-            if (idToAvatarMap.TryGetValue(item.Id, out MetadataAvatar? avatar))
+            if (context.IdAvatarMap.TryGetValue(item.Id, out MetadataAvatar? avatar))
             {
                 cultivationItems.Add(avatar);
-                continue;
-            }
-
-            if (idToWeaponMap.TryGetValue(item.Id, out MetadataWeapon? weapon))
-            {
-                cultivationItems.Add(weapon);
-                continue;
             }
         }
 
-        return cultivationItems;
+        foreach (ref readonly CalculableWeapon item in weapons.AsSpan())
+        {
+            if (context.IdWeaponMap.TryGetValue(item.Id, out MetadataWeapon? weapon))
+            {
+                cultivationItems.Add(weapon);
+            }
+        }
+
+        return cultivationItems.ToImmutable();
     }
 
-    private static List<AvatarPromotionDelta> ToPromotionDeltaList(List<ICultivationItemsAccess> cultivationItems)
+    private static ImmutableArray<AvatarPromotionDelta> ToPromotionDeltaArray(ImmutableArray<ICultivationItemsAccess> cultivationItems)
     {
         List<AvatarPromotionDelta> deltas = [];
         int currentWeaponEmptyAvatarIndex = 0;
 
-        foreach (ref readonly ICultivationItemsAccess item in CollectionsMarshal.AsSpan(cultivationItems))
+        foreach (ref readonly ICultivationItemsAccess item in cultivationItems.AsSpan())
         {
             switch (item)
             {
                 case MetadataAvatar avatar:
-                    deltas.Add(new()
-                    {
-                        AvatarId = avatar.Id,
-                        AvatarLevelCurrent = 1,
-                        AvatarLevelTarget = 90,
-                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents.SelectAsArray(skill => new PromotionDelta
-                        {
-                            Id = skill.GroupId,
-                            LevelCurrent = 1,
-                            LevelTarget = 10,
-                        }),
-                    });
+                    deltas.Add(AvatarPromotionDelta.CreateForAvatarMaxConsumption(avatar));
 
                     break;
 
@@ -124,7 +106,7 @@ internal sealed partial class PromotionDeltaFactory
             }
         }
 
-        return deltas;
+        return [.. deltas];
     }
 
     private sealed class CultivationItemsAccessComparer : IComparer<ICultivationItemsAccess>

@@ -29,8 +29,23 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         hotKeyMessageWindow = HotKeyMessageWindow.Create(OnHotKeyPressed);
 
         HWND hwnd = hotKeyMessageWindow.Hwnd;
-        MouseClickRepeatForeverKeyCombination = new(serviceProvider, hwnd, SettingKeys.HotKeyMouseClickRepeatForever, 100000);
-        KeyPressRepeatForeverKeyCombination = new(serviceProvider, hwnd, SettingKeys.HotKeyKeyPressRepeatForever, 100001);
+
+        // The registration logic of hotkeys is done in this class
+        // However, the key combination & state is stored in different combination classes.
+        // If different combination classes have same key combination, this will cause several issues.
+        // Registration/Unregistration is performed by the combination class.
+        MouseClickRepeatForeverKeyCombination = new(
+            serviceProvider,
+            hwnd,
+            SH.ViewPageSettingKeyShortcutAutoClickingHeader,
+            SettingKeys.HotKeyMouseClickRepeatForever,
+            100000);
+        KeyPressRepeatForeverKeyCombination = new(
+            serviceProvider,
+            hwnd,
+            SH.ViewPageSettingKeyShortcutAutoPressingHeader,
+            SettingKeys.HotKeyKeyPressRepeatForever,
+            100001);
     }
 
     public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.HotKeyValues;
@@ -139,13 +154,20 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
     private void OnHotKeyPressed(HotKeyParameter parameter)
     {
-        if (parameter.Equals(MouseClickRepeatForeverKeyCombination))
+        if (parameter.Key is VIRTUAL_KEY.VK__none_)
+        {
+            // We have user reported issue that the key is exactly VK__none_.
+            // Under normal circumstances, this should not happen.
+            return;
+        }
+
+        if (MouseClickRepeatForeverKeyCombination.CanToggle(parameter))
         {
             MouseClickRepeatForeverKeyCombination.Toggle(RunMouseClickRepeatForever);
             return;
         }
 
-        if (parameter.Equals(KeyPressRepeatForeverKeyCombination))
+        if (KeyPressRepeatForeverKeyCombination.CanToggle(parameter))
         {
             KeyPressRepeatForeverKeyCombination.Toggle(RunKeyPressRepeatForever);
             return;

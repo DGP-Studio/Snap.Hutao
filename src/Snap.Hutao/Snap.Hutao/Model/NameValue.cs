@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model;
 /// 直接绑定枚举变量会显示 Windows.Foundation.IReference{T}
 /// </summary>
 /// <typeparam name="T">包含值的类型</typeparam>
-internal sealed class NameValue<T>
+internal class NameValue<T>
 {
     public NameValue(string name, T value)
     {

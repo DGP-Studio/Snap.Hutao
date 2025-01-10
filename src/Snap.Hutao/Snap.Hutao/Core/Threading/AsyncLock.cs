@@ -40,7 +40,7 @@ internal sealed class AsyncLock
             this.toRelease = toRelease;
         }
 
-        public readonly void Dispose()
+        public void Dispose()
         {
             toRelease.semaphore.Release();
         }

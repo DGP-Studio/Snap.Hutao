@@ -33,7 +33,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
         Closed += (_, _) => Process.GetCurrentProcess().Kill();
 
         UpdateDragRectangles();
-        DragableGrid.SizeChanged += (_, _) => UpdateDragRectangles();
+        DraggableGrid.SizeChanged += (_, _) => UpdateDragRectangles();
 
         SizeInt32 size = new(800, 600);
         AppWindow.Resize(size.Scale(this.GetRasterizationScale()));
@@ -92,10 +92,10 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
 
     private void UpdateDragRectangles()
     {
-        if (DragableGrid.IsLoaded)
+        if (DraggableGrid.IsLoaded)
         {
-            Point position = DragableGrid.TransformToVisual(Content).TransformPoint(default);
-            RectInt32 dragRect = RectInt32Convert.RectInt32(position, DragableGrid.ActualSize).Scale(this.GetRasterizationScale());
+            Point position = DraggableGrid.TransformToVisual(Content).TransformPoint(default);
+            RectInt32 dragRect = RectInt32Convert.RectInt32(position, DraggableGrid.ActualSize).Scale(this.GetRasterizationScale());
             this.GetInputNonClientPointerSource().SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
         }
     }

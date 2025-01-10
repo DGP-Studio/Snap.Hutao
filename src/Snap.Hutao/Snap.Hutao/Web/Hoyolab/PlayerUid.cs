@@ -67,6 +67,11 @@ internal readonly struct PlayerUid
         };
     }
 
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+
     public override string ToString()
     {
         return Value;

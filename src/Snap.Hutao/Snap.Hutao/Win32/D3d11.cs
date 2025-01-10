@@ -5,7 +5,6 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Direct3D;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
 using Snap.Hutao.Win32.Graphics.Dxgi;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using WinRT;
 using WinRT.Interop;
@@ -19,7 +18,6 @@ internal static class D3d11
     [DllImport("d3d11.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(nint dxgiDevice, nint* graphicsDevice);
 
-    [DebuggerStepThrough]
     public static unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(ObjectReference<IDXGIDevice.Vftbl> dxgiDevice, out ObjectReference<IInspectable.Vftbl> graphicsDevice)
     {
         nint pGraphicsDevice = default;

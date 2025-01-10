@@ -8,6 +8,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -25,15 +26,11 @@ internal sealed partial class AchievementRepositoryOperation
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.GetAppDbContext();
-
-            IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements
-                .AsNoTracking()
-                .Where(a => a.ArchiveId == archiveId)
-                .OrderBy(a => a.Id);
+            ImmutableArray<EntityAchievement> oldData = LoadAchievements(appDbContext, archiveId);
 
             (int add, int update) = (0, 0);
 
-            using (TwoEnumerbleEnumerator<EntityAchievement, UIAFItem> enumerator = new(oldData, items))
+            using (TwoEnumerableEnumerator<EntityAchievement, UIAFItem> enumerator = new(oldData, items))
             {
                 (bool moveEntity, bool moveUIAF) = (true, true);
 
@@ -97,15 +94,11 @@ internal sealed partial class AchievementRepositoryOperation
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.GetAppDbContext();
-
-            IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements
-                .AsNoTracking()
-                .Where(a => a.ArchiveId == archiveId)
-                .OrderBy(a => a.Id);
+            ImmutableArray<EntityAchievement> oldData = LoadAchievements(appDbContext, archiveId);
 
             (int add, int update, int remove) = (0, 0, 0);
 
-            using (TwoEnumerbleEnumerator<EntityAchievement, EntityAchievement> enumerator = new(oldData, items))
+            using (TwoEnumerableEnumerator<EntityAchievement, EntityAchievement> enumerator = new(oldData, items))
             {
                 (bool moveOld, bool moveNew) = (true, true);
 
@@ -167,5 +160,10 @@ internal sealed partial class AchievementRepositoryOperation
             logger.LogInformation("Overwrite Operation Complete, Add: {Add}, Update: {Update}, Remove: {Remove}", add, update, remove);
             return new(add, update, remove);
         }
+    }
+
+    private static ImmutableArray<EntityAchievement> LoadAchievements(AppDbContext appDbContext, Guid archiveId)
+    {
+        return [.. appDbContext.Achievements.AsNoTracking().Where(a => a.ArchiveId == archiveId).OrderBy(a => a.Id)];
     }
 }

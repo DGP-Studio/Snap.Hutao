@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -21,9 +22,9 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
         return this.ObservableCollection<GachaArchive>();
     }
 
-    public List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId)
+    public ImmutableArray<GachaItem> GetGachaItemImmutableArrayByArchiveId(Guid archiveId)
     {
-        return this.List<GachaItem, GachaItem>(query => query.Where(i => i.ArchiveId == archiveId).OrderBy(i => i.Id));
+        return this.ImmutableArray<GachaItem, GachaItem>(query => query.Where(i => i.ArchiveId == archiveId).OrderBy(i => i.Id));
     }
 
     public void RemoveGachaArchiveById(Guid archiveId)
@@ -71,9 +72,10 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
     }
 
     [SuppressMessage("", "IDE0305")]
-    public List<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemListByArchiveIdAndQueryTypeNewerThanEndId(Guid archiveId, GachaType queryType, long endId)
+    public ImmutableArray<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemListByArchiveIdAndQueryTypeNewerThanEndId(Guid archiveId, GachaType queryType, long endId)
     {
-        return this.Query<GachaItem, List<Web.Hutao.GachaLog.GachaItem>>(query => query
+        return this.Query<GachaItem, ImmutableArray<Web.Hutao.GachaLog.GachaItem>>(query =>
+        [.. query
             .Where(i => i.ArchiveId == archiveId && i.QueryType == queryType)
             .OrderByDescending(i => i.Id)
             .Where(i => i.Id > endId)
@@ -85,7 +87,7 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
                 Time = i.Time,
                 Id = i.Id,
             })
-            .ToList());
+        ]);
     }
 
     public GachaArchive? GetGachaArchiveById(Guid archiveId)
@@ -98,7 +100,7 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
         return this.SingleOrDefault<GachaArchive>(a => a.Uid == uid);
     }
 
-    public void AddGachaItemRange(List<GachaItem> items)
+    public void AddGachaItemRange(IEnumerable<GachaItem> items)
     {
         this.AddRange(items);
     }
@@ -108,8 +110,8 @@ internal sealed partial class GachaLogRepository : IGachaLogRepository
         this.Delete<GachaItem>(i => i.ArchiveId == archiveId && i.QueryType == queryType && i.Id >= endId);
     }
 
-    public List<string> GetGachaArchiveUidList()
+    public ImmutableArray<string> GetGachaArchiveUidImmutableArray()
     {
-        return this.List<GachaArchive, string>(query => query.Select(archive => archive.Uid));
+        return this.ImmutableArray<GachaArchive, string>(query => query.Select(archive => archive.Uid));
     }
 }

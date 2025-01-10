@@ -121,7 +121,7 @@
     <value>Snap Hutao Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [管理员]</value>
+    <value>Snap Hutao Dev {0} [Administrator]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>Snap Hutao {0} [Administrator]</value>
@@ -154,7 +154,7 @@
     <value>Pilih Semua</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid Url</value>
+    <value>UID salah</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -568,6 +568,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>Anda harus masuk ke akun MiHoYo Bbs Anda dan pilih pengguna.</value>
   </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>Hutao Cloud CDN belum diaktifkan atau sudah kedaluwarsa</value>
+  </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>Menghapus {1} catatan wish dari Uid: {0}</value>
   </data>
@@ -631,6 +634,9 @@
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>Permintaan verifikasi gagal, alamat email saat ini sudah terdaftar.</value>
   </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>Permintaan verifikasi gagal, alamat email saat ini tidak terdaftar.</value>
+  </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>Permintaan validasi terlalu sering. Silakan coba lagi dalam 1 menit.</value>
   </data>
@@ -690,6 +696,15 @@
   </data>
   <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
     <value>〓waktu pembaruan〓</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>Server Amerika UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>UTC+08 lainnya</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>Server Eropa UTC-01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATK</value>
@@ -1011,7 +1026,7 @@
     <value>Sukses membuka frame rate limit</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在获取注入配置信息</value>
+    <value>Sedang mengambil informasi konfigurasi injeksi</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>Menunggu proses game tertutup...</value>
@@ -1035,7 +1050,7 @@
     <value>Klien Game</value>
   </data>
   <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
-    <value>游戏运行中，无法读取 Unity 日志文件</value>
+    <value>Game sedang berjalan, tidak dapat membaca file log Unity</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Berkas Unity log tidak ditemukan</value>
@@ -1047,22 +1062,22 @@
     <value>Proses penguraian data inventaris gagal</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足，需要 {0}，剩余 {1}</value>
+    <value>Ruang disk tidak mencukupi, dibutuhkan {0}, tersisa {1}</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
-    <value>正在安装游戏</value>
+    <value>Sedang memasang game</value>
   </data>
   <data name="ServiceGamePackageAdvancedPredownloading" xml:space="preserve">
-    <value>正在预下载资源</value>
+    <value>Sedang mengunduh sumber daya</value>
   </data>
   <data name="ServiceGamePackageAdvancedRepairing" xml:space="preserve">
-    <value>正在修复游戏</value>
+    <value>Sedang memperbaiki permainan</value>
   </data>
   <data name="ServiceGamePackageAdvancedUpdating" xml:space="preserve">
-    <value>正在更新游戏</value>
+    <value>Sedang memperbarui game</value>
   </data>
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
-    <value>正在验证游戏完整性</value>
+    <value>Sedang memverifikasi integritas permainan</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
     <value>Cadangan：{0}</value>
@@ -1074,7 +1089,7 @@
     <value>Ganti: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
-    <value>在读取本地 Package Version 时遇到问题，修复游戏可能会有所帮助</value>
+    <value>Terjadi masalah saat membaca Versi Paket Lokal, memperbaiki permainan mungkin dapat membantu</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>Gagal mengubah nama folder data</value>
@@ -1116,10 +1131,10 @@
     <value>Kesalahan membaca memori modul proses: tidak dapat membaca nilai valid pada alamat yang diberikan</value>
   </data>
   <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
-    <value>解锁帧率失败：0x{0:X8}</value>
+    <value>Gagal membuka kunci laju bingkai: 0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>Layanan cadangan data riwayat keinginan akan berakhir pada \n{0:yyyy.MM.dd HH:mm:ss}</value>
+    <value>Layanan pengunggahan riwayat wish berlaku hingga</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Tidak dapat menemukan berkas metadata yang di-cache</value>
@@ -1176,28 +1191,28 @@
     <value>Tidak bisa mendapatkan informasi pengguna dengan Cookie yang dimasukkan</value>
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
-    <value>获取用户信息中，请稍候...</value>
+    <value>Mengambil informasi pengguna, harap tunggu...</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
-    <value>追加属性推荐</value>
+    <value>Rekomendasi tambahan properti</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
-    <value>理之冠主属性推荐</value>
+    <value>Rekomendasi properti utama Circlet of Logos</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
-    <value>空之杯主属性推荐</value>
+    <value>Rekomendasi Properti Utama Goblet</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
-    <value>时之沙主属性推荐</value>
+    <value>Rekomendasi Properti Utama Sands</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
-    <value>复制图像</value>
+    <value>Salin Gambar</value>
   </data>
   <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
-    <value>正在获取清单数据</value>
+    <value>Mengambil data manifes</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
-    <value>请完成验证</value>
+    <value>Selesaikan verifikasi</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
@@ -1215,10 +1230,10 @@
     <value>Statistik Achievements</value>
   </data>
   <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
-    <value>全部材料副本均可挑战</value>
+    <value>Semua domain material dapat ditantang</value>
   </data>
   <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
-    <value>当天没有角色过生日</value>
+    <value>Tidak ada karakter yang berulang tahun hari ini</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>Pity Count</value>
@@ -1341,16 +1356,16 @@
     <value>Tambahkan atau perbarui ke Rencana Dev saat ini</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
-    <value>总是创建新的养成目标物品</value>
+    <value>Selalu buat item target kenaikan tingkat baru</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
-    <value>保存方式</value>
+    <value>Metode penyimpanan</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
-    <value>覆盖存在的养成目标物品</value>
+    <value>Timpa item target kenaikan tingkat yang ada</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
-    <value>保留存在的养成目标物品</value>
+    <value>Pertahankan item target peningkatan level yang ada</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Pemberitahuan Ketersediaan Komisi Harian</value>
@@ -1380,16 +1395,16 @@
     <value>Catatan Realtime Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
-    <value>选择要导出记录的 UID</value>
+    <value>Pilih UID untuk mengekspor catatan</value>
   </data>
   <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
-    <value>导出 UIGF 文件</value>
+    <value>Ekspor Berkas UIGF</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>Anda memerlukan alat lain untuk mengembalikan loopback setelah dikecualikan</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
-    <value>检测到系统代理已配置，但未解除 Loopback 限制，胡桃将无法正常联网。</value>
+    <value>Terdeteksi bahwa agen sistem telah dikonfigurasi, tetapi batasan Loopback belum dicabut, dan Snap Hutao tidak akan dapat terhubung ke jaringan dengan benar.</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>Konfirmasi untuk Mengonfigurasi Pengecualian Loopback</value>
@@ -1413,28 +1428,28 @@
     <value>Masukan histori wish URL secara manual</value>
   </data>
   <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
-    <value>游戏服务器</value>
+    <value>Server game</value>
   </data>
   <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
-    <value>当前选择目录为HDD，建议使用SSD</value>
+    <value>Direktori yang dipilih saat ini adalah HDD, disarankan untuk menggunakan SSD</value>
   </data>
   <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
-    <value>设置游戏安装目录</value>
+    <value>Atur direktori instalasi game</value>
   </data>
   <data name="ViewDialogGameInstallTitle" xml:space="preserve">
-    <value>安装游戏</value>
+    <value>Instal game</value>
   </data>
   <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
-    <value>汉语</value>
+    <value>Bahasa Mandarin</value>
   </data>
   <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
-    <value>英语</value>
+    <value>Bahasa Inggris</value>
   </data>
   <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
-    <value>日语</value>
+    <value>Bahasa Jepang</value>
   </data>
   <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
-    <value>韩语</value>
+    <value>Bahasa Korea</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
     <value>Masukkan URL permintaan dengan template Composit</value>
@@ -1472,8 +1487,14 @@
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>Atur ulang kata sandi Snap Hutao Passport</value>
   </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>Atur ulang surel Snap Hutao Passport</value>
+  </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
     <value>Hapus Snap Hutao Passport</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>Gunakan kode penukaran Snap Hutao Cloud</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Ekpor App</value>
@@ -1500,10 +1521,10 @@
     <value>Versi UIGF</value>
   </data>
   <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
-    <value>选择要导入记录的 UID</value>
+    <value>Pilih UID untuk mengimpor catatan</value>
   </data>
   <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
-    <value>导入 UIGF 文件</value>
+    <value>Impor Berkas UIGF</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>Masukan nama disini</value>
@@ -1512,28 +1533,28 @@
     <value>Beri nama pada akun</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
-    <value>请选择当前游戏路径对应的游戏服务器</value>
+    <value>Pilih server game yang sesuai dengan jalur game saat ini</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>正在修复配置文件</value>
+    <value>Sedang memperbaiki berkas konfigurasi</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
-    <value>选择的安装路径不存在且无法创建</value>
+    <value>Path instalasi yang dipilih tidak ada dan tidak dapat dibuat</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
-    <value>选择的安装路径存在文件或文件夹</value>
+    <value>File atau folder ada di path instalasi yang dipilih</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
-    <value>选择的安装路径无效</value>
+    <value>Path instalasi yang dipilih tidak valid</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
-    <value>未选择语音包</value>
+    <value>Paket suara tidak dipilih</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
-    <value>未选择游戏区服</value>
+    <value>Server game tidak dipilih</value>
   </data>
   <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
-    <value>选择安装路径</value>
+    <value>Pilih Path Instalasi</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>Konversi bisa memakan waktu. Jangan matikan perangkat lunak.</value>
@@ -1545,7 +1566,7 @@
     <value>Pindai kode QR dengan Aplikasi MiHoYo BBS</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
-    <value>为了确保功能的启用者有独立的判断能力，我们将不定期更新这些功能的启用条件，如果您是一位内容创造者，在创作胡桃相关的内容时请不要向你的受众介绍具体的启用方法。</value>
+    <value>Untuk memastikan bahwa pengguna fitur memiliki kemampuan penilaian independen, kami akan memperbarui kondisi pengaktifan fitur ini secara berkala. Jika Anda seorang pembuat konten, jangan memperkenalkan metode pengaktifan spesifik kepada audiens Anda saat membuat konten terkait Snap Hutao.</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>Untuk menghindari mengaktifkan secara keliru, harap masukkan &lt;b&gt;nama judul&lt;/b&gt; dari fitur yang Anda aktifkan</value>
@@ -1560,37 +1581,37 @@
     <value>Hapus data pengguna secara permanen?</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
-    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+    <value>Saat ini tidak masuk ke Akun Snap Hutao, mengunggah data Abyss tidak akan memberikan perpanjangan waktu Snap Hutao Cloud</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
-    <value>前往登录</value>
+    <value>Buka Halaman Login</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
-    <value>继续上传</value>
+    <value>Lanjutkan Unggah</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>上传深渊数据</value>
+    <value>Mengunggah Data Abyss</value>
   </data>
-  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
-    <value>查看更新日志</value>
+  <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
+    <value>Lihat Log Pembaruan</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
-    <value>如果自动更新下载过慢，可以手动下载并安装</value>
+    <value>Jika pembaruan otomatis terlalu lambat, Anda dapat mengunduh dan memasangnya secara manual</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
-    <value>下载源</value>
+    <value>Sumber Unduhan</value>
   </data>
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
-    <value>更新</value>
+    <value>Perbarui</value>
   </data>
   <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
-    <value>请输入账号</value>
+    <value>Masukkan akun</value>
   </data>
   <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
     <value>Masukkan kata sandi</value>
   </data>
   <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
-    <value>账号密码登录</value>
+    <value>Login dengan akun dan kata sandi</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Tuju saya kesana</value>
@@ -1605,16 +1626,16 @@
     <value>Cookie yang dimasukkan berisi SToken</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
-    <value>请输入收到的验证码</value>
+    <value>Masukkan OTP yang diterima</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
-    <value>请输入手机号码</value>
+    <value>Masukkan nomor ponsel</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
-    <value>发送</value>
+    <value>Kirim</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
-    <value>手机验证码登录</value>
+    <value>Login kode verifikasi ponsel</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Setel Cookie</value>
@@ -1626,7 +1647,7 @@
     <value>Riwayat Wish</value>
   </data>
   <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
-    <value>预计下载大小：{0}</value>
+    <value>Perkiraan ukuran unduhan: {0}</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
     <value>Saya telah membaca dan menyetujuinya</value>
@@ -1644,10 +1665,10 @@
     <value>Perjanjian Pengguna dan Pemberitahuan Hukum</value>
   </data>
   <data name="ViewGuideStepCommonSetting" xml:space="preserve">
-    <value>基础设置</value>
+    <value>Pengaturan Dasar</value>
   </data>
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
-    <value>稍后可以在设置中修改</value>
+    <value>Nanti dapat diubah di pengaturan</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Dokumentasi</value>
@@ -1659,7 +1680,7 @@
     <value>Mulai ulang Snap Hutao setelah instalasi untuk memeriksa apakah perubahannya berlaku.</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>如果上方的图标中存在乱码或方块字，请前往</value>
+    <value>Jika ikon di atas bermasalah atau tidak dapat dimuat, silakan kunjungi</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
     <value>untuk mengunduh dan menginstal font</value>
@@ -1673,38 +1694,53 @@
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Bahasa</value>
   </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>Dipelihara oleh anggota komunitas Crowdin</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>Diterjemahkan oleh Google Gemini</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>Dipelihara oleh DGP Studio</value>
+  </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Aset</value>
   </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* Jika ada file gagal diunduh, jangan khawatir, kami akan mencoba melengkapinya secara otomatis saat gambar akan ditampilkan.</value>
+  </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
-    <value>图像资源设置</value>
+    <value>Pengaturan Sumber Daya Gambar</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingHint" xml:space="preserve">
-    <value>* 除非你卸载并重新安装胡桃，否则你将无法更改这些设置</value>
+    <value>* Kecuali Anda mencopot pemasangan dan memasang kembali Snap Hutao, Anda tidak dapat mengubah pengaturan ini</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
-    <value>图片资源包体</value>
+    <value>Paket Sumber Daya Gambar</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
-    <value>完整包体</value>
+    <value>Klien</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
-    <value>精简包体</value>
+    <value>Klien Ringkas</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
-    <value>图片资源质量</value>
+    <value>Kualitas Sumber Daya Gambar</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Abyss Stats</value>
   </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>Hutao Passport</value>
+  </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
-    <value>清除所有通知</value>
+    <value>Bersihkan semua notifikasi</value>
   </data>
   <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
-    <value>收起</value>
+    <value>Ciutkan</value>
   </data>
   <data name="ViewInfoBarPanelTitle" xml:space="preserve">
-    <value>所有通知</value>
+    <value>Semua notifikasi</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>Notifikasi baru</value>
@@ -1764,13 +1800,13 @@
     <value>Pameran karakter dinonaktifkan. Silakan aktifkan di dalam permainan.</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
-    <value>共 {0} 位角色</value>
+    <value>Total {0} karakter</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
-    <value>复制角色详情失败</value>
+    <value>Gagal menyalin detail karakter</value>
   </data>
   <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
-    <value>复制角色详情成功</value>
+    <value>Berhasil menyalin detail karakter</value>
   </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>Tidak ada set artefak</value>
@@ -1785,13 +1821,13 @@
     <value>Operasi tidak sepenuhnya selesai, ditambahkan/diperbarui {0}, dilewati {1}</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
-    <value>选定的等级不需要养成材料</value>
+    <value>Level yang dipilih tidak memerlukan bahan peningkatan level</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
-    <value>尚未创建并选择养成计划</value>
+    <value>Belum membuat dan memilih rencana peningkatan level</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
-    <value>已存在该物品的养成项目</value>
+    <value>Sudah ada proyek peningkatan level untuk item ini</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Berhasil ditambahkan ke rencana saat ini.</value>
@@ -1812,25 +1848,25 @@
     <value>Tidak dapat menambahkan rencana dengan nama yang salah.</value>
   </data>
   <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
-    <value>正在同步背包物品</value>
+    <value>Sedang menyinkronkan Item inventori</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
+    <value>Tindakan ini tidak dapat dibatalkan, item peningkatan dan material di dalam tas pada rencana ini akan hilang</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
-    <value>确认要删除当前计划吗？</value>
+    <value>Anda yakin ingin menghapus rencana saat ini?</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
-    <value>启示之花</value>
+    <value>Bunga Wahyu</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
-    <value>藏金之花</value>
+    <value>Bunga Kekayaan</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
-    <value>还需 {0} 天</value>
+    <value>Tersisa {0} Hari</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
-    <value>世界 BOSS</value>
+    <value>Boss Dunia</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
     <value>Bahan Talenta Karakter</value>
@@ -1839,7 +1875,7 @@
     <value>Bahan Kenaikan Senjata</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
-    <value>周常 BOSS</value>
+    <value>Boss Mingguan</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>URL Webhook Catatan Realtime berhasil dikonfigurasi.</value>
@@ -1881,25 +1917,25 @@
     <value>Ekspor gagal</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
-    <value>当前卡池</value>
+    <value>Wish saat ini</value>
   </data>
   <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
-    <value>距离 UP 结束还有 {0} 天</value>
+    <value>Ada {0} Hari hingga UP berakhir</value>
   </data>
   <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
-    <value>累计 UP 次数：{0}</value>
+    <value>Total UP: {0}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
-    <value>上次 UP 时间: {0:yyyy.MM.dd}</value>
+    <value>Waktu UP terakhir: {0:yyyy.MM.dd}</value>
   </data>
   <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
-    <value>距离上次 UP 已有 {0} 天</value>
+    <value>{0} Hari sejak UP terakhir</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
-    <value>下半</value>
+    <value>Paruh kedua</value>
   </data>
   <data name="ViewModelGachaLogCountdownOrderUp" xml:space="preserve">
-    <value>上半</value>
+    <value>Paruh pertama</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
     <value>UIGF Json File</value>
@@ -1950,34 +1986,34 @@
     <value>Impor berkas Json UIGF</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
-    <value>本地版本: {0}</value>
+    <value>Versi lokal: {0}</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
-    <value>{0} 版本预下载已开启</value>
+    <value>Prapengunduhan versi {0} sudah dibuka</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
-    <value>最新版本: {0}</value>
+    <value>Versi terbaru: {0}</value>
   </data>
   <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
+    <value>Dibatalkan</value>
   </data>
   <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>Sedang membatalkan</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
+    <value>Pemasangan selesai</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>Prapengunduhan selesai</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
-    <value>修复完成</value>
+    <value>Perbaikan selesai</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
-    <value>更新完成</value>
+    <value>Pembaruan selesai</value>
   </data>
   <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
+    <value>Game lengkap, tidak perlu diperbaiki</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>Saya telah membaca dan menyetujui syarat di atas.</value>
@@ -1992,10 +2028,10 @@
     <value>Mengunduh aset</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
-    <value>高质量</value>
+    <value>Kualitas Tinggi</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
-    <value>原图</value>
+    <value>Asli</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Silakan masukkan alamat email yang benar.</value>
@@ -2013,28 +2049,31 @@
     <value>Gagal Impor</value>
   </data>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
-    <value>当前选中用户和游戏服务器不匹配，请重新选择</value>
+    <value>Pengguna dan server game yang dipilih saat ini tidak cocok, silakan pilih lagi</value>
+  </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>Tidak dapat membaca file konfigurasi game: {0}, file mungkin tidak ada atau kurang izin pengguna</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
-    <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+    <value>Direktori game yang dipilih saat ini {0} rusak, harap hapus folder secara manual lalu instal ulang game</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
-    <value>使用 米游社 / HoYoLAB 用户登录失败，请重新登录</value>
+    <value>Gagal masuk menggunakan pengguna miyoushe / HoYoLAB, silakan masuk kembali</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Konversi server gagal</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>Perbaiki File Konfigurasi</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
-    <value>修复完成</value>
+    <value>Perbaikan Selesai</value>
+  </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>Direktori permainan belum diatur</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identifikasi Monitor</value>
-  </data>
-  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>Tidak dapat membaca file konfigurasi game: {0}, file mungkin tidak ada atau kurang izin pengguna</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>Jalur program game tidak benar. Ubah di Halaman Pengaturan.</value>
@@ -2043,7 +2082,7 @@
     <value>Tidak ada server yang terpilih</value>
   </data>
   <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
-    <value>设置游戏目录</value>
+    <value>Atur Direktori Permainan</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Gagal ganti akun game</value>
@@ -2052,10 +2091,10 @@
     <value>Tidak bisa memilih akun [{1}] dengan UID [{0}], Akun itu tidak berada pada server tersebut</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
-    <value>已抵达{0}</value>
+    <value>Telah mencapai {0}</value>
   </data>
   <data name="ViewModelRoleCombatRound" xml:space="preserve">
-    <value>第 {0} 幕</value>
+    <value>Babak {0}</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Tindakan selesai</value>
@@ -2085,10 +2124,10 @@
     <value>Ruang disk yang digunakan: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>URL Composite Verifikasi CAPTCHA berhasil dikonfigurasi</value>
+    <value>URL Komposit Verifikasi berhasil dikonfigurasi</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
-    <value>正在重置图片资源</value>
+    <value>Sedang Setel ulang Sumber Daya Gambar</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Direktori data berhasil diatur. Restart untuk menerapkan perubahan.</value>
@@ -2097,7 +2136,7 @@
     <value>Gagal menyimpan path game</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
-    <value>当前数据目录 '{0}' 包含了一个或多个重新分析点（Reparse points），可能会导致部分依赖数据文件夹的功能无法正常工作，请前往设置更改路径</value>
+    <value>Direktori data saat ini '{0}' berisi satu atau beberapa titik reparse (Reparse point), yang dapat menyebabkan beberapa fungsi yang bergantung pada folder data tidak berfungsi dengan baik, silakan buka Pengaturan untuk mengubah path.</value>
   </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>Ekspor gagal</value>
@@ -2106,22 +2145,22 @@
     <value>Ekspor berhasil.</value>
   </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
-    <value>导入的 UIGF 文件中包含 UID 重复的祈愿记录项</value>
+    <value>Berkas UIGF yang diimpor berisi item riwayat wish dengan UID duplikat</value>
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>Gagal Impor</value>
   </data>
   <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
-    <value>导入中</value>
+    <value>Impor</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
-    <value>导入的 UIGF 文件中不包含祈愿数据</value>
+    <value>Berkas UIGF yang diimpor tidak berisi data wish</value>
   </data>
   <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
-    <value>请选择至少一个 UID 以导入数据</value>
+    <value>Pilih setidaknya satu UID untuk mengimpor data</value>
   </data>
   <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
-    <value>导入成功</value>
+    <value>Impor berhasil</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>Pengguna [{0}] added successfully</value>
@@ -2162,6 +2201,9 @@
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>Pengecualian Unduhan Berkas</value>
   </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>Belum ada informasi panduan untuk karakter ini</value>
+  </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Buat Arsip Baru</value>
   </data>
@@ -2172,7 +2214,7 @@
     <value>Ekspor</value>
   </data>
   <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
-    <value>仅委托成就</value>
+    <value>Hanya pencapaian komisi</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Impor dari Papan Klip</value>
@@ -2220,7 +2262,7 @@
     <value>Ekspor sebagai gambar</value>
   </data>
   <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
-    <value>导出文本到剪贴板</value>
+    <value>Ekspor teks ke clipboard</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>Atribut Karakter</value>
@@ -2286,13 +2328,13 @@
     <value>Checklist Material</value>
   </data>
   <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
-    <value>未集齐优先</value>
+    <value>Belum dikumpulkan, diutamakan</value>
   </data>
   <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
-    <value>树脂预估</value>
+    <value>Perkiraan Resin</value>
   </data>
   <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
-    <value>世界等级</value>
+    <value>Level Dunia</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
     <value>Statistik Material</value>
@@ -2301,7 +2343,7 @@
     <value>Mulai</value>
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
-    <value>同步背包物品</value>
+    <value>Sinkronkan Item inventori</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Hapus daftar</value>
@@ -2316,10 +2358,10 @@
     <value>Tambah senjata apa saja ke Plan Pengembangan</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>添加实时便笺</value>
+    <value>Tambah Catatan Realtime</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>添加实时便笺以定时刷新</value>
+    <value>Tambah Catatan Realtime untuk refresh secara berkala</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>Tambah</value>
@@ -2343,7 +2385,7 @@
     <value>Pengaturan notifikasi</value>
   </data>
   <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
-    <value>胡桃的通知权限已被关闭</value>
+    <value>Izin notifikasi Snap Hutao telah dinonaktifkan</value>
   </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
     <value>Segarkan sekarang</value>
@@ -2376,7 +2418,7 @@
     <value>Perbarui</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
+    <value>Ikon area notifikasi belum diaktifkan, penyegaran otomatis tidak akan berjalan setelah jendela ditutup</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Jangan ganggu selama bermain Genshin</value>
@@ -2388,7 +2430,7 @@
     <value>Luncurkan</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
-    <value>长效历练点</value>
+    <value>Poin Pengalaman Jangka Panjang</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verifikasi Pengguna dan Role Saat Ini</value>
@@ -2459,6 +2501,9 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lisensi pengembang seumur hidup</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>Tidak ada catatan Hutao Cloud</value>
+  </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Layanan Cloud Snap Hutao Kadaluarsa</value>
   </data>
@@ -2481,7 +2526,7 @@
     <value>Impor data dari App lain</value>
   </data>
   <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
-    <value>导入/导出记录</value>
+    <value>Impor/Ekspor Catatan</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>Impor UIGF Json</value>
@@ -2490,19 +2535,19 @@
     <value>Masukan</value>
   </data>
   <data name="ViewPageGachaLogOrangeAvatarCountdown" xml:space="preserve">
-    <value>五星角色</value>
+    <value>Karakter Bintang Lima</value>
   </data>
   <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
-    <value>五星武器</value>
+    <value>Senjata Bintang Lima</value>
   </data>
   <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
-    <value>计时</value>
+    <value>Hitung Mundur</value>
   </data>
   <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
-    <value>四星角色</value>
+    <value>Karakter Bintang Empat</value>
   </data>
   <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
-    <value>四星武器</value>
+    <value>Senjata Bintang Empat</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
     <value>Pulihkan Catatan Wish dari Layanan Cloud Snap Hutao</value>
@@ -2636,8 +2681,23 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>Tim</value>
   </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>Setelah mendapatkan durasi, Anda akan dapat memilih mirror CDN Tiongkok saat pembaruan versi Snap Hutao untuk mendapatkan pengalaman pembaruan yang lebih baik.</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>Layanan CDN Hutao Cloud</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>Setelah mendapatkan durasi, Anda akan dapat mengunduh/mengunggah/menghapus catatan permohonan untuk maksimal 5 UID melalui server kami. Di halaman Spiral Abyss, Anda akan mendapatkan durasi gratis saat mengunggah catatan untuk pertama kalinya di setiap tantangan!</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>Layanan Catatan Permohonan Hutao Cloud</value>
+  </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Log In</value>
+  </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>Masukkan email baru</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
     <value>Masukkan kata sandi</value>
@@ -2645,13 +2705,19 @@
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>Diperlukan setidaknya 8 karakter</value>
   </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>Masukkan kode penukaran</value>
+  </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Registrasi</value>
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>Atur ulang Kata Sandi</value>
   </data>
-  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Menghapus Snap Hutao Passport akan menyebabkan kehilangan data tanpa opsi pemulihan.</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
@@ -2670,7 +2736,7 @@
     <value>Fitur Canggih</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
-    <value>快速切换到指定的分辨率，启动游戏以保存当前分辨率</value>
+    <value>Beralih dengan cepat ke resolusi yang ditentukan, dan mulai permainan untuk menyimpan resolusi saat ini</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>Resolusi Layar</value>
@@ -2724,16 +2790,16 @@
     <value>Mulai Otomatis Antarmuka Pengguna yang Lebih Baik untuk tugas otomatis setelah game diluncurkan</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>自动化任务</value>
+    <value>Tugas Otomatis</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
-    <value>当出现错误代码 31-4302 时请启用此选项</value>
+    <value>Aktifkan opsi ini saat kode galat 31-4302 muncul</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
-    <value>让我进去！</value>
+    <value>Biarkan saya masuk!</value>
   </data>
   <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
-    <value>游戏启动后无法再次切换</value>
+    <value>Tidak dapat beralih lagi setelah game dimulai</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>Umum</value>
@@ -2742,19 +2808,19 @@
     <value>Semua opsi akan disimpan hanya setelah permainan berhasil diluncurkan.</value>
   </data>
   <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
-    <value>注入功能非常危险且有可能会造成严重后果，请谨慎使用</value>
+    <value>Injeksi sangat berbahaya dan dapat menyebabkan konsekuensi serius, harap gunakan dengan hati-hati</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
-    <value>移除光照渲染中的迷雾</value>
+    <value>Hapus Kabut dalam Rendering Cahaya</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
-    <value>移除迷雾</value>
+    <value>Hapus Kabut</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
-    <value>保留</value>
+    <value>Pertahankan</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
-    <value>移除</value>
+    <value>Hapus</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>Mengatur Status Aktivitas Discord Saya Ketika Saya Sedang Bermain Game</value>
@@ -2763,25 +2829,25 @@
     <value>Aktifitas Discord</value>
   </data>
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
-    <value>游戏文件管理/切换游戏服务器/注入功能需要管理员权限</value>
+    <value>Manajemen file game/mengganti server game/fitur injek memerlukan izin administrator</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>Berkas</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
-    <value>修正角色/队伍配置/祈愿/纪行等特殊界面的视野</value>
+    <value>Perbaiki tampilan antarmuka khusus seperti Karakter/Konfigurasi Tim/Wish/Battle Pass</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
-    <value>特殊界面修正</value>
+    <value>Perbaikan Antarmuka Khusus</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
-    <value>游戏启动后可以实时切换</value>
+    <value>Dapat beralih secara waktu nyata setelah game dimulai</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>将消息模块注入游戏，以便实现一些高级但危险的功能</value>
+    <value>Menginjek modul pesan ke dalam game untuk melakukan beberapa fitur tingkat lanjut tetapi berbahaya</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
-    <value>注入</value>
+    <value>Injekt</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
     <value>InterProcess</value>
@@ -2802,19 +2868,19 @@
     <value>Pengaturan Game</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
-    <value>安装游戏</value>
+    <value>Pasang Game</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownload" xml:space="preserve">
     <value>Prapengunduhan</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
-    <value>已完成预下载</value>
+    <value>Prapengunduhan Selesai</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
-    <value>更新游戏</value>
+    <value>Sedang memperbarui game</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationVerify" xml:space="preserve">
-    <value>修复游戏</value>
+    <value>Sedang memperbaiki permainan</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
     <value>Coba mulai permainan setelah permainan dimulai dan gunakan Starward untuk statistik durasi permainan.</value>
@@ -2829,13 +2895,13 @@
     <value>Registri</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
-    <value>队伍配置冷开关</value>
+    <value>Sakelar Dingin Konfigurasi Tim</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
-    <value>移除打开队伍配置界面时显示的进度条</value>
+    <value>Hapus bilah kemajuan saat membuka antarmuka konfigurasi tim</value>
   </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressHeader" xml:space="preserve">
-    <value>移除队伍配置进度条</value>
+    <value>Hapus Bilah Kemajuan Konfigurasi Tim</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
     <value>Paket OTA</value>
@@ -2883,43 +2949,43 @@
     <value>Anda perlu mengonversi ke server yang sesuai dengan peluncur sebelum memperbarui versi</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
-    <value>视野冷开关</value>
+    <value>Sakelar Dingin Bidang Pandang</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
-    <value>调整相机视野，默认 45</value>
+    <value>Sesuaikan bidang pandang kamera, bawaan 45</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHeader" xml:space="preserve">
-    <value>调整视野</value>
+    <value>Sesuaikan bidang pandang</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovHotSwitchHeader" xml:space="preserve">
-    <value>视野热开关</value>
+    <value>Sakelar Panas Bidang Pandang</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHeader" xml:space="preserve">
-    <value>目标帧率</value>
+    <value>Target Laju Bingkai</value>
   </data>
   <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
-    <value>帧率热开关</value>
+    <value>Sakelar Panas Laju Bingkai</value>
   </data>
   <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
-    <value>将鼠标悬停在功能开关/文本框上查看详细说明</value>
+    <value>Arahkan mouse ke sakelar fitur/kotak teks untuk melihat detail</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率，将值设置为 -1 以表示无限制帧率</value>
+    <value>Silakan nonaktifkan V-Sync dalam pengaturan permainan. Anda mungkin memerlukan kartu grafis yang mendukung kinerja tinggi untuk membatasi frame rate yang tinggi, atur nilai ke -1 untuk frame rate tak terbatas</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Membuka limit Frame Rate</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
-    <value>更改解锁帧率的工作方式</value>
+    <value>Ubah cara kerja membuka kunci frame rate</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
-    <value>解锁方式</value>
+    <value>Metode Buka Kunci</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
-    <value>当出现错误代码 31-4302 时请启用此选项，启用后将禁止调整视野与迷雾，仅在启动游戏前切换此开关才会生效</value>
+    <value>Aktifkan opsi ini ketika kode kesalahan 31-4302 terjadi. Ketika diaktifkan, penyesuaian tampilan dan kabut akan dinonaktifkan, dan hanya berlaku sebelum memulai permainan.</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
-    <value>兼容模式</value>
+    <value>Mode Kompatibilitas</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>Nonaktifkan</value>
@@ -2928,10 +2994,10 @@
     <value>Aktifkan</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用当前选中的 米游社 / HoYoLAB 用户登录，需要启用「启动参数」</value>
+    <value>Masuk dengan pengguna {米游社} / HoYoLAB yang saat ini dipilih, parameter mulai perlu diaktifkan</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
-    <value>使用 米游社 / HoYoLAB 用户登录</value>
+    <value>Masuk dengan pengguna MiYouShe / HoYoLAB</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Manfaatkan tampilan yang mendukung rentang dinamis tinggi untuk gambar yang lebih terang, lebih jelas, dan lebih detail</value>
@@ -2943,7 +3009,7 @@
     <value>Masukkan UID HoYoLab Anda</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
+    <value>Anda sedang masuk melalui tampilan web bawaan yang disediakan oleh kami untuk masuk ke akun MiHoYo, kami akan membaca informasi Cookie Anda setelah Anda mengeklik tombol Saya Sudah Masuk. Komunikasi jaringan yang dimulai dari tampilan ini hanya terjadi antara komputer Anda dan server resmi MiHoYo.</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>Saya sudah masuk</value>
@@ -2958,61 +3024,61 @@
     <value>Pilih path game</value>
   </data>
   <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
-    <value>助演</value>
+    <value>Dukungan</value>
   </data>
   <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
-    <value>试用</value>
+    <value>Uji Coba</value>
   </data>
   <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
-    <value>待命角色</value>
+    <value>Karakter Cadangan</value>
   </data>
   <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
-    <value>奇妙助益</value>
+    <value>Berkat Fantastis</value>
   </data>
   <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
-    <value>神秘收获</value>
+    <value>Cache Misteri</value>
   </data>
   <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
-    <value>消耗「幻剧之花」</value>
+    <value>Mengonsumsi "Bunga Fantasia"</value>
   </data>
   <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
-    <value>开幕角色</value>
+    <value>Karakter Pembuka</value>
   </data>
   <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
-    <value>最佳记录</value>
+    <value>Rekor Terbaik</value>
   </data>
   <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
-    <value>挑战星章</value>
+    <value>Medali Tantangan</value>
   </data>
   <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
-    <value>暂无演出数据</value>
+    <value>Tidak ada data pertunjukan</value>
   </data>
   <data name="ViewPageRoleCombatShortest" xml:space="preserve">
-    <value>最快演出</value>
+    <value>Pertunjukan Tercepat</value>
   </data>
   <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
-    <value>特邀角色</value>
+    <value>Karakter Tamu Spesial</value>
   </data>
   <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
-    <value>辉彩祝福</value>
+    <value>Berkat Cemerlang</value>
   </data>
   <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
-    <value>场外声援</value>
+    <value>Dukungan Penonton Eksternal</value>
   </data>
   <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
-    <value>助演次数</value>
+    <value>Jumlah Dukungan</value>
   </data>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
-    <value>演出总时长</value>
+    <value>Total Durasi Pertunjukan</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>Tentang Snap Hutao</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
-    <value>选择适合你的一周中的首日</value>
+    <value>Pilih hari pertama dalam seminggu yang sesuai untuk Anda</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
-    <value>一周中的首日</value>
+    <value>Hari pertama dalam seminggu</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>Penampilan</value>
@@ -3039,7 +3105,7 @@
     <value>Gambar Latar</value>
   </data>
   <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
-    <value>当前背景为本地图片，如遇版权问题由用户个人负责</value>
+    <value>Latar belakang saat ini adalah gambar lokal, pengguna bertanggung jawab secara pribadi jika ada masalah hak cipta</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>Cache gambar disimpan di sini</value>
@@ -3051,37 +3117,37 @@
     <value>Hutao Passport</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
-    <value>紧凑网页窗口</value>
+    <value>Jendela Halaman Ringkas</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
-    <value>调整窗口的不透明度，下次打开窗口时生效</value>
+    <value>Sesuaikan opasitas jendela, akan berlaku saat jendela dibuka lain kali</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
-    <value>窗口不透明度</value>
+    <value>Opasitas Jendela</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
-    <value>更改控制视频快进的快捷键</value>
+    <value>Ubah pintasan untuk mengontrol video fast forward</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
-    <value>视频快进</value>
+    <value>Video Fast Forward</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
-    <value>更改视频快进与快退的时间</value>
+    <value>Ubah waktu untuk video fast forward dan rewind</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
-    <value>快进快退</value>
+    <value>Fast Forward atau Rewind</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
-    <value>更改控制视频播放与暂停的快捷键</value>
+    <value>Ubah pintasan untuk mengontrol pemutaran dan jeda video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
-    <value>视频播放暂停</value>
+    <value>Jeda Putar Video</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
-    <value>更改控制视频快退的快捷键</value>
+    <value>Ubah pintasan untuk mengontrol video rewind</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
-    <value>视频快退</value>
+    <value>Video Rewind</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Salin</value>
@@ -3135,7 +3201,7 @@
     <value>ID Perangkat</value>
   </data>
   <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
-    <value>下载</value>
+    <value>Unduh</value>
   </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>Mode administrator akan mengubah ketersediaan dan perilaku beberapa fitur</value>
@@ -3188,6 +3254,12 @@
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
     <value>Pemberitahuan Server</value>
   </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>Pilih zona waktu server game yang digunakan saat mengambil tanggal pada kalender material</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>Server Kalender</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Mengelola Cards di dasbor utama</value>
   </data>
@@ -3198,7 +3270,7 @@
     <value>Achievements</value>
   </data>
   <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Kalender</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Catatan Realtime</value>
@@ -3217,6 +3289,9 @@
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>Beranda</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>Waktu Kedaluwarsa Hutao Cloud CDN</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>Lanjutkan dengan hati-hati</value>
@@ -3254,11 +3329,17 @@
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
     <value>Gunakan Kode Redemption</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>Muat ulang</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Registrasi</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>Ubah Kata Sandi</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>Ubah Email</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>Hapus Akun</value>
@@ -3270,19 +3351,28 @@
     <value>Aktifkan Fitur Lanjutan</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>Ubah Pintasan Auto Click</value>
+    <value>Ubah pintasan fitur Auto Click tombol kiri mouse</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
-    <value>Auto Click</value>
+    <value>Auto Click tombol kiri mouse</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>Ubah pintasan fitur tekan otomatis tombol F keyboard</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>Tombol F pada keyboard Auto Click</value>
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Tombol Pintas</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>Menyetel pintasan yang sama untuk fungsi yang berbeda dapat menyebabkan hasil yang tidak terduga, dan diperlukan tindakan tambahan atau memulai ulang aplikasi untuk memulihkan fungsi normal.</value>
+  </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
-    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+    <value>Tampilkan ikon di area notifikasi, untuk mengizinkan tugas latar belakang, mulai ulang program untuk mengaktifkan</value>
   </data>
   <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
-    <value>通知区域图标</value>
+    <value>Ikon area notifikasi</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>Website Resmi</value>
@@ -3294,7 +3384,7 @@
     <value>Buka Berkas Latar Belakang</value>
   </data>
   <data name="ViewPageSettingPackageConverterTypeHeader" xml:space="preserve">
-    <value>转换服务器模式</value>
+    <value>Konversi Mode Server</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Reset</value>
@@ -3327,19 +3417,19 @@
     <value>Saat mengatur jalur permainan, pilih program permainan (Yuanshen.exe atau GenshinImpact.exe) bukan peluncur permainan (launcher.exe)</value>
   </data>
   <data name="ViewPageSettingShareSaveTypeDescription" xml:space="preserve">
-    <value>选择点击分享按钮后保存图片的模式</value>
+    <value>Pilih mode untuk menyimpan gambar setelah mengeklik tombol bagikan</value>
   </data>
   <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
-    <value>分享保存模式</value>
+    <value>Mode Simpan Bagikan</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Pengalaman Shell</value>
   </data>
   <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
-    <value>0 代表不限速</value>
+    <value>0 berarti tanpa batas kecepatan</value>
   </data>
   <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
-    <value>下载速度限制</value>
+    <value>Batasan kecepatan unduh</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Sponsori Snap Hutao</value>
@@ -3357,10 +3447,10 @@
     <value>Beri Rating untuk Snap Hutao</value>
   </data>
   <data name="ViewPageSettingThemeDescription" xml:space="preserve">
-    <value>更改窗体的颜色主题</value>
+    <value>Ubah tema warna jendela</value>
   </data>
   <data name="ViewPageSettingThemeHeader" xml:space="preserve">
-    <value>颜色主题</value>
+    <value>Tema Warna</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Kontribusi penerjemahan</value>
@@ -3369,22 +3459,22 @@
     <value>Ekspor</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
-    <value>导出/导入 UIGF 4 文件</value>
+    <value>Ekspor/Impor Berkas UIGF 4</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
-    <value>数据迁移</value>
+    <value>Migrasi Data</value>
   </data>
   <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
     <value>Impor</value>
   </data>
   <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
-    <value>升级较早版本的 UIGF 文件</value>
+    <value>Tingkatkan file UIGF versi lama</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
-    <value>未抽取到的祈愿物品</value>
+    <value>Item Permohonan yang Belum Diperoleh</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>Buka toko</value>
@@ -3396,10 +3486,10 @@
     <value>WebView</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
-    <value>下半</value>
+    <value>Babak Kedua</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceUpHeader" xml:space="preserve">
-    <value>上半</value>
+    <value>Babak Pertama</value>
   </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
     <value>Kombinasi Set Artefak</value>
@@ -3438,7 +3528,7 @@
     <value>Lainnya</value>
   </data>
   <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
-    <value>名片</value>
+    <value>Name Card</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>Pekerjaan</value>
@@ -3454,6 +3544,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Cerita</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Panduan Karakter</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talenta</value>
@@ -3483,7 +3576,13 @@
     <value>Sebelum Ascension</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
-    <value>幻想真境剧诗</value>
+    <value>Puisi Teater Imaginarium</value>
+  </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>Hutao Cloud CDN belum diaktifkan atau sudah kedaluwarsa</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>Tidak ada hak istimewa layanan cadangan riwayat wish yang valid</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
     <value>Percobaan Masuk Gagal, Coba Masuk Kembali</value>
@@ -3575,14 +3674,11 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Mengunggah Data</value>
   </data>
-  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载？</value>
-  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
-    <value>下载更新失败</value>
+    <value>Gagal mengunduh pembaruan</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本已发布</value>
+    <value>Snap Hutao versi {0} sudah dirilis</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
     <value>Pasang sekarang?</value>
@@ -3593,8 +3689,17 @@
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
   </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>Auto Click</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>Menginisialisasi metadata</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>Unduh sekarang?</value>
+  </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
-    <value>正在安装更新</value>
+    <value>Sedang memasang pembaruan</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>Alat</value>
@@ -3612,16 +3717,16 @@
     <value>Official Tools</value>
   </data>
   <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
-    <value>账密登录</value>
+    <value>Login dengan Akun</value>
   </data>
   <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
-    <value>三方登录</value>
+    <value>Login Pihak Ketiga</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
   </data>
   <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
-    <value>手机验证码</value>
+    <value>OTP ponsel</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>Masuk via pindai kode QR</value>
@@ -3645,7 +3750,7 @@
     <value>Dokumen</value>
   </data>
   <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>由于米游社安全策略的相关更改，网页登录暂不可用</value>
+    <value>Karena perubahan terkait kebijakan keamanan miHoYo, login dari halaman web sementara tidak tersedia</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>Tidak masuk</value>
@@ -3687,22 +3792,22 @@
     <value>Senjata WIKI</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口（仅管理员）</value>
+    <value>Jendela web ringkas (hanya Admin)</value>
   </data>
   <data name="ViewWindowExceptionDescription" xml:space="preserve">
-    <value>请截图此窗口，在反馈中心内找到适合的反馈途径，并反馈至开发组</value>
+    <value>Silakan tangkapan layar jendela ini, temukan saluran umpan balik yang sesuai di Pusat Umpan Balik, dan kirimkan ke tim pengembang</value>
   </data>
   <data name="ViewWindowExceptionHeader" xml:space="preserve">
-    <value>遇到了无法恢复的致命错误</value>
+    <value>Terjadi kesalahan fatal yang tidak dapat dipulihkan</value>
   </data>
   <data name="ViewWindowExceptionTitle" xml:space="preserve">
-    <value>我们遇到了一点问题</value>
+    <value>Kami mengalami sedikit masalah</value>
   </data>
   <data name="ViewWindowScriptingExecute" xml:space="preserve">
     <value>Eksekusi</value>
   </data>
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
-    <value>执行调试脚本</value>
+    <value>Jalankan skrip debug</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Akan dimulai {0} hari</value>
@@ -3723,22 +3828,22 @@
     <value>Disalin ke clipboard</value>
   </data>
   <data name="WebBridgeShareFilePickerTitle" xml:space="preserve">
-    <value>保存分享图片</value>
+    <value>Simpan gambar yang dibagikan</value>
   </data>
   <data name="WebBridgeShareSaveAsFileFailed" xml:space="preserve">
-    <value>图片保存失败</value>
+    <value>Penyimpanan gambar gagal</value>
   </data>
   <data name="WebBridgeShareSaveAsFileSuccess" xml:space="preserve">
-    <value>图片保存成功</value>
+    <value>Gambar berhasil disimpan</value>
   </data>
   <data name="WebBridgeShareSaveKindCopyToClipboard" xml:space="preserve">
-    <value>复制到剪贴板</value>
+    <value>Disalin ke clipboard</value>
   </data>
   <data name="WebBridgeShareSaveKindSaveAsFile" xml:space="preserve">
-    <value>保存为文件</value>
+    <value>Simpan sebagai berkas</value>
   </data>
   <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
-    <value>所有魔神任务已完成</value>
+    <value>Semua Quest Archon Telah Selesai</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
     <value>Selesai</value>
@@ -3774,7 +3879,7 @@
     <value>{0} menit</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 时 {1} 分</value>
+    <value>{0} jam {1} menit</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>Komisi Harian Belum Selesai</value>
@@ -3810,7 +3915,7 @@
     <value>Akan diisi ulang pada {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
-    <value>{0:c} 后重置</value>
+    <value>Reset setelah {0:c}</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Siap digunakan kembali setelah</value>
@@ -3873,7 +3978,7 @@
     <value>Event WIsh Karakter-2</value>
   </data>
   <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>Kumpulan Wish</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>Wish Pemula</value>
@@ -3927,7 +4032,7 @@
     <value>[{1}] pengecualian permintaan jaringan di [{0}], harap coba lagi nanti</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+    <value>Gagal masuk, silakan pergi ke HoYoLAB untuk inisialisasi akun, pesan asli: {0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID Monitor</value>

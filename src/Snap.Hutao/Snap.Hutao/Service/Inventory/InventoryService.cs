@@ -10,6 +10,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
@@ -23,23 +24,21 @@ internal sealed partial class InventoryService : IInventoryService
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
-    /// <inheritdoc/>
-    public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand)
+    public ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
-        List<InventoryItem> entities = inventoryRepository.GetInventoryItemListByProjectId(projectId);
+        ImmutableArray<InventoryItem> entities = inventoryRepository.GetInventoryItemImmutableArrayByProjectId(projectId);
 
-        List<InventoryItemView> results = [];
+        ImmutableArray<InventoryItemView>.Builder results = ImmutableArray.CreateBuilder<InventoryItemView>();
         foreach (Material meta in context.EnumerateInventoryMaterial())
         {
             InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
             results.Add(new(entity, meta, saveCommand));
         }
 
-        return results;
+        return results.ToImmutable();
     }
 
-    /// <inheritdoc/>
     public void SaveInventoryItem(InventoryItemView item)
     {
         inventoryRepository.UpdateInventoryItem(item.Entity);
@@ -50,8 +49,7 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.RemoveAllInventoryItem();
     }
 
-    /// <inheritdoc/>
-    public async ValueTask RefreshInventoryAsync(CultivateProject project)
+    public async ValueTask RefreshInventoryAsync(ICultivationMetadataContext context, CultivateProject project)
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
@@ -59,7 +57,7 @@ internal sealed partial class InventoryService : IInventoryService
             return;
         }
 
-        List<AvatarPromotionDelta> deltas = await promotionDeltaFactory.GetAsync(userAndUid).ConfigureAwait(false);
+        ImmutableArray<AvatarPromotionDelta> deltas = await promotionDeltaFactory.GetAsync(context, userAndUid).ConfigureAwait(false);
 
         BatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())

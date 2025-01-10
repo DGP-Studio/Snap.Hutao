@@ -19,7 +19,7 @@ internal sealed class LevelParametersCollection<TLevel, TParameter>
         }
     }
 
-    public int Count => levelParameters.Count;
+    public int Count { get => levelParameters.Count; }
 
     internal IReadOnlyDictionary<TLevel, ImmutableArray<TParameter>> LevelParameters { get => levelParameters; }
 

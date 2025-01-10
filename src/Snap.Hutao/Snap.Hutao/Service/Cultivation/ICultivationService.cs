@@ -11,9 +11,9 @@ namespace Snap.Hutao.Service.Cultivation;
 
 internal interface ICultivationService
 {
-    AdvancedDbCollectionView<CultivateProject> Projects { get; }
+    ValueTask<IAdvancedDbCollectionView<CultivateProject>> GetProjectCollectionAsync();
 
-    ValueTask<bool> EnsureCurrentProjectAsync();
+    ValueTask<bool> EnsureCurrentProjectAsync(IAdvancedDbCollectionView<CultivateProject> projects);
 
     ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntryCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
 

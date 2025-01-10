@@ -19,6 +19,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 {
+    private readonly IUserInitializationService userInitializationService;
     private readonly IProfilePictureService profilePictureService;
     private readonly IUserCollectionService userCollectionService;
     private readonly IContentDialogFactory contentDialogFactory;
@@ -66,16 +67,19 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
                 return await userCollectionService.TryCreateAndAddUserFromInputCookieAsync(inputCookie).ConfigureAwait(false);
             }
 
-            if (!cookie.TryGetSToken(out Cookie? stoken))
+            user.IsInitialized = false;
+
+            if (!cookie.TryGetSToken(out Cookie? sToken))
             {
                 return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
             }
 
-            user.SToken = stoken;
-            user.LToken = cookie.TryGetLToken(out Cookie? ltoken) ? ltoken : user.LToken;
+            user.SToken = sToken;
+            user.LToken = cookie.TryGetLToken(out Cookie? lToken) ? lToken : user.LToken;
             user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
             user.TryUpdateFingerprint(deviceFp);
 
+            await userInitializationService.ResumeUserAsync(user).ConfigureAwait(false);
             userRepository.UpdateUser(user.Entity);
             return new(UserOptionResult.CookieUpdated, mid);
         }

@@ -5,22 +5,22 @@ namespace Snap.Hutao.Service.DailyNote.NotifySuppression;
 
 internal sealed class HomeCoinNotifySuppressionChecker : INotifySuppressionChecker
 {
-    public bool SuppressCondition(INotifySuppressionContext context)
+    public bool ShouldNotify(INotifySuppressionContext context)
     {
         return context.DailyNote.CurrentHomeCoin >= context.Entry.HomeCoinNotifyThreshold;
     }
 
-    public bool GetSuppressed(INotifySuppressionContext context)
+    public bool GetIsSuppressed(INotifySuppressionContext context)
     {
         return context.Entry.HomeCoinNotifySuppressed;
     }
 
-    public void SetSuppressed(INotifySuppressionContext context, bool suppressed)
+    public void SetIsSuppressed(INotifySuppressionContext context, bool suppressed)
     {
         context.Entry.HomeCoinNotifySuppressed = suppressed;
     }
 
-    public DailyNoteNotifyInfo SuppressInfo(INotifySuppressionContext context)
+    public DailyNoteNotifyInfo NotifyInfo(INotifySuppressionContext context)
     {
         return new(SH.ServiceDailyNoteNotifierHomeCoin, $"{context.DailyNote.CurrentHomeCoin}", SH.FormatServiceDailyNoteNotifierHomeCoinCurrent(context.DailyNote.CurrentHomeCoin));
     }

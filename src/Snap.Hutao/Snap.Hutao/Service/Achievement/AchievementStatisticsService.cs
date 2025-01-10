@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.Achievement;
+using System.Collections.Immutable;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -17,25 +18,29 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async ValueTask<List<AchievementStatistics>> GetAchievementStatisticsAsync(AchievementServiceMetadataContext context, CancellationToken token = default)
+    public async ValueTask<ImmutableArray<AchievementStatistics>> GetAchievementStatisticsAsync(AchievementServiceMetadataContext context, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
+        return GetAchievementStatisticsCore(context);
+    }
 
-        List<AchievementStatistics> results = [];
-        foreach (AchievementArchive archive in achievementRepository.GetAchievementArchiveList())
+    private ImmutableArray<AchievementStatistics> GetAchievementStatisticsCore(AchievementServiceMetadataContext context)
+    {
+        ImmutableArray<AchievementStatistics>.Builder results = ImmutableArray.CreateBuilder<AchievementStatistics>();
+        foreach (ref readonly AchievementArchive archive in achievementRepository.GetAchievementArchiveImmutableArray().AsSpan())
         {
             int finishedCount = achievementRepository.GetFinishedAchievementCountByArchiveId(archive.InnerId);
             int totalCount = context.IdAchievementMap.Count;
-            List<EntityAchievement> achievements = achievementRepository.GetLatestFinishedAchievementListByArchiveId(archive.InnerId, AchievementCardTakeCount);
+            ImmutableArray<EntityAchievement> achievements = achievementRepository.GetLatestFinishedAchievementImmutableArrayByArchiveId(archive.InnerId, AchievementCardTakeCount);
 
             results.Add(new()
             {
                 DisplayName = archive.Name,
                 FinishDescription = AchievementStatistics.Format(finishedCount, totalCount, out _),
-                Achievements = achievements.SelectList(entity => new AchievementView(entity, context.IdAchievementMap[entity.Id])),
+                Achievements = achievements.SelectAsArray(entity => AchievementView.Create(entity, context.IdAchievementMap[entity.Id])),
             });
         }
 
-        return results;
+        return results.ToImmutable();
     }
 }

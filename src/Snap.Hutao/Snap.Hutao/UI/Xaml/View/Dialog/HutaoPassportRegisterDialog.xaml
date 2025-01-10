@@ -12,36 +12,39 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <StackPanel Margin="0,8,0,0">
+    <StackPanel Margin="0,8,0,0" Spacing="16">
         <TextBox
             InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>
-        <Grid Margin="0,16,0,0" ColumnSpacing="16">
+        <Grid ColumnSpacing="16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeHint}" Text="{x:Bind VerifyCode, Mode=TwoWay}"/>
+            <TextBox
+                Grid.Column="0"
+                PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeHint}"
+                Text="{x:Bind VerifyCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Stretch"
                 Command="{x:Bind VerifyCommand}"
                 Content="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"/>
         </Grid>
-        <PasswordBox
-            Width="360"
-            MaxWidth="360"
-            Margin="0,16,0,0"
-            IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"
-            Password="{x:Bind Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            PasswordChar="*"
-            PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
-        <TextBlock
-            Margin="0,4,0,0"
-            Opacity="0.7"
-            Style="{StaticResource CaptionTextBlockStyle}"
-            Text="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordRequirementHint}"/>
+        <StackPanel Spacing="4" Visibility="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToVisibilityConverter}, Mode=OneWay}">
+            <PasswordBox
+                Width="360"
+                MaxWidth="360"
+                IsEnabled="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+                Password="{x:Bind Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                PasswordChar="*"
+                PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
+            <TextBlock
+                Opacity="0.7"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordRequirementHint}"/>
+        </StackPanel>
     </StackPanel>
 </ContentDialog>

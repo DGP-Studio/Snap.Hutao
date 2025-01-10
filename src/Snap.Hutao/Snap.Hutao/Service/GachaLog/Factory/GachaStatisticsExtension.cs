@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,22 +12,16 @@ using Windows.UI;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 统计拓展
-/// </summary>
 internal static class GachaStatisticsExtension
 {
-    /// <summary>
-    /// 完成添加
-    /// </summary>
-    /// <param name="summaryItems">简述物品列表</param>
-    /// <param name="guaranteeOrangeThreshold">五星保底阈值</param>
+    private static readonly ConcurrentDictionary<string, Color> KnownColors = [];
+
     public static void CompleteAdding(this List<SummaryItem> summaryItems, int guaranteeOrangeThreshold)
     {
-        // we can't trust first item's prev state.
+        // We can't trust first item's prev state.
         bool isPreviousUp = true;
 
-        // mark the IsGuarantee
+        // Mark the IsGuarantee
         foreach (ref readonly SummaryItem item in CollectionsMarshal.AsSpan(summaryItems))
         {
             if (item.IsUp && (!isPreviousUp))
@@ -34,35 +30,33 @@ internal static class GachaStatisticsExtension
             }
 
             isPreviousUp = item.IsUp;
-            item.Color = GetColorByName(item.Name);
+            item.Color = GetUniqueColorByName(item.Name);
             item.GuaranteeOrangeThreshold = guaranteeOrangeThreshold;
         }
 
-        // reverse items
+        // Reverse items
         summaryItems.Reverse();
     }
 
-    /// <summary>
-    /// 将计数器转换为统计物品列表
-    /// </summary>
-    /// <typeparam name="TItem">物品类型</typeparam>
-    /// <param name="dict">计数器</param>
-    /// <returns>统计物品列表</returns>
-    public static List<StatisticsItem> ToStatisticsList<TItem>(this Dictionary<TItem, int> dict)
+    public static ImmutableArray<StatisticsItem> ToStatisticsImmutableArray<TItem>(this Dictionary<TItem, int> countDict)
         where TItem : IStatisticsItemConvertible
     {
-        IOrderedEnumerable<StatisticsItem> result = dict
-            .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
-            .OrderByDescending(item => item.Count);
-        return [.. result];
+        return [.. countDict.Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value)).OrderByDescending(item => item.Count)];
     }
 
     [SuppressMessage("", "IDE0057")]
-    private static Color GetColorByName(string name)
+    private static Color GetUniqueColorByName(string name)
     {
+        if (KnownColors.TryGetValue(name, out Color color))
+        {
+            return color;
+        }
+
         ReadOnlySpan<byte> codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
 
         // ReSharper disable once ReplaceSliceWithRangeIndexer
-        return Color.FromArgb(255, codes.Slice(0, 5).Average(), codes.Slice(5, 5).Average(), codes.Slice(10, 5).Average());
+        Color current = Color.FromArgb(255, codes.Slice(0, 5).Average(), codes.Slice(5, 5).Average(), codes.Slice(10, 5).Average());
+        KnownColors.TryAdd(name, current);
+        return current;
     }
 }

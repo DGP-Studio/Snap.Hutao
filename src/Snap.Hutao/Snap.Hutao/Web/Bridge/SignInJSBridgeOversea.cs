@@ -6,7 +6,7 @@ using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.Web.Bridge;
 
-internal sealed class SignInJSBridgeOversea : MiHoYoJSBridgeFacade
+internal sealed class SignInJSBridgeOversea : MiHoYoJSBridge
 {
     // 移除 请旋转手机 提示所在的HTML元素
     private const string RemoveRotationWarningScript = """

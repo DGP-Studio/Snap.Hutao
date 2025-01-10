@@ -19,7 +19,7 @@ internal sealed partial class LaunchGameShared
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
-    private readonly IGameServiceFacade gameService;
+    private readonly IGameService gameService;
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
@@ -33,7 +33,7 @@ internal sealed partial class LaunchGameShared
             case ChannelOptionsErrorKind.None:
                 try
                 {
-                    return KnownLaunchSchemes.Get().Single(scheme => scheme.Equals(options));
+                    return KnownLaunchSchemes.Values.Single(scheme => scheme.Equals(options));
                 }
                 catch (InvalidOperationException)
                 {
@@ -48,14 +48,14 @@ internal sealed partial class LaunchGameShared
             case ChannelOptionsErrorKind.ConfigurationFileNotFound:
                 infoBarService.Warning(
                     $"{options.ErrorKind}",
-                    SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath),
+                    SH.FormatViewModelLaunchGameConfigurationFileNotFound(options.FilePath),
                     SH.ViewModelLaunchGameFixConfigurationFileButtonText,
                     HandleConfigurationFileNotFoundCommand);
                 break;
             case ChannelOptionsErrorKind.GamePathNullOrEmpty:
                 infoBarService.Warning(
                     $"{options.ErrorKind}",
-                    SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath),
+                    SH.ViewModelLaunchGameGamePathNullOrEmpty,
                     SH.ViewModelLaunchGameSetGamePathButtonText,
                     HandleGamePathNullOrEmptyCommand);
                 break;
@@ -87,7 +87,7 @@ internal sealed partial class LaunchGameShared
 
             await taskContext.SwitchToMainThreadAsync();
 
-            dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
+            dialog.KnownSchemes = KnownLaunchSchemes.Values.Where(scheme => scheme.IsOversea == isOversea);
             dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
             (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
 

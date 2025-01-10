@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using System.Collections.Immutable;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
@@ -12,7 +13,7 @@ namespace Snap.Hutao.Service.User;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserCollectionService))]
-internal sealed partial class UserCollectionService : IUserCollectionService
+internal sealed partial class UserCollectionService : IUserCollectionService, IDisposable
 {
     private readonly IUserInitializationService userInitializationService;
     private readonly IServiceProvider serviceProvider;
@@ -26,26 +27,30 @@ internal sealed partial class UserCollectionService : IUserCollectionService
 
     public async ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync()
     {
-        // Force run in background thread, otherwise will cause reentrance
-        await taskContext.SwitchToBackgroundAsync();
+        // Force run in background thread, otherwise will cause re-entrance
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
         using (await locker.LockAsync().ConfigureAwait(false))
         {
             if (users is null)
             {
-                List<EntityUser> entities = userRepository.GetUserList();
-                List<BindingUser> userList = await entities.SelectListAsync(userInitializationService.ResumeUserAsync).ConfigureAwait(false);
-
-                foreach (BindingUser user in userList)
+                ImmutableArray<EntityUser> entityUsers = userRepository.GetUserList();
+                List<BindingUser> bindingUsers = new(entityUsers.Length);
+                foreach (EntityUser entity in entityUsers)
                 {
+                    BindingUser user = await userInitializationService.ResumeUserAsync(entity).ConfigureAwait(false);
                     if (user.NeedDbUpdateAfterResume)
                     {
                         userRepository.UpdateUser(user.Entity);
                         user.NeedDbUpdateAfterResume = false;
                     }
+
+                    bindingUsers.Add(user);
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
-                users = userList.AsAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
+                users = bindingUsers.AsAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
+
+                // Since this service is singleton, we can safely subscribe to the event
                 users.CurrentChanged += OnCurrentUserChanged;
             }
         }
@@ -87,6 +92,14 @@ internal sealed partial class UserCollectionService : IUserCollectionService
 
         ArgumentNullException.ThrowIfNull(newUser.UserInfo);
         return new(UserOptionResult.Added, newUser.UserInfo.Uid);
+    }
+
+    public void Dispose()
+    {
+        if (users is not null)
+        {
+            users.CurrentChanged -= OnCurrentUserChanged;
+        }
     }
 
     private void OnCurrentUserChanged(object? sender, object? args)

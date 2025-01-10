@@ -4,6 +4,7 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 using System.Globalization;
 
 namespace Snap.Hutao.Service;
@@ -14,7 +15,7 @@ internal sealed partial class CultureOptions : DbStoreOptions
 {
     private DayOfWeek? firstDayOfWeek;
 
-    public List<NameValue<CultureInfo>> Cultures { get; } = SupportedCultures.Get();
+    public ImmutableArray<NameCultureInfoValue> Cultures { get => SupportedCultures.Values; }
 
     [field: MaybeNull]
     public List<NameValue<DayOfWeek>> DayOfWeeks { get => field ??= Enum.GetValues<DayOfWeek>().Select(v => new NameValue<DayOfWeek>(CurrentCulture.DateTimeFormat.GetDayName(v), v)).ToList(); }

@@ -23,6 +23,7 @@
     Background="Transparent"
     BorderBrush="{x:Null}"
     BorderThickness="0"
+    Command="{Binding NavigateCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
 
@@ -44,6 +45,7 @@
                     </cwconv:BoolToObjectConverter>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <!--  ReSharper disable once Xaml.RedundantResource  -->
             <Thickness x:Key="DefaultSegmentedItemContentPadding">0</Thickness>
             <cwconv:BoolToObjectConverter x:Key="BoolToOpacityConverter">
                 <cwconv:BoolToObjectConverter.TrueValue>
@@ -75,7 +77,7 @@
             ItemsSource="{Binding WeekDays}"
             Style="{ThemeResource DefaultSegmentedStyle}">
             <cwcont:Segmented.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="shvc:CalendarDay">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -98,7 +100,7 @@
 
         <Grid
             Grid.Row="1"
-            DataContext="{Binding WeekDays.CurrentItem}"
+            DataContext="{Binding WeekDays.CurrentItem, FallbackValue={x:Null}}"
             RowSpacing="6">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34"/>

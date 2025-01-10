@@ -5,12 +5,13 @@ using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
 internal static class ReliquaryViewBuilderExtension
 {
-    public static TBuilder SetComposedSubProperties<TBuilder>(this TBuilder builder, List<ReliquaryComposedSubProperty> composedSubProperties)
+    public static TBuilder SetComposedSubProperties<TBuilder>(this TBuilder builder, ImmutableArray<ReliquaryComposedSubProperty> composedSubProperties)
         where TBuilder : IReliquaryViewBuilder
     {
         return builder.Configure(b => b.View.ComposedSubProperties = composedSubProperties);

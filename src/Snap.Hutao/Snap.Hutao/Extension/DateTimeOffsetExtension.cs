@@ -5,8 +5,6 @@ namespace Snap.Hutao.Extension;
 
 internal static class DateTimeOffsetExtension
 {
-    public static readonly DateTimeOffset DatabaseDefaultTime = new(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0));
-
     public static DateTimeOffset UnsafeRelaxedFromUnixTime(long? timestamp, in DateTimeOffset defaultValue)
     {
         if (timestamp is not { } value)

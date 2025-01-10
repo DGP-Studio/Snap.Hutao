@@ -42,7 +42,7 @@ internal sealed partial class HutaoRoleCombatClient
     {
         IGameRecordClient gameRecordClient = serviceProvider
             .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-            .Create(userAndUid.User.IsOversea);
+            .Create(userAndUid.IsOversea);
 
         // Reduce risk verify chance.
         Response<PlayerInfo> playerInfoResponse = await gameRecordClient

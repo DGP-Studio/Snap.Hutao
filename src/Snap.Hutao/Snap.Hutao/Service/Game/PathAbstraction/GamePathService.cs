@@ -23,9 +23,9 @@ internal sealed partial class GamePathService : IGamePathService
         }
 
         // Try to locate by unity log
-        if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.UnityLog).ConfigureAwait(false) is (true, { } path1))
+        if (await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.UnityLog).ConfigureAwait(false) is (true, { } path))
         {
-            launchOptions.UpdateGamePath(path1);
+            launchOptions.UpdateGamePath(path);
             return new(true, launchOptions.GamePath);
         }
 

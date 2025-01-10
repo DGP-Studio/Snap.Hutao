@@ -72,8 +72,8 @@ internal static class MetadataServiceImmutableDictionaryExtension
 
     public static async ValueTask<ImmutableDictionary<MaterialId, DisplayItem>> GetIdToDisplayItemAndMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        const string cacheKey = $"{nameof(MetadataService)}.Cache.{nameof(MetadataFileStrategies.DisplayItem)}+{nameof(MetadataFileStrategies.Material)}.Map.{nameof(MaterialId)}.{nameof(DisplayItem)}+{nameof(Material)}";
-        ImmutableDictionary<MaterialId, DisplayItem>? result = await metadataService.MemoryCache.GetOrCreateAsync(cacheKey, async entry =>
+        const string CacheKey = $"{nameof(MetadataService)}.Cache.{nameof(MetadataFileStrategies.DisplayItem)}+{nameof(MetadataFileStrategies.Material)}.Map.{nameof(MaterialId)}.{nameof(DisplayItem)}+{nameof(Material)}";
+        ImmutableDictionary<MaterialId, DisplayItem>? result = await metadataService.MemoryCache.GetOrCreateAsync(CacheKey, async entry =>
         {
             ImmutableDictionary<MaterialId, DisplayItem> displays = await metadataService.FromCacheAsDictionaryAsync<MaterialId, DisplayItem>(MetadataFileStrategies.DisplayItem, a => a.Id, token).ConfigureAwait(false);
             ImmutableDictionary<MaterialId, Material> materials = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);

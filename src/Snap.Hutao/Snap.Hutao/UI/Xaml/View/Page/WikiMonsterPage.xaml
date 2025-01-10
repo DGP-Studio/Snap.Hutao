@@ -8,6 +8,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shm="using:Snap.Hutao.Model"
+    xmlns:shmmi="using:Snap.Hutao.Model.Metadata.Item"
+    xmlns:shmmm="using:Snap.Hutao.Model.Metadata.Monster"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
@@ -24,7 +27,7 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
-        <DataTemplate x:Key="MonsterListTemplate">
+        <DataTemplate x:Key="MonsterListTemplate" x:DataType="shmmm:Monster">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -44,12 +47,14 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="MonsterBaseValueTemplate">
+        <DataTemplate x:Key="MonsterBaseValueTemplate" x:DataType="shm:NameStringValue">
             <cwc:SettingsCard MinHeight="40" Padding="0,0,16,0">
                 <cwc:SettingsCard.Resources>
+                    <!--  ReSharper disable Xaml.RedundantResource  -->
                     <x:Double x:Key="SettingsCardLeftIndention">16</x:Double>
                     <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                    <!--  ReSharper restore Xaml.RedundantResource  -->
                 </cwc:SettingsCard.Resources>
                 <cwc:SettingsCard.Header>
                     <TextBlock Text="{Binding Name}" TextWrapping="NoWrap"/>
@@ -58,7 +63,7 @@
             </cwc:SettingsCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="MonsterDropTemplate">
+        <DataTemplate x:Key="MonsterDropTemplate" x:DataType="shmmi:DisplayItem">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
                     <shuxc:ItemIcon
@@ -76,7 +81,7 @@
             </shuxcc:HorizontalCard>
         </DataTemplate>
 
-        <DataTemplate x:Key="MonsterGridTemplate">
+        <DataTemplate x:Key="MonsterGridTemplate" x:DataType="shmmm:Monster">
             <shuxcc:VerticalCard Width="82">
                 <shuxcc:VerticalCard.Top>
                     <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
@@ -173,9 +178,11 @@
                                                     ItemsPanel="{StaticResource UniformGridColumns2Spacing2Template}"
                                                     ItemsSource="{Binding Monsters.CurrentItem.BaseValue.SubHurts}">
                                                     <ItemsControl.Resources>
+                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
                                                         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
                                                         <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                                         <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                                        <!--  ReSharper restore Xaml.RedundantResource  -->
                                                     </ItemsControl.Resources>
                                                 </ItemsControl>
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">

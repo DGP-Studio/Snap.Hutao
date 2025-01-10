@@ -211,7 +211,7 @@ internal sealed partial class DataRow : Microsoft.UI.Xaml.Controls.Panel
         }
 
         // 1b. If we can't find the ItemsPresenter, then we reach up outside to find the next thing we could use as a parent
-        panel ??= this.FindAscendant<Microsoft.UI.Xaml.Controls.Panel>(static (element) => element is Grid or DataTable);
+        panel ??= this.FindAscendant<Microsoft.UI.Xaml.Controls.Panel>(static element => element is Grid or DataTable);
 
         // Cache actual datatable reference
         if (panel is DataTable table)

@@ -9,9 +9,7 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 
 internal interface ISpiralAbyssRecordService
 {
-    ValueTask<ObservableCollection<SpiralAbyssView>> GetSpiralAbyssViewCollectionAsync(UserAndUid userAndUid);
+    ValueTask<ObservableCollection<SpiralAbyssView>> GetSpiralAbyssViewCollectionAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid);
 
-    ValueTask<bool> InitializeAsync();
-
-    ValueTask RefreshSpiralAbyssAsync(UserAndUid userAndUid);
+    ValueTask RefreshSpiralAbyssAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid);
 }

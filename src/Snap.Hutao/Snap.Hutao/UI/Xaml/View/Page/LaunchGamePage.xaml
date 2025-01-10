@@ -7,6 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shme="using:Snap.Hutao.Model.Entity"
+    xmlns:shsg="using:Snap.Hutao.Service.Game"
+    xmlns:shsgp="using:Snap.Hutao.Service.Game.PathAbstraction"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -25,7 +28,6 @@
 
     <Page.Resources>
         <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
-        <Visibility x:Key="VisibilityCollapsed">Collapsed</Visibility>
 
         <DataTemplate x:Key="GameResourceTemplate">
             <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
@@ -38,7 +40,7 @@
             </Border>
         </DataTemplate>
 
-        <DataTemplate x:Key="GameAccountListTemplate">
+        <DataTemplate x:Key="GameAccountListTemplate" x:DataType="shme:GameAccount">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -56,6 +58,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                     <Button
                         MinWidth="35.2"
                         Margin="4,8"
@@ -65,6 +68,7 @@
                         Content="&#xE8AC;"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountRenameToolTip}"/>
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                     <Button
                         MinWidth="35.2"
                         Margin="4,8,0,8"
@@ -78,7 +82,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="GamePathEntryListTemplate">
+        <DataTemplate x:Key="GamePathEntryListTemplate" x:DataType="shsgp:GamePathEntry">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -89,6 +93,7 @@
                     Padding="0,16"
                     VerticalAlignment="Center"
                     Text="{Binding Path}"/>
+                <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                 <Button
                     Grid.Column="1"
                     MinWidth="48"
@@ -104,7 +109,7 @@
 
         <shvg:AspectRatioComboBoxTemplateSelector x:Key="AspectRatioComboBoxTemplateSelector">
             <shvg:AspectRatioComboBoxTemplateSelector.ListTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="shsg:AspectRatio">
                     <!--  ComboBoxItemThemePadding 11,5,11,7  -->
                     <Grid Margin="1,-1,-7,-3">
                         <Grid.ColumnDefinitions>
@@ -113,6 +118,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock VerticalAlignment="Center" Text="{Binding}"/>
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                         <Button
                             Grid.Column="1"
                             MinWidth="32"
@@ -197,6 +203,7 @@
                     <AppBarButton
                         Command="{Binding ResetGamePathCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xEBC4;}"
+                        IsEnabled="{Binding CanResetGamePathEntry}"
                         Label="{shuxm:ResourceString Name=ViewPageResetGamePathAction}"/>
                     <AppBarButton
                         Command="{Binding LaunchCommand}"

@@ -38,14 +38,14 @@ internal readonly struct Region
         return uid.AsSpan()[^9] switch
         {
             // CN
-            >= '1' and <= '4' => new("cn_gf01"), // 国服
-            '5' => new("cn_qd01"),               // 渠道
+            >= '1' and <= '4' => CNGF01, // 国服
+            '5' => CNQD01,               // 渠道
 
             // OS
-            '6' => new("os_usa"),                // 美服
-            '7' => new("os_euro"),               // 欧服
-            '8' => new("os_asia"),               // 亚服
-            '9' => new("os_cht"),                // 台服
+            '6' => OSUSA,  // 美服
+            '7' => OSEURO, // 欧服
+            '8' => OSASIA, // 亚服
+            '9' => OSCHT,  // 台服
             _ => throw HutaoException.NotSupported(),
         };
     }
@@ -60,7 +60,7 @@ internal readonly struct Region
         };
     }
 
-    public readonly bool IsOversea()
+    public bool IsOversea()
     {
         return IsOversea(Value);
     }

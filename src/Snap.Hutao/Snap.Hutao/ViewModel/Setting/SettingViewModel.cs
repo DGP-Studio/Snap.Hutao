@@ -23,8 +23,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     private ScrollViewer? rootScrollViewer;
     private Border? gachaLogBorder;
 
-    public partial HutaoPassportViewModel Passport { get; }
-
     public partial SettingGeetestViewModel Geetest { get; }
 
     public partial SettingAppearanceViewModel Appearance { get; }
@@ -40,8 +38,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     public partial SettingGachaLogViewModel GachaLog { get; }
 
     public partial SettingWebViewViewModel WebView { get; }
-
-    public partial SettingDangerousFeatureViewModel DangerousFeature { get; }
 
     public void Initialize(ISettingScrollViewerAccessor accessor)
     {
@@ -82,7 +78,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     protected override void UninitializeOverride()
     {
-        Passport.IsViewDisposed = true;
         Geetest.IsViewDisposed = true;
         Appearance.IsViewDisposed = true;
         Storage.IsViewDisposed = true;
@@ -90,7 +85,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         Home.IsViewDisposed = true;
         Game.IsViewDisposed = true;
         GachaLog.IsViewDisposed = true;
-        DangerousFeature.IsViewDisposed = true;
     }
 
     [Command("CreateDesktopShortcutCommand")]

@@ -4,13 +4,11 @@
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
-/// <summary>
-/// 抽数预计
-/// </summary>
 internal sealed class PullPrediction
 {
     private readonly TypedWishSummary typedWishSummary;
@@ -45,46 +43,50 @@ internal sealed class PullPrediction
         }
     }
 
-    private static PredictResult PredictCore(List<PullCount> distribution, TypedWishSummary typedWishSummary)
+    private static PredictResult PredictCore(ImmutableArray<PullCount> distribution, TypedWishSummary typedWishSummary)
     {
         // 0 - 89/79
-        ReadOnlySpan<double> baseFunction = ToProbabilityFunction(distribution, typedWishSummary.GuaranteeOrangeThreshold);
+        ImmutableArray<double> baseFunction = ToProbabilityFunction(distribution, typedWishSummary.GuaranteeOrangeThreshold);
 
         // n - 89/79
-        ReadOnlySpan<double> function = PartitionFunction(baseFunction[typedWishSummary.LastOrangePull..]);
-        double nextProbability = function[0];
-        int maxIndex = function.IndexOfMax();
+        ImmutableArray<double> function = GetConditionalProbabilityFunction(baseFunction.AsSpan()[typedWishSummary.LastOrangePull..]);
+        ReadOnlySpan<double> functionSpan = function.AsSpan();
+
+        double nextProbability = functionSpan[0];
+        int maxIndex = functionSpan.IndexOfMax();
         int leftToOrangePulls = maxIndex + 1;
-        double leftToOrangeProbability = function[maxIndex];
+        double leftToOrangeProbability = functionSpan[maxIndex];
 
         return new(nextProbability, leftToOrangeProbability, leftToOrangePulls);
     }
 
-    private static ReadOnlySpan<double> ToProbabilityFunction(List<PullCount> distribution, int threshold)
+    private static ImmutableArray<double> ToProbabilityFunction(ImmutableArray<PullCount> distribution, int threshold)
     {
-        Span<double> results = new double[threshold];
-
         double totalCount = distribution.Sum(x => x.Count);
-        foreach (ref readonly PullCount pullCount in CollectionsMarshal.AsSpan(distribution))
+        double[] results = new double[threshold];
+        Span<double> span = results;
+
+        foreach (ref readonly PullCount pullCount in distribution.AsSpan())
         {
             // Zero start index
-            results[pullCount.Pull - 1] = pullCount.Count / totalCount;
+            span[pullCount.Pull - 1] = pullCount.Count / totalCount;
         }
 
-        return results;
+        return ImmutableCollectionsMarshal.AsImmutableArray(results);
     }
 
-    private static ReadOnlySpan<double> PartitionFunction(in ReadOnlySpan<double> function)
+    private static ImmutableArray<double> GetConditionalProbabilityFunction(in ReadOnlySpan<double> function)
     {
-        double sum = Sum(function);
-        Span<double> results = new double[function.Length];
+        double totalCount = Sum(function);
+        double[] results = new double[function.Length];
+        Span<double> span = results;
 
         for (int i = 0; i < function.Length; i++)
         {
-            results[i] = function[i] / sum;
+            span[i] = function[i] / totalCount;
         }
 
-        return results;
+        return ImmutableCollectionsMarshal.AsImmutableArray(results);
     }
 
     private static double Sum(in ReadOnlySpan<double> function)

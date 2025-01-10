@@ -32,7 +32,7 @@ public sealed partial class App : Application
                               |_|
         
         Snap.Hutao is a open source software developed by DGP Studio.
-        Copyright (C) 2022 - 2024 DGP Studio, All Rights Reserved.
+        Copyright (C) 2022 - 2025 DGP Studio, All Rights Reserved.
         ----------------------------------------------------------------
         """;
 
@@ -42,13 +42,19 @@ public sealed partial class App : Application
 
     public App(IServiceProvider serviceProvider)
     {
+        logger = serviceProvider.GetRequiredService<ILogger<App>>();
+        Gen2GcCallback.Register(() =>
+        {
+            logger.LogDebug("Gen2 GC is triggered.");
+            return true;
+        });
+
         // Load app resource
         InitializeComponent();
 
         ExceptionHandlingSupport.Initialize(serviceProvider, this);
 
         activation = serviceProvider.GetRequiredService<IAppActivation>();
-        logger = serviceProvider.GetRequiredService<ILogger<App>>();
         this.serviceProvider = serviceProvider;
     }
 

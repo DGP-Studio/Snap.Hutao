@@ -4,16 +4,17 @@
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.ViewModel.Cultivation;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Inventory;
 
 internal interface IInventoryService
 {
-    List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand);
+    ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand);
 
     void RemoveAllInventoryItem();
 
     void SaveInventoryItem(InventoryItemView item);
 
-    ValueTask RefreshInventoryAsync(CultivateProject project);
+    ValueTask RefreshInventoryAsync(ICultivationMetadataContext context, CultivateProject project);
 }

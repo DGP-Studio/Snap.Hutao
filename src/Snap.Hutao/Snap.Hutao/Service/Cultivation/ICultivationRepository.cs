@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -20,9 +21,9 @@ internal interface ICultivationRepository : IRepository<CultivateEntryLevelInfor
 
     void RemoveCultivateProjectById(Guid projectId);
 
-    List<CultivateEntry> GetCultivateEntryListByProjectId(Guid projectId);
+    ImmutableArray<CultivateEntry> GetCultivateEntryImmutaleArrayByProjectId(Guid projectId);
 
-    List<CultivateItem> GetCultivateItemListByEntryId(Guid entryId);
+    ImmutableArray<CultivateItem> GetCultivateItemImmutableArrayByEntryId(Guid entryId);
 
     ObservableCollection<CultivateProject> GetCultivateProjectCollection();
 
@@ -38,9 +39,9 @@ internal interface ICultivationRepository : IRepository<CultivateEntryLevelInfor
 
     void AddLevelInformation(CultivateEntryLevelInformation levelInformation);
 
-    List<CultivateEntry> GetCultivateEntryListIncludingLevelInformationByProjectId(Guid projectId);
+    ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayIncludingLevelInformationByProjectId(Guid projectId);
 
-    List<CultivateEntry> GetCultivateEntryListByProjectIdAndItemId(Guid projectId, uint itemId);
+    ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayByProjectIdAndItemId(Guid projectId, uint itemId);
 
     Guid GetCultivateProjectIdByEntryId(Guid entryId);
 }

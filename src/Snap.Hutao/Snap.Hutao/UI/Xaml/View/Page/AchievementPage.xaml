@@ -28,11 +28,17 @@
                     <ColumnDefinition Width="36"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <shuxci:CachedImage
+                <Border
                     Grid.Column="0"
-                    Width="36"
-                    Height="36"
-                    Source="{Binding Icon}"/>
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource LightOnlyIconBackgroundColorBrush}"
+                    CornerRadius="{ThemeResource ControlCornerRadius}">
+                    <shuxci:CachedImage
+                        Width="36"
+                        Height="36"
+                        Source="{Binding Icon}"/>
+                </Border>
+
                 <StackPanel Grid.Column="1" Margin="12,0,0,2">
                     <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
                     <TextBlock
@@ -100,6 +106,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                     <CheckBox
                         Grid.Column="0"
                         MinWidth="0"
@@ -140,7 +147,6 @@
                                         IsTextSelectionEnabled="True"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding Inner.Version}"
-                                        TextTrimming="CharacterEllipsis"
                                         TextWrapping="NoWrap"/>
                                 </Border>
                             </StackPanel>
@@ -150,7 +156,6 @@
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Inner.Description}"
-                                TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap"/>
                         </StackPanel>
                         <TextBlock
@@ -232,7 +237,7 @@
             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <Grid Style="{ThemeResource AcrylicSecondaryGridCardStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
+                        <ColumnDefinition Width="{StaticResource CompatGridLength}"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
@@ -243,24 +248,23 @@
                             LocalSettingKeySuffixForCurrent="AchievementPage.AchievementGoals"/>
                         <Viewbox
                             Height="32"
-                            MaxWidth="190"
-                            Margin="8,0,0,0"
+                            MaxWidth="156"
+                            Margin="8,0,8,0"
                             HorizontalAlignment="Left"
                             Stretch="Uniform"
                             StretchDirection="DownOnly">
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
                                 Text="{Binding FinishDescription}"/>
                         </Viewbox>
                     </StackPanel>
 
-                    <CommandBar
-                        Grid.Column="1"
-                        Margin="16,0,0,0"
-                        DefaultLabelPosition="Right">
+                    <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
                         <CommandBar.Resources>
                             <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
+                            <!--  ReSharper disable once Xaml.RedundantResource  -->
                             <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
                         </CommandBar.Resources>
 
@@ -268,7 +272,7 @@
                             <AutoSuggestBox
                                 Width="300"
                                 Height="36"
-                                Margin="3,6,6,0"
+                                Margin="4,6,6,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
                                 PlaceholderText="{shuxm:ResourceString Name=ViewPageAchievementSearchPlaceholder}"

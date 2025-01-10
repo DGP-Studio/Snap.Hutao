@@ -17,7 +17,7 @@ internal sealed class GachaLogFetchStatus
 
     public GachaType ConfigType { get; }
 
-    public List<Item> Items { get; } = new(20);
+    public List<Item> Items { get; } = new(GachaLogTypedQueryOptions.Size);
 
     public string Header
     {

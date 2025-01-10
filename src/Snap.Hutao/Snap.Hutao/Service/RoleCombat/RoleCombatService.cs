@@ -3,14 +3,14 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.RoleCombat;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 using Snap.Hutao.Web.Response;
 using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.RoleCombat;
@@ -21,44 +21,34 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 {
     private readonly IRoleCombatRepository roleCombatRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    private readonly ConcurrentDictionary<string, ObservableCollection<RoleCombatView>> roleCombatCollectionCache = [];
-    private RoleCombatMetadataContext? metadataContext;
+    private readonly ConcurrentDictionary<PlayerUid, ObservableCollection<RoleCombatView>> roleCombatCollectionCache = [];
+    private readonly AsyncLock collectionLock = new();
 
-    public async ValueTask<bool> InitializeAsync()
+    public async ValueTask<ObservableCollection<RoleCombatView>> GetRoleCombatViewCollectionAsync(RoleCombatMetadataContext context, UserAndUid userAndUid)
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        using (await collectionLock.LockAsync().ConfigureAwait(false))
         {
-            metadataContext = await metadataService.GetContextAsync<RoleCombatMetadataContext>().ConfigureAwait(false);
-            return true;
-        }
+            if (roleCombatCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<RoleCombatView>? collection))
+            {
+                return collection;
+            }
 
-        return false;
+            await taskContext.SwitchToBackgroundAsync();
+            FrozenDictionary<uint, RoleCombatEntry> entryMap = roleCombatRepository.GetRoleCombatEntryMapByUid(userAndUid.Uid.Value);
+
+            ObservableCollection<RoleCombatView> result = context.IdRoleCombatScheduleMap.Values
+                .Select(sch => RoleCombatView.From(entryMap.GetValueOrDefault(sch.Id), sch, context))
+                .OrderByDescending(e => e.ScheduleId)
+                .ToObservableCollection();
+
+            roleCombatCollectionCache.TryAdd(userAndUid.Uid, result);
+            return result;
+        }
     }
 
-    public async ValueTask<ObservableCollection<RoleCombatView>> GetRoleCombatViewCollectionAsync(UserAndUid userAndUid)
-    {
-        if (roleCombatCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<RoleCombatView>? collection))
-        {
-            return collection;
-        }
-
-        await taskContext.SwitchToBackgroundAsync();
-        Dictionary<uint, RoleCombatEntry> entryMap = roleCombatRepository.GetRoleCombatEntryMapByUid(userAndUid.Uid.Value);
-
-        ArgumentNullException.ThrowIfNull(metadataContext);
-        ObservableCollection<RoleCombatView> result = metadataContext.IdRoleCombatScheduleMap.Values
-            .Select(sch => RoleCombatView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
-            .OrderByDescending(e => e.ScheduleId)
-            .ToObservableCollection();
-
-        roleCombatCollectionCache.TryAdd(userAndUid.Uid.Value, result);
-        return result;
-    }
-
-    public async ValueTask RefreshRoleCombatAsync(UserAndUid userAndUid)
+    public async ValueTask RefreshRoleCombatAsync(RoleCombatMetadataContext context, UserAndUid userAndUid)
     {
         Web.Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat? webRoleCombat;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
@@ -67,12 +57,12 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 
             // request the index first
             await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
             Response<Web.Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat> response = await gameRecordClientFactory
-                .Create(userAndUid.User.IsOversea)
+                .Create(userAndUid.IsOversea)
                 .GetRoleCombatAsync(userAndUid)
                 .ConfigureAwait(false);
 
@@ -89,18 +79,18 @@ internal sealed partial class RoleCombatService : IRoleCombatService
                 continue;
             }
 
-            await RefreshRoleCombatCoreAsync(userAndUid, roleCombatData).ConfigureAwait(false);
+            await RefreshRoleCombatCoreAsync(context, userAndUid, roleCombatData).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask RefreshRoleCombatCoreAsync(UserAndUid userAndUid, RoleCombatData roleCombatData)
+    private async ValueTask RefreshRoleCombatCoreAsync(RoleCombatMetadataContext context, UserAndUid userAndUid, RoleCombatData roleCombatData)
     {
-        if (!roleCombatCollectionCache.TryGetValue(userAndUid.Uid.Value, out ObservableCollection<RoleCombatView>? roleCombats))
+        if (!roleCombatCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<RoleCombatView>? roleCombats))
         {
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(metadataContext);
+        ArgumentNullException.ThrowIfNull(context);
 
         int index = roleCombats.FirstIndexOf(s => s.ScheduleId == roleCombatData.Schedule.ScheduleId);
         if (index < 0)
@@ -127,6 +117,6 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 
         await taskContext.SwitchToMainThreadAsync();
         roleCombats.RemoveAt(index);
-        roleCombats.Insert(index, RoleCombatView.From(targetEntry, metadataContext));
+        roleCombats.Insert(index, RoleCombatView.From(targetEntry, context));
     }
 }

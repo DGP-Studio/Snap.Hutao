@@ -3,28 +3,13 @@
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 简化的祈愿统计
-/// </summary>
 internal sealed class GachaStatisticsSlim
 {
-    /// <summary>
-    /// Uid
-    /// </summary>
-    public string Uid { get; set; } = default!;
+    public required string Uid { get; init; }
 
-    /// <summary>
-    /// 角色活动
-    /// </summary>
-    public TypedWishSummarySlim AvatarWish { get; set; } = default!;
+    public required TypedWishSummarySlim AvatarWish { get; init; }
 
-    /// <summary>
-    /// 神铸赋形
-    /// </summary>
-    public TypedWishSummarySlim WeaponWish { get; set; } = default!;
+    public required TypedWishSummarySlim WeaponWish { get; init; }
 
-    /// <summary>
-    /// 奔行世间
-    /// </summary>
-    public TypedWishSummarySlim StandardWish { get; set; } = default!;
+    public required TypedWishSummarySlim StandardWish { get; init; }
 }

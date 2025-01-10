@@ -7,22 +7,22 @@ namespace Snap.Hutao.Service.DailyNote.NotifySuppression;
 
 internal sealed class ExpeditionNotifySuppressionChecker : INotifySuppressionChecker
 {
-    public bool SuppressCondition(INotifySuppressionContext context)
+    public bool ShouldNotify(INotifySuppressionContext context)
     {
         return context.Entry.ExpeditionNotify && context.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished);
     }
 
-    public bool GetSuppressed(INotifySuppressionContext context)
+    public bool GetIsSuppressed(INotifySuppressionContext context)
     {
         return context.Entry.ExpeditionNotifySuppressed;
     }
 
-    public void SetSuppressed(INotifySuppressionContext context, bool suppressed)
+    public void SetIsSuppressed(INotifySuppressionContext context, bool suppressed)
     {
         context.Entry.ExpeditionNotifySuppressed = suppressed;
     }
 
-    public DailyNoteNotifyInfo SuppressInfo(INotifySuppressionContext context)
+    public DailyNoteNotifyInfo NotifyInfo(INotifySuppressionContext context)
     {
         return new(SH.ServiceDailyNoteNotifierExpedition, SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint, SH.ServiceDailyNoteNotifierExpeditionHint);
     }

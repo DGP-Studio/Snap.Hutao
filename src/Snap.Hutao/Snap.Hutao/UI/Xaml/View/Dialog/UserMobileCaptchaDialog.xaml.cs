@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
@@ -9,18 +8,20 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[INotifyPropertyChanged]
 [ConstructorGenerated(InitializeComponent = true)]
-internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassportMobileCaptchaProvider
+internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassportMobileCaptchaProvider, INotifyPropertyChanged
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly IGeetestService geetestService;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public string? Mobile
     {
@@ -103,5 +104,22 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
         {
             e.Handled = true;
         }
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new(propertyName));
+    }
+
+    private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (!EqualityComparer<T>.Default.Equals(field, value))
+        {
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        return false;
     }
 }

@@ -15,7 +15,6 @@ using System.Collections.Immutable;
 namespace Snap.Hutao.Service.GachaLog;
 
 internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
-    IMetadataSupportInitialization,
     IMetadataArrayGachaEventSource,
     IMetadataDictionaryIdAvatarSource,
     IMetadataDictionaryIdWeaponSource,
@@ -33,8 +32,6 @@ internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
     public ImmutableDictionary<string, Avatar> NameAvatarMap { get; set; } = default!;
 
     public ImmutableDictionary<string, Weapon> NameWeaponMap { get; set; } = default!;
-
-    public bool IsInitialized { get; set; }
 
     public Item GetItemByNameAndType(string name, string type)
     {
