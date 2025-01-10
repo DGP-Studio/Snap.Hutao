@@ -1695,13 +1695,13 @@
     <value>Idioma</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>Mantido pela comunidade Crowdin</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>Traduzido por Google Gemini</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>Mantido por DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Recursos</value>
@@ -2502,7 +2502,7 @@
     <value>Licença vitalícia de desenvolvedore</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Sem registo na Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Serviço do Snap Hutao Cloud expirado</value>
@@ -2685,13 +2685,13 @@
     <value>Após obter a duração, poderá selecionar o espelho CDN da China Continental na atualização da versão do Snap Hutao para obter uma melhor experiência de atualização.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Serviço CDN da Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>Após obter a duração, poderá transferir/carregar/eliminar registos de desejos de até 5 UIDs através do nosso servidor. Na página do Abismo do Espiral, obterá duração gratuita ao carregar os registos pela primeira vez em cada desafio!</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Serviço de Registo de Desejos da Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>Login</value>
@@ -2715,7 +2715,7 @@
     <value>Redefinir senha</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>Patrocinar</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>Excluir o passaporte do Snap Hutao fará com que seus dados sejam perdidos sem nenhuma opção de recuperação</value>
