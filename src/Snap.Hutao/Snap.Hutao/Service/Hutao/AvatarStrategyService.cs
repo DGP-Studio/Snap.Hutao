@@ -18,6 +18,13 @@ internal sealed partial class AvatarStrategyService : IAvatarStrategyService
     public async ValueTask<AvatarStrategy?> GetStrategyByAvatarId(AvatarId avatarId)
     {
         AvatarStrategy? strategy = repository.GetStrategyByAvatarId(avatarId);
+        if (strategy is { ChineseStrategyId: 0 } or { OverseaStrategyId: 0 })
+        {
+            repository.RemoveStrategy(strategy);
+            strategy = default;
+            return default;
+        }
+
         if (strategy is null)
         {
             using (IServiceScope scope = serviceProvider.CreateScope())

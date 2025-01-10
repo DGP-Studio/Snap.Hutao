@@ -12,4 +12,5 @@ internal interface IAvatarStrategyRepository : IRepository<AvatarStrategy>
     AvatarStrategy? GetStrategyByAvatarId(AvatarId avatarId);
 
     void AddStrategy(AvatarStrategy strategy);
+    void RemoveStrategy(AvatarStrategy strategy);
 }

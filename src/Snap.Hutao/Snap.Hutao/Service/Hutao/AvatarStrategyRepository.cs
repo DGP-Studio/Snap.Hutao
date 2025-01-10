@@ -22,4 +22,9 @@ internal sealed partial class AvatarStrategyRepository : IAvatarStrategyReposito
     {
         this.Add(strategy);
     }
+
+    public void RemoveStrategy(AvatarStrategy strategy)
+    {
+        this.Delete(strategy);
+    }
 }

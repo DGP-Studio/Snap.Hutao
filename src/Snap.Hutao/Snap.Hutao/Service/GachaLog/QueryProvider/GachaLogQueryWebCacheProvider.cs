@@ -71,7 +71,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         {
             using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
             {
-                string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));
+                string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.OrdinalIgnoreCase));
 
                 if (string.IsNullOrEmpty(result))
                 {
@@ -97,7 +97,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)stream.Length))
         {
             Span<byte> span = memoryOwner.Memory.Span;
-            stream.Write(span);
+            stream.Read(span);
 
             ReadOnlySpan<byte> match = isOversea
                 ? "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v3/index.html"u8
