@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -2299,6 +2299,9 @@
   </data>
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>Go</value>
+  </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>Clear Inventory Items</value>
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
     <value>Sync Inventory Items</value>

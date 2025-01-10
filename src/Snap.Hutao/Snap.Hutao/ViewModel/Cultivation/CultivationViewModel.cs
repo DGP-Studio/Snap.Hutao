@@ -237,6 +237,29 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ClearInventoryCommand")]
+    private async Task ClearInventoryAsync()
+    {
+        if (Projects?.CurrentItem is null)
+        {
+            return;
+        }
+
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+        {
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationClearInventoryProgress)
+                .ConfigureAwait(false);
+            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
+            {
+                inventoryService.RemoveAllInventoryItem();
+
+                await UpdateInventoryItemsAsync().ConfigureAwait(false);
+                await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+            }
+        }
+    }
+
     [Command("RefreshStatisticsItemsCommand")]
     private async Task UpdateStatisticsItemsAsync()
     {

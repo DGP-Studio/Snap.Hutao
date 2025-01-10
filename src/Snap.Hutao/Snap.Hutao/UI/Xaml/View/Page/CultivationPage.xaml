@@ -314,6 +314,10 @@
                         </shuxc:SizeRestrictedContentControl>
                     </AppBarElementContainer>
                     <AppBarButton
+                        Command="{Binding ClearInventoryCommand}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE74D;}"
+                        Label="{shuxm:ResourceString Name=ViewPageCultivationClearInventory}"/>
+                    <AppBarButton
                         Command="{Binding RefreshInventoryCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
                         Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}"/>

@@ -3941,4 +3941,10 @@
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>显示器编号</value>
   </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>清空背包物品</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>正在清空背包物品</value>
+  </data>
 </root>

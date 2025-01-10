@@ -11,6 +11,8 @@ internal interface IInventoryService
 {
     List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand);
 
+    void RemoveAllInventoryItem();
+
     void SaveInventoryItem(InventoryItemView item);
 
     ValueTask RefreshInventoryAsync(CultivateProject project);

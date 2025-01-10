@@ -45,6 +45,11 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
+    public void RemoveAllInventoryItem()
+    {
+        inventoryRepository.RemoveAllInventoryItem();
+    }
+
     /// <inheritdoc/>
     public async ValueTask RefreshInventoryAsync(CultivateProject project)
     {
