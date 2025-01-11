@@ -18,11 +18,6 @@ internal sealed partial class InventoryRepository : IInventoryRepository
         this.Delete(i => i.ProjectId == projectId);
     }
 
-    public void RemoveAllInventoryItem()
-    {
-        this.Delete();
-    }
-
     public void AddInventoryItemRangeByProjectId(List<InventoryItem> items)
     {
         this.AddRange(items);

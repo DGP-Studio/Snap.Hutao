@@ -317,6 +317,7 @@
                     </AppBarElementContainer>
                     <AppBarButton
                         Command="{Binding ClearInventoryCommand}"
+                        CommandParameter="{Binding Projects.CurrentItem, Mode=OneWay}"
                         Icon="{shuxm:FontIcon Glyph=&#xE74D;}"
                         Label="{shuxm:ResourceString Name=ViewPageCultivationClearInventory}"/>
                     <AppBarButton
