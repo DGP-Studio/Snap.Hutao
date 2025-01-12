@@ -213,6 +213,12 @@
                 IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="{shuxm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"/>
+            <MenuFlyoutItem
+                Command="{Binding TakeScreenshotCurrentPageCommand}"
+                Icon="{shuxm:FontIcon Glyph=&#xE722;}"
+                Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
+                Text="Take Screenshot"
+                Visibility="{Binding IsDebug}"/>
         </StackPanel>
 
         <Grid

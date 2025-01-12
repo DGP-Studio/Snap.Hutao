@@ -73,6 +73,13 @@ internal static class HutaoRuntime
         return directory;
     }
 
+    public static string GetDataFolderScreenshotFolder()
+    {
+        string directory = Path.Combine(DataFolder, "Screenshot");
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
     private static string InitializeDataFolder()
     {
         string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
