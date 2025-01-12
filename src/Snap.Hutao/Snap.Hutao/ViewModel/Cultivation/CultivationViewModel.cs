@@ -238,7 +238,18 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("ClearInventoryCommand")]
     private async Task ClearInventoryAsync(CultivateProject? project)
     {
-        if (Projects?.CurrentItem is null)
+        if (project is null)
+        {
+            return;
+        }
+
+        ContentDialogResult result = await contentDialogFactory
+            .CreateForConfirmCancelAsync(
+                SH.ViewModelCultivationClearInventoryTitle,
+                SH.ViewModelCultivationClearInventoryContent)
+            .ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
         {
             return;
         }
@@ -250,7 +261,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
                 .ConfigureAwait(false);
             using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
-                inventoryService.RemoveInventoryItemRangeByProjectId(project.InnerId);
+                inventoryService.RemoveInventoryItemRangeByProjectId(project);
 
                 await UpdateInventoryItemsAsync().ConfigureAwait(false);
                 await UpdateStatisticsItemsAsync().ConfigureAwait(false);

@@ -44,8 +44,9 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
-    public void RemoveInventoryItemRangeByProjectId(Guid projectId)
+    public void RemoveInventoryItemRangeByProjectId(CultivateProject cultivateProject)
     {
+        Guid projectId = cultivateProject.InnerId;
         inventoryRepository.RemoveInventoryItemRangeByProjectId(projectId);
     }
 

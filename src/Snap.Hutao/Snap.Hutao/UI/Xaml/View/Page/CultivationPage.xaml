@@ -318,11 +318,11 @@
                     <AppBarButton
                         Command="{Binding ClearInventoryCommand}"
                         CommandParameter="{Binding Projects.CurrentItem, Mode=OneWay}"
-                        Icon="{shuxm:FontIcon Glyph=&#xE74D;}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE894;}"
                         Label="{shuxm:ResourceString Name=ViewPageCultivationClearInventory}"/>
                     <AppBarButton
                         Command="{Binding RefreshInventoryCommand}"
-                        Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE895;}"
                         Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}"/>
                     <AppBarButton
                         Command="{Binding AddProjectCommand}"
