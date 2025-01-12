@@ -1695,13 +1695,13 @@
     <value>語言</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
-    <value>由 Crowdin 社区成员维护</value>
+    <value>由 Crowdin 社區成員維護</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
-    <value>由 Google Gemini 翻译</value>
+    <value>由 Google Gemini 翻譯</value>
   </data>
   <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
-    <value>由 DGP Studio 维护</value>
+    <value>由 DGP Studio 維護</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>資源</value>
@@ -2202,7 +2202,7 @@
     <value>檔案下載異常</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
-    <value>暫無該角色的攻略訊息</value>
+    <value>暫無該角色的攻略資訊</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>建立新存檔</value>
