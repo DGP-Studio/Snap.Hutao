@@ -14,6 +14,8 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
         Index = SH.FormatModelBindingHutaoComplexRankFloor(floor.Index);
         IndexValue = floor.Index;
         Disorders = floor.Descriptions;
+        UpDisorders = floor.FirstDescriptions;
+        DownDisorders = floor.SecondDescriptions;
 
         Levels = context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.From(l, context)).ToList();
     }
@@ -27,6 +29,10 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
     public int Star { get; private set; }
 
     public ImmutableArray<string> Disorders { get; }
+
+    public ImmutableArray<string>? UpDisorders { get; }
+
+    public ImmutableArray<string>? DownDisorders { get; }
 
     public List<LevelView> Levels { get; }
 
