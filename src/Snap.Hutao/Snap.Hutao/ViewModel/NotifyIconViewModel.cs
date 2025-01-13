@@ -126,12 +126,12 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         _ = serviceProvider.GetRequiredService<ScriptingWindow>();
     }
 
-    [Command("TakeScreenshotCurrentPageCommand")]
-    private async Task TakeScreenshotCurrentPageAsync()
+    [Command("TakeScreenshotCommand")]
+    private async Task TakeScreenshotAsync()
     {
         INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
 
-        if (currentXamlWindowReference.Window is null || navigationService.CurrentPageType is null)
+        if (currentXamlWindowReference.Window is null)
         {
             return;
         }
@@ -145,11 +145,11 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
         string directory = Path.Combine(HutaoRuntime.GetDataFolderScreenshotFolder(), CultureInfo.CurrentCulture.Name);
         Directory.CreateDirectory(directory);
-        string filename = $"{navigationService.CurrentPageType.Name}_{DateTimeOffset.Now:yyyy.MM.dd_HH.mm.ss}.png";
+        string filename = $"{navigationService.CurrentPageType?.Name ?? "None"}_{DateTimeOffset.Now:yyyy.MM.dd_HH.mm.ss}.png";
         using (FileStream fileStream = File.Create(Path.Combine(directory, filename)))
         {
             BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream.AsRandomAccessStream());
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)width, (uint)height, 400, 400, pixelBuffer.ToArray());
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)width, (uint)height, 72, 72, pixelBuffer.ToArray());
             await encoder.FlushAsync();
         }
     }

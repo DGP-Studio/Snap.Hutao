@@ -214,7 +214,7 @@
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="{shuxm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"/>
             <MenuFlyoutItem
-                Command="{Binding TakeScreenshotCurrentPageCommand}"
+                Command="{Binding TakeScreenshotCommand}"
                 Icon="{shuxm:FontIcon Glyph=&#xE722;}"
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="Take Screenshot"
