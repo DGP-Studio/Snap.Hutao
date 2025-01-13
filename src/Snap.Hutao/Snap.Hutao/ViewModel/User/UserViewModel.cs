@@ -15,6 +15,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
@@ -40,11 +41,10 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
-    private AdvancedDbCollectionView<User, EntityUser>? users;
-
     public partial RuntimeOptions RuntimeOptions { get; }
 
-    public AdvancedDbCollectionView<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
+    [ObservableProperty]
+    public partial AdvancedDbCollectionView<User, EntityUser>? Users { get; set; }
 
     public ImmutableArray<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = ImmutableCollectionsNameValue.FromEnum<OverseaThirdPartyKind>(static kind => kind is OverseaThirdPartyKind.Twitter ? ThirdPartyIconConverter.TwitterName : kind.ToString());
 
@@ -218,9 +218,9 @@ internal sealed partial class UserViewModel : ObservableObject
 
         try
         {
-            if (ReferenceEquals(users?.CurrentItem, user))
+            if (ReferenceEquals(Users?.CurrentItem, user))
             {
-                users.MoveCurrentToFirst();
+                Users.MoveCurrentToFirstOrDefault();
             }
 
             await userService.RemoveUserAsync(user).ConfigureAwait(false);
@@ -259,12 +259,12 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RefreshCookieTokenCommand")]
     private async Task RefreshCookieTokenAsync()
     {
-        if (users?.CurrentItem is null)
+        if (Users?.CurrentItem is null)
         {
             return;
         }
 
-        if (await userService.RefreshCookieTokenAsync(users.CurrentItem).ConfigureAwait(false))
+        if (await userService.RefreshCookieTokenAsync(Users.CurrentItem).ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewUserRefreshCookieTokenSuccess);
         }

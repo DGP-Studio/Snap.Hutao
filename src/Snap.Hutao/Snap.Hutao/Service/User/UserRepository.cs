@@ -18,7 +18,7 @@ internal sealed partial class UserRepository : IUserRepository
         this.DeleteByInnerId(id);
     }
 
-    public ImmutableArray<Model.Entity.User> GetUserList()
+    public ImmutableArray<Model.Entity.User> GetUserImmutableArray()
     {
         return this.ImmutableArray();
     }

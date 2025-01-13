@@ -21,7 +21,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
-    private readonly AsyncLock locker = new();
+    private readonly AsyncLock collectionLocker = new();
 
     private AdvancedDbCollectionView<BindingUser, EntityUser>? users;
 
@@ -29,11 +29,11 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     {
         // Force run in background thread, otherwise will cause re-entrance
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        using (await locker.LockAsync().ConfigureAwait(false))
+        using (await collectionLocker.LockAsync().ConfigureAwait(false))
         {
             if (users is null)
             {
-                ImmutableArray<EntityUser> entityUsers = userRepository.GetUserList();
+                ImmutableArray<EntityUser> entityUsers = userRepository.GetUserImmutableArray();
                 List<BindingUser> bindingUsers = new(entityUsers.Length);
                 foreach (EntityUser entity in entityUsers)
                 {
@@ -53,9 +53,9 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
                 // Since this service is singleton, we can safely subscribe to the event
                 users.CurrentChanged += OnCurrentUserChanged;
             }
-        }
 
-        return users;
+            return users;
+        }
     }
 
     public async ValueTask RemoveUserAsync(BindingUser user)

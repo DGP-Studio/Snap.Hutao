@@ -128,6 +128,7 @@ internal sealed class XamlWindowController
                     }
                     catch
                     {
+                        // Ignore
                     }
                 }
             }
@@ -163,7 +164,7 @@ internal sealed class XamlWindowController
                 return notifyIconController.GetIsPromoted();
             }
 
-            // Shell_NotifyIconGetRect can return E_FAIL in multiple cases, so we use the fallback method.
+            // Shell_NotifyIconGetRect can return E_FAIL in multiple cases.
             RECT iconRect = notifyIconController.GetRect();
             if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11))
             {

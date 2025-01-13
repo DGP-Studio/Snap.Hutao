@@ -74,6 +74,7 @@ public sealed partial class App : Application
             AppNotificationManager.Default.Register();
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
+            Bootstrap.UseNamedPipeRedirection();
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
                 logger.LogDebug("Application exiting on RedirectActivationTo");

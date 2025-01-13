@@ -347,6 +347,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.IO.Hashing" Version="9.0.0" />
+    <PackageReference Include="System.Threading.AccessControl" Version="9.0.0" />
     <PackageReference Include="System.Threading.RateLimiting" Version="9.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
