@@ -50,39 +50,41 @@ public static partial class Bootstrap
     [STAThread]
     private static void Main(string[] args)
     {
-        if (!Mutex.TryOpenExisting(LockName, out _))
+        if (Mutex.TryOpenExisting(LockName, out _))
         {
-            try
-            {
-                MutexSecurity mutexSecurity = new();
-                mutexSecurity.AddAccessRule(new(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow));
-                mutex = MutexAcl.Create(true, LockName, out bool created, mutexSecurity);
-                Debug.Assert(created);
+            return;
+        }
 
-                Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
-                Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
+        try
+        {
+            MutexSecurity mutexSecurity = new();
+            mutexSecurity.AddAccessRule(new(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow));
+            mutex = MutexAcl.Create(true, LockName, out bool created, mutexSecurity);
+            Debug.Assert(created);
 
-                Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
-                XamlCheckProcessRequirements();
-                ComWrappersSupport.InitializeComWrappers();
+            Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
+            Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
 
-                // By adding the using statement, we can dispose the injected services when closing
-                using (DependencyInjection.Initialize())
-                {
-                    // In a Desktop app this runs a message pump internally,
-                    // and does not return until the application shuts down.
-                    Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
-                    Application.Start(AppInitializationCallback);
-                }
-            }
-            catch (WaitHandleCannotBeOpenedException)
+            Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
+            XamlCheckProcessRequirements();
+            ComWrappersSupport.InitializeComWrappers();
+
+            // By adding the using statement, we can dispose the injected services when closing
+            using (DependencyInjection.Initialize())
             {
-                // Ignored
+                // In a Desktop app this runs a message pump internally,
+                // and does not return until the application shuts down.
+                Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
+                Application.Start(AppInitializationCallback);
             }
-            finally
-            {
-                mutex?.Dispose();
-            }
+        }
+        catch (WaitHandleCannotBeOpenedException)
+        {
+            // Ignored
+        }
+        finally
+        {
+            mutex?.Dispose();
         }
     }
 

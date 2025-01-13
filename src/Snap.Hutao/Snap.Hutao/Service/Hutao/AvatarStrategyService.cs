@@ -20,9 +20,9 @@ internal sealed partial class AvatarStrategyService : IAvatarStrategyService
         AvatarStrategy? strategy = repository.GetStrategyByAvatarId(avatarId);
         if (strategy is { ChineseStrategyId: 0 } or { OverseaStrategyId: 0 })
         {
+            // Re-download the strategy if the strategy is incomplete
             repository.RemoveStrategy(strategy);
             strategy = default;
-            return default;
         }
 
         if (strategy is null)
