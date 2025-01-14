@@ -47,11 +47,13 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
                     bindingUsers.Add(user);
                 }
 
-                await taskContext.SwitchToMainThreadAsync();
                 users = bindingUsers.AsAdvancedDbCollectionViewWrappedObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
 
                 // Since this service is singleton, we can safely subscribe to the event
                 users.CurrentChanged += OnCurrentUserChanged;
+
+                await taskContext.SwitchToMainThreadAsync();
+                users.MoveCurrentTo(users.SourceCollection.SelectedOrFirstOrDefault());
             }
 
             return users;

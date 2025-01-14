@@ -20,7 +20,6 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 {
     private readonly IServiceProvider serviceProvider;
 
-    private IAdvancedCollectionView<UserGameRole> userGameRoles = default!;
     private bool isCurrentUserGameRoleChangedMessageSuppressed;
 
     private User(EntityUser user, IServiceProvider serviceProvider)
@@ -35,22 +34,14 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     public IAdvancedCollectionView<UserGameRole> UserGameRoles
     {
-        get => userGameRoles;
+        get;
         set
         {
-            if (userGameRoles is not null)
-            {
-                userGameRoles.CurrentChanged -= OnCurrentUserGameRoleChanged;
-            }
-
-            userGameRoles = value;
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentUserGameRoleChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentUserGameRoleChanged);
+            field = value;
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentUserGameRoleChanged);
         }
-    }
+    } = default!;
 
     public string? Fingerprint { get => Entity.Fingerprint; }
 
@@ -100,7 +91,7 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     private void OnCurrentUserGameRoleChanged(object? sender, object? e)
     {
-        if (userGameRoles.CurrentItem is { } item && Entity.PreferredUid != item.GameUid)
+        if (UserGameRoles.CurrentItem is { } item && Entity.PreferredUid != item.GameUid)
         {
             Entity.PreferredUid = item.GameUid;
             using (IServiceScope scope = serviceProvider.CreateScope())

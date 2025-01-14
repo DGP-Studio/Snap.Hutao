@@ -83,7 +83,6 @@ internal sealed partial class UserViewModel : ObservableObject
         try
         {
             Users = await userService.GetUsersAsync().ConfigureAwait(true);
-            Users.MoveCurrentToFirst();
         }
         catch (HutaoException ex)
         {

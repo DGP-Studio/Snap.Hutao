@@ -28,11 +28,6 @@ internal sealed partial class UserRepository : IUserRepository
         this.Update(user);
     }
 
-    public void RemoveAllUsers()
-    {
-        this.Delete();
-    }
-
     public void ClearUserSelection()
     {
         this.Execute(dbSet => dbSet.ExecuteUpdate(update => update.SetProperty(user => user.IsSelected, user => false)));

@@ -17,7 +17,7 @@ namespace Snap.Hutao.Service.User;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserService))]
-internal sealed partial class UserService : IUserService, IUserServiceUnsafe
+internal sealed partial class UserService : IUserService
 {
     private readonly IUserInitializationService userInitializationService;
     private readonly IProfilePictureService profilePictureService;
@@ -31,12 +31,6 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     public ValueTask RemoveUserAsync(BindingUser user)
     {
         return userCollectionService.RemoveUserAsync(user);
-    }
-
-    public async ValueTask UnsafeRemoveAllUsersAsync()
-    {
-        await TaskContext.SwitchToBackgroundAsync();
-        userRepository.RemoveAllUsers();
     }
 
     public ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync()

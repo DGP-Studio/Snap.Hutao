@@ -10,8 +10,6 @@ internal interface IUserRepository : IRepository<Model.Entity.User>
 {
     void DeleteUserById(Guid id);
 
-    void RemoveAllUsers();
-
     ImmutableArray<Model.Entity.User> GetUserImmutableArray();
 
     void UpdateUser(Model.Entity.User user);
