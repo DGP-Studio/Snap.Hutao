@@ -3642,10 +3642,10 @@
     <value>Estatísticas</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
-    <value>下半</value>
+    <value>Segunda Metade</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
-    <value>上半</value>
+    <value>Primeira Metade</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>Descida mais profunda</value>
