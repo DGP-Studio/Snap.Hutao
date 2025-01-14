@@ -3642,10 +3642,10 @@
     <value>Статистика</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
-    <value>下半</value>
+    <value>Вторая половина</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
-    <value>上半</value>
+    <value>Первая половина</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>Максимальный этаж Бездны</value>
