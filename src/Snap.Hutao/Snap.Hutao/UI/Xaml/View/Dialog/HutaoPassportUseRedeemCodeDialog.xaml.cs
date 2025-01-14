@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 

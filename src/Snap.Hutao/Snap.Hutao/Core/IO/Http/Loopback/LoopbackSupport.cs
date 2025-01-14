@@ -37,7 +37,7 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
         try
         {
             NetworkIsolationGetAppContainerConfig(out sidAttributes);
-            IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig([..sidAttributes, hutaoSidAttribute]) is WIN32_ERROR.ERROR_SUCCESS;
+            IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig([.. sidAttributes, hutaoSidAttribute]) is WIN32_ERROR.ERROR_SUCCESS;
         }
         finally
         {
