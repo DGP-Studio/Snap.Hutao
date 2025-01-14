@@ -24,4 +24,9 @@ internal sealed class GameAccountFilter
 
         return item is not null && item.Type == type;
     }
+
+    public static Predicate<GameAccount> CreateFilter(SchemeType? type)
+    {
+        return new GameAccountFilter(type).Filter;
+    }
 }

@@ -62,7 +62,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         set => SetSelectedSchemeAsync(value).SafeForget(logger);
     }
 
-    public AdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
+    public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
@@ -105,7 +105,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         if (SelectedScheme is not null && GameAccountsView is not null)
                         {
                             // The GameAccount is guaranteed to be in the view, because the scheme is synced
-                            GameAccountsView.CurrentItem ??= gameService.DetectCurrentGameAccount(SelectedScheme);
+                            if (GameAccountsView.CurrentItem is null)
+                            {
+                                GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccount(SelectedScheme));
+                            }
                         }
                         else
                         {
@@ -270,7 +273,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             if (await gameService.DetectGameAccountAsync(SelectedScheme).ConfigureAwait(false) is { } account)
             {
                 await taskContext.SwitchToMainThreadAsync();
-                GameAccountsView.CurrentItem = account;
+                GameAccountsView.MoveCurrentTo(account);
             }
         }
         catch (Exception ex)
@@ -324,20 +327,23 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             return;
         }
 
-        // Clear the selected game account to prevent setting
-        // incorrect CN/OS account when scheme not match
-        if (GameAccountsView is not null)
+        if (GameAccountsView is null)
         {
-            GameAccountsView.CurrentItem = default;
+            IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(true);
+            await taskContext.SwitchToMainThreadAsync();
+            GameAccountsView = accountsView;
+        }
+        else
+        {
+            // Clear the selected game account to prevent setting
+            // incorrect CN/OS account when scheme not match
+            await taskContext.SwitchToMainThreadAsync();
+            GameAccountsView.MoveCurrentTo(default);
         }
 
         // Update GameAccountsView
-        gameAccountFilter = new(SelectedScheme?.GetSchemeType());
-        ObservableReorderableDbCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
-        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter, };
-
         await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView = accountsView;
+        GameAccountsView.Filter = GameAccountFilter.CreateFilter(SelectedScheme?.GetSchemeType());
 
         if (value is null)
         {

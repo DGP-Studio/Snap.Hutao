@@ -7,6 +7,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -22,16 +23,16 @@ internal sealed partial class GameAccountService : IGameAccountService
     private readonly ITaskContext taskContext;
 
     private readonly AsyncLock gameAccountLock = new();
-    private ObservableReorderableDbCollection<GameAccount>? gameAccounts;
+    private IAdvancedCollectionView<GameAccount>? gameAccounts;
 
-    public async ValueTask<ObservableReorderableDbCollection<GameAccount>> GetGameAccountCollectionAsync()
+    public async ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync()
     {
         using (await gameAccountLock.LockAsync().ConfigureAwait(false))
         {
             if (gameAccounts is null)
             {
                 await taskContext.SwitchToBackgroundAsync();
-                gameAccounts = gameRepository.GetGameAccountCollection();
+                gameAccounts = gameRepository.GetGameAccountCollection().AsAdvancedCollectionView();
             }
         }
 
@@ -53,13 +54,13 @@ internal sealed partial class GameAccountService : IGameAccountService
             return default;
         }
 
-        GameAccount? account = SingleGameAccountOrDefault(gameAccounts, registrySdk);
+        GameAccount? account = SingleGameAccountOrDefault(gameAccounts.SourceCollection.AsReadOnly(), registrySdk);
         if (account is null)
         {
             LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
             if (await dialog.GetInputNameAsync().ConfigureAwait(false) is (true, { } name))
             {
-                if (gameAccounts.Any(a => a.Name == name))
+                if (gameAccounts.SourceCollection.Any(a => a.Name == name))
                 {
                     infoBarService.Warning(SH.FormatServiceGameAccountDetectInputNameAlreadyExists(name));
                     return default;
@@ -91,7 +92,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
         string? registrySdk = RegistryInterop.Get(schemeType);
 
-        return string.IsNullOrEmpty(registrySdk) ? default : SingleGameAccountOrDefault(gameAccounts, registrySdk);
+        return string.IsNullOrEmpty(registrySdk) ? default : SingleGameAccountOrDefault(gameAccounts.SourceCollection.AsReadOnly(), registrySdk);
     }
 
     public bool SetGameAccount(GameAccount account)
@@ -126,7 +127,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         gameRepository.RemoveGameAccountById(gameAccount.InnerId);
     }
 
-    private static GameAccount? SingleGameAccountOrDefault(ObservableCollection<GameAccount> gameAccounts, string registrySdk)
+    private static GameAccount? SingleGameAccountOrDefault(IReadOnlyCollection<GameAccount> gameAccounts, string registrySdk)
     {
         try
         {

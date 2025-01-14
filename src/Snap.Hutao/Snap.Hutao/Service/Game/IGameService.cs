@@ -5,6 +5,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Configuration;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -24,5 +25,5 @@ internal interface IGameService
 
     GameAccount? DetectCurrentGameAccount(SchemeType scheme);
 
-    ValueTask<ObservableReorderableDbCollection<GameAccount>> GetGameAccountCollectionAsync();
+    ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync();
 }
