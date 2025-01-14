@@ -283,13 +283,13 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="上半"
+                            Text="{shuxm:ResourceString Name=ViewSpiralAbyssLevelBattleCaptionUp}"
                             Visibility="{Binding UpDisorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
                         <TextBlock
                             Grid.Row="0"
                             Grid.Column="1"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="下半"
+                            Text="{shuxm:ResourceString Name=ViewSpiralAbyssLevelBattleCaptionDown}"
                             Visibility="{Binding DownDisorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
                         <ItemsControl
                             Grid.Row="1"

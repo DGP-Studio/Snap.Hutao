@@ -30,9 +30,9 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
 
     public ImmutableArray<string> Disorders { get; }
 
-    public ImmutableArray<string>? UpDisorders { get; }
+    public ImmutableArray<string> UpDisorders { get; }
 
-    public ImmutableArray<string>? DownDisorders { get; }
+    public ImmutableArray<string> DownDisorders { get; }
 
     public List<LevelView> Levels { get; }
 

@@ -33,7 +33,7 @@ internal sealed class Furniture
 
     public required QualityType RankLevel { get; init; }
 
-    public required ImmutableArray<FurnitureId> GruopUnits { get; init; }
+    public required ImmutableArray<FurnitureId> GroupUnits { get; init; }
 
     public required GroupRecordType GroupRecordType { get; init; }
 

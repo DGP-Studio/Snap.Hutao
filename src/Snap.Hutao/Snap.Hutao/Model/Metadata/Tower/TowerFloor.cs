@@ -18,7 +18,7 @@ internal sealed class TowerFloor
 
     public required ImmutableArray<string> Descriptions { get; init; }
 
-    public ImmutableArray<string>? FirstDescriptions { get; init; }
+    public ImmutableArray<string> FirstDescriptions { get; init; }
 
-    public ImmutableArray<string>? SecondDescriptions { get; init; }
+    public ImmutableArray<string> SecondDescriptions { get; init; }
 }
