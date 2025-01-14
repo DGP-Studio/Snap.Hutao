@@ -3643,6 +3643,12 @@
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>今期の統計</value>
   </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>後半</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>前半</value>
+  </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>最深到達</value>
   </data>
