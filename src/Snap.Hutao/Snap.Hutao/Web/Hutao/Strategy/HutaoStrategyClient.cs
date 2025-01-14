@@ -35,7 +35,7 @@ internal sealed partial class HutaoStrategyClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<Strategy>> GetStrategyItemAsync(AvatarId avatarId, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>> GetStrategyItemAsync(AvatarId avatarId, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(hutaoEndpointsFactory.Create().StrategyItem(avatarId))
@@ -43,7 +43,7 @@ internal sealed partial class HutaoStrategyClient
 
         await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        HutaoResponse<Strategy>? resp = await builder.SendAsync<HutaoResponse<Strategy>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>? resp = await builder.SendAsync<HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }

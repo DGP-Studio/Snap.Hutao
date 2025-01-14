@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Strategy;
 using Snap.Hutao.Web.Response;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -30,10 +31,15 @@ internal sealed partial class AvatarStrategyService : IAvatarStrategyService
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HutaoStrategyClient strategyClient = scope.ServiceProvider.GetRequiredService<HutaoStrategyClient>();
-                Response<Strategy> response = await strategyClient.GetStrategyItemAsync(avatarId).ConfigureAwait(false);
+                Response<ImmutableDictionary<AvatarId, Strategy>> response = await strategyClient.GetStrategyItemAsync(avatarId).ConfigureAwait(false);
 
-                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out Strategy? data))
+                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out ImmutableDictionary<AvatarId, Strategy>? dictionary))
                 {
+                    if (!dictionary.TryGetValue(avatarId, out Strategy? data))
+                    {
+                        return default;
+                    }
+
                     if (data.HoyolabStrategyId is null && data.MysStrategyId is null)
                     {
                         return default;

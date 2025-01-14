@@ -40,7 +40,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly ITaskContext taskContext;
 
     private LaunchScheme? selectedScheme;
-    private GameAccountFilter? gameAccountFilter;
 
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
