@@ -3641,6 +3641,12 @@
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>Statistiche di questa sessione</value>
   </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>下半</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>上半</value>
+  </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>Massima profondità</value>
   </data>
