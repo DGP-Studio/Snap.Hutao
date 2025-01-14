@@ -3641,6 +3641,12 @@
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>이번 통계</value>
   </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>후반</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>전반</value>
+  </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>최대 층</value>
   </data>
