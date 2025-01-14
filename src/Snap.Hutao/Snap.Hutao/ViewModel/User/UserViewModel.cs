@@ -48,11 +48,11 @@ internal sealed partial class UserViewModel : ObservableObject
 
     public ImmutableArray<NameValue<OverseaThirdPartyKind>> OverseaThirdPartyKinds { get; } = ImmutableCollectionsNameValue.FromEnum<OverseaThirdPartyKind>(static kind => kind is OverseaThirdPartyKind.Twitter ? ThirdPartyIconConverter.TwitterName : kind.ToString());
 
-    internal void HandleUserOptionResult(UserOptionResult optionResult, string uid)
+    internal void HandleUserOptionResult(UserOptionResultKind optionResultKind, string uid)
     {
-        switch (optionResult)
+        switch (optionResultKind)
         {
-            case UserOptionResult.Added:
+            case UserOptionResultKind.Added:
                 ArgumentNullException.ThrowIfNull(Users);
                 if (Users.CurrentItem is null)
                 {
@@ -61,13 +61,13 @@ internal sealed partial class UserViewModel : ObservableObject
 
                 infoBarService.Success(SH.FormatViewModelUserAdded(uid));
                 break;
-            case UserOptionResult.CookieIncomplete:
+            case UserOptionResultKind.CookieIncomplete:
                 infoBarService.Information(SH.ViewModelUserIncomplete);
                 break;
-            case UserOptionResult.CookieInvalid:
+            case UserOptionResultKind.CookieInvalid:
                 infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
-            case UserOptionResult.CookieUpdated:
+            case UserOptionResultKind.CookieUpdated:
                 ArgumentNullException.ThrowIfNull(Users);
                 taskContext.InvokeOnMainThread(Users.Refresh);
                 infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
@@ -115,7 +115,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (result.TryGetValue(out LoginResult? loginResult))
         {
             Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
     }
@@ -145,7 +145,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (ResponseValidator.TryValidate(response, infoBarService, out LoginResult? loginResult))
         {
             Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
     }
@@ -163,7 +163,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (result.TryGetValue(out string? rawCookie))
         {
             Cookie cookie = Cookie.Parse(rawCookie);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
+            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
     }
@@ -180,7 +180,7 @@ internal sealed partial class UserViewModel : ObservableObject
         }
 
         Cookie stokenV2 = Cookie.FromQrLoginResult(qrLoginResult);
-        (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+        (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
         HandleUserOptionResult(optionResult, uid);
     }
 
@@ -201,7 +201,7 @@ internal sealed partial class UserViewModel : ObservableObject
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
             {
                 Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-                (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
                 HandleUserOptionResult(optionResult, uid);
             }
         }

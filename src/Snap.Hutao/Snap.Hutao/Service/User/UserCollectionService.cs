@@ -75,14 +75,14 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
         messenger.Send(new UserRemovedMessage(user));
     }
 
-    public async ValueTask<ValueResult<UserOptionResult, string>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie)
+    public async ValueTask<ValueResult<UserOptionResultKind, string>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie)
     {
         await taskContext.SwitchToBackgroundAsync();
         BindingUser? newUser = await userInitializationService.CreateUserFromInputCookieOrDefaultAsync(inputCookie).ConfigureAwait(false);
 
         if (newUser is null)
         {
-            return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieRequestUserInfoFailed);
+            return new(UserOptionResultKind.CookieInvalid, SH.ServiceUserProcessCookieRequestUserInfoFailed);
         }
 
         await GetUsersAsync().ConfigureAwait(false);
@@ -93,7 +93,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
         users.Add(newUser); // Database synced in the collection
 
         ArgumentNullException.ThrowIfNull(newUser.UserInfo);
-        return new(UserOptionResult.Added, newUser.UserInfo.Uid);
+        return new(UserOptionResultKind.Added, newUser.UserInfo.Uid);
     }
 
     public void Dispose()

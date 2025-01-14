@@ -3,7 +3,11 @@
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 
-internal sealed class CumulativeSteppedAutomationTaskDefinition : AutomationTaskDefinition
+internal sealed class SteppedAutomationTaskDefinition : AutomationTaskDefinition
 {
     public required List<AutomationTaskStepDefinition> Steps { get; set; }
+
+    public int CurrentStepIndex { get; set; }
+
+    public bool IsIndeterminate { get; set; }
 }

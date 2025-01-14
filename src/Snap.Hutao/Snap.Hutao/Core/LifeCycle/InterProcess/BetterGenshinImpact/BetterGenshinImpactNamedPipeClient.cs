@@ -23,18 +23,19 @@ internal sealed partial class BetterGenshinImpactNamedPipeClient : IDisposable
             return false;
         }
 
-        PipeRequest<long> startCaptureRequest = new() { Kind = PipeRequestKind.StartCapture, Data = hwnd };
-        clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, startCaptureRequest);
-        clientStream.ReadPacket(out _, out PipeResponse? response);
-
-        if (response is not { Kind: PipeResponseKind.Boolean } || !response.Data.GetBoolean())
+        try
         {
-            return false;
-        }
+            PipeRequest<long> startCaptureRequest = new() { Kind = PipeRequestKind.StartCapture, Data = hwnd };
+            clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, startCaptureRequest);
+            clientStream.ReadPacket(out _, out PipeResponse? response);
 
-        clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
-        clientStream.Flush();
-        return true;
+            return response is { Kind: PipeResponseKind.Boolean } && response.Data.GetBoolean();
+        }
+        finally
+        {
+            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
+            clientStream.Flush();
+        }
     }
 
     public bool TryStopCapture()
@@ -44,17 +45,48 @@ internal sealed partial class BetterGenshinImpactNamedPipeClient : IDisposable
             return false;
         }
 
-        PipeRequest<Void> stopCaptureRequest = new() { Kind = PipeRequestKind.StopCapture, Data = default };
-        clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, stopCaptureRequest);
-        clientStream.ReadPacket(out _, out PipeResponse? response);
+        try
+        {
+            PipeRequest<Void> stopCaptureRequest = new()
+            {
+                Kind = PipeRequestKind.StopCapture,
+                Data = default,
+            };
+            clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, stopCaptureRequest);
+            clientStream.ReadPacket(out _, out PipeResponse? response);
 
-        if (response is not { Kind: PipeResponseKind.Boolean } || !response.Data.GetBoolean())
+            return response is { Kind: PipeResponseKind.Boolean } && response.Data.GetBoolean();
+        }
+        finally
+        {
+            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
+            clientStream.Flush();
+        }
+    }
+
+    public bool TryStartTask(string name)
+    {
+        if (!clientStream.TryConnectOnce())
         {
             return false;
         }
 
-        clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
-        clientStream.Flush();
-        return true;
+        try
+        {
+            PipeRequest<string> startTaskRequest = new()
+            {
+                Kind = PipeRequestKind.StartTask,
+                Data = name,
+            };
+            clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, startTaskRequest);
+            clientStream.ReadPacket(out _, out PipeResponse? response);
+
+            return response is { Kind: PipeResponseKind.Boolean } && response.Data.GetBoolean();
+        }
+        finally
+        {
+            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
+            clientStream.Flush();
+        }
     }
 }

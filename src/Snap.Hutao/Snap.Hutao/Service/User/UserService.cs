@@ -38,7 +38,7 @@ internal sealed partial class UserService : IUserService
         return userCollectionService.GetUsersAsync();
     }
 
-    public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie)
+    public async ValueTask<ValueResult<UserOptionResultKind, string>> ProcessInputCookieAsync(InputCookie inputCookie)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceUserProcessInputCookieDialogTitle)
@@ -53,7 +53,7 @@ internal sealed partial class UserService : IUserService
 
             if (string.IsNullOrEmpty(mid))
             {
-                return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
+                return new(UserOptionResultKind.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
             }
 
             if (await this.GetUserByMidAsync(mid).ConfigureAwait(false) is not { } user)
@@ -65,7 +65,7 @@ internal sealed partial class UserService : IUserService
 
             if (!cookie.TryGetSToken(out Cookie? sToken))
             {
-                return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
+                return new(UserOptionResultKind.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
             }
 
             user.SToken = sToken;
@@ -75,7 +75,7 @@ internal sealed partial class UserService : IUserService
 
             await userInitializationService.ResumeUserAsync(user).ConfigureAwait(false);
             userRepository.UpdateUser(user.Entity);
-            return new(UserOptionResult.CookieUpdated, mid);
+            return new(UserOptionResultKind.CookieUpdated, mid);
         }
     }
 
