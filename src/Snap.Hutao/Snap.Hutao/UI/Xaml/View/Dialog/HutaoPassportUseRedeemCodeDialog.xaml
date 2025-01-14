@@ -12,7 +12,10 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <StackPanel Margin="0,8,0,0" Spacing="16">
+    <StackPanel
+        Margin="0,8,0,0"
+        HorizontalAlignment="Stretch"
+        Spacing="16">
         <TextBox
             IsSpellCheckEnabled="False"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportRedeemCodeHint}"

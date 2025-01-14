@@ -35,8 +35,6 @@
         </Grid>
         <StackPanel Spacing="4" Visibility="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToVisibilityConverter}, Mode=OneWay}">
             <PasswordBox
-                Width="360"
-                MaxWidth="360"
                 IsEnabled="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
                 Password="{x:Bind Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 PasswordChar="*"

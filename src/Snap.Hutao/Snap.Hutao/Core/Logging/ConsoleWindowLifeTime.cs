@@ -34,6 +34,7 @@ internal sealed partial class ConsoleWindowLifeTime : IDisposable
         StringBuilder titleBuilder = new StringBuilder()
             .Append("Snap Hutao Debug Console")
             .AppendIf(HutaoRuntime.IsProcessElevated, " [Administrator]")
+            .Append(' ')
             .Append(HutaoRuntime.Version);
 
         SetConsoleTitleW(titleBuilder.ToString());

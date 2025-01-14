@@ -20,7 +20,6 @@
             Severity="Error"/>
         <TextBox
             x:Name="UserNameTextBox"
-            Margin="0,16,0,0"
             InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
@@ -42,8 +41,6 @@
         </Grid>
         <StackPanel Spacing="16" Visibility="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToVisibilityConverter}, Mode=OneWay}">
             <PasswordBox
-                Width="360"
-                MaxWidth="360"
                 IsEnabled="{x:Bind VerifyCode, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
                 Password="{x:Bind Password, Mode=TwoWay}"
                 PasswordChar="*"
