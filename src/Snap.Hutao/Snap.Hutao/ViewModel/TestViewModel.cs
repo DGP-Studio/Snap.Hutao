@@ -32,7 +32,6 @@ using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
 // ReSharper disable LocalizableElement
-
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]

@@ -93,7 +93,7 @@ internal sealed partial class BetterGenshinImpactNamedPipeServer
                     {
                         return new()
                         {
-                            Kind = PipeResponseKind.None,
+                            Kind = PipeResponseKind.Object,
                             Data = JsonSerializer.SerializeToElement(automationCultivationService.GetCurrentProject()),
                         };
                     }

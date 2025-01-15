@@ -32,6 +32,8 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     public UserInfo? UserInfo { get; set; }
 
+#pragma warning disable SA1500
+#pragma warning disable SA1513
     public IAdvancedCollectionView<UserGameRole> UserGameRoles
     {
         get;
@@ -42,6 +44,8 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
             AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentUserGameRoleChanged);
         }
     } = default!;
+#pragma warning restore SA1513
+#pragma warning restore SA1500
 
     public string? Fingerprint { get => Entity.Fingerprint; }
 
