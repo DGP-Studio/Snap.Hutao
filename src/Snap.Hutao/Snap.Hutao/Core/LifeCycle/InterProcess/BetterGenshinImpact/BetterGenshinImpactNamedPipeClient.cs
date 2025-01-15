@@ -64,7 +64,7 @@ internal sealed partial class BetterGenshinImpactNamedPipeClient : IDisposable
         }
     }
 
-    public bool TryStartTask(string name)
+    public bool TryStartTask(string id)
     {
         if (!clientStream.TryConnectOnce())
         {
@@ -76,7 +76,7 @@ internal sealed partial class BetterGenshinImpactNamedPipeClient : IDisposable
             PipeRequest<string> startTaskRequest = new()
             {
                 Kind = PipeRequestKind.StartTask,
-                Data = name,
+                Data = id,
             };
             clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.SnapHutaoToBetterGenshinImpactRequest, startTaskRequest);
             clientStream.ReadPacket(out _, out PipeResponse? response);

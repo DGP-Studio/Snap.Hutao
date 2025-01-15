@@ -97,7 +97,7 @@ internal sealed partial class CultivationService : ICultivationService
             Dictionary<uint, StatisticsCultivateItem> resultItems = [];
             Guid projectId = cultivateProject.InnerId;
 
-            foreach (ref readonly CultivateEntry entry in cultivationRepository.GetCultivateEntryImmutaleArrayByProjectId(projectId).AsSpan())
+            foreach (ref readonly CultivateEntry entry in cultivationRepository.GetCultivateEntryImmutableArrayByProjectId(projectId).AsSpan())
             {
                 foreach (ref readonly CultivateItem item in cultivationRepository.GetCultivateItemImmutableArrayByEntryId(entry.InnerId).AsSpan())
                 {

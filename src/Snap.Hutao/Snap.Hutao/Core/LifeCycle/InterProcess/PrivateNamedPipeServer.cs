@@ -3,9 +3,9 @@
 
 using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
+using Snap.Hutao.Core.Security.Principal;
 using System.IO.Pipes;
 using System.Security.AccessControl;
-using System.Security.Principal;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
@@ -27,8 +27,8 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         messageDispatcher = serviceProvider.GetRequiredService<PrivateNamedPipeMessageDispatcher>();
         logger = serviceProvider.GetRequiredService<ILogger<PrivateNamedPipeServer>>();
 
-        PipeSecurity? pipeSecurity = new();
-        pipeSecurity.AddAccessRule(new(new SecurityIdentifier(WellKnownSidType.WorldSid, null), PipeAccessRights.FullControl, AccessControlType.Allow));
+        PipeSecurity pipeSecurity = new();
+        pipeSecurity.AddAccessRule(new(SecurityIdentifiers.Everyone, PipeAccessRights.FullControl, AccessControlType.Allow));
 
         serverStream = NamedPipeServerStreamAcl.Create(
             PrivateNamedPipe.Name,

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Security.Principal;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
-using System.Security.Principal;
 using WinRT;
 
 // Visible to test project.
@@ -58,7 +58,7 @@ public static partial class Bootstrap
         try
         {
             MutexSecurity mutexSecurity = new();
-            mutexSecurity.AddAccessRule(new(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow));
+            mutexSecurity.AddAccessRule(new(SecurityIdentifiers.Everyone, MutexRights.FullControl, AccessControlType.Allow));
             mutex = MutexAcl.Create(true, LockName, out bool created, mutexSecurity);
             Debug.Assert(created);
 

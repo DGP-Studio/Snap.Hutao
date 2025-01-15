@@ -1,7 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
+namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact.Task;
 
 [Injection(InjectAs.Singleton, typeof(IAutomationTaskService))]
 internal sealed class AutomationTaskService : IAutomationTaskService

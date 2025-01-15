@@ -21,7 +21,7 @@ internal interface ICultivationRepository : IRepository<CultivateEntryLevelInfor
 
     void RemoveCultivateProjectById(Guid projectId);
 
-    ImmutableArray<CultivateEntry> GetCultivateEntryImmutaleArrayByProjectId(Guid projectId);
+    ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayByProjectId(Guid projectId);
 
     ImmutableArray<CultivateItem> GetCultivateItemImmutableArrayByEntryId(Guid entryId);
 

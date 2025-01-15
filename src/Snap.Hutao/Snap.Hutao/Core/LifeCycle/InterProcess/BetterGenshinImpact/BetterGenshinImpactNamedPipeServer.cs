@@ -1,10 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Service.Game;
-using System.Collections.Immutable;
+using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact.Cultivation;
+using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact.Task;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 
@@ -12,8 +10,8 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class BetterGenshinImpactNamedPipeServer
 {
+    private readonly IAutomationCultivationService automationCultivationService;
     private readonly IAutomationTaskService automationTaskService;
-    private readonly IGameService gameService;
 
     public PipeResponse DispatchRequest(PipeRequest<JsonElement>? request)
     {
@@ -91,43 +89,16 @@ internal sealed partial class BetterGenshinImpactNamedPipeServer
 
                     break;
 
-                case PipeRequestKind.QueryGameAccountList:
+                case PipeRequestKind.QueryCurrentCultivationProject:
                     {
-                        if (request.Data.Deserialize<AutomationGameAccountType>() is { } type)
+                        return new()
                         {
-                            // ImmutableArray<AutomationGameAccount>.Builder builder = ImmutableArray.CreateBuilder<AutomationGameAccount>();
-                            // if (type is AutomationGameAccountType.UseRegistry)
-                            // {
-                            //     try
-                            //     {
-                            //         ICollection<GameAccount> gameAccounts = gameService.GetGameAccountCollectionAsync().GetAwaiter().GetResult();
-                            //         foreach (GameAccount account in gameAccounts)
-                            //         {
-                            //             builder.Add(new()
-                            //             {
-                            //                 Type = AutomationGameAccountType.UseRegistry | (account.Type is SchemeType.Oversea ? AutomationGameAccountType.Oversea : AutomationGameAccountType.Chinese),
-                            //                 NameOrUserId = account.Name,
-                            //             });
-                            //         }
-                            //     }
-                            //     catch
-                            //     {
-                            //         builder.Clear();
-                            //     }
-                            // }
-                        }
+                            Kind = PipeResponseKind.None,
+                            Data = JsonSerializer.SerializeToElement(automationCultivationService.GetCurrentProject()),
+                        };
                     }
 
-                    break;
-
-                case PipeRequestKind.SwitchGameAccount:
-                    {
-                        // TODO: Implement
-                    }
-
-                    break;
-
-                case PipeRequestKind.QueryCultivationList:
+                case PipeRequestKind.BeginSwitchToNextGameAccount:
                     {
                         // TODO: Implement
                     }

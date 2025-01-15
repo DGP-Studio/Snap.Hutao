@@ -7,4 +7,5 @@ internal enum PipeResponseKind
 {
     None,
     Boolean = 1,
+    ContextObjectType = 2,
 }
