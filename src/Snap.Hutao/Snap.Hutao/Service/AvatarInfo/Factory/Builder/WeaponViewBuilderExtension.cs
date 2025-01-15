@@ -67,12 +67,6 @@ internal static class WeaponViewBuilderExtension
         return builder.Configure(b => b.View.LevelNumber = levelNumber);
     }
 
-    public static TBuilder SetMainProperty<TBuilder>(this TBuilder builder, WeaponStat? mainStat)
-    where TBuilder : IWeaponViewBuilder
-    {
-        return builder.SetMainProperty(mainStat is not null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : NameValueDefaults.String);
-    }
-
     public static TBuilder SetMainProperty<TBuilder>(this TBuilder builder, NameValue<string>? mainProperty)
         where TBuilder : IWeaponViewBuilder
     {
