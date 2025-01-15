@@ -90,15 +90,23 @@ internal static class HutaoRuntime
             return preferredPath;
         }
 
-        // Fallback to LocalApplicationData
-        string localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
 #if IS_ALPHA_BUILD
         const string FolderName = "HutaoAlpha";
 #else
         // 使得迁移能正常生成
         const string FolderName = "Hutao";
 #endif
+
+        string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string oldPath = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
+        if (Directory.Exists(oldPath))
+        {
+            LocalSetting.Set(SettingKeys.DataFolderPath, oldPath);
+            return oldPath;
+        }
+
+        // Prefer LocalApplicationData
+        string localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         string path = Path.GetFullPath(Path.Combine(localApplicationData, FolderName));
         try
         {
@@ -111,6 +119,7 @@ internal static class HutaoRuntime
             HutaoException.InvalidOperation($"Failed to create data folder: {path}", ex);
         }
 
+        LocalSetting.Set(SettingKeys.DataFolderPath, path);
         return path;
     }
 
