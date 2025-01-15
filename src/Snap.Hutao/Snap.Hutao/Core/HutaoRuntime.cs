@@ -90,8 +90,8 @@ internal static class HutaoRuntime
             return preferredPath;
         }
 
-        // Fallback to MyDocuments
-        string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        // Fallback to LocalApplicationData
+        string localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
 #if IS_ALPHA_BUILD
         const string FolderName = "HutaoAlpha";
@@ -99,7 +99,7 @@ internal static class HutaoRuntime
         // 使得迁移能正常生成
         const string FolderName = "Hutao";
 #endif
-        string path = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
+        string path = Path.GetFullPath(Path.Combine(localApplicationData, FolderName));
         try
         {
             Directory.CreateDirectory(path);

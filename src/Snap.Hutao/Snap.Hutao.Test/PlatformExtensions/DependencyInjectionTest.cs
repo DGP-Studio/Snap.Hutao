@@ -40,13 +40,13 @@ public sealed class DependencyInjectionTest
     }
 
     [TestMethod]
-    public void ScopedServiceInitializeMultipleTimesInScope()
+    public void ScopedServiceInitializeOneTimeInScope()
     {
         using (IServiceScope scope = services.CreateScope())
         {
             IScopedService service1 = scope.ServiceProvider.GetRequiredService<IScopedService>();
             IScopedService service2 = scope.ServiceProvider.GetRequiredService<IScopedService>();
-            Assert.AreNotEqual(service1.Id, service2.Id);
+            Assert.AreEqual(service1.Id, service2.Id);
         }
     }
 
@@ -78,10 +78,7 @@ public sealed class DependencyInjectionTest
 
     private sealed class ServiceA : IService, IScopedService
     {
-        public Guid Id
-        {
-            get => Guid.NewGuid();
-        }
+        public Guid Id { get; } =  Guid.NewGuid();
     }
 
     private sealed class ServiceB : IService
