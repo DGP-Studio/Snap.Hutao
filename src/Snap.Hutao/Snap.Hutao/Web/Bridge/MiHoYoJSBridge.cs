@@ -22,19 +22,22 @@ namespace Snap.Hutao.Web.Bridge;
 
 internal class MiHoYoJSBridge
 {
+    /* lang=javascript */
     private const string InitializeJsInterfaceScript = """
         window.MiHoYoJSInterface = {
-            postMessage: function(arg) { chrome.webview.postMessage(arg) },
+            postMessage: function(arg) { window.chrome.webview.postMessage(arg) },
             closePage: function() { this.postMessage('{"method":"closePage"}') },
         };
         """;
 
+    /* lang=javascript */
     private const string HideScrollBarScript = """
-        let st = document.createElement('style');
-        st.innerHTML = '::-webkit-scrollbar{display:none}';
-        document.querySelector('body').appendChild(st);
+        let hideStyle = document.createElement('style');
+        hideStyle.innerHTML = '::-webkit-scrollbar{ display:none }';
+        document.querySelector('body').appendChild(hideStyle);
         """;
 
+    /* lang=javascript */
     private const string ConvertMouseToTouchScript = """
         function mouseListener (e, event) {
             let touch = new Touch({
@@ -323,7 +326,7 @@ internal class MiHoYoJSBridge
 
             BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions, fileSystemPickerInteraction, shareSaveType);
 
-            return await BridgeShareImplementation.ShareAsync(param, context).ConfigureAwait(false);
+            return await BridgeShare.ShareAsync(param, context).ConfigureAwait(false);
         }
     }
 
@@ -422,7 +425,7 @@ internal class MiHoYoJSBridge
 
             if (result is not null && param.Callback is not null)
             {
-                await ExecuteCallbackScriptAsync(param.Callback, result.ToJson()).ConfigureAwait(false);
+                await ExecuteCallbackScriptAsync(param.Callback, JsonSerializer.Serialize(result, result.GetType())).ConfigureAwait(false);
             }
         }
     }

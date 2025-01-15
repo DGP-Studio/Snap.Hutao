@@ -14,13 +14,6 @@ internal sealed class DataSignV2Payload
     [SuppressMessage("", "CA1308")]
     public string GetQueryParam()
     {
-        // TODO : improve here.
-        IEnumerable<string> parts = Query
-            .OrderBy(x => x.Key)
-            .Select(x => x.Value.ValueKind is JsonValueKind.True or JsonValueKind.False
-                ? $"{x.Key}={x.Value.ToString().ToLowerInvariant()}"
-                : $"{x.Key}={x.Value}");
-
-        return string.Join('&', parts);
+        return string.Join('&', Query.OrderBy(x => x.Key).Select(x => JsonSerializer.Serialize(x.Value)));
     }
 }
