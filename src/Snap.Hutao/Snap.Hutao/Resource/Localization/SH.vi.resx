@@ -1670,6 +1670,12 @@
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
     <value>Bạn có thể thay đổi trong Cài đặt sau</value>
   </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>Thư mục dữ liệu được dùng để lưu trữ các tập tin như hình nền tùy chỉnh, siêu dữ liệu, bộ đệm chuyển đổi máy chủ, bộ đệm cập nhật, v.v.</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* Thư mục dữ liệu mặc định sẽ bị xóa khi gỡ cài đặt, bạn có thể thay đổi trong phần cài đặt sau.</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Tài liệu</value>
   </data>
