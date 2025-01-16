@@ -5,6 +5,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
@@ -28,6 +30,24 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
     public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
+    internal static bool InternalSetDataFolder(IFileSystemPickerInteraction fileSystemPickerInteraction)
+    {
+        if (!fileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolder))
+        {
+            return false;
+        }
+
+        string oldFolder = HutaoRuntime.DataFolder;
+        if (Path.GetFullPath(oldFolder).Equals(Path.GetFullPath(newFolder), StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        HutaoException.ThrowIfNot(DirectoryOperation.Move(oldFolder, newFolder), "Move DataFolder failed");
+        LocalSetting.Set(SettingKeys.DataFolderPath, newFolder);
+        return true;
+    }
+
     [Command("OpenBackgroundImageFolderCommand")]
     private static async Task OpenBackgroundImageFolderAsync()
     {
@@ -37,9 +57,8 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     [Command("SetDataFolderCommand")]
     private void SetDataFolder()
     {
-        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string? folder))
+        if (InternalSetDataFolder(fileSystemPickerInteraction))
         {
-            LocalSetting.Set(SettingKeys.DataFolderPath, folder);
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
     }

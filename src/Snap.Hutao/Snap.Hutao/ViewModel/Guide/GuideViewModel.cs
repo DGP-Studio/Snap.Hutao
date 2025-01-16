@@ -1,18 +1,22 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.VisualBasic.FileIO;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
+using Snap.Hutao.ViewModel.Setting;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
@@ -175,9 +179,8 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     [Command("SetDataFolderCommand")]
     private void SetDataFolder()
     {
-        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string? folder))
+        if (SettingStorageViewModel.InternalSetDataFolder(fileSystemPickerInteraction))
         {
-            LocalSetting.Set(SettingKeys.DataFolderPath, folder);
             AppInstance.Restart(string.Empty);
         }
     }

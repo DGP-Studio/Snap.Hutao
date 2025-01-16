@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
@@ -162,23 +162,33 @@
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
     <AdditionalFiles Include="IdentityStructs.json" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.de.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.en.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.es.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.fr.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.id.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.it.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.ja.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.ko.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.pt.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.ru.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.th.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.tr.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.vi.resx" />
     <AdditionalFiles Include="Resource\Localization\SHRegex.zh-Hant.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.de.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.en.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.es.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.fr.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.id.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.it.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ja.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.pt.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ru.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.th.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.tr.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.vi.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
     <AdditionalFiles Include="stylecop.json" />
