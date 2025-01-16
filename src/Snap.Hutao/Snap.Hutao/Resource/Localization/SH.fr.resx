@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Échec de la sauvegarde du chemin du jeu</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>Le dossier sélectionné n'est pas vide, les fichiers existants seront écrasés</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>Copier les fichiers de données</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Le répertoire de données actuel '{0}' contient un ou plusieurs points d'analyse (Reparse points), ce qui peut empêcher certaines fonctions dépendantes du dossier de données de fonctionner correctement. Veuillez modifier le chemin dans les paramètres.</value>
   </data>
