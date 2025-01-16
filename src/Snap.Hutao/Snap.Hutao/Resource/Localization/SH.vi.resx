@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Lưu đường dẫn trò chơi thất bại</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>Thư mục đã chọn không trống, các tệp hiện có sẽ bị ghi đè</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>Sao chép tệp dữ liệu</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Thư mục dữ liệu hiện tại '{0}' chứa một hoặc nhiều điểm phân tích lại (Reparse points), điều này có thể làm cho một số chức năng phụ thuộc vào thư mục dữ liệu không hoạt động bình thường, vui lòng vào Cài đặt để thay đổi đường dẫn</value>
   </data>
