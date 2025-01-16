@@ -1672,10 +1672,10 @@
     <value>これらは後で設定で変更できます</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>データフォルダーは、カスタム壁紙，メタデータ，サーバー切替キャッシュ，アップデートキャッシュ等のファイルを保存するために使用されます</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
-    <value>* 默认的数据文件夹会在卸载时一同删除，稍后可以在设置中修改</value>
+    <value>* デフォルトのデータフォルダーは、アンインストール時に一緒に削除されます。後で設定で変更できます</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>ドキュメント</value>
@@ -2143,10 +2143,10 @@
     <value>ゲームパスの保存に失敗しました</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
-    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+    <value>選択したフォルダーが空でない場合、既存のファイルが上書きされます</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
-    <value>复制数据文件</value>
+    <value>データファイルをコピー</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>現在のデータディレクトリ '{0}' には1つ以上の再解析ポイント (Reparse points) が含まれている為、データフォルダに依存する一部の機能が正常に動作しなくなるかもしれない故、設定へパスを変更してください！</value>
@@ -3563,10 +3563,10 @@
     <value>キャラ攻略</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
-    <value>米游社角色攻略</value>
+    <value>米游社キャラクター攻略</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
-    <value>HoYoLAB 角色攻略</value>
+    <value>HoYoLAB キャラクター攻略</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>天賦</value>
