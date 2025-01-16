@@ -4,6 +4,7 @@
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Web.Hoyolab;
@@ -19,6 +20,7 @@ namespace Snap.Hutao.ViewModel.Guide;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
@@ -26,7 +28,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     {
         get
         {
-            GuideState state = UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language);
+            GuideState state = UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language);
 
             if (state is GuideState.Document)
             {
@@ -55,7 +57,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
         set
         {
-            LocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, value);
+            LocalSetting.Set(SettingKeys.GuideState, value);
             OnPropertyChanged();
         }
     }
@@ -170,6 +172,16 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         ++State;
     }
 
+    [Command("SetDataFolderCommand")]
+    private void SetDataFolder()
+    {
+        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string? folder))
+        {
+            LocalSetting.Set(SettingKeys.DataFolderPath, folder);
+            AppInstance.Restart(string.Empty);
+        }
+    }
+
     private void OnAgreementStateChanged()
     {
         IsNextOrCompleteButtonEnabled = IsTermOfServiceAgreed && IsPrivacyPolicyAgreed && IsIssueReportAgreed && IsOpenSourceLicenseAgreed;
@@ -192,7 +204,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }).ConfigureAwait(false);
 
         StaticResource.FulfillAll();
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Completed);
+        UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.Completed);
         AppInstance.Restart(string.Empty);
     }
 }

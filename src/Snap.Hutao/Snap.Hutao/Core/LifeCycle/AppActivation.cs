@@ -151,7 +151,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);
 
         // In guide
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+        if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) < GuideState.Completed)
         {
             return;
         }
@@ -242,15 +242,15 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
 
         // If the guide is completed, we check if there's any unfulfilled resource category present.
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
+        if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
         {
             if (StaticResource.IsAnyUnfulfilledCategoryPresent())
             {
-                UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+                UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.StaticResourceBegin);
             }
         }
 
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+        if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) < GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
 

@@ -119,7 +119,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language);
+        UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.Language);
     }
 
     [Command("ExceptionCommand")]

@@ -120,6 +120,7 @@
             Grid.Row="0"
             ContentTransitions="{ThemeResource EntranceThemeTransitions}"
             Value="{Binding State, Mode=OneWay}">
+            <!--  Language  -->
             <cwc:Case Value="{shuxm:UInt32 Value=0}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -202,6 +203,8 @@
                     </StackPanel>
                 </Grid>
             </cwc:Case>
+
+            <!--  Document  -->
             <cwc:Case Value="{shuxm:UInt32 Value=1}">
                 <Grid
                     HorizontalAlignment="Center"
@@ -262,6 +265,8 @@
                     </StackPanel>
                 </Grid>
             </cwc:Case>
+
+            <!--  Environment  -->
             <cwc:Case Value="{shuxm:UInt32 Value=2}">
                 <Grid>
                     <StackPanel
@@ -314,7 +319,45 @@
                     </StackPanel>
                 </Grid>
             </cwc:Case>
+
+            <!--  DataFolder  -->
             <cwc:Case Value="{shuxm:UInt32 Value=3}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="{ThemeResource SettingsCardSpacing}">
+                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewGuideStepDataFolderHeader}"/>
+                        <cwc:SettingsCard
+                            HorizontalAlignment="Stretch"
+                            ActionIcon="{shuxm:FontIcon Glyph=&#xE76C;}"
+                            ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingStorageSetAction}"
+                            Command="{Binding SetDataFolderCommand}"
+                            Description="{Binding RuntimeOptions.DataFolder}"
+                            Header="{shuxm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
+                            IsClickEnabled="True"/>
+                    </StackPanel>
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Opacity="0.7"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{shuxm:ResourceString Name=ViewGuideStepDataFolderHint}"/>
+                </Grid>
+            </cwc:Case>
+
+            <!--  CommonSetting  -->
+            <cwc:Case Value="{shuxm:UInt32 Value=4}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -345,7 +388,9 @@
                         Text="{shuxm:ResourceString Name=ViewGuideStepCommonSettingHint}"/>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shuxm:UInt32 Value=4}">
+
+            <!--  StaticResourceSetting  -->
+            <cwc:Case Value="{shuxm:UInt32 Value=5}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -433,7 +478,9 @@
                         Text="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSettingHint}"/>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shuxm:UInt32 Value=5}">
+
+            <!--  StaticResourceBegin  -->
+            <cwc:Case Value="{shuxm:UInt32 Value=6}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -478,17 +525,10 @@
                     HorizontalAlignment="Center"
                     IsHitTestVisible="False"
                     SelectedIndex="{Binding State, Mode=TwoWay}">
-                    <!--
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepLanguage}" Icon="{shuxm:FontIcon Glyph=&#xF2B7;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepDocument}" Icon="{shuxm:FontIcon Glyph=&#xF28B;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepEnvironment}" Icon="{shuxm:FontIcon Glyph=&#xE81E;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepCommonSetting}" Icon="{shuxm:FontIcon Glyph=&#xE713;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSetting}" Icon="{shuxm:FontIcon Glyph=&#xE8BA;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepStaticResource}" Icon="{shuxm:FontIcon Glyph=&#xE8B9;}"/>
-                    -->
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xF2B7;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xF28B;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE81E;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8B7;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE713;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8BA;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8B9;}"/>

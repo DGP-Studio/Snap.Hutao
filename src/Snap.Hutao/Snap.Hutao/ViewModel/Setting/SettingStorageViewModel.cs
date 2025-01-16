@@ -83,7 +83,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             await taskContext.SwitchToBackgroundAsync();
             StaticResource.FailAll();
             Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
-            UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+            UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.StaticResourceBegin);
         }
 
         // TODO: prompt user that restart will be non-elevated

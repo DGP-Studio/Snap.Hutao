@@ -106,7 +106,7 @@ internal static class HutaoRuntime
         }
 
         // Prefer LocalApplicationData
-        string localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        string localApplicationData = ApplicationData.Current.LocalFolder.Path;
         string path = Path.GetFullPath(Path.Combine(localApplicationData, FolderName));
         try
         {
