@@ -3560,6 +3560,12 @@
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
     <value>Stratégies de personnage</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>Guide de personnage de 米游社</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>Guide de personnage HoYoLAB</value>
+  </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talent</value>
   </data>
