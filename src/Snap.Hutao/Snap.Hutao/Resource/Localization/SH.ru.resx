@@ -1671,10 +1671,10 @@
     <value>Это можно изменить позже в настройках</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Папка данных используется для хранения пользовательских обоев, метаданных, кэша переключения серверов, кэша обновлений и других файлов</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
-    <value>* 默认的数据文件夹会在卸载时一同删除，稍后可以在设置中修改</value>
+    <value>* Папка данных по умолчанию будет удалена при удалении программы, позже ее можно будет изменить в настройках</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Документация</value>
