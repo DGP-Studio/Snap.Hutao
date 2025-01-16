@@ -227,8 +227,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("StrategyCommand")]
-    private async Task OpenStrategyWebViewAsync(Avatar? avatar)
+    [Command("ChineseStrategyCommand")]
+    private async Task OpenChineseStrategyWebsiteAsync(Avatar? avatar)
     {
         if (avatar is null)
         {
@@ -243,7 +243,33 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        Uri targetUri = cultureOptions.LocaleName is LocaleNames.CHS ? strategy.ChineseStrategyUrl : strategy.OverseaStrategyUrl;
+        Uri targetUri = strategy.ChineseStrategyUrl;
+        if (string.IsNullOrEmpty(targetUri.OriginalString))
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        await Launcher.LaunchUriAsync(targetUri);
+    }
+
+    [Command("OverseaStrategyCommand")]
+    private async Task OpenOverseaStrategyWebsiteAsync(Avatar? avatar)
+    {
+        if (avatar is null)
+        {
+            return;
+        }
+
+        AvatarStrategy? strategy = await avatarStrategyService.GetStrategyByAvatarId(avatar.Id).ConfigureAwait(false);
+
+        if (strategy is null)
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        Uri targetUri = strategy.OverseaStrategyUrl;
         if (string.IsNullOrEmpty(targetUri.OriginalString))
         {
             infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
