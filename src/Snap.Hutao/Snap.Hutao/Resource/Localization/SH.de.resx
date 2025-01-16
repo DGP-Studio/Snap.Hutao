@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Speichern des Spielpfads fehlgeschlagen</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>复制数据文件</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Das aktuelle Datenverzeichnis "{0}" enthält einen oder mehrere Reanalyse-Punkte (Reparse Points). Dies kann dazu führen, dass einige Funktionen, die vom Datenordner abhängen, nicht ordnungsgemäß funktionieren. Bitte ändere den Pfad in den Einstellungen.</value>
   </data>
