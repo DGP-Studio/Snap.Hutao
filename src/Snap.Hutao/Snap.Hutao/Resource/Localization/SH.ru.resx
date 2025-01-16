@@ -2142,10 +2142,10 @@
     <value>Ошибка сохранения игрового пути</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
-    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+    <value>Выбранная папка не пуста, существующие файлы будут перезаписаны</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
-    <value>复制数据文件</value>
+    <value>Копирование файлов данных</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Текущий каталог данных '{0}' содержит одну или несколько точек повторной обработки (reparse points), что может привести к неправильной работе некоторых функций, зависящих от папки данных. Пожалуйста, перейдите в настройки, чтобы изменить путь.</value>
@@ -3559,6 +3559,12 @@
   </data>
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
     <value>Стратегии персонажа</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>米游社角色攻略</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>HoYoLAB 角色攻略</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Таланты</value>
