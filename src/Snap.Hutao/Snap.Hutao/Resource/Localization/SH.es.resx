@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Error al guardar la ruta del juego</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>复制数据文件</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>El directorio de datos actual '{0}' contiene uno o más puntos de reanálisis, lo que puede provocar que algunas funciones que dependen de la carpeta de datos no funcionen correctamente. Vaya a la configuración para cambiar la ruta.</value>
   </data>
