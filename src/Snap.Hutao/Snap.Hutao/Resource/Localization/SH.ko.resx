@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>게임 경로 저장 실패</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>复制数据文件</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>현재 데이터 디렉터리 '{0}'에는 하나 이상의 재분석 지점(Reparse points)이 포함되어 있어 데이터 폴더에 의존하는 일부 기능이 제대로 작동하지 않을 수 있습니다. 설정으로 이동하여 경로를 변경하세요.</value>
   </data>
