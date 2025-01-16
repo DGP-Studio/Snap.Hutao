@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Falha ao salvar o caminho do jogo</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>复制数据文件</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>O diretório de dados atual '{0}' contém um ou mais pontos de nova análise (Reparse points), o que pode fazer com que algumas funções que dependem da pasta de dados não funcionem corretamente. Vá para as Configurações para alterar o caminho.</value>
   </data>
