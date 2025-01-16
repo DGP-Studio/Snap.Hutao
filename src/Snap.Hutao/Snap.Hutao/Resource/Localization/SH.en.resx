@@ -1670,6 +1670,12 @@
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
     <value>You may make changes in Settings</value>
   </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* 默认的数据文件夹会在卸载时一同删除，稍后可以在设置中修改</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Document</value>
   </data>
