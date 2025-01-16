@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>儲存遊戲路徑失敗</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>复制数据文件</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>目前資料目錄 '{0}' 包含了一個或多個重新剖析點（Reparse points），可能會導致部分依賴資料資料夾的功能無法正常工作，請前往設定更改路徑</value>
   </data>
