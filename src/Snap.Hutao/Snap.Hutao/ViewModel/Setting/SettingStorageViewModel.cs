@@ -30,7 +30,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
     public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
-    internal static bool InternalSetDataFolder(IFileSystemPickerInteraction fileSystemPickerInteraction)
+    internal static async ValueTask<bool> InternalSetDataFolderAsync(IFileSystemPickerInteraction fileSystemPickerInteraction, IContentDialogFactory contentDialogFactory)
     {
         if (!fileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolder))
         {
@@ -41,6 +41,18 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         if (Path.GetFullPath(oldFolder).Equals(Path.GetFullPath(newFolder), StringComparison.OrdinalIgnoreCase))
         {
             return false;
+        }
+
+        if (Directory.EnumerateFileSystemEntries(newFolder).Any())
+        {
+            ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+                SH.ViewModelSettingStorageSetDataFolderTitle,
+                SH.ViewModelSettingStorageSetDataFolderDescription)
+                .ConfigureAwait(false);
+            if (result is not ContentDialogResult.Primary)
+            {
+                return false;
+            }
         }
 
         HutaoException.ThrowIfNot(DirectoryOperation.Copy(oldFolder, newFolder), "Move DataFolder failed");
@@ -55,9 +67,9 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     }
 
     [Command("SetDataFolderCommand")]
-    private void SetDataFolder()
+    private async Task SetDataFolderAsync()
     {
-        if (InternalSetDataFolder(fileSystemPickerInteraction))
+        if (await InternalSetDataFolderAsync(fileSystemPickerInteraction, contentDialogFactory).ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
