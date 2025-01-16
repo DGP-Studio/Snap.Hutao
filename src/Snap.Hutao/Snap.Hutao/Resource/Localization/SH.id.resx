@@ -2141,6 +2141,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Gagal menyimpan path game</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>复制数据文件</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Direktori data saat ini '{0}' berisi satu atau beberapa titik reparse (Reparse point), yang dapat menyebabkan beberapa fungsi yang bergantung pada folder data tidak berfungsi dengan baik, silakan buka Pengaturan untuk mengubah path.</value>
   </data>
