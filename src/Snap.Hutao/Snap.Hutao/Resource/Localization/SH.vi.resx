@@ -3560,6 +3560,12 @@
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
     <value>Hướng dẫn nhân vật</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>Hướng dẫn nhân vật của 米游社</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>Hướng dẫn nhân vật HoYoLAB</value>
+  </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Thiên phú</value>
   </data>
