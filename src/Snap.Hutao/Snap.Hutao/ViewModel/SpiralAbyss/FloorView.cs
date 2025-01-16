@@ -14,8 +14,8 @@ internal sealed partial class FloorView : IAdvancedCollectionViewItem
         Index = SH.FormatModelBindingHutaoComplexRankFloor(floor.Index);
         IndexValue = floor.Index;
         Disorders = floor.Descriptions;
-        UpDisorders = floor.FirstDescriptions;
-        DownDisorders = floor.SecondDescriptions;
+        UpDisorders = floor.FirstDescriptions.EmptyIfDefault();
+        DownDisorders = floor.SecondDescriptions.EmptyIfDefault();
 
         Levels = context.IdArrayTowerLevelMap[floor.LevelGroupId].OrderBy(l => l.Index).Select(l => LevelView.From(l, context)).ToList();
     }
