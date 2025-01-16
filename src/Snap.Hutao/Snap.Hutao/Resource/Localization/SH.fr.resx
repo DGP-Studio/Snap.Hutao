@@ -1670,6 +1670,12 @@
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
     <value>Vous pouvez modifier les paramètres ultérieurement</value>
   </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>Le dossier de données est utilisé pour stocker les fonds d'écran personnalisés, les métadonnées, les commutateurs de cache de serveur, les caches de mise à jour et d'autres fichiers</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* Le dossier de données par défaut sera supprimé lors de la désinstallation, et il pourra être modifié ultérieurement dans les paramètres</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Documentations</value>
   </data>
