@@ -1826,6 +1826,15 @@
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>Operasi tidak sepenuhnya selesai, ditambahkan/diperbarui {0}, dilewati {1}</value>
   </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>正在清空背包物品</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>Konfirmasi untuk mengosongkan semua item tas di rencana saat ini?</value>
+  </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>Level yang dipilih tidak memerlukan bahan peningkatan level</value>
   </data>
@@ -2329,6 +2338,9 @@
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>Tambahkan karakter dan senjata saya ke Rencana Pengembangan.</value>
+  </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>Kosongkan Item Tas</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>Item pengembangan</value>
