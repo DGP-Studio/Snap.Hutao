@@ -13,9 +13,14 @@ internal sealed partial class InventoryRepository : IInventoryRepository
 {
     public partial IServiceProvider ServiceProvider { get; }
 
-    public void RemoveInventoryItemRangeByProjectId(Guid projectId)
+    public void RemoveInventoryItems(Guid projectId)
     {
         this.Delete(i => i.ProjectId == projectId);
+    }
+
+    public void RemoveAllInventoryItem()
+    {
+        this.Delete();
     }
 
     public void AddInventoryItemRangeByProjectId(List<InventoryItem> items)

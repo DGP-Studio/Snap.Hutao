@@ -12,7 +12,7 @@ internal interface IInventoryService
 {
     ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand);
 
-    void RemoveInventoryItemRangeByProjectId(CultivateProject cultivateProject);
+    void RemoveInventoryItems(CultivateProject cultivateProject);
 
     void SaveInventoryItem(InventoryItemView item);
 

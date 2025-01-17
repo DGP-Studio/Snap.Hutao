@@ -254,18 +254,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
-        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+        ContentDialog dialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationClearInventoryProgress)
+            .ConfigureAwait(false);
+        using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
-            ContentDialog dialog = await contentDialogFactory
-                .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationClearInventoryProgress)
-                .ConfigureAwait(false);
-            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
-            {
-                inventoryService.RemoveInventoryItemRangeByProjectId(project);
+            inventoryService.RemoveInventoryItems(project);
 
-                await UpdateInventoryItemsAsync().ConfigureAwait(false);
-                await UpdateStatisticsItemsAsync().ConfigureAwait(false);
-            }
+            await UpdateInventoryItemsAsync().ConfigureAwait(false);
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
     }
 

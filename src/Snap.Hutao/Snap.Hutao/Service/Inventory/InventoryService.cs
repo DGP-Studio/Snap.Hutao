@@ -44,10 +44,10 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
-    public void RemoveInventoryItemRangeByProjectId(CultivateProject cultivateProject)
+    public void RemoveInventoryItems(CultivateProject cultivateProject)
     {
         Guid projectId = cultivateProject.InnerId;
-        inventoryRepository.RemoveInventoryItemRangeByProjectId(projectId);
+        inventoryRepository.RemoveInventoryItems(projectId);
     }
 
     public async ValueTask RefreshInventoryAsync(ICultivationMetadataContext context, CultivateProject project)
@@ -77,7 +77,7 @@ internal sealed partial class InventoryService : IInventoryService
 
         if (batchConsumption is { OverallConsume: { } items })
         {
-            inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
+            inventoryRepository.RemoveInventoryItems(project.InnerId);
             inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
         }
     }
