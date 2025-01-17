@@ -317,6 +317,7 @@
                                     <MenuFlyoutItem
                                         Command="{Binding ImportUIAFFromYaeLibCommand}"
                                         Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
+                                        IsEnabled="{Binding RuntimeOptions.IsElevated}"
                                         Text="{shuxm:ResourceString Name=ViewPageAchievementImportFromYaeLib}"/>
                                     <MenuFlyoutItem
                                         Command="{Binding ImportUIAFFromClipboardCommand}"

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
@@ -35,6 +36,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
+
+    public partial RuntimeOptions RuntimeOptions { get; }
 
     public IAdvancedDbCollectionView<CultivateProject>? Projects
     {

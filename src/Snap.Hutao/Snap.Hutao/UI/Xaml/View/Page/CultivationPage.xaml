@@ -324,7 +324,10 @@
                         <AppBarButton.Flyout>
                             <MenuFlyout Placement="BottomEdgeAlignedRight">
                                 <MenuFlyoutItem Command="{Binding RefreshInventoryByCalculatorCommand}" Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByCalculator}"/>
-                                <MenuFlyoutItem Command="{Binding RefreshInventoryByYaeLibCommand}" Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByYaeLib}"/>
+                                <MenuFlyoutItem
+                                    Command="{Binding RefreshInventoryByYaeLibCommand}"
+                                    IsEnabled="{Binding RuntimeOptions.IsElevated}"
+                                    Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByYaeLib}"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
