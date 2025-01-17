@@ -154,7 +154,7 @@
     <value>Select All</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid URL</value>
+    <value>Invalid URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -1671,10 +1671,10 @@
     <value>You may make changes in Settings</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Data folder is used to store files such as custom wallpapers, metadata, switch server cache, update cache, etc.</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
-    <value>* 默认的数据文件夹会在卸载时一同删除，稍后可以在设置中修改</value>
+    <value>* The default data folder will be deleted during uninstallation, you can change it in settings later</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Document</value>
@@ -1827,13 +1827,13 @@
     <value>Operation not fully completed, added/updated {0}, skipped {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+    <value>This operation is irreversible, inventory items in this plan will be lost.</value>
   </data>
   <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
-    <value>正在清空背包物品</value>
+    <value>Clearing inventory items</value>
   </data>
   <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
-    <value>确认要清空当前计划下的所有背包物品吗？</value>
+    <value>Confirm clear all inventory items in current plan?</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>The selected level does not require ingredients</value>
@@ -2151,10 +2151,10 @@
     <value>Failed to save game path</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
-    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+    <value>The selected folder is not empty, existing files will be overwritten</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
-    <value>复制数据文件</value>
+    <value>Copy Data Files</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>The current data directory '{0}' contains one or more reparse points, which may cause some of the functions that depend on the data folder to not work properly, please go to Settings to change the path.</value>
@@ -2340,7 +2340,7 @@
     <value>Add my characters and weapons to Development Plan</value>
   </data>
   <data name="ViewPageCultivationClearInventory" xml:space="preserve">
-    <value>清空背包物品</value>
+    <value>Clear Inventory Items</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>Development Items</value>
@@ -3573,10 +3573,10 @@
     <value>Character Guides</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
-    <value>米游社角色攻略</value>
+    <value>MiYouShe Character Guides</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
-    <value>HoYoLAB 角色攻略</value>
+    <value>HoYoLAB Character Guides</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talent</value>
