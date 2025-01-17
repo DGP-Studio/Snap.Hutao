@@ -1671,10 +1671,10 @@
     <value>Daha sonra Ayarlar'dan değişiklik yapabilirsiniz</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Veri klasörü, özel duvar kağıtları, meta veriler, sunucu önbelleğini değiştirme, güncelleme önbelleği vb. dosyaları depolamak için kullanılır</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
-    <value>* 默认的数据文件夹会在卸载时一同删除，稍后可以在设置中修改</value>
+    <value>* Varsayılan veri klasörü kaldırma sırasında silinecektir, daha sonra ayarlardan değiştirebilirsiniz</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Belge</value>
@@ -1827,13 +1827,13 @@
     <value>İşlem tam olarak tamamlanmadı: Eklendi / Güncellendi: {0}, atlandı {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+    <value>Bu işlem geri alınamaz, bu plandaki envanter öğeleri kaybolacaktır.</value>
   </data>
   <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
-    <value>正在清空背包物品</value>
+    <value>Envanter öğeleri temizleniyor</value>
   </data>
   <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
-    <value>确认要清空当前计划下的所有背包物品吗？</value>
+    <value>Mevcut plandaki tüm envanter öğelerini temizlemek istediğinize emin misiniz?</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>Seçilen seviye için yetiştirme malzemesine gerek yok</value>
@@ -2151,10 +2151,10 @@
     <value>Oyun yolu kaydetme başarısız</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
-    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+    <value>Seçilen klasör boş değil, mevcut dosyaların üzerine yazılacak</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
-    <value>复制数据文件</value>
+    <value>Veri Dosyalarını Kopyala</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Geçerli veri dizini '{0}', bir veya daha fazla yeniden ayrıştırma noktası (Reparse point) içeriyor ve bu da veri klasörüne bağlı bazı işlevlerin düzgün çalışmamasına neden olabilir, lütfen yolu değiştirmek için ayarlara gidin.</value>
@@ -2340,7 +2340,7 @@
     <value>Karakterlerimi ve silahlarımı Geliştirme Planına ekle</value>
   </data>
   <data name="ViewPageCultivationClearInventory" xml:space="preserve">
-    <value>清空背包物品</value>
+    <value>Envanter Öğelerini Temizle</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>Geliştirme Öğeleri</value>
@@ -3573,10 +3573,10 @@
     <value>Karakter Rehberi</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
-    <value>米游社角色攻略</value>
+    <value>米游社 Karakter Rehberleri</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
-    <value>HoYoLAB 角色攻略</value>
+    <value>HoYoLAB Karakter Rehberleri</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Yetenek</value>
@@ -3672,10 +3672,10 @@
     <value>Bu Dönem İstatistikleri</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
-    <value>下半</value>
+    <value>İkinci Yarı</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
-    <value>上半</value>
+    <value>İlk Yarı</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>En Derin İniş</value>
