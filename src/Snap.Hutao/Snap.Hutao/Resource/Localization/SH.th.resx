@@ -1671,10 +1671,10 @@
     <value>คุณสามารถเปลี่ยนแปลงได้ในการตั้งค่าภายหลัง</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>โฟลเดอร์ข้อมูลใช้สำหรับจัดเก็บไฟล์ เช่น วอลเปเปอร์แบบกำหนดเอง, ข้อมูลเมตา, แคชสวิตช์เซิร์ฟเวอร์, แคชอัปเดต และอื่นๆ</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
-    <value>* 默认的数据文件夹会在卸载时一同删除，稍后可以在设置中修改</value>
+    <value>* โฟลเดอร์ข้อมูลเริ่มต้นจะถูกลบเมื่อถอนการติดตั้ง สามารถแก้ไขได้ภายหลังในการตั้งค่า</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>เอกสาร</value>
@@ -1827,13 +1827,13 @@
     <value>ดำเนินการไม่เสร็จสมบูรณ์: เพิ่ม / อัปเดต: {0} ข้าม {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+    <value>การดำเนินการนี้ไม่สามารถยกเลิกได้ ไอเทมในกระเป๋าของแผนนี้จะสูญหาย</value>
   </data>
   <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
-    <value>正在清空背包物品</value>
+    <value>กำลังล้างไอเทมในกระเป๋า</value>
   </data>
   <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
-    <value>确认要清空当前计划下的所有背包物品吗？</value>
+    <value>ยืนยันที่จะล้างไอเทมในกระเป๋าของแผนปัจจุบันทั้งหมดหรือไม่?</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>ระดับที่เลือกไม่จำเป็นต้องใช้วัสดุบ่มเพาะ</value>
@@ -2151,10 +2151,10 @@
     <value>บันทึกเส้นทางเกมล้มเหลว</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
-    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+    <value>โฟลเดอร์ที่เลือกไม่ว่างเปล่า ไฟล์ที่มีอยู่จะถูกเขียนทับ</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
-    <value>复制数据文件</value>
+    <value>คัดลอกไฟล์ข้อมูล</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>ไดเรกทอรีข้อมูลปัจจุบัน '{0}' มีจุดแยกวิเคราะห์ (Reparse points) อย่างน้อยหนึ่งจุด ซึ่งอาจทำให้ฟังก์ชันบางอย่างที่ขึ้นอยู่กับโฟลเดอร์ข้อมูลทำงานไม่ถูกต้อง โปรดไปที่การตั้งค่าเพื่อเปลี่ยนเส้นทาง</value>
@@ -2340,7 +2340,7 @@
     <value>เพิ่มตัวละครและอาวุธของฉันไปยังแผนการบ่มเพาะ</value>
   </data>
   <data name="ViewPageCultivationClearInventory" xml:space="preserve">
-    <value>清空背包物品</value>
+    <value>ล้างไอเทมในกระเป๋า</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>ไอเทมบ่มเพาะ</value>
@@ -3573,10 +3573,10 @@
     <value>กลยุทธ์ตัวละคร</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
-    <value>米游社角色攻略</value>
+    <value>คู่มือตัวละครของ米游社</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
-    <value>HoYoLAB 角色攻略</value>
+    <value>คู่มือตัวละครของ HoYoLAB</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>พรสวรรค์</value>
@@ -3672,10 +3672,10 @@
     <value>สถิติปัจจุบัน</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
-    <value>下半</value>
+    <value>ครึ่งหลัง</value>
   </data>
   <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
-    <value>上半</value>
+    <value>ครึ่งแรก</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>ระดับที่ลึกที่สุด</value>
