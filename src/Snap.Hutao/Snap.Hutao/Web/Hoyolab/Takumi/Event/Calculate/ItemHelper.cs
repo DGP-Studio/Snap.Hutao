@@ -1,29 +1,33 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.InteropServices;
+using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 internal static class ItemHelper
 {
-    public static List<Item> Merge(List<Item>? left, List<Item>? right)
+    public static ImmutableArray<Item> Merge(ImmutableArray<Item> left, ImmutableArray<Item> right)
     {
+        Debug.Assert(!left.IsDefault);
+        Debug.Assert(!right.IsDefault);
+
         return (left, right) switch
         {
             ([_, ..], [_, ..]) => MergeNotEmpty(left, right),
-            ([_, ..], null or []) => left,
-            (null or [], [_, ..]) => right,
+            ([_, ..], []) => left,
+            ([], [_, ..]) => right,
             _ => [],
         };
     }
 
-    private static List<Item> MergeNotEmpty(List<Item> left, List<Item> right)
+    private static ImmutableArray<Item> MergeNotEmpty(ImmutableArray<Item> left, ImmutableArray<Item> right)
     {
-        List<Item> result = new(left.Count + right.Count);
+        ImmutableArray<Item>.Builder result = ImmutableArray.CreateBuilder<Item>(left.Length + right.Length);
         result.AddRange(left);
 
-        foreach (ref readonly Item item in CollectionsMarshal.AsSpan(right))
+        foreach (ref readonly Item item in right.AsSpan())
         {
             uint id = item.Id;
             if (result.SingleOrDefault(i => i.Id == id) is { } existed)
@@ -36,6 +40,6 @@ internal static class ItemHelper
             }
         }
 
-        return result;
+        return result.ToImmutable();
     }
 }

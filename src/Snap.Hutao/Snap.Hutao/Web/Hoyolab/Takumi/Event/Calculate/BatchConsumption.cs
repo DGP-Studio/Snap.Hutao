@@ -10,6 +10,9 @@ internal sealed class BatchConsumption
     [JsonPropertyName("items")]
     public ImmutableArray<Consumption> Items { get; set; }
 
+    [JsonPropertyName("available_material")]
+    public ImmutableArray<Item> AvailableMaterial { get; set; }
+
     [JsonPropertyName("overall_consume")]
     public ImmutableArray<Item> OverallConsume { get; set; }
 
