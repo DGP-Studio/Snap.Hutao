@@ -97,7 +97,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)stream.Length))
         {
             Span<byte> span = memoryOwner.Memory.Span;
-            stream.Read(span);
+            stream.ReadExactly(span);
 
             ReadOnlySpan<byte> match = isOversea
                 ? "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v3/index.html"u8
@@ -108,9 +108,12 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             {
                 index += match.Length;
 
-                byte* ptr = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(span[index..]));
-                ReadOnlySpan<byte> target = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
-                return Encoding.UTF8.GetString(target);
+                ref byte reference = ref span[index];
+                fixed (byte* ptr = &reference)
+                {
+                    ReadOnlySpan<byte> target = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
+                    return Encoding.UTF8.GetString(target);
+                }
             }
 
             return null;

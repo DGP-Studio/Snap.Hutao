@@ -110,7 +110,10 @@ internal static class Kernel32
     public static unsafe BOOL HeapFree<T>(HANDLE hHeap, HEAP_FLAGS dwFlags, ref T mem)
         where T : unmanaged
     {
-        return HeapFree(hHeap, dwFlags, Unsafe.AsPointer(ref mem));
+        fixed (T* lpMem = &mem)
+        {
+            return HeapFree(hHeap, dwFlags, lpMem);
+        }
     }
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
