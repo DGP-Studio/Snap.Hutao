@@ -1827,10 +1827,10 @@
     <value>Operação não totalmente concluída, adicionado/atualizado {0}, pulado {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+    <value>Esta ação é irreversível. Os itens da mochila deste plano serão perdidos.</value>
   </data>
   <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
-    <value>正在清空背包物品</value>
+    <value>A esvaziar os itens da mochila</value>
   </data>
   <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
     <value>Confirma que pretende limpar todos os itens da mochila no plano atual?</value>
