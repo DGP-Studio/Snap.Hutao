@@ -1827,10 +1827,10 @@
     <value>Operasi tidak sepenuhnya selesai, ditambahkan/diperbarui {0}, dilewati {1}</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+    <value>Operasi ini tidak dapat dibatalkan, item inventaris dalam rencana ini akan hilang.</value>
   </data>
   <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
-    <value>正在清空背包物品</value>
+    <value>Sedang mengosongkan item inventaris</value>
   </data>
   <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
     <value>Konfirmasi untuk mengosongkan semua item tas di rencana saat ini?</value>
