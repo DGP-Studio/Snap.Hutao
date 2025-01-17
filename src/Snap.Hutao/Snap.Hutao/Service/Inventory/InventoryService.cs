@@ -75,10 +75,10 @@ internal sealed partial class InventoryService : IInventoryService
             }
         }
 
-        if (batchConsumption is { OverallConsume: { } items })
+        if (batchConsumption is { OverallConsume: { IsDefault: false } items })
         {
             inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
-            inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
+            inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectAsArray(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
         }
     }
 }
