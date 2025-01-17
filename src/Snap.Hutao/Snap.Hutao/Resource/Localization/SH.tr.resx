@@ -1826,6 +1826,15 @@
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>İşlem tam olarak tamamlanmadı: Eklendi / Güncellendi: {0}, atlandı {1}</value>
   </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>正在清空背包物品</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>确认要清空当前计划下的所有背包物品吗？</value>
+  </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>Seçilen seviye için yetiştirme malzemesine gerek yok</value>
   </data>
@@ -2329,6 +2338,9 @@
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>Karakterlerimi ve silahlarımı Geliştirme Planına ekle</value>
+  </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>清空背包物品</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>Geliştirme Öğeleri</value>
