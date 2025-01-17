@@ -323,11 +323,15 @@
                     <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE895;}" Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}">
                         <AppBarButton.Flyout>
                             <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                <MenuFlyoutItem Command="{Binding RefreshInventoryByCalculatorCommand}" Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByCalculator}"/>
                                 <MenuFlyoutItem
                                     Command="{Binding RefreshInventoryByYaeLibCommand}"
+                                    Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
                                     IsEnabled="{Binding RuntimeOptions.IsElevated}"
                                     Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByYaeLib}"/>
+                                <MenuFlyoutItem
+                                    Command="{Binding RefreshInventoryByCalculatorCommand}"
+                                    Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"
+                                    Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByCalculator}"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
