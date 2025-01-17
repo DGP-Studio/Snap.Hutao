@@ -11,9 +11,7 @@ internal interface IInventoryRepository : IRepository<InventoryItem>
 {
     void AddInventoryItemRangeByProjectId(List<InventoryItem> items);
 
-    void RemoveAllInventoryItem();
-
-    void RemoveInventoryItems(Guid projectId);
+    void RemoveInventoryItemRangeByProjectId(Guid projectId);
 
     void UpdateInventoryItem(InventoryItem item);
 
