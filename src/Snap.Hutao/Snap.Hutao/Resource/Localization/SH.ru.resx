@@ -1827,10 +1827,10 @@
     <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+    <value>Это действие необратимо, предметы из рюкзака этого плана будут потеряны</value>
   </data>
   <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
-    <value>正在清空背包物品</value>
+    <value>Очистка предметов из рюкзака</value>
   </data>
   <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
     <value>Подтвердить очистку всех предметов в рюкзаке текущего плана?</value>
