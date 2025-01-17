@@ -1826,6 +1826,15 @@
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>正在清空背包物品</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>确认要清空当前计划下的所有背包物品吗？</value>
+  </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>选定的等级不需要养成材料</value>
   </data>
@@ -2329,6 +2338,9 @@
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>添加我的角色与武器到养成计划</value>
+  </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>清空背包物品</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>养成物品</value>

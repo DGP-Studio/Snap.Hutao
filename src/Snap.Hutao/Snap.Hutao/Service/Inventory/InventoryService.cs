@@ -44,6 +44,12 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
+    public void RemoveInventoryItems(CultivateProject cultivateProject)
+    {
+        Guid projectId = cultivateProject.InnerId;
+        inventoryRepository.RemoveInventoryItemRangeByProjectId(projectId);
+    }
+
     public async ValueTask RefreshInventoryAsync(ICultivationMetadataContext context, CultivateProject project)
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
