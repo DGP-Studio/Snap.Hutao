@@ -1826,6 +1826,15 @@
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>正在清空背包物品</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>현재 계획의 모든 가방 아이템을 비우시겠습니까?</value>
+  </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>선택한 레벨에는 육성 재료가 필요하지 않습니다</value>
   </data>
@@ -2329,6 +2338,9 @@
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>내 캐릭터와 무기를 육성 계획 항목에 추가</value>
+  </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>가방 아이템 비우기</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>아이템 육성</value>
