@@ -1826,6 +1826,15 @@
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>Operação não totalmente concluída, adicionado/atualizado {0}, pulado {1}</value>
   </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>正在清空背包物品</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>Confirma que pretende limpar todos os itens da mochila no plano atual?</value>
+  </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>O nível selecionado não requer materiais de ascensão</value>
   </data>
@@ -2329,6 +2338,9 @@
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>Adicionar meus personagens e armas ao plano de desenvolvimento</value>
+  </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>Limpar itens da mochila</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>Itens do plano</value>
