@@ -518,5 +518,10 @@ internal enum FightProperty
     /// </summary>
     FIGHT_PROP_NONEXTRA_PHYSICAL_ADD_HURT = 3024,
 
+    /// <summary>
+    /// 圣遗物双暴分
+    /// </summary>
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRelicDoubleCriticalScore))]
+    FIGHT_PROP_RELICS_ADD_DOUBLE_CRITICAL = 888888,
     STAMINA = 999999,
 }

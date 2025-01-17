@@ -33,10 +33,12 @@ internal sealed partial class AvatarProperty : ObservableObject, INameIcon<Uri>
         KeyValuePair.Create(FightProperty.FIGHT_PROP_SHIELD_COST_MINUS_RATIO, StaticResourcesEndpoints.StaticRaw("Property", "UI_Icon_ShieldCostMinus.png").ToUri()),
     ]);
 
-    public AvatarProperty(FightProperty property, string name, string value, string? addValue = null)
+    public AvatarProperty(FightProperty property, string name, string value, string? addValue = null, string? finalValue = null, bool showFinalValue = false)
     {
         Name = name;
         Value = value;
+        FinalValue = finalValue;
+        ShowFinalValue = showFinalValue;
         Icon = PropertyIcons.GetValueOrDefault(property);
         if (!string.IsNullOrEmpty(addValue))
         {
@@ -52,4 +54,8 @@ internal sealed partial class AvatarProperty : ObservableObject, INameIcon<Uri>
     public string Value { get; }
 
     public string? AddValue { get; }
+
+    public string? FinalValue { get; }
+
+    public bool ShowFinalValue { get; }
 }

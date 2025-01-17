@@ -770,6 +770,9 @@
     <value>生命值</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoPropertyRelicDoubleCriticalScore" xml:space="preserve">
+    <value>圣遗物双暴分</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
     <value>雷元素抗性</value>
     <comment>Need EXACT same string in game</comment>

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using AngleSharp.Text;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.ViewModel.AvatarProperty;
@@ -34,8 +35,9 @@ internal static class FightPropertyFormat
     {
         FightProperty property = baseProperty.PropertyType;
         string name = property.GetLocalizedDescription();
+        bool showFinalValue = baseProperty.PropertyType == FightProperty.FIGHT_PROP_MAX_HP || baseProperty.PropertyType == FightProperty.FIGHT_PROP_CUR_ATTACK || baseProperty.PropertyType == FightProperty.FIGHT_PROP_CUR_DEFENSE;
 
-        return new(baseProperty.PropertyType, name, baseProperty.Base, baseProperty.Add);
+        return new(baseProperty.PropertyType, name, baseProperty.Base, baseProperty.Add, baseProperty.Final, showFinalValue);
     }
 
     public static AvatarProperty ToAvatarProperty(FightProperty property, float value)
@@ -79,6 +81,16 @@ internal static class FightPropertyFormat
             FormatMethod.Integer => $"{MathF.Round(value, MidpointRounding.AwayFromZero)}",
             FormatMethod.Percent => $"{value:P1}",
             _ => $"{value}",
+        };
+    }
+
+    public static float UnformatValue(FormatMethod method, string value)
+    {
+        return method switch
+        {
+            FormatMethod.Integer => value.ToInteger(0),
+            FormatMethod.Percent => float.Parse(value.Replace("%", string.Empty)) / 100,
+            _ => float.Parse(value),
         };
     }
 }

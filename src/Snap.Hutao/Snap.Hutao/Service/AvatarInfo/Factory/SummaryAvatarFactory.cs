@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
@@ -61,6 +62,46 @@ internal sealed class SummaryAvatarFactory
             .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)
             .View;
+
+        float doubleCriticalScore = 0;
+        foreach (Reliquary relic in character.Relics)
+        {
+            if (relic.MainProperty.PropertyType.IsDoubleCritical())
+            {
+                FormatMethod formatMethod = relic.MainProperty.PropertyType.GetFormatMethod();
+                float value = FightPropertyFormat.UnformatValue(formatMethod, relic.MainProperty.Value);
+                if (relic.MainProperty.PropertyType == FightProperty.FIGHT_PROP_CRITICAL)
+                {
+                    doubleCriticalScore += 100 * value * 2;
+                }
+                else
+                {
+                    doubleCriticalScore += 100 * value;
+                }
+            }
+
+            foreach (ReliquaryProperty reliquaryProperty in relic.SubPropertyList)
+            {
+                if (!reliquaryProperty.PropertyType.IsDoubleCritical())
+                {
+                    continue;
+                }
+
+                FormatMethod formatMethod = reliquaryProperty.PropertyType.GetFormatMethod();
+                float value = FightPropertyFormat.UnformatValue(formatMethod, reliquaryProperty.Value);
+                if (reliquaryProperty.PropertyType == FightProperty.FIGHT_PROP_CRITICAL)
+                {
+                    doubleCriticalScore += 100 * value * 2;
+                }
+                else
+                {
+                    doubleCriticalScore += 100 * value;
+                }
+            }
+        }
+
+        doubleCriticalScore = MathF.Round(doubleCriticalScore, 2);
+        propertyAvatar.Properties.Insert(6, new AvatarProperty(FightProperty.FIGHT_PROP_RELICS_ADD_DOUBLE_CRITICAL, SH.ServiceAvatarInfoPropertyRelicDoubleCriticalScore, doubleCriticalScore.ToString()));
 
         return propertyAvatar;
     }

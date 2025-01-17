@@ -49,6 +49,7 @@ internal static class FormatMethodExtension
             FightProperty.FIGHT_PROP_MAX_HP => FormatMethod.Integer,
             FightProperty.FIGHT_PROP_CUR_ATTACK => FormatMethod.Integer,
             FightProperty.FIGHT_PROP_CUR_DEFENSE => FormatMethod.Integer,
+            FightProperty.FIGHT_PROP_RELICS_ADD_DOUBLE_CRITICAL => FormatMethod.Percent,
             _ => FormatMethod.None,
         };
     }
