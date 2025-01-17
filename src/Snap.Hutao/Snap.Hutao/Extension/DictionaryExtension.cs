@@ -74,4 +74,14 @@ internal static class DictionaryExtension
 
         return dictionary;
     }
+
+    public static IDictionary<TKey, TValue> RemoveValues<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, params TKey[] keys)
+    {
+        foreach (TKey key in keys)
+        {
+            dictionary.Remove(key);
+        }
+
+        return dictionary;
+    }
 }

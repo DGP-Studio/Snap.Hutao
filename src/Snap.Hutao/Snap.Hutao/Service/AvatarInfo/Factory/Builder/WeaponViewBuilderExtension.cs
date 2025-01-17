@@ -4,10 +4,8 @@
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
-using Snap.Hutao.Web.Enka.Model;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 

@@ -18,4 +18,10 @@ internal static class EnumerableExtension
     {
         return string.Join(separator, collection);
     }
+
+    public static IEnumerable<IGrouping<TKey, TKey>> GroupKeys<TKey, TValue>(this IEnumerable<Dictionary<TKey, TValue>> source, Func<TValue, bool> predicate)
+        where TKey : notnull
+    {
+        return source.SelectMany(dict => dict.Where(kv => predicate(kv.Value)).Select(kv => kv.Key)).GroupBy(k => k);
+    }
 }

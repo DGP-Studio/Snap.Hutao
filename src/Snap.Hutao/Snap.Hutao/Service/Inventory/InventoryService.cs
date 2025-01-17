@@ -7,6 +7,7 @@ using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.Service.Yae;
 using Snap.Hutao.ViewModel.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
@@ -23,6 +24,7 @@ internal sealed partial class InventoryService : IInventoryService
     private readonly IInventoryRepository inventoryRepository;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
+    private readonly IYaeService yaeService;
 
     public ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand)
     {
@@ -50,7 +52,7 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.RemoveInventoryItemRangeByProjectId(projectId);
     }
 
-    public async ValueTask RefreshInventoryAsync(ICultivationMetadataContext context, CultivateProject project)
+    public async ValueTask RefreshInventoryByCalculatorAsync(ICultivationMetadataContext context, CultivateProject project)
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
@@ -80,5 +82,17 @@ internal sealed partial class InventoryService : IInventoryService
             inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
             inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectAsArray(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
         }
+    }
+
+    public async ValueTask RefreshInventoryByYaeLibAsync(CultivateProject project)
+    {
+        if (await yaeService.GetInventoryAsync(project).ConfigureAwait(false) is not { IsDefaultOrEmpty: false } items)
+        {
+            infoBarService.Warning(SH.ServiceYaeYaeLibErrorTitle, SH.ServiceInventoryRefreshByYaeLibErrorMessage);
+            return;
+        }
+
+        inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
+        inventoryRepository.AddInventoryItemRangeByProjectId(items);
     }
 }

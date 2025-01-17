@@ -211,8 +211,25 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("RefreshInventoryCommand")]
-    private async Task RefreshInventoryAsync()
+    [Command("RefreshInventoryByYaeLibCommand")]
+    private async Task RefreshInventoryByYaeLibAsync()
+    {
+        if (Projects?.CurrentItem is null || metadataContext is null)
+        {
+            return;
+        }
+
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+        {
+            await inventoryService.RefreshInventoryByYaeLibAsync(Projects.CurrentItem).ConfigureAwait(false);
+
+            await UpdateInventoryItemsAsync().ConfigureAwait(false);
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+        }
+    }
+
+    [Command("RefreshInventoryByCalculatorCommand")]
+    private async Task RefreshInventoryByCalculatorAsync()
     {
         if (Projects?.CurrentItem is null || metadataContext is null)
         {
@@ -227,7 +244,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
-                await inventoryService.RefreshInventoryAsync(metadataContext, Projects.CurrentItem).ConfigureAwait(false);
+                await inventoryService.RefreshInventoryByCalculatorAsync(metadataContext, Projects.CurrentItem).ConfigureAwait(false);
 
                 await UpdateInventoryItemsAsync().ConfigureAwait(false);
                 await UpdateStatisticsItemsAsync().ConfigureAwait(false);

@@ -228,6 +228,15 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
+    [Command("ImportUIAFFromYaeLibCommand")]
+    private async Task ImportUIAFFromYaeLibAsync()
+    {
+        if (await scopeContext.AchievementImporter.FromYaeLibAsync(scopeContext).ConfigureAwait(false))
+        {
+            await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
+        }
+    }
+
     [Command("ImportUIAFFromClipboardCommand")]
     private async Task ImportUIAFFromClipboardAsync()
     {

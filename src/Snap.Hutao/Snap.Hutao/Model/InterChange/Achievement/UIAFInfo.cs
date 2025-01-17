@@ -39,4 +39,14 @@ internal sealed class UIAFInfo
             UIAFVersion = UIAF.CurrentVersion,
         };
     }
+
+    public static UIAFInfo CreateForYaeLib()
+    {
+        return new()
+        {
+            ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            ExportApp = "YaeLib",
+            UIAFVersion = UIAF.CurrentVersion,
+        };
+    }
 }

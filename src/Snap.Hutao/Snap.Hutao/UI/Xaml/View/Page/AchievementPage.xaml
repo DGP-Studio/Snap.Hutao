@@ -315,6 +315,10 @@
                             <AppBarButton.Flyout>
                                 <MenuFlyout Placement="BottomEdgeAlignedRight">
                                     <MenuFlyoutItem
+                                        Command="{Binding ImportUIAFFromYaeLibCommand}"
+                                        Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
+                                        Text="{shuxm:ResourceString Name=ViewPageAchievementImportFromYaeLib}"/>
+                                    <MenuFlyoutItem
                                         Command="{Binding ImportUIAFFromClipboardCommand}"
                                         Icon="{shuxm:FontIcon Glyph=&#xE77F;}"
                                         Text="{shuxm:ResourceString Name=ViewPageAchievementImportFromClipboard}"/>
