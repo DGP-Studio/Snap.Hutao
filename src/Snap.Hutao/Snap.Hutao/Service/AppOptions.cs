@@ -11,6 +11,7 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Service;
 
@@ -77,7 +78,11 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, value, EnumToStringOrEmpty);
     }
 
-    public Lazy<ImmutableArray<NameValue<Region>>> LazyRegions { get; } = new(() => KnownRegions.Value);
+    public Lazy<ImmutableArray<NameValue<Region>>> LazyRegions { get; } = new(() =>
+    {
+        Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
+        return KnownRegions.Value;
+    });
 
     public Region Region
     {

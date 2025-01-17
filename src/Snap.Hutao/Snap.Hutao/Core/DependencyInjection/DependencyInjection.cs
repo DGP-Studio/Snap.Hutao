@@ -76,6 +76,7 @@ internal static class DependencyInjection
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
 
         SH.Culture = cultureInfo;
+        XamlApplicationLifetime.CultureInfoInitialized = true;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
