@@ -7,12 +7,6 @@ namespace Snap.Hutao.Model.InterChange.Inventory;
 
 internal sealed class UIIFInfo
 {
-    [JsonPropertyName("uid")]
-    public string Uid { get; set; } = default!;
-
-    [JsonPropertyName("lang")]
-    public string Language { get; set; } = default!;
-
     [JsonPropertyName("export_timestamp")]
     public long? ExportTimestamp { get; set; }
 
@@ -35,7 +29,6 @@ internal sealed class UIIFInfo
     {
         return new()
         {
-            Uid = uid,
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = HutaoRuntime.Version.ToString(),

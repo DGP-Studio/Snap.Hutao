@@ -15,5 +15,5 @@ internal sealed class UIIFReliquary
     public ReliquaryMainAffixId MainPropId { get; set; }
 
     [JsonPropertyName("appendPropIdList")]
-    public ImmutableArray<ReliquarySubAffixId> AppendPropIdList { get; set; } = default!;
+    public ImmutableArray<ReliquarySubAffixId> AppendPropIdList { get; set; }
 }

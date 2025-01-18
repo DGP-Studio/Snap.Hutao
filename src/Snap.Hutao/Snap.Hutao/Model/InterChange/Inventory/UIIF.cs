@@ -12,11 +12,12 @@ internal sealed class UIIF
 
     private static readonly FrozenSet<string> SupportedVersion = [CurrentVersion];
 
+    [JsonRequired]
     [JsonPropertyName("info")]
     public UIIFInfo Info { get; set; } = default!;
 
     [JsonPropertyName("list")]
-    public ImmutableArray<UIIFItem> List { get; set; } = default!;
+    public ImmutableArray<UIIFItem> List { get; set; }
 
     public bool IsCurrentVersionSupported()
     {

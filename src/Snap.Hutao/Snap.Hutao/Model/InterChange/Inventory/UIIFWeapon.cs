@@ -14,7 +14,6 @@ internal sealed class UIIFWeapon
     [JsonPropertyName("promoteLevel")]
     public Level PromoteLevel { get; set; }
 
-    [MaybeNull]
     [JsonPropertyName("affixMap")]
-    public ImmutableDictionary<EquipAffixId, WeaponAffixLevel> AffixMap { get; set; } = default!;
+    public ImmutableDictionary<EquipAffixId, WeaponAffixLevel>? AffixMap { get; set; }
 }
