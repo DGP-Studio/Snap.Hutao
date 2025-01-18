@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
@@ -15,7 +16,7 @@ internal sealed class UIIF
     public UIIFInfo Info { get; set; } = default!;
 
     [JsonPropertyName("list")]
-    public List<UIIFItem> List { get; set; } = default!;
+    public ImmutableArray<UIIFItem> List { get; set; } = default!;
 
     public bool IsCurrentVersionSupported()
     {

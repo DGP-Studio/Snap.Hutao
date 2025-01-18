@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
@@ -15,5 +16,5 @@ internal sealed class UIIFWeapon
 
     [MaybeNull]
     [JsonPropertyName("affixMap")]
-    public Dictionary<EquipAffixId, WeaponAffixLevel> AffixMap { get; set; } = default!;
+    public ImmutableDictionary<EquipAffixId, WeaponAffixLevel> AffixMap { get; set; } = default!;
 }
