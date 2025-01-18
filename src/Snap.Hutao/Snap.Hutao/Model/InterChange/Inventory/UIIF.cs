@@ -21,6 +21,6 @@ internal sealed class UIIF
 
     public bool IsCurrentVersionSupported()
     {
-        return SupportedVersion.Contains(Info.UIIFVersion);
+        return SupportedVersion.Contains(Info.UIIFVersion ?? string.Empty);
     }
 }

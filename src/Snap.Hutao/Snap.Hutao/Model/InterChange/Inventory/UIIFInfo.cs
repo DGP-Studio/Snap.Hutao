@@ -5,10 +5,11 @@ using Snap.Hutao.Core;
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
+// ReSharper disable once InconsistentNaming
 internal sealed class UIIFInfo
 {
     [JsonPropertyName("export_timestamp")]
-    public long? ExportTimestamp { get; set; }
+    public long? ExportTimestamp { get; init; }
 
     [JsonIgnore]
     public DateTimeOffset ExportDateTime
@@ -17,21 +18,32 @@ internal sealed class UIIFInfo
     }
 
     [JsonPropertyName("export_app")]
-    public string ExportApp { get; set; } = default!;
+    public string? ExportApp { get; init; }
 
     [JsonPropertyName("export_app_version")]
-    public string ExportAppVersion { get; set; } = default!;
+    public string? ExportAppVersion { get; init; }
 
+    // ReSharper disable once InconsistentNaming
     [JsonPropertyName("uiif_version")]
-    public string UIIFVersion { get; set; } = default!;
+    public string? UIIFVersion { get; init; }
 
-    public static UIIFInfo From(string uid)
+    public static UIIFInfo CreateForExport()
     {
         return new()
         {
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = HutaoRuntime.Version.ToString(),
+            UIIFVersion = UIIF.CurrentVersion,
+        };
+    }
+
+    public static UIIFInfo CreateForYaeLib()
+    {
+        return new()
+        {
+            ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            ExportApp = "YaeLib",
             UIIFVersion = UIIF.CurrentVersion,
         };
     }

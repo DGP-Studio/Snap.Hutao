@@ -86,13 +86,13 @@ internal sealed partial class InventoryService : IInventoryService
 
     public async ValueTask RefreshInventoryByYaeLibAsync(CultivateProject project)
     {
-        if (await yaeService.GetInventoryAsync(project).ConfigureAwait(false) is not { IsDefaultOrEmpty: false } items)
+        if (await yaeService.GetInventoryAsync().ConfigureAwait(false) is not { } uiif)
         {
             infoBarService.Warning(SH.ServiceYaeYaeLibErrorTitle, SH.ServiceInventoryRefreshByYaeLibErrorMessage);
             return;
         }
 
         inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
-        inventoryRepository.AddInventoryItemRangeByProjectId(items);
+        inventoryRepository.AddInventoryItemRangeByProjectId(uiif.List.Where(i => i.Material is not null).Select(i => InventoryItem.From(project.InnerId, i.ItemId, i.Material!.Count)));
     }
 }

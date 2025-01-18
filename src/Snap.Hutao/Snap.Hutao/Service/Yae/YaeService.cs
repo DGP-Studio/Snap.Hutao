@@ -6,8 +6,8 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.Achievement;
+using Snap.Hutao.Model.InterChange.Inventory;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Notification;
@@ -15,7 +15,6 @@ using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Service.Yae.PlayerStore;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -61,7 +60,7 @@ internal sealed partial class YaeService : IYaeService
         }
     }
 
-    public async ValueTask<ImmutableArray<InventoryItem>> GetInventoryAsync(CultivateProject project)
+    public async ValueTask<UIIF?> GetInventoryAsync()
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceYaeWaitForGameResponseMessage)
@@ -79,7 +78,7 @@ internal sealed partial class YaeService : IYaeService
             using (YaeNamedPipeServer server = new(serviceProvider, process))
             {
                 byte[] data = await server.GetDataAsync(YaeDataType.PlayerStore).ConfigureAwait(false);
-                return PlayerStoreParser.Parse(data, project);
+                return PlayerStoreParser.Parse(data);
             }
         }
     }

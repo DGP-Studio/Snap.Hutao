@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 using Google.Protobuf;
-using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.InterChange.Inventory;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Yae.PlayerStore;
 
 internal static class PlayerStoreParser
 {
-    public static ImmutableArray<InventoryItem> Parse(byte[] bytes, CultivateProject project)
+    public static UIIF? Parse(byte[] bytes)
     {
         List<Item> items = [];
         using CodedInputStream stream = new(bytes);
@@ -47,12 +47,10 @@ internal static class PlayerStoreParser
             return default;
         }
 
-        return items.Where(i => i.Material is not null).Select(
-            i => new InventoryItem()
-            {
-                ProjectId = project.InnerId,
-                ItemId = i.ItemId,
-                Count = i.Material.Count,
-            }).ToImmutableArray();
+        return new()
+        {
+            Info = UIIFInfo.CreateForYaeLib(),
+            List = items.Select(UIIFItem.FromPlayerStoreItem).ToImmutableArray(),
+        };
     }
 }
