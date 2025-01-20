@@ -43,18 +43,9 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     {
         get
         {
-            string name = new StringBuilder()
-                .Append("App")
-                .AppendIf(HutaoRuntime.IsProcessElevated, "Elevated")
-#if DEBUG
-                .Append("Dev")
-#endif
-                .Append("NameAndVersion")
-                .ToString();
-
-            string? format = SH.GetString(CultureInfo.CurrentCulture, name);
-            ArgumentException.ThrowIfNullOrEmpty(format);
-            return string.Format(CultureInfo.CurrentCulture, format, HutaoRuntime.Version);
+            string? title = HutaoRuntime.GetDisplayName();
+            ArgumentException.ThrowIfNullOrEmpty(title);
+            return title;
         }
     }
 

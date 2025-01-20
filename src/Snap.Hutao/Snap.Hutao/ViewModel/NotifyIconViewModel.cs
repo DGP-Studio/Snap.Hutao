@@ -14,7 +14,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 
@@ -32,18 +31,9 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     {
         get
         {
-            string name = new StringBuilder()
-                .Append("App")
-                .AppendIf(HutaoRuntime.IsProcessElevated, "Elevated")
-#if DEBUG
-                .Append("Dev")
-#endif
-                .Append("NameAndVersion")
-                .ToString();
-
-            string? format = SH.GetString(CultureInfo.CurrentCulture, name);
-            ArgumentException.ThrowIfNullOrEmpty(format);
-            return string.Format(CultureInfo.CurrentCulture, format, HutaoRuntime.Version);
+            string? title = HutaoRuntime.GetDisplayName();
+            ArgumentException.ThrowIfNullOrEmpty(title);
+            return title;
         }
     }
 
@@ -157,10 +147,10 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
 internal sealed partial class NotifyIconViewModel
 {
-    public static bool IsDebug
+    public static bool CanTakeScreenshot
     {
         get =>
-#if DEBUG
+#if DEBUG || IS_ALPHA_BUILD
             true;
 #else
             false;

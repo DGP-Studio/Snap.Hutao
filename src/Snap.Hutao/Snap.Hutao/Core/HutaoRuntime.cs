@@ -7,9 +7,11 @@ using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Principal;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -39,6 +41,20 @@ internal static class HutaoRuntime
     public static bool IsAppNotificationEnabled { get; } = AppNotificationManager.Default.Setting is AppNotificationSetting.Enabled;
 
     public static DateTimeOffset LaunchTime { get; } = DateTimeOffset.UtcNow;
+
+    public static string? GetDisplayName()
+    {
+        string name = new StringBuilder()
+            .Append("App")
+            .AppendIf(IsProcessElevated, "Elevated")
+#if DEBUG
+            .Append("Dev")
+#endif
+            .Append("NameAndVersion")
+            .ToString();
+
+        return SH.GetString(CultureInfo.CurrentCulture, name, Version);
+    }
 
     public static string GetDataFolderFile(string fileName)
     {
