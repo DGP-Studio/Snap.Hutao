@@ -175,6 +175,13 @@
                                         <cwcont:SettingsCard
                                             Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                             Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/zh/features/imaginarium-theater.html"
+                                            Header="{shuxm:ResourceString Name=ViewRoleCombatHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/RoleCombat.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
                                             CommandParameter="https://hut.ao/features/develop-plan.html"
                                             Header="{shuxm:ResourceString Name=ViewCultivationHeader}"
                                             HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
