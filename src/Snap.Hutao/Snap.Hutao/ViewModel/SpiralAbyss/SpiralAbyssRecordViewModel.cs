@@ -43,17 +43,9 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         get;
         set
         {
-            if (SpiralAbyssEntries is not null)
-            {
-                SpiralAbyssEntries.CurrentChanged -= OnCurrentSpiralAbyssEntryChanged;
-            }
-
+            AdvancedCollectionViewCurrentChanged.Detach(field, OnCurrentSpiralAbyssEntryChanged);
             SetProperty(ref field, value);
-
-            if (value is not null)
-            {
-                value.CurrentChanged += OnCurrentSpiralAbyssEntryChanged;
-            }
+            AdvancedCollectionViewCurrentChanged.Attach(field, OnCurrentSpiralAbyssEntryChanged);
         }
     }
 

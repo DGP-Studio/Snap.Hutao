@@ -19,9 +19,10 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
 {
     private readonly string hutaoContainerStringSid;
 
-    public LoopbackSupport()
+    public LoopbackSupport(IServiceProvider serviceProvider)
     {
         Initialize(out hutaoContainerStringSid);
+        serviceProvider.GetRequiredService<ILogger<LoopbackSupport>>().LogInformation("Container SID: {SID}", hutaoContainerStringSid);
     }
 
     [ObservableProperty]
