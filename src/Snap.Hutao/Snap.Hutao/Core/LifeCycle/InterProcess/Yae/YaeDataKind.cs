@@ -3,8 +3,9 @@
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 
-internal enum YaeDataType : byte
+internal enum YaeDataKind : byte
 {
+    None = 0,
     Achievement = 1,
     PlayerStore = 2,
 }

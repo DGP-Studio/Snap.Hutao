@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Google.Protobuf;
+using Snap.Hutao.Core.Protobuf;
 using Snap.Hutao.Model.InterChange.Inventory;
 using System.Collections.Immutable;
 
@@ -9,48 +10,48 @@ namespace Snap.Hutao.Service.Yae.PlayerStore;
 
 internal static class PlayerStoreParser
 {
-    public static UIIF? Parse(byte[] bytes)
+    public static UIIF? Parse(ByteString bytes)
     {
         List<Item> items = [];
-        using CodedInputStream stream = new(bytes);
-        try
+        using (CodedInputStream stream = bytes.CreateCodedInput())
         {
-            uint tag;
-            while ((tag = stream.ReadTag()) != 0)
+            try
             {
-                uint wireType = tag & 7;
-                switch (wireType)
+                while (stream.TryReadTag(out uint tag))
                 {
-                    case 0:
-                        {
-                            // is VarInt
-                            _ = stream.ReadUInt32();
-                            continue;
-                        }
-
-                    case 2:
-                        {
-                            // is LengthDelimited
-                            using CodedInputStream eStream = stream.ReadLengthDelimitedAsStream();
-                            while (eStream.PeekTag() != 0)
+                    switch (WireFormat.GetTagWireType(tag))
+                    {
+                        case WireFormat.WireType.Varint:
                             {
-                                items.Add(Item.Parser.ParseFrom(eStream));
+                                _ = stream.ReadUInt32();
+                                continue;
                             }
 
-                            break;
-                        }
+                        case WireFormat.WireType.LengthDelimited:
+                            {
+                                using (CodedInputStream inputStream = stream.UnsafeReadLengthDelimitedStream())
+                                {
+                                    while (inputStream.TryPeekTag(out _))
+                                    {
+                                        items.Add(Item.Parser.ParseFrom(inputStream));
+                                    }
+                                }
+
+                                break;
+                            }
+                    }
                 }
             }
-        }
-        catch (InvalidProtocolBufferException)
-        {
-            return default;
-        }
+            catch (InvalidProtocolBufferException)
+            {
+                return default;
+            }
 
-        return new()
-        {
-            Info = UIIFInfo.CreateForYaeLib(),
-            List = items.Select(UIIFItem.FromPlayerStoreItem).ToImmutableArray(),
-        };
+            return new()
+            {
+                Info = UIIFInfo.CreateForEmbeddedYae(),
+                List = [..items.Select(UIIFItem.FromInGameItem)],
+            };
+        }
     }
 }

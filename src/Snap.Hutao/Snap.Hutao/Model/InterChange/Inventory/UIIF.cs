@@ -14,10 +14,10 @@ internal sealed class UIIF
 
     [JsonRequired]
     [JsonPropertyName("info")]
-    public UIIFInfo Info { get; set; } = default!;
+    public UIIFInfo Info { get; init; } = default!;
 
     [JsonPropertyName("list")]
-    public ImmutableArray<UIIFItem> List { get; set; }
+    public ImmutableArray<UIIFItem> List { get; init; }
 
     public bool IsCurrentVersionSupported()
     {

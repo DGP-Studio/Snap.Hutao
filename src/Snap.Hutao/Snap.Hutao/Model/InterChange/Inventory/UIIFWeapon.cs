@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
-using PlayerStoreWeapon = Snap.Hutao.Service.Yae.PlayerStore.Weapon;
+using InGameWeapon = Snap.Hutao.Service.Yae.PlayerStore.Weapon;
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
@@ -11,23 +11,21 @@ namespace Snap.Hutao.Model.InterChange.Inventory;
 internal sealed class UIIFWeapon
 {
     [JsonPropertyName("level")]
-    public Level Level { get; set; }
+    public Level Level { get; init; }
 
     [JsonPropertyName("promoteLevel")]
-    public Level PromoteLevel { get; set; }
+    public Level PromoteLevel { get; init; }
 
     [JsonPropertyName("affixMap")]
-    public ImmutableDictionary<EquipAffixId, WeaponAffixLevel>? AffixMap { get; set; }
+    public ImmutableDictionary<EquipAffixId, WeaponAffixLevel>? AffixMap { get; init; }
 
-    public static UIIFWeapon FromPlayerStoreWeapon(PlayerStoreWeapon weapon)
+    public static UIIFWeapon FromInGameWeapon(InGameWeapon weapon)
     {
         return new()
         {
             Level = weapon.Level,
             PromoteLevel = weapon.PromoteLevel,
-            AffixMap = weapon.AffixMap is null
-                ? null
-                : weapon.AffixMap.ToImmutableDictionary(kv => (EquipAffixId)kv.Key, kv => (WeaponAffixLevel)kv.Value),
+            AffixMap = weapon.AffixMap?.ToImmutableDictionary<KeyValuePair<uint, uint>, EquipAffixId, WeaponAffixLevel>(kv => kv.Key, kv => kv.Value),
         };
     }
 }

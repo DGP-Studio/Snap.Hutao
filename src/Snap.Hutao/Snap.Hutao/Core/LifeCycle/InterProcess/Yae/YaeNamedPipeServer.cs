@@ -1,41 +1,46 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 
-internal sealed partial class YaeNamedPipeServer : IDisposable
+internal sealed class YaeNamedPipeServer : IAsyncDisposable
 {
     private const string PipeName = "YaeAchievementPipe";
 
     private readonly ILogger<YaeNamedPipeServer> logger;
+    private readonly NamedPipeServerStream serverStream;
     private readonly Process gameProcess;
 
     private readonly CancellationTokenSource serverTokenSource = new();
     private readonly AsyncLock serverLock = new();
-
-    private readonly NamedPipeServerStream serverStream;
 
     public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess)
     {
         logger = serviceProvider.GetRequiredService<ILogger<YaeNamedPipeServer>>();
         this.gameProcess = gameProcess;
 
-        serverStream = new NamedPipeServerStream(PipeName);
+        // Yae is always running elevated, so we don't need to use ACL method.
+        serverStream = new(PipeName);
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        serverTokenSource.Cancel();
-        using AsyncLock.Releaser discard = serverLock.LockAsync().GetAwaiter().GetResult();
+        await serverTokenSource.CancelAsync().ConfigureAwait(false);
+        using (await serverLock.LockAsync().ConfigureAwait(false))
+        {
+            // Discard
+        }
+
         serverTokenSource.Dispose();
-        serverStream.Dispose();
+        await serverStream.DisposeAsync().ConfigureAwait(false);
     }
 
-    public async ValueTask<byte[]> GetDataAsync(YaeDataType targetType)
+    public async ValueTask<YaeData> GetDataAsync(YaeDataKind targetKind)
     {
         using (await serverLock.LockAsync().ConfigureAwait(false))
         {
@@ -43,39 +48,52 @@ internal sealed partial class YaeNamedPipeServer : IDisposable
             {
                 await serverStream.WaitForConnectionAsync(serverTokenSource.Token).ConfigureAwait(false);
                 logger.LogInformation("Client connected.");
-                return RunPacketSession(serverStream, targetType, serverTokenSource.Token);
+                return GetDataByKind(serverStream, targetKind, serverTokenSource.Token);
             }
             catch (OperationCanceledException)
             {
             }
         }
 
-        return [];
+        return default;
     }
 
-    private byte[] RunPacketSession(NamedPipeServerStream serverStream, YaeDataType targetType, CancellationToken token)
+    private static unsafe void ReadPacket(PipeStream stream, out YaePacketHeader header, out YaeData data)
     {
-        byte[] data = [];
+        data = default;
+
+        fixed (YaePacketHeader* pHeader = &header)
+        {
+            stream.ReadExactly(new(pHeader, sizeof(YaePacketHeader)));
+        }
+
+        using (IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.Rent(header.ContentLength))
+        {
+            Span<byte> span = owner.Memory.Span[..header.ContentLength];
+            stream.ReadExactly(span);
+            data = new(header, owner);
+        }
+    }
+
+    private YaeData GetDataByKind(NamedPipeServerStream serverStream, YaeDataKind targetKind, CancellationToken token)
+    {
         using BinaryReader reader = new(serverStream);
         while (!gameProcess.HasExited && serverStream.IsConnected && !token.IsCancellationRequested)
         {
             try
             {
-                YaeDataType type = (YaeDataType)reader.ReadByte();
-                int length = reader.ReadInt32();
-                if (type != targetType)
+                ReadPacket(serverStream, out YaePacketHeader header, out YaeData data);
+                if (header.Kind == targetKind)
                 {
-                    _ = reader.ReadBytes(length);
-                    continue;
+                    return data;
                 }
-
-                data = reader.ReadBytes(length);
             }
             catch (EndOfStreamException)
             {
+                // Client closed.
             }
         }
 
-        return data;
+        return default;
     }
 }

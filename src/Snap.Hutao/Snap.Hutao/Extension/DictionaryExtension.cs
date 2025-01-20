@@ -75,13 +75,18 @@ internal static class DictionaryExtension
         return dictionary;
     }
 
-    public static IDictionary<TKey, TValue> RemoveValues<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, params TKey[] keys)
+    public static IDictionary<TKey, TValue> WithKeysRemoved<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IReadOnlySet<TKey> keys)
+        where TKey : notnull
     {
-        foreach (TKey key in keys)
+        Dictionary<TKey, TValue> results = [];
+        foreach ((TKey key, TValue value) in dictionary)
         {
-            dictionary.Remove(key);
+            if (!keys.Contains(key))
+            {
+                results[key] = value;
+            }
         }
 
-        return dictionary;
+        return results;
     }
 }

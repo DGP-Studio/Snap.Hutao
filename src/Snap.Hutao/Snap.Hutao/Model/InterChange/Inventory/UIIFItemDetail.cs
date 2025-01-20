@@ -4,8 +4,8 @@
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
 // ReSharper disable once InconsistentNaming
-internal sealed class UIIFCountInfo
+internal sealed class UIIFItemDetail
 {
     [JsonPropertyName("count")]
-    public uint Count { get; set; }
+    public uint Count { get; init; }
 }

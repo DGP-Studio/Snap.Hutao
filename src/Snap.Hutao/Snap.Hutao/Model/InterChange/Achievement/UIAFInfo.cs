@@ -40,12 +40,12 @@ internal sealed class UIAFInfo
         };
     }
 
-    public static UIAFInfo CreateForYaeLib()
+    public static UIAFInfo CreateForEmbeddedYae()
     {
         return new()
         {
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-            ExportApp = "YaeLib",
+            ExportApp = "Embedded Yae",
             UIAFVersion = UIAF.CurrentVersion,
         };
     }

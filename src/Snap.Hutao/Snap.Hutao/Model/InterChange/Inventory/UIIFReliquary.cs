@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
-using PlayerStoreReliquary = Snap.Hutao.Service.Yae.PlayerStore.Reliquary;
+using InGameReliquary = Snap.Hutao.Service.Yae.PlayerStore.Reliquary;
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
@@ -11,21 +11,21 @@ namespace Snap.Hutao.Model.InterChange.Inventory;
 internal sealed class UIIFReliquary
 {
     [JsonPropertyName("level")]
-    public ReliquaryLevel Level { get; set; }
+    public ReliquaryLevel Level { get; init; }
 
     [JsonPropertyName("mainPropId")]
-    public ReliquaryMainAffixId MainPropId { get; set; }
+    public ReliquaryMainAffixId MainPropId { get; init; }
 
     [JsonPropertyName("appendPropIdList")]
-    public ImmutableArray<ReliquarySubAffixId> AppendPropIdList { get; set; }
+    public ImmutableArray<ReliquarySubAffixId> AppendPropIdList { get; init; }
 
-    public static UIIFReliquary FromPlayerStoreReliquary(PlayerStoreReliquary reliquary)
+    public static UIIFReliquary FromInGameReliquary(InGameReliquary reliquary)
     {
         return new()
         {
             Level = reliquary.Level,
             MainPropId = reliquary.MainPropId,
-            AppendPropIdList = reliquary.AppendPropIdList.Select(id => (ReliquarySubAffixId)id).ToImmutableArray(),
+            AppendPropIdList = [.. reliquary.AppendPropIdList],
         };
     }
 }

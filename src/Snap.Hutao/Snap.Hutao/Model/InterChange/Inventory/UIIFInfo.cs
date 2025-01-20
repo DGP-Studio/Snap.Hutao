@@ -38,12 +38,12 @@ internal sealed class UIIFInfo
         };
     }
 
-    public static UIIFInfo CreateForYaeLib()
+    public static UIIFInfo CreateForEmbeddedYae()
     {
         return new()
         {
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-            ExportApp = "YaeLib",
+            ExportApp = "Embedded Yae",
             UIIFVersion = UIIF.CurrentVersion,
         };
     }

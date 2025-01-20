@@ -43,19 +43,22 @@ internal sealed partial class YaeService : IYaeService
             .CreateForIndeterminateProgressAsync(SH.ServiceYaeWaitForGameResponseMessage)
             .ConfigureAwait(false);
 
-        await taskContext.SwitchToBackgroundAsync();
-
         using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
+            await taskContext.SwitchToBackgroundAsync();
             if (!InitializeGameProcess(out Process? process))
             {
                 return default;
             }
 
-            using (YaeNamedPipeServer server = new(serviceProvider, process))
+#pragma warning disable CA2007
+            await using (YaeNamedPipeServer server = new(serviceProvider, process))
+#pragma warning restore CA2007
             {
-                byte[] data = await server.GetDataAsync(YaeDataType.Achievement).ConfigureAwait(false);
-                return AchievementParser.Parse(data);
+                using (YaeData data = await server.GetDataAsync(YaeDataKind.Achievement).ConfigureAwait(false))
+                {
+                    return AchievementParser.Parse(data.Bytes);
+                }
             }
         }
     }
@@ -66,19 +69,20 @@ internal sealed partial class YaeService : IYaeService
             .CreateForIndeterminateProgressAsync(SH.ServiceYaeWaitForGameResponseMessage)
             .ConfigureAwait(false);
 
-        await taskContext.SwitchToBackgroundAsync();
-
         using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
         {
+            await taskContext.SwitchToBackgroundAsync();
             if (!InitializeGameProcess(out Process? process))
             {
                 return default;
             }
 
-            using (YaeNamedPipeServer server = new(serviceProvider, process))
+            await using (YaeNamedPipeServer server = new(serviceProvider, process))
             {
-                byte[] data = await server.GetDataAsync(YaeDataType.PlayerStore).ConfigureAwait(false);
-                return PlayerStoreParser.Parse(data);
+                using (YaeData data = await server.GetDataAsync(YaeDataKind.PlayerStore).ConfigureAwait(false))
+                {
+                    return PlayerStoreParser.Parse(data.Bytes);
+                }
             }
         }
     }

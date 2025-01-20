@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Google.Protobuf;
+using Snap.Hutao.Core.Protobuf;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Immutable;
@@ -10,95 +11,115 @@ namespace Snap.Hutao.Service.Yae.Achievement;
 
 internal static class AchievementParser
 {
-    public static UIAF? Parse(byte[] bytes)
+    public static UIAF? Parse(ByteString bytes)
     {
-        using CodedInputStream stream = new(bytes);
-        List<Dictionary<uint, uint>> data = [];
-        int errTimes = 0;
-        try
+        using (CodedInputStream stream = bytes.CreateCodedInput())
         {
-            uint tag;
-            while ((tag = stream.ReadTag()) != 0)
+            List<Dictionary<int, uint>> dataList = [];
+            int errorTimes = 0;
+            try
             {
-                if ((tag & 7) == 2)
+                while (stream.TryReadTag(out uint tag))
                 {
-                    // is LengthDelimited
-                    Dictionary<uint, uint>? dict = [];
-                    using CodedInputStream eStream = stream.ReadLengthDelimitedAsStream();
-                    try
+                    if (WireFormat.GetTagWireType(tag) is not WireFormat.WireType.LengthDelimited)
                     {
-                        while ((tag = eStream.ReadTag()) != 0)
+                        continue;
+                    }
+
+                    Dictionary<int, uint>? varInts = [];
+                    using (CodedInputStream inputStream = stream.UnsafeReadLengthDelimitedStream())
+                    {
+                        try
                         {
-                            if ((tag & 7) != 0)
+                            while (inputStream.TryReadTag(out uint tag2))
                             {
-                                // not VarInt
-                                dict = null;
-                                break;
+                                if (WireFormat.GetTagWireType(tag2) is not WireFormat.WireType.Varint)
+                                {
+                                    varInts = default;
+                                    break;
+                                }
+
+                                varInts[WireFormat.GetTagFieldNumber(tag2)] = inputStream.ReadUInt32();
                             }
 
-                            dict[tag >> 3] = eStream.ReadUInt32();
+                            if (varInts is not null)
+                            {
+                                dataList.Add(varInts);
+                            }
                         }
-
-                        if (dict != null)
+                        catch (InvalidProtocolBufferException)
                         {
-                            data.Add(dict);
-                        }
-                    }
-                    catch (InvalidProtocolBufferException)
-                    {
-                        if (errTimes++ > 0)
-                        {
-                            // allows 1 fail on 'reward_taken_goal_id_list'
-                            throw;
+                            if (errorTimes++ > 0)
+                            {
+                                // allows 1 fail on 'reward_taken_goal_id_list'
+                                throw;
+                            }
                         }
                     }
                 }
             }
-        }
-        catch (InvalidProtocolBufferException)
-        {
-        }
+            catch (InvalidProtocolBufferException)
+            {
+            }
 
-        if (data.Count is 0)
-        {
-            return default;
-        }
+            if (dataList.Count > 20)
+            {
+                // :                                                                   ↓ 2020-09-15 04:15:14
+                (int timestampField, int count) = dataList.CountByKey(value => value > 1600114514).MaxBy(kvp => kvp.Value);
 
-        uint timestampId, statusId, id, currentId;
-        if (data.Count > 20)
-        {
-            /* uwu */
-            (timestampId, int cnt) = data //        ↓ 2020-09-15 04:15:14
-                .GroupKeys(value => value > 1600114514).Select(g => (g.Key, g.Count())).MaxBy(p => p.Item2);
-            statusId = data //           FINISHED ↓    ↓ REWARD_TAKEN
-                .GroupKeys(value => value is 2 or 3).First(g => g.Count() == cnt).Key;
-            id = data //                                 ↓ id: 8xxxx
-                .GroupKeys(value => (value / 10000) % 10 == 8).MaxBy(g => g.Count())!.Key;
-            (currentId, _) = data
-                .Where(d => d[statusId] is 2 or 3)
-                .Select(d => d.ToDictionary().RemoveValues(timestampId, statusId, id).ToArray())
-                .Where(d => d.Length == 2 && d[0].Value != d[1].Value)
-                .GroupBy(a => a[0].Value > a[1].Value ? (a[0].Key, a[1].Key) : (a[1].Key, a[0].Key))
-                .Select(g => (FieldIds: g.Key, Count: g.Count()))
-                .MaxBy(p => p.Count)
-                .FieldIds;
-        }
-        else
-        {
-            return default;
-        }
+                // :                                           FINISHED ↓     ↓ REWARD_TAKEN
+                int statusField = dataList.CountByKey(value => value is 2U or 3U).First(kvp => kvp.Value == count).Key;
 
-        return new()
-        {
-            Info = UIAFInfo.CreateForYaeLib(),
-            List = data.Select(
-                dict => new UIAFItem
+                // :                                                  ↓ id: 8xxxx
+                int achievementIdField = dataList.CountByKey(value => (value / 10000) % 10 == 8).MaxBy(kvp => kvp.Value).Key;
+
+                HashSet<int> excludedFields = [timestampField, statusField, achievementIdField];
+
+                (int currentField, _) = dataList
+                    .Where(data => data[statusField] is 2U or 3U)
+                    .Select(data => data.WithKeysRemoved(excludedFields).ToArray())
+                    .Where(data => data.Length == 2 && data[0].Value != data[1].Value)
+                    .CountBy(a => a[0].Value > a[1].Value ? (a[0].Key, a[1].Key) : (a[1].Key, a[0].Key))
+                    .MaxBy(p => p.Value)
+                    .Key;
+
+                FieldConverter converter = new(achievementIdField, currentField, statusField, timestampField);
+
+                return new()
                 {
-                    Id = dict[id],
-                    Current = dict.GetValueOrDefault(currentId),
-                    Status = (AchievementStatus)dict[statusId],
-                    Timestamp = dict.GetValueOrDefault(timestampId),
-                }).ToImmutableArray(),
-        };
+                    Info = UIAFInfo.CreateForEmbeddedYae(),
+                    List = [.. dataList.Select(data => converter.Convert(data))],
+                };
+            }
+
+            return default;
+        }
+    }
+
+    private sealed class FieldConverter
+    {
+        private readonly int achievementIdField;
+        private readonly int currentField;
+        private readonly int statusField;
+        private readonly int timestampField;
+
+        public FieldConverter(int achievementIdField, int currentField, int statusField, int timestampField)
+        {
+            this.achievementIdField = achievementIdField;
+            this.currentField = currentField;
+            this.statusField = statusField;
+            this.timestampField = timestampField;
+        }
+
+        public UIAFItem Convert(Dictionary<int, uint> dict)
+        {
+            return new()
+            {
+                Id = dict[achievementIdField],
+                Current = dict.GetValueOrDefault(currentField),
+                Status = (AchievementStatus)dict[statusField],
+                Timestamp = dict.GetValueOrDefault(timestampField),
+            };
+        }
     }
 }
