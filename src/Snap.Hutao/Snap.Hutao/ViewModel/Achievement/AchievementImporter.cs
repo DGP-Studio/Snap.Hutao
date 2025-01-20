@@ -19,7 +19,7 @@ internal sealed partial class AchievementImporter
 {
     private readonly AchievementImporterScopeContext scopeContext;
 
-    public async ValueTask<bool> FromYaeLibAsync(AchievementViewModelScopeContext context)
+    public async ValueTask<bool> FromEmbeddedYaeAsync(AchievementViewModelScopeContext context)
     {
         if (await context.AchievementService.GetArchiveCollectionAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
@@ -29,7 +29,7 @@ internal sealed partial class AchievementImporter
 
         if (await scopeContext.YaeService.GetAchievementAsync().ConfigureAwait(false) is not { } uiaf)
         {
-            scopeContext.InfoBarService.Warning(SH.ServiceYaeYaeLibErrorTitle, SH.ViewModelImportByYaeLibErrorMessage);
+            scopeContext.InfoBarService.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ViewModelImportByEmbeddedYaeErrorMessage);
             return false;
         }
 

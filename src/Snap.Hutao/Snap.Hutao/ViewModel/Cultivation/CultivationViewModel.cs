@@ -13,6 +13,7 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.Yae;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.Immutable;
@@ -33,6 +34,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IYaeService yaeService;
 
     private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
@@ -214,8 +216,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("RefreshInventoryByYaeLibCommand")]
-    private async Task RefreshInventoryByYaeLibAsync()
+    [Command("RefreshInventoryByEmbeddedYaeCommand")]
+    private async Task RefreshInventoryByEmbeddedYaeAsync()
     {
         if (Projects?.CurrentItem is null || metadataContext is null)
         {
@@ -224,7 +226,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            await inventoryService.RefreshInventoryByYaeLibAsync(Projects.CurrentItem).ConfigureAwait(false);
+            await inventoryService.RefreshInventoryAsync(RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService)).ConfigureAwait(false);
 
             await UpdateInventoryItemsAsync().ConfigureAwait(false);
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);
@@ -247,7 +249,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
-                await inventoryService.RefreshInventoryByCalculatorAsync(metadataContext, Projects.CurrentItem).ConfigureAwait(false);
+                await inventoryService.RefreshInventoryAsync(RefreshOptions.CreateForWebCalculator(Projects.CurrentItem, metadataContext)).ConfigureAwait(false);
 
                 await UpdateInventoryItemsAsync().ConfigureAwait(false);
                 await UpdateStatisticsItemsAsync().ConfigureAwait(false);

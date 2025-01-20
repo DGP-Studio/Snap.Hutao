@@ -24,7 +24,6 @@ internal sealed partial class InventoryService : IInventoryService
     private readonly IInventoryRepository inventoryRepository;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
-    private readonly IYaeService yaeService;
 
     public ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand)
     {
@@ -46,13 +45,28 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
+    public ValueTask RefreshInventoryAsync(RefreshOptions refreshOptions)
+    {
+        switch (refreshOptions.Kind)
+        {
+            case RefreshOptionKind.WebCalculator:
+                ArgumentNullException.ThrowIfNull(refreshOptions.MetadataContext);
+                return RefreshInventoryByCalculatorAsync(refreshOptions.MetadataContext, refreshOptions.Project);
+            case RefreshOptionKind.EmbeddedYae:
+                ArgumentNullException.ThrowIfNull(refreshOptions.YaeService);
+                return RefreshInventoryByEmbeddedYaeAsync(refreshOptions.YaeService, refreshOptions.Project);
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
     public void RemoveInventoryItems(CultivateProject cultivateProject)
     {
         Guid projectId = cultivateProject.InnerId;
         inventoryRepository.RemoveInventoryItemRangeByProjectId(projectId);
     }
 
-    public async ValueTask RefreshInventoryByCalculatorAsync(ICultivationMetadataContext context, CultivateProject project)
+    private async ValueTask RefreshInventoryByCalculatorAsync(ICultivationMetadataContext context, CultivateProject project)
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
@@ -84,15 +98,15 @@ internal sealed partial class InventoryService : IInventoryService
         }
     }
 
-    public async ValueTask RefreshInventoryByYaeLibAsync(CultivateProject project)
+    private async ValueTask RefreshInventoryByEmbeddedYaeAsync(IYaeService yaeService, CultivateProject project)
     {
         if (await yaeService.GetInventoryAsync().ConfigureAwait(false) is not { } uiif)
         {
-            infoBarService.Warning(SH.ServiceYaeYaeLibErrorTitle, SH.ServiceInventoryRefreshByYaeLibErrorMessage);
+            infoBarService.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ServiceInventoryRefreshByEmbeddedYaeErrorMessage);
             return;
         }
 
         inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
-        inventoryRepository.AddInventoryItemRangeByProjectId(uiif.List.Where(i => i.Material is not null).Select(i => InventoryItem.From(project.InnerId, i.ItemId, i.Material!.Count)));
+        inventoryRepository.AddInventoryItemRangeByProjectId(uiif.List.Where(i => i.Material is not null).Select(i => InventoryItem.From(project.InnerId, i.ItemId, i.Material.Count)));
     }
 }

@@ -77,7 +77,6 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
     private YaeData GetDataByKind(NamedPipeServerStream serverStream, YaeDataKind targetKind, CancellationToken token)
     {
-        using BinaryReader reader = new(serverStream);
         while (!gameProcess.HasExited && serverStream.IsConnected && !token.IsCancellationRequested)
         {
             try
