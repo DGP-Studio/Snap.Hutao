@@ -77,7 +77,9 @@ internal sealed partial class YaeService : IYaeService
                 return default;
             }
 
+#pragma warning disable CA2007
             await using (YaeNamedPipeServer server = new(serviceProvider, process))
+#pragma warning restore CA2007
             {
                 using (YaeData data = await server.GetDataAsync(YaeDataKind.PlayerStore).ConfigureAwait(false))
                 {
