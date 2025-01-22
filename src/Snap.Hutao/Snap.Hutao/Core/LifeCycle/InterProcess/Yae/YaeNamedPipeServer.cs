@@ -67,12 +67,10 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
             stream.ReadExactly(new(pHeader, sizeof(YaePacketHeader)));
         }
 
-        using (IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.Rent(header.ContentLength))
-        {
-            Span<byte> span = owner.Memory.Span[..header.ContentLength];
-            stream.ReadExactly(span);
-            data = new(header, owner);
-        }
+        IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.Rent(header.ContentLength);
+        Span<byte> span = owner.Memory.Span[..header.ContentLength];
+        stream.ReadExactly(span);
+        data = new(header, owner);
     }
 
     private YaeData GetDataByKind(NamedPipeServerStream serverStream, YaeDataKind targetKind, CancellationToken token)
