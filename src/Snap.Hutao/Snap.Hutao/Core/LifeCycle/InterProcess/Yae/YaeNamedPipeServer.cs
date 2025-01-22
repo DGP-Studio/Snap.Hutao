@@ -75,6 +75,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
     private YaeData GetDataByKind(NamedPipeServerStream serverStream, YaeDataKind targetKind, CancellationToken token)
     {
+        YaeData result = default;
         while (!gameProcess.HasExited && serverStream.IsConnected && !token.IsCancellationRequested)
         {
             try
@@ -82,7 +83,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                 ReadPacket(serverStream, out YaePacketHeader header, out YaeData data);
                 if (header.Kind == targetKind)
                 {
-                    return data;
+                    result = data;
                 }
             }
             catch (EndOfStreamException)
@@ -91,6 +92,6 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
             }
         }
 
-        return default;
+        return result;
     }
 }
