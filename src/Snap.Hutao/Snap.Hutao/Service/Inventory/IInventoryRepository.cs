@@ -16,4 +16,6 @@ internal interface IInventoryRepository : IRepository<InventoryItem>
     void UpdateInventoryItem(InventoryItem item);
 
     ImmutableArray<InventoryItem> GetInventoryItemImmutableArrayByProjectId(Guid projectId);
+
+    ImmutableDictionary<uint, InventoryItem> GetInventoryItemImmutableDictionaryByProjectId(Guid projectId);
 }

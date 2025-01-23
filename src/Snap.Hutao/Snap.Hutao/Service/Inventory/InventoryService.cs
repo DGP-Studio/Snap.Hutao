@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.InterChange.Inventory;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -28,12 +29,12 @@ internal sealed partial class InventoryService : IInventoryService
     public ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
-        ImmutableArray<InventoryItem> entities = inventoryRepository.GetInventoryItemImmutableArrayByProjectId(projectId);
+        ImmutableDictionary<uint, InventoryItem> entities = inventoryRepository.GetInventoryItemImmutableDictionaryByProjectId(projectId);
 
         ImmutableArray<InventoryItemView>.Builder results = ImmutableArray.CreateBuilder<InventoryItemView>();
         foreach (Material meta in context.EnumerateInventoryMaterial())
         {
-            InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
+            InventoryItem entity = entities.GetValueOrDefault(meta.Id) ?? InventoryItem.From(projectId, meta.Id);
             results.Add(new(entity, meta, saveCommand));
         }
 
@@ -107,6 +108,17 @@ internal sealed partial class InventoryService : IInventoryService
         }
 
         inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
-        inventoryRepository.AddInventoryItemRangeByProjectId(uiif.List.Where(i => i.Material is not null).Select(i => InventoryItem.From(project.InnerId, i.ItemId, i.Material.Count)));
+        inventoryRepository.AddInventoryItemRangeByProjectId(UIIFItemToInventoryItem(project.InnerId, uiif.List));
+
+        static IEnumerable<InventoryItem> UIIFItemToInventoryItem(Guid projectId, ImmutableArray<UIIFItem> uiif)
+        {
+            foreach (UIIFItem item in uiif)
+            {
+                if (item.Material is not null)
+                {
+                    yield return InventoryItem.From(projectId, item.ItemId, item.Material.Count);
+                }
+            }
+        }
     }
 }

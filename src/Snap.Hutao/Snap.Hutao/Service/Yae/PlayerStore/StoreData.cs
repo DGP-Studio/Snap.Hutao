@@ -52,11 +52,13 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
             "ZXkYASABKA0SDQoFdmFsdWUYAiABKA06AjgBImAKBUVxdWlwEh8KCXJlbGlx",
             "dWFyeRgBIAEoCzIKLlJlbGlxdWFyeUgAEhkKBndlYXBvbhgCIAEoCzIHLldl",
             "YXBvbkgAEhEKCWlzX2xvY2tlZBgDIAEoCEIICgZkZXRhaWwiGgoJRnVybml0",
-            "dXJlEg0KBWNvdW50GAEgASgNIogBCgRJdGVtEg8KB2l0ZW1faWQYASABKA0S",
-            "DAoEZ3VpZBgCIAEoBBIdCghtYXRlcmlhbBgFIAEoCzIJLk1hdGVyaWFsSAAS",
-            "FwoFZXF1aXAYBiABKAsyBi5FcXVpcEgAEh8KCWZ1cm5pdHVyZRgHIAEoCzIK",
-            "LkZ1cm5pdHVyZUgAQggKBmRldGFpbEIlqgIiU25hcC5IdXRhby5TZXJ2aWNl",
-            "LllhZS5QbGF5ZXJTdG9yZWIGcHJvdG8z"));
+            "dXJlEg0KBWNvdW50GAEgASgNIhwKC1ZpcnR1YWxJdGVtEg0KBWNvdW50GAEg",
+            "ASgDIq8BCgRJdGVtEg8KB2l0ZW1faWQYASABKA0SDAoEZ3VpZBgCIAEoBBId",
+            "CghtYXRlcmlhbBgFIAEoCzIJLk1hdGVyaWFsSAASFwoFZXF1aXAYBiABKAsy",
+            "Bi5FcXVpcEgAEh8KCWZ1cm5pdHVyZRgHIAEoCzIKLkZ1cm5pdHVyZUgAEiUK",
+            "DHZpcnR1YWxfaXRlbRj/ASABKAsyDC5WaXJ0dWFsSXRlbUgAQggKBmRldGFp",
+            "bEIlqgIiU25hcC5IdXRhby5TZXJ2aWNlLllhZS5QbGF5ZXJTdG9yZWIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -68,7 +70,8 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
             new pbr::GeneratedClrTypeInfo(typeof(global::Snap.Hutao.Service.Yae.PlayerStore.Weapon), global::Snap.Hutao.Service.Yae.PlayerStore.Weapon.Parser, new[]{ "Level", "Exp", "PromoteLevel", "AffixMap", "IsArkheOusia" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::Snap.Hutao.Service.Yae.PlayerStore.Equip), global::Snap.Hutao.Service.Yae.PlayerStore.Equip.Parser, new[]{ "Reliquary", "Weapon", "IsLocked" }, new[]{ "Detail" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Snap.Hutao.Service.Yae.PlayerStore.Furniture), global::Snap.Hutao.Service.Yae.PlayerStore.Furniture.Parser, new[]{ "Count" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Snap.Hutao.Service.Yae.PlayerStore.Item), global::Snap.Hutao.Service.Yae.PlayerStore.Item.Parser, new[]{ "ItemId", "Guid", "Material", "Equip", "Furniture" }, new[]{ "Detail" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem), global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem.Parser, new[]{ "Count" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Snap.Hutao.Service.Yae.PlayerStore.Item), global::Snap.Hutao.Service.Yae.PlayerStore.Item.Parser, new[]{ "ItemId", "Guid", "Material", "Equip", "Furniture", "VirtualItem" }, new[]{ "Detail" }, null, null, null)
           }));
     }
     #endregion
@@ -2633,6 +2636,204 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class VirtualItem : pb::IMessage<VirtualItem>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<VirtualItem> _parser = new pb::MessageParser<VirtualItem>(() => new VirtualItem());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<VirtualItem> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Snap.Hutao.Service.Yae.PlayerStore.StoreDataReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public VirtualItem() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public VirtualItem(VirtualItem other) : this() {
+      count_ = other.count_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public VirtualItem Clone() {
+      return new VirtualItem(this);
+    }
+
+    /// <summary>Field number for the "count" field.</summary>
+    public const int CountFieldNumber = 1;
+    private long count_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long Count {
+      get { return count_; }
+      set {
+        count_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as VirtualItem);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(VirtualItem other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Count != other.Count) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Count != 0L) hash ^= Count.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Count != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(Count);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Count != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(Count);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Count != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Count);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(VirtualItem other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Count != 0L) {
+        Count = other.Count;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Count = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Count = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class Item : pb::IMessage<Item>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -2647,7 +2848,7 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Snap.Hutao.Service.Yae.PlayerStore.StoreDataReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Snap.Hutao.Service.Yae.PlayerStore.StoreDataReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2678,6 +2879,9 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
           break;
         case DetailOneofCase.Furniture:
           Furniture = other.Furniture.Clone();
+          break;
+        case DetailOneofCase.VirtualItem:
+          VirtualItem = other.VirtualItem.Clone();
           break;
       }
 
@@ -2750,6 +2954,18 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
       }
     }
 
+    /// <summary>Field number for the "virtual_item" field.</summary>
+    public const int VirtualItemFieldNumber = 255;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem VirtualItem {
+      get { return detailCase_ == DetailOneofCase.VirtualItem ? (global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem) detail_ : null; }
+      set {
+        detail_ = value;
+        detailCase_ = value == null ? DetailOneofCase.None : DetailOneofCase.VirtualItem;
+      }
+    }
+
     private object detail_;
     /// <summary>Enum of possible cases for the "detail" oneof.</summary>
     public enum DetailOneofCase {
@@ -2757,6 +2973,7 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
       Material = 5,
       Equip = 6,
       Furniture = 7,
+      VirtualItem = 255,
     }
     private DetailOneofCase detailCase_ = DetailOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2792,6 +3009,7 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
       if (!object.Equals(Material, other.Material)) return false;
       if (!object.Equals(Equip, other.Equip)) return false;
       if (!object.Equals(Furniture, other.Furniture)) return false;
+      if (!object.Equals(VirtualItem, other.VirtualItem)) return false;
       if (DetailCase != other.DetailCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -2805,6 +3023,7 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
       if (detailCase_ == DetailOneofCase.Material) hash ^= Material.GetHashCode();
       if (detailCase_ == DetailOneofCase.Equip) hash ^= Equip.GetHashCode();
       if (detailCase_ == DetailOneofCase.Furniture) hash ^= Furniture.GetHashCode();
+      if (detailCase_ == DetailOneofCase.VirtualItem) hash ^= VirtualItem.GetHashCode();
       hash ^= (int) detailCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2844,6 +3063,10 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
         output.WriteRawTag(58);
         output.WriteMessage(Furniture);
       }
+      if (detailCase_ == DetailOneofCase.VirtualItem) {
+        output.WriteRawTag(250, 15);
+        output.WriteMessage(VirtualItem);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2874,6 +3097,10 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
         output.WriteRawTag(58);
         output.WriteMessage(Furniture);
       }
+      if (detailCase_ == DetailOneofCase.VirtualItem) {
+        output.WriteRawTag(250, 15);
+        output.WriteMessage(VirtualItem);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2898,6 +3125,9 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
       }
       if (detailCase_ == DetailOneofCase.Furniture) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Furniture);
+      }
+      if (detailCase_ == DetailOneofCase.VirtualItem) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(VirtualItem);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2935,6 +3165,12 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
             Furniture = new global::Snap.Hutao.Service.Yae.PlayerStore.Furniture();
           }
           Furniture.MergeFrom(other.Furniture);
+          break;
+        case DetailOneofCase.VirtualItem:
+          if (VirtualItem == null) {
+            VirtualItem = new global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem();
+          }
+          VirtualItem.MergeFrom(other.VirtualItem);
           break;
       }
 
@@ -2992,6 +3228,15 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
             Furniture = subBuilder;
             break;
           }
+          case 2042: {
+            global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem subBuilder = new global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem();
+            if (detailCase_ == DetailOneofCase.VirtualItem) {
+              subBuilder.MergeFrom(VirtualItem);
+            }
+            input.ReadMessage(subBuilder);
+            VirtualItem = subBuilder;
+            break;
+          }
         }
       }
     #endif
@@ -3044,6 +3289,15 @@ namespace Snap.Hutao.Service.Yae.PlayerStore {
             }
             input.ReadMessage(subBuilder);
             Furniture = subBuilder;
+            break;
+          }
+          case 2042: {
+            global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem subBuilder = new global::Snap.Hutao.Service.Yae.PlayerStore.VirtualItem();
+            if (detailCase_ == DetailOneofCase.VirtualItem) {
+              subBuilder.MergeFrom(VirtualItem);
+            }
+            input.ReadMessage(subBuilder);
+            VirtualItem = subBuilder;
             break;
           }
         }

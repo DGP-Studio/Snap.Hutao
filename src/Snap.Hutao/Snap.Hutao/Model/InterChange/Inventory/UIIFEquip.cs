@@ -13,8 +13,13 @@ internal class UIIFEquip
     [JsonPropertyName("weapon")]
     public UIIFWeapon? Weapon { get; init; }
 
-    public static UIIFEquip FromInGameEquip(InGameEquip equip)
+    public static UIIFEquip? FromInGameEquip(InGameEquip? equip)
     {
+        if (equip is null)
+        {
+            return default;
+        }
+
         return new()
         {
             Reliquary = equip.Reliquary is null ? null : UIIFReliquary.FromInGameReliquary(equip.Reliquary),

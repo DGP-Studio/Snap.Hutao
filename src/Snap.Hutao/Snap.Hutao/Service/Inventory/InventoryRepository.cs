@@ -32,4 +32,9 @@ internal sealed partial class InventoryRepository : IInventoryRepository
     {
         return this.ImmutableArray(i => i.ProjectId == projectId);
     }
+
+    public ImmutableDictionary<uint, InventoryItem> GetInventoryItemImmutableDictionaryByProjectId(Guid projectId)
+    {
+        return this.Query(query => query.Where(i => i.ProjectId == projectId).ToImmutableDictionary(i => i.ItemId));
+    }
 }
