@@ -51,6 +51,10 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);System.Runtime.CompilerServices</InterceptorsPreviewNamespaces>
+  </PropertyGroup>
+
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" Condition="'$(ConfigurationName)'!='Debug'" />
     <AppxManifest Include="Package.development.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'" />

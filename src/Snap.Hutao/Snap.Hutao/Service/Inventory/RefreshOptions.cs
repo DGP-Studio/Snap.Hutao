@@ -9,6 +9,10 @@ namespace Snap.Hutao.Service.Inventory;
 
 internal sealed class RefreshOptions
 {
+    private RefreshOptions()
+    {
+    }
+
     public required RefreshOptionKind Kind { get; init; }
 
     public required CultivateProject Project { get; init; }
@@ -16,10 +20,6 @@ internal sealed class RefreshOptions
     public required ICultivationMetadataContext? MetadataContext { get; init; }
 
     public required IYaeService? YaeService { get; init; }
-
-    private RefreshOptions()
-    {
-    }
 
     public static RefreshOptions CreateForWebCalculator(CultivateProject project, ICultivationMetadataContext context)
     {
