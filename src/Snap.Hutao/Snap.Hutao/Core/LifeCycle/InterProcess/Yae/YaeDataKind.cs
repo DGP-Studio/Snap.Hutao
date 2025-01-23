@@ -8,4 +8,6 @@ internal enum YaeDataKind : byte
     None = 0,
     Achievement = 1,
     PlayerStore = 2,
+    VirtualItem = 100,
+    End = 255
 }

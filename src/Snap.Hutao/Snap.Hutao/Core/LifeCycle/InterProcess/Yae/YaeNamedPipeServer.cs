@@ -5,6 +5,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Text;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 
@@ -58,19 +59,27 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe void ReadPacket(PipeStream stream, out YaePacketHeader header, out YaeData data)
+    private static unsafe void ReadPacket(PipeStream stream, out YaeData data)
     {
         data = default;
 
-        fixed (YaePacketHeader* pHeader = &header)
-        {
-            stream.ReadExactly(new(pHeader, sizeof(YaePacketHeader)));
-        }
+        YaeDataKind kind = default;
+        stream.ReadExactly(new(&kind, sizeof(YaeDataKind)));
 
-        IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.Rent(header.ContentLength);
-        Span<byte> span = owner.Memory.Span[..header.ContentLength];
-        stream.ReadExactly(span);
-        data = new(header, owner);
+        if (kind is YaeDataKind.Achievement or YaeDataKind.PlayerStore)
+        {
+            int contentLength = default;
+            stream.ReadExactly(new(&contentLength, sizeof(int)));
+
+            IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.Rent(contentLength);
+            Span<byte> span = owner.Memory.Span[..contentLength];
+            stream.ReadExactly(span);
+            data = new(kind, owner, contentLength);
+        }
+        else if (kind is YaeDataKind.VirtualItem)
+        {
+            // TODO
+        }
     }
 
     private YaeData GetDataByKind(NamedPipeServerStream serverStream, YaeDataKind targetKind, CancellationToken token)
@@ -80,8 +89,8 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         {
             try
             {
-                ReadPacket(serverStream, out YaePacketHeader header, out YaeData data);
-                if (header.Kind == targetKind)
+                ReadPacket(serverStream, out YaeData data);
+                if (data.Kind == targetKind)
                 {
                     result = data;
                 }

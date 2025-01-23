@@ -9,18 +9,20 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 
 internal readonly struct YaeData : IDisposable
 {
-    private readonly YaePacketHeader header;
+    private readonly YaeDataKind kind;
     private readonly IMemoryOwner<byte> owner;
+    private readonly int contentLength;
 
-    public YaeData(YaePacketHeader header, IMemoryOwner<byte> owner)
+    public YaeData(YaeDataKind kind, IMemoryOwner<byte> owner, int contentLength)
     {
-        this.header = header;
+        this.kind = kind;
         this.owner = owner;
+        this.contentLength = contentLength;
     }
 
-    public YaeDataKind Kind { get => header.Kind; }
+    public YaeDataKind Kind { get => kind; }
 
-    public ByteString Bytes { get => ByteStringMarshal.Create(owner.Memory[..header.ContentLength]); }
+    public ByteString Bytes { get => ByteStringMarshal.Create(owner.Memory[..contentLength]); }
 
     public void Dispose()
     {
