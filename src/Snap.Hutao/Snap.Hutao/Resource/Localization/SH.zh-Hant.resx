@@ -1671,7 +1671,7 @@
     <value>稍後可以在設定中修改</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>資料資料夾用於存儲自定義桌布、後設資料、切換伺服器快取、更新快取等檔案</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* 預設的資料資料夾會在卸載時一同刪除，稍後可以在設定中修改</value>
