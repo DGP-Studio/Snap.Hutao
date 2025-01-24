@@ -24,9 +24,18 @@ internal sealed class UIIFItem
         return new()
         {
             ItemId = item.ItemId,
-            Material = UIIFItemDetail.Create(item.Material?.Count) ?? UIIFItemDetail.Create(item.VirtualItem?.Count),
+            Material = UIIFItemDetail.Create(item.Material?.Count),
             Equip = UIIFEquip.FromInGameEquip(item.Equip),
             Furniture = UIIFItemDetail.Create(item.Furniture?.Count),
+        };
+    }
+
+    public static UIIFItem From(uint itemId, uint count)
+    {
+        return new()
+        {
+            ItemId = itemId,
+            Material = UIIFItemDetail.Create(count),
         };
     }
 }

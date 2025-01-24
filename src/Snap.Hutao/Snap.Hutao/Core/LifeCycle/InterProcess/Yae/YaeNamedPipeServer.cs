@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Buffers;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
@@ -41,7 +42,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         await serverStream.DisposeAsync().ConfigureAwait(false);
     }
 
-    public async ValueTask<YaeData> GetDataAsync(YaeDataKind targetKind)
+    public async ValueTask<ImmutableArray<YaeData>> GetDataArrayAsync()
     {
         using (await serverLock.LockAsync().ConfigureAwait(false))
         {
@@ -49,7 +50,7 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
             {
                 await serverStream.WaitForConnectionAsync(serverTokenSource.Token).ConfigureAwait(false);
                 logger.LogInformation("Client connected.");
-                return GetDataByKind(serverStream, targetKind, serverTokenSource.Token);
+                return GetDataArray(serverStream);
             }
             catch (OperationCanceledException)
             {
@@ -59,40 +60,48 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         return default;
     }
 
-    private static unsafe void ReadPacket(PipeStream stream, out YaeData data)
+    private static unsafe bool TryReadPacket(PipeStream stream, [NotNullWhen(true)] out YaeData? data)
     {
-        data = default;
-
-        YaeDataKind kind = default;
-        stream.ReadExactly(new(&kind, sizeof(YaeDataKind)));
-
-        if (kind is YaeDataKind.Achievement or YaeDataKind.PlayerStore)
+        using (BinaryReader reader = new(stream, Encoding.UTF8, true))
         {
-            int contentLength = default;
-            stream.ReadExactly(new(&contentLength, sizeof(int)));
+            data = default;
+            YaeDataKind kind = reader.Read<YaeDataKind>();
+
+            int contentLength;
+            switch (kind)
+            {
+                case YaeDataKind.Achievement or YaeDataKind.PlayerStore:
+                    contentLength = reader.ReadInt32();
+                    break;
+                case YaeDataKind.VirtualItem:
+                    contentLength = sizeof(YaePropertyTypeValue);
+                    break;
+                case YaeDataKind.End:
+                    contentLength = 0; // We can rent zero-length memory.
+                    break;
+                default:
+                    return false;
+            }
 
             IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.Rent(contentLength);
-            Span<byte> span = owner.Memory.Span[..contentLength];
-            stream.ReadExactly(span);
+            reader.ReadExactly(owner.Memory.Span[..contentLength]);
             data = new(kind, owner, contentLength);
-        }
-        else if (kind is YaeDataKind.VirtualItem)
-        {
-            // TODO
+            return true;
         }
     }
 
-    private YaeData GetDataByKind(NamedPipeServerStream serverStream, YaeDataKind targetKind, CancellationToken token)
+    private ImmutableArray<YaeData> GetDataArray(NamedPipeServerStream serverStream)
     {
-        YaeData result = default;
-        while (!gameProcess.HasExited && serverStream.IsConnected && !token.IsCancellationRequested)
+        // This method is never cancelable.
+        // Yae will prompt error message if the server is closed.
+        ImmutableArray<YaeData>.Builder builder = ImmutableArray.CreateBuilder<YaeData>();
+        while (!gameProcess.HasExited && serverStream.IsConnected)
         {
             try
             {
-                ReadPacket(serverStream, out YaeData data);
-                if (data.Kind == targetKind)
+                if (TryReadPacket(serverStream, out YaeData? data))
                 {
-                    result = data;
+                    builder.Add(data);
                 }
             }
             catch (EndOfStreamException)
@@ -101,6 +110,6 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
             }
         }
 
-        return result;
+        return builder.ToImmutable();
     }
 }

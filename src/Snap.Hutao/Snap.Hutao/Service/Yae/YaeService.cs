@@ -15,6 +15,7 @@ using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Service.Yae.PlayerStore;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -55,10 +56,21 @@ internal sealed partial class YaeService : IYaeService
             await using (YaeNamedPipeServer server = new(serviceProvider, process))
 #pragma warning restore CA2007
             {
-                using (YaeData data = await server.GetDataAsync(YaeDataKind.Achievement).ConfigureAwait(false))
+                UIAF? uiaf = default;
+                ImmutableArray<YaeData> dataArray = await server.GetDataArrayAsync().ConfigureAwait(false);
+                foreach (YaeData data in dataArray)
                 {
-                    return AchievementParser.Parse(data.Bytes);
+                    using (data)
+                    {
+                        if (data.Kind is YaeDataKind.Achievement)
+                        {
+                            Debug.Assert(uiaf is null);
+                            uiaf = AchievementParser.Parse(data.Bytes);
+                        }
+                    }
                 }
+
+                return uiaf;
             }
         }
     }
@@ -81,10 +93,39 @@ internal sealed partial class YaeService : IYaeService
             await using (YaeNamedPipeServer server = new(serviceProvider, process))
 #pragma warning restore CA2007
             {
-                using (YaeData data = await server.GetDataAsync(YaeDataKind.PlayerStore).ConfigureAwait(false))
+                UIIF? uiif = default;
+                Dictionary<InterestedPropType, double> propMap = [];
+                ImmutableArray<YaeData> dataArray = await server.GetDataArrayAsync().ConfigureAwait(false);
+                foreach (YaeData data in dataArray)
                 {
-                    return PlayerStoreParser.Parse(data.Bytes);
+                    using (data)
+                    {
+                        if (data.Kind is YaeDataKind.PlayerStore)
+                        {
+                            Debug.Assert(uiif is null);
+                            uiif = PlayerStoreParser.Parse(data.Bytes);
+                        }
+                        else if (data.Kind is YaeDataKind.VirtualItem)
+                        {
+                            ref readonly YaePropertyTypeValue typeValue = ref data.PropertyTypeValue;
+                            propMap.Add(typeValue.Type, typeValue.Value);
+                        }
+                    }
                 }
+
+                if (uiif is null)
+                {
+                    return default;
+                }
+
+                double count = propMap.GetValueOrDefault(InterestedPropType.PlayerSCoin) - propMap.GetValueOrDefault(InterestedPropType.PlayerWaitSubSCoin);
+                UIIFItem mora = UIIFItem.From(202U, (uint)Math.Clamp(count, uint.MinValue, uint.MaxValue));
+
+                return new()
+                {
+                    Info = uiif.Info,
+                    List = [mora, .. uiif.List],
+                };
             }
         }
     }

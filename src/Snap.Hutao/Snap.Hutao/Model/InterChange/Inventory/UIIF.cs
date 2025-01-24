@@ -12,9 +12,8 @@ internal sealed class UIIF
 
     private static readonly FrozenSet<string> SupportedVersion = [CurrentVersion];
 
-    [JsonRequired]
     [JsonPropertyName("info")]
-    public UIIFInfo Info { get; init; } = default!;
+    public required UIIFInfo Info { get; init; }
 
     [JsonPropertyName("list")]
     public ImmutableArray<UIIFItem> List { get; init; }
