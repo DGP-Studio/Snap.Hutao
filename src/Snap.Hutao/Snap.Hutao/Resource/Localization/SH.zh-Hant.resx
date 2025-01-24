@@ -1674,7 +1674,7 @@
     <value>数据文件夹用于存储自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
-    <value>* 默认的数据文件夹会在卸载时一同删除，稍后可以在设置中修改</value>
+    <value>* 預設的資料資料夾會在卸載時一同刪除，稍後可以在設定中修改</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>文件</value>
@@ -1827,13 +1827,13 @@
     <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的背包物品将会丢失</value>
+    <value>此操作不可逆，此計劃的背包物品將會丟失</value>
   </data>
   <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
     <value>正在清空背包物品</value>
   </data>
   <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
-    <value>确认要清空当前计划下的所有背包物品吗？</value>
+    <value>確認要清空當前計劃下的所有背包物品嗎？</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>選擇的等級不需要養成材料</value>
@@ -2151,10 +2151,10 @@
     <value>儲存遊戲路徑失敗</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
-    <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+    <value>選擇的資料夾不為空，將會覆蓋已存在的檔案</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
-    <value>复制数据文件</value>
+    <value>複製資料檔案</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>目前資料目錄 '{0}' 包含了一個或多個重新剖析點（Reparse points），可能會導致部分依賴資料資料夾的功能無法正常工作，請前往設定更改路徑</value>
