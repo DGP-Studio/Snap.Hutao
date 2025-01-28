@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 
-internal sealed class YaeData: IDisposable
+internal sealed class YaeData : IDisposable
 {
     private readonly IMemoryOwner<byte> owner;
     private readonly int contentLength;
@@ -34,7 +34,7 @@ internal sealed class YaeData: IDisposable
 
     public ref readonly YaePropertyTypeValue PropertyTypeValue
     {
-        get => ref MemoryMarshal.AsRef<YaePropertyTypeValue>((ReadOnlySpan<byte>)(owner.Memory.Span[..contentLength]));
+        get => ref MemoryMarshal.AsRef<YaePropertyTypeValue>((ReadOnlySpan<byte>)owner.Memory.Span[..contentLength]);
     }
 
     public void Dispose()

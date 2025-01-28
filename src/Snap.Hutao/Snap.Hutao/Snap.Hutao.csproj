@@ -359,6 +359,10 @@
     <PackageReference Include="System.Threading.AccessControl" Version="9.0.1" />
     <PackageReference Include="System.Threading.RateLimiting" Version="9.0.1" />
     <Manifest Include="$(ApplicationManifest)" />
+    <PackageReference Include="Yae.Lib" Version="5.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging

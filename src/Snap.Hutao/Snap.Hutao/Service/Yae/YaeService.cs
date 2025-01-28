@@ -164,8 +164,7 @@ internal sealed partial class YaeService : IYaeService
 
     private unsafe void InitializeYae(Process gameProcess)
     {
-        // TODO: Uncomment when YaeLib.dll is ready
-        // InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeLib.dll", dataFolderYaePath);
+        InstalledLocation.CopyFileFromApplicationUri("ms-appx:///YaeLib.dll", dataFolderYaePath);
 
         HANDLE hModule = default;
         try
