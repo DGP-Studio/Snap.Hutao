@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.Yae;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
@@ -23,4 +24,6 @@ internal sealed partial class AchievementImporterScopeContext
     public partial IInfoBarService InfoBarService { get; }
 
     public partial ITaskContext TaskContext { get; }
+
+    public partial IYaeService YaeService { get; }
 }

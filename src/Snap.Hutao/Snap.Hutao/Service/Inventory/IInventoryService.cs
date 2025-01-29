@@ -16,5 +16,5 @@ internal interface IInventoryService
 
     void SaveInventoryItem(InventoryItemView item);
 
-    ValueTask RefreshInventoryAsync(ICultivationMetadataContext context, CultivateProject project);
+    ValueTask RefreshInventoryAsync(RefreshOptions refreshOptions);
 }

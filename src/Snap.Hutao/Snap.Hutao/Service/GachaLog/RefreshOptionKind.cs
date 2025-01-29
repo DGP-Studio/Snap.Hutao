@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.GachaLog;
 
-internal enum RefreshOption
+internal enum RefreshOptionKind
 {
     None,
     WebCache,

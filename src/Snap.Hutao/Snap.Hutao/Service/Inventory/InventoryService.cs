@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.InterChange.Inventory;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.Service.Yae;
 using Snap.Hutao.ViewModel.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
@@ -27,12 +29,12 @@ internal sealed partial class InventoryService : IInventoryService
     public ImmutableArray<InventoryItemView> GetInventoryItemViews(ICultivationMetadataContext context, CultivateProject cultivateProject, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
-        ImmutableArray<InventoryItem> entities = inventoryRepository.GetInventoryItemImmutableArrayByProjectId(projectId);
+        ImmutableDictionary<uint, InventoryItem> entities = inventoryRepository.GetInventoryItemImmutableDictionaryByProjectId(projectId);
 
         ImmutableArray<InventoryItemView>.Builder results = ImmutableArray.CreateBuilder<InventoryItemView>();
         foreach (Material meta in context.EnumerateInventoryMaterial())
         {
-            InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
+            InventoryItem entity = entities.GetValueOrDefault(meta.Id) ?? InventoryItem.From(projectId, meta.Id);
             results.Add(new(entity, meta, saveCommand));
         }
 
@@ -44,13 +46,28 @@ internal sealed partial class InventoryService : IInventoryService
         inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
+    public ValueTask RefreshInventoryAsync(RefreshOptions refreshOptions)
+    {
+        switch (refreshOptions.Kind)
+        {
+            case RefreshOptionKind.WebCalculator:
+                ArgumentNullException.ThrowIfNull(refreshOptions.MetadataContext);
+                return RefreshInventoryByCalculatorAsync(refreshOptions.MetadataContext, refreshOptions.Project);
+            case RefreshOptionKind.EmbeddedYae:
+                ArgumentNullException.ThrowIfNull(refreshOptions.YaeService);
+                return RefreshInventoryByEmbeddedYaeAsync(refreshOptions.YaeService, refreshOptions.Project);
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
     public void RemoveInventoryItems(CultivateProject cultivateProject)
     {
         Guid projectId = cultivateProject.InnerId;
         inventoryRepository.RemoveInventoryItemRangeByProjectId(projectId);
     }
 
-    public async ValueTask RefreshInventoryAsync(ICultivationMetadataContext context, CultivateProject project)
+    private async ValueTask RefreshInventoryByCalculatorAsync(ICultivationMetadataContext context, CultivateProject project)
     {
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
@@ -79,6 +96,29 @@ internal sealed partial class InventoryService : IInventoryService
         {
             inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
             inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectAsArray(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
+        }
+    }
+
+    private async ValueTask RefreshInventoryByEmbeddedYaeAsync(IYaeService yaeService, CultivateProject project)
+    {
+        if (await yaeService.GetInventoryAsync().ConfigureAwait(false) is not { } uiif)
+        {
+            infoBarService.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ServiceInventoryRefreshByEmbeddedYaeErrorMessage);
+            return;
+        }
+
+        inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
+        inventoryRepository.AddInventoryItemRangeByProjectId(UIIFItemToInventoryItem(project.InnerId, uiif.List));
+
+        static IEnumerable<InventoryItem> UIIFItemToInventoryItem(Guid projectId, ImmutableArray<UIIFItem> uiif)
+        {
+            foreach (UIIFItem item in uiif)
+            {
+                if (item.Material is not null)
+                {
+                    yield return InventoryItem.From(projectId, item.ItemId, item.Material.Count);
+                }
+            }
         }
     }
 }

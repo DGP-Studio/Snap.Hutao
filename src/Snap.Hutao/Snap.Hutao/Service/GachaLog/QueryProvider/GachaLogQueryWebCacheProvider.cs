@@ -7,7 +7,6 @@ using Snap.Hutao.Service.Game;
 using System.Buffers;
 using System.Collections.Specialized;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,7 +15,7 @@ using System.Web;
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.WebCache)]
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOptionKind.WebCache)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;

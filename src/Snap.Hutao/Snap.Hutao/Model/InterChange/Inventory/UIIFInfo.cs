@@ -1,52 +1,50 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using JetBrains.Annotations;
 using Snap.Hutao.Core;
 
-namespace Snap.Hutao.Model.InterChange.Achievement;
+namespace Snap.Hutao.Model.InterChange.Inventory;
 
 // ReSharper disable once InconsistentNaming
-internal sealed class UIAFInfo
+internal sealed class UIIFInfo
 {
-    [JsonPropertyName("export_app")]
-    public string? ExportApp { get; init; }
-
     [JsonPropertyName("export_timestamp")]
     public long? ExportTimestamp { get; init; }
 
     [JsonIgnore]
-    [UsedImplicitly]
     public DateTimeOffset ExportDateTime
     {
         get => DateTimeOffsetExtension.UnsafeRelaxedFromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
     }
 
+    [JsonPropertyName("export_app")]
+    public string? ExportApp { get; init; }
+
     [JsonPropertyName("export_app_version")]
     public string? ExportAppVersion { get; init; }
 
     // ReSharper disable once InconsistentNaming
-    [JsonPropertyName("uiaf_version")]
-    public string? UIAFVersion { get; init; }
+    [JsonPropertyName("uiif_version")]
+    public string? UIIFVersion { get; init; }
 
-    public static UIAFInfo CreateForExport()
+    public static UIIFInfo CreateForExport()
     {
         return new()
         {
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = HutaoRuntime.Version.ToString(),
-            UIAFVersion = UIAF.CurrentVersion,
+            UIIFVersion = UIIF.CurrentVersion,
         };
     }
 
-    public static UIAFInfo CreateForEmbeddedYae()
+    public static UIIFInfo CreateForEmbeddedYae()
     {
         return new()
         {
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = "Embedded Yae",
-            UIAFVersion = UIAF.CurrentVersion,
+            UIIFVersion = UIIF.CurrentVersion,
         };
     }
 }
