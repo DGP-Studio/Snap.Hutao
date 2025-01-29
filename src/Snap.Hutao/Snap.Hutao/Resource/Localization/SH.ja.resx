@@ -1138,7 +1138,7 @@
     <value>祈願履歴のアップロードサービス期限は</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>他の方法でバッグのアイテムを同期してください</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
@@ -1198,16 +1198,16 @@
     <value>ユーザー情報を取得しています、しばらくお待ちください...</value>
   </data>
   <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
-    <value>请先在启动游戏页面设置游戏目录</value>
+    <value>まず「ゲームランチャー」ページで、ディレクトリを設定してください</value>
   </data>
   <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
-    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
+    <value>ゲームを閉じた後にのみ、Embedded Yae を使用してデータを取得できます</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
+    <value>ゲームデータを待機中</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>Embedded Yae エラー</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>追加ステータス推奨</value>
@@ -2068,7 +2068,7 @@
     <value>正しいメールアドレスを入力してください</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>他の方法でアチーブメントをインポートしてください</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>クリップボードのテキスト形式が正しくありません</value>
@@ -2263,7 +2263,7 @@
     <value>UIAF ファイルからインポート</value>
   </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
+    <value>Embedded Yae 経由でゲームからインポート</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>インポート</value>
@@ -2392,10 +2392,10 @@
     <value>バッグのアイテムを同期する</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>育成計算機で同期</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>Embedded Yae で同期</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>リストを削除</value>
