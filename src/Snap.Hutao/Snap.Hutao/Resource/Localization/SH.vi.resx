@@ -1137,7 +1137,7 @@
     <value>Dịch vụ tải lên lịch sử cầu nguyện có hiệu lực đến</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>Vui lòng sử dụng phương pháp khác để đồng bộ vật phẩm trong ba lô</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Không thể tìm thấy tệp siêu dữ liệu đã được lưu trong bộ nhớ cache</value>
@@ -1197,16 +1197,16 @@
     <value>Đang lấy thông tin người dùng, vui lòng chờ...</value>
   </data>
   <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
-    <value>请先在启动游戏页面设置游戏目录</value>
+    <value>Vui lòng cài đặt thư mục trò chơi trước ở trang khởi động trò chơi</value>
   </data>
   <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
-    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
+    <value>Chỉ có thể sử dụng Embedded Yae để lấy dữ liệu sau khi đã đóng trò chơi</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
+    <value>Đang chờ dữ liệu trò chơi</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>Lỗi Embedded Yae</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Đề xuất thuộc tính bổ sung</value>
@@ -2067,7 +2067,7 @@
     <value>Vui lòng nhập đúng email</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>Vui lòng sử dụng phương pháp khác để nhập thành tựu</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Định dạng văn bản trong clipboard không chính xác</value>
@@ -2262,7 +2262,7 @@
     <value>Nhập từ tệp UIAF</value>
   </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
+    <value>Nhập từ trò chơi thông qua Embedded Yae</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Nhập</value>
@@ -2391,10 +2391,10 @@
     <value>Đồng bộ vật phẩm trong túi</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>Đồng bộ bằng công cụ tính toán bồi dưỡng</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>Đồng bộ bằng Embedded Yae</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Xóa danh sách</value>
