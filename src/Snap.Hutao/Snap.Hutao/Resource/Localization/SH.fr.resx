@@ -1136,6 +1136,9 @@
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Le service de téléchargement des enregistrements de vœux est valide jusqu'au</value>
   </data>
+  <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法同步背包物品</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Impossible de trouver le fichier de métadonnées mis en cache</value>
   </data>
@@ -1192,6 +1195,18 @@
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Récupération des informations de l'utilisateur, veuillez patienter...</value>
+  </data>
+  <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
+    <value>请先在启动游戏页面设置游戏目录</value>
+  </data>
+  <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
+    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>正在等待游戏数据</value>
+  </data>
+  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
+    <value>Embedded Yae 错误</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Recommandation de propriétés supplémentaires</value>
@@ -2051,6 +2066,9 @@
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Veuillez entrer l'email correct.</value>
   </data>
+  <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法导入成就</value>
+  </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Le format du texte dans le presse-papiers est incorrect</value>
   </data>
@@ -2243,6 +2261,9 @@
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>Importer depuis un format UIAF</value>
   </data>
+  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 从游戏内导入</value>
+  </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Importer</value>
   </data>
@@ -2368,6 +2389,12 @@
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
     <value>Synchroniser les objets de l'inventaire</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
+    <value>通过养成计算器同步</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 同步</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Supprimer la liste</value>
