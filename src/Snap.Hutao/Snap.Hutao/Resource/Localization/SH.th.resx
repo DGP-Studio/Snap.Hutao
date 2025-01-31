@@ -1136,6 +1136,9 @@
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>บริการอัปโหลดบันทึกการอธิษฐานมีผลถึง</value>
   </data>
+  <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法同步背包物品</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>ไม่พบไฟล์ข้อมูลเมตาที่แคชไว้</value>
   </data>
@@ -1192,6 +1195,18 @@
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>กำลังดึงข้อมูลผู้ใช้ โปรดรอสักครู่...</value>
+  </data>
+  <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
+    <value>请先在启动游戏页面设置游戏目录</value>
+  </data>
+  <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
+    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>正在等待游戏数据</value>
+  </data>
+  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
+    <value>Embedded Yae 错误</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>คำแนะนำคุณสมบัติเพิ่มเติม</value>
@@ -1670,6 +1685,12 @@
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
     <value>คุณสามารถเปลี่ยนแปลงได้ในการตั้งค่าภายหลัง</value>
   </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* โฟลเดอร์ข้อมูลเริ่มต้นจะถูกลบเมื่อถอนการติดตั้ง สามารถแก้ไขได้ภายหลังในการตั้งค่า</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>เอกสาร</value>
   </data>
@@ -1819,6 +1840,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>ดำเนินการไม่เสร็จสมบูรณ์: เพิ่ม / อัปเดต: {0} ข้าม {1}</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>การดำเนินการนี้ไม่สามารถยกเลิกได้ ไอเทมในกระเป๋าของแผนนี้จะสูญหาย</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>กำลังล้างไอเทมในกระเป๋า</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>ยืนยันที่จะล้างไอเทมในกระเป๋าของแผนปัจจุบันทั้งหมดหรือไม่?</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>ระดับที่เลือกไม่จำเป็นต้องใช้วัสดุบ่มเพาะ</value>
@@ -2036,6 +2066,9 @@
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>โปรดป้อนอีเมลที่ถูกต้อง</value>
   </data>
+  <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法导入成就</value>
+  </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>รูปแบบข้อความในคลิปบอร์ดไม่ถูกต้อง</value>
   </data>
@@ -2135,6 +2168,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>บันทึกเส้นทางเกมล้มเหลว</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>โฟลเดอร์ที่เลือกไม่ว่างเปล่า ไฟล์ที่มีอยู่จะถูกเขียนทับ</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>คัดลอกไฟล์ข้อมูล</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>ไดเรกทอรีข้อมูลปัจจุบัน '{0}' มีจุดแยกวิเคราะห์ (Reparse points) อย่างน้อยหนึ่งจุด ซึ่งอาจทำให้ฟังก์ชันบางอย่างที่ขึ้นอยู่กับโฟลเดอร์ข้อมูลทำงานไม่ถูกต้อง โปรดไปที่การตั้งค่าเพื่อเปลี่ยนเส้นทาง</value>
   </data>
@@ -2221,6 +2260,9 @@
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>นำเข้าจากไฟล์ UIAF</value>
+  </data>
+  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 从游戏内导入</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>นำเข้า</value>
@@ -2318,6 +2360,9 @@
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>เพิ่มตัวละครและอาวุธของฉันไปยังแผนการบ่มเพาะ</value>
   </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>ล้างไอเทมในกระเป๋า</value>
+  </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>ไอเทมบ่มเพาะ</value>
   </data>
@@ -2344,6 +2389,12 @@
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
     <value>ซิงค์ไอเทมในกระเป๋า</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
+    <value>通过养成计算器同步</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 同步</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>ลบรายการ</value>
@@ -3402,7 +3453,7 @@
     <value>ตัวเปิดเกม - ปลดล็อกขีดจำกัดอัตราเฟรม</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>หลังจากเปลี่ยนไดเรกทอรีแล้ว คุณต้องย้ายข้อมูลภายในไดเรกทอรีด้วยตนเอง มิฉะนั้นข้อมูลผู้ใช้จะถูกสร้างขึ้นใหม่</value>
+    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>เปลี่ยนไดเรกทอรีข้อมูล</value>
@@ -3548,6 +3599,12 @@
   <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
     <value>กลยุทธ์ตัวละคร</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>คู่มือตัวละครของ米游社</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>คู่มือตัวละครของ HoYoLAB</value>
+  </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>พรสวรรค์</value>
   </data>
@@ -3640,6 +3697,12 @@
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>สถิติปัจจุบัน</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>ครึ่งหลัง</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>ครึ่งแรก</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>ระดับที่ลึกที่สุด</value>
