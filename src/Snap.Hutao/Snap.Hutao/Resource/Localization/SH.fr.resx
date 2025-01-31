@@ -1136,6 +1136,9 @@
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Le service de téléchargement des enregistrements de vœux est valide jusqu'au</value>
   </data>
+  <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>Veuillez utiliser une autre méthode pour synchroniser les objets du sac à dos</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Impossible de trouver le fichier de métadonnées mis en cache</value>
   </data>
@@ -1192,6 +1195,18 @@
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Récupération des informations de l'utilisateur, veuillez patienter...</value>
+  </data>
+  <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
+    <value>Veuillez d'abord configurer le répertoire du jeu sur la page de lancement du jeu</value>
+  </data>
+  <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
+    <value>Les données ne peuvent être obtenues via Embedded Yae qu'après la fermeture du jeu</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>En attente des données du jeu</value>
+  </data>
+  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
+    <value>Erreur Embedded Yae</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Recommandation de propriétés supplémentaires</value>
@@ -1670,6 +1685,12 @@
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
     <value>Vous pouvez modifier les paramètres ultérieurement</value>
   </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* Le dossier de données par défaut sera supprimé lors de la désinstallation, et il pourra être modifié ultérieurement dans les paramètres</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Documentations</value>
   </data>
@@ -1693,6 +1714,15 @@
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Langues</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>Maintenu par les membres de la communauté Crowdin</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>Traduit par Google Gemini</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>Maintenu par DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>ressource</value>
@@ -1722,7 +1752,7 @@
     <value>Statistiques de l'Abysse</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Hutao Passport</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>Effacer toutes les notifications</value>
@@ -1810,6 +1840,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>Cette action est irréversible et les objets du sac de ce plan seront perdus.</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>Le sac est en cours de vidage.</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>Confirmer la suppression de tous les objets de l'inventaire du plan actuel ?</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>Le niveau sélectionné ne nécessite pas de matériaux de développement</value>
@@ -2027,6 +2066,9 @@
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Veuillez entrer l'email correct.</value>
   </data>
+  <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>Veuillez utiliser une autre méthode pour importer les succès</value>
+  </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Le format du texte dans le presse-papiers est incorrect</value>
   </data>
@@ -2126,6 +2168,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Échec de la sauvegarde du chemin du jeu</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>Le dossier sélectionné n'est pas vide, les fichiers existants seront écrasés</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>Copier les fichiers de données</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Le répertoire de données actuel '{0}' contient un ou plusieurs points d'analyse (Reparse points), ce qui peut empêcher certaines fonctions dépendantes du dossier de données de fonctionner correctement. Veuillez modifier le chemin dans les paramètres.</value>
   </data>
@@ -2192,6 +2240,9 @@
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>Erreur de téléchargement de fichier</value>
   </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>Aucune information de stratégie pour ce personnage</value>
+  </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Créer une nouvelle archive</value>
   </data>
@@ -2209,6 +2260,9 @@
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>Importer depuis un format UIAF</value>
+  </data>
+  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
+    <value>Importer depuis le jeu via Embedded Yae</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Importer</value>
@@ -2306,6 +2360,9 @@
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>Ajouter mes personnages et armes au plan de développement</value>
   </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>Vider l'inventaire</value>
+  </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>Objets de développement</value>
   </data>
@@ -2332,6 +2389,12 @@
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
     <value>Synchroniser les objets de l'inventaire</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
+    <value>Synchroniser via le calculateur de développement</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
+    <value>Synchroniser via Embedded Yae</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Supprimer la liste</value>
@@ -2490,7 +2553,7 @@
     <value>Les comptes développeurs ignorent la date d'expiration du service</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Aucun enregistrement dans Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Durée du service Snap Hutao Cloud insuffisante</value>
@@ -2673,13 +2736,13 @@
     <value>Après avoir obtenu la durée, vous pourrez sélectionner le miroir CDN national chinois lors de la mise à jour de la version de Snap Hutao afin de bénéficier d'une meilleure expérience de mise à jour.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Service CDN de Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>Après avoir obtenu la durée, vous pourrez télécharger/téléverser/supprimer les enregistrements de vœux pour un maximum de 5 UID via notre serveur. Dans la page Abysses spiralés, vous obtiendrez une durée gratuite lors du premier téléversement des enregistrements à chaque défi !</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Service d’enregistrement des vœux de Hutao Cloud</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>S'identifier</value>
@@ -2703,7 +2766,7 @@
     <value>Réinitialiser le mot de passe</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>Sponsoriser</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>La suppression des données du compte entraînera une perte définitive et irrécupérable de vos données.</value>
@@ -3318,7 +3381,7 @@
     <value>Utiliser le code d'échange</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
-    <value>刷新</value>
+    <value>Actualiser</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
     <value>Créer un compte</value>
@@ -3390,7 +3453,7 @@
     <value>Lanceur de jeu - Débloquer la limite de fréquence d'images</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>Après avoir changé le répertoire, vous devez déplacer manuellement les données qu'il contient, sinon de nouvelles données utilisateur seront créées.</value>
+    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Changer le répertoire de données</value>
@@ -3533,6 +3596,15 @@
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Histoire</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Stratégies de personnage</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>Guide de personnage de 米游社</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>Guide de personnage HoYoLAB</value>
+  </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talent</value>
   </data>
@@ -3625,6 +3697,12 @@
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>Statistiques de cette période</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>Seconde partie</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>Première partie</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>Profondeur maximale atteinte</value>

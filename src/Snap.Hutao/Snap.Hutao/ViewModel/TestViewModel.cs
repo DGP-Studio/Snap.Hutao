@@ -32,7 +32,6 @@ using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
 // ReSharper disable LocalizableElement
-
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
@@ -120,7 +119,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language);
+        UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.Language);
     }
 
     [Command("ExceptionCommand")]

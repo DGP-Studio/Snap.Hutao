@@ -2,8 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Security.Principal;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using WinRT;
 
 // Visible to test project.
@@ -15,7 +18,15 @@ namespace Snap.Hutao;
 [SuppressMessage("", "SH001")]
 public static partial class Bootstrap
 {
+    private const string LockName = "SNAP_HUTAO_BOOTSTRAP_LOCK";
     private static readonly ApplicationInitializationCallback AppInitializationCallback = InitializeApp;
+    private static Mutex? mutex;
+
+    internal static void UseNamedPipeRedirection()
+    {
+        Debug.Assert(mutex is not null);
+        mutex?.Dispose();
+    }
 
     [ModuleInitializer]
     internal static void InitializeModule()
@@ -39,20 +50,41 @@ public static partial class Bootstrap
     [STAThread]
     private static void Main(string[] args)
     {
-        Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
-        Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
-
-        System.Diagnostics.Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
-        XamlCheckProcessRequirements();
-        ComWrappersSupport.InitializeComWrappers();
-
-        // By adding the using statement, we can dispose the injected services when closing
-        using (DependencyInjection.Initialize())
+        if (Mutex.TryOpenExisting(LockName, out _))
         {
-            // In a Desktop app this runs a message pump internally,
-            // and does not return until the application shuts down.
-            Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
-            Application.Start(AppInitializationCallback);
+            return;
+        }
+
+        try
+        {
+            MutexSecurity mutexSecurity = new();
+            mutexSecurity.AddAccessRule(new(SecurityIdentifiers.Everyone, MutexRights.FullControl, AccessControlType.Allow));
+            mutex = MutexAcl.Create(true, LockName, out bool created, mutexSecurity);
+            Debug.Assert(created);
+
+            Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
+            Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
+
+            Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
+            XamlCheckProcessRequirements();
+            ComWrappersSupport.InitializeComWrappers();
+
+            // By adding the using statement, we can dispose the injected services when closing
+            using (DependencyInjection.Initialize())
+            {
+                // In a Desktop app this runs a message pump internally,
+                // and does not return until the application shuts down.
+                Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
+                Application.Start(AppInitializationCallback);
+            }
+        }
+        catch (WaitHandleCannotBeOpenedException)
+        {
+            // Ignored
+        }
+        finally
+        {
+            mutex?.Dispose();
         }
     }
 

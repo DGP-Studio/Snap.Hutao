@@ -16,25 +16,25 @@ internal static class SupportedCultures
         get;
     } =
     [
-        ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
-        ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
-        /*ToNameValue(CultureInfo.GetCultureInfo("de")),*/
-        ToNameValue(CultureInfo.GetCultureInfo("en")),
-        /*ToNameValue(CultureInfo.GetCultureInfo("es")),*/
-        ToNameValue(CultureInfo.GetCultureInfo("fr")),
-        ToNameValue(CultureInfo.GetCultureInfo("id")),
-        /*ToNameValue(CultureInfo.GetCultureInfo("it")),*/
-        ToNameValue(CultureInfo.GetCultureInfo("ja")),
-        ToNameValue(CultureInfo.GetCultureInfo("ko")),
-        ToNameValue(CultureInfo.GetCultureInfo("pt")),
-        ToNameValue(CultureInfo.GetCultureInfo("ru")),
-        /*ToNameValue(CultureInfo.GetCultureInfo("th")),*/
-        /*ToNameValue(CultureInfo.GetCultureInfo("tr")),*/
-        ToNameValue(CultureInfo.GetCultureInfo("vi")),
+        ToNameValue(CultureInfo.GetCultureInfo("zh-Hans"), LocalizationSource.Hutao),
+        ToNameValue(CultureInfo.GetCultureInfo("zh-Hant"), LocalizationSource.Crowdin),
+        ToNameValue(CultureInfo.GetCultureInfo("de"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("en"), LocalizationSource.Hutao),
+        ToNameValue(CultureInfo.GetCultureInfo("es"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("fr"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("id"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("it"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("ja"), LocalizationSource.Crowdin),
+        ToNameValue(CultureInfo.GetCultureInfo("ko"), LocalizationSource.Crowdin | LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("pt"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("ru"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("th"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("tr"), LocalizationSource.Gemini),
+        ToNameValue(CultureInfo.GetCultureInfo("vi"), LocalizationSource.Gemini),
     ];
 
-    private static NameCultureInfoValue ToNameValue(CultureInfo info)
+    private static NameCultureInfoValue ToNameValue(CultureInfo info, LocalizationSource source)
     {
-        return new(info.NativeName, info);
+        return new(info.NativeName, info, source);
     }
 }

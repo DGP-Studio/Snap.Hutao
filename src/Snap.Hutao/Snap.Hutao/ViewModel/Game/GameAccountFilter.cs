@@ -15,6 +15,11 @@ internal sealed class GameAccountFilter
         this.type = type;
     }
 
+    public static Predicate<GameAccount> CreateFilter(SchemeType? type)
+    {
+        return new GameAccountFilter(type).Filter;
+    }
+
     public bool Filter(GameAccount? item)
     {
         if (type is null)

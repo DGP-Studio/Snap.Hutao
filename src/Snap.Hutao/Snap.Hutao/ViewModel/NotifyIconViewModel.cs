@@ -3,14 +3,19 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.Diagnostics;
 using System.Globalization;
-using System.Text;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -26,18 +31,9 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     {
         get
         {
-            string name = new StringBuilder()
-                .Append("App")
-                .AppendIf(HutaoRuntime.IsProcessElevated, "Elevated")
-#if DEBUG
-                .Append("Dev")
-#endif
-                .Append("NameAndVersion")
-                .ToString();
-
-            string? format = SH.GetString(CultureInfo.CurrentCulture, name);
-            ArgumentException.ThrowIfNullOrEmpty(format);
-            return string.Format(CultureInfo.CurrentCulture, format, HutaoRuntime.Version);
+            string? title = HutaoRuntime.GetDisplayName();
+            ArgumentException.ThrowIfNullOrEmpty(title);
+            return title;
         }
     }
 
@@ -118,5 +114,46 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     private void OpenScriptingWindow()
     {
         _ = serviceProvider.GetRequiredService<ScriptingWindow>();
+    }
+
+    [Command("TakeScreenshotCommand")]
+    private async Task TakeScreenshotAsync()
+    {
+        INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
+
+        if (currentXamlWindowReference.Window is null)
+        {
+            return;
+        }
+
+        RenderTargetBitmap renderTargetBitmap = new();
+        await renderTargetBitmap.RenderAsync(currentXamlWindowReference.Window.Content);
+
+        IBuffer pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
+        int width = renderTargetBitmap.PixelWidth;
+        int height = renderTargetBitmap.PixelHeight;
+
+        string directory = Path.Combine(HutaoRuntime.GetDataFolderScreenshotFolder(), CultureInfo.CurrentCulture.Name);
+        Directory.CreateDirectory(directory);
+        string filename = $"{navigationService.CurrentPageType?.Name ?? "None"}_{DateTimeOffset.Now:yyyy.MM.dd_HH.mm.ss}.png";
+        using (FileStream fileStream = File.Create(Path.Combine(directory, filename)))
+        {
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream.AsRandomAccessStream());
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)width, (uint)height, 72, 72, pixelBuffer.ToArray());
+            await encoder.FlushAsync();
+        }
+    }
+}
+
+internal sealed partial class NotifyIconViewModel
+{
+    public static bool CanTakeScreenshot
+    {
+        get =>
+#if DEBUG || IS_ALPHA_BUILD
+            true;
+#else
+            false;
+#endif
     }
 }

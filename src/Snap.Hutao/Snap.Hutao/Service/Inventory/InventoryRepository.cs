@@ -18,7 +18,7 @@ internal sealed partial class InventoryRepository : IInventoryRepository
         this.Delete(i => i.ProjectId == projectId);
     }
 
-    public void AddInventoryItemRangeByProjectId(List<InventoryItem> items)
+    public void AddInventoryItemRangeByProjectId(IEnumerable<InventoryItem> items)
     {
         this.AddRange(items);
     }
@@ -31,5 +31,10 @@ internal sealed partial class InventoryRepository : IInventoryRepository
     public ImmutableArray<InventoryItem> GetInventoryItemImmutableArrayByProjectId(Guid projectId)
     {
         return this.ImmutableArray(i => i.ProjectId == projectId);
+    }
+
+    public ImmutableDictionary<uint, InventoryItem> GetInventoryItemImmutableDictionaryByProjectId(Guid projectId)
+    {
+        return this.Query(query => query.Where(i => i.ProjectId == projectId).ToImmutableDictionary(i => i.ItemId));
     }
 }

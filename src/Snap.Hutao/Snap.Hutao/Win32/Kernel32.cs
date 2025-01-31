@@ -106,6 +106,15 @@ internal static class Kernel32
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern unsafe BOOL HeapFree(HANDLE hHeap, HEAP_FLAGS dwFlags, [Optional] void* lpMem);
 
+    public static unsafe BOOL HeapFree<T>(HANDLE hHeap, HEAP_FLAGS dwFlags, ref T mem)
+        where T : unmanaged
+    {
+        fixed (T* lpMem = &mem)
+        {
+            return HeapFree(hHeap, dwFlags, lpMem);
+        }
+    }
+
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern unsafe BOOL K32EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, uint cb, uint* lpcbNeeded);
 

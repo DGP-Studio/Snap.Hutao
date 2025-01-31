@@ -5,11 +5,14 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Principal;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -39,6 +42,20 @@ internal static class HutaoRuntime
     public static bool IsAppNotificationEnabled { get; } = AppNotificationManager.Default.Setting is AppNotificationSetting.Enabled;
 
     public static DateTimeOffset LaunchTime { get; } = DateTimeOffset.UtcNow;
+
+    public static string? GetDisplayName()
+    {
+        string name = new StringBuilder()
+            .Append("App")
+            .AppendIf(IsProcessElevated, "Elevated")
+#if DEBUG
+            .Append("Dev")
+#endif
+            .Append("NameAndVersion")
+            .ToString();
+
+        return SH.GetString(CultureInfo.CurrentCulture, name, Version);
+    }
 
     public static string GetDataFolderFile(string fileName)
     {
@@ -73,8 +90,29 @@ internal static class HutaoRuntime
         return directory;
     }
 
+    public static string GetDataFolderScreenshotFolder()
+    {
+        string directory = Path.Combine(DataFolder, "Screenshot");
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
     private static string InitializeDataFolder()
     {
+        try
+        {
+            string previousPath = LocalSetting.Get(SettingKeys.PreviousDataFolderToDelete, string.Empty);
+            if (!string.IsNullOrEmpty(previousPath) && Directory.Exists(previousPath))
+            {
+                Directory.Delete(previousPath, true);
+                LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, string.Empty);
+            }
+        }
+        catch
+        {
+            // Ignore
+        }
+
         string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
 
         if (!string.IsNullOrEmpty(preferredPath))
@@ -83,16 +121,24 @@ internal static class HutaoRuntime
             return preferredPath;
         }
 
-        // Fallback to MyDocuments
-        string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
 #if IS_ALPHA_BUILD
         const string FolderName = "HutaoAlpha";
 #else
         // 使得迁移能正常生成
         const string FolderName = "Hutao";
 #endif
-        string path = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
+
+        string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string oldPath = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
+        if (Directory.Exists(oldPath))
+        {
+            LocalSetting.Set(SettingKeys.DataFolderPath, oldPath);
+            return oldPath;
+        }
+
+        // Prefer LocalApplicationData
+        string localApplicationData = ApplicationData.Current.LocalFolder.Path;
+        string path = Path.GetFullPath(Path.Combine(localApplicationData, FolderName));
         try
         {
             Directory.CreateDirectory(path);
@@ -104,6 +150,7 @@ internal static class HutaoRuntime
             HutaoException.InvalidOperation($"Failed to create data folder: {path}", ex);
         }
 
+        LocalSetting.Set(SettingKeys.DataFolderPath, path);
         return path;
     }
 

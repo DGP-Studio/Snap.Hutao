@@ -20,11 +20,17 @@ internal sealed partial class ResinStatistics : ObservableObject
     [UsedImplicitly]
     public ImmutableArray<MaterialDropDistribution> DropDistributions { get; } = MaterialDropDistribution.Distributions;
 
+    [AllowNull]
     public MaterialDropDistribution SelectedDropDistribution
     {
         get;
         set
         {
+            if (value is null)
+            {
+                return;
+            }
+
             field = value;
             LocalSetting.Set(SettingKeys.ResinStatisticsSelectedDropDistribution, value.WorldLevel);
             BlossomOfRevelation.SelectedDropDistribution = value;

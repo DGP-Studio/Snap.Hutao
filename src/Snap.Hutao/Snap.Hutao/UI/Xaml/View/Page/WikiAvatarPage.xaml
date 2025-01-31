@@ -538,6 +538,70 @@
                                                     </StackPanel>
                                                 </Grid>
 
+                                                <!--  攻略  -->
+                                                <Grid ColumnSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button
+                                                        Grid.Column="0"
+                                                        Padding="16,8"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Command="{Binding ChineseStrategyCommand}"
+                                                        CommandParameter="{Binding Avatars.CurrentItem}"
+                                                        Style="{ThemeResource SettingButtonStyle}">
+                                                        <Grid ColumnSpacing="16">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border
+                                                                Grid.Column="0"
+                                                                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                                                CornerRadius="4">
+                                                                <Image
+                                                                    Width="24"
+                                                                    Height="24"
+                                                                    Source="ms-appx:///Resource/ThirdParty/miyoushe128.png"/>
+                                                            </Border>
+
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Center"
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyChineseButtonLabel}"/>
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Padding="16,8"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Command="{Binding OverseaStrategyCommand}"
+                                                        CommandParameter="{Binding Avatars.CurrentItem}"
+                                                        Style="{ThemeResource SettingButtonStyle}">
+                                                        <Grid ColumnSpacing="16">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border
+                                                                Grid.Column="0"
+                                                                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                                                CornerRadius="4">
+                                                                <Image
+                                                                    Width="24"
+                                                                    Height="24"
+                                                                    Source="ms-appx:///Resource/ThirdParty/hoyolab128.png"/>
+                                                            </Border>
+
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Center"
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyOverseaButtonLabel}"/>
+                                                        </Grid>
+                                                    </Button>
+                                                </Grid>
+
                                                 <!--  属性  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Resources>

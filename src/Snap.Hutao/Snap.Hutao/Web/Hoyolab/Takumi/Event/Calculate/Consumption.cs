@@ -1,19 +1,22 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
+// Api will return empty array if no consumption
 internal class Consumption
 {
     [JsonPropertyName("avatar_consume")]
-    public List<Item>? AvatarConsume { get; set; }
+    public ImmutableArray<Item> AvatarConsume { get; set; }
 
     [JsonPropertyName("avatar_skill_consume")]
-    public List<Item>? AvatarSkillConsume { get; set; }
+    public ImmutableArray<Item> AvatarSkillConsume { get; set; }
 
     [JsonPropertyName("weapon_consume")]
-    public List<Item>? WeaponConsume { get; set; }
+    public ImmutableArray<Item> WeaponConsume { get; set; }
 
     [JsonPropertyName("skills_consume")]
-    public List<BatchSkillCosumption>? SkillsComsume { get; set; }
+    public ImmutableArray<BatchSkillCosumption> SkillsConsume { get; set; }
 }

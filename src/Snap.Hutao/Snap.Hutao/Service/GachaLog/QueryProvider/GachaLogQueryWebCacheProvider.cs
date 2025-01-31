@@ -7,7 +7,6 @@ using Snap.Hutao.Service.Game;
 using System.Buffers;
 using System.Collections.Specialized;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,7 +15,7 @@ using System.Web;
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.WebCache)]
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOptionKind.WebCache)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
@@ -71,7 +70,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         {
             using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
             {
-                string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));
+                string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.OrdinalIgnoreCase));
 
                 if (string.IsNullOrEmpty(result))
                 {
@@ -97,7 +96,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)stream.Length))
         {
             Span<byte> span = memoryOwner.Memory.Span;
-            stream.Write(span);
+            stream.ReadExactly(span);
 
             ReadOnlySpan<byte> match = isOversea
                 ? "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v3/index.html"u8
@@ -108,9 +107,12 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             {
                 index += match.Length;
 
-                byte* ptr = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(span[index..]));
-                ReadOnlySpan<byte> target = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
-                return Encoding.UTF8.GetString(target);
+                ref byte reference = ref span[index];
+                fixed (byte* ptr = &reference)
+                {
+                    ReadOnlySpan<byte> target = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
+                    return Encoding.UTF8.GetString(target);
+                }
             }
 
             return null;

@@ -17,7 +17,7 @@ namespace Snap.Hutao.Service.User;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserService))]
-internal sealed partial class UserService : IUserService, IUserServiceUnsafe
+internal sealed partial class UserService : IUserService
 {
     private readonly IUserInitializationService userInitializationService;
     private readonly IProfilePictureService profilePictureService;
@@ -33,18 +33,12 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         return userCollectionService.RemoveUserAsync(user);
     }
 
-    public async ValueTask UnsafeRemoveAllUsersAsync()
-    {
-        await TaskContext.SwitchToBackgroundAsync();
-        userRepository.RemoveAllUsers();
-    }
-
     public ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync()
     {
         return userCollectionService.GetUsersAsync();
     }
 
-    public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie)
+    public async ValueTask<ValueResult<UserOptionResultKind, string>> ProcessInputCookieAsync(InputCookie inputCookie)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ServiceUserProcessInputCookieDialogTitle)
@@ -59,7 +53,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
             if (string.IsNullOrEmpty(mid))
             {
-                return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
+                return new(UserOptionResultKind.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
             }
 
             if (await this.GetUserByMidAsync(mid).ConfigureAwait(false) is not { } user)
@@ -71,7 +65,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
             if (!cookie.TryGetSToken(out Cookie? sToken))
             {
-                return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
+                return new(UserOptionResultKind.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
             }
 
             user.SToken = sToken;
@@ -81,7 +75,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
             await userInitializationService.ResumeUserAsync(user).ConfigureAwait(false);
             userRepository.UpdateUser(user.Entity);
-            return new(UserOptionResult.CookieUpdated, mid);
+            return new(UserOptionResultKind.CookieUpdated, mid);
         }
     }
 

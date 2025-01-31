@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Bridge.Model;
 internal sealed class JsResult<TData> : IJsBridgeResult
 {
     [JsonPropertyName("retcode")]
-    public int Code { get; set; }
+    public int ReturnCode { get; set; }
 
     [JsonPropertyName("message")]
     public string Message { get; set; } = string.Empty;

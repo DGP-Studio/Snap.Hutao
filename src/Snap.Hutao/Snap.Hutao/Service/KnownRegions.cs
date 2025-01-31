@@ -4,6 +4,7 @@
 using Snap.Hutao.Model;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Service;
 
@@ -13,6 +14,8 @@ internal static class KnownRegions
     {
         get
         {
+            Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
+
             // This array must be lazy-loaded because it depends on the localization.
             return !field.IsDefault ? field : field =
             [

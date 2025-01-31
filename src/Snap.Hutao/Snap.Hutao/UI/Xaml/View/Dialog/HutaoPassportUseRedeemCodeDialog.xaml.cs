@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -12,8 +11,6 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 internal sealed partial class HutaoPassportUseRedeemCodeDialog : ContentDialog
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IInfoBarService infoBarService;
 
     public async ValueTask<ValueResult<bool, string>> GetInputAsync()
     {

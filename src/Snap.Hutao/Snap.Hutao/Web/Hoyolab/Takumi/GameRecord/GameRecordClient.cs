@@ -77,24 +77,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             .SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        // We have a verification procedure to handle
-        if (resp?.ReturnCode is (int)KnownReturnCode.CODE1034)
-        {
-            // Replace message
-            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
-
-            IGeetestService geetestService = serviceProvider.GetRequiredService<IGeetestService>();
-            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForSpiralAbyss(apiEndpoints);
-
-            if (await geetestService.TryVerifyXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
-            {
-                builder.Resurrect().SetXrpcChallenge(challenge);
-                await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
-                resp = await builder.SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token).ConfigureAwait(false);
-            }
-        }
-
-        return Response.Response.DefaultIfNull(resp);
+        return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForSpiralAbyss, token).ConfigureAwait(false);
     }
 
     public async ValueTask<Response<BasicRoleInfo>> GetRoleBasicInfoAsync(UserAndUid userAndUid, CancellationToken token = default)

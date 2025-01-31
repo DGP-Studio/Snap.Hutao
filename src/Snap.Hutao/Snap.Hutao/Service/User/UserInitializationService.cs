@@ -21,9 +21,9 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    public ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
+    public ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User entity, CancellationToken token = default)
     {
-        ViewModel.User.User user = ViewModel.User.User.From(inner, serviceProvider);
+        ViewModel.User.User user = ViewModel.User.User.From(entity, serviceProvider);
         return ResumeUserAsync(user, token);
     }
 

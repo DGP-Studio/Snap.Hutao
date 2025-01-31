@@ -20,25 +20,25 @@ internal sealed class AccountInformation
     }
 
     [JsonPropertyName("aid")]
-    public string Aid { get; set; } = default!;
+    public string Aid { get; set; }
 
     [JsonPropertyName("mid")]
-    public string Mid { get; set; } = default!;
+    public string Mid { get; set; }
 
     [JsonPropertyName("accountName")]
-    public string AccountName { get; set; } = default!;
+    public string AccountName { get; set; }
 
     [JsonPropertyName("areaCode")]
-    public string AreaCode { get; set; } = default!;
+    public string AreaCode { get; set; }
 
     [JsonPropertyName("mobile")]
-    public string Mobile { get; set; } = default!;
+    public string Mobile { get; set; }
 
     [JsonPropertyName("email")]
-    public string Email { get; set; } = default!;
+    public string Email { get; set; }
 
     [JsonPropertyName("tokenStr")]
-    public string Token { get; set; } = default!;
+    public string Token { get; set; }
 
     [JsonPropertyName("tokenType")]
     public int TokenType { get; set; }

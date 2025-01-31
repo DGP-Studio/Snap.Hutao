@@ -6,35 +6,26 @@ namespace Snap.Hutao.Web.Hoyolab;
 [SuppressMessage("", "SA1310")]
 internal static class CookieExtension
 {
-    private const string LOGIN_TICKET = "login_ticket";
-    private const string LOGIN_UID = "login_uid";
-    private const string ACCOUNT_ID = "account_id";
-    private const string COOKIE_TOKEN = "cookie_token";
-    private const string LTOKEN = "ltoken";
-    private const string LTUID = "ltuid";
-    private const string MID = "mid";
-    private const string STOKEN = "stoken";
-    private const string STUID = "stuid";
     private const string DEVICEFP = "DEVICEFP";
 
     public static bool TryGetLoginTicket(this Cookie source, [NotNullWhen(true)] out Cookie? cookie)
     {
-        return source.TryGetValuesToCookie([LOGIN_TICKET, LOGIN_UID], out cookie);
+        return source.TryGetValuesToCookie([Cookie.LOGIN_TICKET, Cookie.LOGIN_UID], out cookie);
     }
 
     public static bool TryGetSToken(this Cookie source, [NotNullWhen(true)] out Cookie? cookie)
     {
-        return source.TryGetValuesToCookie([MID, STOKEN, STUID], out cookie);
+        return source.TryGetValuesToCookie([Cookie.MID, Cookie.STOKEN, Cookie.STUID], out cookie);
     }
 
     public static bool TryGetLToken(this Cookie source, [NotNullWhen(true)] out Cookie? cookie)
     {
-        return source.TryGetValuesToCookie([LTOKEN, LTUID], out cookie);
+        return source.TryGetValuesToCookie([Cookie.LTOKEN, Cookie.LTUID], out cookie);
     }
 
     public static bool TryGetCookieToken(this Cookie source, [NotNullWhen(true)] out Cookie? cookie)
     {
-        return source.TryGetValuesToCookie([ACCOUNT_ID, COOKIE_TOKEN], out cookie);
+        return source.TryGetValuesToCookie([Cookie.ACCOUNT_ID, Cookie.COOKIE_TOKEN], out cookie);
     }
 
     public static bool TryGetDeviceFp(this Cookie source, [NotNullWhen(true)] out string? deviceFp)

@@ -16,6 +16,7 @@ internal static class JsonOptions
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
         PropertyNameCaseInsensitive = true,
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
         WriteIndented = true,
         TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {

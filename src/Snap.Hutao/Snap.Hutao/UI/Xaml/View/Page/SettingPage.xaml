@@ -747,43 +747,6 @@
                             </StackPanel>
                         </Border>
                     </Border>
-
-                    <!--  危险功能  -->
-                    <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}" DataContext="{Binding DangerousFeature}">
-                        <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
-                            <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                <TextBlock
-                                    Margin="1,0,0,0"
-                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                    Style="{StaticResource SettingsCardHeaderTextBlockStyle}"
-                                    Text="{shuxm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
-                                <TextBlock
-                                    Margin="1,0,0,5"
-                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{shuxm:ResourceString Name=ViewPageSettingDangerousHint}"/>
-                                <cwc:SettingsCard
-                                    Description="{shuxm:ResourceString Name=ViewSettingAllocConsoleDescription}"
-                                    Header="{shuxm:ResourceString Name=ViewSettingAllocConsoleHeader}"
-                                    HeaderIcon="{cw:FontIcon Glyph=&#xE756;}">
-                                    <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
-                                </cwc:SettingsCard>
-                                <cwc:SettingsCard
-                                    ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingDangerousAction}"
-                                    Command="{Binding DeleteUsersCommand}"
-                                    Header="{shuxm:ResourceString Name=ViewPageSettingDeleteUserHeader}"
-                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE756;}"
-                                    IsClickEnabled="True">
-                                    <cwc:SettingsCard.Description>
-                                        <StackPanel>
-
-                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageSettingDeleteUserDescription}"/>
-                                        </StackPanel>
-                                    </cwc:SettingsCard.Description>
-                                </cwc:SettingsCard>
-                            </StackPanel>
-                        </Border>
-                    </Border>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

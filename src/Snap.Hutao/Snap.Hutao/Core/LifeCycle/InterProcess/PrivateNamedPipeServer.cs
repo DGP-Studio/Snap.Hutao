@@ -3,15 +3,16 @@
 
 using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
+using Snap.Hutao.Core.Security.Principal;
 using System.IO.Pipes;
 using System.Security.AccessControl;
-using System.Security.Principal;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
 [Injection(InjectAs.Singleton)]
 internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
+    private readonly BetterGenshinImpactNamedPipeServer betterGenshinImpactNamedPipeServer;
     private readonly PrivateNamedPipeMessageDispatcher messageDispatcher;
     private readonly ILogger<PrivateNamedPipeServer> logger;
 
@@ -22,18 +23,12 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 
     public PrivateNamedPipeServer(IServiceProvider serviceProvider)
     {
+        betterGenshinImpactNamedPipeServer = serviceProvider.GetRequiredService<BetterGenshinImpactNamedPipeServer>();
         messageDispatcher = serviceProvider.GetRequiredService<PrivateNamedPipeMessageDispatcher>();
         logger = serviceProvider.GetRequiredService<ILogger<PrivateNamedPipeServer>>();
 
-        PipeSecurity? pipeSecurity = default;
-
-        if (HutaoRuntime.IsProcessElevated)
-        {
-            SecurityIdentifier everyOne = new(WellKnownSidType.WorldSid, null);
-
-            pipeSecurity = new();
-            pipeSecurity.AddAccessRule(new(everyOne, PipeAccessRights.FullControl, AccessControlType.Allow));
-        }
+        PipeSecurity pipeSecurity = new();
+        pipeSecurity.AddAccessRule(new(SecurityIdentifiers.Everyone, PipeAccessRights.FullControl, AccessControlType.Allow));
 
         serverStream = NamedPipeServerStreamAcl.Create(
             PrivateNamedPipe.Name,
@@ -99,7 +94,9 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 
                 case (PipePacketType.Request, PipePacketCommand.BetterGenshinImpactToSnapHutaoRequest):
                     PipeRequest<JsonElement>? request = serverStream.ReadJsonContent<PipeRequest<JsonElement>>(in header);
-                    _ = request;
+                    PipeResponse response = betterGenshinImpactNamedPipeServer.DispatchRequest(request);
+                    serverStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Response, PipePacketCommand.SnapHutaoToBetterGenshinImpactResponse, response);
+                    serverStream.Flush();
                     break;
 
                 case (PipePacketType.SessionTermination, _):

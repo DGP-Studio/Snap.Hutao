@@ -1,0 +1,4103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDevNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao Dev {0}</value>
+  </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao Dev {0} [Yönetici]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao {0} [Yönetici]</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Snap Hutao</value>
+  </data>
+  <data name="AppNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao {0}</value>
+  </data>
+  <data name="ContentDialogCancelCloseButtonText" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
+    <value>Tamamla</value>
+  </data>
+  <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
+    <value>Onayla</value>
+  </data>
+  <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
+    <value>Kaydet</value>
+  </data>
+  <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
+    <value>Sonuç bulunamadı</value>
+  </data>
+  <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
+    <value>Tümünü Seç</value>
+  </data>
+  <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
+    <value>Geçersiz URI</value>
+  </data>
+  <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
+    <value>HTTP GET {0}</value>
+  </data>
+  <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
+    <value>CompositionImage kaynağı uygulanırken bir istisna oluştu</value>
+  </data>
+  <data name="ControlPanelPanelSelectorDropdownGridName" xml:space="preserve">
+    <value>Izgara</value>
+  </data>
+  <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
+    <value>Veritabanı bozuk: {0}</value>
+  </data>
+  <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
+    <value>Kullanıcı veri arşivi bozuk: {0}</value>
+  </data>
+  <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
+    <value>Lütfen bu özelliği yönetici modunda kullanmayın: {0}</value>
+  </data>
+  <data name="CoreIOPickerExtensionPickerExceptionInfoBarTitle" xml:space="preserve">
+    <value>Dosya seçici açılamadı</value>
+  </data>
+  <data name="CoreIOTempFileCreateFail" xml:space="preserve">
+    <value>Yetersiz izin, geçici dosya oluşturulamadı</value>
+  </data>
+  <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
+    <value>Oyunu Başlat</value>
+  </data>
+  <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
+    <value>Snap Hutao Gerçek Zamanlı Notlar yenileme görevi. Lütfen düzenlemeyin veya silmeyin.</value>
+  </data>
+  <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
+    <value>Semafur serbest bırakıldı, işlem iptal edildi</value>
+  </data>
+  <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
+    <value>WebView2 Çalışma Zamanı algılanamadı</value>
+  </data>
+  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
+    <value>[{0}] kısayol tuşu [{1}] kaydı başarısız oldu</value>
+  </data>
+  <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
+  <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
+    <value>Oyunu Başlat</value>
+  </data>
+  <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
+    <value>Snap Hutao arka planda çalışıyor</value>
+  </data>
+  <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
+    <value>Pencere</value>
+  </data>
+  <data name="CoreWindowThemeDark" xml:space="preserve">
+    <value>Koyu</value>
+  </data>
+  <data name="CoreWindowThemeLight" xml:space="preserve">
+    <value>Açık</value>
+  </data>
+  <data name="CoreWindowThemeSystem" xml:space="preserve">
+    <value>Sistemi Takip Et</value>
+  </data>
+  <data name="FilePickerExportCommit" xml:space="preserve">
+    <value>Dışa Aktar</value>
+  </data>
+  <data name="FilePickerImportCommit" xml:space="preserve">
+    <value>İçe Aktar</value>
+  </data>
+  <data name="GuideWindowTitle" xml:space="preserve">
+    <value>Snap Hutao'ya Hoş Geldiniz</value>
+  </data>
+  <data name="LaunchGameTitle" xml:space="preserve">
+    <value>Hesap Seç ve Başlat</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;Prens&lt;/color&gt;/&lt;color=#FFB6C1&gt;Prenses&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;Ben&lt;/color&gt;/&lt;color=#FFB6C1&gt;Ben&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>Gezgin</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;O&lt;/color&gt;/&lt;color=#FFB6C1&gt;O&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>Gezgin</value>
+  </data>
+  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+    <value>Arıtma {0}</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
+    <value>Pazartesi/Perşembe/Pazar</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek25" xml:space="preserve">
+    <value>Salı/Cuma/Pazar</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
+    <value>Çarşamba/Cumartesi/Pazar</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+    <value>{0:f2} Çekiş</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+    <value>En Şanssız {0} Çekiş</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+    <value>En Şanslı {0} Çekiş</value>
+  </data>
+  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+    <value>{0} Çekiş</value>
+  </data>
+  <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
+    <value>{0}. Kat</value>
+  </data>
+  <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
+    <value>{0}. Oda</value>
+  </data>
+  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+    <value>{0} Kez Sahneye Çıktı</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
+    <value>Kanal Sunucusu</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
+    <value>Resmi Sunucu</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
+    <value>Global Sunucu</value>
+  </data>
+  <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
+    <value>Ağ Hatası</value>
+  </data>
+  <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
+    <value>Henüz yenilenmedi</value>
+  </data>
+  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+    <value>{0:MM.dd HH:mm:ss} tarihinde yenilendi</value>
+  </data>
+  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+    <value>{0}. Aşama</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
+    <value>Karakter</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
+    <value>Silah</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
+    <value>Fatui</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeFontaine" xml:space="preserve">
+    <value>Fontaine</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
+    <value>Inazuma</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
+    <value>Liyue</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeMondstadt" xml:space="preserve">
+    <value>Mondstadt</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
+    <value>Natlan</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
+    <value>Korucu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
+    <value>Snezhnaya</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
+    <value>Sumeru</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
+    <value>Oğlan</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
+    <value>Kız</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeLady" xml:space="preserve">
+    <value>Kadın</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeLoli" xml:space="preserve">
+    <value>Loli</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
+    <value>Erkek</value>
+  </data>
+  <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
+    <value>Elektro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameFire" xml:space="preserve">
+    <value>Pyro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameGrass" xml:space="preserve">
+    <value>Dendro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameIce" xml:space="preserve">
+    <value>Cryo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameRock" xml:space="preserve">
+    <value>Geo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameWater" xml:space="preserve">
+    <value>Hydro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameWind" xml:space="preserve">
+    <value>Anemo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
+    <value>3 Yıldız</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityGreen" xml:space="preserve">
+    <value>2 Yıldız</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityOrange" xml:space="preserve">
+    <value>5 Yıldız</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityPurple" xml:space="preserve">
+    <value>4 Yıldız</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
+    <value>Etkinlik Özel</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
+    <value>1 Yıldız</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelEasy" xml:space="preserve">
+    <value>Kolay Mod</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelHard" xml:space="preserve">
+    <value>Zor Mod</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelNormal" xml:space="preserve">
+    <value>Normal Mod</value>
+  </data>
+  <data name="ModelIntrinsicRoleCombatDifficultyLevelVisionary" xml:space="preserve">
+    <value>Vizyoner Mod</value>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
+    <value>Yay</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeCatalyst" xml:space="preserve">
+    <value>Katalizör</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeClaymore" xml:space="preserve">
+    <value>Kılıç</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
+    <value>Mızrak</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
+    <value>Tek El Kılıcı</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
+    <value>Gezgin</value>
+  </data>
+  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+    <value>{1}. {0}</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
+    <value>Karakter ve Silah Geliştirme Malzemeleri</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
+    <value>Karakter Yükseltme Malzemeleri</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterEXPMaterial" xml:space="preserve">
+    <value>Karakter EXP Malzemeleri</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterLevelUpMaterial" xml:space="preserve">
+    <value>Karakter Seviye Yükseltme Malzemeleri</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
+    <value>Karakter Yetenek Malzemeleri</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
+    <value>Silah Yükseltme Malzemeleri</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
+    <value>Silah Geliştirme Malzemeleri</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
+    <value>Canavarları Yok Et</value>
+  </data>
+  <data name="ModelMetadataTowerGoalTypeDefendTarget" xml:space="preserve">
+    <value>Hedefi Koru</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
+    <value>Ek: Takviye Canavarlar</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
+    <value>Bu Bölmedeki Canavarlar</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
+    <value>A Grubu: Farklı gruplar aynı anda bulunur ve her birinin dalgaları bağımsızdır</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave1" xml:space="preserve">
+    <value>A Grubu 1. Dalga: Farklı gruplar aynı anda bulunur ve her birinin dalgaları bağımsızdır</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave2" xml:space="preserve">
+    <value>A Grubu 2. Dalga: Farklı gruplar aynı anda bulunur ve her birinin dalgaları bağımsızdır</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave3" xml:space="preserve">
+    <value>A Grubu 3. Dalga: Farklı gruplar aynı anda bulunur ve her birinin dalgaları bağımsızdır</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupB" xml:space="preserve">
+    <value>B Grubu: Farklı gruplar aynı anda bulunur ve her birinin dalgaları bağımsızdır</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave1" xml:space="preserve">
+    <value>B Grubu 1. Dalga: Farklı gruplar aynı anda bulunur ve her birinin dalgaları bağımsızdır</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave2" xml:space="preserve">
+    <value>B Grubu 2. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip.</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave3" xml:space="preserve">
+    <value>B Grubu 3. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip.</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupC" xml:space="preserve">
+    <value>C Grubu: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave1" xml:space="preserve">
+    <value>C Grubu 1. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip.</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave2" xml:space="preserve">
+    <value>C Grubu 2. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip.</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
+    <value>C Grubu 3. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip.</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
+    <value>D Grubu: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
+    <value>D Grubu 1. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip.</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
+    <value>D Grubu 2. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip.</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
+    <value>D Grubu 3. Dalga: Farklı gruplar aynı anda mevcut ve her biri kendi dalgasına sahip</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
+    <value>Diğer canavarlardan bağımsız</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
+    <value>Şimdilik dalga bilgisi yok</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
+    <value>1. Dalga: Bir önceki dalgadaki tüm düşmanlar öldürüldükten sonra bir dalga ortaya çıkar</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
+    <value>1. Dalga İlavesi: Canavar takviyesinin ilk dalgası</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
+    <value>2. Dalga: Tüm canavarları yen, sonraki dalga ortaya çıksın</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave3" xml:space="preserve">
+    <value>3. Dalga: Tüm canavarları yen, sonraki dalga ortaya çıksın</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
+    <value>4. Dalga: Tüm canavarları yen, sonraki dalga ortaya çıksın</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>Sahada 4 Hazine Avcısı canavarı tutun, öldürüldükten sonra hemen değiştirin, toplam 12 tane</value>
+  </data>
+  <data name="ModelNameValueDefaultDescription" xml:space="preserve">
+    <value>Lütfen karakter vitrini verilerini güncelleyin</value>
+  </data>
+  <data name="ModelNameValueDefaultName" xml:space="preserve">
+    <value>Veri yok</value>
+  </data>
+  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+    <value>Arıtma {0} Aşaması</value>
+  </data>
+  <data name="MustSelectUserAndUid" xml:space="preserve">
+    <value>MiYouShe / HoYoLAB'e giriş yapmalı ve bir kullanıcı ve rol seçmelisiniz</value>
+  </data>
+  <data name="ServerCdnServiceInsufficientTime" xml:space="preserve">
+    <value>Snap Hutao Bulutu CDN etkinleştirilmedi veya süresi doldu</value>
+  </data>
+  <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
+    <value>UID: {0} hesabına ait {1} dilek kaydı silindi</value>
+  </data>
+  <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
+    <value>Snap Hutao Bulutu'nda saklanan dilek kaydı arşiv sayısı, mevcut hesap sınırına ulaştı</value>
+  </data>
+  <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
+    <value>Dilek kaydı yükleme hizmeti etkinleştirilmemiş veya süresi dolmuş</value>
+  </data>
+  <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
+    <value>Dilek verileri geçersiz öğeler içeriyor, Snap Hutao Bulutu'na kaydedilemiyor</value>
+  </data>
+  <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
+    <value>Veri anormalliği bulundu, buluta kaydedilemiyor, lütfen hesaplar arası yükleme yapmayın veya bulut verilerini silip tekrar yüklemeyi deneyin</value>
+  </data>
+  <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
+    <value>UID: {0} hesabına ait {1} dilek kaydı yüklendi, {2} kayıt kaydedildi</value>
+  </data>
+  <data name="ServerPassportLoginRequired" xml:space="preserve">
+    <value>Lütfen önce Snap Hutao hesabına giriş yapın veya kayıt olun</value>
+  </data>
+  <data name="ServerPassportLoginSucceed" xml:space="preserve">
+    <value>Giriş başarılı</value>
+  </data>
+  <data name="ServerPassportRegisterSucceed" xml:space="preserve">
+    <value>Kayıt başarılı</value>
+  </data>
+  <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
+    <value>Yeni parola başarıyla ayarlandı</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
+    <value>Mevcut e-posta adresi henüz kayıtlı değil</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
+    <value>Geçerli e-posta adresi zaten kayıtlı</value>
+  </data>
+  <data name="ServerPassportServiceInternalException" xml:space="preserve">
+    <value>Kayıt başarısız, sunucu hatası, lütfen sorunu çözmek için en kısa sürede geliştiriciyle iletişime geçin</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+    <value>Kullanıcı mevcut değil, hesap silme başarısız</value>
+  </data>
+  <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
+    <value>Kullanıcı kaydı başarıyla silindi</value>
+  </data>
+  <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
+    <value>Kullanıcı mevcut değil, kullanıcı verileri alınamadı</value>
+  </data>
+  <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
+    <value>Kullanıcı adı veya parola hatalı</value>
+  </data>
+  <data name="ServerPassportVerifyFailed" xml:space="preserve">
+    <value>Doğrulama başarısız</value>
+  </data>
+  <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
+    <value>Doğrulama isteği başarısız, şu anda oturum açılan hesap değil</value>
+  </data>
+  <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
+    <value>Doğrulama kodu e-postanıza gönderildi</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
+    <value>Doğrulama isteği başarısız, geçerli e-posta adresi zaten kayıtlı</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
+    <value>Doğrulama başarısız oldu, mevcut e-posta adresi kayıtlı değil</value>
+  </data>
+  <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
+    <value>Doğrulama isteği çok sık, lütfen 1 dakika sonra tekrar deneyin</value>
+  </data>
+  <data name="ServerRecordBannedUid" xml:space="preserve">
+    <value>Spiral Abyss kaydı yüklenemedi, mevcut UID Hutao Database tarafından yasaklandı</value>
+  </data>
+  <data name="ServerRecordComputingStatistics" xml:space="preserve">
+    <value>Spiral Abyss kaydı yüklenemedi, istatistiksel veriler hesaplanıyor</value>
+  </data>
+  <data name="ServerRecordComputingStatistics2" xml:space="preserve">
+    <value>Veri alınamadı, istatistiksel veriler hesaplanıyor</value>
+  </data>
+  <data name="ServerRecordInternalException" xml:space="preserve">
+    <value>Spiral Abyss kaydı yüklenemedi, sunucu hatası, lütfen sorunu çözmek için en kısa sürede geliştiriciyle iletişime geçin</value>
+  </data>
+  <data name="ServerRecordInvalidData" xml:space="preserve">
+    <value>Spiral Abyss kaydı yüklenemedi, geçersiz veri tespit edildi</value>
+  </data>
+  <data name="ServerRecordInvalidUid" xml:space="preserve">
+    <value>Geçersiz UID</value>
+  </data>
+  <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
+    <value>Spiral Abyss kaydı yüklenemedi, bu döneme ait veri değil</value>
+  </data>
+  <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
+    <value>Spiral Abyss kaydı yüklenemedi, mevcut UID kaydı hala işleniyor, lütfen işlemi tekrarlamayın</value>
+  </data>
+  <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
+    <value>Spiral Abyss kaydı başarıyla yüklendi, Snap Hutao Cloud hizmeti için ayrıcalık süresi uzatıldı</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
+    <value>Derinlik Kayıtları başarıyla yüklendi, ancak Snap Hutao Pasaport'a giriş yapılmadığından dilek kayıtları yükleme hizmeti süresi alınamadı.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
+    <value>Derinlik Kayıtları başarıyla yüklendi, ancak kullanıcı bulunamadığından dilek kayıtları yükleme hizmeti süresi alınamadı.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
+    <value>Derinlik Kayıtları başarıyla yüklendi, ancak bu dönem ilk gönderim olmadığından dilek kayıtları yükleme hizmeti süresi alınamadı.</value>
+  </data>
+  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
+    <value>Yeni: {0} Başarım | Güncellendi: {1} Başarım | Silindi: {2} Başarım</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
+    <value>UIAF JSON dosyaları</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
+    <value>UIAF JSON dosyasını aç</value>
+  </data>
+  <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
+    <value>Tek bir başarım kaydında birden fazla aynı başarım kimliği bulundu</value>
+  </data>
+  <data name="ServiceAnnouncementAdventurersBoosterBundlesDurationDescription" xml:space="preserve">
+    <value>[Yayınlanma Zamanı]</value>
+  </data>
+  <data name="ServiceAnnouncementPermanentKeyword" xml:space="preserve">
+    <value>Kalıcı Olarak Erişilebilir</value>
+  </data>
+  <data name="ServiceAnnouncementVersionUpdateTimeDescription" xml:space="preserve">
+    <value>〓Güncelleme Zamanı〓</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneAmerica" xml:space="preserve">
+    <value>ABD Sunucusu UTC-05</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneCommon" xml:space="preserve">
+    <value>Diğer UTC+08</value>
+  </data>
+  <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
+    <value>AB Sunucusu UTC-01</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
+    <value>Saldırı Gücü</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
+    <value>Temel Saldırı Gücü</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseDef" xml:space="preserve">
+    <value>Temel Savunma</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseHp" xml:space="preserve">
+    <value>Temel Can</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCDmg" xml:space="preserve">
+    <value>Kritik Hasar</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCE" xml:space="preserve">
+    <value>Element Enerjisi Yüklemesi</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCR" xml:space="preserve">
+    <value>Kritik Oranı</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBElec" xml:space="preserve">
+    <value>Elektro Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBFire" xml:space="preserve">
+    <value>Pyro Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBGrass" xml:space="preserve">
+    <value>Dendro Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBIce" xml:space="preserve">
+    <value>Cryo Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBPhyiscal" xml:space="preserve">
+    <value>Fiziksel Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBRock" xml:space="preserve">
+    <value>Geo Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBWater" xml:space="preserve">
+    <value>Hidro Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBWind" xml:space="preserve">
+    <value>Anemo Hasar Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDef" xml:space="preserve">
+    <value>SAV</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyEM" xml:space="preserve">
+    <value>Element Ustalığı</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyHB" xml:space="preserve">
+    <value>İyileştirme Bonusu</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
+    <value>İyileştirme Bonusu</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
+    <value>HP</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
+    <value>Elektro Direnci</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESFire" xml:space="preserve">
+    <value>Pyro Direnci</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESGrass" xml:space="preserve">
+    <value>Dendro Direnci</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESIce" xml:space="preserve">
+    <value>Cryo Direnci</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESPhysical" xml:space="preserve">
+    <value>Fiziksel Direnç</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESRock" xml:space="preserve">
+    <value>Geo Direnci</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
+    <value>Hidro Direnci</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
+    <value>Anemo Direnci</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
+    <value>Bekleme Süresi Azaltma</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
+    <value>Gelişim Hesaplayıcısı: Yok</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
+    <value>Gelişim Hesaplayıcısı: {0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
+    <value>Genshin Impact Savaş Kaydı: Henüz Yenilenmedi</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
+    <value>Genshin Impact Savaş Kaydı: {0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryNotRefreshed" xml:space="preserve">
+    <value>Henüz yenilenmedi</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
+    <value>Karakter Vitrini: Henüz yenilenmedi</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
+    <value>Karakter Vitrini: {0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
+    <value>Bing Günlük Duvar Kağıdı</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
+    <value>Snap Hutao Günlük Duvar Kağıdı</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
+    <value>Resmi Başlatıcı Duvar Kağıdı</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
+    <value>Yerel Rastgele Resim</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
+    <value>Duvar Kağıdı Yok</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
+    <value>Yetiştirme planı durumu kaydedilemedi</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
+    <value>Birden fazla yetiştirme planı seçildi</value>
+  </data>
+  <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
+    <value>Uygulama bildirimi gönderme başarısız</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
+    <value>Oyunu Başlat</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
+    <value>Anladım</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierAttribution" xml:space="preserve">
+    <value>İstek hatası</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierDailyTask" xml:space="preserve">
+    <value>Günlük Görevler</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierDailyTaskHint" xml:space="preserve">
+    <value>Ödül Alınmadı</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierExpedition" xml:space="preserve">
+    <value>Keşif Seferleri</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierExpeditionAdaptiveHint" xml:space="preserve">
+    <value>Tamamlandı</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierExpeditionHint" xml:space="preserve">
+    <value>Keşif Seferleri tamamlandı</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierHomeCoin" xml:space="preserve">
+    <value>Diyarın Para Birimi</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierHomeCoinCurrent" xml:space="preserve">
+    <value>Mevcut Diyarın Para Birimi: {0}</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierMultiValueReached" xml:space="preserve">
+    <value>Birden fazla hatırlatıcı ayar değerine ulaştı</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierResin" xml:space="preserve">
+    <value>Orijinal Reçine</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierResinCurrent" xml:space="preserve">
+    <value>Mevcut Orijinal Reçine: {0}</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTitle" xml:space="preserve">
+    <value>Gerçek Zamanlı Notlar Bildirimi</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTransformer" xml:space="preserve">
+    <value>Parametrik Dönüştürücü</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTransformerAdaptiveHint" xml:space="preserve">
+    <value>Hazır</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
+    <value>Parametrik Dönüştürücü hazır</value>
+  </data>
+  <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
+    <value>İzin eksik, Discord Aktivite durumunuzu ayarlanamıyor.</value>
+  </data>
+  <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
+    <value>Teyvat kıtasında keşif yapılıyor</value>
+  </data>
+  <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
+    <value>{0} tarafından başlatıldı</value>
+  </data>
+  <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
+    <value>Dilek geçmişi alınamadı: {0}</value>
+  </data>
+  <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
+    <value>Dilek Geçmişi Bitiş Kimliği alınamıyor</value>
+  </data>
+  <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
+    <value>Karakter Etkinliği Dileği</value>
+  </data>
+  <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
+    <value>Kaydedilen Dilek</value>
+  </data>
+  <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
+    <value>Dolaşım Çağrısı</value>
+  </data>
+  <data name="ServiceGachaLogFactoryWeaponWishName" xml:space="preserve">
+    <value>Eşsiz İsteği</value>
+  </data>
+  <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
+    <value>Hutao Cloud dilek geçmişi alınamadı</value>
+  </data>
+  <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
+    <value>Dilek geçmişi yükleme hizmeti kullanılamıyor</value>
+  </data>
+  <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
+    <value>Veriler beklenmeyen öğe içeriyor, Kimlik: {0}</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
+    <value>Doğrulama anahtarı isteği başarısız oldu</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
+    <value>Genshin Impact oyun yolu doğru ayarlanmadı veya mevcut ayar yanlış</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
+    <value>Genshin Impact gömülü tarayıcı önbellek yolu bulunamadı:
+{0}</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
+    <value>Kullanılabilir URL bulunamadı</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
+    <value>Oyun çalışıyor, lütfen oyunu kapatıp tekrar deneyin</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
+    <value>Sağlanan URL geçersiz</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
+    <value>HoYoLab hesabı, SToken kullanarak dilek geçmişini yenilemeyi desteklemiyor</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
+    <value>URL dili: {0}, Snap Hutao dili: {1} ile eşleşmiyor, lütfen istemci dilini hedef URL diline geçirdikten sonra tekrar deneyin</value>
+  </data>
+  <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
+    <value>Desteklenmeyen Öğe Kimliği: {0}</value>
+  </data>
+  <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
+    <value>UIGF dosyasının dili: {0} ile Snap Hutao'nun dili: {1} eşleşmiyor, lütfen istemci dilini hedef UIGF dosyası diline geçirdikten sonra tekrar deneyin</value>
+  </data>
+  <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
+    <value>{0} adlı hesap zaten var</value>
+  </data>
+  <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
+    <value>Birden fazla eşleşen hesap bulundu, lütfen yinelenen hesapları silin</value>
+  </data>
+  <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
+    <value>Dosya sistemi izni yetersiz, sunucu dönüştürülemiyor</value>
+  </data>
+  <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
+    <value>Oyun kaynak dizinini indir</value>
+  </data>
+  <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
+    <value>Oyun dosyası işlemi başarısız: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>Çerçeve hızı sınırı kilidi açma başarısız</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
+    <value>Oyun çalışıyor</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
+    <value>Oyun yolunu seçin</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
+    <value>Oyun kaynak dizini indirilemedi: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
+    <value>Oyun süreci çıktı</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseProcessInitializing" xml:space="preserve">
+    <value>Oyun süreci başlatılıyor</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
+    <value>Oyun süreci başladı</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
+    <value>Kare hızı sınırı kilidi açılamadı, oyun süreci sonlandırılıyor</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
+    <value>Kare hızı sınırı kilidi başarıyla açıldı</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
+    <value>Enjeksiyon yapılandırma bilgileri alınıyor</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
+    <value>Oyun sürecinin çıkması bekleniyor</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
+    <value>Modülün oyun sürecine enjekte edilmesinin kilidini açar, çok tehlikelidir, ancak başarılı olması kolaydır</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
+    <value>Enjeksiyon</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
+    <value>Klasik işlem dışı bellek işlemleri daha tehlikelidir ancak başarısız olması kolaydır</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
+    <value>Klasik</value>
+  </data>
+  <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
+    <value>Oyun yürütülebilir dosyasını seçin</value>
+  </data>
+  <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
+    <value>Oyun istemcisi</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
+    <value>Oyun çalışırken Unity günlük dosyası okunamıyor</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
+    <value>Unity günlük dosyası bulunamadı</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
+    <value>Unity günlük dosyasında oyun yolu bulunamadı</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
+    <value>Manifest ayrıştırma başarısız oldu</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
+    <value>Yetersiz disk alanı, {0} gerekiyor, kalan {1}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
+    <value>Oyun yükleniyor</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedPredownloading" xml:space="preserve">
+    <value>Kaynaklar önceden indiriliyor</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedRepairing" xml:space="preserve">
+    <value>Oyun onarılıyor</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedUpdating" xml:space="preserve">
+    <value>Oyun güncelleniyor</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
+    <value>Oyunun bütünlüğü doğrulanıyor</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
+    <value>Yedekleme: {0}</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
+    <value>Yeniden Adlandır: {0} - {1}</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
+    <value>Değiştir: {0}</value>
+  </data>
+  <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
+    <value>Yerel Paket Sürümü okunurken bir sorunla karşılaşıldı, oyunu onarmak yardımcı olabilir</value>
+  </data>
+  <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
+    <value>Veri klasörü adı yeniden adlandırılamadı</value>
+  </data>
+  <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
+    <value>Paket Sürümü İsteniyor</value>
+  </data>
+  <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
+    <value>Paket Sürümü alma başarısız oldu</value>
+  </data>
+  <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
+    <value>İstemci dosyası indirilemedi: {0}</value>
+  </data>
+  <data name="ServiceGamePathLocateFailed" xml:space="preserve">
+    <value>Oyun yolu bulunamadı, lütfen ayarlardan değiştirin</value>
+  </data>
+  <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
+    <value>Uzun yol özelliği etkinleştirilmedi, kayıt defteri anahtar değeri ayarlanamıyor</value>
+  </data>
+  <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
+    <value>Oyun yapılandırma dosyası {0} okunamıyor, dosya mevcut olmayabilir</value>
+  </data>
+  <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
+    <value>Yapılandırma dosyası okunamıyor veya kaydedilemiyor, lütfen yönetici modunda tekrar deneyin</value>
+  </data>
+  <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
+    <value>Gerekli modülleri ararken bir sorun oluştu: hiçbir modül okunamadı, koruma sürücüsü yüklenmiş olabilir, lütfen tekrar deneyin</value>
+  </data>
+  <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
+    <value>Gerekli modülleri ararken bir sorun oluştu: modül arama zaman aşımına uğradı, lütfen tekrar deneyin</value>
+  </data>
+  <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
+    <value>Belleği eşleştirirken bir sorun oluştu: beklenen içerik eşleştirilemedi</value>
+  </data>
+  <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
+    <value>Gerekli modül belleğini okurken bir sorun oluştu: modül belleği belirtilen konuma kopyalanamadı</value>
+  </data>
+  <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
+    <value>Oyun süreci belleğini okurken bir sorun oluştu: belirtilen adreste geçerli bir değer okunamadı</value>
+  </data>
+  <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
+    <value>Kare hızı kilidi kaldırılamadı: 0x{0:X8}</value>
+  </data>
+  <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
+    <value>Dilek kaydı yükleme hizmetinin geçerlilik süresi:</value>
+  </data>
+  <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法同步背包物品</value>
+  </data>
+  <data name="ServiceMetadataFileNotFound" xml:space="preserve">
+    <value>Önbelleğe alınmış meta veri dosyası bulunamadı</value>
+  </data>
+  <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
+    <value>HTTP {0} | Hata:{1}：Meta veri doğrulama dosyası indirilemedi</value>
+  </data>
+  <data name="ServiceMetadataNotInitialized" xml:space="preserve">
+    <value>Meta veri hizmeti başlatılmadı veya başlatma başarısız oldu</value>
+  </data>
+  <data name="ServiceMetadataParseFailed" xml:space="preserve">
+    <value>Meta veri doğrulama dosyası ayrıştırılamadı</value>
+  </data>
+  <data name="ServiceMetadataRequestFailed" xml:space="preserve">
+    <value>Meta veri doğrulama dosyası indirilemedi</value>
+  </data>
+  <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
+    <value>Snap Hutao sürümünüz eski, lütfen en kısa sürede güncelleyin</value>
+  </data>
+  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+    <value>Giriş yapılamadı, {0}</value>
+  </data>
+  <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
+    <value>Giriş gün sayısı alınamadı</value>
+  </data>
+  <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
+    <value>Giriş ödül listesi alınamadı</value>
+  </data>
+  <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
+    <value>Doğrulama başarısız, lütfen ödülü manuel olarak almak için 米游社 Genshin Impact giriş sayfasına gidin</value>
+  </data>
+  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+    <value>Giriş başarılı, {0} × {1}</value>
+  </data>
+  <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
+    <value>Desteklenmeyen UIGF sürümü</value>
+  </data>
+  <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
+    <value>Yeni bir {0} sürümü mevcut.</value>
+  </data>
+  <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
+    <value>Birden fazla kullanıcı seçili olarak kaydedildi</value>
+  </data>
+  <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
+    <value>{0} kullanıcısının durumu kaydedilemedi</value>
+  </data>
+  <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
+    <value>Girilen Cookie Mid içermelidir</value>
+  </data>
+  <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
+    <value>Girilen Cookie SToken içermelidir</value>
+  </data>
+  <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
+    <value>Girilen Cookie ile kullanıcı bilgileri alınamıyor</value>
+  </data>
+  <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
+    <value>Kullanıcı bilgileri alınıyor, lütfen bekleyin...</value>
+  </data>
+  <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
+    <value>请先在启动游戏页面设置游戏目录</value>
+  </data>
+  <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
+    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>正在等待游戏数据</value>
+  </data>
+  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
+    <value>Embedded Yae 错误</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
+    <value>Ek Özellik Tavsiyesi</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedCircletProperties" xml:space="preserve">
+    <value>Taç Ana Özellik Tavsiyesi</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedGobletProperties" xml:space="preserve">
+    <value>Kadeh Ana Özellik Tavsiyesi</value>
+  </data>
+  <data name="UIViewPageAvatarPropertyRecommendedSandProperties" xml:space="preserve">
+    <value>Kum Ana Özellik Tavsiyesi</value>
+  </data>
+  <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
+    <value>Görüntüyü Kopyala</value>
+  </data>
+  <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
+    <value>Bildirim verileri alınıyor</value>
+  </data>
+  <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
+    <value>Lütfen doğrulamayı tamamlayın</value>
+  </data>
+  <data name="ViewAchievementHeader" xml:space="preserve">
+    <value>Başarımlar</value>
+  </data>
+  <data name="ViewAnnouncementHeader" xml:space="preserve">
+    <value>Anasayfa</value>
+  </data>
+  <data name="ViewAvatarPropertyHeader" xml:space="preserve">
+    <value>Karakterlerim</value>
+  </data>
+  <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
+    <value>Karakter Verilerini Senkronize Et</value>
+  </data>
+  <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
+    <value>Başarım İstatistikleri</value>
+  </data>
+  <data name="ViewCardCalendarAllMaterialsHint" xml:space="preserve">
+    <value>Tüm materyal zindanlarına meydan okunabilir</value>
+  </data>
+  <data name="ViewCardCalendarNoBirthdayAvatarHint" xml:space="preserve">
+    <value>O gün herhangi bir karakterin doğum günü değil</value>
+  </data>
+  <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
+    <value>Garanti Sayısı</value>
+  </data>
+  <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
+    <value>Hesap seçin veya doğrudan başlatın</value>
+  </data>
+  <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
+    <value>Seviye</value>
+  </data>
+  <data name="ViewControlBaseValueSliderPromoted" xml:space="preserve">
+    <value>Yükseltmeden Sonra</value>
+  </data>
+  <data name="ViewControlElevationText" xml:space="preserve">
+    <value>Yönetici ayrıcalıkları gerekli</value>
+  </data>
+  <data name="ViewControlLoadingText" xml:space="preserve">
+    <value>Yükleniyor, lütfen bekleyin</value>
+  </data>
+  <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
+    <value>Üç Yıldız</value>
+  </data>
+  <data name="ViewControlStatisticsCardGuaranteeText" xml:space="preserve">
+    <value>Garanti</value>
+  </data>
+  <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
+    <value>Ort. Beş Yıldız Çekilişi #</value>
+  </data>
+  <data name="ViewControlStatisticsCardOrangeText" xml:space="preserve">
+    <value>Beş Yıldız</value>
+  </data>
+  <data name="ViewControlStatisticsCardPullText" xml:space="preserve">
+    <value>Çekiliş</value>
+  </data>
+  <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
+    <value>Dört Yıldız</value>
+  </data>
+  <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
+    <value>Son Beş Yıldız</value>
+  </data>
+  <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
+    <value>Son Dört Yıldız</value>
+  </data>
+  <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
+    <value>Ort. Şans Çekilişi</value>
+  </data>
+  <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
+    <value>Şans</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
+    <value>Tahmin</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
+    <value>Oran</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
+    <value>İstatistikler</value>
+  </data>
+  <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
+    <value>Mevcut WebView2 sürümü yönetici yapılandırmasını desteklemiyor, kullanmaya devam etmek anormalliklere neden olabilir, lütfen en kısa sürede güncelleyin</value>
+  </data>
+  <data name="ViewCultivationHeader" xml:space="preserve">
+    <value>Geliştirme Planı</value>
+  </data>
+  <data name="ViewDailyNoteHeader" xml:space="preserve">
+    <value>Gerçek Zamanlı Notlar</value>
+  </data>
+  <data name="ViewDataHeader" xml:space="preserve">
+    <value>Veri</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
+    <value>Buraya girin</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveCreateTitle" xml:space="preserve">
+    <value>Başarım arşivinin adını ayarlayın</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategy" xml:space="preserve">
+    <value>İçe aktarma modu</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
+    <value>Açgözlü (yeni veri ekle, tamamlanan kayıtları güncelle)</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
+    <value>Tembel (yeni veri ekle, tamamlanan kayıtları atla)</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
+    <value>Üzerine Yaz (eski verileri sil, yeni veriler ekle)</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
+    <value>Mevcut arşiv için başarım verilerini içe aktar</value>
+  </data>
+  <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
+    <value>Karakter Hedef Seviyesi</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
+    <value>Normal Saldırı Hedef Seviyesi</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
+    <value>Element Becerisi Hedef Seviyesi</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
+    <value>Element Patlaması Hedef Seviyesi</value>
+  </data>
+  <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
+    <value>Silah Hedef Seviyesi</value>
+  </data>
+  <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
+    <value>Mevcut kullanıcıyı ve rolü bağla</value>
+  </data>
+  <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
+    <value>Buraya plan adını girin</value>
+  </data>
+  <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
+    <value>Yeni bir yetiştirme planı oluştur</value>
+  </data>
+  <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
+    <value>Mevcut Geliştirme Planına toplu ekle veya güncelle</value>
+  </data>
+  <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
+    <value>Mevcut Geliştirme İlerleme Planına ekle veya güncelle</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
+    <value>Her zaman yeni yetiştirme hedefi öğeleri oluştur</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
+    <value>Kaydetme Yöntemi</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
+    <value>Mevcut yetiştirme hedefi öğelerinin üzerine yaz</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
+    <value>Mevcut yetiştirme hedefi öğelerini koru</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
+    <value>Günlük Görevler Çevrimiçi Hatırlatıcı</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
+    <value>Keşif Seferi Tamamlama Hatırlatıcısı</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
+    <value>Diyarın Hazinesi Hatırlatma Eşiği</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
+    <value>Orijinal Reçine Hatırlatma Eşiği</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
+    <value>Ana sayfada araç takımı göster</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
+    <value>Gerçek Zamanlı Notlar Bildirim Ayarları</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
+    <value>Parametrik Dönüştürücü Hatırlatıcı</value>
+  </data>
+  <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
+    <value>URL'yi girin</value>
+  </data>
+  <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
+    <value>Gerçek Zamanlı Not Webhook URL'si</value>
+  </data>
+  <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
+    <value>Kaydı dışa aktarmak için UID seçin</value>
+  </data>
+  <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
+    <value>UIGF dosyasını dışa aktar</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>Sınırlama kaldırıldıktan sonra, sınırlamayı geri yüklemek için başka araçlar kullanmanız gerekir</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackDescription" xml:space="preserve">
+    <value>Sistem aracısının yapılandırıldığı tespit edildi, ancak Loopback kısıtlaması kaldırılmadı ve Snap Hutao düzgün bir şekilde ağa bağlanamayacak.</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>Loopback Sınırlamasını Kaldır</value>
+  </data>
+  <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
+    <value>Dilek Geçmişini İçe Aktar</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
+    <value>Dilek geçmişi URL'sinin süresi doldu, lütfen yeniden alın</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
+    <value>{0} getiriliyor</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
+    <value>Dilek öğeleri alınıyor</value>
+  </data>
+  <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
+    <value>URL'yi girin</value>
+  </data>
+  <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
+    <value>Dilek Geçmişi URL'sini Manuel Olarak Girin</value>
+  </data>
+  <data name="ViewDialogGameInstallLaunchScheme" xml:space="preserve">
+    <value>Oyun Sunucusu</value>
+  </data>
+  <data name="ViewDialogGameInstallPathHddHint" xml:space="preserve">
+    <value>Şu anda seçilen dizin HDD, SSD kullanılması önerilir</value>
+  </data>
+  <data name="ViewDialogGameInstallPickGameDirectory" xml:space="preserve">
+    <value>Oyun kurulum dizinini ayarla</value>
+  </data>
+  <data name="ViewDialogGameInstallTitle" xml:space="preserve">
+    <value>Oyunu yükle</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceChinese" xml:space="preserve">
+    <value>Çince</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceEnglish" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceJapanese" xml:space="preserve">
+    <value>Japonca</value>
+  </data>
+  <data name="ViewDialogGameInstallVoiceKorean" xml:space="preserve">
+    <value>Korece</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
+    <value>İstek URL'si karma şablonunu girin</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
+    <value>Arayüz, yukarıda gösterildiği gibi bir JSON verisi dönüşü gerektirir, fazladan veriler göz ardı edilecektir.</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
+    <value>"code" 0 ise, doğrulamanın başarılı olduğunu, aksi takdirde doğrulamanın başarısız olduğunu belirtir</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
+    <value>Geri döndürülen veri</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
+    <value>{0} gerçek istek sırasında gt ile değiştirilecektir</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
+    <value>{1} gerçek istek sırasında challenge ile değiştirilecektir</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
+    <value>Arayüzlere GET yoluyla istekler gönderilecektir</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
+    <value>Örnek</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
+    <value><span style="font-style: italic;">无感验证</span> API'sini yapılandır</value>
+  </data>
+  <data name="ViewDialogHutaoPassportLoginTitle" xml:space="preserve">
+    <value>Snap Hutao Passport'a Giriş Yap</value>
+  </data>
+  <data name="ViewDialogHutaoPassportRegisterTitle" xml:space="preserve">
+    <value>Snap Hutao Passport'a Kaydol</value>
+  </data>
+  <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
+    <value>Snap Hutao Passport Şifresini Sıfırla</value>
+  </data>
+  <data name="ViewDialogHutaoPassportResetUserNameTitle" xml:space="preserve">
+    <value>Snap Hutao Pasaport E-postasını Sıfırla</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
+    <value>Snap Hutao Passport Hesabını Sil</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
+    <value>Snap Hutao Bulut Kupon Kodunu Kullan</value>
+  </data>
+  <data name="ViewDialogImportExportApp" xml:space="preserve">
+    <value>Uygulamayı Dışa Aktar</value>
+  </data>
+  <data name="ViewDialogImportExportAppVersion" xml:space="preserve">
+    <value>Uygulama Sürümünü Dışa Aktar</value>
+  </data>
+  <data name="ViewDialogImportExportTime" xml:space="preserve">
+    <value>Dışa Aktarma Zamanı</value>
+  </data>
+  <data name="ViewDialogImportUIAFExportListCount" xml:space="preserve">
+    <value>Başarım Sayısı</value>
+  </data>
+  <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
+    <value>UIAF Sürümü</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportListCount" xml:space="preserve">
+    <value>Kayıt Sayısı</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportUid" xml:space="preserve">
+    <value>UID</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
+    <value>UIGF Sürümü</value>
+  </data>
+  <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
+    <value>Kaydı içe aktarmak için UID seçin</value>
+  </data>
+  <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
+    <value>UIGF dosyasını içe aktar</value>
+  </data>
+  <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
+    <value>Adı buraya girin</value>
+  </data>
+  <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
+    <value>Hesabı Adlandır</value>
+  </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
+    <value>Lütfen mevcut oyun yoluyla eşleşen oyun sunucusunu seçin</value>
+  </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
+    <value>Yapılandırma Dosyası Onarılıyor</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryCreationFailed" xml:space="preserve">
+    <value>Seçilen kurulum yolu mevcut değil ve oluşturulamıyor</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryExistsFileSystemEntry" xml:space="preserve">
+    <value>Seçilen kurulum yolunda dosya veya klasör mevcut</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameDirectoryInvalid" xml:space="preserve">
+    <value>Seçilen kurulum yolu geçersiz</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameNoAudioPackageSelected" xml:space="preserve">
+    <value>Ses paketi seçilmedi</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGameNoSchemeSelected" xml:space="preserve">
+    <value>Oyun sunucusu seçilmedi</value>
+  </data>
+  <data name="ViewDialogLaunchGameInstallGamePickDirectoryTitle" xml:space="preserve">
+    <value>Kurulum Yolunu Seç</value>
+  </data>
+  <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
+    <value>Geçiş biraz zaman alabilir, lütfen Snap Hutao'yu kapatmayın.</value>
+  </data>
+  <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
+    <value>Oyun İstemcisi Dönüştürülüyor</value>
+  </data>
+  <data name="ViewDialogQRCodeTitle" xml:space="preserve">
+    <value><span style="font-style: italic;">米游社</span> ile QR kodunu tara</value>
+  </data>
+  <data name="ViewDialogReconfirmHint" xml:space="preserve">
+    <value>Fonksiyon kullanıcılarının bağımsız karar verme yeteneğine sahip olmasını sağlamak için, bu fonksiyonların etkinleştirme koşullarını düzensiz olarak güncelleyeceğiz. Eğer bir içerik üreticisiyseniz, Snap Hutao ile ilgili içerik oluştururken lütfen belirli etkinleştirme yöntemlerini izleyicilerinizle paylaşmayın.</value>
+  </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>Yanlışlıkla etkinleştirmeyi önlemek için, lütfen etkinleştirmekte olduğunuz özellik anahtarının &lt;b&gt;başlık adını&lt;/b&gt; girin</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>Tehlikeli bir özelliği etkinleştiriyorsunuz</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
+    <value>Bu işlem geri alınamaz ve tüm kullanıcı oturum açma durumları kaybolacaktır</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
+    <value>Kullanıcı verilerini kalıcı olarak silmek istiyor musunuz?</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
+    <value>Şu anda bir Hutao Passport hesabına giriş yapılmadı, Abyss Kayıtları yüklemek size Hutao Cloud ayrıcalık uzantısı kazandırmayacak.</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>Şimdi Giriş Yap</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
+    <value>Yüklemeye Devam Et</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
+    <value>Abyss Kayıtlarını Yükle</value>
+  </data>
+  <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
+    <value>Güncelleme Kayıtlarını Görüntüle</value>
+  </data>
+  <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
+    <value>Otomatik güncelleme çok yavaşsa, manuel olarak indirip kurabilirsiniz</value>
+  </data>
+  <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
+    <value>İndirme Kaynağı</value>
+  </data>
+  <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
+    <value>Güncelle</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordAccountHint" xml:space="preserve">
+    <value>Lütfen hesap girin</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordPasswordHint" xml:space="preserve">
+    <value>Lütfen şifre girin</value>
+  </data>
+  <data name="ViewDialogUserAccountPasswordTitle" xml:space="preserve">
+    <value>Hesap ve Şifre ile Giriş</value>
+  </data>
+  <data name="ViewDialogUserDocumentAction" xml:space="preserve">
+    <value>Hemen Git</value>
+  </data>
+  <data name="ViewDialogUserDocumentDescription" xml:space="preserve">
+    <value>Belge sayfasına gidin ve talimatları izleyin</value>
+  </data>
+  <data name="ViewDialogUserDocumentHeader" xml:space="preserve">
+    <value>Belge</value>
+  </data>
+  <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
+    <value>Buraya SToken içeren Çerez'i girin</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
+    <value>Lütfen aldığınız doğrulama kodunu girin</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
+    <value>Lütfen telefon numarasını girin</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
+    <value>Gönder</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
+    <value>Telefon Doğrulama Kodu ile Giriş</value>
+  </data>
+  <data name="ViewDialogUserTitle" xml:space="preserve">
+    <value>Çerez Ayarla</value>
+  </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>Geri Bildirim Merkezi</value>
+  </data>
+  <data name="ViewGachaLogHeader" xml:space="preserve">
+    <value>Dilek Geçmişi</value>
+  </data>
+  <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
+    <value>Beklenen kaynak boyutu: {0}</value>
+  </data>
+  <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
+    <value>Okudum ve kabul ediyorum</value>
+  </data>
+  <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
+    <value>Sorun Bildirme Yaklaşımı ve Süreci</value>
+  </data>
+  <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
+    <value>Snap Hutao Açık Kaynak Lisansı</value>
+  </data>
+  <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
+    <value>Kullanıcı Verileri ve Gizlilik Politikası</value>
+  </data>
+  <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
+    <value>Kullanıcı Sözleşmesi ve Yasal Uyarılar</value>
+  </data>
+  <data name="ViewGuideStepCommonSetting" xml:space="preserve">
+    <value>Temel Ayarlar</value>
+  </data>
+  <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
+    <value>Daha sonra Ayarlar'dan değişiklik yapabilirsiniz</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* Varsayılan veri klasörü kaldırma sırasında silinecektir, daha sonra ayarlardan değiştirebilirsiniz</value>
+  </data>
+  <data name="ViewGuideStepDocument" xml:space="preserve">
+    <value>Belge</value>
+  </data>
+  <data name="ViewGuideStepEnvironment" xml:space="preserve">
+    <value>Ortamlar</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
+    <value>Yüklemeden sonra etkinleşip etkinleşmediğini kontrol etmek için Snap Hutao'yu yeniden başlatın</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
+    <value>Yukarıdaki simgelerde bozuk karakterler veya kareler varsa, lütfen şu adresi ziyaret edin:</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
+    <value>yazı tipini indirip kendiniz kurmak için</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
+    <value>WebView2 çalışma zamanı bilgisi algılanmazsa, lütfen şurayı ziyaret edin</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
+    <value>çalışma zamanını indirip kendiniz kurmak için</value>
+  </data>
+  <data name="ViewGuideStepLanguage" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>Crowdin topluluk üyeleri tarafından sürdürülüyor</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>Google Gemini tarafından çevrildi</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>DGP Studio tarafından sürdürülüyor</value>
+  </data>
+  <data name="ViewGuideStepStaticResource" xml:space="preserve">
+    <value>Kaynaklar</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
+    <value>* Bir dosya indirme hatasıyla karşılaştığınızda endişelenmeyin, resim gösterilmek üzereyken otomatik olarak tamamlamayı deneyeceğiz.</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
+    <value>Görüntü Kaynak Ayarları</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingHint" xml:space="preserve">
+    <value>* Snap Hutao'yu kaldırıp yeniden yüklemediğiniz sürece bu ayarı değiştiremezsiniz</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
+    <value>Görüntü Kaynak Paketi</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
+    <value>Tam Paket</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
+    <value>Minimum Paket</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
+    <value>Görüntü Kaynak Kalitesi</value>
+  </data>
+  <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
+    <value>Abyss İstatistikleri</value>
+  </data>
+  <data name="ViewHutaoPassportHeader" xml:space="preserve">
+    <value>Snap Hutao Pasaportu</value>
+  </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>Tüm bildirimleri temizle</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>Daralt</value>
+  </data>
+  <data name="ViewInfoBarPanelTitle" xml:space="preserve">
+    <value>Tüm Bildirimler</value>
+  </data>
+  <data name="ViewInfoBarToggleTitle" xml:space="preserve">
+    <value>Yeni bildirim var</value>
+  </data>
+  <data name="ViewLaunchGameHeader" xml:space="preserve">
+    <value>Oyunu Başlat</value>
+  </data>
+  <data name="ViewListViewDragElevatedHint" xml:space="preserve">
+    <value>Yönetici Modunda sıralama için sürüklenemez</value>
+  </data>
+  <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
+    <value>Arşiv [{0}] başarıyla eklendi</value>
+  </data>
+  <data name="ViewModelAchievementArchiveAlreadyExists" xml:space="preserve">
+    <value>Aynı ada sahip arşiv eklenemiyor [{0}]</value>
+  </data>
+  <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
+    <value>Geçersiz ada sahip arşiv eklenemiyor</value>
+  </data>
+  <data name="ViewModelAchievementExportFileType" xml:space="preserve">
+    <value>UIAF Dosyası</value>
+  </data>
+  <data name="ViewModelAchievementImportProgress" xml:space="preserve">
+    <value>Başarımlar içe aktarılıyor</value>
+  </data>
+  <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
+    <value>Verilerin UIAF sürümü içe aktarmak için çok düşük</value>
+  </data>
+  <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
+    <value>Bu işlem geri alınamaz. Başarım arşivi ve içindeki tüm başarımların durumu kaybolacak.</value>
+  </data>
+  <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
+    <value>{0} arşivini silmek istediğinize emin misiniz?</value>
+  </data>
+  <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
+    <value>UIAF JSON dosyasını belirtilen yola aktar</value>
+  </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
+    <value>Yükseltme materyalleri alınıyor, lütfen bekleyin...</value>
+  </data>
+  <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
+    <value>Mevcut karakter hesaplanamıyor, lütfen bilgileri senkronize ettikten sonra tekrar deneyin</value>
+  </data>
+  <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
+    <value>Karakter bilgi hizmeti [Enka API] şu anda kullanılamıyor</value>
+  </data>
+  <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
+    <value>Panoya aktarıldı</value>
+  </data>
+  <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
+    <value>Veri Alınıyor</value>
+  </data>
+  <data name="ViewModelAvatarPropertyOpenClipboardFail" xml:space="preserve">
+    <value>Pano açma başarısız</value>
+  </data>
+  <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
+    <value>Karakter vitrini henüz etkinleştirilmedi, lütfen oyunda işlem yaptıktan sonra tekrar deneyin</value>
+  </data>
+  <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
+    <value>Toplam {0} karakter</value>
+  </data>
+  <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
+    <value>Karakter detayları kopyalanamadı</value>
+  </data>
+  <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
+    <value>Karakter detayları başarıyla kopyalandı</value>
+  </data>
+  <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
+    <value>Eser seti veya münferit eser yok</value>
+  </data>
+  <data name="ViewModelCultivationAddWarning" xml:space="preserve">
+    <value>Geliştirme planı eklenemedi</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+    <value>İşlem tamamlandı: Eklendi / Güncellendi: {0}, atlandı {1}</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+    <value>İşlem tam olarak tamamlanmadı: Eklendi / Güncellendi: {0}, atlandı {1}</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>Bu işlem geri alınamaz, bu plandaki envanter öğeleri kaybolacaktır.</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>Envanter öğeleri temizleniyor</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>Mevcut plandaki tüm envanter öğelerini temizlemek istediğinize emin misiniz?</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
+    <value>Seçilen seviye için yetiştirme malzemesine gerek yok</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
+    <value>Henüz bir yetiştirme planı oluşturulmadı ve seçilmedi</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
+    <value>Bu öğe için zaten bir yetiştirme projesi var</value>
+  </data>
+  <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
+    <value>Mevcut geliştirme planına başarıyla eklendi</value>
+  </data>
+  <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
+    <value>Lütfen önce geliştirme planları sayfasına gidip bir plan oluşturun ve seçin</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
+    <value>Geliştirme açıklamasını görmek için öğeyi tekrar ekleyin</value>
+  </data>
+  <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
+    <value>Başarıyla eklendi</value>
+  </data>
+  <data name="ViewModelCultivationProjectAlreadyExists" xml:space="preserve">
+    <value>Aynı ada sahip plan eklenemez</value>
+  </data>
+  <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
+    <value>Geçersiz ada sahip plan eklenemez</value>
+  </data>
+  <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
+    <value>Envanter öğeleri senkronize ediliyor</value>
+  </data>
+  <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
+    <value>Bu işlem geri alınamaz, bu plandaki geliştirme öğeleri ve envanter malzemeleri kaybolacaktır</value>
+  </data>
+  <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
+    <value>Mevcut planı silmek istediğinize emin misiniz?</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
+    <value>Vahiy Çiçeği</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsBlossomOfWealthTitle" xml:space="preserve">
+    <value>Zenginlik Çiçeği</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsItemRemainDays" xml:space="preserve">
+    <value>{0} gün kaldı</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsNormalBossTitle" xml:space="preserve">
+    <value>Dünya BOSS'u</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsTalentAscensionTitle" xml:space="preserve">
+    <value>Karakter Yetenek Materyalleri</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeaponAscensionTitle" xml:space="preserve">
+    <value>Silah Yükseltme Materyalleri</value>
+  </data>
+  <data name="ViewModelCultivationResinStatisticsWeeklyBossTitle" xml:space="preserve">
+    <value>Haftalık BOSS</value>
+  </data>
+  <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
+    <value>Gerçek Zamanlı Not Webhook URL'si başarıyla yapılandırıldı</value>
+  </data>
+  <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
+    <value>HoYoLab hesabı, Gerçek Zamanlı Notlar doğrulamasını desteklemiyor</value>
+  </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>Planlanan Görev değiştirilemedi</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
+    <value>30 dakika | 3,75 Reçine</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime4" xml:space="preserve">
+    <value>4 dakika | 0,5 Reçine</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime40" xml:space="preserve">
+    <value>40 dakika | 5 Reçine</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime60" xml:space="preserve">
+    <value>60 dakika | 7,5 Reçine</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
+    <value>8 dakika | 1 Reçine</value>
+  </data>
+  <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
+    <value>Gerçek Zamanlı Notlar bilgileri alınıyor, lütfen bekleyin</value>
+  </data>
+  <data name="ViewModelExportSuccessMessage" xml:space="preserve">
+    <value>Belirtilen konuma başarıyla kaydedildi</value>
+  </data>
+  <data name="ViewModelExportSuccessTitle" xml:space="preserve">
+    <value>Dışa aktarma başarılı</value>
+  </data>
+  <data name="ViewModelExportWarningMessage" xml:space="preserve">
+    <value>Dosyaya yazarken bir sorun oluştu</value>
+  </data>
+  <data name="ViewModelExportWarningTitle" xml:space="preserve">
+    <value>Dışa aktarma başarısız</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownCurrentWish" xml:space="preserve">
+    <value>Mevcut Dilek</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownCurrentWishDelta" xml:space="preserve">
+    <value>UP'nin bitmesine {0} gün kaldı</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownHistoryCount" xml:space="preserve">
+    <value>Toplam UP Sayısı: {0}</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTime" xml:space="preserve">
+    <value>Son UP zamanı: {0:yyyy.MM.dd}</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownLastTimeDelta" xml:space="preserve">
+    <value>Son UP'den bu yana {0} gün geçti</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderDown" xml:space="preserve">
+    <value>İkinci Yarı</value>
+  </data>
+  <data name="ViewModelGachaLogCountdownOrderUp" xml:space="preserve">
+    <value>İlk Yarı</value>
+  </data>
+  <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
+    <value>UIGF JSON dosyası</value>
+  </data>
+  <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
+    <value>İçe aktarma tamamlandı</value>
+  </data>
+  <data name="ViewModelGachaLogImportProgress" xml:space="preserve">
+    <value>Dilek geçmişi içe aktarılıyor</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
+    <value>UIGF sürümü içe aktarmak için çok eski</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
+    <value>İçe aktarılan verilerde desteklenmeyen öğeler var</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
+    <value>İçe Aktarma Başarısız</value>
+  </data>
+  <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
+    <value>{0} çekilişten sonra {1:P3} olasılıkla 5 yıldızlı eşya elde edilecek</value>
+  </data>
+  <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
+    <value>Bir sonraki çekilişte {0:P3} olasılıkla 5 yıldızlı eşya elde edilecek</value>
+  </data>
+  <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
+    <value>Dilek geçmişi alınamadı</value>
+  </data>
+  <data name="ViewModelGachaLogRefreshOperationCancel" xml:space="preserve">
+    <value>Dilek geçmişi yenileme işlemi beklenmedik şekilde iptal edildi</value>
+  </data>
+  <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
+    <value>Bu işlem geri alınamaz. Dilek geçmişi arşivi kaybolacaktır.</value>
+  </data>
+  <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
+    <value>{0} arşivini silmek istediğinize emin misiniz?</value>
+  </data>
+  <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
+    <value>Snap Hutao Cloud Hizmetinden Dilek Geçmişi Senkronize Ediliyor</value>
+  </data>
+  <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
+    <value>UIGF JSON dosyasını belirtilen yola aktar</value>
+  </data>
+  <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
+    <value>Snap Hutao Cloud Hizmetine Yükleniyor</value>
+  </data>
+  <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
+    <value>UIGF JSON dosyasını içe aktar</value>
+  </data>
+  <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
+    <value>Yerel sürüm: {0}</value>
+  </data>
+  <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
+    <value>{0} sürüm ön indirmesi açıldı</value>
+  </data>
+  <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
+    <value>En son sürüm: {0}</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
+    <value>İptal edildi</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+    <value>İptal ediliyor</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
+    <value>Kurulum tamamlandı</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
+    <value>Ön indirme tamamlandı</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
+    <value>Onarım tamamlandı</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
+    <value>Güncelleme tamamlandı</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
+    <value>Oyun tam, onarıma gerek yok</value>
+  </data>
+  <data name="ViewModelGuideActionAgreement" xml:space="preserve">
+    <value>Yukarıdaki koşulları okudum ve kabul ediyorum</value>
+  </data>
+  <data name="ViewModelGuideActionComplete" xml:space="preserve">
+    <value>Tamamla</value>
+  </data>
+  <data name="ViewModelGuideActionNext" xml:space="preserve">
+    <value>Sonraki</value>
+  </data>
+  <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
+    <value>Kaynak dosyaları indiriliyor, lütfen bekleyin</value>
+  </data>
+  <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
+    <value>Yüksek Kalite</value>
+  </data>
+  <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
+    <value>Orijinal Kalite</value>
+  </data>
+  <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
+    <value>Lütfen doğru e-posta adresini girin</value>
+  </data>
+  <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法导入成就</value>
+  </data>
+  <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
+    <value>Panodaki metin biçimi hatalı</value>
+  </data>
+  <data name="ViewModelImportWarningMessage" xml:space="preserve">
+    <value>Veri biçimi hatalı</value>
+  </data>
+  <data name="ViewModelImportWarningMessage2" xml:space="preserve">
+    <value>Lütfen önce bir başarı arşivi oluşturun</value>
+  </data>
+  <data name="ViewModelImportWarningTitle" xml:space="preserve">
+    <value>İçe aktarma başarısız</value>
+  </data>
+  <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
+    <value>Şu anda seçilen kullanıcı ve oyun sunucusu eşleşmiyor, lütfen yeniden seçin</value>
+  </data>
+  <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
+    <value>Oyun yapılandırma dosyası okunamıyor: {0}, dosya mevcut olmayabilir veya yetersiz izinlere sahip olabilir</value>
+  </data>
+  <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
+    <value>Şu anda seçilen oyun dizini {0} bozuk. Lütfen klasörü manuel olarak silip oyunu yeniden yükleyin</value>
+  </data>
+  <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
+    <value>米游社 / HoYoLAB kullanıcısı ile oturum açma başarısız oldu, lütfen tekrar oturum açın</value>
+  </data>
+  <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
+    <value>Sunucu değiştirme başarısız</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
+    <value>Yapılandırma Dosyasını Onar</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
+    <value>Onarım Tamamlandı</value>
+  </data>
+  <data name="ViewModelLaunchGameGamePathNullOrEmpty" xml:space="preserve">
+    <value>Oyun dizini henüz ayarlanmadı</value>
+  </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>Monitörleri Tanımla</value>
+  </data>
+  <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
+    <value>Oyun yolu hatalı, oyun yolunu değiştirmek için ayarlara gidin</value>
+  </data>
+  <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
+    <value>Henüz bir sunucu seçilmedi</value>
+  </data>
+  <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
+    <value>Oyun Yolunu Ayarla</value>
+  </data>
+  <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
+    <value>Hesap değiştirme başarısız</value>
+  </data>
+  <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
+    <value>[{0}] UID'sine karşılık gelen [{1}] hesabı seçilemiyor, hesap mevcut sunucuya ait değil</value>
+  </data>
+  <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
+    <value>{0} seviyesine ulaşıldı</value>
+  </data>
+  <data name="ViewModelRoleCombatRound" xml:space="preserve">
+    <value>{0}. Perde</value>
+  </data>
+  <data name="ViewModelSettingActionComplete" xml:space="preserve">
+    <value>İşlem tamamlandı</value>
+  </data>
+  <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
+    <value>Temizleme başarısız, dosya dizini izinleri yetersiz, lütfen yönetici modunda tekrar deneyin</value>
+  </data>
+  <data name="ViewModelSettingClearWebCachePathInvalid" xml:space="preserve">
+    <value>Temizleme başarısız, dizin bulunamadı: {0}</value>
+  </data>
+  <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
+    <value>Temizleme tamamlandı</value>
+  </data>
+  <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
+    <value>Kopyalama başarılı</value>
+  </data>
+  <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
+    <value>Masaüstü kısayolu oluşturma başarısız</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>Sonraki dönüştürme, gerekli dosyaları yeniden indirecektir, silmek istediğinize emin misiniz?</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>Sunucu Dönüştürme İstemci Önbelleğini Sil</value>
+  </data>
+  <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
+    <value>Kullanılan disk alanı: {0}</value>
+  </data>
+  <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
+    <value>无感验证 bileşik URL'si başarıyla yapılandırıldı</value>
+  </data>
+  <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
+    <value>Statik Kaynak Sıfırlanıyor</value>
+  </data>
+  <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
+    <value>Veri dizini başarıyla ayarlandı, değişiklikleri uygulamak için yeniden başlatın</value>
+  </data>
+  <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
+    <value>Oyun yolu kaydetme başarısız</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>Seçilen klasör boş değil, mevcut dosyaların üzerine yazılacak</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>Veri Dosyalarını Kopyala</value>
+  </data>
+  <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
+    <value>Geçerli veri dizini '{0}', bir veya daha fazla yeniden ayrıştırma noktası (Reparse point) içeriyor ve bu da veri klasörüne bağlı bazı işlevlerin düzgün çalışmamasına neden olabilir, lütfen yolu değiştirmek için ayarlara gidin.</value>
+  </data>
+  <data name="ViewModelUIGFExportError" xml:space="preserve">
+    <value>Dışa aktarma başarısız</value>
+  </data>
+  <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
+    <value>Dışa aktarma başarılı</value>
+  </data>
+  <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
+    <value>İçe aktarılan UIGF dosyaları, yinelenen UID'ye sahip dilek kayıtları içeriyor</value>
+  </data>
+  <data name="ViewModelUIGFImportError" xml:space="preserve">
+    <value>İçe aktarma başarısız</value>
+  </data>
+  <data name="ViewModelUIGFImportingProgressTitle" xml:space="preserve">
+    <value>İçe aktarılıyor</value>
+  </data>
+  <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
+    <value>İçe aktarılan UIGF dosyası dilek verisi içermiyor</value>
+  </data>
+  <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
+    <value>Veri içe aktarmak için lütfen en az bir UID seçin</value>
+  </data>
+  <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
+    <value>Başarıyla içe aktarıldı</value>
+  </data>
+  <data name="ViewModelUserAdded" xml:space="preserve">
+    <value>Kullanıcı [{0}] başarıyla eklendi</value>
+  </data>
+  <data name="ViewModelUserCookieCopied" xml:space="preserve">
+    <value>Kullanıcı [{0}] Çerez kopyalandı</value>
+  </data>
+  <data name="ViewModelUserIncomplete" xml:space="preserve">
+    <value>Bu Çerez eksik, işlem başarısız</value>
+  </data>
+  <data name="ViewModelUserInvalid" xml:space="preserve">
+    <value>Bu Çerez geçersiz, işlem başarısız</value>
+  </data>
+  <data name="ViewModelUserRemoved" xml:space="preserve">
+    <value>Kullanıcı [{0}] başarıyla kaldırıldı</value>
+  </data>
+  <data name="ViewModelUserUpdated" xml:space="preserve">
+    <value>Kullanıcı [{0}] Çerezi başarıyla güncellendi</value>
+  </data>
+  <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
+    <value>Sayfa kaynağı serbest bırakıldı, işlem iptal edildi</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadCompleteMessage" xml:space="preserve">
+    <value>Artık Snap Hutao kullanmaya başlayabilirsiniz</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadCompleteTitle" xml:space="preserve">
+    <value>İndirme tamamlandı</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
+    <value>Tamamlandı</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
+    <value>Yanıt akışı geçerli bir içerik türü içermiyor</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
+    <value>Sırada</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
+    <value>Dosya indirme istisnaları</value>
+  </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>Bu karakter için rehber bilgisi bulunmamaktadır</value>
+  </data>
+  <data name="ViewPageAchievementAddArchive" xml:space="preserve">
+    <value>Yeni Arşiv Oluştur</value>
+  </data>
+  <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
+    <value>Devam etmek için Yeni Arşiv Oluşturun</value>
+  </data>
+  <data name="ViewPageAchievementExportLabel" xml:space="preserve">
+    <value>Dışa Aktar</value>
+  </data>
+  <data name="ViewPageAchievementFilterDailyQuestItems" xml:space="preserve">
+    <value>Yalnızca Günlük Görev başarımları</value>
+  </data>
+  <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
+    <value>Panodan İçe Aktar</value>
+  </data>
+  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
+    <value>UIAF dosyasından içe aktar</value>
+  </data>
+  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 从游戏内导入</value>
+  </data>
+  <data name="ViewPageAchievementImportLabel" xml:space="preserve">
+    <value>İçe Aktar</value>
+  </data>
+  <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
+    <value>Mevcut Arşivi Sil</value>
+  </data>
+  <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
+    <value>Başarım adını, açıklamasını, sürümünü veya kimliğini ara</value>
+  </data>
+  <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
+    <value>Önce Tamamlanmamış Olanlar</value>
+  </data>
+  <data name="ViewPageAnnouncementActivity" xml:space="preserve">
+    <value>Etkinlik Duyurusu</value>
+  </data>
+  <data name="ViewPageAnnouncementGame" xml:space="preserve">
+    <value>Oyun Duyurusu</value>
+  </data>
+  <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
+    <value>Ayrıntıları Görüntüle</value>
+  </data>
+  <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
+    <value>Eser Puanı</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
+    <value>Tüm Karakterler ve Silahlar</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
+    <value>Mevcut Karakter ve Silah</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
+    <value>KRİT Puanı</value>
+  </data>
+  <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
+    <value>Henüz herhangi bir karakter bilgisi alınmadı</value>
+  </data>
+  <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
+    <value>Resim Olarak Dışa Aktar</value>
+  </data>
+  <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
+    <value>Metni panoya aktar</value>
+  </data>
+  <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
+    <value>Karakter Özellikleri</value>
+  </data>
+  <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
+    <value>Birincil Özellik</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshAction" xml:space="preserve">
+    <value>Senkronize Et</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromEnkaApi" xml:space="preserve">
+    <value>Oyun İçi Karakter Vitrininden Senkronize Et</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
+    <value>Oyun içi Karakter Vitrininden verileri senkronize et</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
+    <value>米游社 Geliştirme Hesaplayıcısından senkronize et</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
+    <value>Karakter yetenek verilerini senkronize et</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
+    <value>MiHoYo BBS Savaş Kaydından Senkronize Et</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
+    <value>Karakter yetenekleri dışındaki çoğu veriyi senkronize et</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
+    <value>Yenileme Zamanı</value>
+  </data>
+  <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
+    <value>Puan</value>
+  </data>
+  <data name="ViewPageAvatarPropertySecondaryProperties" xml:space="preserve">
+    <value>Geliştirilmiş Özellik</value>
+  </data>
+  <data name="ViewPageCultivateCalculate" xml:space="preserve">
+    <value>Geliştirme Planı</value>
+  </data>
+  <data name="ViewPageCultivationAddProject" xml:space="preserve">
+    <value>Yeni Plan Oluştur</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectAction" xml:space="preserve">
+    <value>Oluştur</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
+    <value>Devam etmek için bir Yetiştirme Planı oluşturun</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
+    <value>Daha sonra diğer sayfalardan geliştirme planı öğeleri ekleyebilirsiniz</value>
+  </data>
+  <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
+    <value>Karakterlerimi ve silahlarımı Geliştirme Planına ekle</value>
+  </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>Envanter Öğelerini Temizle</value>
+  </data>
+  <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
+    <value>Geliştirme Öğeleri</value>
+  </data>
+  <data name="ViewPageCultivationInventoryItem" xml:space="preserve">
+    <value>Envanter Öğeleri</value>
+  </data>
+  <data name="ViewPageCultivationMaterialList" xml:space="preserve">
+    <value>Materyal Kontrol Listesi</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListIncompleteFirstLabel" xml:space="preserve">
+    <value>Toplanmayanlar Önce</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListResinStatisticsLabel" xml:space="preserve">
+    <value>Reçine Tahmini</value>
+  </data>
+  <data name="ViewPageCultivationMaterialListWorldLevelTitle" xml:space="preserve">
+    <value>Dünya Seviyesi</value>
+  </data>
+  <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
+    <value>Materyal İstatistikleri</value>
+  </data>
+  <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
+    <value>Git</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
+    <value>Envanter Öğelerini Senkronize Et</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
+    <value>通过养成计算器同步</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 同步</value>
+  </data>
+  <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
+    <value>Listeyi Sil</value>
+  </data>
+  <data name="ViewPageCultivationRemoveProject" xml:space="preserve">
+    <value>Mevcut Planı Sil</value>
+  </data>
+  <data name="ViewPageCultivationWikiAvatarDescription" xml:space="preserve">
+    <value>Geliştirme Planına herhangi bir karakter ekle</value>
+  </data>
+  <data name="ViewPageCultivationWikiWeaponDescription" xml:space="preserve">
+    <value>Geliştirme Planına herhangi bir silah ekle</value>
+  </data>
+  <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
+    <value>Gerçek Zamanlı Not Ekle</value>
+  </data>
+  <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
+    <value>Periyodik olarak yenilemek için Gerçek Zamanlı Not ekle</value>
+  </data>
+  <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="ViewPageDailyNoteAttendanceStatusInfo" xml:space="preserve">
+    <value>Karşılaşma Puanları Durumu</value>
+  </data>
+  <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
+    <value>Gerçek Zamanlı Notu yeniledikten sonra verileri belirli bir Web kancasına gönder</value>
+  </data>
+  <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
+    <value>Web kancasını yapılandır</value>
+  </data>
+  <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
+    <value>Veri Birlikte Çalışabilirliği</value>
+  </data>
+  <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
+    <value>Bildirim</value>
+  </data>
+  <data name="ViewPageDailyNoteNotificationSetting" xml:space="preserve">
+    <value>Bildirim Ayarları</value>
+  </data>
+  <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
+    <value>Snap Hutao'nun bildirim izni devre dışı bırakıldı</value>
+  </data>
+  <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
+    <value>Hemen Yenile</value>
+  </data>
+  <data name="ViewPageDailyNoteRefreshTime" xml:space="preserve">
+    <value>Yenileme Aralığı</value>
+  </data>
+  <data name="ViewPageDailyNoteReminderDescription" xml:space="preserve">
+    <value>Bildirimin kullanıcı işlem yapana kadar ekranda kalmasını ve genişletilmesini sağlar</value>
+  </data>
+  <data name="ViewPageDailyNoteReminderHeader" xml:space="preserve">
+    <value>Hatırlatıcı Bildirimleri</value>
+  </data>
+  <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
+    <value>Rolü Kaldır</value>
+  </data>
+  <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
+    <value>Bu Hafta Harcanan Yarı Fiyat İndirim Sayısı</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
+    <value>Otomatik Yenile</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
+    <value>Seçilen süreden sonra eklenen Gerçek Zamanlı Notları yenile</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
+    <value>Bu seçeneklerin yalnızca yönetici olmayan modda değiştirilmesine izin verilir</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
+    <value>Bildirim alanı simgesi devre dışı, Snap Hutao kapatıldıktan sonra otomatik yenileme çalışmayacak</value>
+  </data>
+  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+    <value>Genshin oynarken beni rahatsız etme</value>
+  </data>
+  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+    <value>Rahatsız Etmeyin Modu</value>
+  </data>
+  <data name="ViewPageDailyNoteStartGameToolTip" xml:space="preserve">
+    <value>Oyunu Başlat</value>
+  </data>
+  <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
+    <value>Uzun Süreli Deneyim Puanları</value>
+  </data>
+  <data name="ViewPageDailyNoteVerify" xml:space="preserve">
+    <value>Geçerli Kullanıcıyı ve Rolü Doğrula</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>Soruları ve önerileri arayın</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>Temel Bilgiler</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>Faydalı Bağlantılar</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
+    <value>Mevcut Proxy</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
+    <value>Proxy Yok</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>Muaf Tutuldu</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>Loopback Sınırlamasını Yapılandır</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>Bizimle iletişimde kalın</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>Özellik Belgeleri</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>GitHub'da bildirilen sorunlara her zaman öncelik veriyoruz</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>Geliştirme Yol Haritası</value>
+  </data>
+  <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
+    <value>Arama Sonucu Yok</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>Snap Hutao Hizmet Kullanılabilirlik Monitörü</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>Snap Hutao Hizmetleri</value>
+  </data>
+  <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
+    <value>Tam Yenileme</value>
+  </data>
+  <data name="ViewPageGachaLogExportAction" xml:space="preserve">
+    <value>Dışa Aktar</value>
+  </data>
+  <data name="ViewPageGachaLogHint" xml:space="preserve">
+    <value>Henüz herhangi bir dilek kaydı alınmadı</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
+    <value>Snap Hutao Cloud</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
+    <value>İlgili hizmetleri satın almak için Afdian'a gidin</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
+    <value>Hutao Cloud Hizmetleri Satın Al / Yenile</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
+    <value>Bu UID'nin bulut arşivini sil</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
+    <value>Geliştirici hesabı hizmet bitiş süresini dikkate almaz</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
+    <value>Snap Hutao Cloud kaydı yok</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
+    <value>Snap Hutao Cloud hizmet süresi yetersiz</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
+    <value>Bu UID'nin bulut arşivini indir</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
+    <value>Her spiral Abyss ilk yüklemesinde 3 günlük ücretsiz süre kazanın</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
+    <value>Abyss Kayıtlarını Yükle</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudUpload" xml:space="preserve">
+    <value>Mevcut dilek arşivini yükle</value>
+  </data>
+  <data name="ViewPageGachaLogImportAction" xml:space="preserve">
+    <value>İçe Aktar</value>
+  </data>
+  <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
+    <value>Diğer Uygulamalardan Veri İçe Aktar</value>
+  </data>
+  <data name="ViewPageGachaLogImportExportAction" xml:space="preserve">
+    <value>Kayıtları İçe/Dışa Aktar</value>
+  </data>
+  <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
+    <value>UIGF Json İçe Aktar</value>
+  </data>
+  <data name="ViewPageGachaLogInputAction" xml:space="preserve">
+    <value>Giriş</value>
+  </data>
+  <data name="ViewPageGachaLogOrangeAvatarCountdown" xml:space="preserve">
+    <value>Beş Yıldızlı Karakterler</value>
+  </data>
+  <data name="ViewPageGachaLogOrangeWeaponCountdown" xml:space="preserve">
+    <value>Beş Yıldızlı Silahlar</value>
+  </data>
+  <data name="ViewPageGachaLogPivotCountdown" xml:space="preserve">
+    <value>Geri Sayım</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleAvatarCountdown" xml:space="preserve">
+    <value>Dört Yıldızlı Karakterler</value>
+  </data>
+  <data name="ViewPageGachaLogPurpleWeaponCountdown" xml:space="preserve">
+    <value>Dört Yıldızlı Silahlar</value>
+  </data>
+  <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
+    <value>Snap Hutao Bulutu'ndan Dilek Kayıtlarını Kurtar</value>
+  </data>
+  <data name="ViewPageGachaLogRefresh" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshAction" xml:space="preserve">
+    <value>Getir</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
+    <value>URL'yi manuel olarak girin</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
+    <value>Sağladığınız dilek geçmişi URL'sini kullanarak kaydı yenileyin</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
+    <value>SToken Yenile</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshBySTokenDescription" xml:space="preserve">
+    <value>Dilek geçmişini getirmek için mevcut kullanıcının çerez bilgilerini kullanın</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
+    <value>Web Önbelleği ile Yenile</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
+    <value>Dilek geçmişini yenilemek için gömülü tarayıcı önbelleğini kullanın</value>
+  </data>
+  <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
+    <value>Mevcut Arşivi Sil</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
+    <value>Karakter</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
+    <value>Geçmiş</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
+    <value>Genel Bakış</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+    <value>Küresel Dilek İstatistikleri</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
+    <value>Silah</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
+    <value>Snap Hutao senin için oyunu {0} kez başlattı</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
+    <value>Snap Hutao'yu {0} kez başlattın</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
+    <value>Gezgin, Teyvat kıtasına hoş geldin!</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
+    <value>Haklısın, ama Snap Hutao, DGP Studio tarafından bağımsız olarak geliştirilmiş bir...</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
+    <value>Şey, Gezgin, Teyvat kıtasına geldiğin {0}. günün kutlu olsun</value>
+  </data>
+  <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverview" xml:space="preserve">
+    <value>Detaylar</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewAvatarAppearanceRank" xml:space="preserve">
+    <value>Karakter Görünümü</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewAvatarConstellation" xml:space="preserve">
+    <value>Karakter Takımyıldızı</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewAvatarUsageRank" xml:space="preserve">
+    <value>Karakter Kullanımı</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation0" xml:space="preserve">
+    <value>C 0</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation1" xml:space="preserve">
+    <value>C 1</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation2" xml:space="preserve">
+    <value>C 2</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation3" xml:space="preserve">
+    <value>C 3</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation4" xml:space="preserve">
+    <value>C 4</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation5" xml:space="preserve">
+    <value>C 5</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation6" xml:space="preserve">
+    <value>C 6</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellationAvatar" xml:space="preserve">
+    <value>Karakter</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellationHolding" xml:space="preserve">
+    <value>Sahip Olunan</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewDataCollect" xml:space="preserve">
+    <value>Toplanan Veri İstatistikleri</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewRecordTotal" xml:space="preserve">
+    <value>Yüklenen Kayıt Sayısı</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewRefreshTime" xml:space="preserve">
+    <value>Veri Yenileme Zamanı</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyss" xml:space="preserve">
+    <value>Spiral Abyss Veri İstatistikleri</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage" xml:space="preserve">
+    <value>Ortalama Savaş Sayısı</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar" xml:space="preserve">
+    <value>Tam Yıldız Spiral Abyss Kayıtları</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssPassed" xml:space="preserve">
+    <value>Geçilen Spiral Abyss Kayıtları</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage" xml:space="preserve">
+    <value>Ortalama Kazanılan Yıldız</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssTotal" xml:space="preserve">
+    <value>Toplam Spiral Abyss Kayıtları</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
+    <value>Takım Görünümü</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudDescription" xml:space="preserve">
+    <value>Süre edindikten sonra, daha iyi bir deneyim için Snap Hutao sürümünü güncellerken Çin CDN yansımasını seçebileceksiniz.</value>
+  </data>
+  <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
+    <value>Snap Hutao Cloud CDN Hizmeti</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
+    <value>Süre edindikten sonra, sunucumuz aracılığıyla en fazla 5 UID için dilek kayıtlarını indirebilir/yükleyebilir/silebilirsiniz. Spiral Abyss sayfasında, her mücadelede ilk kez kayıt yüklerken ücretsiz süre alırsınız!</value>
+  </data>
+  <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
+    <value>Snap Hutao Bulut İstek Kaydı Hizmeti</value>
+  </data>
+  <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
+    <value>Giriş Yap</value>
+  </data>
+  <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
+    <value>Yeni bir e-posta adresi girin</value>
+  </data>
+  <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
+    <value>Lütfen şifrenizi girin</value>
+  </data>
+  <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
+    <value>En az 8 karakter olmalı</value>
+  </data>
+  <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
+    <value>Lütfen kupon kodunu girin</value>
+  </data>
+  <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
+    <value>Kaydol</value>
+  </data>
+  <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
+    <value>Şifreyi Sıfırla</value>
+  </data>
+  <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
+    <value>Sponsor Ol</value>
+  </data>
+  <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
+    <value>Hesabın silinmesi verilerin kalıcı olarak kaybolmasına ve kurtarılamamasına neden olur</value>
+  </data>
+  <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
+    <value>Lütfen e-postanızı girin</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
+    <value>Doğrulama Kodu Al</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
+    <value>Lütfen doğrulama kodunu girin</value>
+  </data>
+  <data name="ViewPageLaunchGameAction" xml:space="preserve">
+    <value>Oyunu Başlat</value>
+  </data>
+  <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
+    <value>Gelişmiş Özellikler</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
+    <value>Belirtilen çözünürlüğe hızla geçin ve mevcut çözünürlüğü kaydetmek için oyunu başlatın</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
+    <value>Ekran Çözünürlüğü</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
+    <value>Hızlı Çözünürlük Ayarı</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
+    <value>Pencereyi çerçevesiz bir açılır pencere olarak oluştur</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
+    <value>Çerçevesiz</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
+    <value>Dahili dokunmatik düzenini etkinleştir, klavye ve fare girişi kullanılamaz</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
+    <value>Gömülü tarayıcılarla uyumsuz; pencere değiştirme gibi işlemler oyunun çökmesine neden olabilir</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
+    <value>Tam Ekran</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
+    <value>Varsayılan tam ekran durumunu geçersiz kıl</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceFullscreenHeader" xml:space="preserve">
+    <value>Tam Ekran</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceHeader" xml:space="preserve">
+    <value>Görünüm</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
+    <value>Varsayılan ekran yüksekliğini geçersiz kıl</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenHeightHeader" xml:space="preserve">
+    <value>Yükseklik</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenWidthDescription" xml:space="preserve">
+    <value>Varsayılan ekran genişliğini geçersiz kıl</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
+    <value>Genişlik</value>
+  </data>
+  <data name="ViewPageLaunchGameArgumentsDescription" xml:space="preserve">
+    <value>Oyun başlatılırken varsayılan davranışını değiştir</value>
+  </data>
+  <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
+    <value>Başlatma Parametreleri</value>
+  </data>
+  <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
+    <value>Oyun başlatıldıktan sonra otomatik görevler için Better GI'yi başlatmayı ve kullanmayı dene</value>
+  </data>
+  <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
+    <value>Otomatik Görevler</value>
+  </data>
+  <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
+    <value>Hata kodu 31-4302 oluştuğunda bu seçeneği etkinleştirin</value>
+  </data>
+  <data name="ViewPageLaunchGameBypass31Dash4302Header" xml:space="preserve">
+    <value>Beni içeri al!</value>
+  </data>
+  <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
+    <value>Oyun başladıktan sonra tekrar geçiş yapılamaz</value>
+  </data>
+  <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
+    <value>Genel</value>
+  </data>
+  <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
+    <value>Tüm seçenekler yalnızca oyun başarıyla başlatıldıktan sonra kaydedilecektir.</value>
+  </data>
+  <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
+    <value>Enjeksiyon çok tehlikelidir ve ciddi sonuçlara yol açabilir, lütfen dikkatli kullanın</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
+    <value>Işık işlemelerinde sisi kaldır</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
+    <value>Sisi kaldır</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
+    <value>Kalsın</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
+    <value>Kaldır</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>Oyundayken Discord Aktivite durumumu ayarla</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Discord Aktivitesi</value>
+  </data>
+  <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
+    <value>Oyun dosyası yönetimi/oyun sunucusunu değiştirme/enjeksiyon özelliği için yönetici izni gerekiyor</value>
+  </data>
+  <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
+    <value>Karakter/Takım Yapılandırması/Dilek/Savaş Bileti gibi özel arayüzlerin görüş alanını düzeltin</value>
+  </data>
+  <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
+    <value>Özel Arayüz Düzeltmesi</value>
+  </data>
+  <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
+    <value>Oyun başladıktan sonra gerçek zamanlı geçişler yapılabilir</value>
+  </data>
+  <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
+    <value>Bazı gelişmiş ama tehlikeli işlevleri gerçekleştirmek için mesaj modülünü oyuna enjekte edin</value>
+  </data>
+  <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
+    <value>Enjeksiyon</value>
+  </data>
+  <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
+    <value>Süreç Bağlantısı</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
+    <value>Belirtilen ekranda çalıştır</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
+    <value>Ekran</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
+    <value>Aynı anda birden fazla oyun istemcisi çalıştır</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesHeader" xml:space="preserve">
+    <value>Çoklu İstemci</value>
+  </data>
+  <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
+    <value>Oyun Seçenekleri</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
+    <value>Oyunu Yükle</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationPredownload" xml:space="preserve">
+    <value>Ön İndirme</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
+    <value>Ön indirme tamamlandı</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
+    <value>Oyunu Güncelle</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationVerify" xml:space="preserve">
+    <value>Oyunu Onar</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
+    <value>Oyun başlatıldıktan sonra oyun süresi istatistikleri için Snap Hutao'yu başlatmayı ve kullanmayı dene</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
+    <value>Oyun Süresi Kaydı</value>
+  </data>
+  <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
+    <value>İşlem</value>
+  </data>
+  <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
+    <value>Kayıt Defteri</value>
+  </data>
+  <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
+    <value>Takım Yapılandırması Soğuk Anahtarı</value>
+  </data>
+  <data name="ViewPageLaunchGameRemoveOpenTeamProgressDescription" xml:space="preserve">
+    <value>Takım yapılandırma ekranı açılırken görüntülenen ilerleme çubuğunu kaldırın</value>
+  </data>
+  <data name="ViewPageLaunchGameRemoveOpenTeamProgressHeader" xml:space="preserve">
+    <value>Takım Yapılandırması İlerleme Çubuğunu Kaldır</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
+    <value>OTA Paketi</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceHeader" xml:space="preserve">
+    <value>Kaynak İndirme</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
+    <value>Tam Paket</value>
+  </data>
+  <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
+    <value>Ön İndirme</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>Oyun Yolunu Seç</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
+    <value>Bu hesap, Gerçek Zamanlı Not bildirimi UID'sine henüz bağlanmadı.</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
+    <value>Mevcut kullanıcı ve rolü bağla</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
+    <value>Oyun içinde hesap değiştirildikten veya ağ ortamı değiştiğinde manuel olarak yeniden algılama yapmanız gerekir.</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
+    <value>Algıla</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
+    <value>Hesabı Algıla</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountRenameToolTip" xml:space="preserve">
+    <value>Yeniden Adlandır</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
+    <value>Oyun sunucusunu değiştir (Çin / Bilibili / Global)</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
+    <value>Sunucu</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
+    <value>Sürümü güncellemeden önce başlatıcıyla eşleşen bir sunucuya geçiş yapmanız gerekir</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
+    <value>Görüş Alanı Soğuk Anahtarı</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
+    <value>Kamera görüş alanını ayarla, varsayılan 45</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovHeader" xml:space="preserve">
+    <value>Görüş alanını ayarla</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovHotSwitchHeader" xml:space="preserve">
+    <value>Görüş Alanı Hızlı Geçişi</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsHeader" xml:space="preserve">
+    <value>Hedef Kare Hızı</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFpsHotSwitchHeader" xml:space="preserve">
+    <value>Kare Hızı Hızlı Geçişi</value>
+  </data>
+  <data name="ViewPageLaunchGameTooltipDescriptionHint" xml:space="preserve">
+    <value>Ayrıntıları görmek için fareyi özellik anahtarının/metin kutusunun üzerine getirin</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
+    <value>Lütfen oyun içinde "Dikey Senkronizasyon" seçeneğini kapatın, daha yüksek kare hızını desteklemek için yüksek performanslı bir GPU gerekir ve sınırsız kare hızı için değeri -1 olarak ayarlayın</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
+    <value>Kare Hızı Sınırını Kaldır</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
+    <value>Kare hızının kilidini açma şeklini değiştir</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
+    <value>Kilit Açma Yöntemi</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
+    <value>31-4302 hata kodu oluştuğunda bu seçeneği etkinleştirin. Etkinleştirildiğinde, görüş alanı ve sis ayarı yalnızca oyun başlamadan önce devre dışı bırakılır.</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
+    <value>Uyumluluk modu</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
+    <value>Devre Dışı</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
+    <value>Etkin</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
+    <value>Şu anda seçili olan 米游社 / HoYoLAB kullanıcısı ile oturum açın. Başlatma parametreleri etkinleştirilmelidir</value>
+  </data>
+  <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
+    <value>MiYouShe / HoYoLAB kullanıcı girişiyle oturum açın</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>Daha parlak, canlı ve ayrıntılı görüntüler için yüksek dinamik aralığı destekleyen monitörlerden yararlanın</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
+  </data>
+  <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
+    <value>Lütfen HoYoLAB UID'nizi girin</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
+    <value>MiHoYo hesabınıza giriş yapmak için sağladığımız gömülü bir web görünümü kullanıyorsunuz, "Giriş Yaptım" düğmesine tıkladığınızda istemci Çerez verilerini alacaktır. Bu web görünümünde başlatılan tüm ağ iletişimleri yalnızca bilgisayarınız ve MiHoYo resmi sunucuları arasında gerçekleşir.</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
+    <value>Giriş Yaptım</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
+    <value>Aşağıdaki pencerede miHoYo BBS hesabınızla oturum açın</value>
+  </data>
+  <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
+    <value>Ekran Görüntüleri Klasörünü Aç</value>
+  </data>
+  <data name="ViewPageResetGamePathAction" xml:space="preserve">
+    <value>Oyun Yolunu Seç</value>
+  </data>
+  <data name="ViewPageRoleCombatAvatarSupportHint" xml:space="preserve">
+    <value>Destek</value>
+  </data>
+  <data name="ViewPageRoleCombatAvatarTrialHint" xml:space="preserve">
+    <value>Deneme</value>
+  </data>
+  <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
+    <value>Yedek Oyuncular</value>
+  </data>
+  <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
+    <value>Fantastik Kutsamalar</value>
+  </data>
+  <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
+    <value>Gizemli Ödül</value>
+  </data>
+  <data name="ViewPageRoleCombatCoinNumber" xml:space="preserve">
+    <value>Kullanılan "Fantasia Çiçekleri"</value>
+  </data>
+  <data name="ViewPageRoleCombatInitialAvatarsHeader" xml:space="preserve">
+    <value>Açılış Karakterleri</value>
+  </data>
+  <data name="ViewPageRoleCombatMaxRound" xml:space="preserve">
+    <value>En İyi Kayıt</value>
+  </data>
+  <data name="ViewPageRoleCombatMedalRound" xml:space="preserve">
+    <value>Yıldız Meydan Okuma Nişanları</value>
+  </data>
+  <data name="ViewPageRoleCombatNotEngagedHeader" xml:space="preserve">
+    <value>Henüz performans verisi yok</value>
+  </data>
+  <data name="ViewPageRoleCombatShortest" xml:space="preserve">
+    <value>En hızlı performans</value>
+  </data>
+  <data name="ViewPageRoleCombatSpecialAvatarsHeader" xml:space="preserve">
+    <value>Özel Konuk Karakterler</value>
+  </data>
+  <data name="ViewPageRoleCombatSplendourBuffsHeader" xml:space="preserve">
+    <value>Görkemli Kutsamalar</value>
+  </data>
+  <data name="ViewPageRoleCombatStatAvatarBonus" xml:space="preserve">
+    <value>Harici İzleyici Desteği</value>
+  </data>
+  <data name="ViewPageRoleCombatStatRent" xml:space="preserve">
+    <value>Destekleme Sayısı</value>
+  </data>
+  <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
+    <value>Toplam Süre</value>
+  </data>
+  <data name="ViewPageSettingAboutHeader" xml:space="preserve">
+    <value>Snap Hutao Hakkında</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
+    <value>Haftanın ilk gününü seçin</value>
+  </data>
+  <data name="ViewPageSettingApperanceFirstDayOfWeekHeader" xml:space="preserve">
+    <value>Haftanın İlk Günü</value>
+  </data>
+  <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
+    <value>Görünüm</value>
+  </data>
+  <data name="ViewPageSettingApperanceLanguageDescription" xml:space="preserve">
+    <value>Sunulan dili ayarla</value>
+  </data>
+  <data name="ViewPageSettingApperanceLanguageHeader" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
+    <value>Pencerenin arka plan materyalini değiştir</value>
+  </data>
+  <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
+    <value>Arka Plan Materyali</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
+    <value>Resim Telif Hakkı Bilgisi</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
+    <value>Duvar kağıdının kaynağını değiştirin, değişikliği uygulamak için Snap Hutao'yu yeniden başlatın</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
+    <value>Arka Plan Resmi</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
+    <value>Mevcut arka plan yerel bir resimdir, telif hakkı sorunlarından kullanıcı sorumludur.</value>
+  </data>
+  <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
+    <value>Resim önbelleği buraya kaydedilir</value>
+  </data>
+  <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
+    <value>Önbellek Klasörü</value>
+  </data>
+  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
+    <value>Snap Hutao Pasaportu</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
+    <value>Kompakt Sayfa Penceresi</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
+    <value>Pencerenin opaklığını ayarlayın, pencereyi bir sonraki açışınızda geçerli olacaktır</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
+    <value>Pencere Opaklığı</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
+    <value>Video hızlı ileri sarma kısayol tuşunu değiştirin</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardHeader" xml:space="preserve">
+    <value>Video Hızlı İleri Sarma</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindDescription" xml:space="preserve">
+    <value>Video ileri sarma ve geri sarma süresini değiştir</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoFastForwardOrRewindHeader" xml:space="preserve">
+    <value>İleri veya Geri Sar</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseDescription" xml:space="preserve">
+    <value>Video oynatma ve duraklatma kısayol tuşlarını değiştirin</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoPlayPauseHeader" xml:space="preserve">
+    <value>Video Oynatma Duraklatıldı</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindDescription" xml:space="preserve">
+    <value>Videoyu geri sarma kısayol tuşunu değiştir</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2VideoRewindHeader" xml:space="preserve">
+    <value>Videoyu Geri Sar</value>
+  </data>
+  <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
+    <value>Kopyala</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
+    <value>Oluştur</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
+    <value>Masaüstünde yönetici ayrıcalıklarıyla varsayılan kısayol oluştur</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
+    <value>Masaüstü Kısayolu Oluştur</value>
+  </data>
+  <data name="ViewPageSettingDangerousAction" xml:space="preserve">
+    <value>Çalıştır</value>
+  </data>
+  <data name="ViewPageSettingDangerousHeader" xml:space="preserve">
+    <value>Tehlikeli Özellikler</value>
+  </data>
+  <data name="ViewPageSettingDangerousHint" xml:space="preserve">
+    <value>Geliştirici özellikle yapmanı istemedikçe, aşağıdaki işlemleri çalıştırmamalısın!</value>
+  </data>
+  <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
+    <value>Kullanıcı verileri/meta verileri burada saklanır</value>
+  </data>
+  <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
+    <value>Veri Klasörü</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheDescription" xml:space="preserve">
+    <value>Dilek geçmişi yenilemesi sırasında sık sık doğrulama anahtarı süresinin dolduğu hatası alıyorsan, bu işlemi deneyebilirsin</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
+    <value>Oyun İçi Gömülü Tarayıcı Web Önbelleğini Sil</value>
+  </data>
+  <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
+    <value>Belirli hesap çakışması sorunlarını düzeltmek için kullanıcı tablosundaki tüm kayıtları doğrudan sil</value>
+  </data>
+  <data name="ViewPageSettingDeleteUserHeader" xml:space="preserve">
+    <value>Tüm Kullanıcıları Sil</value>
+  </data>
+  <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
+    <value>Cihaz ID</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
+    <value>IP: {0} Sunucu: {1}</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
+    <value>Cihaz IP</value>
+  </data>
+  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
+    <value>İndir</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>Yönetici modu, bazı özelliklerin kullanılabilirliğini ve davranışlarını etkileyecektir</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>Yönetici Modu</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>Yönetici Modu ile Yeniden Başlat</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
+    <value>Kayıt bulunmayan geçmiş dilek etkinliklerini dilek kayıtları sayfasında göster veya gizle</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleHeader" xml:space="preserve">
+    <value>Kayıt Bulunmayan Geçmiş Dilek Etkinliklerini Göster</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleOff" xml:space="preserve">
+    <value>Gizle</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
+    <value>Göster</value>
+  </data>
+  <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
+    <value>Genshin Impact Hizmet Şartlarını ihlal etme riski taşıyan 「Oyunu Başlat - Gelişmiş Özellikler」'in kilidini açtınız ve olumsuz sonuçların tüm sorumluluğunu üstlenirsiniz.</value>
+  </data>
+  <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
+    <value>Geri Bildirim Gönder</value>
+  </data>
+  <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
+    <value>Dilek Kayıtları</value>
+  </data>
+  <data name="ViewPageSettingGameHeader" xml:space="preserve">
+    <value>Oyun</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlAction" xml:space="preserve">
+    <value>Yapılandırma</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlDescription" xml:space="preserve">
+    <value>İnsan doğrulama tetiklendiğinde kullanılacak doğrulama arayüzünü yapılandırın</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlHeader" xml:space="preserve">
+    <value>Doğrulama İstek Arayüzünü Yapılandır</value>
+  </data>
+  <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
+    <value>Gizli Doğrulama</value>
+  </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionDescription" xml:space="preserve">
+    <value>Duyuruları almak istediğiniz oyun sunucusunu seçin</value>
+  </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
+    <value>Duyuru Oyun Sunucusu Kaynağı</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetDescription" xml:space="preserve">
+    <value>Materyal takviminde günün tarihini alırken kullanılacak oyun sunucusu saat dilimini seçin</value>
+  </data>
+  <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
+    <value>Takvim Sunucusu</value>
+  </data>
+  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+    <value>Ana sayfa gösterge panelindeki kartları yönetin</value>
+  </data>
+  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+    <value>Ana Sayfa Kartları</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+    <value>Başarım Yönetimi</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>Takvim</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+    <value>Gerçek Zamanlı Notlar</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>Dilek Kayıtları</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>Oyunu Başlat</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
+    <value>Gizle</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
+    <value>Göster</value>
+  </data>
+  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+    <value>Ana Sayfa</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
+    <value>Snap Hutao Bulutu CDN Geçerlilik Bitiş Zamanı</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
+    <value>İyice Düşünerek Devam Edin</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportDangerZoneHeader" xml:space="preserve">
+    <value>Tehlikeli Bölge</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
+    <value>Snap Hutao Bulutu Dilek Kaydı hizmeti sona erme zamanı</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
+    <value>Snap Hutao Pasaport Hesabı</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLicensedDeveloperDescription" xml:space="preserve">
+    <value>Herhangi bir Snap Hutao Bulut özelliğini sınırsızca kullanabilirsiniz</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLicensedDeveloperHeader" xml:space="preserve">
+    <value>Sertifikalı Geliştirici</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLoginAction" xml:space="preserve">
+    <value>Giriş Yap</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLogoutAction" xml:space="preserve">
+    <value>Çıkış Yap</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportMaintainerDescription" xml:space="preserve">
+    <value>Herhangi bir test özelliğini sınırsızca kullanabilirsiniz</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
+    <value>Snap Hutao Geliştiricisi / Bakımcısı</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
+    <value>Bazen bazı kullanıcılara Snap Hutao Bulut hediye kodları veriyoruz</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
+    <value>Hediye Kodunu Kullan</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRefreshAction" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
+    <value>Kaydol</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
+    <value>Şifreyi Değiştir</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetUserNameAction" xml:space="preserve">
+    <value>E-postayı değiştir</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
+    <value>Hesabı Sil</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
+    <value>Genshin Impact ve Snap Hutao kullanıcı sözleşmelerinin tamamını okuduktan sonra, 「Oyun Başlatıcı - Gelişmiş Özellikler」'i etkinleştirmeyi seçiyorum.</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
+    <value>Gelişmiş Özellikler</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
+    <value>Fare sol tuşu otomatik tıklama özelliğinin kısayol tuşunu değiştirin</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
+    <value>Fare sol tuşu otomatik tıklama</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingDescription" xml:space="preserve">
+    <value>Klavye F tuşu otomatik basma özelliğinin kısayol tuşunu değiştirin</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoPressingHeader" xml:space="preserve">
+    <value>Klavye F Tuşu Otomatik Basma</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
+    <value>Kısayol Tuşları</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
+    <value>Farklı işlevler için aynı kısayol tuşunu ayarlamak beklenmedik sonuçlara yol açabilir ve normal işlevi geri yüklemek için ek işlemler veya uygulamanın yeniden başlatılması gerekebilir.</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
+    <value>Arka plan görevlerine izin vermek için bildirim alanında simgeyi göster, etkinleştirmek için programı yeniden başlat</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
+    <value>Bildirim Alanı Simgesi</value>
+  </data>
+  <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
+    <value>Resmi Web Sitesine Git</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
+    <value>Özelleştirilmiş arka plan resmi, bmp/gif/ico/jpg/jpeg/png/tiff/webp formatlarını destekler</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
+    <value>Arka Plan Klasörünü Aç</value>
+  </data>
+  <data name="ViewPageSettingPackageConverterTypeHeader" xml:space="preserve">
+    <value>Sunucu Modunu Dönüştür</value>
+  </data>
+  <data name="ViewPageSettingResetAction" xml:space="preserve">
+    <value>Sıfırla</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceDescription" xml:space="preserve">
+    <value>Tüm resim kaynakları bir sonraki başlangıçta yeniden indirilecek</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
+    <value>Resim Kaynaklarını Sıfırla</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
+    <value>[Oyun Başlatıcı - İşlem Bağlantısı]'nda [Kare Hızı Sınırını Kaldır] seçeneğini ekle</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
+    <value>Oyun Başlatıcısı - Kare Hızı Sınırını Kaldır</value>
+  </data>
+  <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
+    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+  </data>
+  <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
+    <value>Veri Dizini Değiştir</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
+    <value>Yol Ayarla</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathHeader" xml:space="preserve">
+    <value>Oyun Yolu</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
+    <value>Oyun yolunu ayarlarken, lütfen başlatıcı (launcher.exe) yerine oyun uygulamasını (YuanShen.exe veya GenshinImpact.exe) seçin.</value>
+  </data>
+  <data name="ViewPageSettingShareSaveTypeDescription" xml:space="preserve">
+    <value>Paylaş düğmesine tıkladıktan sonra görüntüyü kaydetme modunu seçin</value>
+  </data>
+  <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
+    <value>Paylaş Kaydetme Modu</value>
+  </data>
+  <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
+    <value>Shell Deneyimi</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
+    <value>0, sınırsız hız anlamına gelir</value>
+  </data>
+  <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
+    <value>İndirme hızı sınırı</value>
+  </data>
+  <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
+    <value>Snap Hutao'ya Sponsor Olun</value>
+  </data>
+  <data name="ViewPageSettingStorageHeader" xml:space="preserve">
+    <value>Depolama</value>
+  </data>
+  <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
+    <value>Aç</value>
+  </data>
+  <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
+    <value>Ayarla</value>
+  </data>
+  <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
+    <value>Yazılımı Değerlendirin</value>
+  </data>
+  <data name="ViewPageSettingThemeDescription" xml:space="preserve">
+    <value>Pencere renk temasını değiştir</value>
+  </data>
+  <data name="ViewPageSettingThemeHeader" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
+    <value>Çevirilere Katkıda Bulun</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportContent" xml:space="preserve">
+    <value>Dışa Aktar</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
+    <value>UIGF 4 Dosyasını Dışa/İçe Aktar</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
+    <value>Veri Geçişi</value>
+  </data>
+  <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
+    <value>İçe Aktar</value>
+  </data>
+  <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
+    <value>UIGF dosyalarının eski sürümünü yükselt</value>
+  </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
+    <value>[Dilek Dışa Aktar - Karakterler] ve [Dilek Dışa Aktar - Silahlar]'da Çekilmeyen Öğeleri Görüntüle</value>
+  </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
+    <value>Çekilmemiş Dilek Öğeleri</value>
+  </data>
+  <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
+    <value>Mağaza Sayfasına Git</value>
+  </data>
+  <data name="ViewPageSettingWebview2Header" xml:space="preserve">
+    <value>WebView2 Çalışma Zamanı</value>
+  </data>
+  <data name="ViewPageSettingWebViewHeader" xml:space="preserve">
+    <value>WebView</value>
+  </data>
+  <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
+    <value>Alt Kısım</value>
+  </data>
+  <data name="ViewPageSpiralAbyssTeamAppearanceUpHeader" xml:space="preserve">
+    <value>Üst Kısım</value>
+  </data>
+  <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
+    <value>Eser Seti Kombinasyonu</value>
+  </data>
+  <data name="ViewPageWiKiAvatarAscensionMaterialsHeader" xml:space="preserve">
+    <value>Yükseltme Malzemeleri</value>
+  </data>
+  <data name="ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Karakter Filtrele</value>
+  </data>
+  <data name="ViewPageWiKiAvatarChineseCVNameTitle" xml:space="preserve">
+    <value>Çince Seslendirme</value>
+  </data>
+  <data name="ViewPageWiKiAvatarConstellationNameTitle" xml:space="preserve">
+    <value>Burç</value>
+  </data>
+  <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
+    <value>Kostüm</value>
+  </data>
+  <data name="ViewPageWiKiAvatarDateofBirthTitle" xml:space="preserve">
+    <value>Doğum Günü</value>
+  </data>
+  <data name="ViewPageWiKiAvatarEnglishCVNameTitle" xml:space="preserve">
+    <value>İngilizce Seslendirme</value>
+  </data>
+  <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
+    <value>Yemek</value>
+  </data>
+  <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
+    <value>Japonca Seslendirme</value>
+  </data>
+  <data name="ViewPageWiKiAvatarKoreanCVNameTitle" xml:space="preserve">
+    <value>Korece Seslendirme</value>
+  </data>
+  <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
+    <value>Diğer</value>
+  </data>
+  <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
+    <value>İsim Kartı</value>
+  </data>
+  <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
+    <value>Meslek</value>
+  </data>
+  <data name="ViewPageWiKiAvatarOriginalFoodTitle" xml:space="preserve">
+    <value>Orijinal Yemek</value>
+  </data>
+  <data name="ViewPageWiKiAvatarQuotesHeader" xml:space="preserve">
+    <value>Alıntılar</value>
+  </data>
+  <data name="ViewPageWiKiAvatarSpecialFoodTitle" xml:space="preserve">
+    <value>Özel Yemek</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
+    <value>Hikayeler</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Karakter Rehberi</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>米游社 Karakter Rehberleri</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>HoYoLAB Karakter Rehberleri</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
+    <value>Yetenek</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
+    <value>Takım Kombinasyonu</value>
+  </data>
+  <data name="ViewPageWiKiAvatarWeaponCombinationHeader" xml:space="preserve">
+    <value>Silah Kombinasyonu</value>
+  </data>
+  <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
+    <value>Geliştirme Planına Ekle</value>
+  </data>
+  <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Canavarları Filtrele</value>
+  </data>
+  <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
+    <value>Düşen Eşyalar</value>
+  </data>
+  <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
+    <value>Yükseliş Sonrası</value>
+  </data>
+  <data name="ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Silahları Filtrele</value>
+  </data>
+  <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
+    <value>Yükseliş Öncesi</value>
+  </data>
+  <data name="ViewRoleCombatHeader" xml:space="preserve">
+    <value>Hayali Tiyatro</value>
+  </data>
+  <data name="ViewServiceHutaoUserCdnNotAllowedDescription" xml:space="preserve">
+    <value>Hutao Cloud CDN etkinleştirilmedi veya süresi doldu</value>
+  </data>
+  <data name="ViewServiceHutaoUserCloudNotAllowedDescription" xml:space="preserve">
+    <value>Dilek geçmişi yedekleme hizmeti etkin değil veya süresi doldu</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
+    <value>Oturum açma başarısız, lütfen tekrar oturum açın</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
+    <value>Hemen oturum aç veya kaydol</value>
+  </data>
+  <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
+    <value>Snap Hutao başlatılırken konsolun açılıp açılmayacağını kontrol eder, yeniden başlatıldıktan sonra etkinleşir</value>
+  </data>
+  <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
+    <value>Hata Ayıklama Konsolu</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>Oyunu başlatırken sunucuyu dönüştürdükten sonra önbellek olarak kullanılmak üzere ilgili oyun istemci dosyaları oluşturulur</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>Sunucu Dönüştürme Önbelleğini Sil</value>
+  </data>
+  <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
+    <value>Klasörü Aç</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
+  <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
+    <value>Karakter Görünme Oranı = Bu Katta Karakterin Görünme Sayısı (kat içinde tekrar ederse yalnızca 1 kez sayılır) / Toplam Abyss Kayıt Sayısı</value>
+  </data>
+  <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
+    <value>Karakter Kullanım Oranı = Bu Katta Karakterin Görünme Sayısı (kat içinde tekrar ederse yalnızca 1 kez sayılır) / Bu Karaktere Sahip Olan Oyuncuların Abyss Kayıt Sayısı</value>
+  </data>
+  <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
+    <value>Savaş Verileri</value>
+  </data>
+  <data name="ViewSpiralAbyssBattleTimes" xml:space="preserve">
+    <value>Savaş Sayısı</value>
+  </data>
+  <data name="ViewSpiralAbyssDamage" xml:space="preserve">
+    <value>En Güçlü Vuruş</value>
+  </data>
+  <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
+    <value>Henüz herhangi bir meydan okuma kaydı alınmadı</value>
+  </data>
+  <data name="ViewSpiralAbyssDefeat" xml:space="preserve">
+    <value>En Fazla Yok Etme</value>
+  </data>
+  <data name="ViewSpiralAbyssDetail" xml:space="preserve">
+    <value>Aşamalar Detayı</value>
+  </data>
+  <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
+    <value>Element Patlamaları</value>
+  </data>
+  <data name="ViewSpiralAbyssHeader" xml:space="preserve">
+    <value>Sarmal Abyss</value>
+  </data>
+  <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
+    <value>Bu Dönem İstatistikleri</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>İkinci Yarı</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>İlk Yarı</value>
+  </data>
+  <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
+    <value>En Derin İniş</value>
+  </data>
+  <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
+    <value>Element Becerileri Kullanımı</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordBattleAvatars" xml:space="preserve">
+    <value>Mevcut Karakterler</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordMonsterAttacksMonolith" xml:space="preserve">
+    <value>Yeryüzü Damarı Monolitine Saldır</value>
+  </data>
+  <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
+    <value>Veriyi Yenile</value>
+  </data>
+  <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
+    <value>Sarmal Abyss mücadele kayıtlarını MiHoYo hesabıyla senkronize et</value>
+  </data>
+  <data name="ViewSpiralAbyssReveal" xml:space="preserve">
+    <value>Seçilme Sayısı</value>
+  </data>
+  <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
+    <value>İstatistikler</value>
+  </data>
+  <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
+    <value>En Fazla Alınan Hasar</value>
+  </data>
+  <data name="ViewSpiralAbyssTotalStar" xml:space="preserve">
+    <value>Kazanılan Abyss Yıldızı</value>
+  </data>
+  <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
+    <value>Veriyi Yükle</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
+    <value>Güncelleme İndirme Başarısız</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadTitle" xml:space="preserve">
+    <value>Snap Hutao {0} Sürümü Yayınlandı</value>
+  </data>
+  <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
+    <value>Şimdi kurulsun mu?</value>
+  </data>
+  <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
+    <value>Snap Hutao {0} sürümü hazır</value>
+  </data>
+  <data name="ViewTitleAutoClicking" xml:space="preserve">
+    <value>Otomatik Tıklama</value>
+  </data>
+  <data name="ViewTitleAutoPressing" xml:space="preserve">
+    <value>Otomatik Basma</value>
+  </data>
+  <data name="ViewTitleMetadataInitializing" xml:space="preserve">
+    <value>Meta veriler başlatılıyor</value>
+  </data>
+  <data name="ViewTitleUpdatePackageDownloadContent" xml:space="preserve">
+    <value>Şimdi indirilsin mi?</value>
+  </data>
+  <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
+    <value>Yeni Sürüm Yaması Yükleniyor</value>
+  </data>
+  <data name="ViewToolHeader" xml:space="preserve">
+    <value>Araçlar</value>
+  </data>
+  <data name="ViewUserCookieOperation" xml:space="preserve">
+    <value>米游社</value>
+  </data>
+  <data name="ViewUserCookieOperation2" xml:space="preserve">
+    <value>HoYoLAB</value>
+  </data>
+  <data name="ViewUserCookieOperation3" xml:space="preserve">
+    <value>Mevcut kullanıcı</value>
+  </data>
+  <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
+    <value>Resmi Araçlar</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
+    <value>Hesap şifresiyle oturum aç</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
+    <value>Üçüncü taraf oturum açma</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
+    <value>Web Girişi</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
+    <value>Telefon Doğrulama Kodu</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
+    <value>QR kodu ile giriş yap</value>
+  </data>
+  <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
+    <value>Manuel Giriş</value>
+  </data>
+  <data name="ViewUserCookieOperationRefreshCookieAction" xml:space="preserve">
+    <value>Çerezi Yenile</value>
+  </data>
+  <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
+    <value>Günlük Giriş Ödülünü Al</value>
+  </data>
+  <data name="ViewUserCopyCookieAction" xml:space="preserve">
+    <value>Çerezi Kopyala</value>
+  </data>
+  <data name="ViewUserDefaultDescription" xml:space="preserve">
+    <value>Lütfen önce giriş yapın</value>
+  </data>
+  <data name="ViewUserDocumentationHeader" xml:space="preserve">
+    <value>Belgeler</value>
+  </data>
+  <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
+    <value>MiYouShe güvenlik politikası değişiklikleri nedeniyle, web'den giriş şu anda kullanılamıyor</value>
+  </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>Giriş yapılmadı</value>
+  </data>
+  <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
+    <value>CookieToken başarıyla yenilendi</value>
+  </data>
+  <data name="ViewUserRefreshCookieTokenWarning" xml:space="preserve">
+    <value>CookieToken yenileme başarısız oldu</value>
+  </data>
+  <data name="ViewUserRemoveAction" xml:space="preserve">
+    <value>Kullanıcıyı Kaldır</value>
+  </data>
+  <data name="ViewUserRole" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="ViewUserUser" xml:space="preserve">
+    <value>Kullanıcı</value>
+  </data>
+  <data name="ViewWelcomeBase" xml:space="preserve">
+    <value>En temel görüntü kaynaklarını sizin için indiriyoruz</value>
+  </data>
+  <data name="ViewWelcomeBody" xml:space="preserve">
+    <value>Bilgisayarınızı hiçbir etki olmadan kullanmaya devam edebilirsiniz</value>
+  </data>
+  <data name="ViewWelcomeSubtitle" xml:space="preserve">
+    <value>Lütfen uygulamayı kapatmayın</value>
+  </data>
+  <data name="ViewWelcomeTitle" xml:space="preserve">
+    <value>Snap Hutao'ya hoş geldiniz</value>
+  </data>
+  <data name="ViewWikiAvatarHeader" xml:space="preserve">
+    <value>Karakter WIKI</value>
+  </data>
+  <data name="ViewWikiMonsterHeader" xml:space="preserve">
+    <value>Canavar WIKI</value>
+  </data>
+  <data name="ViewWikiWeaponHeader" xml:space="preserve">
+    <value>Silah WIKI</value>
+  </data>
+  <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
+    <value>Kompakt web penceresi (Yalnızca Yönetici)</value>
+  </data>
+  <data name="ViewWindowExceptionDescription" xml:space="preserve">
+    <value>Lütfen bu pencerenin ekran görüntüsünü alın, geri bildirim merkezinde uygun geri bildirim kanalını bulun ve geliştirme ekibine gönderin</value>
+  </data>
+  <data name="ViewWindowExceptionHeader" xml:space="preserve">
+    <value>Kurtarılamayan, kritik bir hata oluştu</value>
+  </data>
+  <data name="ViewWindowExceptionTitle" xml:space="preserve">
+    <value>Bir sorunla karşılaştık</value>
+  </data>
+  <data name="ViewWindowScriptingExecute" xml:space="preserve">
+    <value>Çalıştır</value>
+  </data>
+  <data name="ViewWindowScriptingTitle" xml:space="preserve">
+    <value>Hata Ayıklama Komut Dosyasını Yürüt</value>
+  </data>
+  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+    <value>{0} gün sonra başlayacak</value>
+  </data>
+  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+    <value>{0} gün sonra sona erecek</value>
+  </data>
+  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+    <value>{0} saat sonra başlayacak</value>
+  </data>
+  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+    <value>{0} saat sonra sona erecek</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>Pano açma başarısız oldu</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
+    <value>Panoya kopyalandı</value>
+  </data>
+  <data name="WebBridgeShareFilePickerTitle" xml:space="preserve">
+    <value>Paylaşılan görseli kaydet</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileFailed" xml:space="preserve">
+    <value>Görsel kaydetme başarısız</value>
+  </data>
+  <data name="WebBridgeShareSaveAsFileSuccess" xml:space="preserve">
+    <value>Görsel başarıyla kaydedildi</value>
+  </data>
+  <data name="WebBridgeShareSaveKindCopyToClipboard" xml:space="preserve">
+    <value>Panoya kopyala</value>
+  </data>
+  <data name="WebBridgeShareSaveKindSaveAsFile" xml:space="preserve">
+    <value>Dosya olarak kaydet</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
+    <value>Tüm Archon Görevleri Tamamlandı</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
+    <value>Tamamlandı</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
+    <value>Kilitli</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
+    <value>Devam Ediyor</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
+    <value>Tamamlandı</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusForbid" xml:space="preserve">
+    <value>Alınamaz</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusInvalid" xml:space="preserve">
+    <value>Geçersiz</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusTakenAward" xml:space="preserve">
+    <value>Alındı</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusUnfinished" xml:space="preserve">
+    <value>Tamamlanmadı</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusWaitTaken" xml:space="preserve">
+    <value>Alınmaya Hazır</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
+    <value>{0} sa</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
+    <value>{0} dk</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
+    <value>{0} saat {1} dakika</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
+    <value>Günlük Görevler tamamlanmadı</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
+    <value>「Günlük Görev」 ödülü alınmadı</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
+    <value>「Günlük Görev」 ödülü alındı</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
+    <value>Depolama sınırına {0} {1:HH:mm} içinde ulaşılacak</value>
+  </data>
+  <data name="WebDailyNoteHomeLocked" xml:space="preserve">
+    <value>Açık Dünya Yerleşkesi henüz açılmadı</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
+    <value>Bugün</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay1" xml:space="preserve">
+    <value>Yarın</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
+    <value>Yarından sonraki gün</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+    <value>{0} gün</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
+    <value>Orijinal Reçine tamamen doldu</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
+    <value>{0} {1:HH:mm} sonra tamamen yenilenecek</value>
+  </data>
+  <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
+    <value>{0:c} sonra sıfırla</value>
+  </data>
+  <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
+    <value>sonra tekrar kullanılabilir</value>
+  </data>
+  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+    <value>{0} gün</value>
+  </data>
+  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+    <value>{0} saat</value>
+  </data>
+  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+    <value>{0} dakika</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
+    <value>Henüz alınmadı</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
+    <value>Parametrik Dönüştürücü henüz alınmadı</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
+    <value>Soğuyor</value>
+  </data>
+  <data name="WebDailyNoteTransformerReached" xml:space="preserve">
+    <value>Kullanılabilir</value>
+  </data>
+  <data name="WebDailyNoteTransformerReady" xml:space="preserve">
+    <value>Hazır</value>
+  </data>
+  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+    <value>{0} saniye</value>
+  </data>
+  <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
+    <value>Doğrulama başarısız oldu, lütfen manuel olarak doğrulayın veya "MiHoYo BBS - Seyahat Araçları - Genshin Etkinlik Notları - Gerçek Zamanlı Notlar" sayfasına gidin</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
+    <value>Hatalı UID biçimi</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
+    <value>Karakter UID'si mevcut değil, lütfen daha sonra tekrar deneyin</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
+    <value>Oyun bakımda</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
+    <value>İstek çok hızlı, lütfen daha sonra tekrar deneyin</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
+    <value>Sunucu kaynaklı hatalar</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
+    <value>Kritik Sunucu Hatası</value>
+  </data>
+  <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
+    <value>Bilinmeyen Sunucu Hatası</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
+    <value>Karakter Etkinlik Dileği</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
+    <value>Karakter Etkinlik Dileği-2</value>
+  </data>
+  <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
+    <value>Kaydedilen Dilek</value>
+  </data>
+  <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
+    <value>Acemi Dileği</value>
+  </data>
+  <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
+    <value>Standart Dilek</value>
+  </data>
+  <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
+    <value>Silah Etkinlik Dileği</value>
+  </data>
+  <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
+    <value>İndirme bağlantısı başarıyla kopyalandı</value>
+  </data>
+  <data name="WebHoyolabInvalidRegion" xml:space="preserve">
+    <value>Geçersiz sunucu</value>
+  </data>
+  <data name="WebHoyolabInvalidUid" xml:space="preserve">
+    <value>Geçersiz UID</value>
+  </data>
+  <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
+    <value>CN Sunucusu: Resmi</value>
+  </data>
+  <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
+    <value>CN Sunucusu: bilibili</value>
+  </data>
+  <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
+    <value>Denizaşırı Sunucu: Asya</value>
+  </data>
+  <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
+    <value>Denizaşırı Sunucu: TW/HK/MU sunucusu</value>
+  </data>
+  <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
+    <value>Uluslararası Sunucu: AB</value>
+  </data>
+  <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
+    <value>Uluslararası Sunucu: NA</value>
+  </data>
+  <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
+    <value>Snap Hutao sunucusu bakımda</value>
+  </data>
+  <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
+    <value>Doğrulama başarısız oldu, lütfen manuel olarak doğrulayın veya "MiHoYo BBS - Seyahat Araçları - Genshin Etkinlik Notları" sayfasına gidin</value>
+  </data>
+  <data name="WebResponseFormat" xml:space="preserve">
+    <value>Durum: {0} | Mesaj: {1}</value>
+  </data>
+  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+    <value>Lütfen çerezi yenileyin, ham mesaj: {0}</value>
+  </data>
+  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+    <value>[{0}] içindeki [{1}] ağ isteği istisnası, lütfen daha sonra tekrar deneyin</value>
+  </data>
+  <data name="WebResponseSignInErrorHint" xml:space="preserve">
+    <value>Giriş başarısız, lütfen hesabınızı başlatmak için HoYoLAB'i ziyaret edin, orijinal mesaj: {0}</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>Monitör Kimliği</value>
+  </data>
+</root>

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
@@ -35,6 +36,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private readonly SortDescription achievementGoalDefaultSortDescription = new(nameof(AchievementGoalView.Order), SortDirection.Ascending);
 
     private readonly AchievementViewModelScopeContext scopeContext;
+
+    public partial RuntimeOptions RuntimeOptions { get; }
 
     public IAdvancedDbCollectionView<EntityArchive>? Archives
     {
@@ -225,6 +228,15 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         else
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+        }
+    }
+
+    [Command("ImportUIAFFromEmbeddedYaeCommand")]
+    private async Task ImportUIAFFromEmbeddedYaeAsync()
+    {
+        if (await scopeContext.AchievementImporter.FromEmbeddedYaeAsync(scopeContext).ConfigureAwait(false))
+        {
+            await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
         }
     }
 

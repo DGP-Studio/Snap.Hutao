@@ -320,7 +320,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             {
                 Type = CultivateType.Weapon,
                 ItemId = options.Delta.Weapon.Id,
-                Items = consumption.WeaponConsume.EmptyIfNull(),
+                Items = consumption.WeaponConsume,
                 LevelInformation = levelInformation,
                 Strategy = options.Strategy,
             };

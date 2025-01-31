@@ -5,6 +5,7 @@ namespace Snap.Hutao.Web.Endpoint.Hutao;
 
 internal interface IInfrastructureEndpoints :
     IInfrastructureEnkaEndpoints,
+    IInfrastructureStrategyEndpoints,
     IInfrastructureFeatureEndpoints,
     IInfrastructureMetadataEndpoints,
     IInfrastructurePatchEndpoints,

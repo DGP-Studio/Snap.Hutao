@@ -49,7 +49,7 @@ public sealed class UnsafeRuntimeBehaviorTest
     }
 
     [TestMethod]
-    public unsafe void UnsafeUtf8StringReference()
+    public unsafe void UnsafeLiteralUtf8StringReference()
     {
         void* ptr = Unsafe.AsPointer(ref MemoryMarshal.GetReference("test"u8));
         GC.Collect(GC.MaxGeneration);

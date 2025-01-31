@@ -9,7 +9,7 @@ internal sealed class JsParam
     public string Method { get; set; } = default!;
 
     [JsonPropertyName("payload")]
-    public JsonElement? Payload { get; set; }
+    public JsonElement Payload { get; set; }
 
     [JsonPropertyName("callback")]
     public string? Callback { get; set; }
@@ -29,10 +29,10 @@ internal sealed class JsParam<TPayload>
 
     public static implicit operator JsParam<TPayload>(JsParam jsParam)
     {
-        return new JsParam<TPayload>
+        return new()
         {
             Method = jsParam.Method,
-            Payload = JsonSerializer.Deserialize<TPayload>(jsParam.Payload ?? default) ?? default!,
+            Payload = jsParam.Payload.Deserialize<TPayload>() ?? default!,
             Callback = jsParam.Callback,
         };
     }

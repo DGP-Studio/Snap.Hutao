@@ -9,6 +9,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shm="using:Snap.Hutao.Model"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Guide"
     d:DataContext="{d:DesignInstance shvg:GuideViewModel}"
@@ -19,31 +20,88 @@
     </mxi:Interaction.Behaviors>
 
     <UserControl.Resources>
-        <DataTemplate x:Key="LanguageTemplate" x:DataType="shm:NameCultureInfoValue">
-            <StackPanel MinWidth="240" Margin="16">
-                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}"/>
-                <TextBlock Opacity="0.8" Text="{Binding Value}"/>
-            </StackPanel>
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <x:String x:Key="LogoCrowdin">ms-appx:///Resource/GuideLocalization/crowdin-symbol-cDark-64.png</x:String>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <x:String x:Key="LogoCrowdin">ms-appx:///Resource/GuideLocalization/crowdin-symbol-cWhite-64.png</x:String>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            <x:String x:Key="LogoDGPStudio">ms-appx:///Resource/GuideLocalization/DGP-v3-white-64.png</x:String>
+            <x:String x:Key="LogoGemini">ms-appx:///Resource/GuideLocalization/Gemini-64.png</x:String>
 
-        <DataTemplate x:Key="DownloadSummaryTemplate" x:DataType="shvg:DownloadSummary">
-            <Border
-                Width="180"
-                Margin="0,0,4,4"
-                Style="{StaticResource BorderCardStyle}">
-                <StackPanel Margin="8">
-                    <TextBlock Text="{Binding Filename}"/>
-                    <ProgressBar
-                        Margin="0,4,0,0"
-                        Maximum="1"
-                        Value="{Binding ProgressValue}"/>
-                    <TextBlock
-                        Opacity="0.6"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding Description}"/>
-                </StackPanel>
-            </Border>
-        </DataTemplate>
+            <DataTemplate x:Key="LanguageTemplate" x:DataType="shm:NameCultureInfoValue">
+                <Grid MinWidth="280" Margin="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}"/>
+                        <TextBlock Opacity="0.8" Text="{Binding Value}"/>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <Border
+                            VerticalAlignment="Center"
+                            CornerRadius="8"
+                            Visibility="{Binding IsMaintainedByHutao, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Image
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Source="{ThemeResource LogoDGPStudio}"
+                                Stretch="Uniform"/>
+                        </Border>
+                        <Border
+                            VerticalAlignment="Center"
+                            CornerRadius="8"
+                            Visibility="{Binding IsMaintainedByCrowdin, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Image
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Source="{ThemeResource LogoCrowdin}"
+                                Stretch="Uniform"/>
+                        </Border>
+                        <Border
+                            VerticalAlignment="Center"
+                            CornerRadius="8"
+                            Visibility="{Binding IsMaintainedByGemini, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Image
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Source="{ThemeResource LogoGemini}"
+                                Stretch="Uniform"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DownloadSummaryTemplate" x:DataType="shvg:DownloadSummary">
+                <Border
+                    Width="180"
+                    Margin="0,0,4,4"
+                    Style="{StaticResource BorderCardStyle}">
+                    <StackPanel Margin="8">
+                        <TextBlock Text="{Binding Filename}"/>
+                        <ProgressBar
+                            Margin="0,4,0,0"
+                            Maximum="1"
+                            Value="{Binding ProgressValue}"/>
+                        <TextBlock
+                            Opacity="0.6"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding Description}"/>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
@@ -62,16 +120,91 @@
             Grid.Row="0"
             ContentTransitions="{ThemeResource EntranceThemeTransitions}"
             Value="{Binding State, Mode=OneWay}">
+            <!--  Language  -->
             <cwc:Case Value="{shuxm:UInt32 Value=0}">
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
                     <GridView
                         Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         ItemTemplate="{StaticResource LanguageTemplate}"
                         ItemsSource="{Binding CultureOptions.Cultures}"
                         SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
                         SelectionMode="Single"/>
+                    <StackPanel
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        Spacing="16"/>
+                    <StackPanel
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <shuxcc:HorizontalCard>
+                            <shuxcc:HorizontalCard.Left>
+                                <Border VerticalAlignment="Center" CornerRadius="8">
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Center"
+                                        Source="{ThemeResource LogoDGPStudio}"
+                                        Stretch="Uniform"/>
+                                </Border>
+                            </shuxcc:HorizontalCard.Left>
+                            <shuxcc:HorizontalCard.Right>
+                                <TextBlock
+                                    Margin="6,0"
+                                    VerticalAlignment="Center"
+                                    Text="{shuxm:ResourceString Name=ViewGuideStepLanguageMaintainedByHutao}"/>
+                            </shuxcc:HorizontalCard.Right>
+                        </shuxcc:HorizontalCard>
+                        <shuxcc:HorizontalCard>
+                            <shuxcc:HorizontalCard.Left>
+                                <Border VerticalAlignment="Center" CornerRadius="8">
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Center"
+                                        Source="{ThemeResource LogoCrowdin}"
+                                        Stretch="Uniform"/>
+                                </Border>
+                            </shuxcc:HorizontalCard.Left>
+                            <shuxcc:HorizontalCard.Right>
+                                <TextBlock
+                                    Margin="6,0"
+                                    VerticalAlignment="Center"
+                                    Text="{shuxm:ResourceString Name=ViewGuideStepLanguageMaintainedByCrowdin}"/>
+                            </shuxcc:HorizontalCard.Right>
+                        </shuxcc:HorizontalCard>
+                        <shuxcc:HorizontalCard>
+                            <shuxcc:HorizontalCard.Left>
+                                <Border VerticalAlignment="Center" CornerRadius="8">
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Center"
+                                        Source="{ThemeResource LogoGemini}"
+                                        Stretch="Uniform"/>
+                                </Border>
+                            </shuxcc:HorizontalCard.Left>
+                            <shuxcc:HorizontalCard.Right>
+                                <TextBlock
+                                    Margin="6,0"
+                                    VerticalAlignment="Center"
+                                    Text="{shuxm:ResourceString Name=ViewGuideStepLanguageMaintainedByGemini}"/>
+                            </shuxcc:HorizontalCard.Right>
+                        </shuxcc:HorizontalCard>
+                    </StackPanel>
                 </Grid>
             </cwc:Case>
+
+            <!--  Document  -->
             <cwc:Case Value="{shuxm:UInt32 Value=1}">
                 <Grid
                     HorizontalAlignment="Center"
@@ -132,6 +265,8 @@
                     </StackPanel>
                 </Grid>
             </cwc:Case>
+
+            <!--  Environment  -->
             <cwc:Case Value="{shuxm:UInt32 Value=2}">
                 <Grid>
                     <StackPanel
@@ -184,7 +319,45 @@
                     </StackPanel>
                 </Grid>
             </cwc:Case>
+
+            <!--  DataFolder  -->
             <cwc:Case Value="{shuxm:UInt32 Value=3}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="{ThemeResource SettingsCardSpacing}">
+                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewGuideStepDataFolderHeader}"/>
+                        <cwc:SettingsCard
+                            HorizontalAlignment="Stretch"
+                            ActionIcon="{shuxm:FontIcon Glyph=&#xE76C;}"
+                            ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingStorageSetAction}"
+                            Command="{Binding SetDataFolderCommand}"
+                            Description="{Binding RuntimeOptions.DataFolder}"
+                            Header="{shuxm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
+                            IsClickEnabled="True"/>
+                    </StackPanel>
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Opacity="0.7"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{shuxm:ResourceString Name=ViewGuideStepDataFolderHint}"/>
+                </Grid>
+            </cwc:Case>
+
+            <!--  CommonSetting  -->
+            <cwc:Case Value="{shuxm:UInt32 Value=4}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -215,7 +388,9 @@
                         Text="{shuxm:ResourceString Name=ViewGuideStepCommonSettingHint}"/>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shuxm:UInt32 Value=4}">
+
+            <!--  StaticResourceSetting  -->
+            <cwc:Case Value="{shuxm:UInt32 Value=5}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -303,7 +478,9 @@
                         Text="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSettingHint}"/>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shuxm:UInt32 Value=5}">
+
+            <!--  StaticResourceBegin  -->
+            <cwc:Case Value="{shuxm:UInt32 Value=6}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -348,17 +525,10 @@
                     HorizontalAlignment="Center"
                     IsHitTestVisible="False"
                     SelectedIndex="{Binding State, Mode=TwoWay}">
-                    <!--
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepLanguage}" Icon="{shuxm:FontIcon Glyph=&#xF2B7;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepDocument}" Icon="{shuxm:FontIcon Glyph=&#xF28B;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepEnvironment}" Icon="{shuxm:FontIcon Glyph=&#xE81E;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepCommonSetting}" Icon="{shuxm:FontIcon Glyph=&#xE713;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSetting}" Icon="{shuxm:FontIcon Glyph=&#xE8BA;}"/>
-                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepStaticResource}" Icon="{shuxm:FontIcon Glyph=&#xE8B9;}"/>
-                    -->
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xF2B7;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xF28B;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE81E;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8B7;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE713;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8BA;}"/>
                     <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8B9;}"/>

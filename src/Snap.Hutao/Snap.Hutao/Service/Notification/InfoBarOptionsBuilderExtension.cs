@@ -3,6 +3,7 @@
 
 using JetBrains.Annotations;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using Snap.Hutao.Core.Abstraction;
 
 namespace Snap.Hutao.Service.Notification;
@@ -30,10 +31,10 @@ internal static class InfoBarOptionsBuilderExtension
         return builder;
     }
 
-    public static IInfoBarOptionsBuilder SetContent<TBuilder>(this TBuilder builder, object? content)
+    public static IInfoBarOptionsBuilder SetContent<TBuilder>(this TBuilder builder, string xaml)
         where TBuilder : IInfoBarOptionsBuilder
     {
-        builder.Configure(builder => builder.Options.Content = content);
+        builder.Configure(builder => builder.Options.Content = XamlReader.Load(xaml));
         return builder;
     }
 

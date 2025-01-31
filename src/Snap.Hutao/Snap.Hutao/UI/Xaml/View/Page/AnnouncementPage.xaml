@@ -174,7 +174,7 @@
                     <HyperlinkButton
                         Content="{shuxm:ResourceString Name=ViewPageAnnouncementViewDetails}"
                         NavigateUri="{Binding Link}"
-                        Visibility="{Binding Link, Converter={StaticResource StringBoolConverter}}"/>
+                        Visibility="{Binding Link, Converter={StaticResource EmptyStringToBoolConverter}}"/>
                     <TextBlock
                         Margin="8,0,0,2"
                         VerticalAlignment="Center"
@@ -222,7 +222,7 @@
                     Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <!--  ItemsRepeater will behave abnormal if no direct scrollhost wrapping it  -->
-                <ScrollViewer CanContentRenderOutsideBounds="True">
+                <ScrollViewer CanContentRenderOutsideBounds="True" VerticalScrollBarVisibility="Hidden">
                     <ItemsRepeater
                         HorizontalAlignment="Stretch"
                         ItemTemplate="{StaticResource CardTemplate}"

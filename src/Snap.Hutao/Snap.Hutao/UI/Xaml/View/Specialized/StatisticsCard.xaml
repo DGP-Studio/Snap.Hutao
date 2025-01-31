@@ -20,98 +20,111 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <shuxdcs:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter"/>
-        <shuxdcs:BoolToGridLengthConverter
-            x:Key="BoolToGridLengthSpacingConverter"
-            FalseValue="0"
-            TrueValue="4"/>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <cwconv:BoolToObjectConverter
+                        x:Key="BoolToBrushConverter"
+                        FalseValue="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                        TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <cwconv:BoolToObjectConverter
+                        x:Key="BoolToBrushConverter"
+                        FalseValue="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                        TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
-        <shuxdcs:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
+            <shuxdcs:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter"/>
+            <shuxdcs:BoolToGridLengthConverter
+                x:Key="BoolToGridLengthSpacingConverter"
+                FalseValue="0"
+                TrueValue="4"/>
 
-        <DataTemplate x:Key="OrangeListTemplate" x:DataType="shvg:SummaryItem">
-            <Grid Margin="0" Style="{ThemeResource GridCardStyle}">
-                <ToolTipService.ToolTip>
-                    <TextBlock Text="{Binding FormattedTime}"/>
-                </ToolTipService.ToolTip>
+            <shuxdcs:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
 
-                <ProgressBar
-                    MinHeight="40"
-                    Background="Transparent"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
-                    Maximum="{Binding GuaranteeOrangeThreshold}"
-                    Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                    Value="{Binding LastPull}">
-                    <ProgressBar.Foreground>
-                        <SolidColorBrush Color="{Binding LastPull, Converter={StaticResource Int32ToGradientColorConverter}}"/>
-                    </ProgressBar.Foreground>
-                </ProgressBar>
+            <DataTemplate x:Key="OrangeListTemplate" x:DataType="shvg:SummaryItem">
+                <Grid Margin="0" Style="{ThemeResource GridCardStyle}">
+                    <ToolTipService.ToolTip>
+                        <TextBlock Text="{Binding FormattedTime}"/>
+                    </ToolTipService.ToolTip>
 
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <shuxci:CachedImage
-                        shux:FrameworkElementHelper.SquareLength="40"
-                        CornerRadius="{ThemeResource ControlCornerRadius}"
-                        Source="{Binding Icon}"/>
-                    <TextBlock
-                        Margin="16,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding Name}">
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="{Binding Color}"/>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </StackPanel>
+                    <ProgressBar
+                        MinHeight="40"
+                        Background="Transparent"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Maximum="{Binding GuaranteeOrangeThreshold}"
+                        Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
+                        Value="{Binding LastPull}">
+                        <ProgressBar.Foreground>
+                            <SolidColorBrush Color="{Binding LastPull, Converter={StaticResource Int32ToGradientColorConverter}}"/>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
 
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <TextBlock
-                        Margin="0,0,8,0"
-                        VerticalAlignment="Center"
-                        Foreground="{StaticResource GuaranteePullColorBrush}"
-                        Text="{shuxm:ResourceString Name=ViewControlStatisticsCardGuaranteeText}"
-                        Visibility="{Binding IsGuarantee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <TextBlock
-                        Margin="0,0,8,0"
-                        VerticalAlignment="Center"
-                        Foreground="{StaticResource UpPullColorBrush}"
-                        Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpText}"
-                        Visibility="{Binding IsUp, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <shuxci:CachedImage
+                            shux:FrameworkElementHelper.SquareLength="40"
+                            CornerRadius="{ThemeResource ControlCornerRadius}"
+                            Source="{Binding Icon}"/>
+                        <TextBlock
+                            Margin="16,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Name}">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{Binding Color}"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
 
-                    <TextBlock
-                        Width="24"
-                        Margin="0,0,8,0"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{Binding LastPull}"
-                        TextAlignment="Center"
-                        TextWrapping="NoWrap"/>
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource GuaranteePullColorBrush}"
+                            Text="{shuxm:ResourceString Name=ViewControlStatisticsCardGuaranteeText}"
+                            Visibility="{Binding IsGuarantee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource UpPullColorBrush}"
+                            Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpText}"
+                            Visibility="{Binding IsUp, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-        <cwconv:BoolToObjectConverter
-            x:Key="BoolToBrushConverter"
-            FalseValue="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-            TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                        <TextBlock
+                            Width="24"
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{Binding LastPull}"
+                            TextAlignment="Center"
+                            TextWrapping="NoWrap"/>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
 
-        <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shvg:SummaryItem">
-            <shuxcc:VerticalCard
-                Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"
-                BottomPadding="0,1"
-                ToolTipService.ToolTip="{Binding FormattedTime}">
-                <shuxcc:VerticalCard.Top>
-                    <shuxc:ItemIcon
-                        shux:FrameworkElementHelper.SquareLength="40"
-                        Icon="{Binding Icon}"
-                        Quality="{Binding Quality}"/>
-                </shuxcc:VerticalCard.Top>
-                <shuxcc:VerticalCard.Bottom>
-                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LastPull}">
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="{Binding Color}"/>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </shuxcc:VerticalCard.Bottom>
-            </shuxcc:VerticalCard>
-        </DataTemplate>
+            <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shvg:SummaryItem">
+                <shuxcc:VerticalCard
+                    Background="{Binding IsUp, Converter={ThemeResource BoolToBrushConverter}}"
+                    BottomPadding="0,1"
+                    ToolTipService.ToolTip="{Binding FormattedTime}">
+                    <shuxcc:VerticalCard.Top>
+                        <shuxc:ItemIcon
+                            shux:FrameworkElementHelper.SquareLength="40"
+                            Icon="{Binding Icon}"
+                            Quality="{Binding Quality}"/>
+                    </shuxcc:VerticalCard.Top>
+                    <shuxcc:VerticalCard.Bottom>
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LastPull}">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{Binding Color}"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </shuxcc:VerticalCard.Bottom>
+                </shuxcc:VerticalCard>
+            </DataTemplate>
+        </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Grid Style="{ThemeResource AcrylicGridCardStyle}">
@@ -405,7 +418,7 @@
                     Margin="0,0,-2,-4"
                     Padding="0,12"
                     ItemContainerStyle="{StaticResource NoneSelectionGridViewItemStyle}"
-                    ItemTemplate="{StaticResource OrangeGridTemplate}"
+                    ItemTemplate="{ThemeResource OrangeGridTemplate}"
                     ItemsSource="{Binding OrangeList}"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
                     SelectionMode="None"/>

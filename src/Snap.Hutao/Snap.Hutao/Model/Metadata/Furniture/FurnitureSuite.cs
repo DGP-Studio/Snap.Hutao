@@ -20,7 +20,7 @@ internal sealed class FurnitureSuite
 
     public string? MapIcon { get; init; }
 
-    public required ImmutableArray<AvatarId>? FavoriteNpcs { get; init; }
+    public required ImmutableArray<AvatarId> FavoriteNpcs { get; init; }
 
     public required ImmutableArray<FurnitureId> Units { get; init; }
 }

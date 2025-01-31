@@ -9,6 +9,7 @@ namespace Snap.Hutao.Web.Bridge;
 internal sealed class SignInJSBridgeOversea : MiHoYoJSBridge
 {
     // 移除 请旋转手机 提示所在的HTML元素
+    /* lang=javascript */
     private const string RemoveRotationWarningScript = """
         let landscape = document.getElementById('mihoyo_landscape');
         landscape.remove();

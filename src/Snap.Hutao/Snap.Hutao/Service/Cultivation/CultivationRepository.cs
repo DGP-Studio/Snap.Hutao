@@ -15,7 +15,7 @@ internal sealed partial class CultivationRepository : ICultivationRepository
 {
     public partial IServiceProvider ServiceProvider { get; }
 
-    public ImmutableArray<CultivateEntry> GetCultivateEntryImmutaleArrayByProjectId(Guid projectId)
+    public ImmutableArray<CultivateEntry> GetCultivateEntryImmutableArrayByProjectId(Guid projectId)
     {
         return this.ImmutableArray<CultivateEntry>(e => e.ProjectId == projectId);
     }

@@ -42,13 +42,19 @@ public sealed partial class App : Application
 
     public App(IServiceProvider serviceProvider)
     {
+        logger = serviceProvider.GetRequiredService<ILogger<App>>();
+        Gen2GcCallback.Register(() =>
+        {
+            logger.LogDebug("Gen2 GC is triggered.");
+            return true;
+        });
+
         // Load app resource
         InitializeComponent();
 
         ExceptionHandlingSupport.Initialize(serviceProvider, this);
 
         activation = serviceProvider.GetRequiredService<IAppActivation>();
-        logger = serviceProvider.GetRequiredService<ILogger<App>>();
         this.serviceProvider = serviceProvider;
     }
 
@@ -68,6 +74,7 @@ public sealed partial class App : Application
             AppNotificationManager.Default.Register();
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
+            Bootstrap.UseNamedPipeRedirection();
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
                 logger.LogDebug("Application exiting on RedirectActivationTo");

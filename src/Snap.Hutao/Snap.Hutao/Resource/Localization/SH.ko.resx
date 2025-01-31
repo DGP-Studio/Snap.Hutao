@@ -1136,6 +1136,9 @@
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>기원 기록 업로드 서비스 유효 기간:</value>
   </data>
+  <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>다른 방법으로 가방 아이템을 동기화하세요.</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>캐시된 메타데이터 파일을 찾을 수 없습니다.</value>
   </data>
@@ -1192,6 +1195,18 @@
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>사용자 정보 가져오는 중, 잠시만 기다려주세요...</value>
+  </data>
+  <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
+    <value>먼저 게임 시작 페이지에서 게임 디렉토리를 설정하세요.</value>
+  </data>
+  <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
+    <value>게임을 종료한 후 Embedded Yae를 사용하여 데이터를 가져올 수 있습니다.</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>게임 데이터를 기다리는 중</value>
+  </data>
+  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
+    <value>Embedded Yae 오류</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>추가 속성 추천</value>
@@ -1670,6 +1685,12 @@
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
     <value>나중에 설정에서 변경할 수 있습니다</value>
   </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* 기본 데이터 폴더는 제거 시 함께 삭제되며, 나중에 설정에서 수정할 수 있습니다.</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>문서</value>
   </data>
@@ -1693,6 +1714,15 @@
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>언어</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>Crowdin 커뮤니티 구성원이 관리합니다.</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>Google Gemini에서 번역됨</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>DGP Studio에서 관리합니다.</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>리소스</value>
@@ -1722,7 +1752,7 @@
     <value>나선 비경 통계</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Snap Hutao Passport</value>
   </data>
   <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
     <value>모든 알림 지우기</value>
@@ -1810,6 +1840,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>이 작업은 되돌릴 수 없으며, 이 계획의 가방 아이템은 손실됩니다.</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>가방 아이템을 비우는 중</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>현재 계획의 모든 가방 아이템을 비우시겠습니까?</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>선택한 레벨에는 육성 재료가 필요하지 않습니다</value>
@@ -2027,6 +2066,9 @@
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>올바른 이메일을 입력하세요</value>
   </data>
+  <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>다른 방법으로 업적을 가져오세요.</value>
+  </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>클립보드의 텍스트 형식이 올바르지 않습니다</value>
   </data>
@@ -2126,6 +2168,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>게임 경로 저장 실패</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>선택한 폴더가 비어 있지 않습니다. 기존 파일이 덮어쓰여집니다.</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>데이터 파일 복사</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>현재 데이터 디렉터리 '{0}'에는 하나 이상의 재분석 지점(Reparse points)이 포함되어 있어 데이터 폴더에 의존하는 일부 기능이 제대로 작동하지 않을 수 있습니다. 설정으로 이동하여 경로를 변경하세요.</value>
   </data>
@@ -2192,6 +2240,9 @@
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>파일 다운로드 오류</value>
   </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>해당 캐릭터의 공략 정보가 없습니다.</value>
+  </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>새 아카이브 생성</value>
   </data>
@@ -2209,6 +2260,9 @@
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>UIAF 파일에서 가져오기</value>
+  </data>
+  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
+    <value>Embedded Yae를 통해 게임 내에서 가져오기</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>가져오기</value>
@@ -2306,6 +2360,9 @@
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>내 캐릭터와 무기를 육성 계획 항목에 추가</value>
   </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>가방 아이템 비우기</value>
+  </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>아이템 육성</value>
   </data>
@@ -2332,6 +2389,12 @@
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
     <value>배낭 아이템 동기화</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
+    <value>육성 계산기를 통해 동기화</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
+    <value>Embedded Yae를 통해 동기화</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>목록 삭제</value>
@@ -2490,7 +2553,7 @@
     <value>개발자 계정은 서비스 만료 시간을 무시합니다.</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNoEntryHint" xml:space="preserve">
-    <value>无云端记录</value>
+    <value>Snap Hutao Cloud 기록 없음</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>Snap Hutao Cloud 서비스 시간이 부족합니다.</value>
@@ -2673,13 +2736,13 @@
     <value>해당 기간을 획득하면 Snap Hutao 업데이트 시 중국 내 CDN 미러를 선택하여 더 나은 업데이트 환경을 경험할 수 있습니다.</value>
   </data>
   <data name="ViewPageHutaoPassportCDNCloudHeader" xml:space="preserve">
-    <value>胡桃云 CDN 服务</value>
+    <value>Snap Hutao Cloud CDN 서비스</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudDescription" xml:space="preserve">
-    <value>获得时长后您将能够通过我们的服务器下载/上传/删除最多 5 个 UID 的祈愿记录。深境螺旋页面中，每期挑战首次上传记录时会获得免费的时长！</value>
+    <value>이용 시간을 획득하면 서버를 통해 최대 5개 UID의 기원 기록을 다운로드/업로드/삭제할 수 있습니다. 나선 비경 페이지에서 각 도전의 첫 번째 기록을 업로드할 때 무료 이용 시간을 얻을 수 있습니다!</value>
   </data>
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
-    <value>胡桃云祈愿记录服务</value>
+    <value>Snap Hutao Cloud 기원 기록 서비스</value>
   </data>
   <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
     <value>로그인</value>
@@ -2703,7 +2766,7 @@
     <value>비밀번호 재설정</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
-    <value>赞助</value>
+    <value>후원</value>
   </data>
   <data name="ViewPageHutaoPassportUnregisterHint" xml:space="preserve">
     <value>계정 삭제 시 데이터는 영구적으로 손실되며 복구할 수 없습니다</value>
@@ -3390,7 +3453,7 @@
     <value>게임 실행 - 프레임 속도 제한 해제</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>경로를 변경한 후 경로 내의 데이터를 수동으로 이동해야 합니다. 그렇지 않으면 사용자 데이터가 재생성됩니다</value>
+    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>데이터 경로 변경</value>
@@ -3533,6 +3596,15 @@
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>스토리</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>캐릭터 공략</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>미요사 캐릭터 공략</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>HoYoLAB 캐릭터 공략</value>
+  </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>특성</value>
   </data>
@@ -3625,6 +3697,12 @@
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>이번 통계</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>후반</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>전반</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>최대 층</value>

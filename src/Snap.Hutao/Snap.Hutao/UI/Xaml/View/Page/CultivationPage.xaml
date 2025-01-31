@@ -316,9 +316,25 @@
                         </shuxc:SizeRestrictedContentControl>
                     </AppBarElementContainer>
                     <AppBarButton
-                        Command="{Binding RefreshInventoryCommand}"
-                        Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
-                        Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}"/>
+                        Command="{Binding ClearInventoryCommand}"
+                        CommandParameter="{Binding Projects.CurrentItem, Mode=OneWay}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE894;}"
+                        Label="{shuxm:ResourceString Name=ViewPageCultivationClearInventory}"/>
+                    <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE895;}" Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}">
+                        <AppBarButton.Flyout>
+                            <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                <MenuFlyoutItem
+                                    Command="{Binding RefreshInventoryByEmbeddedYaeCommand}"
+                                    Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
+                                    IsEnabled="{Binding RuntimeOptions.IsElevated}"
+                                    Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByEmbeddedYae}"/>
+                                <MenuFlyoutItem
+                                    Command="{Binding RefreshInventoryByCalculatorCommand}"
+                                    Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"
+                                    Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByCalculator}"/>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
                     <AppBarButton
                         Command="{Binding AddProjectCommand}"
                         Icon="{shuxm:FontIcon Glyph=&#xE710;}"

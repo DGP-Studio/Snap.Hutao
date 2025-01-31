@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Documents;
-using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Scripting;
 using Windows.Graphics;

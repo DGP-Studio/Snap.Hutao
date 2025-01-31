@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -154,7 +154,7 @@
     <value>Select All</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid URL</value>
+    <value>Invalid URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -445,31 +445,31 @@
     <value>{0}/{1}</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
-    <value>Character and Weapon Enhancement Materials</value>
+    <value>Character and Weapon Enhancement Material</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
-    <value>Character Ascension Materials</value>
+    <value>Character Ascension Material</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterEXPMaterial" xml:space="preserve">
-    <value>Character EXP Materials</value>
+    <value>Character EXP Material</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterLevelUpMaterial" xml:space="preserve">
-    <value>Character Level-Up Materials</value>
+    <value>Character Level-Up Material</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
-    <value>Character Talent Materials</value>
+    <value>Character Talent Material</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
-    <value>Weapon Ascension Materials</value>
+    <value>Weapon Ascension Material</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
-    <value>Weapon Enhancement Materials</value>
+    <value>Weapon Enhancement Material</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
@@ -1136,6 +1136,9 @@
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Wish record uploading service is valid until</value>
   </data>
+  <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法同步背包物品</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
   </data>
@@ -1192,6 +1195,18 @@
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Retrieving user information, please wait...</value>
+  </data>
+  <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
+    <value>请先在启动游戏页面设置游戏目录</value>
+  </data>
+  <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
+    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>正在等待游戏数据</value>
+  </data>
+  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
+    <value>Embedded Yae 错误</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Additional Property Recommendation</value>
@@ -1494,7 +1509,7 @@
     <value>Delete Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUseRedeemCodeTitle" xml:space="preserve">
-    <value>使用胡桃云兑换码</value>
+    <value>Use Snap Hutao Cloud Redeem Code</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
@@ -1670,6 +1685,12 @@
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
     <value>You may make changes in Settings</value>
   </data>
+  <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
+    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+  </data>
+  <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
+    <value>* The default data folder will be deleted during uninstallation, you can change it in settings later</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Document</value>
   </data>
@@ -1693,6 +1714,15 @@
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByCrowdin" xml:space="preserve">
+    <value>Maintained by Crowdin community members</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByGemini" xml:space="preserve">
+    <value>Translated by Google Gemini</value>
+  </data>
+  <data name="ViewGuideStepLanguageMaintainedByHutao" xml:space="preserve">
+    <value>Maintained by DGP Studio</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Assets</value>
@@ -1810,6 +1840,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>Operation not fully completed, added/updated {0}, skipped {1}</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryContent" xml:space="preserve">
+    <value>This operation is irreversible, inventory items in this plan will be lost.</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryProgress" xml:space="preserve">
+    <value>Clearing inventory items</value>
+  </data>
+  <data name="ViewModelCultivationClearInventoryTitle" xml:space="preserve">
+    <value>Confirm clear all inventory items in current plan?</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>The selected level does not require ingredients</value>
@@ -2027,6 +2066,9 @@
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address</value>
   </data>
+  <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
+    <value>请使用其他方法导入成就</value>
+  </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Text format in clipboard is incorrect</value>
   </data>
@@ -2126,6 +2168,12 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Failed to save game path</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
+    <value>The selected folder is not empty, existing files will be overwritten</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
+    <value>Copy Data Files</value>
+  </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>The current data directory '{0}' contains one or more reparse points, which may cause some of the functions that depend on the data folder to not work properly, please go to Settings to change the path.</value>
   </data>
@@ -2192,6 +2240,9 @@
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
     <value>File Download Exceptions</value>
   </data>
+  <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
+    <value>No character guides found</value>
+  </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Create New Archive</value>
   </data>
@@ -2209,6 +2260,9 @@
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>Import from UIAF file</value>
+  </data>
+  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 从游戏内导入</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Import</value>
@@ -2306,6 +2360,9 @@
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>Add my characters and weapons to Development Plan</value>
   </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>Clear Inventory Items</value>
+  </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>Development Items</value>
   </data>
@@ -2330,8 +2387,17 @@
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>Go</value>
   </data>
+  <data name="ViewPageCultivationClearInventory" xml:space="preserve">
+    <value>Clear Inventory Items</value>
+  </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
     <value>Sync Inventory Items</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
+    <value>通过养成计算器同步</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
+    <value>通过 Embedded Yae 同步</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Delete list</value>
@@ -2694,7 +2760,7 @@
     <value>At least 8 characters required</value>
   </data>
   <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
-    <value>请输入兑换码</value>
+    <value>Enter the Redemption Code</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>Register</value>
@@ -3390,7 +3456,7 @@
     <value>Game Launcher - Unlock Frame Rate Limit</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>You need to move data in the directory manually, otherwise new user data will be created.</value>
+    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Change Data Directory</value>
@@ -3533,6 +3599,15 @@
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Stories</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
+    <value>Character Guides</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
+    <value>MiYouShe Character Guides</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
+    <value>HoYoLAB Character Guides</value>
+  </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
     <value>Talent</value>
   </data>
@@ -3625,6 +3700,12 @@
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>Statistics</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionDown" xml:space="preserve">
+    <value>Second Half</value>
+  </data>
+  <data name="ViewSpiralAbyssLevelBattleCaptionUp" xml:space="preserve">
+    <value>First Half</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>Deepest Descent</value>

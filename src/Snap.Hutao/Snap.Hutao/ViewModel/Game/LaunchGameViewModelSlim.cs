@@ -10,7 +10,6 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.User;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -24,8 +23,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
-    private GameAccountFilter? gameAccountFilter;
-
     LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
     public partial LaunchStatusOptions LaunchStatusOptions { get; }
@@ -33,18 +30,15 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     public partial LaunchOptions LaunchOptions { get; }
 
     [ObservableProperty]
-    public partial AdvancedCollectionView<GameAccount>? GameAccountsView { get; set; }
+    public partial IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set; }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
     protected override async Task LoadAsync()
     {
         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
-        ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
-
-        gameAccountFilter = new(scheme?.GetSchemeType());
-        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
-
+        IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
+        accountsView.Filter = GameAccountFilter.CreateFilter(scheme?.GetSchemeType());
         await taskContext.SwitchToMainThreadAsync();
         GameAccountsView = accountsView;
 
@@ -54,7 +48,10 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
             {
                 // Try set to the current account.
                 await taskContext.SwitchToMainThreadAsync();
-                GameAccountsView.CurrentItem ??= gameService.DetectCurrentGameAccount(scheme);
+                if (GameAccountsView.CurrentItem is null)
+                {
+                    GameAccountsView.MoveCurrentTo(gameService.DetectCurrentGameAccount(scheme));
+                }
             }
         }
         catch (Exception ex)

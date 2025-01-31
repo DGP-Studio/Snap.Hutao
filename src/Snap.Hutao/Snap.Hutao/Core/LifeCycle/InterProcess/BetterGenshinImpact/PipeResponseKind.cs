@@ -6,5 +6,9 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 internal enum PipeResponseKind
 {
     None,
-    Boolean = 1,
+    Object = 1,
+    Array = 2,
+    String = 3,
+    Number = 4,
+    Boolean = 5,
 }

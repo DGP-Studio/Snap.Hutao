@@ -9,11 +9,13 @@ namespace Snap.Hutao.Service.Inventory;
 
 internal interface IInventoryRepository : IRepository<InventoryItem>
 {
-    void AddInventoryItemRangeByProjectId(List<InventoryItem> items);
+    void AddInventoryItemRangeByProjectId(IEnumerable<InventoryItem> items);
 
     void RemoveInventoryItemRangeByProjectId(Guid projectId);
 
     void UpdateInventoryItem(InventoryItem item);
 
     ImmutableArray<InventoryItem> GetInventoryItemImmutableArrayByProjectId(Guid projectId);
+
+    ImmutableDictionary<uint, InventoryItem> GetInventoryItemImmutableDictionaryByProjectId(Guid projectId);
 }

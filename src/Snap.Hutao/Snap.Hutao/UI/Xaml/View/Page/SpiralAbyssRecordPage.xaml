@@ -235,6 +235,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <!--  第X层 *X  -->
@@ -266,9 +267,46 @@
                         Margin="8,0,0,0"
                         ItemTemplate="{StaticResource LeyLineDisorderTemplate}"
                         ItemsSource="{Binding Disorders}"/>
+                    <Grid
+                        Grid.Row="2"
+                        Margin="8,0"
+                        ColumnSpacing="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{shuxm:ResourceString Name=ViewSpiralAbyssLevelBattleCaptionUp}"
+                            Visibility="{Binding UpDisorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{shuxm:ResourceString Name=ViewSpiralAbyssLevelBattleCaptionDown}"
+                            Visibility="{Binding DownDisorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                        <ItemsControl
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            ItemTemplate="{StaticResource LeyLineDisorderTemplate}"
+                            ItemsSource="{Binding UpDisorders}"
+                            Visibility="{Binding UpDisorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                        <ItemsControl
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            ItemTemplate="{StaticResource LeyLineDisorderTemplate}"
+                            ItemsSource="{Binding DownDisorders}"
+                            Visibility="{Binding DownDisorders, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                    </Grid>
                     <!--  间信息  -->
                     <ItemsControl
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Margin="0,0,0,8"
                         ItemTemplate="{StaticResource SpiralAbyssLevelTemplate}"
                         ItemsSource="{Binding Levels}"/>

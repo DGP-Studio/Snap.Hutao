@@ -33,7 +33,7 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
         string device = Core.Random.GetUpperAndNumberString(12);
         string product = Core.Random.GetUpperAndNumberString(6);
 
-        // To anyone who finds this code, please don't fully copy this code.
+        // To anyone who finds this code, please don't fully copy this.
         Dictionary<string, object> extendProperties = new()
         {
             { "proxyStatus", 0 },

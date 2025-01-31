@@ -5,6 +5,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
@@ -28,6 +30,37 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
     public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
+    internal static async ValueTask<bool> InternalSetDataFolderAsync(IFileSystemPickerInteraction fileSystemPickerInteraction, IContentDialogFactory contentDialogFactory)
+    {
+        if (!fileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolder))
+        {
+            return false;
+        }
+
+        string oldFolder = HutaoRuntime.DataFolder;
+        if (Path.GetFullPath(oldFolder).Equals(Path.GetFullPath(newFolder), StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        if (Directory.EnumerateFileSystemEntries(newFolder).Any())
+        {
+            ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+                SH.ViewModelSettingStorageSetDataFolderTitle,
+                SH.ViewModelSettingStorageSetDataFolderDescription)
+                .ConfigureAwait(false);
+            if (result is not ContentDialogResult.Primary)
+            {
+                return false;
+            }
+        }
+
+        HutaoException.ThrowIfNot(DirectoryOperation.Copy(oldFolder, newFolder), "Move DataFolder failed");
+        LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolder);
+        LocalSetting.Set(SettingKeys.DataFolderPath, newFolder);
+        return true;
+    }
+
     [Command("OpenBackgroundImageFolderCommand")]
     private static async Task OpenBackgroundImageFolderAsync()
     {
@@ -35,11 +68,10 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     }
 
     [Command("SetDataFolderCommand")]
-    private void SetDataFolder()
+    private async Task SetDataFolderAsync()
     {
-        if (fileSystemPickerInteraction.PickFolder().TryGetValue(out string? folder))
+        if (await InternalSetDataFolderAsync(fileSystemPickerInteraction, contentDialogFactory).ConfigureAwait(false))
         {
-            LocalSetting.Set(SettingKeys.DataFolderPath, folder);
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
     }
@@ -83,7 +115,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             await taskContext.SwitchToBackgroundAsync();
             StaticResource.FailAll();
             Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
-            UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+            UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.StaticResourceBegin);
         }
 
         // TODO: prompt user that restart will be non-elevated

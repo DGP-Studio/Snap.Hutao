@@ -24,7 +24,8 @@ internal static class SettingKeys
     public const string LastVersion = "LastVersion";
     public const string LaunchTimes = "LaunchTimes";
     public const string DataFolderPath = "DataFolderPath";
-    public const string Major1Minor10Revision0GuideState = "Major1Minor10Revision0GuideState1";
+    public const string PreviousDataFolderToDelete = "PreviousDataFolderToDelete";
+    public const string GuideState = "Major1Minor13Revision1GuideState";
     public const string StaticResourceImageQuality = "StaticResourceImageQuality";
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
@@ -85,8 +86,11 @@ internal static class SettingKeys
 
     #region Obsolete
 
-    [Obsolete("重置新手引导状态")]
+    [Obsolete("第一次重置新手引导状态")]
     public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
+
+    [Obsolete("第二次重置新手引导状态")]
+    public const string Major1Minor10Revision0GuideState = "Major1Minor10Revision0GuideState1";
 
     [Obsolete("重置调试控制台开关")]
     public const string IsAllocConsoleDebugModeEnabledLegacy1 = "IsAllocConsoleDebugModeEnabled";

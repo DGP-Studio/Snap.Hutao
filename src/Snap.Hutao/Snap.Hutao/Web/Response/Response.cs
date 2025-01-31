@@ -22,7 +22,7 @@ internal class Response : ICommonResponse<Response>
     public int ReturnCode { get; set; }
 
     [JsonPropertyName("message")]
-    public string Message { get; set; } = default!;
+    public string Message { get; set; }
 
     public static implicit operator ValueResult<bool, string>(Response response)
     {
@@ -86,7 +86,7 @@ internal class Response<TData> : Response, ICommonResponse<Response<TData>>, IJs
     }
 
     [JsonPropertyName("data")]
-    public TData? Data { get; set; }
+    public TData? Data { get; private init; }
 
     static Response<TData> ICommonResponse<Response<TData>>.CreateDefault(int returnCode, string message)
     {

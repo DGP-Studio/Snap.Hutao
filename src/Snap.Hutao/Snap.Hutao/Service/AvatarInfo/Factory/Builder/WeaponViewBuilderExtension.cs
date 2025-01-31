@@ -4,10 +4,8 @@
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
-using Snap.Hutao.Web.Enka.Model;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
@@ -65,12 +63,6 @@ internal static class WeaponViewBuilderExtension
         where TBuilder : IWeaponViewBuilder
     {
         return builder.Configure(b => b.View.LevelNumber = levelNumber);
-    }
-
-    public static TBuilder SetMainProperty<TBuilder>(this TBuilder builder, WeaponStat? mainStat)
-    where TBuilder : IWeaponViewBuilder
-    {
-        return builder.SetMainProperty(mainStat is not null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : NameValueDefaults.String);
     }
 
     public static TBuilder SetMainProperty<TBuilder>(this TBuilder builder, NameValue<string>? mainProperty)

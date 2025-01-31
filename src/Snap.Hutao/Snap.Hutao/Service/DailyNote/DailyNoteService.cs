@@ -71,9 +71,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         {
             if (entries is null)
             {
-                await RefreshDailyNotesCoreAsync(forceRefresh, token).ConfigureAwait(false);
                 ImmutableArray<DailyNoteEntry> entryList = dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser();
-
                 foreach (DailyNoteEntry entry in entryList)
                 {
                     entry.UserGameRole = await userService.GetUserGameRoleByUidAsync(entry.Uid).ConfigureAwait(false);
@@ -81,6 +79,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 }
 
                 entries = entryList.ToObservableCollection();
+
+                await RefreshDailyNotesCoreAsync(forceRefresh, token).ConfigureAwait(false);
             }
 
             return entries;
@@ -135,28 +135,31 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                     continue;
                 }
 
-                Response<WebDailyNote> dailyNoteResponse = await GetDailyNoteAsync(scope, UserAndUid.From(dbEntry.User, dbEntry.Uid), token).ConfigureAwait(false);
-                if (ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? dailyNote))
+                if (entries?.SingleOrDefault(e => e.UserId == dbEntry.UserId && e.Uid == dbEntry.Uid) is not { } cachedEntry)
                 {
-                    await taskContext.SwitchToMainThreadAsync();
-                    if (entries?.SingleOrDefault(e => e.UserId == dbEntry.UserId && e.Uid == dbEntry.Uid) is not { } cachedEntry)
-                    {
-                        // This can only happen when the entry is removing from the collection.
-                        // And the entry is not removed from the database yet. We just skip it.
-                        continue;
-                    }
-
-                    dbEntry.Update(dailyNote);
-
-                    // The dbEntry will be updated before sending notification (Check suppression).
-                    await dailyNoteNotificationOperation.SendAsync(dbEntry).ConfigureAwait(false);
-                    dailyNoteRepository.UpdateDailyNoteEntry(dbEntry);
-
-                    dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(dbEntry.Uid, dailyNote);
-
-                    // After everything is done, we copy the updated entry to the cached entry.
-                    dbEntry.CopyTo(cachedEntry);
+                    // This can only happen when the entry is removing from the collection.
+                    // And the entry is not removed from the database yet. We just skip it.
+                    continue;
                 }
+
+                Response<WebDailyNote> dailyNoteResponse = await GetDailyNoteAsync(scope, UserAndUid.From(dbEntry.User, dbEntry.Uid), token).ConfigureAwait(false);
+                if (!ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? dailyNote))
+                {
+                    continue;
+                }
+
+                await taskContext.SwitchToMainThreadAsync();
+                dbEntry.UserGameRole = cachedEntry.UserGameRole;
+                dbEntry.Update(dailyNote);
+
+                // The dbEntry will be updated before sending notification (Check suppression).
+                await dailyNoteNotificationOperation.SendAsync(dbEntry).ConfigureAwait(false);
+                dailyNoteRepository.UpdateDailyNoteEntry(dbEntry);
+
+                dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(dbEntry.Uid, dailyNote);
+
+                // After everything is done, we copy the updated entry to the cached entry.
+                dbEntry.CopyTo(cachedEntry);
             }
         }
     }

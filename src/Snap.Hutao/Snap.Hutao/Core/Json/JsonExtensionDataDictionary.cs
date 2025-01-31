@@ -8,8 +8,8 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Json;
 
-[CollectionBuilder(typeof(JsonExtensionDataDictionary), nameof(InitializeWithIgnoredKeys))]
-internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, JsonElement>
+[CollectionBuilder(typeof(JsonExtensionDataDictionary), nameof(Create))]
+internal sealed partial class JsonExtensionDataDictionary : IEnumerable<string>, IDictionary<string, JsonElement>
 {
     private readonly Dictionary<string, JsonElement> inner = [];
     private readonly FrozenSet<string> ignoredKeys;
@@ -45,7 +45,7 @@ internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, 
         set => inner[key] = value;
     }
 
-    public static JsonExtensionDataDictionary InitializeWithIgnoredKeys(ReadOnlySpan<string> keys)
+    public static JsonExtensionDataDictionary Create(ReadOnlySpan<string> keys)
     {
         return new(keys);
     }
@@ -82,6 +82,11 @@ internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, 
     public void CopyTo(KeyValuePair<string, JsonElement>[] array, int arrayIndex)
     {
         ((ICollection<KeyValuePair<string, JsonElement>>)inner).CopyTo(array, arrayIndex);
+    }
+
+    IEnumerator<string> IEnumerable<string>.GetEnumerator()
+    {
+        return ignoredKeys.GetEnumerator();
     }
 
     public IEnumerator<KeyValuePair<string, JsonElement>> GetEnumerator()

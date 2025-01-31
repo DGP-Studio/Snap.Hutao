@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
@@ -12,6 +13,7 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.Yae;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.Immutable;
@@ -32,9 +34,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
+    private readonly IYaeService yaeService;
 
     private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
+
+    public partial RuntimeOptions RuntimeOptions { get; }
 
     public IAdvancedDbCollectionView<CultivateProject>? Projects
     {
@@ -211,8 +216,25 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("RefreshInventoryCommand")]
-    private async Task RefreshInventoryAsync()
+    [Command("RefreshInventoryByEmbeddedYaeCommand")]
+    private async Task RefreshInventoryByEmbeddedYaeAsync()
+    {
+        if (Projects?.CurrentItem is null || metadataContext is null)
+        {
+            return;
+        }
+
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+        {
+            await inventoryService.RefreshInventoryAsync(RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService)).ConfigureAwait(false);
+
+            await UpdateInventoryItemsAsync().ConfigureAwait(false);
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+        }
+    }
+
+    [Command("RefreshInventoryByCalculatorCommand")]
+    private async Task RefreshInventoryByCalculatorAsync()
     {
         if (Projects?.CurrentItem is null || metadataContext is null)
         {
@@ -227,11 +249,42 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
             {
-                await inventoryService.RefreshInventoryAsync(metadataContext, Projects.CurrentItem).ConfigureAwait(false);
+                await inventoryService.RefreshInventoryAsync(RefreshOptions.CreateForWebCalculator(Projects.CurrentItem, metadataContext)).ConfigureAwait(false);
 
                 await UpdateInventoryItemsAsync().ConfigureAwait(false);
                 await UpdateStatisticsItemsAsync().ConfigureAwait(false);
             }
+        }
+    }
+
+    [Command("ClearInventoryCommand")]
+    private async Task ClearInventoryAsync(CultivateProject? project)
+    {
+        if (project is null)
+        {
+            return;
+        }
+
+        ContentDialogResult result = await contentDialogFactory
+            .CreateForConfirmCancelAsync(
+                SH.ViewModelCultivationClearInventoryTitle,
+                SH.ViewModelCultivationClearInventoryContent)
+            .ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        ContentDialog dialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationClearInventoryProgress)
+            .ConfigureAwait(false);
+        using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
+        {
+            inventoryService.RemoveInventoryItems(project);
+
+            await UpdateInventoryItemsAsync().ConfigureAwait(false);
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
     }
 
