@@ -8,7 +8,6 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvd="using:Snap.Hutao.UI.Xaml.View.Dialog"
     Title="{shuxm:ResourceString Name=ViewDialogCultivatePromotionDeltaBatchTitle}"
-    d:DataContext="{d:DesignInstance shuxvd:CultivatePromotionDeltaDialog}"
     CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
     PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"

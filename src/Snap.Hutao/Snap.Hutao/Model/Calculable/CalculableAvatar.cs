@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -28,6 +29,7 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         Quality = avatar.Quality;
+        PromoteLevel = 0;
 
         LevelCurrent = LevelMin;
     }
@@ -43,6 +45,12 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Name = avatar.Name;
         Icon = avatar.Icon;
         Quality = avatar.Quality;
+        IsPromoted = (avatar.LevelNumber, avatar.PromoteLevel.Value) switch
+        {
+            (20, 1U) or (40, 2U) or (50, 3U) or (60, 4U) or (70, 5U) or (80, 6U) => true,
+            _ => false,
+        };
+        PromoteLevel = avatar.PromoteLevel;
 
         LevelCurrent = LevelMin;
     }
@@ -61,16 +69,53 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public QualityType Quality { get; }
 
+    public PromoteLevel PromoteLevel { get; private set; }
+
+    public bool IsPromotionAvailable
+    {
+        get => LevelCurrent is 20U or 40U or 50U or 60U or 70U or 80U;
+    }
+
     public uint LevelCurrent
     {
         get => persistsLevel ? LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin) : field;
-        set => _ = persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value);
+        set
+        {
+            if (persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value))
+            {
+                OnPropertyChanged(nameof(IsPromotionAvailable));
+                IsPromoted = false;
+                PromoteLevel = value switch
+                {
+                    > 0 and <= 20 => 0,
+                    <= 40 => 1,
+                    <= 50 => 2,
+                    <= 60 => 3,
+                    <= 70 => 4,
+                    <= 80 => 5,
+                    <= 90 => 6,
+                    _ => throw HutaoException.InvalidOperation("Invalid avatar level."),
+                };
+            }
+        }
     }
 
     public uint LevelTarget
     {
         get => LocalSetting.Get(SettingKeys.CultivationAvatarLevelTarget, LevelMax);
         set => SetProperty(LevelTarget, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelTarget, v));
+    }
+
+    public bool IsPromoted
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value) && value)
+            {
+                PromoteLevel++;
+            }
+        }
     }
 
     public static CalculableAvatar From(Avatar source)

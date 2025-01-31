@@ -90,6 +90,16 @@
                     Height="36"
                     Icon="{Binding Icon}"
                     Quality="{Binding Quality}"/>
+                <!--  TODO  -->
+                <!--  <StackPanel  -->
+                <!--  HorizontalAlignment="Right"  -->
+                <!--  Orientation="Horizontal">  -->
+                <!--     <TextBlock VerticalAlignment="Center" Text="已突破"/> -->
+                <!--  <CheckBox  -->
+                <!--  VerticalAlignment="Center"  -->
+                <!--  IsChecked="{Binding IsPromoted, Mode=TwoWay}"  -->
+                <!--  Visibility="{Binding IsPromotionAvailable}"/>  -->
+                <!-- </StackPanel> -->
                 <TextBlock
                     Grid.Column="1"
                     Margin="16,0,0,0"
