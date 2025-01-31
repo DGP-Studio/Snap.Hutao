@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -636,9 +636,6 @@
   </data>
   <data name="ServerPassportVerifyRequestUserNotExisted" xml:space="preserve">
     <value>인증 요청 실패, 현재 이메일 주소가 등록되지 않았습니다</value>
-  </data>
-  <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
-    <value>인증 요청이 너무 빠릅니다. <b>1</b>분 후에 다시 시도하세요</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
     <value>上传深渊记录失败，当前 Uid 已被胡桃数据库封禁</value>
@@ -1196,6 +1193,9 @@
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>사용자 정보 가져오는 중, 잠시만 기다려주세요...</value>
   </data>
+  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
+    <value>Embedded Yae 오류</value>
+  </data>
   <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
     <value>먼저 게임 시작 페이지에서 게임 디렉토리를 설정하세요.</value>
   </data>
@@ -1204,9 +1204,6 @@
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
     <value>게임 데이터를 기다리는 중</value>
-  </data>
-  <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 오류</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>추가 속성 추천</value>
@@ -2258,11 +2255,11 @@
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>클립보드에서 가져오기</value>
   </data>
-  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
-    <value>UIAF 파일에서 가져오기</value>
-  </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
     <value>Embedded Yae를 통해 게임 내에서 가져오기</value>
+  </data>
+  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
+    <value>UIAF 파일에서 가져오기</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>가져오기</value>
@@ -2560,9 +2557,6 @@
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
     <value>이 UID 클라우드 아카이브 다운로드</value>
-  </data>
-  <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>매 시즌 나선 비경 첫 업로드 시 <b>3</b>일 무료 이용 혜택 제공</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>나선 비경 기록 업로드</value>
