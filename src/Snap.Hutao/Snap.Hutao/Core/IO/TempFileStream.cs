@@ -35,7 +35,7 @@ internal sealed partial class TempFileStream : Stream
     {
         string path = Path.GetTempFileName();
         File.Copy(file, path, true);
-        return new TempFileStream(path, mode, access);
+        return new(path, mode, access);
     }
 
     public override void Flush()

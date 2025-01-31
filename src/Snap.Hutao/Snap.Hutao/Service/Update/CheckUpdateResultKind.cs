@@ -12,4 +12,5 @@ internal enum CheckUpdateResultKind
 
     NeedDownload = 4,
     NeedInstall = 5,
+    SkipInstall = 6,
 }

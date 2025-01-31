@@ -15,6 +15,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Security.Cryptography;
+using Windows.System;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -24,7 +25,7 @@ internal sealed partial class UpdateService : IUpdateService
 {
     private const string UpdaterFilename = "Snap.Hutao.Deployment.exe";
 
-    // Avoid try injecting services directly
+    // Avoid injecting services directly
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<CheckUpdateResult> CheckUpdateAsync(IProgress<UpdateStatus> progress, CancellationToken token = default)
@@ -65,12 +66,14 @@ internal sealed partial class UpdateService : IUpdateService
                 }
             }
 
-            HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
-            if (await hutaoUserOptions.GetIsHutaoCdnAllowedAsync().ConfigureAwait(false))
+            // Insert CDN mirror if possible
+            if (await scope.ServiceProvider.GetRequiredService<HutaoUserOptions>().GetIsHutaoCdnAllowedAsync().ConfigureAwait(false))
             {
-                HutaoDistributionClient distributionClient = scope.ServiceProvider.GetRequiredService<HutaoDistributionClient>();
-                HutaoResponse<HutaoPackageMirror> mirrorResponse = await distributionClient.GetAcceleratedMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token).ConfigureAwait(false);
-                if (mirrorResponse.Data is { } mirror)
+                HutaoResponse<HutaoPackageMirror> mirrorResponse = await scope.ServiceProvider
+                    .GetRequiredService<HutaoDistributionClient>()
+                    .GetAcceleratedMirrorAsync($"Snap.Hutao.{packageInformation.Version.ToString(3)}.msix", token)
+                    .ConfigureAwait(false);
+                if (ResponseValidator.TryValidate(mirrorResponse, scope.ServiceProvider, out HutaoPackageMirror? mirror))
                 {
                     checkUpdateResult.PackageInformation.Mirrors.Insert(0, mirror);
                 }
@@ -95,9 +98,87 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    public ValueTask<bool> DownloadUpdateAsync(HutaoSelectedMirrorInformation mirrorInformation, IProgress<UpdateStatus> progress, CancellationToken token = default)
+    public async ValueTask<bool> DownloadUpdateAsync(HutaoSelectedMirrorInformation mirrorInformation, IProgress<UpdateStatus> progress, CancellationToken token = default)
     {
-        return DownloadUpdatePackageAsync(mirrorInformation, HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix"), progress, token);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            using (HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>())
+            {
+                HutaoPackageMirror mirror = mirrorInformation.Mirror;
+                string version = mirrorInformation.Version.ToString();
+
+                try
+                {
+                    using (HttpResponseMessage responseMessage = await httpClient.GetAsync(mirror.Url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+                    {
+                        long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
+                        using (Stream contentStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                        {
+                            string filePath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
+
+                            switch (mirror.MirrorType)
+                            {
+                                case HutaoPackageMirrorType.Direct:
+                                    using (FileStream fileStream = File.Create(filePath))
+                                    {
+                                        using (StreamCopyWorker<UpdateStatus> worker = new(contentStream, fileStream, (_, bytesRead) => new(version, bytesRead, totalBytes)))
+                                        {
+                                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
+                                        }
+                                    }
+
+                                    break;
+                                case HutaoPackageMirrorType.Archive:
+                                    using (TempFileStream tempFileStream = new(FileMode.Create, FileAccess.ReadWrite))
+                                    {
+                                        using (StreamCopyWorker<UpdateStatus> worker = new(contentStream, tempFileStream, (_, bytesRead) => new(version, bytesRead, totalBytes)))
+                                        {
+                                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
+                                        }
+
+                                        using (ZipArchive archive = new(tempFileStream))
+                                        {
+                                            foreach (ZipArchiveEntry entry in archive.Entries)
+                                            {
+                                                if (!entry.FullName.EndsWith(".msix", StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    continue;
+                                                }
+
+                                                entry.ExtractToFile(filePath, true);
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    break;
+                                case HutaoPackageMirrorType.Browser:
+                                    await Launcher.LaunchUriAsync(mirror.Url.ToUri());
+
+                                    // The download result should always fail, we deliberately do not handle it
+                                    return false;
+                            }
+
+                            if (!File.Exists(filePath))
+                            {
+                                return false;
+                            }
+
+                            if (await CheckUpdateCacheSha256Async(filePath, mirrorInformation.Validation, token).ConfigureAwait(false))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    // Ignore
+                }
+
+                return false;
+            }
+        }
     }
 
     public LaunchUpdaterResult LaunchUpdater()
@@ -135,76 +216,5 @@ internal sealed partial class UpdateService : IUpdateService
     {
         string localHash = await Hash.FileToHexStringAsync(HashAlgorithmName.SHA256, filePath, token).ConfigureAwait(false);
         return string.Equals(localHash, remoteHash, StringComparison.OrdinalIgnoreCase);
-    }
-
-    private async ValueTask<bool> DownloadUpdatePackageAsync(HutaoSelectedMirrorInformation mirrorInformation, string filePath, IProgress<UpdateStatus> progress, CancellationToken token = default)
-    {
-        using IServiceScope scope = serviceProvider.CreateScope();
-        using HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
-
-        HutaoPackageMirror mirror = mirrorInformation.Mirror;
-        string version = mirrorInformation.Version.ToString();
-
-        try
-        {
-            using HttpResponseMessage responseMessage = await httpClient.GetAsync(mirror.Url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-            long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
-            using Stream webStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-
-            switch (mirror.MirrorType)
-            {
-                case HutaoPackageMirrorType.Direct:
-                    using (FileStream fileStream = File.Create(filePath))
-                    {
-                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, (_, bytesRead) => new(version, bytesRead, totalBytes)))
-                        {
-                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
-                        }
-                    }
-
-                    break;
-                case HutaoPackageMirrorType.Archive:
-                    using (TempFileStream tempFileStream = new(FileMode.Create, FileAccess.ReadWrite))
-                    {
-                        using (StreamCopyWorker<UpdateStatus> worker = new(webStream, tempFileStream, (_, bytesRead) => new(version, bytesRead, totalBytes)))
-                        {
-                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
-                        }
-
-                        using ZipArchive archive = new(tempFileStream);
-                        foreach (ZipArchiveEntry entry in archive.Entries)
-                        {
-                            if (!entry.FullName.EndsWith(".msix", StringComparison.OrdinalIgnoreCase))
-                            {
-                                continue;
-                            }
-
-                            using Stream entryStream = entry.Open();
-                            using FileStream fileStream = File.Create(filePath);
-                            await entryStream.CopyToAsync(fileStream, token).ConfigureAwait(false);
-                            break;
-                        }
-                    }
-
-                    break;
-            }
-
-            if (!File.Exists(filePath))
-            {
-                return false;
-            }
-
-            string remoteHash = mirrorInformation.Validation;
-            if (await CheckUpdateCacheSha256Async(filePath, remoteHash, token).ConfigureAwait(false))
-            {
-                return true;
-            }
-        }
-        catch
-        {
-            // Ignore
-        }
-
-        return false;
     }
 }

@@ -7,4 +7,5 @@ internal enum HutaoPackageMirrorType
 {
     Direct,
     Archive,
+    Browser,
 }

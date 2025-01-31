@@ -17,9 +17,7 @@ using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hutao;
-using System.Globalization;
 using System.IO;
-using System.Text;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -62,7 +60,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         ShowUpdateLogWindowAfterUpdate();
         NotifyIfDataFolderHasReparsePoint();
         WaitMetadataInitializationAsync().SafeForget(logger);
-        await DoCheckUpdateAsync().ConfigureAwait(false);
+        await CheckUpdateAsync().ConfigureAwait(false);
         await CheckProxyAndLoopbackAsync().ConfigureAwait(false);
         return true;
     }
@@ -76,7 +74,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
     }
 
-    private async ValueTask DoCheckUpdateAsync()
+    private async ValueTask CheckUpdateAsync()
     {
         IProgress<UpdateStatus> progress = progressFactory.CreateForMainThread<UpdateStatus>(status => UpdateStatus = status);
         CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync(progress).ConfigureAwait(false);
@@ -98,9 +96,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             dialog.Mirrors = checkUpdateResult.PackageInformation?.Mirrors;
             dialog.SelectedItem = dialog.Mirrors?.FirstOrDefault();
 
-            (bool isOk, HutaoPackageMirror? mirror) = await dialog.GetSelectedMirrorAsync().ConfigureAwait(false);
-
-            if (isOk && mirror is not null)
+            if (await dialog.GetSelectedMirrorAsync().ConfigureAwait(false) is (true, { } mirror))
             {
                 ArgumentNullException.ThrowIfNull(checkUpdateResult.PackageInformation);
                 HutaoSelectedMirrorInformation mirrorInformation = new()
@@ -110,7 +106,9 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
                     Version = checkUpdateResult.PackageInformation.Version,
                 };
 
-                // This method will set CheckUpdateResult.Kind to NeedInstall if download success
+                // This method will
+                // 1. set CheckUpdateResult.Kind to NeedInstall if download success
+                // 2. set CheckUpdateResult.Kind to SkipInstall if selected mirror is browser
                 if (!await DownloadPackageAsync(progress, mirrorInformation, checkUpdateResult).ConfigureAwait(false))
                 {
                     infoBarService.Warning(SH.ViewTitileUpdatePackageDownloadFailedMessage);
@@ -156,18 +154,28 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         UpdateStatus = null;
     }
 
-    private async ValueTask<bool> DownloadPackageAsync(IProgress<UpdateStatus> progress, HutaoSelectedMirrorInformation mirrorInformation, CheckUpdateResult checkUpdateResult)
+    private async ValueTask<bool> DownloadPackageAsync(IProgress<UpdateStatus> progress, HutaoSelectedMirrorInformation selectedMirrorInformation, CheckUpdateResult checkUpdateResult)
     {
         bool downloadSuccess = true;
         try
         {
-            if (await updateService.DownloadUpdateAsync(mirrorInformation, progress).ConfigureAwait(false))
+            if (await updateService.DownloadUpdateAsync(selectedMirrorInformation, progress).ConfigureAwait(false))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.NeedInstall;
             }
             else
             {
-                downloadSuccess = false;
+                // DownloadUpdateAsync will return 'false' if mirror type is browser
+                if (selectedMirrorInformation.Mirror.MirrorType is HutaoPackageMirrorType.Browser)
+                {
+                    // Since we haven't actually downloaded the package, the return value
+                    // should remain true to prevent the warning message from showing up.
+                    checkUpdateResult.Kind = CheckUpdateResultKind.SkipInstall;
+                }
+                else
+                {
+                    downloadSuccess = false;
+                }
             }
         }
         catch
