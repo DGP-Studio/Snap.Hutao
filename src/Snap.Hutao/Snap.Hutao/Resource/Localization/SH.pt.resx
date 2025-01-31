@@ -1686,7 +1686,7 @@
     <value>Pode fazer alterações em Definições mais tarde</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>A pasta de dados é usada para armazenar papéis de parede personalizados, metadados, alternar caches de servidor, caches de atualização e outros arquivos</value>
+    <value>数据文件夹用于存储成就数据、祈愿记录、养成计划、深境螺旋记录、幻想真境剧诗记录、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* A pasta de dados padrão será excluída ao desinstalar. Mais tarde, você pode modificar isso nas configurações</value>
