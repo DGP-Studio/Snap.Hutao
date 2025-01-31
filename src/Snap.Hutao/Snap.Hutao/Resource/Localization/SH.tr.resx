@@ -1686,7 +1686,7 @@
     <value>Daha sonra Ayarlar'dan değişiklik yapabilirsiniz</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>Veri klasörü, özel duvar kağıtları, meta veriler, sunucu önbelleğini değiştirme, güncelleme önbelleği vb. dosyaları depolamak için kullanılır</value>
+    <value>数据文件夹用于存储成就数据、祈愿记录、养成计划、深境螺旋记录、幻想真境剧诗记录、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* Varsayılan veri klasörü kaldırma sırasında silinecektir, daha sonra ayarlardan değiştirebilirsiniz</value>
