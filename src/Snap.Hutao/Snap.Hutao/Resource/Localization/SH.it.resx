@@ -1686,7 +1686,7 @@
     <value>Puoi apportare modifiche in Impostazioni in un secondo momento</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储成就数据、祈愿记录、养成计划、深境螺旋记录、幻想真境剧诗记录、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* La cartella dati predefinita verrà eliminata durante la disinstallazione, è possibile modificarla in seguito nelle impostazioni</value>
@@ -3453,7 +3453,7 @@
     <value>Avvio gioco - Sblocco limite FPS</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>Dopo aver modificato la directory, è necessario spostare manualmente i dati all'interno della directory, altrimenti verranno ricreati i dati utente</value>
+    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Modifica directory dati</value>
