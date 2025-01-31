@@ -1686,7 +1686,7 @@
     <value>Это можно изменить позже в настройках</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储成就数据、祈愿记录、养成计划、深境螺旋记录、幻想真境剧诗记录、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* Папка данных по умолчанию будет удалена при удалении программы, позже ее можно будет изменить в настройках</value>
@@ -3453,7 +3453,7 @@
     <value>Запуск игры - снять ограничение частоты кадров</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>После изменения каталога необходимо вручную переместить данные внутри каталога, в противном случае будут созданы новые пользовательские данные</value>
+    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Изменить каталог данных</value>
