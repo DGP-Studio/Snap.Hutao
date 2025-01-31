@@ -51,12 +51,12 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<ImmutableArray<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         int currentPage = 1;
         SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region };
 
-        List<Avatar> avatars = [];
+        ImmutableArray<Avatar>.Builder avatars = ImmutableArray.CreateBuilder<Avatar>();
         Response<ListWrapper<Avatar>>? resp;
 
         IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(userAndUid.IsOversea);
@@ -91,7 +91,7 @@ internal sealed partial class CalculateClient
         }
         while (resp.Data is { List.Length: 20 });
 
-        return avatars;
+        return avatars.ToImmutable();
     }
 
     public async ValueTask<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)

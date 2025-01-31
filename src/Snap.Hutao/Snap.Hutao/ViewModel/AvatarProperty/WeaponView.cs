@@ -5,6 +5,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
@@ -19,6 +20,8 @@ internal sealed class WeaponView : EquipView, ICalculableSource<ICalculableWeapo
     public string AffixName { get; set; } = default!;
 
     public string AffixDescription { get; set; } = default!;
+
+    public ImmutableArray<bool> PromoteList { get; set; }
 
     internal WeaponId Id { get; set; }
 
