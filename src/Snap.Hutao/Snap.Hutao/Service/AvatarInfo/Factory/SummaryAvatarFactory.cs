@@ -68,6 +68,7 @@ internal sealed class SummaryAvatarFactory
             .SetReliquaries(character.Relics.SelectAsArray(relic => SummaryReliquaryFactory.Create(context, relic)))
             .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)
+            .SetPromoteList(character.Base.PromoteLevel)
             .View;
 
         return propertyAvatar;
@@ -144,6 +145,7 @@ internal sealed class SummaryAvatarFactory
             .SetAffixName(metadataWeapon.Affix?.Name)
             .SetAffixDescription(metadataWeapon.Affix?.Descriptions.Single(a => a.Level == (detailedWeapon.AffixLevel - 1)).Description)
             .SetWeaponType(metadataWeapon.WeaponType)
+            .SetPromoteList(detailedWeapon.PromoteLevel)
             .View;
     }
 }
