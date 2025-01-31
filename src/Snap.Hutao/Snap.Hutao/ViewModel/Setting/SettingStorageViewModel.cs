@@ -56,6 +56,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         }
 
         HutaoException.ThrowIfNot(DirectoryOperation.Copy(oldFolder, newFolder), "Move DataFolder failed");
+        LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolder);
         LocalSetting.Set(SettingKeys.DataFolderPath, newFolder);
         return true;
     }

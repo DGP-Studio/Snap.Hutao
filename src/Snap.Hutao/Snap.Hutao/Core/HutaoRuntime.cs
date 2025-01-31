@@ -5,6 +5,7 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.Globalization;
@@ -98,6 +99,20 @@ internal static class HutaoRuntime
 
     private static string InitializeDataFolder()
     {
+        try
+        {
+            string previousPath = LocalSetting.Get(SettingKeys.PreviousDataFolderToDelete, string.Empty);
+            if (!string.IsNullOrEmpty(previousPath) && Directory.Exists(previousPath))
+            {
+                Directory.Delete(previousPath, true);
+                LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, string.Empty);
+            }
+        }
+        catch
+        {
+            // Ignore
+        }
+
         string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
 
         if (!string.IsNullOrEmpty(preferredPath))
