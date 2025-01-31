@@ -103,7 +103,7 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.NameCard = nameCard);
     }
 
-    public static TBuilder SetPromoteList<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
+    public static TBuilder SetPromoteLevel<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
         where TBuilder : IAvatarViewBuilder
     {
         bool[] promoteListBuilder = new bool[6];
@@ -112,7 +112,10 @@ internal static class AvatarViewBuilderExtension
             promoteListBuilder[i] = true;
         }
 
-        return builder.Configure(b => b.View.PromoteList = promoteListBuilder.ToImmutableArray());
+        builder.View.PromoteLevel = promoteLevel;
+        builder.View.PromoteList = promoteListBuilder.ToImmutableArray();
+
+        return builder;
     }
 
     public static TBuilder SetProperties<TBuilder>(this TBuilder builder, ImmutableArray<AvatarProperty> properties)

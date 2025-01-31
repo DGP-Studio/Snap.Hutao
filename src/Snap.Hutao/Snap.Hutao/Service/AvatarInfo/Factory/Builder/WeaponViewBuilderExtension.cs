@@ -78,7 +78,7 @@ internal static class WeaponViewBuilderExtension
         return builder.SetName<TBuilder, WeaponView>(name);
     }
 
-    public static TBuilder SetPromoteList<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
+    public static TBuilder SetPromoteLevel<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
         where TBuilder : IWeaponViewBuilder
     {
         bool[] promoteListBuilder = new bool[6];
@@ -87,7 +87,10 @@ internal static class WeaponViewBuilderExtension
             promoteListBuilder[i] = true;
         }
 
-        return builder.Configure(b => b.View.PromoteList = promoteListBuilder.ToImmutableArray());
+        builder.View.PromoteLevel = promoteLevel;
+        builder.View.PromoteList = promoteListBuilder.ToImmutableArray();
+
+        return builder;
     }
 
     public static TBuilder SetQuality<TBuilder>(this TBuilder builder, QualityType quality)

@@ -52,6 +52,8 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     internal uint LevelNumber { get; set; }
 
+    internal PromoteLevel PromoteLevel { get; set; }
+
     public ICalculableAvatar ToCalculable()
     {
         return CalculableAvatar.From(this);

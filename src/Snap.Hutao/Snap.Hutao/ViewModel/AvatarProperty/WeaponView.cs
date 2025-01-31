@@ -31,6 +31,8 @@ internal sealed class WeaponView : EquipView, ICalculableSource<ICalculableWeapo
 
     internal WeaponType WeaponType { get; set; }
 
+    internal PromoteLevel PromoteLevel { get; set; }
+
     public ICalculableWeapon ToCalculable()
     {
         return CalculableWeapon.From(this);
