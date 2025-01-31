@@ -1687,7 +1687,7 @@
     <value>これらは後で設定で変更できます</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>データフォルダーは、ユーザー操作によって生成された全てのデータ，カスタム壁紙，メタデータ，サーバー切替キャッシュ，アップデートキャッシュ等のファイルを保存するために使用されます</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* デフォルトのデータフォルダーは、アンインストール時に一緒に削除されます。後で設定で変更できます</value>
@@ -3455,7 +3455,7 @@
     <value>ゲーム起動 - FPS上限を解除</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>ディレクトリを変更すると、フォルダーが自動的にコピーされ、アプリが自動的に再起動されます。以前のフォルダーは再起動後自動的に削除されます</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>データディレクトリを変更</value>
