@@ -50,8 +50,8 @@ internal sealed partial class ZstandardDecompressionStream : Stream
             inputBufferSize = (int)autoSize;
         }
 
-        inputBufferMemoryOwner = MemoryPool<byte>.Shared.Rent(inputBufferSize);
-        inputBuffer = inputBufferMemoryOwner.Memory[..inputBufferSize];
+        inputBufferMemoryOwner = MemoryPool<byte>.Shared.RentExactly(inputBufferSize);
+        inputBuffer = inputBufferMemoryOwner.Memory;
         pos = size = (nuint)inputBufferSize;
     }
 

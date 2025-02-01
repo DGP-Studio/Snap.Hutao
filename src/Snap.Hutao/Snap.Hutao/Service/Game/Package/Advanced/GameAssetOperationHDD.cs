@@ -96,7 +96,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
         string path = context.EnsureAssetTargetDirectoryExists(assetProperty.AssetName);
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: 32 * 1024))
         {
-            using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+            using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(ChunkBufferSize))
             {
                 Memory<byte> buffer = memoryOwner.Memory;
 

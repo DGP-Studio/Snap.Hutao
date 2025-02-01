@@ -83,8 +83,8 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
                     return false;
             }
 
-            IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.Rent(contentLength);
-            reader.ReadExactly(owner.Memory.Span[..contentLength]);
+            IMemoryOwner<byte> owner = MemoryPool<byte>.Shared.RentExactly(contentLength);
+            reader.ReadExactly(owner.Memory.Span);
             data = new(kind, owner, contentLength);
             return true;
         }
