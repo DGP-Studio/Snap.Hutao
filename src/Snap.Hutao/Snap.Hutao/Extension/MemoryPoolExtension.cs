@@ -5,7 +5,7 @@ using System.Buffers;
 
 namespace Snap.Hutao.Extension;
 
-internal static class MemoryPoolExtension
+internal static partial class MemoryPoolExtension
 {
     public static IMemoryOwner<T> RentExactly<T>(this MemoryPool<T> memoryPool, int bufferSize)
     {
@@ -13,7 +13,7 @@ internal static class MemoryPoolExtension
         return new ExactSizedMemoryOwner<T>(memoryOwner, bufferSize);
     }
 
-    private sealed class ExactSizedMemoryOwner<T> : IMemoryOwner<T>
+    private sealed partial class ExactSizedMemoryOwner<T> : IMemoryOwner<T>
     {
         private readonly IMemoryOwner<T> owner;
         private readonly int bufferSize;
