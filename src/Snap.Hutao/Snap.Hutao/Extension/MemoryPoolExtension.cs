@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Caching.Memory;
 using System.Buffers;
 
 namespace Snap.Hutao.Extension;
@@ -16,8 +15,8 @@ internal static class MemoryPoolExtension
 
     private sealed class ExactSizedMemoryOwner<T> : IMemoryOwner<T>
     {
-        private IMemoryOwner<T> owner;
-        private int bufferSize;
+        private readonly IMemoryOwner<T> owner;
+        private readonly int bufferSize;
 
         public ExactSizedMemoryOwner(IMemoryOwner<T> owner, int bufferSize)
         {
@@ -25,7 +24,7 @@ internal static class MemoryPoolExtension
             this.bufferSize = bufferSize;
         }
 
-        public Memory<T> Memory => owner.Memory.Slice(0, bufferSize);
+        public Memory<T> Memory { get => owner.Memory.Slice(0, bufferSize); }
 
         public void Dispose()
         {

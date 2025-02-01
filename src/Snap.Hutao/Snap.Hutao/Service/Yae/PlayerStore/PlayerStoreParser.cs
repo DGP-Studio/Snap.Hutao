@@ -4,7 +4,6 @@
 using Google.Protobuf;
 using Snap.Hutao.Core.Protobuf;
 using Snap.Hutao.Model.InterChange.Inventory;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Yae.PlayerStore;
 
@@ -50,7 +49,7 @@ internal static class PlayerStoreParser
             return new()
             {
                 Info = UIIFInfo.CreateForEmbeddedYae(),
-                List = [..items.Select(UIIFItem.FromInGameItem)],
+                List = [.. items.Select(UIIFItem.FromInGameItem)],
             };
         }
     }

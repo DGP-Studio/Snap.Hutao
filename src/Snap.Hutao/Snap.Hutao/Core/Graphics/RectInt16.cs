@@ -14,10 +14,10 @@ internal readonly struct RectInt16
 
     private RectInt16(int x, int y, int width, int height)
     {
-        this.X = (short)x;
-        this.Y = (short)y;
-        this.Width = (short)width;
-        this.Height = (short)height;
+        X = (short)x;
+        Y = (short)y;
+        Width = (short)width;
+        Height = (short)height;
     }
 
     public static implicit operator RectInt32(RectInt16 rect)

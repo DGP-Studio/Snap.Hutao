@@ -5,7 +5,6 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.Globalization;

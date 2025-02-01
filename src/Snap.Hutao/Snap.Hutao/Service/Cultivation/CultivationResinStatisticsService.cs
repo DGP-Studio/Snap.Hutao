@@ -113,6 +113,6 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
 
     private static double GetStatisticsCultivateItemTimes(StatisticsCultivateItem item)
     {
-        return (long)item.Count - (long)item.Current;
+        return item.Count - (long)item.Current;
     }
 }
