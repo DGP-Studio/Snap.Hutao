@@ -43,6 +43,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             return false;
         }
 
+        Directory.CreateDirectory(newFolder);
         if (Directory.EnumerateFileSystemEntries(newFolder).Any())
         {
             ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(

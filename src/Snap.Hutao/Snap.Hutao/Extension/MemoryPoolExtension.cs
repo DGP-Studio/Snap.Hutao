@@ -24,7 +24,7 @@ internal static partial class MemoryPoolExtension
             this.bufferSize = bufferSize;
         }
 
-        public Memory<T> Memory { get => owner.Memory.Slice(0, bufferSize); }
+        public Memory<T> Memory { get => owner.Memory[..bufferSize]; }
 
         public void Dispose()
         {
