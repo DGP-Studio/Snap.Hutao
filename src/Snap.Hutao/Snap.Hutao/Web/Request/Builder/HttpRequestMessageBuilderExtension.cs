@@ -157,7 +157,7 @@ internal static class HttpRequestMessageBuilderExtension
             return;
         }
 
-        if (httpRequestException.HttpRequestError is not HttpRequestError.SecureConnectionError && httpRequestException.InnerException is not SocketException)
+        if (httpRequestException.InnerException is not SocketException)
         {
             return;
         }
@@ -171,7 +171,7 @@ internal static class HttpRequestMessageBuilderExtension
 
         try
         {
-            ex.Data.Add("RequestDns", JsonSerializer.Serialize(await Dns.GetHostEntryAsync(host, context.RequestAborted).ConfigureAwait(false)));
+            ex.Data.Add("RequestHost", JsonSerializer.Serialize(await Dns.GetHostEntryAsync(host, context.RequestAborted).ConfigureAwait(false)));
         }
         catch
         {
