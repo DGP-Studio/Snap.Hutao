@@ -14,6 +14,7 @@ using Snap.Hutao.ViewModel.Wiki;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
@@ -74,7 +75,7 @@ internal sealed class SummaryAvatarFactory
 
     private static void ProcessConstellations(
         SkillDepot depot,
-        ImmutableArray<Constellation> constellations,
+        ImmutableArray<Constellation> dataConstellations,
         out FrozenSet<SkillId> activatedConstellationIds,
         out FrozenDictionary<SkillId, SkillLevel> extraLevels)
     {
@@ -87,7 +88,7 @@ internal sealed class SummaryAvatarFactory
             levels.Add(depot.CompositeSkillsNoInherents[0].Id, 1);
         }
 
-        foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(constellations))
+        foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(dataConstellations))
         {
             // Constellations are activated in order, so if the current constellation is
             // not activated, all the subsequent constellations will not be activated.
