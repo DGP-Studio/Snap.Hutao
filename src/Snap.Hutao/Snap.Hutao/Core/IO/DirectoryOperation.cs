@@ -14,20 +14,23 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class DirectoryOperation
 {
-    public static bool Copy(string sourceDirName, string destDirName)
+    public static bool Copy(string sourceDirName, string destDirName, out Exception? exception)
     {
         if (!Directory.Exists(sourceDirName))
         {
+            exception = new DirectoryNotFoundException($"Directory not found: {sourceDirName}");
             return false;
         }
 
         try
         {
             FileSystem.CopyDirectory(sourceDirName, destDirName, true);
+            exception = default;
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            exception = ex;
             return false;
         }
     }

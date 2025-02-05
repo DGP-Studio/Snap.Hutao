@@ -12,7 +12,9 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
+using System.Diagnostics;
 using System.IO;
+using Windows.Storage;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -32,19 +34,19 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
     internal static async ValueTask<bool> InternalSetDataFolderAsync(IFileSystemPickerInteraction fileSystemPickerInteraction, IContentDialogFactory contentDialogFactory)
     {
-        if (!fileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolder))
+        if (!fileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolderPath))
         {
             return false;
         }
 
-        string oldFolder = HutaoRuntime.DataFolder;
-        if (Path.GetFullPath(oldFolder).Equals(Path.GetFullPath(newFolder), StringComparison.OrdinalIgnoreCase))
+        string oldFolderPath = HutaoRuntime.DataFolder;
+        if (Path.GetFullPath(oldFolderPath).Equals(Path.GetFullPath(newFolderPath), StringComparison.OrdinalIgnoreCase))
         {
             return false;
         }
 
-        Directory.CreateDirectory(newFolder);
-        if (Directory.EnumerateFileSystemEntries(newFolder).Any())
+        Directory.CreateDirectory(newFolderPath);
+        if (Directory.EnumerateFileSystemEntries(newFolderPath).Any())
         {
             ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
                 SH.ViewModelSettingStorageSetDataFolderTitle,
@@ -56,9 +58,18 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             }
         }
 
-        HutaoException.ThrowIfNot(DirectoryOperation.Copy(oldFolder, newFolder), "Move DataFolder failed");
-        LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolder);
-        LocalSetting.Set(SettingKeys.DataFolderPath, newFolder);
+        try
+        {
+            StorageFolder oldFolder = await StorageFolder.GetFolderFromPathAsync(oldFolderPath);
+            await oldFolder.CopyAsync(newFolderPath).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            HutaoException.Throw("Copy DataFolder failed", ex);
+        }
+
+        LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolderPath);
+        LocalSetting.Set(SettingKeys.DataFolderPath, newFolderPath);
         return true;
     }
 
