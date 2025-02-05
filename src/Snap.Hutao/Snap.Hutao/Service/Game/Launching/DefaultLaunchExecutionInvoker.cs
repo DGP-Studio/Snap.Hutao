@@ -8,11 +8,11 @@ using Snap.Hutao.Service.Game.Launching.Handler;
 namespace Snap.Hutao.Service.Game.Launching;
 
 [Injection(InjectAs.Transient)]
-internal sealed class LaunchExecutionInvoker
+internal sealed class DefaultLaunchExecutionInvoker
 {
     private readonly Queue<ILaunchExecutionDelegateHandler> handlers;
 
-    public LaunchExecutionInvoker()
+    public DefaultLaunchExecutionInvoker()
     {
         handlers = [];
         handlers.Enqueue(new LaunchExecutionEnsureGameNotRunningHandler());

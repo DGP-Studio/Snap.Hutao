@@ -22,7 +22,7 @@ internal static class LaunchGameLaunchExecution
             {
                 using (LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, targetScheme, launchExecution.SelectedGameAccount, userAndUid))
                 {
-                    LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+                    LaunchExecutionResult result = await new DefaultLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
 
                     if (result.Kind is not LaunchExecutionResultKind.Ok)
                     {

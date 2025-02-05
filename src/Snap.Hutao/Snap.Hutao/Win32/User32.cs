@@ -169,7 +169,7 @@ internal static class User32
     public static extern unsafe uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] uint* lpdwProcessId);
 
     [DebuggerStepThrough]
-    public static unsafe uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] out uint dwProcessId)
+    public static unsafe uint GetWindowThreadProcessId(HWND hWnd, out uint dwProcessId)
     {
         fixed (uint* lpdwProcessId = &dwProcessId)
         {
