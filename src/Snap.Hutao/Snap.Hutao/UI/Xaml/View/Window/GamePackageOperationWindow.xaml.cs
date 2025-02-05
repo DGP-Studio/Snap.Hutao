@@ -33,6 +33,7 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
             presenter.IsMaximizable = false;
         }
 
+        // Private Window.Closed handler must attach before InitializeController
         Closed += OnWindowClosed;
         this.InitializeController(serviceProvider);
         RootGrid.InitializeDataContext<GamePackageOperationViewModel>(scope.ServiceProvider);

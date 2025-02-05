@@ -109,7 +109,9 @@ internal static class HutaoRuntime
         }
         catch
         {
-            // Ignore
+#if !RELEASE
+            throw;
+#endif
         }
 
         string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
@@ -120,11 +122,11 @@ internal static class HutaoRuntime
             return preferredPath;
         }
 
+        const string FolderName
 #if IS_ALPHA_BUILD
-        const string FolderName = "HutaoAlpha";
+        = "HutaoAlpha";
 #else
-        // 使得迁移能正常生成
-        const string FolderName = "Hutao";
+        = "Hutao";
 #endif
 
         string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

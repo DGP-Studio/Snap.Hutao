@@ -25,6 +25,18 @@ internal sealed class AsyncLock
         return wait.IsCompleted ? releaser : wait.ContinueWith(Continuation, this, default, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
     }
 
+    public bool TryLock(out Releaser releaser)
+    {
+        if (semaphore.TryWait())
+        {
+            releaser = new(this);
+            return true;
+        }
+
+        releaser = default;
+        return false;
+    }
+
     private static Releaser RunContinuation(Task task, object? state)
     {
         ArgumentNullException.ThrowIfNull(state);
