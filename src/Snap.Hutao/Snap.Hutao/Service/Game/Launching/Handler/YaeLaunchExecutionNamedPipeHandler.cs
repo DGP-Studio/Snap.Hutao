@@ -32,6 +32,7 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
             context.Logger.LogInformation("Process is not elevated");
             context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeClientNotElevated;
             context.Result.ErrorMessage = SH.ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated;
+            context.Process.Kill();
             return;
         }
 
@@ -40,6 +41,7 @@ internal sealed class YaeLaunchExecutionNamedPipeHandler : ILaunchExecutionDeleg
             context.Logger.LogInformation("Island is not enabled");
             context.Result.Kind = LaunchExecutionResultKind.EmbeddedYaeIslandNotEnabled;
             context.Result.ErrorMessage = SH.ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled;
+            context.Process.Kill();
             return;
         }
 
