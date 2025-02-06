@@ -8,7 +8,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.WinUI.FrameworkTheming;

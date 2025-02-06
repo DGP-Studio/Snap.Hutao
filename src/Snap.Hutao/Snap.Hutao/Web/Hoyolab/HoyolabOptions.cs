@@ -8,55 +8,31 @@ using Random = Snap.Hutao.Core.Random;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
-/// <summary>
-/// 米游社选项
-/// </summary>
 internal static class HoyolabOptions
 {
-    /// <summary>
-    /// 米游社请求UA
-    /// </summary>
     public const string UserAgent = $"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/{SaltConstants.CNVersion}";
 
-    /// <summary>
-    /// Hoyolab 请求UA
-    /// </summary>
     public const string UserAgentOversea = $"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBSOversea/{SaltConstants.OSVersion}";
 
-    /// <summary>
-    /// 米游社移动端请求UA
-    /// </summary>
     public const string MobileUserAgent = $"Mozilla/5.0 (Linux; Android 12) Mobile miHoYoBBS/{SaltConstants.CNVersion}";
 
-    /// <summary>
-    /// Hoyolab 移动端请求UA
-    /// </summary>
     public const string MobileUserAgentOversea = $"Mozilla/5.0 (Linux; Android 12) Mobile miHoYoBBSOversea/{SaltConstants.OSVersion}";
 
     public const string HoyoPlayUserAgent = $"HYPContainer/1.1.4.133";
 
     public const string ToolVersion = "v4.2.2-ys";
 
-    /// <summary>
-    /// 米游社设备Id
-    /// </summary>
     public static string DeviceId36 { get; } = Guid.NewGuid().ToString();
 
-    /// <summary>
-    /// 扫码登录设备Id
-    /// </summary>
     public static string DeviceId40 { get; } = GenerateDeviceId40();
 
-    // TODO: 53位设备Id
     public static string DeviceId53 { get; } = Random.GetLowerAndNumberString(53);
 
-    /// <summary>
-    /// 盐
-    /// </summary>
     public static FrozenDictionary<SaltType, string> Salts { get; } = FrozenDictionary.ToFrozenDictionary(
     [
 
         // Chinese
+        // https://github.com/UIGF-org/Hoyolab.Salt#salts
         KeyValuePair.Create(SaltType.K2, SaltConstants.CNK2),
         KeyValuePair.Create(SaltType.LK2, SaltConstants.CNLK2),
         KeyValuePair.Create(SaltType.X4, "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs"),

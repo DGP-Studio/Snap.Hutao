@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Win32.System.WinRT;

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Endpoint.Hutao;
