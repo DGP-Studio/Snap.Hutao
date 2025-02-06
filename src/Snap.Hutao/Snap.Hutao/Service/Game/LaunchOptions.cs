@@ -380,9 +380,9 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         get;
         set
         {
-            if (SetProperty(ref field, value) && value is { } aspectRatio)
+            if (SetProperty(ref field, value) && value is not null)
             {
-                (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
+                (ScreenWidth, ScreenHeight) = ((int)value.Width, (int)value.Height);
             }
         }
     }

@@ -6,6 +6,7 @@ using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.ViewModel.Game;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
@@ -22,6 +23,8 @@ internal sealed partial class AchievementViewModelScopeContext
     public partial IContentDialogFactory ContentDialogFactory { get; }
 
     public partial AchievementImporter AchievementImporter { get; }
+
+    public partial LaunchGameViewModel LaunchGameViewModel { get; }
 
     public partial IAchievementService AchievementService { get; }
 

@@ -1010,6 +1010,12 @@
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>下载游戏资源索引失败: {0}</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+  </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>游戏进程已退出</value>
   </data>

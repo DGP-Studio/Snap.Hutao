@@ -19,4 +19,8 @@ internal enum LaunchExecutionResultKind
     GameAccountCreateAuthTicketFailed,
     GameAccountUserAndUidAndServerNotMatch,
     GameFpsUnlockingFailed,
+
+    EmbeddedYaeClientNotElevated,
+    EmbeddedYaeIslandNotEnabled,
+    EmbeddedYaeNamedPipeError,
 }

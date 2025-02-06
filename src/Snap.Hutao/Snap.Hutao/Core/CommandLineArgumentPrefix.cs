@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core;
 
-internal enum CommandLineArgumentSeparator
+internal enum CommandLineArgumentPrefix
 {
     WhiteSpace,
     Equal,

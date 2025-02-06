@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.User;
 
@@ -10,7 +9,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 internal static class LaunchGameLaunchExecution
 {
-    public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution launchExecution, LaunchScheme? targetScheme, UserAndUid? userAndUid)
+    public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution launchExecution, UserAndUid? userAndUid)
     {
         // Force use root scope
         using (IServiceScope scope = Ioc.Default.CreateScope())
@@ -20,7 +19,7 @@ internal static class LaunchGameLaunchExecution
 
             try
             {
-                using (LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, targetScheme, launchExecution.SelectedGameAccount, userAndUid))
+                using (LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, userAndUid))
                 {
                     LaunchExecutionResult result = await new DefaultLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
 
