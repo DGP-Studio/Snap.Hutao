@@ -1686,7 +1686,7 @@
     <value>稍後可以在設定中修改</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>資料資料夾用於儲存所有由使用者操作產生的資料、自定義桌布、後設資料、切換伺服器快取、更新快取等檔案</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* 預設的資料資料夾會在卸載時一同刪除，稍後可以在設定中修改</value>
@@ -3453,7 +3453,7 @@
     <value>啟動遊戲 - 解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>更改目錄後將會自動複製資料夾並自動重新啟動，重新啟動後自動刪除之前的資料夾</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>更改資料目錄</value>
