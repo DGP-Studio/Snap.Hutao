@@ -31,7 +31,7 @@ internal sealed class YaeLaunchExecutionGameProcessInitializationHandler : ILaun
             .Append("-screen-fullscreen", 0)
             .Append("-screen-width", 400)
             .Append("-screen-height", 225)
-            .AppendIf(launchOptions.UsingHoyolabAccount && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentPrefix.Equal)
+            .AppendIf(launchOptions is { AreCommandLineArgumentsEnabled: true, UsingHoyolabAccount: true } && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentPrefix.Equal)
             .ToString();
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);

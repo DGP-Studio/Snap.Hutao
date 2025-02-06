@@ -21,10 +21,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
         LaunchScheme? currentScheme = viewModel.Shared.GetCurrentLaunchSchemeFromConfigFile();
         ArgumentNullException.ThrowIfNull(currentScheme);
         CurrentScheme = currentScheme;
-
-        LaunchScheme? targetScheme = viewModel.SelectedScheme;
-        ArgumentNullException.ThrowIfNull(targetScheme);
-        TargetScheme = targetScheme;
+        TargetScheme = viewModel.SelectedScheme ?? currentScheme;
 
         Account = viewModel.SelectedGameAccount;
         UserAndUid = userAndUid;

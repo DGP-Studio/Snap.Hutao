@@ -6,7 +6,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;

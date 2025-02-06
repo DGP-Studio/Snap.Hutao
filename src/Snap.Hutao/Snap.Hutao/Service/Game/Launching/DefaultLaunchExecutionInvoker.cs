@@ -5,7 +5,6 @@ using Snap.Hutao.Service.Game.Launching.Handler;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-[Injection(InjectAs.Transient)]
 internal sealed class DefaultLaunchExecutionInvoker : LaunchExecutionInvoker
 {
     public DefaultLaunchExecutionInvoker()
