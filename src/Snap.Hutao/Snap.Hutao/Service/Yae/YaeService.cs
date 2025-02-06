@@ -48,6 +48,7 @@ internal sealed partial class YaeService : IYaeService
                     if (result.Kind is not LaunchExecutionResultKind.Ok)
                     {
                         infoBarService.Warning(result.ErrorMessage);
+                        return default;
                     }
                 }
             }
@@ -95,6 +96,7 @@ internal sealed partial class YaeService : IYaeService
                     if (result.Kind is not LaunchExecutionResultKind.Ok)
                     {
                         infoBarService.Warning(result.ErrorMessage);
+                        return default;
                     }
                 }
             }

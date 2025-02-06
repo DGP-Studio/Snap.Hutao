@@ -10,6 +10,7 @@
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
@@ -314,11 +315,50 @@
                         <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE8B5;}" Label="{shuxm:ResourceString Name=ViewPageAchievementImportLabel}">
                             <AppBarButton.Flyout>
                                 <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                    <MenuFlyoutItem
-                                        Command="{Binding ImportUIAFFromEmbeddedYaeCommand}"
-                                        Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
-                                        IsEnabled="{Binding RuntimeOptions.IsElevated}"
-                                        Text="{shuxm:ResourceString Name=ViewPageAchievementImportFromEmbeddedYae}"/>
+                                    <MenuFlyoutItem Icon="{shuxm:FontIcon Glyph=&#xE7FC;}" Text="{shuxm:ResourceString Name=ViewPageAchievementImportFromEmbeddedYae}">
+                                        <mxi:Interaction.Behaviors>
+                                            <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                <shuxba:ShowAttachedFlyoutAction/>
+                                            </mxic:EventTriggerBehavior>
+                                        </mxi:Interaction.Behaviors>
+                                        <FlyoutBase.AttachedFlyout>
+                                            <Flyout
+                                                FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding0Style}"
+                                                Placement="LeftEdgeAlignedTop"
+                                                ShowMode="TransientWithDismissOnPointerMoveAway">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border
+                                                        Grid.Row="0"
+                                                        Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                        BorderThickness="0,0,0,1">
+                                                        <TextBlock Margin="8" Text="将 Embedded Yae 注入游戏以获取准确数据"/>
+                                                    </Border>
+                                                    <Grid
+                                                        Grid.Row="1"
+                                                        Padding="8"
+                                                        ColumnSpacing="8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <shuxc:Elevation Grid.Column="0"/>
+                                                        <Button
+                                                            Grid.Column="1"
+                                                            Command="{Binding ImportUIAFFromEmbeddedYaeCommand}"
+                                                            Content="启动游戏"
+                                                            IsEnabled="{Binding RuntimeOptions.IsElevated}"/>
+                                                    </Grid>
+
+
+                                                </Grid>
+                                            </Flyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem
                                         Command="{Binding ImportUIAFFromClipboardCommand}"
                                         Icon="{shuxm:FontIcon Glyph=&#xE77F;}"
