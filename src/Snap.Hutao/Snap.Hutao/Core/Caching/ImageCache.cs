@@ -88,7 +88,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                     return themeOrDefaultFilePath;
                 }
 
-                logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
+                logger.LogInformation("Begin to download file from '\e[1m\e[36m{Uri}\e[37m' to '\e[1m\e[36m{File}\e[37m'", uri, defaultFilePath);
                 await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
                 return themeOrDefaultFilePath;
             }

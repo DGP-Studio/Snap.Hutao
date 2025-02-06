@@ -20,7 +20,7 @@ namespace Snap.Hutao;
 [SuppressMessage("", "SH001", Justification = "The App must be public")]
 public sealed partial class App : Application
 {
-    private const string ConsoleBanner = $"""
+    private const string ConsoleBanner = """
         ----------------------------------------------------------------
           _____                         _    _         _ 
          / ____|                       | |  | |       | |
@@ -51,8 +51,10 @@ public sealed partial class App : Application
 
         // Load app resource
         InitializeComponent();
+        logger.LogDebug("Application Component initialized.");
 
         ExceptionHandlingSupport.Initialize(serviceProvider, this);
+        logger.LogDebug("Exception handling initialized.");
 
         activation = serviceProvider.GetRequiredService<IAppActivation>();
         this.serviceProvider = serviceProvider;
@@ -61,6 +63,7 @@ public sealed partial class App : Application
     public new void Exit()
     {
         XamlApplicationLifetime.Exiting = true;
+        logger.LogDebug("Application exiting.");
         base.Exit();
     }
 
@@ -72,18 +75,22 @@ public sealed partial class App : Application
             // before calling AppInstance.GetCurrent.GetActivatedEventArgs.
             AppNotificationManager.Default.NotificationInvoked += activation.NotificationInvoked;
             AppNotificationManager.Default.Register();
+            logger.LogDebug("\e[1m\e[32mAppNotification\e[37m registered.");
+
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
             Bootstrap.UseNamedPipeRedirection();
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
-                logger.LogDebug("Application exiting on RedirectActivationTo");
+                logger.LogDebug("\e[1m\e[32mApplication\e[37m exit on \e[1m\e[33mRedirectActivationTo\e[37m");
                 Exit();
                 return;
             }
 
-            logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
-            LogDiagnosticInformation();
+            logger.LogInformation($"\e[33m{ConsoleBanner}\e[37m");
+            logger.LogInformation("\e[1m\e[34mFamilyName: \e[1m\e[36m{Name}\e[37m", HutaoRuntime.FamilyName);
+            logger.LogInformation("\e[1m\e[34mVersion: \e[1m\e[36m{Version}\e[37m", HutaoRuntime.Version);
+            logger.LogInformation("\e[1m\e[34mLocalCache: \e[1m\e[36m{Path}\e[37m", HutaoRuntime.LocalCache);
 
             FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(serviceProvider.GetRequiredService<AppOptions>().ElementTheme));
 
@@ -95,12 +102,5 @@ public sealed partial class App : Application
             logger.LogError(ex, "Application failed in App.OnLaunched");
             Process.GetCurrentProcess().Kill();
         }
-    }
-
-    private void LogDiagnosticInformation()
-    {
-        logger.LogColorizedInformation(("FamilyName: {Name}", ConsoleColor.Blue), (HutaoRuntime.FamilyName, ConsoleColor.Cyan));
-        logger.LogColorizedInformation(("Version: {Version}", ConsoleColor.Blue), (HutaoRuntime.Version, ConsoleColor.Cyan));
-        logger.LogColorizedInformation(("LocalCache: {Path}", ConsoleColor.Blue), (HutaoRuntime.LocalCache, ConsoleColor.Cyan));
     }
 }

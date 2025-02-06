@@ -1,6 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
-using Snap.Hutao.Core.Logging;
+
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Diagnostics;
@@ -21,6 +21,6 @@ internal readonly struct MeasureExecutionToken : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose()
     {
-        logger.LogColorizedDebug(("{Caller} toke {Time} ms", ConsoleColor.Gray), (callerName, ConsoleColor.Yellow), (stopwatch.GetElapsedTime().TotalMilliseconds, ConsoleColor.DarkGreen));
+        logger.LogDebug("\e[1m\e[33m{Caller} \e[37mtoke \e[32m{Time} \e[37mms", callerName, stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 }

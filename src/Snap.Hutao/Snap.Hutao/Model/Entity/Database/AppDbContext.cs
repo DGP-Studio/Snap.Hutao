@@ -3,7 +3,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Entity.Configuration;
 using System.Diagnostics;
 
@@ -20,7 +19,7 @@ internal sealed partial class AppDbContext : DbContext
         try
         {
             logger = this.GetService<ILogger<AppDbContext>>();
-            logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
+            logger.LogInformation("\e[1m\e[32m{Name}\e[37m::\e[36m{ContextId} \e[32mcreated\e[37m", nameof(AppDbContext), ContextId);
         }
         catch
         {
@@ -69,7 +68,6 @@ internal sealed partial class AppDbContext : DbContext
     public static AppDbContext Create(IServiceProvider serviceProvider, string sqlConnectionString)
     {
         DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseApplicationServiceProvider(serviceProvider)
             .UseSqlite(sqlConnectionString)
             .Options;
 
@@ -79,7 +77,7 @@ internal sealed partial class AppDbContext : DbContext
     public override void Dispose()
     {
         base.Dispose();
-        logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("disposed", ConsoleColor.Red));
+        logger?.LogInformation("\e[1m\e[32m{Name}\e[37m::\e[36m{ContextId} \e[31mdisposed\e[37m", nameof(AppDbContext), ContextId);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
