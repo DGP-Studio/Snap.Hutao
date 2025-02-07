@@ -8,8 +8,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
@@ -323,11 +325,52 @@
                     <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE895;}" Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}">
                         <AppBarButton.Flyout>
                             <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                <MenuFlyoutItem
-                                    Command="{Binding RefreshInventoryByEmbeddedYaeCommand}"
-                                    Icon="{shuxm:FontIcon Glyph=&#xE7FC;}"
-                                    IsEnabled="{Binding RuntimeOptions.IsElevated}"
-                                    Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByEmbeddedYae}"/>
+                                <MenuFlyoutItem Icon="{shuxm:FontIcon Glyph=&#xE7FC;}" Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByEmbeddedYae}">
+                                    <mxi:Interaction.Behaviors>
+                                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                            <shuxba:ShowAttachedFlyoutAction/>
+                                        </mxic:EventTriggerBehavior>
+                                    </mxi:Interaction.Behaviors>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout
+                                            FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding0Style}"
+                                            Placement="TopEdgeAlignedLeft"
+                                            ShouldConstrainToRootBounds="False"
+                                            ShowMode="TransientWithDismissOnPointerMoveAway">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Border
+                                                    Grid.Row="0"
+                                                    Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                    BorderThickness="0,0,0,1">
+                                                    <TextBlock Margin="8" Text="{shuxm:ResourceString Name=ViewPageEmbeddedYaeLaunchGameDescription}"/>
+                                                </Border>
+                                                <Grid
+                                                    Grid.Row="1"
+                                                    Padding="8"
+                                                    ColumnSpacing="8">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <shuxc:Elevation
+                                                        Grid.Column="0"
+                                                        IsHitTestVisible="False"
+                                                        Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Command="{Binding RefreshInventoryByEmbeddedYaeCommand}"
+                                                        Content="{shuxm:ResourceString Name=ViewPageEmbeddedYaeLaunchGameAction}"
+                                                        IsEnabled="{Binding RuntimeOptions.IsElevated}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem
                                     Command="{Binding RefreshInventoryByCalculatorCommand}"
                                     Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"

@@ -324,7 +324,8 @@
                                         <FlyoutBase.AttachedFlyout>
                                             <Flyout
                                                 FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding0Style}"
-                                                Placement="LeftEdgeAlignedTop"
+                                                Placement="TopEdgeAlignedLeft"
+                                                ShouldConstrainToRootBounds="False"
                                                 ShowMode="TransientWithDismissOnPointerMoveAway">
                                                 <Grid>
                                                     <Grid.RowDefinitions>
@@ -336,7 +337,7 @@
                                                         Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                                                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                         BorderThickness="0,0,0,1">
-                                                        <TextBlock Margin="8" Text="将 Embedded Yae 注入游戏以获取准确数据"/>
+                                                        <TextBlock Margin="8" Text="{shuxm:ResourceString Name=ViewPageEmbeddedYaeLaunchGameDescription}"/>
                                                     </Border>
                                                     <Grid
                                                         Grid.Row="1"
@@ -346,15 +347,16 @@
                                                             <ColumnDefinition/>
                                                             <ColumnDefinition Width="auto"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <shuxc:Elevation Grid.Column="0"/>
+                                                        <shuxc:Elevation
+                                                            Grid.Column="0"
+                                                            IsHitTestVisible="False"
+                                                            Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                         <Button
                                                             Grid.Column="1"
                                                             Command="{Binding ImportUIAFFromEmbeddedYaeCommand}"
-                                                            Content="启动游戏"
+                                                            Content="{shuxm:ResourceString Name=ViewPageEmbeddedYaeLaunchGameAction}"
                                                             IsEnabled="{Binding RuntimeOptions.IsElevated}"/>
                                                     </Grid>
-
-
                                                 </Grid>
                                             </Flyout>
                                         </FlyoutBase.AttachedFlyout>

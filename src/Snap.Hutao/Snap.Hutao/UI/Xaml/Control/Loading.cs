@@ -65,16 +65,3 @@ internal sealed partial class Loading : Microsoft.UI.Xaml.Controls.ContentContro
         }
     }
 }
-
-internal sealed partial class FlyoutMenuFlyoutItem : Microsoft.UI.Xaml.Controls.MenuFlyoutItem
-{
-    public FlyoutMenuFlyoutItem()
-    {
-        PointerPressed += OnPointerPressed;
-    }
-
-    private void OnPointerPressed(object sender, RoutedEventArgs e)
-    {
-        PointerPressedEventArgs
-    }
-}
