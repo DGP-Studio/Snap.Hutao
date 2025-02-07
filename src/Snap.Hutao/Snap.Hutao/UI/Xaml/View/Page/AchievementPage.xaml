@@ -317,6 +317,7 @@
                                 <MenuFlyout Placement="BottomEdgeAlignedRight">
                                     <MenuFlyoutItem Icon="{shuxm:FontIcon Glyph=&#xE7FC;}" Text="{shuxm:ResourceString Name=ViewPageAchievementImportFromEmbeddedYae}">
                                         <mxi:Interaction.Behaviors>
+                                            <shuxb:PreventPerformActionsBehavior/>
                                             <mxic:EventTriggerBehavior EventName="PointerEntered">
                                                 <shuxba:ShowAttachedFlyoutAction/>
                                             </mxic:EventTriggerBehavior>
