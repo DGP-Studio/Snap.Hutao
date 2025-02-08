@@ -921,10 +921,10 @@
     <value>ゲームリソースのインデックスのダウンロードに失敗しました: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Embedded Yae を使う前に、胡桃を管理者権限で実行する必要があります</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Embedded Yae を使う前に、関連するリスクを理解し「ゲームランチャー」ページで注入機能を有効にする必要があります</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>ゲームプロセスが終了しました</value>
@@ -2230,10 +2230,10 @@
     <value>現在のユーザーとキャラを認証</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
-    <value>ゲームを起動するぞ！</value>
+    <value>ゲーム起動</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Embedded Yae をゲームに注入して正確なデータを取得できます</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>質問や提案を検索</value>
