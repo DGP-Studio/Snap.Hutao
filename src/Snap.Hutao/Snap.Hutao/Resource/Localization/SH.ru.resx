@@ -1010,6 +1010,12 @@
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>Не удалось загрузить игровые ресурсы: {0}</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+  </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Процесс игры закрыт</value>
   </data>
@@ -2485,6 +2491,12 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Подтвердить текущего пользователя и роль</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
+    <value>Game Launcher</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
+    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Поиск вопросов и предложений</value>
@@ -4083,7 +4095,7 @@
     <value>Сервер Snap Hutao находится на техническом обслуживании</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>Проверка не удалась. Пожалуйста, проверьте вручную или перейдите на страницу  <текст>miHoYo BBS</текст> - Записи</value>
+    <value>Проверка не удалась. Пожалуйста, проверьте вручную или перейдите на страницу  &lt;текст>miHoYo BBS&lt;/текст> - Записи</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Код возврата: {0} | Сообщение: {1}</value>
