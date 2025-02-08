@@ -44,6 +44,10 @@ internal static class HutaoRuntime
 
     public static string? GetDisplayName()
     {
+        // AppNameAndVersion
+        // AppDevNameAndVersion
+        // AppElevatedNameAndVersion
+        // AppElevatedDevNameAndVersion
         string name = new StringBuilder()
             .Append("App")
             .AppendIf(IsProcessElevated, "Elevated")
