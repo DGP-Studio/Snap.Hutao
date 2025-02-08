@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.PathAbstraction;
+using Snap.Hutao.Service.Game.Scheme;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -10,6 +11,8 @@ namespace Snap.Hutao.ViewModel.Game;
 internal interface IViewModelSupportLaunchExecution
 {
     LaunchGameShared Shared { get; }
+
+    LaunchScheme? SelectedScheme { get; }
 
     GameAccount? SelectedGameAccount { get; }
 

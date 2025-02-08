@@ -11,48 +11,47 @@ namespace Snap.Hutao.Service.Game.Launching;
 [ConstructorGenerated]
 internal sealed partial class LaunchExecutionContext : IDisposable
 {
-    private readonly ILogger<LaunchExecutionContext> logger;
-
     private IGameFileSystem? gameFileSystem;
 
-    [SuppressMessage("", "SH007")]
-    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? targetScheme, GameAccount? account, UserAndUid? userAndUid)
+    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
         : this(serviceProvider)
     {
         ViewModel = viewModel;
-        CurrentScheme = viewModel.Shared.GetCurrentLaunchSchemeFromConfigFile()!;
-        TargetScheme = targetScheme!;
-        Account = account;
+
+        LaunchScheme? currentScheme = viewModel.Shared.GetCurrentLaunchSchemeFromConfigFile();
+        ArgumentNullException.ThrowIfNull(currentScheme);
+        CurrentScheme = currentScheme;
+        TargetScheme = viewModel.SelectedScheme ?? currentScheme;
+
+        Account = viewModel.SelectedGameAccount;
         UserAndUid = userAndUid;
     }
 
     public LaunchExecutionResult Result { get; } = new();
 
-    public CancellationToken CancellationToken { get; set; }
-
     public partial IServiceProvider ServiceProvider { get; }
 
     public partial ITaskContext TaskContext { get; }
 
-    public ILogger Logger { get => logger; }
+    public partial ILogger<LaunchExecutionContext> Logger { get; }
 
     public partial LaunchOptions Options { get; }
 
-    public IViewModelSupportLaunchExecution ViewModel { get; } = default!;
+    public IViewModelSupportLaunchExecution ViewModel { get; }
 
-    public LaunchScheme CurrentScheme { get; private set; } = default!;
+    public LaunchScheme CurrentScheme { get; private set; }
 
-    public LaunchScheme TargetScheme { get; private set; } = default!;
+    public LaunchScheme TargetScheme { get; private set; }
 
     public GameAccount? Account { get; private set; }
+
+    public string? AuthTicket { get; set; }
 
     public UserAndUid? UserAndUid { get; private set; }
 
     public bool ChannelOptionsChanged { get; set; }
 
     public IProgress<LaunchStatus> Progress { get; set; } = default!;
-
-    public string? AuthTicket { get; set; }
 
     public System.Diagnostics.Process Process { get; set; } = default!;
 

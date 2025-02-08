@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-internal delegate ValueTask<LaunchExecutionContext> LaunchExecutionDelegate();
+internal delegate ValueTask LaunchExecutionDelegate();
 
 internal interface ILaunchExecutionDelegateHandler
 {

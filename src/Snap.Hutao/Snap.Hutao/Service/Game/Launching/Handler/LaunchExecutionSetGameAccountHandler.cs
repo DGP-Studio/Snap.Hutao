@@ -68,7 +68,7 @@ internal sealed class LaunchExecutionSetGameAccountHandler : ILaunchExecutionDel
                 .GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>()
                 .CreateFor(userAndUid);
             Response<AuthTicketWrapper> resp = await client
-                .CreateAuthTicketAsync(userAndUid.User, context.CancellationToken)
+                .CreateAuthTicketAsync(userAndUid.User)
                 .ConfigureAwait(false);
 
             if (ResponseValidator.TryValidate(resp, scope.ServiceProvider, out AuthTicketWrapper? wrapper))

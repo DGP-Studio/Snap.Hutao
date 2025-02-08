@@ -167,9 +167,10 @@ internal static class GameFileSystemExtension
     public static bool TryGetGameVersion(this IGameFileSystem gameFileSystem, [NotNullWhen(true)] out string? version)
     {
         version = default!;
-        if (File.Exists(gameFileSystem.GetGameConfigurationFilePath()))
+        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
+        if (File.Exists(configFilePath))
         {
-            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath()).AsSpan())
+            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
             {
                 if (element is IniParameter { Key: "game_version", Value: { Length: > 0 } value })
                 {
@@ -179,9 +180,10 @@ internal static class GameFileSystemExtension
             }
         }
 
-        if (File.Exists(gameFileSystem.GetScriptVersionFilePath()))
+        string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
+        if (File.Exists(scriptVersionFilePath))
         {
-            version = File.ReadAllText(gameFileSystem.GetScriptVersionFilePath());
+            version = File.ReadAllText(scriptVersionFilePath);
             return true;
         }
 
@@ -200,16 +202,18 @@ internal static class GameFileSystemExtension
             game_version={{{version}}}
             """;
 
-        string? directory = Path.GetDirectoryName(gameFileSystem.GetGameConfigurationFilePath());
+        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
+        string? directory = Path.GetDirectoryName(configFilePath);
         ArgumentNullException.ThrowIfNull(directory);
         Directory.CreateDirectory(directory);
-        File.WriteAllText(gameFileSystem.GetGameConfigurationFilePath(), content);
+        File.WriteAllText(configFilePath, content);
     }
 
     public static bool TryUpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
     {
         bool updated = false;
-        IniElement[]? ini = ImmutableCollectionsMarshal.AsArray(IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath()));
+        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
+        IniElement[]? ini = ImmutableCollectionsMarshal.AsArray(IniSerializer.DeserializeFromFile(configFilePath));
 
         if (ini is null)
         {
@@ -227,18 +231,19 @@ internal static class GameFileSystemExtension
             break;
         }
 
-        IniSerializer.SerializeToFile(gameFileSystem.GetGameConfigurationFilePath(), ini);
+        IniSerializer.SerializeToFile(configFilePath, ini);
         return updated;
     }
 
     public static bool TryFixConfigurationFile(this IGameFileSystem gameFileSystem, LaunchScheme launchScheme)
     {
-        if (!File.Exists(gameFileSystem.GetScriptVersionFilePath()))
+        string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
+        if (!File.Exists(scriptVersionFilePath))
         {
             return false;
         }
 
-        string version = File.ReadAllText(gameFileSystem.GetScriptVersionFilePath());
+        string version = File.ReadAllText(scriptVersionFilePath);
         GenerateConfigurationFile(gameFileSystem, version, launchScheme);
 
         return true;
@@ -246,13 +251,14 @@ internal static class GameFileSystemExtension
 
     public static bool TryFixScriptVersion(this IGameFileSystem gameFileSystem)
     {
-        if (!File.Exists(gameFileSystem.GetGameConfigurationFilePath()))
+        string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
+        if (!File.Exists(configFilePath))
         {
             return false;
         }
 
         string? version = default;
-        foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath()).AsSpan())
+        foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
         {
             if (element is IniParameter { Key: "game_version" } parameter)
             {
@@ -261,11 +267,12 @@ internal static class GameFileSystemExtension
             }
         }
 
-        string? directory = Path.GetDirectoryName(gameFileSystem.GetScriptVersionFilePath());
+        string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
+        string? directory = Path.GetDirectoryName(scriptVersionFilePath);
         ArgumentNullException.ThrowIfNull(directory);
 
         Directory.CreateDirectory(directory);
-        File.WriteAllText(gameFileSystem.GetScriptVersionFilePath(), version);
+        File.WriteAllText(scriptVersionFilePath, version);
         return true;
     }
 }

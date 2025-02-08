@@ -37,8 +37,8 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
                 .AppendIf(launchOptions.IsScreenWidthEnabled, "-screen-width", launchOptions.ScreenWidth)
                 .AppendIf(launchOptions.IsScreenHeightEnabled, "-screen-height", launchOptions.ScreenHeight)
                 .AppendIf(launchOptions.IsMonitorEnabled, "-monitor", launchOptions.Monitor.Value)
-                .AppendIf(launchOptions.UsingCloudThirdPartyMobile, "-platform_type CLOUD_THIRD_PARTY_MOBILE")
-                .AppendIf(launchOptions.UsingHoyolabAccount && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentSeparator.Equal)
+                .AppendIf(launchOptions.UsingCloudThirdPartyMobile, "-platform_type", "CLOUD_THIRD_PARTY_MOBILE")
+                .AppendIf(launchOptions.UsingHoyolabAccount && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentPrefix.Equal)
                 .ToString();
 
             context.TaskContext.InvokeOnMainThread(() =>

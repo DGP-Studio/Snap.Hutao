@@ -10,6 +10,7 @@ internal enum LaunchPhase
     UnlockingFps,
     UnlockFpsSucceed,
     UnlockFpsFailed,
+
     WaitingForExit,
     ProcessExited,
 }
