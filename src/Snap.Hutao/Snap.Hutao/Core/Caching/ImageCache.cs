@@ -4,14 +4,9 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.UI;
 using Snap.Hutao.Web.Endpoint.Hutao;
-using Snap.Hutao.Win32.System.WinRT;
 using System.IO;
 using System.Security.Cryptography;
-using Windows.Foundation;
-using Windows.Graphics.Imaging;
-using WinRT;
 using ThemeFile = (Microsoft.UI.Xaml.ElementTheme, Snap.Hutao.Core.IO.ValueFile);
 
 namespace Snap.Hutao.Core.Caching;
@@ -39,7 +34,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public void Remove(Uri uriForCachedItem)
     {
-        string filePath = Path.Combine(CacheFolder, GetCacheFileName(uriForCachedItem));
+        string filePath = Path.Combine(CacheFolder, CacheFile.GetCacheFileName(uriForCachedItem.OriginalString));
         try
         {
             File.Delete(filePath);
@@ -58,55 +53,43 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme)
     {
-        string fileName = GetCacheFileName(uri);
-        string defaultFilePath = Path.Combine(CacheFolder, fileName);
-        string themeOrDefaultFilePath = theme is ElementTheme.Dark or ElementTheme.Light
-            ? Path.Combine(CacheFolder, $"{theme}", fileName)
-            : defaultFilePath;
+        // This method is performance critical, we potentially avoid logging when the file exists
+        CacheFile cacheFile = CacheFile.Create(CacheFolder, uri);
+        string themedFileFullPath = cacheFile.GetThemedFileFullPath(theme);
 
-        if (!IsFileInvalid(themeOrDefaultFilePath))
+        if (!IsFileInvalid(themedFileFullPath))
         {
-            return themeOrDefaultFilePath;
+            return themedFileFullPath;
         }
 
-        using (await themeFileLocks.LockAsync((theme, fileName)).ConfigureAwait(false))
+        using (await themeFileLocks.LockAsync((theme, cacheFile.FileName)).ConfigureAwait(false))
         {
             // If the file already exists, we don't need to download it again
-            if (!IsFileInvalid(defaultFilePath))
+            if (!IsFileInvalid(cacheFile.DefaultFileFullPath))
             {
-                await TryConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                return themeOrDefaultFilePath;
+                await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
+                return themedFileFullPath;
             }
 
-            using (await downloadLocks.LockAsync(fileName).ConfigureAwait(false))
+            using (await downloadLocks.LockAsync(cacheFile.FileName).ConfigureAwait(false))
             {
                 // File may be downloaded by another thread
-                if (!IsFileInvalid(defaultFilePath))
+                if (!IsFileInvalid(cacheFile.DefaultFileFullPath))
                 {
-                    await TryConvertToMonoChromeAndSaveFileAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                    return themeOrDefaultFilePath;
+                    await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
+                    return themedFileFullPath;
                 }
 
-                logger.LogInformation("Begin to download file from '\e[1m\e[36m{Uri}\e[37m' to '\e[1m\e[36m{File}\e[37m'", uri, defaultFilePath);
-                await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
-                return themeOrDefaultFilePath;
+                logger.LogInformation("Begin to download file from '\e[1m\e[36m{Uri}\e[37m' to '\e[1m\e[36m{File}\e[37m'", uri, cacheFile.DefaultFileFullPath);
+                await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
+                return themedFileFullPath;
             }
         }
     }
 
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
-        return Path.Combine(CacheFolder, GetCacheFileName(StaticResourcesEndpoints.StaticRaw(category, fileName)));
-    }
-
-    private static string GetCacheFileName(Uri uri)
-    {
-        return GetCacheFileName(uri.ToString());
-    }
-
-    private static string GetCacheFileName(string url)
-    {
-        return Hash.ToHexString(HashAlgorithmName.SHA1, url);
+        return CacheFile.Create(CacheFolder, StaticResourcesEndpoints.StaticRaw(category, fileName)).DefaultFileFullPath;
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)
@@ -119,46 +102,60 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         return new FileInfo(file).Length == 0;
     }
 
-    private static async ValueTask TryConvertToMonoChromeAndSaveFileAsync(string sourceFile, string themeFile, ElementTheme theme)
+    private static async ValueTask EnsureThemedMonochromeFileExistsAsync(CacheFile cacheFile, ElementTheme theme)
     {
-        if (theme is ElementTheme.Default || string.Equals(sourceFile, themeFile, StringComparison.OrdinalIgnoreCase))
+        if (theme is ElementTheme.Default)
         {
             return;
         }
 
-        using (FileStream sourceStream = File.OpenRead(sourceFile))
+        using (FileStream sourceStream = File.OpenRead(cacheFile.DefaultFileFullPath))
         {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream.AsRandomAccessStream());
-
-            // Always premultiplied to prevent some channels have a non-zero value when the alpha channel is zero
-            using (SoftwareBitmap sourceBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied))
+            using (FileStream themeStream = File.Create(cacheFile.GetThemedFileFullPath(theme)))
             {
-                using (BitmapBuffer sourceBuffer = sourceBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
-                {
-                    using (IMemoryBufferReference reference = sourceBuffer.CreateReference())
-                    {
-                        byte value = (byte)(theme is ElementTheme.Light ? 0x00 : 0xFF);
-                        SyncConvertToMonoChrome(reference.As<IMemoryBufferByteAccess>(), value);
-                    }
-                }
-
-                using (FileStream themeStream = File.Create(themeFile))
-                {
-                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, themeStream.AsRandomAccessStream());
-                    encoder.SetSoftwareBitmap(sourceBitmap);
-                    await encoder.FlushAsync();
-                }
+                await MonoChromeImageConverter.ConvertAndCopyToAsync(theme, sourceStream, themeStream).ConfigureAwait(false);
             }
         }
+    }
 
-        static void SyncConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
+    private sealed class CacheFile
+    {
+        private readonly string folder;
+
+        private CacheFile(string folder, string fileName)
         {
-            byteAccess.GetBuffer(out Span<Rgba32> span);
-            foreach (ref Rgba32 pixel in span)
-            {
-                pixel.A = (byte)pixel.Luminance255;
-                pixel.R = pixel.G = pixel.B = background;
-            }
+            this.folder = folder;
+            FileName = fileName;
+        }
+
+        public string FileName { get; }
+
+        [field: MaybeNull]
+        public string DefaultFileFullPath
+        {
+            get => field ??= Path.GetFullPath(Path.Combine(folder, FileName));
+        }
+
+        public static CacheFile Create(string folder, string url)
+        {
+            return new(folder, GetCacheFileName(url));
+        }
+
+        public static CacheFile Create(string folder, Uri uri)
+        {
+            return new(folder, GetCacheFileName(uri.OriginalString));
+        }
+
+        public static string GetCacheFileName(string url)
+        {
+            return Hash.ToHexString(HashAlgorithmName.SHA1, url);
+        }
+
+        public string GetThemedFileFullPath(ElementTheme theme)
+        {
+            return theme is ElementTheme.Default
+                ? DefaultFileFullPath
+                : Path.GetFullPath(Path.Combine(folder, $"{theme}", FileName));
         }
     }
 }
