@@ -1,5 +1,5 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
 
 using System.Collections.Frozen;
 using System.Text;
@@ -9,6 +9,9 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 类型名称帮助类
 /// Directly copied from .NET Runtime library
+///
+/// Licensed to the .NET Foundation under one or more agreements.
+/// The .NET Foundation licenses this file to you under the MIT license.
 /// </summary>
 [SuppressMessage("", "SH007")]
 internal static class TypeNameHelper
