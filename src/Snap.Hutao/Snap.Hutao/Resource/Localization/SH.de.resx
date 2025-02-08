@@ -156,38 +156,11 @@
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Ungültige URI</value>
   </data>
-  <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
-    <value>HTTP GET {0}</value>
-  </data>
-  <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
-    <value>Ausnahme beim Anwenden der Quelle von CompositionImage</value>
-  </data>
   <data name="ControlPanelPanelSelectorDropdownGridName" xml:space="preserve">
     <value>Raster</value>
   </data>
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>Liste</value>
-  </data>
-  <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
-    <value>Datenbank beschädigt: {0}</value>
-  </data>
-  <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>Benutzerdatenarchiv beschädigt: {0}</value>
-  </data>
-  <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
-    <value>Diese Funktion nicht im Administratormodus verwenden: {0}</value>
-  </data>
-  <data name="CoreIOPickerExtensionPickerExceptionInfoBarTitle" xml:space="preserve">
-    <value>Datei-Picker konnte nicht geöffnet werden</value>
-  </data>
-  <data name="CoreIOTempFileCreateFail" xml:space="preserve">
-    <value>Unzureichende Berechtigung, temporäre Datei konnte nicht erstellt werden</value>
-  </data>
-  <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
-    <value>Spiel starten</value>
-  </data>
-  <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>Snap Hutao Echtzeit-Notizen-Aktualisierungsaufgabe | Bitte nicht bearbeiten oder löschen.</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore wurde freigegeben, Operation abgebrochen</value>
@@ -219,17 +192,8 @@
   <data name="CoreWindowThemeSystem" xml:space="preserve">
     <value>Systemeinstellung</value>
   </data>
-  <data name="FilePickerExportCommit" xml:space="preserve">
-    <value>Exportieren</value>
-  </data>
-  <data name="FilePickerImportCommit" xml:space="preserve">
-    <value>Importieren</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Willkommen bei Snap Hutao</value>
-  </data>
-  <data name="LaunchGameTitle" xml:space="preserve">
-    <value>Konto auswählen und starten</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
     <value>&lt;color=#1E90FF&gt;Prinz&lt;/color&gt;/&lt;color=#FFB6C1&gt;Prinzessin&lt;/color&gt;</value>
@@ -302,9 +266,6 @@
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
     <value>Charakter</value>
-  </data>
-  <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
-    <value>Unbekannt</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
     <value>Waffe</value>
@@ -820,26 +781,8 @@
   <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
     <value>Abklingzeitverringerung</value>
   </data>
-  <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
-    <value>Berechnungen zur Verbesserung: Nicht verfügbar</value>
-  </data>
-  <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
-    <value>Berechnungen zur Verbesserung: {0:MM-dd HH:mm}</value>
-  </data>
-  <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>Kampfchronik: Nicht aktualisiert</value>
-  </data>
-  <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>Genshin-Kampfchronik: {0:dd.MM HH:mm}</value>
-  </data>
   <data name="ServiceAvatarInfoSummaryNotRefreshed" xml:space="preserve">
     <value>Nicht aktualisiert</value>
-  </data>
-  <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
-    <value>Charakter-Showcase: Nicht aktualisiert</value>
-  </data>
-  <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
-    <value>Charakter-Showcase: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
     <value>Bing Tages-Hintergrundbild</value>
@@ -856,12 +799,6 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>Kein Hintergrundbild</value>
   </data>
-  <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
-    <value>Speichern des Status des Entwicklungsplans fehlgeschlagen</value>
-  </data>
-  <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
-    <value>Mehrere Entwicklungspläne ausgewählt</value>
-  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Senden der App-Benachrichtigung fehlgeschlagen</value>
   </data>
@@ -870,9 +807,6 @@
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>Verstanden</value>
-  </data>
-  <data name="ServiceDailyNoteNotifierAttribution" xml:space="preserve">
-    <value>Anfragefehler</value>
   </data>
   <data name="ServiceDailyNoteNotifierDailyTask" xml:space="preserve">
     <value>Tägliche Aufträge</value>
@@ -925,12 +859,6 @@
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
     <value>Gestartet von {0}</value>
   </data>
-  <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>Wunschverlauf kann nicht abgerufen werden: {0}</value>
-  </data>
-  <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
-    <value>Die End-ID des Wunschverlaufs kann nicht aufgelöst werden</value>
-  </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>Figuren-Aktionsgebet</value>
   </data>
@@ -946,12 +874,6 @@
   <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
     <value>Fehler beim Abrufen des Cloud-Wunschverlaufs</value>
   </data>
-  <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
-    <value>Der Dienst zum Hochladen des Wunschverlaufs ist nicht verfügbar</value>
-  </data>
-  <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>Daten enthalten unerwartete Gegenstände, ID: {0}</value>
-  </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>Anforderung des Authentifizierungsschlüssels fehlgeschlagen</value>
   </data>
@@ -965,9 +887,6 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Keine verfügbare URL gefunden</value>
   </data>
-  <data name="ServiceGachaLogUrlProviderGameIsRunning" xml:space="preserve">
-    <value>Das Spiel läuft. Schließe das Spiel und versuche es erneut.</value>
-  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Die angegebene URL ist ungültig</value>
   </data>
@@ -980,9 +899,6 @@
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Nicht unterstützte Item-ID: {0}</value>
   </data>
-  <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>Die Sprache der UIGF-Datei: {0} stimmt nicht mit der Sprache von Snap Hutao: {1} überein. Bitte versuchen Sie es erneut, nachdem Sie die Clientsprache in die Zielsprache der UIGF-Datei geändert haben.</value>
-  </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Das Konto mit dem Namen {0} ist bereits vorhanden</value>
   </data>
@@ -994,12 +910,6 @@
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>Spiele-Ressourcenindex herunterladen</value>
-  </data>
-  <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>Fehler beim Ausführen der Spieldatei: {0}</value>
-  </data>
-  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
-    <value>Fehler beim Entsperren der maximalen Framerate</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Spiel wird ausgeführt</value>
@@ -1025,29 +935,11 @@
   <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
     <value>Spielprozess wurde gestartet</value>
   </data>
-  <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
-    <value>Fehler beim Aufheben der FPS-Obergrenze, beende Spielprozess</value>
-  </data>
-  <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
-    <value>FPS-Obergrenze erfolgreich aufgehoben</value>
-  </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
     <value>Rufe Informationen zur Injektionskonfiguration ab</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>Warte, bis der Spielprozess beendet wird</value>
-  </data>
-  <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
-    <value>Entsperrt die Modul-Injektion in den Spielprozess, was gefährlich, aber einfach ist</value>
-  </data>
-  <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
-    <value>Injektion</value>
-  </data>
-  <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>Klassische prozessübergreifende Speicheroperationen, gefährlich, aber fehleranfällig</value>
-  </data>
-  <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
-    <value>Klassisch</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>Spieldatei auswählen</value>
@@ -1112,32 +1004,11 @@
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>Spielpfad konnte nicht gefunden werden, bitte in den Einstellungen ändern</value>
   </data>
-  <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
-    <value>Lange Pfade nicht aktiviert, kann Registry-Schlüssel nicht festlegen</value>
-  </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>Spielekonfigurationsdatei {0} kann nicht gelesen werden, möglicherweise ist die Datei nicht vorhanden</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
     <value>Konfigurationsdatei kann nicht gelesen oder gespeichert werden, bitte im Administratormodus erneut versuchen</value>
-  </data>
-  <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>Problem beim Suchen nach erforderlichen Modulen: Es konnten keine Module gelesen werden, möglicherweise wurde der Schutztreiber bereits geladen, bitte erneut versuchen</value>
-  </data>
-  <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>Problem beim Suchen nach erforderlichen Modulen: Zeitlimit für die Modulsuche überschritten, bitte erneut versuchen</value>
-  </data>
-  <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>Problem beim Abgleichen des Speichers: Der erwartete Inhalt konnte nicht gefunden werden</value>
-  </data>
-  <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
-    <value>Problem beim Lesen des Speichers der erforderlichen Module: Modulspeicher konnte nicht an den angegebenen Ort kopiert werden</value>
-  </data>
-  <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
-    <value>Problem beim Lesen des Spielprozessspeichers: Es konnte kein gültiger Wert an der angegebenen Adresse gelesen werden</value>
-  </data>
-  <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
-    <value>Fehler beim Freischalten der Bildrate: 0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Die Gültigkeit des Hochladens von Wunschaufzeichnungen endet am</value>
@@ -1178,17 +1049,8 @@
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>Anmeldung erfolgreich, {0}×{1}</value>
   </data>
-  <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
-    <value>Nicht unterstützte UIGF-Version</value>
-  </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Neue Version {0} verfügbar</value>
-  </data>
-  <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
-    <value>Mehrere Benutzer als ausgewählt markiert</value>
-  </data>
-  <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
-    <value>Fehler beim Speichern des Status von Benutzer {0}</value>
   </data>
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
     <value>Der eingegebene Cookie muss eine Mid enthalten</value>
@@ -1204,12 +1066,6 @@
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Embedded Yae 错误</value>
-  </data>
-  <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
-    <value>请先在启动游戏页面设置游戏目录</value>
-  </data>
-  <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
-    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
     <value>正在等待游戏数据</value>
@@ -1361,9 +1217,6 @@
   <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
     <value>Ziellevel der Waffe</value>
   </data>
-  <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
-    <value>Aktuellen Benutzer und Rolle verknüpfen</value>
-  </data>
   <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
     <value>Hier den Plan-Namen eingeben</value>
   </data>
@@ -1400,9 +1253,6 @@
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
     <value>Schwellenwert für die Benachrichtigung über Ursprüngliches Harz</value>
   </data>
-  <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
-    <value>Widget auf der Startseite anzeigen</value>
-  </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
     <value>Benachrichtigungseinstellungen für Echtzeit-Notizen</value>
   </data>
@@ -1429,9 +1279,6 @@
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
     <value>Loopback-Einschränkung aufheben?</value>
-  </data>
-  <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
-    <value>Wunschverlauf importieren</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
     <value>Die URL des Wunschverlaufs ist abgelaufen, bitte neu abrufen</value>
@@ -1532,12 +1379,6 @@
   <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
     <value>UIAF-Version</value>
   </data>
-  <data name="ViewDialogImportUIGFExportListCount" xml:space="preserve">
-    <value>Anzahl der Einträge</value>
-  </data>
-  <data name="ViewDialogImportUIGFExportUid" xml:space="preserve">
-    <value>UID</value>
-  </data>
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
     <value>UIGF-Version</value>
   </data>
@@ -1595,12 +1436,6 @@
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>Du aktivierst eine gefährliche Funktion</value>
   </data>
-  <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
-    <value>Diese Aktion ist irreversibel, und alle Benutzeranmeldestatus gehen verloren.</value>
-  </data>
-  <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
-    <value>Benutzerdaten dauerhaft löschen?</value>
-  </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>Kein Hutao Passport aktuell angemeldet, das Hochladen von Abyss-Daten gewährt keine Hutao Cloud-Privilegienverlängerung.</value>
   </data>
@@ -1615,9 +1450,6 @@
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdateLogLinkContent" xml:space="preserve">
     <value>Update-Protokolle überprüfen</value>
-  </data>
-  <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
-    <value>Wenn das automatische Update zu langsam ist, kannst du es hier manuell herunterladen und installieren</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
     <value>Download-Quelle</value>
@@ -1697,9 +1529,6 @@
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* Der Standarddatenordner wird bei der Deinstallation gelöscht. Du kannst ihn später in den Einstellungen ändern.</value>
   </data>
-  <data name="ViewGuideStepDocument" xml:space="preserve">
-    <value>Dokument</value>
-  </data>
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
     <value>Umgebungen</value>
   </data>
@@ -1753,9 +1582,6 @@
   </data>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>Qualität der Bildressourcen</value>
-  </data>
-  <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
-    <value>Abgrundstatistik</value>
   </data>
   <data name="ViewHutaoPassportHeader" xml:space="preserve">
     <value>Hutao Passport</value>
@@ -1814,14 +1640,8 @@
   <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
     <value>Charakterinformationsdienst [Enka API] ist derzeit nicht verfügbar</value>
   </data>
-  <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
-    <value>In die Zwischenablage exportiert</value>
-  </data>
   <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
     <value>Daten werden abgerufen</value>
-  </data>
-  <data name="ViewModelAvatarPropertyOpenClipboardFail" xml:space="preserve">
-    <value>Öffnen der Zwischenablage fehlgeschlagen</value>
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>Charakter-Ausstellung ist noch nicht aktiviert. Bitte aktiviere sie im Spiel und versuche es erneut.</value>
@@ -1858,9 +1678,6 @@
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
     <value>Die ausgewählte Stufe benötigt keine Zutaten</value>
-  </data>
-  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
-    <value>Es wurde noch kein Plan erstellt und ausgewählt</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
     <value>Es gibt bereits einen Anbau-Eintrag für diesen Gegenstand</value>
@@ -1916,12 +1733,6 @@
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>Webhook-URL für Echtzeit-Notizen erfolgreich konfiguriert</value>
   </data>
-  <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
-    <value>Das HoYoLab-Konto unterstützt die Verifizierung der Echtzeitnotizen nicht</value>
-  </data>
-  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
-    <value>Ändern des geplanten Tasks fehlgeschlagen</value>
-  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 Min. | 3,75 Harz</value>
   </data>
@@ -1975,21 +1786,6 @@
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
     <value>UIAF-JSON-Dateien</value>
-  </data>
-  <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
-    <value>Import abgeschlossen</value>
-  </data>
-  <data name="ViewModelGachaLogImportProgress" xml:space="preserve">
-    <value>Wunschverlaufsdaten werden importiert</value>
-  </data>
-  <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
-    <value>Die UIGF-Version der Daten ist zu niedrig, um sie zu importieren</value>
-  </data>
-  <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
-    <value>Die importierten Daten enthalten nicht unterstützte Gegenstände</value>
-  </data>
-  <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
-    <value>Import fehlgeschlagen</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
     <value>{1:P3} Chance, nach {0} Ziehungen einen Gegenstand der Stufe 5 zu erhalten</value>
@@ -2051,9 +1847,6 @@
   <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
     <value>Spiel ist vollständig, keine Reparatur erforderlich</value>
   </data>
-  <data name="ViewModelGuideActionAgreement" xml:space="preserve">
-    <value>Ich habe die oben stehenden Bedingungen gelesen und stimme ihnen zu</value>
-  </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>Fertig</value>
   </data>
@@ -2114,9 +1907,6 @@
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Monitore identifizieren</value>
   </data>
-  <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
-    <value>Spielpfad ist falsch, bitte ändere ihn in den Einstellungen</value>
-  </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>Es wurde noch kein Server ausgewählt</value>
   </data>
@@ -2125,9 +1915,6 @@
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Kontowechsel fehlgeschlagen</value>
-  </data>
-  <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
-    <value>Das Konto [{1}] für UID [{0}] kann nicht ausgewählt werden, da dieses Konto nicht zum aktuellen Server gehört.</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>{0} erreicht</value>
@@ -2170,9 +1957,6 @@
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Datenverzeichnis erfolgreich festgelegt, bitte starte neu, um die Änderungen zu übernehmen</value>
-  </data>
-  <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
-    <value>Speichern des Spielpfads fehlgeschlagen</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>Der ausgewählte Ordner ist nicht leer. Vorhandene Dateien werden überschrieben.</value>
@@ -2227,12 +2011,6 @@
   </data>
   <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
     <value>Seitenressource wurde freigegeben, Vorgang abgebrochen</value>
-  </data>
-  <data name="ViewModelWelcomeDownloadCompleteMessage" xml:space="preserve">
-    <value>Snap Hutao kann jetzt verwendet werden</value>
-  </data>
-  <data name="ViewModelWelcomeDownloadCompleteTitle" xml:space="preserve">
-    <value>Download abgeschlossen</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
     <value>Abgeschlossen</value>
@@ -2291,23 +2069,14 @@
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
     <value>Details anzeigen</value>
   </data>
-  <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
-    <value>Artefaktbewertung</value>
-  </data>
   <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
     <value>Alle Charaktere und Waffen</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
     <value>Aktueller Charakter und Waffe</value>
   </data>
-  <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
-    <value>Krit-Bewertung</value>
-  </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>Noch keine Charakterdaten abgerufen</value>
-  </data>
-  <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
-    <value>Als Bild exportieren</value>
   </data>
   <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
     <value>Text in die Zwischenablage exportieren</value>
@@ -2315,38 +2084,14 @@
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>Charaktereigenschaften</value>
   </data>
-  <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
-    <value>Primäre Eigenschaft</value>
-  </data>
   <data name="ViewPageAvatarPropertyRefreshAction" xml:space="preserve">
     <value>Synchronisieren</value>
-  </data>
-  <data name="ViewPageAvatarPropertyRefreshFromEnkaApi" xml:space="preserve">
-    <value>Aus dem Ingame-Charakter-Showcase synchronisieren</value>
-  </data>
-  <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>Synchronisieren der Daten aus dem Ingame-Charakter-Showcase</value>
-  </data>
-  <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
-    <value>Aus der "米游社" Entwicklungsberechnung synchronisieren</value>
-  </data>
-  <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
-    <value>Synchronisiere Charaktertalentdaten</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
     <value>Von der 米游社 Genshin-Kampfchronik synchronisieren</value>
   </data>
-  <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
-    <value>Synchronisiert die meisten Daten außer dem Charaktertalent</value>
-  </data>
   <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
     <value>Aktualisierungszeit</value>
-  </data>
-  <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
-    <value>Bewertung</value>
-  </data>
-  <data name="ViewPageAvatarPropertySecondaryProperties" xml:space="preserve">
-    <value>Verbesserte Eigenschaft</value>
   </data>
   <data name="ViewPageCultivateCalculate" xml:space="preserve">
     <value>Entwicklungsplanung</value>
@@ -2417,12 +2162,6 @@
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
     <value>Echtzeit-Notiz hinzufügen</value>
   </data>
-  <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>Echtzeit-Notiz zum Aktualisieren hinzufügen</value>
-  </data>
-  <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
-    <value>Hinzufügen</value>
-  </data>
   <data name="ViewPageDailyNoteAttendanceStatusInfo" xml:space="preserve">
     <value>Details zum Erhalt von Abenteuerpunkten</value>
   </data>
@@ -2468,9 +2207,6 @@
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
     <value>Aktualisiert die hinzugefügten Echtzeit-Notizen nach der ausgewählten Zeit</value>
   </data>
-  <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
-    <value>Diese Optionen dürfen nur im Nicht-Admin-Modus geändert werden</value>
-  </data>
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
@@ -2501,9 +2237,6 @@
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Suche nach Fragen und Vorschlägen</value>
   </data>
-  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
-    <value>Grundlegende Informationen</value>
-  </data>
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>Nützliche Links</value>
   </data>
@@ -2528,9 +2261,6 @@
   <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
     <value>Wir bearbeiten immer zuerst auf GitHub gemeldete Probleme</value>
   </data>
-  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
-    <value>Entwicklungs-Roadmap</value>
-  </data>
   <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
     <value>Keine Suchergebnisse</value>
   </data>
@@ -2542,9 +2272,6 @@
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>Vollständige Aktualisierung</value>
-  </data>
-  <data name="ViewPageGachaLogExportAction" xml:space="preserve">
-    <value>Exportieren</value>
   </data>
   <data name="ViewPageGachaLogHint" xml:space="preserve">
     <value>Es wurden noch keine Wunschdaten abgerufen</value>
@@ -2756,9 +2483,6 @@
   <data name="ViewPageHutaoPassportGachaLogCloudHeader" xml:space="preserve">
     <value>Snap Hutao Cloud-Wunschaufzeichnungsdienst</value>
   </data>
-  <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
-    <value>Anmelden</value>
-  </data>
   <data name="ViewPageHutaoPassportNewUserNameHint" xml:space="preserve">
     <value>Neue E-Mail-Adresse eingeben</value>
   </data>
@@ -2770,12 +2494,6 @@
   </data>
   <data name="ViewPageHutaoPassportRedeemCodeHint" xml:space="preserve">
     <value>Einlösecode eingeben</value>
-  </data>
-  <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
-    <value>Registrieren</value>
-  </data>
-  <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
-    <value>Passwort zurücksetzen</value>
   </data>
   <data name="ViewPageHutaoPassportSponsorAction" xml:space="preserve">
     <value>Sponsor</value>
@@ -2795,9 +2513,6 @@
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>Spiel starten</value>
   </data>
-  <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
-    <value>Erweiterte Funktionen</value>
-  </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
     <value>Schnell zur angegebenen Auflösung wechseln und das Spiel starten, um die aktuelle Auflösung zu speichern</value>
   </data>
@@ -2810,38 +2525,20 @@
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>Fenster als Popup ohne Rahmen erstellen</value>
   </data>
-  <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
-    <value>Randlos</value>
-  </data>
   <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
     <value>Aktiviert das integrierte Touch-Layout, reagiert nicht auf Tastatur- und Mauseingaben</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>Nicht kompatibel mit eingebetteten Browsern; Operationen wie Fensterwechsel können zum Absturz des Spiels führen</value>
   </data>
-  <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
-    <value>Exklusiver Vollbildmodus</value>
-  </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
     <value>Standardmäßigen Vollbildstatus überschreiben</value>
-  </data>
-  <data name="ViewPageLaunchGameAppearanceFullscreenHeader" xml:space="preserve">
-    <value>Vollbild</value>
-  </data>
-  <data name="ViewPageLaunchGameAppearanceHeader" xml:space="preserve">
-    <value>Aussehen</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>Standardmäßige Bildschirmhöhe überschreiben</value>
   </data>
-  <data name="ViewPageLaunchGameAppearanceScreenHeightHeader" xml:space="preserve">
-    <value>Höhe</value>
-  </data>
   <data name="ViewPageLaunchGameAppearanceScreenWidthDescription" xml:space="preserve">
     <value>Standardmäßige Bildschirmbreite überschreiben</value>
-  </data>
-  <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
-    <value>Breite</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsDescription" xml:space="preserve">
     <value>Ändert das Standardverhalten beim Spielstart</value>
@@ -2863,12 +2560,6 @@
   </data>
   <data name="ViewPageLaunchGameColdSwitchDescription" xml:space="preserve">
     <value>Nach dem Spielstart kann nicht mehr gewechselt werden</value>
-  </data>
-  <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
-    <value>Allgemein</value>
-  </data>
-  <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
-    <value>Alle Optionen werden erst nach erfolgreichem Spielstart gespeichert.</value>
   </data>
   <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
     <value>Die Injection-Funktion ist sehr gefährlich und kann schwerwiegende Folgen haben, bitte mit Vorsicht verwenden</value>
@@ -2894,9 +2585,6 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>Spieldateiverwaltung/Spielserver wechseln/Injektionsfunktion erfordert Administratorrechte</value>
   </data>
-  <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
-    <value>Datei</value>
-  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>Behebt die Ansicht für spezielle Oberflächen wie Charakter-/Teamkonfiguration/Wünsche/Battle Pass</value>
   </data>
@@ -2912,20 +2600,8 @@
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>Injektion</value>
   </data>
-  <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>Prozessverknüpfung</value>
-  </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Auf dem ausgewählten Monitor ausführen</value>
-  </data>
-  <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
-    <value>Monitor</value>
-  </data>
-  <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
-    <value>Mehrere Spielinstanzen gleichzeitig ausführen</value>
-  </data>
-  <data name="ViewPageLaunchGameMultipleInstancesHeader" xml:space="preserve">
-    <value>Mehrfach-Client</value>
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>Spieloptionen</value>
@@ -2951,12 +2627,6 @@
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
     <value>Spieldauer-Aufzeichnung</value>
   </data>
-  <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
-    <value>Prozess</value>
-  </data>
-  <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
-    <value>Registrierung</value>
-  </data>
   <data name="ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader" xml:space="preserve">
     <value>Kalter Wechsel der Teamkonfiguration</value>
   </data>
@@ -2981,12 +2651,6 @@
   <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
     <value>Spielpfad auswählen</value>
   </data>
-  <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>Dieses Konto wurde noch nicht an die Echtzeit-Notiz-Benachrichtigungs-UID gebunden.</value>
-  </data>
-  <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
-    <value>Aktuellen Benutzer und Rolle binden</value>
-  </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
     <value>Sie müssen nach dem manuellen Wechsel des Spielkontos oder einer Änderung der Internetumgebung erneut erkennen</value>
   </data>
@@ -3007,9 +2671,6 @@
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
-  </data>
-  <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
-    <value>Du musst vor dem Versionsupdate zu einem Server wechseln, der zum Launcher passt.</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovColdSwitchHeader" xml:space="preserve">
     <value>Kalter Feld-Sicht-Wechsel</value>
@@ -3035,27 +2696,6 @@
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>Bitte deaktiviere die Option "Vertikale Synchronisierung" im Spiel. Eine Hochleistungs-GPU ist erforderlich, um eine höhere Bildrate zu unterstützen. Setze den Wert auf -1 für eine unbegrenzte Bildrate.</value>
   </data>
-  <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
-    <value>Bildrate-Limit aufheben</value>
-  </data>
-  <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
-    <value>Ändern, wie die Bildrate freigeschaltet wird</value>
-  </data>
-  <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
-    <value>Freischaltmethode</value>
-  </data>
-  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
-    <value>Aktiviere diese Option, wenn ein Fehlercode 31-4302 auftritt. Wenn sie aktiviert ist, wird das Anpassen der Sicht und des Nebels deaktiviert. Diese Einstellung ist nur vor dem Start des Spiels wirksam.</value>
-  </data>
-  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
-    <value>Kompatibilitätsmodus</value>
-  </data>
-  <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
-    <value>Deaktiviert</value>
-  </data>
-  <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
-    <value>Aktiviert</value>
-  </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
     <value>Melden Sie sich mit dem aktuell ausgewählten 米游社 / HoYoLAB-Benutzer an. Startparameter müssen aktiviert sein</value>
   </data>
@@ -3067,18 +2707,6 @@
   </data>
   <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
     <value>Windows HDR</value>
-  </data>
-  <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>Bitte gib deine HoYoLAB UID ein</value>
-  </data>
-  <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>Du meldest dich über eine von uns bereitgestellte eingebettete Webansicht bei deinem MiHoYo-Pass an. Wir lesen deine Cookie-Informationen, nachdem du auf die Schaltfläche "Ich bin angemeldet" geklickt hast. Die gesamte Netzwerkkommunikation, die von dieser Ansicht initiiert wird, findet nur zwischen deinem Computer und den offiziellen MiHoYo-Servern statt.</value>
-  </data>
-  <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
-    <value>Ich bin angemeldet</value>
-  </data>
-  <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>Melde dich mit deinem miHoYo-BBS-Konto im folgenden Fenster an</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>Screenshot-Ordner öffnen</value>
@@ -3094,9 +2722,6 @@
   </data>
   <data name="ViewPageRoleCombatBackupAvatars" xml:space="preserve">
     <value>Ersatzcharaktere</value>
-  </data>
-  <data name="ViewPageRoleCombatBuffsHeader" xml:space="preserve">
-    <value>Fantastische Segen</value>
   </data>
   <data name="ViewPageRoleCombatChoiceCardsHeader" xml:space="preserve">
     <value>Geheimnisvorrat</value>
@@ -3134,9 +2759,6 @@
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>Gesamtdauer der Aufführung</value>
   </data>
-  <data name="ViewPageSettingAboutHeader" xml:space="preserve">
-    <value>Über Snap Hutao</value>
-  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Wähle den ersten Tag deiner Woche</value>
   </data>
@@ -3170,14 +2792,8 @@
   <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
     <value>Das aktuelle Hintergrundbild ist ein lokales Bild. Bei Urheberrechtsproblemen ist der Benutzer persönlich verantwortlich.</value>
   </data>
-  <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
-    <value>Bild-Cache wird hier gespeichert</value>
-  </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Cache-Ordner</value>
-  </data>
-  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
-    <value>Snap Hutao Pass</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Kompaktes Seitenfenster</value>
@@ -3224,18 +2840,6 @@
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>Desktopverknüpfung erstellen</value>
   </data>
-  <data name="ViewPageSettingDangerousAction" xml:space="preserve">
-    <value>Ausführen</value>
-  </data>
-  <data name="ViewPageSettingDangerousHeader" xml:space="preserve">
-    <value>Gefährliche Funktionen</value>
-  </data>
-  <data name="ViewPageSettingDangerousHint" xml:space="preserve">
-    <value>Führe die folgenden Operationen nur aus, wenn der Entwickler dich ausdrücklich dazu auffordert!</value>
-  </data>
-  <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>Benutzerdaten / Metadaten werden hier gespeichert</value>
-  </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>Datenordner</value>
   </data>
@@ -3248,12 +2852,6 @@
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
     <value>Spieleigene Web-Cache löschen</value>
   </data>
-  <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
-    <value>Lösche alle Einträge in der Benutzertabelle, um spezifische Konflikte von Konten zu beheben</value>
-  </data>
-  <data name="ViewPageSettingDeleteUserHeader" xml:space="preserve">
-    <value>Alle Benutzer löschen</value>
-  </data>
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>Geräte-ID</value>
   </data>
@@ -3262,12 +2860,6 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>Geräte-IP</value>
-  </data>
-  <data name="ViewPageSettingDownloadHeader" xml:space="preserve">
-    <value>Download</value>
-  </data>
-  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
-    <value>Der Administratormodus beeinflusst die Verfügbarkeit und das Verhalten einiger Funktionen</value>
   </data>
   <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
     <value>Administratormodus</value>
@@ -3286,9 +2878,6 @@
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
     <value>Anzeigen</value>
-  </data>
-  <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
-    <value>Sie haben die „Spielstart - Erweiterte Funktionen“ freigeschaltet, die möglicherweise gegen die Nutzungsbedingungen von Genshin Impact verstoßen. Sie übernehmen die Verantwortung für alle nachteiligen Folgen.</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>Feedback geben</value>
@@ -3407,12 +2996,6 @@
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
     <value>Konto löschen</value>
   </data>
-  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
-    <value>Nachdem ich die Benutzervereinbarungen von Genshin Impact und Snap Hutao vollständig gelesen habe, wähle ich, die „Spielstart-Erweiterte Funktionen“ zu aktivieren.</value>
-  </data>
-  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
-    <value>Erweiterte Funktionen</value>
-  </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
     <value>Ändere den Shortcut für die automatische Linksklick-Funktion</value>
   </data>
@@ -3458,12 +3041,6 @@
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>Bildressourcen zurücksetzen</value>
   </data>
-  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>Option "FPS-Limit aufheben" im Tab "Spiel starten - Prozess" hinzufügen</value>
-  </data>
-  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>Spiel starten - FPS-Limit aufheben</value>
-  </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
   </data>
@@ -3485,9 +3062,6 @@
   <data name="ViewPageSettingShareSaveTypeHeader" xml:space="preserve">
     <value>Teilen-Speicher-Modus</value>
   </data>
-  <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
-    <value>Shell-Erlebnis</value>
-  </data>
   <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
     <value>0 für unbegrenzte Geschwindigkeit</value>
   </data>
@@ -3500,14 +3074,8 @@
   <data name="ViewPageSettingStorageHeader" xml:space="preserve">
     <value>Speicherplatz</value>
   </data>
-  <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
-    <value>Öffnen</value>
-  </data>
   <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
     <value>Festlegen</value>
-  </data>
-  <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
-    <value>Software bewerten</value>
   </data>
   <data name="ViewPageSettingThemeDescription" xml:space="preserve">
     <value>Ändere das Farbschema des Fensters</value>
@@ -3538,9 +3106,6 @@
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>Nicht gezogene Wunschobjekte</value>
-  </data>
-  <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
-    <value>Zum Store</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>WebView2 Laufzeit</value>
@@ -3587,9 +3152,6 @@
   <data name="ViewPageWiKiAvatarKoreanCVNameTitle" xml:space="preserve">
     <value>Koreanische Synchronsprecher</value>
   </data>
-  <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
-    <value>Sonstiges</value>
-  </data>
   <data name="ViewPageWiKiAvatarNameCardHeader" xml:space="preserve">
     <value>Namenskarte</value>
   </data>
@@ -3608,17 +3170,11 @@
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Geschichten</value>
   </data>
-  <data name="ViewPageWiKiAvatarStrategyButtonLabel" xml:space="preserve">
-    <value>Charakterstrategie</value>
-  </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>米游社 Charakter-Guides</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyOverseaButtonLabel" xml:space="preserve">
     <value>HoYoLAB Charakter-Guides</value>
-  </data>
-  <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
-    <value>Talent</value>
   </data>
   <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
     <value>Team-Kombination</value>
@@ -3628,9 +3184,6 @@
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
     <value>Zum Entwicklungsplan hinzufügen</value>
-  </data>
-  <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
-    <value>Monster filtern</value>
   </data>
   <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
     <value>Beutegegenstände</value>
@@ -3659,12 +3212,6 @@
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>Jetzt anmelden oder registrieren</value>
   </data>
-  <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
-    <value>Steuert, ob die Konsole beim Start von Snap Hutao geöffnet werden soll. Wirksam nach dem Neustart.</value>
-  </data>
-  <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
-    <value>Debug-Konsole</value>
-  </data>
   <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
     <value>Nach dem Wechsel des Servers werden entsprechende Client-Dateien als Cache verwendet</value>
   </data>
@@ -3683,17 +3230,11 @@
   <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
     <value>Charakter-Nutzungsrate = Anzahl der Einsätze dieses Charakters in dieser Ebene (wird nur einmal gezählt, wenn wiederholt) / Anzahl der Spieler, die diesen Charakter besitzen</value>
   </data>
-  <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
-    <value>Kampfdaten</value>
-  </data>
   <data name="ViewSpiralAbyssBattleTimes" xml:space="preserve">
     <value>Anzahl der Kämpfe</value>
   </data>
   <data name="ViewSpiralAbyssDamage" xml:space="preserve">
     <value>Stärkster Treffer</value>
-  </data>
-  <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
-    <value>Bisher keine Aufzeichnungen zu Herausforderungen.</value>
   </data>
   <data name="ViewSpiralAbyssDefeat" xml:space="preserve">
     <value>Häufigste Niederlage</value>
@@ -3730,9 +3271,6 @@
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>Daten aktualisieren</value>
-  </data>
-  <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
-    <value>Synchronisiere die Spiralabgrund-Herausforderungsdaten von 米游社</value>
   </data>
   <data name="ViewSpiralAbyssReveal" xml:space="preserve">
     <value>Auswahlhäufigkeit</value>
@@ -3794,12 +3332,6 @@
   <data name="ViewUserCookieOperationLoginByPasswordAction" xml:space="preserve">
     <value>Konto-Passwort-Anmeldung</value>
   </data>
-  <data name="ViewUserCookieOperationLoginByThirdPartyAction" xml:space="preserve">
-    <value>Drittanbieter-Anmeldung</value>
-  </data>
-  <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
-    <value>Web-Anmeldung</value>
-  </data>
   <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
     <value>Handy-Verifizierungscode</value>
   </data>
@@ -3821,12 +3353,6 @@
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>Bitte zuerst anmelden</value>
   </data>
-  <data name="ViewUserDocumentationHeader" xml:space="preserve">
-    <value>Dokumentation</value>
-  </data>
-  <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>Aufgrund von Änderungen der Sicherheitsrichtlinien von 米游社 ist die Webanmeldung vorübergehend nicht verfügbar.</value>
-  </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>Nicht angemeldet</value>
   </data>
@@ -3847,15 +3373,6 @@
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Wir laden die grundlegenden Bildressourcen herunter</value>
-  </data>
-  <data name="ViewWelcomeBody" xml:space="preserve">
-    <value>Du kannst deinen Computer weiterhin uneingeschränkt nutzen</value>
-  </data>
-  <data name="ViewWelcomeSubtitle" xml:space="preserve">
-    <value>Bitte schließe die Anwendung nicht</value>
-  </data>
-  <data name="ViewWelcomeTitle" xml:space="preserve">
-    <value>Willkommen bei Snap Hutao</value>
   </data>
   <data name="ViewWikiAvatarHeader" xml:space="preserve">
     <value>Charakter-Wiki</value>
@@ -3946,12 +3463,6 @@
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusWaitTaken" xml:space="preserve">
     <value>Bereit zur Abholung</value>
-  </data>
-  <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
-    <value>{0} Std.</value>
-  </data>
-  <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
-    <value>{0} Min.</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
     <value>{0} Stunde {1} Minute</value>
