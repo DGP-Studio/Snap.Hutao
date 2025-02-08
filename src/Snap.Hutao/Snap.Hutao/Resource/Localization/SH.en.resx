@@ -187,7 +187,7 @@
     <value>Game Launcher</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>Snap Hutao Realtime Notes refresh task. Do NOT edit or delete it.</value>
+    <value>Snap Hutao Realtime Notes refreshing task. Do NOT edit or delete it.</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore disposed, operation cancelled</value>
@@ -1014,7 +1014,7 @@
     <value>Snap Hutao should be run in administrator privilege before using Embedded Yae</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>You should know about the related risks and turn on the embedding function in Launch Game page before using Embedded Yae</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Game process closed</value>
@@ -1143,7 +1143,7 @@
     <value>Wish record uploading service is valid until</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>Please use other ways to sync the package items</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
@@ -1203,16 +1203,16 @@
     <value>Retrieving user information, please wait...</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>Embedded Yae error</value>
   </data>
   <data name="ServiceYaeGamePathNullOrEmptyMessage" xml:space="preserve">
-    <value>请先在启动游戏页面设置游戏目录</value>
+    <value>Please set the game route in the Launch Game page</value>
   </data>
   <data name="ServiceYaeGameRunningMessage" xml:space="preserve">
-    <value>关闭游戏后才可使用 Embedded Yae 获取数据</value>
+    <value>Embedded Yae can be used to fetch data only after the game is closed</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
+    <value>Waiting for game data</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Additional Property Recommendation</value>
@@ -1692,7 +1692,7 @@
     <value>You may make changes in Settings</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Data folder is used to store the data produced by user, costumed wallpaper, metadata, server switching cache, update cache, etc</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* The default data folder will be deleted during uninstallation, you can change it in settings later</value>
@@ -2073,7 +2073,7 @@
     <value>Please enter correct email address</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>Please import achievements using other ways</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Text format in clipboard is incorrect</value>
@@ -2265,7 +2265,7 @@
     <value>Import from Clipboard</value>
   </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
+    <value>Import from the game using Embedded Yae</value>
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>Import from UIAF file</value>
@@ -2397,10 +2397,10 @@
     <value>Sync Inventory Items</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>Sync by cultivating calculator</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>Sync by Embedded Yae</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Delete list</value>
@@ -2496,7 +2496,7 @@
     <value>Launch</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Inject Embedded Yae into the game to get precise data</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Search for questions and suggestions</value>
@@ -3465,7 +3465,7 @@
     <value>Game Launcher - Unlock Frame Rate Limit</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Folder will be automatically copied and the program will restart and delete the former folder automatically</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Change Data Directory</value>
