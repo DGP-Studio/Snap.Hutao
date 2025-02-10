@@ -31,7 +31,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
         foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor webFloor in spiralAbyss.Floors)
         {
             // Ignoring floor 1 - 8 here
-            if (Floors.SourceCollection.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
+            if (Floors.Source.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
             {
                 floor.WithSpiralAbyssFloor(webFloor, context);
             }

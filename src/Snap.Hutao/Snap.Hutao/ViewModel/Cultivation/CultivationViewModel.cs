@@ -80,7 +80,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Projects = projects;
-            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            Projects.MoveCurrentTo(Projects.Source.SelectedOrDefault());
         }
 
         // Force update when re-entering the page

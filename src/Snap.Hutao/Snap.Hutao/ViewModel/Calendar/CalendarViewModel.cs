@@ -53,7 +53,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
         await taskContext.SwitchToMainThreadAsync();
 
         WeekDays = weekDays;
-        WeekDays.MoveCurrentTo(WeekDays.SourceCollection.SingleOrDefault(d => d.Date == DateTimeOffset.Now.Date));
+        WeekDays.MoveCurrentTo(WeekDays.Source.SingleOrDefault(d => d.Date == DateTimeOffset.Now.Date));
         IsInitialized = true;
     }
 

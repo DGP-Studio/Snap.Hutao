@@ -22,7 +22,7 @@ internal interface IAdvancedCollectionView<T> : ICollectionView
 
     ObservableCollection<SortDescription> SortDescriptions { get; }
 
-    IList<T> SourceCollection { get; }
+    IList<T> Source { get; set; }
 
     IReadOnlyList<T> View { get; }
 
@@ -76,7 +76,7 @@ internal interface IAdvancedCollectionView<T> : ICollectionView
         };
     }
 
-    int IndexOf(T item);
+    int IndexOf(T? item);
 
     void IList<object>.Insert(int index, object item)
     {

@@ -20,9 +20,9 @@ internal static class UserServiceExtension
     public static async ValueTask<UserGameRole?> GetUserGameRoleByUidAsync(this IUserService userService, string uid)
     {
         AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);
-        foreach (BindingUser bindingUser in users.SourceCollection)
+        foreach (BindingUser bindingUser in users.Source)
         {
-            foreach (UserGameRole role in bindingUser.UserGameRoles.SourceCollection)
+            foreach (UserGameRole role in bindingUser.UserGameRoles.Source)
             {
                 if (role.GameUid == uid)
                 {
@@ -50,7 +50,7 @@ internal static class UserServiceExtension
     public static async ValueTask<bool> SetCurrentUserByUidAsync(this IUserService userService, string uid)
     {
         AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);
-        BindingUser? user = users.SourceCollection.SingleOrDefault(u => u.UserGameRoles.SourceCollection.Any(r => r.GameUid == uid));
+        BindingUser? user = users.Source.SingleOrDefault(u => u.UserGameRoles.Source.Any(r => r.GameUid == uid));
 
         if (user is null)
         {
@@ -66,7 +66,7 @@ internal static class UserServiceExtension
     public static async ValueTask<BindingUser?> GetUserByMidAsync(this IUserService userService, string mid)
     {
         AdvancedDbCollectionView<BindingUser, EntityUser> users = await userService.GetUsersAsync().ConfigureAwait(false);
-        foreach (BindingUser user in users.SourceCollection)
+        foreach (BindingUser user in users.Source)
         {
             if (user.Entity.Mid == mid)
             {

@@ -7,9 +7,9 @@ namespace Snap.Hutao.UI.Xaml.Data;
 
 internal sealed partial class VectorChangedEventArgs : IVectorChangedEventArgs
 {
-    public VectorChangedEventArgs(CollectionChange cc, int index = -1)
+    public VectorChangedEventArgs(CollectionChange change, int index = -1)
     {
-        CollectionChange = cc;
+        CollectionChange = change;
         Index = (uint)index;
     }
 

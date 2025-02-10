@@ -96,7 +96,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     public async ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default)
     {
         IAdvancedDbCollectionView<GachaArchive> archives = await GetArchiveCollectionAsync().ConfigureAwait(false);
-        if (archives.SourceCollection.SingleOrDefault(a => a.InnerId == archiveId) is { } archive)
+        if (archives.Source.SingleOrDefault(a => a.InnerId == archiveId) is { } archive)
         {
             return archive;
         }

@@ -230,7 +230,7 @@ internal sealed partial class CultivationService : ICultivationService
 
         ArgumentNullException.ThrowIfNull(projects);
 
-        if (projects.SourceCollection.Any(a => a.Name == project.Name))
+        if (projects.Source.Any(a => a.Name == project.Name))
         {
             return ProjectAddResultKind.AlreadyExists;
         }
@@ -263,7 +263,7 @@ internal sealed partial class CultivationService : ICultivationService
             try
             {
                 await taskContext.SwitchToMainThreadAsync();
-                projects.MoveCurrentTo(projects.SourceCollection.SelectedOrDefault());
+                projects.MoveCurrentTo(projects.Source.SelectedOrDefault());
             }
             catch (InvalidOperationException)
             {

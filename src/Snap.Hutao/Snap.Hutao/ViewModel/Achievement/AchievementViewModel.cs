@@ -113,7 +113,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         AchievementGoals = sortedGoals;
         Archives = archives;
-        Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
+        Archives.MoveCurrentTo(Archives.Source.SelectedOrDefault());
         return true;
     }
 

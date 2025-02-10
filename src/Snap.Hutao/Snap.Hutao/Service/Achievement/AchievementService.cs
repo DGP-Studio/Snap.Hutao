@@ -78,7 +78,7 @@ internal sealed partial class AchievementService : IAchievementService
             return ArchiveAddResultKind.ArchivesNotInitialized;
         }
 
-        if (archives.SourceCollection.Any(a => a.Name == newArchive.Name))
+        if (archives.Source.Any(a => a.Name == newArchive.Name))
         {
             return ArchiveAddResultKind.AlreadyExists;
         }
