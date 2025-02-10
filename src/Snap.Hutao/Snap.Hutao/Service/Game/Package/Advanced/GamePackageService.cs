@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
@@ -66,7 +65,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
         {
-            await using (AsyncDisposableObservableBox<AppOptions, TokenBucketRateLimiter?> limiter = StreamCopyRateLimiter.Create(serviceProvider))
+            using (TokenBucketRateLimiter? limiter = StreamCopyRateLimiter.Create(serviceProvider))
             {
                 GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
 
