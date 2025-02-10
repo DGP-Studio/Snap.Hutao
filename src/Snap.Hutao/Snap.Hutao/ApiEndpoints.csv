@@ -22,16 +22,16 @@ AppReferer(),https://app.mihoyo.com,https://app.hoyolab.com/
 "AuthMultiToken(string loginTicket, string loginUid)",https://api-takumi.mihoyo.com/auth/api/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3,https://api-account-os.hoyoverse.com/account/auth/api/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3
 BbsReferer(),https://bbs.mihoyo.com/,
 BindingGenAuthKey(),https://api-takumi.mihoyo.com/binding/api/genAuthKey,https://api-account-os.hoyoverse.com/binding/api/genAuthKey
-CalculateAvatarList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list,https://sg-public-api.hoyoverse.com/event/calculateos/avatar/list
+CalculateAvatarList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list,https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/avatar/list
 "CalculateAvatarSkillList(Web.Hoyolab.Takumi.Event.Calculate.Avatar avatar)",https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatarSkill/list?avatar_id={avatar.Id}&element_attr_id={(int)avatar.ElementAttrId},
-CalculateBatchCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v3/batch_compute,https://sg-public-api.hoyoverse.com/event/calculateos/batch_compute
+CalculateBatchCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v3/batch_compute,https://sg-public-api.hoyolab.com/event/e20200928calculate/v3/batch_compute
 CalculateCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v2/compute,https://sg-public-api.hoyoverse.com/event/calculateos/compute
-CalculateFurnitureBlueprint(string shareCode),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/blueprint?share_code={shareCode},
-CalculateFurnitureCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/compute,https://sg-public-api.hoyoverse.com/event/calculateos/furniture/list
-CalculateFurnitureList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/list,
+CalculateFurnitureBlueprint(string shareCode),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/blueprint?share_code={shareCode},https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/furniture/blueprint?share_code={shareCode}
+CalculateFurnitureCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/compute,https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/furniture/compute
+CalculateFurnitureList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/list,https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/furniture/list
 "CalculateSyncAvatarDetail(Model.Primitive.AvatarId avatarId, PlayerUid uid)",https://api-takumi.mihoyo.com/event/e20200928calculate/v1/sync/avatar/detail?avatar_id={avatarId.Value}&{uid.ToUidRegionQueryString()},https://sg-public-api.hoyoverse.com/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&{uid.ToUidRegionQueryString()}
-CalculateSyncAvatarList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/sync/avatar/list,https://sg-public-api.hoyoverse.com/event/calculateos/sync/avatar/list
-CalculateWeaponList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list,https://sg-public-api.hoyoverse.com/event/calculateos/weapon/list
+CalculateSyncAvatarList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/sync/avatar/list,https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/sync/avatar/list
+CalculateWeaponList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list,https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/weapon/list
 CardCreateVerification(bool highRisk),"https://api-takumi-record.mihoyo.com/game_record/app/card/wapi/createVerification?is_high={(highRisk ? ""true"" : ""false"")}",
 CardVerifyVerification(),https://api-takumi-record.mihoyo.com/game_record/app/card/wapi/verifyVerification,
 CardWidgetData(),https://api-takumi-record.mihoyo.com/game_record/app/card/api/getWidgetData?game_id=2,
