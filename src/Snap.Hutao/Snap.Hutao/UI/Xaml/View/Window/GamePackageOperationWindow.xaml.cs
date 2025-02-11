@@ -10,7 +10,7 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Window,
     IDisposable,
     IXamlWindowExtendContentIntoTitleBar

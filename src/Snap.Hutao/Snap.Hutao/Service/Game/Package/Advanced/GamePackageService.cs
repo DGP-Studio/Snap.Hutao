@@ -39,7 +39,6 @@ internal sealed partial class GamePackageService : IGamePackageService
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IProgressFactory progressFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
 
     private CancellationTokenSource? operationCts;
     private TaskCompletionSource? operationTcs;
@@ -57,47 +56,52 @@ internal sealed partial class GamePackageService : IGamePackageService
             MaxDegreeOfParallelism = Environment.ProcessorCount,
         };
 
-        await taskContext.SwitchToMainThreadAsync();
-        GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
-        IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(window.DataContext.HandleProgressUpdate);
-
-        await taskContext.SwitchToBackgroundAsync();
-
-        using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            using (TokenBucketRateLimiter? limiter = StreamCopyRateLimiter.Create(serviceProvider))
+            ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
+
+            await taskContext.SwitchToMainThreadAsync();
+
+            GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
+            IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(window.DataContext.HandleProgressUpdate);
+
+            await taskContext.SwitchToBackgroundAsync();
+
+            using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
             {
-                GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
+                using (TokenBucketRateLimiter? limiter = StreamCopyRateLimiter.Create(serviceProvider))
+                {
+                    Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
+                    {
+                        GamePackageOperationKind.Install => InstallAsync,
+                        GamePackageOperationKind.Verify => VerifyAndRepairAsync,
+                        GamePackageOperationKind.Update => UpdateAsync,
+                        GamePackageOperationKind.Predownload => PredownloadAsync,
+                        GamePackageOperationKind.ExtractBlk => ExtractAsync,
+                        GamePackageOperationKind.ExtractExe => ExtractExeAsync,
+                        _ => context => ValueTask.FromException(HutaoException.NotSupported()),
+                    };
 
-                Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
-                {
-                    GamePackageOperationKind.Install => InstallAsync,
-                    GamePackageOperationKind.Verify => VerifyAndRepairAsync,
-                    GamePackageOperationKind.Update => UpdateAsync,
-                    GamePackageOperationKind.Predownload => PredownloadAsync,
-                    GamePackageOperationKind.ExtractBlk => ExtractAsync,
-                    GamePackageOperationKind.ExtractExe => ExtractExeAsync,
-                    _ => context => ValueTask.FromException(HutaoException.NotSupported()),
-                };
-
-                try
-                {
-                    await operation(serviceContext).ConfigureAwait(false);
-                    return true;
-                }
-                catch (OperationCanceledException)
-                {
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    logger.LogCritical(ex, "Unexpected exception while executing game package operation");
-                    return false;
-                }
-                finally
-                {
-                    logger.LogDebug("Operation completed");
-                    operationTcs.TrySetResult();
+                    try
+                    {
+                        GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
+                        await operation(serviceContext).ConfigureAwait(false);
+                        return true;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogCritical(ex, "Unexpected exception while executing game package operation");
+                        return false;
+                    }
+                    finally
+                    {
+                        logger.LogDebug("Operation completed");
+                        operationTcs.TrySetResult();
+                    }
                 }
             }
         }
