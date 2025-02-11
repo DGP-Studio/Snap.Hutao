@@ -73,7 +73,7 @@
                                         <cwcont:SettingsCard
                                             Command="{Binding EnableLoopbackCommand}"
                                             Header="{shuxm:ResourceString Name=ViewPageFeedbackEnableLoopbackHeader}"
-                                            IsClickEnabled="True"
+                                            IsClickEnabled="{Binding RuntimeOptions.IsElevated}"
                                             IsEnabled="{Binding LoopbackSupport.IsLoopbackEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
                                             <cwcont:SettingsCard.Description>
                                                 <UserControl Content="{Binding LoopbackSupport.IsLoopbackEnabled, Converter={StaticResource BoolToLoopbackDescriptionControlConverter}, Mode=OneWay}"/>
