@@ -17,12 +17,15 @@ namespace Snap.Hutao.Core.IO.Http.Loopback;
 [Injection(InjectAs.Singleton)]
 internal sealed unsafe partial class LoopbackSupport : ObservableObject
 {
+    private readonly ILogger<LoopbackSupport> logger;
     private readonly string hutaoContainerStringSid;
 
     public LoopbackSupport(IServiceProvider serviceProvider)
     {
+        logger = serviceProvider.GetRequiredService<ILogger<LoopbackSupport>>();
+
         Initialize(out hutaoContainerStringSid);
-        serviceProvider.GetRequiredService<ILogger<LoopbackSupport>>().LogInformation("Container SID: {SID}", hutaoContainerStringSid);
+        logger.LogInformation("Container SID: \e[1m\e[36m{SID}\e[37m", hutaoContainerStringSid);
     }
 
     [ObservableProperty]
@@ -76,10 +79,11 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
         }
         catch (COMException exception)
         {
-            // 0x800706f4 RPC_X_NULL_REF_POINTER
+            // 0x800706F4 RPC_X_NULL_REF_POINTER
             // https://github.com/DGP-Studio/Snap.Hutao/issues/2339
             if (exception.HResult == HRESULT_FROM_WIN32((WIN32_ERROR)RPC_X_NULL_REF_POINTER))
             {
+                logger.LogError("NetworkIsolationEnumAppContainers failed with RPC_X_NULL_REF_POINTER");
                 return;
             }
 

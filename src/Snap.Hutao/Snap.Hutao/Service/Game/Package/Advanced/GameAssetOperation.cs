@@ -188,8 +188,8 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     {
         CancellationToken token = context.CancellationToken;
         token.ThrowIfCancellationRequested();
-        Directory.CreateDirectory(context.Operation.ProxiedChunksDirectory);
-        string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, sophonChunk.AssetChunk.ChunkName);
+        Directory.CreateDirectory(context.Operation.EffectiveChunksDirectory);
+        string chunkPath = Path.Combine(context.Operation.EffectiveChunksDirectory, sophonChunk.AssetChunk.ChunkName);
 
         using (await context.ExclusiveProcessChunkAsync(sophonChunk.AssetChunk.ChunkName, token).ConfigureAwait(false))
         {
@@ -303,7 +303,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
                     if (asset.OldAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5 == chunk.ChunkDecompressedHashMd5) is not { } oldChunk)
                     {
-                        string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, chunk.ChunkName);
+                        string chunkPath = Path.Combine(context.Operation.EffectiveChunksDirectory, chunk.ChunkName);
                         if (!File.Exists(chunkPath))
                         {
                             // File not found, skip this asset and repair later

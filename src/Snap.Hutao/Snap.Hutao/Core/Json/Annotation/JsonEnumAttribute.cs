@@ -11,16 +11,16 @@ internal sealed class JsonEnumAttribute : Attribute
 {
     private static readonly Type UnsafeEnumConverterType = typeof(UnsafeEnumConverter<>);
 
-    private readonly JsonEnumSerializeType readAs;
-    private readonly JsonEnumSerializeType writeAs;
+    private readonly JsonEnumSerializeHandling readAs;
+    private readonly JsonEnumSerializeHandling writeAs;
 
-    public JsonEnumAttribute(JsonEnumSerializeType readAndWriteAs)
+    public JsonEnumAttribute(JsonEnumSerializeHandling readAndWriteAs)
     {
         readAs = readAndWriteAs;
         writeAs = readAndWriteAs;
     }
 
-    public JsonEnumAttribute(JsonEnumSerializeType readAs, JsonEnumSerializeType writeAs)
+    public JsonEnumAttribute(JsonEnumSerializeHandling readAs, JsonEnumSerializeHandling writeAs)
     {
         this.readAs = readAs;
         this.writeAs = writeAs;

@@ -74,9 +74,9 @@ internal sealed partial class GamePackageService : IGamePackageService
                     GamePackageOperationKind.Install => InstallAsync,
                     GamePackageOperationKind.Verify => VerifyAndRepairAsync,
                     GamePackageOperationKind.Update => UpdateAsync,
+                    GamePackageOperationKind.Predownload => PredownloadAsync,
                     GamePackageOperationKind.ExtractBlk => ExtractAsync,
                     GamePackageOperationKind.ExtractExe => ExtractExeAsync,
-                    GamePackageOperationKind.Predownload => PredownloadAsync,
                     _ => context => ValueTask.FromException(HutaoException.NotSupported()),
                 };
 
@@ -91,7 +91,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                 }
                 catch (Exception ex)
                 {
-                    logger.LogCritical(ex, "Unexpected exception while exeuting game package operation");
+                    logger.LogCritical(ex, "Unexpected exception while executing game package operation");
                     return false;
                 }
                 finally
@@ -187,9 +187,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await context.Operation.Asset.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
-        if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
+        if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
-            Directory.Delete(context.Operation.ProxiedChunksDirectory, true);
+            Directory.Delete(context.Operation.EffectiveChunksDirectory, true);
         }
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind, context.Operation.Kind is GamePackageOperationKind.Verify));
@@ -311,9 +311,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
 
-        if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
+        if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
-            Directory.Delete(context.Operation.ProxiedChunksDirectory, true);
+            Directory.Delete(context.Operation.EffectiveChunksDirectory, true);
         }
     }
 
@@ -348,9 +348,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Operation.GameFileSystem.TryUpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
 
-        if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
+        if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
-            Directory.Delete(context.Operation.ProxiedChunksDirectory, true);
+            Directory.Delete(context.Operation.EffectiveChunksDirectory, true);
         }
     }
 

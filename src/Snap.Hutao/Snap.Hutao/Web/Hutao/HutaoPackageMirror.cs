@@ -13,7 +13,7 @@ internal sealed class HutaoPackageMirror
     [JsonPropertyName("mirror_name")]
     public string MirrorName { get; set; } = default!;
 
-    [JsonEnum(JsonEnumSerializeType.String)]
+    [JsonEnum(JsonEnumSerializeHandling.String)]
     [JsonPropertyName("mirror_type")]
     public HutaoPackageMirrorType MirrorType { get; set; }
 }

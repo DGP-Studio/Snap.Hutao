@@ -7,6 +7,6 @@ namespace Snap.Hutao.Win32.Security;
 
 internal struct SID_AND_ATTRIBUTES
 {
-    public unsafe PSID Sid;
+    public PSID Sid;
     public uint Attributes;
 }

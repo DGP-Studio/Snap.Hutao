@@ -17,7 +17,7 @@ internal readonly struct GamePackageOperationContext
     public readonly BranchWrapper RemoteBranch;
     public readonly GameChannelSDK? GameChannelSDK;
     public readonly string ExtractOrGameDirectory;
-    public readonly string ProxiedChunksDirectory;
+    public readonly string EffectiveChunksDirectory;
 
     public GamePackageOperationContext(
         IServiceProvider serviceProvider,
@@ -36,7 +36,7 @@ internal readonly struct GamePackageOperationContext
         GameChannelSDK = gameChannelSDK;
         ExtractOrGameDirectory = extractDirectory ?? gameFileSystem.GetGameDirectory();
 
-        ProxiedChunksDirectory = kind is GamePackageOperationKind.Verify
+        EffectiveChunksDirectory = kind is GamePackageOperationKind.Verify
             ? Path.Combine(gameFileSystem.GetChunksDirectory(), "repair")
             : gameFileSystem.GetChunksDirectory();
     }
