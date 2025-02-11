@@ -18,7 +18,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     private readonly Memory<byte> inputBuffer;
 
     private unsafe ZSTD_DCtx_s* decompressStreamContext;
-    private nuint pos;
+    private nuint position;
     private nuint size;
 
     public unsafe ZstandardDecompressionStream(Stream inputStream, int bufferSize = 0)
@@ -52,7 +52,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
 
         inputBufferMemoryOwner = MemoryPool<byte>.Shared.RentExactly(inputBufferSize);
         inputBuffer = inputBufferMemoryOwner.Memory;
-        pos = size = (nuint)inputBufferSize;
+        position = size = (nuint)inputBufferSize;
     }
 
     ~ZstandardDecompressionStream()
@@ -122,6 +122,8 @@ internal sealed partial class ZstandardDecompressionStream : Stream
 
     protected override unsafe void Dispose(bool disposing)
     {
+        base.Dispose(disposing);
+
         if (decompressStreamContext is null)
         {
             return;
@@ -132,8 +134,6 @@ internal sealed partial class ZstandardDecompressionStream : Stream
         inputBufferMemoryOwner.Dispose();
 
         decompressStreamContext = default;
-
-        base.Dispose(disposing);
     }
 
     private static void CheckParamsValid(byte[] buffer, int offset, int count)
@@ -152,7 +152,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     {
         ZSTD_inBuffer_s input = default;
         input.size = size;
-        input.pos = pos;
+        input.pos = position;
         ZSTD_outBuffer_s output = default;
         output.size = (nuint)buffer.Length;
         output.pos = 0;
@@ -174,7 +174,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
             Decompress(buffer, ref output, ref input);
         }
 
-        pos = input.pos;
+        position = input.pos;
         size = input.size;
 
         return (int)output.pos;
@@ -184,7 +184,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
     {
         ZSTD_inBuffer_s input = default;
         input.size = size;
-        input.pos = pos;
+        input.pos = position;
         ZSTD_outBuffer_s output = default;
         output.size = (nuint)buffer.Length;
         output.pos = 0;
@@ -206,7 +206,7 @@ internal sealed partial class ZstandardDecompressionStream : Stream
             Decompress(buffer.Span, ref output, ref input);
         }
 
-        pos = input.pos;
+        position = input.pos;
         size = input.size;
 
         return (int)output.pos;

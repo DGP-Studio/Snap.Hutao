@@ -3,11 +3,12 @@
 
 using System.Collections;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
-internal sealed class ExceptionFormat
+internal static class ExceptionFormat
 {
     private const string SectionSeparator = "----------------------------------------";
 
