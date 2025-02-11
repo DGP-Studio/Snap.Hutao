@@ -9,6 +9,7 @@ using static Snap.ZStandard.Methods;
 
 namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
+// See https://github.com/skbkontur/ZstdNet
 // ReSharper disable LocalizableElement
 internal sealed partial class ZstandardDecompressionStream : Stream
 {

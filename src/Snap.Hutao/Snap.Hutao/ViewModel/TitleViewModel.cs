@@ -196,6 +196,13 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     private async ValueTask CheckProxyAndLoopbackAsync()
     {
+        // https://hut.ao/tasks/162
+        // When process is not elevated, we can't enable loopback
+        if (!HutaoRuntime.IsProcessElevated)
+        {
+            return;
+        }
+
         if (!httpProxyUsingSystemProxy.IsUsingProxyAndNotWorking)
         {
             return;

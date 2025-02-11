@@ -7,6 +7,7 @@ using static Snap.ZStandard.Methods;
 
 namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
+// See https://github.com/skbkontur/ZstdNet
 internal sealed class ZstandardException : Exception
 {
     public ZstandardException(string message)
