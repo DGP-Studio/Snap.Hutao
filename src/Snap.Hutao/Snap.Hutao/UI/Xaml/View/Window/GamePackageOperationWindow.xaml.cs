@@ -13,9 +13,11 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Window,
     IDisposable,
-    IXamlWindowExtendContentIntoTitleBar
+    IXamlWindowExtendContentIntoTitleBar,
+    IXamlWindowClosedHandler
 {
     private readonly IServiceScope scope;
+    private readonly TaskCompletionSource closeTcs = new();
 
     public GamePackageOperationWindow(IServiceProvider serviceProvider)
     {
@@ -34,7 +36,7 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
         }
 
         // Private Window.Closed handler must attach before InitializeController
-        Closed += OnWindowClosed;
+        Closed += OnWindowClosing;
         this.InitializeController(serviceProvider);
         RootGrid.InitializeDataContext<GamePackageOperationViewModel>(scope.ServiceProvider);
     }
@@ -45,12 +47,19 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
 
     public GamePackageOperationViewModel DataContext { get => (GamePackageOperationViewModel)RootGrid.DataContext; }
 
+    public Task CloseTask { get => closeTcs.Task; }
+
     public void Dispose()
     {
         scope.Dispose();
     }
 
-    private static void OnWindowClosed(object sender, WindowEventArgs args)
+    public void OnWindowClosed()
+    {
+        closeTcs.TrySetResult();
+    }
+
+    private static void OnWindowClosing(object sender, WindowEventArgs args)
     {
         GamePackageOperationWindow window = (GamePackageOperationWindow)sender;
         if (!window.DataContext.IsFinished)
