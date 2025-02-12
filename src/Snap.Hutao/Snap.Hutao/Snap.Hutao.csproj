@@ -328,7 +328,7 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3065.39" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250127003-experimental3" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.1" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
@@ -348,7 +348,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.WinUI.FrameworkTheming" Version="1.6.250205002" />
+    <PackageReference Include="Snap.WinUI.FrameworkTheming" Version="1.7.250127003-experimental3" />
     <PackageReference Include="Snap.ZStandard" Version="1.5.6-build3" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
       <PrivateAssets>all</PrivateAssets>
