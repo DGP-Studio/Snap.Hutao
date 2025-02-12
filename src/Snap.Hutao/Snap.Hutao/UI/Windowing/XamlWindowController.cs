@@ -21,12 +21,10 @@ using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
-using static Snap.Hutao.Win32.DwmApi;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Windowing;
@@ -74,13 +72,6 @@ internal sealed class XamlWindowController
         if (window is IXamlWindowHasInitSize xamlWindow2)
         {
             RecoverOrInitWindowSize(xamlWindow2);
-        }
-
-        // Immersive Dark
-        if (window is IXamlWindowContentAsFrameworkElement xamlWindow3)
-        {
-            UpdateImmersiveDarkMode(xamlWindow3.ContentAccess, default!);
-            xamlWindow3.ContentAccess.ActualThemeChanged += UpdateImmersiveDarkMode;
         }
 
         // appWindow.Show(true);
@@ -234,15 +225,6 @@ internal sealed class XamlWindowController
     }
     #endregion
 
-    #region IXamlWindowContentAsFrameworkElement
-
-    private void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
-    {
-        BOOL isDarkMode = ThemeHelper.IsDarkMode(titleBar.ActualTheme);
-        DwmSetWindowAttribute(window.GetWindowHandle(), DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref isDarkMode);
-    }
-    #endregion
-
     #region IXamlWindowHasInitSize & IXamlWindowRectPersisted
 
     private static void TransformToCenterScreen(ref RectInt32 rect)
@@ -309,13 +291,13 @@ internal sealed class XamlWindowController
         LocalSetting.Set(rectPersisted.PersistScaleKey, scale);
 
         // DO NOT INLINE, implicit conversion requires a local variable.
-        RectInt16 rect = (RectInt16)window.AppWindow.GetRect().Scale(1.0 / scale);
+        RectInt16 rect = window.AppWindow.GetRect().Scale(1.0 / scale);
         if (rect.Width < 0 || rect.Height < 0)
         {
             return;
         }
 
-        LocalSetting.Set<ulong>(rectPersisted.PersistRectKey, (ulong)rect);
+        LocalSetting.Set(rectPersisted.PersistRectKey, (ulong)rect);
     }
     #endregion
 

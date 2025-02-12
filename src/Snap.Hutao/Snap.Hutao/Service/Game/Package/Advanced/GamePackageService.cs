@@ -67,6 +67,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             await taskContext.SwitchToBackgroundAsync();
 
+            bool result;
             using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
             {
                 using (TokenBucketRateLimiter? limiter = StreamCopyRateLimiter.Create(serviceProvider))
@@ -86,16 +87,17 @@ internal sealed partial class GamePackageService : IGamePackageService
                     {
                         GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
                         await operation(serviceContext).ConfigureAwait(false);
-                        return true;
+                        result = true;
                     }
                     catch (OperationCanceledException)
                     {
-                        return false;
+                        logger.LogDebug("Operation canceled");
+                        result = false;
                     }
                     catch (Exception ex)
                     {
                         logger.LogCritical(ex, "Unexpected exception while executing game package operation");
-                        return false;
+                        result = false;
                     }
                     finally
                     {
@@ -104,6 +106,9 @@ internal sealed partial class GamePackageService : IGamePackageService
                     }
                 }
             }
+
+            await window.CloseTask.ConfigureAwait(false);
+            return result;
         }
     }
 

@@ -66,6 +66,22 @@ public sealed class DependencyInjectionTest
         Assert.AreEqual(0, services.GetServices<IKeyedService>().Count());
     }
 
+    [TestMethod]
+    public void TransientServiceIsDisposedInScope()
+    {
+        IServiceProvider serviceProvider = new ServiceCollection().AddTransient<DisposableService>().BuildServiceProvider();
+
+        DisposableService service;
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            service = scope.ServiceProvider.GetRequiredService<DisposableService>();
+        }
+
+        Assert.IsTrue(service.IsDisposed);
+        GC.KeepAlive(service);
+    }
+
     private interface IService
     {
         Guid Id { get; }
@@ -118,4 +134,16 @@ public sealed class DependencyInjectionTest
     private sealed class KeyedServiceA : IKeyedService;
 
     private sealed class KeyedServiceB : IKeyedService;
+
+    private sealed class DisposableService : IDisposable
+    {
+        private bool isDisposed;
+
+        public bool IsDisposed { get => isDisposed; }
+
+        public void Dispose()
+        {
+            isDisposed = true;
+        }
+    }
 }
