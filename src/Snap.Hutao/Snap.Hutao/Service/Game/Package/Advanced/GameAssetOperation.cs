@@ -19,6 +19,8 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 [ConstructorGenerated]
 internal abstract partial class GameAssetOperation : IGameAssetOperation
 {
+    protected internal const int ChunkBufferSize = 81920;
+
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly JsonSerializerOptions jsonOptions;
 
@@ -135,9 +137,9 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
             for (int i = 0; i < chunks.Count; i++)
             {
                 AssetChunk chunk = chunks[i];
-                using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)chunk.ChunkSizeDecompressed))
+                using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.RentExactly((int)chunk.ChunkSizeDecompressed))
                 {
-                    Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
+                    Memory<byte> buffer = memoryOwner.Memory;
                     bool readFailed = false;
                     try
                     {
@@ -186,8 +188,8 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     {
         CancellationToken token = context.CancellationToken;
         token.ThrowIfCancellationRequested();
-        Directory.CreateDirectory(context.Operation.ProxiedChunksDirectory);
-        string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, sophonChunk.AssetChunk.ChunkName);
+        Directory.CreateDirectory(context.Operation.EffectiveChunksDirectory);
+        string chunkPath = Path.Combine(context.Operation.EffectiveChunksDirectory, sophonChunk.AssetChunk.ChunkName);
 
         using (await context.ExclusiveProcessChunkAsync(sophonChunk.AssetChunk.ChunkName, token).ConfigureAwait(false))
         {
@@ -301,7 +303,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
                     if (asset.OldAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5 == chunk.ChunkDecompressedHashMd5) is not { } oldChunk)
                     {
-                        string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, chunk.ChunkName);
+                        string chunkPath = Path.Combine(context.Operation.EffectiveChunksDirectory, chunk.ChunkName);
                         if (!File.Exists(chunkPath))
                         {
                             // File not found, skip this asset and repair later
@@ -327,7 +329,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                     }
                     else
                     {
-                        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+                        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(ChunkBufferSize))
                         {
                             Memory<byte> buffer = memoryOwner.Memory;
                             long offset = oldChunk.ChunkOnFileOffset;

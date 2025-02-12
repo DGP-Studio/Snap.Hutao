@@ -52,13 +52,13 @@ internal sealed partial class GameAccountService : IGameAccountService
             return default;
         }
 
-        GameAccount? account = SingleGameAccountOrDefault(gameAccounts.SourceCollection.AsReadOnly(), registrySdk);
+        GameAccount? account = SingleGameAccountOrDefault(gameAccounts.Source.AsReadOnly(), registrySdk);
         if (account is null)
         {
             LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
             if (await dialog.GetInputNameAsync().ConfigureAwait(false) is (true, { } name))
             {
-                if (gameAccounts.SourceCollection.Any(a => a.Name == name))
+                if (gameAccounts.Source.Any(a => a.Name == name))
                 {
                     infoBarService.Warning(SH.FormatServiceGameAccountDetectInputNameAlreadyExists(name));
                     return default;
@@ -90,7 +90,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
         string? registrySdk = RegistryInterop.Get(schemeType);
 
-        return string.IsNullOrEmpty(registrySdk) ? default : SingleGameAccountOrDefault(gameAccounts.SourceCollection.AsReadOnly(), registrySdk);
+        return string.IsNullOrEmpty(registrySdk) ? default : SingleGameAccountOrDefault(gameAccounts.Source.AsReadOnly(), registrySdk);
     }
 
     public bool SetGameAccount(GameAccount account)

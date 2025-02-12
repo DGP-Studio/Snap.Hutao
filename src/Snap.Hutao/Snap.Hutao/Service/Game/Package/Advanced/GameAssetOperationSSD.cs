@@ -86,11 +86,11 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
     {
         CancellationToken token = context.CancellationToken;
         token.ThrowIfCancellationRequested();
-        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(ChunkBufferSize))
         {
             Memory<byte> buffer = memoryOwner.Memory;
 
-            string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, chunk.ChunkName);
+            string chunkPath = Path.Combine(context.Operation.EffectiveChunksDirectory, chunk.ChunkName);
             if (!File.Exists(chunkPath))
             {
                 return;

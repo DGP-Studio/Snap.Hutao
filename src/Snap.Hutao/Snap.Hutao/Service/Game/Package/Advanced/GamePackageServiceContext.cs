@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
-using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
 using System.IO;
@@ -18,11 +17,11 @@ internal readonly struct GamePackageServiceContext
     public readonly ParallelOptions ParallelOptions;
     public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
     public readonly HttpClient HttpClient;
-    public readonly IAsyncDisposableObservableBox<TokenBucketRateLimiter?> StreamCopyRateLimiter;
+    public readonly TokenBucketRateLimiter? StreamCopyRateLimiter;
 
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, IAsyncDisposableObservableBox<TokenBucketRateLimiter?> rateLimiter)
+    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, TokenBucketRateLimiter? rateLimiter)
     {
         Operation = operation;
         Progress = progress;

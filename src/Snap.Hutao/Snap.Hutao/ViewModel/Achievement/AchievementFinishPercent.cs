@@ -27,12 +27,12 @@ internal static class AchievementFinishPercent
             return;
         }
 
-        if (achievements.SourceCollection is not ImmutableArray<AchievementView> array)
+        if (achievements.Source is not ImmutableArray<AchievementView> array)
         {
             throw HutaoException.InvalidCast<IList<AchievementView>, ImmutableArray<AchievementView>>("AchievementViewModel.Achievements.SourceCollection");
         }
 
-        Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.SourceCollection.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
+        Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.Source.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
 
         foreach (ref readonly AchievementView achievementView in array.AsSpan())
         {

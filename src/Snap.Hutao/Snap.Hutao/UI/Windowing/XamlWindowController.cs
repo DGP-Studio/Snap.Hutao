@@ -13,6 +13,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing.Abstraction;
@@ -109,13 +110,18 @@ internal sealed class XamlWindowController
             return;
         }
 
-        serviceProvider.GetRequiredService<AppOptions>().PropertyChanged -= OnOptionsPropertyChanged;
-
         if (XamlApplicationLifetime.LaunchedWithNotifyIcon && !XamlApplicationLifetime.Exiting)
         {
             ICurrentXamlWindowReference currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
             if (currentXamlWindowReference.Window == window)
             {
+                // Some users might try to close the window while a dialog is showing
+                if (serviceProvider.GetRequiredService<IContentDialogFactory>().IsDialogShowing)
+                {
+                    args.Handled = true;
+                    return;
+                }
+
                 currentXamlWindowReference.Window = default!;
 
                 if (!IsNotifyIconVisible())
@@ -135,6 +141,8 @@ internal sealed class XamlWindowController
 
             GC.Collect(GC.MaxGeneration);
         }
+
+        serviceProvider.GetRequiredService<AppOptions>().PropertyChanged -= OnOptionsPropertyChanged;
 
         if (window is IXamlWindowRectPersisted rectPersisted)
         {

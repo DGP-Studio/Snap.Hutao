@@ -48,8 +48,8 @@ internal static class DependencyInjection
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
-        serviceProvider.InitializeNotification();
         serviceProvider.InitializeConsoleWindow();
+        serviceProvider.InitializeNotification();
         serviceProvider.InitializeCulture();
 
         return serviceProvider;
@@ -62,11 +62,11 @@ internal static class DependencyInjection
         cultureOptions.SystemCulture = CultureInfo.CurrentCulture;
 
         ILogger<CultureOptions> logger = serviceProvider.GetRequiredService<ILogger<CultureOptions>>();
-        logger.LogDebug("System Culture: {System}", cultureOptions.SystemCulture);
+        logger.LogDebug("System Culture: \e[1m\e[36m{System}\e[37m", cultureOptions.SystemCulture);
 
         CultureInfo cultureInfo = cultureOptions.CurrentCulture;
 
-        logger.LogDebug("Current Culture: {Current}", cultureInfo);
+        logger.LogDebug("Current Culture: \e[1m\e[36m{Current}\e[37m", cultureInfo);
 
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;

@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Yae;
+using Snap.Hutao.ViewModel.Game;
 
 namespace Snap.Hutao.Service.Inventory;
 
@@ -21,6 +22,8 @@ internal sealed class RefreshOptions
 
     public required IYaeService? YaeService { get; init; }
 
+    public required IViewModelSupportLaunchExecution? ViewModelSupportLaunchExecution { get; init; }
+
     public static RefreshOptions CreateForWebCalculator(CultivateProject project, ICultivationMetadataContext context)
     {
         return new()
@@ -29,10 +32,11 @@ internal sealed class RefreshOptions
             Project = project,
             MetadataContext = context,
             YaeService = default,
+            ViewModelSupportLaunchExecution = default,
         };
     }
 
-    public static RefreshOptions CreateForEmbeddedYae(CultivateProject project, IYaeService yaeService)
+    public static RefreshOptions CreateForEmbeddedYae(CultivateProject project, IYaeService yaeService, IViewModelSupportLaunchExecution viewModel)
     {
         return new()
         {
@@ -40,6 +44,7 @@ internal sealed class RefreshOptions
             Project = project,
             MetadataContext = default,
             YaeService = yaeService,
+            ViewModelSupportLaunchExecution = viewModel,
         };
     }
 }

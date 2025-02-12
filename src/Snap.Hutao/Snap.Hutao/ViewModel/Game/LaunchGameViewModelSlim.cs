@@ -17,13 +17,12 @@ namespace Snap.Hutao.ViewModel.Game;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
 {
-    private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
-    LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
+    public partial LaunchGameShared Shared { get; }
 
     public partial LaunchStatusOptions LaunchStatusOptions { get; }
 
@@ -32,11 +31,13 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     [ObservableProperty]
     public partial IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set; }
 
+    public LaunchScheme? SelectedScheme { get => Shared.GetCurrentLaunchSchemeFromConfigFile(); }
+
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
     protected override async Task LoadAsync()
     {
-        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
+        LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
         IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
         accountsView.Filter = GameAccountFilter.CreateFilter(scheme?.GetSchemeType());
         await taskContext.SwitchToMainThreadAsync();
@@ -64,6 +65,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private async Task LaunchAsync()
     {
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
-        await this.LaunchExecutionAsync(launchGameShared.GetCurrentLaunchSchemeFromConfigFile(), userAndUid).ConfigureAwait(false);
+        await this.LaunchExecutionAsync(userAndUid).ConfigureAwait(false);
     }
 }

@@ -19,7 +19,7 @@ internal sealed class RoleCombatAvatar
     public string Name { get; set; } = default!;
 
     [JsonPropertyName("element")]
-    [JsonEnum(JsonEnumSerializeType.String)]
+    [JsonEnum(JsonEnumSerializeHandling.String)]
     public ElementName Element { get; set; } = default!;
 
     [JsonPropertyName("image")]

@@ -11,9 +11,9 @@ internal sealed class CommandLineBuilder
 
     private readonly List<Option> options = [];
 
-    public CommandLineBuilder AppendIf(bool condition, string name, object? value = null, CommandLineArgumentSeparator separator = CommandLineArgumentSeparator.WhiteSpace)
+    public CommandLineBuilder AppendIf(bool condition, string name, object? value = null, CommandLineArgumentPrefix prefix = CommandLineArgumentPrefix.WhiteSpace)
     {
-        return condition ? Append(name, value, separator) : this;
+        return condition ? Append(name, value, prefix) : this;
     }
 
     public CommandLineBuilder AppendIfNotNull(string name, object? value = null)
@@ -21,13 +21,13 @@ internal sealed class CommandLineBuilder
         return AppendIf(value is not null, name, value);
     }
 
-    public CommandLineBuilder Append(string name, object? value = null, CommandLineArgumentSeparator separator = CommandLineArgumentSeparator.WhiteSpace)
+    public CommandLineBuilder Append(string name, object? value = null, CommandLineArgumentPrefix prefix = CommandLineArgumentPrefix.WhiteSpace)
     {
         options.Add(new()
         {
             Name = name,
             Value = value?.ToString(),
-            Separator = separator,
+            Prefix = prefix,
         });
 
         return this;
@@ -46,12 +46,12 @@ internal sealed class CommandLineBuilder
                 continue;
             }
 
-            switch (option.Separator)
+            switch (option.Prefix)
             {
-                case CommandLineArgumentSeparator.WhiteSpace:
+                case CommandLineArgumentPrefix.WhiteSpace:
                     s.Append(' ');
                     break;
-                case CommandLineArgumentSeparator.Equal:
+                case CommandLineArgumentPrefix.Equal:
                     s.Append('=');
                     break;
             }
@@ -68,6 +68,6 @@ internal sealed class CommandLineBuilder
 
         public required string? Value { get; init; }
 
-        public required CommandLineArgumentSeparator Separator { get; init; }
+        public required CommandLineArgumentPrefix Prefix { get; init; }
     }
 }

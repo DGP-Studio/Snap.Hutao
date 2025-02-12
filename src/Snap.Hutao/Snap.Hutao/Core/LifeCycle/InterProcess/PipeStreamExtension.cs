@@ -12,9 +12,9 @@ internal static class PipeStreamExtension
 {
     public static TData? ReadJsonContent<TData>(this PipeStream stream, ref readonly PipePacketHeader header)
     {
-        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(header.ContentLength))
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.RentExactly(header.ContentLength))
         {
-            Span<byte> content = memoryOwner.Memory.Span[..header.ContentLength];
+            Span<byte> content = memoryOwner.Memory.Span;
             stream.ReadExactly(content);
             HutaoException.ThrowIf(XxHash64.HashToUInt64(content) != header.Checksum, "PipePacket Content Hash incorrect");
 

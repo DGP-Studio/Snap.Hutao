@@ -12,7 +12,7 @@ internal class GachaLogItem
     public string Uid { get; set; } = default!;
 
     [JsonPropertyName("gacha_type")]
-    [JsonEnum(JsonEnumSerializeType.NumberString)]
+    [JsonEnum(JsonEnumSerializeHandling.NumberString)]
     public GachaType GachaType { get; set; } = default!;
 
     [JsonPropertyName("item_id")]
@@ -36,7 +36,7 @@ internal class GachaLogItem
     public string ItemType { get; set; } = default!;
 
     [JsonPropertyName("rank_type")]
-    [JsonEnum(JsonEnumSerializeType.NumberString)]
+    [JsonEnum(JsonEnumSerializeHandling.NumberString)]
     public QualityType RankType { get; set; } = default!;
 
     [JsonPropertyName("id")]

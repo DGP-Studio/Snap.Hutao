@@ -85,7 +85,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 await taskContext.SwitchToMainThreadAsync();
                 Archives = archives;
                 HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
-                Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrFirstOrDefault());
+                Archives.MoveCurrentTo(Archives.Source.SelectedOrFirstOrDefault());
             }
 
             // When `Archives.CurrentItem` is not null, the `Initialization` actually completed in

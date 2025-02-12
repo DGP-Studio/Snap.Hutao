@@ -238,7 +238,10 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
                                         case DXGI_FORMAT.DXGI_FORMAT_R16G16B16A16_FLOAT:
                                             {
                                                 int rowLength = (int)textureWidth * 8;
-                                                Span<Bgra32> pixelBuffer = MemoryMarshal.Cast<byte, Bgra32>(buffer.Memory.Span);
+
+                                                // The span need to be sliced to align with the actual data width.
+                                                Span<byte> rawBuffer = buffer.Memory.Span[..(int)(textureHeight * textureWidth * 4)];
+                                                Span<Bgra32> pixelBuffer = MemoryMarshal.Cast<byte, Bgra32>(rawBuffer);
 
                                                 for (int row = 0; row < textureHeight; row++)
                                                 {

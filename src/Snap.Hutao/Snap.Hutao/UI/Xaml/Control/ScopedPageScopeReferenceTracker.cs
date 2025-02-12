@@ -4,7 +4,7 @@
 namespace Snap.Hutao.UI.Xaml.Control;
 
 /// <summary>
-/// By injecting into services, we take dvantage of the fact that
+/// By injecting into services, we take advantage of the fact that
 /// IServiceProvider disposes all injected services when it is disposed.
 /// </summary>
 [ConstructorGenerated]

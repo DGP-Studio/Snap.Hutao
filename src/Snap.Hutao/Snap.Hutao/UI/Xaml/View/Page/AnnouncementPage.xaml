@@ -185,18 +185,11 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CardTemplate" x:DataType="shuxcc:CardReference">
-            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <ItemContainer.Resources>
-                    <!--  ReSharper disable Xaml.RedundantResource  -->
-                    <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
-                    <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
-                    <!--  ReSharper restore Xaml.RedundantResource  -->
-                </ItemContainer.Resources>
-
+            <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                     <ContentControl HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>
                 </Border>
-            </ItemContainer>
+            </Border>
         </DataTemplate>
     </shuxc:ScopedPage.Resources>
 
@@ -221,24 +214,20 @@
                     Transitions="{ThemeResource EntranceThemeTransitions}"
                     Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
-                <!--  ItemsRepeater will behave abnormal if no direct scrollhost wrapping it  -->
-                <ScrollViewer CanContentRenderOutsideBounds="True" VerticalScrollBarVisibility="Hidden">
-                    <ItemsRepeater
-                        HorizontalAlignment="Stretch"
-                        ItemTemplate="{StaticResource CardTemplate}"
-                        ItemsSource="{Binding Cards, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                ItemsJustification="Start"
-                                ItemsStretch="Fill"
-                                MinColumnSpacing="12"
-                                MinItemHeight="180"
+                <ItemsControl
+                    ItemTemplate="{StaticResource CardTemplate}"
+                    ItemsSource="{Binding Cards, Mode=OneWay}"
+                    Visibility="{Binding Cards, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <shuxcp:UniformPanel
+                                ColumnSpacing="12"
                                 MinItemWidth="300"
-                                MinRowSpacing="12"
-                                Orientation="Horizontal"/>
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
-                </ScrollViewer>
+                                RowSpacing="12"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
                 <ScrollViewer>
                     <Pivot
                         x:Name="GameAnnouncementPivot"

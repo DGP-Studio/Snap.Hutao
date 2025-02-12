@@ -3,36 +3,21 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Launching.Handler;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
-[Injection(InjectAs.Transient)]
-internal sealed class LaunchExecutionInvoker
+internal abstract class LaunchExecutionInvoker
 {
-    private readonly Queue<ILaunchExecutionDelegateHandler> handlers;
+    private bool invoked;
 
-    public LaunchExecutionInvoker()
-    {
-        handlers = [];
-        handlers.Enqueue(new LaunchExecutionEnsureGameNotRunningHandler());
-        handlers.Enqueue(new LaunchExecutionEnsureSchemeHandler());
-        handlers.Enqueue(new LaunchExecutionSetChannelOptionsHandler());
-        handlers.Enqueue(new LaunchExecutionEnsureGameResourceHandler());
-        handlers.Enqueue(new LaunchExecutionSetGameAccountHandler());
-        handlers.Enqueue(new LaunchExecutionSetWindowsHDRHandler());
-        handlers.Enqueue(new LaunchExecutionStatusProgressHandler());
-        handlers.Enqueue(new LaunchExecutionGameProcessInitializationHandler());
-        handlers.Enqueue(new LaunchExecutionSetDiscordActivityHandler());
-        handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
-        handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
-        handlers.Enqueue(new LaunchExecutionStarwardPlayTimeStatisticsHandler());
-        handlers.Enqueue(new LaunchExecutionBetterGenshinImpactAutomationHandlder());
-        handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
-    }
+    protected Queue<ILaunchExecutionDelegateHandler> Handlers { get; } = [];
 
     public async ValueTask<LaunchExecutionResult> InvokeAsync(LaunchExecutionContext context)
     {
+        HutaoException.ThrowIf(Interlocked.Exchange(ref invoked, true), "The invoker has been invoked");
+
         try
         {
             context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(false));
@@ -51,16 +36,14 @@ internal sealed class LaunchExecutionInvoker
         }
     }
 
-    private async ValueTask<LaunchExecutionContext> RecursiveInvokeHandlerAsync(LaunchExecutionContext context, int index)
+    private async ValueTask RecursiveInvokeHandlerAsync(LaunchExecutionContext context, int index)
     {
-        if (handlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
+        if (Handlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
         {
             string typeName = TypeNameHelper.GetTypeDisplayName(handler, false);
             context.Logger.LogInformation("Handler {Index} [{Handler}] begin execution", index, typeName);
             await handler.OnExecutionAsync(context, () => RecursiveInvokeHandlerAsync(context, index + 1)).ConfigureAwait(false);
             context.Logger.LogInformation("Handler {Index} [{Handler}] end execution", index, typeName);
         }
-
-        return context;
     }
 }

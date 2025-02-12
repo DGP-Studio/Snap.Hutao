@@ -110,7 +110,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
             await taskContext.SwitchToMainThreadAsync();
             SpiralAbyssEntries = spiralAbyssEntries;
-            SpiralAbyssEntries.MoveCurrentTo(SpiralAbyssEntries.SourceCollection.FirstOrDefault(s => s.Engaged));
+            SpiralAbyssEntries.MoveCurrentTo(SpiralAbyssEntries.Source.FirstOrDefault(s => s.Engaged));
         }
         catch (OperationCanceledException)
         {
@@ -143,7 +143,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
-                SpiralAbyssEntries.MoveCurrentTo(SpiralAbyssEntries.SourceCollection.FirstOrDefault(s => s.Engaged));
+                SpiralAbyssEntries.MoveCurrentTo(SpiralAbyssEntries.Source.FirstOrDefault(s => s.Engaged));
             }
         }
     }

@@ -10,7 +10,7 @@ internal static class GachaArchiveOperation
 {
     public static GachaArchive GetOrAdd(IGachaLogRepository repository, string uid, IAdvancedDbCollectionView<GachaArchive> archives)
     {
-        GachaArchive? archive = archives.SourceCollection.SingleOrDefault(a => a.Uid == uid);
+        GachaArchive? archive = archives.Source.SingleOrDefault(a => a.Uid == uid);
 
         if (archive is not null)
         {

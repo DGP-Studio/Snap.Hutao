@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
-internal sealed class ExceptionFormat
+internal static class ExceptionFormat
 {
     private const string SectionSeparator = "----------------------------------------";
 

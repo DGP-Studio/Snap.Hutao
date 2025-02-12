@@ -27,7 +27,7 @@ internal sealed partial class AchievementImporter
             return false;
         }
 
-        if (await scopeContext.YaeService.GetAchievementAsync().ConfigureAwait(false) is not { } uiaf)
+        if (await scopeContext.YaeService.GetAchievementAsync(context.LaunchGameViewModel).ConfigureAwait(false) is not { } uiaf)
         {
             scopeContext.InfoBarService.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ViewModelImportByEmbeddedYaeErrorMessage);
             return false;

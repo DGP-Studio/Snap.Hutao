@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.Json.Annotation;
 
-internal enum JsonEnumSerializeType
+internal enum JsonEnumSerializeHandling
 {
     /// <summary>
     /// 数字

@@ -14,7 +14,7 @@ namespace Snap.Hutao.Factory.ContentDialog;
 [ConstructorGenerated]
 internal sealed partial class ContentDialogQueue : IContentDialogQueue
 {
-    private static readonly Action<Task<ContentDialogResult>, object?> SetContentDialogResult = RunContinuation;
+    private static readonly Action<Task<ContentDialogResult>, object?> Continuation = RunContinuation;
 
     private readonly AsyncLock dialogLock = new();
 
@@ -22,7 +22,26 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
     private readonly ILogger<ContentDialogQueue> logger;
     private readonly ITaskContext taskContext;
 
-    public bool IsDialogShowing { get => currentWindowReference.Window is not null && field; private set; }
+    public bool IsDialogShowing
+    {
+        get
+        {
+            if (currentWindowReference.Window is null)
+            {
+                return false;
+            }
+
+            if (dialogLock.TryLock(out AsyncLock.Releaser releaser))
+            {
+                using (releaser)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
 
     public ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
     {
@@ -33,36 +52,49 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
         return new(queueSource.Task, resultSource.Task);
     }
 
-    private static void RunContinuation(Task<ContentDialogResult> task, object? state)
+    private static void RunContinuation(Task<ContentDialogResult> task, object? s)
     {
-        ArgumentNullException.ThrowIfNull(state);
-        ((TaskCompletionSource<ContentDialogResult>)state).SetResult(task.Result);
+        ArgumentNullException.ThrowIfNull(s);
+        State state = (State)s;
+        using (state.Releaser)
+        {
+            // Mark result as completed when dialog is closed
+            state.ResultSource.SetResult(task.Result);
+        }
     }
 
     private async Task EnqueueAndShowCoreAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource queueSource, TaskCompletionSource<ContentDialogResult> resultSource)
     {
-        using (await dialogLock.LockAsync().ConfigureAwait(false))
+        AsyncLock.Releaser releaser = await dialogLock.LockAsync().ConfigureAwait(false);
+        await taskContext.SwitchToMainThreadAsync();
+        queueSource.TrySetResult();
+        if (contentDialog.XamlRoot != currentWindowReference.GetXamlRoot())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            queueSource.TrySetResult();
-            if (contentDialog.XamlRoot != currentWindowReference.GetXamlRoot())
-            {
-                // User close the window on previous dialog, and this dialog still using old XamlRoot.
-                // And that's why we didn't use dialog's DispatcherQueue either.
-                HutaoException.NotSupported("Dialog using different XamlRoot");
-            }
-
-            // We need focus the dialog, so we can't await the ShowAsync.
-            contentDialog
-
-                // Return control when dialog content in VisualTree
-                .ShowAsync()
-                .AsTask()
-
-                // Mark result as completed when dialog is closed
-                .ContinueWith(SetContentDialogResult, resultSource, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default)
-                .SafeForget(logger);
-            contentDialog.Focus(Microsoft.UI.Xaml.FocusState.Programmatic);
+            // User close the window on previous dialog, and this dialog still using old XamlRoot.
+            // And that's why we didn't use dialog's DispatcherQueue to switch thread either.
+            HutaoException.NotSupported("Dialog using different XamlRoot");
         }
+
+        State state = new()
+        {
+            Releaser = releaser,
+            ResultSource = resultSource,
+        };
+
+        // We need focus the dialog, so we can't await the ShowAsync.
+        // ShowAsync returns control when dialog content in VisualTree
+        contentDialog
+            .ShowAsync()
+            .AsTask()
+            .ContinueWith(Continuation, state, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default)
+            .SafeForget(logger);
+        contentDialog.Focus(Microsoft.UI.Xaml.FocusState.Programmatic);
+    }
+
+    private sealed class State
+    {
+        public required AsyncLock.Releaser Releaser { get; init; }
+
+        public required TaskCompletionSource<ContentDialogResult> ResultSource { get; init; }
     }
 }

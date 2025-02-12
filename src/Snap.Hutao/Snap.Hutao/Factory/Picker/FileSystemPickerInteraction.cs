@@ -196,7 +196,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
     private static unsafe void SetFileTypes(ObjectReference<IFileDialog.Vftbl> fileDialog, ReadOnlySpan<(string Name, string Type)> filters)
     {
-        Span<nint> unmanagedStringPtrs = stackalloc nint[filters.Length * 2];
+        Span<nint> unmanagedStringPtrs = filters.Length < 16 ? stackalloc nint[filters.Length * 2] : new nint[filters.Length * 2];
         Span<COMDLG_FILTERSPEC> filterSpecs = stackalloc COMDLG_FILTERSPEC[filters.Length];
 
         for (int index = 0; index < filters.Length; index++)

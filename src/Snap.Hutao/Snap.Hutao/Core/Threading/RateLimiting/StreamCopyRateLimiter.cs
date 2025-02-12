@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Service;
 using System.Threading.RateLimiting;
 
@@ -11,12 +10,9 @@ internal static class StreamCopyRateLimiter
 {
     private const double ReplenishmentCountPerSecond = 20;
 
-    public static AsyncDisposableObservableBox<AppOptions, TokenBucketRateLimiter?> Create(IServiceProvider serviceProvider)
+    public static TokenBucketRateLimiter? Create(IServiceProvider serviceProvider)
     {
-        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
-#pragma warning disable CA2000
-        return new(CreateCore(appOptions), appOptions, nameof(AppOptions.DownloadSpeedLimitPerSecondInKiloByte), CreateCore);
-#pragma warning restore CA2000
+        return CreateCore(serviceProvider.GetRequiredService<AppOptions>());
     }
 
     private static TokenBucketRateLimiter? CreateCore(AppOptions appOptions)

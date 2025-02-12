@@ -31,16 +31,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
-    private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
+    // Required for the SetProperty
     private LaunchScheme? selectedScheme;
 
-    LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
+    public partial LaunchGameShared Shared { get; }
 
     public partial LaunchOptions LaunchOptions { get; }
 
@@ -92,7 +92,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 {
                     using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
-                        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
+                        LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
 
                         await taskContext.SwitchToMainThreadAsync();
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
@@ -244,7 +244,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private async Task LaunchAsync()
     {
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
-        await this.LaunchExecutionAsync(SelectedScheme, userAndUid).ConfigureAwait(false);
+        await this.LaunchExecutionAsync(userAndUid).ConfigureAwait(false);
 
         // AspectRatios might be updated during the launch
         await taskContext.SwitchToMainThreadAsync();

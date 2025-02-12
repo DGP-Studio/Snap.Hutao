@@ -37,7 +37,7 @@ internal sealed partial class AdvancedDbCollectionView<TEntity> : AdvancedCollec
 
         TEntity? currentItem = CurrentItem;
 
-        foreach (TEntity item in SourceCollection)
+        foreach (TEntity item in Source)
         {
             item.IsSelected = ReferenceEquals(item, currentItem);
         }
@@ -104,7 +104,7 @@ internal sealed partial class AdvancedDbCollectionView<TEntityAccess, TEntity> :
 
         TEntityAccess? currentItem = CurrentItem;
 
-        foreach (TEntityAccess item in SourceCollection)
+        foreach (TEntityAccess item in Source)
         {
             item.Entity.IsSelected = ReferenceEquals(item, currentItem);
         }

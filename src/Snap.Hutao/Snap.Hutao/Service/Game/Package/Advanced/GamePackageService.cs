@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ComponentModel;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
@@ -40,7 +39,6 @@ internal sealed partial class GamePackageService : IGamePackageService
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IProgressFactory progressFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
 
     private CancellationTokenSource? operationCts;
     private TaskCompletionSource? operationTcs;
@@ -58,47 +56,52 @@ internal sealed partial class GamePackageService : IGamePackageService
             MaxDegreeOfParallelism = Environment.ProcessorCount,
         };
 
-        await taskContext.SwitchToMainThreadAsync();
-        GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
-        IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(window.DataContext.HandleProgressUpdate);
-
-        await taskContext.SwitchToBackgroundAsync();
-
-        using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            await using (AsyncDisposableObservableBox<AppOptions, TokenBucketRateLimiter?> limiter = StreamCopyRateLimiter.Create(serviceProvider))
+            ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
+
+            await taskContext.SwitchToMainThreadAsync();
+
+            GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
+            IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(window.DataContext.HandleProgressUpdate);
+
+            await taskContext.SwitchToBackgroundAsync();
+
+            using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
             {
-                GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
+                using (TokenBucketRateLimiter? limiter = StreamCopyRateLimiter.Create(serviceProvider))
+                {
+                    Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
+                    {
+                        GamePackageOperationKind.Install => InstallAsync,
+                        GamePackageOperationKind.Verify => VerifyAndRepairAsync,
+                        GamePackageOperationKind.Update => UpdateAsync,
+                        GamePackageOperationKind.Predownload => PredownloadAsync,
+                        GamePackageOperationKind.ExtractBlk => ExtractAsync,
+                        GamePackageOperationKind.ExtractExe => ExtractExeAsync,
+                        _ => context => ValueTask.FromException(HutaoException.NotSupported()),
+                    };
 
-                Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
-                {
-                    GamePackageOperationKind.Install => InstallAsync,
-                    GamePackageOperationKind.Verify => VerifyAndRepairAsync,
-                    GamePackageOperationKind.Update => UpdateAsync,
-                    GamePackageOperationKind.ExtractBlk => ExtractAsync,
-                    GamePackageOperationKind.ExtractExe => ExtractExeAsync,
-                    GamePackageOperationKind.Predownload => PredownloadAsync,
-                    _ => context => ValueTask.FromException(HutaoException.NotSupported()),
-                };
-
-                try
-                {
-                    await operation(serviceContext).ConfigureAwait(false);
-                    return true;
-                }
-                catch (OperationCanceledException)
-                {
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    logger.LogCritical(ex, "Unexpected exception while exeuting game package operation");
-                    return false;
-                }
-                finally
-                {
-                    logger.LogDebug("Operation completed");
-                    operationTcs.TrySetResult();
+                    try
+                    {
+                        GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
+                        await operation(serviceContext).ConfigureAwait(false);
+                        return true;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogCritical(ex, "Unexpected exception while executing game package operation");
+                        return false;
+                    }
+                    finally
+                    {
+                        logger.LogDebug("Operation completed");
+                        operationTcs.TrySetResult();
+                    }
                 }
             }
         }
@@ -188,9 +191,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await context.Operation.Asset.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
-        if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
+        if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
-            Directory.Delete(context.Operation.ProxiedChunksDirectory, true);
+            Directory.Delete(context.Operation.EffectiveChunksDirectory, true);
         }
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind, context.Operation.Kind is GamePackageOperationKind.Verify));
@@ -312,9 +315,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
 
-        if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
+        if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
-            Directory.Delete(context.Operation.ProxiedChunksDirectory, true);
+            Directory.Delete(context.Operation.EffectiveChunksDirectory, true);
         }
     }
 
@@ -349,9 +352,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Operation.GameFileSystem.TryUpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
 
-        if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
+        if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
-            Directory.Delete(context.Operation.ProxiedChunksDirectory, true);
+            Directory.Delete(context.Operation.EffectiveChunksDirectory, true);
         }
     }
 

@@ -16,6 +16,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Yae;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.ViewModel.Game;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
@@ -27,6 +28,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly LaunchGameViewModel launchGameViewModel;
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CultivationViewModel> logger;
     private readonly INavigationService navigationService;
@@ -78,7 +80,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Projects = projects;
-            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            Projects.MoveCurrentTo(Projects.Source.SelectedOrDefault());
         }
 
         // Force update when re-entering the page
@@ -226,7 +228,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
-            await inventoryService.RefreshInventoryAsync(RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService)).ConfigureAwait(false);
+            RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, launchGameViewModel);
+            await inventoryService.RefreshInventoryAsync(options).ConfigureAwait(false);
 
             await UpdateInventoryItemsAsync().ConfigureAwait(false);
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);

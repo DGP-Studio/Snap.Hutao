@@ -189,7 +189,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
 
     private static async ValueTask MergeChunkIntoAssetAsync(PackageConverterContext context, SafeFileHandle fileHandle, AssetChunk chunk)
     {
-        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(GameAssetOperation.ChunkBufferSize))
         {
             Memory<byte> buffer = memoryOwner.Memory;
 
@@ -386,7 +386,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
                     }
                     else
                     {
-                        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+                        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(GameAssetOperation.ChunkBufferSize))
                         {
                             Memory<byte> buffer = memoryOwner.Memory;
                             long offset = oldChunk.ChunkOnFileOffset;

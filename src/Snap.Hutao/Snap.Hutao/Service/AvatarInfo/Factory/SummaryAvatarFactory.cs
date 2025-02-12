@@ -74,7 +74,7 @@ internal sealed class SummaryAvatarFactory
 
     private static void ProcessConstellations(
         SkillDepot depot,
-        ImmutableArray<Constellation> constellations,
+        ImmutableArray<Constellation> dataConstellations,
         out FrozenSet<SkillId> activatedConstellationIds,
         out FrozenDictionary<SkillId, SkillLevel> extraLevels)
     {
@@ -87,7 +87,7 @@ internal sealed class SummaryAvatarFactory
             levels.Add(depot.CompositeSkillsNoInherents[0].Id, 1);
         }
 
-        foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(constellations))
+        foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(dataConstellations))
         {
             // Constellations are activated in order, so if the current constellation is
             // not activated, all the subsequent constellations will not be activated.

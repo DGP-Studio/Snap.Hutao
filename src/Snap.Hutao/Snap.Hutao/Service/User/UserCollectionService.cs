@@ -53,7 +53,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
                 users.CurrentChanged += OnCurrentUserChanged;
 
                 await taskContext.SwitchToMainThreadAsync();
-                users.MoveCurrentTo(users.SourceCollection.SelectedOrFirstOrDefault());
+                users.MoveCurrentTo(users.Source.SelectedOrFirstOrDefault());
             }
 
             return users;

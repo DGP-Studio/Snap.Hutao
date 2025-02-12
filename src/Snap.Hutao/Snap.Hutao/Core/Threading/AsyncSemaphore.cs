@@ -34,6 +34,20 @@ internal sealed class AsyncSemaphore
         }
     }
 
+    public bool TryWait()
+    {
+        lock (waiters)
+        {
+            if (currentCount > 0)
+            {
+                --currentCount;
+                return true;
+            }
+
+            return false;
+        }
+    }
+
     public int Release()
     {
         TaskCompletionSource? toRelease = default;

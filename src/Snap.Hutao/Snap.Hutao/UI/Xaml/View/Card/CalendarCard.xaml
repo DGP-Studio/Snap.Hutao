@@ -13,7 +13,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.ViewModel.Calendar"
-    MinHeight="180"
+    Height="180"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"

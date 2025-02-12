@@ -12,11 +12,11 @@ internal sealed class Hk4eItem
 {
     // ReSharper disable once InconsistentNaming
     [JsonPropertyName("uigf_gacha_type")]
-    [JsonEnum(JsonEnumSerializeType.NumberString)]
+    [JsonEnum(JsonEnumSerializeHandling.NumberString)]
     public required GachaType UIGFGachaType { get; init; }
 
     [JsonPropertyName("gacha_type")]
-    [JsonEnum(JsonEnumSerializeType.NumberString)]
+    [JsonEnum(JsonEnumSerializeHandling.NumberString)]
     public required GachaType GachaType { get; init; }
 
     [JsonPropertyName("item_id")]

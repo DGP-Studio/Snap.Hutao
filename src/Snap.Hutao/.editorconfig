@@ -182,6 +182,8 @@ dotnet_diagnostic.CA2216.severity = suggestion  # CA2216: 可释放类型应声�
 dotnet_diagnostic.CA2227.severity = suggestion  # CA2227: 集合属性应为只读
 dotnet_diagnostic.CA2251.severity = suggestion  # CA2251: 使用 “string.Equals”
 
+dotnet_diagnostic.CS1591.severity = none        # CS1591: 缺少对公共可见类型或成员的 XML 注释
+
 dotnet_diagnostic.SA0001.severity = none        # SA0001: XML comment analysis disabled
 dotnet_diagnostic.SA1101.severity = none        # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1124.severity = none        # SA1124: Do not use regions
@@ -189,9 +191,8 @@ dotnet_diagnostic.SA1208.severity = none        # SA1208: System using directive
 dotnet_diagnostic.SA1404.severity = none        # SA1404: Code analysis suppression should have justification
 dotnet_diagnostic.SA1405.severity = none        # SA1405: Debug.Assert should provide message text
 dotnet_diagnostic.SA1600.severity = none        # SA1600: Elements should be documented
-dotnet_diagnostic.SA1601.severity = silent      # SA1601: Partial elements should be documented
-dotnet_diagnostic.SA1602.severity = silent      # SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1601.severity = none        # SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1602.severity = none        # SA1602: Enumeration items should be documented
 dotnet_diagnostic.SA1623.severity = none        # SA1623: Property summary documentation should match accessors
 dotnet_diagnostic.SA1629.severity = none        # SA1629: Documentation text should end with a period
-dotnet_diagnostic.SA1636.severity = none        # SA1636: File header copyright text should match
 dotnet_diagnostic.SA1642.severity = none        # SA1642: Constructor summary documentation should begin with standard text

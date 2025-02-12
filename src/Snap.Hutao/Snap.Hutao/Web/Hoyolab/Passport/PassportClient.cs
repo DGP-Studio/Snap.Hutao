@@ -176,14 +176,16 @@ internal sealed partial class PassportClient : IPassportClient
     {
         using (RSA rsa = RSA.Create())
         {
-            rsa.ImportFromPem($"""
-                               -----BEGIN PUBLIC KEY-----
-                               MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDvekdPMHN3AYhm/vktJT+YJr7
-                               cI5DcsNKqdsx5DZX0gDuWFuIjzdwButrIYPNmRJ1G8ybDIF7oDW2eEpm5sMbL9zs
-                               9ExXCdvqrn51qELbqj0XxtMTIpaCHFSI50PfPpTFV9Xt/hmyVwokoOXFlAEgCn+Q
-                               CgGs52bFoYMtyi+xEQIDAQAB
-                               -----END PUBLIC KEY-----
-                               """);
+            // https://www.rfc-editor.org/rfc/rfc7468#section-3
+            // https://github.com/UIGF-org/Hoyolab.Salt#cn-passport-api-rsa_public_key
+            rsa.ImportFromPem("""
+                -----BEGIN PUBLIC KEY-----
+                MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDvekdPMHN3AYhm/vktJT+YJr7
+                cI5DcsNKqdsx5DZX0gDuWFuIjzdwButrIYPNmRJ1G8ybDIF7oDW2eEpm5sMbL9zs
+                9ExXCdvqrn51qELbqj0XxtMTIpaCHFSI50PfPpTFV9Xt/hmyVwokoOXFlAEgCn+Q
+                CgGs52bFoYMtyi+xEQIDAQAB
+                -----END PUBLIC KEY-----
+                """);
             return Convert.ToBase64String(rsa.Encrypt(Encoding.UTF8.GetBytes(source), RSAEncryptionPadding.Pkcs1));
         }
     }

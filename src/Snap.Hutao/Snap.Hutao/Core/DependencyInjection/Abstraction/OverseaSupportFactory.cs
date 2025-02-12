@@ -4,17 +4,17 @@
 namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 [ConstructorGenerated]
-internal abstract partial class OverseaSupportFactory<TClient, TClientCn, TClientOs> : IOverseaSupportFactory<TClient>
+internal abstract partial class OverseaSupportFactory<TClient, TClientCN, TClientOS> : IOverseaSupportFactory<TClient>
     where TClient : notnull
-    where TClientCn : TClient
-    where TClientOs : TClient
+    where TClientCN : TClient
+    where TClientOS : TClient
 {
     private readonly IServiceProvider serviceProvider;
 
     public TClient Create(bool isOversea)
     {
         return isOversea
-            ? serviceProvider.GetRequiredService<TClientOs>()
-            : serviceProvider.GetRequiredService<TClientCn>();
+            ? serviceProvider.GetRequiredService<TClientOS>()
+            : serviceProvider.GetRequiredService<TClientCN>();
     }
 }

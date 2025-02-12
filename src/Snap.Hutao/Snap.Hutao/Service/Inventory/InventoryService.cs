@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Service.Yae;
 using Snap.Hutao.ViewModel.Cultivation;
+using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
@@ -55,7 +56,8 @@ internal sealed partial class InventoryService : IInventoryService
                 return RefreshInventoryByCalculatorAsync(refreshOptions.MetadataContext, refreshOptions.Project);
             case RefreshOptionKind.EmbeddedYae:
                 ArgumentNullException.ThrowIfNull(refreshOptions.YaeService);
-                return RefreshInventoryByEmbeddedYaeAsync(refreshOptions.YaeService, refreshOptions.Project);
+                ArgumentNullException.ThrowIfNull(refreshOptions.ViewModelSupportLaunchExecution);
+                return RefreshInventoryByEmbeddedYaeAsync(refreshOptions.YaeService, refreshOptions.ViewModelSupportLaunchExecution, refreshOptions.Project);
         }
 
         return ValueTask.CompletedTask;
@@ -99,9 +101,9 @@ internal sealed partial class InventoryService : IInventoryService
         }
     }
 
-    private async ValueTask RefreshInventoryByEmbeddedYaeAsync(IYaeService yaeService, CultivateProject project)
+    private async ValueTask RefreshInventoryByEmbeddedYaeAsync(IYaeService yaeService, IViewModelSupportLaunchExecution viewModel, CultivateProject project)
     {
-        if (await yaeService.GetInventoryAsync().ConfigureAwait(false) is not { } uiif)
+        if (await yaeService.GetInventoryAsync(viewModel).ConfigureAwait(false) is not { } uiif)
         {
             infoBarService.Warning(SH.ServiceYaeEmbeddedYaeErrorTitle, SH.ServiceInventoryRefreshByEmbeddedYaeErrorMessage);
             return;

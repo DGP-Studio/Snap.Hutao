@@ -3,12 +3,13 @@
 
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.InterChange.Inventory;
+using Snap.Hutao.ViewModel.Game;
 
 namespace Snap.Hutao.Service.Yae;
 
 internal interface IYaeService
 {
-    ValueTask<UIAF?> GetAchievementAsync();
+    ValueTask<UIAF?> GetAchievementAsync(IViewModelSupportLaunchExecution viewModel);
 
-    ValueTask<UIIF?> GetInventoryAsync();
+    ValueTask<UIIF?> GetInventoryAsync(IViewModelSupportLaunchExecution viewModel);
 }

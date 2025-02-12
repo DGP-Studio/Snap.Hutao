@@ -1,7 +1,5 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
-// Some part of this file came from:
-// https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 
 namespace Snap.Hutao.UI;
 

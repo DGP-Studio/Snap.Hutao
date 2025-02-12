@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Endpoint.Hutao;
@@ -77,7 +76,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                             if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
                             {
                                 string raw = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                logger.LogColorizedCritical("Failed to download '{Uri}' with unexpected body '{Raw}'", (uri, ConsoleColor.Red), (raw, ConsoleColor.DarkYellow));
+                                logger.LogCritical("Failed to download '\e[1m\e[31m{Uri}\e[37m' with unexpected body '\e[33m{Raw}\e[37m'", uri, raw);
                                 return;
                             }
 
@@ -103,7 +102,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                                 }
 
                             default:
-                                logger.LogColorizedCritical("Failed to download '{Uri}' with status code '{StatusCode}'", (uri, ConsoleColor.Red), (responseMessage.StatusCode, ConsoleColor.DarkYellow));
+                                logger.LogCritical("Failed to download '\e[1m\e[31m{Uri}\e[37m' with status code '\e[33m{StatusCode}\e[37m'", uri, responseMessage.StatusCode);
                                 return;
                         }
                     }

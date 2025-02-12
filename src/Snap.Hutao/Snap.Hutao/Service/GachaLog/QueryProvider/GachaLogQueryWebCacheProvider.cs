@@ -93,7 +93,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
 
     private static unsafe string? Match(MemoryStream stream, bool isOversea)
     {
-        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)stream.Length))
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.RentExactly((int)stream.Length))
         {
             Span<byte> span = memoryOwner.Memory.Span;
             stream.ReadExactly(span);

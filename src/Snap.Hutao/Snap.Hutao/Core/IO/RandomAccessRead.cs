@@ -14,17 +14,16 @@ internal static class RandomAccessRead
         while (true)
         {
             int read = await RandomAccess.ReadAsync(handle, buffer[bytesRead..], fileOffset + bytesRead, token).ConfigureAwait(false);
-
-            if (read is 0)
-            {
-                throw new IOException("End of file has been reached");
-            }
-
             bytesRead += read;
 
             if (bytesRead == buffer.Length)
             {
                 break;
+            }
+
+            if (read is 0)
+            {
+                throw new IOException("End of file has been reached");
             }
         }
     }

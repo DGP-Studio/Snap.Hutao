@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -17,6 +18,7 @@ namespace Snap.Hutao.UI.Shell;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class NotifyIconController : IDisposable
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly LazySlim<NotifyIconContextMenu> lazyMenu;
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly NotifyIconMessageWindow messageWindow;
@@ -26,6 +28,7 @@ internal sealed partial class NotifyIconController : IDisposable
 
     public NotifyIconController(IServiceProvider serviceProvider)
     {
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
         lazyMenu = new(() => new(serviceProvider));
 
         string iconPath = InstalledLocation.GetAbsolutePath("Assets/Logo.ico");
@@ -45,7 +48,7 @@ internal sealed partial class NotifyIconController : IDisposable
 
         CreateNotifyIcon();
 
-        registryKey = InitializeNotifyIconRegistryKey();
+        registryKey = InitializeNotifyIconRegistryKey(id);
     }
 
     public static Lock InitializationSyncRoot { get; } = new();
@@ -67,13 +70,15 @@ internal sealed partial class NotifyIconController : IDisposable
         return Registry.GetValue(registryKey, "IsPromoted", 0) is 1;
     }
 
-    private static string InitializeNotifyIconRegistryKey()
+    private static string InitializeNotifyIconRegistryKey(Guid id)
     {
         if (!UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
         {
             return string.Empty;
         }
 
+        // The GUID is stored in the registry as a string in the format {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
+        string idString = id.ToString("B");
         using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Control Panel\NotifyIconSettings"))
         {
             ArgumentNullException.ThrowIfNull(key);
@@ -81,18 +86,12 @@ internal sealed partial class NotifyIconController : IDisposable
             {
                 using (RegistryKey? subKey = key.OpenSubKey(subKeyName))
                 {
-                    if (subKey?.GetValue("ExecutablePath") is not string executablePath)
+                    if (subKey?.GetValue("IconGuid") is not string iconGuid)
                     {
                         continue;
                     }
 
-#if DEBUG
-                    string targetValue = InstalledLocation.GetAbsolutePath("Snap.Hutao.exe");
-#else
-                    string targetValue = HutaoRuntime.FullName;
-#endif
-
-                    if (executablePath.Contains(targetValue, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(iconGuid, idString, StringComparison.OrdinalIgnoreCase))
                     {
                         return $@"HKEY_CURRENT_USER\Control Panel\NotifyIconSettings\{subKeyName}";
                     }
@@ -136,6 +135,13 @@ internal sealed partial class NotifyIconController : IDisposable
         if (XamlApplicationLifetime.Exiting)
         {
             Debugger.Break();
+            return;
+        }
+
+        // https://github.com/DGP-Studio/Snap.Hutao/issues/2434
+        // Now we disable the context menu when the dialog is showing.
+        if (contentDialogFactory.IsDialogShowing)
+        {
             return;
         }
 

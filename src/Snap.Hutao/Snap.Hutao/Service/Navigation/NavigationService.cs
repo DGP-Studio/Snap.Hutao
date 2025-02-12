@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Control;
@@ -74,7 +73,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     {
         if (CurrentPageType == pageType)
         {
-            logger.LogColorizedInformation("Navigate to {Page} : {Result}, already in", (pageType, ConsoleColor.DarkGreen), ("succeed", ConsoleColor.Green));
+            logger.LogInformation("Navigate to \e[1m\e[36m{Page}\e[37m : \e[32msucceed, already in\e[37m", pageType);
             NavigationExtraDataSupport.NotifyRecipientAsync(frame?.Content, data).SafeForget(logger);
 
             return NavigationResult.AlreadyNavigatedTo;
@@ -86,11 +85,11 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         try
         {
             navigated = frame?.Navigate(pageType, data) ?? false;
-            logger.LogColorizedInformation("Navigate to {Page} : {Result}", (pageType, ConsoleColor.Magenta), navigated ? ("succeed", ConsoleColor.Green) : ("succeed", ConsoleColor.Red));
+            logger.LogInformation("Navigate to \e[1m\e[36m{Page}\e[37m : \e[32m{Result}\e[37m", pageType, navigated ? "\e[32msucceed" : "\e[31mfailed");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred while navigating to {pageType}", pageType);
+            logger.LogError(ex, "An error occurred while navigating to \e[1m\e[36m{pageType}\e[37m", pageType);
             infoBarService.Error(ex);
         }
 
@@ -120,7 +119,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "异步导航时发生异常");
+                logger.LogError(ex, "An error occurred while waiting for the navigation to the \e[1m\e[36m{pageType} to complete\e[37m", typeof(TPage));
                 return NavigationResult.Failed;
             }
         }

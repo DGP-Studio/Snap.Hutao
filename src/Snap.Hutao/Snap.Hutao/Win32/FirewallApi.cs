@@ -15,6 +15,21 @@ internal static class FirewallApi
 {
     [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
+    public static extern unsafe uint NetworkIsolationDiagnoseConnectFailureAndGetInfo(PCWSTR wszServerName, NETISO_ERROR_TYPE* netIsoError);
+
+    public static unsafe uint NetworkIsolationDiagnoseConnectFailureAndGetInfo(ReadOnlySpan<char> serverName, out NETISO_ERROR_TYPE netIsoError)
+    {
+        fixed (char* wszServerName = serverName)
+        {
+            fixed (NETISO_ERROR_TYPE* pNetIsoError = &netIsoError)
+            {
+                return NetworkIsolationDiagnoseConnectFailureAndGetInfo(wszServerName, pNetIsoError);
+            }
+        }
+    }
+
+    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows8.0")]
     public static extern unsafe uint NetworkIsolationEnumAppContainers(uint Flags, uint* pdwNumPublicAppCs, INET_FIREWALL_APP_CONTAINER** ppPublicAppCs);
 
     public static unsafe WIN32_ERROR NetworkIsolationEnumAppContainers(NETISO_FLAG Flags, out uint dwNumPublicAppCs, out INET_FIREWALL_APP_CONTAINER* pPublicAppCs)
@@ -29,10 +44,10 @@ internal static class FirewallApi
         }
     }
 
-    public static unsafe WIN32_ERROR NetworkIsolationEnumAppContainers(NETISO_FLAG Flags, out ReadOnlySpan<INET_FIREWALL_APP_CONTAINER> pPublicAppCs)
+    public static unsafe WIN32_ERROR NetworkIsolationEnumAppContainers(NETISO_FLAG Flags, out ReadOnlySpan<INET_FIREWALL_APP_CONTAINER> publicAppCs)
     {
-        WIN32_ERROR error = NetworkIsolationEnumAppContainers(Flags, out uint dwNumPublicAppCs, out INET_FIREWALL_APP_CONTAINER* pPublicAppCs2);
-        pPublicAppCs = new(pPublicAppCs2, (int)dwNumPublicAppCs);
+        WIN32_ERROR error = NetworkIsolationEnumAppContainers(Flags, out uint dwNumPublicAppCs, out INET_FIREWALL_APP_CONTAINER* pPublicAppCs);
+        publicAppCs = new(pPublicAppCs, (int)dwNumPublicAppCs);
         return error;
     }
 
