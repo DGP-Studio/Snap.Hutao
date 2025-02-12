@@ -62,7 +62,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             await taskContext.SwitchToMainThreadAsync();
 
-            GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
+            GamePackageOperationWindow window = scope.ServiceProvider.GetRequiredService<GamePackageOperationWindow>();
             IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(window.DataContext.HandleProgressUpdate);
 
             await taskContext.SwitchToBackgroundAsync();
@@ -414,7 +414,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                 .Create(context.Operation.GameFileSystem.IsOversea());
 
             Response<SophonBuild> response = await client.GetBuildAsync(branch, token).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(response, serviceProvider, out build))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out build))
             {
                 return default!;
             }
