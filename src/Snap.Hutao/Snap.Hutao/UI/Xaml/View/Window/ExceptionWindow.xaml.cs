@@ -80,8 +80,8 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
     public static void Show(string exMessage)
     {
         ExceptionWindow window = new(exMessage);
-        window.Activate();
-        window.BringToForeground();
+        window.AppWindow.Show(true);
+        window.AppWindow.MoveInZOrderAtTop();
     }
 
     [Command("CloseCommand")]
@@ -92,11 +92,13 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
 
     private void UpdateDragRectangles()
     {
-        if (DraggableGrid.IsLoaded)
+        if (!DraggableGrid.IsLoaded)
         {
-            Point position = DraggableGrid.TransformToVisual(Content).TransformPoint(default);
-            RectInt32 dragRect = RectInt32Convert.RectInt32(position, DraggableGrid.ActualSize).Scale(this.GetRasterizationScale());
-            this.GetInputNonClientPointerSource().SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
+            return;
         }
+
+        Point position = DraggableGrid.TransformToVisual(Content).TransformPoint(default);
+        RectInt32 dragRect = RectInt32Convert.RectInt32(position, DraggableGrid.ActualSize).Scale(this.GetRasterizationScale());
+        InputNonClientPointerSource.GetForWindowId(AppWindow.Id).SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
     }
 }

@@ -70,7 +70,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
                 {
                     // MainWindow is activated, bring to foreground
                     mainWindow.SwitchTo();
-                    mainWindow.BringToForeground();
+                    mainWindow.AppWindow.MoveInZOrderAtTop();
                     return;
                 }
 
@@ -82,14 +82,14 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
                     // TODO: Can actually be no any window is initialized
                     mainWindow.SwitchTo();
-                    mainWindow.BringToForeground();
+                    mainWindow.AppWindow.MoveInZOrderAtTop();
                     break;
                 }
 
             case Window otherWindow:
                 {
                     otherWindow.SwitchTo();
-                    otherWindow.BringToForeground();
+                    otherWindow.AppWindow.MoveInZOrderAtTop();
                     return;
                 }
         }

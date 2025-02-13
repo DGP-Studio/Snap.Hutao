@@ -60,16 +60,6 @@ internal sealed partial class XamlWindowSubclass : IDisposable
                     break;
                 }
 
-            case WM_GETMINMAXINFO:
-                {
-                    if (state.window is IXamlWindowSubclassMinMaxInfoHandler handler)
-                    {
-                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam, state.window.GetRasterizationScale());
-                    }
-
-                    break;
-                }
-
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {

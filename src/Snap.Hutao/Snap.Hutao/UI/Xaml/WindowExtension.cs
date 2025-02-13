@@ -50,21 +50,6 @@ internal static class WindowExtension
         return xamlWindowController;
     }
 
-    public static InputNonClientPointerSource GetInputNonClientPointerSource(this Window window)
-    {
-        return InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
-    }
-
-    public static InputPointerSource GetInputPointerSource(this Window window)
-    {
-        return InputPointerSource.GetForWindowId(window.AppWindow.Id);
-    }
-
-    public static InputKeyboardSource GetInputKeyboardSource(this Window window)
-    {
-        return InputKeyboardSource.GetForWindowId(window.AppWindow.Id);
-    }
-
     public static HWND GetWindowHandle(this Window? window)
     {
         return WindowNative.GetWindowHandle(window);
@@ -124,6 +109,7 @@ internal static class WindowExtension
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
     }
 
+    [Obsolete]
     public static unsafe void BringToForeground(this Window window)
     {
         HWND fgHwnd = GetForegroundWindow();

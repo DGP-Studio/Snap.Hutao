@@ -258,7 +258,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             currentWindowReference.Window = guideWindow;
 
             guideWindow.SwitchTo();
-            guideWindow.BringToForeground();
+            guideWindow.AppWindow.MoveInZOrderAtTop();
             return;
         }
 
@@ -292,7 +292,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         if (currentWindowReference.Window is { } window)
         {
             window.SwitchTo();
-            window.BringToForeground();
+            window.AppWindow.MoveInZOrderAtTop();
             return;
         }
 
@@ -302,6 +302,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         currentWindowReference.Window = mainWindow;
 
         mainWindow.SwitchTo();
-        mainWindow.BringToForeground();
+        mainWindow.AppWindow.MoveInZOrderAtTop();
     }
 }
