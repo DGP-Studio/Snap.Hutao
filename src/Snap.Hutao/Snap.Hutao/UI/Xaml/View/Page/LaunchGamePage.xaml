@@ -339,6 +339,7 @@
                                                 <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
                                             <Grid
                                                 Grid.Row="0"
@@ -403,19 +404,13 @@
                                                         <RowDefinition Height="auto"/>
                                                         <RowDefinition Height="auto"/>
                                                     </Grid.RowDefinitions>
-                                                    <NumberBox
+                                                    <ToggleSwitch
                                                         Grid.Row="0"
                                                         Grid.Column="0"
-                                                        Padding="10,8,6,6"
-                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
-                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanInputTargetFov}"
-                                                        LargeChange="10"
-                                                        Maximum="100"
-                                                        Minimum="0"
-                                                        SmallChange="1"
-                                                        SpinButtonPlacementMode="Inline"
-                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}"
-                                                        Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovColdSwitchHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFovColdSwitch}"
+                                                        IsOn="{Binding LaunchOptions.HookingSetFieldOfView, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
                                                     <ToggleSwitch
                                                         Grid.Row="0"
                                                         Grid.Column="1"
@@ -426,27 +421,34 @@
                                                     <ToggleSwitch
                                                         Grid.Row="0"
                                                         Grid.Column="2"
-                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovColdSwitchHeader}"
-                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFovColdSwitch}"
-                                                        IsOn="{Binding LaunchOptions.HookingSetFieldOfView, Mode=TwoWay}"
-                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
-
-                                                    <ToggleSwitch
-                                                        Grid.Row="1"
-                                                        Grid.Column="0"
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}"
                                                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleFixLowFovHotSwitch}"
                                                         IsOn="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneDescription}"/>
+
                                                     <ToggleSwitch
                                                         Grid.Row="1"
-                                                        Grid.Column="1"
+                                                        Grid.Column="0"
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}"
                                                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleDisableFogHotSwitch}"
                                                         IsOn="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
                                                         OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
                                                         OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"/>
+                                                    <NumberBox
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="2"
+                                                        Padding="10,8,6,6"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanInputTargetFov}"
+                                                        LargeChange="10"
+                                                        Maximum="100"
+                                                        Minimum="0"
+                                                        SmallChange="1"
+                                                        SpinButtonPlacementMode="Inline"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}"
+                                                        Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
                                                 </Grid>
                                             </Border>
                                             <Border
@@ -466,17 +468,17 @@
                                                     <ToggleSwitch
                                                         Grid.Row="0"
                                                         Grid.Column="0"
-                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}"
-                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleTeamHotSwitch}"
-                                                        IsOn="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
-                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressDescription}"/>
-                                                    <ToggleSwitch
-                                                        Grid.Row="0"
-                                                        Grid.Column="1"
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressColdSwitchHeader}"
                                                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleTeamColdSwitch}"
                                                         IsOn="{Binding LaunchOptions.HookingOpenTeam, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleTeamHotSwitch}"
+                                                        IsOn="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressDescription}"/>
                                                     <ToggleSwitch
                                                         Grid.Row="0"
                                                         Grid.Column="2"
@@ -500,9 +502,17 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="auto"/>
                                                     </Grid.RowDefinitions>
-                                                    <NumberBox
+                                                    <ToggleSwitch
                                                         Grid.Row="0"
                                                         Grid.Column="0"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHotSwitchHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFpsHotSwitch}"
+                                                        IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+                                                    <NumberBox
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="2"
                                                         Padding="10,8,6,6"
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}"
                                                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanInputTargetFps}"
@@ -511,12 +521,35 @@
                                                         SpinButtonPlacementMode="Inline"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                                         Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
+                                                </Grid>
+                                            </Border>
+                                            <Border
+                                                Grid.Row="6"
+                                                Padding="16"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <Grid ColumnSpacing="16" RowSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerColdSwitchHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleHideQuestBannerColdSwitch}"
+                                                        IsOn="{Binding LaunchOptions.HookingSetupView, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
                                                     <ToggleSwitch
                                                         Grid.Row="0"
                                                         Grid.Column="1"
-                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHotSwitchHeader}"
-                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFpsHotSwitch}"
-                                                        IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleHideQuestBannerHotSwitch}"
+                                                        IsOn="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
                                                 </Grid>
                                             </Border>

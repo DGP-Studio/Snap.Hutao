@@ -22,4 +22,6 @@ internal struct IslandEnvironment
     public BOOL HookingOpenTeam;
     public BOOL RemoveOpenTeamProgress;
     public BOOL HookingMickyWonderPartner2;
+    public BOOL HookingSetupView;
+    public BOOL HideQuestBanner;
 }
