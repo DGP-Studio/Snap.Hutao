@@ -101,7 +101,7 @@
                     </Grid>
                 </Border>
             </shuxc:ScrollViewerHelper.RightPanel>
-            <Grid HorizontalAlignment="Left">
+            <Grid HorizontalAlignment="Stretch">
                 <StackPanel
                     Grid.Column="0"
                     Padding="16"

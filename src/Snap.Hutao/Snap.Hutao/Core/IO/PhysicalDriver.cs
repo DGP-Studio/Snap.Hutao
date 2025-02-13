@@ -107,6 +107,19 @@ internal static class PhysicalDriver
                 return;
             }
 
+            query.PropertyId = STORAGE_PROPERTY_ID.StorageDeviceProperty;
+            STORAGE_DEVICE_DESCRIPTOR device = default;
+            if (!DeviceIoControl(hPhysicalDriver, IOCTL_STORAGE_QUERY_PROPERTY, &query, (uint)sizeof(STORAGE_PROPERTY_QUERY), &device, (uint)sizeof(STORAGE_DEVICE_DESCRIPTOR), default, default))
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            }
+
+            if (device.BusType is STORAGE_BUS_TYPE.BusTypeUsb)
+            {
+                isSsd = false;
+                return;
+            }
+
             query.PropertyId = STORAGE_PROPERTY_ID.StorageDeviceSeekPenaltyProperty;
             DEVICE_SEEK_PENALTY_DESCRIPTOR seekPenalty = default;
             if (!DeviceIoControl(hPhysicalDriver, IOCTL_STORAGE_QUERY_PROPERTY, &query, (uint)sizeof(STORAGE_PROPERTY_QUERY), &seekPenalty, (uint)sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR), default, default))
