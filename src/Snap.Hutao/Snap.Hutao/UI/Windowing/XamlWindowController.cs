@@ -3,7 +3,6 @@
 
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Content;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -81,12 +80,6 @@ internal sealed class XamlWindowController
 
         // SystemBackdrop
         UpdateSystemBackdrop(appOptions.BackdropType);
-
-        if (window.GetDesktopWindowXamlSource() is { } desktopWindowXamlSource)
-        {
-            DesktopChildSiteBridge desktopChildSiteBridge = desktopWindowXamlSource.SiteBridge;
-            desktopChildSiteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
-        }
 
         appOptions.PropertyChanged += OnOptionsPropertyChanged;
 
@@ -210,7 +203,7 @@ internal sealed class XamlWindowController
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)
     {
-        SystemBackdrop? actualBackdop = backdropType switch
+        window.SystemBackdrop = backdropType switch
         {
             BackdropType.Transparent => new TransparentBackdrop(),
             BackdropType.MicaAlt => new MicaBackdrop { Kind = MicaKind.BaseAlt },
@@ -218,8 +211,6 @@ internal sealed class XamlWindowController
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
             _ => null,
         };
-
-        window.SystemBackdrop = new SystemBackdropDesktopWindowXamlSourceAccess(actualBackdop);
 
         return true;
     }

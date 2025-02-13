@@ -89,8 +89,7 @@ internal sealed partial class XamlWindowSubclass : IDisposable
             case WM_ERASEBKGND:
                 {
                     if (state.window is IWindowNeedEraseBackground ||
-                        state.window.SystemBackdrop is IBackdropNeedEraseBackground ||
-                        state.window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess { InnerBackdrop: IBackdropNeedEraseBackground })
+                        state.window.SystemBackdrop is IBackdropNeedEraseBackground)
                     {
                         return (int)BOOL.TRUE;
                     }
