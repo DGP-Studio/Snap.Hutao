@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -360,6 +360,9 @@
   </data>
   <data name="ModelIntrinsicItemQualityPurple" xml:space="preserve">
     <value>4 Sao</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
+    <value></value>
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>1 sao</value>
@@ -664,6 +667,10 @@
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
     <value>Máy chủ EU UTC-01</value>
   </data>
+  <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
+    <value></value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
   <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
     <value>Tấn công cơ bản</value>
     <comment>Need EXACT same string in game</comment>
@@ -868,7 +875,7 @@
     <value>Không thể lấy lịch sử cầu nguyện trên cloud</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>Yêu cầu xác thực &lt;0&gt; thất bại</value>
+    <value>Yêu cầu xác thực &lt;0> thất bại</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
     <value>Đường dẫn trò chơi Genshin Impact chưa được thiết lập hoặc thiết lập không đúng</value>
@@ -912,6 +919,12 @@
   </data>
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>Tải xuống chỉ mục tài nguyên trò chơi thất bại: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Tiến trình trò chơi đã thoát</value>
@@ -985,6 +998,9 @@
   <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
     <value>Lấy Package Version thất bại</value>
   </data>
+  <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>Không thể tìm thấy đường dẫn game. Hãy sửa trong trang Cài đặt.</value>
   </data>
@@ -1048,11 +1064,11 @@
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Đang lấy thông tin người dùng, vui lòng chờ...</value>
   </data>
-  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>Đang chờ dữ liệu trò chơi</value>
-  </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Lỗi Embedded Yae</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>Đang chờ dữ liệu trò chơi</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Đề xuất thuộc tính bổ sung</value>
@@ -2026,11 +2042,11 @@
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Nhập từ clipboard</value>
   </data>
-  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
-    <value>Nhập từ tệp UIAF</value>
-  </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
     <value>Nhập từ trò chơi thông qua Embedded Yae</value>
+  </data>
+  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
+    <value>Nhập từ tệp UIAF</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Nhập</value>
@@ -2211,6 +2227,12 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Xác minh người dùng và Tài khoản hiện tại</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
+    <value>Trình khởi chạy</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
+    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Tìm kiếm vấn đề và đề xuất</value>
@@ -2568,6 +2590,12 @@
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>Sửa giao diện đặc biệt</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
+    <value>地图横幅冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
+    <value>关闭地图横幅</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Có thể chuyển đổi theo thời gian thực sau khi trò chơi khởi động</value>
