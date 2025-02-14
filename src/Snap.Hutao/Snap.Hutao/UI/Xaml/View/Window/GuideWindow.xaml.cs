@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -18,9 +19,6 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
     private const int MinWidth = 1000;
     private const int MinHeight = 650;
 
-    private const int MaxWidth = 1200;
-    private const int MaxHeight = 800;
-
     public GuideWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -28,7 +26,8 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsMaximizable = false;
-            presenter.SetPreferredBounds(new(1000, 650), new(1200, 800));
+            double scale = this.GetRasterizationScale();
+            presenter.SetPreferredBounds(ScaledSizeInt32.CreateForWindow(1000, 650, this), ScaledSizeInt32.CreateForWindow(1200, 800, this));
         }
 
         this.InitializeController(serviceProvider);
@@ -38,5 +37,5 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
-    public SizeInt32 InitSize { get; } = new(MinWidth, MinHeight);
+    public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(MinWidth, MinHeight, this); }
 }

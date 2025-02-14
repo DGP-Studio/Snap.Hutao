@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
@@ -69,6 +70,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     public string? FilterToken { get; set => SetProperty(ref field, value); }
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
+
+    public bool IsBilibiliStrategyAvailable { get => cultureOptions.LocaleName is LocaleNames.CHS; }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -250,6 +253,18 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
+        await Launcher.LaunchUriAsync(targetUri);
+    }
+
+    [Command("BilibiliStrategyCommand")]
+    private async Task OpenBilibiliStrategyWebsiteAsync(Avatar? avatar)
+    {
+        if (avatar is null)
+        {
+            return;
+        }
+
+        Uri targetUri = $"https://wiki.biligame.com/ys/{avatar.Name}/攻略".ToUri();
         await Launcher.LaunchUriAsync(targetUri);
     }
 

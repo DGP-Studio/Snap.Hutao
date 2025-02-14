@@ -14,6 +14,7 @@
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
@@ -539,13 +540,8 @@
                                                 </Grid>
 
                                                 <!--  攻略  -->
-                                                <Grid ColumnSpacing="16">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
+                                                <shuxcp:EqualPanel Spacing="16">
                                                     <Button
-                                                        Grid.Column="0"
                                                         Padding="16,8"
                                                         HorizontalContentAlignment="Stretch"
                                                         Command="{Binding ChineseStrategyCommand}"
@@ -569,11 +565,40 @@
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 VerticalAlignment="Center"
-                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyChineseButtonLabel}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyChineseButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
                                                         </Grid>
                                                     </Button>
                                                     <Button
-                                                        Grid.Column="1"
+                                                        Padding="16,8"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Command="{Binding BilibiliStrategyCommand}"
+                                                        CommandParameter="{Binding Avatars.CurrentItem}"
+                                                        Style="{ThemeResource SettingButtonStyle}"
+                                                        Visibility="{Binding IsBilibiliStrategyAvailable}">
+                                                        <Grid ColumnSpacing="16">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border
+                                                                Grid.Column="0"
+                                                                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                                                CornerRadius="4">
+                                                                <Image
+                                                                    Width="24"
+                                                                    Height="24"
+                                                                    Source="ms-appx:///Resource/ThirdParty/bilibili128.png"/>
+                                                            </Border>
+
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Center"
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyBilibiliButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button
                                                         Padding="16,8"
                                                         HorizontalContentAlignment="Stretch"
                                                         Command="{Binding OverseaStrategyCommand}"
@@ -597,10 +622,11 @@
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 VerticalAlignment="Center"
-                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyOverseaButtonLabel}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyOverseaButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
                                                         </Grid>
                                                     </Button>
-                                                </Grid>
+                                                </shuxcp:EqualPanel>
 
                                                 <!--  属性  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">

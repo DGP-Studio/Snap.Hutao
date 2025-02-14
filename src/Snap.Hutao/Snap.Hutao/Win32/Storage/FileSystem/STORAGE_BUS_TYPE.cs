@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Win32.Storage.FileSystem;
@@ -26,5 +26,5 @@ internal enum STORAGE_BUS_TYPE
     BusTypeSCM = 18,
     BusTypeUfs = 19,
     BusTypeMax = 20,
-    BusTypeMaxReserved = 127
+    BusTypeMaxReserved = 127,
 }
