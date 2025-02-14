@@ -3176,6 +3176,9 @@
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>스토리</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
+    <value>哔哩哔哩 Wiki 角色攻略</value>
+  </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>미요사 캐릭터 공략</value>
   </data>
