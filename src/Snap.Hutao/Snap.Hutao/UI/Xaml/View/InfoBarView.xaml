@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shsn="using:Snap.Hutao.Service.Notification"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -78,12 +77,12 @@
             CornerRadius="{ThemeResource ControlCornerRadius}">
             <Button>
                 <mxi:Interaction.Behaviors>
-                    <mxic:EventTriggerBehavior EventName="Click">
+                    <mxi:EventTriggerBehavior EventName="Click">
                         <clw:StartTransitionAction
                             Source="{x:Bind ShowButtonBorder}"
                             Target="{x:Bind InfoBarItemsBorder}"
                             Transition="{StaticResource InfoBarPanelTransitionHelper}"/>
-                    </mxic:EventTriggerBehavior>
+                    </mxi:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <Grid clw:TransitionHelper.Id="Header">
                     <Grid.ColumnDefinitions>
@@ -155,12 +154,12 @@
                             </Button>
                             <Button>
                                 <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="Click">
+                                    <mxi:EventTriggerBehavior EventName="Click">
                                         <clw:StartTransitionAction
                                             Source="{x:Bind InfoBarItemsBorder}"
                                             Target="{x:Bind ShowButtonBorder}"
                                             Transition="{StaticResource InfoBarPanelTransitionHelper}"/>
-                                    </mxic:EventTriggerBehavior>
+                                    </mxi:EventTriggerBehavior>
                                 </mxi:Interaction.Behaviors>
                                 <Grid ColumnSpacing="8">
                                     <Grid.ColumnDefinitions>

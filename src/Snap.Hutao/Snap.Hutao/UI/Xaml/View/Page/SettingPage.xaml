@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
@@ -264,9 +263,9 @@
                                             IsClickEnabled="True"
                                             Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                             <mxi:Interaction.Behaviors>
-                                                <mxic:EventTriggerBehavior EventName="Click">
+                                                <mxi:EventTriggerBehavior EventName="Click">
                                                     <cwb:NavigateToUriAction NavigateUri="{Binding BackgroundImageOptions.Wallpaper.SourceUrl}"/>
-                                                </mxic:EventTriggerBehavior>
+                                                </mxi:EventTriggerBehavior>
                                             </mxi:Interaction.Behaviors>
                                         </cwc:SettingsCard>
                                         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>

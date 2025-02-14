@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -332,9 +331,9 @@
                                 HeaderIcon="{shuxm:FontIcon Glyph=&#xE753;}"
                                 IsClickEnabled="True">
                                 <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="Click">
+                                    <mxi:EventTriggerBehavior EventName="Click">
                                         <shuxba:ShowAttachedFlyoutAction/>
-                                    </mxic:EventTriggerBehavior>
+                                    </mxi:EventTriggerBehavior>
                                 </mxi:Interaction.Behaviors>
                             </cwcont:SettingsCard>
                         </StackPanel>

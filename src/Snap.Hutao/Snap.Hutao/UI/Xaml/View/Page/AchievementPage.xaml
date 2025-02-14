@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
@@ -286,9 +285,9 @@
                                     </Style>
                                 </AutoSuggestBox.TextBoxStyle>
                                 <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                        <mxic:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
-                                    </mxic:EventTriggerBehavior>
+                                    <mxi:EventTriggerBehavior EventName="QuerySubmitted">
+                                        <mxi:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
+                                    </mxi:EventTriggerBehavior>
                                 </mxi:Interaction.Behaviors>
                             </AutoSuggestBox>
                         </CommandBar.Content>
@@ -318,9 +317,9 @@
                                     <MenuFlyoutItem Icon="{shuxm:FontIcon Glyph=&#xE7FC;}" Text="{shuxm:ResourceString Name=ViewPageAchievementImportFromEmbeddedYae}">
                                         <mxi:Interaction.Behaviors>
                                             <shuxb:PreventPerformActionsBehavior/>
-                                            <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                            <mxi:EventTriggerBehavior EventName="PointerEntered">
                                                 <shuxba:ShowAttachedFlyoutAction/>
-                                            </mxic:EventTriggerBehavior>
+                                            </mxi:EventTriggerBehavior>
                                         </mxi:Interaction.Behaviors>
                                         <FlyoutBase.AttachedFlyout>
                                             <Flyout
