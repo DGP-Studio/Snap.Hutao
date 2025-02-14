@@ -2591,6 +2591,12 @@
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>特殊界面修正</value>
   </data>
+  <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
+    <value>地图横幅冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
+    <value>关闭地图横幅</value>
+  </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>游戏启动后可以实时切换</value>
   </data>

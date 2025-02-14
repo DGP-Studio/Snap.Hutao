@@ -45,6 +45,12 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
     [ObservableProperty]
     public partial bool CanToggleSetFpsHotSwitch { get; set; }
 
+    [ObservableProperty]
+    public partial bool CanToggleHideQuestBannerColdSwitch { get; set; }
+
+    [ObservableProperty]
+    public partial bool CanToggleHideQuestBannerHotSwitch { get; set; }
+
     public void Update(LaunchOptions options)
     {
         (
@@ -82,5 +88,14 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
                 (T, T, T, T, T, F) => (T, T, F, T, T, T, F, F, F, T),
                 (T, T, T, T, T, T) => (T, T, F, T, T, T, F, F, T, T),
             };
+
+        (CanToggleHideQuestBannerColdSwitch, CanToggleHideQuestBannerHotSwitch) = (options.IsIslandEnabled, options.IsGameRunning, options.HookingSetupQuestBanner) switch
+        {
+            (F, _, _) => (F, F),
+            (T, F, F) => (T, F),
+            (T, F, T) => (T, T),
+            (T, T, F) => (F, F),
+            (T, T, T) => (F, T),
+        };
     }
 }

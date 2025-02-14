@@ -5,8 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
@@ -71,12 +69,12 @@
                         </Storyboard>
                     </Button.Resources>
                     <mxi:Interaction.Behaviors>
-                        <mxic:EventTriggerBehavior EventName="PointerEntered">
-                            <mxim:ControlStoryboardAction Storyboard="{StaticResource ShowRefreshIcon}"/>
-                        </mxic:EventTriggerBehavior>
-                        <mxic:EventTriggerBehavior EventName="PointerExited">
-                            <mxim:ControlStoryboardAction Storyboard="{StaticResource HideRefreshIcon}"/>
-                        </mxic:EventTriggerBehavior>
+                        <mxi:EventTriggerBehavior EventName="PointerEntered">
+                            <mxi:ControlStoryboardAction Storyboard="{StaticResource ShowRefreshIcon}"/>
+                        </mxi:EventTriggerBehavior>
+                        <mxi:EventTriggerBehavior EventName="PointerExited">
+                            <mxi:ControlStoryboardAction Storyboard="{StaticResource HideRefreshIcon}"/>
+                        </mxi:EventTriggerBehavior>
                     </mxi:Interaction.Behaviors>
                     <FontIcon
                         x:Name="RefreshIcon"
@@ -141,12 +139,12 @@
                 </Grid.Resources>
 
                 <mxi:Interaction.Behaviors>
-                    <mxic:EventTriggerBehavior EventName="PointerEntered">
-                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
-                    </mxic:EventTriggerBehavior>
-                    <mxic:EventTriggerBehavior EventName="PointerExited">
-                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
-                    </mxic:EventTriggerBehavior>
+                    <mxi:EventTriggerBehavior EventName="PointerEntered">
+                        <mxi:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                    </mxi:EventTriggerBehavior>
+                    <mxi:EventTriggerBehavior EventName="PointerExited">
+                        <mxi:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                    </mxi:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <PersonPicture
                     Height="32"
@@ -398,7 +396,7 @@
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
                                 Style="{StaticResource DefaultAppBarButtonStyle}">
                                 <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="Click">
+                                    <mxi:EventTriggerBehavior EventName="Click">
                                         <shuxba:ShowWebView2WindowAction>
                                             <shuxba:ShowWebView2WindowAction.ContentProvider>
                                                 <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
@@ -408,7 +406,7 @@
                                                 </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
                                             </shuxba:ShowWebView2WindowAction.ContentProvider>
                                         </shuxba:ShowWebView2WindowAction>
-                                    </mxic:EventTriggerBehavior>
+                                    </mxi:EventTriggerBehavior>
                                 </mxi:Interaction.Behaviors>
                             </AppBarButton>
                             <AppBarButton

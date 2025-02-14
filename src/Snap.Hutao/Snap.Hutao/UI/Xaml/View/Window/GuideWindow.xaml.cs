@@ -13,8 +13,7 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
-    IXamlWindowRectPersisted,
-    IXamlWindowSubclassMinMaxInfoHandler
+    IXamlWindowHasInitSize
 {
     private const int MinWidth = 1000;
     private const int MinHeight = 650;
@@ -29,6 +28,7 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsMaximizable = false;
+            presenter.SetPreferredBounds(new(1000, 650), new(1200, 800));
         }
 
         this.InitializeController(serviceProvider);
@@ -38,19 +38,5 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
-    public string PersistRectKey { get => SettingKeys.GuideWindowRect; }
-
-    public string PersistScaleKey { get => SettingKeys.GuideWindowScale; }
-
     public SizeInt32 InitSize { get; } = new(MinWidth, MinHeight);
-
-    public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);
-
-    public void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
-    {
-        info.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.x);
-        info.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.y);
-        info.ptMaxTrackSize.x = (int)Math.Min(MaxWidth * scalingFactor, info.ptMaxTrackSize.x);
-        info.ptMaxTrackSize.y = (int)Math.Min(MaxHeight * scalingFactor, info.ptMaxTrackSize.y);
-    }
 }

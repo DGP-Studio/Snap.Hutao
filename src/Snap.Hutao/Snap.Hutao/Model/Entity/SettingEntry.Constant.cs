@@ -58,6 +58,8 @@ internal sealed partial class SettingEntry
     public const string LaunchHookingOpenTeam = "Launch.HookingOpenTeam";
     public const string LaunchRemoveOpenTeamProgress = "Launch.RemoveOpenTeamProgress";
     public const string LaunchHookingMickyWonderPartner2 = "Launch.HookingMickyWonderPartner2";
+    public const string LaunchHookingSetupQuestBanner = "Launch.HookingSetupQuestBanner";
+    public const string LaunchHideQuestBanner = "Launch.HideQuestBanner";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
     public const string LaunchUsingCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";

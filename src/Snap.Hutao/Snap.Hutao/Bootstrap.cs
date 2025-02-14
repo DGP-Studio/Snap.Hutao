@@ -75,6 +75,9 @@ public static partial class Bootstrap
                 // In a Desktop app this runs a message pump internally,
                 // and does not return until the application shuts down.
                 Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
+
+                // If you hit a COMException REGDB_E_CLASSNOTREG (0x80040154) during debugging
+                // You can delete bin and obj folder and then rebuild.
                 Application.Start(AppInitializationCallback);
             }
         }

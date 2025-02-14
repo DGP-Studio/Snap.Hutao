@@ -1,12 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Content;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Hosting;
 using Snap.Hutao.UI.Windowing;
-using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
@@ -51,54 +48,6 @@ internal static class WindowExtension
     {
         WindowControllers.TryGetValue(window, out XamlWindowController? xamlWindowController);
         return xamlWindowController;
-    }
-
-    [SuppressMessage("", "SH007")]
-    public static DesktopWindowXamlSource GetDesktopWindowXamlSource(this Window window)
-    {
-        if (window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess access)
-        {
-            return access.DesktopWindowXamlSource!;
-        }
-
-        return default!;
-    }
-
-    public static InputNonClientPointerSource GetInputNonClientPointerSource(this Window window)
-    {
-        return InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
-    }
-
-    public static InputPointerSource GetInputPointerSource(this Window window)
-    {
-        InputPointerSource inputPointerSource = default!;
-        ContentIsland[] contentIslands = ContentIsland.FindAllForCurrentThread();
-        foreach (ref readonly ContentIsland island in contentIslands.AsSpan())
-        {
-            if (island.Environment.AppWindowId == window.AppWindow.Id)
-            {
-                inputPointerSource = InputPointerSource.GetForIsland(island);
-                break;
-            }
-        }
-
-        return inputPointerSource;
-    }
-
-    public static InputKeyboardSource GetInputKeyboardSource(this Window window)
-    {
-        InputKeyboardSource inputPointerSource = default!;
-        ContentIsland[] contentIslands = ContentIsland.FindAllForCurrentThread();
-        foreach (ref readonly ContentIsland island in contentIslands.AsSpan())
-        {
-            if (island.Environment.AppWindowId == window.AppWindow.Id)
-            {
-                inputPointerSource = InputKeyboardSource.GetForIsland(island);
-                break;
-            }
-        }
-
-        return inputPointerSource;
     }
 
     public static HWND GetWindowHandle(this Window? window)
@@ -160,6 +109,7 @@ internal static class WindowExtension
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
     }
 
+    [Obsolete]
     public static unsafe void BringToForeground(this Window window)
     {
         HWND fgHwnd = GetForegroundWindow();

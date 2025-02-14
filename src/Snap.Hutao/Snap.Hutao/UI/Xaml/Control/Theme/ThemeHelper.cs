@@ -8,33 +8,33 @@ namespace Snap.Hutao.UI.Xaml.Control.Theme;
 
 internal static class ThemeHelper
 {
-    public static Snap.WinUI.FrameworkTheming.Theme ElementToFramework(ElementTheme elementTheme)
+    public static Snap.Hutao.UI.Xaml.Theme ElementToFramework(ElementTheme elementTheme)
     {
         return elementTheme switch
         {
-            ElementTheme.Default => WinUI.FrameworkTheming.Theme.None,
-            ElementTheme.Light => WinUI.FrameworkTheming.Theme.Light,
-            ElementTheme.Dark => WinUI.FrameworkTheming.Theme.Dark,
+            ElementTheme.Default => Snap.Hutao.UI.Xaml.Theme.None,
+            ElementTheme.Light => Snap.Hutao.UI.Xaml.Theme.Light,
+            ElementTheme.Dark => Snap.Hutao.UI.Xaml.Theme.Dark,
             _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {elementTheme}."),
         };
     }
 
-    public static Snap.WinUI.FrameworkTheming.Theme ApplicationToFramework(ApplicationTheme applicationTheme)
+    public static Snap.Hutao.UI.Xaml.Theme ApplicationToFramework(ApplicationTheme applicationTheme)
     {
         return applicationTheme switch
         {
-            ApplicationTheme.Light => WinUI.FrameworkTheming.Theme.Light,
-            ApplicationTheme.Dark => WinUI.FrameworkTheming.Theme.Dark,
+            ApplicationTheme.Light => Snap.Hutao.UI.Xaml.Theme.Light,
+            ApplicationTheme.Dark => Snap.Hutao.UI.Xaml.Theme.Dark,
             _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {applicationTheme}."),
         };
     }
 
-    public static Snap.WinUI.FrameworkTheming.Theme ApplicationToFrameworkInvert(ApplicationTheme applicationTheme)
+    public static Snap.Hutao.UI.Xaml.Theme ApplicationToFrameworkInvert(ApplicationTheme applicationTheme)
     {
         return applicationTheme switch
         {
-            ApplicationTheme.Light => WinUI.FrameworkTheming.Theme.Dark,
-            ApplicationTheme.Dark => WinUI.FrameworkTheming.Theme.Light,
+            ApplicationTheme.Light => Snap.Hutao.UI.Xaml.Theme.Dark,
+            ApplicationTheme.Dark => Snap.Hutao.UI.Xaml.Theme.Light,
             _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {applicationTheme}."),
         };
     }

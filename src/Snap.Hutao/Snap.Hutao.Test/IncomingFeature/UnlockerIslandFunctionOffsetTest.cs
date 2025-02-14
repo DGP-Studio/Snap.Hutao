@@ -31,27 +31,29 @@ public class UnlockerIslandFunctionOffsetTest
         {
             Chinese = new()
             {
-                MickeyWonderMethod = 0x0929D180,
-                MickeyWonderMethodPartner = 0x00460FE0,
-                MickeyWonderMethodPartner2 = 0x05BCEC60,
-                SetFieldOfView = 0x00F0A370,
-                SetTargetFrameRate = 0x00F0EC30,
-                SetEnableFogRendering = 0x00F0D5A0,
-                OpenTeam = 0x07C97130,
-                OpenTeamPageAccordingly = 0x07CB71C0,
-                CheckCanEnter = 0x069F0C00
+                MickeyWonderMethod = 135331312,
+                MickeyWonderMethodPartner = 4622768,
+                MickeyWonderMethodPartner2 = 109471280,
+                SetFieldOfView = 15436752,
+                SetEnableFogRendering = 276053264,
+                SetTargetFrameRate = 276586352,
+                OpenTeam = 102865760,
+                OpenTeamPageAccordingly = 102804496,
+                CheckCanEnter = 123456848,
+                SetupQuestBanner = 0x0D92B560,
             },
             Oversea = new()
             {
-                MickeyWonderMethod = 0x08FC3AA0,
-                MickeyWonderMethodPartner = 0x0045F640,
-                MickeyWonderMethodPartner2 = 0x05D1D050,
-                SetFieldOfView = 0x00F08370,
-                SetTargetFrameRate = 0x00F0CC30,
-                SetEnableFogRendering = 0x00F0B5A0,
-                OpenTeam = 0x07EB04C0,
-                OpenTeamPageAccordingly = 0x07EC3A40,
-                CheckCanEnter = 0x06147B80
+                MickeyWonderMethod = 138413872,
+                MickeyWonderMethodPartner = 4616352,
+                MickeyWonderMethodPartner2 = 108665520,
+                SetFieldOfView = 15428576,
+                SetEnableFogRendering = 276114192,
+                SetTargetFrameRate = 276640176,
+                OpenTeam = 101850864,
+                OpenTeamPageAccordingly = 127059184,
+                CheckCanEnter = 110655936,
+                SetupQuestBanner = 0x0DB113B0,
             },
         };
 
@@ -84,5 +86,7 @@ public class UnlockerIslandFunctionOffsetTest
         public required uint OpenTeamPageAccordingly { get; set; }
 
         public required uint CheckCanEnter { get; set; }
+
+        public required uint SetupQuestBanner { get; set; }
     }
 }

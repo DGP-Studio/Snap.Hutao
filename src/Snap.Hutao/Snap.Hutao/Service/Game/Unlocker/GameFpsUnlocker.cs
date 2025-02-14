@@ -130,6 +130,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         pIslandEnvironment->HookingSetFieldOfView = options.HookingSetFieldOfView;
         pIslandEnvironment->HookingOpenTeam = options.HookingOpenTeam;
         pIslandEnvironment->HookingMickyWonderPartner2 = options.HookingMickyWonderPartner2;
+        pIslandEnvironment->HookingSetupQuestBanner = options.HookingSetupQuestBanner;
 
         UpdateIslandEnvironment(handle, options);
     }
@@ -145,6 +146,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         pIslandEnvironment->EnableSetTargetFrameRate = options.IsSetTargetFrameRateEnabled;
         pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress;
+        pIslandEnvironment->HideQuestBanner = options.HideQuestBanner;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }
