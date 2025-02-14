@@ -54,8 +54,7 @@
             IsEnabled="{Binding ElementName=ContentFrame, Path=Content.DataContext.IsInitialized, Mode=OneWay}"
             IsPaneOpen="True"
             OpenPaneLength="192"
-            PaneDisplayMode="Left"
-            UseLayoutRounding="False">
+            PaneDisplayMode="Left">
 
             <NavigationView.MenuItems>
                 <NavigationViewItem
@@ -134,10 +133,7 @@
                 <shuxv:UserView/>
             </NavigationView.PaneFooter>
 
-            <Frame
-                x:Name="ContentFrame"
-                ContentTransitions="{StaticResource NavigationThemeTransitions}"
-                UseLayoutRounding="True"/>
+            <Frame x:Name="ContentFrame" ContentTransitions="{StaticResource NavigationThemeTransitions}"/>
         </NavigationView>
 
         <shuxv:InfoBarView Margin="0,44,0,0" VerticalAlignment="Stretch"/>

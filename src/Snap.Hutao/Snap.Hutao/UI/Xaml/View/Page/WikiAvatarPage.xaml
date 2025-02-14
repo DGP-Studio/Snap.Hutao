@@ -565,7 +565,8 @@
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 VerticalAlignment="Center"
-                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyChineseButtonLabel}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyChineseButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
                                                         </Grid>
                                                     </Button>
                                                     <Button
@@ -593,7 +594,8 @@
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 VerticalAlignment="Center"
-                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyBilibiliButtonLabel}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyBilibiliButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
                                                         </Grid>
                                                     </Button>
                                                     <Button
@@ -620,7 +622,8 @@
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 VerticalAlignment="Center"
-                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyOverseaButtonLabel}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyOverseaButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
                                                         </Grid>
                                                     </Button>
                                                 </shuxcp:EqualPanel>

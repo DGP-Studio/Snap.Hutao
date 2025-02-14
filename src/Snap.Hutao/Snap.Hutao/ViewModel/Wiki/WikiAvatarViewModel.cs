@@ -71,7 +71,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
-    public bool IsBilibiliStrategyAvailable { get; private set => SetProperty(ref field, value); }
+    public bool IsBilibiliStrategyAvailable { get => cultureOptions.LocaleName is LocaleNames.CHS; }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -108,8 +108,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 .. IntrinsicFrozen.ItemQualityNameValues.Where(nv => nv.Value >= QualityType.QUALITY_PURPLE).Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
                 .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
             ]);
-
-            IsBilibiliStrategyAvailable = cultureOptions.LocaleName == LocaleNames.CHS;
 
             return true;
         }
