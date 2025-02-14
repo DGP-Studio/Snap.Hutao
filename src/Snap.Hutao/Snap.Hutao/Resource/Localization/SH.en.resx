@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -920,6 +920,12 @@
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>Failed to download game resource index: {0}</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>Snap Hutao should be run in administrator privilege before using Embedded Yae</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>You should know about the related risks and turn on the embedding function in Launch Game page before using Embedded Yae</value>
+  </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Game process closed</value>
   </data>
@@ -1008,7 +1014,7 @@
     <value>Wish record uploading service is valid until</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>Please use other ways to sync the package items</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
@@ -1058,11 +1064,11 @@
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Retrieving user information, please wait...</value>
   </data>
-  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
-  </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>Embedded Yae error</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>Waiting for game data</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Additional Property Recommendation</value>
@@ -1518,7 +1524,7 @@
     <value>You may make changes in Settings</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Data folder is used to store the data produced by user, costumed wallpaper, metadata, server switching cache, update cache, etc</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* The default data folder will be deleted during uninstallation, you can change it in settings later</value>
@@ -1860,7 +1866,7 @@
     <value>Please enter correct email address</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>Please import achievements using other ways</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Text format in clipboard is incorrect</value>
@@ -2036,11 +2042,11 @@
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Import from Clipboard</value>
   </data>
+  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
+    <value>Import from the game using Embedded Yae</value>
+  </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>Import from UIAF file</value>
-  </data>
-  <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Import</value>
@@ -2136,10 +2142,10 @@
     <value>Sync Inventory Items</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>Sync by cultivating calculator</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>Sync by Embedded Yae</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Delete list</value>
@@ -2221,6 +2227,12 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verify Current User and Role</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
+    <value>Launch</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
+    <value>Inject Embedded Yae into the game to get precise data</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Search for questions and suggestions</value>
@@ -2578,6 +2590,12 @@
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>Special Interface Fix</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
+    <value>地图横幅冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
+    <value>关闭地图横幅</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Real-time switches after game starts</value>
@@ -3030,7 +3048,7 @@
     <value>Reset Image Resource</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Folder will be automatically copied and the program will restart and delete the former folder automatically</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Change Data Directory</value>
