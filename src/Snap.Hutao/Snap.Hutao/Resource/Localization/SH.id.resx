@@ -3176,6 +3176,9 @@
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Cerita</value>
   </data>
+  <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
+    <value>哔哩哔哩 Wiki 角色攻略</value>
+  </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>Panduan Karakter miHoYo BBS</value>
   </data>
