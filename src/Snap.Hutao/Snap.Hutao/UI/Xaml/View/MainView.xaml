@@ -42,7 +42,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
-            Stretch="UniformToFill"/>
+            Stretch="UniformToFill"
+            UseLayoutRounding="False"/>
 
         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
         <NavigationView
@@ -54,7 +55,8 @@
             IsEnabled="{Binding ElementName=ContentFrame, Path=Content.DataContext.IsInitialized, Mode=OneWay}"
             IsPaneOpen="True"
             OpenPaneLength="192"
-            PaneDisplayMode="Left">
+            PaneDisplayMode="Left"
+            UseLayoutRounding="False">
 
             <NavigationView.MenuItems>
                 <NavigationViewItem

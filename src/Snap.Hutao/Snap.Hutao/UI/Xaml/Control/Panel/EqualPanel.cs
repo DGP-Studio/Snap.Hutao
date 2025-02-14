@@ -16,6 +16,7 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
     public EqualPanel()
     {
+        UseLayoutRounding = false;
         RegisterPropertyChangedCallback(HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
     }
 
