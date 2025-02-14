@@ -63,6 +63,10 @@
                 <Setter Property="Margin" Value="0,0,2,4"/>
                 <Setter Property="Padding" Value="0"/>
             </Style>
+
+            <Style TargetType="UIElement">
+                <Setter Property="UseLayoutRounding" Value="False"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
