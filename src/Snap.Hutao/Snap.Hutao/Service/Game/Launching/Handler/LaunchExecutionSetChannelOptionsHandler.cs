@@ -53,6 +53,13 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             IniSerializer.SerializeToFile(configPath, elements);
         }
 
+        // Backup config file, recover when an incompatible launcher deleted it.
+        // Config file has already been overwritten as target scheme at the moment.
+        //
+        // We should backup config file every time we launch the game due to the possibility of the game version outdated.
+        context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>()
+            .Backup(gameFileSystem.GetGameConfigurationFilePath(), gameFileSystem.IsOversea());
+
         await next().ConfigureAwait(false);
     }
 

@@ -7,7 +7,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.UI.Xaml.View.Dialog;
@@ -56,10 +55,6 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
                 {
                     return;
                 }
-
-                // Backup config file, recover when an incompatible launcher deleted it.
-                context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>()
-                    .Backup(gameFileSystem.GetGameConfigurationFilePath());
 
                 await context.TaskContext.SwitchToMainThreadAsync();
                 context.PerformGamePathEntrySynchronization();

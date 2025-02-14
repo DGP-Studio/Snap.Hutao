@@ -5,7 +5,7 @@ namespace Snap.Hutao.Service.Game.Configuration;
 
 internal interface IGameConfigurationFileService
 {
-    void Backup(string source);
+    void Backup(string source, bool isOversea);
 
-    void Restore(string destination);
+    void Restore(string destination, bool isOversea);
 }
