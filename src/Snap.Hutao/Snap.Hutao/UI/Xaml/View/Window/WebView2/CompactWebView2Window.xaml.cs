@@ -6,6 +6,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Windowing;
@@ -77,6 +78,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.SetBorderAndTitleBar(true, false);
+            presenter.PreferredMinimumSize = ScaledSizeInt32.CreateForWindow(200, 200, this);
             presenter.IsAlwaysOnTop = true;
         }
 
@@ -136,8 +138,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get; }
 
     public SizeInt32 InitSize { get => new(800, 600); }
-
-    public SizeInt32 MinSize { get => new(200, 200); }
 
     public void OnWindowClosed()
     {

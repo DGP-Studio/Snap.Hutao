@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -19,7 +20,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     {
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
-            presenter.PreferredMinimumSize = new(1000, 600);
+            presenter.PreferredMinimumSize = ScaledSizeInt32.CreateForWindow(1000, 600, this);
         }
 
         InitializeComponent();
