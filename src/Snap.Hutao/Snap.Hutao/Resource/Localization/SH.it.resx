@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -481,11 +481,26 @@
   <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
     <value>Gruppo C, ondata 3: Gruppi diversi coesistono e hanno ondate indipendenti.</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
+    <value>Gruppo D: <Unlocalized>不同的组同时在场，各自分波独立</Unlocalized></value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
+    <value>Gruppo D, ondata 1: <Unlocalized>不同的组同时在场，各自分波独立</Unlocalized></value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
+    <value>Gruppo D, ondata 2: <Unlocalized>不同的组同时在场，各自分波独立</Unlocalized></value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
+    <value>Gruppo D, ondata 3: <Unlocalized>不同的组同时在场，各自分波独立</Unlocalized></value>
+  </data>
   <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
     <value>Indipendente dagli altri mostri</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
     <value>Nessuna informazione sull'ondata</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
+    <value>Ondata 1: <Unlocalized>击败所有怪物，下一波才会出现</Unlocalized></value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
     <value>Aggiunta ondata: rinforzi della prima ondata di mostri</value>
@@ -905,6 +920,12 @@
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>Download dell'indice delle risorse di gioco non riuscito: {0}</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+  </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Processo di gioco terminato</value>
   </data>
@@ -1043,11 +1064,11 @@
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Recupero delle informazioni utente, attendere...</value>
   </data>
-  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
-  </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Embedded Yae 错误</value>
+  </data>
+  <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
+    <value>正在等待游戏数据</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Raccomandazione attributi aggiuntivi</value>
@@ -2021,11 +2042,11 @@
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>Importa dagli appunti</value>
   </data>
-  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
-    <value>Importa da file UIAF</value>
-  </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
     <value>通过 Embedded Yae 从游戏内导入</value>
+  </data>
+  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
+    <value>Importa da file UIAF</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
     <value>Importa</value>
@@ -2206,6 +2227,12 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verifica utente e ruolo correnti</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
+    <value>启动游戏</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
+    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Cerca problemi e suggerimenti</value>
@@ -2563,6 +2590,12 @@
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>Correzione interfaccia speciale</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
+    <value>地图横幅冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
+    <value>关闭地图横幅</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Cambio in tempo reale dopo l'avvio del gioco</value>
