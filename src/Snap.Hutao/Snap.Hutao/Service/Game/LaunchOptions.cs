@@ -63,7 +63,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
                 SettingEntry.LaunchHookingOpenTeam => InitializeNullableBooleanValue(ref fields.HookingOpenTeam, value),
                 SettingEntry.LaunchRemoveOpenTeamProgress => InitializeNullableBooleanValue(ref fields.RemoveOpenTeamProgress, value),
                 SettingEntry.LaunchHookingMickyWonderPartner2 => InitializeNullableBooleanValue(ref fields.HookingMickyWonderPartner2, value),
-                SettingEntry.LaunchHookingSetupView => InitializeNullableBooleanValue(ref fields.HookingSetupView, value),
+                SettingEntry.LaunchHookingSetupQuestBanner => InitializeNullableBooleanValue(ref fields.HookingSetupQuestBanner, value),
                 SettingEntry.LaunchHideQuestBanner => InitializeNullableBooleanValue(ref fields.HideQuestBanner, value),
                 _ => default,
             };
@@ -370,12 +370,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     }
 
     [UsedImplicitly]
-    public bool HookingSetupView
+    public bool HookingSetupQuestBanner
     {
-        get => GetOption(ref fields.HookingSetupView, SettingEntry.LaunchHookingSetupView, false);
+        get => GetOption(ref fields.HookingSetupQuestBanner, SettingEntry.LaunchHookingSetupQuestBanner, false);
         set
         {
-            if (SetOption(ref fields.HookingSetupView, SettingEntry.LaunchHookingSetupView, value))
+            if (SetOption(ref fields.HookingSetupQuestBanner, SettingEntry.LaunchHookingSetupQuestBanner, value))
             {
                 IslandFeatureStateMachine.Update(this);
             }
@@ -486,7 +486,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? HookingOpenTeam;
         public bool? RemoveOpenTeamProgress;
         public bool? HookingMickyWonderPartner2;
-        public bool? HookingSetupView;
+        public bool? HookingSetupQuestBanner;
         public bool? HideQuestBanner;
         public bool? IsMonitorEnabled;
         public bool? UsingCloudThirdPartyMobile;

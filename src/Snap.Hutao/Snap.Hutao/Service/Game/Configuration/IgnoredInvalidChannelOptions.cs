@@ -12,6 +12,7 @@ internal static class IgnoredInvalidChannelOptions
     [
         new(ChannelType.Bili, SubChannelType.Default, isOversea: true),
         new(ChannelType.Bili, SubChannelType.Official, isOversea: true),
+        new(ChannelType.Official, SubChannelType.NoTapTap, isOversea: true),
         new(ChannelType.Official, SubChannelType.Google, isOversea: false),
     ];
 

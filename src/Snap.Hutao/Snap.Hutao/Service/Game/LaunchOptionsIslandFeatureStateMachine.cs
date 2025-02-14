@@ -89,7 +89,7 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
                 (T, T, T, T, T, T) => (T, T, F, T, T, T, F, F, T, T),
             };
 
-        (CanToggleHideQuestBannerColdSwitch, CanToggleHideQuestBannerHotSwitch) = (options.IsIslandEnabled, options.IsGameRunning, options.HookingSetupView) switch
+        (CanToggleHideQuestBannerColdSwitch, CanToggleHideQuestBannerHotSwitch) = (options.IsIslandEnabled, options.IsGameRunning, options.HookingSetupQuestBanner) switch
         {
             (F, _, _) => (F, F),
             (T, F, F) => (T, F),

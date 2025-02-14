@@ -542,7 +542,7 @@
                                                         Grid.Column="0"
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerColdSwitchHeader}"
                                                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleHideQuestBannerColdSwitch}"
-                                                        IsOn="{Binding LaunchOptions.HookingSetupView, Mode=TwoWay}"
+                                                        IsOn="{Binding LaunchOptions.HookingSetupQuestBanner, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
                                                     <ToggleSwitch
                                                         Grid.Row="0"

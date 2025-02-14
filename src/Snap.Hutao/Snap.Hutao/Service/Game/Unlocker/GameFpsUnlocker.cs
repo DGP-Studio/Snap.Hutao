@@ -130,7 +130,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         pIslandEnvironment->HookingSetFieldOfView = options.HookingSetFieldOfView;
         pIslandEnvironment->HookingOpenTeam = options.HookingOpenTeam;
         pIslandEnvironment->HookingMickyWonderPartner2 = options.HookingMickyWonderPartner2;
-        pIslandEnvironment->HookingSetupView = options.HookingSetupView;
+        pIslandEnvironment->HookingSetupQuestBanner = options.HookingSetupQuestBanner;
 
         UpdateIslandEnvironment(handle, options);
     }
