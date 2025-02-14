@@ -117,6 +117,7 @@
     <None Remove="Resource\ThirdParty\Apple.png" />
     <None Remove="Resource\ThirdParty\Facebook.png" />
     <None Remove="Resource\ThirdParty\Google.png" />
+    <None Remove="Resource\ThirdParty\bilibili128.png" />
     <None Remove="Resource\ThirdParty\hoyolab128.png" />
     <None Remove="Resource\ThirdParty\miyoushe128.png" />
     <None Remove="Resource\ThirdParty\Twitter.png" />
@@ -276,6 +277,7 @@
     <Content Include="Resource\ThirdParty\Apple.png" />
     <Content Include="Resource\ThirdParty\Facebook.png" />
     <Content Include="Resource\ThirdParty\Google.png" />
+    <Content Include="Resource\ThirdParty\bilibili128.png" />
     <Content Include="Resource\ThirdParty\hoyolab128.png" />
     <Content Include="Resource\ThirdParty\miyoushe128.png" />
     <Content Include="Resource\ThirdParty\Twitter.png" />

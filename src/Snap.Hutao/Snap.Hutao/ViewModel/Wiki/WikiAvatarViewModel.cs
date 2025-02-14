@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
@@ -70,6 +71,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
+    public bool IsBilibiliStrategyAvailable { get; private set => SetProperty(ref field, value); }
+
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
@@ -105,6 +108,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 .. IntrinsicFrozen.ItemQualityNameValues.Where(nv => nv.Value >= QualityType.QUALITY_PURPLE).Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
                 .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
             ]);
+
+            IsBilibiliStrategyAvailable = cultureOptions.LocaleName == LocaleNames.CHS;
 
             return true;
         }
@@ -250,6 +255,18 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
+        await Launcher.LaunchUriAsync(targetUri);
+    }
+
+    [Command("BilibiliStrategyCommand")]
+    private async Task OpenBilibiliStrategyWebsiteAsync(Avatar? avatar)
+    {
+        if (avatar is null)
+        {
+            return;
+        }
+
+        Uri targetUri = $"https://wiki.biligame.com/ys/{avatar.Name}/攻略".ToUri();
         await Launcher.LaunchUriAsync(targetUri);
     }
 
