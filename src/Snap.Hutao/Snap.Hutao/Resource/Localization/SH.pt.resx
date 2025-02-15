@@ -921,10 +921,10 @@
     <value>Falha ao fazer o download do índice de recursos do jogo: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Antes de usar o Yae Incorporado, é necessário que o Snap Hutao seja executado com privilégios de administrador</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Antes de usar o Yae Incorporado, você deve estar ciente dos riscos associados e ativar a funcionalidade de injeção na página "Iniciar Jogo"</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Processo de jogo encerrado</value>
@@ -1524,7 +1524,7 @@
     <value>Pode fazer alterações em Definições mais tarde</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>A pasta de dados é usada para armazenar todos os dados gerados pelas operações do utilizador, papéis de parede personalizados, metadados, cache de mudança de servidor, cache de atualização e outros arquivos</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* A pasta de dados padrão será excluída ao desinstalar. Mais tarde, você pode modificar isso nas configurações</value>
@@ -2232,7 +2232,7 @@
     <value>Iniciar</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Injetar o Yae Incorporado no jogo para obter dados precisos</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Buscar perguntas e sugestões</value>
@@ -2592,10 +2592,10 @@
     <value>Correção de interface especial</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>Interruptor Frio do Banner do Mapa</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>Fechar faixa do mapa</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Pode alternar em tempo real após o início do jogo</value>
@@ -3048,7 +3048,7 @@
     <value>Redefinir recurso de imagem</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Após alterar o diretório, a pasta será copiada automaticamente e o programa será reiniciado, e a pasta antiga será excluída automaticamente após a reinicialização</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Alterar diretório de dados</value>
@@ -3177,7 +3177,7 @@
     <value>Histórias</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Guia de Personagens do Bilibili Game Wiki</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>Guia de Personagens do 米游社</value>
