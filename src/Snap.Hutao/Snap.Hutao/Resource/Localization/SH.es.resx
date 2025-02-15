@@ -1014,7 +1014,7 @@
     <value>El servicio de carga del historial de deseos es válido hasta</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>Utiliza otros métodos para sincronizar los objetos de la mochila</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>No se puede encontrar el archivo de metadatos en caché</value>
@@ -1065,10 +1065,10 @@
     <value>Obteniendo información de usuario, por favor espera...</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>Error de Embedded Yae</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
+    <value>Esperando datos del juego</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Recomendación de atributo adicional</value>
@@ -1524,7 +1524,7 @@
     <value>Puedes realizar cambios en la configuración más adelante</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>La carpeta de datos se utiliza para almacenar todos los datos generados por las acciones del usuario, fondos de pantalla personalizados, metadatos, caché de cambio de servidor, caché de actualizaciones, etc.</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* La carpeta de datos predeterminada se eliminará durante la desinstalación; puedes cambiarla en los ajustes más adelante</value>
@@ -1866,7 +1866,7 @@
     <value>Por favor, introduce un correo electrónico válido</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>Utiliza otros métodos para importar los logros</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>El formato del texto en el portapapeles no es correcto</value>
@@ -2043,7 +2043,7 @@
     <value>Importar desde el portapapeles</value>
   </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
+    <value>Importar desde el juego a través de Embedded Yae</value>
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>Importar desde archivo UIAF</value>
@@ -2142,10 +2142,10 @@
     <value>Sincronizar objetos del inventario</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>Sincronizar con la calculadora de desarrollo</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>Sincronizar a través de Embedded Yae</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Eliminar lista</value>
