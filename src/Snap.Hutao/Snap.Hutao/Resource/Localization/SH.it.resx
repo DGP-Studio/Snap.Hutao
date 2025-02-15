@@ -921,10 +921,10 @@
     <value>Download dell'indice delle risorse di gioco non riuscito: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Prima di utilizzare Embedded Yae, è necessario eseguire Snap Hutao con privilegi di amministratore</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Prima di utilizzare Embedded Yae, è necessario essere consapevoli dei rischi correlati e attivare la funzione di iniezione nella pagina "Avvia Gioco"</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Processo di gioco terminato</value>
@@ -1014,7 +1014,7 @@
     <value>Il servizio di caricamento della cronologia dei desideri è valido fino al</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>Si prega di utilizzare altri metodi per sincronizzare gli oggetti dello zaino</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Impossibile trovare il file di metadati nella cache</value>
@@ -1065,10 +1065,10 @@
     <value>Recupero delle informazioni utente, attendere...</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>Errore Yae incorporato</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
+    <value>In attesa dei dati di gioco</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Raccomandazione attributi aggiuntivi</value>
@@ -1524,7 +1524,7 @@
     <value>Puoi apportare modifiche in Impostazioni in un secondo momento</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>La cartella dati viene utilizzata per archiviare tutti i dati generati dalle operazioni dell'utente, gli sfondi personalizzati, i metadati, la cache di cambio server, la cache di aggiornamento e altri file</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* La cartella dati predefinita verrà eliminata durante la disinstallazione, è possibile modificarla in seguito nelle impostazioni</value>
@@ -1866,7 +1866,7 @@
     <value>Inserisci un indirizzo email valido</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>Si prega di utilizzare altri metodi per importare gli achievement</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Il formato del testo negli appunti non è corretto</value>
@@ -2043,7 +2043,7 @@
     <value>Importa dagli appunti</value>
   </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
+    <value>Importa dal gioco tramite Embedded Yae</value>
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>Importa da file UIAF</value>
@@ -2142,10 +2142,10 @@
     <value>Sincronizza oggetti inventario</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>Sincronizza tramite il calcolatore di sviluppo</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>Sincronizza tramite Embedded Yae</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Elimina lista</value>
@@ -2229,10 +2229,10 @@
     <value>Verifica utente e ruolo correnti</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Avvia Gioco</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Iniettare Embedded Yae nel gioco per ottenere dati precisi</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Cerca problemi e suggerimenti</value>
@@ -2592,10 +2592,10 @@
     <value>Correzione interfaccia speciale</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>Interruttore Freddo Banner Mappa</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>Chiudi il banner della mappa</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Cambio in tempo reale dopo l'avvio del gioco</value>
@@ -3048,7 +3048,7 @@
     <value>Ripristina risorse immagine</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Dopo aver modificato la directory, la cartella verrà automaticamente copiata e il programma si riavvierà ed eliminerà automaticamente la vecchia cartella</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Modifica directory dati</value>
@@ -3177,7 +3177,7 @@
     <value>Storie</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Wiki Strategia Personaggio Bilibili</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>Guide ai personaggi di 米游社</value>
