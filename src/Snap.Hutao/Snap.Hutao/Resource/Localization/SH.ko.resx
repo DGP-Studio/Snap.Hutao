@@ -921,10 +921,10 @@
     <value>게임 리소스 인덱스 다운로드 실패: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Embedded Yae를 사용하기 전에 Snap Hutao를 관리자 권한으로 실행해야 합니다.</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Embedded Yae를 사용하기 전에 관련 위험을 숙지하고 「게임 시작」 페이지에서 주입 기능을 켜야 합니다.</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>게임 프로세스가 종료되었습니다.</value>
@@ -1524,7 +1524,7 @@
     <value>나중에 설정에서 변경할 수 있습니다</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>데이터 폴더는 사용자가 생성한 모든 데이터, 사용자 지정 배경화면, 메타데이터, 서버 전환 캐시, 업데이트 캐시 등의 파일을 저장하는 데 사용됩니다.</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* 기본 데이터 폴더는 제거 시 함께 삭제되며, 나중에 설정에서 수정할 수 있습니다.</value>
@@ -2232,7 +2232,7 @@
     <value>게임 시작</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>정확한 데이터를 얻으려면 Embedded Yae를 게임에 주입하세요.</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>질문 및 제안 검색</value>
@@ -2592,7 +2592,7 @@
     <value>특수 인터페이스 수정</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>맵 배너 콜드 스위치</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
     <value>关闭地图横幅</value>
@@ -3048,7 +3048,7 @@
     <value>이미지 리소스 재설정</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>디렉터리를 변경하면 자동으로 폴더가 복사되고 프로그램이 다시 시작되며, 다시 시작된 후 이전 폴더가 자동으로 삭제됩니다.</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>데이터 경로 변경</value>
