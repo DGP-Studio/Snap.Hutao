@@ -921,10 +921,10 @@
     <value>Error al descargar el índice de recursos del juego: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Antes de usar Embedded Yae, se requiere que Snap Hutao se ejecute con privilegios de administrador</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Antes de usar Embedded Yae, debe conocer los riesgos relacionados y activar la función de inyección en la página "Iniciar juego"</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>El proceso del juego ha salido</value>
@@ -2229,10 +2229,10 @@
     <value>Verificar usuario y rol actual</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Iniciar juego</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Inyecta Embedded Yae en el juego para obtener datos precisos</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Buscar preguntas y sugerencias</value>
@@ -2592,10 +2592,10 @@
     <value>Corrección de interfaz especial</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>Interruptor de desactivación del banner del mapa</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>Cerrar banner del mapa</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Cambios en tiempo real después de iniciar el juego</value>
@@ -3048,7 +3048,7 @@
     <value>Restablecer recursos de imagen</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Después de cambiar el directorio, la carpeta se copiará automáticamente y se reiniciará. Después de reiniciar, la carpeta anterior se eliminará automáticamente</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Cambiar directorio de datos</value>
@@ -3177,7 +3177,7 @@
     <value>Historias</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Guía de estrategia de personajes de Bilibili Wiki</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>Guías de personajes de 米游社</value>
