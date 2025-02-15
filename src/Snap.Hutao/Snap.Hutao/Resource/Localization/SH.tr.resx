@@ -921,10 +921,10 @@
     <value>Oyun kaynak dizini indirilemedi: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Embedded Yae'yi kullanmadan önce, Snap Hutao'nun yönetici ayrıcalıklarıyla çalıştırılması gerekir</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Embedded Yae'yi kullanmadan önce, ilgili riskleri bilmeniz ve "Oyunu Başlat" sayfasında yerleştirme işlevini açmanız gerekir</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Oyun süreci çıktı</value>
@@ -1014,7 +1014,7 @@
     <value>Dilek kaydı yükleme hizmetinin geçerlilik süresi:</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>Lütfen çanta eşyalarını senkronize etmek için başka yöntemler kullanın</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Önbelleğe alınmış meta veri dosyası bulunamadı</value>
@@ -1065,10 +1065,10 @@
     <value>Kullanıcı bilgileri alınıyor, lütfen bekleyin...</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>Gömülü Yae Hatası</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
+    <value>Oyun verileri bekleniyor</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>Ek Özellik Tavsiyesi</value>
@@ -1524,7 +1524,7 @@
     <value>Daha sonra Ayarlar'dan değişiklik yapabilirsiniz</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Veri klasörü, kullanıcı işlemleri tarafından üretilen tüm verileri, özelleştirilmiş duvar kağıtlarını, meta verileri, sunucu değiştirme önbelleğini, güncelleme önbelleğini vb. saklamak için kullanılır</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* Varsayılan veri klasörü kaldırma sırasında silinecektir, daha sonra ayarlardan değiştirebilirsiniz</value>
@@ -1866,7 +1866,7 @@
     <value>Lütfen doğru e-posta adresini girin</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>Lütfen başarımları içe aktarmak için diğer yöntemleri kullanın</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Panodaki metin biçimi hatalı</value>
@@ -2043,7 +2043,7 @@
     <value>Panodan İçe Aktar</value>
   </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
+    <value>Oyun içinden Gömülü Yae ile İçe Aktar</value>
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>UIAF dosyasından içe aktar</value>
@@ -2142,10 +2142,10 @@
     <value>Envanter Öğelerini Senkronize Et</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>Geliştirme hesaplayıcısı ile senkronize et</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>Gömülü Yae ile Senkronize Et</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Listeyi Sil</value>
@@ -2229,10 +2229,10 @@
     <value>Geçerli Kullanıcıyı ve Rolü Doğrula</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Oyunu Başlat</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Hassas veri elde etmek için Embedded Yae'yi oyuna enjekte et</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Soruları ve önerileri arayın</value>
@@ -2592,10 +2592,10 @@
     <value>Özel Arayüz Düzeltmesi</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>Harita Başlığı Soğuk Anahtarı</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>Harita başlığını kapat</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Oyun başladıktan sonra gerçek zamanlı geçişler yapılabilir</value>
@@ -3048,7 +3048,7 @@
     <value>Resim Kaynaklarını Sıfırla</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Dizin değiştirildikten sonra klasör otomatik olarak kopyalanacak ve otomatik olarak yeniden başlatılacak, yeniden başlatmadan sonra önceki klasör otomatik olarak silinecektir</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Veri Dizini Değiştir</value>
@@ -3177,7 +3177,7 @@
     <value>Hikayeler</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Bilibili Wiki Karakter Stratejisi</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>米游社 Karakter Rehberleri</value>
