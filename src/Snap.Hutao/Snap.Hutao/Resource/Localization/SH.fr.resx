@@ -921,10 +921,10 @@
     <value>Échec du téléchargement de l’index des ressources du jeu : {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Avant d'utiliser Embedded Yae, Snap Hutao doit être exécuté avec des privilèges d'administrateur.</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Avant d'utiliser Embedded Yae, vous devez connaître les risques associés et activer la fonction d'intégration dans la page de lancement du jeu.</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Processus du jeu fermé</value>
@@ -1524,7 +1524,7 @@
     <value>Vous pouvez modifier les paramètres ultérieurement</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Le dossier de données est utilisé pour stocker toutes les données générées par les actions de l'utilisateur, les fonds d'écran personnalisés, les métadonnées, le cache de changement de serveur, le cache de mise à jour, etc.</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* Le dossier de données par défaut sera supprimé lors de la désinstallation, et il pourra être modifié ultérieurement dans les paramètres</value>
@@ -2232,7 +2232,7 @@
     <value>Lanceur de jeu</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Injectez Embedded Yae dans le jeu pour obtenir des données précises.</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Rechercher des questions et des suggestions</value>
@@ -2592,10 +2592,10 @@
     <value>Correction de l'interface spéciale</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>Interrupteur à froid de la bannière de la carte</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>Fermer la bannière de la carte</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Peut basculer en temps réel après le démarrage du jeu</value>
@@ -3048,7 +3048,7 @@
     <value>Réinitialiser les ressources d'images</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Après avoir changé le répertoire, le dossier sera automatiquement copié, le programme redémarrera et supprimera automatiquement l'ancien dossier.</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Changer le répertoire de données</value>
@@ -3177,7 +3177,7 @@
     <value>Histoire</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Guide des personnages du Wiki Bilibili</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>Guide de personnage de 米游社</value>
