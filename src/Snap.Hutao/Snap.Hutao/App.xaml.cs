@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core;
@@ -9,6 +10,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Service;
+using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using System.Diagnostics;
@@ -63,6 +65,12 @@ public sealed partial class App : Application
     {
         XamlApplicationLifetime.Exiting = true;
         logger.LogDebug("Application exiting.");
+        if (XamlApplicationLifetime.LaunchedWithNotifyIcon)
+        {
+            Window window = serviceProvider.GetRequiredService<NotifyIconController>().XamlHost;
+            SpinWait.SpinUntil(() => VisualTreeHelper.GetOpenPopups(window).Count <= 0);
+        }
+
         base.Exit();
     }
 

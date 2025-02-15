@@ -109,7 +109,7 @@ internal sealed class XamlWindowController
                 currentXamlWindowReference.Window = default!;
 
                 // NotifyIcon Promotion should only be checked when it's a CurrentWindow
-                if (!NotifyIconController.IsPromoted(serviceProvider))
+                if (!NotifyIcon.IsPromoted(serviceProvider))
                 {
                     try
                     {
