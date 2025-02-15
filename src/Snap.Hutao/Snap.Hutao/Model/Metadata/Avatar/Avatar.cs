@@ -70,6 +70,9 @@ internal partial class Avatar : INameQualityAccess,
     [JsonIgnore]
     public ImmutableArray<Material>? CultivationItemsView { get; set; }
 
+    [JsonIgnore]
+    public IAdvancedCollectionView<Costume>? CostumesView { get; set; }
+
     [SuppressMessage("", "CA1822")]
     public uint MaxLevel { get => GetMaxLevel(); }
 
