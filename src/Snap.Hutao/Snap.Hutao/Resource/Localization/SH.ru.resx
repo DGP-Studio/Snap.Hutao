@@ -921,10 +921,10 @@
     <value>Не удалось загрузить игровые ресурсы: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Перед использованием Embedded Yae, Snap Hutao должна быть запущена с правами администратора</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Перед использованием Embedded Yae вы должны знать о связанных с этим рисках и включить функцию внедрения на странице "Запуск игры"</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Процесс игры закрыт</value>
@@ -1524,7 +1524,7 @@
     <value>Это можно изменить позже в настройках</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Папка данных используется для хранения всех данных, созданных в результате действий пользователя, пользовательских фоновых рисунков, метаданных, кэша переключения серверов, кэша обновлений и т. д.</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* Папка данных по умолчанию будет удалена при удалении программы, позже ее можно будет изменить в настройках</value>
@@ -2232,7 +2232,7 @@
     <value>Game Launcher</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Внедрите Embedded Yae в игру для получения точных данных</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Поиск вопросов и предложений</value>
@@ -2592,10 +2592,10 @@
     <value>Исправление особых интерфейсов</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>Холодный переключатель скрытия баннера карты</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>Закрыть баннер карты</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Можно переключать в реальном времени после запуска игры</value>
@@ -3048,7 +3048,7 @@
     <value>Сбросить графические ресурсы</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>После смены каталога папка будет автоматически скопирована, программа перезапустится и автоматически удалит старую папку</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Изменить каталог данных</value>
@@ -3177,7 +3177,7 @@
     <value>История</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Вики Bilibili по персонажам</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>Гайды по персонажам 米游社</value>
