@@ -2595,7 +2595,7 @@
     <value>맵 배너 콜드 스위치</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>지도 배너 닫기</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>게임 시작 후 실시간 전환 가능</value>
@@ -3177,7 +3177,7 @@
     <value>스토리</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Bilibili Wiki 캐릭터 공략</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>미요사 캐릭터 공략</value>
