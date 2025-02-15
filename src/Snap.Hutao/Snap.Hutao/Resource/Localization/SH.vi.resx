@@ -921,10 +921,10 @@
     <value>Tải xuống chỉ mục tài nguyên trò chơi thất bại: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以管理员权限运行</value>
+    <value>Trước khi sử dụng Embedded Yae, Snap Hutao cần được chạy với quyền quản trị viên</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要您了解相关风险并在「启动游戏」页面开启注入功能</value>
+    <value>Trước khi sử dụng Embedded Yae, bạn cần biết về các rủi ro liên quan và bật chức năng nhúng trong trang Khởi động Trò chơi</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Tiến trình trò chơi đã thoát</value>
@@ -1524,7 +1524,7 @@
     <value>Bạn có thể thay đổi trong Cài đặt sau</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>Thư mục dữ liệu được sử dụng để lưu trữ tất cả dữ liệu do người dùng tạo ra, hình nền tùy chỉnh, siêu dữ liệu, bộ đệm chuyển đổi máy chủ, bộ đệm cập nhật, v.v.</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* Thư mục dữ liệu mặc định sẽ bị xóa khi gỡ cài đặt, bạn có thể thay đổi trong phần cài đặt sau.</value>
@@ -2232,7 +2232,7 @@
     <value>Trình khởi chạy</value>
   </data>
   <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
-    <value>将 Embedded Yae 注入游戏以获取准确数据</value>
+    <value>Nhúng Embedded Yae vào trò chơi để có được dữ liệu chính xác</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Tìm kiếm vấn đề và đề xuất</value>
@@ -2592,10 +2592,10 @@
     <value>Sửa giao diện đặc biệt</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>Công Tắc Nguội Ẩn Biểu Ngữ Bản Đồ</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>Đóng biểu ngữ bản đồ</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>Có thể chuyển đổi theo thời gian thực sau khi trò chơi khởi động</value>
@@ -3048,7 +3048,7 @@
     <value>Đặt lại tài nguyên hình ảnh</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>Sau khi thay đổi thư mục, thư mục sẽ được tự động sao chép và chương trình sẽ tự động khởi động lại, sau khi khởi động lại, thư mục cũ sẽ tự động bị xóa</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>Thay đổi thư mục dữ liệu</value>
@@ -3177,7 +3177,7 @@
     <value>Câu chuyện</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>Bilibili Game Wiki Hướng dẫn nhân vật</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>Hướng dẫn nhân vật của 米游社</value>
