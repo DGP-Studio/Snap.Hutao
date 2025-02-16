@@ -6,7 +6,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Windowing;

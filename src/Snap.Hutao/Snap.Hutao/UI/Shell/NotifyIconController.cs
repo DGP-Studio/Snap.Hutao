@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Windowing;
 using Microsoft.Win32;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
@@ -13,7 +12,6 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
 
