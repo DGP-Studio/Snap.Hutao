@@ -3,9 +3,12 @@
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 
-internal sealed class PipeResponse
+internal class PipeResponse
 {
     public required PipeResponseKind Kind { get; set; }
+}
 
-    public required JsonElement Data { get; set; }
+internal sealed class PipeResponse<T> : PipeResponse
+{
+    public T? Data { get; set; }
 }
