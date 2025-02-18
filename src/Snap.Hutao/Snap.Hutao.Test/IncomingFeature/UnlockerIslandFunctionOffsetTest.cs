@@ -41,6 +41,8 @@ public class UnlockerIslandFunctionOffsetTest
                 OpenTeamPageAccordingly = 102804496,
                 CheckCanEnter = 123456848,
                 SetupQuestBanner = 0x0D92B560,
+                FindGameObject = 0x107B3AE0,
+                SetActive = 0x107B3840,
             },
             Oversea = new()
             {
@@ -54,6 +56,8 @@ public class UnlockerIslandFunctionOffsetTest
                 OpenTeamPageAccordingly = 127059184,
                 CheckCanEnter = 110655936,
                 SetupQuestBanner = 0x0DB113B0,
+                FindGameObject = 0x107C0CF0,
+                SetActive = 0x107C0A50,
             },
         };
 
@@ -88,5 +92,9 @@ public class UnlockerIslandFunctionOffsetTest
         public required uint CheckCanEnter { get; set; }
 
         public required uint SetupQuestBanner { get; set; }
+
+        public required uint FindGameObject { get; set; }
+
+        public required uint SetActive { get; set; }
     }
 }

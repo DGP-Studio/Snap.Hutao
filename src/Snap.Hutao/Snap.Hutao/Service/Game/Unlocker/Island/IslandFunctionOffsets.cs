@@ -26,4 +26,8 @@ internal struct IslandFunctionOffsets
     public uint CheckCanEnter;
     [JsonInclude]
     public uint SetupQuestBanner;
+    [JsonInclude]
+    public uint FindGameObject;
+    [JsonInclude]
+    public uint SetActive;
 }
