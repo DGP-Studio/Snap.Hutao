@@ -11,6 +11,7 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 internal sealed partial class BetterGenshinImpactNamedPipeServer
 {
     private readonly IAutomationCultivationService automationCultivationService;
+    private readonly ILogger<BetterGenshinImpactNamedPipeServer> logger;
     private readonly IAutomationTaskService automationTaskService;
 
     public PipeResponse DispatchRequest(PipeRequest<JsonElement>? request)
@@ -19,6 +20,10 @@ internal sealed partial class BetterGenshinImpactNamedPipeServer
         {
             switch (request.Kind)
             {
+                case PipeRequestKind.Log:
+                    logger.LogInformation("BGI: {log}", request.Data.GetString());
+                    break;
+
                 case PipeRequestKind.CreateOneShotTask:
                     {
                         if (request.Data.Deserialize<AutomationTaskDefinition>() is { } taskDefinition)
@@ -91,10 +96,10 @@ internal sealed partial class BetterGenshinImpactNamedPipeServer
 
                 case PipeRequestKind.QueryCurrentCultivationProject:
                     {
-                        return new()
+                        return new PipeResponse<AutomationCultivationProject>
                         {
                             Kind = PipeResponseKind.Object,
-                            Data = JsonSerializer.SerializeToElement(automationCultivationService.GetCurrentProject()),
+                            Data = automationCultivationService.GetCurrentProject(),
                         };
                     }
 
@@ -107,7 +112,7 @@ internal sealed partial class BetterGenshinImpactNamedPipeServer
             }
         }
 
-        return new()
+        return new PipeResponse<Void>
         {
             Kind = PipeResponseKind.None,
             Data = default,

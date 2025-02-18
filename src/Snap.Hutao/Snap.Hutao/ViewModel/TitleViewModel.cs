@@ -12,6 +12,7 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
 using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.View.Dialog;
@@ -249,7 +250,7 @@ internal sealed partial class TitleViewModel
     [Command("InvertAppThemeCommand")]
     private void InvertAppTheme()
     {
-        WinUI.FrameworkTheming.FrameworkTheming.SetTheme(ThemeHelper.ApplicationToFrameworkInvert(app.RequestedTheme));
+        FrameworkTheming.SetTheme(ThemeHelper.ApplicationToFrameworkInvert(app.RequestedTheme));
     }
 #endif
 }

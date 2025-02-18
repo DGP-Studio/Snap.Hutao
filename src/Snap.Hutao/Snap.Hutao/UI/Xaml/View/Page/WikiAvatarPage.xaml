@@ -14,6 +14,7 @@
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
@@ -241,7 +242,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CostumeTemplate" x:DataType="shmma:Costume">
-            <Grid Margin="0,0,0,16">
+            <Grid Margin="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
@@ -539,13 +540,8 @@
                                                 </Grid>
 
                                                 <!--  攻略  -->
-                                                <Grid ColumnSpacing="16">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
+                                                <shuxcp:EqualPanel Spacing="16">
                                                     <Button
-                                                        Grid.Column="0"
                                                         Padding="16,8"
                                                         HorizontalContentAlignment="Stretch"
                                                         Command="{Binding ChineseStrategyCommand}"
@@ -569,11 +565,40 @@
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 VerticalAlignment="Center"
-                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyChineseButtonLabel}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyChineseButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
                                                         </Grid>
                                                     </Button>
                                                     <Button
-                                                        Grid.Column="1"
+                                                        Padding="16,8"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Command="{Binding BilibiliStrategyCommand}"
+                                                        CommandParameter="{Binding Avatars.CurrentItem}"
+                                                        Style="{ThemeResource SettingButtonStyle}"
+                                                        Visibility="{Binding IsBilibiliStrategyAvailable}">
+                                                        <Grid ColumnSpacing="16">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border
+                                                                Grid.Column="0"
+                                                                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                                                CornerRadius="4">
+                                                                <Image
+                                                                    Width="24"
+                                                                    Height="24"
+                                                                    Source="ms-appx:///Resource/ThirdParty/bilibili128.png"/>
+                                                            </Border>
+
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Center"
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyBilibiliButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button
                                                         Padding="16,8"
                                                         HorizontalContentAlignment="Stretch"
                                                         Command="{Binding OverseaStrategyCommand}"
@@ -597,10 +622,11 @@
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 VerticalAlignment="Center"
-                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyOverseaButtonLabel}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarStrategyOverseaButtonLabel}"
+                                                                TextWrapping="NoWrap"/>
                                                         </Grid>
                                                     </Button>
-                                                </Grid>
+                                                </shuxcp:EqualPanel>
 
                                                 <!--  属性  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
@@ -682,25 +708,40 @@
                                                 </Border>
 
                                                 <!--  立绘  -->
-                                                <cwc:ConstrainedBox AspectRatio="2048:1024">
-                                                    <Grid Style="{ThemeResource GridCardStyle}">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <!--  使其有较低的ZOrder  -->
-                                                        <shuxci:CachedImage Grid.ColumnSpan="2" Source="{Binding Avatars.CurrentItem.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
+                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                    <Grid RowSpacing="16">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
 
-                                                        <Border
-                                                            Grid.Column="0"
-                                                            Margin="16"
-                                                            Style="{StaticResource BorderCardStyle}">
-                                                            <cwc:ConstrainedBox AspectRatio="320:1024">
-                                                                <shuxci:CachedImage CornerRadius="{ThemeResource ControlCornerRadius}" Source="{Binding Avatars.CurrentItem.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
+                                                        <Border Grid.Row="0" Style="{ThemeResource SecondaryBorderCardStyle}">
+                                                            <cwc:ConstrainedBox AspectRatio="2048:1024">
+                                                                <Grid>
+                                                                    <shuxci:CachedImage Source="{Binding Avatars.CurrentItem.Icon, Converter={StaticResource GachaAvatarImgConverter}}" Visibility="{Binding Avatars.CurrentItem.CostumesView.CurrentItem.IsDefault}"/>
+                                                                    <shuxci:CachedImage Source="{Binding Avatars.CurrentItem.CostumesView.CurrentItem.FrontIcon, Converter={StaticResource CostumeConverter}}" Visibility="{Binding Avatars.CurrentItem.CostumesView.CurrentItem.IsDefault, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                                </Grid>
                                                             </cwc:ConstrainedBox>
                                                         </Border>
+
+                                                        <FlipView
+                                                            Grid.Row="1"
+                                                            Height="108"
+                                                            Padding="7,7,0,7"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalContentAlignment="Center"
+                                                            ItemTemplate="{StaticResource CostumeTemplate}"
+                                                            ItemsSource="{Binding Avatars.CurrentItem.CostumesView}"
+                                                            SelectedItem="{Binding Avatars.CurrentItem.CostumesView.CurrentItem, Mode=TwoWay}"/>
+                                                        <PipsPager
+                                                            Grid.Row="1"
+                                                            Height="16"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Bottom"
+                                                            NumberOfPages="{Binding Avatars.CurrentItem.CostumesView.Count, FallbackValue={x:Null}}"
+                                                            SelectedPageIndex="{Binding Avatars.CurrentItem.CostumesView.CurrentPosition, Mode=TwoWay}"/>
                                                     </Grid>
-                                                </cwc:ConstrainedBox>
+                                                </Border>
 
                                                 <!--  名片  -->
                                                 <Border Style="{ThemeResource BorderCardStyle}">
@@ -874,26 +915,6 @@
                                                                 </shuxcc:VerticalCard.Bottom>
                                                             </shuxcc:VerticalCard>
                                                         </Grid>
-                                                    </Expander>
-                                                </Border>
-
-                                                <!--  衣装  -->
-                                                <Border Style="{ThemeResource BorderCardStyle}">
-                                                    <Border.Resources>
-                                                        <!--  ReSharper disable Xaml.RedundantResource  -->
-                                                        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
-                                                        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
-
-                                                    </Border.Resources>
-                                                    <Expander
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Stretch"
-                                                        Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarCostumeHeader}"
-                                                        IsExpanded="True">
-                                                        <ItemsControl
-                                                            Margin="0,0,0,-16"
-                                                            ItemTemplate="{StaticResource CostumeTemplate}"
-                                                            ItemsSource="{Binding Avatars.CurrentItem.Costumes}"/>
                                                     </Expander>
                                                 </Border>
 

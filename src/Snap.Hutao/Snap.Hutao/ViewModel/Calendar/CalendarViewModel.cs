@@ -53,20 +53,21 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
         await taskContext.SwitchToMainThreadAsync();
 
         WeekDays = weekDays;
-        WeekDays.MoveCurrentTo(WeekDays.Source.SingleOrDefault(d => d.Date == DateTimeOffset.Now.Date));
+        DateTime effectiveToday = DateTimeOffset.Now.ToOffset(appOptions.CalendarServerTimeZoneOffset).Date;
+        WeekDays.MoveCurrentTo(WeekDays.Source.SingleOrDefault(d => d.Date == effectiveToday));
         IsInitialized = true;
     }
 
     private static CalendarDay CreateCalendarDay(DateTimeOffset date, CalendarMetadataContext2 context, IReadOnlyDictionary<DayOfWeek, ImmutableArray<CalendarMaterial>> dailyMaterials)
     {
-        DateTimeFormatInfo dtfi = CultureInfo.CurrentCulture.DateTimeFormat;
+        DateTimeFormatInfo formatInfo = CultureInfo.CurrentCulture.DateTimeFormat;
 
         return new()
         {
             Date = date,
             DayInMonth = date.Day,
-            DayName = dtfi.GetAbbreviatedDayName(date.DayOfWeek),
-            BirthDayAvatars = [.. context.AvatarBirthdays[new MonthAndDay((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem<Item>())],
+            DayName = formatInfo.GetAbbreviatedDayName(date.DayOfWeek),
+            BirthDayAvatars = [.. context.AvatarBirthdays[new((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem<Item>())],
             Materials = dailyMaterials.GetValueOrDefault(date.DayOfWeek, []),
         };
     }
@@ -186,10 +187,10 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
             [DayOfWeek.Saturday] = materials36,
         };
 
-        DateTimeOffset today = DateTimeOffset.Now.ToOffset(appOptions.CalendarServerTimeZoneOffset).Date;
+        DateTimeOffset effectiveToday = DateTimeOffset.Now.ToOffset(appOptions.CalendarServerTimeZoneOffset).Date;
         DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
-        DateTimeOffset nearestStartOfWeek = today.AddDays((int)firstDayOfWeek - (int)today.DayOfWeek);
-        if (nearestStartOfWeek > today)
+        DateTimeOffset nearestStartOfWeek = effectiveToday.AddDays((int)firstDayOfWeek - (int)effectiveToday.DayOfWeek);
+        if (nearestStartOfWeek > effectiveToday)
         {
             nearestStartOfWeek = nearestStartOfWeek.AddDays(-7);
         }

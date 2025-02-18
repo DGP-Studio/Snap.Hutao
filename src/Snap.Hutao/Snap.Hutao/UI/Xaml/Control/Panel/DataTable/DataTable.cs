@@ -130,8 +130,12 @@ internal sealed partial class DataTable : Microsoft.UI.Xaml.Controls.Panel
             }
             else
             {
-                // TODO: We use the comparison of sizes a lot, should we cache in the DataColumn itself?
-                width = Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
+                width = column.MaxChildDesiredWidth;
+            }
+
+            if (width is 0)
+            {
+                continue;
             }
 
             column.Arrange(new(x, 0, width, finalSize.Height));

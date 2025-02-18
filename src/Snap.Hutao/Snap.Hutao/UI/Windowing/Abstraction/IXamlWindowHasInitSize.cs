@@ -8,6 +8,4 @@ namespace Snap.Hutao.UI.Windowing.Abstraction;
 internal interface IXamlWindowHasInitSize
 {
     SizeInt32 InitSize { get; }
-
-    SizeInt32 MinSize { get; }
 }

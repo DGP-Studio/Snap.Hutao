@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-internal sealed class Costume
+internal sealed partial class Costume : IAdvancedCollectionViewItem
 {
     public required CostumeId Id { get; init; }
 

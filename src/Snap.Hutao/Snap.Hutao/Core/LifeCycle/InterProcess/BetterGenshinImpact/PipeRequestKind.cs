@@ -5,10 +5,11 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 
 internal enum PipeRequestKind
 {
-    None,                                // ContractVersion 1, Both
+    None = 0,                            // ContractVersion 1, Both
     GetContractVersion = 1,              // ContractVersion 1, Both
     StartCapture = 2,                    // ContractVersion 1, S to B
     StopCapture = 3,                     // ContractVersion 1, S to B
+    Log = 4,                             // ContractVersion 1, B to S
     QueryTaskArray = 10,                 // ContractVersion 1, S to B
     StartTask = 11,                      // ContractVersion 1, S to B
     CreateOneShotTask = 20,              // ContractVersion 1, B to S

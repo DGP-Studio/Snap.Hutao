@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -920,6 +920,12 @@
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>ดาวน์โหลดดัชนีทรัพยากรเกมล้มเหลว: {0}</value>
   </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
+    <value>Snap Hutao ควรรันด้วยสิทธิ์ผู้ดูแลระบบก่อนที่จะใช้ Embedded Yae</value>
+  </data>
+  <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
+    <value>คุณควรทราบถึงความเสี่ยงที่เกี่ยวข้องและเปิดฟังก์ชันการฝังในหน้าเปิดเกมก่อนที่จะใช้ Embedded Yae</value>
+  </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>กระบวนการเกมสิ้นสุดแล้ว</value>
   </data>
@@ -1008,7 +1014,7 @@
     <value>บริการอัปโหลดบันทึกการอธิษฐานมีผลถึง</value>
   </data>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法同步背包物品</value>
+    <value>โปรดใช้วิธีการอื่นเพื่อซิงค์ไอเทมในกระเป๋า</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>ไม่พบไฟล์ข้อมูลเมตาที่แคชไว้</value>
@@ -1059,10 +1065,10 @@
     <value>กำลังดึงข้อมูลผู้ใช้ โปรดรอสักครู่...</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
-    <value>Embedded Yae 错误</value>
+    <value>ข้อผิดพลาดของ Embedded Yae</value>
   </data>
   <data name="ServiceYaeWaitForGameResponseMessage" xml:space="preserve">
-    <value>正在等待游戏数据</value>
+    <value>กำลังรอข้อมูลเกม</value>
   </data>
   <data name="UIViewPageAvatarPropertyRecommendedAppendProperties" xml:space="preserve">
     <value>คำแนะนำคุณสมบัติเพิ่มเติม</value>
@@ -1419,7 +1425,7 @@
     <value>กำลังแปลงไคลเอนต์เกม</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.&gt;สแกนคิวอาร์โค้ด</value>
+    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.>สแกนคิวอาร์โค้ด</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
     <value>เพื่อให้แน่ใจว่าผู้เปิดใช้งานฟังก์ชันมีความสามารถในการตัดสินใจอย่างอิสระ เราจะอัปเดตเงื่อนไขการเปิดใช้งานฟังก์ชันเหล่านี้เป็นระยะ หากคุณเป็นผู้สร้างเนื้อหา โปรดอย่าแบ่งปันวิธีการเปิดใช้งานเฉพาะกับผู้ชมของคุณ</value>
@@ -1518,7 +1524,7 @@
     <value>คุณสามารถเปลี่ยนแปลงได้ในการตั้งค่าภายหลัง</value>
   </data>
   <data name="ViewGuideStepDataFolderHeader" xml:space="preserve">
-    <value>数据文件夹用于存储所有由用户操作产生的数据、自定义壁纸、元数据、切换服务器缓存、更新缓存等文件</value>
+    <value>โฟลเดอร์ข้อมูลใช้สำหรับจัดเก็บข้อมูลทั้งหมดที่เกิดจากการดำเนินการของผู้ใช้, วอลเปเปอร์ที่กำหนดเอง, ข้อมูลเมตา, แคชการสลับเซิร์ฟเวอร์, แคชการอัปเดต และไฟล์อื่นๆ</value>
   </data>
   <data name="ViewGuideStepDataFolderHint" xml:space="preserve">
     <value>* โฟลเดอร์ข้อมูลเริ่มต้นจะถูกลบเมื่อถอนการติดตั้ง สามารถแก้ไขได้ภายหลังในการตั้งค่า</value>
@@ -1860,7 +1866,7 @@
     <value>โปรดป้อนอีเมลที่ถูกต้อง</value>
   </data>
   <data name="ViewModelImportByEmbeddedYaeErrorMessage" xml:space="preserve">
-    <value>请使用其他方法导入成就</value>
+    <value>โปรดนำเข้าความสำเร็จโดยใช้วิธีอื่น</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>รูปแบบข้อความในคลิปบอร์ดไม่ถูกต้อง</value>
@@ -1944,7 +1950,7 @@
     <value>พื้นที่ดิสก์ที่ใช้ไป: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0&gt;无感验证&lt;/0&gt;สำเร็จ</value>
+    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0>无感验证&lt;/0>สำเร็จ</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>กำลังรีเซ็ตทรัพยากรภาพ</value>
@@ -2037,7 +2043,7 @@
     <value>นำเข้าจากคลิปบอร์ด</value>
   </data>
   <data name="ViewPageAchievementImportFromEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 从游戏内导入</value>
+    <value>นำเข้าจากในเกมโดยใช้ Embedded Yae</value>
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>นำเข้าจากไฟล์ UIAF</value>
@@ -2136,10 +2142,10 @@
     <value>ซิงค์ไอเทมในกระเป๋า</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByCalculator" xml:space="preserve">
-    <value>通过养成计算器同步</value>
+    <value>ซิงค์โดยใช้เครื่องคิดเลขการบ่มเพาะ</value>
   </data>
   <data name="ViewPageCultivationRefreshInventoryByEmbeddedYae" xml:space="preserve">
-    <value>通过 Embedded Yae 同步</value>
+    <value>ซิงค์โดยใช้ Embedded Yae</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>ลบรายการ</value>
@@ -2221,6 +2227,12 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>ตรวจสอบผู้ใช้และบทบาทปัจจุบัน</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameAction" xml:space="preserve">
+    <value>เปิดเกม</value>
+  </data>
+  <data name="ViewPageEmbeddedYaeLaunchGameDescription" xml:space="preserve">
+    <value>ฉีด Embedded Yae เข้าไปในเกมเพื่อรับข้อมูลที่แม่นยำ</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>ค้นหาปัญหาและคำแนะนำ</value>
@@ -2578,6 +2590,12 @@
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>การแก้ไขอินเทอร์เฟซพิเศษ</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
+    <value>สวิตช์ปิดแบนเนอร์แผนที่</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
+    <value>ปิดแบนเนอร์แผนที่</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>สลับได้แบบเรียลไทม์หลังจากเริ่มเกม</value>
@@ -3030,7 +3048,7 @@
     <value>รีเซ็ตทรัพยากรภาพ</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
-    <value>更改目录后将会自动复制文件夹并自动重启，重启后自动删除之前的文件夹</value>
+    <value>โฟลเดอร์จะถูกคัดลอกโดยอัตโนมัติ และโปรแกรมจะรีสตาร์ทและลบโฟลเดอร์เดิมโดยอัตโนมัติหลังจากการเปลี่ยนแปลงไดเรกทอรี</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
     <value>เปลี่ยนไดเรกทอรีข้อมูล</value>
@@ -3157,6 +3175,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>เรื่องราว</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
+    <value>คู่มือตัวละคร Wiki Bilibili</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>คู่มือตัวละครของ米游社</value>
@@ -3521,6 +3542,9 @@
   <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
     <value>{0} วินาที</value>
   </data>
+  <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
+    <value>การตรวจสอบล้มเหลว โปรดตรวจสอบด้วยตนเองหรือไปที่หน้า "<text>米游社</text>-เครื่องมือเดินทาง-บันทึกกิจกรรม-บันทึกประจำวัน" เพื่อดู</value>
+  </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>รูปแบบ UID ไม่ถูกต้อง</value>
   </data>
@@ -3589,6 +3613,9 @@
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>Snap Hutao อยู่ระหว่างการบำรุงรักษาเซิร์ฟเวอร์</value>
+  </data>
+  <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
+    <value>การตรวจสอบล้มเหลว โปรดตรวจสอบด้วยตนเองหรือไปที่หน้า "<text>米游社</text>-เครื่องมือเดินทาง-บันทึกกิจกรรม" เพื่อดู</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>สถานะ: {0} | ข้อความ: {1}</value>

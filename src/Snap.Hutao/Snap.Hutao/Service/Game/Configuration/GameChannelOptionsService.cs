@@ -26,7 +26,7 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
             {
                 // Try restore the configuration file if it does not exist
                 // The configuration file may be deleted by an incompatible launcher
-                gameConfigurationFileService.Restore(gameFileSystem.GetGameConfigurationFilePath());
+                gameConfigurationFileService.Restore(gameFileSystem.GetGameConfigurationFilePath(), gameFileSystem.IsOversea());
             }
 
             if (!File.Exists(gameFileSystem.GetScriptVersionFilePath()))

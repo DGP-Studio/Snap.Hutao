@@ -4,7 +4,8 @@
       "commandName": "MsixPackage",
       "nativeDebugging": false,
       "doNotLaunchApp": false,
-      "allowLocalNetworkLoopbackProperty": true
+      "allowLocalNetworkLoopbackProperty": true,
+      "alwaysReinstallApp": false
     },
     "[Unpackaged] Snap.Hutao": {
       "commandName": "Project"

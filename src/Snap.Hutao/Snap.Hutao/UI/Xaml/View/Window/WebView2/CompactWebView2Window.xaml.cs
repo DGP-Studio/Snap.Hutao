@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Input.LowLevel;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
@@ -26,7 +27,7 @@ namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     INotifyPropertyChanged,
     IXamlWindowExtendContentIntoTitleBar,
-    IXamlWindowRectPersisted,
+    IXamlWindowHasInitSize,
     IXamlWindowClosedHandler
 {
     /*lang=javascript*/
@@ -76,6 +77,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.SetBorderAndTitleBar(true, false);
+            presenter.PreferredMinimumSize = ScaledSizeInt32.CreateForWindow(200, 200, this);
             presenter.IsAlwaysOnTop = true;
         }
 
@@ -85,11 +87,11 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         RootGrid.DataContext = this;
 
-        inputPointerSource = this.GetInputPointerSource();
+        inputPointerSource = InputPointerSource.GetForWindowId(AppWindow.Id);
         inputPointerSource.PointerEntered += OnWindowPointerEntered;
         inputPointerSource.PointerExited += OnWindowPointerExited;
 
-        inputNonClientPointerSource = this.GetInputNonClientPointerSource();
+        inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
         inputNonClientPointerSource.PointerEntered += OnWindowNonClientPointerEntered;
         inputNonClientPointerSource.PointerExited += OnWindowNonClientPointerExited;
 
@@ -134,13 +136,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get; }
 
-    public string PersistRectKey { get => SettingKeys.CompactWebView2WindowRect; }
-
-    public string PersistScaleKey { get => SettingKeys.CompactWebView2WindowScale; }
-
     public SizeInt32 InitSize { get => new(800, 600); }
-
-    public SizeInt32 MinSize { get => new(200, 200); }
 
     public void OnWindowClosed()
     {
@@ -233,7 +229,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         isLocked = !isLocked;
         ToggleLockButton.Content = isLocked ? "\uE72E" : "\uE785";
         TitleBarRowDefinition.Height = isLocked ? Constants.ZeroGridLength : GridLength.Auto;
-        this.GetController()?.UpdateDragRectangles();
+        XamlWindowRegionRects.Update(this);
     }
 
     [Command("CloseCommand")]
@@ -345,7 +341,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void OnDocumentTitleSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        this.GetController()?.UpdateDragRectangles();
+        XamlWindowRegionRects.Update(this);
     }
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

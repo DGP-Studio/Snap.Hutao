@@ -42,7 +42,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
-            Stretch="UniformToFill"/>
+            Stretch="UniformToFill"
+            UseLayoutRounding="False"/>
 
         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
         <NavigationView
@@ -134,10 +135,7 @@
                 <shuxv:UserView/>
             </NavigationView.PaneFooter>
 
-            <Frame
-                x:Name="ContentFrame"
-                ContentTransitions="{StaticResource NavigationThemeTransitions}"
-                UseLayoutRounding="True"/>
+            <Frame x:Name="ContentFrame" ContentTransitions="{StaticResource NavigationThemeTransitions}"/>
         </NavigationView>
 
         <shuxv:InfoBarView Margin="0,44,0,0" VerticalAlignment="Stretch"/>

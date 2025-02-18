@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-internal sealed partial class GachaEquipIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
+internal sealed partial class CostumeConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     public static Uri IconNameToUri(string name)
     {
@@ -17,8 +17,8 @@ internal sealed partial class GachaEquipIconConverter : ValueConverter<string, U
         }
 
         string icon = default!;
-        Interpolated.Parse(name, $"UI_{icon}");
-        return new Uri(StaticResourcesEndpoints.StaticRaw("GachaEquipIcon", $"UI_Gacha_{icon}.png"));
+        Interpolated.Parse(name, $"UI_AvatarIcon_{icon}");
+        return StaticResourcesEndpoints.StaticRaw("Costume", $"UI_Costume_{icon}.png").ToUri();
     }
 
     public override Uri Convert(string from)

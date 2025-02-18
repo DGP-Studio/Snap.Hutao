@@ -6,9 +6,9 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
+using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
-using Snap.WinUI.FrameworkTheming;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Setting;

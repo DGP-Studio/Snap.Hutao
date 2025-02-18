@@ -9,21 +9,22 @@ namespace Snap.Hutao.Service.Game.Configuration;
 [Injection(InjectAs.Singleton, typeof(IGameConfigurationFileService))]
 internal sealed class GameConfigurationFileService : IGameConfigurationFileService
 {
-    private const string ConfigurationFileName = "config.ini";
+    private const string BackupChineseConfigurationFileName = "config_cn.ini";
+    private const string BackupOverseaConfigurationFileName = "config_oversea.ini";
 
-    public void Backup(string source)
+    public void Backup(string source, bool isOversea)
     {
         if (File.Exists(source))
         {
             string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
-            File.Copy(source, Path.Combine(serverCacheFolder, ConfigurationFileName), true);
+            File.Copy(source, Path.Combine(serverCacheFolder, isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName), true);
         }
     }
 
-    public void Restore(string destination)
+    public void Restore(string destination, bool isOversea)
     {
         string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
-        string source = Path.Combine(serverCacheFolder, ConfigurationFileName);
+        string source = Path.Combine(serverCacheFolder, isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName);
 
         if (!File.Exists(source))
         {

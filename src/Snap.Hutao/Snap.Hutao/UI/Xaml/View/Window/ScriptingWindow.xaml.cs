@@ -11,9 +11,6 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 [Injection(InjectAs.Transient)]
 internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlWindowExtendContentIntoTitleBar, IXamlWindowHasInitSize
 {
-    private const int MinWidth = 600;
-    private const int MinHeight = 200;
-
     public ScriptingWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -26,7 +23,7 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get; } = [];
 
-    public SizeInt32 InitSize { get; } = new(800, 500);
+    public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(800, 500, this); }
 
-    public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);
+    public SizeInt32 MinSize { get => ScaledSizeInt32.CreateForWindow(600, 200, this); }
 }

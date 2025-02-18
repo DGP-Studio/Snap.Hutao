@@ -63,6 +63,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
                 SettingEntry.LaunchHookingOpenTeam => InitializeNullableBooleanValue(ref fields.HookingOpenTeam, value),
                 SettingEntry.LaunchRemoveOpenTeamProgress => InitializeNullableBooleanValue(ref fields.RemoveOpenTeamProgress, value),
                 SettingEntry.LaunchHookingMickyWonderPartner2 => InitializeNullableBooleanValue(ref fields.HookingMickyWonderPartner2, value),
+                SettingEntry.LaunchHookingSetupQuestBanner => InitializeNullableBooleanValue(ref fields.HookingSetupQuestBanner, value),
+                SettingEntry.LaunchHideQuestBanner => InitializeNullableBooleanValue(ref fields.HideQuestBanner, value),
                 _ => default,
             };
         });
@@ -368,6 +370,26 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     }
 
     [UsedImplicitly]
+    public bool HookingSetupQuestBanner
+    {
+        get => GetOption(ref fields.HookingSetupQuestBanner, SettingEntry.LaunchHookingSetupQuestBanner, false);
+        set
+        {
+            if (SetOption(ref fields.HookingSetupQuestBanner, SettingEntry.LaunchHookingSetupQuestBanner, value))
+            {
+                IslandFeatureStateMachine.Update(this);
+            }
+        }
+    }
+
+    [UsedImplicitly]
+    public bool HideQuestBanner
+    {
+        get => GetOption(ref fields.HideQuestBanner, SettingEntry.LaunchHideQuestBanner, false);
+        set => SetOption(ref fields.HideQuestBanner, SettingEntry.LaunchHideQuestBanner, value);
+    }
+
+    [UsedImplicitly]
     public ImmutableArray<AspectRatio> AspectRatios
     {
         get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
@@ -464,6 +486,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? HookingOpenTeam;
         public bool? RemoveOpenTeamProgress;
         public bool? HookingMickyWonderPartner2;
+        public bool? HookingSetupQuestBanner;
+        public bool? HideQuestBanner;
         public bool? IsMonitorEnabled;
         public bool? UsingCloudThirdPartyMobile;
 

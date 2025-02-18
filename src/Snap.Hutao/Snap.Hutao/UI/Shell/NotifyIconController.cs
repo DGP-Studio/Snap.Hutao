@@ -53,6 +53,8 @@ internal sealed partial class NotifyIconController : IDisposable
 
     public static Lock InitializationSyncRoot { get; } = new();
 
+    public Microsoft.UI.Xaml.Window XamlHost { get => xamlHostWindow; }
+
     public void Dispose()
     {
         messageWindow.Dispose();

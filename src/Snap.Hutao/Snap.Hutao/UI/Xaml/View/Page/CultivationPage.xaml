@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
@@ -328,9 +327,9 @@
                                 <MenuFlyoutItem Icon="{shuxm:FontIcon Glyph=&#xE7FC;}" Text="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventoryByEmbeddedYae}">
                                     <mxi:Interaction.Behaviors>
                                         <shuxb:PreventPerformActionsBehavior/>
-                                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                        <mxi:EventTriggerBehavior EventName="PointerEntered">
                                             <shuxba:ShowAttachedFlyoutAction/>
-                                        </mxic:EventTriggerBehavior>
+                                        </mxi:EventTriggerBehavior>
                                     </mxi:Interaction.Behaviors>
                                     <FlyoutBase.AttachedFlyout>
                                         <Flyout
