@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Text;
 using Snap.Hutao.UI.Xaml.Data.Converter;
 using Snap.Hutao.Web.Endpoint.Hutao;
 
@@ -10,7 +11,13 @@ internal sealed partial class GachaAvatarImgConverter : ValueConverter<string, U
 {
     public static Uri IconNameToUri(string name)
     {
-        string icon = name["UI_AvatarIcon_".Length..];
+        if (string.IsNullOrEmpty(name))
+        {
+            return default!;
+        }
+
+        string icon = default!;
+        Interpolated.Parse(name, $"UI_AvatarIcon_{icon}");
         return StaticResourcesEndpoints.StaticRaw("GachaAvatarImg", $"UI_Gacha_AvatarImg_{icon}.png").ToUri();
     }
 

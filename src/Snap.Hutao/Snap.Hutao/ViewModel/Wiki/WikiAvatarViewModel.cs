@@ -27,6 +27,7 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Windows.System;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -120,6 +121,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private void OnCurrentAvatarChanged(object? sender, object? e)
     {
         UpdateBaseValueInfo(Avatars?.CurrentItem);
+
+        taskContext.BeginInvokeOnMainThread(() => Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirstOrDefault());
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
@@ -133,6 +136,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             avatar.CollocationView = hutaoCache.AvatarCollocations.GetValueOrDefault(avatar.Id);
             avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, context.IdMaterialMap);
             avatar.CultivationItemsView ??= [.. avatar.CultivationItems.Select(i => context.IdMaterialMap.GetValueOrDefault(i, Material.Default))];
+            avatar.CostumesView ??= avatar.Costumes.OrderByDescending(c => c.IsDefault).AsAdvancedCollectionView();
         }
     }
 
