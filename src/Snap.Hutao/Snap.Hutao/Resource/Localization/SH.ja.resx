@@ -2593,6 +2593,12 @@
   <data name="ViewPageLaunchGameFixLowFovSceneHeader" xml:space="preserve">
     <value>特殊シーンの補正</value>
   </data>
+  <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
+    <value>地図バナーコールドスイッチ</value>
+  </data>
+  <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
+    <value>地図バナーを閉じる</value>
+  </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>ゲーム起動後にリアルタイムで切り替えることができます</value>
   </data>
@@ -3171,6 +3177,9 @@
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>ストーリー</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
+    <value>ビリビリ Wiki キャラクター攻略</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>米游社キャラクター攻略</value>
