@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Metadata.Weapon;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -16,8 +15,8 @@ internal sealed class PropertyCurveValue
         Value = value;
     }
 
-    public PropertyCurveValue(FightProperty property, TypeValueCollection<FightProperty, GrowCurveType> growCurve, BaseValue baseValue)
-        : this(property, growCurve.GetValueOrDefault(property), baseValue.GetValue(property))
+    public PropertyCurveValue(FightProperty property, GrowCurveType type, BaseValue baseValue)
+        : this(property, type, baseValue.GetValue(property))
     {
     }
 
@@ -26,9 +25,4 @@ internal sealed class PropertyCurveValue
     public GrowCurveType Type { get; }
 
     public float Value { get; }
-
-    public static PropertyCurveValue From(WeaponTypeValue curveInfo)
-    {
-        return new(curveInfo.Type, curveInfo.Value, curveInfo.InitValue);
-    }
 }

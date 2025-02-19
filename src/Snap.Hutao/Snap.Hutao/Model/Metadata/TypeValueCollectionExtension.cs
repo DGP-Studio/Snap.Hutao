@@ -11,6 +11,6 @@ internal static class TypeValueCollectionExtension
 {
     public static ImmutableArray<PropertyCurveValue> ToPropertyCurveValues(this TypeValueCollection<FightProperty, GrowCurveType> collection, BaseValue baseValue)
     {
-        return [.. collection.TypeValues.Select(info => new PropertyCurveValue(info.Key, info.Value, baseValue.GetValue(info.Key)))];
+        return collection.Array.SelectAsArray(info => new PropertyCurveValue(info.Type, info.Value, baseValue));
     }
 }
