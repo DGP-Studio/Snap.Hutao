@@ -289,14 +289,14 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask WaitMainWindowOrCurrentAsync()
     {
+        await taskContext.SwitchToMainThreadAsync();
+
         if (currentWindowReference.Window is { } window)
         {
             window.SwitchTo();
             window.AppWindow.MoveInZOrderAtTop();
             return;
         }
-
-        await taskContext.SwitchToMainThreadAsync();
 
         MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
         currentWindowReference.Window = mainWindow;
