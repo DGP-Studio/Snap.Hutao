@@ -12,7 +12,6 @@ using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
-using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Globalization;
@@ -58,11 +57,9 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private readonly Lock syncRoot = new();
     private readonly byte opacity;
 
+    private readonly LowLevelKeyOptions lowLevelKeyOptions;
     private readonly IServiceScope windowScope;
     private readonly ITaskContext taskContext;
-    private readonly LowLevelKeyOptions lowLevelKeyOptions;
-    private readonly InputPointerSource inputPointerSource;
-    private readonly InputNonClientPointerSource inputNonClientPointerSource;
 
     private bool isLocked;
 
@@ -87,13 +84,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         RootGrid.DataContext = this;
 
-        inputPointerSource = InputPointerSource.GetForWindowId(AppWindow.Id);
-        inputPointerSource.PointerEntered += OnWindowPointerEntered;
-        inputPointerSource.PointerExited += OnWindowPointerExited;
-
-        inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
-        inputNonClientPointerSource.PointerEntered += OnWindowNonClientPointerEntered;
-        inputNonClientPointerSource.PointerExited += OnWindowNonClientPointerExited;
+        InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged += OnInputActivationChanged;
 
         WebView.Loaded += OnWebViewLoaded;
         WebView.Unloaded += OnWebViewUnloaded;
@@ -102,7 +93,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         this.InitializeController(windowScope.ServiceProvider);
 
-        UpdateLayeredWindow();
         InputLowLevelKeyboardSource.Initialize();
         InputLowLevelKeyboardSource.KeyDown += OnLowLevelKeyDown;
     }
@@ -142,10 +132,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     {
         LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
 
-        inputPointerSource.PointerEntered -= OnWindowPointerEntered;
-        inputPointerSource.PointerExited -= OnWindowPointerExited;
-        inputNonClientPointerSource.PointerEntered -= OnWindowNonClientPointerEntered;
-        inputNonClientPointerSource.PointerExited -= OnWindowNonClientPointerExited;
+        InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
+
         windowScope.Dispose();
     }
 
@@ -161,27 +149,13 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         ((CoreWebView2)sender).Navigate(args.Uri);
     }
 
-    private void OnWindowPointerEntered(InputPointerSource source, PointerEventArgs args)
+    private void OnInputActivationChanged(InputActivationListener sender, InputActivationListenerActivationChangedEventArgs args)
     {
-        UpdateLayeredWindow();
+        InputActivationState state = sender.State;
+        UpdateLayeredWindow(state is InputActivationState.Activated);
     }
 
-    private void OnWindowNonClientPointerEntered(InputNonClientPointerSource source, NonClientPointerEventArgs args)
-    {
-        UpdateLayeredWindow();
-    }
-
-    private void OnWindowPointerExited(InputPointerSource source, PointerEventArgs args)
-    {
-        UpdateLayeredWindow();
-    }
-
-    private void OnWindowNonClientPointerExited(InputNonClientPointerSource source, NonClientPointerEventArgs args)
-    {
-        UpdateLayeredWindow();
-    }
-
-    private void UpdateLayeredWindow()
+    private void UpdateLayeredWindow(bool enter)
     {
         if (opacity >= 255)
         {
@@ -190,7 +164,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         lock (syncRoot)
         {
-            if (GetCursorPos(out POINT pt) && GetWindowRect(this.GetWindowHandle(), out RECT rect) && PtInRect(in rect, pt))
+            if (enter)
             {
                 this.RemoveExStyleLayered();
             }
