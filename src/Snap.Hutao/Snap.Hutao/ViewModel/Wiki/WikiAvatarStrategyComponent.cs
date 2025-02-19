@@ -1,0 +1,86 @@
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Service;
+using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Service.Notification;
+using Windows.System;
+
+namespace Snap.Hutao.ViewModel.Wiki;
+
+[ConstructorGenerated]
+[Injection(InjectAs.Scoped)]
+internal sealed partial class WikiAvatarStrategyComponent
+{
+    private readonly IAvatarStrategyService avatarStrategyService;
+    private readonly IInfoBarService infoBarService;
+    private readonly CultureOptions cultureOptions;
+
+    public bool IsBilibiliAvailable { get => cultureOptions.LocaleName is LocaleNames.CHS; }
+
+    [Command("BilibiliStrategyCommand")]
+    private static async Task OpenBilibiliStrategyWebsiteAsync(Avatar? avatar)
+    {
+        if (avatar is null)
+        {
+            return;
+        }
+
+        Uri targetUri = $"https://wiki.biligame.com/ys/{avatar.Name}/攻略".ToUri();
+        await Launcher.LaunchUriAsync(targetUri);
+    }
+
+    [Command("ChineseStrategyCommand")]
+    private async Task OpenChineseStrategyWebsiteAsync(Avatar? avatar)
+    {
+        if (avatar is null)
+        {
+            return;
+        }
+
+        AvatarStrategy? strategy = await avatarStrategyService.GetStrategyByAvatarId(avatar.Id).ConfigureAwait(false);
+
+        if (strategy is null)
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        Uri targetUri = strategy.ChineseStrategyUrl;
+        if (string.IsNullOrEmpty(targetUri.OriginalString))
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        await Launcher.LaunchUriAsync(targetUri);
+    }
+
+    [Command("OverseaStrategyCommand")]
+    private async Task OpenOverseaStrategyWebsiteAsync(Avatar? avatar)
+    {
+        if (avatar is null)
+        {
+            return;
+        }
+
+        AvatarStrategy? strategy = await avatarStrategyService.GetStrategyByAvatarId(avatar.Id).ConfigureAwait(false);
+
+        if (strategy is null)
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        Uri targetUri = strategy.OverseaStrategyUrl;
+        if (string.IsNullOrEmpty(targetUri.OriginalString))
+        {
+            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
+            return;
+        }
+
+        await Launcher.LaunchUriAsync(targetUri);
+    }
+}

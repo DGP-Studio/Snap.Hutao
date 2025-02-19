@@ -544,7 +544,7 @@
                                                     <Button
                                                         Padding="16,8"
                                                         HorizontalContentAlignment="Stretch"
-                                                        Command="{Binding ChineseStrategyCommand}"
+                                                        Command="{Binding StrategyComponent.ChineseStrategyCommand}"
                                                         CommandParameter="{Binding Avatars.CurrentItem}"
                                                         Style="{ThemeResource SettingButtonStyle}">
                                                         <Grid ColumnSpacing="16">
@@ -572,10 +572,10 @@
                                                     <Button
                                                         Padding="16,8"
                                                         HorizontalContentAlignment="Stretch"
-                                                        Command="{Binding BilibiliStrategyCommand}"
+                                                        Command="{Binding StrategyComponent.BilibiliStrategyCommand}"
                                                         CommandParameter="{Binding Avatars.CurrentItem}"
                                                         Style="{ThemeResource SettingButtonStyle}"
-                                                        Visibility="{Binding IsBilibiliStrategyAvailable}">
+                                                        Visibility="{Binding StrategyComponent.IsBilibiliAvailable}">
                                                         <Grid ColumnSpacing="16">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="auto"/>
@@ -601,7 +601,7 @@
                                                     <Button
                                                         Padding="16,8"
                                                         HorizontalContentAlignment="Stretch"
-                                                        Command="{Binding OverseaStrategyCommand}"
+                                                        Command="{Binding StrategyComponent.OverseaStrategyCommand}"
                                                         CommandParameter="{Binding Avatars.CurrentItem}"
                                                         Style="{ThemeResource SettingButtonStyle}">
                                                         <Grid ColumnSpacing="16">
