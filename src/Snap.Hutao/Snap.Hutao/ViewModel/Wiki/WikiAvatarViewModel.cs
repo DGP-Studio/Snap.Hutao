@@ -27,7 +27,6 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
 using Windows.System;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -50,7 +49,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
 
     private WikiAvatarMetadataContext? metadataContext;
-    private FrozenDictionary<string, SearchToken> availableTokens;
 
     public IAdvancedCollectionView<Avatar>? Avatars
     {
@@ -69,7 +67,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public string? FilterToken { get; set => SetProperty(ref field, value); }
 
-    public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
+    public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
 
     public bool IsBilibiliStrategyAvailable { get => cultureOptions.LocaleName is LocaleNames.CHS; }
 
@@ -99,7 +97,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
             FilterTokens = [];
 
-            availableTokens = FrozenDictionary.ToFrozenDictionary(
+            AvailableTokens = FrozenDictionary.ToFrozenDictionary(
             [
                 .. list.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
                 .. IntrinsicFrozen.AssociationTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.AssociationType, nv.Name, (int)nv.Value, iconUri: AssociationTypeIconConverter.AssociationTypeToIconUri(nv.Value)))),
@@ -210,11 +208,13 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        BaseValueInfo = new(
-            avatar.MaxLevel,
-            avatar.GrowCurves.GetPropertyCurveValues(avatar.BaseValue),
-            metadataContext.LevelDictionaryAvatarGrowCurveMap,
-            metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId]);
+        BaseValueInfoMetadataContext context = new()
+        {
+            GrowCurveMap = metadataContext.LevelDictionaryAvatarGrowCurveMap,
+            PromoteMap = metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId],
+        };
+
+        BaseValueInfo = new(avatar.MaxLevel, avatar.GrowCurves.ToPropertyCurveValues(avatar.BaseValue), context);
     }
 
     [Command("FilterCommand")]

@@ -4,22 +4,24 @@
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
+// ReSharper disable PossibleMultipleEnumeration
 internal static class AvatarFilter
 {
-    public static Predicate<Avatar> Compile(ObservableCollection<SearchToken> input)
+    public static Predicate<Avatar> Compile(IEnumerable<SearchToken> input)
     {
-        return avatar => DoFilter(input, avatar);
+        ILookup<SearchTokenKind, string> lookup = input.ToLookup(token => token.Kind, token => token.Value);
+        return avatar => Compile(lookup, avatar);
     }
 
-    private static bool DoFilter(ObservableCollection<SearchToken> input, Avatar avatar)
+    private static bool Compile(ILookup<SearchTokenKind, string> lookup, Avatar avatar)
     {
         List<bool> matches = [];
 
-        foreach ((SearchTokenKind kind, IEnumerable<string> tokens) in input.GroupBy(token => token.Kind, token => token.Value))
+        // Tokens is a BCL internal Grouping<string>, enumerating will use an internal PartialArrayEnumerator<string>
+        foreach ((SearchTokenKind kind, IEnumerable<string> tokens) in lookup)
         {
             switch (kind)
             {
@@ -67,6 +69,6 @@ internal static class AvatarFilter
             }
         }
 
-        return matches.Count > 0 && matches.Aggregate((a, b) => a && b);
+        return matches.Count > 0 && matches.All(r => r);
     }
 }

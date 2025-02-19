@@ -12,14 +12,17 @@ internal sealed class WeaponTypeValueCollection
     private readonly SortedDictionary<FightProperty, GrowCurveType> typeValues = [];
     private readonly SortedDictionary<FightProperty, float> typeInitValues = [];
 
-    public WeaponTypeValueCollection(ImmutableArray<WeaponTypeValue> entries)
+    public WeaponTypeValueCollection(ImmutableArray<WeaponTypeValue> array)
     {
-        foreach (ref readonly WeaponTypeValue entry in entries.AsSpan())
+        Array = array;
+        foreach (ref readonly WeaponTypeValue entry in array.AsSpan())
         {
             typeValues.Add(entry.Type, entry.Value);
             typeInitValues.Add(entry.Type, entry.InitValue);
         }
     }
+
+    internal ImmutableArray<WeaponTypeValue> Array { get; }
 
     internal IReadOnlyDictionary<FightProperty, GrowCurveType> TypeValues { get => typeValues; }
 

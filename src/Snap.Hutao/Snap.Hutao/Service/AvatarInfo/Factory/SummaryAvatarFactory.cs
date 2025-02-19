@@ -6,6 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -120,12 +121,13 @@ internal sealed class SummaryAvatarFactory
     {
         MetadataWeapon metadataWeapon = context.GetWeapon(detailedWeapon.Id);
 
-        ImmutableArray<NameValue<string>> baseValues = metadataWeapon.GrowCurves.SelectAsArray(growCurve => BaseValueInfoFormat.ToNameValue(
-            PropertyCurveValue.From(growCurve),
-            detailedWeapon.Level,
-            detailedWeapon.PromoteLevel,
-            context.LevelDictionaryWeaponGrowCurveMap,
-            context.IdDictionaryWeaponLevelPromoteMap[metadataWeapon.PromoteId]));
+        BaseValueInfoMetadataContext baseValueContext = new()
+        {
+            GrowCurveMap = context.LevelDictionaryWeaponGrowCurveMap,
+            PromoteMap = context.IdDictionaryWeaponLevelPromoteMap[metadataWeapon.PromoteId],
+        };
+
+        ImmutableArray<NameValue<string>> baseValues = BaseValueInfoConverter.ToNameValues(metadataWeapon.GrowCurves.ToPropertyCurveValues(), detailedWeapon.Level, detailedWeapon.PromoteLevel, baseValueContext);
 
         return new WeaponViewBuilder()
             .SetName(metadataWeapon.Name)

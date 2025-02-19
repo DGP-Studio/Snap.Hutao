@@ -4,22 +4,24 @@
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
+// ReSharper disable PossibleMultipleEnumeration
 internal static class WeaponFilter
 {
-    public static Predicate<Weapon> Compile(ObservableCollection<SearchToken> input)
+    public static Predicate<Weapon> Compile(IEnumerable<SearchToken> input)
     {
-        return weapon => DoFilter(input, weapon);
+        ILookup<SearchTokenKind, string> lookup = input.ToLookup(token => token.Kind, token => token.Value);
+        return weapon => DoFilter(lookup, weapon);
     }
 
-    private static bool DoFilter(ObservableCollection<SearchToken> input, Weapon weapon)
+    private static bool DoFilter(ILookup<SearchTokenKind, string> lookup, Weapon weapon)
     {
         List<bool> matches = [];
 
-        foreach ((SearchTokenKind kind, IEnumerable<string> tokens) in input.GroupBy(token => token.Kind, token => token.Value))
+        // Tokens is a BCL internal Grouping<string>, enumerating will use an internal PartialArrayEnumerator<string>
+        foreach ((SearchTokenKind kind, IEnumerable<string> tokens) in lookup)
         {
             switch (kind)
             {
@@ -40,7 +42,7 @@ internal static class WeaponFilter
                 case SearchTokenKind.FightProperty:
                     if (IntrinsicFrozen.FightProperties.Overlaps(tokens))
                     {
-                        matches.Add(tokens.Contains(weapon.GrowCurves.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault()));
+                        matches.Add(tokens.Contains(weapon.GrowCurves.Array.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault()));
                     }
 
                     break;
@@ -53,6 +55,6 @@ internal static class WeaponFilter
             }
         }
 
-        return matches.Count > 0 && matches.Aggregate((a, b) => a && b);
+        return matches.Count > 0 && matches.All(r => r);
     }
 }

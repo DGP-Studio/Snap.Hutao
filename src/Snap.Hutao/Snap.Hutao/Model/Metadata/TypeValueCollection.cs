@@ -11,20 +11,22 @@ internal sealed class TypeValueCollection<TType, TValue>
 {
     private readonly SortedDictionary<TType, TValue> typeValues = [];
 
-    public TypeValueCollection(ImmutableArray<TypeValue<TType, TValue>> entries)
+    public TypeValueCollection(ImmutableArray<TypeValue<TType, TValue>> array)
     {
-        foreach (ref readonly TypeValue<TType, TValue> entry in entries.AsSpan())
+        Array = array;
+        foreach (ref readonly TypeValue<TType, TValue> entry in array.AsSpan())
         {
             typeValues.Add(entry.Type, entry.Value);
         }
     }
 
+    internal ImmutableArray<TypeValue<TType, TValue>> Array { get; }
+
     internal IReadOnlyDictionary<TType, TValue> TypeValues { get => typeValues; }
 
     public TValue? GetValueOrDefault(TType type)
     {
-        typeValues.TryGetValue(type, out TValue? value);
-        return value;
+        return typeValues.GetValueOrDefault(type);
     }
 }
 
