@@ -30,6 +30,7 @@ internal sealed partial class CultivationService : ICultivationService
     private readonly IInventoryRepository inventoryRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
 
     private AdvancedDbCollectionView<CultivateProject>? projects;
 
@@ -66,7 +67,7 @@ internal sealed partial class CultivationService : ICultivationService
 
                 foreach (ref readonly CultivateItem cultivateItem in items.AsSpan())
                 {
-                    entryItems.Add(CultivateItemView.Create(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
+                    entryItems.Add(CultivateItemView.Create(cultivateItem, context.GetMaterial(cultivateItem.ItemId), appOptions.CalendarServerTimeZoneOffset));
                 }
 
                 ModelItem item = entry.Type switch
@@ -113,7 +114,7 @@ internal sealed partial class CultivationService : ICultivationService
                     }
                     else
                     {
-                        existedItem = StatisticsCultivateItem.Create(context.GetMaterial(item.ItemId), item);
+                        existedItem = StatisticsCultivateItem.Create(context.GetMaterial(item.ItemId), item, appOptions.CalendarServerTimeZoneOffset);
                     }
                 }
             }

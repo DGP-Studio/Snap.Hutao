@@ -9,10 +9,13 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed partial class CultivateItemView : ObservableObject, IEntityAccessWithMetadata<Model.Entity.CultivateItem, Material>
 {
-    private CultivateItemView(Model.Entity.CultivateItem entity, Material inner)
+    private readonly TimeSpan offset;
+
+    private CultivateItemView(Model.Entity.CultivateItem entity, Material inner, in TimeSpan offset)
     {
         Entity = entity;
         Inner = inner;
+        this.offset = offset;
     }
 
     public Material Inner { get; }
@@ -25,12 +28,12 @@ internal sealed partial class CultivateItemView : ObservableObject, IEntityAcces
         set => SetProperty(Entity.IsFinished, value, Entity, (entity, isFinished) => entity.IsFinished = isFinished);
     }
 
-    public bool IsToday { get => Inner.IsTodaysItem(true); }
+    public bool IsToday { get => Inner.IsTodaysItem(offset, true); }
 
     public DaysOfWeek DaysOfWeek { get => Inner.GetDaysOfWeek(); }
 
-    public static CultivateItemView Create(Model.Entity.CultivateItem entity, Material inner)
+    public static CultivateItemView Create(Model.Entity.CultivateItem entity, Material inner, in TimeSpan offset)
     {
-        return new(entity, inner);
+        return new(entity, inner, offset);
     }
 }
