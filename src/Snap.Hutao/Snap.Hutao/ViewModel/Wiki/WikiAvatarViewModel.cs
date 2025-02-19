@@ -94,7 +94,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                 await taskContext.SwitchToMainThreadAsync();
                 Avatars = avatarsView;
-                Avatars.MoveCurrentToFirstOrDefault();
+                Avatars.MoveCurrentToFirst();
             }
 
             FilterTokens = [];
@@ -122,7 +122,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     {
         UpdateBaseValueInfo(Avatars?.CurrentItem);
 
-        taskContext.BeginInvokeOnMainThread(() => Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirstOrDefault());
+        taskContext.BeginInvokeOnMainThread(() => Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst());
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
@@ -229,7 +229,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         if (Avatars.CurrentItem is null)
         {
-            Avatars.MoveCurrentToFirstOrDefault();
+            Avatars.MoveCurrentToFirst();
         }
     }
 

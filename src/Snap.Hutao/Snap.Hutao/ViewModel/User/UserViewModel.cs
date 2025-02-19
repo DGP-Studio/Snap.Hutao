@@ -219,7 +219,7 @@ internal sealed partial class UserViewModel : ObservableObject
         {
             if (ReferenceEquals(Users?.CurrentItem, user))
             {
-                Users.MoveCurrentToFirstOrDefault();
+                Users.MoveCurrentToFirst();
             }
 
             await userService.RemoveUserAsync(user).ConfigureAwait(false);

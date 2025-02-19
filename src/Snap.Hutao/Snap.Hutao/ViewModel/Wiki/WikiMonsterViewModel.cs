@@ -62,7 +62,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
                     await taskContext.SwitchToMainThreadAsync();
                     Monsters = monstersView;
-                    Monsters.MoveCurrentToFirstOrDefault();
+                    Monsters.MoveCurrentToFirst();
                 }
 
                 return true;

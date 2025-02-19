@@ -81,7 +81,7 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     public bool NeedDbUpdateAfterResume { get; set; }
 
-    public string? PreferredUid { get => Entity.PreferredUid; }
+    public string? PreferredUid { get => Entity.PreferredUid; private set => Entity.PreferredUid = value; }
 
     public static User From(EntityUser user, IServiceProvider provider)
     {
@@ -95,9 +95,9 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
 
     private void OnCurrentUserGameRoleChanged(object? sender, object? e)
     {
-        if (UserGameRoles.CurrentItem is { } item && Entity.PreferredUid != item.GameUid)
+        if (UserGameRoles.CurrentItem is { } item && PreferredUid != item.GameUid)
         {
-            Entity.PreferredUid = item.GameUid;
+            PreferredUid = item.GameUid;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(Entity);

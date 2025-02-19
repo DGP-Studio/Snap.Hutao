@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.Immutable;
@@ -134,7 +135,14 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
             if (users.CurrentItem.UserGameRoles.CurrentItem is null)
             {
-                users.CurrentItem.UserGameRoles.MoveCurrentToFirst();
+                if (users.CurrentItem.UserGameRoles.Source.SingleOrDefault(role => role.IsChosen) is { } chosenRole)
+                {
+                    users.CurrentItem.UserGameRoles.MoveCurrentTo(chosenRole);
+                }
+                else
+                {
+                    users.CurrentItem.UserGameRoles.MoveCurrentToFirst();
+                }
             }
         }
 

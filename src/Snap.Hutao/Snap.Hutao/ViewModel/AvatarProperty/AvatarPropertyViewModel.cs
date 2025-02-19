@@ -128,7 +128,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             {
                 await scopeContext.TaskContext.SwitchToMainThreadAsync();
                 Summary = summary;
-                Summary?.Avatars.MoveCurrentToFirstOrDefault();
+                Summary?.Avatars.MoveCurrentToFirst();
             }
             else
             {
@@ -376,7 +376,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (Summary.Avatars.CurrentItem is null)
         {
-            Summary.Avatars.MoveCurrentToFirstOrDefault();
+            Summary.Avatars.MoveCurrentToFirst();
         }
     }
 }

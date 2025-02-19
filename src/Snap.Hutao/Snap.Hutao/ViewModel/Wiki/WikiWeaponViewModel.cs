@@ -90,7 +90,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                     await taskContext.SwitchToMainThreadAsync();
                     Weapons = weaponsView;
-                    Weapons.MoveCurrentToFirstOrDefault();
+                    Weapons.MoveCurrentToFirst();
                 }
 
                 FilterTokens = [];
@@ -220,7 +220,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         if (Weapons.CurrentItem is null)
         {
-            Weapons.MoveCurrentToFirstOrDefault();
+            Weapons.MoveCurrentToFirst();
         }
     }
 }
