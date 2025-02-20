@@ -5,6 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell.Common;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using WinRT;
 using WinRT.Interop;
 
 namespace Snap.Hutao.Win32.UI.Shell;
@@ -15,6 +16,17 @@ internal static unsafe class IPinnedList3
     internal static ref readonly Guid IID
     {
         get => ref MemoryMarshal.AsRef<Guid>([0xE2, 0x9A, 0xD7, 0x0D, 0x56, 0xD1, 0xD4, 0x45, 0x9E, 0xEB, 0x3B, 0x54, 0x97, 0x69, 0xE9, 0x40]);
+    }
+
+    public static HRESULT Modify(this ObjectReference<Vftbl> objRef, ref ITEMIDLIST oldItem, ref ITEMIDLIST newItem, PINNEDLISTMODIFYCALLER caller)
+    {
+        fixed (ITEMIDLIST* pOldItem = &oldItem)
+        {
+            fixed (ITEMIDLIST* pNewItem = &newItem)
+            {
+                return objRef.Vftbl.Modify(objRef.ThisPtr, pOldItem, pNewItem, caller);
+            }
+        }
     }
 
     internal readonly struct Vftbl

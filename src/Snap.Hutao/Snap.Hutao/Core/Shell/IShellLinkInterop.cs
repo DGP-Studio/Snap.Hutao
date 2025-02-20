@@ -5,5 +5,5 @@ namespace Snap.Hutao.Core.Shell;
 
 internal interface IShellLinkInterop
 {
-    ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync();
+    ValueTask<bool> TryCreateDesktopShortcutForElevatedLaunchAsync();
 }
