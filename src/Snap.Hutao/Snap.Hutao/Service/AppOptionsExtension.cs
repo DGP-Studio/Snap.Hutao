@@ -15,6 +15,6 @@ internal static class AppOptionsExtension
 
     public static NameValue<TimeSpan>? GetCalendarServerTimeZoneOffsetForSelectionOrDefault(this AppOptions appOptions)
     {
-        return appOptions.CalendarServerTimeZoneOffsets.SingleOrDefault(c => c.Value == appOptions.CalendarServerTimeZoneOffset);
+        return appOptions.LazyCalendarServerTimeZoneOffsets.Value.SingleOrDefault(c => c.Value == appOptions.CalendarServerTimeZoneOffset);
     }
 }

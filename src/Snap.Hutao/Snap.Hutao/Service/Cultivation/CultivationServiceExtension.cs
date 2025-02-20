@@ -10,6 +10,18 @@ namespace Snap.Hutao.Service.Cultivation;
 
 internal static class CultivationServiceExtension
 {
+    public static async ValueTask<CultivateProject?> GetCurrentProjectAsync(this ICultivationService cultivationService)
+    {
+        IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
+        if (!await cultivationService.EnsureCurrentProjectAsync(projects).ConfigureAwait(false))
+        {
+            return default;
+        }
+
+        ArgumentNullException.ThrowIfNull(projects.CurrentItem);
+        return projects.CurrentItem;
+    }
+
     public static async ValueTask<ObservableCollection<CultivateEntryView>?> GetCultivateEntryCollectionForCurrentProjectAsync(this ICultivationService cultivationService, ICultivationMetadataContext context)
     {
         IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
