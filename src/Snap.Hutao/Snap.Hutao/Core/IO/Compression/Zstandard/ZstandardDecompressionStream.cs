@@ -5,7 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.ZStandard;
 using System.Buffers;
 using System.IO;
-using static Snap.ZStandard.Methods;
+using static Snap.ZStandard.Zstandard;
 
 namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
