@@ -665,7 +665,7 @@
     <value>Diğer UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>AB Sunucusu UTC-01</value>
+    <value>欧服 UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>Saldırı Gücü</value>
