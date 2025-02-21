@@ -665,7 +665,7 @@
     <value>기타 UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>유럽 서버 UTC-01</value>
+    <value>欧服 UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>공격력</value>
