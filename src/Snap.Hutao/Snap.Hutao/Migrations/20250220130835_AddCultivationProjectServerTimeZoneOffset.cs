@@ -20,12 +20,12 @@ namespace Snap.Hutao.Migrations
                 nullable: false,
                 defaultValue: new TimeSpan(0, 8, 0, 0, 0));
 
-            migrationBuilder.Sql(@"UPDATE cultivate_projects 
-                                   SET ServerTimeZoneOffset = (
+            migrationBuilder.Sql(@"UPDATE `cultivate_projects` 
+                                   SET `ServerTimeZoneOffset` = (
                                        SELECT IFNULL(
-                                           (SELECT Value 
-                                            FROM settings 
-                                            WHERE Key = 'CalendarServerTimeZoneOffset'), 
+                                           (SELECT `Value` 
+                                            FROM `settings` 
+                                            WHERE `Key` = 'CalendarServerTimeZoneOffset'), 
                                            '08:00:00'
                                        )
                                    )");
