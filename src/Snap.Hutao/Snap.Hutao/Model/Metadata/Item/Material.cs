@@ -76,10 +76,9 @@ internal sealed class Material : DisplayItem
         return IntrinsicFrozen.ResinMaterialTypeDescriptions.Contains(TypeDescription);
     }
 
-    public bool IsTodaysItem(bool treatSundayAsTrue = false)
+    public bool IsTodaysItem(in TimeSpan offset, bool treatSundayAsTrue = false)
     {
-        // TODO: support different time zone
-        return (DateTimeOffset.Now - new TimeSpan(4, 0, 0)).DayOfWeek switch
+        return (DateTimeOffset.Now.ToOffset(offset) - new TimeSpan(4, 0, 0)).DayOfWeek switch
         {
             DayOfWeek.Monday or DayOfWeek.Thursday => MaterialIds.MondayThursdayItems.Contains(Id),
             DayOfWeek.Tuesday or DayOfWeek.Friday => MaterialIds.TuesdayFridayItems.Contains(Id),
