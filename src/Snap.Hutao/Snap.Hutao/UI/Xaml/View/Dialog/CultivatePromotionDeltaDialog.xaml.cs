@@ -39,6 +39,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
             AvatarId = Avatar?.AvatarId ?? 0,
             AvatarLevelCurrent = Avatar is not null ? Math.Clamp(Avatar.LevelCurrent, Avatar.LevelMin, Avatar.LevelMax) : 0,
             AvatarLevelTarget = Avatar is not null ? Math.Clamp(Avatar.LevelTarget, Avatar.LevelMin, Avatar.LevelMax) : 0,
+            AvatarPromoteLevel = Avatar?.PromoteLevel ?? 0,
             SkillList = Avatar?.Skills.SelectAsArray(skill => new PromotionDelta
             {
                 Id = skill.GroupId,

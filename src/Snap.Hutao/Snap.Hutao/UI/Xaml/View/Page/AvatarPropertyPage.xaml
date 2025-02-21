@@ -687,8 +687,31 @@
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                                         Text="{Binding Summary.Avatars.CurrentItem.Name}"/>
+                                                                    <ItemsControl Margin="0,2,0,0" ItemsSource="{Binding Summary.Avatars.CurrentItem.PromoteList}">
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate x:DataType="x:Boolean">
+                                                                                <Grid>
+                                                                                    <BitmapIcon
+                                                                                        Width="16"
+                                                                                        Foreground="#FFFFFFFF"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                                                                                        Visibility="{Binding}"/>
+                                                                                    <BitmapIcon
+                                                                                        Width="16"
+                                                                                        Foreground="#FF808080"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                                                                                        Visibility="{Binding Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                                                </Grid>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                        <ItemsControl.ItemsPanel>
+                                                                            <ItemsPanelTemplate>
+                                                                                <StackPanel Orientation="Horizontal" Spacing="2"/>
+                                                                            </ItemsPanelTemplate>
+                                                                        </ItemsControl.ItemsPanel>
+                                                                    </ItemsControl>
                                                                     <TextBlock
-                                                                        Margin="0,4,0,0"
+                                                                        Margin="0,2,0,0"
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource BaseTextBlockStyle}"
                                                                         Text="{Binding Summary.Avatars.CurrentItem.Level}"/>
@@ -762,8 +785,31 @@
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                                         Text="{Binding Name}"/>
+                                                                    <ItemsControl Margin="0,2,0,0" ItemsSource="{Binding PromoteList}">
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate x:DataType="x:Boolean">
+                                                                                <Grid>
+                                                                                    <BitmapIcon
+                                                                                        Width="16"
+                                                                                        Foreground="#FFFFFFFF"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                                                                                        Visibility="{Binding}"/>
+                                                                                    <BitmapIcon
+                                                                                        Width="16"
+                                                                                        Foreground="#FF808080"
+                                                                                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                                                                                        Visibility="{Binding Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                                                </Grid>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                        <ItemsControl.ItemsPanel>
+                                                                            <ItemsPanelTemplate>
+                                                                                <StackPanel Orientation="Horizontal" Spacing="2"/>
+                                                                            </ItemsPanelTemplate>
+                                                                        </ItemsControl.ItemsPanel>
+                                                                    </ItemsControl>
                                                                     <TextBlock
-                                                                        Margin="0,4,0,0"
+                                                                        Margin="0,2,0,0"
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource BaseTextBlockStyle}"
                                                                         Text="{Binding Level}"/>

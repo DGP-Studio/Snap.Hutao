@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -100,6 +101,21 @@ internal static class AvatarViewBuilderExtension
         where TBuilder : IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.NameCard = nameCard);
+    }
+
+    public static TBuilder SetPromoteLevel<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
+        where TBuilder : IAvatarViewBuilder
+    {
+        bool[] promoteListBuilder = new bool[6];
+        for (int i = 0; i < promoteLevel; i++)
+        {
+            promoteListBuilder[i] = true;
+        }
+
+        builder.View.PromoteLevel = promoteLevel;
+        builder.View.PromoteList = promoteListBuilder.ToImmutableArray();
+
+        return builder;
     }
 
     public static TBuilder SetProperties<TBuilder>(this TBuilder builder, ImmutableArray<AvatarProperty> properties)
