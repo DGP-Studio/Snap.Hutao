@@ -13,12 +13,7 @@ internal static class CultivationServiceExtension
     public static async ValueTask<CultivateProject?> GetCurrentProjectAsync(this ICultivationService cultivationService)
     {
         IAdvancedDbCollectionView<CultivateProject> projects = await cultivationService.GetProjectCollectionAsync().ConfigureAwait(false);
-        if (!await cultivationService.EnsureCurrentProjectAsync(projects).ConfigureAwait(false))
-        {
-            return default;
-        }
-
-        ArgumentNullException.ThrowIfNull(projects.CurrentItem);
+        await cultivationService.EnsureCurrentProjectAsync(projects).ConfigureAwait(false);
         return projects.CurrentItem;
     }
 

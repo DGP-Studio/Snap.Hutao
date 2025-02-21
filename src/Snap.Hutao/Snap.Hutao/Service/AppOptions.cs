@@ -119,7 +119,11 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref bridgeShareSaveType, SettingEntry.BridgeShareSaveType, value, EnumToStringOrEmpty);
     }
 
-    public Lazy<ImmutableArray<NameValue<TimeSpan>>> LazyCalendarServerTimeZoneOffsets { get; } = new(() => KnownServerRegionTimeZones.Value);
+    public Lazy<ImmutableArray<NameValue<TimeSpan>>> LazyCalendarServerTimeZoneOffsets { get; } = new(() =>
+    {
+        Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
+        return KnownServerRegionTimeZones.Value;
+    });
 
     public TimeSpan CalendarServerTimeZoneOffset
     {

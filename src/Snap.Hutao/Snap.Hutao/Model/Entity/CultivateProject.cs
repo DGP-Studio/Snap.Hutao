@@ -24,6 +24,10 @@ internal sealed partial class CultivateProject : ISelectable,
 
     public static CultivateProject From(string name, in TimeSpan serverTimeOffset)
     {
-        return new() { Name = name, ServerTimeZoneOffset = serverTimeOffset };
+        return new()
+        {
+            Name = name,
+            ServerTimeZoneOffset = serverTimeOffset,
+        };
     }
 }
