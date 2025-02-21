@@ -18,11 +18,17 @@ namespace Snap.Hutao.Migrations
                 table: "cultivate_projects",
                 type: "TEXT",
                 nullable: false,
-                defaultValue: new TimeSpan(0, 0, 0, 0, 0));
+                defaultValue: new TimeSpan(0, 8, 0, 0, 0));
 
-            // TODO: need evaluation
-            TimeSpan defaultServerTimeZoneOffset = Ioc.Default.GetRequiredService<AppOptions>().CalendarServerTimeZoneOffset;
-            migrationBuilder.Sql($"UPDATE cultivate_projects SET ServerTimeZoneOffset = '{defaultServerTimeZoneOffset}'");
+            migrationBuilder.Sql(@"UPDATE cultivate_projects 
+                                   SET ServerTimeZoneOffset = (
+                                       SELECT IFNULL(
+                                           (SELECT Value 
+                                            FROM settings 
+                                            WHERE Key = 'CalendarServerTimeZoneOffset'), 
+                                           '08:00:00'
+                                       )
+                                   )");
         }
 
         /// <inheritdoc />
