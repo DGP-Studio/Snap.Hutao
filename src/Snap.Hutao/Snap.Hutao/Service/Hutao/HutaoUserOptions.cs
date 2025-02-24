@@ -123,7 +123,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
             if (await GetAuthTokenAsync(token).ConfigureAwait(false) is { } authToken)
             {
-                await RefreshUserInfoCoreAsync(token).ConfigureAwait(false);
+                await PrivateRefreshUserInfoAsync(token).ConfigureAwait(false);
             }
         }
     }
@@ -281,7 +281,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             IsLoggedIn = true;
             loginEvent.Set();
 
-            await RefreshUserInfoCoreAsync(token).ConfigureAwait(false);
+            await PrivateRefreshUserInfoAsync(token).ConfigureAwait(false);
         }
     }
 
@@ -305,9 +305,9 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
-    private async ValueTask RefreshUserInfoCoreAsync(CancellationToken token = default)
+    private async ValueTask PrivateRefreshUserInfoAsync(CancellationToken token = default)
     {
-        using (await operationLock.LockAsync(nameof(RefreshUserInfoCoreAsync)).ConfigureAwait(false))
+        using (await operationLock.LockAsync(nameof(PrivateRefreshUserInfoAsync)).ConfigureAwait(false))
         {
             await taskContext.SwitchToBackgroundAsync();
             HutaoPassportClient passportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();

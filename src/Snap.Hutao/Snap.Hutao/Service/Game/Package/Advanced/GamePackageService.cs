@@ -180,7 +180,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private static async ValueTask VerifyAndRepairCoreAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount)
+    private static async ValueTask PrivateVerifyAndRepairAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount)
     {
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedVerifyingIntegrity, 0, totalBlockCount, totalBytes));
         GamePackageIntegrityInfo info = await context.Operation.Asset.VerifyGamePackageIntegrityAsync(context, build).ConfigureAwait(false);
@@ -293,7 +293,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        await VerifyAndRepairCoreAsync(context, localBuild, localBuild.TotalBytes, localBuild.TotalChunks).ConfigureAwait(false);
+        await PrivateVerifyAndRepairAsync(context, localBuild, localBuild.TotalBytes, localBuild.TotalChunks).ConfigureAwait(false);
     }
 
     private async ValueTask InstallAsync(GamePackageServiceContext context)
@@ -318,7 +318,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.InstallAssetsAsync(context, remoteBuild).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
-        await VerifyAndRepairCoreAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
+        await PrivateVerifyAndRepairAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
 
         if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
@@ -353,7 +353,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
-        await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
+        await PrivateVerifyAndRepairAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
 
         context.Operation.GameFileSystem.TryUpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
 

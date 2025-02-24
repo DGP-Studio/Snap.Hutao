@@ -59,7 +59,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            _ = RefreshCoreAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
+            _ = PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
         }
     }
 
@@ -80,7 +80,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await RefreshCoreAsync(userAndUid, RefreshOptionKind.None, CancellationToken).ConfigureAwait(false);
+            await PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, CancellationToken).ConfigureAwait(false);
         }
 
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
@@ -93,12 +93,12 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
-            await RefreshCoreAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
+            await PrivateRefreshAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
         }
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOptionKind optionKind, CancellationToken token)
+    private async Task PrivateRefreshAsync(UserAndUid userAndUid, RefreshOptionKind optionKind, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(metadataContext);
 

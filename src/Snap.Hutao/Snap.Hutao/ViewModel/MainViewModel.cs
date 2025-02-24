@@ -29,7 +29,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     public void Initialize(IBackgroundImagePresenterAccessor accessor)
     {
         backgroundImagePresenter = accessor.BackgroundImagePresenter;
-        _ = UpdateBackgroundCoreAsync(true);
+        _ = PrivateUpdateBackgroundAsync(true);
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()
@@ -47,18 +47,18 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     {
         if (e.PropertyName is nameof(AppOptions.BackgroundImageType))
         {
-            _ = UpdateBackgroundCoreAsync(false);
+            _ = PrivateUpdateBackgroundAsync(false);
         }
     }
 
     [Command("UpdateBackgroundCommand")]
     private async Task UpdateBackgroundAsync()
     {
-        await UpdateBackgroundCoreAsync(false).ConfigureAwait(false);
+        await PrivateUpdateBackgroundAsync(false).ConfigureAwait(false);
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task UpdateBackgroundCoreAsync(bool forceRefresh)
+    private async Task PrivateUpdateBackgroundAsync(bool forceRefresh)
     {
         if (backgroundImagePresenter is null)
         {

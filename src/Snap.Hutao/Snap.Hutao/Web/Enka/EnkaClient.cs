@@ -29,26 +29,26 @@ internal sealed partial class EnkaClient
     public ValueTask<EnkaResponse?> GetForwardPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
         string url = hutaoEndpointsFactory.Create().EnkaPlayerInfo(playerUid);
-        return TryGetEnkaResponseCoreAsync(url, true, token);
+        return TryGetEnkaResponseAsync(url, true, token);
     }
 
     public ValueTask<EnkaResponse?> GetPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaInfoAPI, playerUid), false, token);
+        return TryGetEnkaResponseAsync(string.Format(CultureInfo.CurrentCulture, EnkaInfoAPI, playerUid), false, token);
     }
 
     public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
         string url = hutaoEndpointsFactory.Create().Enka(playerUid);
-        return TryGetEnkaResponseCoreAsync(url, true, token);
+        return TryGetEnkaResponseAsync(url, true, token);
     }
 
     public ValueTask<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaAPI, playerUid), false, token);
+        return TryGetEnkaResponseAsync(string.Format(CultureInfo.CurrentCulture, EnkaAPI, playerUid), false, token);
     }
 
-    private async ValueTask<EnkaResponse?> TryGetEnkaResponseCoreAsync(string url, bool isForward, CancellationToken token = default)
+    private async ValueTask<EnkaResponse?> TryGetEnkaResponseAsync(string url, bool isForward, CancellationToken token = default)
     {
         try
         {

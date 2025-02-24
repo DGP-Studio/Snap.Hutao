@@ -33,7 +33,7 @@ internal sealed partial class AchievementImporter
             return false;
         }
 
-        return await TryImportCoreAsync(context, archive, uiaf).ConfigureAwait(false);
+        return await TryImportAsync(context, archive, uiaf).ConfigureAwait(false);
     }
 
     public async ValueTask<bool> FromClipboardAsync(AchievementViewModelScopeContext context)
@@ -50,7 +50,7 @@ internal sealed partial class AchievementImporter
             return false;
         }
 
-        return await TryImportCoreAsync(context, archive, uiaf).ConfigureAwait(false);
+        return await TryImportAsync(context, archive, uiaf).ConfigureAwait(false);
     }
 
     public async ValueTask<bool> FromFileAsync(AchievementViewModelScopeContext context)
@@ -78,7 +78,7 @@ internal sealed partial class AchievementImporter
             return false;
         }
 
-        return await TryImportCoreAsync(context, archive, uiaf).ConfigureAwait(false);
+        return await TryImportAsync(context, archive, uiaf).ConfigureAwait(false);
     }
 
     private async ValueTask<UIAF?> TryCatchGetUIAFFromClipboardAsync()
@@ -94,7 +94,7 @@ internal sealed partial class AchievementImporter
         }
     }
 
-    private async ValueTask<bool> TryImportCoreAsync(AchievementViewModelScopeContext context, EntityAchievementArchive archive, UIAF uiaf)
+    private async ValueTask<bool> TryImportAsync(AchievementViewModelScopeContext context, EntityAchievementArchive archive, UIAF uiaf)
     {
         if (!uiaf.IsCurrentVersionSupported())
         {

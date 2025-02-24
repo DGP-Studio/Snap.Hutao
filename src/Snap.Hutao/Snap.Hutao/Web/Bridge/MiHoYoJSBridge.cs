@@ -239,7 +239,7 @@ internal class MiHoYoJSBridge
             headers.Add("x-rpc-device_fp", userAndUid.User.Fingerprint ?? string.Empty);
         }
 
-        GetHttpRequestHeaderCore(headers);
+        GetHttpRequestHeaderOverride(headers);
 
         return new()
         {
@@ -247,7 +247,7 @@ internal class MiHoYoJSBridge
         };
     }
 
-    protected virtual void GetHttpRequestHeaderCore(Dictionary<string, string> headers)
+    protected virtual void GetHttpRequestHeaderOverride(Dictionary<string, string> headers)
     {
     }
 

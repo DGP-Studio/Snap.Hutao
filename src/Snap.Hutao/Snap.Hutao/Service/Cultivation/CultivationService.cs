@@ -51,10 +51,10 @@ internal sealed partial class CultivationService : ICultivationService
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            return GetCultivateEntryCollectionCore(cultivateProject, context);
+            return SynchronizedGetCultivateEntryCollection(cultivateProject, context);
         }
 
-        ObservableCollection<CultivateEntryView> GetCultivateEntryCollectionCore(CultivateProject cultivateProject, ICultivationMetadataContext context)
+        ObservableCollection<CultivateEntryView> SynchronizedGetCultivateEntryCollection(CultivateProject cultivateProject, ICultivationMetadataContext context)
         {
             ImmutableArray<CultivateEntry> entries = cultivationRepository.GetCultivateEntryImmutableArrayIncludingLevelInformationByProjectId(cultivateProject.InnerId);
 
@@ -90,9 +90,9 @@ internal sealed partial class CultivationService : ICultivationService
     public async ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
-        return GetStatisticsCultivateItemCollectionCore(cultivateProject, context);
+        return SynchronizedGetStatisticsCultivateItemCollection(cultivateProject, context);
 
-        ObservableCollection<StatisticsCultivateItem> GetStatisticsCultivateItemCollectionCore(CultivateProject cultivateProject, ICultivationMetadataContext context)
+        ObservableCollection<StatisticsCultivateItem> SynchronizedGetStatisticsCultivateItemCollection(CultivateProject cultivateProject, ICultivationMetadataContext context)
         {
             Dictionary<uint, StatisticsCultivateItem> resultItems = [];
             Guid projectId = cultivateProject.InnerId;

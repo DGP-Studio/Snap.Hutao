@@ -27,10 +27,10 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         await taskContext.SwitchToBackgroundAsync();
 
         ImmutableArray<HistoryWishBuilder> historyWishBuilders = metadata.GachaEvents.SelectAsArray(gachaEvent => HistoryWishBuilder.Create(gachaEvent, metadata));
-        return CreateCore(new(serviceProvider, items, historyWishBuilders, metadata));
+        return SynchronizedCreate(new(serviceProvider, items, historyWishBuilders, metadata));
     }
 
-    private static GachaStatistics CreateCore(GachaStatisticsFactoryContext context)
+    private static GachaStatistics SynchronizedCreate(GachaStatisticsFactoryContext context)
     {
         TypedWishSummaryBuilder standardWishBuilder = TypedWishSummaryBuilderContext.StandardWish(context).CreateBuilder();
         TypedWishSummaryBuilder avatarWishBuilder = TypedWishSummaryBuilderContext.AvatarEventWish(context).CreateBuilder();

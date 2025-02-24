@@ -59,12 +59,12 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            await RefreshSpiralAbyssCoreAsync(context, userAndUid, ScheduleType.Last).ConfigureAwait(false);
-            await RefreshSpiralAbyssCoreAsync(context, userAndUid, ScheduleType.Current).ConfigureAwait(false);
+            await PrivateRefreshSpiralAbyssAsync(context, userAndUid, ScheduleType.Last).ConfigureAwait(false);
+            await PrivateRefreshSpiralAbyssAsync(context, userAndUid, ScheduleType.Current).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask RefreshSpiralAbyssCoreAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid, ScheduleType schedule)
+    private async ValueTask PrivateRefreshSpiralAbyssAsync(SpiralAbyssMetadataContext context, UserAndUid userAndUid, ScheduleType schedule)
     {
         if (!spiralAbyssCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<SpiralAbyssView>? spiralAbysses))
         {

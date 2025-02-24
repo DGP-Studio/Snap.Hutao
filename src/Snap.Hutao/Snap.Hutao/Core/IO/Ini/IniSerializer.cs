@@ -12,7 +12,7 @@ internal static class IniSerializer
     {
         using (StreamReader reader = File.OpenText(filePath))
         {
-            return DeserializeCore(reader);
+            return PrivateDeserialize(reader);
         }
     }
 
@@ -20,7 +20,7 @@ internal static class IniSerializer
     {
         using (StreamReader reader = new(stream))
         {
-            return DeserializeCore(reader);
+            return PrivateDeserialize(reader);
         }
     }
 
@@ -28,7 +28,7 @@ internal static class IniSerializer
     {
         using (StreamWriter writer = File.CreateText(filePath))
         {
-            SerializeCore(writer, elements);
+            PrivateSerialize(writer, elements);
         }
     }
 
@@ -36,11 +36,11 @@ internal static class IniSerializer
     {
         using (StreamWriter writer = new(fileStream))
         {
-            SerializeCore(writer, elements);
+            PrivateSerialize(writer, elements);
         }
     }
 
-    private static ImmutableArray<IniElement> DeserializeCore(StreamReader reader)
+    private static ImmutableArray<IniElement> PrivateDeserialize(StreamReader reader)
     {
         ImmutableArray<IniElement>.Builder builder = ImmutableArray.CreateBuilder<IniElement>();
         IniSection.Builder? currentSectionBuilder = default;
@@ -103,7 +103,7 @@ internal static class IniSerializer
         return builder.ToImmutable();
     }
 
-    private static void SerializeCore(StreamWriter writer, IEnumerable<IniElement> elements)
+    private static void PrivateSerialize(StreamWriter writer, IEnumerable<IniElement> elements)
     {
         foreach (IniElement element in elements)
         {

@@ -125,22 +125,22 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RefreshByWebCacheCommand")]
     private async Task RefreshByWebCacheAsync()
     {
-        await RefreshCoreAsync(RefreshOptionKind.WebCache).ConfigureAwait(false);
+        await PrivateRefreshAsync(RefreshOptionKind.WebCache).ConfigureAwait(false);
     }
 
     [Command("RefreshBySTokenCommand")]
     private async Task RefreshBySTokenAsync()
     {
-        await RefreshCoreAsync(RefreshOptionKind.SToken).ConfigureAwait(false);
+        await PrivateRefreshAsync(RefreshOptionKind.SToken).ConfigureAwait(false);
     }
 
     [Command("RefreshByManualInputCommand")]
     private async Task RefreshByManualInputAsync()
     {
-        await RefreshCoreAsync(RefreshOptionKind.ManualInput).ConfigureAwait(false);
+        await PrivateRefreshAsync(RefreshOptionKind.ManualInput).ConfigureAwait(false);
     }
 
-    private async ValueTask RefreshCoreAsync(RefreshOptionKind optionKind)
+    private async ValueTask PrivateRefreshAsync(RefreshOptionKind optionKind)
     {
         IGachaLogQueryProvider provider = serviceProvider.GetRequiredKeyedService<IGachaLogQueryProvider>(optionKind);
         (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);

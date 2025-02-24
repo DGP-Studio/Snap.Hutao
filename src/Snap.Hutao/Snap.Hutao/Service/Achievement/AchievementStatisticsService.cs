@@ -21,10 +21,10 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
     public async ValueTask<ImmutableArray<AchievementStatistics>> GetAchievementStatisticsAsync(AchievementServiceMetadataContext context, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
-        return GetAchievementStatisticsCore(context);
+        return SynchronizedGetAchievementStatistics(context);
     }
 
-    private ImmutableArray<AchievementStatistics> GetAchievementStatisticsCore(AchievementServiceMetadataContext context)
+    private ImmutableArray<AchievementStatistics> SynchronizedGetAchievementStatistics(AchievementServiceMetadataContext context)
     {
         ImmutableArray<AchievementStatistics>.Builder results = ImmutableArray.CreateBuilder<AchievementStatistics>();
         foreach (ref readonly AchievementArchive archive in achievementRepository.GetAchievementArchiveImmutableArray().AsSpan())

@@ -79,11 +79,11 @@ internal sealed partial class RoleCombatService : IRoleCombatService
                 continue;
             }
 
-            await RefreshRoleCombatCoreAsync(context, userAndUid, roleCombatData).ConfigureAwait(false);
+            await PrivateRefreshRoleCombatAsync(context, userAndUid, roleCombatData).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask RefreshRoleCombatCoreAsync(RoleCombatMetadataContext context, UserAndUid userAndUid, RoleCombatData roleCombatData)
+    private async ValueTask PrivateRefreshRoleCombatAsync(RoleCombatMetadataContext context, UserAndUid userAndUid, RoleCombatData roleCombatData)
     {
         if (!roleCombatCollectionCache.TryGetValue(userAndUid.Uid, out ObservableCollection<RoleCombatView>? roleCombats))
         {

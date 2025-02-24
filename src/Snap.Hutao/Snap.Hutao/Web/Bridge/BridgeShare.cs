@@ -62,7 +62,7 @@ internal static class BridgeShare
     {
         using (Stream stream = await context.HttpClient.GetStreamAsync(imageUrl).ConfigureAwait(false))
         {
-            await ShareCoreAsync(context, stream, static (stream, web) => web.CopyToAsync(stream.AsStreamForWrite())).ConfigureAwait(false);
+            await PrivateShareAsync(context, stream, static (stream, web) => web.CopyToAsync(stream.AsStreamForWrite())).ConfigureAwait(false);
         }
     }
 
@@ -73,10 +73,10 @@ internal static class BridgeShare
 
     private static ValueTask ShareFromRawPixelDataAsync(BridgeShareContext context, byte[] rawPixelData)
     {
-        return ShareCoreAsync(context, rawPixelData, static (stream, bytes) => stream.AsStreamForWrite().WriteAsync(bytes).AsTask());
+        return PrivateShareAsync(context, rawPixelData, static (stream, bytes) => stream.AsStreamForWrite().WriteAsync(bytes).AsTask());
     }
 
-    private static async ValueTask ShareCoreAsync<TData>(BridgeShareContext context, TData data, Func<InMemoryRandomAccessStream, TData, Task> asyncWriteData)
+    private static async ValueTask PrivateShareAsync<TData>(BridgeShareContext context, TData data, Func<InMemoryRandomAccessStream, TData, Task> asyncWriteData)
     {
         using (InMemoryRandomAccessStream rawPixelDataStream = new())
         {

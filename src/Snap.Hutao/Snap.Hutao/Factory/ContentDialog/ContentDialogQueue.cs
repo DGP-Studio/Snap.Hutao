@@ -48,7 +48,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
         TaskCompletionSource queueSource = new();
         TaskCompletionSource<ContentDialogResult> resultSource = new();
 
-        EnqueueAndShowCoreAsync(contentDialog, queueSource, resultSource).SafeForget(logger);
+        PrivateEnqueueAndShowAsync(contentDialog, queueSource, resultSource).SafeForget(logger);
         return new(queueSource.Task, resultSource.Task);
     }
 
@@ -63,7 +63,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
         }
     }
 
-    private async Task EnqueueAndShowCoreAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource queueSource, TaskCompletionSource<ContentDialogResult> resultSource)
+    private async Task PrivateEnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog, TaskCompletionSource queueSource, TaskCompletionSource<ContentDialogResult> resultSource)
     {
         AsyncLock.Releaser releaser = await dialogLock.LockAsync().ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();

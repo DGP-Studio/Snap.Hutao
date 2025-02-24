@@ -28,7 +28,7 @@ internal sealed class PullPrediction
 
         if (response is { ReturnCode: 0, Data: { } data })
         {
-            PredictResult result = PredictCore(data.Distribution, typedWishSummary);
+            PredictResult result = PrivatePredict(data.Distribution, typedWishSummary);
             await barrier.SignalAndWaitAsync().ConfigureAwait(false);
 
             await context.TaskContext.SwitchToMainThreadAsync();
@@ -43,7 +43,7 @@ internal sealed class PullPrediction
         }
     }
 
-    private static PredictResult PredictCore(ImmutableArray<PullCount> distribution, TypedWishSummary typedWishSummary)
+    private static PredictResult PrivatePredict(ImmutableArray<PullCount> distribution, TypedWishSummary typedWishSummary)
     {
         // 0 - 89/79
         ImmutableArray<double> baseFunction = ToProbabilityFunction(distribution, typedWishSummary.GuaranteeOrangeThreshold);
