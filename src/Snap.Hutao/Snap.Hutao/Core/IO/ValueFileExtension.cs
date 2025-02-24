@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO;
@@ -18,8 +19,9 @@ internal static class ValueFileExtension
                 return new(true, t);
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Debug.WriteLine(ex);
             return new(false, null);
         }
     }
@@ -35,8 +37,9 @@ internal static class ValueFileExtension
 
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Debug.WriteLine(ex);
             return false;
         }
     }
