@@ -28,7 +28,6 @@ namespace Snap.Hutao.ViewModel;
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
-    private readonly HttpProxyUsingSystemProxy httpProxyUsingSystemProxy;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IMetadataService metadataService;
     private readonly IProgressFactory progressFactory;
@@ -62,7 +61,6 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         NotifyIfDataFolderHasReparsePoint();
         WaitMetadataInitializationAsync().SafeForget(logger);
         await CheckUpdateAsync().ConfigureAwait(false);
-        await CheckProxyAndLoopbackAsync().ConfigureAwait(false);
         return true;
     }
 
@@ -192,31 +190,6 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         if (new DirectoryInfo(HutaoRuntime.DataFolder).Attributes.HasFlag(FileAttributes.ReparsePoint))
         {
             infoBarService.Warning(SH.FormatViewModelTitleDataFolderHasReparsepoint(HutaoRuntime.DataFolder));
-        }
-    }
-
-    private async ValueTask CheckProxyAndLoopbackAsync()
-    {
-        // https://hut.ao/tasks/162
-        // When process is not elevated, we can't enable loopback
-        if (!HutaoRuntime.IsProcessElevated)
-        {
-            return;
-        }
-
-        if (!httpProxyUsingSystemProxy.IsUsingProxyAndNotWorking)
-        {
-            return;
-        }
-
-        ContentDialogResult result = await contentDialogFactory
-            .CreateForConfirmCancelAsync(SH.ViewDialogFeedbackEnableLoopbackTitle, SH.ViewDialogFeedbackEnableLoopbackDescription)
-            .ConfigureAwait(false);
-
-        if (result is ContentDialogResult.Primary)
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            httpProxyUsingSystemProxy.EnableLoopback();
         }
     }
 
