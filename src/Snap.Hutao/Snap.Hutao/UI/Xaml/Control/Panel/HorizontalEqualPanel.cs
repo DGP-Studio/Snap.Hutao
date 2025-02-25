@@ -1,8 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel;
@@ -11,52 +11,69 @@ namespace Snap.Hutao.UI.Xaml.Control.Panel;
 [DependencyProperty("Spacing", typeof(double))]
 internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
 {
+    private Size effectiveSize;
+
     public HorizontalEqualPanel()
     {
-        Loaded += OnLoaded;
-        SizeChanged += OnSizeChanged;
+        EffectiveViewportChanged += OnEffectiveViewportChanged;
+        Unloaded += OnUnloaded;
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        List<UIElement> visibleChildren = Children.Where(child => child.Visibility is Visibility.Visible).ToList();
-        foreach (ref readonly UIElement visibleChild in CollectionsMarshal.AsSpan(visibleChildren))
+        ReadOnlySpan<UIElement> visibleItems = [.. Children.Where(child => child.Visibility is Visibility.Visible)];
+        int visibleItemsCount = visibleItems.Length;
+
+        if (visibleItemsCount <= 0)
         {
-            // ScrollViewer will always return an Infinity Size, we should use ActualWidth for this situation.
-            double availableWidth = double.IsInfinity(availableSize.Width) ? ActualWidth : availableSize.Width;
-            double childAvailableWidth = (availableWidth + Spacing) / visibleChildren.Count;
-            double childMaxAvailableWidth = Math.Max(MinItemWidth, childAvailableWidth);
-            visibleChild.Measure(new(childMaxAvailableWidth - Spacing, ActualHeight));
+            return default;
         }
 
-        return base.MeasureOverride(availableSize);
+        // ScrollViewer will always return an Infinity availableSize, we should use effectiveSize for this situation.
+        double totalWidth = double.IsInfinity(availableSize.Width) ? effectiveSize.Width : availableSize.Width;
+        double minItemWidth = Math.Max(MinItemWidth, EqualPanelAlgorithm.GetItemLength(totalWidth, visibleItemsCount, Spacing));
+
+        foreach (ref readonly UIElement child in visibleItems)
+        {
+            child.Measure(new(minItemWidth, effectiveSize.Height));
+        }
+
+        return new(Math.Max(effectiveSize.Width, EqualPanelAlgorithm.GetTotalLength(minItemWidth, visibleItemsCount, Spacing)), effectiveSize.Height);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        List<UIElement> visibleChildren = Children.Where(child => child.Visibility is Visibility.Visible).ToList();
-        double availableItemWidth = (finalSize.Width - (Spacing * (visibleChildren.Count - 1))) / visibleChildren.Count;
+        ReadOnlySpan<UIElement> visibleItems = [.. Children.Where(child => child.Visibility is Visibility.Visible)];
+        double availableItemWidth = EqualPanelAlgorithm.GetItemLength(finalSize.Width, visibleItems.Length, Spacing);
         double actualItemWidth = Math.Max(MinItemWidth, availableItemWidth);
 
         double offset = 0;
-        foreach (ref readonly UIElement visibleChild in CollectionsMarshal.AsSpan(visibleChildren))
+        foreach (ref readonly UIElement visibleChild in visibleItems)
         {
-            visibleChild.Arrange(new Rect(offset, 0, actualItemWidth, finalSize.Height));
+            visibleChild.Arrange(new(offset, 0, actualItemWidth, effectiveSize.Height));
             offset += actualItemWidth + Spacing;
         }
 
-        return finalSize;
+        return new Size(offset - Spacing, effectiveSize.Height);
     }
 
-    private static void OnLoaded(object sender, RoutedEventArgs e)
+    private void OnEffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
     {
-        HorizontalEqualPanel panel = (HorizontalEqualPanel)sender;
-        int vivibleChildrenCount = panel.Children.Count(child => child.Visibility is Visibility.Visible);
-        panel.MinWidth = (panel.MinItemWidth * vivibleChildrenCount) + (panel.Spacing * (vivibleChildrenCount - 1));
+        if (args.EffectiveViewport.IsEmpty)
+        {
+            return;
+        }
+
+        effectiveSize = args.EffectiveViewport.ToSize();
+        effectiveSize.Width -= Margin.Left + Margin.Right;
+        effectiveSize.Height -= Margin.Top + Margin.Bottom;
+
+        InvalidateMeasure();
     }
 
-    private static void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        ((HorizontalEqualPanel)sender).InvalidateMeasure();
+        EffectiveViewportChanged -= OnEffectiveViewportChanged;
+        Unloaded -= OnUnloaded;
     }
 }
