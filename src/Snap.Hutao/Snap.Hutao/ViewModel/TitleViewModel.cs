@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;

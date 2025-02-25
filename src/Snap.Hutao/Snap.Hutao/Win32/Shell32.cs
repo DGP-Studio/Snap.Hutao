@@ -14,7 +14,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Shell32
 {
-    [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi,ExactSpelling = true)]
+    [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern unsafe ITEMIDLIST* ILCreateFromPathW(PCWSTR pszPath);
 
@@ -26,13 +26,13 @@ internal static class Shell32
         }
     }
 
-    [DllImport("SHELL32.dll", ExactSpelling = true, PreserveSig = false)]
+    [DllImport("SHELL32.dll", ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern unsafe void ILFree(ITEMIDLIST* pidl);
 
     public static unsafe void ILFree(ref ITEMIDLIST idl)
     {
-        fixed(ITEMIDLIST* pidl = &idl)
+        fixed (ITEMIDLIST* pidl = &idl)
         {
             ILFree(pidl);
         }

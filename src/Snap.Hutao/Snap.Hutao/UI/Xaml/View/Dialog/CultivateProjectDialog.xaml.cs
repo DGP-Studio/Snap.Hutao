@@ -23,6 +23,8 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
         SelectedServerTimeZoneOffset = ServerTimeZoneOffsets.First();
     }
 
+    [SuppressMessage("", "SA1201")]
+    [SuppressMessage("", "CA1822")]
     public ImmutableArray<NameValue<TimeSpan>> ServerTimeZoneOffsets { get => KnownServerRegionTimeZones.Value; }
 
     public async ValueTask<ValueResult<bool, CultivateProject>> CreateProjectAsync()

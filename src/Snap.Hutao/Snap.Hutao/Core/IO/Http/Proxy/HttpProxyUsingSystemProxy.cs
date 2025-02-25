@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.IO.Http.Loopback;
 using Snap.Hutao.Win32.Registry;
 using System.Diagnostics;
 using System.Net;
@@ -10,6 +9,7 @@ using System.Reflection;
 
 namespace Snap.Hutao.Core.IO.Http.Proxy;
 
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWebProxy, IDisposable
 {
@@ -18,22 +18,17 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     private static readonly Lazy<MethodInfo> LazyConstructSystemProxyMethod = new(GetConstructSystemProxyMethod);
     private static readonly Uri ProxyTestDestination = "https://hut.ao".ToUri();
 
-    private readonly IServiceProvider serviceProvider;
-    private readonly LoopbackSupport loopbackSupport;
-    private readonly RegistryWatcher watcher;
+    private RegistryWatcher watcher;
 
-    public HttpProxyUsingSystemProxy(IServiceProvider serviceProvider)
+    partial void PostConstruct(IServiceProvider serviceProvider)
     {
-        this.serviceProvider = serviceProvider;
-        loopbackSupport = serviceProvider.GetRequiredService<LoopbackSupport>();
         UpdateInnerProxy();
 
         watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
         watcher.Start(serviceProvider.GetRequiredService<ILogger<HttpProxyUsingSystemProxy>>());
     }
 
-    public bool IsUsingProxyAndNotWorking { get => GetProxy(ProxyTestDestination) is not null && !loopbackSupport.IsLoopbackEnabled; }
-
+    [SuppressMessage("", "SA1201")]
     public string CurrentProxyUri { get => GetProxy(ProxyTestDestination)?.AbsoluteUri ?? SH.ViewPageFeedbackCurrentProxyNoProxyDescription; }
 
     public IWebProxy InnerProxy
@@ -73,11 +68,6 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         (InnerProxy as IDisposable)?.Dispose();
     }
 
-    public void EnableLoopback()
-    {
-        loopbackSupport.EnableLoopback();
-    }
-
     private static MethodInfo GetConstructSystemProxyMethod()
     {
         Type? systemProxyInfoType = typeof(System.Net.Http.SocketsHttpHandler).Assembly.GetType("System.Net.Http.SystemProxyInfo");
@@ -103,9 +93,6 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         UpdateInnerProxy();
 
         Debug.Assert(XamlApplicationLifetime.DispatcherQueueInitialized, "DispatcherQueue not initialized");
-
-        // TaskContext can't be injected directly, we have to retrieve it from the service provider after
-        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
+        SynchronizationContext.Current?.Post(_ => OnPropertyChanged(nameof(CurrentProxyUri)), default);
     }
 }
