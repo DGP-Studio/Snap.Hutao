@@ -45,17 +45,14 @@ internal sealed partial class ExceptionHandlingSupport
         string message = ExceptionFormat.Format(e.Exception);
         logger.LogError("未经处理的全局异常:\r\n{Detail}", message);
 
-        serviceProvider
-            .GetRequiredService<Web.Hutao.Log.HutaoLogUploadClient>()
-            .UploadLog(e.Exception);
-
         XamlApplicationLifetime.Exiting = true;
+
+        SentrySdk.CaptureException(e.Exception);
+        e.Handled = true;
 
         serviceProvider
             .GetRequiredService<ITaskContext>()
             .BeginInvokeOnMainThread(() => ExceptionWindow.Show(message));
-
-        e.Handled = true;
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
