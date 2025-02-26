@@ -5,11 +5,11 @@ using Snap.Hutao.Core;
 
 namespace Snap.Hutao;
 
-internal static class SentryBootstrap
+internal static class SentryTelemetry
 {
     public static IDisposable Initialize()
     {
-        IDisposable session = SentrySdk.Init(options =>
+        IDisposable sentry = SentrySdk.Init(options =>
         {
             options.Dsn = "https://1a1151ce5ac4e7f1536edf085bd483ec@sentry.snapgenshin.com/2";
 #if DEBUG
@@ -19,6 +19,9 @@ internal static class SentryBootstrap
             options.IsGlobalModeEnabled = true;
             options.Release = HutaoRuntime.Version.ToString();
             options.Environment = GetBuildEnvironment();
+
+            // Use our own exception handling
+            options.DisableWinUiUnhandledExceptionIntegration();
         });
 
         SentrySdk.ConfigureScope(scope =>
@@ -29,7 +32,7 @@ internal static class SentryBootstrap
             };
         });
 
-        return session;
+        return sentry;
     }
 
     private static string GetBuildEnvironment()

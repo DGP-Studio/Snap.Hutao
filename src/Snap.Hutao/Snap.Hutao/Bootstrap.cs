@@ -70,7 +70,7 @@ public static partial class Bootstrap
             ComWrappersSupport.InitializeComWrappers();
 
             // Sentry requires version information, which depends on COM initialization
-            using (SentryBootstrap.Initialize())
+            using (SentryTelemetry.Initialize())
             {
                 // By adding the using statement, we can dispose the injected services when closing
                 using (DependencyInjection.Initialize())

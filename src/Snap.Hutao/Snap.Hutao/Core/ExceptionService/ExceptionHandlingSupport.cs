@@ -43,12 +43,20 @@ internal sealed partial class ExceptionHandlingSupport
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         string message = ExceptionFormat.Format(e.Exception);
-        logger.LogError("未经处理的全局异常:\r\n{Detail}", message);
+        logger.LogError("Unhandled Exception:\r\n{Detail}", message);
 
         XamlApplicationLifetime.Exiting = true;
 
-        SentrySdk.CaptureException(e.Exception);
+        if (e.Exception is null)
+        {
+            return;
+        }
+
+        // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
+        e.Exception.SetSentryMechanism("Microsoft.UI.Xaml.UnhandledException", handled: false);
         e.Handled = true;
+
+        SentrySdk.CaptureException(e.Exception);
 
         serviceProvider
             .GetRequiredService<ITaskContext>()
