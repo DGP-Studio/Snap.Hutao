@@ -665,7 +665,7 @@
     <value>อื่นๆ UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC+01</value>
+    <value>เซิร์ฟเวอร์ EU UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>พลังโจมตี</value>
@@ -3633,9 +3633,9 @@
     <value>หมายเลขจอภาพ</value>
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
+    <value>คุณได้ดำเนินการอะไรบ้างก่อนที่จะเกิดข้อขัดข้อง</value>
   </data>
   <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
+    <value>คำอธิบายขั้นตอนที่ชัดเจนและมีระเบียบ จะช่วยให้เราสามารถระบุปัญหาได้เร็วขึ้น</value>
   </data>
 </root>
