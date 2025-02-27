@@ -665,7 +665,7 @@
     <value>Khác UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC+01</value>
+    <value>Máy chủ EU UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value></value>
@@ -3633,9 +3633,9 @@
     <value>ID Màn Hình</value>
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
+    <value>Bạn đã thực hiện những thao tác nào trước khi sự cố xảy ra?</value>
   </data>
   <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
+    <value>Mô tả rõ ràng, mạch lạc các bước sẽ giúp chúng tôi xác định vấn đề nhanh hơn</value>
   </data>
 </root>
