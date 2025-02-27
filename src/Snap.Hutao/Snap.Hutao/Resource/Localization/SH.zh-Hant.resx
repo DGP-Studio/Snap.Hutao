@@ -665,7 +665,7 @@
     <value>其他 UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>歐服 UTC-01</value>
+    <value>歐服 UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻擊力</value>
@@ -2592,10 +2592,10 @@
     <value>特殊介面修正</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerColdSwitchHeader" xml:space="preserve">
-    <value>地图横幅冷开关</value>
+    <value>地圖橫幅冷開關</value>
   </data>
   <data name="ViewPageLaunchGameHideQuestBannerHotSwitchHeader" xml:space="preserve">
-    <value>关闭地图横幅</value>
+    <value>關閉地圖橫幅</value>
   </data>
   <data name="ViewPageLaunchGameHotSwitchDescription" xml:space="preserve">
     <value>遊戲啟動後可以即時切換</value>
@@ -3177,7 +3177,7 @@
     <value>故事</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyBilibiliButtonLabel" xml:space="preserve">
-    <value>哔哩哔哩 Wiki 角色攻略</value>
+    <value>嗶哩嗶哩 Wiki 角色攻略</value>
   </data>
   <data name="ViewPageWiKiAvatarStrategyChineseButtonLabel" xml:space="preserve">
     <value>米游社角色攻略</value>
@@ -3631,5 +3631,11 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>崩溃发生前您执行了哪些操作？</value>
+  </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
   </data>
 </root>
