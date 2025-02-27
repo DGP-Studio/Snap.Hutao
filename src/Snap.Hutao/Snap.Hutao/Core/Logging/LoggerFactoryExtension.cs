@@ -47,6 +47,16 @@ internal static class LoggerFactoryExtension
                     Id = HutaoRuntime.DeviceId,
                 };
             });
+
+            options.SetBeforeSend((@event, hint) =>
+            {
+                if (@event.Exception is { } exception)
+                {
+                    hint.Items.Add("HResult", $"0x{exception.HResult:X8}");
+                }
+
+                return @event;
+            });
         });
     }
 
