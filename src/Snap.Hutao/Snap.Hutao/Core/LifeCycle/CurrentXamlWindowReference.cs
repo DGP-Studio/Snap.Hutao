@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 [Injection(InjectAs.Singleton, typeof(ICurrentXamlWindowReference))]
 internal sealed class CurrentXamlWindowReference : ICurrentXamlWindowReference
 {
+    // In fact, we only store MainWindow & GuideWindow
     private readonly WeakReference<Window> reference = new(default!);
 
     [SuppressMessage("", "SH007")]

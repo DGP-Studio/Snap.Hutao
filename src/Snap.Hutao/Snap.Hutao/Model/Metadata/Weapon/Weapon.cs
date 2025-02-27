@@ -40,7 +40,7 @@ internal sealed partial class Weapon : INameQualityAccess,
 
     public required string AwakenIcon { get; init; }
 
-    public required ImmutableArray<WeaponTypeValue> GrowCurves { get; init; }
+    public required WeaponTypeValueCollection GrowCurves { get; init; }
 
     public NameDescriptions? Affix { get; init; }
 

@@ -13,7 +13,7 @@ internal sealed class SignInJSBridge : MiHoYoJSBridge
     {
     }
 
-    protected override void GetHttpRequestHeaderCore(Dictionary<string, string> headers)
+    protected override void GetHttpRequestHeaderOverride(Dictionary<string, string> headers)
     {
         headers["x-rpc-client_type"] = "2";
     }

@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 using System.Text;
-using static Snap.ZStandard.Methods;
+using static Snap.ZStandard.Zstandard;
 
 namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 

@@ -14,7 +14,7 @@ namespace Snap.Hutao.Core.Shell;
 [Injection(InjectAs.Transient, typeof(IShellLinkInterop))]
 internal sealed class ShellLinkInterop : IShellLinkInterop
 {
-    public ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
+    public ValueTask<bool> TryCreateDesktopShortcutForElevatedLaunchAsync()
     {
         string targetLogoPath = HutaoRuntime.GetDataFolderFile("ShellLinkLogo.ico");
         string elevatedLauncherPath = HutaoRuntime.GetDataFolderFile("Snap.Hutao.Elevated.Launcher.exe");
@@ -29,11 +29,11 @@ internal sealed class ShellLinkInterop : IShellLinkInterop
             return ValueTask.FromResult(false);
         }
 
-        bool result = UnsafeTryCreateDesktopShoutcutForElevatedLaunch(targetLogoPath, elevatedLauncherPath);
+        bool result = UnsafeTryCreateDesktopShortcutForElevatedLaunch(targetLogoPath, elevatedLauncherPath);
         return ValueTask.FromResult(result);
     }
 
-    private static bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath, string elevatedLauncherPath)
+    private static bool UnsafeTryCreateDesktopShortcutForElevatedLaunch(string targetLogoPath, string elevatedLauncherPath)
     {
         if (!SUCCEEDED(CoCreateInstance(in ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IShellLinkW.IID, out ObjectReference<IShellLinkW.Vftbl> shellLink)))
         {

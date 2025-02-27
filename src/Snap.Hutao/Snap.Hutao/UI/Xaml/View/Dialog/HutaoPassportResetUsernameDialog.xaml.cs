@@ -33,16 +33,16 @@ internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
     [Command("VerifyOldCommand")]
     private async Task VerifyOldAsync()
     {
-        await VerifyCoreAsync(UserName, VerifyCodeRequestType.ResetUserName).ConfigureAwait(false);
+        await PrivateVerifyAsync(UserName, VerifyCodeRequestType.ResetUserName).ConfigureAwait(false);
     }
 
     [Command("VerifyNewCommand")]
     private async Task VerifyNewAsync()
     {
-        await VerifyCoreAsync(NewUserName, VerifyCodeRequestType.ResetUserNameNew).ConfigureAwait(false);
+        await PrivateVerifyAsync(NewUserName, VerifyCodeRequestType.ResetUserNameNew).ConfigureAwait(false);
     }
 
-    private async ValueTask VerifyCoreAsync(string userName, VerifyCodeRequestType type)
+    private async ValueTask PrivateVerifyAsync(string userName, VerifyCodeRequestType type)
     {
         if (string.IsNullOrEmpty(userName))
         {

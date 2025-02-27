@@ -22,10 +22,10 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
     public async ValueTask<WishCountdownBundle> GetWishCountdownBundleAsync(GachaLogWishCountdownServiceMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
-        return GetWishCountdownBundleCore(context);
+        return SynchronizedGetWishCountdownBundle(context);
     }
 
-    private static WishCountdownBundle GetWishCountdownBundleCore(GachaLogWishCountdownServiceMetadataContext context)
+    private static WishCountdownBundle SynchronizedGetWishCountdownBundle(GachaLogWishCountdownServiceMetadataContext context)
     {
         Dictionary<uint, Countdown> idToCountdown = [];
 

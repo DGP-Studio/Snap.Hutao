@@ -26,20 +26,20 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
             case RefreshOptionKind.RequestFromHoyolabGameRecord:
                 {
                     ImmutableArray<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosAsync(userAndUid, token).ConfigureAwait(false);
-                    Summary summary = await GetSummaryCoreAsync(context, list, token).ConfigureAwait(false);
+                    Summary summary = await PrivateGetSummaryAsync(context, list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary);
                 }
 
             default:
                 {
                     ImmutableArray<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(userAndUid.Uid.Value);
-                    Summary summary = await GetSummaryCoreAsync(context, list, token).ConfigureAwait(false);
+                    Summary summary = await PrivateGetSummaryAsync(context, list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary.Avatars.Count == 0 ? null : summary);
                 }
         }
     }
 
-    private async ValueTask<Summary> GetSummaryCoreAsync(SummaryFactoryMetadataContext context, IEnumerable<EntityAvatarInfo> avatarInfos, CancellationToken token)
+    private async ValueTask<Summary> PrivateGetSummaryAsync(SummaryFactoryMetadataContext context, IEnumerable<EntityAvatarInfo> avatarInfos, CancellationToken token)
     {
         using (ValueStopwatch.MeasureExecution(logger))
         {

@@ -21,12 +21,12 @@ public class GameRegistryContentTest
     [SupportedOSPlatform("windows")]
     public void GetRegistryContent()
     {
-        GetRegistryContentCore(@"Software\miHoYo\原神");
-        GetRegistryContentCore(@"Software\miHoYo\Genshin Impact");
+        TestGetRegistryContent(@"Software\miHoYo\原神");
+        TestGetRegistryContent(@"Software\miHoYo\Genshin Impact");
     }
 
     [SupportedOSPlatform("windows")]
-    private static void GetRegistryContentCore(string subkey)
+    private static void TestGetRegistryContent(string subkey)
     {
         using (RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
         {

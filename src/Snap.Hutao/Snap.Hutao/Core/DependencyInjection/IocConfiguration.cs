@@ -16,9 +16,9 @@ internal static class IocConfiguration
 
     public static IServiceCollection AddDatabase(this IServiceCollection services)
     {
-        return services.AddDbContextPool<AppDbContext>(AddDbContextCore);
+        return services.AddDbContextPool<AppDbContext>(AddDbContext);
 
-        static void AddDbContextCore(IServiceProvider serviceProvider, DbContextOptionsBuilder builder)
+        static void AddDbContext(IServiceProvider serviceProvider, DbContextOptionsBuilder builder)
         {
             string dbFile = HutaoRuntime.GetDataFolderFile("Userdata.db");
             string sqlConnectionString = $"Data Source={dbFile}";

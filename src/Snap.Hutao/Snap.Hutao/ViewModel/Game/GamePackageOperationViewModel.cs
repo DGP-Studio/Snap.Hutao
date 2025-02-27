@@ -218,13 +218,13 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         {
             do
             {
-                RefreshCore();
+                Refresh();
                 await timer.WaitForNextTickAsync(CancellationToken).ConfigureAwait(false);
             }
             while (!IsFinished && !CancellationToken.IsCancellationRequested);
         }
 
-        void RefreshCore()
+        void Refresh()
         {
             TimeSpan elapsedTimeSinceLastDownloadReport = Stopwatch.GetElapsedTime(bytesDownloadedLastRefreshTime);
             TimeSpan elapsedTimeSinceLastInstallReport = Stopwatch.GetElapsedTime(bytesInstalledLastRefreshTime);

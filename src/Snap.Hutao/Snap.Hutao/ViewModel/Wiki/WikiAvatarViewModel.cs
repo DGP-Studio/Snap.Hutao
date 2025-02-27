@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
@@ -12,7 +11,6 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
-using Snap.Hutao.Service;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Hutao;
@@ -27,8 +25,6 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using Windows.System;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
@@ -38,19 +34,16 @@ namespace Snap.Hutao.ViewModel.Wiki;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 {
-    private readonly IAvatarStrategyService avatarStrategyService;
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ICultivationService cultivationService;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
-    private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
     private WikiAvatarMetadataContext? metadataContext;
-    private FrozenDictionary<string, SearchToken> availableTokens;
 
     public IAdvancedCollectionView<Avatar>? Avatars
     {
@@ -69,9 +62,9 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public string? FilterToken { get; set => SetProperty(ref field, value); }
 
-    public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
+    public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
 
-    public bool IsBilibiliStrategyAvailable { get => cultureOptions.LocaleName is LocaleNames.CHS; }
+    public partial WikiAvatarStrategyComponent StrategyComponent { get; }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
@@ -94,12 +87,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                 await taskContext.SwitchToMainThreadAsync();
                 Avatars = avatarsView;
-                Avatars.MoveCurrentToFirstOrDefault();
+                Avatars.MoveCurrentToFirst();
             }
 
             FilterTokens = [];
 
-            availableTokens = FrozenDictionary.ToFrozenDictionary(
+            AvailableTokens = FrozenDictionary.ToFrozenDictionary(
             [
                 .. list.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
                 .. IntrinsicFrozen.AssociationTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.AssociationType, nv.Name, (int)nv.Value, iconUri: AssociationTypeIconConverter.AssociationTypeToIconUri(nv.Value)))),
@@ -122,7 +115,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     {
         UpdateBaseValueInfo(Avatars?.CurrentItem);
 
-        taskContext.BeginInvokeOnMainThread(() => Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirstOrDefault());
+        taskContext.BeginInvokeOnMainThread(() => Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst());
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
@@ -210,11 +203,13 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        BaseValueInfo = new(
-            avatar.MaxLevel,
-            avatar.GrowCurves.GetPropertyCurveValues(avatar.BaseValue),
-            metadataContext.LevelDictionaryAvatarGrowCurveMap,
-            metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId]);
+        BaseValueInfoMetadataContext context = new()
+        {
+            GrowCurveMap = metadataContext.LevelDictionaryAvatarGrowCurveMap,
+            PromoteMap = metadataContext.IdDictionaryAvatarLevelPromoteMap[avatar.PromoteId],
+        };
+
+        BaseValueInfo = new(avatar.MaxLevel, avatar.GrowCurves.ToPropertyCurveValues(avatar.BaseValue), context);
     }
 
     [Command("FilterCommand")]
@@ -229,71 +224,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         if (Avatars.CurrentItem is null)
         {
-            Avatars.MoveCurrentToFirstOrDefault();
+            Avatars.MoveCurrentToFirst();
         }
-    }
-
-    [Command("ChineseStrategyCommand")]
-    private async Task OpenChineseStrategyWebsiteAsync(Avatar? avatar)
-    {
-        if (avatar is null)
-        {
-            return;
-        }
-
-        AvatarStrategy? strategy = await avatarStrategyService.GetStrategyByAvatarId(avatar.Id).ConfigureAwait(false);
-
-        if (strategy is null)
-        {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
-            return;
-        }
-
-        Uri targetUri = strategy.ChineseStrategyUrl;
-        if (string.IsNullOrEmpty(targetUri.OriginalString))
-        {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
-            return;
-        }
-
-        await Launcher.LaunchUriAsync(targetUri);
-    }
-
-    [Command("BilibiliStrategyCommand")]
-    private async Task OpenBilibiliStrategyWebsiteAsync(Avatar? avatar)
-    {
-        if (avatar is null)
-        {
-            return;
-        }
-
-        Uri targetUri = $"https://wiki.biligame.com/ys/{avatar.Name}/攻略".ToUri();
-        await Launcher.LaunchUriAsync(targetUri);
-    }
-
-    [Command("OverseaStrategyCommand")]
-    private async Task OpenOverseaStrategyWebsiteAsync(Avatar? avatar)
-    {
-        if (avatar is null)
-        {
-            return;
-        }
-
-        AvatarStrategy? strategy = await avatarStrategyService.GetStrategyByAvatarId(avatar.Id).ConfigureAwait(false);
-
-        if (strategy is null)
-        {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
-            return;
-        }
-
-        Uri targetUri = strategy.OverseaStrategyUrl;
-        if (string.IsNullOrEmpty(targetUri.OriginalString))
-        {
-            infoBarService.Warning(SH.ViewModelWikiAvatarStrategyNotFound);
-            return;
-        }
-
-        await Launcher.LaunchUriAsync(targetUri);
     }
 }

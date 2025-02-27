@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Linq;
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -44,16 +45,19 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
             return;
         }
 
+        CultivateProject? cultivateProject = await cultivationService.GetCurrentProjectAsync().ConfigureAwait(false);
+        TimeSpan serverTimeZoneOffset = cultivateProject?.ServerTimeZoneOffset ?? appOptions.CalendarServerTimeZoneOffset;
+
         IAdvancedCollectionView<CalendarDay> weekDays;
         using (ValueStopwatch.MeasureExecution(logger, nameof(CreateWeekDays)))
         {
-            weekDays = await CreateWeekDays().ConfigureAwait(false);
+            weekDays = await CreateWeekDays(serverTimeZoneOffset).ConfigureAwait(false);
         }
 
         await taskContext.SwitchToMainThreadAsync();
 
         WeekDays = weekDays;
-        DateTime effectiveToday = DateTimeOffset.Now.ToOffset(appOptions.CalendarServerTimeZoneOffset).Date;
+        DateTime effectiveToday = DateTimeOffset.Now.ToOffset(serverTimeZoneOffset).Date;
         WeekDays.MoveCurrentTo(WeekDays.Source.SingleOrDefault(d => d.Date == effectiveToday));
         IsInitialized = true;
     }
@@ -145,7 +149,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
         return default;
     }
 
-    private async ValueTask<IAdvancedCollectionView<CalendarDay>> CreateWeekDays()
+    private async ValueTask<IAdvancedCollectionView<CalendarDay>> CreateWeekDays(TimeSpan serverTimeZoneOffset)
     {
         CalendarMetadataContext metadataContext = await metadataService.GetContextAsync<CalendarMetadataContext>().ConfigureAwait(false);
         ILookup<MonthAndDay, Avatar> avatarBirthdays = metadataContext.Avatars.ToLookup(MonthAndDay.Create);
@@ -187,7 +191,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
             [DayOfWeek.Saturday] = materials36,
         };
 
-        DateTimeOffset effectiveToday = DateTimeOffset.Now.ToOffset(appOptions.CalendarServerTimeZoneOffset).Date;
+        DateTimeOffset effectiveToday = DateTimeOffset.Now.ToOffset(serverTimeZoneOffset).Date;
         DayOfWeek firstDayOfWeek = cultureOptions.FirstDayOfWeek;
         DateTimeOffset nearestStartOfWeek = effectiveToday.AddDays((int)firstDayOfWeek - (int)effectiveToday.DayOfWeek);
         if (nearestStartOfWeek > effectiveToday)

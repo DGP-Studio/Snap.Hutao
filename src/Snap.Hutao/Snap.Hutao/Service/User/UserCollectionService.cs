@@ -134,7 +134,14 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
             if (users.CurrentItem.UserGameRoles.CurrentItem is null)
             {
-                users.CurrentItem.UserGameRoles.MoveCurrentToFirst();
+                if (users.CurrentItem.UserGameRoles.Source.SingleOrDefault(role => role.IsChosen) is { } chosenRole)
+                {
+                    users.CurrentItem.UserGameRoles.MoveCurrentTo(chosenRole);
+                }
+                else
+                {
+                    users.CurrentItem.UserGameRoles.MoveCurrentToFirst();
+                }
             }
         }
 

@@ -9,6 +9,9 @@ global using Microsoft;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 
+// Sentry
+global using Sentry;
+
 // Snap.Hutao
 global using Snap.Hutao.Core.Annotation;
 global using Snap.Hutao.Core.DependencyInjection;

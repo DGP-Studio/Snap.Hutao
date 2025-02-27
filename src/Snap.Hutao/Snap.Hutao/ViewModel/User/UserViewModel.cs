@@ -15,7 +15,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
-using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
@@ -219,7 +218,7 @@ internal sealed partial class UserViewModel : ObservableObject
         {
             if (ReferenceEquals(Users?.CurrentItem, user))
             {
-                Users.MoveCurrentToFirstOrDefault();
+                Users.MoveCurrentToFirst();
             }
 
             await userService.RemoveUserAsync(user).ConfigureAwait(false);

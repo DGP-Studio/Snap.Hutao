@@ -46,7 +46,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
     {
         try
         {
-            return await GetQrLoginResultCoreAsync().ConfigureAwait(false);
+            return await PrivateGetQRLoginResultAsync().ConfigureAwait(false);
         }
         finally
         {
@@ -60,7 +60,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         userManualCancellationTokenSource.Cancel();
     }
 
-    private async ValueTask<ValueResult<bool, QrLoginResult>> GetQrLoginResultCoreAsync()
+    private async ValueTask<ValueResult<bool, QrLoginResult>> PrivateGetQRLoginResultAsync()
     {
         await contentDialogFactory.EnqueueAndShowAsync(this).QueueTask.ConfigureAwait(false);
 

@@ -16,12 +16,10 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
 {
     private readonly ITaskContext taskContext;
 
-    /// <inheritdoc/>
     public async ValueTask<GachaStatisticsSlim> CreateAsync(GachaLogServiceMetadataContext context, ImmutableArray<GachaItem> items, string uid)
     {
         await taskContext.SwitchToBackgroundAsync();
-
-        return CreateCore(context, items, uid);
+        return SynchronizedCreate(context, items, uid);
     }
 
     private static void Track(INameQualityAccess nameQuality, ref int orangeTracker, ref int purpleTracker)
@@ -43,7 +41,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         }
     }
 
-    private static GachaStatisticsSlim CreateCore(in GachaLogServiceMetadataContext context, ImmutableArray<GachaItem> items, string uid)
+    private static GachaStatisticsSlim SynchronizedCreate(in GachaLogServiceMetadataContext context, ImmutableArray<GachaItem> items, string uid)
     {
         int standardOrangeTracker = 0;
         int standardPurpleTracker = 0;

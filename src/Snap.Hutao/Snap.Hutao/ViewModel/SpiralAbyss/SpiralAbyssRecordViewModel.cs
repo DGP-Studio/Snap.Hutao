@@ -85,7 +85,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
     private void OnCurrentSpiralAbyssEntryChanged(object? sender, object? e)
     {
-        SpiralAbyssEntries?.CurrentItem?.Floors.MoveCurrentToFirstOrDefault();
+        SpiralAbyssEntries?.CurrentItem?.Floors.MoveCurrentToFirst();
     }
 
     [SuppressMessage("", "SH003")]

@@ -7,10 +7,13 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 
 internal sealed class StatisticsCultivateItem
 {
-    private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
+    private readonly TimeSpan offset;
+
+    private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity, in TimeSpan offset)
     {
         Inner = inner;
         Count = entity.Count;
+        this.offset = offset;
     }
 
     public Material Inner { get; }
@@ -23,10 +26,10 @@ internal sealed class StatisticsCultivateItem
 
     public string FormattedCount { get => $"{Current}/{Count}"; }
 
-    public bool IsToday { get => Inner.IsTodaysItem(true); }
+    public bool IsToday { get => Inner.IsTodaysItem(offset, true); }
 
-    public static StatisticsCultivateItem Create(Material inner, Model.Entity.CultivateItem entity)
+    public static StatisticsCultivateItem Create(Material inner, Model.Entity.CultivateItem entity, in TimeSpan offset)
     {
-        return new(inner, entity);
+        return new(inner, entity, offset);
     }
 }

@@ -18,7 +18,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    private WikiMonsterMetadataContext metadataContext;
+    private WikiMonsterMetadataContext? metadataContext;
 
     public IAdvancedCollectionView<Monster>? Monsters
     {
@@ -62,7 +62,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
                     await taskContext.SwitchToMainThreadAsync();
                     Monsters = monstersView;
-                    Monsters.MoveCurrentToFirstOrDefault();
+                    Monsters.MoveCurrentToFirst();
                 }
 
                 return true;
@@ -82,15 +82,18 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
     private void UpdateBaseValueInfo(Monster? monster)
     {
-        if (metadataContext is null || monster is not { GrowCurves: { }, BaseValue: { } })
+        if (metadataContext is null || monster is not { GrowCurves: not null, BaseValue: not null })
         {
             BaseValueInfo = null;
             return;
         }
 
-        BaseValueInfo = new(
-            Monster.MaxLevel,
-            monster.GrowCurves.GetPropertyCurveValues(monster.BaseValue),
-            metadataContext.LevelDictionaryMonsterGrowCurveMap);
+        BaseValueInfoMetadataContext context = new()
+        {
+            GrowCurveMap = metadataContext.LevelDictionaryMonsterGrowCurveMap,
+            PromoteMap = default,
+        };
+
+        BaseValueInfo = new(Monster.MaxLevel, monster.GrowCurves.ToPropertyCurveValues(monster.BaseValue), context);
     }
 }

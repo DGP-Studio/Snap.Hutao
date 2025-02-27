@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity.Database;
 using Windows.Storage;
 
-namespace Snap.Hutao.Core.Scripting;
+namespace Snap.Hutao.Core.Diagnostics;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoDiagnostics))]
@@ -14,12 +14,6 @@ internal sealed partial class HutaoDiagnostics : IHutaoDiagnostics
     private readonly IServiceProvider serviceProvider;
 
     public ApplicationDataContainer LocalSetting { get => ApplicationData.Current.LocalSettings; }
-
-    public async ValueTask<string> GetPathFromApplicationUrlAsync(string url)
-    {
-        StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(url.ToUri());
-        return file.Path;
-    }
 
     public async ValueTask<int> ExecuteSqlAsync(string sql)
     {

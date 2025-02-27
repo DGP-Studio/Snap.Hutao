@@ -23,7 +23,7 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
 
         try
         {
-            return SerializeCore(content, contentType, encoding ?? DefaultEncoding);
+            return SerializeOverride(content, contentType, encoding ?? DefaultEncoding);
         }
         catch (Exception ex) when (ex is not HttpContentSerializationException)
         {
@@ -42,7 +42,7 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
 
         try
         {
-            return await DeserializeAsyncCore(httpContent, contentType, cancellationToken).ConfigureAwait(false);
+            return await DeserializeOverrideAsync(httpContent, contentType, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex) when (ex is not HttpContentSerializationException)
         {
@@ -50,13 +50,13 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
         }
     }
 
-    protected abstract HttpContent? SerializeCore(object? content, Type contentType, Encoding encoding);
+    protected abstract HttpContent? SerializeOverride(object? content, Type contentType, Encoding encoding);
 
-    protected abstract ValueTask<object?> DeserializeAsyncCore(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken);
+    protected abstract ValueTask<object?> DeserializeOverrideAsync(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken);
 
     private static Type GetAndVerifyContentType(object? content, Type contentType)
     {
-        // If both types are given, ensure that they match. Otherwise serialization will be problematic.
+        // If both types are given, ensure that they match. Otherwise, serialization will be problematic.
         Type? actualContentType = content?.GetType();
         if (actualContentType is not null && contentType is not null && !contentType.IsAssignableFrom(actualContentType))
         {

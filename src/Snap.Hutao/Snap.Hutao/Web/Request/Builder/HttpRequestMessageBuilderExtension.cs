@@ -56,6 +56,8 @@ internal static class HttpRequestMessageBuilderExtension
             }
             catch (Exception ex)
             {
+                SentrySdk.CaptureException(ex);
+
                 ExceptionFormat.Format(messageBuilder, ex);
                 logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
                 return new(context.Response?.Headers, default);

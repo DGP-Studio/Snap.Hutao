@@ -27,10 +27,10 @@ internal sealed partial class InfoBarService : IInfoBarService
             return;
         }
 
-        PrepareInfoBarAndShowCoreAsync(configure).SafeForget(logger);
+        PrivatePrepareInfoBarAndShowAsync(configure).SafeForget(logger);
     }
 
-    private async ValueTask PrepareInfoBarAndShowCoreAsync(Action<IInfoBarOptionsBuilder> configure)
+    private async ValueTask PrivatePrepareInfoBarAndShowAsync(Action<IInfoBarOptionsBuilder> configure)
     {
         IInfoBarOptionsBuilder builder = new InfoBarOptionsBuilder().Configure(configure);
 

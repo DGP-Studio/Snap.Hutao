@@ -8,6 +8,7 @@ internal class PipeResponse
     public required PipeResponseKind Kind { get; set; }
 }
 
+[SuppressMessage("", "SA1402")]
 internal sealed class PipeResponse<T> : PipeResponse
 {
     public T? Data { get; set; }

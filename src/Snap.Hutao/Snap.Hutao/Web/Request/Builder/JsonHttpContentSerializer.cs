@@ -18,7 +18,7 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
 
     internal JsonSerializerOptions? JsonSerializerOptions { get; }
 
-    protected override HttpContent? SerializeCore(object? content, Type contentType, Encoding encoding)
+    protected override HttpContent? SerializeOverride(object? content, Type contentType, Encoding encoding)
     {
         // Note for the future:
         // It can happen that content.GetType() is more specific than contentType, e.g.
@@ -43,7 +43,7 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
         return encoding == Encoding.UTF8 ? SerializeUtf8(content, contentType) : SerializeOtherEncoding(content, contentType, encoding);
     }
 
-    protected override async ValueTask<object?> DeserializeAsyncCore(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken)
+    protected override async ValueTask<object?> DeserializeOverrideAsync(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken)
     {
         // While we'd ideally read directly from the stream here (if UTF-8), this is a lot of messy work.
         // For one, we don't know if the encoding is UTF-8 and finding this out is hard to do

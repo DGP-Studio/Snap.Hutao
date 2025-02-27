@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using JetBrains.Annotations;
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hoyolab;

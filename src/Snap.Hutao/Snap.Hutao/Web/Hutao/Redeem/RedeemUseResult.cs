@@ -9,5 +9,7 @@ internal sealed class RedeemUseResult
 
     public RedeemCodeTargetServiceType Type { get; set; }
 
+    public int Value { get; set; }
+
     public DateTimeOffset ExpireTime { get; set; }
 }

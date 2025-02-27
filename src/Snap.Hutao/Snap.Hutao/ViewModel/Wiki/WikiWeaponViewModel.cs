@@ -41,8 +41,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
-    private WikiWeaponMetadataContext metadataContext;
-    private FrozenDictionary<string, SearchToken> availableTokens;
+    private WikiWeaponMetadataContext? metadataContext;
+    private FrozenDictionary<string, SearchToken>? availableTokens;
 
     public IAdvancedCollectionView<Weapon>? Weapons
     {
@@ -90,7 +90,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                     await taskContext.SwitchToMainThreadAsync();
                     Weapons = weaponsView;
-                    Weapons.MoveCurrentToFirstOrDefault();
+                    Weapons.MoveCurrentToFirst();
                 }
 
                 FilterTokens = [];
@@ -201,11 +201,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        BaseValueInfo = new(
-            weapon.MaxLevel,
-            weapon.GrowCurves.Select(PropertyCurveValue.From).ToImmutableArray(),
-            metadataContext.LevelDictionaryWeaponGrowCurveMap,
-            metadataContext.IdDictionaryWeaponLevelPromoteMap[weapon.PromoteId]);
+        BaseValueInfoMetadataContext context = new()
+        {
+            GrowCurveMap = metadataContext.LevelDictionaryWeaponGrowCurveMap,
+            PromoteMap = metadataContext.IdDictionaryWeaponLevelPromoteMap[weapon.PromoteId],
+        };
+
+        BaseValueInfo = new(weapon.MaxLevel, weapon.GrowCurves.ToPropertyCurveValues(), context);
     }
 
     [Command("FilterCommand")]
@@ -220,7 +222,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         if (Weapons.CurrentItem is null)
         {
-            Weapons.MoveCurrentToFirstOrDefault();
+            Weapons.MoveCurrentToFirst();
         }
     }
 }

@@ -47,6 +47,11 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
+        if (XamlApplicationLifetime.Exiting)
+        {
+            return default;
+        }
+
         XamlWindowSubclass? state = GCHandle.FromIntPtr((nint)dwRefData).Target as XamlWindowSubclass;
         ArgumentNullException.ThrowIfNull(state);
 
@@ -86,6 +91,6 @@ internal sealed partial class XamlWindowSubclass : IDisposable
                 }
         }
 
-        return XamlApplicationLifetime.Exiting ? default : DefSubclassProc(hwnd, uMsg, wParam, lParam);
+        return DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
 }

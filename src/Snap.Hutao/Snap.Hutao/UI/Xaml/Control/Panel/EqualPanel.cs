@@ -2,21 +2,29 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Panel;
 
-[DependencyProperty("Spacing", typeof(double), default(double), nameof(OnSpacingChanged))]
+[DependencyProperty("Spacing", typeof(double), 0D, nameof(OnSpacingChanged))]
 internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
 {
+    private readonly long horizontalAlignmentChangedToken;
+
     private double maxItemWidth;
     private double maxItemHeight;
     private int visibleItemsCount;
 
     public EqualPanel()
     {
-        RegisterPropertyChangedCallback(HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
+        horizontalAlignmentChangedToken = RegisterPropertyChangedCallback(HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
+        Unloaded += OnUnloaded;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        UnregisterPropertyChangedCallback(HorizontalAlignmentProperty, horizontalAlignmentChangedToken);
+        Unloaded -= OnUnloaded;
     }
 
     protected override Size MeasureOverride(Size availableSize)
@@ -24,8 +32,8 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
         maxItemWidth = 0;
         maxItemHeight = 0;
 
-        List<UIElement> elements = Children.Where(element => element.Visibility is Visibility.Visible).ToList();
-        visibleItemsCount = elements.Count;
+        ReadOnlySpan<UIElement> visibleItems = [.. Children.Where(element => element.Visibility is Visibility.Visible)];
+        visibleItemsCount = visibleItems.Length;
 
         if (visibleItemsCount <= 0)
         {
@@ -34,19 +42,19 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
         if (HorizontalAlignment is not HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
         {
-            foreach (ref readonly UIElement child in CollectionsMarshal.AsSpan(elements))
+            foreach (ref readonly UIElement child in visibleItems)
             {
                 child.Measure(availableSize);
                 maxItemWidth = Math.Max(maxItemWidth, child.DesiredSize.Width);
                 maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
             }
 
-            return new((maxItemWidth * visibleItemsCount) + (Spacing * (visibleItemsCount - 1)), maxItemHeight);
+            return new(EqualPanelAlgorithm.GetTotalLength(maxItemWidth, visibleItemsCount, Spacing), maxItemHeight);
         }
 
-        double totalWidth = availableSize.Width - (Spacing * (visibleItemsCount - 1));
-        maxItemWidth = totalWidth / visibleItemsCount;
-        foreach (ref readonly UIElement child in CollectionsMarshal.AsSpan(elements))
+        double totalWidthWithoutSpacing = availableSize.Width - (Spacing * (visibleItemsCount - 1));
+        maxItemWidth = totalWidthWithoutSpacing / visibleItemsCount;
+        foreach (ref readonly UIElement child in visibleItems)
         {
             child.Measure(new(maxItemWidth, availableSize.Height));
             maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
@@ -57,18 +65,23 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        double x = 0;
-
-        // Check if there's more (little) width available - if so, set max item width to the maximum possible as we have an almost perfect height.
-        if (finalSize.Width > (visibleItemsCount * maxItemWidth) + (Spacing * (visibleItemsCount - 1)))
+        // Check if there's more (little) width available - if so, set max item width to the maximum possible as we have an almost perfect length.
+        if (finalSize.Width > EqualPanelAlgorithm.GetTotalLength(maxItemWidth, visibleItemsCount, Spacing))
         {
-            maxItemWidth = (finalSize.Width - (Spacing * (visibleItemsCount - 1))) / visibleItemsCount;
+            maxItemWidth = EqualPanelAlgorithm.GetItemLength(finalSize.Width, visibleItemsCount, Spacing);
         }
 
-        foreach (UIElement child in Children.Where(e => e.Visibility is Visibility.Visible))
+        int index = 0;
+        double offset = 0;
+        foreach (UIElement child in Children)
         {
-            child.Arrange(new Rect(x, 0, maxItemWidth, maxItemHeight));
-            x += maxItemWidth + Spacing;
+            if (child.Visibility is Visibility.Collapsed)
+            {
+                continue;
+            }
+
+            child.Arrange(new(offset, 0, (++index == visibleItemsCount) ? finalSize.Width - offset : maxItemWidth, maxItemHeight));
+            offset += maxItemWidth + Spacing;
         }
 
         return finalSize;

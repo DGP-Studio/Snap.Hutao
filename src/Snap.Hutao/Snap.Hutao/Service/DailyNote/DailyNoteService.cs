@@ -80,7 +80,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
                 entries = entryList.ToObservableCollection();
 
-                await RefreshDailyNotesCoreAsync(forceRefresh, token).ConfigureAwait(false);
+                await PrivateRefreshDailyNotesAsync(forceRefresh, token).ConfigureAwait(false);
             }
 
             return entries;
@@ -89,7 +89,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
     public ValueTask RefreshDailyNotesAsync(CancellationToken token = default)
     {
-        return RefreshDailyNotesCoreAsync(true, token);
+        return PrivateRefreshDailyNotesAsync(true, token);
     }
 
     public async ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default)
@@ -117,7 +117,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         return await gameRecordClient.GetDailyNoteAsync(userAndUid, token).ConfigureAwait(false);
     }
 
-    private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh, CancellationToken token = default)
+    private async ValueTask PrivateRefreshDailyNotesAsync(bool forceRefresh, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -159,6 +159,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(dbEntry.Uid, dailyNote);
 
                 // After everything is done, we copy the updated entry to the cached entry.
+                await taskContext.SwitchToMainThreadAsync();
                 dbEntry.CopyTo(cachedEntry);
             }
         }

@@ -24,12 +24,6 @@ internal partial class ScopedPage : Page
         pageScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
-    [SuppressMessage("", "SH003")]
-    public Task NotifyRecipientAsync(INavigationExtraData extra)
-    {
-        return NavigationExtraDataSupport.NotifyRecipientAsync(this, extra);
-    }
-
     public virtual void UnloadObjectOverride(DependencyObject unloadableObject)
     {
         XamlMarkupHelper.UnloadObject(unloadableObject);

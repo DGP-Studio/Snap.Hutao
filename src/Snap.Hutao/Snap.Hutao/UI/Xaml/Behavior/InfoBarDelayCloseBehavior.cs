@@ -17,12 +17,12 @@ internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
         AssociatedObject.Closed += OnInfoBarClosed;
         if (MilliSecondsDelay > 0)
         {
-            _ = DelayCoreAsync();
+            _ = PrivateDelayAsync();
         }
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task DelayCoreAsync()
+    private async Task PrivateDelayAsync()
     {
         try
         {

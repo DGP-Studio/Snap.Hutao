@@ -621,7 +621,7 @@
                                     <shuxc:SizeRestrictedContentControl>
                                         <ComboBox
                                             DisplayMemberPath="Name"
-                                            ItemsSource="{Binding AppOptions.CalendarServerTimeZoneOffsets}"
+                                            ItemsSource="{Binding AppOptions.LazyCalendarServerTimeZoneOffsets.Value}"
                                             SelectedItem="{Binding SelectedCalendarServerTimeZoneOffset, Mode=TwoWay}"/>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>

@@ -12,10 +12,10 @@ internal static class StreamCopyRateLimiter
 
     public static TokenBucketRateLimiter? Create(IServiceProvider serviceProvider)
     {
-        return CreateCore(serviceProvider.GetRequiredService<AppOptions>());
+        return PrivateCreate(serviceProvider.GetRequiredService<AppOptions>());
     }
 
-    private static TokenBucketRateLimiter? CreateCore(AppOptions appOptions)
+    private static TokenBucketRateLimiter? PrivateCreate(AppOptions appOptions)
     {
         int bytesPerSecond = appOptions.DownloadSpeedLimitPerSecondInKiloByte * 1024;
 

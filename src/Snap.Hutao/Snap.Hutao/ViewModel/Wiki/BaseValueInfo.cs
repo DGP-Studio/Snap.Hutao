@@ -3,8 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.Immutable;
@@ -14,17 +12,12 @@ namespace Snap.Hutao.ViewModel.Wiki;
 internal sealed partial class BaseValueInfo : ObservableObject
 {
     private readonly ImmutableArray<PropertyCurveValue> propValues;
-    private readonly ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap;
-    private readonly ImmutableDictionary<PromoteLevel, Promote>? promoteMap;
+    private readonly BaseValueInfoMetadataContext metadataContext;
 
-    private uint currentLevel;
-    private bool promoted = true;
-
-    public BaseValueInfo(uint maxLevel, ImmutableArray<PropertyCurveValue> propValues, ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> growCurveMap, ImmutableDictionary<PromoteLevel, Promote>? promoteMap = null)
+    public BaseValueInfo(uint maxLevel, ImmutableArray<PropertyCurveValue> propValues, BaseValueInfoMetadataContext metadataContext)
     {
         this.propValues = propValues;
-        this.growCurveMap = growCurveMap;
-        this.promoteMap = promoteMap;
+        this.metadataContext = metadataContext;
 
         MaxLevel = maxLevel;
         CurrentLevel = maxLevel;
@@ -33,73 +26,37 @@ internal sealed partial class BaseValueInfo : ObservableObject
     public uint MaxLevel { get; }
 
     [ObservableProperty]
-    public partial List<NameValue<string>> Values { get; set; } = default!;
+    public partial ImmutableArray<NameValue<string>> Values { get; set; } = [];
 
     public uint CurrentLevel
     {
-        get => currentLevel;
+        get;
         set
         {
-            if (SetProperty(ref currentLevel, value))
+            if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(CurrentLevelFormatted));
-                UpdateValues(value, promoted);
+                UpdateValues(value, Promoted);
             }
         }
     }
 
-    public string CurrentLevelFormatted
-    {
-        get => LevelFormat.Format(CurrentLevel);
-    }
+    public string CurrentLevelFormatted { get => LevelFormat.Format(CurrentLevel); }
 
     public bool Promoted
     {
-        get => promoted;
+        get;
         set
         {
-            if (SetProperty(ref promoted, value))
+            if (SetProperty(ref field, value))
             {
-                UpdateValues(currentLevel, value);
+                UpdateValues(CurrentLevel, value);
             }
         }
     }
 
     private void UpdateValues(Level level, bool promoted)
     {
-        Values = propValues.Select(propValue => BaseValueInfoFormat.ToNameValue(propValue, level, GetPromoteLevel(level, promoted), growCurveMap, promoteMap)).ToList();
-    }
-
-    private PromoteLevel GetPromoteLevel(in Level level, bool promoted)
-    {
-        if (MaxLevel <= 70 && level.Value == 70U)
-        {
-            return 4U;
-        }
-
-        if (promoted)
-        {
-            return level.Value switch
-            {
-                >= 80U => 6U,
-                >= 70U => 5U,
-                >= 60U => 4U,
-                >= 50U => 3U,
-                >= 40U => 2U,
-                >= 20U => 1U,
-                _ => 0U,
-            };
-        }
-
-        return level.Value switch
-        {
-            > 80U => 6U,
-            > 70U => 5U,
-            > 60U => 4U,
-            > 50U => 3U,
-            > 40U => 2U,
-            > 20U => 1U,
-            _ => 0U,
-        };
+        Values = BaseValueInfoConverter.ToNameValues(propValues, level, MaxLevel, promoted, metadataContext);
     }
 }
