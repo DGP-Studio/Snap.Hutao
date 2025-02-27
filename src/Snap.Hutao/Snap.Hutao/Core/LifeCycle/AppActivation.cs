@@ -148,6 +148,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask UnsynchronizedHandleInitializationAsync()
     {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            // Transient, we need the scope to manage its lifetime
+            await scope.ServiceProvider.GetRequiredService<SentryIpAddressConfigurator>().ConfigureAsync().ConfigureAwait(false);
+        }
+
         serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);
 
         // In guide
