@@ -665,7 +665,7 @@
     <value>Autres UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC+01</value>
+    <value>Serveur EU UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATQ</value>
@@ -3633,9 +3633,9 @@
     <value>ID du moniteur</value>
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
+    <value>Quelles actions avez-vous effectuées avant que le crash ne se produise ?</value>
   </data>
   <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
+    <value>Une description claire et concise des étapes nous aidera à localiser le problème plus rapidement</value>
   </data>
 </root>
