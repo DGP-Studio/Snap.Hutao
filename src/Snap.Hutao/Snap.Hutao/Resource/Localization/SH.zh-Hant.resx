@@ -3633,9 +3633,9 @@
     <value>顯示器編號</value>
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
+    <value>崩潰發生前您執行了哪些操作？</value>
   </data>
   <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
+    <value>步驟明確，條理清晰的描述將有助於我們更快的定位問題</value>
   </data>
 </root>
