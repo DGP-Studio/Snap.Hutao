@@ -43,6 +43,8 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    public string TraceId { get => $"trace.id: {id}"; }
+
     public string? Comment { get; set => SetProperty(ref field, value); }
 
     public static void Show(SentryId id)

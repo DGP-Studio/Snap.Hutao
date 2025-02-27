@@ -33,7 +33,10 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewWindowExceptionHeader}"/>
-                <TextBlock Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}" Text="{shuxm:ResourceString Name=ViewWindowExceptionDescription}"/>
+                <TextBlock
+                    Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind TraceId}"/>
             </StackPanel>
             <TextBox
                 Grid.Row="1"
