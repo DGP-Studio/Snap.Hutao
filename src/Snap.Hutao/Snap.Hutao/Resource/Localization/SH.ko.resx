@@ -665,7 +665,7 @@
     <value>기타 UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC+01</value>
+    <value>유럽 서버 UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>공격력</value>
@@ -3633,9 +3633,9 @@
     <value>모니터 ID</value>
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
+    <value>충돌이 발생하기 전에 어떤 작업을 수행했습니까?</value>
   </data>
   <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
+    <value>문제를 더 빨리 파악하는 데 도움이 되도록 명확하고 간결하게 설명해 주세요</value>
   </data>
 </root>
