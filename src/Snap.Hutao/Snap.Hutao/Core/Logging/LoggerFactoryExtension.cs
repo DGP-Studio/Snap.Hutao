@@ -17,9 +17,9 @@ internal static class LoggerFactoryExtension
         return builder;
     }
 
-    public static ILoggingBuilder AddConfiguredSentry(this ILoggingBuilder builder)
+    public static ILoggingBuilder AddSentryTelemetry(this ILoggingBuilder builder)
     {
-        builder.AddSentry(options =>
+        return builder.AddSentry(options =>
         {
             options.Dsn = "https://1a1151ce5ac4e7f1536edf085bd483ec@sentry.snapgenshin.com/2";
 #if DEBUG
@@ -30,19 +30,21 @@ internal static class LoggerFactoryExtension
             options.Release = HutaoRuntime.Version.ToString();
             options.Environment = GetBuildEnvironment();
 
+            // Suppressing logs to generate events and breadcrumbs
+            options.MinimumBreadcrumbLevel = LogLevel.None;
+            options.MinimumEventLevel = LogLevel.None;
+
             // Use our own exception handling
             options.DisableWinUiUnhandledExceptionIntegration();
 
             options.ConfigureScope(scope =>
             {
-                scope.User = new SentryUser()
+                scope.User = new()
                 {
                     Id = HutaoRuntime.DeviceId,
                 };
             });
         });
-
-        return builder;
     }
 
     private static string GetBuildEnvironment()

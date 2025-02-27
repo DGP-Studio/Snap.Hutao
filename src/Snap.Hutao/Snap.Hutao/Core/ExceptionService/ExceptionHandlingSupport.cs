@@ -49,9 +49,6 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
-        string message = ExceptionFormat.Format(exception);
-        logger.LogError("Unhandled Exception:\r\n{Detail}", message);
-
         XamlApplicationLifetime.Exiting = true;
 
         // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
