@@ -42,20 +42,24 @@ internal sealed partial class ExceptionHandlingSupport
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        string message = ExceptionFormat.Format(e.Exception);
-        logger.LogError("未经处理的全局异常:\r\n{Detail}", message);
+        Exception? exception = e.Exception;
 
-        serviceProvider
-            .GetRequiredService<Web.Hutao.Log.HutaoLogUploadClient>()
-            .UploadLog(e.Exception);
+        if (exception is null)
+        {
+            return;
+        }
 
         XamlApplicationLifetime.Exiting = true;
 
+        // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
+        exception.SetSentryMechanism("Microsoft.UI.Xaml.UnhandledException", handled: false);
+        e.Handled = true;
+
+        SentryId id = SentrySdk.CaptureException(e.Exception);
+
         serviceProvider
             .GetRequiredService<ITaskContext>()
-            .BeginInvokeOnMainThread(() => ExceptionWindow.Show(message));
-
-        e.Handled = true;
+            .BeginInvokeOnMainThread(() => ExceptionWindow.Show(id));
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)

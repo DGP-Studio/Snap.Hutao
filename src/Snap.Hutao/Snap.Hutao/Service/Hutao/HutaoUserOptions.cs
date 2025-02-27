@@ -28,8 +28,23 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     [ObservableProperty]
     public partial bool IsLoggedIn { get; set; }
 
-    [ObservableProperty]
-    public partial string? UserName { get; set; } = SH.ViewServiceHutaoUserLoginOrRegisterHint;
+    [SuppressMessage("", "SA1500")]
+    [SuppressMessage("", "SA1503")]
+    [SuppressMessage("", "SA1513")]
+    public string? UserName
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                SentrySdk.ConfigureScope(scope =>
+                {
+                    scope.User.Email = value;
+                });
+            }
+        }
+    } = SH.ViewServiceHutaoUserLoginOrRegisterHint;
 
     [ObservableProperty]
     public partial bool IsHutaoCloudAllowed { get; set; }
@@ -121,7 +136,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             await infoEvent.WaitAsync().ConfigureAwait(false);
             infoEvent.Reset();
 
-            if (await GetAuthTokenAsync(token).ConfigureAwait(false) is { } authToken)
+            if (await GetAuthTokenAsync(token).ConfigureAwait(false) is not null)
             {
                 await PrivateRefreshUserInfoAsync(token).ConfigureAwait(false);
             }

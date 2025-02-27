@@ -3,26 +3,25 @@
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
-using Microsoft.Win32;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Service.Hutao;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using Windows.Foundation;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
+internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotifyPropertyChanged
 {
-    private readonly string message;
+    private readonly SentryId id;
 
-    public ExceptionWindow(string message)
+    public ExceptionWindow(SentryId id)
     {
         // Message pump will die if we introduce XamlWindowController
         InitializeComponent();
-        this.message = message;
+        this.id = id;
 
         AppWindow.Title = "Snap Hutao Exception Report";
 
@@ -39,55 +38,34 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
         AppWindow.Resize(size.Scale(this.GetRasterizationScale()));
 
         Ioc.Default.GetRequiredService<ICurrentXamlWindowReference>().Window?.Close();
-
-        // Force update bindings to show the exception message
         Bindings.Update();
     }
 
-    public string FormattedException
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public string TraceId { get => $"trace.id: {id}"; }
+
+    public string? Comment { get; set => SetProperty(ref field, value); }
+
+    public static void Show(SentryId id)
     {
-        get
-        {
-            using (RegistryKey? key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion"))
-            {
-                string windowsVersion;
-                if (key is not null)
-                {
-                    object? major = key.GetValue("CurrentMajorVersionNumber");
-                    object? minor = key.GetValue("CurrentMinorVersionNumber");
-                    object? build = key.GetValue("CurrentBuildNumber");
-                    object? revision = key.GetValue("UBR");
-                    windowsVersion = $"Windows {major}.{minor}.{build}.{revision}";
-                }
-                else
-                {
-                    windowsVersion = "Windows Version Unknown";
-                }
-
-                return $"""
-                    Snap Hutao {HutaoRuntime.Version}
-                    {windowsVersion}
-                    System Architecture: {RuntimeInformation.OSArchitecture}
-                    Process Architecture: {RuntimeInformation.ProcessArchitecture}
-                    Framework: {RuntimeInformation.FrameworkDescription}
-
-                    {message}
-                    """;
-            }
-        }
-    }
-
-    public static void Show(string exMessage)
-    {
-        ExceptionWindow window = new(exMessage);
+        ExceptionWindow window = new(id);
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
     }
 
     [Command("CloseCommand")]
-    private static void CloseWindow()
+    private void CloseWindow()
     {
-        Process.GetCurrentProcess().Kill();
+        Bindings.Update();
+        if (!string.IsNullOrWhiteSpace(Comment))
+        {
+            string email = Ioc.Default.GetRequiredService<HutaoUserOptions>().UserName ?? "Anonymous";
+            SentrySdk.CaptureUserFeedback(id, email, Comment);
+        }
+
+        SentrySdk.Flush();
+        Close();
     }
 
     private void UpdateDragRectangles()
@@ -100,5 +78,22 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window
         Point position = DraggableGrid.TransformToVisual(Content).TransformPoint(default);
         RectInt32 dragRect = RectInt32Convert.RectInt32(position, DraggableGrid.ActualSize).Scale(this.GetRasterizationScale());
         InputNonClientPointerSource.GetForWindowId(AppWindow.Id).SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new(propertyName));
+    }
+
+    private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value))
+        {
+            return false;
+        }
+
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
     }
 }

@@ -33,17 +33,18 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewWindowExceptionHeader}"/>
-                <TextBlock Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}" Text="{shuxm:ResourceString Name=ViewWindowExceptionDescription}"/>
+                <TextBlock
+                    Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind TraceId}"/>
             </StackPanel>
-            <Border Grid.Row="1" Style="{ThemeResource BorderCardStyle}">
-                <ScrollViewer>
-                    <TextBlock
-                        Margin="8"
-                        IsTextSelectionEnabled="True"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                        Text="{x:Bind FormattedException}"/>
-                </ScrollViewer>
-            </Border>
+            <TextBox
+                Grid.Row="1"
+                AcceptsReturn="True"
+                Description="{shuxm:ResourceString Name=ViewExceptionWindowCommentDescription}"
+                Header="{shuxm:ResourceString Name=ViewExceptionWindowCommentHeader}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                Text="{x:Bind Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <StackPanel
                 Grid.Row="2"
                 HorizontalAlignment="Right"
