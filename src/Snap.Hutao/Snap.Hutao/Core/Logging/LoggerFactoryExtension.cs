@@ -30,9 +30,12 @@ internal static class LoggerFactoryExtension
             options.Release = HutaoRuntime.Version.ToString();
             options.Environment = GetBuildEnvironment();
 
-            // Suppressing logs to generate events and breadcrumbs
+            // Suppress logs to generate events and breadcrumbs
             options.MinimumBreadcrumbLevel = LogLevel.None;
             options.MinimumEventLevel = LogLevel.None;
+
+            // Suppress HTTP tracing
+            options.DisableSentryHttpMessageHandler = true;
 
             // Use our own exception handling
             options.DisableWinUiUnhandledExceptionIntegration();
