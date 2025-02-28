@@ -3387,7 +3387,7 @@
     <value>사용자</value>
   </data>
   <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
-    <value>WebView2 加载失败</value>
+    <value>WebView2 로드 실패</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>기본적인 리소스를 다운받고 있습니다</value>
