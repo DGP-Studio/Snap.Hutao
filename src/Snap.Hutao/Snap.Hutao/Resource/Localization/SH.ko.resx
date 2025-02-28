@@ -1493,6 +1493,12 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>쿠키 설정</value>
   </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>문제를 더 빨리 파악하는 데 도움이 되도록 명확하고 간결하게 설명해 주세요</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>충돌이 발생하기 전에 어떤 작업을 수행했습니까?</value>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>피드백 센터</value>
   </data>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>사용자</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 加载失败</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>기본적인 리소스를 다운받고 있습니다</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>모니터 ID</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>충돌이 발생하기 전에 어떤 작업을 수행했습니까?</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>문제를 더 빨리 파악하는 데 도움이 되도록 명확하고 간결하게 설명해 주세요</value>
   </data>
 </root>
