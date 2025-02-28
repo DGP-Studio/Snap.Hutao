@@ -665,7 +665,7 @@
     <value>其他 UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC+01</value>
+    <value>Европейский сервер UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>Сила атаки</value>
@@ -1492,6 +1492,12 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Установка cookie-файлов</value>
+  </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>Чёткое и ясное описание шагов поможет нам быстрее локализовать проблему</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>Какие действия вы выполняли перед тем, как произошёл сбой?</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Обратная связь</value>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>Пользователи</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>Сбой при загрузке WebView2</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Мы загружаем для вас основные ресурсы изображений</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID Монитора</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
   </data>
 </root>
