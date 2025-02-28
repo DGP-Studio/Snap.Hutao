@@ -1493,6 +1493,12 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Imposta Cookie</value>
   </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>Una descrizione chiara e concisa dei passaggi ci aiuterà a identificare il problema più velocemente</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>Quali azioni hai eseguito prima che si verificasse il crash?</value>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Centro feedback</value>
   </data>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>Utente</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 加载失败</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Scaricheremo le risorse grafiche di base</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID monitor</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>Quali azioni hai eseguito prima che si verificasse il crash?</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>Una descrizione chiara e concisa dei passaggi ci aiuterà a identificare il problema più velocemente</value>
   </data>
 </root>
