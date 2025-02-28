@@ -1493,6 +1493,12 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Définir le cookie</value>
   </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>Une description claire et concise des étapes nous aidera à localiser le problème plus rapidement</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>Quelles actions avez-vous effectuées avant que le crash ne se produise ?</value>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Centre de commentaires</value>
   </data>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>Utilisateurs</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 加载失败</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Nous allons télécharger les ressources d'images de base</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID du moniteur</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>Quelles actions avez-vous effectuées avant que le crash ne se produise ?</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>Une description claire et concise des étapes nous aidera à localiser le problème plus rapidement</value>
   </data>
 </root>
