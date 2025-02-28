@@ -1493,6 +1493,12 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Đặt Cookie</value>
   </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>Mô tả rõ ràng, mạch lạc các bước sẽ giúp chúng tôi xác định vấn đề nhanh hơn</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>Bạn đã thực hiện những thao tác nào trước khi sự cố xảy ra?</value>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Trung tâm phản hồi</value>
   </data>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>Tài khoản</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 加载失败</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Chúng tôi sẽ tải xuống các tài nguyên hình ảnh cơ bản nhất cho bạn</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID Màn Hình</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>Bạn đã thực hiện những thao tác nào trước khi sự cố xảy ra?</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>Mô tả rõ ràng, mạch lạc các bước sẽ giúp chúng tôi xác định vấn đề nhanh hơn</value>
   </data>
 </root>
