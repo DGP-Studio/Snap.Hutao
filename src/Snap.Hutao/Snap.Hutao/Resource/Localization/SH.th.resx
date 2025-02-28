@@ -3387,7 +3387,7 @@
     <value>ผู้ใช้</value>
   </data>
   <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
-    <value>WebView2 加载失败</value>
+    <value>WebView2 โหลดล้มเหลว</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>เราจะดาวน์โหลดทรัพยากรภาพพื้นฐานให้คุณ</value>
