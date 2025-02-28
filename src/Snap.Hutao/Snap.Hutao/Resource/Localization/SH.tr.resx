@@ -3387,7 +3387,7 @@
     <value>Kullanıcı</value>
   </data>
   <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
-    <value>WebView2 加载失败</value>
+    <value>WebView2 yüklenemedi</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>En temel görüntü kaynaklarını sizin için indiriyoruz</value>
