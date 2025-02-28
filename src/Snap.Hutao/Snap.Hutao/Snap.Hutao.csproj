@@ -226,6 +226,8 @@
     <Content Update="Assets\Wide310x150Logo.scale-100.png" />
     <Content Update="Assets\Wide310x150Logo.scale-200.png" />
     <Content Update="Assets\Wide310x150Logo.scale-400.png" />
+    <None Remove="Resource\Icon\UI_IconKira.png" />
+    <Content Include="Resource\Icon\UI_IconKira.png" />
   </ItemGroup>
 
   <!-- Resources Files -->
