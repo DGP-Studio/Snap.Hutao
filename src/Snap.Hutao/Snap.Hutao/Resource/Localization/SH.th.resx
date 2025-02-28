@@ -1493,6 +1493,12 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>ตั้งค่า Cookie</value>
   </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>คำอธิบายขั้นตอนที่ชัดเจนและมีระเบียบ จะช่วยให้เราสามารถระบุปัญหาได้เร็วขึ้น</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>คุณได้ดำเนินการอะไรบ้างก่อนที่จะเกิดข้อขัดข้อง</value>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>ศูนย์คำติชม</value>
   </data>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>ผู้ใช้</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 加载失败</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>เราจะดาวน์โหลดทรัพยากรภาพพื้นฐานให้คุณ</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>หมายเลขจอภาพ</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>คุณได้ดำเนินการอะไรบ้างก่อนที่จะเกิดข้อขัดข้อง</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>คำอธิบายขั้นตอนที่ชัดเจนและมีระเบียบ จะช่วยให้เราสามารถระบุปัญหาได้เร็วขึ้น</value>
   </data>
 </root>
