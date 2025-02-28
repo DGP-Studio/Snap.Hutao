@@ -27,7 +27,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private static partial Regex VersionRegex { get; }
 
     [SuppressMessage("", "SH003")]
-    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default)
+    public async ValueTask<AnnouncementWrapper?> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default)
     {
         AnnouncementWrapper? wrapper = await memoryCache.GetOrCreateAsync($"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}.{languageCode}.{region}", entry =>
         {
@@ -35,7 +35,6 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             return PrivateGetAnnouncementWrapperAsync(languageCode, region, token);
         }).ConfigureAwait(false);
 
-        ArgumentNullException.ThrowIfNull(wrapper);
         return wrapper;
     }
 
@@ -79,7 +78,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     }
 
     [SuppressMessage("", "SH003")]
-    private async Task<AnnouncementWrapper> PrivateGetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken cancellationToken = default)
+    private async Task<AnnouncementWrapper?> PrivateGetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken cancellationToken = default)
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -95,7 +94,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
             if (!ResponseValidator.TryValidate(announcementWrapperResponse, scope.ServiceProvider, out wrapper))
             {
-                return default!;
+                return default;
             }
 
             Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
@@ -104,7 +103,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
             if (!ResponseValidator.TryValidate(announcementContentResponse, scope.ServiceProvider, out ListWrapper<AnnouncementContent>? contentsWrapper))
             {
-                return default!;
+                return default;
             }
 
             contents = contentsWrapper.List;
