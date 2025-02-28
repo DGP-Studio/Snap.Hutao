@@ -1493,6 +1493,12 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Установка cookie-файлов</value>
   </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>Чёткое и ясное описание шагов поможет нам быстрее локализовать проблему</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>Какие действия вы выполняли перед тем, как произошёл сбой?</value>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Обратная связь</value>
   </data>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>Пользователи</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 加载失败</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Мы загружаем для вас основные ресурсы изображений</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID Монитора</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>Какие действия вы выполняли перед тем, как произошёл сбой?</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>Чёткое и ясное описание шагов поможет нам быстрее локализовать проблему</value>
   </data>
 </root>
