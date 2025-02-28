@@ -3387,7 +3387,7 @@
     <value>Пользователи</value>
   </data>
   <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
-    <value>WebView2 加载失败</value>
+    <value>Сбой при загрузке WebView2</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Мы загружаем для вас основные ресурсы изображений</value>
