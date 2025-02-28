@@ -1494,6 +1494,12 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Cookie 設定</value>
   </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>明確で整理された手順の説明は、問題をより迅速に特定するのに役立ちます</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>クラッシュが発生する前に、どのような操作を行いましたか？</value>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>ﾌｨｰﾄﾞﾊﾞｯｸｾﾝﾀｰ</value>
   </data>
@@ -3382,6 +3388,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>ユーザー</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 加载失败</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>最も基本的な画像リソースをダウンロードします</value>
   </data>
@@ -3633,11 +3642,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>モニターID</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>クラッシュが発生する前に、どのような操作を行いましたか？</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>明確で整理された手順の説明は、問題をより迅速に特定するのに役立ちます</value>
   </data>
 </root>
