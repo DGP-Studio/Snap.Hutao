@@ -3387,7 +3387,7 @@
     <value>Pengguna</value>
   </data>
   <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
-    <value>WebView2 加载失败</value>
+    <value>WebView2 gagal dimuat</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Kami sedang mengunduh sumber daya gambar yang dibutuhkan</value>
