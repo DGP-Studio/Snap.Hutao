@@ -3389,7 +3389,7 @@
     <value>ユーザー</value>
   </data>
   <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
-    <value>WebView2 加载失败</value>
+    <value>WebView2 の読み込みに失敗しました</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>最も基本的な画像リソースをダウンロードします</value>
