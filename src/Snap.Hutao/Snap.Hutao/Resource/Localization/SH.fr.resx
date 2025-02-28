@@ -3387,7 +3387,7 @@
     <value>Utilisateurs</value>
   </data>
   <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
-    <value>WebView2 加载失败</value>
+    <value>Échec de chargement de WebView2</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Nous allons télécharger les ressources d'images de base</value>
