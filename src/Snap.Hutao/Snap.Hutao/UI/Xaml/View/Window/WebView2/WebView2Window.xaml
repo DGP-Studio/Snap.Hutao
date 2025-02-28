@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     mc:Ignorable="d">
 
     <Grid ActualThemeChanged="OnActualThemeChanged">
@@ -45,6 +46,13 @@
                     VerticalAlignment="Center"/>
             </Grid>
         </Grid>
+        <TextBlock
+            x:Name="WebView2LoadFailedHintText"
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{shuxm:ResourceString Name=ViewWebView2WindowLoadFailedHint}"
+            Visibility="Collapsed"/>
         <WebView2
             x:Name="WebView"
             Grid.Row="1"

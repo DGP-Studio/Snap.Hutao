@@ -100,6 +100,15 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         async Task OnWebViewLoadedAsync()
         {
             await WebView.EnsureCoreWebView2Async();
+
+            // We observed that sometimes the CoreWebView2 is not ready even after EnsureCoreWebView2Async
+            // System.NullReferenceException: Object reference not set to an instance of an object.
+            if (!SpinWait.SpinUntil(() => WebView?.CoreWebView2 is not null, TimeSpan.FromSeconds(1)))
+            {
+                WebView2LoadFailedHintText.Visibility = Visibility.Visible;
+                return;
+            }
+
             WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
             WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
