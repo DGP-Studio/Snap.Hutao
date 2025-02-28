@@ -21,6 +21,7 @@ internal static class LoggerFactoryExtension
     {
         return builder.AddSentry(options =>
         {
+            // TODO: find a way to set correct HttpProxy
             options.Dsn = "https://1a1151ce5ac4e7f1536edf085bd483ec@sentry.snapgenshin.com/2";
 #if DEBUG
             options.Debug = true;
