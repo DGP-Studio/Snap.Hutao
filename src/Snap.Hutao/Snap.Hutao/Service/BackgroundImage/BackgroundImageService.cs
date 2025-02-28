@@ -109,12 +109,15 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                     {
                         string backgroundFolder = HutaoRuntime.GetDataFolderBackgroundFolder();
 
-                        availableBackgroundPathSet = Directory
-                            .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
-                            .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
-                            .ToHashSet();
+                        availableBackgroundPathSet =
+                        [
+                            .. Directory
+                                .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
+                                .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
+                        ];
                     }
 
+                    await taskContext.SwitchToMainThreadAsync();
                     backgroundImageOptions.Wallpaper = default;
                     break;
                 }
