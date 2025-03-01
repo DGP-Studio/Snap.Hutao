@@ -1495,7 +1495,7 @@
     <value>Cookie 設定</value>
   </data>
   <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>明確で整理された手順の説明は、問題をより迅速に特定するのに役立ちます</value>
+    <value>明確で論理的な手順の説明は、私たちにとって問題の迅速な特定に役立ちます！</value>
   </data>
   <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
     <value>クラッシュが発生する前に、どのような操作を行いましたか？</value>
