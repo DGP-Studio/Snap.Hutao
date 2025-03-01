@@ -22,7 +22,13 @@ internal static class LoggerFactoryExtension
         return builder.AddSentry(options =>
         {
             // TODO: find a way to set correct HttpProxy
+#if DEBUG || IS_ALPHA_BUILD || IS_CANARY_BUILD
+            // Alpha and Canary produces noisy events
+            options.Dsn = "https://ec3799184191c344ca06c592cb97a464@sentry.snapgenshin.com/4";
+#else
             options.Dsn = "https://1a1151ce5ac4e7f1536edf085bd483ec@sentry.snapgenshin.com/2";
+#endif
+
 #if DEBUG
             options.Debug = true;
 #endif
