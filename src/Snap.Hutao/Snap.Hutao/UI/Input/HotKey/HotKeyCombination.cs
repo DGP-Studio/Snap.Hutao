@@ -149,6 +149,8 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
     public string DisplayName { get => ToString(); }
 
+    internal CancellationToken CancellationToken { get => cts!.Token; }
+
     private HotKeyParameter Parameter { get => new(Modifiers, Key); }
 
     public bool Register()
@@ -233,7 +235,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             {
                 // Turn on
                 cts = new();
-                ThreadPool.QueueUserWorkItem(callback, cts.Token);
+                ThreadPool.QueueUserWorkItem(callback, this);
                 IsOn = true;
             }
         }
