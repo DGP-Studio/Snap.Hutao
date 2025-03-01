@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -89,7 +90,14 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     [Command("RefreshCommand")]
     private void Refresh()
     {
-        WebView.CoreWebView2.Reload();
+        try
+        {
+            WebView.CoreWebView2.Reload();
+        }
+        catch (COMException)
+        {
+            // 组或资源的状态不是执行请求操作的正确状态
+        }
     }
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
