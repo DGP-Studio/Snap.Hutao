@@ -16,4 +16,9 @@ internal interface IInfrastructureEndpoints :
     {
         return $"{Root}/ip";
     }
+
+    public string IpString()
+    {
+        return $"{Root}/ips";
+    }
 }

@@ -47,6 +47,8 @@ internal static class LoggerFactoryExtension
                 {
                     Id = HutaoRuntime.DeviceId,
                 };
+
+                scope.SetTag("elevated", HutaoRuntime.IsProcessElevated ? "yes" : "no");
             });
 
             options.SetBeforeSend((@event, hint) =>

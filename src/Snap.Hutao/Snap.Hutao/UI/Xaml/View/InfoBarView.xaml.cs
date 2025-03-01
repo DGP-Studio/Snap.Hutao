@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
+using Microsoft.UI.Xaml.Media;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
@@ -38,26 +40,49 @@ internal sealed partial class InfoBarView : UserControl
         {
             if (InfoBars.Count > 0)
             {
-                VisibilityRoot.Visibility = Visibility.Visible;
+                if (VisibilityRoot is not null)
+                {
+                    VisibilityRoot.Visibility = Visibility.Visible;
+                }
             }
 
-            switch (args.Action)
+            if (args.Action is NotifyCollectionChangedAction.Add)
             {
-                case NotifyCollectionChangedAction.Add:
+                if (InfoBarPanelTransitionHelper is not null)
+                {
+                    InfoBarPanelTransitionHelper.Source = ShowButtonBorder;
+                    InfoBarPanelTransitionHelper.Target = InfoBarItemsBorder;
+
+                    if (ShowButtonBorder is not null && VisualTreeHelper.GetParent(ShowButtonBorder) is not null &&
+                        InfoBarItemsBorder is not null && VisualTreeHelper.GetParent(InfoBarItemsBorder) is not null)
                     {
-                        InfoBarPanelTransitionHelper.Source = ShowButtonBorder;
-                        InfoBarPanelTransitionHelper.Target = InfoBarItemsBorder;
                         await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
-                        break;
                     }
+                }
+
+                // After adding, InfoBars.Count is not 0, so we skip the following code
+                Debug.Assert(InfoBars.Count > 0);
+                return;
             }
 
             if (InfoBars.Count is 0)
             {
-                InfoBarPanelTransitionHelper.Source = InfoBarItemsBorder;
-                InfoBarPanelTransitionHelper.Target = ShowButtonBorder;
-                await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
-                VisibilityRoot.Visibility = Visibility.Collapsed;
+                if (InfoBarPanelTransitionHelper is not null)
+                {
+                    InfoBarPanelTransitionHelper.Source = InfoBarItemsBorder;
+                    InfoBarPanelTransitionHelper.Target = ShowButtonBorder;
+
+                    if (InfoBarItemsBorder is not null && VisualTreeHelper.GetParent(InfoBarItemsBorder) is not null &&
+                        ShowButtonBorder is not null && VisualTreeHelper.GetParent(ShowButtonBorder) is not null)
+                    {
+                        await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                    }
+                }
+
+                if (VisibilityRoot is not null)
+                {
+                    VisibilityRoot.Visibility = Visibility.Collapsed;
+                }
             }
         }
     }
