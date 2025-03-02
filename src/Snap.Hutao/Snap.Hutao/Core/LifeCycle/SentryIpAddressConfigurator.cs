@@ -15,8 +15,15 @@ internal sealed partial class SentryIpAddressConfigurator
 
     public async ValueTask ConfigureAsync()
     {
-        string? ip = await httpClient.GetStringAsync(hutaoEndpointsFactory.Create().IpString()).ConfigureAwait(false);
-        ip = ip.Trim('"');
-        SentrySdk.ConfigureScope(scope => { scope.User.IpAddress = ip; });
+        try
+        {
+            string? ip = await httpClient.GetStringAsync(hutaoEndpointsFactory.Create().IpString()).ConfigureAwait(false);
+            ip = ip.Trim('"');
+            SentrySdk.ConfigureScope(scope => { scope.User.IpAddress = ip; });
+        }
+        catch
+        {
+            // Man, what can I say?
+        }
     }
 }
