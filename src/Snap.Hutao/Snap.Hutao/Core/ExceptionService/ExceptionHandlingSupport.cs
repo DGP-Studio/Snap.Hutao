@@ -19,6 +19,28 @@ internal sealed partial class ExceptionHandlingSupport
         serviceProvider.GetRequiredService<ExceptionHandlingSupport>().Attach(app);
     }
 
+    private static void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        Exception? exception = e.Exception;
+
+        if (exception is null)
+        {
+            return;
+        }
+
+        XamlApplicationLifetime.Exiting = true;
+
+        // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
+        exception.SetSentryMechanism("Microsoft.UI.Xaml.UnhandledException", handled: false);
+
+        SentryId id = SentrySdk.CaptureException(e.Exception);
+        SentrySdk.Flush();
+
+        // Handled has to be set to true, the control flow is returned after post
+        e.Handled = true;
+        SynchronizationContext.Current?.Post((state) => ExceptionWindow.Show((SentryId)state!), id);
+    }
+
     private void Attach(Application app)
     {
         app.UnhandledException += OnAppUnhandledException;
@@ -38,28 +60,6 @@ internal sealed partial class ExceptionHandlingSupport
 
         app.DebugSettings.LayoutCycleTracingLevel = LayoutCycleTracingLevel.High;
         app.DebugSettings.LayoutCycleDebugBreakLevel = LayoutCycleDebugBreakLevel.High;
-    }
-
-    private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-    {
-        Exception? exception = e.Exception;
-
-        if (exception is null)
-        {
-            return;
-        }
-
-        XamlApplicationLifetime.Exiting = true;
-
-        // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/Integrations/WinUIUnhandledExceptionIntegration.cs
-        exception.SetSentryMechanism("Microsoft.UI.Xaml.UnhandledException", handled: false);
-        e.Handled = true;
-
-        SentryId id = SentrySdk.CaptureException(e.Exception);
-
-        serviceProvider
-            .GetRequiredService<ITaskContext>()
-            .BeginInvokeOnMainThread(() => ExceptionWindow.Show(id));
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)

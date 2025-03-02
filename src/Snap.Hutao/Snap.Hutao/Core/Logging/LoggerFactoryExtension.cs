@@ -59,9 +59,11 @@ internal static class LoggerFactoryExtension
 
             options.SetBeforeSend((@event, hint) =>
             {
-                if (@event.Exception is { } exception)
+                Exception? currentException = @event.Exception;
+                while (currentException is not null)
                 {
-                    hint.Items.Add("HResult", $"0x{exception.HResult:X8}");
+                    currentException.Data.Add("HResult", $"0x{currentException.HResult:X8}");
+                    currentException = currentException.InnerException;
                 }
 
                 return @event;

@@ -30,7 +30,7 @@ internal static class SettingKeys
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string HotKeyKeyPressRepeatForever = "HotKeyKeyPressRepeatForever";
-    public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
+    public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled3";
     #endregion
 
     #region Passport
@@ -94,6 +94,9 @@ internal static class SettingKeys
 
     [Obsolete("重置调试控制台开关")]
     public const string IsAllocConsoleDebugModeEnabledLegacy1 = "IsAllocConsoleDebugModeEnabled";
+
+    [Obsolete("重置调试控制台开关2")]
+    public const string IsAllocConsoleDebugModeEnabledLegacy2 = "IsAllocConsoleDebugModeEnabled2";
 
     [Obsolete]
     public const string AllowExtractGameBlks = "AllowExtractGameBlks";

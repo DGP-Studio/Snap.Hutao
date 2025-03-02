@@ -8,6 +8,7 @@ using Snap.Hutao.Win32.Storage.FileSystem;
 using Snap.Hutao.Win32.System.Ioctl;
 using System.IO;
 using System.Runtime.InteropServices;
+using Sentry.Protocol;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;
@@ -16,6 +17,29 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class PhysicalDriver
 {
+    /// <summary>
+    /// Safely get the SSD information of the physical driver.
+    /// </summary>
+    /// <param name="path">path in a driver</param>
+    /// <returns>
+    /// <see langword="null"/> if any exception occurs,
+    /// <see langword="true"/> if it's a SSD,
+    /// otherwise <see langword="false"/>
+    /// </returns>
+    public static bool? GetIsSolidState(string path)
+    {
+        try
+        {
+            return DangerousGetIsSolidState(path);
+        }
+        catch (Exception ex)
+        {
+            ex.Data[Mechanism.HandledKey] = true;
+            SentrySdk.CaptureException(ex);
+            return null;
+        }
+    }
+
     // From Microsoft.VisualStudio.Setup.Services.DiskInfo
     // Check if the driver is trim enabled and not incurs seek penalty.
     // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#physical-disks-and-volumes
