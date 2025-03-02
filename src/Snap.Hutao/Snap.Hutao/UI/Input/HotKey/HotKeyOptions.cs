@@ -100,9 +100,10 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private static unsafe void MouseClickRepeatForever(object? state)
     {
         HotKeyCombination combination = (HotKeyCombination)state!;
+        CancellationToken token = combination.GetCurrentCancellationToken();
 
         // We want to use this thread for a long time
-        while (!combination.CancellationToken.IsCancellationRequested)
+        while (!token.IsCancellationRequested)
         {
             INPUT[] inputs =
             [
@@ -118,7 +119,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
                 }
             }
 
-            if (combination.CancellationToken.IsCancellationRequested)
+            if (token.IsCancellationRequested)
             {
                 return;
             }
@@ -131,9 +132,10 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private static unsafe void KeyPressRepeatForever(object? state)
     {
         HotKeyCombination combination = (HotKeyCombination)state!;
+        CancellationToken token = combination.GetCurrentCancellationToken();
 
         // We want to use this thread for a long time
-        while (!combination.CancellationToken.IsCancellationRequested)
+        while (!token.IsCancellationRequested)
         {
             INPUT[] inputs =
             [
@@ -149,7 +151,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
                 }
             }
 
-            if (combination.CancellationToken.IsCancellationRequested)
+            if (token.IsCancellationRequested)
             {
                 return;
             }

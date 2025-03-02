@@ -149,9 +149,13 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
     public string DisplayName { get => ToString(); }
 
-    internal CancellationToken CancellationToken { get => cts!.Token; }
-
     private HotKeyParameter Parameter { get => new(Modifiers, Key); }
+
+    internal CancellationToken GetCurrentCancellationToken()
+    {
+        ArgumentNullException.ThrowIfNull(cts);
+        return cts.Token;
+    }
 
     public bool Register()
     {
