@@ -44,7 +44,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         context.Logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
     }
 
-    public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
+    public async ValueTask<bool> UnlockAsync(bool resume = false, CancellationToken token = default)
     {
         HutaoException.ThrowIfNot(context.IsUnlockerValid, "This Unlocker is invalid");
 
@@ -59,14 +59,17 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         DebugReplaceOffsets(ref offsets);
 
-        try
+        if (!resume)
         {
-            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
-        }
-        catch
-        {
-            context.Logger.LogError("Failed to copy island file.");
-            throw;
+            try
+            {
+                InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
+            }
+            catch
+            {
+                context.Logger.LogError("Failed to copy island file.");
+                throw;
+            }
         }
 
         return true;

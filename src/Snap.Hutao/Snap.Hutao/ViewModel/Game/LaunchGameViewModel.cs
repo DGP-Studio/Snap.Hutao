@@ -11,6 +11,7 @@ using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -21,6 +22,7 @@ using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -197,10 +199,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
 
-        if (LaunchOptions.IsGameRunning)
-        {
-            WaitForGameProcessExitAsync().SafeForget(logger);
-        }
+        ResumeLaunchExecutionAsync().SafeForget(logger);
 
         await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
@@ -368,14 +367,44 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
-    private async ValueTask WaitForGameProcessExitAsync()
+    private async ValueTask ResumeLaunchExecutionAsync()
     {
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out Process? gameProcess))
+        {
+            return;
+        }
+
+        taskContext.BeginInvokeOnMainThread(() => CanResetGamePathEntry = false);
+
+        if (HutaoRuntime.IsProcessElevated && LaunchOptions.IsIslandEnabled)
+        {
+            if (!LaunchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+            {
+                return;
+            }
+
+            using (gameFileSystem)
+            {
+                if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
+                {
+                    return;
+                }
+
+                GameFpsUnlocker unlocker = new(serviceProvider, gameProcess, gameVersion);
+                if (await unlocker.UnlockAsync(true).ConfigureAwait(false))
+                {
+                    await unlocker.PostUnlockAsync().ConfigureAwait(false);
+                }
+            }
+        }
+
         unsafe
         {
             SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
         }
 
         serviceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
+        taskContext.BeginInvokeOnMainThread(() => CanResetGamePathEntry = true);
     }
 }

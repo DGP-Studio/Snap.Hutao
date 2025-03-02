@@ -7,5 +7,5 @@ internal interface IGameFpsUnlocker
 {
     ValueTask PostUnlockAsync(CancellationToken token = default);
 
-    ValueTask<bool> UnlockAsync(CancellationToken token = default);
+    ValueTask<bool> UnlockAsync(bool resume = false, CancellationToken token = default);
 }
