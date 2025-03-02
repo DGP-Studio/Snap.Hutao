@@ -7,6 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
@@ -196,6 +197,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
 
+        if (LaunchOptions.IsGameRunning)
+        {
+            WaitForGameProcessExitAsync().SafeForget(logger);
+        }
+
         await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
         AspectRatios = LaunchOptions.AspectRatios;
@@ -360,5 +366,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 GamePackage = wrapper.GamePackages.Single();
             }
         }
+    }
+
+    private async ValueTask WaitForGameProcessExitAsync()
+    {
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        unsafe
+        {
+            SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
+        }
+
+        serviceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
     }
 }
