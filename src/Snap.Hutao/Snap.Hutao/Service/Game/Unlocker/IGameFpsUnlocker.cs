@@ -5,7 +5,7 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 
 internal interface IGameFpsUnlocker
 {
-    ValueTask PostUnlockAsync(CancellationToken token = default);
+    ValueTask PostUnlockAsync(bool resume = false, CancellationToken token = default);
 
     ValueTask<bool> UnlockAsync(bool resume = false, CancellationToken token = default);
 }

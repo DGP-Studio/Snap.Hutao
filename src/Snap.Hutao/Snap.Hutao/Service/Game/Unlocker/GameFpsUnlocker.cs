@@ -75,7 +75,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return true;
     }
 
-    public async ValueTask PostUnlockAsync(CancellationToken token = default)
+    public async ValueTask PostUnlockAsync(bool resume = false, CancellationToken token = default)
     {
         try
         {
@@ -85,7 +85,11 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                 {
                     nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
                     InitializeIslandEnvironment(handle, offsets, launchOptions);
-                    InitializeIsland(context.GameProcess);
+                    if (!resume)
+                    {
+                        InitializeIsland(context.GameProcess);
+                    }
+
                     using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
                     {
                         while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))

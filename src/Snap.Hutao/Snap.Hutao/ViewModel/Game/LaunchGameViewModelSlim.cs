@@ -2,25 +2,35 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.User;
+using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
+internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution, IDisposable
 {
+    private readonly ILogger<LaunchGameViewModelSlim> logger;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
+
+    private readonly CancellationTokenSource cts = new();
 
     public partial LaunchGameShared Shared { get; }
 
@@ -35,8 +45,15 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
+    public void Dispose()
+    {
+        _ = DisposeAsync();
+    }
+
     protected override async Task LoadAsync()
     {
+        ResumeLaunchExecutionAsync(cts.Token).SafeForget(logger);
+
         LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
         IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
         accountsView.Filter = GameAccountFilter.CreateFilter(scheme?.GetSchemeType());
@@ -66,5 +83,32 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     {
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
         await this.LaunchExecutionAsync(userAndUid).ConfigureAwait(false);
+    }
+
+    private async ValueTask ResumeLaunchExecutionAsync(CancellationToken token)
+    {
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
+        {
+            return;
+        }
+
+        unsafe
+        {
+            SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
+        }
+
+        if (token.IsCancellationRequested)
+        {
+            return;
+        }
+
+        serviceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
+    }
+
+    private async ValueTask DisposeAsync()
+    {
+        await cts.CancelAsync().ConfigureAwait(false);
+        cts.Dispose();
     }
 }
