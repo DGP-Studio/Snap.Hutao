@@ -1,6 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.IO.Http.Proxy;
+using System.Runtime.CompilerServices;
+
 namespace Snap.Hutao.Core.Logging;
 
 internal static class LoggerFactoryExtension
@@ -21,7 +24,8 @@ internal static class LoggerFactoryExtension
     {
         return builder.AddSentry(options =>
         {
-            // TODO: find a way to set correct HttpProxy
+            options.HttpProxy = HttpProxyUsingSystemProxy.Instance;
+
 #if DEBUG || IS_ALPHA_BUILD || IS_CANARY_BUILD
             // Alpha and Canary produces noisy events
             options.Dsn = "https://ec3799184191c344ca06c592cb97a464@sentry.snapgenshin.com/4";
@@ -32,17 +36,15 @@ internal static class LoggerFactoryExtension
 #if DEBUG
             options.Debug = true;
 #endif
+
             options.AutoSessionTracking = true;
             options.IsGlobalModeEnabled = true;
-            options.Release = HutaoRuntime.Version.ToString();
+            options.Release = $"{HutaoRuntime.Version}";
             options.Environment = GetBuildEnvironment();
 
             // Suppress logs to generate events and breadcrumbs
             options.MinimumBreadcrumbLevel = LogLevel.None;
             options.MinimumEventLevel = LogLevel.None;
-
-            // Suppress HTTP tracing
-            options.DisableSentryHttpMessageHandler = true;
 
             // Use our own exception handling
             options.DisableWinUiUnhandledExceptionIntegration();
@@ -55,6 +57,7 @@ internal static class LoggerFactoryExtension
                 };
 
                 scope.SetTag("elevated", HutaoRuntime.IsProcessElevated ? "yes" : "no");
+                scope.SetWebView2Version();
             });
 
             options.SetBeforeSend((@event, hint) =>
@@ -71,6 +74,7 @@ internal static class LoggerFactoryExtension
         });
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetBuildEnvironment()
     {
 #if DEBUG
@@ -82,5 +86,22 @@ internal static class LoggerFactoryExtension
 #else
         return "RELEASE";
 #endif
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void SetWebView2Version(this Scope scope)
+    {
+        WebView2Version webView2Version = HutaoRuntime.WebView2Version;
+        Dictionary<string, object> webView2 = new()
+        {
+            ["Supported"] = webView2Version.Supported,
+        };
+
+        if (webView2Version.Supported)
+        {
+            webView2["Version"] = webView2Version.Version;
+        }
+
+        scope.Contexts["WebView2"] = webView2;
     }
 }

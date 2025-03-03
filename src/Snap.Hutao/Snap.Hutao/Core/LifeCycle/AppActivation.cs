@@ -69,7 +69,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public void NotificationInvoked(AppNotificationManager manager, AppNotificationActivatedEventArgs args)
     {
-        HandleAppNotificationActivationAsync(args.Arguments, false).SafeForget(logger);
+        HandleAppNotificationActivationAsync(args.Arguments.AsReadOnly(), false).SafeForget(logger);
     }
 
     public void ActivateAndInitialize(HutaoActivationArguments args)
@@ -277,7 +277,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
     }
 
-    private async ValueTask HandleAppNotificationActivationAsync(IDictionary<string, string> arguments, bool isRedirectTo)
+    private async ValueTask HandleAppNotificationActivationAsync(IReadOnlyDictionary<string, string> arguments, bool isRedirectTo)
     {
         if (arguments.TryGetValue(Action, out string? action))
         {

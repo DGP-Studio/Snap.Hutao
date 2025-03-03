@@ -15,9 +15,9 @@ internal sealed class HutaoActivationArguments
 
     public string? LaunchActivatedArguments { get; set; }
 
-    public IDictionary<string, string>? AppNotificationActivatedArguments { get; set; }
+    public IReadOnlyDictionary<string, string>? AppNotificationActivatedArguments { get; set; }
 
-    public IDictionary<string, string>? AppNotificationActivatedUserInput { get; set; }
+    public IReadOnlyDictionary<string, string>? AppNotificationActivatedUserInput { get; set; }
 
     public static HutaoActivationArguments FromAppActivationArguments(AppActivationArguments args, bool isRedirected = false)
     {
@@ -56,8 +56,8 @@ internal sealed class HutaoActivationArguments
                     if (args.TryGetAppNotificationActivatedArguments(out string? argument, out IDictionary<string, string>? arguments, out IDictionary<string, string>? userInput))
                     {
                         result.LaunchActivatedArguments = argument;
-                        result.AppNotificationActivatedArguments = arguments;
-                        result.AppNotificationActivatedUserInput = userInput;
+                        result.AppNotificationActivatedArguments = arguments.AsReadOnly();
+                        result.AppNotificationActivatedUserInput = userInput.AsReadOnly();
                     }
 
                     break;

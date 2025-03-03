@@ -14,6 +14,7 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
         DispatcherQueue = DispatcherQueue.GetForCurrentThread();
         DispatcherQueueSynchronizationContext synchronizationContext = new(DispatcherQueue);
         SynchronizationContext.SetSynchronizationContext(synchronizationContext);
+        XamlApplicationLifetime.DispatcherQueueInitialized = true;
     }
 
     public DispatcherQueue DispatcherQueue { get; }

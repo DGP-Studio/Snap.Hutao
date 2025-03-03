@@ -50,8 +50,8 @@ internal static class DependencyInjection
         Ioc.Default.ConfigureServices(serviceProvider);
 
         serviceProvider.InitializeConsoleWindow();
-        serviceProvider.InitializeNotification();
         serviceProvider.InitializeCulture();
+        serviceProvider.InitializeNotification();
 
         return serviceProvider;
     }
@@ -62,12 +62,7 @@ internal static class DependencyInjection
         CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
         cultureOptions.SystemCulture = CultureInfo.CurrentCulture;
 
-        ILogger<CultureOptions> logger = serviceProvider.GetRequiredService<ILogger<CultureOptions>>();
-        logger.LogDebug("System Culture: \e[1m\e[36m{System}\e[37m", cultureOptions.SystemCulture);
-
         CultureInfo cultureInfo = cultureOptions.CurrentCulture;
-
-        logger.LogDebug("Current Culture: \e[1m\e[36m{Current}\e[37m", cultureInfo);
 
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
@@ -78,6 +73,10 @@ internal static class DependencyInjection
 
         SH.Culture = cultureInfo;
         XamlApplicationLifetime.CultureInfoInitialized = true;
+
+        ILogger<CultureOptions> logger = serviceProvider.GetRequiredService<ILogger<CultureOptions>>();
+        logger.LogDebug("System Culture: \e[1m\e[36m{System}\e[37m", cultureOptions.SystemCulture);
+        logger.LogDebug("Current Culture: \e[1m\e[36m{Current}\e[37m", cultureInfo);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

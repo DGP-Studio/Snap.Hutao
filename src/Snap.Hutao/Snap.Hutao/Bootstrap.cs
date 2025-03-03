@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Security.Principal;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -93,10 +95,15 @@ public static partial class Bootstrap
 
     private static void InitializeApp(ApplicationInitializationCallbackParams param)
     {
+        Gen2GcCallback.Register(() =>
+        {
+            SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateDebug("Gen2 GC triggered.", "Runtime"));
+            return true;
+        });
+
         IServiceProvider serviceProvider = Ioc.Default;
 
         _ = serviceProvider.GetRequiredService<ITaskContext>();
-        XamlApplicationLifetime.DispatcherQueueInitialized = true;
         _ = serviceProvider.GetRequiredService<App>();
     }
 }
