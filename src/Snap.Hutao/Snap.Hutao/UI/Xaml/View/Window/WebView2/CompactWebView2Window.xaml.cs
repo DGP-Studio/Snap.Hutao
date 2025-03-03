@@ -74,7 +74,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.SetBorderAndTitleBar(true, false);
-            presenter.PreferredMinimumSize = ScaledSizeInt32.CreateForWindow(200, 200, this);
             presenter.IsAlwaysOnTop = true;
         }
 
