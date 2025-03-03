@@ -45,11 +45,9 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Name = avatar.Name;
         Icon = avatar.Icon;
         Quality = avatar.Quality;
-        IsPromoted = (avatar.LevelNumber, avatar.PromoteLevel.Value) switch
-        {
-            (20, 1U) or (40, 2U) or (50, 3U) or (60, 4U) or (70, 5U) or (80, 6U) => true,
-            _ => false,
-        };
+
+        // PromoteLevel must be set after IsPromoted
+        IsPromoted = BaseValueInfoConverter.GetPromoted(avatar.LevelNumber, avatar.PromoteLevel);
         PromoteLevel = avatar.PromoteLevel;
 
         LevelCurrent = LevelMin;
