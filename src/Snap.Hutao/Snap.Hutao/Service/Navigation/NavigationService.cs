@@ -77,7 +77,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateNavigation(
             CurrentPageType is null ? "Empty" : TypeNameHelper.GetTypeDisplayName(CurrentPageType, fullName: false),
             TypeNameHelper.GetTypeDisplayName(pageType, fullName: false),
-            "Hutao"));
+            "Navigation"));
 
         if (CurrentPageType == pageType)
         {
