@@ -164,7 +164,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
-    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = true;
+    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = !LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning();
 
     public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableArray<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
     {
@@ -199,7 +199,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
 
-        ResumeLaunchExecutionAsync().SafeForget(logger);
+        Shared.ResumeLaunchExecutionAsync().SafeForget(logger);
 
         await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);
@@ -365,46 +365,5 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 GamePackage = wrapper.GamePackages.Single();
             }
         }
-    }
-
-    private async ValueTask ResumeLaunchExecutionAsync()
-    {
-        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out Process? gameProcess))
-        {
-            return;
-        }
-
-        taskContext.BeginInvokeOnMainThread(() => CanResetGamePathEntry = false);
-
-        if (HutaoRuntime.IsProcessElevated && LaunchOptions.IsIslandEnabled)
-        {
-            if (!LaunchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
-            {
-                return;
-            }
-
-            using (gameFileSystem)
-            {
-                if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
-                {
-                    return;
-                }
-
-                GameFpsUnlocker unlocker = new(serviceProvider, gameProcess, gameVersion);
-                if (await unlocker.UnlockAsync(true).ConfigureAwait(false))
-                {
-                    await unlocker.PostUnlockAsync().ConfigureAwait(false);
-                }
-            }
-        }
-
-        unsafe
-        {
-            SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
-        }
-
-        serviceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
-        taskContext.BeginInvokeOnMainThread(() => CanResetGamePathEntry = true);
     }
 }

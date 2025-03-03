@@ -20,6 +20,7 @@ internal abstract class LaunchExecutionInvoker
 
         try
         {
+            context.ViewModel.Shared.IsGameLaunched = true;
             context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(false));
             await RecursiveInvokeHandlerAsync(context, 0).ConfigureAwait(false);
             return context.Result;
@@ -31,6 +32,7 @@ internal abstract class LaunchExecutionInvoker
                 SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
             }
 
+            context.ViewModel.Shared.IsGameLaunched = false;
             context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
             context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(true));
         }

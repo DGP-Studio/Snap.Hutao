@@ -21,7 +21,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution, IDisposable
+internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
 {
     private readonly ILogger<LaunchGameViewModelSlim> logger;
     private readonly IServiceProvider serviceProvider;
@@ -29,8 +29,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly IGameService gameService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
-
-    private readonly CancellationTokenSource cts = new();
 
     public partial LaunchGameShared Shared { get; }
 
@@ -45,14 +43,9 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
 
-    public void Dispose()
-    {
-        _ = DisposeAsync();
-    }
-
     protected override async Task LoadAsync()
     {
-        ResumeLaunchExecutionAsync(cts.Token).SafeForget(logger);
+        Shared.ResumeLaunchExecutionAsync().SafeForget(logger);
 
         LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
         IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
@@ -104,11 +97,5 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         }
 
         serviceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
-    }
-
-    private async ValueTask DisposeAsync()
-    {
-        await cts.CancelAsync().ConfigureAwait(false);
-        cts.Dispose();
     }
 }

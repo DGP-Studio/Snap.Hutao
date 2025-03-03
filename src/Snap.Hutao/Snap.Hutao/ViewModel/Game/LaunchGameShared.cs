@@ -1,15 +1,21 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
+using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
+using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -19,10 +25,15 @@ internal sealed partial class LaunchGameShared
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
-    private readonly IGameService gameService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
+    private readonly IGameService gameService;
+
+    private TaskCompletionSource? tcs;
+
+    public bool IsGameLaunched { get; set; }
 
     public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile()
     {
@@ -67,6 +78,59 @@ internal sealed partial class LaunchGameShared
         }
 
         return default;
+    }
+
+    public async ValueTask ResumeLaunchExecutionAsync()
+    {
+        if (IsGameLaunched || tcs is not null)
+        {
+            return;
+        }
+
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out Process? gameProcess))
+        {
+            return;
+        }
+
+        tcs = new();
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            scope.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(false));
+
+            if (HutaoRuntime.IsProcessElevated && launchOptions.IsIslandEnabled)
+            {
+                if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+                {
+                    return;
+                }
+
+                using (gameFileSystem)
+                {
+                    if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
+                    {
+                        return;
+                    }
+
+                    GameFpsUnlocker unlocker = new(serviceProvider, gameProcess, gameVersion);
+                    if (await unlocker.UnlockAsync(true).ConfigureAwait(false))
+                    {
+                        await unlocker.PostUnlockAsync(true).ConfigureAwait(false);
+                    }
+                }
+            }
+
+            unsafe
+            {
+                SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
+            }
+
+            scope.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
+            scope.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(true));
+        }
+
+        tcs.TrySetResult();
+        tcs = default;
     }
 
     [Command("HandleConfigurationFileNotFoundCommand")]
