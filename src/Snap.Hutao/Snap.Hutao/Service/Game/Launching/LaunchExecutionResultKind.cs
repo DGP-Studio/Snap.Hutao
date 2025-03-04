@@ -18,7 +18,7 @@ internal enum LaunchExecutionResultKind
     GameAccountRegistryWriteResultNotMatch,
     GameAccountCreateAuthTicketFailed,
     GameAccountUserAndUidAndServerNotMatch,
-    GameFpsUnlockingFailed,
+    GameIslandOperationFailed,
 
     EmbeddedYaeClientNotElevated,
     EmbeddedYaeIslandNotEnabled,

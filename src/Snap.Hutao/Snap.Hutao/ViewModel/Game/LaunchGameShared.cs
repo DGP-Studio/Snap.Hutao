@@ -7,10 +7,10 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
+using Snap.Hutao.Service.Game.Island;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
@@ -112,10 +112,10 @@ internal sealed partial class LaunchGameShared
                         return;
                     }
 
-                    GameFpsUnlocker unlocker = new(serviceProvider, gameProcess, gameVersion);
-                    if (await unlocker.UnlockAsync(true).ConfigureAwait(false))
+                    GameIslandInterop unlocker = new(serviceProvider, gameProcess, gameVersion);
+                    if (await unlocker.PrepareAsync(true).ConfigureAwait(false))
                     {
-                        await unlocker.PostUnlockAsync(true).ConfigureAwait(false);
+                        await unlocker.WaitForExitAsync(true).ConfigureAwait(false);
                     }
                 }
             }

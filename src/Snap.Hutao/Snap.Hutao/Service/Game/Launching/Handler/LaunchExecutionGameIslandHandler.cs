@@ -3,11 +3,11 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Service.Game.Unlocker;
+using Snap.Hutao.Service.Game.Island;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegateHandler
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
@@ -16,23 +16,13 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
 
-            if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
-            {
-                return;
-            }
-
-            if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
-            {
-                return;
-            }
-
-            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, gameVersion);
+            GameIslandInterop interop = new(context);
 
             try
             {
-                if (await unlocker.UnlockAsync().ConfigureAwait(false))
+                if (await interop.PrepareAsync().ConfigureAwait(false))
                 {
-                    await TaskExtension.WhenAllOrAnyException(unlocker.PostUnlockAsync().AsTask(), next().AsTask()).ConfigureAwait(false);
+                    await TaskExtension.WhenAllOrAnyException(interop.WaitForExitAsync().AsTask(), next().AsTask()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -41,7 +31,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             }
             catch (Exception ex)
             {
-                context.Result.Kind = LaunchExecutionResultKind.GameFpsUnlockingFailed;
+                context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
                 context.Result.ErrorMessage = ex.Message;
 
                 // The Unlocker can't unlock the process

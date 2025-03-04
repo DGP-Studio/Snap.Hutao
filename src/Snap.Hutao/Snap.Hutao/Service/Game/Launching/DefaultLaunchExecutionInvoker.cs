@@ -19,7 +19,7 @@ internal sealed class DefaultLaunchExecutionInvoker : LaunchExecutionInvoker
         Handlers.Enqueue(new LaunchExecutionGameProcessInitializationHandler());
         Handlers.Enqueue(new LaunchExecutionSetDiscordActivityHandler());
         Handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
-        Handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
+        Handlers.Enqueue(new LaunchExecutionGameIslandHandler());
         Handlers.Enqueue(new LaunchExecutionStarwardPlayTimeStatisticsHandler());
         Handlers.Enqueue(new LaunchExecutionBetterGenshinImpactAutomationHandlder());
         Handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
