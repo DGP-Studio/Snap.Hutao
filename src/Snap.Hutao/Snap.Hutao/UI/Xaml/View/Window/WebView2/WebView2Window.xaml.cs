@@ -81,6 +81,11 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     [Command("GoBackCommand")]
     private void GoBack()
     {
+        if (WebView?.CoreWebView2 is null)
+        {
+            return;
+        }
+
         if (WebView.CoreWebView2.CanGoBack)
         {
             WebView.CoreWebView2.GoBack();
