@@ -613,7 +613,7 @@
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         IsLoading="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"
                         Style="{ThemeResource DefaultLoadingViewStyle}"/>
-                    <shuxcp:HorizontalEqualPanel
+                    <shuxcp:EqualPanel
                         Margin="16"
                         Spacing="16"
                         Visibility="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -624,7 +624,7 @@
                         <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
                         <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponEvent}"/>
                         <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.Chronicled}" Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                    </shuxcp:HorizontalEqualPanel>
+                    </shuxcp:EqualPanel>
                 </Grid>
             </PivotItem>
         </Pivot>
