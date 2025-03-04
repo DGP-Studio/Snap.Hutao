@@ -34,7 +34,6 @@ internal static class PhysicalDriver
         }
         catch (Exception ex)
         {
-            ex.Data[Mechanism.HandledKey] = true;
             SentrySdk.CaptureException(ex);
             return null;
         }

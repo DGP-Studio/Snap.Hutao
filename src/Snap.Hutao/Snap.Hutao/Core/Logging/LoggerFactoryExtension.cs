@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Http.Proxy;
 using System.Runtime.CompilerServices;
 
@@ -60,17 +61,7 @@ internal static class LoggerFactoryExtension
                 scope.SetWebView2Version();
             });
 
-            options.SetBeforeSend((@event, hint) =>
-            {
-                Exception? currentException = @event.Exception;
-                while (currentException is not null)
-                {
-                    currentException.Data.Add("HResult", $"0x{currentException.HResult:X8}");
-                    currentException = currentException.InnerException;
-                }
-
-                return @event;
-            });
+            options.AddExceptionProcessor(new ExceptionHResultProcessor());
         });
     }
 

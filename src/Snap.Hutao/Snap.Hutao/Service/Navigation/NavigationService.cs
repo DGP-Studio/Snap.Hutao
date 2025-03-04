@@ -94,7 +94,6 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         }
         catch (Exception ex)
         {
-            ex.Data[Mechanism.HandledKey] = true;
             SentrySdk.CaptureException(ex);
             infoBarService.Error(ex);
         }
