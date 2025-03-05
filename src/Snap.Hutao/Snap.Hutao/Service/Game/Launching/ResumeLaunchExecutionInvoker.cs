@@ -10,6 +10,7 @@ internal sealed class ResumeLaunchExecutionInvoker : LaunchExecutionInvoker
     public ResumeLaunchExecutionInvoker()
     {
         Handlers.Enqueue(new ResumeLaunchExecutionEnsureGameRunningHandler());
+        Handlers.Enqueue(new LaunchExecutionStatusProgressHandler());
         Handlers.Enqueue(new LaunchExecutionGameIslandHandler(resume: true));
         Handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
     }
