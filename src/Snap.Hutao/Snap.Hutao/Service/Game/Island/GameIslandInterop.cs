@@ -4,7 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Feature;
-using Snap.Hutao.Service.Game.Unlocker.Island;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
@@ -16,63 +16,65 @@ using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
-namespace Snap.Hutao.Service.Game.Unlocker;
+namespace Snap.Hutao.Service.Game.Island;
 
-internal sealed class GameFpsUnlocker : IGameFpsUnlocker
+internal sealed class GameIslandInterop : IGameIslandInterop
 {
     private const string IslandEnvironmentName = "4F3E8543-40F7-4808-82DC-21E48A6037A7";
-    private readonly LaunchOptions launchOptions;
-    private readonly IFeatureService featureService;
 
-    private readonly GameFpsUnlockerContext context = new();
+    private readonly LaunchExecutionContext context;
+    private readonly bool resume;
     private readonly string dataFolderIslandPath;
-    private readonly string gameVersion;
 
     private IslandFunctionOffsets offsets;
     private int accumulatedBadStateCount;
 
-    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, string gameVersion)
+    public GameIslandInterop(LaunchExecutionContext context, bool resume)
     {
-        launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
-        featureService = serviceProvider.GetRequiredService<IFeatureService>();
-
+        this.context = context;
+        this.resume = resume;
         dataFolderIslandPath = Path.Combine(HutaoRuntime.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
-
-        this.gameVersion = gameVersion;
-
-        context.GameProcess = gameProcess;
-        context.Logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
     }
 
-    public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
+    public async ValueTask<bool> PrepareAsync(CancellationToken token = default)
     {
-        HutaoException.ThrowIfNot(context.IsUnlockerValid, "This Unlocker is invalid");
+        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        {
+            return false;
+        }
 
+        if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
+        {
+            return false;
+        }
+
+        IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
         if (await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
         {
             return false;
         }
 
-        offsets = string.Equals(GameConstants.GenshinImpactProcessName, context.GameProcess.ProcessName, StringComparison.OrdinalIgnoreCase)
-            ? feature.Oversea
-            : feature.Chinese;
+        offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
 
         DebugReplaceOffsets(ref offsets);
 
-        try
+        if (!resume)
         {
-            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
-        }
-        catch
-        {
-            context.Logger.LogError("Failed to copy island file.");
-            throw;
+            try
+            {
+                InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
+            }
+            catch
+            {
+                context.Logger.LogError("Failed to copy island file.");
+                throw;
+            }
         }
 
         return true;
     }
 
-    public async ValueTask PostUnlockAsync(CancellationToken token = default)
+    public async ValueTask WaitForExitAsync(CancellationToken token = default)
     {
         try
         {
@@ -81,18 +83,22 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                 using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
                 {
                     nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
-                    InitializeIslandEnvironment(handle, offsets, launchOptions);
-                    InitializeIsland(context.GameProcess);
+                    InitializeIslandEnvironment(handle, offsets, context.Options);
+                    if (!resume)
+                    {
+                        InitializeIsland(context.Process);
+                    }
+
                     using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
                     {
                         while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
                         {
-                            if (context.GameProcess.HasExited)
+                            if (context.Process.HasExited)
                             {
                                 break;
                             }
 
-                            IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
+                            IslandEnvironmentView view = UpdateIslandEnvironment(handle, context.Options);
 
                             if (view.State is IslandState.None or IslandState.Stopped)
                             {

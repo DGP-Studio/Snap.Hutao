@@ -4,24 +4,32 @@
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.User;
+using System.Collections.Concurrent;
 
 namespace Snap.Hutao.ViewModel.Game;
 
 internal static class LaunchGameLaunchExecution
 {
-    public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution launchExecution, UserAndUid? userAndUid)
+    private static readonly ConcurrentDictionary<LaunchExecutionInvoker, Void> Invokers = [];
+
+    public static bool IsAnyLaunchExecutionInvoking()
+    {
+        return !Invokers.IsEmpty;
+    }
+
+    public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
     {
         // Force use root scope
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
-            ILogger<IViewModelSupportLaunchExecution> logger = scope.ServiceProvider.GetRequiredService<ILogger<IViewModelSupportLaunchExecution>>();
-
+            DefaultLaunchExecutionInvoker invoker = new();
+            Invokers.TryAdd(invoker, default);
             try
             {
-                using (LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, userAndUid))
+                using (LaunchExecutionContext context = new(scope.ServiceProvider, viewModel, userAndUid))
                 {
-                    LaunchExecutionResult result = await new DefaultLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+                    LaunchExecutionResult result = await invoker.InvokeAsync(context).ConfigureAwait(false);
 
                     if (result.Kind is not LaunchExecutionResultKind.Ok)
                     {
@@ -31,8 +39,11 @@ internal static class LaunchGameLaunchExecution
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "Launch failed");
                 infoBarService.Error(ex);
+            }
+            finally
+            {
+                Invokers.TryRemove(invoker, out _);
             }
         }
     }

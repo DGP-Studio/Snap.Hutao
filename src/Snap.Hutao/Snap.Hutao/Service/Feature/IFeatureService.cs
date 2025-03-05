@@ -1,7 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Service.Game.Unlocker.Island;
+using Snap.Hutao.Service.Game.Island;
 
 namespace Snap.Hutao.Service.Feature;
 

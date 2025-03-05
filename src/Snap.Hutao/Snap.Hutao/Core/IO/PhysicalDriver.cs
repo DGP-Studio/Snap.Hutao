@@ -8,7 +8,6 @@ using Snap.Hutao.Win32.Storage.FileSystem;
 using Snap.Hutao.Win32.System.Ioctl;
 using System.IO;
 using System.Runtime.InteropServices;
-using Sentry.Protocol;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;

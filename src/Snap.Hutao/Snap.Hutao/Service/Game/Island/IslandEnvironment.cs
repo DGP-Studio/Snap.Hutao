@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Win32.Foundation;
 
-namespace Snap.Hutao.Service.Game.Unlocker.Island;
+namespace Snap.Hutao.Service.Game.Island;
 
 internal struct IslandEnvironment
 {

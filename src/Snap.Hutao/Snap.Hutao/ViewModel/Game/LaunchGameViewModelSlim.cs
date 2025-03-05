@@ -2,8 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -17,6 +20,8 @@ namespace Snap.Hutao.ViewModel.Game;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
 {
+    private readonly ILogger<LaunchGameViewModelSlim> logger;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameService gameService;
     private readonly IUserService userService;
@@ -37,6 +42,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     protected override async Task LoadAsync()
     {
+        Shared.ResumeLaunchExecutionAsync(this).SafeForget(logger);
+
         LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
         IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
         accountsView.Filter = GameAccountFilter.CreateFilter(scheme?.GetSchemeType());

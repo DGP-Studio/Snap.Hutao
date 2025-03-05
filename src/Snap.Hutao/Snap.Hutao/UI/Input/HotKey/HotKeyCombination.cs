@@ -151,12 +151,6 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
     private HotKeyParameter Parameter { get => new(Modifiers, Key); }
 
-    internal CancellationToken GetCurrentCancellationToken()
-    {
-        ArgumentNullException.ThrowIfNull(cts);
-        return cts.Token;
-    }
-
     public bool Register()
     {
         if (!HutaoRuntime.IsProcessElevated || !IsEnabled || key is VIRTUAL_KEY.VK__none_)
@@ -217,6 +211,12 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         stringBuilder.Append(Key);
 
         return stringBuilder.ToString();
+    }
+
+    internal CancellationToken GetCurrentCancellationToken()
+    {
+        ArgumentNullException.ThrowIfNull(cts);
+        return cts.Token;
     }
 
     internal bool CanToggle(HotKeyParameter parameter)

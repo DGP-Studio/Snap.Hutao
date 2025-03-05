@@ -21,12 +21,6 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
         Unloaded += OnUnloaded;
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        UnregisterPropertyChangedCallback(HorizontalAlignmentProperty, horizontalAlignmentChangedToken);
-        Unloaded -= OnUnloaded;
-    }
-
     protected override Size MeasureOverride(Size availableSize)
     {
         maxItemWidth = 0;
@@ -95,5 +89,11 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
     private static void OnHorizontalAlignmentChanged(DependencyObject d, DependencyProperty dp)
     {
         (d as EqualPanel)?.InvalidateMeasure();
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        UnregisterPropertyChangedCallback(HorizontalAlignmentProperty, horizontalAlignmentChangedToken);
+        Unloaded -= OnUnloaded;
     }
 }
