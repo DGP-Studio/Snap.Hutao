@@ -12,7 +12,6 @@ namespace Snap.Hutao.Core.ExceptionService;
 internal sealed partial class ExceptionHandlingSupport
 {
     private readonly ILogger<ExceptionHandlingSupport> logger;
-    private readonly IServiceProvider serviceProvider;
 
     public static void Initialize(IServiceProvider serviceProvider, Application app)
     {

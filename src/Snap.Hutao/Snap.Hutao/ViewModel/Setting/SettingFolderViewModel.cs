@@ -41,6 +41,11 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
         await taskContext.SwitchToBackgroundAsync();
         long totalSize = 0;
 
+        if (!Directory.Exists(Folder))
+        {
+            return;
+        }
+
         foreach (string file in Directory.EnumerateFiles(Folder, "*.*", SearchOption.AllDirectories))
         {
             token.ThrowIfCancellationRequested();

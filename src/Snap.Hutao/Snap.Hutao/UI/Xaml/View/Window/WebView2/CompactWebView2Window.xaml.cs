@@ -16,6 +16,7 @@ using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.Graphics;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
@@ -54,6 +55,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         """;
 
     private readonly CancellationTokenSource loadCts = new();
+    private readonly SemaphoreSlim scopeLock = new(1, 1);
     private readonly Lock syncRoot = new();
     private readonly byte opacity;
 
@@ -133,6 +135,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
 
+        scopeLock.Wait();
+        scopeLock.Dispose();
         windowScope.Dispose();
     }
 
@@ -256,16 +260,42 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         [SuppressMessage("", "SH003")]
         async Task OnWebViewLoadedAsync()
         {
-            await WebView.EnsureCoreWebView2Async();
-            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
-            WebView.CoreWebView2.DownloadStarting += OnDownloadStarting;
-            WebView.CoreWebView2.SourceChanged += OnSourceChanged;
-            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
-            WebView.CoreWebView2.NewWindowRequested += OnNewWindowRequested;
-            WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+            await scopeLock.WaitAsync().ConfigureAwait(true);
 
-            await taskContext.SwitchToMainThreadAsync();
-            Source = LocalSetting.Get(SettingKeys.CompactWebView2WindowPreviousSourceUrl, string.Empty);
+            try
+            {
+                try
+                {
+                    await WebView.EnsureCoreWebView2Async();
+                }
+                catch (SEHException ex)
+                {
+                    SentrySdk.CaptureException(ex);
+                    return;
+                }
+
+                // We observed that sometimes the CoreWebView2 is not ready even after EnsureCoreWebView2Async
+                // System.NullReferenceException: Object reference not set to an instance of an object.
+                if (!SpinWait.SpinUntil(() => WebView?.CoreWebView2 is not null, TimeSpan.FromSeconds(1)))
+                {
+                    WebView2LoadFailedHintText.Visibility = Visibility.Visible;
+                    return;
+                }
+
+                WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+                WebView.CoreWebView2.DownloadStarting += OnDownloadStarting;
+                WebView.CoreWebView2.SourceChanged += OnSourceChanged;
+                WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+                WebView.CoreWebView2.NewWindowRequested += OnNewWindowRequested;
+                WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+
+                await taskContext.SwitchToMainThreadAsync();
+                Source = LocalSetting.Get(SettingKeys.CompactWebView2WindowPreviousSourceUrl, string.Empty);
+            }
+            finally
+            {
+                scopeLock.Release();
+            }
         }
     }
 

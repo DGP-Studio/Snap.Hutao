@@ -21,6 +21,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
+    private readonly SemaphoreSlim scopeLock = new(1, 1);
 
     private readonly IServiceScope windowScope;
     private readonly IWebView2ContentProvider contentProvider;
@@ -75,6 +76,9 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
 
         // Reactive parent window
         SetForegroundWindow(parentHwnd);
+
+        scopeLock.Wait();
+        scopeLock.Dispose();
         windowScope.Dispose();
     }
 
@@ -95,6 +99,11 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     [Command("RefreshCommand")]
     private void Refresh()
     {
+        if (WebView?.CoreWebView2 is null)
+        {
+            return;
+        }
+
         try
         {
             WebView.CoreWebView2.Reload();
@@ -112,21 +121,38 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         [SuppressMessage("", "SH003")]
         async Task OnWebViewLoadedAsync()
         {
-            await WebView.EnsureCoreWebView2Async();
+            await scopeLock.WaitAsync().ConfigureAwait(true);
 
-            // We observed that sometimes the CoreWebView2 is not ready even after EnsureCoreWebView2Async
-            // System.NullReferenceException: Object reference not set to an instance of an object.
-            if (!SpinWait.SpinUntil(() => WebView?.CoreWebView2 is not null, TimeSpan.FromSeconds(1)))
+            try
             {
-                WebView2LoadFailedHintText.Visibility = Visibility.Visible;
-                return;
-            }
+                try
+                {
+                    await WebView.EnsureCoreWebView2Async();
+                }
+                catch (SEHException ex)
+                {
+                    SentrySdk.CaptureException(ex);
+                    return;
+                }
 
-            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
-            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
-            WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
-            contentProvider.CoreWebView2 = WebView.CoreWebView2;
-            await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
+                // We observed that sometimes the CoreWebView2 is not ready even after EnsureCoreWebView2Async
+                // System.NullReferenceException: Object reference not set to an instance of an object.
+                if (!SpinWait.SpinUntil(() => WebView?.CoreWebView2 is not null, TimeSpan.FromSeconds(1)))
+                {
+                    WebView2LoadFailedHintText.Visibility = Visibility.Visible;
+                    return;
+                }
+
+                WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+                WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+                WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+                contentProvider.CoreWebView2 = WebView.CoreWebView2;
+                await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
+            }
+            finally
+            {
+                scopeLock.Release();
+            }
         }
     }
 
