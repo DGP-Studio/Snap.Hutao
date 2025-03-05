@@ -51,6 +51,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
+        client.DefaultRequestHeaders.Add("x-hutao-device-id", HutaoRuntime.DeviceId);
     }
 
     [UsedImplicitly]
