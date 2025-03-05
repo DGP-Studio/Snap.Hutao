@@ -127,7 +127,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get; }
 
-    public SizeInt32 InitSize { get => new(800, 600); }
+    public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(800, 600, this); }
 
     public void OnWindowClosed()
     {
