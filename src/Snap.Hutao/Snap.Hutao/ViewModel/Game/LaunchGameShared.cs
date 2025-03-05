@@ -1,21 +1,16 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
-using Snap.Hutao.Service.Game.Island;
 using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
-using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -31,9 +26,7 @@ internal sealed partial class LaunchGameShared
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
 
-    private TaskCompletionSource? tcs;
-
-    public bool IsGameLaunched { get; set; }
+    private bool resuming;
 
     public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile()
     {
@@ -80,57 +73,44 @@ internal sealed partial class LaunchGameShared
         return default;
     }
 
-    public async ValueTask ResumeLaunchExecutionAsync()
+    public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
-        if (IsGameLaunched || tcs is not null)
+        if (LaunchGameLaunchExecution.IsAnyLaunchExecutionInvoking())
         {
             return;
         }
 
-        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out Process? gameProcess))
+        if (Interlocked.Exchange(ref resuming, true))
         {
             return;
         }
 
-        tcs = new();
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        try
         {
-            scope.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(false));
-
-            if (HutaoRuntime.IsProcessElevated && launchOptions.IsIslandEnabled)
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+                try
                 {
-                    return;
-                }
-
-                using (gameFileSystem)
-                {
-                    if (!gameFileSystem.TryGetGameVersion(out string? gameVersion))
+                    using (LaunchExecutionContext context = new(scope.ServiceProvider, viewModel, default))
                     {
-                        return;
-                    }
+                        LaunchExecutionResult result = await new ResumeLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
 
-                    GameIslandInterop unlocker = new(serviceProvider, gameProcess, gameVersion);
-                    if (await unlocker.PrepareAsync(true).ConfigureAwait(false))
-                    {
-                        await unlocker.WaitForExitAsync(true).ConfigureAwait(false);
+                        if (result.Kind is not LaunchExecutionResultKind.Ok)
+                        {
+                            infoBarService.Warning(result.ErrorMessage);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    infoBarService.Error(ex);
+                }
             }
-
-            unsafe
-            {
-                SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
-            }
-
-            scope.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
-            scope.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(true));
         }
-
-        tcs.TrySetResult();
-        tcs = default;
+        finally
+        {
+            Volatile.Write(ref resuming, false);
+        }
     }
 
     [Command("HandleConfigurationFileNotFoundCommand")]

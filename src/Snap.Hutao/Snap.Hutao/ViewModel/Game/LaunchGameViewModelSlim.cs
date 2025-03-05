@@ -13,7 +13,6 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.User;
-using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -43,7 +42,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     protected override async Task LoadAsync()
     {
-        Shared.ResumeLaunchExecutionAsync().SafeForget(logger);
+        Shared.ResumeLaunchExecutionAsync(this).SafeForget(logger);
 
         LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
         IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);

@@ -23,18 +23,20 @@ internal sealed class GameIslandInterop : IGameIslandInterop
     private const string IslandEnvironmentName = "4F3E8543-40F7-4808-82DC-21E48A6037A7";
 
     private readonly LaunchExecutionContext context;
+    private readonly bool resume;
     private readonly string dataFolderIslandPath;
 
     private IslandFunctionOffsets offsets;
     private int accumulatedBadStateCount;
 
-    public GameIslandInterop(LaunchExecutionContext context)
+    public GameIslandInterop(LaunchExecutionContext context, bool resume)
     {
         this.context = context;
+        this.resume = resume;
         dataFolderIslandPath = Path.Combine(HutaoRuntime.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
     }
 
-    public async ValueTask<bool> PrepareAsync(bool resume = false, CancellationToken token = default)
+    public async ValueTask<bool> PrepareAsync(CancellationToken token = default)
     {
         if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
@@ -72,7 +74,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         return true;
     }
 
-    public async ValueTask WaitForExitAsync(bool resume = false, CancellationToken token = default)
+    public async ValueTask WaitForExitAsync(CancellationToken token = default)
     {
         try
         {

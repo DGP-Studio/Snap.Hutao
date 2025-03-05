@@ -21,7 +21,6 @@ using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -198,7 +197,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
 
-        Shared.ResumeLaunchExecutionAsync().SafeForget(logger);
+        Shared.ResumeLaunchExecutionAsync(this).SafeForget(logger);
 
         await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);

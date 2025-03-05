@@ -9,6 +9,13 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegateHandler
 {
+    private readonly bool resume;
+
+    public LaunchExecutionGameIslandHandler(bool resume)
+    {
+        this.resume = resume;
+    }
+
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
         if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
@@ -16,7 +23,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
             context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
 
-            GameIslandInterop interop = new(context);
+            GameIslandInterop interop = new(context, resume);
 
             try
             {

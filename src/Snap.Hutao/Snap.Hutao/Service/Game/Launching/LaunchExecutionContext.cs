@@ -18,7 +18,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
     public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
         : this(serviceProvider)
     {
-        ViewModel = viewModel;
+        ViewModel = new(viewModel);
 
         LaunchScheme? currentScheme = viewModel.Shared.GetCurrentLaunchSchemeFromConfigFile();
         ArgumentNullException.ThrowIfNull(currentScheme);
@@ -39,7 +39,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
 
     public partial LaunchOptions Options { get; }
 
-    public IViewModelSupportLaunchExecution ViewModel { get; }
+    public WeakReference<IViewModelSupportLaunchExecution> ViewModel { get; }
 
     public LaunchScheme CurrentScheme { get; }
 
@@ -96,7 +96,10 @@ internal sealed partial class LaunchExecutionContext : IDisposable
             gameFileSystem?.Dispose();
             gameFileSystem = null;
 
-            ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(Options);
+            if (ViewModel.TryGetTarget(out IViewModelSupportLaunchExecution? viewModel))
+            {
+                viewModel.SetGamePathEntriesAndSelectedGamePathEntry(Options);
+            }
         }
     }
 
