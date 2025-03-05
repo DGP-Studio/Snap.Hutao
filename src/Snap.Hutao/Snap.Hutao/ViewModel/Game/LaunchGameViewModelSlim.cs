@@ -74,25 +74,4 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
         await this.LaunchExecutionAsync(userAndUid).ConfigureAwait(false);
     }
-
-    private async ValueTask ResumeLaunchExecutionAsync(CancellationToken token)
-    {
-        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        if (!LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
-        {
-            return;
-        }
-
-        unsafe
-        {
-            SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
-        }
-
-        if (token.IsCancellationRequested)
-        {
-            return;
-        }
-
-        serviceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
-    }
 }
