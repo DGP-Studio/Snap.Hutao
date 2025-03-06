@@ -3,22 +3,17 @@
 
 namespace Snap.Hutao.Web.Hutao;
 
-/// <summary>
-/// 用户信息
-/// </summary>
 internal sealed class UserInfo
 {
-    /// <summary>
-    /// 是否为开发者
-    /// </summary>
-    public bool IsLicensedDeveloper { get; set; }
+    public required string NormalizedUserName { get; init; }
 
-    public bool IsMaintainer { get; set; }
+    public required string UserName { get; init; }
 
-    /// <summary>
-    /// 祈愿记录服务到期时间
-    /// </summary>
-    public DateTimeOffset GachaLogExpireAt { get; set; }
+    public required bool IsLicensedDeveloper { get; init; }
 
-    public DateTimeOffset CdnExpireAt { get; set; }
+    public required bool IsMaintainer { get; init; }
+
+    public required DateTimeOffset GachaLogExpireAt { get; init; }
+
+    public required DateTimeOffset CdnExpireAt { get; init; }
 }
