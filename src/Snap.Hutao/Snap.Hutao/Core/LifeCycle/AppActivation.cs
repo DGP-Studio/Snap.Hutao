@@ -151,7 +151,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             // Transient, we need the scope to manage its lifetime
-            await scope.ServiceProvider.GetRequiredService<SentryIpAddressConfigurator>().ConfigureAsync().ConfigureAwait(false);
+            await scope.ServiceProvider.GetRequiredService<SentryIpAddressTraits>().ConfigureAsync().ConfigureAwait(false);
         }
 
         serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);

@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 
 [ConstructorGenerated(ResolveHttpClient = true)]
 [Injection(InjectAs.Transient)]
-internal sealed partial class SentryIpAddressConfigurator
+internal sealed partial class SentryIpAddressTraits
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly HttpClient httpClient;

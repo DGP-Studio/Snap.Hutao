@@ -5,7 +5,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.ExceptionServices;
@@ -85,9 +84,6 @@ internal static class HttpRequestMessageBuilderExtension
         {
             ex.Data.Add("RequestUrlNoQuery", baseUrl ?? "Unknown");
 
-            await TryAttachHutaoGenericApiTraceInfoAsync(context, ex).ConfigureAwait(false);
-            await TryAttachNameServerInfoAsync(context, ex).ConfigureAwait(false);
-
             context.Exception = ExceptionDispatchInfo.Capture(ex);
             context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
@@ -120,64 +116,6 @@ internal static class HttpRequestMessageBuilderExtension
         catch (SocketException ex)
         {
             logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
-        }
-    }
-
-    private static async ValueTask TryAttachHutaoGenericApiTraceInfoAsync(HttpContext context, Exception ex)
-    {
-        if (context.Response is not { Content: { } content })
-        {
-            return;
-        }
-
-        if (!context.Response.Headers.TryGetValues("x-powered-by", out IEnumerable<string>? values))
-        {
-            return;
-        }
-
-        if (values.SingleOrDefault() is not "Hutao Generic API")
-        {
-            return;
-        }
-
-        if (context.Response.Headers.TryGetValues("x-generic-id", out IEnumerable<string>? ids))
-        {
-            ex.Data.Add("GenericTraceId", ids.LastOrDefault());
-        }
-
-        if (context.Response.Content.Headers?.ContentType?.MediaType is "text/plain")
-        {
-            string contentString = await content.ReadAsStringAsync(context.RequestAborted).ConfigureAwait(false);
-            context.Logger.LogDebug("Response Content: {Content}", contentString);
-        }
-    }
-
-    private static async ValueTask TryAttachNameServerInfoAsync(HttpContext context, Exception ex)
-    {
-        if (ex is not HttpRequestException httpRequestException)
-        {
-            return;
-        }
-
-        if (httpRequestException.InnerException is not SocketException)
-        {
-            return;
-        }
-
-        string? host = context.Request?.RequestUri?.Host;
-
-        if (host is null)
-        {
-            return;
-        }
-
-        try
-        {
-            ex.Data.Add("RequestHost", JsonSerializer.Serialize(await Dns.GetHostEntryAsync(host, context.RequestAborted).ConfigureAwait(false)));
-        }
-        catch
-        {
-            // Query DNS can fail
         }
     }
 }
