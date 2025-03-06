@@ -68,11 +68,17 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             }
             catch (COMException comException)
             {
+                if (appOptions.BackgroundImageType is not BackgroundImageType.LocalFolder)
+                {
+                    // For web wallpaper, skip invalid file, as users can't control the file
+                    return new(false, default!);
+                }
+
                 // 0xC00D36BE MF_E_INVALID_FILE_FORMAT: Throw to let user know which file is invalid
                 if (comException.HResult != HRESULT.E_FAIL)
                 {
-                    comException.Data.Add("BackgroundImageType", appOptions.BackgroundImageType);
                     comException.Data.Add("FilePath", path);
+                    comException.Data.Add("HResult", $"0x{comException.HResult:X8}");
                     throw;
                 }
 
@@ -103,12 +109,15 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                     {
                         string backgroundFolder = HutaoRuntime.GetDataFolderBackgroundFolder();
 
-                        availableBackgroundPathSet = Directory
-                            .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
-                            .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
-                            .ToHashSet();
+                        availableBackgroundPathSet =
+                        [
+                            .. Directory
+                                .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
+                                .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
+                        ];
                     }
 
+                    await taskContext.SwitchToMainThreadAsync();
                     backgroundImageOptions.Wallpaper = default;
                     break;
                 }

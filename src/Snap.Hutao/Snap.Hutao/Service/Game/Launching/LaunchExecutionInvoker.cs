@@ -26,6 +26,7 @@ internal abstract class LaunchExecutionInvoker
         }
         finally
         {
+            await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
             unsafe
             {
                 SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);

@@ -24,7 +24,7 @@ internal static partial class IocHttpClientConfiguration
                     {
                         SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
                         typedHandler.UseProxy = true;
-                        typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
+                        typedHandler.Proxy = HttpProxyUsingSystemProxy.Instance;
                     });
             })
             .AddHttpClients();
@@ -37,7 +37,7 @@ internal static partial class IocHttpClientConfiguration
                 typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
                 typedHandler.UseProxy = true;
                 typedHandler.MaxConnectionsPerServer = 16;
-                typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
+                typedHandler.Proxy = HttpProxyUsingSystemProxy.Instance;
             });
 
         return services;
@@ -51,6 +51,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
+        client.DefaultRequestHeaders.Add("x-hutao-device-id", HutaoRuntime.DeviceId);
     }
 
     [UsedImplicitly]

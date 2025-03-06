@@ -71,16 +71,13 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        // TODO: refine infobar title
-        ((LaunchGameInstallGameDialog)sender).IsParallelSupported = PhysicalDriver.DangerousGetIsSolidState((string)args.NewValue);
+        ((LaunchGameInstallGameDialog)sender).IsParallelSupported = PhysicalDriver.GetIsSolidState((string)args.NewValue) ?? false;
     }
 
     [Command("PickGameDirectoryCommand")]
     private void PickGameDirectory()
     {
-        (bool isPickerOk, string gameDirectory) = fileSystemPickerInteraction.PickFolder(SH.ViewDialogLaunchGameInstallGamePickDirectoryTitle);
-
-        if (isPickerOk)
+        if (fileSystemPickerInteraction.PickFolder(SH.ViewDialogLaunchGameInstallGamePickDirectoryTitle) is (true, { } gameDirectory))
         {
             GameDirectory = gameDirectory;
         }

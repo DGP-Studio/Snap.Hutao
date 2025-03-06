@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Control;
@@ -71,11 +73,14 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     /// <inheritdoc/>
     public NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool syncNavigationViewItem = false)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateNavigation(
+            CurrentPageType is null ? "Empty" : TypeNameHelper.GetTypeDisplayName(CurrentPageType, fullName: false),
+            TypeNameHelper.GetTypeDisplayName(pageType, fullName: false),
+            "Navigation"));
+
         if (CurrentPageType == pageType)
         {
-            logger.LogInformation("Navigate to \e[1m\e[36m{Page}\e[37m : \e[32msucceed, already in\e[37m", pageType);
             NavigationExtraDataSupport.NotifyRecipientAsync(frame?.Content, data).SafeForget(logger);
-
             return NavigationResult.AlreadyNavigatedTo;
         }
 
@@ -85,11 +90,10 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         try
         {
             navigated = frame?.Navigate(pageType, data) ?? false;
-            logger.LogInformation("Navigate to \e[1m\e[36m{Page}\e[37m : \e[32m{Result}\e[37m", pageType, navigated ? "\e[32msucceed" : "\e[31mfailed");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred while navigating to \e[1m\e[36m{pageType}\e[37m", pageType);
+            SentrySdk.CaptureException(ex);
             infoBarService.Error(ex);
         }
 

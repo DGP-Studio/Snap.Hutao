@@ -57,10 +57,24 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     public void Receive(UserAndUidChangedMessage message)
     {
-        if (message.UserAndUid is { } userAndUid)
+        if (message.UserAndUid is not { } userAndUid)
         {
-            _ = PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
+            return;
         }
+
+        // 1. We need to wait for the view initialization (mainly for metadata context).
+        // 2. We need to refresh summary data. otherwise, the view can be un-synced.
+        Initialization.Task.ContinueWith(
+            init =>
+            {
+                if (!init.Result)
+                {
+                    return;
+                }
+
+                _ = PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
+            },
+            TaskScheduler.Current);
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync()

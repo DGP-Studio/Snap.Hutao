@@ -7,6 +7,7 @@ using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
@@ -57,6 +58,7 @@ internal static class HutaoRuntime
             .Append("NameAndVersion")
             .ToString();
 
+        Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
         return SH.GetString(CultureInfo.CurrentCulture, name, Version);
     }
 

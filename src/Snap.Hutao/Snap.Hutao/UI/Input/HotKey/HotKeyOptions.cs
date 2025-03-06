@@ -99,7 +99,8 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     [SuppressMessage("", "SH007")]
     private static unsafe void MouseClickRepeatForever(object? state)
     {
-        CancellationToken token = (CancellationToken)state!;
+        HotKeyCombination combination = (HotKeyCombination)state!;
+        CancellationToken token = combination.GetCurrentCancellationToken();
 
         // We want to use this thread for a long time
         while (!token.IsCancellationRequested)
@@ -112,7 +113,10 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
             if (SendInput(inputs.AsSpan(), sizeof(INPUT)) is 0)
             {
-                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                if (CheckIsAccessDenied(combination))
+                {
+                    return;
+                }
             }
 
             if (token.IsCancellationRequested)
@@ -127,7 +131,8 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     [SuppressMessage("", "SH007")]
     private static unsafe void KeyPressRepeatForever(object? state)
     {
-        CancellationToken token = (CancellationToken)state!;
+        HotKeyCombination combination = (HotKeyCombination)state!;
+        CancellationToken token = combination.GetCurrentCancellationToken();
 
         // We want to use this thread for a long time
         while (!token.IsCancellationRequested)
@@ -140,7 +145,10 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
             if (SendInput(inputs.AsSpan(), sizeof(INPUT)) is 0)
             {
-                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+                if (CheckIsAccessDenied(combination))
+                {
+                    return;
+                }
             }
 
             if (token.IsCancellationRequested)
@@ -150,6 +158,30 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
             Thread.Sleep(Random.Shared.Next(100, 150));
         }
+    }
+
+    private static bool CheckIsAccessDenied(HotKeyCombination combination)
+    {
+        HRESULT hr = HRESULT_FROM_WIN32(GetLastError());
+
+        // Windows UIPI blocks the input
+        if (hr == HRESULT.E_ACCESSDENIED)
+        {
+            if (combination is not { IsEnabled: true, IsOn: true })
+            {
+                return false;
+            }
+
+            // Since we are toggling off, we don't have to pass the callback
+            combination.Toggle(default!);
+            return true;
+        }
+        else
+        {
+            Marshal.ThrowExceptionForHR(hr);
+        }
+
+        return false;
     }
 
     private void OnHotKeyPressed(HotKeyParameter parameter)

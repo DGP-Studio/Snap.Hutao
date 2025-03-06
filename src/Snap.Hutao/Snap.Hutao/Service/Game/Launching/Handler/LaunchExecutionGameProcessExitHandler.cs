@@ -10,7 +10,16 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
         if (!context.Process.HasExited)
         {
             context.Progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
-            await context.Process.WaitForExitAsync().ConfigureAwait(false);
+            try
+            {
+                await context.Process.WaitForExitAsync().ConfigureAwait(false);
+            }
+            catch (Win32Exception)
+            {
+                // Access denied，we are in non-elevaled process
+                // Just leave and let invoker spin wait
+                return;
+            }
         }
 
         context.Logger.LogInformation("Game process exited with code {ExitCode}", context.Process.ExitCode);

@@ -5,10 +5,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Xaml;
@@ -44,18 +44,11 @@ public sealed partial class App : Application
     public App(IServiceProvider serviceProvider)
     {
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
-        Gen2GcCallback.Register(() =>
-        {
-            logger.LogDebug("Gen2 GC is triggered.");
-            return true;
-        });
 
         // Load app resource
         InitializeComponent();
-        logger.LogDebug("Application Component initialized.");
 
         ExceptionHandlingSupport.Initialize(serviceProvider, this);
-        logger.LogDebug("Exception handling initialized.");
 
         activation = serviceProvider.GetRequiredService<IAppActivation>();
         this.serviceProvider = serviceProvider;
@@ -64,7 +57,8 @@ public sealed partial class App : Application
     public new void Exit()
     {
         XamlApplicationLifetime.Exiting = true;
-        logger.LogDebug("Application exiting.");
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting", "Hutao"));
+
         if (XamlApplicationLifetime.LaunchedWithNotifyIcon)
         {
             Window window = serviceProvider.GetRequiredService<NotifyIconController>().XamlHost;
@@ -82,26 +76,23 @@ public sealed partial class App : Application
             // before calling AppInstance.GetCurrent.GetActivatedEventArgs.
             AppNotificationManager.Default.NotificationInvoked += activation.NotificationInvoked;
             AppNotificationManager.Default.Register();
-            logger.LogDebug("\e[1m\e[32mAppNotification\e[37m registered.");
 
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
             Bootstrap.UseNamedPipeRedirection();
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
-                logger.LogDebug("\e[1m\e[32mApplication\e[37m exit on \e[1m\e[33mRedirectActivationTo\e[37m");
+                SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting on RedirectActivationTo", "Hutao"));
                 Exit();
                 return;
             }
 
             logger.LogInformation($"\e[33m{ConsoleBanner}\e[37m");
-            logger.LogInformation("\e[1m\e[34mFamilyName: \e[1m\e[36m{Name}\e[37m", HutaoRuntime.FamilyName);
-            logger.LogInformation("\e[1m\e[34mVersion: \e[1m\e[36m{Version}\e[37m", HutaoRuntime.Version);
-            logger.LogInformation("\e[1m\e[34mLocalCache: \e[1m\e[36m{Path}\e[37m", HutaoRuntime.LocalCache);
 
             FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(serviceProvider.GetRequiredService<AppOptions>().ElementTheme));
 
             // Manually invoke
+            SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Activate and Initialize", "Application"));
             activation.ActivateAndInitialize(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
         }
         catch (Exception ex)

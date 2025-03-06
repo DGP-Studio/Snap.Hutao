@@ -18,6 +18,8 @@ namespace Snap.Hutao.UI.Shell;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class NotifyIconController : IDisposable
 {
+    private readonly Lock syncRoot = new();
+
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LazySlim<NotifyIconContextMenu> lazyMenu;
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
@@ -25,6 +27,8 @@ internal sealed partial class NotifyIconController : IDisposable
     private readonly System.Drawing.Icon icon;
     private readonly string registryKey;
     private readonly Guid id;
+
+    private bool disposed;
 
     public NotifyIconController(IServiceProvider serviceProvider)
     {
@@ -57,18 +61,30 @@ internal sealed partial class NotifyIconController : IDisposable
 
     public void Dispose()
     {
-        messageWindow.Dispose();
-        NotifyIconMethods.Delete(id);
-        icon.Dispose();
+        if (disposed)
+        {
+            return;
+        }
+
+        lock (syncRoot)
+        {
+            disposed = true;
+
+            messageWindow.Dispose();
+            NotifyIconMethods.Delete(id);
+            icon.Dispose();
+        }
     }
 
     public RECT GetRect()
     {
+        ObjectDisposedException.ThrowIf(disposed, this);
         return NotifyIconMethods.GetRect(id, messageWindow.Hwnd);
     }
 
     public bool GetIsPromoted()
     {
+        ObjectDisposedException.ThrowIf(disposed, this);
         return Registry.GetValue(registryKey, "IsPromoted", 0) is 1;
     }
 
@@ -106,6 +122,11 @@ internal sealed partial class NotifyIconController : IDisposable
 
     private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)
     {
+        if (disposed)
+        {
+            return;
+        }
+
         NotifyIconMethods.Delete(id);
         if (!NotifyIconMethods.Add(id, window.Hwnd, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
         {
@@ -120,6 +141,11 @@ internal sealed partial class NotifyIconController : IDisposable
 
     private void CreateNotifyIcon()
     {
+        if (disposed)
+        {
+            return;
+        }
+
         NotifyIconMethods.Delete(id);
         if (!NotifyIconMethods.Add(id, messageWindow.Hwnd, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
         {
@@ -134,6 +160,11 @@ internal sealed partial class NotifyIconController : IDisposable
 
     private void OnContextMenuRequested(NotifyIconMessageWindow window, PointUInt16 point)
     {
+        if (disposed)
+        {
+            return;
+        }
+
         if (XamlApplicationLifetime.Exiting)
         {
             Debugger.Break();
@@ -147,6 +178,6 @@ internal sealed partial class NotifyIconController : IDisposable
             return;
         }
 
-        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), GetRect());
+        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.X, point.Y), GetRect());
     }
 }

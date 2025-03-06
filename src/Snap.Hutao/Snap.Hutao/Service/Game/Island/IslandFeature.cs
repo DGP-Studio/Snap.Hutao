@@ -1,7 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Service.Game.Unlocker.Island;
+namespace Snap.Hutao.Service.Game.Island;
 
 internal sealed class IslandFeature
 {

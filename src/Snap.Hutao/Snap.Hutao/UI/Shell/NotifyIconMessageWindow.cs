@@ -25,7 +25,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
     [SuppressMessage("", "SA1306")]
     private readonly uint WM_TASKBARCREATED;
 
-    private bool isDisposed;
+    private bool disposed;
 
     public unsafe NotifyIconMessageWindow()
     {
@@ -78,12 +78,12 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
 
     public unsafe void Dispose()
     {
-        if (isDisposed)
+        if (disposed)
         {
             return;
         }
 
-        isDisposed = true;
+        disposed = true;
 
         DestroyWindow(Hwnd);
         WindowTable.TryRemove(Hwnd, out _);
@@ -102,6 +102,11 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
         if (!WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window) || XamlApplicationLifetime.Exiting)
         {
             return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+        }
+
+        if (window.disposed)
+        {
+            return BOOL.FALSE;
         }
 
         if (uMsg == window.WM_TASKBARCREATED)

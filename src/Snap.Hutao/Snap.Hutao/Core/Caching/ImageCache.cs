@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using System.IO;
 using System.Security.Cryptography;
@@ -19,7 +20,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     private readonly AsyncKeyedLock<string> downloadLocks = new();
 
     private readonly IImageCacheDownloadOperation downloadOperation;
-    private readonly ILogger<ImageCache> logger;
 
     private string CacheFolder
     {
@@ -38,11 +38,10 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         try
         {
             File.Delete(filePath);
-            logger.LogInformation("Remove cached image succeed:{File}", filePath);
         }
-        catch (Exception ex)
+        catch
         {
-            logger.LogWarning(ex, "Remove cached image failed:{File}", filePath);
+            // ignored
         }
     }
 
@@ -57,7 +56,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         CacheFile cacheFile = CacheFile.Create(CacheFolder, uri);
         string themedFileFullPath = cacheFile.GetThemedFileFullPath(theme);
 
-        if (!IsFileInvalid(themedFileFullPath))
+        if (IsFileValid(themedFileFullPath))
         {
             return themedFileFullPath;
         }
@@ -65,7 +64,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         using (await themeFileLocks.LockAsync((theme, cacheFile.FileName)).ConfigureAwait(false))
         {
             // If the file already exists, we don't need to download it again
-            if (!IsFileInvalid(cacheFile.DefaultFileFullPath))
+            if (IsFileValid(cacheFile.DefaultFileFullPath))
             {
                 await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
                 return themedFileFullPath;
@@ -73,15 +72,25 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
             using (await downloadLocks.LockAsync(cacheFile.FileName).ConfigureAwait(false))
             {
-                // File may be downloaded by another thread
-                if (!IsFileInvalid(cacheFile.DefaultFileFullPath))
+                if (IsFileInvalid(cacheFile.DefaultFileFullPath))
                 {
-                    await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
-                    return themedFileFullPath;
+                    SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateInfo(
+                        "Begin to download file",
+                        "Core.Caching.ImageCache",
+                        [("Uri", uri.ToString()), ("File", cacheFile.DefaultFileFullPath)]));
+
+                    try
+                    {
+                        await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Remove(uri);
+                        SentrySdk.CaptureException(ex);
+                    }
                 }
 
-                logger.LogInformation("Begin to download file from '\e[1m\e[36m{Uri}\e[37m' to '\e[1m\e[36m{File}\e[37m'", uri, cacheFile.DefaultFileFullPath);
-                await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
+                await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
                 return themedFileFullPath;
             }
         }
@@ -90,6 +99,11 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
         return CacheFile.Create(CacheFolder, StaticResourcesEndpoints.StaticRaw(category, fileName)).DefaultFileFullPath;
+    }
+
+    private static bool IsFileValid(string file, bool treatNullFileAsInvalid = true)
+    {
+        return !IsFileInvalid(file, treatNullFileAsInvalid);
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)

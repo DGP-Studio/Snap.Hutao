@@ -125,7 +125,11 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ExceptionCommand")]
     private static void ThrowTestException()
     {
-        HutaoException.Throw("Test Exception");
+        InvalidOperationException inner = new()
+        {
+            HResult = 0x12345678,
+        };
+        HutaoException.Throw("Test Exception", inner);
     }
 
     [Command("FileOperationRenameCommand")]

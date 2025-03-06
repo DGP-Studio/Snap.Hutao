@@ -5,6 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
@@ -19,10 +20,13 @@ internal sealed partial class LaunchGameShared
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
-    private readonly IGameService gameService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
+    private readonly IGameService gameService;
+
+    private bool resuming;
 
     public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile()
     {
@@ -67,6 +71,46 @@ internal sealed partial class LaunchGameShared
         }
 
         return default;
+    }
+
+    public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
+    {
+        if (LaunchGameLaunchExecution.IsAnyLaunchExecutionInvoking())
+        {
+            return;
+        }
+
+        if (Interlocked.Exchange(ref resuming, true))
+        {
+            return;
+        }
+
+        try
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                try
+                {
+                    using (LaunchExecutionContext context = new(scope.ServiceProvider, viewModel, default))
+                    {
+                        LaunchExecutionResult result = await new ResumeLaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+
+                        if (result.Kind is not LaunchExecutionResultKind.Ok)
+                        {
+                            infoBarService.Warning(result.ErrorMessage);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    infoBarService.Error(ex);
+                }
+            }
+        }
+        finally
+        {
+            Volatile.Write(ref resuming, false);
+        }
     }
 
     [Command("HandleConfigurationFileNotFoundCommand")]

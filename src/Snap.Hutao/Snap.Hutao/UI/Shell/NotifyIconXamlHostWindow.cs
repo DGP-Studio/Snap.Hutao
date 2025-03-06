@@ -52,7 +52,13 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_NORMAL);
         SetForegroundWindow(hwnd);
 
+        if (AppWindow is null || Content?.XamlRoot is null /*ERROR_XAMLROOT_REQUIRED*/)
+        {
+            return;
+        }
+
         MoveAndResize(icon);
+
         flyout.ShowAt(Content, new()
         {
             Placement = FlyoutPlacementMode.Auto,

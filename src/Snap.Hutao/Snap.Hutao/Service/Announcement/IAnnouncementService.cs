@@ -8,5 +8,5 @@ namespace Snap.Hutao.Service.Announcement;
 
 internal interface IAnnouncementService
 {
-    ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default);
+    ValueTask<AnnouncementWrapper?> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default);
 }

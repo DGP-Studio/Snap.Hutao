@@ -11,12 +11,14 @@ namespace Snap.Hutao.Service.Game.Launching;
 [ConstructorGenerated]
 internal sealed partial class LaunchExecutionContext : IDisposable
 {
+    private readonly Lock syncRoot = new();
     private IGameFileSystem? gameFileSystem;
+    private bool disposed;
 
     public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
         : this(serviceProvider)
     {
-        ViewModel = viewModel;
+        ViewModel = new(viewModel);
 
         LaunchScheme? currentScheme = viewModel.Shared.GetCurrentLaunchSchemeFromConfigFile();
         ArgumentNullException.ThrowIfNull(currentScheme);
@@ -37,64 +39,97 @@ internal sealed partial class LaunchExecutionContext : IDisposable
 
     public partial LaunchOptions Options { get; }
 
-    public IViewModelSupportLaunchExecution ViewModel { get; }
+    public WeakReference<IViewModelSupportLaunchExecution> ViewModel { get; }
 
-    public LaunchScheme CurrentScheme { get; private set; }
+    public LaunchScheme CurrentScheme { get; }
 
-    public LaunchScheme TargetScheme { get; private set; }
+    public LaunchScheme TargetScheme { get; }
 
-    public GameAccount? Account { get; private set; }
+    public GameAccount? Account { get; }
 
     public string? AuthTicket { get; set; }
 
-    public UserAndUid? UserAndUid { get; private set; }
+    public UserAndUid? UserAndUid { get; }
 
     public bool ChannelOptionsChanged { get; set; }
 
+    /// <summary>
+    /// Requires <see cref="Handler.LaunchExecutionStatusProgressHandler"/> to execute before getting the value.
+    /// </summary>
     public IProgress<LaunchStatus> Progress { get; set; } = default!;
 
+    /// <summary>
+    /// Requires <see cref="Handler.LaunchExecutionGameProcessInitializationHandler"/> to execute before getting the value.
+    /// </summary>
     public System.Diagnostics.Process Process { get; set; } = default!;
 
     public bool TryGetGameFileSystem([NotNullWhen(true)] out IGameFileSystem? gameFileSystem)
     {
-        if (this.gameFileSystem is not null)
+        lock (syncRoot)
         {
-            gameFileSystem = this.gameFileSystem;
+            ObjectDisposedException.ThrowIf(disposed, this);
+            if (this.gameFileSystem is not null)
+            {
+                gameFileSystem = this.gameFileSystem;
+                return true;
+            }
+
+            if (!Options.TryGetGameFileSystem(out gameFileSystem))
+            {
+                Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
+                Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
+                return false;
+            }
+
+            this.gameFileSystem = gameFileSystem;
             return true;
         }
-
-        if (!Options.TryGetGameFileSystem(out gameFileSystem))
-        {
-            Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
-            Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
-            return false;
-        }
-
-        this.gameFileSystem = gameFileSystem;
-        return true;
     }
 
     public void PerformGamePathEntrySynchronization()
     {
-        // Invalidate game file system
-        gameFileSystem?.Dispose();
-        gameFileSystem = null;
+        lock (syncRoot)
+        {
+            ObjectDisposedException.ThrowIf(disposed, this);
 
-        ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(Options);
+            // Invalidate game file system
+            gameFileSystem?.Dispose();
+            gameFileSystem = null;
+
+            if (ViewModel.TryGetTarget(out IViewModelSupportLaunchExecution? viewModel))
+            {
+                viewModel.SetGamePathEntriesAndSelectedGamePathEntry(Options);
+            }
+        }
     }
 
     public void UpdateGamePath(string gamePath)
     {
-        // Invalidate game file system
-        gameFileSystem?.Dispose();
-        gameFileSystem = null;
+        lock (syncRoot)
+        {
+            ObjectDisposedException.ThrowIf(disposed, this);
 
-        Options.GamePath = gamePath;
-        PerformGamePathEntrySynchronization();
+            // Invalidate game file system
+            gameFileSystem?.Dispose();
+            gameFileSystem = null;
+
+            Options.GamePath = gamePath;
+            PerformGamePathEntrySynchronization();
+        }
     }
 
     public void Dispose()
     {
-        gameFileSystem?.Dispose();
+        if (disposed)
+        {
+            return;
+        }
+
+        lock (syncRoot)
+        {
+            disposed = true;
+            gameFileSystem?.Dispose();
+            gameFileSystem = null;
+        }
     }
 }

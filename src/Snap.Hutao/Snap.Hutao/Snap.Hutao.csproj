@@ -23,7 +23,7 @@
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <StartupObject>Snap.Hutao.Bootstrap</StartupObject>
-    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN;DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION;DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT;$(AlphaConstants)</DefineConstants>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN;DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION;DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT;$(AlphaConstants);$(CanaryConstants)</DefineConstants>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
@@ -343,7 +343,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.2.3">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.2.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

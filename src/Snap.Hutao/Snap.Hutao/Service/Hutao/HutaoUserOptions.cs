@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
@@ -40,7 +41,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             {
                 SentrySdk.ConfigureScope(scope =>
                 {
-                    scope.User.Email = value;
+                    scope.User.Email = string.IsNullOrEmpty(value) || !value.IsEmail() ? default : value;
                 });
             }
         }

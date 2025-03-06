@@ -9,23 +9,40 @@ using System.Reflection;
 
 namespace Snap.Hutao.Core.IO.Http.Proxy;
 
-[ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
-internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWebProxy, IDisposable
+[SuppressMessage("", "CA1001")]
+internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWebProxy
 {
     private const string ProxySettingPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections";
 
     private static readonly Lazy<MethodInfo> LazyConstructSystemProxyMethod = new(GetConstructSystemProxyMethod);
     private static readonly Uri ProxyTestDestination = "https://hut.ao".ToUri();
+    private static readonly Lock SyncRoot = new();
 
-    private RegistryWatcher watcher;
+    private readonly RegistryWatcher watcher;
 
-    partial void PostConstruct(IServiceProvider serviceProvider)
+    private HttpProxyUsingSystemProxy()
     {
         UpdateInnerProxy();
 
         watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
-        watcher.Start(serviceProvider.GetRequiredService<ILogger<HttpProxyUsingSystemProxy>>());
+        watcher.Start();
+    }
+
+    [field: MaybeNull]
+    public static HttpProxyUsingSystemProxy Instance
+    {
+        get
+        {
+            if (field is null)
+            {
+                lock (SyncRoot)
+                {
+                    field ??= new();
+                }
+            }
+
+            return field;
+        }
     }
 
     [SuppressMessage("", "SA1201")]
@@ -41,6 +58,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
                 return;
             }
 
+            // ReSharper disable once SuspiciousTypeConversion.Global
             (field as IDisposable)?.Dispose();
             field = value;
         }
@@ -60,12 +78,6 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     public bool IsBypassed(Uri host)
     {
         return InnerProxy.IsBypassed(host);
-    }
-
-    public void Dispose()
-    {
-        watcher.Dispose();
-        (InnerProxy as IDisposable)?.Dispose();
     }
 
     private static MethodInfo GetConstructSystemProxyMethod()

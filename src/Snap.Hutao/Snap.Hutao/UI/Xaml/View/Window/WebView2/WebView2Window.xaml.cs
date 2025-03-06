@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -20,6 +21,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
+    private readonly SemaphoreSlim scopeLock = new(1, 1);
 
     private readonly IServiceScope windowScope;
     private readonly IWebView2ContentProvider contentProvider;
@@ -74,12 +76,20 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
 
         // Reactive parent window
         SetForegroundWindow(parentHwnd);
+
+        scopeLock.Wait();
+        scopeLock.Dispose();
         windowScope.Dispose();
     }
 
     [Command("GoBackCommand")]
     private void GoBack()
     {
+        if (WebView?.CoreWebView2 is null)
+        {
+            return;
+        }
+
         if (WebView.CoreWebView2.CanGoBack)
         {
             WebView.CoreWebView2.GoBack();
@@ -89,7 +99,19 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     [Command("RefreshCommand")]
     private void Refresh()
     {
-        WebView.CoreWebView2.Reload();
+        if (WebView?.CoreWebView2 is null)
+        {
+            return;
+        }
+
+        try
+        {
+            WebView.CoreWebView2.Reload();
+        }
+        catch (COMException)
+        {
+            // 组或资源的状态不是执行请求操作的正确状态
+        }
     }
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
@@ -99,12 +121,38 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         [SuppressMessage("", "SH003")]
         async Task OnWebViewLoadedAsync()
         {
-            await WebView.EnsureCoreWebView2Async();
-            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
-            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
-            WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
-            contentProvider.CoreWebView2 = WebView.CoreWebView2;
-            await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
+            await scopeLock.WaitAsync().ConfigureAwait(true);
+
+            try
+            {
+                try
+                {
+                    await WebView.EnsureCoreWebView2Async();
+                }
+                catch (SEHException ex)
+                {
+                    SentrySdk.CaptureException(ex);
+                    return;
+                }
+
+                // We observed that sometimes the CoreWebView2 is not ready even after EnsureCoreWebView2Async
+                // System.NullReferenceException: Object reference not set to an instance of an object.
+                if (!SpinWait.SpinUntil(() => WebView?.CoreWebView2 is not null, TimeSpan.FromSeconds(1)))
+                {
+                    WebView2LoadFailedHintText.Visibility = Visibility.Visible;
+                    return;
+                }
+
+                WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+                WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+                WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+                contentProvider.CoreWebView2 = WebView.CoreWebView2;
+                await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
+            }
+            finally
+            {
+                scopeLock.Release();
+            }
         }
     }
 

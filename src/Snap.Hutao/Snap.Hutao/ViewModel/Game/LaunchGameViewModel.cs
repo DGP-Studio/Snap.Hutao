@@ -7,6 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
@@ -161,7 +162,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         }
     }
 
-    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = true;
+    public bool CanResetGamePathEntry { get; set => SetProperty(ref field, value); } = !LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning();
 
     public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableArray<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
     {
@@ -195,6 +196,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
+
+        Shared.ResumeLaunchExecutionAsync(this).SafeForget(logger);
 
         await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);

@@ -213,6 +213,12 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         return stringBuilder.ToString();
     }
 
+    internal CancellationToken GetCurrentCancellationToken()
+    {
+        ArgumentNullException.ThrowIfNull(cts);
+        return cts.Token;
+    }
+
     internal bool CanToggle(HotKeyParameter parameter)
     {
         return IsEnabled && Modifiers == parameter.Modifiers && Key == parameter.Key;
@@ -233,7 +239,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             {
                 // Turn on
                 cts = new();
-                ThreadPool.QueueUserWorkItem(callback, cts.Token);
+                ThreadPool.QueueUserWorkItem(callback, this);
                 IsOn = true;
             }
         }

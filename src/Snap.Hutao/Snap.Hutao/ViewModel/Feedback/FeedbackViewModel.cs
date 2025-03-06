@@ -28,9 +28,9 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
 
-    public partial RuntimeOptions RuntimeOptions { get; }
+    public HttpProxyUsingSystemProxy DynamicHttpProxy { get => HttpProxyUsingSystemProxy.Instance; }
 
-    public partial HttpProxyUsingSystemProxy DynamicHttpProxy { get; }
+    public partial RuntimeOptions RuntimeOptions { get; }
 
     public partial LoopbackSupport LoopbackSupport { get; }
 

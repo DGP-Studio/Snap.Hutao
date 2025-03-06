@@ -29,9 +29,7 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
             return default;
         }
 
-        // ScrollViewer will always return an Infinity availableSize, we should use effectiveSize for this situation.
-        double totalWidth = double.IsInfinity(availableSize.Width) ? effectiveSize.Width : availableSize.Width;
-        double minItemWidth = Math.Max(MinItemWidth, EqualPanelAlgorithm.GetItemLength(totalWidth, visibleItemsCount, Spacing));
+        double minItemWidth = Math.Max(MinItemWidth, EqualPanelAlgorithm.GetItemLength(effectiveSize.Width, visibleItemsCount, Spacing));
 
         foreach (ref readonly UIElement child in visibleItems)
         {

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Model.Entity.Database;
@@ -25,7 +26,18 @@ internal static class IocConfiguration
 
             using (AppDbContext context = AppDbContext.Create(serviceProvider, sqlConnectionString))
             {
-                if (context.Database.GetPendingMigrations().Any())
+                IEnumerable<string> pendingMigrations;
+                try
+                {
+                    pendingMigrations = context.Database.GetPendingMigrations();
+                }
+                catch (SqliteException ex)
+                {
+                    ex.Data.Add("FilePath", dbFile);
+                    throw;
+                }
+
+                if (pendingMigrations.Any())
                 {
                     serviceProvider.GetRequiredService<ILogger<AppDbContext>>().LogInformation("[Database] Performing AppDbContext Migrations");
                     context.Database.Migrate();

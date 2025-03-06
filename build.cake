@@ -14,7 +14,7 @@ var outputPath = "outputPath";
 var pfxPath = "pfxPath";
 var pw = "pw";
 
-// Extension
+// Extensions
 
 static ProcessArgumentBuilder AppendIf(this ProcessArgumentBuilder builder, string text, bool condition)
 {
@@ -213,7 +213,8 @@ Task("Build binary package")
                                             .Append("/p:AppxPackageSigningEnabled=false")
                                             .Append("/p:AppxBundle=Never")
                                             .Append("/p:AppxPackageOutput=" + outputPath)
-                                            .AppendIf("/p:AlphaConstants=IS_ALPHA_BUILD", !AppVeyor.IsRunningOnAppVeyor)
+                                            .AppendIf("/p:AlphaConstants=IS_ALPHA_BUILD", GitHubActions.IsRunningOnGitHubActions && GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Alpha")
+                                            .AppendIf("/p:CanaryConstants=IS_CANARY_BUILD", GitHubActions.IsRunningOnGitHubActions && GitHubActions.Environment.Workflow.Workflow == "Snap Hutao Canary")
     };
 
     DotNetBuild(project, settings);
