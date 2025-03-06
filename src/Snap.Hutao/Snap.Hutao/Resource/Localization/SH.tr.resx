@@ -665,7 +665,7 @@
     <value>Diğer UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC+01</value>
+    <value>AB Sunucusu UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>Saldırı Gücü</value>
@@ -1492,6 +1492,12 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Çerez Ayarla</value>
+  </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>Adımların net ve düzenli bir şekilde açıklanması, sorunu daha hızlı tespit etmemize yardımcı olacaktır</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>Çökme meydana gelmeden önce hangi işlemleri yapıyordunuz?</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Geri Bildirim Merkezi</value>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>Kullanıcı</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>WebView2 yüklenemedi</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>En temel görüntü kaynaklarını sizin için indiriyoruz</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>Monitör Kimliği</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
   </data>
 </root>

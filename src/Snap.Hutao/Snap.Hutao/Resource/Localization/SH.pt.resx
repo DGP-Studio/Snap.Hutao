@@ -665,7 +665,7 @@
     <value>Outros UTC+08</value>
   </data>
   <data name="ServiceAppOptionsCalendarServerTimeZoneEurope" xml:space="preserve">
-    <value>欧服 UTC+01</value>
+    <value>Servidor da UE UTC+01</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>ATQ</value>
@@ -1492,6 +1492,12 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Definir cookie</value>
+  </data>
+  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
+    <value>Uma descrição clara e concisa dos passos irá ajudar-nos a localizar o problema mais rapidamente.</value>
+  </data>
+  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
+    <value>Que ações realizou antes de ocorrer a falha?</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Centro de feedback</value>
@@ -3380,6 +3386,9 @@
   <data name="ViewUserUser" xml:space="preserve">
     <value>Usuário</value>
   </data>
+  <data name="ViewWebView2WindowLoadFailedHint" xml:space="preserve">
+    <value>Falha ao carregar o WebView2</value>
+  </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>Estamos baixando os recursos de imagem necessários</value>
   </data>
@@ -3631,11 +3640,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID do monitor</value>
-  </data>
-  <data name="ViewExceptionWindowCommentHeader" xml:space="preserve">
-    <value>崩溃发生前您执行了哪些操作？</value>
-  </data>
-  <data name="ViewExceptionWindowCommentDescription" xml:space="preserve">
-    <value>步骤明确，条理清晰的描述将有助于我们更快的定位问题</value>
   </data>
 </root>
