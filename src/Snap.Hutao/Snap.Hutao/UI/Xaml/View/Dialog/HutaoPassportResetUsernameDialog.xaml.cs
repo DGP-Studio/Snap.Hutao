@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
@@ -33,12 +34,14 @@ internal sealed partial class HutaoPassportResetUsernameDialog : ContentDialog
     [Command("VerifyOldCommand")]
     private async Task VerifyOldAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Verify old username", "HutaoPassportResetUsernameDialog.Command"));
         await PrivateVerifyAsync(UserName, VerifyCodeRequestType.ResetUserName).ConfigureAwait(false);
     }
 
     [Command("VerifyNewCommand")]
     private async Task VerifyNewAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Verify new username", "HutaoPassportResetUsernameDialog.Command"));
         await PrivateVerifyAsync(NewUserName, VerifyCodeRequestType.ResetUserNameNew).ConfigureAwait(false);
     }
 

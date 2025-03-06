@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
@@ -125,18 +126,24 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RefreshByWebCacheCommand")]
     private async Task RefreshByWebCacheAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Refresh gachalog", "GachaLogViewModel.Command", [("source", "WebCache")]));
+
         await PrivateRefreshAsync(RefreshOptionKind.WebCache).ConfigureAwait(false);
     }
 
     [Command("RefreshBySTokenCommand")]
     private async Task RefreshBySTokenAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Refresh gachalog", "GachaLogViewModel.Command", [("source", "SToken")]));
+
         await PrivateRefreshAsync(RefreshOptionKind.SToken).ConfigureAwait(false);
     }
 
     [Command("RefreshByManualInputCommand")]
     private async Task RefreshByManualInputAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Refresh gachalog", "GachaLogViewModel.Command", [("source", "Manual Input")]));
+
         await PrivateRefreshAsync(RefreshOptionKind.ManualInput).ConfigureAwait(false);
     }
 
@@ -227,6 +234,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove archive", "GachaLogViewModel.Command"));
+
         if (Archives?.CurrentItem is null)
         {
             return;
@@ -252,6 +261,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RetrieveFromCloudCommand")]
     private async Task RetrieveAsync(string? uid)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Retrive records from hutao cloud", "GachaLogViewModel.Command"));
+
         if (uid is null)
         {
             return;
@@ -280,6 +291,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("ImportExportCommand")]
     private void ImportExport()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate (Import/Export)", "GachaLogViewModel.Command"));
+
         INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(SettingViewModel.UIGFImportExport);
         serviceProvider.GetRequiredService<INavigationService>().Navigate<SettingPage>(navigationAwaiter, true);
     }

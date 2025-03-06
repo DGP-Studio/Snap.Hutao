@@ -6,6 +6,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Windowing;
@@ -182,6 +183,8 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     [Command("GoBackCommand")]
     private void GoBack()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Go back", "CompactWebView2Window.Command"));
+
         if (WebView.CoreWebView2.CanGoBack)
         {
             WebView.CoreWebView2.GoBack();
@@ -191,18 +194,22 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     [Command("RefreshCommand")]
     private void Refresh()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh", "CompactWebView2Window.Command"));
         WebView.CoreWebView2.Reload();
     }
 
     [Command("StopRefreshCommand")]
     private void StopRefresh()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Stop refresh", "CompactWebView2Window.Command"));
         WebView.CoreWebView2.Stop();
     }
 
     [Command("ToggleLockCommand")]
     private void ToggleLock()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Toggle lock", "CompactWebView2Window.Command"));
+
         isLocked = !isLocked;
         ToggleLockButton.Content = isLocked ? "\uE72E" : "\uE785";
         TitleBarRowDefinition.Height = isLocked ? Constants.ZeroGridLength : GridLength.Auto;
@@ -212,6 +219,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     [Command("CloseCommand")]
     private void CloseWindow()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Close window", "CompactWebView2Window.Command"));
         Close();
     }
 

@@ -6,6 +6,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.IO.Http.Loopback;
 using Snap.Hutao.Core.IO.Http.Proxy;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -60,6 +61,8 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     [Command("NavigateToUriCommand")]
     private static async Task NavigateToUri(string? uri)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Navigate to uri", "FeedbackViewModel.Command", [("uri", uri ?? "<null>")]));
+
         if (string.IsNullOrEmpty(uri))
         {
             return;
@@ -69,12 +72,14 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     }
 
     [Command("SearchDocumentCommand")]
-    private async Task SearchDocumentAsync(string? searchText)
+    private async Task SearchDocumentAsync(string? search)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Search", "FeedbackViewModel.Command", [("text", search ?? "<null>")]));
+
         IsInitialized = false;
         SearchResults = null;
 
-        if (string.IsNullOrEmpty(searchText))
+        if (string.IsNullOrEmpty(search))
         {
             IsInitialized = true;
             return;
@@ -85,7 +90,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoDocumentationClient hutaoDocumentationClient = scope.ServiceProvider.GetRequiredService<HutaoDocumentationClient>();
-            response = await hutaoDocumentationClient.QueryAsync(searchText, language).ConfigureAwait(false);
+            response = await hutaoDocumentationClient.QueryAsync(search, language).ConfigureAwait(false);
         }
 
         await taskContext.SwitchToMainThreadAsync();
@@ -104,6 +109,8 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     [Command("CopyDeviceIdCommand")]
     private async Task CopyDeviceIdAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Copy device id", "FeedbackViewModel.Command"));
+
         try
         {
             await clipboardProvider.SetTextAsync(HutaoRuntime.DeviceId).ConfigureAwait(false);
@@ -118,6 +125,8 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     [Command("EnableLoopbackCommand")]
     private async Task EnableLoopbackAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Enable Loopback", "FeedbackViewModel.Command"));
+
         ContentDialogResult result = await contentDialogFactory
             .CreateForConfirmCancelAsync(SH.ViewDialogFeedbackEnableLoopbackTitle, SH.ViewDialogFeedbackEnableLoopbackContent)
             .ConfigureAwait(false);

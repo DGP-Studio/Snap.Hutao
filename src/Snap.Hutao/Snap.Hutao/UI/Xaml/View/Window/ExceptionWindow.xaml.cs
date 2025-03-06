@@ -5,6 +5,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Hutao;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -57,6 +58,8 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
     [Command("CloseCommand")]
     private void CloseWindow()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Close Window", "ExceptionWindow.Command"));
+
         Bindings.Update();
         if (!string.IsNullOrWhiteSpace(Comment))
         {

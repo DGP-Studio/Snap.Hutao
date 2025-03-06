@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI.Xaml;
 using System.Runtime.CompilerServices;
 

@@ -7,6 +7,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
@@ -141,6 +142,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("AddArchiveCommand")]
     private async Task AddArchiveAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Add archive", "AchievementViewModel.Command"));
+
         if (Archives is null)
         {
             return;
@@ -174,6 +177,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove archive", "AchievementViewModel.Command"));
+
         if (Archives?.CurrentItem is not { } current)
         {
             return;
@@ -205,6 +210,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("ExportAsUIAFToFileCommand")]
     private async Task ExportAsUIAFToFileAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Export UIAF file", "AchievementViewModel.Command"));
+
         if (Archives?.CurrentItem is null || Achievements is null)
         {
             return;
@@ -234,6 +241,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("ImportUIAFFromEmbeddedYaeCommand")]
     private async Task ImportUIAFFromEmbeddedYaeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Import UIAF", "AchievementViewModel.Command", [("source", "Embedded Yae")]));
+
         if (await scopeContext.AchievementImporter.FromEmbeddedYaeAsync(scopeContext).ConfigureAwait(false))
         {
             await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
@@ -243,6 +252,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("ImportUIAFFromClipboardCommand")]
     private async Task ImportUIAFFromClipboardAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Import UIAF", "AchievementViewModel.Command", [("source", "Clipboard")]));
+
         if (await scopeContext.AchievementImporter.FromClipboardAsync(scopeContext).ConfigureAwait(false))
         {
             await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
@@ -252,6 +263,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("ImportUIAFFromFileCommand")]
     private async Task ImportUIAFFromFileAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Import UIAF", "AchievementViewModel.Command", [("source", "File")]));
+
         if (await scopeContext.AchievementImporter.FromFileAsync(scopeContext).ConfigureAwait(false))
         {
             await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
@@ -302,6 +315,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("SortUncompletedSwitchCommand")]
     private void UpdateAchievementsSort()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Sort by IsCompleted", "AchievementViewModel.Command", [("value", $"{IsUncompletedItemsFirst}")]));
+
         if (Achievements is null || AchievementGoals is null)
         {
             return;
@@ -340,6 +355,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("SearchAchievementCommand")]
     private void UpdateAchievementsFilterBySearch(string? search)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Search", "AchievementViewModel.Command", [("text", search ?? "<null>")]));
+
         if (Achievements is null || AchievementGoals is null)
         {
             return;
@@ -375,6 +392,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("SaveAchievementCommand")]
     private void SaveAchievement(AchievementView? achievement)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Save single achievement", "AchievementViewModel.Command"));
+
         if (achievement is null)
         {
             return;
@@ -387,6 +406,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("FilterDailyQuestSwitchCommand")]
     private void UpdateAchievementsFilterByDailyQuest()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Filter by IsDailyQuest", "AchievementViewModel.Command", [("value", $"{IsUncompletedItemsFirst}")]));
+
         if (Achievements is null || AchievementGoals is null)
         {
             return;

@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Cultivation;
@@ -108,6 +109,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("AddProjectCommand")]
     private async Task AddProjectAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Add project", "CultivationViewModel.Command"));
+
         CultivateProjectDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivateProjectDialog>().ConfigureAwait(false);
         (bool isOk, CultivateProject project) = await dialog.CreateProjectAsync().ConfigureAwait(false);
 
@@ -135,6 +138,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RemoveProjectCommand")]
     private async Task RemoveProjectAsync(CultivateProject? project)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove project", "CultivationViewModel.Command"));
+
         if (project is null)
         {
             return;
@@ -188,6 +193,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RemoveEntryCommand")]
     private async Task RemoveEntryAsync(CultivateEntryView? entry)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove entry", "CultivationViewModel.Command"));
+
         if (entry is not null)
         {
             ArgumentNullException.ThrowIfNull(CultivateEntries);
@@ -200,6 +207,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("FinishStateCommand")]
     private async Task UpdateFinishedStateAsync(CultivateItemView? item)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Toggle item finish state", "CultivationViewModel.Command"));
+
         if (item is not null)
         {
             item.IsFinished = !item.IsFinished;
@@ -211,6 +220,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("SaveInventoryItemCommand")]
     private async Task SaveInventoryItemAsync(InventoryItemView? inventoryItem)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Save inventory item", "CultivationViewModel.Command"));
+
         if (inventoryItem is not null)
         {
             inventoryService.SaveInventoryItem(inventoryItem);
@@ -221,6 +232,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RefreshInventoryByEmbeddedYaeCommand")]
     private async Task RefreshInventoryByEmbeddedYaeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Refresh inventory", "CultivationViewModel.Command", [("source", "Embedded Yae")]));
+
         if (Projects?.CurrentItem is null || metadataContext is null)
         {
             return;
@@ -239,6 +252,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RefreshInventoryByCalculatorCommand")]
     private async Task RefreshInventoryByCalculatorAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Refresh inventory", "CultivationViewModel.Command", [("source", "Web Calculator")]));
+
         if (Projects?.CurrentItem is null || metadataContext is null)
         {
             return;
@@ -263,6 +278,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("ClearInventoryCommand")]
     private async Task ClearInventoryAsync(CultivateProject? project)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Clear inventory", "CultivationViewModel.Command"));
+
         if (project is null)
         {
             return;
@@ -294,6 +311,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RefreshStatisticsItemsCommand")]
     private async Task UpdateStatisticsItemsAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Refresh statistics items", "CultivationViewModel.Command"));
+
         // https://github.com/DGP-Studio/Snap.Hutao/issues/2044
         // Force clear the list and bring view to the top to prevent UI dead loop
         await taskContext.SwitchToMainThreadAsync();
@@ -360,6 +379,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("NavigateToPageCommand")]
     private void NavigateToPage(string? typeString)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI($"Navigate to {typeString}", "CultivationViewModel.Command"));
+
         if (typeString is not null)
         {
             Type? pageType = Type.GetType(typeString);

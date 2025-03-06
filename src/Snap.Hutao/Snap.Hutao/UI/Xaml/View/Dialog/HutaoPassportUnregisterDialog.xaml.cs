@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
@@ -32,6 +33,8 @@ internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
     [Command("VerifyCommand")]
     private async Task VerifyAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Verify", "HutaoPassportUnregisterDialog.Command"));
+
         if (string.IsNullOrEmpty(UserName))
         {
             return;

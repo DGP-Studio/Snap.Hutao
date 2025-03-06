@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.QuickResponse;
 using Snap.Hutao.Service.Notification;
@@ -57,6 +58,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
     [Command("CancelCommand")]
     private void Cancel()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cancel", "UserQRCodeDialog.Command"));
         userManualCancellationTokenSource.Cancel();
     }
 

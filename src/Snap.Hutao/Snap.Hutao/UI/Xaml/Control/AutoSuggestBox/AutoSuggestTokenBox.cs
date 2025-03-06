@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI.Input;
 using System.Collections;
 using Windows.ApplicationModel.DataTransfer;
@@ -339,6 +340,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     [Command("SelectAllTokensAndTextCommand")]
     public void SelectAllTokensAndText()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Select all tokens and text", "AutoSuggestTokenBox.Command"));
         _ = DispatcherQueue.EnqueueAsync(SelectAllTokensAndTextCore);
 
         void SelectAllTokensAndTextCore()
@@ -887,6 +889,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     [Command("RemoveItemCommand")]
     private void RemoveToken(AutoSuggestTokenBoxItem item)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove token", "AutoSuggestTokenBox.Command"));
         RemoveToken(item, default);
     }
 

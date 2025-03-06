@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using System.Diagnostics;
 using System.IO;
@@ -396,6 +397,8 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
     [Command("CopyToClipboardCommand")]
     private async Task CopyToClipboard()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Copy image to Clipboard", "CachedImage.Command", [("source_name", SourceName)]));
+
         if (Image is Microsoft.UI.Xaml.Controls.Image { Source: BitmapImage bitmap })
         {
             using (FileStream netStream = File.OpenRead(bitmap.UriSource.LocalPath))

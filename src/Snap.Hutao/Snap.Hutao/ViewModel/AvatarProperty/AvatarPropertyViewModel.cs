@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -105,6 +106,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromHoyolabGameRecordCommand")]
     private async Task RefreshByHoyolabGameRecordAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh", "AvatarPropertyViewModel.Command"));
+
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await PrivateRefreshAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
@@ -170,6 +173,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("CultivateCommand")]
     private async Task CultivateAsync(AvatarView? avatar)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cultivate", "AvatarPropertyViewModel.Command"));
+
         if (avatar is null)
         {
             return;
@@ -219,6 +224,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("BatchCultivateCommand")]
     private async Task BatchCultivateAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Batch cultivate", "AvatarPropertyViewModel.Command"));
+
         if (summary is not { Avatars: { } avatars })
         {
             return;
@@ -361,6 +368,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("ExportToTextCommand")]
     private async Task ExportToTextAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Export as text to ClipBoard", "AvatarPropertyViewModel.Command"));
+
         if (Summary is not { Avatars.CurrentItem: { } avatar })
         {
             return;
@@ -379,6 +388,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("FilterCommand")]
     private void ApplyFilter()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Filter", "AvatarPropertyViewModel.Command"));
+
         if (Summary is null)
         {
             return;

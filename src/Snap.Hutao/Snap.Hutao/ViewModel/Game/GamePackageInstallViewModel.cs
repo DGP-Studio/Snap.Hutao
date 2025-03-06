@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
@@ -57,6 +58,8 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     [Command("StartCommand")]
     private async Task StartAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Start install operation", "GamePackageInstallViewModel.Command"));
+
         if (!IsInitialized)
         {
             return;

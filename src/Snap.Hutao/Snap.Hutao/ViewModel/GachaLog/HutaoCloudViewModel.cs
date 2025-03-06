@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;
@@ -55,12 +56,16 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("NavigateToAfdianSkuCommand")]
     private async Task NavigateToAfdianSkuAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate to passport page", "HutaoCloudViewModel.Command"));
+
         await navigationService.NavigateAsync<HutaoPassportPage>(INavigationCompletionSource.Default, true);
     }
 
     [Command("UploadCommand")]
     private async Task UploadAsync(GachaArchive? gachaArchive)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Upload records", "HutaoCloudViewModel.Command"));
+
         if (gachaArchive is not null)
         {
             ContentDialog dialog = await contentDialogFactory
@@ -90,6 +95,8 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("DeleteCommand")]
     private async Task DeleteAsync(string? uid)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Delete records", "HutaoCloudViewModel.Command"));
+
         if (uid is not null)
         {
             (bool isOk, string message) = await hutaoCloudService.DeleteGachaItemsAsync(uid).ConfigureAwait(false);
@@ -109,6 +116,8 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("NavigateToSpiralAbyssRecordCommand")]
     private void NavigateToSpiralAbyssRecord()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate to spiralabyss page", "HutaoCloudViewModel.Command"));
+
         navigationService.Navigate<SpiralAbyssRecordPage>(INavigationCompletionSource.Default, true);
     }
 

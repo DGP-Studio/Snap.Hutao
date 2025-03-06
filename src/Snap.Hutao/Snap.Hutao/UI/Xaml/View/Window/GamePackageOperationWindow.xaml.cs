@@ -4,6 +4,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Game;
 using Windows.Graphics;
@@ -71,6 +72,7 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
     [Command("CloseCommand")]
     private void CloseWindow()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Close Window", "GamePackageOperationWindow.Command"));
         Close();
     }
 }
