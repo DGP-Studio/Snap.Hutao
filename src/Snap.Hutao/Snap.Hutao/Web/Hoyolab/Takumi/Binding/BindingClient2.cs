@@ -18,7 +18,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 internal sealed partial class BindingClient2
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<BindingClient2> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -34,7 +33,7 @@ internal sealed partial class BindingClient2
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
-            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -51,7 +50,7 @@ internal sealed partial class BindingClient2
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<GameAuthKey>? resp = await builder
-            .SendAsync<Response<GameAuthKey>>(httpClient, logger, token)
+            .SendAsync<Response<GameAuthKey>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

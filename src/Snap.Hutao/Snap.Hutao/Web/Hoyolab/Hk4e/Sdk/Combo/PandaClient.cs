@@ -15,7 +15,6 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 internal sealed partial class PandaClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<PandaClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -29,7 +28,7 @@ internal sealed partial class PandaClient
             .PostJson(options);
 
         Response<UrlWrapper>? resp = await builder
-            .SendAsync<Response<UrlWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<UrlWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -45,7 +44,7 @@ internal sealed partial class PandaClient
             .PostJson(options);
 
         Response<GameLoginResult>? resp = await builder
-            .SendAsync<Response<GameLoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<GameLoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

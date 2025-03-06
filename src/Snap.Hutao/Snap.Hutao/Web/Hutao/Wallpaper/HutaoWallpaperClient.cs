@@ -44,7 +44,7 @@ internal sealed partial class HutaoWallpaperClient
 
         await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response<Wallpaper>? resp = await builder.SendAsync<Response<Wallpaper>>(httpClient, logger, token).ConfigureAwait(false);
+        Response<Wallpaper>? resp = await builder.SendAsync<Response<Wallpaper>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }

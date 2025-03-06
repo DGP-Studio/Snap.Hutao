@@ -19,7 +19,6 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HoyoPlayPassportClientOversea> logger;
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -42,7 +41,7 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
             .PostJson(data);
 
         Response<AuthTicketWrapper>? resp = await builder
-            .SendAsync<Response<AuthTicketWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<AuthTicketWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -84,7 +83,7 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
         }
 
         (HttpResponseHeaders? headers, Response<LoginResult>? resp) = await builder
-            .SendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         IEnumerable<string>? values = default;
@@ -99,7 +98,7 @@ internal sealed partial class HoyoPlayPassportClientOversea : IHoyoPlayPassportC
             .PostJson(thirdPartyToken);
 
         Response<LoginResult>? resp = await builder
-            .SendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

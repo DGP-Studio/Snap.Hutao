@@ -16,7 +16,6 @@ internal sealed partial class AnnouncementClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
-    private readonly ILogger<AnnouncementClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, Region region, CancellationToken token = default)
@@ -26,7 +25,7 @@ internal sealed partial class AnnouncementClient
             .Get();
 
         Response<AnnouncementWrapper>? resp = await builder
-            .SendAsync<Response<AnnouncementWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<AnnouncementWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -39,7 +38,7 @@ internal sealed partial class AnnouncementClient
             .Get();
 
         Response<ListWrapper<AnnouncementContent>>? resp = await builder
-            .SendAsync<Response<ListWrapper<AnnouncementContent>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<AnnouncementContent>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

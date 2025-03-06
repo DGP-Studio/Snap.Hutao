@@ -21,7 +21,6 @@ internal sealed partial class CardClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
-    private readonly ILogger<CardClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<GeetestVerification>> CreateVerificationAsync(User user, CardVerifiationHeaders headers, CancellationToken token)
@@ -36,7 +35,7 @@ internal sealed partial class CardClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<GeetestVerification>? resp = await builder
-            .SendAsync<Response<GeetestVerification>>(httpClient, logger, token)
+            .SendAsync<Response<GeetestVerification>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -54,7 +53,7 @@ internal sealed partial class CardClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<VerificationResult>? resp = await builder
-            .SendAsync<Response<VerificationResult>>(httpClient, logger, token)
+            .SendAsync<Response<VerificationResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -70,7 +69,7 @@ internal sealed partial class CardClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X6, false).ConfigureAwait(false);
 
         Response<DailyNote.WidgetDailyNote>? resp = await builder
-            .SendAsync<Response<DailyNote.WidgetDailyNote>>(httpClient, logger, token)
+            .SendAsync<Response<DailyNote.WidgetDailyNote>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

@@ -18,7 +18,6 @@ internal sealed partial class HomaGachaLogClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HomaGachaLogClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
@@ -31,7 +30,7 @@ internal sealed partial class HomaGachaLogClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<GachaEventStatistics>? resp = await builder
-            .SendAsync<HutaoResponse<GachaEventStatistics>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<GachaEventStatistics>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -46,7 +45,7 @@ internal sealed partial class HomaGachaLogClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<GachaDistribution>? resp = await builder
-            .SendAsync<HutaoResponse<GachaDistribution>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<GachaDistribution>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -61,7 +60,7 @@ internal sealed partial class HomaGachaLogClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<ImmutableArray<GachaEntry>>? resp = await builder
-            .SendAsync<HutaoResponse<ImmutableArray<GachaEntry>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<ImmutableArray<GachaEntry>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -76,7 +75,7 @@ internal sealed partial class HomaGachaLogClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<EndIds>? resp = await builder
-            .SendAsync<HutaoResponse<EndIds>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<EndIds>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -93,7 +92,7 @@ internal sealed partial class HomaGachaLogClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<ImmutableArray<GachaItem>>? resp = await builder
-            .SendAsync<HutaoResponse<ImmutableArray<GachaItem>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<ImmutableArray<GachaItem>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -110,7 +109,7 @@ internal sealed partial class HomaGachaLogClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -125,7 +124,7 @@ internal sealed partial class HomaGachaLogClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

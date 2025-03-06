@@ -21,7 +21,6 @@ internal sealed partial class HoyoPlayClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
-    private readonly ILogger<HoyoPlayClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<GamePackagesWrapper>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
@@ -31,7 +30,7 @@ internal sealed partial class HoyoPlayClient
             .Get();
 
         Response<GamePackagesWrapper>? resp = await builder
-            .SendAsync<Response<GamePackagesWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<GamePackagesWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -44,7 +43,7 @@ internal sealed partial class HoyoPlayClient
             .Get();
 
         Response<GameChannelSDKsWrapper>? resp = await builder
-            .SendAsync<Response<GameChannelSDKsWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<GameChannelSDKsWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -57,7 +56,7 @@ internal sealed partial class HoyoPlayClient
             .Get();
 
         Response<DeprecatedFileConfigurationsWrapper>? resp = await builder
-            .SendAsync<Response<DeprecatedFileConfigurationsWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<DeprecatedFileConfigurationsWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -70,7 +69,7 @@ internal sealed partial class HoyoPlayClient
             .Get();
 
         Response<GameBranchesWrapper>? resp = await builder
-            .SendAsync<Response<GameBranchesWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<GameBranchesWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

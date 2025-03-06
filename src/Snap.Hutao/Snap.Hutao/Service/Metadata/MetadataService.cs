@@ -184,7 +184,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                     await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
                     // Download meta check file
-                    metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, logger, token).ConfigureAwait(false);
+                    metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, token).ConfigureAwait(false);
                 }
             }
 

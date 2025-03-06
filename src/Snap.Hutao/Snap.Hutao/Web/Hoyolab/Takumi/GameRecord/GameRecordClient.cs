@@ -23,7 +23,6 @@ internal sealed partial class GameRecordClient : IGameRecordClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<GameRecordClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -40,7 +39,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<DailyNote.DailyNote>? resp = await builder
-            .SendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
+            .SendAsync<Response<DailyNote.DailyNote>>(httpClient, token)
             .ConfigureAwait(false);
 
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebDailyNoteVerificationFailed, CardVerifiationHeaders.CreateForDailyNote, token).ConfigureAwait(false);
@@ -57,7 +56,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<PlayerInfo>? resp = await builder
-            .SendAsync<Response<PlayerInfo>>(httpClient, logger, token)
+            .SendAsync<Response<PlayerInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForIndex, token).ConfigureAwait(false);
@@ -74,7 +73,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<SpiralAbyss.SpiralAbyss>? resp = await builder
-            .SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
+            .SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, token)
             .ConfigureAwait(false);
 
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForSpiralAbyss, token).ConfigureAwait(false);
@@ -91,7 +90,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<BasicRoleInfo>? resp = await builder
-            .SendAsync<Response<BasicRoleInfo>>(httpClient, logger, token)
+            .SendAsync<Response<BasicRoleInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -108,7 +107,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<ListWrapper<Character>>? resp = await builder
-            .SendAsync<Response<ListWrapper<Character>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<Character>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForCharacterAll, token).ConfigureAwait(false);
@@ -125,7 +124,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<ListWrapper<DetailedCharacter>>? resp = await builder
-            .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForCharacterDetail, token).ConfigureAwait(false);
@@ -142,7 +141,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<RoleCombat.RoleCombat>? resp = await builder
-            .SendAsync<Response<RoleCombat.RoleCombat>>(httpClient, logger, token)
+            .SendAsync<Response<RoleCombat.RoleCombat>>(httpClient, token)
             .ConfigureAwait(false);
 
         return await RetryIf1034Async(builder, userAndUid, resp, SH.WebIndexOrSpiralAbyssVerificationFailed, CardVerifiationHeaders.CreateForRoleCombat, token).ConfigureAwait(false);
@@ -164,7 +163,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             {
                 builder.Resurrect().SetXrpcChallenge(challenge);
                 await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
-                response = await builder.SendAsync<TResponse>(httpClient, logger, token).ConfigureAwait(false);
+                response = await builder.SendAsync<TResponse>(httpClient, token).ConfigureAwait(false);
             }
         }
 

@@ -15,7 +15,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Miyolive;
 internal sealed partial class MiyoliveClient : IMiyoliveClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<MiyoliveClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -28,7 +27,7 @@ internal sealed partial class MiyoliveClient : IMiyoliveClient
             .Get();
 
         Response<CodeListWrapper>? resp = await builder
-            .SendAsync<Response<CodeListWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<CodeListWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

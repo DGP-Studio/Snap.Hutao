@@ -17,7 +17,6 @@ internal sealed partial class HutaoRedeemCodeClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HutaoRedeemCodeClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
@@ -30,7 +29,7 @@ internal sealed partial class HutaoRedeemCodeClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<RedeemUseResult>? resp = await builder
-            .SendAsync<HutaoResponse<RedeemUseResult>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<RedeemUseResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

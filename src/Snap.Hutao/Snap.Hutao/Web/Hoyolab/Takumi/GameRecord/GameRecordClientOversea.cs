@@ -21,7 +21,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 internal sealed partial class GameRecordClientOversea : IGameRecordClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<GameRecordClient> logger;
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -36,7 +35,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
         Response<DailyNote.DailyNote>? resp = await builder
-            .SendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
+            .SendAsync<Response<DailyNote.DailyNote>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -52,7 +51,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
         Response<PlayerInfo>? resp = await builder
-            .SendAsync<Response<PlayerInfo>>(httpClient, logger, token)
+            .SendAsync<Response<PlayerInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -68,7 +67,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
         Response<SpiralAbyss.SpiralAbyss>? resp = await builder
-            .SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
+            .SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -84,7 +83,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
         Response<ListWrapper<Character>>? resp = await builder
-            .SendAsync<Response<ListWrapper<Character>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<Character>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -100,7 +99,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
         Response<ListWrapper<DetailedCharacter>>? resp = await builder
-            .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -116,7 +115,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
         Response<RoleCombat.RoleCombat>? resp = await builder
-            .SendAsync<Response<RoleCombat.RoleCombat>>(httpClient, logger, token)
+            .SendAsync<Response<RoleCombat.RoleCombat>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

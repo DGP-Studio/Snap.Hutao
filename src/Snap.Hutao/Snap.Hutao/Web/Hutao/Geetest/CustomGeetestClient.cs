@@ -15,7 +15,6 @@ namespace Snap.Hutao.Web.Hutao.Geetest;
 internal sealed partial class CustomGeetestClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<CustomGeetestClient> logger;
     private readonly AppOptions appOptions;
     private readonly HttpClient httpClient;
 
@@ -43,7 +42,7 @@ internal sealed partial class CustomGeetestClient
             .Get();
 
         GeetestResponse? resp = await builder
-            .SendAsync<GeetestResponse>(httpClient, logger, token)
+            .SendAsync<GeetestResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return resp ?? GeetestResponse.InternalFailure;

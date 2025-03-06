@@ -19,7 +19,6 @@ internal sealed partial class HutaoStrategyClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HutaoStrategyClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
@@ -31,7 +30,7 @@ internal sealed partial class HutaoStrategyClient
 
         await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>? resp = await builder.SendAsync<HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>? resp = await builder.SendAsync<HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -43,7 +42,7 @@ internal sealed partial class HutaoStrategyClient
 
         await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>? resp = await builder.SendAsync<HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>? resp = await builder.SendAsync<HutaoResponse<ImmutableDictionary<AvatarId, Strategy>>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }

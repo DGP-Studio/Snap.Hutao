@@ -20,7 +20,6 @@ internal sealed partial class HutaoAsAServiceClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HutaoAsAServiceClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly CultureOptions cultureOptions;
     private readonly HttpClient httpClient;
@@ -32,7 +31,7 @@ internal sealed partial class HutaoAsAServiceClient
             .PostJson(excludedIds);
 
         HutaoResponse<ImmutableArray<Announcement>>? resp = await builder
-            .SendAsync<HutaoResponse<ImmutableArray<Announcement>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<ImmutableArray<Announcement>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -47,7 +46,7 @@ internal sealed partial class HutaoAsAServiceClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -62,7 +61,7 @@ internal sealed partial class HutaoAsAServiceClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -77,7 +76,7 @@ internal sealed partial class HutaoAsAServiceClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -92,7 +91,7 @@ internal sealed partial class HutaoAsAServiceClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -107,7 +106,7 @@ internal sealed partial class HutaoAsAServiceClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -122,7 +121,7 @@ internal sealed partial class HutaoAsAServiceClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<RedeemGenerateResult>? resp = await builder
-            .SendAsync<HutaoResponse<RedeemGenerateResult>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<RedeemGenerateResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

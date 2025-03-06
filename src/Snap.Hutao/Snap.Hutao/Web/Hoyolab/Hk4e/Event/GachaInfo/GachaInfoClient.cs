@@ -17,7 +17,6 @@ internal sealed partial class GachaInfoClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
-    private readonly ILogger<GachaInfoClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogTypedQueryOptions options, CancellationToken token = default)
@@ -29,7 +28,7 @@ internal sealed partial class GachaInfoClient
             .Get();
 
         Response<GachaLogPage>? resp = await builder
-            .SendAsync<Response<GachaLogPage>>(httpClient, logger, token)
+            .SendAsync<Response<GachaLogPage>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

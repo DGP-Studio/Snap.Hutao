@@ -16,7 +16,6 @@ namespace Snap.Hutao.Web.Hoyolab.Downloader;
 internal sealed partial class SophonClientOversea : ISophonClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<SophonClientOversea> logger;
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -28,7 +27,7 @@ internal sealed partial class SophonClientOversea : ISophonClient
             .Get();
 
         Response<SophonBuild>? resp = await builder
-            .SendAsync<Response<SophonBuild>>(httpClient, logger, token)
+            .SendAsync<Response<SophonBuild>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

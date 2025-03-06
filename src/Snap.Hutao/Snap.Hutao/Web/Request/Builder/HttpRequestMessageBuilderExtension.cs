@@ -22,13 +22,13 @@ internal static class HttpRequestMessageBuilderExtension
         return builder;
     }
 
-    internal static async ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
+    internal static async ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, CancellationToken token)
         where TResult : class
     {
         HttpContext context = new()
         {
             HttpClient = httpClient,
-            Logger = logger,
+            Logger = builder.ServiceProvider.GetRequiredService<ILogger<HttpRequestMessageBuilder>>(),
             RequestAborted = token,
         };
 
@@ -51,6 +51,8 @@ internal static class HttpRequestMessageBuilderExtension
             catch (OperationCanceledException)
             {
                 showInfo = false;
+
+                // Populate to caller
                 throw;
             }
             catch (Exception ex)
@@ -58,7 +60,7 @@ internal static class HttpRequestMessageBuilderExtension
                 SentrySdk.CaptureException(ex);
 
                 ExceptionFormat.Format(messageBuilder, ex);
-                logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
+                context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
                 return new(context.Response?.Headers, default);
             }
             finally

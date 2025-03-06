@@ -19,7 +19,6 @@ internal sealed partial class CalculateClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<CalculateClient> logger;
 
     private readonly HttpClient httpClient;
 
@@ -46,7 +45,7 @@ internal sealed partial class CalculateClient
             .PostJson(data);
 
         Response<BatchConsumption>? resp = await builder
-            .SendAsync<Response<BatchConsumption>>(httpClient, logger, token)
+            .SendAsync<Response<BatchConsumption>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -73,7 +72,7 @@ internal sealed partial class CalculateClient
                 .PostJson(filter);
 
             resp = await builder
-                .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, logger, token)
+                .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, token)
                 .ConfigureAwait(false);
 
             Response.Response.DefaultIfNull(ref resp);
@@ -106,7 +105,7 @@ internal sealed partial class CalculateClient
             .Get();
 
         Response<AvatarDetail>? resp = await builder
-            .SendAsync<Response<AvatarDetail>>(httpClient, logger, token)
+            .SendAsync<Response<AvatarDetail>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -123,7 +122,7 @@ internal sealed partial class CalculateClient
             .Get();
 
         Response<FurnitureListWrapper>? resp = await builder
-            .SendAsync<Response<FurnitureListWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<FurnitureListWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -141,7 +140,7 @@ internal sealed partial class CalculateClient
             .PostJson(data);
 
         Response<ListWrapper<Item>>? resp = await builder
-            .SendAsync<Response<ListWrapper<Item>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<Item>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -160,7 +159,7 @@ internal sealed partial class CalculateClient
             .PostJson(filter);
 
         Response<ListWrapper<Avatar>>? resp = await builder
-            .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, token)
             .ConfigureAwait(false);
 
         Response.Response.DefaultIfNull(ref resp);
@@ -186,7 +185,7 @@ internal sealed partial class CalculateClient
             .PostJson(filter);
 
         Response<ListWrapper<Weapon>>? resp = await builder
-            .SendAsync<Response<ListWrapper<Weapon>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<Weapon>>>(httpClient, token)
             .ConfigureAwait(false);
 
         Response.Response.DefaultIfNull(ref resp);

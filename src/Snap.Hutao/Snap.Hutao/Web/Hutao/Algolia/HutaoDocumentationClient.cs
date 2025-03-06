@@ -17,7 +17,6 @@ internal sealed partial class HutaoDocumentationClient
     private const string AlgolianetIndexesQueries = $"https://28ctgdooqd-1.algolianet.com/1/indexes/*/queries";
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HutaoDocumentationClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<AlgoliaResponse?> QueryAsync(string query, string language, CancellationToken token = default)
@@ -41,6 +40,6 @@ internal sealed partial class HutaoDocumentationClient
             .SetHeader("x-algolia-application-id", AlgoliaApplicationId)
             .PostJson(data);
 
-        return await builder.SendAsync<AlgoliaResponse>(httpClient, logger, token).ConfigureAwait(false);
+        return await builder.SendAsync<AlgoliaResponse>(httpClient, token).ConfigureAwait(false);
     }
 }
