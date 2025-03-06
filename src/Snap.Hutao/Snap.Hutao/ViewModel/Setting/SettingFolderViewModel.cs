@@ -46,20 +46,20 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
             return;
         }
 
-        foreach (string file in Directory.EnumerateFiles(Folder, "*.*", SearchOption.AllDirectories))
+        try
         {
-            token.ThrowIfCancellationRequested();
-
-            try
+            foreach (string file in Directory.EnumerateFiles(Folder, "*.*", SearchOption.AllDirectories))
             {
+                token.ThrowIfCancellationRequested();
                 totalSize += new FileInfo(file).Length;
             }
-            catch (UnauthorizedAccessException)
-            {
-                // Mostly 'System Volume Information' folder,
-                // Users prefer to store their data in root directory
-                // For all situations, we can't do anything about it
-            }
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // Mostly 'System Volume Information' folder,
+            // Users prefer to store their data in root directory
+            // For all situations, we can't do anything about it
+            totalSize = 0;
         }
 
         await taskContext.SwitchToMainThreadAsync();
