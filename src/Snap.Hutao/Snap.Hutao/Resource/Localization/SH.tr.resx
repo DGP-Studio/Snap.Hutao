@@ -1922,6 +1922,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Hesap değiştirme başarısız</value>
   </data>
+  <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
+    <value>在重启胡桃时遇到问题，请手动重启</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>{0} seviyesine ulaşıldı</value>
   </data>
