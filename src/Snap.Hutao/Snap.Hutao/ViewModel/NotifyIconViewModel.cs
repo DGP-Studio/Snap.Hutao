@@ -4,13 +4,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
+using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -41,16 +44,36 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     public partial RuntimeOptions RuntimeOptions { get; }
 
     [Command("RestartAsElevatedCommand")]
-    private static void RestartAsElevated()
+    private void RestartAsElevated()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Restart as elevated", "NotifyIconViewModel.Command"));
 
-        Process.Start(new ProcessStartInfo
+        try
         {
-            FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
-            UseShellExecute = true,
-            Verb = "runas",
-        });
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
+                UseShellExecute = true,
+                Verb = "runas",
+            });
+        }
+        catch (Win32Exception ex)
+        {
+            // 组或资源的状态不是执行请求操作的正确状态
+            if (ex.HResult == HRESULT.E_FAIL)
+            {
+                try
+                {
+                    new AppNotificationBuilder().AddText(SH.ViewModelNotifyIconRestartAsElevatedErrorHint).Show();
+                    return;
+                }
+                catch
+                {
+                }
+            }
+
+            throw;
+        }
 
         // Current process will exit in PrivatePipeServer
     }

@@ -9,18 +9,7 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandlder : ILa
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        bool processIsRunning;
-        try
-        {
-            processIsRunning = !context.Process.HasExited;
-        }
-        catch (InvalidOperationException)
-        {
-            // No process is associated with this object.
-            processIsRunning = false;
-        }
-
-        if (processIsRunning && context.Options.UsingBetterGenshinImpactAutomation)
+        if (context.Process.IsRunning() && context.Options.UsingBetterGenshinImpactAutomation)
         {
             context.Logger.LogInformation("Using BetterGI to automate gameplay");
             await LaunchBetterGenshinImpactAsync(context).ConfigureAwait(false);

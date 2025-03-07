@@ -57,7 +57,27 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
                 using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
                 {
-                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                    HttpResponseMessage responseMessage;
+                    try
+                    {
+                        responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is HttpRequestException { InnerException: IOException ex2 } ex1)
+                        {
+                            if (ex1.HResult is unchecked((int)0x80131620) && ex2.HResult is unchecked((int)0x80131620))
+                            {
+                                // The SSL connection could not be established, see inner exception.
+                                // Received an unexpected EOF or 0 bytes from the transport stream.
+                                continue;
+                            }
+                        }
+
+                        throw;
+                    }
+
+                    using (responseMessage)
                     {
                         // Redirect detection
                         if (responseMessage.RequestMessage is { RequestUri: { } target } && target != uri)

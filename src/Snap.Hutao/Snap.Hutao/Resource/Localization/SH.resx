@@ -1922,6 +1922,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>切换账号失败</value>
   </data>
+  <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
+    <value>在重启胡桃时遇到问题，请手动重启</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>已抵达{0}</value>
   </data>
