@@ -57,7 +57,13 @@ internal static class HttpRequestMessageBuilderExtension
             }
             catch (Exception ex)
             {
-                SentrySdk.CaptureException(ex);
+                SentrySdk.CaptureException(ex, scope =>
+                {
+                    if (ExceptionAttachment.TryGetAttachment(ex, out SentryAttachment? attachment))
+                    {
+                        scope.AddAttachment(attachment);
+                    }
+                });
 
                 ExceptionFormat.Format(messageBuilder, ex);
                 context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
@@ -84,8 +90,7 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (Exception ex)
         {
-            ex.Data.Add("RequestUrlNoQuery", baseUrl ?? "Unknown");
-
+            ExceptionFingerprint.SetFingerprint(ex, baseUrl);
             context.Exception = ExceptionDispatchInfo.Capture(ex);
             context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }

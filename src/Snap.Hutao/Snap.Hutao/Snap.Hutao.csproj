@@ -334,6 +334,7 @@
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.1" />
     <PackageReference Include="Sentry.Extensions.Logging" Version="5.2.0" />
+    <PackageReference Include="Sentry.Profiling" Version="5.2.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
     <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.6">
       <PrivateAssets>all</PrivateAssets>

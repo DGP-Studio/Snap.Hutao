@@ -47,6 +47,10 @@ internal static class LoggerFactoryExtension
             options.MinimumBreadcrumbLevel = LogLevel.None;
             options.MinimumEventLevel = LogLevel.None;
 
+            options.ProfilesSampleRate = 1.0D;
+            options.TracesSampleRate = 1.0D;
+            options.AddProfilingIntegration();
+
             // Use our own exception handling
             options.DisableWinUiUnhandledExceptionIntegration();
 
@@ -62,6 +66,19 @@ internal static class LoggerFactoryExtension
             });
 
             options.AddExceptionProcessor(new ExceptionHResultProcessor());
+
+            options.SetBeforeSend(@event =>
+            {
+                if (@event.Exception is { } exception)
+                {
+                    if (ExceptionFingerprint.TryGetFingerprint(exception, out string? fingerprint))
+                    {
+                        @event.SetFingerprint("{{ default }}", fingerprint);
+                    }
+                }
+
+                return @event;
+            });
         });
     }
 

@@ -28,8 +28,8 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
         //
         // This can happen with the generic Serialize<T> method, if T is less specific than the actual object.
         //
-        // .NET's JsonSerializer doesn't serialize all properties of the sub class in this case,
-        // because it doesn't have any type info about them (after all, the type of the sub class is unknown).
+        // .NET's JsonSerializer doesn't serialize all properties of the subclass in this case,
+        // because it doesn't have any type info about them (after all, the type of the subclass is unknown).
         // This seems to be intended, because the serializer's generic overload actually documents this.
         // It's a major difference to Newtonsoft.Json though, so people who switch libraries may find this weird,
         // even though this is certainly not a bug of this code here.
@@ -40,7 +40,7 @@ internal sealed class JsonHttpContentSerializer : HttpContentSerializer
 
         // Since .NET's Json members are optimized for UTF-8, it makes sense to use these
         // optimizations if that's the encoding as well.
-        return encoding == Encoding.UTF8 ? SerializeUtf8(content, contentType) : SerializeOtherEncoding(content, contentType, encoding);
+        return encoding.Equals(Encoding.UTF8) ? SerializeUtf8(content, contentType) : SerializeOtherEncoding(content, contentType, encoding);
     }
 
     protected override async ValueTask<object?> DeserializeOverrideAsync(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken)

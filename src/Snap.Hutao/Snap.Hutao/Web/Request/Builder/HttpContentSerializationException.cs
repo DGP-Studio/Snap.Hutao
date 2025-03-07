@@ -1,7 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using System.Net.Http;
+using System.Net.Mime;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
@@ -25,17 +27,14 @@ internal sealed class HttpContentSerializationException : Exception
             return new(innerException);
         }
 
-        string contentString = await content.ReadAsStringAsync().ConfigureAwait(false);
-        string message = $"""
-            The (de-)serialization failed because of an arbitrary error. This most likely happened, 
-            because an inner serializer failed to (de-)serialize the given data. 
-            ----- data begin -----
-            {contentString}
-            -----  data end  -----
-            See the inner exception for details (if available).
-            """;
+        HttpContentSerializationException exception = new(GetDefaultMessage(), innerException);
 
-        return new(message, innerException);
+        // Cache the content in array, in case the response disposed.
+        ByteAttachmentContent attachmentContent = new(await content.ReadAsByteArrayAsync().ConfigureAwait(false));
+        SentryAttachment attachment = new(AttachmentType.Default, attachmentContent, "content.txt", MediaTypeNames.Text.Plain);
+        ExceptionAttachment.SetAttachment(exception, attachment);
+
+        return exception;
     }
 
     private static string GetDefaultMessage()

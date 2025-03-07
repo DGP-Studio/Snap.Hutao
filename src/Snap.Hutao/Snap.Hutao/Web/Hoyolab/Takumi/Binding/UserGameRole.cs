@@ -46,7 +46,7 @@ internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollecti
 
     public static implicit operator PlayerUid(UserGameRole userGameRole)
     {
-        return new PlayerUid(userGameRole.GameUid, userGameRole.Region);
+        return new(userGameRole.GameUid, userGameRole.Region);
     }
 
     /// <inheritdoc/>

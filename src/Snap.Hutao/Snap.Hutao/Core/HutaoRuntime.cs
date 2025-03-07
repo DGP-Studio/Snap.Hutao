@@ -173,11 +173,11 @@ internal static class HutaoRuntime
         try
         {
             string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
-            return new(version, true);
+            return new(version, version, true);
         }
         catch (FileNotFoundException)
         {
-            return new(SH.CoreWebView2HelperVersionUndetected, false);
+            return new(String.Empty, SH.CoreWebView2HelperVersionUndetected, false);
         }
     }
 
