@@ -59,6 +59,14 @@ internal static class HttpRequestMessageBuilderExtension
             {
                 SentrySdk.CaptureException(ex, scope =>
                 {
+                    // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/SentryHttpFailedRequestHandler.cs
+                    scope.Request = new()
+                    {
+                        QueryString = builder.RequestUri?.Query,
+                        Method = builder.Method.Method.ToUpperInvariant(),
+                        Url = builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped),
+                    };
+
                     if (ExceptionAttachment.TryGetAttachment(ex, out SentryAttachment? attachment))
                     {
                         scope.AddAttachment(attachment);

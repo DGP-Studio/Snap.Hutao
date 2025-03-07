@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.DailyNote;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class DailyNoteNotificationOperation
 {
-    private const string ToastAttributionUnknown = "Unknown";
+    private const string ToastAttributionUnknown = "Unknown UID";
 
     private readonly IGameService gameService;
     private readonly IInfoBarService infoBarService;
