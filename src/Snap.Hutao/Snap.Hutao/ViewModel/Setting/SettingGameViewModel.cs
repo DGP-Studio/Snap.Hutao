@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
@@ -41,6 +42,8 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Delete game web cache", "SettingGameViewModel.Command"));
+
         string gamePath = launchOptions.GamePath;
 
         if (string.IsNullOrEmpty(gamePath))

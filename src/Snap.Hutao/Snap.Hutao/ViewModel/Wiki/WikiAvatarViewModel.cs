@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -136,6 +137,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     [Command("CultivateCommand")]
     private async Task CultivateAsync(Avatar? avatar)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cultivate", "WikiAvatarViewModel.Command"));
+
         if (avatar is null)
         {
             return;
@@ -215,6 +218,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     [Command("FilterCommand")]
     private void ApplyFilter()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Filter avatars", "WikiAvatarViewModel.Command"));
+
         if (Avatars is null)
         {
             return;

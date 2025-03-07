@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
@@ -120,6 +121,8 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [Command("RefreshCommand")]
     private async Task RefreshAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh spiral abyss record", "SpiralAbyssRecordViewModel.Command"));
+
         if (metadataContext is null)
         {
             return;
@@ -151,6 +154,8 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [Command("UploadSpiralAbyssRecordCommand")]
     private async Task UploadSpiralAbyssRecordAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Upload spiral abyss record", "SpiralAbyssRecordViewModel.Command"));
+
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             if (!hutaoUserOptions.IsLoggedIn)

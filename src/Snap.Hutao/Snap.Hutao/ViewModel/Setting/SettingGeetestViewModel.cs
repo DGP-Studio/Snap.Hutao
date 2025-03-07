@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -20,6 +21,8 @@ internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
     [Command("ConfigureGeetestUrlCommand")]
     private async Task ConfigureGeetestUrlAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Config geetest url", "SettingGeetestViewModel.Command"));
+
         GeetestCustomUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GeetestCustomUrlDialog>().ConfigureAwait(false);
         (bool isOk, string template) = await dialog.GetUrlAsync().ConfigureAwait(false);
 

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
@@ -42,6 +43,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("RestartAsElevatedCommand")]
     private static void RestartAsElevated()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Restart as elevated", "NotifyIconViewModel.Command"));
+
         Process.Start(new ProcessStartInfo
         {
             FileName = $"shell:AppsFolder\\{HutaoRuntime.FamilyName}!App",
@@ -55,6 +58,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("OpenCompactWebView2WindowCommand")]
     private static void OpenCompactWebView2Window()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open compact WebView2 window", "NotifyIconViewModel.Command"));
+
         if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
         {
             _ = new CompactWebView2Window();
@@ -64,6 +69,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("ShowWindowCommand")]
     private void ShowWindow()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Restart as elevated", "NotifyIconViewModel.Command"));
+
         switch (currentXamlWindowReference.Window)
         {
             case MainWindow mainWindow:
@@ -76,7 +83,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
             case null:
                 {
-                    // MainWindow is hided, show it
+                    // MainWindow is closed, show it
                     MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
                     currentXamlWindowReference.Window = mainWindow;
 
@@ -86,8 +93,9 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
                     break;
                 }
 
-            case Window otherWindow:
+            default:
                 {
+                    Window otherWindow = currentXamlWindowReference.Window;
                     otherWindow.SwitchTo();
                     otherWindow.AppWindow.MoveInZOrderAtTop();
                     return;
@@ -98,6 +106,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("LaunchGameCommand")]
     private async Task LaunchGame()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Launch Game", "NotifyIconViewModel.Command"));
         if (serviceProvider.GetRequiredService<IAppActivation>() is IAppActivationActionHandlersAccess access)
         {
             await access.HandleLaunchGameActionAsync().ConfigureAwait(false);
@@ -107,18 +116,21 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("ExitCommand")]
     private void Exit()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Exit application", "NotifyIconViewModel.Command"));
         app.Exit();
     }
 
     [Command("OpenScriptingWindowCommand")]
     private void OpenScriptingWindow()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open Scripting Window", "NotifyIconViewModel.Command"));
         _ = serviceProvider.GetRequiredService<ScriptingWindow>();
     }
 
     [Command("TakeScreenshotCommand")]
     private async Task TakeScreenshotAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Take Window screenshot", "NotifyIconViewModel.Command"));
         INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
 
         if (currentXamlWindowReference.Window is null)

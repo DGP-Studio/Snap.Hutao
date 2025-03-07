@@ -15,8 +15,7 @@ internal static class HutaoInfrastructureExtension
     public static async ValueTask InfrastructureSetTraceInfoAsync<TBuilder>(this TBuilder builder, HutaoUserOptions hutaoUserOptions)
         where TBuilder : IHttpHeadersBuilder<HttpRequestHeaders>
     {
-        builder
-            .SetHeader("x-homa-token", await hutaoUserOptions.GetAuthTokenAsync().ConfigureAwait(false));
+        builder.SetHeader("x-homa-token", await hutaoUserOptions.GetAuthTokenAsync().ConfigureAwait(false));
     }
 
     public static ValueTask InfrastructureSetTraceInfoAsync(this HttpRequestMessage message, HutaoUserOptions hutaoUserOptions)

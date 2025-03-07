@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
@@ -187,14 +188,16 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     }
 
     [Command("StartCommand")]
-    private async Task StartAsync(string state)
+    private async Task StartAsync(string operation)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Start operation", "GamePackageViewModel.Command", [("operation", operation)]));
+
         if (!IsInitialized)
         {
             return;
         }
 
-        GamePackageOperationKind operationKind = Enum.Parse<GamePackageOperationKind>(state);
+        GamePackageOperationKind operationKind = Enum.Parse<GamePackageOperationKind>(operation);
 
         if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
 
@@ -57,6 +58,7 @@ internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollecti
     [Command("RefreshProfilePictureCommand")]
     private async Task RefreshProfilePictureAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh profile picture", "UserGameRole.Command"));
         await Ioc.Default.GetRequiredService<IUserService>().RefreshProfilePictureAsync(this).ConfigureAwait(false);
     }
 }

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model.InterChange.GachaLog;
@@ -31,6 +32,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     [Command("ImportUIGFJsonCommand")]
     private async Task ImportUIGFJsonAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Import UIGF file", "SettingGachaLogViewModel.Command"));
+
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
             SH.ViewModelGachaUIGFImportPickerTitile,
             [(SH.ViewModelGachaLogExportFileType, "*.json")]);
@@ -99,6 +102,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     [Command("ExportUIGFJsonCommand")]
     private async Task ExportUIGFJsonAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Export UIGF file", "SettingGachaLogViewModel.Command"));
+
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
             SH.ViewModelGachaLogUIGFExportPickerTitle,
             $"Snap Hutao UIGF.json",

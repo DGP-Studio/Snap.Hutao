@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -21,7 +19,6 @@ namespace Snap.Hutao.ViewModel.Game;
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
 {
     private readonly ILogger<LaunchGameViewModelSlim> logger;
-    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameService gameService;
     private readonly IUserService userService;
@@ -71,6 +68,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Launch game", "LaunchGameViewModelSlim.Command"));
+
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
         await this.LaunchExecutionAsync(userAndUid).ConfigureAwait(false);
     }

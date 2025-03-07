@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
@@ -222,6 +223,7 @@ internal sealed partial class TitleViewModel
     [Command("InvertAppThemeCommand")]
     private void InvertAppTheme()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Invert app theme", "TitleViewModel.Command"));
         FrameworkTheming.SetTheme(ThemeHelper.ApplicationToFrameworkInvert(app.RequestedTheme));
     }
 #endif

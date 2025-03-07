@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
@@ -116,6 +117,8 @@ internal sealed partial class LaunchGameShared
     [Command("HandleConfigurationFileNotFoundCommand")]
     private async Task HandleConfigurationFileNotFoundAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Generate config file", "LaunchGameShared.Command"));
+
         if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
@@ -148,6 +151,7 @@ internal sealed partial class LaunchGameShared
     [Command("HandleGamePathNullOrEmptyCommand")]
     private void HandleGamePathNullOrEmpty()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Navigate to LaunchGamePage", "LaunchGameShared.Command"));
         navigationService.Navigate<LaunchGamePage>(INavigationCompletionSource.Default, true);
     }
 }

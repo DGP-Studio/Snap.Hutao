@@ -4,6 +4,7 @@
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Scripting;
 
 namespace Snap.Hutao.ViewModel.Scripting;
@@ -21,6 +22,8 @@ internal sealed partial class ScriptingViewModel : Abstraction.ViewModel
     [Command("ExecuteScriptCommand")]
     private async Task ExecuteScriptAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Execute script", "ScriptingViewModel.Command"));
+
         string? resultOrError;
         try
         {

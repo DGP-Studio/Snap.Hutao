@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching;
@@ -208,12 +209,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("IdentifyMonitorsCommand")]
     private static async Task IdentifyMonitorsAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Identify monitors", "LaunchGameViewModel.Command"));
         await IdentifyMonitorWindow.IdentifyAllMonitorsAsync(3).ConfigureAwait(false);
     }
 
     [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set game path by picker", "LaunchGameViewModel.Command"));
         (bool isOk, string path) = await gameLocatorFactory.LocateSingleAsync(GameLocationSourceKind.Manual).ConfigureAwait(false);
         if (!isOk)
         {
@@ -227,12 +230,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("ResetGamePathCommand")]
     private void ResetGamePath()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset game path", "LaunchGameViewModel.Command"));
         SelectedGamePathEntry = default;
     }
 
     [Command("RemoveGamePathEntryCommand")]
     private void RemoveGamePathEntry(GamePathEntry? entry)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove game path", "LaunchGameViewModel.Command"));
         GamePathEntries = LaunchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
         SelectedGamePathEntry = selected;
     }
@@ -240,12 +245,15 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("RemoveAspectRatioCommand")]
     private void RemoveAspectRatio(AspectRatio aspectRatio)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove aspect ratio", "LaunchGameViewModel.Command"));
         AspectRatios = LaunchOptions.RemoveAspectRatio(aspectRatio);
     }
 
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Launch game", "LaunchGameViewModel.Command"));
+
         UserAndUid? userAndUid = await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false);
         await this.LaunchExecutionAsync(userAndUid).ConfigureAwait(false);
 
@@ -257,6 +265,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("DetectGameAccountCommand")]
     private async Task DetectGameAccountAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Detect registry game account", "LaunchGameViewModel.Command"));
+
         try
         {
             if (SelectedScheme is null)
@@ -286,6 +296,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("ModifyGameAccountCommand")]
     private async Task ModifyGameAccountAsync(GameAccount? gameAccount)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Modify registry game account", "LaunchGameViewModel.Command"));
+
         if (gameAccount is null)
         {
             return;
@@ -297,6 +309,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("RemoveGameAccountCommand")]
     private async Task RemoveGameAccountAsync(GameAccount? gameAccount)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove registry game account", "LaunchGameViewModel.Command"));
+
         if (gameAccount is null)
         {
             return;
@@ -308,6 +322,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open screenshot folder", "LaunchGameViewModel.Command"));
+
         if (!LaunchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;

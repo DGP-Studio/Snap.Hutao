@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Control.Theme;
@@ -54,6 +55,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     [Command("UpdateBackgroundCommand")]
     private async Task UpdateBackgroundAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Update background image", "MainViewModel.Command"));
         await PrivateUpdateBackgroundAsync(false).ConfigureAwait(false);
     }
 

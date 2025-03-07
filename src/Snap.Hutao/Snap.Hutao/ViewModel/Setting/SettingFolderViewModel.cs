@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Logging;
 using System.IO;
 using Windows.System;
 
@@ -67,8 +68,9 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
     }
 
     [Command("OpenFolderCommand")]
-    private async Task OpenDataFolderAsync()
+    private async Task OpenFolderAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open folder", "SettingFolderViewModel.Command"));
         await Launcher.LaunchFolderPathAsync(Folder);
     }
 }

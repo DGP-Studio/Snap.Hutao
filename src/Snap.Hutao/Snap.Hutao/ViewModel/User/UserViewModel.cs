@@ -8,6 +8,7 @@ using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
@@ -79,6 +80,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoadCommand")]
     private async Task LoadAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Load", "UserViewModel.Command"));
+
         try
         {
             Users = await userService.GetUsersAsync().ConfigureAwait(true);
@@ -92,18 +95,22 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("AddUserCommand")]
     private Task AddUserAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "Manual Input")]));
         return AddUserByManualInputCookieAsync(false).AsTask();
     }
 
     [Command("AddOverseaUserCommand")]
     private Task AddOverseaUserAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Manual Input")]));
         return AddUserByManualInputCookieAsync(true).AsTask();
     }
 
     [Command("LoginByPasswordOverseaCommand")]
     private async Task LoginByPasswordOverseaAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Password")]));
+
         await taskContext.SwitchToMainThreadAsync();
 
         UserAccountPasswordDialog dialog = await contentDialogFactory
@@ -122,6 +129,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoginByThirdPartyOverseaCommand")]
     private async Task LoginByThirdPartyOverseaAsync(OverseaThirdPartyKind kind)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Third Party"), ("kind", kind.ToString())]));
+
         await taskContext.SwitchToMainThreadAsync();
         OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(kind, cultureOptions.LanguageCode);
         ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
@@ -170,6 +179,7 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoginByQRCodeCommand")]
     private async Task LoginByQRCodeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "QR Code")]));
         UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
         (bool isOk, QrLoginResult? qrLoginResult) = await dialog.GetQrLoginResultAsync().ConfigureAwait(false);
 
@@ -186,6 +196,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoginByMobileCaptchaCommand")]
     private async Task LoginByMobileCaptchaAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "Mobile Captcha")]));
+
         UserMobileCaptchaDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserMobileCaptchaDialog>().ConfigureAwait(false);
         if (!await dialog.GetMobileCaptchaAsync().ConfigureAwait(false))
         {
@@ -209,6 +221,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RemoveUserCommand")]
     private async Task RemoveUserAsync(User? user)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove user", "UserViewModel.Command"));
+
         if (user is null)
         {
             return;
@@ -233,6 +247,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("CopyCookieCommand")]
     private async Task CopyCookieAsync(User? user)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Copy cookie", "UserViewModel.Command"));
+
         try
         {
             ArgumentNullException.ThrowIfNull(user);
@@ -257,6 +273,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RefreshCookieTokenCommand")]
     private async Task RefreshCookieTokenAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh cookie token", "UserViewModel.Command"));
+
         if (Users?.CurrentItem is null)
         {
             return;
@@ -275,6 +293,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("ClaimSignInRewardCommand")]
     private async Task ClaimSignInRewardAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Claim sign in reward", "UserViewModel.Command"));
+
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);

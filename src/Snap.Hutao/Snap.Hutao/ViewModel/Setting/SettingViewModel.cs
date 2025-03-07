@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
@@ -90,6 +91,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     [Command("CreateDesktopShortcutCommand")]
     private async Task CreateDesktopShortcutForElevatedLaunchAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Create desktop shortcut for elevated launch", "SettingViewModel.Command"));
+
         if (await shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunchAsync().ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewModelSettingActionComplete);
