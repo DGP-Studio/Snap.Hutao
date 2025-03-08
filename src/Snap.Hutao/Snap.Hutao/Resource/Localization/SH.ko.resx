@@ -2597,6 +2597,12 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>게임 파일 관리/게임 서버 전환/기능 주입에는 관리자 권한이 필요합니다.</value>
   </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>元素爆发特写冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>移除元素爆发镜头特写</value>
+  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>캐릭터/파티 구성/기원/기행과 같은 특수 인터페이스의 시야를 수정합니다.</value>
   </data>
