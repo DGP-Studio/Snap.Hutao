@@ -13,7 +13,7 @@ internal static class AppOptionsExtension
         return appOptions.LazyRegions.Value.SingleOrDefault(c => c.Value.Value == appOptions.Region.Value);
     }
 
-    public static NameValue<TimeSpan>? GetCalendarServerTimeZoneOffsetForSelectionOrDefault(this AppOptions appOptions)
+    public static NameValue<TimeSpan>? GetCurrentCalendarServerTimeZoneOffsetForSelectionOrDefault(this AppOptions appOptions)
     {
         return appOptions.LazyCalendarServerTimeZoneOffsets.Value.SingleOrDefault(c => c.Value == appOptions.CalendarServerTimeZoneOffset);
     }

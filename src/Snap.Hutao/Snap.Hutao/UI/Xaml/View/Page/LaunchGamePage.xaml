@@ -641,8 +641,18 @@
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}" Header="-popupwindow">
                                                 <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsBorderless, Mode=TwoWay}"/>
                                             </cwc:SettingsCard>
-                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription}" Header="-platform_type CLOUD_THIRD_PARTY_MOBILE">
-                                                <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UsingCloudThirdPartyMobile, Mode=TwoWay}"/>
+                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearancePlatformTypeDescription}" Header="-platform_type">
+                                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                                    <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
+                                                        <ComboBox
+                                                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
+                                                            DisplayMemberPath="Name"
+                                                            IsEnabled="{Binding LaunchOptions.IsPlatformTypeEnabled}"
+                                                            ItemsSource="{Binding LaunchOptions.PlatformTypes}"
+                                                            SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"/>
+                                                    </shuxc:SizeRestrictedContentControl>
+                                                    <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.IsPlatformTypeEnabled, Mode=TwoWay}"/>
+                                                </StackPanel>
                                             </cwc:SettingsCard>
                                             <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioHeader}">
                                                 <shuxc:SizeRestrictedContentControl Margin="0,0,130,0" VerticalAlignment="Center">

@@ -25,13 +25,15 @@ internal sealed class YaeLaunchExecutionGameProcessInitializationHandler : ILaun
     {
         LaunchOptions launchOptions = context.Options;
 
+        bool authTicketAvailable = launchOptions is { AreCommandLineArgumentsEnabled: true, UsingHoyolabAccount: true } && !string.IsNullOrEmpty(context.AuthTicket);
+
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
         string commandLine = new CommandLineBuilder()
             .Append("-screen-fullscreen", 0)
             .Append("-screen-width", 800)
             .Append("-screen-height", 450)
-            .AppendIf(launchOptions is { AreCommandLineArgumentsEnabled: true, UsingHoyolabAccount: true } && !string.IsNullOrEmpty(context.AuthTicket), "login_auth_ticket", context.AuthTicket, CommandLineArgumentPrefix.Equal)
+            .AppendIf(authTicketAvailable, "login_auth_ticket", context.AuthTicket, CommandLineArgumentPrefix.Equal)
             .ToString();
 
         context.Logger.LogInformation("Command Line Arguments: {commandLine}", commandLine);

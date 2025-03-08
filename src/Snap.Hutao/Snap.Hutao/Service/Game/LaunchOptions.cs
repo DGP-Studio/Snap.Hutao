@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
@@ -47,7 +48,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
                 SettingEntry.LaunchScreenHeight => InitializeNullableInt32Value(ref fields.ScreenHeight, value),
                 SettingEntry.LaunchIsScreenHeightEnabled => InitializeNullableBooleanValue(ref fields.IsScreenHeightEnabled, value),
                 SettingEntry.LaunchIsMonitorEnabled => InitializeNullableBooleanValue(ref fields.IsMonitorEnabled, value),
-                SettingEntry.LaunchUsingCloudThirdPartyMobile => InitializeNullableBooleanValue(ref fields.UsingCloudThirdPartyMobile, value),
                 SettingEntry.LaunchIsWindowsHDREnabled => InitializeNullableBooleanValue(ref fields.IsWindowsHDREnabled, value),
                 SettingEntry.LaunchUsingStarwardPlayTimeStatistics => InitializeNullableBooleanValue(ref fields.UsingStarwardPlayTimeStatistics, value),
                 SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeNullableBooleanValue(ref fields.UsingBetterGenshinImpactAutomation, value),
@@ -224,14 +224,20 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.IsMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
     }
 
-    [UsedImplicitly]
-    public bool UsingCloudThirdPartyMobile
+    public ImmutableArray<NameValue<PlatformType>> PlatformTypes { get; } = ImmutableCollectionsNameValue.FromEnum<PlatformType>();
+
+    public PlatformType PlatformType
     {
-        get => GetOption(ref fields.UsingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, false);
-        set => SetOption(ref fields.UsingCloudThirdPartyMobile, SettingEntry.LaunchUsingCloudThirdPartyMobile, value);
+        get => GetOption(ref fields.PlatformType, SettingEntry.LaunchPlatformType, Enum.Parse<PlatformType>, PlatformType.PC);
+        set => SetOption(ref fields.PlatformType, SettingEntry.LaunchPlatformType, value, EnumToStringOrEmpty);
     }
 
-    // ReSharper disable once InconsistentNaming
+    public bool IsPlatformTypeEnabled
+    {
+        get => GetOption(ref fields.IsPlatformTypeEnabled, SettingEntry.LaunchIsPlatformTypeEnabled, false);
+        set => SetOption(ref fields.IsPlatformTypeEnabled, SettingEntry.LaunchIsPlatformTypeEnabled, value);
+    }
+
     [UsedImplicitly]
     public bool IsWindowsHDREnabled
     {
@@ -489,7 +495,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? HookingSetupQuestBanner;
         public bool? HideQuestBanner;
         public bool? IsMonitorEnabled;
-        public bool? UsingCloudThirdPartyMobile;
+        public PlatformType? PlatformType;
+        public bool? IsPlatformTypeEnabled;
 
         // ReSharper disable once InconsistentNaming
         public bool? IsWindowsHDREnabled;

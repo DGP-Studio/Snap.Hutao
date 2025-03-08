@@ -5,7 +5,9 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
@@ -60,6 +62,18 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         get => selectedScheme;
         set => SetSelectedSchemeAsync(value).SafeForget(logger);
+    }
+
+    public NameValue<PlatformType>? SelectedPlatformType
+    {
+        get => field ??= LaunchOptions.GetCurrentPlatformTypeForSelectionOrDefault();
+        set
+        {
+            if (SetProperty(ref field, value) && value is not null)
+            {
+                LaunchOptions.PlatformType = value.Value;
+            }
+        }
     }
 
     public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }

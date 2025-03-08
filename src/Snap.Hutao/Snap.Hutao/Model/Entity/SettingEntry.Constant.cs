@@ -62,7 +62,8 @@ internal sealed partial class SettingEntry
     public const string LaunchHideQuestBanner = "Launch.HideQuestBanner";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
-    public const string LaunchUsingCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
+    public const string LaunchPlatformType = "Launch.PlatformType";
+    public const string LaunchIsPlatformTypeEnabled = "Launch.IsPlatformTypeEnabled";
     public const string LaunchIsWindowsHDREnabled = "Launch.IsWindowsHDREnabled";
     public const string LaunchUsingStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
     public const string LaunchUsingBetterGenshinImpactAutomation = "Launch.UseBetterGenshinImpactAutomation";
@@ -83,4 +84,7 @@ internal sealed partial class SettingEntry
 
     [Obsolete("不再使用此名称")]
     public const string LaunchLoopAdjustFpsOnly = "Launch.LoopAdjustFpsOnly";
+
+    [Obsolete("不再直接使用 CLOUD_THIRD_PARTY_MOBILE")]
+    public const string LaunchUsingCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
 }
