@@ -1501,7 +1501,7 @@
     <value>クラッシュが発生する前に、どのような操作を行いましたか？</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
-    <value>ﾌｨｰﾄﾞﾊﾞｯｸｾﾝﾀｰ</value>
+    <value>通報·意見 ｾﾝﾀｰ</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈願履歴</value>
@@ -1924,7 +1924,7 @@
     <value>アカウントの切り替えができませんでした</value>
   </data>
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
-    <value>在重启胡桃时遇到问题，请手动重启</value>
+    <value>胡桃を再起動する際に、問題が発生した場合は手動で再起動してください</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>{0}に到着</value>
