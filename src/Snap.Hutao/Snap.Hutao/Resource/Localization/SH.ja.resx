@@ -2599,6 +2599,12 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>ゲームファイル管理/サーバーの切り換え/注入機能には管理者権限が必要です</value>
   </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>元素爆发特写冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>移除元素爆发镜头特写</value>
+  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>キャラクター/チーム編成/祈願/紀行などの特殊シーンを補正します</value>
   </data>
