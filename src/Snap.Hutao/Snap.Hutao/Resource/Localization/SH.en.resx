@@ -2544,7 +2544,7 @@
     <value>Overwrite default fullscreen status</value>
   </data>
   <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
-    <value>选择平台类型，不同的类型会影响游戏如何呈现 UI</value>
+    <value>Select the platform type, different types will affect how the game is presented UI</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>Overwrite game window height setting</value>
