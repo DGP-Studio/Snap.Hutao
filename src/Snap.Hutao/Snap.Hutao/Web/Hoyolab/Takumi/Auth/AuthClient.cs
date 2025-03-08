@@ -5,7 +5,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;

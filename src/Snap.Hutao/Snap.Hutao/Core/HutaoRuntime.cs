@@ -177,7 +177,7 @@ internal static class HutaoRuntime
         }
         catch (FileNotFoundException)
         {
-            return new(String.Empty, SH.CoreWebView2HelperVersionUndetected, false);
+            return new(string.Empty, SH.CoreWebView2HelperVersionUndetected, false);
         }
     }
 

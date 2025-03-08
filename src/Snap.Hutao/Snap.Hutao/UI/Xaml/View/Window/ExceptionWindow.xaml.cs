@@ -64,7 +64,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
         if (!string.IsNullOrWhiteSpace(Comment))
         {
             string email = Ioc.Default.GetRequiredService<HutaoUserOptions>().UserName ?? "Anonymous";
-            SentrySdk.CaptureUserFeedback(id, email, Comment);
+            SentrySdk.CaptureFeedback(Comment, email);
         }
 
         SentrySdk.Flush();

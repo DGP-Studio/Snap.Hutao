@@ -315,6 +315,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.13.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.13.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.13.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -357,6 +359,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
     <PackageReference Include="System.IO.Hashing" Version="9.0.2" />
     <PackageReference Include="System.Threading.AccessControl" Version="9.0.2" />
     <PackageReference Include="System.Threading.RateLimiting" Version="9.0.2" />

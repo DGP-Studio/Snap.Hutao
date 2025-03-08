@@ -9,7 +9,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
@@ -42,6 +41,17 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     }
 
     public partial RuntimeOptions RuntimeOptions { get; }
+
+    [Command("OpenCompactWebView2WindowCommand")]
+    private static void OpenCompactWebView2Window()
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open compact WebView2 window", "NotifyIconViewModel.Command"));
+
+        if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
+        {
+            _ = new CompactWebView2Window();
+        }
+    }
 
     [Command("RestartAsElevatedCommand")]
     private void RestartAsElevated()
@@ -76,17 +86,6 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
 
         // Current process will exit in PrivatePipeServer
-    }
-
-    [Command("OpenCompactWebView2WindowCommand")]
-    private static void OpenCompactWebView2Window()
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open compact WebView2 window", "NotifyIconViewModel.Command"));
-
-        if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
-        {
-            _ = new CompactWebView2Window();
-        }
     }
 
     [Command("ShowWindowCommand")]
