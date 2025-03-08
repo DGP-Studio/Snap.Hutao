@@ -2597,6 +2597,12 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>遊戲檔案管理/切換遊戲伺服器/注入功能需要系統管理員權限</value>
   </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>元素爆发特写冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>移除元素爆发镜头特写</value>
+  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>修正角色/隊伍設定/祈願/紀行等特殊介面的視野</value>
   </data>
