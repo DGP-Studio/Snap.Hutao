@@ -56,14 +56,14 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
     }
 
     [Command("CloseCommand")]
-    private void CloseWindow()
+    private async Task CloseWindow()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Close Window", "ExceptionWindow.Command"));
 
         Bindings.Update();
         if (!string.IsNullOrWhiteSpace(Comment))
         {
-            string email = Ioc.Default.GetRequiredService<HutaoUserOptions>().UserName ?? "Anonymous";
+            string email = (await Ioc.Default.GetRequiredService<HutaoUserOptions>().GetActualUserNameAsync()) ?? "Anonymous";
             SentrySdk.CaptureFeedback(Comment, email);
         }
 
