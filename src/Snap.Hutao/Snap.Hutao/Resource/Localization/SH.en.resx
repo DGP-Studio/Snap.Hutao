@@ -241,7 +241,7 @@
     <value>Level {0}</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
-    <value>Appear {0} Times</value>
+    <value>Played {0} Times</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
     <value>BiliBili</value>
@@ -1923,7 +1923,7 @@
     <value>Switch game account failed</value>
   </data>
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
-    <value>在重启胡桃时遇到问题，请手动重启</value>
+    <value>Encountered a problem while restarting Snap Hutao, please restart manually</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>Reached {0}</value>
