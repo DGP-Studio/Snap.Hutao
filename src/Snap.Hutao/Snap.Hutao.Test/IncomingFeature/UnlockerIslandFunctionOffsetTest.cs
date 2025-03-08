@@ -43,6 +43,7 @@ public class UnlockerIslandFunctionOffsetTest
                 SetupQuestBanner = 0x0D92B560,
                 FindGameObject = 0x107B3AE0,
                 SetActive = 0x107B3840,
+                EventCameraMove = 0x08A8A760,
             },
             Oversea = new()
             {
@@ -58,6 +59,7 @@ public class UnlockerIslandFunctionOffsetTest
                 SetupQuestBanner = 0x0DB113B0,
                 FindGameObject = 0x107C0CF0,
                 SetActive = 0x107C0A50,
+                EventCameraMove = 0x08BB0F30,
             },
         };
 
@@ -96,5 +98,7 @@ public class UnlockerIslandFunctionOffsetTest
         public required uint FindGameObject { get; set; }
 
         public required uint SetActive { get; set; }
+
+        public required uint EventCameraMove { get; set; }
     }
 }

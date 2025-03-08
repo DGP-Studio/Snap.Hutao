@@ -51,51 +51,50 @@ internal sealed partial class LaunchOptionsIslandFeatureStateMachine : Observabl
     [ObservableProperty]
     public partial bool CanToggleHideQuestBannerHotSwitch { get; set; }
 
+    [ObservableProperty]
+    public partial bool CanToggleEventCameraMoveColdSwitch { get; set; }
+
+    [ObservableProperty]
+    public partial bool CanToggleEventCameraMoveHotSwitch { get; set; }
+
     public void Update(LaunchOptions options)
     {
-        (
-            CanInputTargetFov,
-            CanToggleSetFovHotSwitch,
-            CanToggleSetFovColdSwitch,
-            CanToggleFixLowFovHotSwitch,
-            CanToggleDisableFogHotSwitch,
-            CanToggleTeamHotSwitch,
-            CanToggleTeamColdSwitch,
-            CanToggleLetMeInColdSwitch,
-            CanInputTargetFps,
-            CanToggleSetFpsHotSwitch) =
-            (options.IsIslandEnabled, options.IsGameRunning, options.HookingSetFieldOfView, options.IsSetFieldOfViewEnabled, options.HookingOpenTeam, options.IsSetTargetFrameRateEnabled) switch
+        (CanToggleSetFovColdSwitch, CanToggleSetFovHotSwitch) = StandardColdHotSwitchStatement(options.IsIslandEnabled, options.IsGameRunning, options.HookingSetFieldOfView);
+        (CanInputTargetFov, CanToggleFixLowFovHotSwitch, CanToggleDisableFogHotSwitch, CanInputTargetFps, CanToggleSetFpsHotSwitch) =
+            (options.IsIslandEnabled, options.HookingSetFieldOfView, options.IsSetFieldOfViewEnabled, options.IsSetTargetFrameRateEnabled) switch
             {
-                (F, _, _, _, _, _) => (F, F, F, F, F, F, F, F, F, F),
-                (T, F, F, _, F, T) => (F, F, T, F, F, F, T, T, T, T),
-                (T, F, F, _, T, T) => (F, F, T, F, F, T, T, T, T, T),
-                (T, F, F, _, F, F) => (F, F, T, F, F, F, T, T, F, T),
-                (T, F, F, _, T, F) => (F, F, T, F, F, T, T, T, F, T),
-                (T, F, T, F, F, _) => (F, T, T, F, F, F, T, T, F, F),
-                (T, F, T, F, T, _) => (F, T, T, F, F, T, T, T, F, F),
-                (T, F, T, T, F, F) => (T, T, T, T, T, F, T, T, F, T),
-                (T, F, T, T, F, T) => (T, T, T, T, T, F, T, T, T, T),
-                (T, F, T, T, T, F) => (T, T, T, T, T, T, T, T, F, T),
-                (T, F, T, T, T, T) => (T, T, T, T, T, T, T, T, T, T),
-                (T, T, F, _, F, F) => (F, F, F, F, F, F, F, F, F, T),
-                (T, T, F, _, F, T) => (F, F, F, F, F, F, F, F, T, T),
-                (T, T, F, _, T, F) => (F, F, F, F, F, T, F, F, F, T),
-                (T, T, F, _, T, T) => (F, F, F, F, F, T, F, F, T, T),
-                (T, T, T, F, F, _) => (F, T, F, F, F, F, F, F, F, F),
-                (T, T, T, F, T, _) => (F, T, F, F, F, T, F, F, F, F),
-                (T, T, T, T, F, F) => (T, T, F, T, T, F, F, F, F, T),
-                (T, T, T, T, F, T) => (T, T, F, T, T, F, F, F, T, T),
-                (T, T, T, T, T, F) => (T, T, F, T, T, T, F, F, F, T),
-                (T, T, T, T, T, T) => (T, T, F, T, T, T, F, F, T, T),
+                (F, _, _, _) => (F, F, F, F, F),
+                (T, T, F, _) => (F, F, F, F, F),
+                (T, F, _, T) => (F, F, F, T, T),
+                (T, F, _, F) => (F, F, F, F, T),
+                (T, T, T, F) => (T, T, T, F, T),
+                (T, T, T, T) => (T, T, T, T, T),
             };
 
-        (CanToggleHideQuestBannerColdSwitch, CanToggleHideQuestBannerHotSwitch) = (options.IsIslandEnabled, options.IsGameRunning, options.HookingSetupQuestBanner) switch
+        CanToggleLetMeInColdSwitch = StandardColdSwitchStatement(options.IsIslandEnabled, options.IsGameRunning);
+        (CanToggleTeamColdSwitch, CanToggleTeamHotSwitch) = StandardColdHotSwitchStatement(options.IsIslandEnabled, options.IsGameRunning, options.HookingOpenTeam);
+        (CanToggleHideQuestBannerColdSwitch, CanToggleHideQuestBannerHotSwitch) = StandardColdHotSwitchStatement(options.IsIslandEnabled, options.IsGameRunning, options.HookingSetupQuestBanner);
+        (CanToggleEventCameraMoveColdSwitch, CanToggleEventCameraMoveHotSwitch) = StandardColdHotSwitchStatement(options.IsIslandEnabled, options.IsGameRunning, options.HookingEventCameraMove);
+    }
+
+    private static (bool Cold, bool Hot) StandardColdHotSwitchStatement(bool isIslandEnabled, bool isGameRunning, bool hooking)
+    {
+        return (isIslandEnabled, isGameRunning, hooking) switch
         {
             (F, _, _) => (F, F),
             (T, F, F) => (T, F),
             (T, F, T) => (T, T),
             (T, T, F) => (F, F),
             (T, T, T) => (F, T),
+        };
+    }
+
+    private static bool StandardColdSwitchStatement(bool isIslandEnabled, bool isGameRunning)
+    {
+        return (isIslandEnabled, isGameRunning) switch
+        {
+            (T, F) => T,
+            _ => F,
         };
     }
 }

@@ -395,6 +395,24 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.HideQuestBanner, SettingEntry.LaunchHideQuestBanner, value);
     }
 
+    public bool HookingEventCameraMove
+    {
+        get => GetOption(ref fields.HookingEventCameraMove, SettingEntry.LaunchHookingEventCameraMove, false);
+        set
+        {
+            if (SetOption(ref fields.HookingEventCameraMove, SettingEntry.LaunchHookingEventCameraMove, value))
+            {
+                IslandFeatureStateMachine.Update(this);
+            }
+        }
+    }
+
+    public bool DisableEventCameraMove
+    {
+        get => GetOption(ref fields.DisableEventCameraMove, SettingEntry.LaunchDisableEventCameraMove, false);
+        set => SetOption(ref fields.DisableEventCameraMove, SettingEntry.LaunchDisableEventCameraMove, value);
+    }
+
     [UsedImplicitly]
     public ImmutableArray<AspectRatio> AspectRatios
     {
@@ -480,7 +498,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? IsScreenWidthEnabled;
         public int? ScreenHeight;
         public bool? IsScreenHeightEnabled;
-
         public bool? IsIslandEnabled;
         public bool? HookingSetFieldOfView;
         public bool? IsSetFieldOfViewEnabled;
@@ -494,11 +511,11 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? HookingMickyWonderPartner2;
         public bool? HookingSetupQuestBanner;
         public bool? HideQuestBanner;
+        public bool? HookingEventCameraMove;
+        public bool? DisableEventCameraMove;
         public bool? IsMonitorEnabled;
         public PlatformType? PlatformType;
         public bool? IsPlatformTypeEnabled;
-
-        // ReSharper disable once InconsistentNaming
         public bool? IsWindowsHDREnabled;
         public bool? UsingStarwardPlayTimeStatistics;
         public bool? UsingBetterGenshinImpactAutomation;

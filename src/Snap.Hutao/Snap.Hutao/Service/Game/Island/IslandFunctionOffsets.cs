@@ -30,4 +30,6 @@ internal struct IslandFunctionOffsets
     public uint FindGameObject;
     [JsonInclude]
     public uint SetActive;
+    [JsonInclude]
+    public uint EventCameraMove;
 }

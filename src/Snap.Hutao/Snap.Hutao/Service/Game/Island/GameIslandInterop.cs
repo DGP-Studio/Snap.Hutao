@@ -60,6 +60,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
         if (!resume)
         {
+#if !PREVENT_COPY_ISLAND_DLL
             try
             {
                 InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
@@ -69,6 +70,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                 context.Logger.LogError("Failed to copy island file.");
                 throw;
             }
+#endif
         }
 
         return true;
@@ -137,6 +139,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->HookingOpenTeam = options.HookingOpenTeam;
         pIslandEnvironment->HookingMickyWonderPartner2 = options.HookingMickyWonderPartner2;
         pIslandEnvironment->HookingSetupQuestBanner = options.HookingSetupQuestBanner;
+        pIslandEnvironment->HookingEventCameraMove = options.HookingEventCameraMove;
 
         UpdateIslandEnvironment(handle, options);
     }
@@ -153,6 +156,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress;
         pIslandEnvironment->HideQuestBanner = options.HideQuestBanner;
+        pIslandEnvironment->DisableEventCameraMove = options.DisableEventCameraMove;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }

@@ -60,6 +60,8 @@ internal sealed partial class SettingEntry
     public const string LaunchHookingMickyWonderPartner2 = "Launch.HookingMickyWonderPartner2";
     public const string LaunchHookingSetupQuestBanner = "Launch.HookingSetupQuestBanner";
     public const string LaunchHideQuestBanner = "Launch.HideQuestBanner";
+    public const string LaunchHookingEventCameraMove = "Launch.HookingEventCameraMove";
+    public const string LaunchDisableEventCameraMove = "Launch.DisableEventCameraMove";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
     public const string LaunchPlatformType = "Launch.PlatformType";

@@ -340,6 +340,7 @@
                                                 <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
                                                 <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
                                             <Grid
                                                 Grid.Row="0"
@@ -550,6 +551,36 @@
                                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameHideQuestBannerHotSwitchHeader}"
                                                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleHideQuestBannerHotSwitch}"
                                                         IsOn="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+                                                </Grid>
+                                            </Border>
+                                            <Border
+                                                Grid.Row="7"
+                                                Padding="16"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1">
+                                                <Grid ColumnSpacing="16" RowSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveColdSwitchHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleEventCameraMoveColdSwitch}"
+                                                        IsOn="{Binding LaunchOptions.HookingEventCameraMove, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameColdSwitchDescription}"/>
+                                                    <ToggleSwitch
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}"
+                                                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleEventCameraMoveHotSwitch}"
+                                                        IsOn="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
                                                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
                                                 </Grid>
                                             </Border>

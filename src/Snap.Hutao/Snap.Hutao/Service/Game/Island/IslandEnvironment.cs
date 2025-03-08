@@ -24,4 +24,6 @@ internal struct IslandEnvironment
     public BOOL HookingMickyWonderPartner2;
     public BOOL HookingSetupQuestBanner;
     public BOOL HideQuestBanner;
+    public BOOL HookingEventCameraMove;
+    public BOOL DisableEventCameraMove;
 }
