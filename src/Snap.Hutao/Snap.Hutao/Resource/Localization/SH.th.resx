@@ -2543,6 +2543,9 @@
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
     <value>เขียนทับสถานะเต็มหน้าจอเริ่มต้น</value>
   </data>
+  <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
+    <value>选择平台类型，不同的类型会影响游戏如何呈现 UI</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>เขียนทับความสูงหน้าจอเริ่มต้น</value>
   </data>
