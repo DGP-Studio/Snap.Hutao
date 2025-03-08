@@ -2597,6 +2597,12 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>O gerenciamento de arquivos de jogos/alternar o servidor de jogos/recurso de injeção requer permissão de administrador</value>
   </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>元素爆发特写冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>移除元素爆发镜头特写</value>
+  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>Correção da visão em interfaces especiais, como Personagem/Configuração de equipe/Desejo/Passe de batalha</value>
   </data>
