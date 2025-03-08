@@ -2597,6 +2597,12 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>การจัดการไฟล์เกม/การสลับเซิร์ฟเวอร์เกม/คุณสมบัติการแทรกต้องใช้สิทธิ์ผู้ดูแลระบบ</value>
   </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>元素爆发特写冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>移除元素爆发镜头特写</value>
+  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>แก้ไขมุมมองสำหรับอินเทอร์เฟซพิเศษ เช่น การกำหนดค่าตัวละคร/ทีม/คำอธิษฐาน/Battle Pass</value>
   </data>
