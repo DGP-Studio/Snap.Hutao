@@ -10,6 +10,8 @@ internal static class StaticResource
 {
     private const string ContractMap = "StaticResourceContractMap";
 
+    private static readonly Lock SyncRoot = new();
+
     private static readonly ApplicationDataCompositeValue DefaultResourceVersionMap = new()
     {
         // DO NOT MODIFY THIS MAP
@@ -72,6 +74,16 @@ internal static class StaticResource
         { "Skill", 4 },
         { "Talent", 4 },
     };
+
+    public static void Fulfill(string contractKey)
+    {
+        lock (SyncRoot)
+        {
+            ApplicationDataCompositeValue map = LocalSetting.Get(ContractMap, DefaultResourceVersionMap);
+            map[contractKey] = LatestResourceVersionMap[contractKey];
+            LocalSetting.Set(ContractMap, map);
+        }
+    }
 
     public static void FulfillAll()
     {

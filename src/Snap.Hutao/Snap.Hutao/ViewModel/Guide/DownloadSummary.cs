@@ -108,6 +108,7 @@ internal sealed partial class DownloadSummary : ObservableObject
                                     await taskContext.SwitchToMainThreadAsync();
                                     ProgressValue = 1;
                                     Description = SH.ViewModelWelcomeDownloadSummaryComplete;
+                                    StaticResource.Fulfill(Filename);
                                     return true;
                                 }
                             }
