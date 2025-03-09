@@ -3314,6 +3314,12 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上传数据</value>
   </data>
+  <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
+    <value>是否启动更新？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本现已可用</value>
+  </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下载更新失败</value>
   </data>

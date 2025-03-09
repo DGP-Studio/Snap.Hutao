@@ -10,7 +10,5 @@ internal enum CheckUpdateResultKind
     VersionApiInvalidSha256 = 2,
     AlreadyUpdated = 3,
 
-    NeedDownload = 4,
-    NeedInstall = 5,
-    SkipInstall = 6,
+    UpdateAvailable = 4,
 }
