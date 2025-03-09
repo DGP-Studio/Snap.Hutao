@@ -2546,7 +2546,7 @@
     <value>デフォルトのフルスクリーン設定を上書きします。</value>
   </data>
   <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
-    <value>选择平台类型，不同的类型会影响游戏如何呈现 UI</value>
+    <value>プラットフォームの種類を選択してください。異なる種類がゲーム UI の表示方法に影響を与えます</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>ゲームのウィンドウの高さを上書きします。</value>
@@ -2600,10 +2600,10 @@
     <value>ゲームファイル管理/サーバーの切り換え/注入機能には管理者権限が必要です</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
-    <value>元素爆发特写冷开关</value>
+    <value>元素爆発カットインのコールドスイッチ</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
-    <value>移除元素爆发镜头特写</value>
+    <value>元素爆発カットインを削除する</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>キャラクター/チーム編成/祈願/紀行などの特殊シーンを補正します</value>
@@ -2831,7 +2831,7 @@
     <value>ウィンドウ不透明度</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
-    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+    <value>通知領域アイコンを有効にすると、アイコンメニューからコンパクトウェブを起動します</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>動画の早送りを制御するショートカットキーを変更します</value>
@@ -3044,7 +3044,7 @@
     <value>異なる機能に同じショートカットキーを設定すると、予期せぬ結果を招く場合が可能で、正常に戻すには追加の操作やアプリの再起動が必要になるかもしれません</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
-    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
+    <value>美化のためカストマイズツールを使用して標準のタスクバーを置き換えた場合、通知領域アイコンを有効にすると：アイコンとの操作ができない/正常にアイコンを作成できない/エクスプローラーを再起動すると固まる/プログラムの起動後にクラッシュする等の問題が発生する可能性があります</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
@@ -3323,10 +3323,10 @@
     <value>データをアップロード</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
-    <value>是否启动更新？</value>
+    <value>更新を開始しますか？</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>胡桃バージョン {0} が利用可能です</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>更新パッチのダウンロードに失敗しました</value>
