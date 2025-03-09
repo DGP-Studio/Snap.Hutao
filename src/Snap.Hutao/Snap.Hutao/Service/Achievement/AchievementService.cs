@@ -97,6 +97,7 @@ internal sealed partial class AchievementService : IAchievementService
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
         archives.Remove(archive);
+        archives.MoveCurrentToFirst();
 
         // Invalidate cache
         viewCollectionCache.TryRemove(archive.InnerId, out _);
