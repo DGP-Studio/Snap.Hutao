@@ -1922,6 +1922,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Chuyển tài khoản thất bại</value>
   </data>
+  <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
+    <value>在重启胡桃时遇到问题，请手动重启</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>Đã đến {0}</value>
   </data>
@@ -2540,6 +2543,9 @@
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
     <value>Ghi đè trạng thái toàn màn hình mặc định</value>
   </data>
+  <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
+    <value>选择平台类型，不同的类型会影响游戏如何呈现 UI</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>Ghi đè chiều cao màn hình mặc định</value>
   </data>
@@ -2590,6 +2596,12 @@
   </data>
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>Quản lý tệp trò chơi/chuyển đổi máy chủ trò chơi/tính năng tiêm yêu cầu quyền quản trị viên</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>元素爆发特写冷开关</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>移除元素爆发镜头特写</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>Sửa lỗi tầm nhìn cho các giao diện đặc biệt như Nhân vật/Đội hình/Cầu nguyện/Nhật ký hành trình</value>
@@ -2816,6 +2828,9 @@
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>Độ mờ của cửa sổ</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
+    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>Thay đổi phím tắt điều khiển tua nhanh video</value>
   </data>
@@ -3025,6 +3040,9 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Đặt cùng một phím tắt cho các chức năng khác nhau có thể gây ra kết quả không mong muốn và cần thêm thao tác hoặc khởi động lại ứng dụng để khôi phục chức năng bình thường.</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
+    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Hiển thị biểu tượng ở khu vực thông báo để cho phép các tác vụ chạy nền, khởi động lại chương trình để kích hoạt</value>
@@ -3301,6 +3319,12 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Tải lên dữ liệu</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
+    <value>是否启动更新？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本现已可用</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Tải xuống bản cập nhật thất bại</value>
