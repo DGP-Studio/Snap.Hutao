@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
@@ -11,11 +9,6 @@ using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Net.Http;
-using System.Security.Cryptography;
-using Windows.System;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -48,7 +41,6 @@ internal sealed partial class UpdateService : IUpdateService
 
             checkUpdateResult.Kind = CheckUpdateResultKind.UpdateAvailable;
             checkUpdateResult.PackageInformation = packageInformation;
-
 
             if (!LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false))
             {

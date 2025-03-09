@@ -15,9 +15,7 @@ using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
-using Snap.Hutao.Web.Hutao;
 using System.IO;
 
 namespace Snap.Hutao.ViewModel;
