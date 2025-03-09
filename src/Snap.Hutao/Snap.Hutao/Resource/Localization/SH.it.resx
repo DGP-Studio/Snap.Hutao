@@ -2828,6 +2828,9 @@
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>Opacità Finestra</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
+    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>Cambia la scorciatoia per controllare l'avanzamento rapido del video</value>
   </data>
@@ -3037,6 +3040,9 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>L'impostazione della stessa scorciatoia da tastiera per funzioni diverse potrebbe causare risultati imprevisti e richiedere operazioni aggiuntive o il riavvio dell'applicazione per ripristinare il normale funzionamento.</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
+    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Mostra icona nell'area di notifica, per consentire l'esecuzione di attività in background. Riavvia il programma per attivare.</value>
@@ -3313,6 +3319,12 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Carica dati</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
+    <value>是否启动更新？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本现已可用</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Download dell'aggiornamento non riuscito</value>
