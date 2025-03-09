@@ -23,6 +23,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
@@ -40,7 +41,7 @@
                         Text="{Binding Name}"
                         TextTrimming="CharacterEllipsis"/>
                     <NumberBox
-                        Grid.Column="2"
+                        Grid.Column="3"
                         MinWidth="{StaticResource NumberBoxMinWidth}"
                         VerticalAlignment="Center"
                         Maximum="{Binding LevelMax}"
@@ -48,12 +49,12 @@
                         SpinButtonPlacementMode="Inline"
                         Value="{Binding LevelCurrent, Mode=TwoWay}"/>
                     <FontIcon
-                        Grid.Column="3"
+                        Grid.Column="4"
                         Margin="8"
                         FontSize="12"
                         Glyph="&#xEBE7;"/>
                     <NumberBox
-                        Grid.Column="4"
+                        Grid.Column="5"
                         MinWidth="{StaticResource NumberBoxMinWidth}"
                         VerticalAlignment="Center"
                         Maximum="{Binding LevelMax}"
@@ -80,6 +81,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="1*"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
@@ -90,24 +92,27 @@
                     Height="36"
                     Icon="{Binding Icon}"
                     Quality="{Binding Quality}"/>
-                <!--  TODO  -->
-                <!--  <StackPanel  -->
-                <!--  HorizontalAlignment="Right"  -->
-                <!--  Orientation="Horizontal">  -->
-                <!--     <TextBlock VerticalAlignment="Center" Text="已突破"/> -->
-                <!--  <CheckBox  -->
-                <!--  VerticalAlignment="Center"  -->
-                <!--  IsChecked="{Binding IsPromoted, Mode=TwoWay}"  -->
-                <!--  Visibility="{Binding IsPromotionAvailable}"/>  -->
-                <!-- </StackPanel> -->
                 <TextBlock
                     Grid.Column="1"
                     Margin="16,0,0,0"
                     VerticalAlignment="Center"
                     Text="{Binding Name}"
                     TextTrimming="CharacterEllipsis"/>
-                <NumberBox
+                <StackPanel
                     Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Visibility="{Binding IsPromotionAvailable}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock VerticalAlignment="Center" Text="{shuxm:ResourceString Name=ViewDialogCultivatePromotionDeltaPromoted}"/>
+                        <CheckBox
+                            MinWidth="1"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding IsPromoted, Mode=TwoWay}"/>
+                    </StackPanel>
+                </StackPanel>
+                <NumberBox
+                    Grid.Column="3"
                     MinWidth="{StaticResource NumberBoxMinWidth}"
                     VerticalAlignment="Center"
                     Maximum="{Binding LevelMax}"
@@ -115,12 +120,12 @@
                     SpinButtonPlacementMode="Inline"
                     Value="{Binding LevelCurrent, Mode=TwoWay}"/>
                 <FontIcon
-                    Grid.Column="3"
+                    Grid.Column="4"
                     Margin="8"
                     FontSize="12"
                     Glyph="&#xEBE7;"/>
                 <NumberBox
-                    Grid.Column="4"
+                    Grid.Column="5"
                     MinWidth="{StaticResource NumberBoxMinWidth}"
                     VerticalAlignment="Center"
                     Maximum="{Binding LevelMax}"
@@ -141,6 +146,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="1*"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
@@ -158,7 +164,7 @@
                     Text="{Binding Name}"
                     TextTrimming="CharacterEllipsis"/>
                 <NumberBox
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="{StaticResource NumberBoxMinWidth}"
                     VerticalAlignment="Center"
                     Maximum="{Binding LevelMax}"
@@ -166,12 +172,12 @@
                     SpinButtonPlacementMode="Inline"
                     Value="{Binding LevelCurrent, Mode=TwoWay}"/>
                 <FontIcon
-                    Grid.Column="3"
+                    Grid.Column="4"
                     Margin="8"
                     FontSize="12"
                     Glyph="&#xEBE7;"/>
                 <NumberBox
-                    Grid.Column="4"
+                    Grid.Column="5"
                     MinWidth="{StaticResource NumberBoxMinWidth}"
                     VerticalAlignment="Center"
                     Maximum="{Binding LevelMax}"

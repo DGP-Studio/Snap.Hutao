@@ -46,7 +46,6 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Icon = avatar.Icon;
         Quality = avatar.Quality;
 
-        // PromoteLevel must be set after IsPromoted
         IsPromoted = BaseValueInfoConverter.GetPromoted(avatar.LevelNumber, avatar.PromoteLevel);
         PromoteLevel = avatar.PromoteLevel;
 
@@ -67,7 +66,11 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public QualityType Quality { get; }
 
-    public PromoteLevel PromoteLevel { get; private set; }
+    public PromoteLevel PromoteLevel
+    {
+        get => field + (IsPromoted ? 1U : 0U);
+        private set;
+    }
 
     public bool IsPromotionAvailable
     {
@@ -104,17 +107,8 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         set => SetProperty(LevelTarget, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelTarget, v));
     }
 
-    public bool IsPromoted
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value) && value)
-            {
-                PromoteLevel++;
-            }
-        }
-    }
+    [ObservableProperty]
+    public partial bool IsPromoted { get; set; }
 
     public static CalculableAvatar From(Avatar source)
     {
