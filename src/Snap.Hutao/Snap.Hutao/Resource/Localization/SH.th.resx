@@ -2828,6 +2828,9 @@
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>ความโปร่งแสงของหน้าต่าง</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
+    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>เปลี่ยนปุ่มลัดสำหรับควบคุมการกรอวิดีโอไปข้างหน้า</value>
   </data>
@@ -3037,6 +3040,9 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>การตั้งค่าปุ่มลัดเดียวกันสำหรับฟังก์ชันต่างๆ อาจทำให้เกิดผลลัพธ์ที่ไม่คาดคิด และจำเป็นต้องดำเนินการเพิ่มเติมหรือรีสตาร์ทแอปพลิเคชันเพื่อให้กลับมาทำงานได้ตามปกติ</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
+    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>แสดงไอคอนในพื้นที่แจ้งเตือนเพื่อให้สามารถทำงานเบื้องหลังได้ จะมีผลหลังจากการรีสตาร์ท</value>
@@ -3313,6 +3319,12 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>อัปโหลดข้อมูล</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
+    <value>是否启动更新？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本现已可用</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>ดาวน์โหลดอัปเดตล้มเหลว</value>
