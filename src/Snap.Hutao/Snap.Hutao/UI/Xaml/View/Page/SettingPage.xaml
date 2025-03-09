@@ -271,6 +271,11 @@
                                         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
+                                <InfoBar
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingNotifyIconCustomTaskBarWaring}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingNotifyIconDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingNotifyIconHeader}"
@@ -477,6 +482,11 @@
                                     Margin="1,13,0,5"
                                     Style="{StaticResource SettingsCardHeaderTextBlockStyle}"
                                     Text="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2Header}"/>
+                                <InfoBar
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2InformationDescription}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Informational"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoPlayPauseDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoPlayPauseHeader}"

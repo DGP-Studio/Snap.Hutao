@@ -53,6 +53,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         if (!File.Exists(path))
         {
             Debugger.Break();
+            return new(false, default!);
         }
 
         using (FileStream fileStream = File.OpenRead(path))
@@ -140,23 +141,26 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
         async Task SetCurrentBackgroundPathSetAsync([RequireStaticDelegate] Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
         {
-            HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
-            Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);
-            if (response is { Data: { } wallpaper })
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                if (wallpaper.Url is { } url)
+                HutaoWallpaperClient wallpaperClient = scope.ServiceProvider.GetRequiredService<HutaoWallpaperClient>();
+                Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);
+                if (response is { Data: { } wallpaper })
                 {
-                    ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
-                    if (!File.Exists(file))
+                    if (wallpaper.Url is { } url)
                     {
-                        Debugger.Break();
+                        ValueFile file = await scope.ServiceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
+                        if (!File.Exists(file))
+                        {
+                            Debugger.Break();
+                        }
+
+                        availableBackgroundPathSet = [file];
                     }
 
-                    availableBackgroundPathSet = [file];
+                    await taskContext.SwitchToMainThreadAsync();
+                    backgroundImageOptions.Wallpaper = wallpaper;
                 }
-
-                await taskContext.SwitchToMainThreadAsync();
-                backgroundImageOptions.Wallpaper = wallpaper;
             }
         }
     }

@@ -95,13 +95,12 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                         {
                             if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
                             {
-                                string raw = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                logger.LogCritical("Failed to download '\e[1m\e[31m{Uri}\e[37m' with unexpected body '\e[33m{Raw}\e[37m'", uri, raw);
                                 return;
                             }
 
                             using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
                             {
+                                Directory.CreateDirectory(Path.GetDirectoryName(baseFile)!);
                                 using (FileStream fileStream = File.Create(baseFile))
                                 {
                                     await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);

@@ -60,7 +60,16 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
             jsBridge = SourceProvider.CreateJSBridge(serviceProvider, CoreWebView2, userAndUid);
 
             await navigator.NavigateAsync(source).ConfigureAwait(true);
-            await CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.BrowsingHistory);
+
+            try
+            {
+                await CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.BrowsingHistory);
+            }
+            catch (InvalidCastException)
+            {
+                infoBarService.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed);
+                await CoreWebView2.DeleteCookiesAsync(userAndUid.IsOversea).ConfigureAwait(true);
+            }
         }
     }
 
