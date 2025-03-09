@@ -2828,6 +2828,9 @@
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>視窗不透明度</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
+    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>更改控制影片快轉的快速鍵</value>
   </data>
@@ -3037,6 +3040,9 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用才能恢復正常</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
+    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
@@ -3313,6 +3319,12 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上傳資料</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
+    <value>是否启动更新？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本现已可用</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下載更新失敗</value>
