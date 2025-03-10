@@ -292,7 +292,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
 
         if (File.Exists(cacheFile))
         {
-            if (operation.NewAsset.AssetSize == new FileInfo(cacheFile).Length)
+            if (operation.NewAsset.AssetSize == new System.IO.FileInfo(cacheFile).Length)
             {
                 if (operation.NewAsset.AssetHashMd5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                 {
