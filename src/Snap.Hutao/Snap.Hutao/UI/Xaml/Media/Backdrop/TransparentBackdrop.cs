@@ -38,16 +38,12 @@ internal sealed partial class TransparentBackdrop : SystemBackdrop, IBackdropNee
 
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
     {
-        base.OnTargetConnected(target, xamlRoot);
-
         brush ??= Compositor.CreateColorBrush(tintColor);
         target.SystemBackdrop = brush;
     }
 
     protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop target)
     {
-        base.OnTargetDisconnected(target);
-
         target.SystemBackdrop = null;
 
         if (compositorLock is not null)
