@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
@@ -15,4 +16,7 @@ internal sealed class Avatar : Calculable
 
     [JsonPropertyName("element_attr_id")]
     public ElementAttributeId ElementAttrId { get; set; }
+
+    [JsonPropertyName("promote_level")]
+    public PromoteLevel PromoteLevel { get; set; }
 }

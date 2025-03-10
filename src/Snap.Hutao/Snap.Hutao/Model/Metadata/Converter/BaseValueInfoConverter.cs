@@ -9,6 +9,15 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 
 internal static class BaseValueInfoConverter
 {
+    public static bool GetPromoted(Level level, PromoteLevel promoteLevel)
+    {
+        return (level.Value, promoteLevel.Value) switch
+        {
+            (20U, 1U) or (40U, 2U) or (50U, 3U) or (60U, 4U) or (70U, 5U) or (80U, 6U) => true,
+            _ => false,
+        };
+    }
+
     public static PromoteLevel GetPromoteLevel(Level level, Level maxLevel, bool promoted)
     {
         if (maxLevel <= 70U && level == 70U)

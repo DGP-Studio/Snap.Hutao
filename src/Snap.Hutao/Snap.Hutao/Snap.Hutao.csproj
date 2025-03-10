@@ -128,6 +128,7 @@
     <None Remove="Resource\GuideStaticResourceQualityComparison.png" />
     <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
     <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
+    <None Remove="Resource\Icon\UI_IconKira.png" />
     <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
@@ -241,6 +242,7 @@
     <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <Content Include="Resource\Icon\UI_IconSmall_EP.png" />
+    <Content Include="Resource\Icon\UI_IconKira.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
     <Content Include="Resource\Icon\UI_Icon_RelicType3.png" />
