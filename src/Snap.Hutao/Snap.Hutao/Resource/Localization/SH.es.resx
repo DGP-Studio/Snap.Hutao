@@ -1226,6 +1226,9 @@
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>Añadir o actualizar por lotes al plan de desarrollo actual</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>已突破</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Añadir o actualizar al plan de mejora actual</value>
   </data>
