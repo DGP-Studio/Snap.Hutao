@@ -1226,6 +1226,9 @@
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>批次添加或更新到目前養成計劃</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>已突破</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>添加或更新到目前養成計劃</value>
   </data>
