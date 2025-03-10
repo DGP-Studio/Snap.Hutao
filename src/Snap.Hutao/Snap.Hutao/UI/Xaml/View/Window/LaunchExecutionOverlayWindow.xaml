@@ -21,7 +21,10 @@
                 Color="{StaticResource SolidBackgroundFillColorBase}"/>
         </Grid.Resources>
 
-        <SplitButton Height="42" Margin="6">
+        <SplitButton
+            Height="40"
+            Margin="6"
+            VerticalAlignment="Stretch">
             <SplitButton.Content>
                 <FontIcon Glyph="&#xE701;"/>
             </SplitButton.Content>

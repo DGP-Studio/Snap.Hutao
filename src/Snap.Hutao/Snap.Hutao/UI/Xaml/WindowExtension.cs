@@ -108,25 +108,12 @@ internal static class WindowExtension
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
     }
 
-    [Obsolete]
-    public static unsafe void BringToForeground(this Window window)
+    public static void RemoveStyleDialogFrame(this Window window)
     {
-        HWND fgHwnd = GetForegroundWindow();
-        HWND hwnd = window.GetWindowHandle();
-
-        uint threadIdHwnd = GetWindowThreadProcessId(hwnd, default);
-        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd, default);
-
-        if (threadIdHwnd != threadIdFgHwnd)
-        {
-            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, true);
-            SetForegroundWindow(hwnd);
-            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, false);
-        }
-        else
-        {
-            SetForegroundWindow(hwnd);
-        }
+        HWND hwnd = WindowNative.GetWindowHandle(window);
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+        style &= ~(nint)WINDOW_STYLE.WS_DLGFRAME;
+        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style);
     }
 
     public static double GetRasterizationScale(this Window window)
