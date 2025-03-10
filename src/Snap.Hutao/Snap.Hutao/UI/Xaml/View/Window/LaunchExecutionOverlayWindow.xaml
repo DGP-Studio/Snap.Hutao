@@ -1,0 +1,38 @@
+<Window
+    x:Class="Snap.Hutao.UI.Xaml.View.Window.LaunchExecutionOverlayWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Snap.Hutao.UI.Xaml.View.Window"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="LaunchExecutionOverlayWindow"
+    mc:Ignorable="d">
+
+    <Grid
+        x:Name="RootGrid"
+        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+        BackgroundSizing="InnerBorderEdge"
+        BorderBrush="{x:Null}"
+        BorderThickness="0">
+        <Grid.Resources>
+            <SolidColorBrush
+                x:Key="SolidBackgroundFillColorBaseBrush"
+                Opacity="0.4"
+                Color="{StaticResource SolidBackgroundFillColorBase}"/>
+        </Grid.Resources>
+
+        <SplitButton Height="42" Margin="6">
+            <SplitButton.Content>
+                <FontIcon Glyph="&#xE701;"/>
+            </SplitButton.Content>
+            <SplitButton.Flyout>
+                <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False"/>
+            </SplitButton.Flyout>
+        </SplitButton>
+
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="TEST"/>
+    </Grid>
+</Window>

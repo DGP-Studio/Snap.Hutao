@@ -29,6 +29,7 @@ namespace Snap.Hutao.UI.Windowing;
 internal sealed class XamlWindowController
 {
     private readonly Window window;
+    private readonly bool hasCustomSystemBackdrop;
     private readonly IServiceProvider serviceProvider;
     private readonly AppOptions appOptions;
 
@@ -75,6 +76,8 @@ internal sealed class XamlWindowController
 
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
+
+        hasCustomSystemBackdrop = window.SystemBackdrop is not null;
 
         // SystemBackdrop
         UpdateSystemBackdrop(appOptions.BackdropType);
@@ -164,6 +167,11 @@ internal sealed class XamlWindowController
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)
     {
+        if (hasCustomSystemBackdrop)
+        {
+            return true;
+        }
+
         window.SystemBackdrop = backdropType switch
         {
             BackdropType.Transparent => new TransparentBackdrop(),

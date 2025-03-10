@@ -304,7 +304,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             return;
         }
 
-        MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+        // MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+        Window mainWindow = serviceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
         currentWindowReference.Window = mainWindow;
 
         mainWindow.SwitchTo();
