@@ -1226,6 +1226,9 @@
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>Mevcut Geliştirme Planına toplu ekle veya güncelle</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>已突破</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Mevcut Geliştirme İlerleme Planına ekle veya güncelle</value>
   </data>
