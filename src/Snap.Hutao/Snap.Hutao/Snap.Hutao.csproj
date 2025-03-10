@@ -338,7 +338,7 @@
     <PackageReference Include="Sentry.Extensions.Logging" Version="5.3.0" />
     <PackageReference Include="Sentry.Profiling" Version="5.3.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="2.0.2">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="2.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

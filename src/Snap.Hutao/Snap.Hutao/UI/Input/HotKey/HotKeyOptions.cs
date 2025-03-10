@@ -33,7 +33,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         // The registration logic of hotkeys is done in this class
         // However, the key combination & state is stored in different combination classes.
         // If different combination classes have same key combination, this will cause several issues.
-        // Registration/Unregistration is performed by the combination class.
         MouseClickRepeatForeverKeyCombination = new(
             serviceProvider,
             hwnd,
