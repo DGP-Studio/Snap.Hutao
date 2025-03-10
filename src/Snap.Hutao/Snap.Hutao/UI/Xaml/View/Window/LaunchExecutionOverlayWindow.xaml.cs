@@ -31,7 +31,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         presenter.IsMinimizable = false;
         presenter.IsResizable = false;
         presenter.IsAlwaysOnTop = true;
-        presenter.SetBorderAndTitleBar(true, false);
+        presenter.SetBorderAndTitleBar(false, false);
         AppWindow.SetPresenter(presenter);
         AppWindow.Resize(ScaledSizeInt32.CreateForWindow(320, 56, this));
 
@@ -40,7 +40,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         this.InitializeController(serviceProvider);
 
         uint color = 0xFFFFFFFE;
-        DwmSetWindowAttribute<COLORREF>(this.GetWindowHandle(), DWMWINDOWATTRIBUTE.DWMWA_BORDER_COLOR, ref Unsafe.As<uint, COLORREF>(ref color));
+        DwmSetWindowAttribute(this.GetWindowHandle(), DWMWINDOWATTRIBUTE.DWMWA_BORDER_COLOR, ref Unsafe.As<uint, COLORREF>(ref color));
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => RootGrid; }
