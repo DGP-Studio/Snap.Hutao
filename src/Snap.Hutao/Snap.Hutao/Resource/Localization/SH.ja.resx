@@ -1227,6 +1227,9 @@
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>現在の育成計画に一括追加または更新する</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>已突破</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>現在の育成計画に追加または更新する</value>
   </data>
