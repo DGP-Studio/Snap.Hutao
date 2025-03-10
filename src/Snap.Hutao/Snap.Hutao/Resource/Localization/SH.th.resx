@@ -1226,6 +1226,9 @@
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>เพิ่มหรืออัปเดตเป็นชุดไปยังแผนการบำรุงปัจจุบัน</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>已突破</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>เพิ่มหรืออัปเดตไปยังแผนการพัฒนาปัจจุบัน</value>
   </data>
