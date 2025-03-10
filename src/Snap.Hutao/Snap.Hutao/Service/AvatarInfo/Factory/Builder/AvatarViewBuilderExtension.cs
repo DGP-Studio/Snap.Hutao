@@ -10,6 +10,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
 using MetadataSkill = Snap.Hutao.Model.Metadata.Avatar.Skill;
@@ -49,7 +50,7 @@ internal static class AvatarViewBuilderExtension
 
         static ImmutableArray<ConstellationView> CreateConstellations(ImmutableArray<MetadataSkill> talents, FrozenSet<SkillId> activatedIds)
         {
-            // TODO: use builder here
+            // TODO: use builder there
             return talents.SelectAsArray(talent => new ConstellationView
             {
                 Name = talent.Name,
@@ -100,6 +101,18 @@ internal static class AvatarViewBuilderExtension
         where TBuilder : IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.NameCard = nameCard);
+    }
+
+    public static TBuilder SetPromoteLevel<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
+        where TBuilder : IAvatarViewBuilder
+    {
+        builder.View.PromoteLevel = promoteLevel;
+
+        bool[] promoteArray = new bool[6];
+        promoteArray.AsSpan(0, (int)(uint)promoteLevel).Fill(true);
+        builder.View.PromoteArray = ImmutableCollectionsMarshal.AsImmutableArray(promoteArray);
+
+        return builder;
     }
 
     public static TBuilder SetProperties<TBuilder>(this TBuilder builder, ImmutableArray<AvatarProperty> properties)

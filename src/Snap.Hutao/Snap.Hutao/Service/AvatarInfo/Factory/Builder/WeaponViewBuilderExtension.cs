@@ -6,6 +6,8 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
@@ -75,6 +77,18 @@ internal static class WeaponViewBuilderExtension
         where TBuilder : IWeaponViewBuilder
     {
         return builder.SetName<TBuilder, WeaponView>(name);
+    }
+
+    public static TBuilder SetPromoteLevel<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
+        where TBuilder : IWeaponViewBuilder
+    {
+        builder.View.PromoteLevel = promoteLevel;
+
+        bool[] promoteArray = new bool[6];
+        promoteArray.AsSpan(0, (int)(uint)promoteLevel).Fill(true);
+        builder.View.PromoteArray = ImmutableCollectionsMarshal.AsImmutableArray(promoteArray);
+
+        return builder;
     }
 
     public static TBuilder SetQuality<TBuilder>(this TBuilder builder, QualityType quality)

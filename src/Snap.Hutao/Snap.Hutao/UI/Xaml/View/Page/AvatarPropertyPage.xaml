@@ -477,6 +477,21 @@
                         Text="{Binding Value}"/>
                 </Grid>
             </DataTemplate>
+
+            <DataTemplate x:Key="PromoteArrayTemplate" x:DataType="x:Boolean">
+                <Grid>
+                    <BitmapIcon
+                        Width="12"
+                        Foreground="#FFFFFFFF"
+                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                        Visibility="{Binding}"/>
+                    <BitmapIcon
+                        Width="12"
+                        Foreground="#FF808080"
+                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                        Visibility="{Binding Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -687,8 +702,13 @@
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                                         Text="{Binding Summary.Avatars.CurrentItem.Name}"/>
+                                                                    <ItemsControl
+                                                                        Margin="0,2,0,0"
+                                                                        ItemTemplate="{StaticResource PromoteArrayTemplate}"
+                                                                        ItemsPanel="{ThemeResource HorizontalStackPanelSpacing2Template}"
+                                                                        ItemsSource="{Binding Summary.Avatars.CurrentItem.PromoteArray}"/>
                                                                     <TextBlock
-                                                                        Margin="0,4,0,0"
+                                                                        Margin="0,2,0,0"
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource BaseTextBlockStyle}"
                                                                         Text="{Binding Summary.Avatars.CurrentItem.Level}"/>
@@ -762,8 +782,13 @@
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                                         Text="{Binding Name}"/>
+                                                                    <ItemsControl
+                                                                        Margin="0,2,0,0"
+                                                                        ItemTemplate="{StaticResource PromoteArrayTemplate}"
+                                                                        ItemsPanel="{ThemeResource HorizontalStackPanelSpacing2Template}"
+                                                                        ItemsSource="{Binding PromoteArray}"/>
                                                                     <TextBlock
-                                                                        Margin="0,4,0,0"
+                                                                        Margin="0,2,0,0"
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource BaseTextBlockStyle}"
                                                                         Text="{Binding Level}"/>

@@ -5,6 +5,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
@@ -20,6 +21,8 @@ internal sealed class WeaponView : EquipView, ICalculableSource<ICalculableWeapo
 
     public string AffixDescription { get; set; } = default!;
 
+    public ImmutableArray<bool> PromoteArray { get; set; }
+
     internal WeaponId Id { get; set; }
 
     internal uint LevelNumber { get; set; }
@@ -27,6 +30,8 @@ internal sealed class WeaponView : EquipView, ICalculableSource<ICalculableWeapo
     internal uint MaxLevel { get => Model.Metadata.Weapon.Weapon.GetMaxLevelByQuality(Quality); }
 
     internal WeaponType WeaponType { get; set; }
+
+    internal PromoteLevel PromoteLevel { get; set; }
 
     public ICalculableWeapon ToCalculable()
     {

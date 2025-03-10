@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -44,6 +45,8 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Icon = avatar.Icon;
         Quality = avatar.Quality;
 
+        IsPromoted = BaseValueInfoConverter.GetPromoted(avatar.LevelNumber, avatar.PromoteLevel);
+
         LevelCurrent = LevelMin;
     }
 
@@ -61,10 +64,27 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public QualityType Quality { get; }
 
+    [ObservableProperty]
+    public partial bool IsPromoted { get; set; }
+
+    public PromoteLevel PromoteLevel { get => BaseValueInfoConverter.GetPromoteLevel(LevelCurrent, LevelMax, IsPromoted); }
+
+    public bool IsPromotionAvailable
+    {
+        get => LevelCurrent is 20U or 40U or 50U or 60U or 70U or 80U;
+    }
+
     public uint LevelCurrent
     {
         get => persistsLevel ? LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin) : field;
-        set => _ = persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value);
+        set
+        {
+            if (persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value))
+            {
+                OnPropertyChanged(nameof(IsPromotionAvailable));
+                IsPromoted = false;
+            }
+        }
     }
 
     public uint LevelTarget

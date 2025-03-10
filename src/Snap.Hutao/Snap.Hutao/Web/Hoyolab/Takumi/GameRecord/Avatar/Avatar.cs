@@ -31,6 +31,10 @@ internal class Avatar
     [JsonPropertyName("actived_constellation_num")]
     public int ActivedConstellationNum { get; set; }
 
+    // Not in response data
+    [JsonPropertyName("promote_level")]
+    public PromoteLevel PromoteLevel { get; set; }
+
     // Ignored field: string image
     // Ignored field: string card_image
     // Ignored field: bool is_chosen
