@@ -20,17 +20,19 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         AppWindow.Title = "SnapHutaoLaunchExecutionOverlay";
         AppWindow.IsShownInSwitchers = false;
 
-        OverlappedPresenter presenter = OverlappedPresenter.CreateForContextMenu();
-        presenter.IsMaximizable = false;
-        presenter.IsMinimizable = false;
-        presenter.IsResizable = false;
-        presenter.IsAlwaysOnTop = true;
-        presenter.SetBorderAndTitleBar(true, false);
-        AppWindow.SetPresenter(presenter);
+        // Thanks to @Scighost for the following code
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsMaximizable = false;
+            presenter.IsMinimizable = false;
+            presenter.IsAlwaysOnTop = true;
+            presenter.SetBorderAndTitleBar(false, false);
+        }
 
         AppWindow.Resize(ScaledSizeInt32.CreateForWindow(320, 56, this));
 
         this.AddExStyleLayered();
+        this.RemoveStyleOverlappedWindow();
 
         SystemBackdrop = new TransparentBackdrop();
 
