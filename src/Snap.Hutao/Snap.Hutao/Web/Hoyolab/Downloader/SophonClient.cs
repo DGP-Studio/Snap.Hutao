@@ -32,4 +32,17 @@ internal sealed partial class SophonClient : ISophonClient
 
         return Response.Response.DefaultIfNull(resp);
     }
+
+    public async ValueTask<Response<SophonPatchBuild>> GetPatchBuildAsync(BranchWrapper branch, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.SophonChunkGetPatchBuild())
+            .PostJson(branch);
+
+        Response<SophonPatchBuild>? resp = await builder
+            .SendAsync<Response<SophonPatchBuild>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
 }
