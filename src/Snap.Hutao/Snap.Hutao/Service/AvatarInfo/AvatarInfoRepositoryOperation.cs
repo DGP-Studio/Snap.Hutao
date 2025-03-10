@@ -69,9 +69,8 @@ internal sealed partial class AvatarInfoRepositoryOperation
 
             // We can't obtain avatar promote level from game record,
             // but we can obtain it from the calculator.
-            ImmutableArray<CalculableAvatar> calculableAvatars = await calculateClient
-                .GetAvatarsAsync(userAndUid, token)
-                .ConfigureAwait(false);
+            ImmutableArray<CalculableAvatar> calculableAvatars = await calculateClient.GetAvatarsAsync(userAndUid, token).ConfigureAwait(false);
+            ImmutableDictionary<uint, CalculableAvatar> calculableAvatarMap = calculableAvatars.ToImmutableDictionary(x => x.Id);
 
             foreach (DetailedCharacter character in detailsWrapper.List)
             {
@@ -80,11 +79,9 @@ internal sealed partial class AvatarInfoRepositoryOperation
                     continue;
                 }
 
-                CalculableAvatar calculableAvatar = calculableAvatars.Single(info => info.Id == character.Base.Id);
-                character.Base.PromoteLevel = calculableAvatar.PromoteLevel;
+                CalculableAvatar? calculableAvatar = calculableAvatarMap.GetValueOrDefault(character.Base.Id);
+                character.Base.PromoteLevel = calculableAvatar?.PromoteLevel ?? 0;
 
-                // We can only obtain new avatar, and we can't lose the avatar we already have.
-                // So we don't need to remove any avatar info from the database.
                 EntityAvatarInfo? entity = dbInfoMap.GetValueOrDefault(character.Base.Id);
                 AddOrUpdateAvatarInfo(entity, uid, appDbContext, character);
             }

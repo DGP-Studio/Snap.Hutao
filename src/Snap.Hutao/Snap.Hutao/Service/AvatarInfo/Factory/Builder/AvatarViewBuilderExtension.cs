@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -11,6 +10,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
 using MetadataSkill = Snap.Hutao.Model.Metadata.Avatar.Skill;
@@ -50,7 +50,7 @@ internal static class AvatarViewBuilderExtension
 
         static ImmutableArray<ConstellationView> CreateConstellations(ImmutableArray<MetadataSkill> talents, FrozenSet<SkillId> activatedIds)
         {
-            // TODO: use builder here
+            // TODO: use builder there
             return talents.SelectAsArray(talent => new ConstellationView
             {
                 Name = talent.Name,
@@ -106,14 +106,11 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetPromoteLevel<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
         where TBuilder : IAvatarViewBuilder
     {
-        bool[] promoteListBuilder = new bool[6];
-        for (int i = 0; i < promoteLevel; i++)
-        {
-            promoteListBuilder[i] = true;
-        }
-
         builder.View.PromoteLevel = promoteLevel;
-        builder.View.PromoteList = promoteListBuilder.ToImmutableArray();
+
+        bool[] promoteArray = new bool[6];
+        promoteArray.AsSpan(0, (int)(uint)promoteLevel).Fill(true);
+        builder.View.PromoteArray = ImmutableCollectionsMarshal.AsImmutableArray(promoteArray);
 
         return builder;
     }

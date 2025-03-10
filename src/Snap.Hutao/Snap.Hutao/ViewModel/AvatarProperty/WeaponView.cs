@@ -21,7 +21,7 @@ internal sealed class WeaponView : EquipView, ICalculableSource<ICalculableWeapo
 
     public string AffixDescription { get; set; } = default!;
 
-    public ImmutableArray<bool> PromoteList { get; set; }
+    public ImmutableArray<bool> PromoteArray { get; set; }
 
     internal WeaponId Id { get; set; }
 

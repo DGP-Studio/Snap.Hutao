@@ -29,7 +29,6 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         Quality = avatar.Quality;
-        PromoteLevel = 0;
 
         LevelCurrent = LevelMin;
     }
@@ -47,7 +46,6 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Quality = avatar.Quality;
 
         IsPromoted = BaseValueInfoConverter.GetPromoted(avatar.LevelNumber, avatar.PromoteLevel);
-        PromoteLevel = avatar.PromoteLevel;
 
         LevelCurrent = LevelMin;
     }
@@ -66,11 +64,10 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public QualityType Quality { get; }
 
-    public PromoteLevel PromoteLevel
-    {
-        get => field + (IsPromoted ? 1U : 0U);
-        private set;
-    }
+    [ObservableProperty]
+    public partial bool IsPromoted { get; set; }
+
+    public PromoteLevel PromoteLevel { get => BaseValueInfoConverter.GetPromoteLevel(LevelCurrent, LevelMax, IsPromoted); }
 
     public bool IsPromotionAvailable
     {
@@ -86,17 +83,6 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
             {
                 OnPropertyChanged(nameof(IsPromotionAvailable));
                 IsPromoted = false;
-                PromoteLevel = value switch
-                {
-                    > 0 and <= 20 => 0,
-                    <= 40 => 1,
-                    <= 50 => 2,
-                    <= 60 => 3,
-                    <= 70 => 4,
-                    <= 80 => 5,
-                    <= 90 => 6,
-                    _ => throw HutaoException.InvalidOperation("Invalid avatar level."),
-                };
             }
         }
     }
@@ -106,9 +92,6 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         get => LocalSetting.Get(SettingKeys.CultivationAvatarLevelTarget, LevelMax);
         set => SetProperty(LevelTarget, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelTarget, v));
     }
-
-    [ObservableProperty]
-    public partial bool IsPromoted { get; set; }
 
     public static CalculableAvatar From(Avatar source)
     {

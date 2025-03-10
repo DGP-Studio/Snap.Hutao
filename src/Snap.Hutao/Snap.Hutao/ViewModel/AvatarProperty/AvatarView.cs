@@ -46,7 +46,7 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     public string FormattedRefreshTime { get; set; } = default!;
 
-    public ImmutableArray<bool> PromoteList { get; set; }
+    public ImmutableArray<bool> PromoteArray { get; set; }
 
     internal AvatarId Id { get; set; }
 

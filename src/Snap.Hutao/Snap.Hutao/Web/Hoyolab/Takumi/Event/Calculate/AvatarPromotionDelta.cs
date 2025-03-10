@@ -29,7 +29,7 @@ internal sealed class AvatarPromotionDelta
     public PromotionDelta? Weapon { get; set; }
 
     [JsonPropertyName("from_user_sync")]
-    public bool FromUserSync { get; set; } = true;
+    public bool FromUserSync { get; set; }
 
     [JsonPropertyName("avatar_promote_level")]
     public uint AvatarPromoteLevel { get; set; }
