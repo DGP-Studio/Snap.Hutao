@@ -1226,6 +1226,9 @@
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>Thêm hoặc cập nhật hàng loạt vào kế hoạch bồi dưỡng hiện tại</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>已突破</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Thêm hoặc cập nhật vào kế hoạch bồi dưỡng hiện tại</value>
   </data>
