@@ -515,7 +515,7 @@
     <value>第四波：擊敗所有怪物，下一波才會出現</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
-    <value>維持場上 4 個盜寶團怪物，擊殺後立即替換，總數 12 個</value>
+    <value>維持場上 4 個盜寶團怪物，擊殺後立即取代，總數 12 個</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>請更新角色櫥窗資料</value>
@@ -984,7 +984,7 @@
     <value>重新命名：{0} 到：{1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
-    <value>替換：{0}</value>
+    <value>取代：{0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
     <value>在讀取本地 Package Version 時遇到問題，修復遊戲可能會有所幫助</value>
@@ -1335,10 +1335,10 @@
     <value>返回資料</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} 將在實際請求時替換為 gt</value>
+    <value>{0} 將在實際請求時取代為 gt</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} 將在實際請求時替換為 challenge</value>
+    <value>{1} 將在實際請求時取代為 challenge</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
     <value>將會通過 GET 方式對介面傳送請求</value>
@@ -1695,7 +1695,7 @@
     <value>已成功新增至目前養成計劃</value>
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
-    <value>請先前往養成計劃頁面建立計劃並選中</value>
+    <value>請先前往養成計劃頁面建立計劃並選取</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>重新添加物品以檢視養成描述</value>
@@ -1890,13 +1890,13 @@
     <value>匯入失敗</value>
   </data>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
-    <value>目前選中使用者與遊戲伺服器不匹配，請重新選擇</value>
+    <value>目前選取使用者與遊戲伺服器不匹配，請重新選擇</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>無法讀取遊戲設定檔案: {0}，可能是檔案不存在或權限不足</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
-    <value>目前選中的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
+    <value>目前選取的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
     <value>使用 米遊社 / HoYoLAB 使用者登入失敗，請重新登入</value>
@@ -2724,7 +2724,7 @@
     <value>請在遊戲內關閉「垂直同步」選項，需要高性能的顯示卡以支援更高的 FPS ，將值設定為 -1 以表示無限制 FPS</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountDescription" xml:space="preserve">
-    <value>使用目前選中的 米遊社 / HoYoLAB 使用者登入，需要啟用「啟動參數」</value>
+    <value>使用目前選取的 米遊社 / HoYoLAB 使用者登入，需要啟用「啟動參數」</value>
   </data>
   <data name="ViewPageLaunchGameUseHoyolabAccountHeader" xml:space="preserve">
     <value>使用 米遊社 / HoYoLAB 使用者登入</value>
@@ -3045,7 +3045,7 @@
     <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用才能恢復正常</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
-    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
+    <value>使用系統美化工具取代系統標準工作列後啟用通知區域圖示可能會導致：無法與圖示互動/無法正常建立圖示/重新啟動工作管理員後崩潰/啟動程序後崩潰</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
@@ -3324,10 +3324,10 @@
     <value>上傳資料</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
-    <value>是否启动更新？</value>
+    <value>是否啟動更新？</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>胡桃 {0} 版本現已可用</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下載更新失敗</value>
