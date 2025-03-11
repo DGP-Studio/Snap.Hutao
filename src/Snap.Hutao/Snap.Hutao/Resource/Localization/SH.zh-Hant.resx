@@ -1926,7 +1926,7 @@
     <value>切換帳號失敗</value>
   </data>
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
-    <value>在重启胡桃时遇到问题，请手动重启</value>
+    <value>在重新啟動胡桃時遇到問題，請手動重新啟動</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>已抵達{0}</value>
@@ -2547,7 +2547,7 @@
     <value>覆蓋預設的全螢幕狀態</value>
   </data>
   <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
-    <value>选择平台类型，不同的类型会影响游戏如何呈现 UI</value>
+    <value>選擇平台類型，不同的類型會影響遊戲如何呈現 UI</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>覆蓋預設畫面高度</value>
@@ -2601,10 +2601,10 @@
     <value>遊戲檔案管理/切換遊戲伺服器/注入功能需要系統管理員權限</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
-    <value>元素爆发特写冷开关</value>
+    <value>元素爆發特寫冷開關</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
-    <value>移除元素爆发镜头特写</value>
+    <value>移除元素爆發鏡頭特寫</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>修正角色/隊伍設定/祈願/紀行等特殊介面的視野</value>
@@ -2832,7 +2832,7 @@
     <value>視窗不透明度</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
-    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+    <value>啟用通知區域圖示後在圖示選單中啟動緊湊網頁視窗</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>更改控制影片快轉的快速鍵</value>
