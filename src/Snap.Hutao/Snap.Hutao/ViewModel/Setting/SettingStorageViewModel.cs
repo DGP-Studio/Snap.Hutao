@@ -44,13 +44,24 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             return false;
         }
 
+        if (Path.GetDirectoryName(newFolderPath) is null)
+        {
+            await contentDialogFactory.CreateForConfirmAsync(
+                SH.ViewModelSettingStorageSetDataFolderTitle,
+                SH.ViewModelSettingStorageSetDataFolderDescription2)
+                .ConfigureAwait(false);
+
+            return false;
+        }
+
         Directory.CreateDirectory(newFolderPath);
         if (Directory.EnumerateFileSystemEntries(newFolderPath).Any())
         {
             ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
                 SH.ViewModelSettingStorageSetDataFolderTitle,
-                SH.ViewModelSettingStorageSetDataFolderDescription)
+                SH.FormatViewModelSettingStorageSetDataFolderDescription3(newFolderPath))
                 .ConfigureAwait(false);
+
             if (result is not ContentDialogResult.Primary)
             {
                 return false;

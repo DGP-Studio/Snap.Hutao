@@ -5,6 +5,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
+using Snap.Hutao.ViewModel.Overlay;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
@@ -16,6 +17,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
     public LaunchExecutionOverlayWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+        RootView.InitializeDataContext<OverlayViewModel>(serviceProvider);
 
         AppWindow.Title = "SnapHutaoLaunchExecutionOverlay";
         AppWindow.IsShownInSwitchers = false;
@@ -39,7 +41,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         this.InitializeController(serviceProvider);
     }
 
-    public FrameworkElement TitleBarCaptionAccess { get => RootGrid; }
+    public FrameworkElement TitleBarCaptionAccess { get => RootView; }
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 }

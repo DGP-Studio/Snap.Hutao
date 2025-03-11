@@ -1973,6 +1973,12 @@
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription2" xml:space="preserve">
+    <value>不是有效的数据文件夹位置，请重新选择</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription3" xml:space="preserve">
+    <value>选择的文件夹'{0}'不为空，将会覆盖已存在的文件</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>复制数据文件</value>
   </data>

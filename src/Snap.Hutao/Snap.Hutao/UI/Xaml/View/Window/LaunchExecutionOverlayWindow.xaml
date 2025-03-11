@@ -5,37 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Snap.Hutao.UI.Xaml.View.Window"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuv="using:Snap.Hutao.UI.Xaml.View"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     Title="LaunchExecutionOverlayWindow"
     mc:Ignorable="d">
 
-    <Grid
-        x:Name="RootGrid"
-        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-        BackgroundSizing="OuterBorderEdge"
-        BorderBrush="{x:Null}"
-        BorderThickness="0">
-        <Grid.Resources>
-            <SolidColorBrush
-                x:Key="SolidBackgroundFillColorBaseBrush"
-                Opacity="0.4"
-                Color="{StaticResource SolidBackgroundFillColorBase}"/>
-        </Grid.Resources>
-
-        <SplitButton
-            Height="40"
-            Margin="6"
-            VerticalAlignment="Stretch">
-            <SplitButton.Content>
-                <FontIcon Glyph="&#xE701;"/>
-            </SplitButton.Content>
-            <SplitButton.Flyout>
-                <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False"/>
-            </SplitButton.Flyout>
-        </SplitButton>
-
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Text="TEST"/>
-    </Grid>
+    <shuv:OverlayView x:Name="RootView"/>
 </Window>

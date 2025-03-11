@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Core.Text;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32.Foundation;
@@ -208,7 +209,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             stringBuilder.Append("Alt").Append(" + ");
         }
 
-        stringBuilder.Append(Key);
+        stringBuilder.Append(Key.ToString().Substring(3).Trim('_'));
 
         return stringBuilder.ToString();
     }
