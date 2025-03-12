@@ -58,7 +58,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                             ArgumentNullException.ThrowIfNull(item);
 
                             string path = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), item.RelativePath);
-                            if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                            if (!(File.Exists(path) && item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase)))
                             {
                                 channelSdkConflicted = true;
                                 break;
