@@ -50,12 +50,48 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     internal AvatarId Id { get; set; }
 
+    internal uint RawId
+    {
+        get => Id.Value;
+    }
+
     internal uint LevelNumber { get; set; }
 
     internal PromoteLevel PromoteLevel { get; set; }
 
+    internal int MaxHp
+    {
+        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_MAX_HP);
+    }
+
+    internal int CurAttack
+    {
+        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_ATTACK);
+    }
+
+    internal int CurDefense
+    {
+        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_CUR_DEFENSE);
+    }
+
+    internal int ElementMastery
+    {
+        get => GetAvatarPropertyValue(FightProperty.FIGHT_PROP_ELEMENT_MASTERY);
+    }
+
     public ICalculableAvatar ToCalculable()
     {
         return CalculableAvatar.From(this);
+    }
+
+    private int GetAvatarPropertyValue(FightProperty fightProperty)
+    {
+        AvatarProperty property = Properties.Single(p => p.FightProperty == fightProperty);
+        int value = int.Parse(property.Value);
+        if (!string.IsNullOrEmpty(property.AddValue))
+        {
+            value += int.Parse(property.AddValue);
+        }
+        return value;
     }
 }
