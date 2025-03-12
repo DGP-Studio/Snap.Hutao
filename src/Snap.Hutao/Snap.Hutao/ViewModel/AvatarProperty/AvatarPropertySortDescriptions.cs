@@ -12,7 +12,7 @@ internal static class AvatarPropertySortDescriptions
     private static readonly SortDescription LevelNumber = new(nameof(AvatarView.LevelNumber), SortDirection.Descending);
     private static readonly SortDescription Quality = new(nameof(AvatarView.Quality), SortDirection.Descending);
     private static readonly SortDescription Element = new(nameof(AvatarView.Element), SortDirection.Descending);
-    private static readonly SortDescription Id = new(nameof(AvatarView.RawId), SortDirection.Descending);
+    private static readonly SortDescription Id = new(nameof(AvatarView.Id), SortDirection.Descending);
     private static readonly SortDescription ActivatedConstellationCount = new(nameof(AvatarView.ActivatedConstellationCount), SortDirection.Descending);
     private static readonly SortDescription FetterLevel = new(nameof(AvatarView.FetterLevel), SortDirection.Descending);
     private static readonly SortDescription MaxHp = new(nameof(AvatarView.MaxHp), SortDirection.Descending);
@@ -20,9 +20,9 @@ internal static class AvatarPropertySortDescriptions
     private static readonly SortDescription CurDefense = new(nameof(AvatarView.CurDefense), SortDirection.Descending);
     private static readonly SortDescription ElementMastery = new(nameof(AvatarView.ElementMastery), SortDirection.Descending);
 
-    public static readonly ImmutableArray<SortDescription> DefaultSortDescriptions = [];
+    private static readonly ImmutableArray<SortDescription> DefaultSortDescriptions = [];
 
-    public static readonly ImmutableArray<SortDescription> LevelNumberSortDescriptions =
+    private static readonly ImmutableArray<SortDescription> LevelNumberSortDescriptions =
     [
         LevelNumber,
         Quality,
@@ -30,7 +30,7 @@ internal static class AvatarPropertySortDescriptions
         Id
     ];
 
-    public static readonly ImmutableArray<SortDescription> QualitySortDescriptions =
+    private static readonly ImmutableArray<SortDescription> QualitySortDescriptions =
     [
         Quality,
         LevelNumber,
@@ -38,7 +38,7 @@ internal static class AvatarPropertySortDescriptions
         Id
     ];
 
-    public static readonly ImmutableArray<SortDescription> ActivatedConstellationCountSortDescriptions =
+    private static readonly ImmutableArray<SortDescription> ActivatedConstellationCountSortDescriptions =
     [
         ActivatedConstellationCount,
         LevelNumber,
@@ -47,7 +47,7 @@ internal static class AvatarPropertySortDescriptions
         Id
     ];
 
-    public static readonly ImmutableArray<SortDescription> FetterLevelSortDescriptions =
+    private static readonly ImmutableArray<SortDescription> FetterLevelSortDescriptions =
     [
         FetterLevel,
         LevelNumber,
@@ -56,7 +56,7 @@ internal static class AvatarPropertySortDescriptions
         Id
     ];
 
-    public static readonly ImmutableArray<SortDescription> MaxHpSortDescriptions =
+    private static readonly ImmutableArray<SortDescription> MaxHpSortDescriptions =
     [
         MaxHp,
         LevelNumber,
@@ -65,7 +65,7 @@ internal static class AvatarPropertySortDescriptions
         Id
     ];
 
-    public static readonly ImmutableArray<SortDescription> CurAttackSortDescriptions =
+    private static readonly ImmutableArray<SortDescription> CurAttackSortDescriptions =
     [
         CurAttack,
         LevelNumber,
@@ -74,7 +74,7 @@ internal static class AvatarPropertySortDescriptions
         Id
     ];
 
-    public static readonly ImmutableArray<SortDescription> CurDefenseSortDescriptions =
+    private static readonly ImmutableArray<SortDescription> CurDefenseSortDescriptions =
     [
         CurDefense,
         LevelNumber,
@@ -83,7 +83,7 @@ internal static class AvatarPropertySortDescriptions
         Id
     ];
 
-    public static readonly ImmutableArray<SortDescription> ElementMasterySortDescriptions =
+    private static readonly ImmutableArray<SortDescription> ElementMasterySortDescriptions =
     [
         ElementMastery,
         LevelNumber,

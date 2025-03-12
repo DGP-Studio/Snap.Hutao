@@ -50,11 +50,6 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
 
     internal AvatarId Id { get; set; }
 
-    internal uint RawId
-    {
-        get => Id.Value;
-    }
-
     internal uint LevelNumber { get; set; }
 
     internal PromoteLevel PromoteLevel { get; set; }
