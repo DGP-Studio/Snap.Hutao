@@ -61,6 +61,7 @@ internal static class SettingKeys
     public const string IsHomeCardAchievementPresented = "IsHomeCardAchievementPresented";
     public const string IsHomeCardDailyNotePresented = "IsHomeCardDailyNotePresented";
     public const string IsHomeCardCalendarPresented = "IsHomeCardCalendarPresented";
+    public const string IsHomeCardSignInPresented = "IsHomeCardSignInPresented";
     #endregion
 
     #region Compact WebView2

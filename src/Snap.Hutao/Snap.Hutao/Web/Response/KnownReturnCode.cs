@@ -22,6 +22,16 @@ internal enum KnownReturnCode
     AlreadySignedIn = -5003,
 
     /// <summary>
+    /// 补签资格已用完
+    /// </summary>
+    ResignQuotaUsedUp = -5005,
+
+    /// <summary>
+    /// 无可用补签日期
+    /// </summary>
+    NoAvailableResignDate = -5008,
+
+    /// <summary>
     /// 请求失败，当前设备或网络环境存在风险
     /// </summary>
     CODEN3503 = -3503,

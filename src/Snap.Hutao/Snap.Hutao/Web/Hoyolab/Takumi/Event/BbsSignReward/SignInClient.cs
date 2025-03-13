@@ -89,6 +89,28 @@ internal sealed partial class SignInClient : ISignInClient
             .SendAsync<Response<SignInResult>>(httpClient, token)
             .ConfigureAwait(false);
 
+        if (resp is { Data: { Success: 1, Gt: { } gt, Challenge: { } originChallenge } })
+        {
+            if (await geetestService.TryVerifyGtChallengeAsync(gt, originChallenge, false, token).ConfigureAwait(false) is { } data)
+            {
+                builder
+                    .Resurrect()
+                    .SetHeader("x-rpc-signgame", "hk4e")
+                    .SetXrpcChallenge(data.Challenge, data.Validate);
+
+                await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+
+                resp = await builder
+                    .SendAsync<Response<SignInResult>>(httpClient, token)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                resp.ReturnCode = resp.Data.RiskCode;
+                resp.Message = SH.ServiceSignInRiskVerificationFailed;
+            }
+        }
+
         return Response.Response.DefaultIfNull(resp);
     }
 

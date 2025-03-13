@@ -6,26 +6,41 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 internal sealed class SignInRewardReSignInfo
 {
     [JsonPropertyName("resign_cnt_daily")]
-    public bool ResignCountDaily { get; set; }
+    public uint ResignCountDaily { get; set; }
 
     [JsonPropertyName("resign_cnt_monthly")]
-    public bool ResignCountMonthly { get; set; }
+    public uint ResignCountMonthly { get; set; }
 
     [JsonPropertyName("resign_limit_daily")]
-    public bool ResignLimitDaily { get; set; }
+    public uint ResignLimitDaily { get; set; }
 
     [JsonPropertyName("resign_limit_monthly")]
-    public bool ResignLimitMonthly { get; set; }
+    public uint ResignLimitMonthly { get; set; }
 
     [JsonPropertyName("sign_cnt_missed")]
-    public bool SignCountMissed { get; set; }
+    public uint SignCountMissed { get; set; }
 
     [JsonPropertyName("coin_cnt")]
-    public bool CoinCount { get; set; }
+    public uint CoinCount { get; set; }
 
     [JsonPropertyName("coin_cost")]
-    public bool CoinCost { get; set; }
+    public uint CoinCost { get; set; }
 
     [JsonPropertyName("rule")]
     public string Rule { get; set; } = default!;
+
+    [JsonPropertyName("signed")]
+    public bool Signed { get; set; }
+
+    [JsonPropertyName("sign_days")]
+    public uint SignDays { get; set; }
+
+    [JsonPropertyName("cost")]
+    public uint Cost { get; set; }
+
+    [JsonPropertyName("month_quality_cnt")]
+    public uint MonthQualityCount { get; set; }
+
+    [JsonPropertyName("quality_cnt")]
+    public uint QualityCount { get; set; }
 }

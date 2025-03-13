@@ -62,6 +62,7 @@ internal sealed partial class Loading : Microsoft.UI.Xaml.Controls.ContentContro
         if (presenter is not null)
         {
             XamlMarkupHelper.UnloadObject(presenter);
+            presenter = default;
         }
     }
 }
