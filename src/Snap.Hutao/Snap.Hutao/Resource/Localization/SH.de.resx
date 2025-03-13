@@ -1064,6 +1064,9 @@
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>Benutzerinformationen werden abgerufen, bitte warten...</value>
   </data>
+  <data name="ServiceUserUserInfoContainsNoGameRole" xml:space="preserve">
+    <value>此账号尚未绑定原神游戏角色</value>
+  </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Eingebetteter Yae-Fehler</value>
   </data>
@@ -2008,6 +2011,9 @@
   </data>
   <data name="ViewModelUserCookieCopied" xml:space="preserve">
     <value>Cookie von Benutzer [{0}] erfolgreich kopiert</value>
+  </data>
+  <data name="ViewModelUserEmptyGameRole" xml:space="preserve">
+    <value>此账号尚未绑定原神游戏角色</value>
   </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
     <value>Dieser Cookie ist unvollständig, Vorgang fehlgeschlagen</value>
