@@ -9,4 +9,5 @@ internal enum UserOptionResultKind
     CookieIncomplete,
     CookieInvalid,
     CookieUpdated,
+    GameRoleNotFound,
 }

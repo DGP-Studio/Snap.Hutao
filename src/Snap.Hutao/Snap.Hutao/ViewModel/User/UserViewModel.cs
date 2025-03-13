@@ -72,6 +72,9 @@ internal sealed partial class UserViewModel : ObservableObject
                 taskContext.InvokeOnMainThread(Users.Refresh);
                 infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
                 break;
+            case UserOptionResultKind.GameRoleNotFound:
+                infoBarService.Information(SH.ViewModelUserEmptyGameRole);
+                break;
             default:
                 throw HutaoException.NotSupported();
         }
