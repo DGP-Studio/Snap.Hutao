@@ -324,6 +324,7 @@
                                                     <shuxc:ComboBox2
                                                         DisplayMemberPath="DisplayName"
                                                         EnableMemberPath="IsNotCompatOnly"
+                                                        IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
                                                         ItemsSource="{Binding KnownSchemes}"
                                                         SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"
                                                         Style="{StaticResource DefaultComboBoxStyle}"/>
