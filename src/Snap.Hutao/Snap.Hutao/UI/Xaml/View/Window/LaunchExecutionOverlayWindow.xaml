@@ -10,5 +10,7 @@
     Title="LaunchExecutionOverlayWindow"
     mc:Ignorable="d">
 
-    <shuv:OverlayView x:Name="RootView"/>
+    <Border x:Name="RootBorder">
+        <shuv:OverlayView x:Name="RootView"/>
+    </Border>
 </Window>

@@ -1928,6 +1928,12 @@
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
     <value>在重启胡桃时遇到问题，请手动重启</value>
   </data>
+  <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
+    <value>热键提示</value>
+  </data>
+  <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
+    <value>快捷开关</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>已抵达{0}</value>
   </data>

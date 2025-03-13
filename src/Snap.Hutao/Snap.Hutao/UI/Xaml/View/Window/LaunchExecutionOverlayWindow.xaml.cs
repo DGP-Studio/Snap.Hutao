@@ -41,7 +41,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         this.InitializeController(serviceProvider);
     }
 
-    public FrameworkElement TitleBarCaptionAccess { get => RootView; }
+    public FrameworkElement TitleBarCaptionAccess { get => RootBorder; }
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 }
