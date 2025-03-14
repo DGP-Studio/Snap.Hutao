@@ -1065,7 +1065,7 @@
     <value>獲取使用者資訊中，請稍候...</value>
   </data>
   <data name="ServiceUserUserInfoContainsNoGameRole" xml:space="preserve">
-    <value>此账号尚未绑定原神游戏角色</value>
+    <value>此帳號尚未綁定原神遊戲角色</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Embedded Yae 錯誤</value>
@@ -2013,7 +2013,7 @@
     <value>使用者 [{0}] 的 Cookie 複製成功</value>
   </data>
   <data name="ViewModelUserEmptyGameRole" xml:space="preserve">
-    <value>此账号尚未绑定原神游戏角色</value>
+    <value>此帳號尚未綁定原神遊戲角色</value>
   </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
     <value>此 Cookie 不完整，操作失敗</value>
