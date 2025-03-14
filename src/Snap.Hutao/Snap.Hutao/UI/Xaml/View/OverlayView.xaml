@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvo="using:Snap.Hutao.ViewModel.Overlay"
     d:DataContext="{d:DesignInstance shvo:OverlayViewModel}"
@@ -32,6 +33,21 @@
                 Opacity="0.4"
                 Color="{ThemeResource SolidBackgroundFillColorBase}"/>
 
+            <SolidColorBrush x:Key="ToggleButtonForegroundChecked" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPointerOver" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPressed" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="ToggleButtonForegroundCheckedDisabled" Color="{ThemeResource TextFillColorPrimary}"/>
+
+            <SolidColorBrush x:Key="SplitButtonForegroundChecked" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundCheckedPointerOver" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundCheckedPressed" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundCheckedDisabled" Color="{ThemeResource TextFillColorPrimary}"/>
+
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryChecked" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryCheckedPointerOver" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryCheckedPressed" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryCheckedDisabled" Color="{ThemeResource TextFillColorPrimary}"/>
+
             <SolidColorBrush
                 x:Key="ToggleButtonBackgroundChecked"
                 Opacity="0.4"
@@ -48,6 +64,24 @@
                 x:Key="ToggleButtonBackgroundCheckedDisabled"
                 Opacity="0.4"
                 Color="{ThemeResource AccentFillColorDisabled}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundChecked"
+                Opacity="0.4"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundCheckedPointerOver"
+                Opacity="0.36"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundCheckedPressed"
+                Opacity="0.32"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundCheckedDisabled"
+                Opacity="0.4"
+                Color="{ThemeResource AccentFillColorDisabled}"/>
+
+            <shuxdcs:FrameRateStringConverter x:Key="FrameRateStringConverter"/>
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
@@ -60,7 +94,7 @@
             VerticalAlignment="Stretch"
             BorderThickness="0">
             <SplitButton.Content>
-                <FontIcon Glyph="{Binding SelectedCatalog.Icon}"/>
+                <FontIcon FontSize="16" Glyph="{Binding SelectedCatalog.Icon}"/>
             </SplitButton.Content>
             <SplitButton.Flyout>
                 <Flyout
@@ -75,7 +109,10 @@
                                         <ColumnDefinition Width="20"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <FontIcon Grid.Column="0" Glyph="{Binding Icon}"/>
+                                    <FontIcon
+                                        Grid.Column="0"
+                                        FontSize="16"
+                                        Glyph="{Binding Icon}"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Name}"/>
                                 </Grid>
                             </DataTemplate>
@@ -85,7 +122,10 @@
             </SplitButton.Flyout>
         </SplitButton>
 
-        <cwc:SwitchPresenter Grid.Column="1" Value="{Binding SelectedCatalog.Id}">
+        <cwc:SwitchPresenter
+            Grid.Column="1"
+            ContentTransitions="{ThemeResource ContentThemeTransitions}"
+            Value="{Binding SelectedCatalog.Id}">
             <cwc:Case Value="HotKey">
                 <Grid ColumnSpacing="4">
                     <Grid.ColumnDefinitions>
@@ -147,64 +187,81 @@
                 </Grid>
             </cwc:Case>
             <cwc:Case Value="Island">
-                <Grid ColumnSpacing="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Spacing="4">
                     <ToggleSplitButton
-                        Grid.Column="0"
                         Padding="4,2"
                         VerticalAlignment="Stretch"
-                        IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
-                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFovHotSwitch}">
+                        IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
+                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFpsHotSwitch}"
+                        ToolTipService.ToolTip="目标帧率">
                         <ToggleSplitButton.Flyout>
                             <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
-                                <StackPanel Orientation="Horizontal" Spacing="4">
-                                    <Slider
-                                        Width="120"
-                                        Margin="8,0"
-                                        VerticalAlignment="Center"
-                                        LargeChange="10"
-                                        Maximum="100"
-                                        Minimum="0"
-                                        SmallChange="1"
-                                        Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
-                                    <ToggleButton
-                                        Padding="2"
-                                        VerticalAlignment="Stretch"
-                                        IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
-                                        Style="{ThemeResource DefaultToggleButtonStyle}">
-                                        <StackPanel Spacing="4">
-                                            <FontIcon
-                                                HorizontalAlignment="Center"
-                                                FontSize="16"
-                                                Glyph="&#xF19D;"/>
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                FontSize="8"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="特殊界面修正"/>
-                                        </StackPanel>
-                                    </ToggleButton>
-                                    <ToggleButton
-                                        Padding="2"
-                                        VerticalAlignment="Stretch"
-                                        IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
-                                        Style="{ThemeResource DefaultToggleButtonStyle}">
-                                        <StackPanel Spacing="4">
-                                            <FontIcon
-                                                HorizontalAlignment="Center"
-                                                FontSize="16"
-                                                Glyph="&#xEC9C;"/>
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                FontSize="8"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="移除迷雾"/>
-                                        </StackPanel>
-                                    </ToggleButton>
-                                </StackPanel>
+                                <ContentControl IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <Slider
+                                            Width="180"
+                                            Margin="12,0"
+                                            VerticalAlignment="Center"
+                                            LargeChange="10"
+                                            Maximum="720"
+                                            Minimum="-1"
+                                            SmallChange="1"
+                                            Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </ContentControl>
+
+                            </Flyout>
+                        </ToggleSplitButton.Flyout>
+                        <StackPanel Spacing="4">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontWeight="Bold"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="FPS"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{Binding LaunchOptions.TargetFps, Converter={StaticResource FrameRateStringConverter}}"/>
+                        </StackPanel>
+                    </ToggleSplitButton>
+
+                    <ToggleSplitButton
+                        Padding="4,2"
+                        VerticalAlignment="Stretch"
+                        IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"
+                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFovHotSwitch}"
+                        ToolTipService.ToolTip="调整视野">
+                        <ToggleSplitButton.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
+                                <ContentControl IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <Slider
+                                            Width="120"
+                                            Margin="12,0"
+                                            VerticalAlignment="Center"
+                                            LargeChange="10"
+                                            Maximum="100"
+                                            Minimum="0"
+                                            SmallChange="1"
+                                            Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
+                                        <ToggleButton
+                                            Padding="8"
+                                            VerticalAlignment="Stretch"
+                                            IsChecked="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
+                                            Style="{ThemeResource DefaultToggleButtonStyle}"
+                                            ToolTipService.ToolTip="特殊界面修正">
+                                            <FontIcon FontSize="16" Glyph="&#xF19D;"/>
+                                        </ToggleButton>
+                                        <ToggleButton
+                                            Padding="8"
+                                            VerticalAlignment="Stretch"
+                                            IsChecked="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
+                                            Style="{ThemeResource DefaultToggleButtonStyle}"
+                                            ToolTipService.ToolTip="移除迷雾">
+                                            <FontIcon FontSize="16" Glyph="&#xEC9C;"/>
+                                        </ToggleButton>
+                                    </StackPanel>
+                                </ContentControl>
                             </Flyout>
                         </ToggleSplitButton.Flyout>
                         <StackPanel Spacing="4">
@@ -214,12 +271,48 @@
                                 Glyph="&#xE890;"/>
                             <TextBlock
                                 HorizontalAlignment="Center"
-                                FontSize="8"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="调整视野"/>
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{Binding LaunchOptions.TargetFov}"/>
                         </StackPanel>
                     </ToggleSplitButton>
-                </Grid>
+
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
+                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleTeamHotSwitch}"
+                        ToolTipService.ToolTip="移除队伍配置进度条">
+                        <Grid>
+                            <FontIcon FontSize="16" Glyph="&#xE805;"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
+                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleHideQuestBannerHotSwitch}"
+                        ToolTipService.ToolTip="移除地图界面任务提示">
+                        <Grid>
+                            <FontIcon FontSize="16" Glyph="&#xE81E;"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
+                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleEventCameraMoveHotSwitch}"
+                        ToolTipService.ToolTip="移除元素爆发特写镜头">
+                        <Grid>
+                            <FontIcon FontSize="16" Glyph="&#xE89E;"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                </StackPanel>
             </cwc:Case>
         </cwc:SwitchPresenter>
     </Grid>

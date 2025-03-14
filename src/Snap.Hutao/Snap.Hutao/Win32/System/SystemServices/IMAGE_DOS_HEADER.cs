@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Snap.Hutao.Win32.System.SystemService;
+namespace Snap.Hutao.Win32.System.SystemServices;
 
 [SuppressMessage("", "SA1307")]
 [SuppressMessage("", "SA1310")]
