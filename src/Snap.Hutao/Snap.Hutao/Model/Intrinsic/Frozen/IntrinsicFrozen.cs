@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Entity.Primitive;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Intrinsic.Frozen;
@@ -26,6 +27,10 @@ internal static class IntrinsicFrozen
     public static FrozenSet<string> FightProperties { get; } = NamesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault());
 
     public static FrozenSet<NameValue<FightProperty>> FightPropertyNameValues { get; } = NameValuesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault());
+
+    public static FrozenSet<string> CultivateTypes { get; } = NamesFromEnum<CultivateType>(e => e.GetLocalizedDescriptionOrDefault());
+
+    public static FrozenSet<NameValue<CultivateType>> CultivateTypeNameValues { get; } = NameValuesFromEnum<CultivateType>(e => e.GetLocalizedDescriptionOrDefault());
 
     public static FrozenSet<string> ElementNames { get; } =
     [

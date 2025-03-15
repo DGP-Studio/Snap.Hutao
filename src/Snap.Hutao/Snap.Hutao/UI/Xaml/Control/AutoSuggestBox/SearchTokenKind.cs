@@ -6,6 +6,7 @@ namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 internal enum SearchTokenKind
 {
     None,
+    CultivateType,
     ItemQuality,
     WeaponType,
     FightProperty,

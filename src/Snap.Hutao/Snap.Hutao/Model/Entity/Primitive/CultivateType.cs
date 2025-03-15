@@ -3,10 +3,17 @@
 
 namespace Snap.Hutao.Model.Entity.Primitive;
 
+[Localization]
 internal enum CultivateType
 {
     None,
+
+    [LocalizationKey(nameof(SH.ModelEntityPrimitiveCultivateTypeAvatarAndSkill))]
     AvatarAndSkill,
+
+    [LocalizationKey(nameof(SH.ModelEntityPrimitiveCultivateTypeWeapon))]
     Weapon,
+
+    [LocalizationKey(nameof(SH.ModelEntityPrimitiveCultivateTypeFurniture))]
     Furniture,
 }

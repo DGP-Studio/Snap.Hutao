@@ -3,14 +3,16 @@
 
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 using System.Collections.Immutable;
 using System.Text;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
-internal sealed class CultivateEntryView : Item
+internal sealed partial class CultivateEntryView : Item, IAdvancedCollectionViewItem
 {
     private CultivateEntryView(CultivateEntry entry, Item item, ImmutableArray<CultivateItemView> items)
     {
@@ -21,6 +23,7 @@ internal sealed class CultivateEntryView : Item
         Badge = item.Badge;
         Quality = item.Quality;
         Items = items;
+        Type = entry.Type;
 
         Description = ParseDescription(entry);
         IsToday = items.Any(i => i.IsToday);
@@ -94,6 +97,8 @@ internal sealed class CultivateEntryView : Item
     public string Description { get; }
 
     internal Guid EntryId { get; }
+
+    internal CultivateType Type { get; }
 
     public static CultivateEntryView Create(CultivateEntry entry, Item item, ImmutableArray<CultivateItemView> items)
     {
