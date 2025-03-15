@@ -1658,6 +1658,33 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展柜尚未开启，请前往游戏操作后重试</value>
   </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount" xml:space="preserve">
+    <value>命之座解锁层数顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurAttack" xml:space="preserve">
+    <value>攻击力顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurDefense" xml:space="preserve">
+    <value>防御力顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindDefault" xml:space="preserve">
+    <value>默认顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindElementMastery" xml:space="preserve">
+    <value>元素精通顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindFetterLevel" xml:space="preserve">
+    <value>好感度顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindLevelNumber" xml:space="preserve">
+    <value>等级顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindMaxHp" xml:space="preserve">
+    <value>生命值上限顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindQuality" xml:space="preserve">
+    <value>品质顺序</value>
+  </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>共 {0} 位角色</value>
   </data>

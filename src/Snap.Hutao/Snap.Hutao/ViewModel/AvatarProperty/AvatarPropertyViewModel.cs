@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
@@ -54,6 +56,27 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     public string TotalAvatarCount
     {
         get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(summary?.Avatars.Count ?? 0);
+    }
+
+    public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(type => type.GetLocalizedDescription());
+
+    public NameValue<AvatarPropertySortDescriptionKind>? SortDescriptionKind
+    {
+        get => field ??= SortDescriptionKinds.FirstOrDefault();
+        set
+        {
+            if (value is not null && SetProperty(ref field, value))
+            {
+                using (Summary?.Avatars.DeferRefresh())
+                {
+                    Summary?.Avatars.SortDescriptions.Clear();
+                    foreach (ref readonly SortDescription sd in AvatarPropertySortDescriptions.Get(value.Value).AsSpan())
+                    {
+                        Summary?.Avatars.SortDescriptions.Add(sd);
+                    }
+                }
+            }
+        }
     }
 
     public void Receive(UserAndUidChangedMessage message)

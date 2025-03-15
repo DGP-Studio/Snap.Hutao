@@ -541,6 +541,15 @@
                                     x:Name="ItemsPanelSelector"
                                     Margin="4,8,0,0"
                                     LocalSettingKeySuffixForCurrent="AvatarPropertyPage.Summary.Avatars"/>
+                                <shuxc:SizeRestrictedContentControl Margin="8,8,0,0">
+                                    <ComboBox
+                                        Height="32"
+                                        Padding="12,6,0,7"
+                                        DisplayMemberPath="Name"
+                                        ItemsSource="{Binding SortDescriptionKinds}"
+                                        SelectedItem="{Binding SortDescriptionKind, Mode=TwoWay}"
+                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
+                                </shuxc:SizeRestrictedContentControl>
                                 <ToggleButton
                                     x:Name="RefreshTimeToggle"
                                     Margin="8,8,0,0"

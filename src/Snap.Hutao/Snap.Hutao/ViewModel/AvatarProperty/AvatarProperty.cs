@@ -35,6 +35,7 @@ internal sealed partial class AvatarProperty : ObservableObject, INameIcon<Uri>
 
     public AvatarProperty(FightProperty property, string name, string value, string? addValue = null)
     {
+        FightProperty = property;
         Name = name;
         Value = value;
         Icon = PropertyIcons.GetValueOrDefault(property);
@@ -52,4 +53,6 @@ internal sealed partial class AvatarProperty : ObservableObject, INameIcon<Uri>
     public string Value { get; }
 
     public string? AddValue { get; }
+
+    internal FightProperty FightProperty { get; }
 }
