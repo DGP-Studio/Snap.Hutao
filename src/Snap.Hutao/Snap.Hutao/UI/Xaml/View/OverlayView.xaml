@@ -191,9 +191,10 @@
                     <ToggleSplitButton
                         Padding="4,2"
                         VerticalAlignment="Stretch"
+                        BorderThickness="0"
                         IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFpsHotSwitch}"
-                        ToolTipService.ToolTip="目标帧率">
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}">
                         <ToggleSplitButton.Flyout>
                             <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
                                 <ContentControl IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}">
@@ -228,9 +229,10 @@
                     <ToggleSplitButton
                         Padding="4,2"
                         VerticalAlignment="Stretch"
+                        BorderThickness="0"
                         IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"
                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFovHotSwitch}"
-                        ToolTipService.ToolTip="调整视野">
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}">
                         <ToggleSplitButton.Flyout>
                             <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
                                 <ContentControl IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}">
@@ -249,7 +251,7 @@
                                             VerticalAlignment="Stretch"
                                             IsChecked="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
                                             Style="{ThemeResource DefaultToggleButtonStyle}"
-                                            ToolTipService.ToolTip="特殊界面修正">
+                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}">
                                             <FontIcon FontSize="16" Glyph="&#xF19D;"/>
                                         </ToggleButton>
                                         <ToggleButton
@@ -257,7 +259,7 @@
                                             VerticalAlignment="Stretch"
                                             IsChecked="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
                                             Style="{ThemeResource DefaultToggleButtonStyle}"
-                                            ToolTipService.ToolTip="移除迷雾">
+                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}">
                                             <FontIcon FontSize="16" Glyph="&#xEC9C;"/>
                                         </ToggleButton>
                                     </StackPanel>
@@ -279,10 +281,11 @@
                     <ToggleButton
                         Padding="8"
                         VerticalAlignment="Stretch"
+                        BorderThickness="0"
                         Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                         IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleTeamHotSwitch}"
-                        ToolTipService.ToolTip="移除队伍配置进度条">
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}">
                         <Grid>
                             <FontIcon FontSize="16" Glyph="&#xE805;"/>
                             <FontIcon FontSize="16" Glyph="&#xE894;"/>
@@ -291,10 +294,11 @@
                     <ToggleButton
                         Padding="8"
                         VerticalAlignment="Stretch"
+                        BorderThickness="0"
                         Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                         IsChecked="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleHideQuestBannerHotSwitch}"
-                        ToolTipService.ToolTip="移除地图界面任务提示">
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayLaunchGameHideQuestBannerToolTip}">
                         <Grid>
                             <FontIcon FontSize="16" Glyph="&#xE81E;"/>
                             <FontIcon FontSize="16" Glyph="&#xE894;"/>
@@ -303,10 +307,11 @@
                     <ToggleButton
                         Padding="8"
                         VerticalAlignment="Stretch"
+                        BorderThickness="0"
                         Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                         IsChecked="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
                         IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleEventCameraMoveHotSwitch}"
-                        ToolTipService.ToolTip="移除元素爆发特写镜头">
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}">
                         <Grid>
                             <FontIcon FontSize="16" Glyph="&#xE89E;"/>
                             <FontIcon FontSize="16" Glyph="&#xE894;"/>

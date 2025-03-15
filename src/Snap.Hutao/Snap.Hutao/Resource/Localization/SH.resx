@@ -3680,4 +3680,7 @@
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>显示器编号</value>
   </data>
+  <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
+    <value>移除地图界面任务提示</value>
+  </data>
 </root>

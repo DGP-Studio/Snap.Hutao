@@ -297,18 +297,13 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        if (currentWindowReference.Window is { } window)
+        if (currentWindowReference.Window is not { } window)
         {
-            window.SwitchTo();
-            window.AppWindow.MoveInZOrderAtTop();
-            return;
+            window = serviceProvider.GetRequiredService<MainWindow>();
+            currentWindowReference.Window = window;
         }
 
-        // MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
-        Window mainWindow = serviceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
-        currentWindowReference.Window = mainWindow;
-
-        mainWindow.SwitchTo();
-        mainWindow.AppWindow.MoveInZOrderAtTop();
+        window.SwitchTo();
+        window.AppWindow.MoveInZOrderAtTop();
     }
 }
