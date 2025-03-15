@@ -12,6 +12,7 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
@@ -63,7 +64,57 @@
                 FalseValue="{StaticResource BodyTextBlockStyle}"
                 TrueValue="{StaticResource BaseTextBlockStyle}"/>
 
+            <shuxdc:SpecificStringToVisibilityConverter x:Key="MaterialListSelectedItemIsEntryViewConverter" Value="Entry"/>
             <shuxdc:SpecificStringToVisibilityConverter x:Key="MaterialListSelectedItemIsStatisticsViewConverter" Value="Statistics"/>
+
+            <DataTemplate x:Key="TokenTemplate" x:DataType="shuxca:SearchToken">
+                <Grid Height="22" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse
+                        Grid.Column="0"
+                        Width="12"
+                        Height="12"
+                        Margin="1,1,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        Visibility="{Binding Quality, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                        <Ellipse.Fill>
+                            <SolidColorBrush Color="{Binding Quality}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <BitmapIcon
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="-3,2,7,0"
+                        ShowAsMonochrome="True"
+                        UriSource="{Binding PackageIconUri, Mode=OneWay}"
+                        Visibility="{Binding PackageIconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                    <shuxci:CachedImage
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="-3,2,7,0"
+                        ShowAsMonoChrome="True"
+                        Source="{Binding IconUri, Mode=OneWay}"
+                        Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                    <shuxci:CachedImage
+                        Grid.Column="0"
+                        Width="20"
+                        Height="20"
+                        Margin="-4,-2,8,2"
+                        Source="{Binding SideIconUri, Mode=OneWay}"
+                        Visibility="{Binding SideIconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        Height="20"
+                        VerticalAlignment="Center"
+                        Text="{Binding Value}"/>
+                </Grid>
+            </DataTemplate>
 
             <DataTemplate x:Key="CultivateEntryItemTemplate" x:DataType="shvcu:CultivateItemView">
                 <Grid Margin="0,4,0,0">
@@ -391,7 +442,7 @@
             </Pivot.RightHeader>
 
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialList}">
-                <shuxc:StandardView HideCondition="{Binding EntriesUpdating}" ShowCondition="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToBoolConverter}}">
+                <shuxc:StandardView HideCondition="{Binding EntriesUpdating}" ShowCondition="{Binding CultivateEntries.Source.Count, Converter={StaticResource Int32ToBoolConverter}}">
                     <shuxc:StandardView.EmptyContent>
                         <Border
                             HorizontalAlignment="Center"
@@ -445,6 +496,26 @@
                     <Pivot x:Name="MaterialListPivot" Style="{ThemeResource CardPivotStyle}">
                         <Pivot.RightHeader>
                             <CommandBar DefaultLabelPosition="Right">
+                                <AppBarElementContainer>
+                                    <shuxca:AutoSuggestTokenBox
+                                        Width="600"
+                                        Height="44"
+                                        Margin="6,-2,6,6"
+                                        HorizontalAlignment="Right"
+                                        VerticalContentAlignment="Center"
+                                        AvailableTokens="{Binding AvailableTokens}"
+                                        FilterCommand="{Binding FilterCommand}"
+                                        ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
+                                        MaximumTokens="5"
+                                        PlaceholderText="筛选养成物品"
+                                        QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
+                                        Style="{StaticResource DefaultAutoSuggestTokenBoxStyle}"
+                                        SuggestedItemTemplate="{StaticResource TokenTemplate}"
+                                        SuggestedItemsSource="{Binding AvailableTokens.Values}"
+                                        Text="{Binding FilterToken, Mode=TwoWay}"
+                                        TokenItemTemplate="{StaticResource TokenTemplate}"
+                                        Visibility="{Binding ElementName=MaterialListPivot, Path=SelectedItem.Tag, Converter={StaticResource MaterialListSelectedItemIsEntryViewConverter}}"/>
+                                </AppBarElementContainer>
                                 <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                 <AppBarToggleButton
                                     Command="{Binding RefreshStatisticsItemsCommand}"
@@ -532,11 +603,12 @@
                                 </AppBarButton>
                             </CommandBar>
                         </Pivot.RightHeader>
-                        <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}">
+                        <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}" Tag="Entry">
                             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                                     <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                                         <ItemsRepeater
+                                            x:Name="CultivateEntryItemsRepeater"
                                             Margin="16,16,16,0"
                                             ItemTemplate="{StaticResource CultivateEntryTemplate}"
                                             ItemsSource="{Binding CultivateEntries}">

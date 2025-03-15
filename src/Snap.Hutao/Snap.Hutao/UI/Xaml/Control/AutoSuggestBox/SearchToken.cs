@@ -9,10 +9,11 @@ internal sealed class SearchToken
 {
     public static readonly SearchToken NotFound = new(SearchTokenKind.None, SH.ControlAutoSuggestBoxNotFoundValue, 0);
 
-    public SearchToken(SearchTokenKind kind, string value, int order, Uri? iconUri = null, Uri? sideIconUri = null, Color? quality = null)
+    public SearchToken(SearchTokenKind kind, string value, int order, Uri? packageIconUri = null, Uri? iconUri = null, Uri? sideIconUri = null, Color? quality = null)
     {
         Value = value;
         Kind = kind;
+        PackageIconUri = packageIconUri;
         IconUri = iconUri;
         SideIconUri = sideIconUri;
         Quality = quality;
@@ -22,6 +23,8 @@ internal sealed class SearchToken
     public SearchTokenKind Kind { get; }
 
     public string Value { get; }
+
+    public Uri? PackageIconUri { get; }
 
     public Uri? IconUri { get; }
 

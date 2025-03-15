@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
@@ -92,6 +92,9 @@
     <None Remove="Resource\GuideLocalization\crowdin-symbol-cWhite-64.png" />
     <None Remove="Resource\GuideLocalization\DGP-v3-white-64.png" />
     <None Remove="Resource\GuideLocalization\Gemini-64.png" />
+    <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
+    <None Remove="Resource\Icon\UI_BtnIcon_Homeworld.png" />
+    <None Remove="Resource\Icon\UI_BtnIcon_PlayerGirl.png" />
     <None Remove="Resource\Icon\UI_IconSmall_EP.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType3.png" />
     <None Remove="Resource\Icon\UI_Icon_RelicType4.png" />
@@ -240,6 +243,9 @@
     <Content Include="Resource\GuideLocalization\Gemini-64.png" />
     <Content Include="Resource\GuideStaticResourceQualityComparison.png" />
     <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
+    <Content Include="Resource\Icon\UI_BagTabIcon_Weapon.png" />
+    <Content Include="Resource\Icon\UI_BtnIcon_Homeworld.png" />
+    <Content Include="Resource\Icon\UI_BtnIcon_PlayerGirl.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <Content Include="Resource\Icon\UI_IconSmall_EP.png" />
     <Content Include="Resource\Icon\UI_IconKira.png" />
