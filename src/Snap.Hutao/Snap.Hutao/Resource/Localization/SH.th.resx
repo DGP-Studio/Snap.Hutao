@@ -261,6 +261,15 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>รีเฟรชเมื่อ {0:MM.dd HH:mm:ss}</value>
   </data>
+  <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
+    <value>角色</value>
+  </data>
+  <data name="ModelEntityPrimitiveCultivateTypeFurniture" xml:space="preserve">
+    <value>家具</value>
+  </data>
+  <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
+    <value>武器</value>
+  </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>ช่วงที่ {0}</value>
   </data>
@@ -1034,6 +1043,12 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>Snap Hutao ของคุณเก่าเกินไป โปรดอัปเดตโดยเร็วที่สุด</value>
   </data>
+  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
+    <value>补签失败，{0}</value>
+  </data>
+  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
+    <value>补签成功，{0}×{1}</value>
+  </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>การเช็คอินล้มเหลว, {0}</value>
   </data>
@@ -1120,6 +1135,12 @@
   </data>
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
     <value>เลือกบัญชีหรือเริ่มทันที</value>
+  </data>
+  <data name="ViewCardSignInClaimReSignInAction" xml:space="preserve">
+    <value>补签</value>
+  </data>
+  <data name="ViewCardSignInClaimSignInAction" xml:space="preserve">
+    <value>签到</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
     <value>เลเวล</value>
@@ -1658,6 +1679,33 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>ยังไม่ได้เปิดตู้โชว์ตัวละคร โปรดไปดำเนินการในเกมแล้วลองอีกครั้ง</value>
   </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount" xml:space="preserve">
+    <value>命之座解锁层数顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurAttack" xml:space="preserve">
+    <value>攻击力顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurDefense" xml:space="preserve">
+    <value>防御力顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindDefault" xml:space="preserve">
+    <value>默认顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindElementMastery" xml:space="preserve">
+    <value>元素精通顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindFetterLevel" xml:space="preserve">
+    <value>好感度顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindLevelNumber" xml:space="preserve">
+    <value>等级顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindMaxHp" xml:space="preserve">
+    <value>生命值上限顺序</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindQuality" xml:space="preserve">
+    <value>品质顺序</value>
+  </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>มี {0} ตัวละคร</value>
   </data>
@@ -1931,6 +1979,12 @@
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
     <value>在重启胡桃时遇到问题，请手动重启</value>
   </data>
+  <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
+    <value>热键提示</value>
+  </data>
+  <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
+    <value>快捷开关</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>มาถึง {0} แล้ว</value>
   </data>
@@ -1976,8 +2030,26 @@
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>โฟลเดอร์ที่เลือกไม่ว่างเปล่า ไฟล์ที่มีอยู่จะถูกเขียนทับ</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription2" xml:space="preserve">
+    <value>不是有效的数据文件夹位置，请重新选择</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription3" xml:space="preserve">
+    <value>选择的文件夹'{0}'不为空，将会覆盖已存在的文件</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>คัดลอกไฟล์ข้อมูล</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
+    <value>需消耗 {0} 米游币，剩余 {1} 米游币</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogContentOversea" xml:space="preserve">
+    <value>需消耗 {0} 张补签卡，剩余 {1} 张补签卡</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogTitle" xml:space="preserve">
+    <value>确定要补签吗？</value>
+  </data>
+  <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
+    <value>{0} 月累计签到 {1} 天</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>ไดเรกทอรีข้อมูลปัจจุบัน '{0}' มีจุดแยกวิเคราะห์ (Reparse points) อย่างน้อยหนึ่งจุด ซึ่งอาจทำให้ฟังก์ชันบางอย่างที่ขึ้นอยู่กับโฟลเดอร์ข้อมูลทำงานไม่ถูกต้อง โปรดไปที่การตั้งค่าเพื่อเปลี่ยนเส้นทาง</value>
@@ -2969,6 +3041,9 @@
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>เปิดเกม</value>
   </data>
+  <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
+    <value>签到</value>
+  </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>ซ่อน</value>
   </data>
@@ -3673,5 +3748,8 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>หมายเลขจอภาพ</value>
+  </data>
+  <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
+    <value>移除地图界面任务提示</value>
   </data>
 </root>
