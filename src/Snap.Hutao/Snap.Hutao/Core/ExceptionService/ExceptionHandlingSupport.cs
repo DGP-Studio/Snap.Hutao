@@ -37,7 +37,10 @@ internal sealed partial class ExceptionHandlingSupport
 
         // Handled has to be set to true, the control flow is returned after post
         e.Handled = true;
-        SynchronizationContext.Current?.Post((state) => ExceptionWindow.Show((SentryId)state!), id);
+
+#pragma warning disable SH007
+        SynchronizationContext.Current!.Post((state) => ExceptionWindow.Show((SentryId)state!), id);
+#pragma warning restore SH007
     }
 
     private void Attach(Application app)
@@ -63,11 +66,11 @@ internal sealed partial class ExceptionHandlingSupport
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
-        logger.LogCritical("XAML 绑定失败:{Message}", e.Message);
+        logger.LogCritical("XAML Binding Failed:{Message}", e.Message);
     }
 
     private void OnXamlResourceReferenceFailed(DebugSettings sender, XamlResourceReferenceFailedEventArgs e)
     {
-        logger.LogCritical("XAML 资源引用失败:{Message}", e.Message);
+        logger.LogCritical("XAML Resource Reference Failed:{Message}", e.Message);
     }
 }

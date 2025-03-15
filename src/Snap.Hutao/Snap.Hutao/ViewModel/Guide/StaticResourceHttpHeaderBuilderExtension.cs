@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http.Headers;
@@ -22,5 +23,13 @@ internal static class StaticResourceHttpHeaderBuilderExtension
         where TBuilder : IHttpHeadersBuilder<HttpHeaders>
     {
         return condition ? builder.SetStaticResourceControlHeaders() : builder;
+    }
+
+    public static TBuilder SetStaticResourceControlHeadersIfRequired<TBuilder>(this TBuilder builder)
+        where TBuilder : IHttpHeadersBuilder<HttpHeaders>, IRequestUriBuilder
+    {
+        return builder.RequestUri?.GetLeftPart(UriPartial.Authority).Equals(StaticResourcesEndpoints.Root, StringComparison.OrdinalIgnoreCase) is true
+            ? builder.SetStaticResourceControlHeaders()
+            : builder;
     }
 }

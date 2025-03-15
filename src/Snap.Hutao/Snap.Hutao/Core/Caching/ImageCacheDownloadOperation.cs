@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.ViewModel.Guide;
-using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -30,9 +29,8 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
     ]);
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<ImageCacheDownloadOperation> logger;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly HutaoUserOptions hutaoUserOptions;
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
@@ -41,93 +39,79 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
             {
-                int retryCount = 0;
+                await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
+            }
+        }
+    }
 
-                string authority = uri.GetLeftPart(UriPartial.Authority);
-                bool shouldAddControlHeader = authority.Equals(StaticResourcesEndpoints.Root, StringComparison.OrdinalIgnoreCase);
+    private async ValueTask DownloadFileUsingHttpClientAsync(HttpClient httpClient, Uri uri, string baseFile)
+    {
+        int retryCount = 0;
 
-                HttpRequestMessageBuilder requestMessageBuilder = httpRequestMessageBuilderFactory
-                    .Create()
-                    .SetRequestUri(uri)
-                    .SetStaticResourceControlHeadersIf(shouldAddControlHeader)
-                    .Get();
+        HttpRequestMessageBuilder requestMessageBuilder = httpRequestMessageBuilderFactory
+            .Create()
+            .SetRequestUri(uri)
+            .SetStaticResourceControlHeadersIfRequired()
+            .Get();
 
-                await requestMessageBuilder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
+        await requestMessageBuilder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
-                while (retryCount < 3)
+        while (retryCount < 3)
+        {
+            requestMessageBuilder.Resurrect();
+
+            using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
+            {
+                HttpResponseMessage responseMessage;
+                try
                 {
-                    requestMessageBuilder.Resurrect();
-
-                    using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
+                    responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    // HttpRequestException: COR_E_IO & IOException: COR_E_IO
+                    if (ex is HttpRequestException { HResult: unchecked((int)0x80131620), InnerException: IOException { HResult: unchecked((int)0x80131620) } })
                     {
-                        HttpResponseMessage responseMessage;
-                        try
-                        {
-                            responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-                        }
-                        catch (Exception ex)
-                        {
-                            if (ex is HttpRequestException { InnerException: IOException ex2 } ex1)
-                            {
-                                if (ex1.HResult is unchecked((int)0x80131620) && ex2.HResult is unchecked((int)0x80131620))
-                                {
-                                    // The SSL connection could not be established, see inner exception.
-                                    // Received an unexpected EOF or 0 bytes from the transport stream.
-                                    continue;
-                                }
-                            }
+                        // The SSL connection could not be established, see inner exception.
+                        // Received an unexpected EOF or 0 bytes from the transport stream.
+                        continue;
+                    }
 
-                            throw;
+                    throw;
+                }
+
+                using (responseMessage)
+                {
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
+                        {
+                            return;
                         }
 
-                        using (responseMessage)
+                        using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
                         {
-                            // Redirect detection
-                            if (responseMessage.RequestMessage is { RequestUri: { } target } && target != uri)
+                            string? directoryName = Path.GetDirectoryName(baseFile);
+                            ArgumentException.ThrowIfNullOrEmpty(directoryName);
+                            Directory.CreateDirectory(directoryName);
+
+                            using (FileStream fileStream = File.Create(baseFile))
                             {
-                                const string Template = """
-                                The Request to
-                                '{Source}'
-                                has been redirected to
-                                '{Target}'
-                                """;
-                                logger.LogDebug(Template, uri, target);
-                            }
-
-                            if (responseMessage.IsSuccessStatusCode)
-                            {
-                                if (responseMessage.Content.Headers.ContentType?.MediaType is MediaTypeNames.Application.Json)
-                                {
-                                    return;
-                                }
-
-                                using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                                {
-                                    Directory.CreateDirectory(Path.GetDirectoryName(baseFile)!);
-                                    using (FileStream fileStream = File.Create(baseFile))
-                                    {
-                                        await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
-                                        return;
-                                    }
-                                }
-                            }
-
-                            switch (responseMessage.StatusCode)
-                            {
-                                case HttpStatusCode.TooManyRequests:
-                                    {
-                                        retryCount++;
-                                        TimeSpan delay = responseMessage.Headers.RetryAfter?.Delta ?? DelayFromRetryCount[retryCount];
-                                        logger.LogInformation("Retry download '{Uri}' after {Delay}.", uri, delay);
-                                        await Task.Delay(delay).ConfigureAwait(false);
-                                        break;
-                                    }
-
-                                default:
-                                    logger.LogCritical("Failed to download '\e[1m\e[31m{Uri}\e[37m' with status code '\e[33m{StatusCode}\e[37m'", uri, responseMessage.StatusCode);
-                                    return;
+                                await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                                return;
                             }
                         }
+                    }
+
+                    switch (responseMessage.StatusCode)
+                    {
+                        case HttpStatusCode.TooManyRequests:
+                            {
+                                retryCount++;
+                                TimeSpan delay = responseMessage.Headers.RetryAfter?.Delta ?? DelayFromRetryCount[retryCount];
+                                await Task.Delay(delay).ConfigureAwait(false);
+                                break;
+                            }
                     }
                 }
             }

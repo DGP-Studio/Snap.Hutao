@@ -24,8 +24,16 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
     {
         logger = serviceProvider.GetRequiredService<ILogger<LoopbackSupport>>();
 
-        Initialize(out hutaoContainerStringSid);
-        logger.LogInformation("Container SID: \e[1m\e[36m{SID}\e[37m", hutaoContainerStringSid);
+        try
+        {
+            Initialize(out hutaoContainerStringSid);
+            logger.LogInformation("Container SID: {SID}", hutaoContainerStringSid);
+        }
+        catch
+        {
+            // We can't throw exception in constructor
+            hutaoContainerStringSid = string.Empty;
+        }
     }
 
     [ObservableProperty]
@@ -55,6 +63,21 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
 
             HeapFree(GetProcessHeap(), 0, ref MemoryMarshal.GetReference(sidAttributes));
         }
+    }
+
+    private static void Free(ReadOnlySpan<SID_AND_ATTRIBUTES> sids)
+    {
+        if (sids.IsEmpty)
+        {
+            return;
+        }
+
+        foreach (ref readonly SID_AND_ATTRIBUTES sid in sids)
+        {
+            HeapFree(GetProcessHeap(), 0, sid.Sid);
+        }
+
+        HeapFree(GetProcessHeap(), 0, ref MemoryMarshal.GetReference(sids));
     }
 
     private void Initialize(out string containerStringSid)
@@ -114,15 +137,7 @@ internal sealed unsafe partial class LoopbackSupport : ObservableObject
         }
         finally
         {
-            if (!sidAttributes.IsEmpty)
-            {
-                foreach (ref readonly SID_AND_ATTRIBUTES sid in sidAttributes)
-                {
-                    HeapFree(GetProcessHeap(), 0, sid.Sid);
-                }
-            }
-
-            HeapFree(GetProcessHeap(), 0, ref MemoryMarshal.GetReference(sidAttributes));
+            Free(sidAttributes);
         }
     }
 }

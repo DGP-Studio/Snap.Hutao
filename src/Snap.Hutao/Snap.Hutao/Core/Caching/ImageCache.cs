@@ -23,7 +23,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     private string CacheFolder
     {
-        get => LazyInitializer.EnsureInitialized(ref field, () =>
+        get => LazyInitializer.EnsureInitialized(ref field, static () =>
         {
             string folder = HutaoRuntime.GetLocalCacheImageCacheFolder();
             Directory.CreateDirectory(Path.Combine(folder, "Light"));
@@ -41,7 +41,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
         catch
         {
-            // ignored
+            // Ignored
         }
     }
 
@@ -52,58 +52,43 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme)
     {
-        // This method is performance critical, we potentially avoid logging when the file exists
         CacheFile cacheFile = CacheFile.Create(CacheFolder, uri);
         string themedFileFullPath = cacheFile.GetThemedFileFullPath(theme);
 
-        if (IsFileValid(themedFileFullPath))
+        if (IsFileInvalid(themedFileFullPath))
         {
-            return themedFileFullPath;
-        }
-
-        using (await themeFileLocks.LockAsync((theme, cacheFile.FileName)).ConfigureAwait(false))
-        {
-            // If the file already exists, we don't need to download it again
-            if (IsFileValid(cacheFile.DefaultFileFullPath))
+            using (await themeFileLocks.LockAsync((theme, cacheFile.FileName)).ConfigureAwait(false))
             {
-                await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
-                return themedFileFullPath;
-            }
-
-            using (await downloadLocks.LockAsync(cacheFile.FileName).ConfigureAwait(false))
-            {
-                if (IsFileInvalid(cacheFile.DefaultFileFullPath))
+                if (IsFileInvalid(themedFileFullPath) && IsFileInvalid(cacheFile.DefaultFileFullPath))
                 {
-                    SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateInfo(
-                        "Begin to download file",
-                        "Core.Caching.ImageCache",
-                        [("Uri", uri.ToString()), ("File", cacheFile.DefaultFileFullPath)]));
+                    using (await downloadLocks.LockAsync(cacheFile.FileName).ConfigureAwait(false))
+                    {
+                        if (IsFileInvalid(cacheFile.DefaultFileFullPath))
+                        {
+                            SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateInfo("Begin to download file", "Core.Caching.ImageCache", [("Uri", uri.ToString()), ("File", cacheFile.DefaultFileFullPath)]));
 
-                    try
-                    {
-                        await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        Remove(uri);
-                        SentrySdk.CaptureException(ex);
+                            try
+                            {
+                                await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
+                            }
+                            catch (Exception ex)
+                            {
+                                Remove(uri);
+                                SentrySdk.CaptureException(ex);
+                            }
+                        }
                     }
                 }
-
-                await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
-                return themedFileFullPath;
             }
         }
+
+        await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
+        return themedFileFullPath;
     }
 
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
         return CacheFile.Create(CacheFolder, StaticResourcesEndpoints.StaticRaw(category, fileName)).DefaultFileFullPath;
-    }
-
-    private static bool IsFileValid(string file, bool treatNullFileAsInvalid = true)
-    {
-        return !IsFileInvalid(file, treatNullFileAsInvalid);
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)

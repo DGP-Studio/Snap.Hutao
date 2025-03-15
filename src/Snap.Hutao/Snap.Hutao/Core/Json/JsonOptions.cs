@@ -11,13 +11,11 @@ internal static class JsonOptions
     public static readonly JsonSerializerOptions Default = new()
     {
         AllowTrailingCommas = true,
-        ReadCommentHandling = JsonCommentHandling.Skip,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
         PropertyNameCaseInsensitive = true,
-        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-        WriteIndented = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
         TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
             Modifiers =
@@ -25,5 +23,7 @@ internal static class JsonOptions
                 JsonTypeInfoResolvers.ResolveEnumType,
             },
         },
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
+        WriteIndented = true,
     };
 }

@@ -68,20 +68,6 @@ internal static class ListExtension
     }
 
     [Pure]
-    public static unsafe List<TResult> SelectList<TSource, TResult>(this List<TSource> list, delegate*<TSource, TResult> selector)
-    {
-        Span<TSource> span = CollectionsMarshal.AsSpan(list);
-        List<TResult> results = new(span.Length);
-
-        foreach (ref readonly TSource item in span)
-        {
-            results.Add(selector(item));
-        }
-
-        return results;
-    }
-
-    [Pure]
     public static List<TResult> SelectList<TSource, TResult>(this List<TSource> list, Func<TSource, int, TResult> selector)
     {
         Span<TSource> span = CollectionsMarshal.AsSpan(list);
@@ -91,47 +77,6 @@ internal static class ListExtension
         foreach (ref readonly TSource item in span)
         {
             results.Add(selector(item, ++index));
-        }
-
-        return results;
-    }
-
-    [Pure]
-    public static unsafe List<TResult> SelectList<TSource, TResult>(this List<TSource> list, delegate*<TSource, int, TResult> selector)
-    {
-        Span<TSource> span = CollectionsMarshal.AsSpan(list);
-        List<TResult> results = new(span.Length);
-
-        int index = -1;
-        foreach (ref readonly TSource item in span)
-        {
-            results.Add(selector(item, ++index));
-        }
-
-        return results;
-    }
-
-    [Pure]
-    public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, ValueTask<TResult>> selector)
-    {
-        List<TResult> results = new(list.Count);
-
-        foreach (TSource item in list)
-        {
-            results.Add(await selector(item).ConfigureAwait(false));
-        }
-
-        return results;
-    }
-
-    [Pure]
-    public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, CancellationToken, ValueTask<TResult>> selector, CancellationToken token = default)
-    {
-        List<TResult> results = new(list.Count);
-
-        foreach (TSource item in list)
-        {
-            results.Add(await selector(item, token).ConfigureAwait(false));
         }
 
         return results;
@@ -179,5 +124,21 @@ internal static class ListExtension
     {
         list.Sort((left, right) => comparison(keySelector(right), keySelector(left)));
         return list;
+    }
+
+    private sealed class KeyComparer<TSource, TKey> : IComparer<TSource>
+        where TKey : IComparable
+    {
+        private readonly Func<TSource?, TKey> keySelector;
+
+        public KeyComparer(Func<TSource?, TKey> keySelector)
+        {
+            this.keySelector = keySelector;
+        }
+
+        public int Compare(TSource? x, TSource? y)
+        {
+            return keySelector(x).CompareTo(keySelector(y));
+        }
     }
 }

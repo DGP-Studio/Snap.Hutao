@@ -10,13 +10,33 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.Database;
 
+[SuppressMessage("", "SA1649")]
+file static class Sort
+{
+    public static List<TEntity> ByIndex<TEntity>(List<TEntity> items)
+        where TEntity : class, IReorderable
+    {
+        items.Sort((x, y) => x.Index.CompareTo(y.Index));
+        return items;
+    }
+
+    public static List<TEntityAccess> ByIndex<TEntityAccess, TEntity>(List<TEntityAccess> items)
+        where TEntityAccess : class, IEntityAccess<TEntity>
+        where TEntity : class, IReorderable
+    {
+        items.Sort((x, y) => x.Entity.Index.CompareTo(y.Entity.Index));
+        return items;
+    }
+}
+
+[SuppressMessage("", "SA1402")]
 internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCollection<TEntity>
     where TEntity : class, IReorderable
 {
     private readonly IServiceProvider serviceProvider;
 
     public ObservableReorderableDbCollection(List<TEntity> items, IServiceProvider serviceProvider)
-        : base(AdjustIndex(items.SortBy(x => x.Index))) // Normalized index
+        : base(AdjustIndex(Sort.ByIndex(items))) // Normalized index
     {
         this.serviceProvider = serviceProvider;
     }
@@ -36,6 +56,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
 
     private static List<TEntity> AdjustIndex(List<TEntity> list)
     {
+        // Input list can have non-contiguous indices, so we need to normalize them
         Span<TEntity> span = CollectionsMarshal.AsSpan(list);
         for (int i = 0; i < span.Length; i++)
         {
@@ -64,7 +85,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
     private readonly IServiceProvider serviceProvider;
 
     public ObservableReorderableDbCollection(List<TEntityAccess> items, IServiceProvider serviceProvider)
-        : base(AdjustIndex(items.SortBy(x => x.Entity.Index)))
+        : base(AdjustIndex(Sort.ByIndex<TEntityAccess, TEntity>(items)))
     {
         this.serviceProvider = serviceProvider;
     }
