@@ -25,6 +25,12 @@
         <Setter Property="Padding" Value="2"/>
     </Style>
     <Style
+        x:Key="FlyoutPresenterPadding4Style"
+        BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
+        TargetType="FlyoutPresenter">
+        <Setter Property="Padding" Value="4"/>
+    </Style>
+    <Style
         x:Key="FlyoutPresenterPadding6Style"
         BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
         TargetType="FlyoutPresenter">

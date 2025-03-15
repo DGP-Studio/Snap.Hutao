@@ -1931,6 +1931,12 @@
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
     <value>在重启胡桃时遇到问题，请手动重启</value>
   </data>
+  <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
+    <value>热键提示</value>
+  </data>
+  <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
+    <value>快捷开关</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>已抵达{0}</value>
   </data>
@@ -1975,6 +1981,12 @@
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>选择的文件夹不为空，将会覆盖已存在的文件</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription2" xml:space="preserve">
+    <value>不是有效的数据文件夹位置，请重新选择</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription3" xml:space="preserve">
+    <value>选择的文件夹'{0}'不为空，将会覆盖已存在的文件</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>复制数据文件</value>
@@ -3673,5 +3685,8 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>显示器编号</value>
+  </data>
+  <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
+    <value>移除地图界面任务提示</value>
   </data>
 </root>

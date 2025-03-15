@@ -6,7 +6,10 @@ using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using WinRT.Interop;
+using static Snap.Hutao.Win32.Kernel32;
+using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Xaml;
@@ -89,7 +92,13 @@ internal static class WindowExtension
         HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
-        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        if (result is 0)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+        }
+
+        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
     }
 
     public static void RemoveExStyleLayered(this Window window)
@@ -97,7 +106,13 @@ internal static class WindowExtension
         HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style &= ~(nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
-        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        if (result is 0)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+        }
+
+        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
     }
 
     public static void AddExStyleToolWindow(this Window window)
@@ -105,28 +120,55 @@ internal static class WindowExtension
         HWND hwnd = WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW;
-        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        if (result is 0)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+        }
+
+        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
     }
 
-    [Obsolete]
-    public static unsafe void BringToForeground(this Window window)
+    public static void RemoveExStyleClientEdge(this Window window)
     {
-        HWND fgHwnd = GetForegroundWindow();
-        HWND hwnd = window.GetWindowHandle();
-
-        uint threadIdHwnd = GetWindowThreadProcessId(hwnd, default);
-        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd, default);
-
-        if (threadIdHwnd != threadIdFgHwnd)
+        HWND hwnd = WindowNative.GetWindowHandle(window);
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+        style &= ~(nint)WINDOW_EX_STYLE.WS_EX_CLIENTEDGE;
+        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        if (result is 0)
         {
-            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, true);
-            SetForegroundWindow(hwnd);
-            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, false);
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
         }
-        else
+
+        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
+    }
+
+    public static void RemoveStyleDialogFrame(this Window window)
+    {
+        HWND hwnd = WindowNative.GetWindowHandle(window);
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+        style &= ~(nint)WINDOW_STYLE.WS_DLGFRAME;
+        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style);
+        if (result is 0)
         {
-            SetForegroundWindow(hwnd);
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
         }
+
+        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
+    }
+
+    public static void RemoveStyleOverlappedWindow(this Window window)
+    {
+        HWND hwnd = WindowNative.GetWindowHandle(window);
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+        style &= ~(nint)WINDOW_STYLE.WS_OVERLAPPEDWINDOW;
+        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style);
+        if (result is 0)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+        }
+
+        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
     }
 
     public static double GetRasterizationScale(this Window window)

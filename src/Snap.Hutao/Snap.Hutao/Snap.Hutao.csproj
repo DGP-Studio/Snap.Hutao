@@ -152,7 +152,9 @@
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
     <None Remove="UI\Xaml\Control\Panel\DataTable\DataColumn.xaml" />
+    <None Remove="UI\Xaml\View\OverlayView.xaml" />
     <None Remove="UI\Xaml\View\Page\HutaoPassportPage.xaml" />
+    <None Remove="UI\Xaml\View\Window\LaunchExecutionOverlayWindow.xaml" />
   </ItemGroup>
 
   <!-- Analyzer Files -->
@@ -376,6 +378,16 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\View\OverlayView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\View\Window\LaunchExecutionOverlayWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\View\Page\HutaoPassportPage.xaml">

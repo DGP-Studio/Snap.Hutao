@@ -1,12 +1,15 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.SystemServices;
 using Snap.Hutao.Win32.UI.Shell;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -89,8 +92,61 @@ internal sealed partial class XamlWindowSubclass : IDisposable
 
                     break;
                 }
+
+            case WM_MOUSEWHEEL:
+                {
+                    if (state.window is IXamlWindowMouseWheelHandler handler)
+                    {
+                        WPARAM2MOUSEWHEEL pWParam2 = *(WPARAM2MOUSEWHEEL*)&wParam;
+                        LPARAM2MOUSEWHEEL pLParam2 = *(LPARAM2MOUSEWHEEL*)&lParam;
+                        PointerPointProperties data = new(pWParam2.High, (MODIFIERKEYS_FLAGS)pWParam2.Low, pLParam2.Low, pLParam2.High);
+                        handler.OnMouseWheel(in data);
+                    }
+
+                    break;
+                }
         }
 
         return DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
+}
+
+internal readonly struct PointerPointProperties
+{
+    public readonly int Delta;
+    public readonly bool IsLeftButtonPressed;
+    public readonly bool IsRightButtonPressed;
+    public readonly bool IsHorizontalMouseWheel;
+    public readonly bool IsControlKeyPressed;
+    public readonly bool IsMiddleButtonPressed;
+    public readonly bool IsXButton1Pressed;
+    public readonly bool IsXButton2Pressed;
+    public readonly POINT Point;
+
+    public PointerPointProperties(int delta, MODIFIERKEYS_FLAGS flags, int x, int y)
+    {
+        Delta = delta;
+        IsLeftButtonPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_LBUTTON);
+        IsRightButtonPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_RBUTTON);
+        IsHorizontalMouseWheel = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_SHIFT);
+        IsControlKeyPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_CONTROL);
+        IsMiddleButtonPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_MBUTTON);
+        IsXButton1Pressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_XBUTTON1);
+        IsXButton2Pressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_XBUTTON2);
+        Point = new(x, y);
+    }
+}
+
+file readonly struct WPARAM2MOUSEWHEEL
+{
+    public readonly short Low;
+    public readonly short High;
+    private readonly int Reserved;
+}
+
+file readonly struct LPARAM2MOUSEWHEEL
+{
+    public readonly short Low;
+    public readonly short High;
+    private readonly int Reserved;
 }
