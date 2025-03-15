@@ -13,4 +13,8 @@ internal interface ISignInClient
     ValueTask<Response<Reward>> GetRewardAsync(Model.Entity.User user, CancellationToken token = default);
 
     ValueTask<Response<SignInResult>> SignAsync(UserAndUid userAndUid, CancellationToken token = default);
+
+    ValueTask<Response<SignInRewardReSignInfo>> GetResignInfoAsync(UserAndUid userAndUid, CancellationToken token = default);
+
+    ValueTask<Response<SignInResult>> ReSignAsync(UserAndUid userAndUid, CancellationToken token = default);
 }

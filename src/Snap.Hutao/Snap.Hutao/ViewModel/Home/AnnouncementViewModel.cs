@@ -127,6 +127,11 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             result.Add(new() { Card = new CalendarCard() });
         }
 
+        if (LocalSetting.Get(SettingKeys.IsHomeCardSignInPresented, true))
+        {
+            result.Add(new() { Card = new SignInCard() });
+        }
+
         Cards = result;
     }
 }

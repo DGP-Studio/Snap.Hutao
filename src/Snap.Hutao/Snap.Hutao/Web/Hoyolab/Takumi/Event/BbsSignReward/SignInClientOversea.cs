@@ -64,4 +64,32 @@ internal sealed partial class SignInClientOversea : ISignInClient
 
         return Response.Response.DefaultIfNull(resp);
     }
+
+    public async ValueTask<Response<SignInRewardReSignInfo>> GetResignInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.LunaSolResignInfo(userAndUid.Uid, cultureOptions.LanguageCode))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .Get();
+
+        Response<SignInRewardReSignInfo>? resp = await builder
+            .SendAsync<Response<SignInRewardReSignInfo>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<SignInResult>> ReSignAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.LunaSolReSign(cultureOptions.LanguageCode))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .PostJson(new SignInData(apiEndpoints, userAndUid.Uid));
+
+        Response<SignInResult>? resp = await builder
+            .SendAsync<Response<SignInResult>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
 }
