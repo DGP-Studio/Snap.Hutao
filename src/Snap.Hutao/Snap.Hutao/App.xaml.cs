@@ -79,7 +79,6 @@ public sealed partial class App : Application
 
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
-            Bootstrap.UseNamedPipeRedirection();
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
                 SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting on RedirectActivationTo", "Hutao"));

@@ -120,7 +120,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        UpdateStatisticsAsync(Archives?.CurrentItem).SafeForget(logger);
+        UpdateStatisticsAsync(Archives?.CurrentItem).SafeForget();
     }
 
     [Command("RefreshByWebCacheCommand")]

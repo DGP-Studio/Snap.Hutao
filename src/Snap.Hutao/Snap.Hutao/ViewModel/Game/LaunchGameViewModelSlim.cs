@@ -39,7 +39,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     protected override async Task LoadAsync()
     {
-        Shared.ResumeLaunchExecutionAsync(this).SafeForget(logger);
+        Shared.ResumeLaunchExecutionAsync(this).SafeForget();
 
         LaunchScheme? scheme = Shared.GetCurrentLaunchSchemeFromConfigFile();
         IAdvancedCollectionView<GameAccount> accountsView = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);

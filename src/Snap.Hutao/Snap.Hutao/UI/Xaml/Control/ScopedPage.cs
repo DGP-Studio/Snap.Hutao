@@ -68,7 +68,7 @@ internal partial class ScopedPage : Page
         {
             NavigationExtraDataSupport
                 .NotifyRecipientAsync(this, data)
-                .SafeForget(pageScope.ServiceProvider.GetRequiredService<ILogger<ScopedPage>>());
+                .SafeForget();
         }
     }
 

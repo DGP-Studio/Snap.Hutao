@@ -65,7 +65,7 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
 
         if (CurrentPageType == pageType)
         {
-            NavigationExtraDataSupport.NotifyRecipientAsync(frame.Content, data).SafeForget(logger);
+            NavigationExtraDataSupport.NotifyRecipientAsync(frame.Content, data).SafeForget();
             return NavigationResult.AlreadyNavigatedTo;
         }
 

@@ -27,7 +27,7 @@ internal sealed partial class InfoBarService : IInfoBarService
             return;
         }
 
-        PrivatePrepareInfoBarAndShowAsync(configure).SafeForget(logger);
+        PrivatePrepareInfoBarAndShowAsync(configure).SafeForget();
     }
 
     private async ValueTask PrivatePrepareInfoBarAndShowAsync(Action<IInfoBarOptionsBuilder> configure)

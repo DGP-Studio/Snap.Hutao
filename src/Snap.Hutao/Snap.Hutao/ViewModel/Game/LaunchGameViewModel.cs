@@ -61,7 +61,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
-        set => SetSelectedSchemeAsync(value).SafeForget(logger);
+        set => SetSelectedSchemeAsync(value).SafeForget();
     }
 
     public NameValue<PlatformType>? SelectedPlatformType
@@ -98,7 +98,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             if (SetProperty(ref field, value) && value)
             {
-                RefreshUIAsync().SafeForget(logger);
+                RefreshUIAsync().SafeForget();
             }
 
             [SuppressMessage("", "SH003")]
@@ -212,7 +212,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             await serviceProvider.GetRequiredService<IGamePathService>().SilentLocateAllGamePathAsync().ConfigureAwait(false);
         }
 
-        Shared.ResumeLaunchExecutionAsync(this).SafeForget(logger);
+        Shared.ResumeLaunchExecutionAsync(this).SafeForget();
 
         await taskContext.SwitchToMainThreadAsync();
         this.SetGamePathEntriesAndSelectedGamePathEntry(LaunchOptions);

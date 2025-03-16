@@ -130,7 +130,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private void OnCurrentArchiveChanged(object? sender, object? e)
     {
-        UpdateAchievementsAsync(Archives?.CurrentItem).SafeForget(scopeContext.Logger);
+        UpdateAchievementsAsync(Archives?.CurrentItem).SafeForget();
     }
 
     private void OnCurrentAchievementGoalChanged(object? sender, object? e)

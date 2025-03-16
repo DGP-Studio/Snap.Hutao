@@ -48,7 +48,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
         TaskCompletionSource queueSource = new();
         TaskCompletionSource<ContentDialogResult> resultSource = new();
 
-        PrivateEnqueueAndShowAsync(contentDialog, queueSource, resultSource).SafeForget(logger);
+        PrivateEnqueueAndShowAsync(contentDialog, queueSource, resultSource).SafeForget();
         return new(queueSource.Task, resultSource.Task);
     }
 
@@ -87,7 +87,7 @@ internal sealed partial class ContentDialogQueue : IContentDialogQueue
             .ShowAsync()
             .AsTask()
             .ContinueWith(Continuation, state, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default)
-            .SafeForget(logger);
+            .SafeForget();
         contentDialog.Focus(Microsoft.UI.Xaml.FocusState.Programmatic);
     }
 

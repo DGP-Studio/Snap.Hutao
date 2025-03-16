@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Dispatching;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;
@@ -20,12 +22,14 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private static readonly WaitCallback RunMouseClickRepeatForever = MouseClickRepeatForever;
     private static readonly WaitCallback RunKeyPressRepeatForever = KeyPressRepeatForever;
 
+    private readonly ITaskContext taskContext;
     private readonly HotKeyMessageWindow hotKeyMessageWindow;
 
     private bool isDisposed;
 
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         hotKeyMessageWindow = HotKeyMessageWindow.Create(OnHotKeyPressed);
 
         HWND hwnd = hotKeyMessageWindow.Hwnd;
@@ -57,8 +61,9 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     [ObservableProperty]
     public partial HotKeyCombination KeyPressRepeatForeverKeyCombination { get; set; }
 
-    public void RegisterAll()
+    public async ValueTask RegisterAllAsync()
     {
+        await taskContext.SwitchToMainThreadAsync();
         MouseClickRepeatForeverKeyCombination.Register();
         KeyPressRepeatForeverKeyCombination.Register();
     }

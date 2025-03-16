@@ -1,13 +1,11 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
-
 namespace Snap.Hutao.Core.Threading;
 
 internal static class TaskExtension
 {
-    public static async void SafeForget(this Task task, ILogger logger)
+    public static async void SafeForget(this Task task)
     {
         try
         {
@@ -17,13 +15,14 @@ internal static class TaskExtension
         {
             // Do nothing
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
+            ex.SetSentryMechanism("TaskExtension.SafeForget", handled: true);
+            SentrySdk.CaptureException(ex);
         }
     }
 
-    public static async void SafeForget(this Task task, ILogger logger, Action<Exception> onException)
+    public static async void SafeForget(this ValueTask task)
     {
         try
         {
@@ -33,77 +32,10 @@ internal static class TaskExtension
         {
             // Do nothing
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
-            onException.Invoke(e);
-        }
-    }
-
-    public static async void SafeForget(this Task task, ILogger logger, Action onCanceled, Action<Exception>? onException = null)
-    {
-        try
-        {
-            await task.ConfigureAwait(true);
-        }
-        catch (OperationCanceledException)
-        {
-            onCanceled.Invoke();
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
-            onException?.Invoke(e);
-        }
-    }
-
-    public static async void SafeForget(this ValueTask task, ILogger logger)
-    {
-        try
-        {
-            await task.ConfigureAwait(true);
-        }
-        catch (OperationCanceledException)
-        {
-            // Do nothing
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
-        }
-    }
-
-    public static async void SafeForget(this ValueTask task, ILogger logger, Action<Exception> onException)
-    {
-        try
-        {
-            await task.ConfigureAwait(true);
-        }
-        catch (OperationCanceledException)
-        {
-            // Do nothing
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
-            onException.Invoke(e);
-        }
-    }
-
-    public static async void SafeForget(this ValueTask task, ILogger logger, Action onCanceled, Action<Exception>? onException = null)
-    {
-        try
-        {
-            await task.ConfigureAwait(true);
-        }
-        catch (OperationCanceledException)
-        {
-            onCanceled.Invoke();
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
-            onException?.Invoke(e);
+            ex.SetSentryMechanism("TaskExtension.SafeForget", handled: true);
+            SentrySdk.CaptureException(ex);
         }
     }
 
@@ -112,13 +44,14 @@ internal static class TaskExtension
     {
         using (CancellationTokenSource taskFaultedCts = new())
         {
-            List<Task> taskList = tasks.Select(task => WrapTask(task, taskFaultedCts.Token)).ToList();
+            List<Task> taskList = [.. tasks.Select(task => WrapTask(task, taskFaultedCts.Token))];
 
             Task firstCompletedTask = await Task.WhenAny(taskList).ConfigureAwait(true);
 
             if (firstCompletedTask.IsFaulted)
             {
 #pragma warning disable CA1849
+                // ReSharper disable once MethodHasAsyncOverload
                 taskFaultedCts.Cancel();
 #pragma warning restore CA1849
                 await firstCompletedTask.ConfigureAwait(true);

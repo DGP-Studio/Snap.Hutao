@@ -478,8 +478,8 @@ internal class MiHoYoJSBridge
     private void OnDOMContentLoaded(CoreWebView2 coreWebView2, CoreWebView2DOMContentLoadedEventArgs args)
     {
         DOMContentLoaded(coreWebView2);
-        coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget(logger);
-        coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget(logger);
+        coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget();
+        coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget();
     }
 
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
@@ -488,7 +488,7 @@ internal class MiHoYoJSBridge
         ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
-            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget(logger);
+            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget();
         }
     }
 }

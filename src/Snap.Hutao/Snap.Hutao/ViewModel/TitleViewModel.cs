@@ -55,7 +55,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     {
         ShowUpdateLogWindowAfterUpdate();
         NotifyIfDataFolderHasReparsePoint();
-        WaitMetadataInitializationAsync().SafeForget(logger);
+        WaitMetadataInitializationAsync().SafeForget();
         await CheckUpdateAsync().ConfigureAwait(false);
         return true;
     }

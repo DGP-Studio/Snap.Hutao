@@ -132,7 +132,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private void OnCurrentProjectChanged(object? sender, object? e)
     {
-        UpdateEntryCollectionAsync(Projects?.CurrentItem).SafeForget(logger);
+        UpdateEntryCollectionAsync(Projects?.CurrentItem).SafeForget();
     }
 
     [Command("AddProjectCommand")]
