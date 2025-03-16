@@ -45,25 +45,21 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public void Activate(HutaoActivationArguments args)
     {
-        if (Volatile.Read(ref isActivating) is 1)
-        {
-            return;
-        }
-
         HandleActivationExclusivelyAsync(args).SafeForget(logger);
 
         async ValueTask HandleActivationExclusivelyAsync(HutaoActivationArguments args)
         {
+            if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
+            {
+                return;
+            }
+
             using (await activateLock.LockAsync().ConfigureAwait(false))
             {
-                if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
-                {
-                    return;
-                }
-
                 await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
-                Interlocked.Exchange(ref isActivating, 0);
             }
+
+            Interlocked.Exchange(ref isActivating, 0);
         }
     }
 

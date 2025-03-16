@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using JetBrains.Annotations;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Core.Threading;
@@ -11,6 +12,15 @@ internal static class SpinWaitPolyfill
     {
         SpinWait spinner = default;
         while (condition())
+        {
+            spinner.SpinOnce();
+        }
+    }
+
+    public static void SpinUntil<T>(T state, [RequireStaticDelegate] Func<T, bool> condition)
+    {
+        SpinWait spinner = default;
+        while (!condition(state))
         {
             spinner.SpinOnce();
         }
