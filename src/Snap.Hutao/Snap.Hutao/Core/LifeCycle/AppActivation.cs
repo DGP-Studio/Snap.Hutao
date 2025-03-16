@@ -101,7 +101,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             case null:
             case MainWindow:
-                await WaitMainWindowOrCurrentAsync().ConfigureAwait(true);
+                await WaitWindowAsync<MainWindow>().ConfigureAwait(true);
                 await serviceProvider
                     .GetRequiredService<INavigationService>()
                     .NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true)
@@ -199,12 +199,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             case CategoryAchievement:
                 {
-                    await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
-                    if (currentXamlWindowReference.Window is not MainWindow)
-                    {
-                        return;
-                    }
-
+                    await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
                     switch (action)
                     {
                         case UrlActionImport:
@@ -213,9 +208,10 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
                                 INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(AchievementViewModel.ImportUIAFFromClipboard);
 #pragma warning disable CA1849
-                                // We can't await here to navigate to Achievement Page, the Achievement
+                                // We can't await there to navigate to Achievement Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.
-                                // Which is initialized in the link:AppActivation.cs#L102
+                                // Which is initialized in there (AppActivation - Initialization) which is after Activation.
+                                // Thus await would cause a deadlock.
                                 // ReSharper disable once MethodHasAsyncOverload
                                 serviceProvider
                                     .GetRequiredService<INavigationService>()
@@ -240,7 +236,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         if (isRedirectTo)
         {
-            await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
+            await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
             return;
         }
 
@@ -268,13 +264,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             return;
         }
 
-        if (Version.Parse(LocalSetting.Get(SettingKeys.LastVersion, "0.0.0.0")) < HutaoRuntime.Version)
+        if (Version.Parse(LocalSetting.Update(SettingKeys.LastVersion, "0.0.0.0", $"{HutaoRuntime.Version}")) < HutaoRuntime.Version)
         {
             XamlApplicationLifetime.IsFirstRunAfterUpdate = true;
-            LocalSetting.Set(SettingKeys.LastVersion, $"{HutaoRuntime.Version}");
         }
 
-        await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
+        await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
     }
 
     private async ValueTask HandleAppNotificationActivationAsync(IReadOnlyDictionary<string, string> arguments, bool isRedirectTo)
@@ -293,13 +288,14 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         }
     }
 
-    private async ValueTask WaitMainWindowOrCurrentAsync()
+    private async ValueTask WaitWindowAsync<TWindow>()
+        where TWindow : Window
     {
         await taskContext.SwitchToMainThreadAsync();
 
         if (currentXamlWindowReference.Window is not { } window)
         {
-            window = serviceProvider.GetRequiredService<MainWindow>();
+            window = serviceProvider.GetRequiredService<TWindow>();
             currentXamlWindowReference.Window = window;
         }
 
