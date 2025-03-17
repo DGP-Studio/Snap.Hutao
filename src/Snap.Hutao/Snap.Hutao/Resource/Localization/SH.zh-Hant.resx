@@ -1044,10 +1044,10 @@
     <value>你的胡桃版本過低，請盡快升級</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>補簽失敗，{0}</value>
   </data>
   <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>補簽成功，{0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>簽到失敗，{0}</value>
@@ -1137,10 +1137,10 @@
     <value>選擇帳號或直接啟動</value>
   </data>
   <data name="ViewCardSignInClaimReSignInAction" xml:space="preserve">
-    <value>补签</value>
+    <value>補簽</value>
   </data>
   <data name="ViewCardSignInClaimSignInAction" xml:space="preserve">
-    <value>签到</value>
+    <value>簽到</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
     <value>等級</value>
@@ -1680,31 +1680,31 @@
     <value>角色展櫃尚未開啟，請前往遊戲操作後重試</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount" xml:space="preserve">
-    <value>命之座解锁层数顺序</value>
+    <value>命之座解鎖層數順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindCurAttack" xml:space="preserve">
-    <value>攻击力顺序</value>
+    <value>攻擊力順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindCurDefense" xml:space="preserve">
-    <value>防御力顺序</value>
+    <value>防禦力順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindDefault" xml:space="preserve">
-    <value>默认顺序</value>
+    <value>預設順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindElementMastery" xml:space="preserve">
-    <value>元素精通顺序</value>
+    <value>元素精通順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindFetterLevel" xml:space="preserve">
-    <value>好感度顺序</value>
+    <value>好感度順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindLevelNumber" xml:space="preserve">
-    <value>等级顺序</value>
+    <value>等級順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindMaxHp" xml:space="preserve">
-    <value>生命值上限顺序</value>
+    <value>生命值上限順序</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindQuality" xml:space="preserve">
-    <value>品质顺序</value>
+    <value>品質順序</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>共 {0} 位角色</value>
@@ -1980,10 +1980,10 @@
     <value>在重新啟動胡桃時遇到問題，請手動重新啟動</value>
   </data>
   <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
-    <value>热键提示</value>
+    <value>鍵盤快速鍵提示</value>
   </data>
   <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
-    <value>快捷开关</value>
+    <value>快速開關</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>已抵達{0}</value>
