@@ -2,13 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Dispatching;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;

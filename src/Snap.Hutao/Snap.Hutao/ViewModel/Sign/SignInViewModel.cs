@@ -8,7 +8,6 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Data;

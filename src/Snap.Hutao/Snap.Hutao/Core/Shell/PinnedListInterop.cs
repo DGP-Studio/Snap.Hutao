@@ -1,15 +1,14 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.Shell.Common;
 using System.Runtime.CompilerServices;
 using WinRT;
 using static Snap.Hutao.Win32.Macros;
-using static Snap.Hutao.Win32.Shell32;
 using static Snap.Hutao.Win32.Ole32;
+using static Snap.Hutao.Win32.Shell32;
 
 namespace Snap.Hutao.Core.Shell;
 

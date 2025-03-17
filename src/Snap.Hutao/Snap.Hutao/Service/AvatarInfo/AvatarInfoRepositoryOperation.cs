@@ -14,8 +14,8 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
-using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using CalculableAvatar = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Avatar;
+using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 

@@ -1,9 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.CompilerServices;
-using Windows.UI;
-
 namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
 internal sealed partial class FrameRateStringConverter : ValueConverter<int, string>

@@ -6,7 +6,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
-using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;

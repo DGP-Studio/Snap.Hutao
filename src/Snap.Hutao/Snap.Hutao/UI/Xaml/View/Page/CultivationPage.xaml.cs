@@ -16,7 +16,7 @@ internal sealed partial class CultivationPage : ScopedPage
 
         (DataContext as CultivationViewModel)?.Initialize(new CultivateEntryItemsRepeaterAccessor(CultivateEntryItemsRepeater));
     }
-    
+
     private class CultivateEntryItemsRepeaterAccessor : ICultivateEntryItemsRepeaterAccessor
     {
         public CultivateEntryItemsRepeaterAccessor(ItemsRepeater cultivateEntryItemsRepeater)

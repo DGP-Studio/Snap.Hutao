@@ -13,9 +13,9 @@ internal sealed class Gen2GcCallback : CriticalFinalizerObject
     private readonly Func<bool>? callback0;
     private readonly Func<object, bool>? callback1;
 
-    #if NET10_0_OR_GREATER
+#if NET10_0_OR_GREATER
     [Obsolete("WeakGCHandle is available in .NET 10.0 and later.")]
-    #endif
+#endif
     private GCHandle weakTargetObj;
 
     private Gen2GcCallback(Func<bool> callback)

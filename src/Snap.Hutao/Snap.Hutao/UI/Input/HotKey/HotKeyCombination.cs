@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Core.Text;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32.Foundation;

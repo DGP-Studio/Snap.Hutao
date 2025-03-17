@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.ViewModel.Guide;
-using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Frozen;
