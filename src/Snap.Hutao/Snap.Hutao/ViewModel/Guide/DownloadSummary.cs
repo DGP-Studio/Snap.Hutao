@@ -30,7 +30,6 @@ internal sealed partial class DownloadSummary : ObservableObject
     ];
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IImageCache imageCache;
@@ -46,7 +45,6 @@ internal sealed partial class DownloadSummary : ObservableObject
         httpClient = serviceProvider.GetRequiredService<HttpClient>();
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
         imageCache = serviceProvider.GetRequiredService<IImageCache>();
-        hutaoUserOptions = serviceProvider.GetRequiredService<HutaoUserOptions>();
 
         this.serviceProvider = serviceProvider;
 

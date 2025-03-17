@@ -54,8 +54,6 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
             .SetStaticResourceControlHeadersIfRequired()
             .Get();
 
-        await requestMessageBuilder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
-
         while (retryCount < 3)
         {
             requestMessageBuilder.Resurrect();

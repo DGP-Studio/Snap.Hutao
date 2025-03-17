@@ -7,7 +7,6 @@ namespace Snap.Hutao.Web.Endpoint.Hutao;
 
 internal interface IInfrastructureMetadataEndpoints : IInfrastructureRootAccess
 {
-    [Obsolete]
     public string Metadata(string locale, string fileName)
     {
         return $"{Root}/metadata/Genshin/{locale}/{fileName}";
