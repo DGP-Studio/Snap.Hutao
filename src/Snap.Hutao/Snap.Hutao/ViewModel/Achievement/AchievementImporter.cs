@@ -103,7 +103,7 @@ internal sealed partial class AchievementImporter
         }
 
         AchievementImportDialog importDialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<AchievementImportDialog>(uiaf).ConfigureAwait(false);
+            .CreateInstanceAsync<AchievementImportDialog>(scopeContext.ServiceProvider, uiaf).ConfigureAwait(false);
         (bool isOk, ImportStrategyKind strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(false);
 
         if (!isOk)

@@ -7,7 +7,6 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
-using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.ViewModel.HutaoPassport;
 
@@ -15,9 +14,9 @@ namespace Snap.Hutao.ViewModel.HutaoPassport;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
-    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
+    private readonly IServiceProvider serviceProvider;
 
     public partial HutaoUserOptions HutaoUserOptions { get; }
 
@@ -33,7 +32,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Register", "HutaoPassportViewModel.Command"));
 
-        HutaoPassportRegisterDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportRegisterDialog>().ConfigureAwait(false);
+        HutaoPassportRegisterDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportRegisterDialog>(serviceProvider).ConfigureAwait(false);
         ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
 
         if (!result.IsOk)
@@ -58,7 +57,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
         string? userName = await HutaoUserOptions.GetActualUserNameAsync().ConfigureAwait(false);
 
-        HutaoPassportUnregisterDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUnregisterDialog>().ConfigureAwait(false);
+        HutaoPassportUnregisterDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUnregisterDialog>(serviceProvider).ConfigureAwait(false);
         ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync(userName).ConfigureAwait(false);
 
         if (!result.IsOk)
@@ -81,7 +80,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Login", "HutaoPassportViewModel.Command"));
 
-        HutaoPassportLoginDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportLoginDialog>().ConfigureAwait(false);
+        HutaoPassportLoginDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportLoginDialog>(serviceProvider).ConfigureAwait(false);
         ValueResult<bool, (string UserName, string Password)> result = await dialog.GetInputAsync().ConfigureAwait(false);
 
         if (!result.IsOk)
@@ -112,7 +111,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset email", "HutaoPassportViewModel.Command"));
         string? userName = await HutaoUserOptions.GetActualUserNameAsync().ConfigureAwait(false);
 
-        HutaoPassportResetUsernameDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportResetUsernameDialog>().ConfigureAwait(false);
+        HutaoPassportResetUsernameDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportResetUsernameDialog>(serviceProvider).ConfigureAwait(false);
         ValueResult<bool, (string UserName, string NewUserName, string VerifyCode, string NewVerifyCode)> result = await dialog.GetInputAsync(userName).ConfigureAwait(false);
 
         if (!result.IsOk)
@@ -136,7 +135,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset password", "HutaoPassportViewModel.Command"));
         string? userName = await HutaoUserOptions.GetActualUserNameAsync().ConfigureAwait(false);
 
-        HutaoPassportResetPasswordDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportResetPasswordDialog>().ConfigureAwait(false);
+        HutaoPassportResetPasswordDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportResetPasswordDialog>(serviceProvider).ConfigureAwait(false);
         ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync(userName).ConfigureAwait(false);
 
         if (!result.IsOk)
@@ -158,7 +157,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private async Task UseRedeemCodeAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Use redeem code", "HutaoPassportViewModel.Command"));
-        HutaoPassportUseRedeemCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUseRedeemCodeDialog>().ConfigureAwait(false);
+        HutaoPassportUseRedeemCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUseRedeemCodeDialog>(serviceProvider).ConfigureAwait(false);
         (bool isOk, string redeemCode) = await dialog.GetInputAsync().ConfigureAwait(false);
 
         if (!isOk)

@@ -44,9 +44,9 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
         DispatcherQueue.Invoke(action);
     }
 
-    public T InvokeOnMainThread<T>(Func<T> action)
+    public T InvokeOnMainThread<T>(Func<T> func)
     {
-        return DispatcherQueue.Invoke(action);
+        return DispatcherQueue.Invoke(func);
     }
 
     public void BeginInvokeOnMainThread(Action action)
@@ -69,10 +69,10 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
             dispatcherQueue.TryEnqueue(() => callback(state));
         }
 
-        public override void Send(SendOrPostCallback d, object? state)
+        public override void Send(SendOrPostCallback callback, object? state)
         {
-            ArgumentNullException.ThrowIfNull(d);
-            dispatcherQueue.Invoke(() => d(state));
+            ArgumentNullException.ThrowIfNull(callback);
+            dispatcherQueue.Invoke(() => callback(state));
         }
 
         public override SynchronizationContext CreateCopy()

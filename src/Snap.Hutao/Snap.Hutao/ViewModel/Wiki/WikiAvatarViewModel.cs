@@ -150,13 +150,17 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        CalculableOptions options = new(avatar.ToCalculable(), null);
-        CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        CultivatePromotionDeltaOptions deltaOptions;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            return;
+            CalculableOptions options = new(avatar.ToCalculable(), null);
+            CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(scope.ServiceProvider, options).ConfigureAwait(false);
+            (bool isOk, deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+
+            if (!isOk)
+            {
+                return;
+            }
         }
 
         CalculateBatchConsumption? batchConsumption;

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml;
 

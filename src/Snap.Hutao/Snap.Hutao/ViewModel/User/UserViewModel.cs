@@ -116,16 +116,19 @@ internal sealed partial class UserViewModel : ObservableObject
 
         await taskContext.SwitchToMainThreadAsync();
 
-        UserAccountPasswordDialog dialog = await contentDialogFactory
-            .CreateInstanceAsync<UserAccountPasswordDialog>()
-            .ConfigureAwait(false);
-        ValueResult<bool, LoginResult?> result = await dialog.LoginAsync(true).ConfigureAwait(false);
-
-        if (result.TryGetValue(out LoginResult? loginResult))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
-            HandleUserOptionResult(optionResult, uid);
+            UserAccountPasswordDialog dialog = await contentDialogFactory
+                .CreateInstanceAsync<UserAccountPasswordDialog>(scope.ServiceProvider)
+                .ConfigureAwait(false);
+            ValueResult<bool, LoginResult?> result = await dialog.LoginAsync(true).ConfigureAwait(false);
+
+            if (result.TryGetValue(out LoginResult? loginResult))
+            {
+                Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
+                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+                HandleUserOptionResult(optionResult, uid);
+            }
         }
     }
 
@@ -155,8 +158,8 @@ internal sealed partial class UserViewModel : ObservableObject
 
         if (ResponseValidator.TryValidate(response, infoBarService, out LoginResult? loginResult))
         {
-            Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+            Cookie sTokenV2 = Cookie.FromLoginResult(loginResult);
+            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, true)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
     }
@@ -166,16 +169,19 @@ internal sealed partial class UserViewModel : ObservableObject
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
 
-        // Get cookie from user input
-        UserDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserDialog>().ConfigureAwait(false);
-        ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
-
-        // User confirms the input
-        if (result.TryGetValue(out string? rawCookie))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Cookie cookie = Cookie.Parse(rawCookie);
-            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
-            HandleUserOptionResult(optionResult, uid);
+            // Get cookie from user input
+            UserDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
+
+            // User confirms the input
+            if (result.TryGetValue(out string? rawCookie))
+            {
+                Cookie cookie = Cookie.Parse(rawCookie);
+                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
+                HandleUserOptionResult(optionResult, uid);
+            }
         }
     }
 
@@ -183,17 +189,21 @@ internal sealed partial class UserViewModel : ObservableObject
     private async Task LoginByQRCodeAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "QR Code")]));
-        UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
-        (bool isOk, QrLoginResult? qrLoginResult) = await dialog.GetQrLoginResultAsync().ConfigureAwait(false);
 
-        if (!isOk)
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            return;
-        }
+            UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            (bool isOk, QrLoginResult? qrLoginResult) = await dialog.GetQrLoginResultAsync().ConfigureAwait(false);
 
-        Cookie stokenV2 = Cookie.FromQrLoginResult(qrLoginResult);
-        (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
-        HandleUserOptionResult(optionResult, uid);
+            if (!isOk)
+            {
+                return;
+            }
+
+            Cookie sTokenV2 = Cookie.FromQrLoginResult(qrLoginResult);
+            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, false)).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
+        }
     }
 
     [Command("LoginByMobileCaptchaCommand")]
@@ -201,21 +211,21 @@ internal sealed partial class UserViewModel : ObservableObject
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "Mobile Captcha")]));
 
-        UserMobileCaptchaDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserMobileCaptchaDialog>().ConfigureAwait(false);
-        if (!await dialog.GetMobileCaptchaAsync().ConfigureAwait(false))
-        {
-            return;
-        }
-
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            UserMobileCaptchaDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserMobileCaptchaDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            if (!await dialog.GetMobileCaptchaAsync().ConfigureAwait(false))
+            {
+                return;
+            }
+
             IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
             Response<LoginResult> response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
 
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
             {
-                Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+                Cookie sTokenV2 = Cookie.FromLoginResult(loginResult);
+                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, false)).ConfigureAwait(false);
                 HandleUserOptionResult(optionResult, uid);
             }
         }

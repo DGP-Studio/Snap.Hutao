@@ -69,7 +69,6 @@ internal static class LocalSetting
         }
     }
 
-    /// <returns>Old value</returns>
     public static T Update<T>(string key, T defaultValue, Func<T, T> modifier)
     {
         Debug.Assert(SupportedTypes.Contains(typeof(T)));
@@ -78,7 +77,6 @@ internal static class LocalSetting
         return oldValue;
     }
 
-    /// <returns>Old value</returns>
     public static T Update<T>(string key, T defaultValue, T newValue)
     {
         Debug.Assert(SupportedTypes.Contains(typeof(T)));

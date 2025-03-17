@@ -126,21 +126,25 @@ internal sealed partial class LaunchGameShared
 
         using (gameFileSystem)
         {
-            LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
-                .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
-                .ConfigureAwait(false);
-
-            bool isOversea = gameFileSystem.IsOversea();
-
-            await taskContext.SwitchToMainThreadAsync();
-
-            dialog.KnownSchemes = KnownLaunchSchemes.Values.Where(scheme => scheme.IsOversea == isOversea);
-            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-            (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
-
-            if (!isOk)
+            LaunchScheme launchScheme;
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                return;
+                LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
+                    .CreateInstanceAsync<LaunchGameConfigurationFixDialog>(scope.ServiceProvider)
+                    .ConfigureAwait(false);
+
+                bool isOversea = gameFileSystem.IsOversea();
+
+                await taskContext.SwitchToMainThreadAsync();
+
+                dialog.KnownSchemes = KnownLaunchSchemes.Values.Where(scheme => scheme.IsOversea == isOversea);
+                dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
+                (bool isOk, launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
+
+                if (!isOk)
+                {
+                    return;
+                }
             }
 
             gameFileSystem.TryFixConfigurationFile(launchScheme);

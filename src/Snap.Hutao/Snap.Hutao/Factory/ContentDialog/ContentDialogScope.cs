@@ -7,7 +7,6 @@ internal struct ContentDialogScope : IDisposable
 {
     private readonly Microsoft.UI.Xaml.Controls.ContentDialog contentDialog;
 
-    private bool disposing = false;
     private bool disposed = false;
 
     public ContentDialogScope(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
@@ -17,12 +16,12 @@ internal struct ContentDialogScope : IDisposable
 
     public void Dispose()
     {
-        if (!disposed && !disposing)
+        if (disposed)
         {
-            disposing = true;
-            contentDialog.DispatcherQueue.Invoke(contentDialog.Hide);
-            disposing = false;
-            disposed = true;
+            return;
         }
+
+        disposed = true;
+        contentDialog.DispatcherQueue.Invoke(contentDialog.Hide);
     }
 }

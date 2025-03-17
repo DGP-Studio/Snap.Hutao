@@ -14,6 +14,7 @@ namespace Snap.Hutao.ViewModel.Setting;
 internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
@@ -23,7 +24,7 @@ internal sealed partial class SettingGeetestViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Config geetest url", "SettingGeetestViewModel.Command"));
 
-        GeetestCustomUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GeetestCustomUrlDialog>().ConfigureAwait(false);
+        GeetestCustomUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GeetestCustomUrlDialog>(serviceProvider).ConfigureAwait(false);
         (bool isOk, string template) = await dialog.GetUrlAsync().ConfigureAwait(false);
 
         if (!isOk)

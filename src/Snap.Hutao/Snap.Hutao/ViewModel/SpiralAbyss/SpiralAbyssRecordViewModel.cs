@@ -161,7 +161,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             if (!hutaoUserOptions.IsLoggedIn)
             {
                 SpiralAbyssUploadRecordHomaNotLoginDialog dialog = await contentDialogFactory
-                    .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>()
+                    .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>(serviceProvider)
                     .ConfigureAwait(false);
 
                 ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);

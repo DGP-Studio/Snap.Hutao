@@ -1,13 +1,12 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.UI.Input;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.ViewModel.Overlay;
-using PointerPointProperties = Snap.Hutao.UI.Windowing.PointerPointProperties;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
@@ -49,6 +48,6 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
 
     public void OnMouseWheel(ref readonly PointerPointProperties data)
     {
-        ((OverlayViewModel)(RootView.DataContext)).HandleMouseWheel(data.Delta / 120);
+        RootView.DataContext<OverlayViewModel>().HandleMouseWheel(data.Delta / 120);
     }
 }

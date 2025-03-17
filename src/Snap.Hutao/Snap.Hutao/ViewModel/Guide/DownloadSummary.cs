@@ -72,13 +72,12 @@ internal sealed partial class DownloadSummary : ObservableObject
             int retryTimes = 0;
             while (retryTimes++ < 3)
             {
+                // Download static zip should not set x-homa-token headers
                 HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory
                     .Create()
                     .SetRequestUri(fileUrl)
                     .SetStaticResourceControlHeaders()
                     .Get();
-
-                await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
 
                 TimeSpan delay = default;
                 using (HttpRequestMessage message = builder.HttpRequestMessage)

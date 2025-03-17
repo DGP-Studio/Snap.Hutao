@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using System.Runtime.CompilerServices;
+using WinRT;
 
 namespace Snap.Hutao.UI.Xaml;
 
@@ -27,6 +29,12 @@ internal static class FrameworkElementExtension
         frameworkElement.IsHoldingEnabled = false;
         frameworkElement.IsRightTapEnabled = false;
         frameworkElement.IsTabStop = false;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T DataContext<T>(this FrameworkElement element)
+    {
+        return element.DataContext.As<T>();
     }
 
     public static void InitializeDataContext<TDataContext>(this FrameworkElement frameworkElement, IServiceProvider? serviceProvider = default)

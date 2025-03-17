@@ -217,7 +217,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
         CultivatePromotionDeltaDialog dialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
+            .CreateInstanceAsync<CultivatePromotionDeltaDialog>(scopeContext.ServiceProvider, options).ConfigureAwait(false);
         (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
         if (!isOk)
@@ -261,7 +261,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         CultivatePromotionDeltaBatchDialog dialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<CultivatePromotionDeltaBatchDialog>().ConfigureAwait(false);
+            .CreateInstanceAsync<CultivatePromotionDeltaBatchDialog>(scopeContext.ServiceProvider).ConfigureAwait(false);
         (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaBaselineAsync().ConfigureAwait(false);
 
         if (!isOk)

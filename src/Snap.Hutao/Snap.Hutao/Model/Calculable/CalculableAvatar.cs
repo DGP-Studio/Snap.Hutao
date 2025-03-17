@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -16,11 +15,11 @@ namespace Snap.Hutao.Model.Calculable;
 internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAvatar
 {
     // Only persists current level for non-view avatars
-    private readonly bool persistsLevel;
+    private readonly bool persistsCurrentLevel;
 
     private CalculableAvatar(Avatar avatar)
     {
-        persistsLevel = true;
+        persistsCurrentLevel = true;
 
         AvatarId = avatar.Id;
         LevelMin = 1;
@@ -35,7 +34,7 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     private CalculableAvatar(AvatarView avatar)
     {
-        persistsLevel = false;
+        persistsCurrentLevel = false;
 
         AvatarId = avatar.Id;
         LevelMin = avatar.LevelNumber;
@@ -76,10 +75,10 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public uint LevelCurrent
     {
-        get => persistsLevel ? LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin) : field;
+        get => persistsCurrentLevel ? LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin) : field;
         set
         {
-            if (persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value))
+            if (persistsCurrentLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(IsPromotionAvailable));
                 IsPromoted = false;

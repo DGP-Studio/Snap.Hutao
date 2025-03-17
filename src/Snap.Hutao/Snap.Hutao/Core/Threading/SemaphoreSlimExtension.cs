@@ -18,7 +18,7 @@ internal static class SemaphoreSlimExtension
             HutaoException.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
         }
 
-        return new SemaphoreSlimToken(semaphoreSlim);
+        return new(semaphoreSlim);
     }
 
     public static SemaphoreSlimToken Enter(this SemaphoreSlim semaphoreSlim)
@@ -32,6 +32,6 @@ internal static class SemaphoreSlimExtension
             HutaoException.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
         }
 
-        return new SemaphoreSlimToken(semaphoreSlim);
+        return new(semaphoreSlim);
     }
 }

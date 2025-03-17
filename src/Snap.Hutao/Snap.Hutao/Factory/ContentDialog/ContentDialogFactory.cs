@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Service;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 
@@ -13,8 +12,6 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IContentDialogQueue contentDialogQueue;
-    private readonly IServiceProvider serviceProvider;
-    private readonly AppOptions appOptions;
 
     public bool IsDialogShowing { get => contentDialogQueue.IsDialogShowing; }
 
@@ -31,7 +28,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             Content = content,
             DefaultButton = ContentDialogButton.Primary,
             PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText,
-            RequestedTheme = appOptions.ElementTheme,
+            RequestedTheme = currentWindowReference.GetRequestedTheme(),
         };
 
         return await EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
@@ -49,7 +46,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             DefaultButton = defaultButton,
             PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText,
             CloseButtonText = SH.ContentDialogCancelCloseButtonText,
-            RequestedTheme = appOptions.ElementTheme,
+            RequestedTheme = currentWindowReference.GetRequestedTheme(),
         };
 
         return await EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
@@ -64,20 +61,20 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = new ProgressBar { IsIndeterminate = true },
-            RequestedTheme = appOptions.ElementTheme,
+            RequestedTheme = currentWindowReference.GetRequestedTheme(),
         };
 
         return dialog;
     }
 
-    public async ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
+    public async ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(IServiceProvider serviceProvider, params object[] parameters)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         await TaskContext.SwitchToMainThreadAsync();
 
         TContentDialog contentDialog = ActivatorUtilities.CreateInstance<TContentDialog>(serviceProvider, parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
-        contentDialog.RequestedTheme = appOptions.ElementTheme;
+        contentDialog.RequestedTheme = currentWindowReference.GetRequestedTheme();
 
         return contentDialog;
     }

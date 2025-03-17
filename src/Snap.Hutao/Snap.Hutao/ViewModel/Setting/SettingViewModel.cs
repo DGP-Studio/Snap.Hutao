@@ -89,11 +89,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     }
 
     [Command("CreateDesktopShortcutCommand")]
-    private async Task CreateDesktopShortcutForElevatedLaunchAsync()
+    private void CreateDesktopShortcutForElevatedLaunchAsync()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Create desktop shortcut for elevated launch", "SettingViewModel.Command"));
 
-        if (await shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunchAsync().ConfigureAwait(false))
+        if (shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunch())
         {
             infoBarService.Success(SH.ViewModelSettingActionComplete);
         }

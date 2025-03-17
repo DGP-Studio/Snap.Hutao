@@ -41,6 +41,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly ILogger<CultivationViewModel> logger;
     private readonly INavigationService navigationService;
     private readonly IInventoryService inventoryService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -109,7 +110,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             await UpdateEntryCollectionAsync(Projects.CurrentItem).ConfigureAwait(false);
         }
 
-
         await taskContext.SwitchToMainThreadAsync();
         AvailableTokens = FrozenDictionary.ToFrozenDictionary(
         [
@@ -140,7 +140,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Add project", "CultivationViewModel.Command"));
 
-        CultivateProjectDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivateProjectDialog>().ConfigureAwait(false);
+        CultivateProjectDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivateProjectDialog>(serviceProvider).ConfigureAwait(false);
         (bool isOk, CultivateProject project) = await dialog.CreateProjectAsync().ConfigureAwait(false);
 
         if (!isOk)

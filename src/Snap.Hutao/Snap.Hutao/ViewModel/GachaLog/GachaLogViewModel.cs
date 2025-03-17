@@ -28,7 +28,6 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly ILogger<GachaLogViewModel> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
@@ -164,7 +163,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
         RefreshStrategyKind strategy = IsAggressiveRefresh ? RefreshStrategyKind.AggressiveMerge : RefreshStrategyKind.LazyMerge;
 
-        GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
+        GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>(serviceProvider).ConfigureAwait(false);
 
         ContentDialogScope hideToken;
         try

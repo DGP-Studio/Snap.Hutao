@@ -149,7 +149,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        AchievementArchiveCreateDialog dialog = await scopeContext.ContentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>().ConfigureAwait(false);
+        AchievementArchiveCreateDialog dialog = await scopeContext.ContentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>(scopeContext.ServiceProvider).ConfigureAwait(false);
         (bool isOk, string name) = await dialog.GetInputAsync().ConfigureAwait(false);
 
         if (!isOk)

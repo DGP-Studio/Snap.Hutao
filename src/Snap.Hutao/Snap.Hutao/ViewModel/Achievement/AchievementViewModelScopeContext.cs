@@ -28,6 +28,8 @@ internal sealed partial class AchievementViewModelScopeContext
 
     public partial IAchievementService AchievementService { get; }
 
+    public partial IServiceProvider ServiceProvider { get; }
+
     public partial IMetadataService MetadataService { get; }
 
     public partial IInfoBarService InfoBarService { get; }

@@ -25,6 +25,8 @@ internal sealed partial class AvatarPropertyViewModelScopeContext
 
     public partial IClipboardProvider ClipboardProvider { get; }
 
+    public partial IServiceProvider ServiceProvider { get; }
+
     public partial IMetadataService MetadataService { get; }
 
     public partial IInfoBarService InfoBarService { get; }

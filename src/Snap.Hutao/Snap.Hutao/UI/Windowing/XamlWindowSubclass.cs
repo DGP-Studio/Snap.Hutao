@@ -1,9 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.UI.Input;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
@@ -109,44 +109,20 @@ internal sealed partial class XamlWindowSubclass : IDisposable
 
         return DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
-}
 
-internal readonly struct PointerPointProperties
-{
-    public readonly int Delta;
-    public readonly bool IsLeftButtonPressed;
-    public readonly bool IsRightButtonPressed;
-    public readonly bool IsHorizontalMouseWheel;
-    public readonly bool IsControlKeyPressed;
-    public readonly bool IsMiddleButtonPressed;
-    public readonly bool IsXButton1Pressed;
-    public readonly bool IsXButton2Pressed;
-    public readonly POINT Point;
-
-    public PointerPointProperties(int delta, MODIFIERKEYS_FLAGS flags, int x, int y)
+    // ReSharper disable once InconsistentNaming
+    private readonly struct WPARAM2MOUSEWHEEL
     {
-        Delta = delta;
-        IsLeftButtonPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_LBUTTON);
-        IsRightButtonPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_RBUTTON);
-        IsHorizontalMouseWheel = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_SHIFT);
-        IsControlKeyPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_CONTROL);
-        IsMiddleButtonPressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_MBUTTON);
-        IsXButton1Pressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_XBUTTON1);
-        IsXButton2Pressed = flags.HasFlag(MODIFIERKEYS_FLAGS.MK_XBUTTON2);
-        Point = new(x, y);
+        public readonly short Low;
+        public readonly short High;
+        private readonly int Reserved;
     }
-}
 
-file readonly struct WPARAM2MOUSEWHEEL
-{
-    public readonly short Low;
-    public readonly short High;
-    private readonly int Reserved;
-}
-
-file readonly struct LPARAM2MOUSEWHEEL
-{
-    public readonly short Low;
-    public readonly short High;
-    private readonly int Reserved;
+    // ReSharper disable once InconsistentNaming
+    private readonly struct LPARAM2MOUSEWHEEL
+    {
+        public readonly short Low;
+        public readonly short High;
+        private readonly int Reserved;
+    }
 }

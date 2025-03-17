@@ -30,6 +30,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IDailyNoteService dailyNoteService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -140,7 +141,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         {
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                DailyNoteNotificationDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteNotificationDialog>(entry).ConfigureAwait(true);
+                DailyNoteNotificationDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteNotificationDialog>(serviceProvider, entry).ConfigureAwait(true);
                 await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
 
                 await taskContext.SwitchToBackgroundAsync();
@@ -154,7 +155,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Modify daily note webhook settings", "DailyNoteViewModel.Command"));
 
-        DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>().ConfigureAwait(true);
+        DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>(serviceProvider).ConfigureAwait(true);
         dialog.Text = DailyNoteOptions.WebhookUrl;
         (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
