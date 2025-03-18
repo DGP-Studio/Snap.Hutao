@@ -386,7 +386,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        StatisticsItems = statistics;
+        StatisticsItems = statistics.Where(static i => !i.CalculateOnly).ToObservableCollection();
         ResinStatistics = resinStatistics;
     }
 

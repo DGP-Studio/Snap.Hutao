@@ -72,6 +72,14 @@ internal static class IntrinsicFrozen
         SH.ModelMetadataMaterialWeaponAscensionMaterial,
     ];
 
+    public static FrozenSet<string> CombinableMaterialTypeDescriptions { get; } =
+    [
+        SH.ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial,
+        SH.ModelMetadataMaterialCharacterAscensionMaterial,
+        SH.ModelMetadataMaterialCharacterTalentMaterial,
+        SH.ModelMetadataMaterialWeaponAscensionMaterial,
+    ];
+
     private static FrozenSet<string> NamesFromEnum<TEnum>(Func<TEnum, string?> selector)
         where TEnum : struct, Enum
     {

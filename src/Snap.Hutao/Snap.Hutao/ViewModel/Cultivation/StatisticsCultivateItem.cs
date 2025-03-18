@@ -9,6 +9,12 @@ internal sealed class StatisticsCultivateItem
 {
     private readonly TimeSpan offset;
 
+    private StatisticsCultivateItem(Material inner)
+    {
+        Inner = inner;
+        CalculateOnly = true;
+    }
+
     private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity, in TimeSpan offset)
     {
         Inner = inner;
@@ -27,6 +33,13 @@ internal sealed class StatisticsCultivateItem
     public string FormattedCount { get => $"{Current}/{Count}"; }
 
     public bool IsToday { get => Inner.IsTodaysItem(offset, true); }
+
+    internal bool CalculateOnly { get; set; }
+
+    public static StatisticsCultivateItem Create(Material inner)
+    {
+        return new(inner);
+    }
 
     public static StatisticsCultivateItem Create(Material inner, Model.Entity.CultivateItem entity, in TimeSpan offset)
     {

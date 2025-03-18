@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -95,6 +96,7 @@ internal sealed partial class CultivationService : ICultivationService
         ObservableCollection<StatisticsCultivateItem> SynchronizedGetStatisticsCultivateItemCollection(CultivateProject cultivateProject, ICultivationMetadataContext context)
         {
             Dictionary</* ItemId */ uint, StatisticsCultivateItem> resultItems = [];
+            HashSet<uint> addedMaterialRanks = [];
             Guid projectId = cultivateProject.InnerId;
 
             foreach (ref readonly CultivateEntry entry in cultivationRepository.GetCultivateEntryImmutableArrayByProjectId(projectId).AsSpan())
@@ -102,13 +104,22 @@ internal sealed partial class CultivationService : ICultivationService
                 foreach (ref readonly CultivateItem item in cultivationRepository.GetCultivateItemImmutableArrayByEntryId(entry.InnerId).AsSpan())
                 {
                     ref StatisticsCultivateItem? existedItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, item.ItemId, out _);
-                    if (existedItem is not null)
+                    if (existedItem is not null && !existedItem.CalculateOnly)
                     {
                         existedItem.Count += item.Count;
                     }
                     else
                     {
                         existedItem = StatisticsCultivateItem.Create(context.GetMaterial(item.ItemId), item, cultivateProject.ServerTimeZoneOffset);
+                    }
+
+                    if (existedItem.Inner.IsCombinable() && addedMaterialRanks.Add(existedItem.Inner.Rank))
+                    {
+                        foreach (ref readonly Material material in context.GetRankMaterialsByMaterial(existedItem.Inner).AsSpan())
+                        {
+                            ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, material.Id, out _);
+                            calcOnlyItem ??= StatisticsCultivateItem.Create(material);
+                        }
                     }
                 }
             }

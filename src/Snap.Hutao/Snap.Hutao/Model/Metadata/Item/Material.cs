@@ -91,4 +91,14 @@ internal sealed class Material : DisplayItem
     {
         return MaterialIds.GetDaysOfWeek(Id);
     }
+
+    public bool IsCombinable()
+    {
+        if (TypeDescription is null)
+        {
+            return false;
+        }
+
+        return IntrinsicFrozen.CombinableMaterialTypeDescriptions.Contains(TypeDescription);
+    }
 }
