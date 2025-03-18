@@ -6,7 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Job;
-using System.Globalization;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -22,7 +22,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
     private bool? isReminderNotification;
     private bool? isSilentWhenPlayingGame;
 
-    public List<NameValue<int>> RefreshTimes { get; } =
+    public ImmutableArray<NameValue<int>> RefreshTimes { get; } =
     [
         new(SH.ViewModelDailyNoteRefreshTime4, OneMinute * 4),
         new(SH.ViewModelDailyNoteRefreshTime8, OneMinute * 8),
@@ -42,9 +42,10 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
                 {
                     if (SelectedRefreshTime is not null)
                     {
+                        int refreshTime = SelectedRefreshTime.Value;
                         quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                         {
-                            return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(SelectedRefreshTime.Value).RepeatForever());
+                            return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(refreshTime).RepeatForever());
                         }).GetAwaiter().GetResult();
                     }
                 }
@@ -58,7 +59,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public NameValue<int>? SelectedRefreshTime
     {
-        get => GetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
+        get => GetOption(ref field, SettingEntry.DailyNoteRefreshSeconds, RefreshTimes, static v => $"{v}", RefreshTimes[1]);
         set
         {
             if (value is not null)

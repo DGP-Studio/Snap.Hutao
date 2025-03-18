@@ -42,13 +42,13 @@ internal sealed partial class AchievementRepository : IAchievementRepository
 
     public ImmutableArray<EntityAchievement> GetLatestFinishedAchievementImmutableArrayByArchiveId(Guid archiveId, int take)
     {
+        // SQLite does not support expressions of type 'DateTimeOffset' in ORDER BY clauses.
+        // Convert the values to a supported type, or use LINQ to Objects to order the results on the client side.
         return this.ImmutableArray<EntityAchievement, EntityAchievement>(query => query
             .Where(a => a.ArchiveId == archiveId)
             .Where(a => a.Status >= AchievementStatus.STATUS_FINISHED)
 #pragma warning disable CA1305 // EF Core does not support IFormatProvider
-
-            // TODO: Test if we really need ToString for this
-            .OrderByDescending(a => a.Time.ToString())
+            .OrderByDescending(a => a.Time.ToString()) // ORDER BY CAST("a"."Time" AS TEXT) DESC
 #pragma warning restore CA1305
             .Take(take));
     }

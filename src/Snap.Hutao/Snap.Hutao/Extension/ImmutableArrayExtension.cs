@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
+using RequireStaticDelegate = JetBrains.Annotations.RequireStaticDelegateAttribute;
 
 namespace Snap.Hutao.Extension;
 
@@ -42,13 +43,19 @@ internal static class ImmutableArrayExtension
     }
 
     [Pure]
-    public static ImmutableArray<TResult> SelectAsArray<TSource, TResult>(this ImmutableArray<TSource> array, Func<TSource, TResult> selector)
+    public static ImmutableArray<TResult> SelectAsArray<TSource, TResult>(this ImmutableArray<TSource> array, [RequireStaticDelegate] Func<TSource, TResult> selector)
     {
         return ImmutableArray.CreateRange(array, selector);
     }
 
     [Pure]
-    public static ImmutableArray<TResult> SelectAsArray<TSource, TResult>(this ImmutableArray<TSource> array, Func<TSource, int, TResult> selector)
+    public static ImmutableArray<TResult> SelectAsArray<TSource, TResult, TState>(this ImmutableArray<TSource> array, [RequireStaticDelegate] Func<TSource, TState, TResult> selector, TState state)
+    {
+        return ImmutableArray.CreateRange(array, selector, state);
+    }
+
+    [Pure]
+    public static ImmutableArray<TResult> SelectAsArray<TSource, TResult>(this ImmutableArray<TSource> array, [RequireStaticDelegate] Func<TSource, int, TResult> selector)
     {
         int length = array.Length;
         if (length == 0)
@@ -66,5 +73,17 @@ internal static class ImmutableArrayExtension
         }
 
         return ImmutableCollectionsMarshal.AsImmutableArray(results);
+    }
+
+    public static void SortInPlace<TElement>(this ImmutableArray<TElement> array, IComparer<TElement> comparer)
+    {
+        if (array.IsEmpty)
+        {
+            return;
+        }
+
+        TElement[]? raw = ImmutableCollectionsMarshal.AsArray(array);
+        ArgumentNullException.ThrowIfNull(raw);
+        Array.Sort(raw, comparer);
     }
 }

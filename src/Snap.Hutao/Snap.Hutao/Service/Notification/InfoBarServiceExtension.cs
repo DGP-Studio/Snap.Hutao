@@ -4,6 +4,8 @@
 using JetBrains.Annotations;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
+using System.Text;
 
 namespace Snap.Hutao.Service.Notification;
 
@@ -84,19 +86,19 @@ internal static class InfoBarServiceExtension
 
     public static Void Error(this IInfoBarService infoBarService, Exception ex, int milliSeconds = 0)
     {
-        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage(ex.Message).SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage(ExceptionFormat.Format(ex)).SetDelay(milliSeconds));
     }
 
     public static Void Error(this IInfoBarService infoBarService, Exception ex, [LocalizationRequired] string subtitle, int milliSeconds = 0)
     {
         // ReSharper disable once LocalizableElement
-        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage(ExceptionFormat.Format(new StringBuilder().AppendLine(subtitle), ex).ToString()).SetDelay(milliSeconds));
     }
 
     public static Void Error(this IInfoBarService infoBarService, Exception ex, [LocalizationRequired] string subtitle, [LocalizationRequired] string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
     {
         // ReSharper disable once LocalizableElement
-        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
+        return infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage(ExceptionFormat.Format(new StringBuilder().AppendLine(subtitle), ex).ToString()).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
     public static Void Error(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)

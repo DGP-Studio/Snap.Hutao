@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using JetBrains.Annotations;
+
 namespace Snap.Hutao.Core.Threading;
 
 internal interface ITaskContext
@@ -9,7 +11,7 @@ internal interface ITaskContext
 
     void InvokeOnMainThread(Action action);
 
-    T InvokeOnMainThread<T>(Func<T> func);
+    T InvokeOnMainThread<T>([InstantHandle] Func<T> func);
 
     ThreadPoolSwitchOperation SwitchToBackgroundAsync();
 

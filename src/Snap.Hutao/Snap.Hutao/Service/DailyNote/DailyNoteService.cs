@@ -32,7 +32,11 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     public void Receive(UserRemovedMessage message)
     {
         // Database items have been deleted by cascade deleting.
-        taskContext.BeginInvokeOnMainThread(() => entries?.RemoveWhere(n => n.UserId == message.RemovedUser.InnerId));
+        if (entries is { } localEntries)
+        {
+            Guid userId = message.RemovedUser.InnerId;
+            taskContext.BeginInvokeOnMainThread(() => localEntries.RemoveWhere(n => n.UserId == userId));
+        }
     }
 
     public async ValueTask AddDailyNoteAsync(DailyNoteMetadataContext context, UserAndUid userAndUid, CancellationToken token = default)
@@ -55,12 +59,15 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             }
         }
 
-        newEntry.UserGameRole = await userService.GetUserGameRoleByUidAsync(roleUid).ConfigureAwait(false);
-        newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
         dailyNoteRepository.AddDailyNoteEntry(newEntry);
 
+        newEntry.UserGameRole = await userService.GetUserGameRoleByUidAsync(roleUid).ConfigureAwait(false);
+        newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
+
         // Set navigation property before adding to the database will cause a corresponding insert operation.
+        // (Insert user to database, which is not expected)
         newEntry.User = userAndUid.User;
+
         await taskContext.SwitchToMainThreadAsync();
         entries?.Add(newEntry);
     }

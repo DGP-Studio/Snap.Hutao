@@ -57,7 +57,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 return avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(uid);
             }
 
-            ImmutableArray<AvatarId> characterIds = charactersWrapper.List.SelectAsArray(info => info.Id);
+            ImmutableArray<AvatarId> characterIds = charactersWrapper.List.SelectAsArray(static info => info.Id);
             Response<ListWrapper<DetailedCharacter>> detailResponse = await gameRecordClient
                 .GetCharacterDetailAsync(userAndUid, characterIds, token)
                 .ConfigureAwait(false);

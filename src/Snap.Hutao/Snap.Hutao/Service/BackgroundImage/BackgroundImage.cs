@@ -10,8 +10,6 @@ internal sealed class BackgroundImage
 {
     public required string Path { get; init; }
 
-    public required BitmapImage ImageSource { get; init; }
-
     public required Color AccentColor { get; init; }
 
     public required double Luminance { get; init; }

@@ -94,18 +94,13 @@ internal sealed partial class CultivationService : ICultivationService
 
         ObservableCollection<StatisticsCultivateItem> SynchronizedGetStatisticsCultivateItemCollection(CultivateProject cultivateProject, ICultivationMetadataContext context)
         {
-            Dictionary<uint, StatisticsCultivateItem> resultItems = [];
+            Dictionary</* ItemId */ uint, StatisticsCultivateItem> resultItems = [];
             Guid projectId = cultivateProject.InnerId;
 
             foreach (ref readonly CultivateEntry entry in cultivationRepository.GetCultivateEntryImmutableArrayByProjectId(projectId).AsSpan())
             {
                 foreach (ref readonly CultivateItem item in cultivationRepository.GetCultivateItemImmutableArrayByEntryId(entry.InnerId).AsSpan())
                 {
-                    if (item.IsFinished)
-                    {
-                        continue;
-                    }
-
                     ref StatisticsCultivateItem? existedItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, item.ItemId, out _);
                     if (existedItem is not null)
                     {
@@ -123,7 +118,7 @@ internal sealed partial class CultivationService : ICultivationService
                 ref StatisticsCultivateItem existedItem = ref CollectionsMarshal.GetValueRefOrNullRef(resultItems, inventoryItem.ItemId);
                 if (!Unsafe.IsNullRef(in existedItem))
                 {
-                    existedItem.Current += inventoryItem.Count;
+                    existedItem.Current = inventoryItem.Count;
                 }
             }
 
@@ -235,7 +230,6 @@ internal sealed partial class CultivationService : ICultivationService
             return ProjectAddResultKind.AlreadyExists;
         }
 
-        // Sync cache
         await taskContext.SwitchToMainThreadAsync();
         projects.Add(project);
         projects.MoveCurrentTo(project);

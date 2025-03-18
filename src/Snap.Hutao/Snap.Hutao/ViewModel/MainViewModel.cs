@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
@@ -86,7 +87,8 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                     .StartAsync(backgroundImagePresenter)
                     .ConfigureAwait(true);
 
-                backgroundImagePresenter.Source = backgroundImage?.ImageSource;
+                backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
+
                 double targetOpacity = backgroundImage is not null
                     ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
                         ? 1 - backgroundImage.Luminance

@@ -20,12 +20,6 @@ internal static class RepositoryAppDbEntityExtension
         return repository.Delete(e => e.InnerId == innerId);
     }
 
-    public static List<TEntity> ListByArchiveId<TEntity>(this IRepository<TEntity> repository, Guid archiveId)
-        where TEntity : class, IAppDbEntityHasArchive
-    {
-        return repository.Query(query => query.Where(e => e.ArchiveId == archiveId).ToList());
-    }
-
     public static ImmutableArray<TEntity> ImmutableArrayByArchiveId<TEntity>(this IRepository<TEntity> repository, Guid archiveId)
         where TEntity : class, IAppDbEntityHasArchive
     {

@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
@@ -45,20 +44,16 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<MetadataSkill> talents, FrozenSet<SkillId> activatedIds)
         where TBuilder : IAvatarViewBuilder
     {
-        // TODO: talentIds should be immutable
-        return builder.SetConstellations(CreateConstellations(talents, activatedIds));
+        ImmutableArray<ConstellationView> views = talents.SelectAsArray(
+            static (talent, activatedIds) => new ConstellationViewBuilder()
+                .SetName(talent.Name)
+                .SetIcon(SkillIconConverter.IconNameToUri(talent.Icon))
+                .SetDescription(talent.Description)
+                .SetIsActivated(activatedIds.Contains(talent.Id))
+                .View,
+            activatedIds);
 
-        static ImmutableArray<ConstellationView> CreateConstellations(ImmutableArray<MetadataSkill> talents, FrozenSet<SkillId> activatedIds)
-        {
-            // TODO: use builder there
-            return talents.SelectAsArray(talent => new ConstellationView
-            {
-                Name = talent.Name,
-                Icon = SkillIconConverter.IconNameToUri(talent.Icon),
-                Description = talent.Description,
-                IsActivated = activatedIds.Contains(talent.Id),
-            });
-        }
+        return builder.SetConstellations(views);
     }
 
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<ConstellationView> constellations)
@@ -163,45 +158,6 @@ internal static class AvatarViewBuilderExtension
         where TBuilder : IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.FormattedRefreshTime = formattedRefreshTime);
-    }
-
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<ProudSkill> proudSkills, FrozenDictionary<SkillId, SkillLevel> skillLevels, FrozenDictionary<SkillId, SkillLevel> extraLevels)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.SetSkills(CreateSkills(proudSkills, skillLevels, extraLevels));
-
-        static ImmutableArray<SkillView> CreateSkills(ImmutableArray<ProudSkill> proudSkills, FrozenDictionary<SkillId, SkillLevel> skillLevels, FrozenDictionary<SkillId, SkillLevel> extraLevels)
-        {
-            if (skillLevels is { Count: 0 })
-            {
-                return [];
-            }
-
-            Dictionary<SkillId, SkillLevel> nonExtraLeveledSkills = new(skillLevels);
-
-            // TODO: Test 达达利亚技能的影响
-            foreach ((SkillId skillId, SkillLevel extraLevel) in extraLevels)
-            {
-                nonExtraLeveledSkills.DecreaseByValue(skillId, extraLevel);
-            }
-
-            return proudSkills.SelectAsArray(proudSkill => new SkillView
-            {
-                Name = proudSkill.Name,
-                Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
-                Description = proudSkill.Description,
-                GroupId = proudSkill.GroupId,
-                Level = LevelFormat.Format(nonExtraLeveledSkills[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
-                LevelNumber = nonExtraLeveledSkills[proudSkill.Id],
-                Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillLevels[proudSkill.Id]),
-            });
-        }
-    }
-
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<SkillView> skills)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.View.Skills = skills);
     }
 
     public static TBuilder SetWeapon<TBuilder>(this TBuilder builder, WeaponView? weapon)
