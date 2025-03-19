@@ -20,13 +20,11 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
     {
         if (HutaoRuntime.IsProcessElevated && context.Options.IsIslandEnabled)
         {
-            context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
-
-            GameIslandInterop interop = new(context, resume);
 
             try
             {
+                GameIslandInterop interop = new(context, resume);
                 if (await interop.PrepareAsync().ConfigureAwait(false))
                 {
                     await TaskExtension.WhenAllOrAnyException(interop.WaitForExitAsync().AsTask(), next().AsTask()).ConfigureAwait(false);
@@ -40,9 +38,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
             {
                 context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
                 context.Result.ErrorMessage = ex.Message;
-
-                // The Unlocker can't unlock the process
-                context.Process.Kill();
+                context.Process.Kill();// The Unlocker can't unlock the process
             }
         }
         else

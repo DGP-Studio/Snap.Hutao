@@ -106,6 +106,13 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                             {
                                 if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
                                 {
+                                    if (resume)
+                                    {
+                                        // https://github.com/DGP-Studio/Snap.Hutao/issues/2540
+                                        // Simply return if the game is running without island injected previously
+                                        return;
+                                    }
+
                                     HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
                                 }
                             }
