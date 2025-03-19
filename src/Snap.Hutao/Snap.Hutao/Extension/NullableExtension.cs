@@ -18,6 +18,12 @@ internal static class NullableExtension
         return false;
     }
 
+    public static string ToStringOrEmpty<T>(this T? nullable)
+        where T : struct
+    {
+        return ToStringOrEmpty(in nullable);
+    }
+
     public static string ToStringOrEmpty<T>(this in T? nullable)
         where T : struct
     {

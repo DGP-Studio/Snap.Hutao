@@ -42,7 +42,7 @@ internal static class AvatarViewBuilderExtension
     }
 
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<MetadataSkill> talents, FrozenSet<SkillId> activatedIds)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         ImmutableArray<ConstellationView> views = talents.SelectAsArray(
             static (talent, activatedIds) => new ConstellationViewBuilder()
@@ -57,43 +57,43 @@ internal static class AvatarViewBuilderExtension
     }
 
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<ConstellationView> constellations)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Constellations = constellations);
     }
 
     public static TBuilder SetElement<TBuilder>(this TBuilder builder, ElementType element)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Element = element);
     }
 
     public static TBuilder SetFetterLevel<TBuilder>(this TBuilder builder, uint level)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.FetterLevel = level);
     }
 
     public static TBuilder SetId<TBuilder>(this TBuilder builder, AvatarId id)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Id = id);
     }
 
     public static TBuilder SetLevelNumber<TBuilder>(this TBuilder builder, uint? levelNumber)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return levelNumber.TryGetValue(out uint value) ? builder.Configure(b => b.View.LevelNumber = value) : builder;
     }
 
     public static TBuilder SetName<TBuilder>(this TBuilder builder, string name)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Name = name);
     }
 
     public static TBuilder SetNameCard<TBuilder>(this TBuilder builder, Uri nameCard)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.NameCard = nameCard);
     }
@@ -111,25 +111,25 @@ internal static class AvatarViewBuilderExtension
     }
 
     public static TBuilder SetProperties<TBuilder>(this TBuilder builder, ImmutableArray<AvatarProperty> properties)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Properties = properties);
     }
 
     public static TBuilder SetQuality<TBuilder>(this TBuilder builder, QualityType quality)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Quality = quality);
     }
 
     public static TBuilder SetRecommendedProperties<TBuilder>(this TBuilder builder, RecommendPropertiesView recommendProperties)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.RecommendedProperties = recommendProperties);
     }
 
     public static TBuilder SetRecommendedProperties<TBuilder>(this TBuilder builder, RecommendProperties recommendProperties)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         RecommendPropertiesView view = new()
         {
@@ -143,25 +143,25 @@ internal static class AvatarViewBuilderExtension
     }
 
     public static TBuilder SetReliquaries<TBuilder>(this TBuilder builder, ImmutableArray<ReliquaryView> reliquaries)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Reliquaries = reliquaries);
     }
 
     public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.SetRefreshTimeFormat(refreshTime == default ? defaultValue : format(refreshTime.ToLocalTime()));
     }
 
     public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, string formattedRefreshTime)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.FormattedRefreshTime = formattedRefreshTime);
     }
 
     public static TBuilder SetWeapon<TBuilder>(this TBuilder builder, WeaponView? weapon)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Weapon = weapon);
     }

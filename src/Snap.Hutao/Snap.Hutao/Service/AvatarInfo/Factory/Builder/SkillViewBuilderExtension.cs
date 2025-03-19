@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 internal static class SkillViewBuilderExtension
 {
     public static TBuilder SetDescription<TBuilder>(this TBuilder builder, string description)
-        where TBuilder : ISkillViewBuilder
+        where TBuilder : class, ISkillViewBuilder
     {
         return builder.SetDescription<TBuilder, SkillView>(description);
     }
@@ -23,7 +23,7 @@ internal static class SkillViewBuilderExtension
     }
 
     public static TBuilder SetIcon<TBuilder>(this TBuilder builder, Uri icon)
-        where TBuilder : ISkillViewBuilder
+        where TBuilder : class, ISkillViewBuilder
     {
         return builder.SetIcon<TBuilder, SkillView>(icon);
     }
@@ -50,7 +50,7 @@ internal static class SkillViewBuilderExtension
     }
 
     public static TBuilder SetName<TBuilder>(this TBuilder builder, string name)
-        where TBuilder : ISkillViewBuilder
+        where TBuilder : class, ISkillViewBuilder
     {
         return builder.SetName<TBuilder, SkillView>(name);
     }

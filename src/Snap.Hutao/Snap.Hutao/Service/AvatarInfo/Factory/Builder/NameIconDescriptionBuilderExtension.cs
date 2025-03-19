@@ -9,21 +9,21 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 internal static class NameIconDescriptionBuilderExtension
 {
     public static TBuilder SetDescription<TBuilder, T>(this TBuilder builder, string description)
-        where TBuilder : INameIconDescriptionBuilder<T>
+        where TBuilder : class, INameIconDescriptionBuilder<T>
         where T : NameIconDescription
     {
         return builder.Configure(b => b.View.Description = description);
     }
 
     public static TBuilder SetIcon<TBuilder, T>(this TBuilder builder, Uri icon)
-        where TBuilder : INameIconDescriptionBuilder<T>
+        where TBuilder : class, INameIconDescriptionBuilder<T>
         where T : NameIconDescription
     {
         return builder.Configure(b => b.View.Icon = icon);
     }
 
     public static TBuilder SetName<TBuilder, T>(this TBuilder builder, string name)
-        where TBuilder : INameIconDescriptionBuilder<T>
+        where TBuilder : class, INameIconDescriptionBuilder<T>
         where T : NameIconDescription
     {
         return builder.Configure(b => b.View.Name = name);

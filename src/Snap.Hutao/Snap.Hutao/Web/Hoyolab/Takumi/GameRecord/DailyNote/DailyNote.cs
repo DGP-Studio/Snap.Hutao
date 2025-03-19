@@ -90,32 +90,32 @@ internal sealed class DailyNote : DailyNoteCommon
             return SH.FormatWebDailyNoteHomeCoinRecoveryFormat(day, reach);
         }
     }
-    #endregion
-
-    [JsonPropertyName("remain_resin_discount_num")]
-    public int RemainResinDiscountNum { get; set; }
-
-    [JsonPropertyName("resin_discount_num_limit")]
-    public int ResinDiscountNumLimit { get; set; }
-
-    [JsonPropertyName("home_coin_recovery_time")]
-    public int HomeCoinRecoveryTime { get; set; }
-
-    [JsonPropertyName("calendar_url")]
-    public string CalendarUrl { get; set; } = default!;
-
-    [JsonPropertyName("transformer")]
-    public Transformer Transformer { get; set; } = default!;
-
-    [JsonPropertyName("daily_task")]
-    public DailyTask DailyTask { get; set; } = default!;
-
-    [JsonPropertyName("archon_quest_progress")]
-    public ArchonQuestProgress ArchonQuestProgress { get; set; } = default!;
 
     [JsonIgnore]
     public bool IsArchonQuestFinished
     {
         get => ArchonQuestProgress.List.Count == 0;
     }
+    #endregion
+
+    [JsonPropertyName("remain_resin_discount_num")]
+    public int RemainResinDiscountNum { get; init; }
+
+    [JsonPropertyName("resin_discount_num_limit")]
+    public int ResinDiscountNumLimit { get; init; }
+
+    [JsonPropertyName("home_coin_recovery_time")]
+    public int HomeCoinRecoveryTime { get; init; }
+
+    [JsonPropertyName("calendar_url")]
+    public string CalendarUrl { get; init; } = default!;
+
+    [JsonPropertyName("transformer")]
+    public Transformer Transformer { get; init; } = default!;
+
+    [JsonPropertyName("daily_task")]
+    public DailyTask DailyTask { get; init; } = default!;
+
+    [JsonPropertyName("archon_quest_progress")]
+    public ArchonQuestProgress ArchonQuestProgress { get; init; } = default!;
 }

@@ -91,54 +91,10 @@ internal static class ListExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    public static List<TSource> SortBy<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
-    {
-        list.Sort((left, right) => comparer.Compare(keySelector(left), keySelector(right)));
-        return list;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    public static List<TSource> SortBy<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector, Comparison<TKey> comparison)
-    {
-        list.Sort((left, right) => comparison(keySelector(left), keySelector(right)));
-        return list;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public static List<TSource> SortByDescending<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector)
         where TKey : IComparable
     {
         list.Sort((left, right) => keySelector(right).CompareTo(keySelector(left)));
         return list;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    public static List<TSource> SortByDescending<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
-    {
-        list.Sort((left, right) => comparer.Compare(keySelector(right), keySelector(left)));
-        return list;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    public static List<TSource> SortByDescending<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector, Comparison<TKey> comparison)
-    {
-        list.Sort((left, right) => comparison(keySelector(right), keySelector(left)));
-        return list;
-    }
-
-    private sealed class KeyComparer<TSource, TKey> : IComparer<TSource>
-        where TKey : IComparable
-    {
-        private readonly Func<TSource?, TKey> keySelector;
-
-        public KeyComparer(Func<TSource?, TKey> keySelector)
-        {
-            this.keySelector = keySelector;
-        }
-
-        public int Compare(TSource? x, TSource? y)
-        {
-            return keySelector(x).CompareTo(keySelector(y));
-        }
     }
 }

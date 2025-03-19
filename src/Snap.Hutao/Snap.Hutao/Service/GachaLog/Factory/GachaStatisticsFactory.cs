@@ -15,7 +15,7 @@ using GachaItem = Snap.Hutao.Model.Entity.GachaItem;
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IGachaStatisticsFactory))]
+[Injection(InjectAs.Singleton, typeof(IGachaStatisticsFactory))]
 internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 {
     private readonly IServiceProvider serviceProvider;
@@ -26,7 +26,8 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        ImmutableArray<HistoryWishBuilder> historyWishBuilders = metadata.GachaEvents.SelectAsArray(gachaEvent => HistoryWishBuilder.Create(gachaEvent, metadata));
+        ImmutableArray<HistoryWishBuilder> historyWishBuilders = metadata.GachaEvents
+            .SelectAsArray(static (gachaEvent, metadata) => HistoryWishBuilder.Create(gachaEvent, metadata), metadata);
         return SynchronizedCreate(new(serviceProvider, items, historyWishBuilders, metadata));
     }
 
@@ -48,7 +49,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         {
             // Find target history wish to operate. // banner.From <= item.Time <= banner.To
             HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not (GachaType.Standard or GachaType.NewBie)
-                ? historyWishBuilderMap[item.GachaType].BinarySearch(item, (pinned, banner) => pinned.Time < banner.From ? -1 : pinned.Time > banner.To ? 1 : 0)
+                ? historyWishBuilderMap[item.GachaType].BinarySearch(item, static (pinned, banner) => pinned.Time < banner.From ? -1 : pinned.Time > banner.To ? 1 : 0)
                 : default;
 
             switch (item.ItemId.StringLength())

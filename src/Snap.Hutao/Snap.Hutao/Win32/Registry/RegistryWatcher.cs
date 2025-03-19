@@ -52,12 +52,11 @@ internal sealed partial class RegistryWatcher : IDisposable
     public void Start()
     {
         ObjectDisposedException.ThrowIf(disposed, this);
-        _ = WatchAsync(cts.Token);
+        ThreadPool.QueueUserWorkItem(Watch, cts);
     }
 
     public void Dispose()
     {
-        // Standard no-reentrancy pattern
         if (disposed)
         {
             return;
@@ -78,33 +77,44 @@ internal sealed partial class RegistryWatcher : IDisposable
         }
     }
 
-    private async ValueTask WatchAsync(CancellationToken token)
+    private void Watch(object? state)
     {
-        while (!token.IsCancellationRequested)
+        if (state is not CancellationTokenSource cts)
         {
-            // Yield at every iteration to prevent thread starvation (maybe).
-            await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+            return;
+        }
 
-            HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyExW(hKey, subKey, 0, RegSamFlags, out HKEY registryKey));
-            Marshal.ThrowExceptionForHR(hResult);
+        try
+        {
+            CancellationToken token = cts.Token;
 
-            using (AutoResetEvent notifyEvent = new(false))
+            while (!token.IsCancellationRequested)
             {
-                try
-                {
-                    HRESULT hr = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, notifyEvent.SafeWaitHandle.DangerousGetHandle(), true));
-                    Marshal.ThrowExceptionForHR(hr);
+                HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyExW(hKey, subKey, 0, RegSamFlags, out HKEY registryKey));
+                Marshal.ThrowExceptionForHR(hResult);
 
-                    if (WaitHandle.WaitAny([notifyEvent, token.WaitHandle]) is 0)
+                using (AutoResetEvent notifyEvent = new(false))
+                {
+                    try
                     {
-                        valueChangedCallback();
+                        HRESULT hr = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, notifyEvent.SafeWaitHandle.DangerousGetHandle(), true));
+                        Marshal.ThrowExceptionForHR(hr);
+
+                        if (WaitHandle.WaitAny([notifyEvent, token.WaitHandle]) is 0)
+                        {
+                            valueChangedCallback();
+                        }
+                    }
+                    finally
+                    {
+                        RegCloseKey(registryKey);
                     }
                 }
-                finally
-                {
-                    RegCloseKey(registryKey);
-                }
             }
+        }
+        catch (ObjectDisposedException)
+        {
+            // Watcher was disposed, exit gracefully
         }
     }
 }

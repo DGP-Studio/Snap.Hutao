@@ -24,7 +24,7 @@ internal sealed class PullPrediction
     public async Task PredictAsync(AsyncBarrier barrier)
     {
         await context.TaskContext.SwitchToBackgroundAsync();
-        Response<GachaDistribution> response = await context.GetGachaDistributionAsync().ConfigureAwait(false);
+        Response<GachaDistribution>? response = await context.GetGachaDistributionAsync().ConfigureAwait(false);
 
         if (response is { ReturnCode: 0, Data: { } data })
         {

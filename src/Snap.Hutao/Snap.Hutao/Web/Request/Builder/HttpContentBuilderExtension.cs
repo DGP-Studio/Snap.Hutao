@@ -13,14 +13,14 @@ internal static class HttpContentBuilderExtension
 {
     [DebuggerStepThrough]
     public static T SetFormUrlEncodedContent<T>(this T builder, params (string Key, string Value)[] content)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         return builder.SetFormUrlEncodedContent((IEnumerable<(string, string)>)content);
     }
 
     [DebuggerStepThrough]
     public static T SetFormUrlEncodedContent<T>(this T builder, IEnumerable<(string Key, string Value)> content)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(content);
@@ -29,14 +29,14 @@ internal static class HttpContentBuilderExtension
 
     [DebuggerStepThrough]
     public static T SetFormUrlEncodedContent<T>(this T builder, params KeyValuePair<string, string>[] content)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         return builder.SetFormUrlEncodedContent((IEnumerable<KeyValuePair<string, string>>)content);
     }
 
     [DebuggerStepThrough]
     public static T SetFormUrlEncodedContent<T>(this T builder, IEnumerable<KeyValuePair<string, string>> content)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(content);
@@ -45,7 +45,7 @@ internal static class HttpContentBuilderExtension
 
     [DebuggerStepThrough]
     public static T SetStringContent<T>(this T builder, string content, Encoding? encoding = null, string mediaType = default!)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         ArgumentNullException.ThrowIfNull(content);
         return builder.SetContent(new StringContent(content, encoding, mediaType));
@@ -53,21 +53,21 @@ internal static class HttpContentBuilderExtension
 
     [DebuggerStepThrough]
     public static T SetByteArrayContent<T>(this T builder, byte[] content)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         return builder.SetByteArrayContent(content, 0, content?.Length ?? 0);
     }
 
     [DebuggerStepThrough]
     public static T SetByteArrayContent<T>(this T builder, byte[] content, int offset, int count)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         ArgumentNullException.ThrowIfNull(content);
         return builder.SetContent(new ByteArrayContent(content, offset, count));
     }
 
     public static TBuilder SetContent<TBuilder, TContent>(this TBuilder builder, IHttpContentSerializer serializer, TContent content, Encoding? encoding = null)
-        where TBuilder : IHttpContentBuilder
+        where TBuilder : class, IHttpContentBuilder
     {
         // Validate builder here already so that no unnecessary serialization is done.
         ArgumentNullException.ThrowIfNull(builder);
@@ -81,7 +81,7 @@ internal static class HttpContentBuilderExtension
     }
 
     public static T SetContent<T>(this T builder, IHttpContentSerializer serializer, object? content, Type contentType, Encoding? encoding = null)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         // Validate builder here already so that no unnecessary serialization is done.
         ArgumentNullException.ThrowIfNull(builder);
@@ -93,7 +93,7 @@ internal static class HttpContentBuilderExtension
 
     [DebuggerStepThrough]
     public static T SetContent<T>(this T builder, HttpContent? content)
-        where T : IHttpContentBuilder
+        where T : class, IHttpContentBuilder
     {
         return builder.Configure(builder => builder.Content = content);
     }

@@ -14,13 +14,13 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 internal static class AvatarViewBuilderSkillExtension
 {
     public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<ProudSkill> proudSkills, FrozenDictionary<SkillId, SkillLevel> skillLevels, FrozenDictionary<SkillId, SkillLevel> extraLevels)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.SetSkills(CreateSkills(proudSkills, skillLevels, extraLevels));
     }
 
     public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<SkillView> skills)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Skills = skills);
     }

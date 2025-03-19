@@ -8,13 +8,13 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 internal static class ConstellationViewBuilderExtension
 {
     public static TBuilder SetDescription<TBuilder>(this TBuilder builder, string description)
-        where TBuilder : IConstellationViewBuilder
+        where TBuilder : class, IConstellationViewBuilder
     {
         return builder.SetDescription<TBuilder, ConstellationView>(description);
     }
 
     public static TBuilder SetIcon<TBuilder>(this TBuilder builder, Uri icon)
-        where TBuilder : IConstellationViewBuilder
+        where TBuilder : class, IConstellationViewBuilder
     {
         return builder.SetIcon<TBuilder, ConstellationView>(icon);
     }
@@ -27,7 +27,7 @@ internal static class ConstellationViewBuilderExtension
     }
 
     public static TBuilder SetName<TBuilder>(this TBuilder builder, string name)
-        where TBuilder : IConstellationViewBuilder
+        where TBuilder : class, IConstellationViewBuilder
     {
         return builder.SetName<TBuilder, ConstellationView>(name);
     }

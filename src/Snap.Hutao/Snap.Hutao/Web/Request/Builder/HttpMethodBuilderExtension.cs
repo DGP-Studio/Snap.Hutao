@@ -12,63 +12,63 @@ internal static class HttpMethodBuilderExtension
 {
     [DebuggerStepThrough]
     public static T Get<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Get);
     }
 
     [DebuggerStepThrough]
     public static T Post<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Post);
     }
 
     [DebuggerStepThrough]
     public static T Put<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Put);
     }
 
     [DebuggerStepThrough]
     public static T Delete<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Delete);
     }
 
     [DebuggerStepThrough]
     public static T Options<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Options);
     }
 
     [DebuggerStepThrough]
     public static T Trace<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Trace);
     }
 
     [DebuggerStepThrough]
     public static T Head<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Head);
     }
 
     [DebuggerStepThrough]
     public static T Patch<T>(this T builder)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         return builder.SetMethod(HttpMethod.Patch);
     }
 
     [DebuggerStepThrough]
     public static T SetMethod<T>(this T builder, string method)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         ArgumentNullException.ThrowIfNull(method);
         return builder.SetMethod(new HttpMethod(method));
@@ -89,7 +89,7 @@ internal static class HttpMethodBuilderExtension
     /// </exception>
     [DebuggerStepThrough]
     public static T SetMethod<T>(this T builder, HttpMethod method)
-        where T : IHttpMethodBuilder
+        where T : class, IHttpMethodBuilder
     {
         ArgumentNullException.ThrowIfNull(method);
         return builder.Configure(builder => builder.Method = method);
