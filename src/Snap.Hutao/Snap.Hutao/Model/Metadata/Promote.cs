@@ -13,10 +13,4 @@ internal sealed class Promote
     public required PromoteLevel Level { get; init; }
 
     public required TypeValueCollection<FightProperty, float> AddProperties { get; init; }
-
-    [Obsolete]
-    public float GetValue(FightProperty property)
-    {
-        return AddProperties.GetValueOrDefault(property);
-    }
 }

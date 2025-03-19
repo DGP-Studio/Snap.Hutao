@@ -18,12 +18,6 @@
     "EqualityOperators": true
   },
   {
-    "Name": "CostumeId",
-    "Documentation": "角色装扮 Id",
-    "Equatable": true,
-    "EqualityOperators": true
-  },
-  {
     "Name": "ChapterId",
     "Documentation": "章节 Id",
     "Equatable": true,
@@ -32,6 +26,18 @@
   {
     "Name": "ChapterGroupId",
     "Documentation": "章节分组 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "CombineId",
+    "Documentation": "合成配方 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "CostumeId",
+    "Documentation": "角色装扮 Id",
     "Equatable": true,
     "EqualityOperators": true
   },
