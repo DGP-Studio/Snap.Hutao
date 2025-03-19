@@ -148,17 +148,21 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async ValueTask PrivateRefreshAsync(RefreshOptionKind optionKind)
     {
-        IGachaLogQueryProvider provider = serviceProvider.GetRequiredKeyedService<IGachaLogQueryProvider>(optionKind);
-        (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        GachaLogQuery query;
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            if (!string.IsNullOrEmpty(query.Message))
-            {
-                infoBarService.Warning(query.Message);
-            }
+            IGachaLogQueryProvider provider = scope.ServiceProvider.GetRequiredKeyedService<IGachaLogQueryProvider>(optionKind);
+            (bool isOk, query) = await provider.GetQueryAsync().ConfigureAwait(false);
 
-            return;
+            if (!isOk)
+            {
+                if (!string.IsNullOrEmpty(query.Message))
+                {
+                    infoBarService.Warning(query.Message);
+                }
+
+                return;
+            }
         }
 
         RefreshStrategyKind strategy = IsAggressiveRefresh ? RefreshStrategyKind.AggressiveMerge : RefreshStrategyKind.LazyMerge;

@@ -27,7 +27,7 @@ internal static class AchievementFinishPercent
             return;
         }
 
-        if (achievements.Source is not ImmutableArray<AchievementView> array)
+        if (achievements.Source is not AchievementView[] array)
         {
             throw HutaoException.InvalidCast<IList<AchievementView>, ImmutableArray<AchievementView>>("AchievementViewModel.Achievements.SourceCollection");
         }

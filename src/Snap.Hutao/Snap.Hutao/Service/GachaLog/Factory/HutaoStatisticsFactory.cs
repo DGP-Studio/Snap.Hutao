@@ -21,7 +21,7 @@ internal sealed class HutaoStatisticsFactory
     private readonly GachaEvent weaponEvent;
     private readonly GachaEvent? chronicledEvent;
 
-    public HutaoStatisticsFactory(in HutaoStatisticsFactoryMetadataContext context)
+    public HutaoStatisticsFactory(HutaoStatisticsFactoryMetadataContext context)
     {
         this.context = context;
         DateTimeOffset now = DateTimeOffset.UtcNow;

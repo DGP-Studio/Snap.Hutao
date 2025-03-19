@@ -18,6 +18,7 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 [Injection(InjectAs.Singleton, typeof(IGachaStatisticsFactory))]
 internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 {
+    // We must use the root service provider, if not, PullPrediction will cause memory leak
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 

@@ -29,7 +29,7 @@ internal sealed class TypedWishSummaryBuilder
     private DateTimeOffset fromTimeTracker = DateTimeOffset.MaxValue;
     private DateTimeOffset toTimeTracker = DateTimeOffset.MinValue;
 
-    public TypedWishSummaryBuilder(in TypedWishSummaryBuilderContext context)
+    public TypedWishSummaryBuilder(TypedWishSummaryBuilderContext context)
     {
         this.context = context;
     }
