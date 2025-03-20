@@ -18,7 +18,9 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     {
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
-            presenter.PreferredMinimumSize = ScaledSizeInt32.CreateForWindow(1000, 600, this);
+            SizeInt32 minSize = ScaledSizeInt32.CreateForWindow(1000, 600, this);
+            presenter.PreferredMinimumWidth = minSize.Width;
+            presenter.PreferredMinimumHeight = minSize.Height;
         }
 
         InitializeComponent();

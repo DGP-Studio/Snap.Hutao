@@ -16,11 +16,12 @@ using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
-using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;
+using WinRT;
 
 namespace Snap.Hutao.UI.Windowing;
 
@@ -69,10 +70,31 @@ internal sealed class XamlWindowController
             window.AppWindow.Resize(xamlWindow2.InitSize);
         }
 
-        string windowName = TypeNameHelper.GetTypeDisplayName(window);
-        byte[] data = CryptographicOperations.HashData(HashAlgorithmName.MD5, Encoding.UTF8.GetBytes(windowName));
-        Guid guid = MemoryMarshal.AsRef<Guid>(data);
-        window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
+        // window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
+        try
+        {
+            // Microsoft.UI.Windowing.dll
+            IAppWindowExperimental appWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.AsInterface<IAppWindowExperimental>();
+            appWindowExperimental.SetPlacementRestorationBehavior(65535);
+
+            string windowName = TypeNameHelper.GetTypeDisplayName(window);
+            byte[] data = CryptographicOperations.HashData(HashAlgorithmName.MD5, Encoding.UTF8.GetBytes(TypeNameHelper.GetTypeDisplayName(window)));
+            Guid guid = MemoryMarshal.AsRef<Guid>(data);
+
+            ObjectReferenceValue guidValue = ABI.System.Nullable<Guid>.CreateMarshaler2(guid);
+            try
+            {
+                appWindowExperimental.SetPersistedStateId(ABI.System.Nullable<Guid>.CreateMarshaler2(guid).GetAbi());
+            }
+            finally
+            {
+                guidValue.Dispose();
+            }
+        }
+        catch (Exception ex)
+        {
+            _ = ex;
+        }
 
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
@@ -219,4 +241,41 @@ internal sealed class XamlWindowController
     {
         XamlWindowRegionRects.Update(window);
     }
+}
+
+[SuppressMessage("", "SA1201")]
+[Guid("04db96c7-deb6-5be4-bfdc-1bc0361c8a12")]
+[ComImport]
+[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+file unsafe interface IAppWindowExperimental
+{
+    [PreserveSig]
+    HRESULT GetIids(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT GetRuntimeClassName(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT GetTrustLevel(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT GetPersistedStateId(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT SetPersistedStateId(/* Windows::Foundation::IReference<_GUID>* */ nint value);
+
+    [PreserveSig]
+    HRESULT GetPlacementRestorationBehavior(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT SetPlacementRestorationBehavior(/* Microsoft::UI::Windowing::PlacementRestorationBehavior */ int value);
+
+    [PreserveSig]
+    HRESULT GetCurrentPlacement(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT SaveCurrentPlacement(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT SetCurrentPlacement(/* Ignored */);
 }

@@ -25,7 +25,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
 
         RegistryWatcher watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
         watcher.Start();
-        GCHandle.Alloc(watcher, GCHandleType.Pinned);
+        GCHandle.Alloc(watcher);
     }
 
     [field: MaybeNull]
