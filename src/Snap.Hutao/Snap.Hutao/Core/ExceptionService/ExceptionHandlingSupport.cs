@@ -58,14 +58,21 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
-        // TODO: Report to Sentry
+        if (exception.TargetSite?.DeclaringType?.Assembly != typeof(App).Assembly)
+        {
+            return;
+        }
+
         Debugger.Break();
     }
 
     private void Attach(Application app)
     {
-        app.UnhandledException += OnAppUnhandledException;
+#if DEBUG
         AppDomain.CurrentDomain.FirstChanceException += OnAppDomainFirstChanceException;
+#endif
+
+        app.UnhandledException += OnAppUnhandledException;
         ConfigureDebugSettings(app);
     }
 
