@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -43,9 +44,28 @@ internal sealed partial class ExceptionHandlingSupport
 #pragma warning restore SH007
     }
 
+    private static void OnAppDomainFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
+    {
+        if (e.Exception is null)
+        {
+            return;
+        }
+
+        Exception exception = e.Exception;
+        string type = TypeNameHelper.GetTypeDisplayName(exception);
+        if (exception is OperationCanceledException)
+        {
+            return;
+        }
+
+        // TODO: Report to Sentry
+        Debugger.Break();
+    }
+
     private void Attach(Application app)
     {
         app.UnhandledException += OnAppUnhandledException;
+        AppDomain.CurrentDomain.FirstChanceException += OnAppDomainFirstChanceException;
         ConfigureDebugSettings(app);
     }
 
