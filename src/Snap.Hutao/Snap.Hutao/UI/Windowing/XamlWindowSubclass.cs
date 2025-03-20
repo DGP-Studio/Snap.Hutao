@@ -115,7 +115,9 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     {
         public readonly short Low;
         public readonly short High;
-        private readonly int Reserved;
+
+        [SuppressMessage("", "CA1823")]
+        private readonly int reserved;
     }
 
     // ReSharper disable once InconsistentNaming
@@ -123,6 +125,8 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     {
         public readonly short Low;
         public readonly short High;
-        private readonly int Reserved;
+
+        [SuppressMessage("", "CA1823")]
+        private readonly int reserved;
     }
 }

@@ -71,30 +71,7 @@ internal sealed class XamlWindowController
         }
 
         // window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
-        try
-        {
-            // Microsoft.UI.Windowing.dll
-            IAppWindowExperimental appWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.AsInterface<IAppWindowExperimental>();
-            appWindowExperimental.SetPlacementRestorationBehavior(65535);
-
-            string windowName = TypeNameHelper.GetTypeDisplayName(window);
-            byte[] data = CryptographicOperations.HashData(HashAlgorithmName.MD5, Encoding.UTF8.GetBytes(TypeNameHelper.GetTypeDisplayName(window)));
-            Guid guid = MemoryMarshal.AsRef<Guid>(data);
-
-            ObjectReferenceValue guidValue = ABI.System.Nullable<Guid>.CreateMarshaler2(guid);
-            try
-            {
-                appWindowExperimental.SetPersistedStateId(ABI.System.Nullable<Guid>.CreateMarshaler2(guid).GetAbi());
-            }
-            finally
-            {
-                guidValue.Dispose();
-            }
-        }
-        catch (Exception ex)
-        {
-            _ = ex;
-        }
+        EnablePlacementPersistence(window);
 
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
@@ -108,6 +85,27 @@ internal sealed class XamlWindowController
 
         subclass.Initialize();
         window.Closed += OnWindowClosed;
+    }
+
+    private static void EnablePlacementPersistence(Window window)
+    {
+        // Microsoft.UI.Windowing.dll
+        IAppWindowExperimental appWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.AsInterface<IAppWindowExperimental>();
+        appWindowExperimental.SetPlacementRestorationBehavior(65535); // PlacementRestorationBehavior.Default
+
+        string windowName = TypeNameHelper.GetTypeDisplayName(window);
+        byte[] data = CryptographicOperations.HashData(HashAlgorithmName.MD5, Encoding.UTF8.GetBytes(windowName));
+        Guid guid = MemoryMarshal.AsRef<Guid>(data);
+
+        ObjectReferenceValue guidValue = ABI.System.Nullable<Guid>.CreateMarshaler2(guid);
+        try
+        {
+            appWindowExperimental.SetPersistedStateId(ABI.System.Nullable<Guid>.CreateMarshaler2(guid).GetAbi());
+        }
+        finally
+        {
+            guidValue.Dispose();
+        }
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
@@ -244,6 +242,7 @@ internal sealed class XamlWindowController
 }
 
 [SuppressMessage("", "SA1201")]
+[SuppressMessage("", "SYSLIB1096")]
 [Guid("04db96c7-deb6-5be4-bfdc-1bc0361c8a12")]
 [ComImport]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -261,12 +260,14 @@ file unsafe interface IAppWindowExperimental
     [PreserveSig]
     HRESULT GetPersistedStateId(/* Ignored */);
 
+    // Api::IAppWindowExperimental::ExportAdapter$::put_PersistedStateId(Windows::Foundation::IReference<_GUID> *)
     [PreserveSig]
     HRESULT SetPersistedStateId(/* Windows::Foundation::IReference<_GUID>* */ nint value);
 
     [PreserveSig]
     HRESULT GetPlacementRestorationBehavior(/* Ignored */);
 
+    // Api::IAppWindowExperimental::ExportAdapter$::put_PlacementRestorationBehavior(Microsoft::UI::Windowing::PlacementRestorationBehavior)
     [PreserveSig]
     HRESULT SetPlacementRestorationBehavior(/* Microsoft::UI::Windowing::PlacementRestorationBehavior */ int value);
 
