@@ -8,6 +8,7 @@ namespace Snap.Hutao.UI.Xaml;
 
 internal static class DependencyObjectExtension
 {
+    [Obsolete]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IServiceProvider ServiceProvider(this DependencyObject obj)
     {

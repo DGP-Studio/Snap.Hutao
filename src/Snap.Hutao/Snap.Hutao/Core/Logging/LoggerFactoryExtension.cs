@@ -49,7 +49,6 @@ internal static class LoggerFactoryExtension
 
             options.ProfilesSampleRate = 1.0D;
             options.TracesSampleRate = 1.0D;
-            options.AddProfilingIntegration();
 
             // Use our own exception handling
             options.DisableWinUiUnhandledExceptionIntegration();

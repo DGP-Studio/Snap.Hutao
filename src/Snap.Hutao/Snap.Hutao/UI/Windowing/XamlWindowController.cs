@@ -41,6 +41,7 @@ internal sealed class XamlWindowController
     {
         this.window = window;
         this.serviceProvider = serviceProvider;
+
         appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
         // Subclassing and NonRudeHWND are standard infrastructure.

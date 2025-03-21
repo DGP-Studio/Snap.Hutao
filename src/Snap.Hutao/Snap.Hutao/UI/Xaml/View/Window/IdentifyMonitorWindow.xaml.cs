@@ -33,12 +33,13 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
         for (int i = 0; i < displayAreas.Count; i++)
         {
-            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
+            windows.Add(new(displayAreas[i], i + 1));
         }
 
         foreach (IdentifyMonitorWindow window in windows)
         {
-            window.Show();
+            window.AppWindow.Show(true);
+            window.AppWindow.MoveInZOrderAtTop();
         }
 
         await Task.Delay(TimeSpan.FromSeconds(secondsDelay)).ConfigureAwait(true);
@@ -47,5 +48,7 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         {
             window.Close();
         }
+
+        windows.Clear();
     }
 }

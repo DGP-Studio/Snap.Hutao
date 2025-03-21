@@ -177,7 +177,7 @@ internal static class DiscordController
     }
 
     [SuppressMessage("", "SH003")]
-    private static async Task DiscordRunCallbacksAsync(CancellationToken cancellationToken)
+    private static async Task DiscordRunCallbacksAsync(CancellationToken token)
     {
         int notRunningCounter = 0;
 
@@ -185,9 +185,9 @@ internal static class DiscordController
         {
             try
             {
-                while (await timer.WaitForNextTickAsync(cancellationToken).ConfigureAwait(false))
+                while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    if (token.IsCancellationRequested)
                     {
                         break;
                     }

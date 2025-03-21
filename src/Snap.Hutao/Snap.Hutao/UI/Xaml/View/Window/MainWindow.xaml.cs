@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Windows.Graphics;
 
@@ -16,6 +15,8 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 {
     public MainWindow(IServiceProvider serviceProvider)
     {
+        InitializeComponent();
+
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             SizeInt32 minSize = ScaledSizeInt32.CreateForWindow(1000, 600, this);
@@ -23,7 +24,6 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             presenter.PreferredMinimumHeight = minSize.Height;
         }
 
-        InitializeComponent();
         this.InitializeController(serviceProvider);
     }
 
@@ -31,9 +31,5 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => TitleBarView.Passthrough; }
 
-    public string PersistRectKey { get => SettingKeys.WindowRect; }
-
-    public string PersistScaleKey { get => SettingKeys.WindowScale; }
-
-    public SizeInt32 InitSize { get; } = new(1200, 741);
+    public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1200, 741, this); }
 }

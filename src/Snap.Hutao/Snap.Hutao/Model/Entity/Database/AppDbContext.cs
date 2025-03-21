@@ -18,8 +18,12 @@ internal sealed partial class AppDbContext : DbContext
     {
         try
         {
-            logger = this.GetService<ILogger<AppDbContext>>();
-            logger.LogInformation("\e[1m\e[32m{Name}\e[37m::\e[36m{ContextId} \e[32mcreated\e[37m", nameof(AppDbContext), ContextId);
+            IServiceProviderIsService serviceProviderIsService = this.GetService<IServiceProviderIsService>();
+            if (serviceProviderIsService.IsService(typeof(ILogger<AppDbContext>)))
+            {
+                logger = this.GetService<ILogger<AppDbContext>>();
+                logger.LogInformation("\e[1m\e[32m{Name}\e[37m::\e[36m{ContextId} \e[32mcreated\e[37m", nameof(AppDbContext), ContextId);
+            }
         }
         catch
         {

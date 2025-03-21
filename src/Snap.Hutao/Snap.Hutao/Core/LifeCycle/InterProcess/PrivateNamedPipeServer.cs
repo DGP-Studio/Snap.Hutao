@@ -68,6 +68,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                 }
                 catch (OperationCanceledException)
                 {
+                    break;
                 }
             }
         }

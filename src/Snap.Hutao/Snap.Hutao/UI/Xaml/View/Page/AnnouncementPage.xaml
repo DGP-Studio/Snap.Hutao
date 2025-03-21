@@ -48,7 +48,6 @@
                                         CornerRadius="{ThemeResource ControlCornerRadiusTop}">
                                         <shuxci:CachedImage
                                             VerticalAlignment="Center"
-                                            PlaceholderMargin="16"
                                             PlaceholderSource="{StaticResource UI_EmotionIcon271}"
                                             Source="{Binding Banner}"
                                             Stretch="UniformToFill"/>

@@ -25,6 +25,11 @@ internal static class WindowExtension
         WindowControllers.Add(window, windowController);
     }
 
+    public static bool IsControllerInitialized(Window window)
+    {
+        return WindowControllers.TryGetValue(window, out _);
+    }
+
     public static bool IsControllerInitialized<TWindow>()
         where TWindow : Window
     {
@@ -45,21 +50,9 @@ internal static class WindowExtension
         WindowControllers.Remove(window);
     }
 
-    public static XamlWindowController? GetController<TWindow>(this TWindow window)
-        where TWindow : Window
-    {
-        WindowControllers.TryGetValue(window, out XamlWindowController? xamlWindowController);
-        return xamlWindowController;
-    }
-
     public static HWND GetWindowHandle(this Window? window)
     {
         return WindowNative.GetWindowHandle(window);
-    }
-
-    public static void Show(this Window window)
-    {
-        ShowWindow(window.GetWindowHandle(), SHOW_WINDOW_CMD.SW_NORMAL);
     }
 
     public static void SwitchTo(this Window window)
@@ -80,11 +73,6 @@ internal static class WindowExtension
         }
 
         SetForegroundWindow(hwnd);
-    }
-
-    public static void Hide(this Window window)
-    {
-        ShowWindow(window.GetWindowHandle(), SHOW_WINDOW_CMD.SW_HIDE);
     }
 
     public static void AddExStyleLayered(this Window window)

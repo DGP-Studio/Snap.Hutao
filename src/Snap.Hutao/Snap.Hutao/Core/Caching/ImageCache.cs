@@ -55,35 +55,32 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         CacheFile cacheFile = CacheFile.Create(CacheFolder, uri);
         string themedFileFullPath = cacheFile.GetThemedFileFullPath(theme);
 
-        if (IsFileInvalid(themedFileFullPath))
+        using (await themeFileLocks.LockAsync((theme, cacheFile.FileName)).ConfigureAwait(false))
         {
-            using (await themeFileLocks.LockAsync((theme, cacheFile.FileName)).ConfigureAwait(false))
+            if (IsFileInvalid(themedFileFullPath))
             {
-                if (IsFileInvalid(themedFileFullPath) && IsFileInvalid(cacheFile.DefaultFileFullPath))
+                using (await downloadLocks.LockAsync(cacheFile.FileName).ConfigureAwait(false))
                 {
-                    using (await downloadLocks.LockAsync(cacheFile.FileName).ConfigureAwait(false))
+                    if (IsFileInvalid(cacheFile.DefaultFileFullPath))
                     {
-                        if (IsFileInvalid(cacheFile.DefaultFileFullPath))
-                        {
-                            SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateInfo("Begin to download file", "Core.Caching.ImageCache", [("Uri", uri.ToString()), ("File", cacheFile.DefaultFileFullPath)]));
+                        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateInfo("Begin to download file", "Core.Caching.ImageCache", [("Uri", uri.ToString()), ("File", cacheFile.DefaultFileFullPath)]));
 
-                            try
-                            {
-                                await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
-                            }
-                            catch (Exception ex)
-                            {
-                                Remove(uri);
-                                SentrySdk.CaptureException(ex);
-                            }
+                        try
+                        {
+                            await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            Remove(uri);
+                            SentrySdk.CaptureException(ex);
                         }
                     }
                 }
             }
-        }
 
-        await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
-        return themedFileFullPath;
+            await EnsureThemedMonochromeFileExistsAsync(cacheFile, theme).ConfigureAwait(false);
+            return themedFileFullPath;
+        }
     }
 
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
