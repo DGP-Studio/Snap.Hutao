@@ -74,7 +74,11 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
                 switch (itemId.StringLength())
                 {
                     case 8U:
-                        TrackAvatarItemId(context, idToCountdown, purpleAvatarCountdowns, gachaEvent, itemId);
+                        if (!AvatarIds.IsStandardWish(itemId))
+                        {
+                            TrackAvatarItemId(context, idToCountdown, purpleAvatarCountdowns, gachaEvent, itemId);
+                        }
+
                         break;
                     case 5U:
                         TrackWeaponItemId(context, idToCountdown, purpleWeaponCountdowns, gachaEvent, itemId);
