@@ -14,7 +14,7 @@ internal static class JsonOptions
         AllowTrailingCommas = true,
         Converters =
         {
-            new PooledStringConverter(),
+            new InternStringConverter(),
         },
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
