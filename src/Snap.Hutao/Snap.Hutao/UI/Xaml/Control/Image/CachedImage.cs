@@ -12,6 +12,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Animation;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -35,6 +36,8 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
     private const string PartImage = "Image";
 
     private static readonly ConditionalWeakTable<Microsoft.UI.Xaml.Controls.Image, object> IsPlaceholder = [];
+
+    private readonly AsyncLock sourceLock = new();
 
     private CancellationTokenSource? sourceCts;
 
@@ -260,53 +263,47 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
         sourceCts = new();
         CancellationToken token = sourceCts.Token;
 
-        // Remove old ImageSource from tree
-        await ImageAttachUriSourceWithAnimationAsync(Image, default, placeholder).ConfigureAwait(true);
-
-        if (source is null)
+        using (await sourceLock.LockAsync().ConfigureAwait(true))
         {
-            return;
-        }
+            // Remove old ImageSource from tree
+            await ImageAttachUriSourceWithAnimationAsync(Image, default, placeholder).ConfigureAwait(true);
 
-        if (source as Uri is not { } uri)
-        {
-            if (!Uri.TryCreate(source as string ?? source.ToString(), UriKind.RelativeOrAbsolute, out uri))
+            if (source is null)
             {
-                await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
                 return;
             }
-        }
 
-        if (!IsHttpUri(uri) && !uri.IsAbsoluteUri)
-        {
-            uri = new("ms-appx:///" + uri.OriginalString.TrimStart('/'));
-        }
+            if (source as Uri is not { } uri)
+            {
+                if (!Uri.TryCreate(source as string ?? source.ToString(), UriKind.RelativeOrAbsolute, out uri))
+                {
+                    await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
+                    return;
+                }
+            }
 
-        try
-        {
-            Uri? targetUri;
+            if (!IsHttpUri(uri) && !uri.IsAbsoluteUri)
+            {
+                uri = new("ms-appx:///" + uri.OriginalString.TrimStart('/'));
+            }
+
             try
             {
-                targetUri = await ProvideCachedResourceAsync(uri, token).ConfigureAwait(true);
+                Uri? targetUri = await ProvideCachedResourceAsync(uri, token).ConfigureAwait(true);
+                if (!token.IsCancellationRequested)
+                {
+                    // Only attach our image if we still have a valid request.
+                    await ImageAttachUriSourceWithAnimationAsync(Image, targetUri, placeholder).ConfigureAwait(true);
+                }
             }
             catch (OperationCanceledException)
             {
-                return;
+                // Ignored
             }
-
-            if (!token.IsCancellationRequested)
+            catch (Exception)
             {
-                // Only attach our image if we still have a valid request.
-                await ImageAttachUriSourceWithAnimationAsync(Image, targetUri, placeholder).ConfigureAwait(true);
+                await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
             }
-        }
-        catch (OperationCanceledException)
-        {
-            // Ignored
-        }
-        catch (Exception)
-        {
-            await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
         }
     }
 
