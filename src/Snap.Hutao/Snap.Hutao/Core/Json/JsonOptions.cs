@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Json.Converter;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization.Metadata;
 
@@ -11,6 +12,10 @@ internal static class JsonOptions
     public static readonly JsonSerializerOptions Default = new()
     {
         AllowTrailingCommas = true,
+        Converters =
+        {
+            new PooledStringConverter(),
+        },
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         NumberHandling = JsonNumberHandling.AllowReadingFromString,

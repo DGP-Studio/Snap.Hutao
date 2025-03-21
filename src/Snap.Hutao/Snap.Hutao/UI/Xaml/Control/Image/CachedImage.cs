@@ -289,7 +289,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
 
             try
             {
-                Uri? targetUri = await ProvideCachedResourceAsync(uri, token).ConfigureAwait(true);
+                Uri? targetUri = uri.Scheme is "ms-appx" ? uri : await ProvideCachedResourceAsync(uri, token).ConfigureAwait(true);
                 if (!token.IsCancellationRequested)
                 {
                     // Only attach our image if we still have a valid request.

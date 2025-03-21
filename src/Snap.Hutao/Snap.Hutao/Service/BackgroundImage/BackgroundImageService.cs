@@ -116,7 +116,8 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                                 .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
                         ];
 
-                        if (previous is not null && availableBackgroundPathSet.Count > 0)
+                        // Why > 1: If only one file in the folder, don't change background
+                        if (previous is not null && availableBackgroundPathSet.Count > 1)
                         {
                             availableBackgroundPathSet.Remove(previous.Path);
                         }
