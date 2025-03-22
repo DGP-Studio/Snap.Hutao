@@ -102,9 +102,13 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
                     switch (responseMessage.StatusCode)
                     {
+                        case HttpStatusCode.NotFound:
+                            {
+                                return;
+                            }
+
                         case HttpStatusCode.TooManyRequests:
                             {
-                                retryCount++;
                                 TimeSpan delay = responseMessage.Headers.RetryAfter?.Delta ?? DelayFromRetryCount[retryCount];
                                 await Task.Delay(delay).ConfigureAwait(false);
                                 break;
@@ -112,6 +116,8 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                     }
                 }
             }
+
+            retryCount++;
         }
     }
 }
