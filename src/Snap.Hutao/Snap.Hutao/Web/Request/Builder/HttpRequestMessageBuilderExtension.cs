@@ -14,8 +14,6 @@ namespace Snap.Hutao.Web.Request.Builder;
 
 internal static class HttpRequestMessageBuilderExtension
 {
-    private const string RequestErrorMessage = "请求异常已忽略: {Uri}";
-
     internal static HttpRequestMessageBuilder Resurrect(this HttpRequestMessageBuilder builder)
     {
         builder.HttpRequestMessage.Resurrect();
@@ -28,7 +26,6 @@ internal static class HttpRequestMessageBuilderExtension
         HttpContext context = new()
         {
             HttpClient = httpClient,
-            Logger = builder.ServiceProvider.GetRequiredService<ILogger<HttpRequestMessageBuilder>>(),
             RequestAborted = token,
         };
 
@@ -74,7 +71,6 @@ internal static class HttpRequestMessageBuilderExtension
                 });
 
                 ExceptionFormat.Format(messageBuilder, ex);
-                context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
                 return new(context.Response?.Headers, default);
             }
             finally
@@ -100,7 +96,6 @@ internal static class HttpRequestMessageBuilderExtension
         {
             ExceptionFingerprint.SetFingerprint(ex, baseUrl);
             context.Exception = ExceptionDispatchInfo.Capture(ex);
-            context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
     }
 
@@ -112,25 +107,20 @@ internal static class HttpRequestMessageBuilderExtension
             {
             }
         }
-        catch (HttpRequestException ex)
+        catch (HttpRequestException)
         {
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
-        catch (IOException ex)
+        catch (IOException)
         {
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
-        catch (JsonException ex)
+        catch (JsonException)
         {
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
-        catch (HttpContentSerializationException ex)
+        catch (HttpContentSerializationException)
         {
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
-        catch (SocketException ex)
+        catch (SocketException)
         {
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
     }
 }

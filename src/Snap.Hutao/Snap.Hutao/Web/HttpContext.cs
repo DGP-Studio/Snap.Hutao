@@ -10,8 +10,6 @@ internal sealed partial class HttpContext : IDisposable
 {
     public required HttpClient HttpClient { get; init; }
 
-    public required ILogger Logger { get; init; }
-
     public required CancellationToken RequestAborted { get; init; }
 
     public HttpRequestMessage? Request { get; set; }

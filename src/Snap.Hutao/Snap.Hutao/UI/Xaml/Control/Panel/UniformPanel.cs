@@ -31,7 +31,7 @@ internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
         double desiredHeight = ((maxDesiredHeight + RowSpacing) * desiredRows) - RowSpacing;
         desiredHeight = Math.Max(0, desiredHeight);
 
-        return new(availableSize.Width, desiredHeight);
+        return new(Math.Max(0, availableSize.Width), desiredHeight);
     }
 
     protected override Size ArrangeOverride(Size finalSize)

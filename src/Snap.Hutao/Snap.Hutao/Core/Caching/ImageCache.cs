@@ -6,6 +6,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Web.Endpoint.Hutao;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using ThemeFile = (Microsoft.UI.Xaml.ElementTheme, Snap.Hutao.Core.IO.ValueFile);
@@ -52,6 +53,8 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme)
     {
+        Debug.Assert(uri.Scheme is "http" or "https", "Unsupported URI scheme");
+
         CacheFile cacheFile = CacheFile.Create(CacheFolder, uri);
         string themedFileFullPath = cacheFile.GetThemedFileFullPath(theme);
 

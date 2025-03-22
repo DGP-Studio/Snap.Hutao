@@ -58,11 +58,9 @@ public sealed class ScriptContext
                 builder.SetStringContent(body);
             }
 
-            ILogger<ScriptContext> logger = scope.ServiceProvider.GetRequiredService<ILogger<ScriptContext>>();
-
             using (HttpClient httpClient = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
             {
-                return await SendAsync(builder, httpClient, logger, default).ConfigureAwait(false);
+                return await SendAsync(builder, httpClient, default).ConfigureAwait(false);
             }
         }
     }
@@ -106,11 +104,9 @@ public sealed class ScriptContext
                 await sign(builder).ConfigureAwait(false);
             }
 
-            ILogger<ScriptContext> logger = scope.ServiceProvider.GetRequiredService<ILogger<ScriptContext>>();
-
             using (HttpClient httpClient = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
             {
-                return await SendAsync(builder, httpClient, logger, default).ConfigureAwait(false);
+                return await SendAsync(builder, httpClient, default).ConfigureAwait(false);
             }
         }
     }
@@ -130,12 +126,11 @@ public sealed class ScriptContext
         return builder => builder.SignDataAsync(version, saltType, includeChars);
     }
 
-    private static async ValueTask<string> SendAsync(HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
+    private static async ValueTask<string> SendAsync(HttpRequestMessageBuilder builder, HttpClient httpClient, CancellationToken token)
     {
         HttpContext context = new()
         {
             HttpClient = httpClient,
-            Logger = logger,
             RequestAborted = token,
         };
 
