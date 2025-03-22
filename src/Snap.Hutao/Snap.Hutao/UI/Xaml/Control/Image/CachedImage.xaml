@@ -11,8 +11,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="shuxci:CachedImage">
                     <Grid
-                        Margin="{TemplateBinding Margin}"
-                        Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
