@@ -39,7 +39,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         SystemBackdrop = new TransparentBackdrop();
 
         this.InitializeController(serviceProvider);
-        AppWindow.Resize(ScaledSizeInt32.CreateForWindow(356, 56, this));
+        AppWindow.Resize(ScaledSizeInt32.CreateForWindow(386, 56, this));
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => RootBorder; }

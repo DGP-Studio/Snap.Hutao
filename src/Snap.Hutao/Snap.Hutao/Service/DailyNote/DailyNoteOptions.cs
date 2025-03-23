@@ -75,13 +75,13 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public bool IsReminderNotification
     {
-        get => GetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify);
+        get => GetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify, false);
         set => SetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify, value);
     }
 
     public bool IsSilentWhenPlayingGame
     {
-        get => GetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame);
+        get => GetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, false);
         set => SetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, value);
     }
 

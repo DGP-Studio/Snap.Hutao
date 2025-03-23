@@ -62,7 +62,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return storage;
     }
 
-    protected bool GetOption(ref bool? storage, string key, bool defaultValue = false)
+    protected bool GetOption(ref bool? storage, string key, bool defaultValue)
     {
         return GetOption(ref storage, key, defaultValue ? TrueFunc : FalseFunc);
     }

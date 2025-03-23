@@ -38,7 +38,7 @@ internal sealed class LaunchExecutionGameIslandHandler : ILaunchExecutionDelegat
             {
                 context.Result.Kind = LaunchExecutionResultKind.GameIslandOperationFailed;
                 context.Result.ErrorMessage = ex.Message;
-                context.Process.Kill();// The Unlocker can't unlock the process
+                context.Process.Kill(); // The Unlocker can't unlock the process
             }
         }
         else

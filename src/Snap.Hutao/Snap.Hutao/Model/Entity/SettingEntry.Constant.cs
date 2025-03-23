@@ -48,20 +48,17 @@ internal sealed partial class SettingEntry
     public const string LaunchScreenHeight = "Launch.ScreenHeight";
     public const string LaunchIsScreenHeightEnabled = "Launch.IsScreenHeightEnabled";
     public const string LaunchIsIslandEnabled = "Launch.UnlockFps";
-    public const string LaunchHookingSetFieldOfView = "Launch.HookingSetFieldOfView";
     public const string LaunchIsSetFieldOfViewEnabled = "Launch.IsSetFieldOfViewEnabled";
     public const string LaunchTargetFov = "Launch.TargetFov";
     public const string LaunchFixLowFovScene = "Launch.FixLowFovScene";
     public const string LaunchDisableFog = "Launch.DisableFog";
     public const string LaunchIsSetTargetFrameRateEnabled = "Launch.IsSetTargetFrameRateEnabled";
     public const string LaunchTargetFps = "Launch.TargetFps";
-    public const string LaunchHookingOpenTeam = "Launch.HookingOpenTeam";
     public const string LaunchRemoveOpenTeamProgress = "Launch.RemoveOpenTeamProgress";
-    public const string LaunchHookingMickyWonderPartner2 = "Launch.HookingMickyWonderPartner2";
-    public const string LaunchHookingSetupQuestBanner = "Launch.HookingSetupQuestBanner";
     public const string LaunchHideQuestBanner = "Launch.HideQuestBanner";
-    public const string LaunchHookingEventCameraMove = "Launch.HookingEventCameraMove";
     public const string LaunchDisableEventCameraMove = "Launch.DisableEventCameraMove";
+    public const string LaunchDisableShowDamageText = "Launch.DisableShowDamageText";
+    public const string LaunchUsingTouchScreen = "Launch.UsingTouchScreen";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
     public const string LaunchPlatformType = "Launch.PlatformType";
@@ -89,4 +86,22 @@ internal sealed partial class SettingEntry
 
     [Obsolete("不再直接使用 CLOUD_THIRD_PARTY_MOBILE")]
     public const string LaunchUsingCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
+
+    [Obsolete("不再使用")]
+    public const string LaunchHookingSetFieldOfView = "Launch.HookingSetFieldOfView";
+
+    [Obsolete("不再使用")]
+    public const string LaunchHookingOpenTeam = "Launch.HookingOpenTeam";
+
+    [Obsolete("不再使用")]
+    public const string LaunchHookingMickyWonderPartner2 = "Launch.HookingMickyWonderPartner2";
+
+    [Obsolete("不再使用")]
+    public const string LaunchHookingSetupQuestBanner = "Launch.HookingSetupQuestBanner";
+
+    [Obsolete("不再使用")]
+    public const string LaunchHookingEventCameraMove = "Launch.HookingEventCameraMove";
+
+    [Obsolete("不再使用")]
+    public const string LaunchHookingShowDamageText = "Launch.HookingShowDamageText";
 }

@@ -7,9 +7,9 @@ namespace Snap.Hutao.Core.Threading;
 
 internal interface ITaskContext
 {
-    void BeginInvokeOnMainThread(Action action);
+    void BeginInvokeOnMainThread([RequireStaticDelegate] Action action);
 
-    void InvokeOnMainThread(Action action);
+    void InvokeOnMainThread([InstantHandle] Action action);
 
     T InvokeOnMainThread<T>([InstantHandle] Func<T> func);
 

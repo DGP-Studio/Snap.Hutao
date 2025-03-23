@@ -360,7 +360,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.2.3">
+    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.2.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -370,6 +370,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common" Version="9.0.3" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.3" />
     <PackageReference Include="System.IO.Hashing" Version="9.0.3" />
     <PackageReference Include="System.Threading.AccessControl" Version="9.0.3" />
     <PackageReference Include="System.Threading.RateLimiting" Version="9.0.3" />

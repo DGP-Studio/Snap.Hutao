@@ -2117,6 +2117,9 @@
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>暂无该角色的攻略信息</value>
   </data>
+  <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
+    <value>移除地图界面任务提示</value>
+  </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>创建新存档</value>
   </data>
@@ -2704,6 +2707,9 @@
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
+    <value>使用触摸输入</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的显示器上运行</value>
@@ -3314,6 +3320,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
+  <data name="ViewPverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>移除战斗伤害跳字</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想真境剧诗</value>
   </data>
@@ -3748,8 +3757,5 @@
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>显示器编号</value>
-  </data>
-  <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
-    <value>移除地图界面任务提示</value>
   </data>
 </root>

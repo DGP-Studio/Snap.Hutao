@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using JetBrains.Annotations;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
@@ -53,23 +52,18 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
                 SettingEntry.LaunchUsingBetterGenshinImpactAutomation => InitializeNullableBooleanValue(ref fields.UsingBetterGenshinImpactAutomation, value),
                 SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeNullableBooleanValue(ref fields.SetDiscordActivityWhenPlaying, value),
                 SettingEntry.LaunchIsIslandEnabled => InitializeNullableBooleanValue(ref fields.IsIslandEnabled, value),
-                SettingEntry.LaunchHookingSetFieldOfView => InitializeNullableBooleanValue(ref fields.HookingSetFieldOfView, value),
                 SettingEntry.LaunchIsSetFieldOfViewEnabled => InitializeNullableBooleanValue(ref fields.IsSetFieldOfViewEnabled, value),
                 SettingEntry.LaunchTargetFov => InitializeNullableFloatValue(ref fields.TargetFov, value),
                 SettingEntry.LaunchFixLowFovScene => InitializeNullableBooleanValue(ref fields.FixLowFovScene, value),
                 SettingEntry.LaunchDisableFog => InitializeNullableBooleanValue(ref fields.DisableFog, value),
                 SettingEntry.LaunchIsSetTargetFrameRateEnabled => InitializeNullableBooleanValue(ref fields.IsSetTargetFrameRateEnabled, value),
                 SettingEntry.LaunchTargetFps => InitializeNullableInt32Value(ref fields.TargetFps, value),
-                SettingEntry.LaunchHookingOpenTeam => InitializeNullableBooleanValue(ref fields.HookingOpenTeam, value),
                 SettingEntry.LaunchRemoveOpenTeamProgress => InitializeNullableBooleanValue(ref fields.RemoveOpenTeamProgress, value),
-                SettingEntry.LaunchHookingMickyWonderPartner2 => InitializeNullableBooleanValue(ref fields.HookingMickyWonderPartner2, value),
-                SettingEntry.LaunchHookingSetupQuestBanner => InitializeNullableBooleanValue(ref fields.HookingSetupQuestBanner, value),
                 SettingEntry.LaunchHideQuestBanner => InitializeNullableBooleanValue(ref fields.HideQuestBanner, value),
                 _ => default,
             };
         });
 
-        IslandFeatureStateMachine = new(this);
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         static Void InitializeNullableBooleanValue(ref bool? storage, string? value)
@@ -116,7 +110,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
     public ImmutableArray<GamePathEntry> GamePathEntries
     {
         // Because DbStoreOptions can't detect collection change, We use
-        // ImmutableList to imply that the whole list needs to be replaced
+        // ImmutableArray to imply that the whole list needs to be replaced
         get => GetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableArray<GamePathEntry>>(raw), []);
         set => SetOption(ref fields.GamePathEntries, SettingEntry.GamePathEntries, value, static v => JsonSerializer.Serialize(v));
     }
@@ -129,7 +123,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.UsingHoyolabAccount, SettingEntry.LaunchUsingHoyolabAccount, value);
     }
 
-    [UsedImplicitly]
     public bool AreCommandLineArgumentsEnabled
     {
         get => GetOption(ref fields.AreCommandLineArgumentsEnabled, SettingEntry.LaunchAreCommandLineArgumentsEnabled, true);
@@ -145,24 +138,21 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         }
     }
 
-    [UsedImplicitly]
     public bool IsFullScreen
     {
         get => GetOption(ref fields.IsFullScreen, SettingEntry.LaunchIsFullScreen, false);
         set => SetOption(ref fields.IsFullScreen, SettingEntry.LaunchIsFullScreen, value);
     }
 
-    [UsedImplicitly]
     public bool IsBorderless
     {
-        get => GetOption(ref fields.IsBorderless, SettingEntry.LaunchIsBorderless);
+        get => GetOption(ref fields.IsBorderless, SettingEntry.LaunchIsBorderless, false);
         set => SetOption(ref fields.IsBorderless, SettingEntry.LaunchIsBorderless, value);
     }
 
-    [UsedImplicitly]
     public bool IsExclusive
     {
-        get => GetOption(ref fields.IsExclusive, SettingEntry.LaunchIsExclusive);
+        get => GetOption(ref fields.IsExclusive, SettingEntry.LaunchIsExclusive, false);
         set => SetOption(ref fields.IsExclusive, SettingEntry.LaunchIsExclusive, value);
     }
 
@@ -172,7 +162,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.ScreenWidth, SettingEntry.LaunchScreenWidth, value);
     }
 
-    [UsedImplicitly]
     public bool IsScreenWidthEnabled
     {
         get => GetOption(ref fields.IsScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, true);
@@ -185,7 +174,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.ScreenHeight, SettingEntry.LaunchScreenHeight, value);
     }
 
-    [UsedImplicitly]
     public bool IsScreenHeightEnabled
     {
         get => GetOption(ref fields.IsScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, true);
@@ -194,8 +182,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     public ImmutableArray<NameValue<int>> Monitors { get; } = InitializeMonitors();
 
-    [UsedImplicitly]
-    [System.Diagnostics.CodeAnalysis.NotNull]
+    [NotNull]
     public NameValue<int>? Monitor
     {
         get
@@ -217,7 +204,6 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         }
     }
 
-    [UsedImplicitly]
     public bool IsMonitorEnabled
     {
         get => GetOption(ref fields.IsMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, true);
@@ -238,173 +224,82 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.IsPlatformTypeEnabled, SettingEntry.LaunchIsPlatformTypeEnabled, value);
     }
 
-    [UsedImplicitly]
     public bool IsWindowsHDREnabled
     {
         get => GetOption(ref fields.IsWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, false);
         set => SetOption(ref fields.IsWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
     }
 
-    [UsedImplicitly]
     public bool UsingStarwardPlayTimeStatistics
     {
         get => GetOption(ref fields.UsingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, false);
         set => SetOption(ref fields.UsingStarwardPlayTimeStatistics, SettingEntry.LaunchUsingStarwardPlayTimeStatistics, value);
     }
 
-    [UsedImplicitly]
     public bool UsingBetterGenshinImpactAutomation
     {
         get => GetOption(ref fields.UsingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, false);
         set => SetOption(ref fields.UsingBetterGenshinImpactAutomation, SettingEntry.LaunchUsingBetterGenshinImpactAutomation, value);
     }
 
-    [UsedImplicitly]
     public bool SetDiscordActivityWhenPlaying
     {
         get => GetOption(ref fields.SetDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, true);
         set => SetOption(ref fields.SetDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
     }
 
-    public LaunchOptionsIslandFeatureStateMachine IslandFeatureStateMachine { get; }
-
-    [UsedImplicitly]
     public bool IsIslandEnabled
     {
         get => GetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, false);
-        set
-        {
-            if (SetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value))
-            {
-                IslandFeatureStateMachine.Update(this);
-            }
-        }
+        set => SetOption(ref fields.IsIslandEnabled, SettingEntry.LaunchIsIslandEnabled, value);
     }
 
-    [UsedImplicitly]
-    public bool HookingSetFieldOfView
-    {
-        get => GetOption(ref fields.HookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, true);
-        set
-        {
-            if (SetOption(ref fields.HookingSetFieldOfView, SettingEntry.LaunchHookingSetFieldOfView, value))
-            {
-                IslandFeatureStateMachine.Update(this);
-            }
-        }
-    }
-
-    [UsedImplicitly]
     public bool IsSetFieldOfViewEnabled
     {
         get => GetOption(ref fields.IsSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, true);
-        set
-        {
-            if (SetOption(ref fields.IsSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value))
-            {
-                IslandFeatureStateMachine.Update(this);
-            }
-        }
+        set => SetOption(ref fields.IsSetFieldOfViewEnabled, SettingEntry.LaunchIsSetFieldOfViewEnabled, value);
     }
 
-    [UsedImplicitly]
     public float TargetFov
     {
         get => GetOption(ref fields.TargetFov, SettingEntry.LaunchTargetFov, 45f);
         set => SetOption(ref fields.TargetFov, SettingEntry.LaunchTargetFov, value);
     }
 
-    [UsedImplicitly]
     public bool FixLowFovScene
     {
         get => GetOption(ref fields.FixLowFovScene, SettingEntry.LaunchFixLowFovScene, true);
         set => SetOption(ref fields.FixLowFovScene, SettingEntry.LaunchFixLowFovScene, value);
     }
 
-    [UsedImplicitly]
     public bool DisableFog
     {
         get => GetOption(ref fields.DisableFog, SettingEntry.LaunchDisableFog, false);
         set => SetOption(ref fields.DisableFog, SettingEntry.LaunchDisableFog, value);
     }
 
-    [UsedImplicitly]
     public bool IsSetTargetFrameRateEnabled
     {
         get => GetOption(ref fields.IsSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, true);
-        set
-        {
-            if (SetOption(ref fields.IsSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value))
-            {
-                IslandFeatureStateMachine.Update(this);
-            }
-        }
+        set => SetOption(ref fields.IsSetTargetFrameRateEnabled, SettingEntry.LaunchIsSetTargetFrameRateEnabled, value);
     }
 
-    [UsedImplicitly]
     public int TargetFps
     {
         get => GetOption(ref fields.TargetFps, SettingEntry.LaunchTargetFps, InitializeScreenFps);
         set => SetOption(ref fields.TargetFps, SettingEntry.LaunchTargetFps, value);
     }
 
-    [UsedImplicitly]
-    public bool HookingOpenTeam
-    {
-        get => GetOption(ref fields.HookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, true);
-        set
-        {
-            if (SetOption(ref fields.HookingOpenTeam, SettingEntry.LaunchHookingOpenTeam, value))
-            {
-                IslandFeatureStateMachine.Update(this);
-            }
-        }
-    }
-
-    [UsedImplicitly]
     public bool RemoveOpenTeamProgress
     {
         get => GetOption(ref fields.RemoveOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, false);
         set => SetOption(ref fields.RemoveOpenTeamProgress, SettingEntry.LaunchRemoveOpenTeamProgress, value);
     }
 
-    [UsedImplicitly]
-    public bool HookingMickyWonderPartner2
-    {
-        get => GetOption(ref fields.HookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, true);
-        set => SetOption(ref fields.HookingMickyWonderPartner2, SettingEntry.LaunchHookingMickyWonderPartner2, value);
-    }
-
-    [UsedImplicitly]
-    public bool HookingSetupQuestBanner
-    {
-        get => GetOption(ref fields.HookingSetupQuestBanner, SettingEntry.LaunchHookingSetupQuestBanner, false);
-        set
-        {
-            if (SetOption(ref fields.HookingSetupQuestBanner, SettingEntry.LaunchHookingSetupQuestBanner, value))
-            {
-                IslandFeatureStateMachine.Update(this);
-            }
-        }
-    }
-
-    [UsedImplicitly]
     public bool HideQuestBanner
     {
         get => GetOption(ref fields.HideQuestBanner, SettingEntry.LaunchHideQuestBanner, false);
         set => SetOption(ref fields.HideQuestBanner, SettingEntry.LaunchHideQuestBanner, value);
-    }
-
-    public bool HookingEventCameraMove
-    {
-        get => GetOption(ref fields.HookingEventCameraMove, SettingEntry.LaunchHookingEventCameraMove, false);
-        set
-        {
-            if (SetOption(ref fields.HookingEventCameraMove, SettingEntry.LaunchHookingEventCameraMove, value))
-            {
-                IslandFeatureStateMachine.Update(this);
-            }
-        }
     }
 
     public bool DisableEventCameraMove
@@ -413,14 +308,24 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.DisableEventCameraMove, SettingEntry.LaunchDisableEventCameraMove, value);
     }
 
-    [UsedImplicitly]
+    public bool DisableShowDamageText
+    {
+        get => GetOption(ref fields.DisableShowDamageText, SettingEntry.LaunchDisableShowDamageText, false);
+        set => SetOption(ref fields.DisableShowDamageText, SettingEntry.LaunchDisableShowDamageText, value);
+    }
+
+    public bool UsingTouchScreen
+    {
+        get => GetOption(ref fields.UsingTouchScreen, SettingEntry.LaunchUsingTouchScreen, false);
+        set => SetOption(ref fields.UsingTouchScreen, SettingEntry.LaunchUsingTouchScreen, value);
+    }
+
     public ImmutableArray<AspectRatio> AspectRatios
     {
         get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
         set => SetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, value, static v => JsonSerializer.Serialize(v));
     }
 
-    [UsedImplicitly]
     public AspectRatio? SelectedAspectRatio
     {
         get;
@@ -439,9 +344,8 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     public void Receive(LaunchExecutionProcessStatusChangedMessage message)
     {
-        taskContext.BeginInvokeOnMainThread(() =>
+        taskContext.InvokeOnMainThread(() =>
         {
-            IslandFeatureStateMachine.Update(this);
             OnPropertyChanged(nameof(IsGameRunning));
         });
     }
@@ -451,7 +355,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         HDC dc = default;
         try
         {
-            dc = GetDC(default);
+            dc = GetDC();
             return GetDeviceCaps(dc, GET_DEVICE_CAPS_INDEX.VREFRESH);
         }
         finally
@@ -499,20 +403,17 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public int? ScreenHeight;
         public bool? IsScreenHeightEnabled;
         public bool? IsIslandEnabled;
-        public bool? HookingSetFieldOfView;
         public bool? IsSetFieldOfViewEnabled;
         public float? TargetFov;
         public bool? FixLowFovScene;
         public bool? DisableFog;
         public bool? IsSetTargetFrameRateEnabled;
         public int? TargetFps;
-        public bool? HookingOpenTeam;
         public bool? RemoveOpenTeamProgress;
-        public bool? HookingMickyWonderPartner2;
-        public bool? HookingSetupQuestBanner;
         public bool? HideQuestBanner;
-        public bool? HookingEventCameraMove;
         public bool? DisableEventCameraMove;
+        public bool? DisableShowDamageText;
+        public bool? UsingTouchScreen;
         public bool? IsMonitorEnabled;
         public PlatformType? PlatformType;
         public bool? IsPlatformTypeEnabled;

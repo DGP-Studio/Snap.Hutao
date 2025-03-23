@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.UI.Xaml.View.Window;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -9,12 +10,19 @@ internal sealed class LaunchExecutionOverlayHandlder : ILaunchExecutionDelegateH
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        await context.TaskContext.SwitchToMainThreadAsync();
-        LaunchExecutionOverlayWindow window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
+        if (HutaoRuntime.IsProcessElevated)
+        {
+            await context.TaskContext.SwitchToMainThreadAsync();
+            LaunchExecutionOverlayWindow? window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
 
-        await next().ConfigureAwait(false);
+            await next().ConfigureAwait(false);
 
-        await context.TaskContext.SwitchToMainThreadAsync();
-        window.Close();
+            await context.TaskContext.SwitchToMainThreadAsync();
+            window?.Close();
+        }
+        else
+        {
+            await next().ConfigureAwait(false);
+        }
     }
 }

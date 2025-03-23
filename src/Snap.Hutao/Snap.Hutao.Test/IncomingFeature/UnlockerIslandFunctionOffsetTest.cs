@@ -44,6 +44,8 @@ public class UnlockerIslandFunctionOffsetTest
                 FindGameObject = 0x107B3AE0,
                 SetActive = 0x107B3840,
                 EventCameraMove = 0x08A8A760,
+                ShowOneDamageTextEx = 0x0A8E4B10,
+                SwitchInputDeviceToTouchScreen = 0x0D0DFD40,
             },
             Oversea = new()
             {
@@ -60,6 +62,8 @@ public class UnlockerIslandFunctionOffsetTest
                 FindGameObject = 0x107C0CF0,
                 SetActive = 0x107C0A50,
                 EventCameraMove = 0x08BB0F30,
+                ShowOneDamageTextEx = 0x0AA05750,
+                SwitchInputDeviceToTouchScreen = 0x0CCD6800,
             },
         };
 
@@ -100,5 +104,9 @@ public class UnlockerIslandFunctionOffsetTest
         public required uint SetActive { get; set; }
 
         public required uint EventCameraMove { get; set; }
+
+        public required uint ShowOneDamageTextEx { get; set; }
+
+        public required uint SwitchInputDeviceToTouchScreen { get; set; }
     }
 }

@@ -12,18 +12,15 @@ internal struct IslandEnvironment
 
     public IslandFunctionOffsets FunctionOffsets;
 
-    public BOOL HookingSetFieldOfView;
     public BOOL EnableSetFieldOfView;
     public float FieldOfView;
     public BOOL FixLowFovScene;
     public BOOL DisableFog;
     public BOOL EnableSetTargetFrameRate;
     public int TargetFrameRate;
-    public BOOL HookingOpenTeam;
     public BOOL RemoveOpenTeamProgress;
-    public BOOL HookingMickyWonderPartner2;
-    public BOOL HookingSetupQuestBanner;
     public BOOL HideQuestBanner;
-    public BOOL HookingEventCameraMove;
     public BOOL DisableEventCameraMove;
+    public BOOL DisableShowDamageText;
+    public BOOL UsingTouchScreen;
 }

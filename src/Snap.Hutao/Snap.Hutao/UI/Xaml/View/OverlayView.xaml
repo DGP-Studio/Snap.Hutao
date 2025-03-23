@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Snap.Hutao.UI.Xaml.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
@@ -139,8 +138,8 @@
                         VerticalAlignment="Stretch"
                         BorderThickness="0"
                         IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
-                        IsHitTestVisible="False"
-                        Visibility="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                        IsEnabled="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=OneWay}"
+                        IsHitTestVisible="False">
                         <Grid RowSpacing="4">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -165,8 +164,8 @@
                         VerticalAlignment="Stretch"
                         BorderThickness="0"
                         IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
-                        IsHitTestVisible="False"
-                        Visibility="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                        IsEnabled="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsEnabled, Mode=OneWay}"
+                        IsHitTestVisible="False">
                         <Grid RowSpacing="4">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -193,7 +192,6 @@
                         VerticalAlignment="Stretch"
                         BorderThickness="0"
                         IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
-                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFpsHotSwitch}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}">
                         <ToggleSplitButton.Flyout>
                             <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
@@ -231,7 +229,6 @@
                         VerticalAlignment="Stretch"
                         BorderThickness="0"
                         IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"
-                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleSetFovHotSwitch}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}">
                         <ToggleSplitButton.Flyout>
                             <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
@@ -284,7 +281,6 @@
                         BorderThickness="0"
                         Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                         IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
-                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleTeamHotSwitch}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}">
                         <Grid>
                             <FontIcon FontSize="16" Glyph="&#xE805;"/>
@@ -297,7 +293,6 @@
                         BorderThickness="0"
                         Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                         IsChecked="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
-                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleHideQuestBannerHotSwitch}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayLaunchGameHideQuestBannerToolTip}">
                         <Grid>
                             <FontIcon FontSize="16" Glyph="&#xE81E;"/>
@@ -310,10 +305,25 @@
                         BorderThickness="0"
                         Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                         IsChecked="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
-                        IsEnabled="{Binding LaunchOptions.IslandFeatureStateMachine.CanToggleEventCameraMoveHotSwitch}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}">
                         <Grid>
                             <FontIcon FontSize="16" Glyph="&#xE89E;"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.DisableShowDamageText, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPverlayDisableShowDamageTextToolTip}">
+                        <Grid>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontWeight="Bold"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="99"/>
                             <FontIcon FontSize="16" Glyph="&#xE894;"/>
                         </Grid>
                     </ToggleButton>
