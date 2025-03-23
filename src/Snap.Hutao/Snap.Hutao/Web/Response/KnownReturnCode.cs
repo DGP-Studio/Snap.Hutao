@@ -22,7 +22,7 @@ internal enum KnownReturnCode
     AlreadySignedIn = -5003,
 
     /// <summary>
-    /// 补签资格已用完
+    /// 补签资格已用完 / 补签卡已用完 (HoYoLAB)
     /// </summary>
     ResignQuotaUsedUp = -5005,
 

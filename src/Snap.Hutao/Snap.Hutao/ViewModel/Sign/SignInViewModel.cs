@@ -153,7 +153,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             Awards = avs.AsAdvancedCollectionView();
             CurrentUid = userAndUid.Uid.ToString();
             TotalSignInDaysHint = SH.FormatViewModelSignInTotalSignInDaysHint(reward.Month, info.TotalSignDay);
-            ScrollToNextAward();
+            ScrollToCurrentOrNextAward(postSign || postResign);
 
             IsInitialized = true;
         }
@@ -166,11 +166,18 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     [Command("ScrollToNextAwardCommand")]
     private void ScrollToNextAward()
     {
+        ScrollToCurrentOrNextAward();
+    }
+
+    private void ScrollToCurrentOrNextAward(bool current = false)
+    {
         DateTime now = DateTime.Now;
         int days = DateTime.DaysInMonth(now.Year, now.Month);
+        int targetIndex = current ? totalSignDay - 1 : totalSignDay;
 
-        int row = (totalSignDay + 1) / 7;
+        int row = targetIndex / 7;
         int rows = (int)Math.Ceiling(days / 7.0);
+
         ArgumentNullException.ThrowIfNull(awardScrollViewer);
         double offset = row * awardScrollViewer.ExtentHeight / rows;
         awardScrollViewer.ChangeView(null, offset, null);
