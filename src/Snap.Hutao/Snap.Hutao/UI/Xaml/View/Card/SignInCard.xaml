@@ -37,40 +37,40 @@
         </cwconv:BoolToObjectConverter>
 
         <DataTemplate x:Key="AwardTemplate" x:DataType="shvs:AwardView">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="4">
-                    <shuxci:CachedImage
-                        Grid.Row="0"
-                        Width="32"
-                        Height="32"
-                        Opacity="{Binding IsClaimed, Converter={StaticResource BoolToOpacityConverter}}"
-                        Source="{Binding Icon}"/>
-                    <StackPanel
-                        Grid.Row="0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Opacity="{Binding IsClaimed, Converter={StaticResource BoolToOpacityConverter}}"
-                        Orientation="Horizontal">
-                        <TextBlock FontSize="10" Text="×"/>
-                        <TextBlock FontSize="10" Text="{Binding Count}"/>
-                    </StackPanel>
-                    <FontIcon
-                        Grid.Row="0"
-                        FontSize="16"
-                        Glyph="&#xE73E;"
-                        Visibility="{Binding IsClaimed}"/>
-                </Grid>
-                <TextBlock
-                    Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    Opacity="0.7"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Index}"/>
-            </Grid>
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <Grid Margin="4">
+                        <shuxci:CachedImage
+                            Grid.Row="0"
+                            Width="32"
+                            Height="32"
+                            Opacity="{Binding IsClaimed, Converter={StaticResource BoolToOpacityConverter}}"
+                            Source="{Binding Icon}"/>
+                        <StackPanel
+                            Grid.Row="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Opacity="{Binding IsClaimed, Converter={StaticResource BoolToOpacityConverter}}"
+                            Orientation="Horizontal">
+                            <TextBlock FontSize="10" Text="×"/>
+                            <TextBlock FontSize="10" Text="{Binding Count}"/>
+                        </StackPanel>
+                        <FontIcon
+                            Grid.Row="0"
+                            FontSize="16"
+                            Glyph="&#xE73E;"
+                            Visibility="{Binding IsClaimed}"/>
+                    </Grid>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Opacity="0.7"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Index}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
         </DataTemplate>
     </Button.Resources>
 
@@ -91,7 +91,7 @@
                     Grid.Row="0"
                     HorizontalAlignment="Right"
                     Text="{Binding CurrentUid}"/>
-                <ScrollViewer Grid.Row="1" Padding="0,0,16,0">
+                <ScrollViewer Grid.Row="1" Padding="0,0,0,0">
                     <ItemsControl ItemTemplate="{StaticResource AwardTemplate}" ItemsSource="{Binding Awards}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
