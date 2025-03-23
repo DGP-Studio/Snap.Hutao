@@ -261,6 +261,15 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>更新日時 {0:MM.dd HH:mm:ss}</value>
   </data>
+  <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
+    <value>キャラクター</value>
+  </data>
+  <data name="ModelEntityPrimitiveCultivateTypeFurniture" xml:space="preserve">
+    <value>調度品</value>
+  </data>
+  <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
+    <value>武器</value>
+  </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>第 {0} 期</value>
   </data>
@@ -1035,6 +1044,12 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>あなたの胡桃バージョンは古すぎて、できるだけ早く更新してください！</value>
   </data>
+  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
+    <value>埋め合せログインに失敗しました、{0}</value>
+  </data>
+  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
+    <value>成功に埋め合せログインしました、{0}×{1}</value>
+  </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>ログイン失敗しました、{0}</value>
   </data>
@@ -1064,6 +1079,9 @@
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>ユーザー情報を取得しています、しばらくお待ちください...</value>
+  </data>
+  <data name="ServiceUserUserInfoContainsNoGameRole" xml:space="preserve">
+    <value>このアカウントはまだ原神のキャラと紐付けられていません</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Embedded Yae エラー</value>
@@ -1118,6 +1136,12 @@
   </data>
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
     <value>スタート、又はアカウント切替</value>
+  </data>
+  <data name="ViewCardSignInClaimReSignInAction" xml:space="preserve">
+    <value>埋め合せ</value>
+  </data>
+  <data name="ViewCardSignInClaimSignInAction" xml:space="preserve">
+    <value>ログイン</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
     <value>レベル</value>
@@ -1226,6 +1250,9 @@
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>現在の育成計画に一括追加または更新する</value>
+  </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>突破完了</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>現在の育成計画に追加または更新する</value>
@@ -1501,7 +1528,7 @@
     <value>クラッシュが発生する前に、どのような操作を行いましたか？</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
-    <value>ﾌｨｰﾄﾞﾊﾞｯｸｾﾝﾀｰ</value>
+    <value>通報·意見 ｾﾝﾀｰ</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈願履歴</value>
@@ -1652,6 +1679,33 @@
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>キャラクターラインナップが未配置か非表示です。ゲーム内のプロフィール編集で設定してください</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount" xml:space="preserve">
+    <value>命ノ星座解放数順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurAttack" xml:space="preserve">
+    <value>攻撃力順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurDefense" xml:space="preserve">
+    <value>防御力順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindDefault" xml:space="preserve">
+    <value>デフォルト順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindElementMastery" xml:space="preserve">
+    <value>元素熟知順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindFetterLevel" xml:space="preserve">
+    <value>好感度順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindLevelNumber" xml:space="preserve">
+    <value>レベル順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindMaxHp" xml:space="preserve">
+    <value>HP 上限順</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindQuality" xml:space="preserve">
+    <value>レアリティ順</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>キャラ総計 {0} 人</value>
@@ -1923,6 +1977,15 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>アカウントの切り替えができませんでした</value>
   </data>
+  <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
+    <value>胡桃を再起動する際に、問題が発生した場合は手動で再起動してください</value>
+  </data>
+  <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
+    <value>ホットキーのヒント</value>
+  </data>
+  <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
+    <value>クイックスイッチ</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>{0}に到着</value>
   </data>
@@ -1968,8 +2031,26 @@
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>選択したフォルダーが空でない場合、既存のファイルが上書きされます</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription2" xml:space="preserve">
+    <value>無効なデータフォルダーの位置で、再度選択してください</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription3" xml:space="preserve">
+    <value>選択したフォルダ'{0}'は空でない場合、既存のファイルが上書きされます</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>データファイルをコピー</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
+    <value>{0} 米游幣を消費する必要があります。残り {1} 米游幣</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogContentOversea" xml:space="preserve">
+    <value>{0} 枚の埋め合せログインカードを消費する必要があります。残り {1} 枚カード</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogTitle" xml:space="preserve">
+    <value>本当に埋め合せログインを確認しますか？</value>
+  </data>
+  <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
+    <value>{0} 月の累計ログイン日数 {1} 日</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>現在のデータディレクトリ '{0}' には1つ以上の再解析ポイント (Reparse points) が含まれている為、データフォルダに依存する一部の機能が正常に動作しなくなるかもしれない故、設定へパスを変更してください！</value>
@@ -2004,6 +2085,9 @@
   <data name="ViewModelUserCookieCopied" xml:space="preserve">
     <value>ユーザー [{0}] の Cookie をコピーしました</value>
   </data>
+  <data name="ViewModelUserEmptyGameRole" xml:space="preserve">
+    <value>このアカウントはまだ原神のキャラと紐付けられていません</value>
+  </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
     <value>この Cookie が不完全で、操作できません</value>
   </data>
@@ -2033,6 +2117,9 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>キャラクターの攻略情報は暫くありません</value>
+  </data>
+  <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
+    <value>マップ画面の任務指示を削除</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>新規アーカイブ</value>
@@ -2542,6 +2629,9 @@
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
     <value>デフォルトのフルスクリーン設定を上書きします。</value>
   </data>
+  <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
+    <value>プラットフォームの種類を選択してください。異なる種類がゲーム UI の表示方法に影響を与えます</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>ゲームのウィンドウの高さを上書きします。</value>
   </data>
@@ -2593,6 +2683,12 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>ゲームファイル管理/サーバーの切り換え/注入機能には管理者権限が必要です</value>
   </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>元素爆発カットインのコールドスイッチ</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>元素爆発カットインを削除する</value>
+  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>キャラクター/チーム編成/祈願/紀行などの特殊シーンを補正します</value>
   </data>
@@ -2613,6 +2709,9 @@
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
+    <value>使用触摸输入</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>指定したディスプレイで実行します。</value>
@@ -2818,6 +2917,9 @@
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>ウィンドウ不透明度</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
+    <value>通知領域アイコンを有効にすると、アイコンメニューからコンパクトウェブを起動します</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>動画の早送りを制御するショートカットキーを変更します</value>
   </data>
@@ -2947,6 +3049,9 @@
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>ゲームランチャー</value>
   </data>
+  <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>非表示</value>
   </data>
@@ -3027,6 +3132,9 @@
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>異なる機能に同じショートカットキーを設定すると、予期せぬ結果を招く場合が可能で、正常に戻すには追加の操作やアプリの再起動が必要になるかもしれません</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
+    <value>美化のためカストマイズツールを使用して標準のタスクバーを置き換えた場合、通知領域アイコンを有効にすると：アイコンとの操作ができない/正常にアイコンを作成できない/エクスプローラーを再起動すると固まる/プログラムの起動後にクラッシュする等の問題が発生する可能性があります</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>通知領域にアイコンを表示し、再起動後に有効なバックグラウンドタスクの実行を許可します</value>
@@ -3214,6 +3322,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
+  <data name="ViewPverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>移除战斗伤害跳字</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想シアター</value>
   </data>
@@ -3303,6 +3414,12 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>データをアップロード</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
+    <value>更新を開始しますか？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>胡桃バージョン {0} が利用可能です</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>更新パッチのダウンロードに失敗しました</value>
