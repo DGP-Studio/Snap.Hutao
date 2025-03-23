@@ -31,7 +31,9 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     private readonly IUserService userService;
 
     private bool updating;
+    private int totalSignDay;
     private SignInRewardReSignInfo? resignInfo;
+    private ScrollViewer? awardScrollViewer;
 
     [ObservableProperty]
     public partial IAdvancedCollectionView<AwardView>? Awards { get; set; }
@@ -41,9 +43,6 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 
     [ObservableProperty]
     public partial string? CurrentUid { get; set; }
-
-    [ObservableProperty]
-    public partial bool IsSigned { get; set; }
 
     public void Receive(UserAndUidChangedMessage message)
     {
@@ -61,6 +60,11 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
         }
+    }
+
+    public void Initialize(IAwardScrollViewerAccessor awardScrollViewerAccessor)
+    {
+        awardScrollViewer = awardScrollViewerAccessor.AwardScrollViewer;
     }
 
     protected override async Task LoadAsync()
@@ -142,12 +146,14 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             ImmutableArray<AwardView> avs = reward.Awards.Select(AwardView.From).ToImmutableArray();
             InitializeClaimedAwards(avs, info.TotalSignDay);
 
+            this.totalSignDay = info.TotalSignDay;
+            this.resignInfo = resignInfo;
+
             await taskContext.SwitchToMainThreadAsync();
             Awards = avs.AsAdvancedCollectionView();
             CurrentUid = userAndUid.Uid.ToString();
-            IsSigned = info.IsSign;
             TotalSignInDaysHint = SH.FormatViewModelSignInTotalSignInDaysHint(reward.Month, info.TotalSignDay);
-            this.resignInfo = resignInfo;
+            ScrollToNextAward();
 
             IsInitialized = true;
         }
@@ -155,6 +161,19 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         {
             Volatile.Write(ref updating, false);
         }
+    }
+
+    [Command("ScrollToNextAwardCommand")]
+    private void ScrollToNextAward()
+    {
+        DateTime now = DateTime.Now;
+        int days = DateTime.DaysInMonth(now.Year, now.Month);
+
+        int row = (totalSignDay + 1) / 7;
+        int rows = (int)Math.Ceiling(days / 7.0);
+        ArgumentNullException.ThrowIfNull(awardScrollViewer);
+        double offset = row * awardScrollViewer.ExtentHeight / rows;
+        awardScrollViewer.ChangeView(null, offset, null);
     }
 
     [Command("ClaimSignInRewardCommand")]
@@ -231,8 +250,15 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             {
                 string message = resultResponse.Message;
 
-                if (resultResponse.ReturnCode is (int)KnownReturnCode.ResignQuotaUsedUp or (int)KnownReturnCode.NoAvailableResignDate)
+                if (resultResponse.ReturnCode is (int)KnownReturnCode.ResignQuotaUsedUp or (int)KnownReturnCode.PleaseSignInFirst or (int)KnownReturnCode.NoAvailableResignDate)
                 {
+                    infoBarService.Error(message);
+                    return;
+                }
+
+                if (resultResponse.ReturnCode is (int)KnownReturnCode.NotEnoughCoin)
+                {
+                    message = SH.ViewModelSignInReSignInNotEnoughCoinMessage;
                     infoBarService.Error(message);
                     return;
                 }

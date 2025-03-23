@@ -12,5 +12,17 @@ internal sealed partial class SignInCard : Button
     {
         this.InitializeDataContext<SignInViewModel>();
         InitializeComponent();
+
+        (DataContext as SignInViewModel)?.Initialize(new AwardScrollViewerAccessor(AwardScrollViewer));
+    }
+
+    private class AwardScrollViewerAccessor : IAwardScrollViewerAccessor
+    {
+        public AwardScrollViewerAccessor(ScrollViewer awardScrollViewer)
+        {
+            AwardScrollViewer = awardScrollViewer;
+        }
+
+        public ScrollViewer AwardScrollViewer { get; }
     }
 }

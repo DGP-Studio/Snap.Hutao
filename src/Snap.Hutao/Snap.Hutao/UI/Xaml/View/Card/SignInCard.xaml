@@ -91,8 +91,14 @@
                     Grid.Row="0"
                     HorizontalAlignment="Right"
                     Text="{Binding CurrentUid}"/>
-                <ScrollViewer Grid.Row="1" Padding="0,0,0,0">
+                <ScrollViewer
+                    x:Name="AwardScrollViewer"
+                    Grid.Row="1"
+                    Padding="0,0,0,0">
                     <ItemsControl ItemTemplate="{StaticResource AwardTemplate}" ItemsSource="{Binding Awards}">
+                        <mxi:Interaction.Behaviors>
+                            <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding ScrollToNextAwardCommand}"/>
+                        </mxi:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <cwcont:UniformGrid

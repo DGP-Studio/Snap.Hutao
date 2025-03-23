@@ -27,9 +27,20 @@ internal enum KnownReturnCode
     ResignQuotaUsedUp = -5005,
 
     /// <summary>
+    /// 请先完成本日签到
+    /// </summary>
+    PleaseSignInFirst = -5007,
+
+    /// <summary>
     /// 无可用补签日期
     /// </summary>
     NoAvailableResignDate = -5008,
+
+    /// <summary>
+    /// 米游币不足
+    /// 网络出小差了，请稍后重试
+    /// </summary>
+    NotEnoughCoin = -5014,
 
     /// <summary>
     /// 请求失败，当前设备或网络环境存在风险
