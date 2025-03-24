@@ -25,12 +25,14 @@ using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
+using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Web.Hutao.Redeem;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
+using System.Text.RegularExpressions;
 
 // ReSharper disable LocalizableElement
 namespace Snap.Hutao.ViewModel;
@@ -116,6 +118,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         get => LocalSetting.Get(SettingKeys.AlphaBuildUseFjPatchEndpoint, false);
         set => LocalSetting.SetIfNot(IsViewDisposed, SettingKeys.AlphaBuildUseFjPatchEndpoint, value);
     }
+
+    [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
+    private static partial Regex AssetBundlesBlockRegex { get; }
+
+    [GeneratedRegex(@"^(Yuanshen|GenshinImpact)\.exe$", RegexOptions.IgnoreCase)]
+    private static partial Regex GameExecutableFileRegex { get; }
 
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
@@ -407,16 +415,44 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 return;
             }
 
+            BranchWrapper localBranch = gameBranch.Main.GetTaggedCopy(localVersion);
+            BranchWrapper remoteBranch = gameBranch.PreDownload;
+
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
+                .ConfigureAwait(false);
+
+            SophonDecodedBuild? localBuild;
+            SophonDecodedBuild? remoteBuild;
+            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
+            {
+                localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
+                remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+                if (localBuild is null || remoteBuild is null)
+                {
+                    infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                    return;
+                }
+            }
+
             GamePackageOperationContext context = new(
                 serviceProvider,
                 GamePackageOperationKind.ExtractBlk,
                 gameFileSystem,
-                gameBranch.Main.GetTaggedCopy(localVersion),
-                gameBranch.PreDownload,
+                ExtractGameAssetBundles(localBuild),
+                ExtractGameAssetBundles(remoteBuild),
                 default,
                 extractDirectory);
 
             await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
+        }
+
+        SophonDecodedBuild ExtractGameAssetBundles(SophonDecodedBuild decodedBuild)
+        {
+            SophonDecodedManifest manifest = decodedBuild.Manifests.First();
+            SophonManifestProto proto = new();
+            proto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
+            return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.TotalBytes, [new(manifest.UrlPrefix, proto)]);
         }
     }
 
@@ -470,16 +506,39 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         {
             IGameFileSystem gameFileSystem = GameFileSystem.CreateForPackageOperation(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
 
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
+                .ConfigureAwait(false);
+
+            SophonDecodedBuild? build;
+            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
+            {
+                build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch).ConfigureAwait(false);
+                if (build is null)
+                {
+                    infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                    return;
+                }
+            }
+
             GamePackageOperationContext context = new(
                 serviceProvider,
                 GamePackageOperationKind.ExtractExe,
                 gameFileSystem,
                 default!,
-                branch,
+                ExtractGameExecutable(build),
                 default,
                 default);
 
             await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
+        }
+
+        SophonDecodedBuild ExtractGameExecutable(SophonDecodedBuild decodedBuild)
+        {
+            SophonDecodedManifest manifest = decodedBuild.Manifests.First();
+            SophonManifestProto proto = new();
+            proto.Assets.Add(manifest.ManifestProto.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
+            return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
         }
     }
 

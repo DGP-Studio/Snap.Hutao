@@ -241,7 +241,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
             Response<SophonBuild> response = await client.GetBuildAsync(branch).ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(response, serviceProvider, out build))
             {
-                return default!;
+                return default;
             }
         }
 
@@ -261,7 +261,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
 
                     inMemoryManifestStream.Position = 0;
                     SophonDecodedManifest decodedManifest = new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream));
-                    return new(sophonManifest.Stats.CompressedSize, sophonManifest.Stats.UncompressedSize, [decodedManifest]);
+                    return new(build.Tag, sophonManifest.Stats.CompressedSize, sophonManifest.Stats.UncompressedSize, [decodedManifest]);
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -966,7 +966,9 @@
     <value>在 Unity 日志文件中找不到游戏路径</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
-    <value>资源包体大小: {0}\n所需空间: {1}\n可用空间: {2}</value>
+    <value>资源包体大小: {0}
+所需空间: {1}
+可用空间: {2}</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
     <value>确认开始安装游戏</value>
