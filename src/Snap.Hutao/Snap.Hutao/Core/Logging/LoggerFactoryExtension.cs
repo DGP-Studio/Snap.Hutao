@@ -64,7 +64,7 @@ internal static class LoggerFactoryExtension
                 scope.SetWebView2Version();
             });
 
-            options.AddExceptionProcessor(new ExceptionHResultProcessor());
+            options.AddExceptionProcessor(new SentryExceptionProcessor());
 
             options.SetBeforeSend(@event =>
             {
