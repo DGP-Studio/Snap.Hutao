@@ -29,6 +29,28 @@ internal sealed partial class LaunchGameShared
 
     private bool resuming;
 
+    public LaunchScheme? SilentGetGetCurrentLaunchSchemeFromConfigFile()
+    {
+        ChannelOptions options = gameService.GetChannelOptions();
+        if (options.ErrorKind is ChannelOptionsErrorKind.None)
+        {
+            try
+            {
+                return KnownLaunchSchemes.Values.Single(scheme => scheme.Equals(options));
+            }
+            catch (InvalidOperationException)
+            {
+                if (!IgnoredInvalidChannelOptions.Contains(options))
+                {
+                    // 后台收集
+                    HutaoException.Throw($"不支持的 ChannelOptions: {options}");
+                }
+            }
+        }
+
+        return default;
+    }
+
     public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile()
     {
         ChannelOptions options = gameService.GetChannelOptions();
@@ -76,6 +98,11 @@ internal sealed partial class LaunchGameShared
 
     public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
+        if (SilentGetGetCurrentLaunchSchemeFromConfigFile() is null)
+        {
+            return;
+        }
+
         if (LaunchGameLaunchExecution.IsAnyLaunchExecutionInvoking())
         {
             return;
