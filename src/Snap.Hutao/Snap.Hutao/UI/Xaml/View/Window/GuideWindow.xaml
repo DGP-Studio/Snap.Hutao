@@ -24,6 +24,6 @@
                 Text="{shuxm:ResourceString Name=GuideWindowTitle}"
                 TextWrapping="NoWrap"/>
         </Grid>
-        <shuxv:GuideView Grid.Row="1"/>
+        <shuxv:GuideView x:Name="GuideView" Grid.Row="1"/>
     </Grid>
 </Window>

@@ -37,11 +37,13 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
     private static readonly ConditionalWeakTable<Microsoft.UI.Xaml.Controls.Image, object> IsPlaceholder = [];
 
     private readonly AsyncLock sourceLock = new();
+    private readonly IServiceProvider serviceProvider;
 
     private CancellationTokenSource? sourceCts;
 
     public CachedImage()
     {
+        serviceProvider = Ioc.Default;
         DefaultStyleKey = typeof(CachedImage);
         Loaded += OnLoaded;
     }
@@ -200,7 +202,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
             // Connecting the BitmapImage to the tree before setting its UriSource
             target.Visibility = Visibility.Visible;
 
-            BitmapImage? source = new();
+            BitmapImage source = new();
             target.Source = source;
             source.UriSource = uri;
         }
@@ -208,7 +210,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
 
     private async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        IImageCache imageCache = Ioc.Default.GetRequiredService<IImageCache>();
+        IImageCache imageCache = serviceProvider.GetRequiredService<IImageCache>();
 
         try
         {
@@ -324,7 +326,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                         BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, memory);
                         encoder.SetSoftwareBitmap(softwareBitmap);
                         await encoder.FlushAsync();
-                        await Ioc.Default.GetRequiredService<IClipboardProvider>().SetBitmapAsync(memory).ConfigureAwait(false);
+                        await serviceProvider.GetRequiredService<IClipboardProvider>().SetBitmapAsync(memory).ConfigureAwait(false);
                     }
                 }
             }

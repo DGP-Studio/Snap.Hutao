@@ -13,10 +13,8 @@ namespace Snap.Hutao.UI.Xaml.Control;
 [SuppressMessage("", "CA1001")]
 internal partial class ScopedPage : Page
 {
-    private readonly CancellationTokenSource viewCancellationTokenSource = new();
+    private readonly CancellationTokenSource viewCts = new();
     private readonly IServiceScope pageScope;
-
-    private bool inFrame = true;
 
     protected ScopedPage()
     {
@@ -29,37 +27,18 @@ internal partial class ScopedPage : Page
         XamlMarkupHelper.UnloadObject(unloadableObject);
     }
 
-    /// <summary>
-    /// 初始化
-    /// 应当在 InitializeComponent() 前调用
-    /// </summary>
-    /// <typeparam name="TViewModel">视图模型类型</typeparam>
     protected void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
-        try
+        TViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
+        using (viewModel.DisposeLock.Enter())
         {
-            TViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
-            using (viewModel.DisposeLock.Enter())
-            {
-                viewModel.Resurrect();
-                viewModel.CancellationToken = viewCancellationTokenSource.Token;
-                viewModel.DeferContentLoader = new DeferContentLoader(this);
-            }
-
-            DataContext = viewModel;
+            viewModel.Resurrect();
+            viewModel.CancellationToken = viewCts.Token;
+            viewModel.DeferContentLoader = new DeferContentLoader(this);
         }
-        catch (Exception ex)
-        {
-            pageScope.ServiceProvider.GetRequiredService<ILogger<ScopedPage>>().LogError(ex, "Failed to initialize view model.");
-            throw;
-        }
-    }
 
-    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-    {
-        DisposeViewModel();
-        inFrame = false;
+        DataContext = viewModel;
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -74,10 +53,7 @@ internal partial class ScopedPage : Page
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        if (inFrame)
-        {
-            DisposeViewModel();
-        }
+        DisposeViewModel();
 
         if (this.IsDisposed())
         {
@@ -89,21 +65,19 @@ internal partial class ScopedPage : Page
 
     private void DisposeViewModel()
     {
-        using (viewCancellationTokenSource)
+        // Cancel all tasks executed by the view model
+        viewCts.Cancel();
+        IViewModel viewModel = (IViewModel)DataContext;
+
+        // Wait to ensure viewmodel operation is completed
+        using (viewModel.DisposeLock.Enter())
         {
-            // Cancel all tasks executed by the view model
-            viewCancellationTokenSource.Cancel();
-            IViewModel viewModel = (IViewModel)DataContext;
-
-            // Wait to ensure viewmodel operation is completed
-            using (viewModel.DisposeLock.Enter())
-            {
-                viewModel.Uninitialize();
-
-                // Dispose the scope
-                pageScope.Dispose();
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
-            }
+            viewModel.Uninitialize();
         }
+
+        viewCts.Dispose();
+
+        // Dispose the scope
+        pageScope.Dispose();
     }
 }

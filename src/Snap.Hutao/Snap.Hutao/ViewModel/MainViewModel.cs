@@ -14,23 +14,22 @@ using Snap.Hutao.UI.Xaml.Media.Animation;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
-internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization
+[Injection(InjectAs.Transient)]
+internal sealed partial class MainViewModel : Abstraction.ViewModel
 {
+    private readonly WeakReference<Image> weakBackgroundImagePresenter = new(default!);
     private readonly AsyncLock backgroundImageLock = new();
 
     private readonly IBackgroundImageService backgroundImageService;
-    private readonly ILogger<MainViewModel> logger;
     private readonly ITaskContext taskContext;
 
     private BackgroundImage? previousBackgroundImage;
-    private Image? backgroundImagePresenter;
 
     public partial AppOptions AppOptions { get; }
 
-    public void Initialize(IBackgroundImagePresenterAccessor accessor)
+    public void AttachXamlElement(Image backgroundImagePresenter)
     {
-        backgroundImagePresenter = accessor.BackgroundImagePresenter;
+        weakBackgroundImagePresenter.SetTarget(backgroundImagePresenter);
         _ = PrivateUpdateBackgroundAsync(true);
     }
 
@@ -63,7 +62,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     [SuppressMessage("", "SH003")]
     private async Task PrivateUpdateBackgroundAsync(bool forceRefresh)
     {
-        if (backgroundImagePresenter is null)
+        if (!weakBackgroundImagePresenter.TryGetTarget(out Image? backgroundImagePresenter))
         {
             return;
         }
@@ -94,12 +93,6 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                         ? 1 - backgroundImage.Luminance
                         : backgroundImage.Luminance
                     : 0;
-
-                logger.LogInformation(
-                    "Background image: [Accent color: {AccentColor}] [Luminance: {Luminance}] [Opacity: {TargetOpacity}]",
-                    backgroundImage?.AccentColor,
-                    backgroundImage?.Luminance,
-                    targetOpacity);
 
                 await AnimationBuilder
                     .Create()

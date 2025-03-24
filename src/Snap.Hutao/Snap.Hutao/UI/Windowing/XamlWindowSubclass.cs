@@ -110,13 +110,15 @@ internal sealed partial class XamlWindowSubclass : IDisposable
         return DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
 
+#pragma warning disable CA1823
+#pragma warning disable CS0169
+#pragma warning disable CS0649
+
     // ReSharper disable once InconsistentNaming
     private readonly struct WPARAM2MOUSEWHEEL
     {
         public readonly short Low;
         public readonly short High;
-
-        [SuppressMessage("", "CA1823")]
         private readonly int reserved;
     }
 
@@ -125,8 +127,10 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     {
         public readonly short Low;
         public readonly short High;
-
-        [SuppressMessage("", "CA1823")]
         private readonly int reserved;
     }
+
+#pragma warning restore CS0649
+#pragma warning restore CS0169
+#pragma warning restore CA1823
 }

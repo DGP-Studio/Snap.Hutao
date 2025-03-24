@@ -13,9 +13,8 @@ namespace Snap.Hutao.Service.Navigation;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
-internal sealed partial class NavigationService : INavigationService, INavigationInitialization
+internal sealed partial class NavigationService : INavigationService
 {
-    private readonly ILogger<INavigationService> logger;
     private readonly ITaskContext taskContext;
 
     private readonly WeakReference<NavigationView> weakNavigationView = new(default!);
@@ -24,6 +23,7 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
 
     public Type? CurrentPageType { get => weakFrame.TryGetTarget(out Frame? frame) ? frame.Content?.GetType() : default; }
 
+    [DisallowNull]
     private NavigationView? NavigationView
     {
         get => weakNavigationView.TryGetTarget(out NavigationView? navigationView) ? navigationView : null;
@@ -40,7 +40,7 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
                 oldValue.Unloaded -= OnUnloaded;
             }
 
-            weakNavigationView.SetTarget(value!);
+            weakNavigationView.SetTarget(value);
 
             if (weakNavigationView.TryGetTarget(out NavigationView? newValue))
             {
@@ -53,7 +53,6 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
         }
     }
 
-    /// <inheritdoc/>
     public NavigationResult Navigate(Type pageType, INavigationCompletionSource data, bool syncNavigationViewItem = false)
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateNavigation(
@@ -81,18 +80,15 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
             SentrySdk.CaptureException(ex);
         }
 
-        GC.KeepAlive(frame);
         return navigated ? NavigationResult.Succeed : NavigationResult.Failed;
     }
 
-    /// <inheritdoc/>
     public NavigationResult Navigate<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
         return Navigate(typeof(TPage), data, syncNavigationViewItem);
     }
 
-    /// <inheritdoc/>
     public async ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationCompletionSource data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
@@ -116,16 +112,13 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
         return result;
     }
 
-    /// <inheritdoc/>
-    public void Initialize(INavigationViewAccessor accessor)
+    public void AttachXamlElement(NavigationView navigationView, Frame frame)
     {
-        NavigationView = accessor.NavigationView;
-        weakFrame.SetTarget(accessor.Frame);
-
-        NavigationView.IsPaneOpen = LocalSetting.Get(SettingKeys.IsNavPaneOpen, true);
+        navigationView.IsPaneOpen = LocalSetting.Get(SettingKeys.IsNavPaneOpen, true);
+        NavigationView = navigationView;
+        weakFrame.SetTarget(frame);
     }
 
-    /// <inheritdoc/>
     public void GoBack()
     {
         taskContext.InvokeOnMainThread(() =>
@@ -213,6 +206,7 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        NavigationView = default;
+        // Remove event handlers (NavigationView setter will do this)
+        NavigationView = default!;
     }
 }

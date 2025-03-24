@@ -4,6 +4,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing.Abstraction;
+using Snap.Hutao.ViewModel.Guide;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -28,7 +29,9 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
             presenter.PreferredMaximumHeight = maxSize.Height;
         }
 
-        this.InitializeController(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
+        GuideView.InitializeDataContext<GuideViewModel>(scope.ServiceProvider);
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => DraggableGrid; }

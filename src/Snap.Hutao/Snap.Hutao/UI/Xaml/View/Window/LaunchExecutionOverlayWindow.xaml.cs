@@ -19,7 +19,6 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
     public LaunchExecutionOverlayWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        RootView.InitializeDataContext<OverlayViewModel>(serviceProvider);
 
         AppWindow.Title = "SnapHutaoLaunchExecutionOverlay";
         AppWindow.IsShownInSwitchers = false;
@@ -39,6 +38,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         SystemBackdrop = new TransparentBackdrop();
 
         this.InitializeController(serviceProvider);
+        RootView.InitializeDataContext<OverlayViewModel>(serviceProvider);
         AppWindow.Resize(ScaledSizeInt32.CreateForWindow(386, 56, this));
     }
 
@@ -48,6 +48,6 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
 
     public void OnMouseWheel(ref readonly PointerPointProperties data)
     {
-        RootView.DataContext<OverlayViewModel>().HandleMouseWheel(data.Delta / 120);
+        RootView.DataContext<OverlayViewModel>()?.HandleMouseWheel(data.Delta / 120);
     }
 }

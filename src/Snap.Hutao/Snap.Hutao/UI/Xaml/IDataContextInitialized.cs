@@ -3,5 +3,7 @@
 
 namespace Snap.Hutao.UI.Xaml;
 
-[Obsolete]
-internal interface IXamlElementAccessor;
+internal interface IDataContextInitialized
+{
+    void OnDataContextInitialized(IServiceProvider serviceProvider);
+}

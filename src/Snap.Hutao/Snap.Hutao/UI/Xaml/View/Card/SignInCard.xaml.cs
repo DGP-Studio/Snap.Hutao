@@ -8,12 +8,11 @@ namespace Snap.Hutao.UI.Xaml.View.Card;
 
 internal sealed partial class SignInCard : Button
 {
-    public SignInCard()
+    public SignInCard(IServiceProvider serviceProvider)
     {
-        this.InitializeDataContext<SignInViewModel>();
         InitializeComponent();
-
-        (DataContext as SignInViewModel)?.Initialize(new AwardScrollViewerAccessor(AwardScrollViewer));
+        this.InitializeDataContext<SignInViewModel>(serviceProvider);
+        (DataContext as SignInViewModel)?.AttachXamlElement(AwardScrollViewer);
     }
 
     private class AwardScrollViewerAccessor : IAwardScrollViewerAccessor

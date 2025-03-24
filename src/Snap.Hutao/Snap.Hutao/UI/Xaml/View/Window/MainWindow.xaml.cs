@@ -4,6 +4,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing.Abstraction;
+using Snap.Hutao.ViewModel;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -24,12 +25,15 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             presenter.PreferredMinimumHeight = minSize.Height;
         }
 
-        this.InitializeController(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
+        TitleView.InitializeDataContext<TitleViewModel>(scope.ServiceProvider);
+        MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
     }
 
-    public FrameworkElement TitleBarCaptionAccess { get => TitleBarView.DragArea; }
+    public FrameworkElement TitleBarCaptionAccess { get => TitleView.DragArea; }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => TitleBarView.Passthrough; }
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => TitleView.Passthrough; }
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1200, 741, this); }
 }

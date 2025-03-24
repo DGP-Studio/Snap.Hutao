@@ -30,7 +30,7 @@ internal sealed partial class ShowWebView2WindowAction : DependencyObject, IActi
     public object? Execute(object sender, object parameter)
     {
         ShowAt(((FrameworkElement)sender).XamlRoot);
-        return default!;
+        return default;
     }
 
     public void ShowAt(XamlRoot xamlRoot)

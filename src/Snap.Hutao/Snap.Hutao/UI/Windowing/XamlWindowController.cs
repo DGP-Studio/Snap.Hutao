@@ -17,6 +17,7 @@ using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -40,6 +41,7 @@ internal sealed class XamlWindowController
     public XamlWindowController(Window window, IServiceProvider serviceProvider)
     {
         this.window = window;
+        Debug.Assert(serviceProvider is IServiceScope scope && ReferenceEquals(serviceProvider, scope));
         this.serviceProvider = serviceProvider;
 
         appOptions = serviceProvider.GetRequiredService<AppOptions>();
@@ -161,14 +163,13 @@ internal sealed class XamlWindowController
         }
 
         // Dispose components
-        subclass?.Dispose();
-        windowNonRudeHWND?.Dispose();
+        subclass.Dispose();
+        windowNonRudeHWND.Dispose();
 
-        if (window is IXamlWindowClosedHandler xamlWindowClosed)
-        {
-            xamlWindowClosed.OnWindowClosed();
-        }
+        (window as IXamlWindowClosedHandler)?.OnWindowClosed();
 
+        // Dispose the service scope
+        ((IServiceScope)serviceProvider).Dispose();
         window.UninitializeController();
     }
 
@@ -247,7 +248,7 @@ internal sealed class XamlWindowController
 [Guid("04db96c7-deb6-5be4-bfdc-1bc0361c8a12")]
 [ComImport]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-file unsafe interface IAppWindowExperimental
+file interface IAppWindowExperimental
 {
     [PreserveSig]
     HRESULT GetIids(/* Ignored */);

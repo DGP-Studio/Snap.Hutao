@@ -6,57 +6,31 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel;
+using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
-internal sealed partial class MainView : UserControl
+internal sealed partial class MainView : UserControl, IDataContextInitialized
 {
     public MainView()
     {
-        IServiceProvider serviceProvider = Ioc.Default;
-
-        this.InitializeDataContext<MainViewModel>(serviceProvider);
-
         InitializeComponent();
-
         Unloaded += OnUnloaded;
+    }
 
-        (DataContext as MainViewModel)?.Initialize(new BackgroundImagePresenterAccessor(BackgroundImagePresenter));
+    public void OnDataContextInitialized(IServiceProvider serviceProvider)
+    {
+        UserView.InitializeDataContext<UserViewModel>(serviceProvider);
+
+        this.DataContext<MainViewModel>()?.AttachXamlElement(BackgroundImagePresenter);
 
         INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
-        if (navigationService is INavigationInitialization navigationInitialization)
-        {
-            navigationInitialization.Initialize(new NavigationViewAccessor(NavView, ContentFrame));
-        }
-
+        navigationService.AttachXamlElement(NavView, ContentFrame);
         navigationService.Navigate<AnnouncementPage>(INavigationCompletionSource.Default, true);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        (DataContext as MainViewModel)?.Uninitialize();
-    }
-
-    private class NavigationViewAccessor : INavigationViewAccessor
-    {
-        public NavigationViewAccessor(NavigationView navigationView, Frame frame)
-        {
-            NavigationView = navigationView;
-            Frame = frame;
-        }
-
-        public NavigationView NavigationView { get; }
-
-        public Frame Frame { get; }
-    }
-
-    private class BackgroundImagePresenterAccessor : IBackgroundImagePresenterAccessor
-    {
-        public BackgroundImagePresenterAccessor(Image backgroundImagePresenter)
-        {
-            BackgroundImagePresenter = backgroundImagePresenter;
-        }
-
-        public Image BackgroundImagePresenter { get; }
+        this.DataContext<MainViewModel>()?.Uninitialize();
     }
 }

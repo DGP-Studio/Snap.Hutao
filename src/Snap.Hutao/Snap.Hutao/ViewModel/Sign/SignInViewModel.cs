@@ -23,6 +23,8 @@ namespace Snap.Hutao.ViewModel.Sign;
 [Injection(InjectAs.Transient)]
 internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IRecipient<UserAndUidChangedMessage>
 {
+    private readonly WeakReference<ScrollViewer> weakAwardScrollViewer = new(default!);
+
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
@@ -33,7 +35,6 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     private bool updating;
     private int totalSignDay;
     private SignInRewardReSignInfo? resignInfo;
-    private ScrollViewer? awardScrollViewer;
 
     [ObservableProperty]
     public partial IAdvancedCollectionView<AwardView>? Awards { get; set; }
@@ -62,9 +63,9 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         }
     }
 
-    public void Initialize(IAwardScrollViewerAccessor awardScrollViewerAccessor)
+    public void AttachXamlElement(ScrollViewer scrollViewer)
     {
-        awardScrollViewer = awardScrollViewerAccessor.AwardScrollViewer;
+        weakAwardScrollViewer.SetTarget(scrollViewer);
     }
 
     protected override async Task LoadAsync()
@@ -171,6 +172,11 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 
     private void ScrollToCurrentOrNextAward(bool current = false)
     {
+        if (!weakAwardScrollViewer.TryGetTarget(out ScrollViewer? scrollViewer))
+        {
+            return;
+        }
+
         DateTime now = DateTime.Now;
         int days = DateTime.DaysInMonth(now.Year, now.Month);
         int targetIndex = current ? totalSignDay - 1 : totalSignDay;
@@ -178,9 +184,9 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         int row = targetIndex / 7;
         int rows = (int)Math.Ceiling(days / 7.0);
 
-        ArgumentNullException.ThrowIfNull(awardScrollViewer);
-        double offset = row * awardScrollViewer.ExtentHeight / rows;
-        awardScrollViewer.ChangeView(null, offset, null);
+        ArgumentNullException.ThrowIfNull(weakAwardScrollViewer);
+        double offset = row * scrollViewer.ExtentHeight / rows;
+        scrollViewer.ChangeView(null, offset, null);
     }
 
     [Command("ClaimSignInRewardCommand")]

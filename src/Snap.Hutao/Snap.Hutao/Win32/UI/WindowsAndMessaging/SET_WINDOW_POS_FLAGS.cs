@@ -20,5 +20,5 @@ internal enum SET_WINDOW_POS_FLAGS : uint
     SWP_NOSENDCHANGING = 0x400u,
     SWP_NOSIZE = 1u,
     SWP_NOZORDER = 4u,
-    SWP_SHOWWINDOW = 0x40u
+    SWP_SHOWWINDOW = 0x40u,
 }

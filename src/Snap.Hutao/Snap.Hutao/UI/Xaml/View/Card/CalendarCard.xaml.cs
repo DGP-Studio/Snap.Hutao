@@ -7,9 +7,9 @@ namespace Snap.Hutao.UI.Xaml.View.Card;
 
 internal sealed partial class CalendarCard : Button
 {
-    public CalendarCard()
+    public CalendarCard(IServiceProvider serviceProvider)
     {
-        this.InitializeDataContext<ViewModel.Calendar.CalendarViewModel>();
         InitializeComponent();
+        this.InitializeDataContext<ViewModel.Calendar.CalendarViewModel>(serviceProvider);
     }
 }

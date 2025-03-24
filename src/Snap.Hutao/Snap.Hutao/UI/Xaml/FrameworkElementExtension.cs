@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using System.Runtime.CompilerServices;
-using WinRT;
 
 namespace Snap.Hutao.UI.Xaml;
 
@@ -32,24 +31,23 @@ internal static class FrameworkElementExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T DataContext<T>(this FrameworkElement element)
+    public static T? DataContext<T>(this FrameworkElement element)
+        where T : class
     {
-        return element.DataContext.As<T>();
+        return element.DataContext as T;
     }
 
-    public static void InitializeDataContext<TDataContext>(this FrameworkElement frameworkElement, IServiceProvider? serviceProvider = default)
+    public static void InitializeDataContext<TDataContext>(this FrameworkElement frameworkElement, IServiceProvider serviceProvider)
         where TDataContext : class
     {
-        IServiceProvider service = serviceProvider ?? Ioc.Default;
         try
         {
-            frameworkElement.DataContext = service.GetRequiredService<TDataContext>();
+            frameworkElement.DataContext = serviceProvider.GetRequiredService<TDataContext>();
+            (frameworkElement as IDataContextInitialized)?.OnDataContextInitialized(serviceProvider);
         }
         catch (Exception ex)
         {
-            ILogger? logger = service.GetRequiredService(typeof(ILogger<>).MakeGenericType(frameworkElement.GetType())) as ILogger;
-            logger?.LogError(ex, "Failed to initialize DataContext");
-            throw;
+            SentrySdk.CaptureException(ex);
         }
     }
 }

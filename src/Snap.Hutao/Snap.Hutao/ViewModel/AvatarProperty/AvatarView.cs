@@ -87,6 +87,7 @@ internal sealed partial class AvatarView : INameIconSide<Uri>,
         {
             value += int.Parse(property.AddValue);
         }
+
         return value;
     }
 }
