@@ -381,7 +381,10 @@
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
-                                        <ScrollViewer Padding="16,0" Visibility="{Binding Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                        <ScrollViewer
+                                            Padding="16,0"
+                                            shuxc:ScrollViewerHelper.ScrollToTopAssociatedObject="{Binding Avatars.CurrentItem}"
+                                            Visibility="{Binding Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                             <StackPanel
                                                 Margin="0,16"
                                                 HorizontalAlignment="Left"

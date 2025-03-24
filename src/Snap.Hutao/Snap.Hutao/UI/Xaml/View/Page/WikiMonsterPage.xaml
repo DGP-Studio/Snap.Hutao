@@ -147,7 +147,7 @@
                                     </ListView>
                                 </SplitView.Pane>
                                 <SplitView.Content>
-                                    <ScrollViewer>
+                                    <ScrollViewer shuxc:ScrollViewerHelper.ScrollToTopAssociatedObject="{Binding Monsters.CurrentItem}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition MaxWidth="800"/>
