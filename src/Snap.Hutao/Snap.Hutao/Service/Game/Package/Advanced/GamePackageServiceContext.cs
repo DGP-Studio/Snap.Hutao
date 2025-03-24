@@ -16,60 +16,26 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 internal readonly struct GamePackageServiceContext
 {
     public readonly GamePackageOperationContext Operation;
+    public readonly GamePackageOperationInfo Information;
     public readonly IProgress<GamePackageOperationReport> Progress;
     public readonly ParallelOptions ParallelOptions;
     public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
     public readonly HttpClient HttpClient;
     public readonly TokenBucketRateLimiter? StreamCopyRateLimiter;
 
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly AsyncKeyedLock<string> chunkLocks = new();
 
-    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, TokenBucketRateLimiter? rateLimiter, IContentDialogFactory contentDialogFactory)
+    public GamePackageServiceContext(GamePackageOperationContext operation, GamePackageOperationInfo information, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient, TokenBucketRateLimiter? rateLimiter)
     {
         Operation = operation;
+        Information = information;
         Progress = progress;
         ParallelOptions = parallelOptions;
         HttpClient = httpClient;
         StreamCopyRateLimiter = rateLimiter;
-        this.contentDialogFactory = contentDialogFactory;
     }
 
     public CancellationToken CancellationToken { get => ParallelOptions.CancellationToken; }
-
-    public async ValueTask<bool> EnsureAvailableFreeSpaceAsync(GamePackageOperationKind kind, long downloadTotalBytes, long totalBytes)
-    {
-        const long OneGigabyte = 1024L * 1024L * 1024L;
-        long actualTotalBytes = totalBytes + OneGigabyte;
-        long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.ExtractOrGameDirectory);
-
-        string downloadTotalBytesFormatted = Converters.ToFileSizeString(downloadTotalBytes);
-        string totalBytesFormatted = Converters.ToFileSizeString(actualTotalBytes);
-        string availableBytesFormatted = Converters.ToFileSizeString(availableBytes);
-
-        string title = kind switch
-        {
-            GamePackageOperationKind.Install => SH.ServiceGamePackageAdvancedConfirmStartInstallTitle,
-            GamePackageOperationKind.Update => SH.ServiceGamePackageAdvancedConfirmStartUpdateTitle,
-            GamePackageOperationKind.Predownload => SH.ServiceGamePackageAdvancedConfirmStartPredownloadTitle,
-            GamePackageOperationKind.ExtractBlk => "Start extracting game blocks?",
-            GamePackageOperationKind.ExtractExe => "Start extracting game executable?",
-            _ => throw HutaoException.NotSupported(),
-        };
-        string message = SH.FormatServiceGamePackageAdvancedConfirmMessage(downloadTotalBytesFormatted, totalBytesFormatted, availableBytesFormatted);
-
-        bool isFreeSpaceAvailable = actualTotalBytes <= availableBytes;
-        if (!isFreeSpaceAvailable)
-        {
-            title = SH.FormatServiceGamePackageAdvancedDriverNoAvailableFreeSpace(totalBytesFormatted, availableBytesFormatted);
-        }
-
-        ContentDialogResult result = await contentDialogFactory
-            .CreateForConfirmCancelAsync(title, message, isPrimaryButtonEnabled: isFreeSpaceAvailable)
-            .ConfigureAwait(false);
-
-        return result is ContentDialogResult.Primary;
-    }
 
     public string EnsureAssetTargetDirectoryExists(string assetName)
     {

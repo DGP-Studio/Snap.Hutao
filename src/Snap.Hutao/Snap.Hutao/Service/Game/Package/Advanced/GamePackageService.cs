@@ -1,8 +1,12 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Common;
+using Microsoft.Build.Evaluation;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Threading.RateLimiting;
@@ -34,6 +38,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 {
     public const string HttpClientName = "SophonChunkRateLimited";
 
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly ILogger<GamePackageService> logger;
@@ -59,8 +64,12 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IContentDialogFactory contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
             ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
+
+            if (await EnsureAvailableFreeSpaceAndGetInfoAsync(operationContext).ConfigureAwait(false) is not { } info)
+            {
+                return false;
+            }
 
             await taskContext.SwitchToMainThreadAsync();
 
@@ -87,7 +96,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
                     try
                     {
-                        GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter, contentDialogFactory);
+                        GamePackageServiceContext serviceContext = new(operationContext, info, progress, options, httpClient, limiter);
                         await operation(serviceContext).ConfigureAwait(false);
                         result = true;
                     }
@@ -126,6 +135,74 @@ internal sealed partial class GamePackageService : IGamePackageService
         operationCts.Dispose();
         operationCts = null;
         operationTcs = null;
+    }
+
+    public async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(IGameFileSystem gameFileSystem, BranchWrapper branch, CancellationToken token = default)
+    {
+        if (branch is null)
+        {
+            return default;
+        }
+
+        SophonBuild? build;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            ISophonClient client = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
+                .Create(gameFileSystem.IsOversea());
+
+            Response<SophonBuild> response = await client.GetBuildAsync(branch, token).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out build))
+            {
+                return default;
+            }
+        }
+
+        long downloadTotalBytes = 0L;
+        long totalBytes = 0L;
+        List<SophonDecodedManifest> decodedManifests = [];
+        using (HttpClient httpClient = httpClientFactory.CreateClient(HttpClientName))
+        {
+            foreach (SophonManifest sophonManifest in build.Manifests)
+            {
+                bool exclude = sophonManifest.MatchingField switch
+                {
+                    "game" => false,
+                    "zh-cn" => !gameFileSystem.Audio.Chinese,
+                    "en-us" => !gameFileSystem.Audio.English,
+                    "ja-jp" => !gameFileSystem.Audio.Japanese,
+                    "ko-kr" => !gameFileSystem.Audio.Korean,
+                    _ => true,
+                };
+
+                if (exclude)
+                {
+                    continue;
+                }
+
+                downloadTotalBytes += sophonManifest.Stats.CompressedSize;
+                totalBytes += sophonManifest.Stats.UncompressedSize;
+                string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
+
+                using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
+                {
+                    using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
+                    {
+                        using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
+                        {
+                            string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
+                            if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
+                            {
+                                inMemoryManifestStream.Position = 0;
+                                decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return new(build.Tag, downloadTotalBytes, totalBytes, decodedManifests);
     }
 
     private static IEnumerable<SophonAssetOperation> GetDiffOperations(SophonDecodedBuild localDecodedBuild, SophonDecodedBuild remoteDecodedBuild)
@@ -287,7 +364,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         return downloadTotalBytes;
     }
 
-    private static long GetTotalBytes(ImmutableArray<SophonAssetOperation> assets)
+    private static long GetTotalBytes(ImmutableArray<SophonAssetOperation> assets, bool isExtractBlk = false)
     {
         long totalBytes = 0;
         foreach (ref readonly SophonAssetOperation diffAsset in assets.AsSpan())
@@ -298,7 +375,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                     totalBytes += diffAsset.NewAsset.AssetSize;
                     break;
                 case SophonAssetOperationKind.Modify:
-                    totalBytes += diffAsset.DiffChunks.Sum(c => c.AssetChunk.ChunkSizeDecompressed);
+                    totalBytes += isExtractBlk ? diffAsset.NewAsset.AssetSize : diffAsset.DiffChunks.Sum(c => c.AssetChunk.ChunkSizeDecompressed);
                     break;
             }
         }
@@ -306,42 +383,96 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBytes;
     }
 
-    private async ValueTask VerifyAndRepairAsync(GamePackageServiceContext context)
+    private static async ValueTask VerifyAndRepairAsync(GamePackageServiceContext context)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild)
-        {
-            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
-            return;
-        }
-
+        SophonDecodedBuild localBuild = context.Operation.LocalBuild;
         await PrivateVerifyAndRepairAsync(context, localBuild, localBuild.TotalBytes, localBuild.TotalChunks).ConfigureAwait(false);
     }
 
-    private async ValueTask InstallAsync(GamePackageServiceContext context)
+    private async ValueTask<GamePackageOperationInfo?> EnsureAvailableFreeSpaceAndGetInfoAsync(GamePackageOperationContext context)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
+        SophonDecodedBuild localBuild = context.LocalBuild;
+        SophonDecodedBuild remoteBuild = context.RemoteBuild;
+
+        if (context.Kind is GamePackageOperationKind.Verify)
         {
-            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
-            return;
+            return new(0, localBuild.TotalChunks, 0, localBuild.TotalBytes, default);
         }
 
-        long downloadTotalBytes = remoteBuild.DownloadTotalBytes;
-        long totalBytes = remoteBuild.TotalBytes;
-        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.Install, downloadTotalBytes, totalBytes).ConfigureAwait(false))
+        ImmutableArray<SophonAssetOperation> diffAssets = context.Kind switch
         {
-            context.Progress.Report(new GamePackageOperationReport.Abort());
-            return;
+            GamePackageOperationKind.Install or GamePackageOperationKind.ExtractExe => default,
+            GamePackageOperationKind.Update or GamePackageOperationKind.Predownload or GamePackageOperationKind.ExtractBlk => [.. GetDiffOperations(localBuild, remoteBuild).OrderBy(a => a.Kind)],
+            _ => throw HutaoException.NotSupported(),
+        };
+
+        (long downloadTotalBytes, long totalBytes) = context.Kind switch
+        {
+            GamePackageOperationKind.Install or GamePackageOperationKind.ExtractExe => (remoteBuild.DownloadTotalBytes, remoteBuild.TotalBytes),
+            GamePackageOperationKind.Update or GamePackageOperationKind.Predownload => (GetDownloadTotalBytes(diffAssets), GetTotalBytes(diffAssets)),
+            GamePackageOperationKind.ExtractBlk => (GetTotalBytes(diffAssets, true), GetTotalBytes(diffAssets, true)),
+            _ => throw HutaoException.NotSupported(),
+        };
+
+        const long OneGigabyte = 1024L * 1024L * 1024L;
+        long actualTotalBytes = totalBytes + OneGigabyte;
+        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.ExtractOrGameDirectory);
+
+        string downloadTotalBytesFormatted = Converters.ToFileSizeString(downloadTotalBytes);
+        string totalBytesFormatted = Converters.ToFileSizeString(actualTotalBytes);
+        string availableBytesFormatted = Converters.ToFileSizeString(availableBytes);
+
+        string title = context.Kind switch
+        {
+            GamePackageOperationKind.Install => SH.ServiceGamePackageAdvancedConfirmStartInstallTitle,
+            GamePackageOperationKind.Update => SH.ServiceGamePackageAdvancedConfirmStartUpdateTitle,
+            GamePackageOperationKind.Predownload => SH.ServiceGamePackageAdvancedConfirmStartPredownloadTitle,
+            GamePackageOperationKind.ExtractBlk => "Start extracting game blocks?",
+            GamePackageOperationKind.ExtractExe => "Start extracting game executable?",
+            _ => throw HutaoException.NotSupported(),
+        };
+        string message = SH.FormatServiceGamePackageAdvancedConfirmMessage(downloadTotalBytesFormatted, totalBytesFormatted, availableBytesFormatted);
+
+        bool isFreeSpaceAvailable = actualTotalBytes <= availableBytes;
+        if (!isFreeSpaceAvailable)
+        {
+            title = SH.FormatServiceGamePackageAdvancedDriverNoAvailableFreeSpace(totalBytesFormatted, availableBytesFormatted);
         }
+
+        ContentDialogResult result = await contentDialogFactory
+            .CreateForConfirmCancelAsync(title, message, isPrimaryButtonEnabled: isFreeSpaceAvailable)
+            .ConfigureAwait(false);
+
+        if (result is not ContentDialogResult.Primary)
+        {
+            return default;
+        }
+
+        (int downloadTotalBlocks, int installTotalBlocks) = context.Kind switch
+        {
+            GamePackageOperationKind.Install or GamePackageOperationKind.ExtractExe => (remoteBuild.TotalChunks, remoteBuild.TotalChunks),
+            GamePackageOperationKind.Update or GamePackageOperationKind.ExtractBlk => (GetDownloadTotalBlocks(diffAssets), GetInstallTotalBlocks(diffAssets)),
+            GamePackageOperationKind.Predownload => (GetDownloadTotalBlocks(diffAssets), 0),
+            _ => throw HutaoException.NotSupported(),
+        };
+
+        return new(downloadTotalBlocks, installTotalBlocks, downloadTotalBytes, totalBytes, diffAssets);
+    }
+
+    private static async ValueTask InstallAsync(GamePackageServiceContext context)
+    {
+        SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
+        int totalChunksCount = remoteBuild.TotalChunks;
+        long totalBytes = remoteBuild.TotalBytes;
 
         InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.SelectMany(m => m.ManifestProto.Assets.SelectMany(a => a.AssetChunks)));
 
-        int totalBlockCount = remoteBuild.TotalChunks;
-        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedInstalling, totalBlockCount, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedInstalling, totalChunksCount, totalBytes));
 
         await context.Operation.Asset.InstallAssetsAsync(context, remoteBuild).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
-        await PrivateVerifyAndRepairAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
+        await PrivateVerifyAndRepairAsync(context, remoteBuild, totalBytes, totalChunksCount).ConfigureAwait(false);
 
         if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
@@ -349,27 +480,13 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask UpdateAsync(GamePackageServiceContext context)
+    private static async ValueTask UpdateAsync(GamePackageServiceContext context)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild ||
-            await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
-        {
-            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
-            return;
-        }
-
-        ImmutableArray<SophonAssetOperation> diffAssets = [.. GetDiffOperations(localBuild, remoteBuild).OrderBy(a => a.Kind)];
-
-        int downloadTotalChunks = GetDownloadTotalBlocks(diffAssets);
-        int installTotalChunks = GetInstallTotalBlocks(diffAssets);
-        long downloadTotalBytes = GetDownloadTotalBytes(diffAssets);
-        long totalBytes = GetTotalBytes(diffAssets);
-
-        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.Update, downloadTotalBytes, totalBytes).ConfigureAwait(false))
-        {
-            context.Progress.Report(new GamePackageOperationReport.Abort());
-            return;
-        }
+        SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
+        ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
+        int downloadTotalChunks = context.Information.DownloadTotalChunks;
+        int installTotalChunks = context.Information.InstallTotalChunks;
+        long totalBytes = context.Information.InstallTotalBytes;
 
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
@@ -380,7 +497,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await PrivateVerifyAndRepairAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
 
-        context.Operation.GameFileSystem.TryUpdateConfigurationFile(context.Operation.RemoteBranch.Tag);
+        context.Operation.GameFileSystem.TryUpdateConfigurationFile(remoteBuild.Tag);
 
         if (Directory.Exists(context.Operation.EffectiveChunksDirectory))
         {
@@ -390,25 +507,12 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private async ValueTask PredownloadAsync(GamePackageServiceContext context)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild ||
-            await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
-        {
-            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
-            return;
-        }
-
-        ImmutableArray<SophonAssetOperation> diffAssets = [.. GetDiffOperations(localBuild, remoteBuild).OrderBy(a => a.Kind)];
+        SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
+        ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
+        int totalBlocks = context.Information.DownloadTotalChunks;
+        long totalBytes = context.Information.InstallTotalBytes;
 
         int uniqueTotalBlocks = GetUniqueTotalBlocks(diffAssets);
-        int totalBlocks = GetDownloadTotalBlocks(diffAssets);
-        long downloadTotalBytes = GetDownloadTotalBytes(diffAssets);
-        long totalBytes = GetTotalBytes(diffAssets);
-
-        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.Predownload, downloadTotalBytes, totalBytes).ConfigureAwait(false))
-        {
-            context.Progress.Report(new GamePackageOperationReport.Abort());
-            return;
-        }
 
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, totalBlocks, 0, totalBytes));
 
@@ -417,7 +521,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             Directory.CreateDirectory(context.Operation.GameFileSystem.GetChunksDirectory());
         }
 
-        PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, uniqueTotalBlocks);
+        PredownloadStatus predownloadStatus = new(remoteBuild.Tag, false, uniqueTotalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.GetPredownloadStatusPath()))
         {
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
@@ -434,116 +538,15 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(GamePackageServiceContext context, BranchWrapper branch)
-    {
-        CancellationToken token = context.CancellationToken;
-
-        SophonBuild? build;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            ISophonClient client = scope.ServiceProvider
-                .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
-                .Create(context.Operation.GameFileSystem.IsOversea());
-
-            Response<SophonBuild> response = await client.GetBuildAsync(branch, token).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out build))
-            {
-                return default!;
-            }
-        }
-
-        long downloadTotalBytes = 0L;
-        long totalBytes = 0L;
-        List<SophonDecodedManifest> decodedManifests = [];
-        foreach (SophonManifest sophonManifest in build.Manifests)
-        {
-            bool exclude = sophonManifest.MatchingField switch
-            {
-                "game" => false,
-                "zh-cn" => !context.Operation.GameFileSystem.Audio.Chinese,
-                "en-us" => !context.Operation.GameFileSystem.Audio.English,
-                "ja-jp" => !context.Operation.GameFileSystem.Audio.Japanese,
-                "ko-kr" => !context.Operation.GameFileSystem.Audio.Korean,
-                _ => true,
-            };
-
-            if (exclude)
-            {
-                continue;
-            }
-
-            downloadTotalBytes += sophonManifest.Stats.CompressedSize;
-            totalBytes += sophonManifest.Stats.UncompressedSize;
-            string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
-
-            using (Stream rawManifestStream = await context.HttpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
-            {
-                using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
-                {
-                    using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
-                    {
-                        string manifestMd5 = await Hash.ToHexStringAsync(HashAlgorithmName.MD5, inMemoryManifestStream, token).ConfigureAwait(false);
-                        if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
-                        {
-                            inMemoryManifestStream.Position = 0;
-                            decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
-                        }
-                    }
-                }
-            }
-        }
-
-        return new(downloadTotalBytes, totalBytes, decodedManifests);
-    }
-
     #region Dev Only
 
-    [GeneratedRegex(@"AssetBundles.*\.blk$", RegexOptions.IgnoreCase)]
-    private static partial Regex AssetBundlesBlockRegex { get; }
-
-    [GeneratedRegex(@"^(Yuanshen|GenshinImpact)\.exe$", RegexOptions.IgnoreCase)]
-    private static partial Regex GameExecutableFileRegex { get; }
-
-    private async ValueTask ExtractAsync(GamePackageServiceContext context)
+    private static async ValueTask ExtractAsync(GamePackageServiceContext context)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild ||
-            await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
-        {
-            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
-            return;
-        }
-
-        localBuild = ExtractGameAssetBundles(localBuild);
-        remoteBuild = ExtractGameAssetBundles(remoteBuild);
-
-        ImmutableArray<SophonAssetOperation> diffAssets = [.. GetDiffOperations(localBuild, remoteBuild).OrderBy(a => a.Kind)];
-
-        int downloadTotalChunks = GetDownloadTotalBlocks(diffAssets);
-        int installTotalChunks = GetInstallTotalBlocks(diffAssets);
-        long totalBytes = GetTotalBytes(diffAssets);
-
-        static long GetTotalBytes(ImmutableArray<SophonAssetOperation> assets)
-        {
-            long totalBytes = 0;
-            foreach (ref readonly SophonAssetOperation diffAsset in assets.AsSpan())
-            {
-                switch (diffAsset.Kind)
-                {
-                    case SophonAssetOperationKind.AddOrRepair:
-                    case SophonAssetOperationKind.Modify:
-                        totalBytes += diffAsset.NewAsset.AssetSize;
-                        break;
-                }
-            }
-
-            return totalBytes;
-        }
-
-        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.ExtractBlk, 0, totalBytes).ConfigureAwait(false))
-        {
-            context.Progress.Report(new GamePackageOperationReport.Abort());
-            return;
-        }
+        SophonDecodedBuild localBuild = context.Operation.LocalBuild;
+        ImmutableArray<SophonAssetOperation> diffAssets = context.Information.DiffAssetOperations;
+        int downloadTotalChunks = context.Information.DownloadTotalChunks;
+        int installTotalChunks = context.Information.InstallTotalChunks;
+        long totalBytes = context.Information.InstallTotalBytes;
 
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
@@ -571,35 +574,13 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
-
-        SophonDecodedBuild ExtractGameAssetBundles(SophonDecodedBuild decodedBuild)
-        {
-            SophonDecodedManifest manifest = decodedBuild.Manifests.First();
-            SophonManifestProto proto = new();
-            proto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
-            return new(decodedBuild.DownloadTotalBytes, decodedBuild.TotalBytes, [new(manifest.UrlPrefix, proto)]);
-        }
     }
 
-    private async ValueTask ExtractExeAsync(GamePackageServiceContext context)
+    private static async ValueTask ExtractExeAsync(GamePackageServiceContext context)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
-        {
-            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
-            return;
-        }
-
-        remoteBuild = ExtractGameExecutable(remoteBuild);
-
-        long downloadTotalBytes = remoteBuild.DownloadTotalBytes;
-        long totalBytes = remoteBuild.TotalBytes;
+        SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
         int totalChunks = remoteBuild.TotalChunks;
-
-        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.ExtractExe, downloadTotalBytes, totalBytes).ConfigureAwait(false))
-        {
-            context.Progress.Report(new GamePackageOperationReport.Abort());
-            return;
-        }
+        long totalBytes = remoteBuild.TotalBytes;
 
         InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.Single().ManifestProto.Assets.SelectMany(a => a.AssetChunks));
 
@@ -607,14 +588,6 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.InstallAssetsAsync(context, remoteBuild).ConfigureAwait(false);
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
-
-        SophonDecodedBuild ExtractGameExecutable(SophonDecodedBuild decodedBuild)
-        {
-            SophonDecodedManifest manifest = decodedBuild.Manifests.First();
-            SophonManifestProto proto = new();
-            proto.Assets.Add(manifest.ManifestProto.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
-            return new(proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
-        }
     }
 
     #endregion

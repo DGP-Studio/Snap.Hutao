@@ -13,8 +13,8 @@ internal readonly struct GamePackageOperationContext
     public readonly GamePackageOperationKind Kind;
     public readonly IGameAssetOperation Asset;
     public readonly IGameFileSystem GameFileSystem;
-    public readonly BranchWrapper LocalBranch;
-    public readonly BranchWrapper RemoteBranch;
+    public readonly SophonDecodedBuild LocalBuild;
+    public readonly SophonDecodedBuild RemoteBuild;
     public readonly GameChannelSDK? GameChannelSDK;
     public readonly string ExtractOrGameDirectory;
     public readonly string EffectiveChunksDirectory;
@@ -23,16 +23,16 @@ internal readonly struct GamePackageOperationContext
         IServiceProvider serviceProvider,
         GamePackageOperationKind kind,
         IGameFileSystem gameFileSystem,
-        BranchWrapper localBranch,
-        BranchWrapper remoteBranch,
+        SophonDecodedBuild localBuild,
+        SophonDecodedBuild remoteBuild,
         GameChannelSDK? gameChannelSDK,
         string? extractDirectory)
     {
         Kind = kind;
         Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GetGameDirectory());
         GameFileSystem = gameFileSystem;
-        LocalBranch = localBranch;
-        RemoteBranch = remoteBranch;
+        LocalBuild = localBuild;
+        RemoteBuild = remoteBuild;
         GameChannelSDK = gameChannelSDK;
         ExtractOrGameDirectory = extractDirectory ?? gameFileSystem.GetGameDirectory();
 
