@@ -10,11 +10,14 @@ internal sealed class SophonDecodedBuild
     private static readonly Func<AssetProperty, int> SumAssetPropertyAssetChunks = property => property.AssetChunks.Count;
     private static readonly Func<SophonDecodedManifest, int> SumSophonDecodedManifestAssets = manifest => manifest.ManifestProto.Assets.Sum(SumAssetPropertyAssetChunks);
 
-    public SophonDecodedBuild(long totalBytes, List<SophonDecodedManifest> manifests)
+    public SophonDecodedBuild(long downloadTotalBytes, long totalBytes, List<SophonDecodedManifest> manifests)
     {
+        DownloadTotalBytes = downloadTotalBytes;
         TotalBytes = totalBytes;
         Manifests = manifests;
     }
+
+    public long DownloadTotalBytes { get; }
 
     public long TotalBytes { get; }
 

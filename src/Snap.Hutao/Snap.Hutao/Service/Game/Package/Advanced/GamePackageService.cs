@@ -6,6 +6,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Threading.RateLimiting;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.UI.Xaml.View.Window;
@@ -58,6 +59,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IContentDialogFactory contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
             ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
 
             await taskContext.SwitchToMainThreadAsync();
@@ -85,7 +87,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
                     try
                     {
-                        GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter);
+                        GamePackageServiceContext serviceContext = new(operationContext, progress, options, httpClient, limiter, contentDialogFactory);
                         await operation(serviceContext).ConfigureAwait(false);
                         result = true;
                     }
@@ -266,6 +268,25 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBlocks;
     }
 
+    private static long GetDownloadTotalBytes(ImmutableArray<SophonAssetOperation> assets)
+    {
+        long downloadTotalBytes = 0;
+        foreach (ref readonly SophonAssetOperation diffAsset in assets.AsSpan())
+        {
+            switch (diffAsset.Kind)
+            {
+                case SophonAssetOperationKind.AddOrRepair:
+                    downloadTotalBytes += diffAsset.NewAsset.AssetChunks.Sum(c => c.ChunkSize);
+                    break;
+                case SophonAssetOperationKind.Modify:
+                    downloadTotalBytes += diffAsset.DiffChunks.Sum(c => c.AssetChunk.ChunkSize);
+                    break;
+            }
+        }
+
+        return downloadTotalBytes;
+    }
+
     private static long GetTotalBytes(ImmutableArray<SophonAssetOperation> assets)
     {
         long totalBytes = 0;
@@ -304,9 +325,11 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
+        long downloadTotalBytes = remoteBuild.DownloadTotalBytes;
         long totalBytes = remoteBuild.TotalBytes;
-        if (!context.EnsureAvailableFreeSpace(totalBytes))
+        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.Install, downloadTotalBytes, totalBytes).ConfigureAwait(false))
         {
+            context.Progress.Report(new GamePackageOperationReport.Abort());
             return;
         }
 
@@ -339,10 +362,12 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         int downloadTotalChunks = GetDownloadTotalBlocks(diffAssets);
         int installTotalChunks = GetInstallTotalBlocks(diffAssets);
+        long downloadTotalBytes = GetDownloadTotalBytes(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
-        if (!context.EnsureAvailableFreeSpace(totalBytes))
+        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.Update, downloadTotalBytes, totalBytes).ConfigureAwait(false))
         {
+            context.Progress.Report(new GamePackageOperationReport.Abort());
             return;
         }
 
@@ -376,10 +401,12 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         int uniqueTotalBlocks = GetUniqueTotalBlocks(diffAssets);
         int totalBlocks = GetDownloadTotalBlocks(diffAssets);
+        long downloadTotalBytes = GetDownloadTotalBytes(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
-        if (!context.EnsureAvailableFreeSpace(totalBytes))
+        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.Predownload, downloadTotalBytes, totalBytes).ConfigureAwait(false))
         {
+            context.Progress.Report(new GamePackageOperationReport.Abort());
             return;
         }
 
@@ -425,6 +452,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }
 
+        long downloadTotalBytes = 0L;
         long totalBytes = 0L;
         List<SophonDecodedManifest> decodedManifests = [];
         foreach (SophonManifest sophonManifest in build.Manifests)
@@ -444,6 +472,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                 continue;
             }
 
+            downloadTotalBytes += sophonManifest.Stats.CompressedSize;
             totalBytes += sophonManifest.Stats.UncompressedSize;
             string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
 
@@ -464,7 +493,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }
 
-        return new(totalBytes, decodedManifests);
+        return new(downloadTotalBytes, totalBytes, decodedManifests);
     }
 
     #region Dev Only
@@ -493,8 +522,26 @@ internal sealed partial class GamePackageService : IGamePackageService
         int installTotalChunks = GetInstallTotalBlocks(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
-        if (!context.EnsureAvailableFreeSpace(totalBytes))
+        static long GetTotalBytes(ImmutableArray<SophonAssetOperation> assets)
         {
+            long totalBytes = 0;
+            foreach (ref readonly SophonAssetOperation diffAsset in assets.AsSpan())
+            {
+                switch (diffAsset.Kind)
+                {
+                    case SophonAssetOperationKind.AddOrRepair:
+                    case SophonAssetOperationKind.Modify:
+                        totalBytes += diffAsset.NewAsset.AssetSize;
+                        break;
+                }
+            }
+
+            return totalBytes;
+        }
+
+        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.ExtractBlk, 0, totalBytes).ConfigureAwait(false))
+        {
+            context.Progress.Report(new GamePackageOperationReport.Abort());
             return;
         }
 
@@ -530,7 +577,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             SophonDecodedManifest manifest = decodedBuild.Manifests.First();
             SophonManifestProto proto = new();
             proto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
-            return new(decodedBuild.TotalBytes, [new(manifest.UrlPrefix, proto)]);
+            return new(decodedBuild.DownloadTotalBytes, decodedBuild.TotalBytes, [new(manifest.UrlPrefix, proto)]);
         }
     }
 
@@ -544,11 +591,13 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         remoteBuild = ExtractGameExecutable(remoteBuild);
 
+        long downloadTotalBytes = remoteBuild.DownloadTotalBytes;
         long totalBytes = remoteBuild.TotalBytes;
         int totalChunks = remoteBuild.TotalChunks;
 
-        if (!context.EnsureAvailableFreeSpace(totalBytes))
+        if (!await context.EnsureAvailableFreeSpaceAsync(GamePackageOperationKind.ExtractExe, downloadTotalBytes, totalBytes).ConfigureAwait(false))
         {
+            context.Progress.Report(new GamePackageOperationReport.Abort());
             return;
         }
 
@@ -564,7 +613,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             SophonDecodedManifest manifest = decodedBuild.Manifests.First();
             SophonManifestProto proto = new();
             proto.Assets.Add(manifest.ManifestProto.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
-            return new(proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
+            return new(proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
         }
     }
 

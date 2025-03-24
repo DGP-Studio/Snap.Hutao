@@ -261,7 +261,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
 
                     inMemoryManifestStream.Position = 0;
                     SophonDecodedManifest decodedManifest = new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream));
-                    return new(sophonManifest.Stats.UncompressedSize, [decodedManifest]);
+                    return new(sophonManifest.Stats.CompressedSize, sophonManifest.Stats.UncompressedSize, [decodedManifest]);
                 }
             }
         }

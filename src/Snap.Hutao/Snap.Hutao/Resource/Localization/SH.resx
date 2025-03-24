@@ -965,6 +965,18 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>在 Unity 日志文件中找不到游戏路径</value>
   </data>
+  <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
+    <value>资源包体大小: {0}\n所需空间: {1}\n可用空间: {2}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
+    <value>确认开始安装游戏</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
+    <value>确认开始预下载</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
+    <value>确认开始更新游戏</value>
+  </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>清单数据解析失败</value>
   </data>
@@ -1880,32 +1892,35 @@
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
   </data>
+  <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
+    <value>任务已取消</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
+    <value>正在取消</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
+    <value>安装完成</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
+    <value>预下载完成</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
+    <value>修复完成</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
+    <value>更新完成</value>
+  </data>
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
+    <value>游戏完整，无需修复</value>
+  </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>{0} 版本预下载已开启</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>最新版本: {0}</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
-    <value>修复完成</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
-    <value>更新完成</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>完成</value>
