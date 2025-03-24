@@ -1886,25 +1886,25 @@
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>Dernière version : {0}</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Annuler</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
     <value>Annulation en cours</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
     <value>Installation terminée</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
     <value>Prétéléchargement terminé</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
     <value>Réparation terminée</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
     <value>Mise à jour terminée</value>
   </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
     <value>Le jeu est complet, pas besoin de réparer</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">

@@ -1886,25 +1886,25 @@
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>Phiên bản mới nhất: {0}</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Đã hủy bỏ</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
     <value>Đang hủy</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
     <value>Cài đặt hoàn tất</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
     <value>Tải trước hoàn tất</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
     <value>Sửa chữa hoàn tất</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
     <value>Cập nhật hoàn tất</value>
   </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
     <value>Game hoàn chỉnh, không cần sửa chữa</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
