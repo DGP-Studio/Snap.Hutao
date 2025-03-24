@@ -74,7 +74,7 @@ internal static class DependencyInjection
         {
             ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
         }
-        catch (COMException ex)
+        catch (COMException)
         {
             // 0x80070032 ERROR_NOT_SUPPORTED
         }
