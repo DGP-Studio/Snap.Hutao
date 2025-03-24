@@ -52,6 +52,20 @@ internal sealed partial class OverlayViewModel : Abstraction.ViewModel
         SelectedCatalog = Catalogs[index];
     }
 
+    [Command("SwitchToNextCatalogCommand")]
+    private void SwitchToNextCatalog()
+    {
+        if (SelectedCatalog is null)
+        {
+            return;
+        }
+
+        int index = Catalogs.IndexOf(SelectedCatalog);
+        index++;
+        index = (index + Catalogs.Length) % Catalogs.Length;
+        SelectedCatalog = Catalogs[index];
+    }
+
     protected override ValueTask<bool> LoadOverrideAsync()
     {
         SelectedCatalog = Catalogs[0];

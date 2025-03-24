@@ -91,7 +91,8 @@
         <SplitButton
             Grid.Column="0"
             VerticalAlignment="Stretch"
-            BorderThickness="0">
+            BorderThickness="0"
+            Command="{Binding SwitchToNextCatalogCommand}">
             <SplitButton.Content>
                 <FontIcon FontSize="16" Glyph="{Binding SelectedCatalog.Icon}"/>
             </SplitButton.Content>
