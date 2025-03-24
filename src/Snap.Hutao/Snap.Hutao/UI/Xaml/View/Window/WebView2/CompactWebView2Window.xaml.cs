@@ -118,8 +118,15 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
                 {
                     if (!EqualityComparer<Uri>.Default.Equals(WebView.Source, uri))
                     {
-                        WebView.Source = uri;
-                        OnPropertyChanged();
+                        try
+                        {
+                            WebView.Source = uri;
+                            OnPropertyChanged();
+                        }
+                        catch (COMException)
+                        {
+                            // 不是有效的绝对 URI
+                        }
                     }
                 }
             }
