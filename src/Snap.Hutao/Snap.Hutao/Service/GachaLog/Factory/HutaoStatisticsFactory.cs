@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
@@ -24,12 +25,11 @@ internal sealed class HutaoStatisticsFactory
     public HutaoStatisticsFactory(HutaoStatisticsFactoryMetadataContext context)
     {
         this.context = context;
-        DateTimeOffset now = DateTimeOffset.UtcNow;
 
         // Sort the events by time, make next action take O(n) in average
-        List<GachaEvent> events = [.. context.GachaEvents];
-        events.SortBy(b => b.From);
+        ImmutableArray<GachaEvent> events = context.GachaEvents.Sort(static (x, y) => x.From.CompareTo(y.From));
 
+        DateTimeOffset now = DateTimeOffset.UtcNow;
         // When in new version, due to lack of newer metadata, these can crash
         avatarEvent = events.Last(g => g.From < now && g.To > now && g.Type is GachaType.ActivityAvatar);
         avatarEvent2 = events.Last(g => g.From < now && g.To > now && g.Type is GachaType.SpecialActivityAvatar);
