@@ -10,7 +10,11 @@ internal sealed partial class DailyNotePage : ScopedPage
 {
     public DailyNotePage()
     {
-        InitializeWith<DailyNoteViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<DailyNoteViewModel>();
     }
 }

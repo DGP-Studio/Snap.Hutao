@@ -5,6 +5,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Game;
 using Windows.Graphics;
@@ -13,18 +14,14 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Window,
-    IDisposable,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowClosedHandler
 {
-    private readonly IServiceScope scope;
     private readonly TaskCompletionSource closeTcs = new();
 
     public GamePackageOperationWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-
-        scope = serviceProvider.CreateScope();
 
         RectInt32 workArea = DisplayArea.Primary.WorkArea;
         SizeInt32 size = new(workArea.Height, (int)(workArea.Height * 0.75));
@@ -36,9 +33,8 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
             presenter.IsMaximizable = false;
         }
 
-        // Private Window.Closed handler must attach before InitializeController
-        Closed += OnWindowClosing;
-        this.InitializeController(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
         RootGrid.InitializeDataContext<GamePackageOperationViewModel>(scope.ServiceProvider);
     }
 
@@ -46,13 +42,11 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
-    public GamePackageOperationViewModel DataContext { get => (GamePackageOperationViewModel)RootGrid.DataContext; }
-
     public Task CloseTask { get => closeTcs.Task; }
 
-    public void Dispose()
+    public void OnWindowClosing(out bool cancel)
     {
-        scope.Dispose();
+        cancel = RootGrid.DataContext<GamePackageOperationViewModel>() is { IsFinished: false };
     }
 
     public void OnWindowClosed()
@@ -60,13 +54,9 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
         closeTcs.TrySetResult();
     }
 
-    private static void OnWindowClosing(object sender, WindowEventArgs args)
+    internal void HandleProgressUpdate(GamePackageOperationReport status)
     {
-        GamePackageOperationWindow window = (GamePackageOperationWindow)sender;
-        if (!window.DataContext.IsFinished)
-        {
-            args.Handled = true;
-        }
+        RootGrid.DataContext<GamePackageOperationViewModel>()?.HandleProgressUpdate(status);
     }
 
     [Command("CloseCommand")]

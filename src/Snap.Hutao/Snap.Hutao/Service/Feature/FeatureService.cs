@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Island;
 using Snap.Hutao.Web.Endpoint.Hutao;
@@ -16,17 +17,22 @@ internal sealed partial class FeatureService : IFeatureService
 {
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly IMemoryCache memoryCache;
 
     public async ValueTask<IslandFeature?> GetIslandFeatureAsync(string tag)
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.IslandFeature.{tag}", async entry =>
         {
-            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
+            entry.SetSlidingExpiration(TimeSpan.FromMinutes(5));
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
-                string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}");
-                return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
+                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
+                {
+                    string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}");
+                    return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
+                }
             }
-        }
+        }).ConfigureAwait(false);
     }
 }

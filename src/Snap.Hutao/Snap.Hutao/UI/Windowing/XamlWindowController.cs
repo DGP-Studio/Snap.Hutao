@@ -11,6 +11,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
+using Snap.Hutao.UI.Content;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
@@ -76,6 +77,8 @@ internal sealed class XamlWindowController
         // window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
         EnablePlacementPersistence(window);
 
+        ((FrameworkElement)window.Content).Loading += OnWindowContentLoading;
+
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
 
@@ -111,11 +114,30 @@ internal sealed class XamlWindowController
         }
     }
 
+    private void OnWindowContentLoading(FrameworkElement element, object e)
+    {
+        element.Loading -= OnWindowContentLoading;
+        element.XamlRoot.ContentIsland.AppData = new XamlContext()
+        {
+            ServiceProvider = serviceProvider,
+        };
+    }
+
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
         if (args.Handled)
         {
             return;
+        }
+
+        if (window is IXamlWindowClosedHandler handler)
+        {
+            handler.OnWindowClosing(out bool cancel);
+            if (cancel)
+            {
+                args.Handled = true;
+                return;
+            }
         }
 
         if (XamlApplicationLifetime.LaunchedWithNotifyIcon && !XamlApplicationLifetime.Exiting)

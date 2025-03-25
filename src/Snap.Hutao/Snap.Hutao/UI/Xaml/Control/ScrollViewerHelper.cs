@@ -13,13 +13,12 @@ public sealed partial class ScrollViewerHelper
 {
     private static void OnScrollToTopAssociatedObjectChanged(DependencyObject dp, DependencyPropertyChangedEventArgs args)
     {
-        ScrollViewer scrollViewer = (ScrollViewer)dp;
-        if (!scrollViewer.IsLoaded)
+        if (dp is not ScrollViewer { IsLoaded: true } scrollViewer)
         {
             return;
         }
 
-        if (args.NewValue is not null)
+        if (args.OldValue != args.NewValue)
         {
             scrollViewer.ChangeView(null, 0, null);
         }

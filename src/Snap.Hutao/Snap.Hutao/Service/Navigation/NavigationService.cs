@@ -19,14 +19,24 @@ internal sealed partial class NavigationService : INavigationService
 
     private readonly WeakReference<NavigationView> weakNavigationView = new(default!);
     private readonly WeakReference<Frame> weakFrame = new(default!);
-    private readonly WeakReference<NavigationViewItemBase?> weakItem = new(default!);
 
-    public Type? CurrentPageType { get => weakFrame.TryGetTarget(out Frame? frame) ? frame.Content?.GetType() : default; }
+    public bool IsXamlElementAttached { get => weakNavigationView.TryGetTarget(out _); }
+
+    public Type? CurrentPageType
+    {
+        get
+        {
+            return weakFrame.TryGetTarget(out Frame? frame) ? frame.Content?.GetType() : default;
+        }
+    }
 
     [DisallowNull]
     private NavigationView? NavigationView
     {
-        get => weakNavigationView.TryGetTarget(out NavigationView? navigationView) ? navigationView : null;
+        get
+        {
+            return weakNavigationView.TryGetTarget(out NavigationView? navigationView) ? navigationView : null;
+        }
 
         set
         {
@@ -169,13 +179,11 @@ internal sealed partial class NavigationService : INavigationService
             NavigationView.SelectedItem = target;
         }
 
-        weakItem.SetTarget(NavigationView.SelectedItem as NavigationViewItem);
         return true;
     }
 
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        weakItem.SetTarget(args.InvokedItemContainer);
         NavigationViewItem? item = args.InvokedItemContainer as NavigationViewItem;
         Type? targetType = args.IsSettingsInvoked
             ? typeof(SettingPage)
@@ -208,5 +216,6 @@ internal sealed partial class NavigationService : INavigationService
     {
         // Remove event handlers (NavigationView setter will do this)
         NavigationView = default!;
+        weakFrame.SetTarget(default!);
     }
 }

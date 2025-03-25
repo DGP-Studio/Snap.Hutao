@@ -8,14 +8,9 @@ using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-internal struct GachaLogTypedQueryOptions
+internal sealed class GachaLogTypedQueryOptions
 {
     public const int Size = 20;
-
-    public readonly bool IsOversea;
-    public readonly GachaType Type;
-
-    public long EndId;
 
     private readonly NameValueCollection innerQuery;
 
@@ -28,7 +23,13 @@ internal struct GachaLogTypedQueryOptions
         innerQuery.Set("size", $"{Size}");
     }
 
-    public readonly string ToQueryString()
+    public bool IsOversea { get; }
+
+    public GachaType Type { get; }
+
+    public long EndId { get; set; }
+
+    public string ToQueryString()
     {
         // Make the cached end id into query.
         innerQuery.Set("end_id", $"{EndId:D}");

@@ -57,21 +57,16 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private readonly CancellationTokenSource loadCts = new();
     private readonly SemaphoreSlim scopeLock = new(1, 1);
-    private readonly Lock syncRoot = new();
+    private readonly Lock layeredWindowLock = new();
     private readonly byte opacity;
 
     private readonly LowLevelKeyOptions lowLevelKeyOptions;
-    private readonly IServiceScope windowScope;
     private readonly ITaskContext taskContext;
 
     private bool isLocked;
 
     public CompactWebView2Window()
     {
-        windowScope = Ioc.Default.CreateScope();
-        taskContext = windowScope.ServiceProvider.GetRequiredService<ITaskContext>();
-        lowLevelKeyOptions = windowScope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
-
         opacity = (byte)(LocalSetting.Get(SettingKeys.CompactWebView2WindowInactiveOpacity, 50D) * 255 / 100);
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)
@@ -86,17 +81,20 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         RootGrid.DataContext = this;
 
-        InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged += OnInputActivationChanged;
-
         WebView.Loaded += OnWebViewLoaded;
         WebView.Unloaded += OnWebViewUnloaded;
         WebView.NavigationStarting += OnWebViewNavigationStarting;
         WebView.NavigationCompleted += OnWebViewNavigationCompleted;
 
+        IServiceScope windowScope = Ioc.Default.CreateScope();
         this.InitializeController(windowScope.ServiceProvider);
+        taskContext = windowScope.ServiceProvider.GetRequiredService<ITaskContext>();
+        lowLevelKeyOptions = windowScope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
 
-        InputLowLevelKeyboardSource.Initialize();
+        InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged += OnInputActivationChanged;
+
         InputLowLevelKeyboardSource.KeyDown += OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Initialize();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -137,6 +135,20 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(800, 600, this); }
 
+    public void OnWindowClosing(out bool cancel)
+    {
+        try
+        {
+            scopeLock.Wait(TimeSpan.Zero);
+            scopeLock.Release();
+            cancel = false;
+        }
+        catch
+        {
+            cancel = true;
+        }
+    }
+
     public void OnWindowClosed()
     {
         LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
@@ -145,7 +157,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         scopeLock.Wait();
         scopeLock.Dispose();
-        windowScope.Dispose();
     }
 
     private static void OnDownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
@@ -173,7 +184,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        lock (syncRoot)
+        lock (layeredWindowLock)
         {
             if (enter)
             {
@@ -244,28 +255,29 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             return;
         }
 
+        CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
-            taskContext.BeginInvokeOnMainThread(() =>
-            _ = WebView.CoreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));
+            taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));
             return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoFastForwardKey.Value)
         {
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
-            taskContext.BeginInvokeOnMainThread(() =>
-            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds)));
+            taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds)));
             return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoRewindKey.Value)
         {
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
-            taskContext.BeginInvokeOnMainThread(() =>
-            _ = WebView.CoreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds)));
+            taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds)));
             return;
         }
+
+        GC.KeepAlive(coreWebView2);
     }
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
@@ -275,9 +287,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         [SuppressMessage("", "SH003")]
         async Task OnWebViewLoadedAsync()
         {
-            await scopeLock.WaitAsync().ConfigureAwait(true);
-
-            try
+            using (await scopeLock.EnterAsync().ConfigureAwait(true))
             {
                 try
                 {
@@ -306,10 +316,6 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
                 await taskContext.SwitchToMainThreadAsync();
                 Source = LocalSetting.Get(SettingKeys.CompactWebView2WindowPreviousSourceUrl, string.Empty);
-            }
-            finally
-            {
-                scopeLock.Release();
             }
         }
     }

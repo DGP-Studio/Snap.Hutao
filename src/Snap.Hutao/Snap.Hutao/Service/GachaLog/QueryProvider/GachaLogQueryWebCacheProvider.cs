@@ -52,7 +52,6 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         (bool isOk, string path) = await gameService.GetGamePathAsync().ConfigureAwait(false);
-
         if (!isOk || string.IsNullOrEmpty(path))
         {
             return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderCachePathInvalid));

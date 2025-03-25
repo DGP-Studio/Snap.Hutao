@@ -338,13 +338,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("TestGamePackageOperationWindowCommand")]
-    private void TestGamePackageOperationWindow()
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test GamePackageOperationWindow", "TestViewModel.Command"));
-        serviceProvider.GetRequiredService<GamePackageOperationWindow>().DataContext.TestProgress();
-    }
-
     [Command("ExtractGameBlocksCommand")]
     private async Task ExtractGameBlocksAsync()
     {

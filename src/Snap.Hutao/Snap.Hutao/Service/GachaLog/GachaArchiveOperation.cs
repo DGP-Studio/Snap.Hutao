@@ -19,7 +19,12 @@ internal static class GachaArchiveOperation
 
         GachaArchive created = GachaArchive.From(uid);
         repository.AddGachaArchive(created);
-        repository.ServiceProvider.GetRequiredService<ITaskContext>().InvokeOnMainThread(() => archives.Add(created));
+        CollectionViewAddGachaArchive(archives, created, repository.ServiceProvider.GetRequiredService<ITaskContext>());
         return created;
+    }
+
+    private static void CollectionViewAddGachaArchive(IAdvancedDbCollectionView<GachaArchive> archives, GachaArchive archive, ITaskContext taskContext)
+    {
+        taskContext.InvokeOnMainThread(() => archives.Add(archive));
     }
 }

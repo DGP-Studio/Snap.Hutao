@@ -10,6 +10,7 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.UI.Content;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using System.IO;
@@ -37,13 +38,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
     private static readonly ConditionalWeakTable<Microsoft.UI.Xaml.Controls.Image, object> IsPlaceholder = [];
 
     private readonly AsyncLock sourceLock = new();
-    private readonly IServiceProvider serviceProvider;
 
     private CancellationTokenSource? sourceCts;
 
     public CachedImage()
     {
-        serviceProvider = Ioc.Default;
         DefaultStyleKey = typeof(CachedImage);
         Loaded += OnLoaded;
     }
@@ -210,7 +209,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
 
     private async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        IImageCache imageCache = serviceProvider.GetRequiredService<IImageCache>();
+        IImageCache imageCache = XamlRoot.XamlContext().ServiceProvider.GetRequiredService<IImageCache>();
 
         try
         {
@@ -326,7 +325,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                         BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, memory);
                         encoder.SetSoftwareBitmap(softwareBitmap);
                         await encoder.FlushAsync();
-                        await serviceProvider.GetRequiredService<IClipboardProvider>().SetBitmapAsync(memory).ConfigureAwait(false);
+                        await XamlRoot.XamlContext().ServiceProvider.GetRequiredService<IClipboardProvider>().SetBitmapAsync(memory).ConfigureAwait(false);
                     }
                 }
             }

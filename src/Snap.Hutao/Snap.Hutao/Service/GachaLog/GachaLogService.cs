@@ -165,7 +165,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                 while (true);
 
                 // Fast break query type loop if authkey timeout, skip saving items
-                if (fetchContext.FetchStatus.AuthKeyTimeout)
+                if (fetchContext.Status.AuthKeyTimeout)
                 {
                     break;
                 }
@@ -179,6 +179,6 @@ internal sealed partial class GachaLogService : IGachaLogService
             }
         }
 
-        return new(!fetchContext.FetchStatus.AuthKeyTimeout, fetchContext.TargetArchive);
+        return new(!fetchContext.Status.AuthKeyTimeout, fetchContext.TargetArchive);
     }
 }

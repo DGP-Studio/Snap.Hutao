@@ -10,7 +10,11 @@ internal sealed partial class AnnouncementPage : ScopedPage
 {
     public AnnouncementPage()
     {
-        InitializeWith<AnnouncementViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<AnnouncementViewModel>();
     }
 }

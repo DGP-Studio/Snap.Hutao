@@ -63,7 +63,16 @@ public static partial class Bootstrap
             mutexSecurity.AddAccessRule(new(SecurityIdentifiers.Everyone, MutexRights.FullControl, AccessControlType.Allow));
             mutex = MutexAcl.Create(true, LockName, out bool created, mutexSecurity);
             Debug.Assert(created);
+        }
+        catch (WaitHandleCannotBeOpenedException)
+        {
+            return;
+        }
 
+        // Although we 'using' mutex there, the actual disposal is done in AppActivation
+        // The using is just to ensure we dispose the mutex when the application exits
+        using (mutex)
+        {
             Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
             Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
 
@@ -74,22 +83,14 @@ public static partial class Bootstrap
             // By adding the using statement, we can dispose the injected services when closing
             using (DependencyInjection.Initialize())
             {
-                // In a Desktop app this runs a message pump internally,
-                // and does not return until the application shuts down.
                 Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
 
                 // If you hit a COMException REGDB_E_CLASSNOTREG (0x80040154) during debugging
                 // You can delete bin and obj folder and then rebuild.
+                // In a Desktop app this runs a message pump internally,
+                // and does not return until the application shuts down.
                 Application.Start(AppInitializationCallback);
             }
-        }
-        catch (WaitHandleCannotBeOpenedException)
-        {
-            // Ignored
-        }
-        finally
-        {
-            mutex?.Dispose();
         }
     }
 

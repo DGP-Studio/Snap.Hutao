@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
+using Snap.Hutao.UI.Content;
 using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 namespace Snap.Hutao.UI.Xaml.Behavior.Action;
@@ -35,7 +36,7 @@ internal sealed partial class ShowWebView2WindowAction : DependencyObject, IActi
 
     public void ShowAt(XamlRoot xamlRoot)
     {
-        WebView2Window window = new(xamlRoot.ContentIslandEnvironment.AppWindowId, ContentProvider);
+        WebView2Window window = new(xamlRoot.XamlContext().ServiceProvider, xamlRoot.ContentIslandEnvironment.AppWindowId, ContentProvider);
         window.Activate();
     }
 }

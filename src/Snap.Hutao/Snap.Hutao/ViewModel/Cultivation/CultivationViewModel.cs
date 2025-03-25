@@ -33,10 +33,11 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
+    private readonly WeakReference<ItemsRepeater> weakItemsRepeater = new(default!);
+
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LaunchGameViewModel launchGameViewModel;
     private readonly ICultivationService cultivationService;
-    private readonly ILogger<CultivationViewModel> logger;
     private readonly INavigationService navigationService;
     private readonly IInventoryService inventoryService;
     private readonly IServiceProvider serviceProvider;
@@ -47,7 +48,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private CancellationTokenSource statisticsCts = new();
     private CultivationMetadataContext? metadataContext;
-    private ItemsRepeater? cultivateEntryItemsRepeater;
 
     public partial RuntimeOptions RuntimeOptions { get; }
 
@@ -80,9 +80,9 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
 
-    public void Initialize(ICultivateEntryItemsRepeaterAccessor accessor)
+    public void AttachXamlElement(ItemsRepeater itemsRepeater)
     {
-        cultivateEntryItemsRepeater = accessor.CultivateEntryItemsRepeater;
+        weakItemsRepeater.SetTarget(itemsRepeater);
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync()
@@ -436,8 +436,10 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         if (previousFilteredCount is 0)
         {
             // We need to invalidate the layout due to VirtualizingLayout cache
-            cultivateEntryItemsRepeater?.InvalidateMeasure();
-            cultivateEntryItemsRepeater?.InvalidateArrange();
+            if (weakItemsRepeater.TryGetTarget(out ItemsRepeater? itemsRepeater))
+            {
+                itemsRepeater.InvalidateMeasure();
+            }
         }
     }
 }

@@ -10,7 +10,11 @@ internal sealed partial class HutaoPassportPage : ScopedPage
 {
     public HutaoPassportPage()
     {
-        InitializeWith<HutaoPassportViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<HutaoPassportViewModel>();
     }
 }

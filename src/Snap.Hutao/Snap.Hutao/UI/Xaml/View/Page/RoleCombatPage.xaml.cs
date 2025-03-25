@@ -10,7 +10,11 @@ internal sealed partial class RoleCombatPage : ScopedPage
 {
     public RoleCombatPage()
     {
-        InitializeWith<RoleCombatViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<RoleCombatViewModel>();
     }
 }

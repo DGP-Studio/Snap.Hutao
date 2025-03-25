@@ -24,14 +24,12 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     private readonly CancellationTokenSource loadCts = new();
     private readonly SemaphoreSlim scopeLock = new(1, 1);
 
-    private readonly IServiceScope windowScope;
     private readonly IWebView2ContentProvider contentProvider;
     private readonly WindowId parentWindowId;
+    private readonly IServiceScope scope;
 
-    public WebView2Window(WindowId parentWindowId, IWebView2ContentProvider contentProvider)
+    public WebView2Window(IServiceProvider serviceProvider, WindowId parentWindowId, IWebView2ContentProvider contentProvider)
     {
-        windowScope = Ioc.Default.CreateScope();
-
         this.parentWindowId = parentWindowId;
 
         // Make sure this window has a parent window before we make modal
@@ -52,7 +50,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         WebView.Loaded += OnWebViewLoaded;
         WebView.Unloaded += OnWebViewUnloaded;
 
-        this.InitializeController(windowScope.ServiceProvider);
+        scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleArea; }
@@ -70,6 +69,20 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         AppWindow.MoveThenResize(contentProvider.InitializePosition(AppWindow.GetFromWindowId(parentWindowId).GetRect(), dpi));
     }
 
+    public void OnWindowClosing(out bool cancel)
+    {
+        try
+        {
+            scopeLock.Wait(TimeSpan.Zero);
+            scopeLock.Release();
+            cancel = false;
+        }
+        catch
+        {
+            cancel = true;
+        }
+    }
+
     public void OnWindowClosed()
     {
         HWND parentHwnd = Win32Interop.GetWindowFromWindowId(parentWindowId);
@@ -80,7 +93,6 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
 
         scopeLock.Wait();
         scopeLock.Dispose();
-        windowScope.Dispose();
     }
 
     [Command("GoBackCommand")]
@@ -152,7 +164,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
                 WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
                 WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
                 contentProvider.CoreWebView2 = WebView.CoreWebView2;
-                await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
+                await contentProvider.InitializeAsync(scope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
             }
             finally
             {

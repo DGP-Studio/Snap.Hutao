@@ -10,7 +10,11 @@ internal sealed partial class FeedbackPage : ScopedPage
 {
     public FeedbackPage()
     {
-        InitializeWith<FeedbackViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<FeedbackViewModel>();
     }
 }

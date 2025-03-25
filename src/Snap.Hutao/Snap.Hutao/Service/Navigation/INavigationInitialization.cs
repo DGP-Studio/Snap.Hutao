@@ -7,5 +7,7 @@ namespace Snap.Hutao.Service.Navigation;
 
 internal interface INavigationInitialization
 {
+    bool IsXamlElementAttached { get; }
+
     void AttachXamlElement(NavigationView navigationView, Frame frame);
 }

@@ -5,9 +5,9 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 internal readonly struct GachaLogQuery
 {
+    public readonly string Message;
     public readonly string Query;
     public readonly bool IsOversea;
-    public readonly string Message;
 
     public GachaLogQuery(string query)
     {

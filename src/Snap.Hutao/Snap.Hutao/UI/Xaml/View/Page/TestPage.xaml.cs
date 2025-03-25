@@ -10,7 +10,11 @@ internal sealed partial class TestPage : ScopedPage
 {
     public TestPage()
     {
-        InitializeWith<TestViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<TestViewModel>();
     }
 }

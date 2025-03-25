@@ -6,20 +6,11 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.Immutable;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-internal struct GachaLogFetchContext
+internal sealed class GachaLogFetchContext
 {
-    public GachaArchive? TargetArchive;
-    public GachaLogFetchStatus FetchStatus = default!;
-    public long? DbEndId;
-    public GachaLogTypedQueryOptions TypedQueryOptions;
-    public List<GachaItem> ItemsToAdd = [];
-    public bool CurrentTypeAddingCompleted;
-    public GachaType CurrentType;
-
     private readonly GachaLogServiceMetadataContext serviceContext;
     private readonly IGachaLogRepository repository;
     private readonly bool isLazy;
@@ -31,19 +22,33 @@ internal struct GachaLogFetchContext
         this.isLazy = isLazy;
     }
 
+    public GachaLogFetchStatus Status { get; set; } = default!;
+
+    public List<GachaItem> ItemsToAdd { get; set; } = [];
+
+    public GachaArchive? TargetArchive { get; set; }
+
+    public long? DbEndId { get; set; }
+
+    public GachaLogTypedQueryOptions TypedQueryOptions { get; set; } = default!;
+
+    public bool CurrentTypeAddingCompleted { get; set; }
+
+    public GachaType CurrentType { get; set; }
+
     public void ResetType(GachaType configType, in GachaLogQuery query)
     {
         DbEndId = null;
         CurrentType = configType;
         ItemsToAdd.Clear();
-        FetchStatus = new(configType);
+        Status = new(configType);
         TypedQueryOptions = new(query, configType);
         CurrentTypeAddingCompleted = false;
     }
 
     public void ResetCurrentPage()
     {
-        FetchStatus = new(CurrentType);
+        Status = new(CurrentType);
     }
 
     public void EnsureArchiveAndEndId(GachaLogItem item, IAdvancedDbCollectionView<GachaArchive> archives, IGachaLogRepository repository)
@@ -52,13 +57,13 @@ internal struct GachaLogFetchContext
         DbEndId ??= repository.GetNewestGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);
     }
 
-    public readonly bool ShouldAddItem(GachaLogItem item)
+    public bool ShouldAddItem(GachaLogItem item)
     {
         // For non-lazy mode, all items should be added
-        return !isLazy || item.Id > DbEndId;
+        return !isLazy || item.Id > DbEndId; // DbEndId will be evaluated to 0 if null
     }
 
-    public readonly bool HasReachCurrentTypeEnd(ImmutableArray<GachaLogItem> items)
+    public bool HasReachCurrentTypeEnd(ImmutableArray<GachaLogItem> items)
     {
         return CurrentTypeAddingCompleted || items.Length < GachaLogTypedQueryOptions.Size;
     }
@@ -67,28 +72,25 @@ internal struct GachaLogFetchContext
     {
         ArgumentNullException.ThrowIfNull(TargetArchive);
         ItemsToAdd.Add(GachaItem.From(TargetArchive.InnerId, item, serviceContext.GetItemId(item)));
-        FetchStatus.Items.Add(serviceContext.GetItemByNameAndType(item.Name, item.ItemType));
+        Status.Items.Add(serviceContext.GetItemByNameAndType(item.Name, item.ItemType));
         TypedQueryOptions.EndId = item.Id;
     }
 
-    public readonly void SaveItems()
+    public void SaveItems()
     {
-        // While no item is fetched, archive can be null.
-        if (TargetArchive is null)
-        {
-            Debug.Assert(ItemsToAdd.Count is 0);
-            return;
-        }
-
-        // Current type has no item fetched
         if (ItemsToAdd.Count <= 0)
         {
             return;
         }
 
-        // Aggressive mode: Remove all items of the same type and newer than end id
+        if (TargetArchive is null)
+        {
+            return;
+        }
+
         if (!isLazy)
         {
+            // Aggressive mode: Remove all items of the same type and newer than end id
             repository.RemoveGachaItemRangeByArchiveIdAndQueryTypeNewerThanEndId(TargetArchive.InnerId, TypedQueryOptions.Type, TypedQueryOptions.EndId);
         }
 
@@ -100,9 +102,9 @@ internal struct GachaLogFetchContext
         CurrentTypeAddingCompleted = true;
     }
 
-    public readonly void Report(IProgress<GachaLogFetchStatus> progress, bool isAuthKeyTimeout = false)
+    public void Report(IProgress<GachaLogFetchStatus> progress, bool isAuthKeyTimeout = false)
     {
-        FetchStatus.AuthKeyTimeout = isAuthKeyTimeout;
-        progress.Report(FetchStatus);
+        Status.AuthKeyTimeout = isAuthKeyTimeout;
+        progress.Report(Status);
     }
 }

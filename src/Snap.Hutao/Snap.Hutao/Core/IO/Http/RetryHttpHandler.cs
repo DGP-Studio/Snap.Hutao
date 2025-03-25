@@ -21,10 +21,6 @@ internal sealed partial class RetryHttpHandler : DelegatingHandler
             {
                 return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
             catch (HttpRequestException ex)
             {
                 exception = ExceptionDispatchInfo.Capture(ex);

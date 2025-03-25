@@ -22,9 +22,9 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
         {
             presenter.IsMaximizable = false;
             SizeInt32 minSize = ScaledSizeInt32.CreateForWindow(1000, 650, this);
-            SizeInt32 maxSize = ScaledSizeInt32.CreateForWindow(1200, 800, this);
             presenter.PreferredMinimumWidth = minSize.Width;
             presenter.PreferredMinimumHeight = minSize.Height;
+            SizeInt32 maxSize = ScaledSizeInt32.CreateForWindow(1200, 800, this);
             presenter.PreferredMaximumWidth = maxSize.Width;
             presenter.PreferredMaximumHeight = maxSize.Height;
         }

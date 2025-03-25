@@ -5,5 +5,7 @@ namespace Snap.Hutao.UI.Windowing.Abstraction;
 
 internal interface IXamlWindowClosedHandler
 {
+    void OnWindowClosing(out bool cancel);
+
     void OnWindowClosed();
 }

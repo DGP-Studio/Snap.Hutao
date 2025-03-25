@@ -6,7 +6,6 @@ using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Service;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
@@ -102,10 +101,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             case null:
             case MainWindow:
                 await WaitWindowAsync<MainWindow>().ConfigureAwait(true);
-                await serviceProvider
-                    .GetRequiredService<INavigationService>()
-                    .NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true)
-                    .ConfigureAwait(false);
+                INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
+                await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true).ConfigureAwait(false);
                 return;
 
             default:
@@ -163,10 +160,11 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         Bootstrap.UseNamedPipeRedirection();
 
         // Notify icon
-        if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
+        App app = serviceProvider.GetRequiredService<App>();
+        if (app.Options.IsNotifyIconEnabled)
         {
             await taskContext.SwitchToMainThreadAsync();
-            serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+            app.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
             lock (NotifyIconController.InitializationSyncRoot)
             {
                 _ = serviceProvider.GetRequiredService<NotifyIconController>();
@@ -236,12 +234,13 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         if (isRedirectTo)
         {
+            // User launches the app
             await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
             return;
         }
 
         // Increase launch times
-        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
+        LocalSetting.Update(SettingKeys.LaunchTimes, 0, static x => unchecked(x + 1));
 
         // If the guide is completed, we check if there's any unfulfilled resource category present.
         if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
@@ -254,13 +253,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) < GuideState.Completed)
         {
-            await taskContext.SwitchToMainThreadAsync();
-
-            GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
-            currentXamlWindowReference.Window = guideWindow;
-
-            guideWindow.SwitchTo();
-            guideWindow.AppWindow.MoveInZOrderAtTop();
+            await WaitWindowAsync<GuideWindow>();
             return;
         }
 
@@ -288,7 +281,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         }
     }
 
-    private async ValueTask WaitWindowAsync<TWindow>()
+    private async ValueTask<Window> WaitWindowAsync<TWindow>()
         where TWindow : Window
     {
         await taskContext.SwitchToMainThreadAsync();
@@ -301,5 +294,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         window.SwitchTo();
         window.AppWindow.MoveInZOrderAtTop();
+        return window;
     }
 }

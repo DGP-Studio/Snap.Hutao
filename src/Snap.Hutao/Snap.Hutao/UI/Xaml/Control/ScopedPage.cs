@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.UI.Content;
 using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.UI.Xaml.Control;
@@ -14,12 +15,12 @@ namespace Snap.Hutao.UI.Xaml.Control;
 internal partial class ScopedPage : Page
 {
     private readonly CancellationTokenSource viewCts = new();
-    private readonly IServiceScope pageScope;
+    private IServiceScope? scope;
 
     protected ScopedPage()
     {
+        Loading += OnLoading;
         Unloaded += OnUnloaded;
-        pageScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
     public virtual void UnloadObjectOverride(DependencyObject unloadableObject)
@@ -27,10 +28,15 @@ internal partial class ScopedPage : Page
         XamlMarkupHelper.UnloadObject(unloadableObject);
     }
 
+    protected virtual void LoadingOverride()
+    {
+    }
+
     protected void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
-        TViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
+        ArgumentNullException.ThrowIfNull(scope);
+        TViewModel viewModel = scope.ServiceProvider.GetRequiredService<TViewModel>();
         using (viewModel.DisposeLock.Enter())
         {
             viewModel.Resurrect();
@@ -51,19 +57,14 @@ internal partial class ScopedPage : Page
         }
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e)
+    private void OnLoading(FrameworkElement element, object e)
     {
-        DisposeViewModel();
-
-        if (this.IsDisposed())
-        {
-            return;
-        }
-
-        Unloaded -= OnUnloaded;
+        Loading -= OnLoading;
+        scope = element.XamlRoot.XamlContext().ServiceProvider.CreateScope();
+        LoadingOverride();
     }
 
-    private void DisposeViewModel()
+    private void OnUnloaded(object sender, RoutedEventArgs e)
     {
         // Cancel all tasks executed by the view model
         viewCts.Cancel();
@@ -78,6 +79,14 @@ internal partial class ScopedPage : Page
         viewCts.Dispose();
 
         // Dispose the scope
-        pageScope.Dispose();
+        scope?.Dispose();
+        scope = default;
+
+        if (this.IsDisposed())
+        {
+            return;
+        }
+
+        Unloaded -= OnUnloaded;
     }
 }
