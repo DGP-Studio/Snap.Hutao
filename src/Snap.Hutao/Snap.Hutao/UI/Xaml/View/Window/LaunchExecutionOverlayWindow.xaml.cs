@@ -44,8 +44,9 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
 
         SystemBackdrop = new TransparentBackdrop();
 
-        this.InitializeController(serviceProvider);
-        RootView.InitializeDataContext<OverlayViewModel>(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
+        RootView.InitializeDataContext<OverlayViewModel>(scope.ServiceProvider);
         AppWindow.Resize(size);
     }
 
