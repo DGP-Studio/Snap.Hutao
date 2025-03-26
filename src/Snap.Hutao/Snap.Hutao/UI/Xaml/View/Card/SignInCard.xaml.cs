@@ -14,14 +14,4 @@ internal sealed partial class SignInCard : Button
         this.InitializeDataContext<SignInViewModel>(serviceProvider);
         (DataContext as SignInViewModel)?.AttachXamlElement(AwardScrollViewer);
     }
-
-    private class AwardScrollViewerAccessor : IAwardScrollViewerAccessor
-    {
-        public AwardScrollViewerAccessor(ScrollViewer awardScrollViewer)
-        {
-            AwardScrollViewer = awardScrollViewer;
-        }
-
-        public ScrollViewer AwardScrollViewer { get; }
-    }
 }

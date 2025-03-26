@@ -12,17 +12,17 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class GameFileSystemExtension
 {
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemGameFileNames = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemGameDirectories = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemGameConfigurationFilePaths = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemPcGameSdkFilePaths = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemScreenShotDirectories = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemDataDirectories = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemScriptVersionFilePaths = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemChunksDirectories = [];
-    private static readonly ConditionalWeakTable<IGameFileSystem, string> GameFileSystemPredownloadStatusPaths = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemGameFileNames = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemGameDirectories = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemGameConfigurationFilePaths = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemPcGameSdkFilePaths = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemScreenShotDirectories = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemDataDirectories = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemScriptVersionFilePaths = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemChunksDirectories = [];
+    private static readonly ConditionalWeakTable<IGameFileSystemView, string> GameFileSystemPredownloadStatusPaths = [];
 
-    public static string GetGameFileName(this IGameFileSystem gameFileSystem)
+    public static string GetGameFileName(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -36,7 +36,7 @@ internal static class GameFileSystemExtension
         return gameFileName;
     }
 
-    public static string GetGameDirectory(this IGameFileSystem gameFileSystem)
+    public static string GetGameDirectory(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -52,7 +52,7 @@ internal static class GameFileSystemExtension
         return internedGameDirectory;
     }
 
-    public static string GetGameConfigurationFilePath(this IGameFileSystem gameFileSystem)
+    public static string GetGameConfigurationFilePath(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -66,7 +66,7 @@ internal static class GameFileSystemExtension
         return gameConfigFilePath;
     }
 
-    public static string GetPcGameSdkFilePath(this IGameFileSystem gameFileSystem)
+    public static string GetPcGameSdkFilePath(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -80,7 +80,7 @@ internal static class GameFileSystemExtension
         return pcGameSdkFilePath;
     }
 
-    public static string GetScreenShotDirectory(this IGameFileSystem gameFileSystem)
+    public static string GetScreenShotDirectory(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -94,7 +94,7 @@ internal static class GameFileSystemExtension
         return screenShotDirectory;
     }
 
-    public static string GetDataDirectory(this IGameFileSystem gameFileSystem)
+    public static string GetDataDirectory(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -109,7 +109,7 @@ internal static class GameFileSystemExtension
         return dataDirectory;
     }
 
-    public static string GetScriptVersionFilePath(this IGameFileSystem gameFileSystem)
+    public static string GetScriptVersionFilePath(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -123,7 +123,7 @@ internal static class GameFileSystemExtension
         return scriptVersionFilePath;
     }
 
-    public static string GetChunksDirectory(this IGameFileSystem gameFileSystem)
+    public static string GetChunksDirectory(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -137,7 +137,7 @@ internal static class GameFileSystemExtension
         return chunksDirectory;
     }
 
-    public static string GetPredownloadStatusPath(this IGameFileSystem gameFileSystem)
+    public static string GetPredownloadStatusPath(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -151,7 +151,7 @@ internal static class GameFileSystemExtension
         return predownloadStatusPath;
     }
 
-    public static bool IsOversea(this IGameFileSystem gameFileSystem)
+    public static bool IsOversea(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 
@@ -164,7 +164,7 @@ internal static class GameFileSystemExtension
         };
     }
 
-    public static bool TryGetGameVersion(this IGameFileSystem gameFileSystem, [NotNullWhen(true)] out string? version)
+    public static bool TryGetGameVersion(this IGameFileSystemView gameFileSystem, [NotNullWhen(true)] out string? version)
     {
         version = default!;
         string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
@@ -190,7 +190,7 @@ internal static class GameFileSystemExtension
         return false;
     }
 
-    public static void GenerateConfigurationFile(this IGameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
+    public static void GenerateConfigurationFile(this IGameFileSystemView gameFileSystem, string version, LaunchScheme launchScheme)
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         string content = $$$"""
@@ -209,7 +209,7 @@ internal static class GameFileSystemExtension
         File.WriteAllText(configFilePath, content);
     }
 
-    public static bool TryUpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
+    public static bool TryUpdateConfigurationFile(this IGameFileSystemView gameFileSystem, string version)
     {
         bool updated = false;
         string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
@@ -235,7 +235,7 @@ internal static class GameFileSystemExtension
         return updated;
     }
 
-    public static bool TryFixConfigurationFile(this IGameFileSystem gameFileSystem, LaunchScheme launchScheme)
+    public static bool TryFixConfigurationFile(this IGameFileSystemView gameFileSystem, LaunchScheme launchScheme)
     {
         string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
         if (!File.Exists(scriptVersionFilePath))
@@ -249,7 +249,7 @@ internal static class GameFileSystemExtension
         return true;
     }
 
-    public static bool TryFixScriptVersion(this IGameFileSystem gameFileSystem)
+    public static bool TryFixScriptVersion(this IGameFileSystemView gameFileSystem)
     {
         string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
         if (!File.Exists(configFilePath))

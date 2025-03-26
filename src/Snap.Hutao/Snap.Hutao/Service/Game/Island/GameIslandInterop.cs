@@ -38,7 +38,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     public async ValueTask<bool> PrepareAsync(CancellationToken token = default)
     {
-        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem))
         {
             return false;
         }

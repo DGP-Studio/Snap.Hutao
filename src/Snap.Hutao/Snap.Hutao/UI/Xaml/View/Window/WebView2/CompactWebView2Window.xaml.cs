@@ -259,21 +259,21 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         if (key == lowLevelKeyOptions.WebView2VideoPlayPauseKey.Value)
         {
-            taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));
+            _ = taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(VideoPlayPauseScript));
             return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoFastForwardKey.Value)
         {
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
-            taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds)));
+            _ = taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoFastForwardScript, seconds)));
             return;
         }
 
         if (key == lowLevelKeyOptions.WebView2VideoRewindKey.Value)
         {
             int seconds = LocalSetting.Get(SettingKeys.WebView2VideoFastForwardOrRewindSeconds, 5);
-            taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds)));
+            _ = taskContext.InvokeOnMainThread(() => coreWebView2.ExecuteScriptAsync(string.Format(CultureInfo.CurrentCulture, VideoRewindScript, seconds)));
             return;
         }
 

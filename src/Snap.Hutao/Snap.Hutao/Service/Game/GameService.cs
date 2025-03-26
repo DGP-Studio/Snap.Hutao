@@ -36,7 +36,7 @@ internal sealed partial class GameService : IGameService
 
     public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme)
     {
-        return gameAccountService.DetectGameAccountAsync(scheme);
+        return gameAccountService.DetectCurrentGameAccountAsync(scheme);
     }
 
     public GameAccount? DetectCurrentGameAccount(SchemeType scheme)

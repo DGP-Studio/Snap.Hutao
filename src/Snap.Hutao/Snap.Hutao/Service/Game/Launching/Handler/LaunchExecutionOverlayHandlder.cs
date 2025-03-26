@@ -13,12 +13,12 @@ internal sealed class LaunchExecutionOverlayHandlder : ILaunchExecutionDelegateH
         if (HutaoRuntime.IsProcessElevated)
         {
             await context.TaskContext.SwitchToMainThreadAsync();
-            LaunchExecutionOverlayWindow? window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
+            LaunchExecutionOverlayWindow window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
 
             await next().ConfigureAwait(false);
 
             await context.TaskContext.SwitchToMainThreadAsync();
-            window?.Close();
+            window.Close();
         }
         else
         {

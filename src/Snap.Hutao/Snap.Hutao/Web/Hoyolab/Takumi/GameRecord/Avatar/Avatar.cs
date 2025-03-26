@@ -17,7 +17,7 @@ internal class Avatar
 
     [JsonPropertyName("element")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public ElementName Element { get; set; } = default!;
+    public ElementName Element { get; set; }
 
     [JsonPropertyName("fetter")]
     public FetterLevel Fetter { get; set; }

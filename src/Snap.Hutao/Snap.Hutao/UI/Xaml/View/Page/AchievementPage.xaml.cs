@@ -10,7 +10,6 @@ internal sealed partial class AchievementPage : ScopedPage
 {
     public AchievementPage()
     {
-
         InitializeComponent();
     }
 

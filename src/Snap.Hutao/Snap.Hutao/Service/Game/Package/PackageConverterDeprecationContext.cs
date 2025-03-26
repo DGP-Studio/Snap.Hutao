@@ -10,11 +10,11 @@ namespace Snap.Hutao.Service.Game.Package;
 internal readonly struct PackageConverterDeprecationContext
 {
     public readonly HttpClient HttpClient;
-    public readonly IGameFileSystem GameFileSystem;
+    public readonly IGameFileSystemView GameFileSystem;
     public readonly GameChannelSDK? GameChannelSdk;
     public readonly DeprecatedFilesWrapper? DeprecatedFiles;
 
-    public PackageConverterDeprecationContext(HttpClient httpClient, IGameFileSystem gameFileSystem, GameChannelSDK? gameChannelSdk, DeprecatedFilesWrapper? deprecatedFiles)
+    public PackageConverterDeprecationContext(HttpClient httpClient, IGameFileSystemView gameFileSystem, GameChannelSDK? gameChannelSdk, DeprecatedFilesWrapper? deprecatedFiles)
     {
         HttpClient = httpClient;
         GameFileSystem = gameFileSystem;

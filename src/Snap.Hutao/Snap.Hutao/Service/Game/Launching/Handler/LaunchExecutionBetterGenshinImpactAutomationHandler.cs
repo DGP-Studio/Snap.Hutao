@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandlder : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandler : ILaunchExecutionDelegateHandler
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {

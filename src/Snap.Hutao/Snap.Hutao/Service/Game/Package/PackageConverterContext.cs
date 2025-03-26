@@ -82,32 +82,32 @@ internal readonly struct PackageConverterContext
 
     public LaunchScheme TargetScheme { get => Common.TargetScheme; }
 
-    public IGameFileSystem GameFileSystem { get => Common.GameFileSystem; }
+    public IGameFileSystemView GameFileSystem { get => Common.GameFileSystem; }
 
     public IProgress<PackageConvertStatus> Progress { get => Common.Progress; }
 
-    public readonly string GetScatteredFilesUrl(string file)
+    public string GetScatteredFilesUrl(string file)
     {
         return $"{ScatteredFilesUrl}/{file}";
     }
 
-    public readonly string GetServerCacheBackupFilePath(string filePath)
+    public string GetServerCacheBackupFilePath(string filePath)
     {
         return Path.Combine(ServerCacheBackupFolder, filePath);
     }
 
-    public readonly string GetServerCacheTargetFilePath(string filePath)
+    public string GetServerCacheTargetFilePath(string filePath)
     {
         return Path.Combine(ServerCacheTargetFolder, filePath);
     }
 
-    public readonly string GetGameFolderFilePath(string filePath)
+    public string GetGameFolderFilePath(string filePath)
     {
         return Path.Combine(Common.GameFileSystem.GetGameDirectory(), filePath);
     }
 
     [SuppressMessage("", "SH003")]
-    public readonly Task<AsyncKeyedLock<string>.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token = default)
+    public Task<AsyncKeyedLock<string>.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token = default)
     {
         return chunkLocks.LockAsync(chunkName);
     }
@@ -117,14 +117,14 @@ internal readonly struct PackageConverterContext
         public readonly HttpClient HttpClient;
         public readonly LaunchScheme CurrentScheme;
         public readonly LaunchScheme TargetScheme;
-        public readonly IGameFileSystem GameFileSystem;
+        public readonly IGameFileSystemView GameFileSystem;
         public readonly IProgress<PackageConvertStatus> Progress;
 
         public CommonReferences(
             HttpClient httpClient,
             LaunchScheme currentScheme,
             LaunchScheme targetScheme,
-            IGameFileSystem gameFileSystem,
+            IGameFileSystemView gameFileSystem,
             IProgress<PackageConvertStatus> progress)
         {
             HttpClient = httpClient;

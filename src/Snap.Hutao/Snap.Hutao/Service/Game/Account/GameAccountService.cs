@@ -38,7 +38,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         return gameAccounts;
     }
 
-    public async ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType schemeType)
+    public async ValueTask<GameAccount?> DetectCurrentGameAccountAsync(SchemeType schemeType)
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
 
@@ -53,32 +53,33 @@ internal sealed partial class GameAccountService : IGameAccountService
             return default;
         }
 
-        GameAccount? account = SingleGameAccountOrDefault(gameAccounts.Source.AsReadOnly(), registrySdk);
-        if (account is null)
+        if (SingleGameAccountOrDefault(gameAccounts.Source.AsReadOnly(), registrySdk) is { } account)
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
-            {
-                LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider).ConfigureAwait(false);
-                if (await dialog.GetInputNameAsync().ConfigureAwait(false) is (true, { } name))
-                {
-                    if (gameAccounts.Source.Any(a => a.Name == name))
-                    {
-                        infoBarService.Warning(SH.FormatServiceGameAccountDetectInputNameAlreadyExists(name));
-                        return default;
-                    }
-
-                    account = GameAccount.From(name, registrySdk, schemeType);
-
-                    // Sync database
-                    await taskContext.SwitchToBackgroundAsync();
-                    gameRepository.AddGameAccount(account);
-
-                    // Sync cache
-                    await taskContext.SwitchToMainThreadAsync();
-                    gameAccounts.Add(account);
-                }
-            }
+            return account;
         }
+
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            if (await dialog.GetInputNameAsync().ConfigureAwait(false) is not (true, { } name))
+            {
+                return default;
+            }
+
+            if (gameAccounts.Source.Any(a => a.Name == name))
+            {
+                infoBarService.Warning(SH.FormatServiceGameAccountDetectInputNameAlreadyExists(name));
+                return default;
+            }
+
+            account = GameAccount.From(name, registrySdk, schemeType);
+        }
+
+        await taskContext.SwitchToBackgroundAsync();
+        gameRepository.AddGameAccount(account);
+
+        await taskContext.SwitchToMainThreadAsync();
+        gameAccounts.Add(account);
 
         return account;
     }
@@ -107,14 +108,12 @@ internal sealed partial class GameAccountService : IGameAccountService
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider).ConfigureAwait(false);
-            (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
 
-            if (isOk)
+            if (await dialog.GetInputNameAsync().ConfigureAwait(false) is (true, { } name))
             {
                 await taskContext.SwitchToMainThreadAsync();
                 gameAccount.UpdateName(name);
 
-                // sync database
                 await taskContext.SwitchToBackgroundAsync();
                 gameRepository.UpdateGameAccount(gameAccount);
             }
