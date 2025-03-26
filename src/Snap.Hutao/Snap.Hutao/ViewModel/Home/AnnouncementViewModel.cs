@@ -34,8 +34,8 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     protected override ValueTask<bool> LoadOverrideAsync()
     {
         InitializeDashboard();
-        _ = InitializeInGameAnnouncementAsync();
-        _ = InitializeHutaoAnnouncementAsync();
+        InitializeInGameAnnouncementAsync().SafeForget();
+        InitializeHutaoAnnouncementAsync().SafeForget();
         UpdateGreetingText();
         return ValueTask.FromResult(true);
     }

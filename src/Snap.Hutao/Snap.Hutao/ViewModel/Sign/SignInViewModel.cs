@@ -55,7 +55,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         IsInitialized = false;
         if (message.UserAndUid is { } userAndUid)
         {
-            _ = UpdateSignInInfoAsync(userAndUid);
+            UpdateSignInInfoAsync(userAndUid).SafeForget();
         }
         else
         {

@@ -42,10 +42,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private SummaryFactoryMetadataContext? metadataContext;
-    private Summary? summary;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    public Summary? Summary { get => summary; set => SetProperty(ref summary, value); }
+    public Summary? Summary { get; set => SetProperty(ref field, value); }
 
     public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
@@ -55,7 +54,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     public string TotalAvatarCount
     {
-        get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(summary?.Avatars.Count ?? 0);
+        get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0);
     }
 
     public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(type => type.GetLocalizedDescription());
@@ -86,6 +85,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
+        WeakReference<AvatarPropertyViewModel> weakThis = new(this);
+
         // 1. We need to wait for the view initialization (mainly for metadata context).
         // 2. We need to refresh summary data. otherwise, the view can be un-synced.
         Initialization.Task.ContinueWith(
@@ -96,7 +97,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     return;
                 }
 
-                _ = PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
+                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewDisposed)
+                {
+                    viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, viewModel.CancellationToken).SafeForget();
+                }
             },
             TaskScheduler.Current);
     }
@@ -249,7 +253,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Batch cultivate", "AvatarPropertyViewModel.Command"));
 
-        if (summary is not { Avatars: { } avatars })
+        if (Summary is not { Avatars: { } avatars })
         {
             return;
         }

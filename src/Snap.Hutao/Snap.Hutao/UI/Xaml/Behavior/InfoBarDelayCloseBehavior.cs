@@ -17,7 +17,7 @@ internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
         AssociatedObject.Closed += OnInfoBarClosed;
         if (MilliSecondsDelay > 0)
         {
-            _ = PrivateDelayAsync();
+            PrivateDelayAsync().SafeForget();
         }
     }
 

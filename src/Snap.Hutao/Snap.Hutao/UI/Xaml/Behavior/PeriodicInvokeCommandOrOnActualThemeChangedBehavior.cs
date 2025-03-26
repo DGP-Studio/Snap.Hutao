@@ -35,7 +35,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
 
     protected override void OnAssociatedObjectLoaded()
     {
-        _ = PrivateRunAsync();
+        PrivateRunAsync().SafeForget();
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)

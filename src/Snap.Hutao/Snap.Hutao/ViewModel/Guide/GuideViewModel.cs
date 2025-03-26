@@ -45,7 +45,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             else if (state is GuideState.StaticResourceBegin)
             {
                 (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionStaticResourceBegin, false);
-                _ = DownloadStaticResourceAsync();
+                DownloadStaticResourceAsync().SafeForget();
             }
             else if (state is GuideState.Completed)
             {
@@ -206,7 +206,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(true))
             {
-                taskContext.BeginInvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+                taskContext.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
             }
         }).ConfigureAwait(false);
 

@@ -13,7 +13,7 @@ internal sealed class SelectedItemInViewBehavior : BehaviorBase<ListViewBase>
     {
         if (AssociatedObject.SelectedItem is { } item)
         {
-            _ = AssociatedObject.SmoothScrollIntoViewWithItemAsync(item, ScrollItemPlacement.Center);
+            AssociatedObject.SmoothScrollIntoViewWithItemAsync(item, ScrollItemPlacement.Center).SafeForget();
         }
 
         return true;

@@ -33,7 +33,7 @@ internal sealed partial class InfoBarView : UserControl
 
     private void OnInfoBarsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
     {
-        _ = HandleInfoBarsCollectionChangedAsync(args);
+        HandleInfoBarsCollectionChangedAsync(args).SafeForget();
 
         [SuppressMessage("", "SH003")]
         async Task HandleInfoBarsCollectionChangedAsync(NotifyCollectionChangedEventArgs args)
@@ -94,7 +94,7 @@ internal sealed partial class InfoBarView : UserControl
 
     private void OnClearAllButtonClick(object sender, RoutedEventArgs e)
     {
-        _ = RemoveInfoBarsAsync();
+        RemoveInfoBarsAsync().SafeForget();
 
         [SuppressMessage("", "SH003")]
         async Task RemoveInfoBarsAsync()

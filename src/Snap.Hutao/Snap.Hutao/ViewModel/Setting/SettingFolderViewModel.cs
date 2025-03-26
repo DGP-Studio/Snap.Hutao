@@ -18,7 +18,7 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
         this.taskContext = taskContext;
         Folder = folder;
 
-        _ = SetFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5));
+        SetFolderSizeTimeoutAsync(TimeSpan.FromSeconds(5)).SafeForget();
     }
 
     public string Folder { get; }

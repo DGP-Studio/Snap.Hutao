@@ -164,7 +164,7 @@ internal static class DiscordController
             return;
         }
 
-        _ = DiscordRunCallbacksAsync(StopCts.Token);
+        DiscordRunCallbacksAsync(StopCts.Token).SafeForget();
         isCallbackInitialized = true;
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]

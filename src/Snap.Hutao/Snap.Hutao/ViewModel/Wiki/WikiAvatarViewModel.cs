@@ -115,8 +115,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private void OnCurrentAvatarChanged(object? sender, object? e)
     {
         UpdateBaseValueInfo(Avatars?.CurrentItem);
-
-        taskContext.BeginInvokeOnMainThread(() => Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst());
+        Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst();
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)

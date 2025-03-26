@@ -12,6 +12,6 @@ internal sealed partial class SignInCard : Button
     {
         InitializeComponent();
         this.InitializeDataContext<SignInViewModel>(serviceProvider);
-        (DataContext as SignInViewModel)?.AttachXamlElement(AwardScrollViewer);
+        this.DataContext<SignInViewModel>()?.AttachXamlElement(AwardScrollViewer);
     }
 }

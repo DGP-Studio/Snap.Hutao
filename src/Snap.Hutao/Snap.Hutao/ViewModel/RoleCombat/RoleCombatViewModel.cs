@@ -39,7 +39,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            _ = UpdateRoleCombatCollectionAsync(userAndUid);
+            UpdateRoleCombatCollectionAsync(userAndUid).SafeForget();
         }
         else
         {

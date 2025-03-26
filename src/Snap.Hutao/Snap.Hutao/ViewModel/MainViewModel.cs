@@ -30,7 +30,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
     public void AttachXamlElement(Image backgroundImagePresenter)
     {
         weakBackgroundImagePresenter.SetTarget(backgroundImagePresenter);
-        _ = PrivateUpdateBackgroundAsync(true);
+        PrivateUpdateBackgroundAsync(true).SafeForget();
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()
@@ -48,7 +48,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
     {
         if (e.PropertyName is nameof(AppOptions.BackgroundImageType))
         {
-            _ = PrivateUpdateBackgroundAsync(false);
+            PrivateUpdateBackgroundAsync(false).SafeForget();
         }
     }
 

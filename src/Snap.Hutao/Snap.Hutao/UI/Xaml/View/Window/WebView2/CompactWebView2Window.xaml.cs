@@ -282,7 +282,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
     {
-        _ = OnWebViewLoadedAsync();
+        OnWebViewLoadedAsync().SafeForget();
 
         [SuppressMessage("", "SH003")]
         async Task OnWebViewLoadedAsync()

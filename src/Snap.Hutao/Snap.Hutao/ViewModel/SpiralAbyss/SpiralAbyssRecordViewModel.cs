@@ -56,7 +56,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            _ = UpdateSpiralAbyssCollectionAsync(userAndUid);
+            UpdateSpiralAbyssCollectionAsync(userAndUid).SafeForget();
         }
         else
         {

@@ -116,7 +116,7 @@ internal sealed class TypedWishSummaryBuilder
             OrangeList = summaryItems,
         };
 
-        _ = new PullPrediction(summary, context).PredictAsync(barrier);
+        new PullPrediction(summary, context).PredictAsync(barrier).SafeForget();
 
         return summary;
     }

@@ -341,7 +341,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     public void SelectAllTokensAndText()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Select all tokens and text", "AutoSuggestTokenBox.Command"));
-        _ = DispatcherQueue.EnqueueAsync(SelectAllTokensAndTextCore);
+        DispatcherQueue.TryEnqueue(SelectAllTokensAndTextCore);
 
         void SelectAllTokensAndTextCore()
         {
@@ -685,12 +685,12 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                         }
 
                         // Need to wait for containerization
-                        _ = DispatcherQueue.EnqueueAsync(Containerization);
+                        DispatcherQueue.TryEnqueue(Containerization);
                     }
                 }
 
                 // Wait for removal of old items
-                _ = DispatcherQueue.EnqueueAsync(RemoveOldItems);
+                DispatcherQueue.TryEnqueue(RemoveOldItems);
             }
             else
             {
@@ -949,13 +949,13 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
         // Fix layout issue
         placeholder.Visibility = Visibility.Collapsed;
 
-        _ = CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
+        CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
         {
             int currentTokens = innerItemsSource.ItemsSource.Count;
             int maxTokens = MaximumTokens;
             placeholder.Visibility = currentTokens >= maxTokens
                 ? Visibility.Collapsed
                 : Visibility.Visible;
-        });
+        }).SafeForget();
     }
 }
