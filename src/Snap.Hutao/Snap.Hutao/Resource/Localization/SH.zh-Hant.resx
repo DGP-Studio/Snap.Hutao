@@ -2049,7 +2049,7 @@
     <value>確定要補簽嗎？</value>
   </data>
   <data name="ViewModelSignInReSignInNotEnoughCoinMessage" xml:space="preserve">
-    <value>米游币不足</value>
+    <value>米游幣不足</value>
   </data>
   <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
     <value>{0} 月累計簽到 {1} 天</value>
@@ -2712,7 +2712,7 @@
     <value>注入</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
-    <value>使用触摸输入</value>
+    <value>使用觸控輸入</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的顯示器上運行</value>
@@ -3324,7 +3324,7 @@
     <value>突破前</value>
   </data>
   <data name="ViewPverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>移除战斗伤害跳字</value>
+    <value>移除戰鬥傷害跳字</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想真境劇詩</value>
