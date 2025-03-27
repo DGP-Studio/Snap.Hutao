@@ -138,8 +138,13 @@ internal sealed partial class UserViewModel : ObservableObject
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Third Party"), ("kind", kind.ToString())]));
 
         await taskContext.SwitchToMainThreadAsync();
+        if (currentXamlWindowReference.GetXamlRoot() is not { } xamlRoot)
+        {
+            return;
+        }
+
         OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(kind, cultureOptions.LanguageCode);
-        ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
+        ShowWebView2WindowAction.Show(contentProvider, xamlRoot);
 
         await taskContext.SwitchToBackgroundAsync();
         ThirdPartyToken? token = await contentProvider.GetResultAsync().ConfigureAwait(false);
