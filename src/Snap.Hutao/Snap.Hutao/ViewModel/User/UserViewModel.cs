@@ -302,36 +302,4 @@ internal sealed partial class UserViewModel : ObservableObject
             infoBarService.Warning(SH.ViewUserRefreshCookieTokenWarning);
         }
     }
-
-    [Command("ClaimSignInRewardCommand")]
-    private async Task ClaimSignInRewardAsync()
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Claim sign in reward", "UserViewModel.Command"));
-
-        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
-        {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
-            return;
-        }
-
-        (bool isOk, string message) = await signInService.ClaimRewardAsync(userAndUid).ConfigureAwait(false);
-
-        if (isOk)
-        {
-            infoBarService.Success(message);
-            return;
-        }
-
-        infoBarService.Warning(message);
-
-        // Manual webview
-        await taskContext.SwitchToMainThreadAsync();
-
-        MiHoYoJSBridgeWebView2ContentProvider provider = new()
-        {
-            SourceProvider = new SignInJSBridgeUriSourceProvider(),
-        };
-
-        ShowWebView2WindowAction.Show(provider, currentXamlWindowReference.GetXamlRoot());
-    }
 }

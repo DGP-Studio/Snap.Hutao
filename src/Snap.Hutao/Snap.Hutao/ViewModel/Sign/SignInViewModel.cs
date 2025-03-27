@@ -23,11 +23,10 @@ namespace Snap.Hutao.ViewModel.Sign;
 [Injection(InjectAs.Transient)]
 internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IRecipient<UserAndUidChangedMessage>
 {
-    private readonly WeakReference<ScrollViewer> weakAwardScrollViewer = new(default!);
+    private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
 
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
@@ -65,7 +64,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 
     public void AttachXamlElement(ScrollViewer scrollViewer)
     {
-        weakAwardScrollViewer.SetTarget(scrollViewer);
+        weakScrollViewer.SetTarget(scrollViewer);
     }
 
     protected override async Task LoadAsync()
@@ -100,31 +99,36 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         {
             await taskContext.SwitchToBackgroundAsync();
 
+            if (ServiceProvider.IsDisposed())
+            {
+                return;
+            }
+
             Reward? reward;
             SignInRewardInfo? info;
             SignInRewardReSignInfo? resignInfo;
-            using (IServiceScope scope = serviceProvider.CreateScope())
+            using (IServiceScope scope = ServiceProvider.CreateScope())
             {
                 ISignInClient signInClient = scope.ServiceProvider
                     .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
                     .Create(userAndUid.IsOversea);
 
                 Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(rewardResponse, serviceProvider, out reward))
+                if (!ResponseValidator.TryValidate(rewardResponse, scope.ServiceProvider, out reward))
                 {
                     infoBarService.Error(SH.ServiceSignInRewardListRequestFailed);
                     return;
                 }
 
                 Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(infoResponse, serviceProvider, out info))
+                if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider, out info))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
                     return;
                 }
 
                 Response<SignInRewardReSignInfo> resignInfoResponse = await signInClient.GetResignInfoAsync(userAndUid).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(resignInfoResponse, serviceProvider, out resignInfo))
+                if (!ResponseValidator.TryValidate(resignInfoResponse, scope.ServiceProvider, out resignInfo))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
                     return;
@@ -144,14 +148,15 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
                 infoBarService.Success(SH.FormatServiceReSignInSuccessRewardFormat(award.Name, award.Count));
             }
 
-            ImmutableArray<AwardView> avs = reward.Awards.Select(AwardView.From).ToImmutableArray();
-            InitializeClaimedAwards(avs, info.TotalSignDay);
+            ImmutableArray<AwardView> views = reward.Awards.SelectAsArray(AwardView.From);
+            InitializeClaimedAwards(views, info.TotalSignDay);
 
-            this.totalSignDay = info.TotalSignDay;
+            totalSignDay = info.TotalSignDay;
             this.resignInfo = resignInfo;
 
+            IAdvancedCollectionView<AwardView> advancedViews = views.AsAdvancedCollectionView();
             await taskContext.SwitchToMainThreadAsync();
-            Awards = avs.AsAdvancedCollectionView();
+            Awards = advancedViews;
             CurrentUid = userAndUid.Uid.ToString();
             TotalSignInDaysHint = SH.FormatViewModelSignInTotalSignInDaysHint(reward.Month, info.TotalSignDay);
             ScrollToCurrentOrNextAward(postSign || postResign);
@@ -172,20 +177,17 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 
     private void ScrollToCurrentOrNextAward(bool current = false)
     {
-        if (!weakAwardScrollViewer.TryGetTarget(out ScrollViewer? scrollViewer))
+        if (!weakScrollViewer.TryGetTarget(out ScrollViewer? scrollViewer))
         {
             return;
         }
 
         DateTime now = DateTime.Now;
-        int days = DateTime.DaysInMonth(now.Year, now.Month);
-        int targetIndex = current ? totalSignDay - 1 : totalSignDay;
+        int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+        int rows = (int)Math.Ceiling(daysInMonth / 7.0);
 
-        int row = targetIndex / 7;
-        int rows = (int)Math.Ceiling(days / 7.0);
-
-        ArgumentNullException.ThrowIfNull(weakAwardScrollViewer);
-        double offset = row * scrollViewer.ExtentHeight / rows;
+        int rowIndex = (Math.Clamp(current ? totalSignDay : totalSignDay + 1, 1, daysInMonth) - 1) / 7;
+        double offset = rowIndex * (scrollViewer.ExtentHeight / rows);
         scrollViewer.ChangeView(null, offset, null);
     }
 
@@ -198,7 +200,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             return;
         }
 
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        using (IServiceScope scope = ServiceProvider.CreateScope())
         {
             ISignInClient signInClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
@@ -242,17 +244,13 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             ? SH.FormatViewModelSignInReSignInDialogContentOversea(resignInfo?.Cost, resignInfo?.QualityCount)
             : SH.FormatViewModelSignInReSignInDialogContent(resignInfo?.CoinCost, resignInfo?.CoinCount);
 
-        ContentDialogResult result = await contentDialogFactory
-            .CreateForConfirmCancelAsync(
-                SH.ViewModelSignInReSignInDialogTitle,
-                content)
-            .ConfigureAwait(false);
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(SH.ViewModelSignInReSignInDialogTitle, content).ConfigureAwait(false);
         if (result is not ContentDialogResult.Primary)
         {
             return;
         }
 
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        using (IServiceScope scope = ServiceProvider.CreateScope())
         {
             ISignInClient signInClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
@@ -293,11 +291,17 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     private async ValueTask FallbackToWebView2SignInAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
+
+        if (currentXamlWindowReference.GetXamlRoot() is not { } xamlRoot)
+        {
+            return;
+        }
+
         MiHoYoJSBridgeWebView2ContentProvider provider = new()
         {
             SourceProvider = new SignInJSBridgeUriSourceProvider(),
         };
 
-        ShowWebView2WindowAction.Show(provider, currentXamlWindowReference.GetXamlRoot());
+        ShowWebView2WindowAction.Show(provider, xamlRoot);
     }
 }

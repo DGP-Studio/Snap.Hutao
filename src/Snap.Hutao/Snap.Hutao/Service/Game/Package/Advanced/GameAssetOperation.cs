@@ -39,9 +39,9 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         await VerifyManifestsAsync(context, build, conflictedAssetsBuilder.Add).ConfigureAwait(false);
 
-        if (context.Operation.GameChannelSDK is not null)
+        if (context.Operation.GameChannelSDK is { } channelSDK)
         {
-            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), context.Operation.GameChannelSDK.PackageVersionFileName);
+            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), channelSDK.PackageVersionFileName);
             if (!File.Exists(sdkPackageVersionFilePath))
             {
                 channelSdkConflicted = true;

@@ -80,7 +80,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                         GamePackageOperationKind.Predownload => PredownloadAsync,
                         GamePackageOperationKind.ExtractBlk => ExtractAsync,
                         GamePackageOperationKind.ExtractExe => ExtractExeAsync,
-                        _ => context => ValueTask.FromException(HutaoException.NotSupported()),
+                        _ => static context => ValueTask.FromException(HutaoException.NotSupported()),
                     };
 
                     try

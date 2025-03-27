@@ -13,7 +13,7 @@ internal sealed class PredownloadStatus
     }
 
     [JsonPropertyName("tag")]
-    public string Tag { get; set; } = default!;
+    public string Tag { get; set; }
 
     [JsonPropertyName("finished")]
     public bool Finished { get; set; }

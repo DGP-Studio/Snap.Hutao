@@ -11,6 +11,12 @@ namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 [DependencyProperty("ContentProvider", typeof(IWebView2ContentProvider))]
 internal sealed partial class ShowWebView2WindowAction : DependencyObject, IAction
 {
+    public static ShowWebView2WindowAction? TryShow<TProvider>(XamlRoot? xamlRoot)
+        where TProvider : IWebView2ContentProvider, new()
+    {
+        return xamlRoot is null ? default : Show(new TProvider(), xamlRoot);
+    }
+
     public static ShowWebView2WindowAction Show<TProvider>(XamlRoot xamlRoot)
         where TProvider : IWebView2ContentProvider, new()
     {

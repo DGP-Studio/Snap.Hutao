@@ -253,12 +253,13 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) < GuideState.Completed)
         {
-            await WaitWindowAsync<GuideWindow>();
+            await WaitWindowAsync<GuideWindow>().ConfigureAwait(false);
             return;
         }
 
         if (Version.Parse(LocalSetting.Update(SettingKeys.LastVersion, "0.0.0.0", $"{HutaoRuntime.Version}")) < HutaoRuntime.Version)
         {
+            // Note: If the user close MainWindow too quickly, and then exit app, he will never see the update log again.
             XamlApplicationLifetime.IsFirstRunAfterUpdate = true;
         }
 

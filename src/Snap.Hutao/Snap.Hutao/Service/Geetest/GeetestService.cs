@@ -99,10 +99,15 @@ internal sealed partial class GeetestService : IGeetestService
     private async ValueTask<string?> PrivateVerifyByWebViewAsync(string gt, string challenge, bool isOversea, CancellationToken token)
     {
         await taskContext.SwitchToMainThreadAsync();
-        GeetestWebView2ContentProvider contentProvider = new(gt, challenge, isOversea);
-        ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
+        if (currentXamlWindowReference.GetXamlRoot() is { } xamlRoot)
+        {
+            GeetestWebView2ContentProvider contentProvider = new(gt, challenge, isOversea);
+            ShowWebView2WindowAction.Show(contentProvider, xamlRoot);
 
-        await taskContext.SwitchToBackgroundAsync();
-        return await contentProvider.GetResultAsync().ConfigureAwait(false);
+            await taskContext.SwitchToBackgroundAsync();
+            return await contentProvider.GetResultAsync().ConfigureAwait(false);
+        }
+
+        return default!;
     }
 }
