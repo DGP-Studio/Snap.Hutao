@@ -33,6 +33,10 @@ internal static class SettingKeys
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled3";
     #endregion
 
+    #region Overlay
+    public const string OverlaySelectedCatalogId = "OverlaySelectedCatalogId";
+    #endregion
+
     #region Passport
     public const string PassportUserName = "PassportUserName";
     public const string PassportPassword = "PassportPassword";

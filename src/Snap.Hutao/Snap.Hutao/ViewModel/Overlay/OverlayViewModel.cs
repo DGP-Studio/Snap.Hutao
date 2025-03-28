@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.UI.Input.HotKey;
 using System.Collections.Immutable;
@@ -24,7 +25,17 @@ internal sealed partial class OverlayViewModel : Abstraction.ViewModel
         new("Island", "\uEC7A", SH.ViewModelOverlayCatalogIslandSwitchName),
     ];
 
-    public OverlayCatalog? SelectedCatalog { get; set => SetProperty(ref field, value); }
+    public OverlayCatalog? SelectedCatalog
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                LocalSetting.Set(SettingKeys.OverlaySelectedCatalogId, field?.Id);
+            }
+        }
+    }
 
     internal void HandleMouseWheel(int lines)
     {
@@ -54,7 +65,8 @@ internal sealed partial class OverlayViewModel : Abstraction.ViewModel
 
     protected override ValueTask<bool> LoadOverrideAsync()
     {
-        SelectedCatalog = Catalogs[0];
+        string selectedId = LocalSetting.Get(SettingKeys.OverlaySelectedCatalogId, "HotKey");
+        SelectedCatalog = Catalogs.SingleOrDefault(c => c.Id == selectedId);
         return ValueTask.FromResult(true);
     }
 
