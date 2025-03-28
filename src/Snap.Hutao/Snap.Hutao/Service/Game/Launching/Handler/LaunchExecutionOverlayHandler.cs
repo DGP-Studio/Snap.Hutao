@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.User32;
@@ -13,7 +14,7 @@ namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHandler
 {
-    private static uint processId;
+    private static Process? process;
     private static LaunchExecutionOverlayWindow? window;
     private static uint lastEventTime;
 
@@ -22,7 +23,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
         if (HutaoRuntime.IsProcessElevated)
         {
             await context.TaskContext.SwitchToMainThreadAsync();
-            processId = (uint)context.Process.Id;
+            process = context.Process;
             window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
             HWINEVENTHOOK foregroundHook = HookGameWindowEvent();
 
@@ -31,7 +32,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             await context.TaskContext.SwitchToMainThreadAsync();
             UnhookWinEvent(foregroundHook);
             window.Close();
-            processId = 0u;
+            process = default;
             window = default;
         }
         else
@@ -55,7 +56,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WinEventProc(HWINEVENTHOOK hWinEventHook, WINEVENT_ID eventType, HWND hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
-        if (processId is 0u || window is null)
+        if (process is null || window is null)
         {
             return;
         }
@@ -71,14 +72,13 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             return;
         }
 
-        if (pid == processId)
+        if (pid == (uint)process.Id)
         {
-            window.AppWindow.Show();
+            window.AppWindow.Show(false);
         }
         else
         {
-            HWND taskSwitcherHwnd = FindWindowExW(default, default, "XamlExplorerHostIslandWindow", default);
-            if (taskSwitcherHwnd == hwnd)
+            if (GetForegroundWindow() == process.MainWindowHandle)
             {
                 return;
             }
