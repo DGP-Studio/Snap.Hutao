@@ -277,6 +277,23 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
             return;
         }
 
+        if (key == lowLevelKeyOptions.WebView2HideKey.Value)
+        {
+            taskContext.BeginInvokeOnMainThread(() =>
+            {
+                if (AppWindow.IsVisible)
+                {
+                    AppWindow.Hide();
+                }
+                else
+                {
+                    ShowWindow(this.GetWindowHandle(), SHOW_WINDOW_CMD.SW_SHOWNOACTIVATE);
+                    AppWindow.MoveInZOrderAtTop();
+                }
+            });
+            return;
+        }
+
         GC.KeepAlive(coreWebView2);
     }
 

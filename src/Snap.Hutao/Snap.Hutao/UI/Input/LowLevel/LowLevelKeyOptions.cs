@@ -53,4 +53,17 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
             }
         }
     } = VirtualKeys.First(UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoRewind, VIRTUAL_KEY.VK__none_));
+
+    [UsedImplicitly]
+    public NameValue<VIRTUAL_KEY> WebView2HideKey
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value) && value is not null)
+            {
+                UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2Hide, value.Value);
+            }
+        }
+    } = VirtualKeys.First(UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2Hide, VIRTUAL_KEY.VK__none_));
 }
