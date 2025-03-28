@@ -2912,6 +2912,12 @@
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Компактное окно страницы</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
+    <value>更改隐藏窗口的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
+    <value>隐藏窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>Настройте прозрачность окна, чтобы изменения вступили в силу при следующем открытии окна</value>
   </data>
