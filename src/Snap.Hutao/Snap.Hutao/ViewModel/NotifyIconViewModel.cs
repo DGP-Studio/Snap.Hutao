@@ -26,6 +26,8 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class NotifyIconViewModel : ObservableObject
 {
+    [FromKeyed(typeof(CompactWebView2Window))]
+    private readonly ICurrentXamlWindowReference currentCompactWebView2WindowReference;
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly App app;
@@ -42,19 +44,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
     public partial RuntimeOptions RuntimeOptions { get; }
 
-    [Command("OpenCompactWebView2WindowCommand")]
-    private static void OpenCompactWebView2Window()
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open compact WebView2 window", "NotifyIconViewModel.Command"));
-
-        if (!WindowExtension.IsControllerInitialized<CompactWebView2Window>())
-        {
-            _ = new CompactWebView2Window();
-        }
-    }
-
     [Command("RestartAsElevatedCommand")]
-    private void RestartAsElevated()
+    private static void RestartAsElevated()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Restart as elevated", "NotifyIconViewModel.Command"));
 
@@ -79,6 +70,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
                 }
                 catch
                 {
+                    // Ignored
                 }
             }
 
@@ -86,6 +78,20 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
 
         // Current process will exit in PrivatePipeServer
+    }
+
+    [Command("OpenCompactWebView2WindowCommand")]
+    private void OpenCompactWebView2Window()
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open compact WebView2 window", "NotifyIconViewModel.Command"));
+
+        if (currentCompactWebView2WindowReference.Window is not { } window)
+        {
+            window = serviceProvider.GetRequiredService<CompactWebView2Window>();
+            currentCompactWebView2WindowReference.Window = window;
+        }
+
+        window.AppWindow.Show();
     }
 
     [Command("ShowWindowCommand")]

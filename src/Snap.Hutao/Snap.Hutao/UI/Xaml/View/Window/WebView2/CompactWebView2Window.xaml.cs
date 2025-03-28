@@ -25,6 +25,7 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
+[Injection(InjectAs.Transient)]
 internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     INotifyPropertyChanged,
     IXamlWindowExtendContentIntoTitleBar,
@@ -65,7 +66,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     private bool isLocked;
 
-    public CompactWebView2Window()
+    public CompactWebView2Window(IServiceProvider serviceProvider)
     {
         opacity = (byte)(LocalSetting.Get(SettingKeys.CompactWebView2WindowInactiveOpacity, 50D) * 255 / 100);
 
@@ -86,10 +87,10 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         WebView.NavigationStarting += OnWebViewNavigationStarting;
         WebView.NavigationCompleted += OnWebViewNavigationCompleted;
 
-        IServiceScope windowScope = Ioc.Default.CreateScope();
-        this.InitializeController(windowScope.ServiceProvider);
-        taskContext = windowScope.ServiceProvider.GetRequiredService<ITaskContext>();
-        lowLevelKeyOptions = windowScope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
+        taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
+        lowLevelKeyOptions = scope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
 
         InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged += OnInputActivationChanged;
 
@@ -279,7 +280,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         if (key == lowLevelKeyOptions.WebView2HideKey.Value)
         {
-            taskContext.BeginInvokeOnMainThread(() =>
+            taskContext.InvokeOnMainThread(() =>
             {
                 if (AppWindow.IsVisible)
                 {
@@ -287,7 +288,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
                 }
                 else
                 {
-                    ShowWindow(this.GetWindowHandle(), SHOW_WINDOW_CMD.SW_SHOWNOACTIVATE);
+                    AppWindow.Show(false);
                     AppWindow.MoveInZOrderAtTop();
                 }
             });

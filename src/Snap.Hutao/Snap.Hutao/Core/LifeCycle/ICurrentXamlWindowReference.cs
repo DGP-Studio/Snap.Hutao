@@ -5,10 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-/// <summary>
-/// Effectively only MainWindow or GuideWindow
-/// </summary>
 internal interface ICurrentXamlWindowReference
 {
-    public Window? Window { get; set; }
+    Window? Window { get; set; }
 }
