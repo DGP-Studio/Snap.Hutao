@@ -34,7 +34,14 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             {
                 unsafe
                 {
-                    foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, default, WINEVENTPROC.Create(&WinEventProc), 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+                    foregroundHook = SetWinEventHook(
+                        EVENT_SYSTEM_FOREGROUND,
+                        EVENT_SYSTEM_FOREGROUND,
+                        default,
+                        WINEVENTPROC.Create(&WinEventProcedure),
+                        0,
+                        0,
+                        WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
                 }
 
                 await next().ConfigureAwait(false);
@@ -54,7 +61,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static void WinEventProc(HWINEVENTHOOK hWinEventHook, uint @event, HWND hwnd, int idObject, int idChild, uint idEventThread, uint dwmsEventTime)
+    private static void WinEventProcedure(HWINEVENTHOOK hWinEventHook, uint @event, HWND hwnd, int idObject, int idChild, uint idEventThread, uint dwmsEventTime)
     {
         if (!WeakProcess.TryGetTarget(out Process? process) || !WeakWindow.TryGetTarget(out LaunchExecutionOverlayWindow? window))
         {
