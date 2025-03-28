@@ -2914,6 +2914,12 @@
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>コンパクトウェブ</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
+    <value>更改隐藏窗口的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
+    <value>隐藏窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>ウィンドウの不透明度を調整し、次にウィンドウを開いたときに有効になります</value>
   </data>
