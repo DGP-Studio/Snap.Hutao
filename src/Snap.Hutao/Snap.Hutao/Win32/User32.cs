@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Gdi;
+using Snap.Hutao.Win32.UI.Accessibility;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
@@ -312,11 +313,11 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern HWINEVENTHOOK SetWinEventHook(WINEVENT_ID eventMin, WINEVENT_ID eventMax, HMODULE hmodWinEventProc, WINEVENTPROC pfnWinEventProc, uint idProcess, uint idThread, WINEVENT_FLAGS dwFlags);
+    public static extern HHOOK SetWindowsHookExW(WINDOWS_HOOK_ID idHook, HOOKPROC lpfn, [Optional] HINSTANCE hmod, uint dwThreadId);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern HHOOK SetWindowsHookExW(WINDOWS_HOOK_ID idHook, HOOKPROC lpfn, [Optional] HINSTANCE hmod, uint dwThreadId);
+    public static extern HWINEVENTHOOK SetWinEventHook(uint eventMin, uint eventMax, HMODULE hmodWinEventProc, WINEVENTPROC pfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]

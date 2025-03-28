@@ -4,18 +4,19 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using Snap.Hutao.Win32.UI.Accessibility;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHandler
 {
-    private static Process? process;
-    private static LaunchExecutionOverlayWindow? window;
+    private static readonly WeakReference<Process> WeakProcess = new(default!);
+    private static readonly WeakReference<LaunchExecutionOverlayWindow> WeakWindow = new(default!);
     private static uint lastEventTime;
 
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
@@ -23,17 +24,28 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
         if (HutaoRuntime.IsProcessElevated)
         {
             await context.TaskContext.SwitchToMainThreadAsync();
-            process = context.Process;
-            window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
-            HWINEVENTHOOK foregroundHook = HookGameWindowEvent();
 
-            await next().ConfigureAwait(false);
+            LaunchExecutionOverlayWindow window = context.ServiceProvider.GetRequiredService<LaunchExecutionOverlayWindow>();
+            WeakWindow.SetTarget(window);
+            WeakProcess.SetTarget(context.Process);
+
+            HWINEVENTHOOK foregroundHook = default;
+            try
+            {
+                unsafe
+                {
+                    foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, default, WINEVENTPROC.Create(&WinEventProc), 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+                }
+
+                await next().ConfigureAwait(false);
+            }
+            finally
+            {
+                UnhookWinEvent(foregroundHook);
+            }
 
             await context.TaskContext.SwitchToMainThreadAsync();
-            UnhookWinEvent(foregroundHook);
             window.Close();
-            process = default;
-            window = default;
         }
         else
         {
@@ -41,22 +53,10 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
         }
     }
 
-    private static unsafe HWINEVENTHOOK HookGameWindowEvent()
-    {
-        return SetWinEventHook(
-            WINEVENT_ID.EVENT_SYSTEM_FOREGROUND,
-            WINEVENT_ID.EVENT_SYSTEM_FOREGROUND,
-            default,
-            WINEVENTPROC.Create(&WinEventProc),
-            0,
-            0,
-            WINEVENT_FLAGS.WINEVENT_OUTOFCONTEXT | WINEVENT_FLAGS.WINEVENT_SKIPOWNPROCESS);
-    }
-
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static void WinEventProc(HWINEVENTHOOK hWinEventHook, WINEVENT_ID eventType, HWND hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+    private static void WinEventProc(HWINEVENTHOOK hWinEventHook, uint @event, HWND hwnd, int idObject, int idChild, uint idEventThread, uint dwmsEventTime)
     {
-        if (process is null || window is null)
+        if (!WeakProcess.TryGetTarget(out Process? process) || !WeakWindow.TryGetTarget(out LaunchExecutionOverlayWindow? window))
         {
             return;
         }
