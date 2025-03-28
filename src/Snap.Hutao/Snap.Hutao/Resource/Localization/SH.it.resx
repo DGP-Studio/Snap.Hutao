@@ -2912,6 +2912,12 @@
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Finestra Pagina Compatta</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
+    <value>更改隐藏窗口的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
+    <value>隐藏窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>Regola l'opacità della finestra, avrà effetto al prossimo avvio</value>
   </data>
