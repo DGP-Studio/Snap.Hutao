@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
-using Microsoft.Build.Evaluation;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
@@ -24,7 +23,6 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
@@ -66,7 +64,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
 
-            if (await EnsureAvailableFreeSpaceAndGetInfoAsync(operationContext).ConfigureAwait(false) is not { } info)
+            if (await EnsureAvailableFreeSpaceAndPrepareInformationAsync(operationContext).ConfigureAwait(false) is not { } info)
             {
                 return false;
             }
@@ -137,7 +135,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         operationTcs = null;
     }
 
-    public async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(IGameFileSystem gameFileSystem, BranchWrapper branch, CancellationToken token = default)
+    public async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(IGameFileSystem gameFileSystem, BranchWrapper? branch, CancellationToken token = default)
     {
         if (branch is null)
         {
@@ -389,7 +387,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         await PrivateVerifyAndRepairAsync(context, localBuild, localBuild.TotalBytes, localBuild.TotalChunks).ConfigureAwait(false);
     }
 
-    private async ValueTask<GamePackageOperationInfo?> EnsureAvailableFreeSpaceAndGetInfoAsync(GamePackageOperationContext context)
+    private async ValueTask<GamePackageOperationInfo?> EnsureAvailableFreeSpaceAndPrepareInformationAsync(GamePackageOperationContext context)
     {
         SophonDecodedBuild localBuild = context.LocalBuild;
         SophonDecodedBuild remoteBuild = context.RemoteBuild;
@@ -414,33 +412,36 @@ internal sealed partial class GamePackageService : IGamePackageService
             _ => throw HutaoException.NotSupported(),
         };
 
-        const long OneGigabyte = 1024L * 1024L * 1024L;
-        long actualTotalBytes = totalBytes + OneGigabyte;
+        long actualTotalBytes = totalBytes + (1024L * 1024L * 1024L);
         long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.ExtractOrGameDirectory);
 
         string downloadTotalBytesFormatted = Converters.ToFileSizeString(downloadTotalBytes);
         string totalBytesFormatted = Converters.ToFileSizeString(actualTotalBytes);
         string availableBytesFormatted = Converters.ToFileSizeString(availableBytes);
 
-        string title = context.Kind switch
+        string title;
+        bool hasAvailableFreeSpace = actualTotalBytes <= availableBytes;
+        if (!hasAvailableFreeSpace)
         {
-            GamePackageOperationKind.Install => SH.ServiceGamePackageAdvancedConfirmStartInstallTitle,
-            GamePackageOperationKind.Update => SH.ServiceGamePackageAdvancedConfirmStartUpdateTitle,
-            GamePackageOperationKind.Predownload => SH.ServiceGamePackageAdvancedConfirmStartPredownloadTitle,
-            GamePackageOperationKind.ExtractBlk => "Start extracting game blocks?",
-            GamePackageOperationKind.ExtractExe => "Start extracting game executable?",
-            _ => throw HutaoException.NotSupported(),
-        };
-        string message = SH.FormatServiceGamePackageAdvancedConfirmMessage(downloadTotalBytesFormatted, totalBytesFormatted, availableBytesFormatted);
-
-        bool isFreeSpaceAvailable = actualTotalBytes <= availableBytes;
-        if (!isFreeSpaceAvailable)
+            title = SH.ServiceGamePackageAdvancedDriverNoAvailableFreeSpace;
+        }
+        else
         {
-            title = SH.FormatServiceGamePackageAdvancedDriverNoAvailableFreeSpace(totalBytesFormatted, availableBytesFormatted);
+            title = context.Kind switch
+            {
+                GamePackageOperationKind.Install => SH.ServiceGamePackageAdvancedConfirmStartInstallTitle,
+                GamePackageOperationKind.Update => SH.ServiceGamePackageAdvancedConfirmStartUpdateTitle,
+                GamePackageOperationKind.Predownload => SH.ServiceGamePackageAdvancedConfirmStartPredownloadTitle,
+                GamePackageOperationKind.ExtractBlk => "Start extracting game blocks?",
+                GamePackageOperationKind.ExtractExe => "Start extracting game executable?",
+                _ => throw HutaoException.NotSupported(),
+            };
         }
 
+        string message = SH.FormatServiceGamePackageAdvancedConfirmMessage(downloadTotalBytesFormatted, totalBytesFormatted, availableBytesFormatted);
+
         ContentDialogResult result = await contentDialogFactory
-            .CreateForConfirmCancelAsync(title, message, isPrimaryButtonEnabled: isFreeSpaceAvailable)
+            .CreateForConfirmCancelAsync(title, message, ContentDialogButton.Primary, hasAvailableFreeSpace)
             .ConfigureAwait(false);
 
         if (result is not ContentDialogResult.Primary)
