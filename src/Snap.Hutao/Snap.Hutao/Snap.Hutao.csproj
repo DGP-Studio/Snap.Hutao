@@ -374,7 +374,7 @@
     <PackageReference Include="System.IO.Hashing" Version="9.0.3" />
     <PackageReference Include="System.Threading.AccessControl" Version="9.0.3" />
     <PackageReference Include="System.Threading.RateLimiting" Version="9.0.3" />
-    <PackageReference Include="Yae.Lib" Version="5.3.2">
+    <PackageReference Include="Yae.Lib" Version="5.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
