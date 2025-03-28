@@ -11,7 +11,7 @@ using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-[Injection(InjectAs.Singleton)]
+[Injection(InjectAs.Transient)]
 internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowMouseWheelHandler,
