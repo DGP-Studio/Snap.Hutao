@@ -2912,6 +2912,12 @@
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Cửa sổ trang web thu gọn</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
+    <value>更改隐藏窗口的快捷键</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
+    <value>隐藏窗口</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>Điều chỉnh độ mờ của cửa sổ, có hiệu lực khi mở cửa sổ vào lần sau</value>
   </data>
