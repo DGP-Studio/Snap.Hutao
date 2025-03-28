@@ -4,6 +4,7 @@
 using Sentry.Extensibility;
 using Sentry.Protocol;
 using System.Net.Http;
+using System.Net.Sockets;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -18,9 +19,14 @@ internal sealed class SentryExceptionProcessor : ISentryEventExceptionProcessor
                 if (sentryEx.Mechanism is { } mechanism)
                 {
                     mechanism.Data["HResult"] = $"0x{ex.HResult:X8}";
-                    if (ex is HttpRequestException httpRequestException)
+                    switch (ex)
                     {
-                        mechanism.Data["HttpRequestError"] = $"{httpRequestException.HttpRequestError}";
+                        case HttpRequestException httpRequestException:
+                            mechanism.Data["HttpRequestError"] = $"{httpRequestException.HttpRequestError}";
+                            break;
+                        case SocketException socketException:
+                            mechanism.Data["SocketErrorCode"] = $"{socketException.SocketErrorCode}";
+                            break;
                     }
                 }
             }
