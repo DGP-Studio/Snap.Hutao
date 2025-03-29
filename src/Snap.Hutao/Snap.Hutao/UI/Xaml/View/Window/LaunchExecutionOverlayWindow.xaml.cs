@@ -15,6 +15,7 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowMouseWheelHandler,
+    IXamlWindowClosedHandler,
     IWindowNeedEraseBackground
 {
     public LaunchExecutionOverlayWindow(IServiceProvider serviceProvider)
@@ -54,8 +55,20 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
+    public bool PreventClose { get; set; } = true;
+
     public void OnMouseWheel(ref readonly PointerPointProperties data)
     {
         RootView.DataContext<OverlayViewModel>()?.HandleMouseWheel(data.Delta / 120);
+    }
+
+    public void OnWindowClosing(out bool cancel)
+    {
+        cancel = PreventClose;
+    }
+
+    public void OnWindowClosed()
+    {
+        // Do nothing
     }
 }

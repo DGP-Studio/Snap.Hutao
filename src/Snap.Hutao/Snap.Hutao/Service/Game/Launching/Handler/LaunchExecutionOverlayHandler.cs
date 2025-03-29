@@ -52,6 +52,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             }
 
             await context.TaskContext.SwitchToMainThreadAsync();
+            window.PreventClose = false;
             window.Close();
         }
         else
