@@ -3137,6 +3137,15 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeDescription" xml:space="preserve">
+    <value>本节内的按键设置均由虚拟键码指定</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
+    <value>虚拟键码</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>对不同的功能设置相同的快捷键可能会导致非预期的结果，且需要额外的操作或重启应用才能恢复正常</value>
   </data>
