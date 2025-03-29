@@ -38,64 +38,11 @@
             Spacing="6">
 
             <Button
-                x:Name="ToggleThemeButton"
                 Padding="6"
                 Command="{Binding InvertAppThemeCommand}"
                 Content="[Dev] Invert Theme"
                 Style="{ThemeResource SettingButtonStyle}"
                 Visibility="{Binding IsDebug}"/>
-
-            <StackPanel
-                Orientation="Horizontal"
-                Spacing="6"
-                Visibility="{Binding RuntimeOptions.IsElevated}">
-                <ToggleButton
-                    Padding="6"
-                    VerticalAlignment="Center"
-                    IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
-                    IsHitTestVisible="False"
-                    Style="{ThemeResource SettingToggleButtonStyle}"
-                    Visibility="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                    <Grid ColumnSpacing="8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Text="{shuxm:ResourceString Name=ViewTitleAutoClicking}"/>
-                        <TextBlock
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
-                    </Grid>
-                </ToggleButton>
-                <ToggleButton
-                    Padding="6"
-                    VerticalAlignment="Center"
-                    IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
-                    IsHitTestVisible="False"
-                    Style="{ThemeResource SettingToggleButtonStyle}"
-                    Visibility="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                    <Grid ColumnSpacing="8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Text="{shuxm:ResourceString Name=ViewTitleAutoPressing}"/>
-                        <TextBlock
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
-                    </Grid>
-                </ToggleButton>
-            </StackPanel>
 
             <Border
                 Height="33"

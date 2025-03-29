@@ -42,10 +42,6 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
         }
     }
 
-    public partial RuntimeOptions RuntimeOptions { get; }
-
-    public partial HotKeyOptions HotKeyOptions { get; }
-
     public bool IsMetadataInitialized { get; set => SetProperty(ref field, value); }
 
     protected override async ValueTask<bool> LoadOverrideAsync()

@@ -147,6 +147,7 @@
                                         IsTextSelectionEnabled="True"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding Inner.Version}"
+                                        TextTrimming="None"
                                         TextWrapping="NoWrap"/>
                                 </Border>
                             </StackPanel>
