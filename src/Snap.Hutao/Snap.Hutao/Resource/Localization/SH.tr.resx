@@ -2913,10 +2913,10 @@
     <value>Kompakt Sayfa Penceresi</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
-    <value>更改隐藏窗口的快捷键</value>
+    <value>更改切换窗口显示 / 隐藏的快捷键</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
-    <value>隐藏窗口</value>
+    <value>切换显示 / 隐藏</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>Pencerenin opaklığını ayarlayın, pencereyi bir sonraki açışınızda geçerli olacaktır</value>
