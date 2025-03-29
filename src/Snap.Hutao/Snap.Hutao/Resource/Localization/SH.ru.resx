@@ -2040,10 +2040,10 @@
     <value>Копирование файлов данных</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
-    <value>需消耗 {0} 米游币，剩余 {1} 米游币</value>
+    <value>需消耗 {0} 米游币，{1} 米游币可用</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContentOversea" xml:space="preserve">
-    <value>需消耗 {0} 张补签卡，剩余 {1} 张补签卡</value>
+    <value>需消耗 {0} 张补签卡，{1} 张补签卡可用</value>
   </data>
   <data name="ViewModelSignInReSignInDialogTitle" xml:space="preserve">
     <value>确定要补签吗？</value>
@@ -3432,7 +3432,7 @@
     <value>Загрузить данные</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
-    <value>是否启动更新？</value>
+    <value>是否立即更新？</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
     <value>胡桃 {0} 版本现已可用</value>
