@@ -80,7 +80,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             return;
         }
 
-        if (!PrivateGetAssociated(process))
+        if (!process.IsRunning())
         {
             return;
         }
@@ -101,7 +101,4 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
 
         lastEventTime = dwmsEventTime;
     }
-
-    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_Associated")]
-    private static extern bool PrivateGetAssociated(Process process);
 }
