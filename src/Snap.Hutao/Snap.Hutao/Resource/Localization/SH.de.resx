@@ -3137,6 +3137,15 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Tastenkombinationen</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeDescription" xml:space="preserve">
+    <value>本节内的按键设置均由虚拟键码指定</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
+    <value>虚拟键码</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Das Festlegen derselben Tastenkombination für verschiedene Funktionen kann zu unerwarteten Ergebnissen führen und zusätzliche Operationen oder einen Neustart der Anwendung erfordern, um die normale Funktion wiederherzustellen.</value>
   </data>
