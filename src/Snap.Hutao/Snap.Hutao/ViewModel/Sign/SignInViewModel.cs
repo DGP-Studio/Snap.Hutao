@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
@@ -28,6 +29,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
+    private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
@@ -158,7 +160,9 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             await taskContext.SwitchToMainThreadAsync();
             Awards = advancedViews;
             CurrentUid = userAndUid.Uid.ToString();
-            TotalSignInDaysHint = SH.FormatViewModelSignInTotalSignInDaysHint(reward.Month, info.TotalSignDay);
+
+            string monthName = cultureOptions.CurrentCulture.DateTimeFormat.MonthNames[reward.Month - 1];
+            TotalSignInDaysHint = SH.FormatViewModelSignInTotalSignInDaysHint(monthName, info.TotalSignDay);
             ScrollToCurrentOrNextAward(postSign || postResign);
 
             IsInitialized = true;
