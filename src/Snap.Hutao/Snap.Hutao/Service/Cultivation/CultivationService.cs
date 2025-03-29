@@ -114,20 +114,7 @@ internal sealed partial class CultivationService : ICultivationService
                         existedItem = StatisticsCultivateItem.Create(context.GetMaterial(item.ItemId), item, cultivateProject.ServerTimeZoneOffset);
                     }
 
-                    AddMaterialForCalculate(item.ItemId);
-
-                    void AddMaterialForCalculate(MaterialId materialId)
-                    {
-                        if (context.ResultMaterialIdCombineMap.GetValueOrDefault(materialId) is { RecipeType: RecipeType.RECIPE_TYPE_COMBINE } combine)
-                        {
-                            foreach (ref readonly IdCount idCount in combine.Materials.AsSpan())
-                            {
-                                ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, idCount.Id, out _);
-                                calcOnlyItem ??= StatisticsCultivateItem.Create(context.GetMaterial(idCount.Id));
-                                AddMaterialForCalculate(idCount.Id);
-                            }
-                        }
-                    }
+                    AddMaterialIngredients(item.ItemId);
                 }
             }
 
@@ -141,6 +128,29 @@ internal sealed partial class CultivationService : ICultivationService
             }
 
             return resultItems.Select(static kvp => kvp.Value).OrderBy(item => item.Inner.Id, MaterialIdComparer.Shared).ToObservableCollection();
+
+            void AddMaterialIngredients(MaterialId materialId)
+            {
+                if (materialId == 104003U)
+                {
+                    ReadOnlySpan<MaterialId> books = [104001U, 104002U];
+                    foreach (ref readonly MaterialId id in books)
+                    {
+                        ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, id, out _);
+                        calcOnlyItem ??= StatisticsCultivateItem.Create(context.GetMaterial(id));
+                    }
+                }
+
+                if (context.ResultMaterialIdCombineMap.GetValueOrDefault(materialId) is { RecipeType: RecipeType.RECIPE_TYPE_COMBINE } combine)
+                {
+                    foreach (ref readonly IdCount idCount in combine.Materials.AsSpan())
+                    {
+                        ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, idCount.Id, out _);
+                        calcOnlyItem ??= StatisticsCultivateItem.Create(context.GetMaterial(idCount.Id));
+                        AddMaterialIngredients(idCount.Id);
+                    }
+                }
+            }
         }
     }
 
