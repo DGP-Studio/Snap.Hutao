@@ -61,8 +61,8 @@ internal sealed class Material : DisplayItem
 
     public bool IsResinItem()
     {
-        // 摩拉 大英雄的经验
-        if (Id == 202U || Id == 104003U)
+        // 摩拉 流浪者的经验 冒险家的经验 大英雄的经验
+        if (Id == 202U || Id == 104001U || Id == 104002U || Id == 104003U)
         {
             return true;
         }
@@ -90,15 +90,5 @@ internal sealed class Material : DisplayItem
     public DaysOfWeek GetDaysOfWeek()
     {
         return MaterialIds.GetDaysOfWeek(Id);
-    }
-
-    public bool IsCombinable()
-    {
-        if (TypeDescription is null)
-        {
-            return false;
-        }
-
-        return IntrinsicFrozen.CombinableMaterialTypeDescriptions.Contains(TypeDescription);
     }
 }

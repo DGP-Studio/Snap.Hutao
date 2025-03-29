@@ -4,7 +4,9 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation.Consumption;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -96,7 +98,6 @@ internal sealed partial class CultivationService : ICultivationService
         ObservableCollection<StatisticsCultivateItem> SynchronizedGetStatisticsCultivateItemCollection(CultivateProject cultivateProject, ICultivationMetadataContext context)
         {
             Dictionary</* ItemId */ uint, StatisticsCultivateItem> resultItems = [];
-            HashSet<uint> addedMaterialRanks = [];
             Guid projectId = cultivateProject.InnerId;
 
             foreach (ref readonly CultivateEntry entry in cultivationRepository.GetCultivateEntryImmutableArrayByProjectId(projectId).AsSpan())
@@ -113,12 +114,18 @@ internal sealed partial class CultivationService : ICultivationService
                         existedItem = StatisticsCultivateItem.Create(context.GetMaterial(item.ItemId), item, cultivateProject.ServerTimeZoneOffset);
                     }
 
-                    if (existedItem.Inner.IsCombinable() && addedMaterialRanks.Add(existedItem.Inner.Rank))
+                    AddMaterialForCalculate(item.ItemId);
+
+                    void AddMaterialForCalculate(MaterialId materialId)
                     {
-                        foreach (ref readonly Material material in context.GetRankMaterialsByMaterial(existedItem.Inner).AsSpan())
+                        if (context.ResultMaterialIdCombineMap.GetValueOrDefault(materialId) is { RecipeType: RecipeType.RECIPE_TYPE_COMBINE } combine)
                         {
-                            ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, material.Id, out _);
-                            calcOnlyItem ??= StatisticsCultivateItem.Create(material);
+                            foreach (ref readonly IdCount idCount in combine.Materials.AsSpan())
+                            {
+                                ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, idCount.Id, out _);
+                                calcOnlyItem ??= StatisticsCultivateItem.Create(context.GetMaterial(idCount.Id));
+                                AddMaterialForCalculate(idCount.Id);
+                            }
                         }
                     }
                 }

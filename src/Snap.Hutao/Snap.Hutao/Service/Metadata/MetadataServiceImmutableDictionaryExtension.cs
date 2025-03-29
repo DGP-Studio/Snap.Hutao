@@ -227,6 +227,14 @@ internal static class MetadataServiceImmutableDictionaryExtension
             token);
     }
 
+    public static ValueTask<ImmutableDictionary<MaterialId, Combine>> GetResultMaterialIdToCombineMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<MaterialId, Combine>(
+            MetadataFileStrategies.Combine,
+            c => c.Result.Id,
+            token);
+    }
+
     private static async ValueTask<ImmutableDictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TKey, TValue>(this IMetadataService metadataService, MetadataFileStrategy strategy, Func<TValue, TKey> keySelector, CancellationToken token)
         where TKey : notnull
         where TValue : class

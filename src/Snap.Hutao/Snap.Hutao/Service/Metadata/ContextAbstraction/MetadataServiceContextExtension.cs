@@ -6,7 +6,6 @@ using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
@@ -188,6 +187,11 @@ internal static class MetadataServiceContextExtension
             {
                 dictionaryNameWeaponSource.NameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
             }
+
+            if (context is IMetadataDictionaryResultMaterialIdCombineSource dictionaryResultMaterialIdCombineSource)
+            {
+                dictionaryResultMaterialIdCombineSource.ResultMaterialIdCombineMap = await metadataService.GetResultMaterialIdToCombineMapAsync(token).ConfigureAwait(false);
+            }
         }
 
         if (context is IMetadataSupportInitialization supportInitialization)
@@ -216,11 +220,6 @@ internal static class MetadataServiceContextExtension
     public static Material GetMaterial(this IMetadataDictionaryIdMaterialSource context, MaterialId id)
     {
         return context.IdMaterialMap[id];
-    }
-
-    public static ImmutableArray<Material> GetRankMaterialsByMaterial(this IMetadataArrayMaterialSource context, Material material)
-    {
-        return context.Materials.Where(m => m.Rank == material.Rank).ToImmutableArray();
     }
 
     public static Weapon GetWeapon(this IMetadataDictionaryIdWeaponSource context, WeaponId id)
