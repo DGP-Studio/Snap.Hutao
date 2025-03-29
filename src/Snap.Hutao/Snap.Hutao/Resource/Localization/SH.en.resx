@@ -265,7 +265,7 @@
     <value>Role</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeFurniture" xml:space="preserve">
-    <value>家具</value>
+    <value>Furniture</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
     <value>Weapon</value>
@@ -3137,6 +3137,15 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Shortcut Keys</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeDescription" xml:space="preserve">
+    <value>本节内的按键设置均由虚拟键码指定</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
+    <value>虚拟键码</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Setting the same shortcut key for different functions may cause unexpected results, and additional operations or restarting the application are required to restore normal function.</value>
   </data>
@@ -3426,7 +3435,7 @@
     <value>是否启动更新？</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>Snap Hutao {0} is now available</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Failed to Download Update Patch</value>
