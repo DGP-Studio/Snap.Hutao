@@ -2052,7 +2052,7 @@
     <value>Insufficient coins</value>
   </data>
   <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
-    <value>{0} 累计签到 {1} 天</value>
+    <value>Checked-in for {1} days in {0}</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>The current data directory '{0}' contains one or more reparse points, which may cause some of the functions that depend on the data folder to not work properly, please go to Settings to change the path.</value>
