@@ -262,13 +262,13 @@
     <value>Aggiornato alle {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
-    <value>角色</value>
+    <value>Personaggio</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeFurniture" xml:space="preserve">
-    <value>家具</value>
+    <value>Mobilia</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
-    <value>武器</value>
+    <value>Arma</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>Turno {0}</value>
@@ -1044,10 +1044,10 @@
     <value>La tua versione di Snap Hutao è obsoleta, aggiorna al più presto</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Ripristino del check-in fallito, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Ripristino del check-in riuscito, {0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Accesso non riuscito, {0}</value>
@@ -1080,7 +1080,7 @@
     <value>Recupero delle informazioni utente, attendere...</value>
   </data>
   <data name="ServiceUserUserInfoContainsNoGameRole" xml:space="preserve">
-    <value>此账号尚未绑定原神游戏角色</value>
+    <value>Questo account non è ancora collegato a un personaggio di Genshin Impact</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Errore Yae incorporato</value>
@@ -1137,10 +1137,10 @@
     <value>Seleziona l'account o avvia direttamente</value>
   </data>
   <data name="ViewCardSignInClaimReSignInAction" xml:space="preserve">
-    <value>补签</value>
+    <value>Ripristina check-in</value>
   </data>
   <data name="ViewCardSignInClaimSignInAction" xml:space="preserve">
-    <value>签到</value>
+    <value>Check-in</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
     <value>Livello</value>
@@ -1251,7 +1251,7 @@
     <value>Aggiungi o aggiorna in blocco il piano di sviluppo corrente</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
-    <value>已突破</value>
+    <value>Asceso</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Aggiungi o aggiorna al piano di sviluppo attuale</value>
@@ -1680,31 +1680,31 @@
     <value>La vetrina del personaggio non è ancora attiva, si prega di attivare e riprovare</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount" xml:space="preserve">
-    <value>命之座解锁层数顺序</value>
+    <value>Livello della costellazione</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindCurAttack" xml:space="preserve">
-    <value>攻击力顺序</value>
+    <value>ATK</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindCurDefense" xml:space="preserve">
-    <value>防御力顺序</value>
+    <value>DEF</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindDefault" xml:space="preserve">
-    <value>默认顺序</value>
+    <value>Ordine predefinito</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindElementMastery" xml:space="preserve">
-    <value>元素精通顺序</value>
+    <value>Maestria elementale</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindFetterLevel" xml:space="preserve">
-    <value>好感度顺序</value>
+    <value>Livello di amicizia</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindLevelNumber" xml:space="preserve">
-    <value>等级顺序</value>
+    <value>Livello</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindMaxHp" xml:space="preserve">
-    <value>生命值上限顺序</value>
+    <value>HP massimo</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindQuality" xml:space="preserve">
-    <value>品质顺序</value>
+    <value>Rarità</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>Totale {0} personaggi</value>
@@ -1977,13 +1977,13 @@
     <value>Passaggio all'account fallito</value>
   </data>
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
-    <value>在重启胡桃时遇到问题，请手动重启</value>
+    <value>Incontrato un problema durante il riavvio di Snap Hutao, si prega di riavviare manualmente</value>
   </data>
   <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
-    <value>热键提示</value>
+    <value>Suggerimenti per i tasti di scelta rapida</value>
   </data>
   <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
-    <value>快捷开关</value>
+    <value>Interruttore rapido</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>Raggiunto {0}</value>
@@ -2031,28 +2031,28 @@
     <value>La cartella selezionata non è vuota, i file esistenti verranno sovrascritti</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription2" xml:space="preserve">
-    <value>不是有效的数据文件夹位置，请重新选择</value>
+    <value>Non è una posizione valida per la cartella dei dati. Si prega di selezionare nuovamente</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription3" xml:space="preserve">
-    <value>选择的文件夹'{0}'不为空，将会覆盖已存在的文件</value>
+    <value>La cartella selezionata '{0}' non è vuota. I file esistenti verranno sovrascritti</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>Copia i file di dati</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
-    <value>需消耗 {0} 米游币，{1} 米游币可用</value>
+    <value>Richiede {0} monete, {1} monete disponibili</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContentOversea" xml:space="preserve">
-    <value>需消耗 {0} 张补签卡，{1} 张补签卡可用</value>
+    <value>Richiede {0} carte di ripristino del check-in, {1} carte di ripristino del check-in disponibili</value>
   </data>
   <data name="ViewModelSignInReSignInDialogTitle" xml:space="preserve">
-    <value>确定要补签吗？</value>
+    <value>Sei sicuro di voler ripristinare il check-in?</value>
   </data>
   <data name="ViewModelSignInReSignInNotEnoughCoinMessage" xml:space="preserve">
-    <value>米游币不足</value>
+    <value>Monete insufficienti</value>
   </data>
   <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
-    <value>{0} 累计签到 {1} 天</value>
+    <value>{0} check-in cumulativi per {1} giorni</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>La directory dati corrente '{0}' contiene uno o più punti di analisi (Reparse point), che potrebbero causare il malfunzionamento di alcune funzioni che dipendono dalla cartella dei dati. Vai alle Impostazioni per cambiare il percorso.</value>
@@ -2088,7 +2088,7 @@
     <value>Cookie dell'utente [{0}] copiati con successo</value>
   </data>
   <data name="ViewModelUserEmptyGameRole" xml:space="preserve">
-    <value>此账号尚未绑定原神游戏角色</value>
+    <value>Questo account non è ancora collegato a nessun personaggio di gioco di Genshin Impact</value>
   </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
     <value>Questo cookie non è completo, operazione non riuscita</value>
@@ -2121,7 +2121,7 @@
     <value>Nessuna informazione sulla guida di questo personaggio</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
-    <value>移除地图界面任务提示</value>
+    <value>Rimuovi il suggerimento della missione sull'interfaccia della mappa</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Crea nuovo archivio</value>
@@ -2631,7 +2631,7 @@
     <value>Sovrascrivi lo stato predefinito a schermo intero</value>
   </data>
   <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
-    <value>选择平台类型，不同的类型会影响游戏如何呈现 UI</value>
+    <value>Seleziona il tipo di piattaforma, diversi tipi influenzeranno come il gioco presenta l'UI</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>Sovrascrivi l'altezza predefinita dello schermo</value>
@@ -2685,10 +2685,10 @@
     <value>La gestione dei file di gioco, il cambio del server di gioco e la funzione di iniezione richiedono i permessi di amministratore</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
-    <value>元素爆发特写冷开关</value>
+    <value>Interruttore freddo per il primo piano dell'abilità elementale</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
-    <value>移除元素爆发镜头特写</value>
+    <value>Rimuovi il primo piano della telecamera per l'abilità elementale</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>Correzione della visuale per interfacce speciali come Configurazione personaggio/squadra, Desiderio e Pass battaglia</value>
@@ -2712,7 +2712,7 @@
     <value>Iniezione</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
-    <value>使用触摸输入</value>
+    <value>Usa input touch</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Esegui il software sul monitor selezionato</value>
@@ -2913,10 +2913,10 @@
     <value>Finestra Pagina Compatta</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
-    <value>更改切换窗口显示 / 隐藏的快捷键</value>
+    <value>Cambia la scorciatoia per alternare la visualizzazione / nascondere la finestra</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
-    <value>切换显示 / 隐藏</value>
+    <value>Alterna mostra / nascondi</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>Regola l'opacità della finestra, avrà effetto al prossimo avvio</value>
@@ -2925,7 +2925,7 @@
     <value>Opacità Finestra</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
-    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+    <value>Abilita l'icona nell'area di notifica e avvia la finestra web compatta dal menu dell'icona</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>Cambia la scorciatoia per controllare l'avanzamento rapido del video</value>
@@ -3057,7 +3057,7 @@
     <value>Avvia gioco</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
-    <value>签到</value>
+    <value>Check-in</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>Nascondi</value>
@@ -3138,19 +3138,19 @@
     <value>Tasti di scelta rapida</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
-    <value>查看</value>
+    <value>Visualizza</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeDescription" xml:space="preserve">
-    <value>本节内的按键设置均由虚拟键码指定</value>
+    <value>Le impostazioni dei tasti in questa sezione sono specificate da codici di tasti virtuali</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
-    <value>虚拟键码</value>
+    <value>Codice tasto virtuale</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>L'impostazione della stessa scorciatoia da tastiera per funzioni diverse potrebbe causare risultati imprevisti e richiedere operazioni aggiuntive o il riavvio dell'applicazione per ripristinare il normale funzionamento.</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
-    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
+    <value>Dopo aver sostituito la barra delle applicazioni standard con uno strumento di personalizzazione del sistema, l'abilitazione delle icone nell'area di notifica può causare: impossibilità di interagire con le icone, fallimento nella creazione corretta delle icone, crash di Explorer dopo il riavvio o crash dell'applicazione all'avvio</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Mostra icona nell'area di notifica, per consentire l'esecuzione di attività in background. Riavvia il programma per attivare.</value>
@@ -3339,7 +3339,7 @@
     <value>Prima dell'ascensione</value>
   </data>
   <data name="ViewPverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>移除战斗伤害跳字</value>
+    <value>Rimuovi i numeri del danno in combattimento</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Teatro dell'Imaginarium</value>
@@ -3432,10 +3432,10 @@
     <value>Carica dati</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
-    <value>是否立即更新？</value>
+    <value>Aggiornare ora?</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>Snap Hutao {0} è ora disponibile</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Download dell'aggiornamento non riuscito</value>
