@@ -3137,6 +3137,15 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>단축키</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeDescription" xml:space="preserve">
+    <value>本节内的按键设置均由虚拟键码指定</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
+    <value>虚拟键码</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>다른 기능에 동일한 바로 가기 키를 설정하면 예기치 않은 결과가 발생할 수 있으며, 정상 기능을 복원하려면 추가 작업이나 응용 프로그램 재시작이 필요합니다.</value>
   </data>
