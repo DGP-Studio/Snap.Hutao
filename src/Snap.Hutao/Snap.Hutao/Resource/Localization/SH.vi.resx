@@ -265,7 +265,7 @@
     <value>Tài khoản</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeFurniture" xml:space="preserve">
-    <value>家具</value>
+    <value>Nội thất</value>
   </data>
   <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
     <value>Vũ khí</value>
@@ -1044,10 +1044,10 @@
     <value>Phiên bản Snap Hutao của bạn đã quá cũ, vui lòng cập nhật càng sớm càng tốt</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>补签失败，{0}</value>
+    <value>Bù đăng nhập thất bại, {0}</value>
   </data>
   <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
-    <value>补签成功，{0}×{1}</value>
+    <value>Bù đăng nhập thành công, {0}×{1}</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Điểm danh thất bại, {0}</value>
@@ -1080,7 +1080,7 @@
     <value>Đang lấy thông tin người dùng, vui lòng chờ...</value>
   </data>
   <data name="ServiceUserUserInfoContainsNoGameRole" xml:space="preserve">
-    <value>此账号尚未绑定原神游戏角色</value>
+    <value>Tài khoản này chưa liên kết với nhân vật Genshin Impact</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>Lỗi Embedded Yae</value>
@@ -1137,10 +1137,10 @@
     <value>Lựa chọn tài khoản hoặc khởi động trực tiếp</value>
   </data>
   <data name="ViewCardSignInClaimReSignInAction" xml:space="preserve">
-    <value>补签</value>
+    <value>Bù đăng nhập</value>
   </data>
   <data name="ViewCardSignInClaimSignInAction" xml:space="preserve">
-    <value>签到</value>
+    <value>Đăng nhập</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
     <value>Cấp độ</value>
@@ -1251,7 +1251,7 @@
     <value>Thêm hoặc cập nhật hàng loạt vào kế hoạch bồi dưỡng hiện tại</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
-    <value>已突破</value>
+    <value>Đã đột phá</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Thêm hoặc cập nhật vào kế hoạch bồi dưỡng hiện tại</value>
@@ -1680,31 +1680,31 @@
     <value>Tủ trưng bày nhân vật chưa được mở, vui lòng vào game thao tác rồi thử lại</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount" xml:space="preserve">
-    <value>命之座解锁层数顺序</value>
+    <value>Thứ tự mở khóa tầng chòm sao</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindCurAttack" xml:space="preserve">
-    <value>攻击力顺序</value>
+    <value>Thứ tự tấn công</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindCurDefense" xml:space="preserve">
-    <value>防御力顺序</value>
+    <value>Thứ tự phòng thủ</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindDefault" xml:space="preserve">
-    <value>默认顺序</value>
+    <value>Thứ tự mặc định</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindElementMastery" xml:space="preserve">
-    <value>元素精通顺序</value>
+    <value>Thứ tự tinh thông nguyên tố</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindFetterLevel" xml:space="preserve">
-    <value>好感度顺序</value>
+    <value>Thứ tự mức độ thân thiết</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindLevelNumber" xml:space="preserve">
-    <value>等级顺序</value>
+    <value>Thứ tự cấp độ</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindMaxHp" xml:space="preserve">
-    <value>生命值上限顺序</value>
+    <value>Thứ tự HP tối đa</value>
   </data>
   <data name="ViewModelAvatarPropertySortDescriptionKindQuality" xml:space="preserve">
-    <value>品质顺序</value>
+    <value>Thứ tự chất lượng</value>
   </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>Tổng cộng {0} nhân vật</value>
@@ -1977,13 +1977,13 @@
     <value>Chuyển tài khoản thất bại</value>
   </data>
   <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
-    <value>在重启胡桃时遇到问题，请手动重启</value>
+    <value>Gặp sự cố khi khởi động lại Snap Hutao, vui lòng khởi động lại thủ công</value>
   </data>
   <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
-    <value>热键提示</value>
+    <value>Gợi ý phím nóng</value>
   </data>
   <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
-    <value>快捷开关</value>
+    <value>Bật tắt nhanh</value>
   </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>Đã đến {0}</value>
@@ -2031,28 +2031,28 @@
     <value>Thư mục đã chọn không trống, các tệp hiện có sẽ bị ghi đè</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription2" xml:space="preserve">
-    <value>不是有效的数据文件夹位置，请重新选择</value>
+    <value>Không phải là vị trí thư mục dữ liệu hợp lệ, vui lòng chọn lại</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderDescription3" xml:space="preserve">
-    <value>选择的文件夹'{0}'不为空，将会覆盖已存在的文件</value>
+    <value>Thư mục được chọn '{0}' không trống, các tệp hiện có sẽ bị ghi đè</value>
   </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>Sao chép tệp dữ liệu</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
-    <value>需消耗 {0} 米游币，{1} 米游币可用</value>
+    <value>Cần tiêu tốn {0} miếng dán, {1} miếng dán có sẵn</value>
   </data>
   <data name="ViewModelSignInReSignInDialogContentOversea" xml:space="preserve">
-    <value>需消耗 {0} 张补签卡，{1} 张补签卡可用</value>
+    <value>Cần tiêu tốn {0} thẻ bù đăng nhập, {1} thẻ bù đăng nhập có sẵn</value>
   </data>
   <data name="ViewModelSignInReSignInDialogTitle" xml:space="preserve">
-    <value>确定要补签吗？</value>
+    <value>Bạn có chắc chắn muốn bù đăng nhập không?</value>
   </data>
   <data name="ViewModelSignInReSignInNotEnoughCoinMessage" xml:space="preserve">
-    <value>米游币不足</value>
+    <value>Không đủ miếng dán</value>
   </data>
   <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
-    <value>{0} 累计签到 {1} 天</value>
+    <value>{0} đã đăng nhập tổng cộng {1} ngày</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>Thư mục dữ liệu hiện tại '{0}' chứa một hoặc nhiều điểm phân tích lại (Reparse points), điều này có thể làm cho một số chức năng phụ thuộc vào thư mục dữ liệu không hoạt động bình thường, vui lòng vào Cài đặt để thay đổi đường dẫn</value>
@@ -2088,7 +2088,7 @@
     <value>Cookie của người dùng [{0}] đã sao chép thành công</value>
   </data>
   <data name="ViewModelUserEmptyGameRole" xml:space="preserve">
-    <value>此账号尚未绑定原神游戏角色</value>
+    <value>Tài khoản này chưa liên kết với bất kỳ nhân vật Genshin Impact nào</value>
   </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
     <value>Cookie này không đầy đủ, thao tác thất bại</value>
@@ -2121,7 +2121,7 @@
     <value>Chưa có thông tin hướng dẫn cho nhân vật này</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
-    <value>移除地图界面任务提示</value>
+    <value>Loại bỏ gợi ý nhiệm vụ trên giao diện bản đồ</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>Tạo lưu trữ mới</value>
@@ -2631,7 +2631,7 @@
     <value>Ghi đè trạng thái toàn màn hình mặc định</value>
   </data>
   <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
-    <value>选择平台类型，不同的类型会影响游戏如何呈现 UI</value>
+    <value>Chọn loại nền tảng, các loại khác nhau sẽ ảnh hưởng đến cách trò chơi hiển thị UI</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>Ghi đè chiều cao màn hình mặc định</value>
@@ -2685,10 +2685,10 @@
     <value>Quản lý tệp trò chơi/chuyển đổi máy chủ trò chơi/tính năng tiêm yêu cầu quyền quản trị viên</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
-    <value>元素爆发特写冷开关</value>
+    <value>Tắt bật nhanh cảnh cận cảnh kỹ năng nguyên tố</value>
   </data>
   <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
-    <value>移除元素爆发镜头特写</value>
+    <value>Loại bỏ cảnh cận cảnh kỹ năng nguyên tố</value>
   </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>Sửa lỗi tầm nhìn cho các giao diện đặc biệt như Nhân vật/Đội hình/Cầu nguyện/Nhật ký hành trình</value>
@@ -2712,7 +2712,7 @@
     <value>Tiêm</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
-    <value>使用触摸输入</value>
+    <value>Sử dụng đầu vào cảm ứng</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Chạy trên màn hình được chỉ định</value>
@@ -2913,10 +2913,10 @@
     <value>Cửa sổ trang web thu gọn</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
-    <value>更改切换窗口显示 / 隐藏的快捷键</value>
+    <value>Thay đổi phím tắt để chuyển đổi hiển thị / ẩn cửa sổ</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
-    <value>切换显示 / 隐藏</value>
+    <value>Chuyển đổi hiển thị / ẩn</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>Điều chỉnh độ mờ của cửa sổ, có hiệu lực khi mở cửa sổ vào lần sau</value>
@@ -2925,7 +2925,7 @@
     <value>Độ mờ của cửa sổ</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
-    <value>启用通知区域图标后在图标菜单中启动紧凑网页窗口</value>
+    <value>Kích hoạt biểu tượng khu vực thông báo và khởi chạy cửa sổ web nhỏ gọn từ menu biểu tượng</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>Thay đổi phím tắt điều khiển tua nhanh video</value>
@@ -3057,7 +3057,7 @@
     <value>Trình khởi chạy</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
-    <value>签到</value>
+    <value>Đăng nhập</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>Ẩn</value>
@@ -3138,19 +3138,19 @@
     <value>Phím tắt</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
-    <value>查看</value>
+    <value>Xem</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeDescription" xml:space="preserve">
-    <value>本节内的按键设置均由虚拟键码指定</value>
+    <value>Các cài đặt phím trong phần này được chỉ định bằng mã phím ảo</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
-    <value>虚拟键码</value>
+    <value>Mã phím ảo</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>Đặt cùng một phím tắt cho các chức năng khác nhau có thể gây ra kết quả không mong muốn và cần thêm thao tác hoặc khởi động lại ứng dụng để khôi phục chức năng bình thường.</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
-    <value>使用系统美化工具替换系统标准任务栏后启用通知区域图标可能会导致：无法与图标交互/无法正常创建图标/重启资源管理器后崩溃/启动程序后崩溃</value>
+    <value>Sau khi thay thế thanh tác vụ tiêu chuẩn bằng công cụ tùy chỉnh hệ thống, việc kích hoạt biểu tượng khu vực thông báo có thể gây ra: không thể tương tác với biểu tượng, không thể tạo biểu tượng đúng cách, Explorer bị treo sau khi khởi động lại hoặc ứng dụng bị treo khi khởi chạy</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>Hiển thị biểu tượng ở khu vực thông báo để cho phép các tác vụ chạy nền, khởi động lại chương trình để kích hoạt</value>
@@ -3339,7 +3339,7 @@
     <value>Trước đột phá</value>
   </data>
   <data name="ViewPverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>移除战斗伤害跳字</value>
+    <value>Loại bỏ chữ nhảy sát thương chiến đấu</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Thơ Kịch Ảo Ảnh Chân Cảnh</value>
@@ -3432,10 +3432,10 @@
     <value>Tải lên dữ liệu</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
-    <value>是否立即更新？</value>
+    <value>Cập nhật ngay bây giờ?</value>
   </data>
   <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本现已可用</value>
+    <value>Snap Hutao phiên bản {0} hiện đã có sẵn</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>Tải xuống bản cập nhật thất bại</value>
