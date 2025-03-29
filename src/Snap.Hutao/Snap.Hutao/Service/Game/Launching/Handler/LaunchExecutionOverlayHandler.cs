@@ -79,6 +79,11 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             return;
         }
 
+        if (process.HasExited)
+        {
+            return;
+        }
+
         if (pid == (uint)process.Id)
         {
             window.AppWindow.Show(false);
