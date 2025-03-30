@@ -2721,10 +2721,10 @@
     <value>Opzioni di gioco</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
-    <value>设置悬浮窗（与游戏一同启动）的显示/隐藏快捷键</value>
+    <value>Imposta la scorciatoia per mostrare/nascondere l'overlay di gioco <b>(</b>avvia con il gioco<b>)</b></value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
-    <value>显示/隐藏悬浮窗</value>
+    <value>Mostra/Nascondi Overlay di gioco</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Installa il gioco</value>
