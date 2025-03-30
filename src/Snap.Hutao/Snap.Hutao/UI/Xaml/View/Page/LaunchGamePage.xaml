@@ -228,90 +228,94 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <!--  修复/更新/预下载  -->
-                                    <Grid VerticalAlignment="Top" Style="{ThemeResource GridCardStyle}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <StackPanel
-                                            Padding="16"
-                                            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                            BorderThickness="0,0,0,1"
-                                            Orientation="Horizontal"
-                                            Spacing="16">
-                                            <shuxci:CachedImage
-                                                shux:FrameworkElementHelper.SquareLength="48"
-                                                CornerRadius="{ThemeResource ControlCornerRadius}"
-                                                Source="{StaticResource IconGame}"/>
+                                    <StackPanel
+                                        Grid.Column="0"
+                                        VerticalAlignment="Top"
+                                        Spacing="12">
+                                        <Grid Style="{ThemeResource GridCardStyle}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
                                             <StackPanel
-                                                VerticalAlignment="Center"
-                                                Orientation="Vertical"
-                                                Spacing="{ThemeResource SettingsCardSpacing}">
-                                                <TextBlock Text="{Binding GamePackageViewModel.LocalVersionText}"/>
-                                                <TextBlock Text="{Binding GamePackageViewModel.RemoteVersionText}"/>
+                                                Padding="16"
+                                                Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="0,0,0,1"
+                                                Orientation="Horizontal"
+                                                Spacing="16">
+                                                <shuxci:CachedImage
+                                                    shux:FrameworkElementHelper.SquareLength="48"
+                                                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                                                    Source="{StaticResource IconGame}"/>
+                                                <StackPanel
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Vertical"
+                                                    Spacing="{ThemeResource SettingsCardSpacing}">
+                                                    <TextBlock Text="{Binding GamePackageViewModel.LocalVersionText}"/>
+                                                    <TextBlock Text="{Binding GamePackageViewModel.RemoteVersionText}"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel
-                                            Grid.Row="1"
-                                            Margin="-2,-6"
-                                            Padding="16"
-                                            Orientation="Horizontal">
-                                            <AppBarButton
-                                                Command="{Binding GamePackageViewModel.StartCommand}"
-                                                CommandParameter="Verify"
-                                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDeveloperTools}}"
-                                                Label="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationVerify}"
-                                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
-                                            <AppBarButton
-                                                Command="{Binding GamePackageViewModel.StartCommand}"
-                                                CommandParameter="Update"
-                                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentUpArrowShiftKey}}"
-                                                IsEnabled="{Binding GamePackageViewModel.IsUpdateAvailable}"
-                                                Label="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationUpdate}"/>
-                                            <Grid>
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Margin="-2,-6"
+                                                Padding="16"
+                                                Orientation="Horizontal">
                                                 <AppBarButton
                                                     Command="{Binding GamePackageViewModel.StartCommand}"
-                                                    CommandParameter="Predownload"
-                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDownload}}"
-                                                    IsEnabled="{Binding GamePackageViewModel.IsPredownloadButtonEnabled}"
-                                                    Label="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownload}"/>
-                                                <!--  预下载开放 Icon  -->
-                                                <Grid
-                                                    Margin="4,8"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    ToolTipService.ToolTip="{Binding GamePackageViewModel.PreDownloadTitle}"
-                                                    Visibility="{Binding GamePackageViewModel.IsPredownloadButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <FontIcon
-                                                        FontSize="16"
-                                                        Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"
-                                                        Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
-                                                    <FontIcon
-                                                        FontSize="16"
-                                                        Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-                                                        Glyph="{ThemeResource InfoBarInformationalIconGlyph}"/>
+                                                    CommandParameter="Verify"
+                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDeveloperTools}}"
+                                                    Label="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationVerify}"
+                                                    Style="{StaticResource DefaultAppBarButtonStyle}"/>
+                                                <AppBarButton
+                                                    Command="{Binding GamePackageViewModel.StartCommand}"
+                                                    CommandParameter="Update"
+                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentUpArrowShiftKey}}"
+                                                    IsEnabled="{Binding GamePackageViewModel.IsUpdateAvailable}"
+                                                    Label="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationUpdate}"/>
+                                                <Grid>
+                                                    <AppBarButton
+                                                        Command="{Binding GamePackageViewModel.StartCommand}"
+                                                        CommandParameter="Predownload"
+                                                        Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDownload}}"
+                                                        IsEnabled="{Binding GamePackageViewModel.IsPredownloadButtonEnabled}"
+                                                        Label="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownload}"/>
+                                                    <!--  预下载开放 Icon  -->
+                                                    <Grid
+                                                        Margin="4,8"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        ToolTipService.ToolTip="{Binding GamePackageViewModel.PreDownloadTitle}"
+                                                        Visibility="{Binding GamePackageViewModel.IsPredownloadButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                        <FontIcon
+                                                            FontSize="16"
+                                                            Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"
+                                                            Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
+                                                        <FontIcon
+                                                            FontSize="16"
+                                                            Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+                                                            Glyph="{ThemeResource InfoBarInformationalIconGlyph}"/>
+                                                    </Grid>
+                                                    <!--  预下载完成 Icon  -->
+                                                    <Grid
+                                                        Margin="4,8"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent}"
+                                                        Visibility="{Binding GamePackageViewModel.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                        <FontIcon
+                                                            FontSize="16"
+                                                            Foreground="{ThemeResource InfoBarSuccessSeverityIconBackground}"
+                                                            Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
+                                                        <FontIcon
+                                                            FontSize="16"
+                                                            Foreground="{ThemeResource InfoBarSuccessSeverityIconForeground}"
+                                                            Glyph="{ThemeResource InfoBarSuccessIconGlyph}"/>
+                                                    </Grid>
                                                 </Grid>
-                                                <!--  预下载完成 Icon  -->
-                                                <Grid
-                                                    Margin="4,8"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Bottom"
-                                                    ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent}"
-                                                    Visibility="{Binding GamePackageViewModel.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <FontIcon
-                                                        FontSize="16"
-                                                        Foreground="{ThemeResource InfoBarSuccessSeverityIconBackground}"
-                                                        Glyph="{ThemeResource InfoBarIconBackgroundGlyph}"/>
-                                                    <FontIcon
-                                                        FontSize="16"
-                                                        Foreground="{ThemeResource InfoBarSuccessSeverityIconForeground}"
-                                                        Glyph="{ThemeResource InfoBarSuccessIconGlyph}"/>
-                                                </Grid>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Grid>
-
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
                                     <StackPanel Grid.Column="1" Spacing="12">
                                         <!--  切换服务器  -->
                                         <cwc:SettingsCard
@@ -403,7 +407,23 @@
                                                 </Border>
                                             </Grid>
                                         </ContentControl>
-
+                                        <!--  悬浮窗  -->
+                                        <cwc:SettingsCard
+                                            Description="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayHideDescription}"
+                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayHideHeader}"
+                                            HeaderIcon="{shuxm:FontIcon Glyph=&#xED1A;}"
+                                            IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
+                                                    <ComboBox
+                                                        MinWidth="120"
+                                                        VerticalAlignment="Center"
+                                                        DisplayMemberPath="Name"
+                                                        ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
+                                                        SelectedItem="{Binding LowLevelKeyOptions.WebView2HideKey, Mode=TwoWay}"/>
+                                                </shuxc:SizeRestrictedContentControl>
+                                            </StackPanel>
+                                        </cwc:SettingsCard>
                                     </StackPanel>
                                 </Grid>
                                 <Border

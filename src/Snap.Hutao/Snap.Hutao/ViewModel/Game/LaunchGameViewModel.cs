@@ -17,6 +17,8 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.User;
@@ -44,17 +46,19 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     // Required for the SetProperty
     private LaunchScheme? selectedScheme;
 
-    public partial LaunchGameShared Shared { get; }
-
-    public partial LaunchOptions LaunchOptions { get; }
-
-    public partial LaunchStatusOptions LaunchStatusOptions { get; }
-
-    public partial RuntimeOptions RuntimeOptions { get; }
-
     public partial GamePackageInstallViewModel GamePackageInstallViewModel { get; }
 
     public partial GamePackageViewModel GamePackageViewModel { get; }
+
+    public partial LaunchStatusOptions LaunchStatusOptions { get; }
+
+    public partial LowLevelKeyOptions LowLevelKeyOptions { get; }
+
+    public partial RuntimeOptions RuntimeOptions { get; }
+
+    public partial LaunchOptions LaunchOptions { get; }
+
+    public partial LaunchGameShared Shared { get; }
 
     public ImmutableArray<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Values;
 
@@ -202,7 +206,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public void Receive(LaunchExecutionGameFileSystemExclusiveAccessChangedMessage message)
     {
-        taskContext.BeginInvokeOnMainThread(() => CanResetGamePathEntry = message.CanAccess);
+        taskContext.InvokeOnMainThread(() => CanResetGamePathEntry = message.CanAccess);
     }
 
     protected override async ValueTask<bool> LoadOverrideAsync()

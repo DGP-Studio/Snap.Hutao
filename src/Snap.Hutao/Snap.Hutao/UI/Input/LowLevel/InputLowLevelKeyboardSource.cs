@@ -16,6 +16,7 @@ internal delegate void InputLowLevelKeyboardSourceEventHandler(LowLevelKeyEventA
 internal static class InputLowLevelKeyboardSource
 {
     private static HHOOK keyboard;
+    private static int refCount;
 
     public static event InputLowLevelKeyboardSourceEventHandler? KeyDown;
 
@@ -27,7 +28,8 @@ internal static class InputLowLevelKeyboardSource
 
     public static unsafe void Initialize()
     {
-        if (keyboard.Value != 0)
+        Interlocked.Increment(ref refCount);
+        if (keyboard.Value is not 0)
         {
             return;
         }
@@ -38,7 +40,12 @@ internal static class InputLowLevelKeyboardSource
 
     public static void Uninitialize()
     {
-        if (keyboard.Value != 0)
+        if (Interlocked.Decrement(ref refCount) is not 0)
+        {
+            return;
+        }
+
+        if (keyboard.Value is not  0)
         {
             UnhookWindowsHookEx(keyboard);
         }

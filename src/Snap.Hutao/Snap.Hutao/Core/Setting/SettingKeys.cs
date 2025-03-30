@@ -35,6 +35,7 @@ internal static class SettingKeys
 
     #region Overlay
     public const string OverlaySelectedCatalogId = "OverlaySelectedCatalogId";
+    public const string OverlayWindowIsVisible = "OverlayWindowIsVisible";
     #endregion
 
     #region Passport
@@ -73,6 +74,7 @@ internal static class SettingKeys
     public const string LowLevelKeyboardWebView2VideoFastForward = "LowLevelKeyboardWebView2VideoFastForward";
     public const string LowLevelKeyboardWebView2VideoRewind = "LowLevelKeyboardWebView2VideoRewind";
     public const string LowLevelKeyboardWebView2Hide = "LowLevelKeyboardWebView2Hide";
+    public const string LowLevelKeyboardOverlayHide = "LowLevelKeyboardOverlayHide";
     public const string WebView2VideoFastForwardOrRewindSeconds = "WebView2VideoFastForwardOrRewindSeconds";
     public const string CompactWebView2WindowInactiveOpacity = "CompactWebView2WindowInactiveOpacity";
     public const string CompactWebView2WindowPreviousSourceUrl = "CompactWebView2WindowPreviousSourceUrl";
