@@ -2720,6 +2720,9 @@
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>游戏选项</value>
   </data>
+  <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
+    <value>启动游戏后在悬浮窗中调整具体的功能设置，可能需要启用无边框窗口选项来正确的显示悬浮窗</value>
+  </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
     <value>设置悬浮窗（与游戏一同启动）的显示/隐藏快捷键</value>
   </data>

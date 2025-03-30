@@ -58,7 +58,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
         AppWindow.Resize(size);
-        if (!LocalSetting.Get(SettingKeys.OverlayWindowIsVisible, true))
+        if (!HideByHotKey)
         {
             AppWindow.Hide();
         }
@@ -72,6 +72,10 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
     public bool PreventClose { get; set; } = true;
+
+    public bool HideByHotKey { get => !LocalSetting.Get(SettingKeys.OverlayWindowIsVisible, false); }
+
+    public bool HideByEvent { get; set; }
 
     public void OnMouseWheel(ref readonly PointerPointProperties data)
     {
@@ -103,8 +107,13 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
             return;
         }
 
-        if (key == lowLevelKeyOptions.WebView2HideKey.Value)
+        if (key == lowLevelKeyOptions.OverlayHideKey.Value)
         {
+            if (HideByEvent)
+            {
+                return;
+            }
+
             taskContext.InvokeOnMainThread(() =>
             {
                 if (AppWindow.IsVisible)

@@ -345,6 +345,7 @@
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid
                                                     Grid.Row="0"
@@ -385,6 +386,17 @@
                                                 </Border>
                                                 <Border
                                                     Grid.Row="2"
+                                                    Background="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}"
+                                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                    BorderThickness="0,0,0,1">
+                                                    <TextBlock
+                                                        Margin="6"
+                                                        HorizontalAlignment="Center"
+                                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                                        Text="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayDescriptionHint}"/>
+                                                </Border>
+                                                <Border
+                                                    Grid.Row="3"
                                                     Padding="16"
                                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                     BorderThickness="0,0,0,1">
@@ -420,7 +432,7 @@
                                                         VerticalAlignment="Center"
                                                         DisplayMemberPath="Name"
                                                         ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
-                                                        SelectedItem="{Binding LowLevelKeyOptions.WebView2HideKey, Mode=TwoWay}"/>
+                                                        SelectedItem="{Binding LowLevelKeyOptions.OverlayHideKey, Mode=TwoWay}"/>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </StackPanel>
                                         </cwc:SettingsCard>
