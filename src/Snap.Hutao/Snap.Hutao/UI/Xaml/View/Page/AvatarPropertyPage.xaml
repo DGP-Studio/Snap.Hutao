@@ -628,6 +628,7 @@
                                         <ListView
                                             Grid.Row="0"
                                             Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                            shuxc:ListViewHelper.ScrollToTopAssociatedObject="{Binding SortDescriptionKind}"
                                             ItemTemplate="{StaticResource AvatarListViewTemplate}"
                                             ItemsSource="{Binding Summary.Avatars}"
                                             SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>

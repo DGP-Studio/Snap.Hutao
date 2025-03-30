@@ -74,6 +74,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                         Summary?.Avatars.SortDescriptions.Add(sd);
                     }
                 }
+
+                Summary?.Avatars.MoveCurrentToFirst();
             }
         }
     }
