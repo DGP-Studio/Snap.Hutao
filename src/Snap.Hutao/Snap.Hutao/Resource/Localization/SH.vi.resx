@@ -2721,10 +2721,10 @@
     <value>Tùy chọn game</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
-    <value>设置悬浮窗（与游戏一同启动）的显示/隐藏快捷键</value>
+    <value>Thiết lập phím tắt hiển thị/ẩn cửa sổ nổi (khởi chạy cùng trò chơi)</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
-    <value>显示/隐藏悬浮窗</value>
+    <value>Hiển thị/Ẩn cửa sổ nổi</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Cài đặt trò chơi</value>
