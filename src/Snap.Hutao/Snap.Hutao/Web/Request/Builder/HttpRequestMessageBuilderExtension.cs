@@ -123,4 +123,26 @@ internal static class HttpRequestMessageBuilderExtension
         {
         }
     }
+
+    private static NetworkError HttpRequestExceptionToNetworkError(HttpRequestException ex)
+    {
+        if (ex.HttpRequestError is HttpRequestError.ConnectionError)
+        {
+            switch (ex.InnerException)
+            {
+                case SocketException socketException:
+                    switch (socketException.SocketErrorCode)
+                    {
+                        case SocketError.TimedOut:
+                            return NetworkError.ERR_CONNECTION_TIMED_OUT;
+                        case SocketError.ConnectionRefused:
+                            return NetworkError.ERR_CONNECTION_REFUSED;
+                    }
+
+                    break;
+            }
+        }
+
+        return NetworkError.OK;
+    }
 }
