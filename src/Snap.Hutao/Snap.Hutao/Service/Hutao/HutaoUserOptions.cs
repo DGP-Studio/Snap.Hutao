@@ -135,6 +135,11 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             // Wait previous Info Event
             await infoEvent.WaitAsync().ConfigureAwait(false);
+            if (!IsLoggedIn)
+            {
+                return;
+            }
+
             infoEvent.Reset();
 
             if (await GetAuthTokenAsync(token).ConfigureAwait(false) is not null)
