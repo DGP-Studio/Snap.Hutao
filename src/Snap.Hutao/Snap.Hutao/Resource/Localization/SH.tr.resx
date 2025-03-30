@@ -2721,10 +2721,10 @@
     <value>Oyun Seçenekleri</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
-    <value>设置悬浮窗（与游戏一同启动）的显示/隐藏快捷键</value>
+    <value>Oyun içi yer paylaşımını göstermek/gizlemek için kısayol tuşunu ayarla<b>（</b></value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
-    <value>显示/隐藏悬浮窗</value>
+    <value>Oyun İçi Yer Paylaşımını Göster/Gizle</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Oyunu Yükle</value>
