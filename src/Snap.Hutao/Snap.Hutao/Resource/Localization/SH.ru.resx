@@ -2721,10 +2721,10 @@
     <value>Параметры Игры</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
-    <value>设置悬浮窗（与游戏一同启动）的显示/隐藏快捷键</value>
+    <value>Установить сочетание клавиш для отображения/скрытия всплывающего окна (запускается вместе с игрой)</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
-    <value>显示/隐藏悬浮窗</value>
+    <value>Отобразить/скрыть всплывающее окно</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Установить игру</value>
