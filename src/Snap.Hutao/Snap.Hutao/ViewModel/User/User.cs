@@ -104,7 +104,7 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
             }
         }
 
-        if (!isCurrentUserGameRoleChangedMessageSuppressed)
+        if (!isCurrentUserGameRoleChangedMessageSuppressed && IsSelected)
         {
             serviceProvider.GetRequiredService<IMessenger>().Send(new UserAndUidChangedMessage(this));
         }
