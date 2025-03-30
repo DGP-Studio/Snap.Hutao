@@ -2723,10 +2723,10 @@
     <value>ゲームオプション</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
-    <value>设置悬浮窗（与游戏一同启动）的显示/隐藏快捷键</value>
+    <value>ゲーム内オーバーレイの表示/非表示のショートカットを設定<b>（</b>ゲームとともに起動<b>）</b></value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
-    <value>显示/隐藏悬浮窗</value>
+    <value>ゲーム内オーバーレイの表示/非表示</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>ゲームをインストールする</value>
