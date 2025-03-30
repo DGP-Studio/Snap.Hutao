@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.ViewModel.Cultivation;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -41,6 +40,7 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
 
                 case 100U: // 经验
                     {
+                        // TODO: Reduce enumeration
                         if (items.SingleOrDefault(i => i.Inner.RankLevel is QualityType.QUALITY_PURPLE) is { IsFinished: false })
                         {
                             foreach (StatisticsCultivateItem item in items)
@@ -91,7 +91,6 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
                         // ABCDE -> B
                         ResinStatisticsItem targetStatisticsItem = ((rank / 1000) % 10) switch
                         {
-
                             3 => statistics.TalentAscension,
                             5 => statistics.WeaponAscension,
                             _ => throw HutaoException.NotSupported(),
