@@ -35,7 +35,7 @@ internal static class SettingKeys
 
     #region Overlay
     public const string OverlaySelectedCatalogId = "OverlaySelectedCatalogId";
-    public const string OverlayWindowIsVisible = "OverlayWindowIsVisible";
+    public const string OverlayWindowIsVisible = "OverlayWindowIsVisible2";
     #endregion
 
     #region Passport
@@ -108,6 +108,9 @@ internal static class SettingKeys
 
     [Obsolete]
     public const string AllowExtractGameBlks = "AllowExtractGameBlks";
+
+    [Obsolete("第一次重置悬浮窗初始状态")]
+    public const string OverlayWindowIsVisibleLegacy1 = "OverlayWindowIsVisible";
 
     #endregion
 }

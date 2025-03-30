@@ -17,7 +17,6 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Window;
