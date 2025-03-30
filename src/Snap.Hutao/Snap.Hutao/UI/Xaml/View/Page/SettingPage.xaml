@@ -505,7 +505,7 @@
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
-                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
+                                                ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoPlayPauseKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
@@ -540,7 +540,7 @@
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
-                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
+                                                ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoFastForwardKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
@@ -557,7 +557,7 @@
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
-                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
+                                                ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2VideoRewindKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
@@ -574,7 +574,7 @@
                                                 MinWidth="120"
                                                 VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
-                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
+                                                ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
                                                 SelectedItem="{Binding LowLevelKeyOptions.WebView2HideKey, Mode=TwoWay}"/>
                                         </shuxc:SizeRestrictedContentControl>
                                     </StackPanel>
