@@ -2721,10 +2721,10 @@
     <value>Opciones de juego</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
-    <value>设置悬浮窗（与游戏一同启动）的显示/隐藏快捷键</value>
+    <value>Configurar el atajo para mostrar/ocultar la ventana flotante (se inicia con el juego)</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
-    <value>显示/隐藏悬浮窗</value>
+    <value>Mostrar/Ocultar ventana flotante</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Instalar juego</value>
