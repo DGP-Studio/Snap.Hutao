@@ -3,10 +3,13 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Input;
+using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.ViewModel.Overlay;
+using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -18,6 +21,9 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
     IXamlWindowClosedHandler,
     IWindowNeedEraseBackground
 {
+    private readonly LowLevelKeyOptions lowLevelKeyOptions;
+    private readonly ITaskContext taskContext;
+
     public LaunchExecutionOverlayWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -48,7 +54,17 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         IServiceScope scope = serviceProvider.CreateScope();
         this.InitializeController(scope.ServiceProvider);
         RootView.InitializeDataContext<OverlayViewModel>(scope.ServiceProvider);
+        lowLevelKeyOptions = serviceProvider.GetRequiredService<LowLevelKeyOptions>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
         AppWindow.Resize(size);
+        if (!LocalSetting.Get(SettingKeys.OverlayWindowIsVisible, true))
+        {
+            AppWindow.Hide();
+        }
+
+        InputLowLevelKeyboardSource.Initialize();
+        InputLowLevelKeyboardSource.KeyDown += OnLowLevelKeyDown;
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => RootBorder; }
@@ -69,6 +85,40 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
 
     public void OnWindowClosed()
     {
-        // Do nothing
+        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+        InputLowLevelKeyboardSource.Initialize();
+    }
+
+    private void OnLowLevelKeyDown(LowLevelKeyEventArgs args)
+    {
+        if (args.Handled)
+        {
+            return;
+        }
+
+        VIRTUAL_KEY key = (VIRTUAL_KEY)args.Data.vkCode;
+        if (key is VIRTUAL_KEY.VK__none_)
+        {
+            // Skipping VK__none_ handling
+            return;
+        }
+
+        if (key == lowLevelKeyOptions.WebView2HideKey.Value)
+        {
+            taskContext.InvokeOnMainThread(() =>
+            {
+                if (AppWindow.IsVisible)
+                {
+                    AppWindow.Hide();
+                    LocalSetting.Set(SettingKeys.OverlayWindowIsVisible, false);
+                }
+                else
+                {
+                    AppWindow.Show(false);
+                    AppWindow.MoveInZOrderAtTop();
+                    LocalSetting.Set(SettingKeys.OverlayWindowIsVisible, true);
+                }
+            });
+        }
     }
 }
