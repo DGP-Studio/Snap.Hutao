@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -114,8 +115,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private void OnCurrentAvatarChanged(object? sender, object? e)
     {
         UpdateBaseValueInfo(Avatars?.CurrentItem);
-
-        taskContext.BeginInvokeOnMainThread(() => Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst());
+        Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst();
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, WikiAvatarMetadataContext context)
@@ -136,6 +136,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     [Command("CultivateCommand")]
     private async Task CultivateAsync(Avatar? avatar)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cultivate", "WikiAvatarViewModel.Command"));
+
         if (avatar is null)
         {
             return;
@@ -147,13 +149,17 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        CalculableOptions options = new(avatar.ToCalculable(), null);
-        CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        CultivatePromotionDeltaOptions deltaOptions;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            return;
+            CalculableOptions options = new(avatar.ToCalculable(), null);
+            CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(scope.ServiceProvider, options).ConfigureAwait(false);
+            (bool isOk, deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+
+            if (!isOk)
+            {
+                return;
+            }
         }
 
         CalculateBatchConsumption? batchConsumption;
@@ -215,6 +221,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     [Command("FilterCommand")]
     private void ApplyFilter()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Filter avatars", "WikiAvatarViewModel.Command"));
+
         if (Avatars is null)
         {
             return;

@@ -419,14 +419,22 @@ internal class MiHoYoJSBridge
 
         ArgumentNullException.ThrowIfNull(param);
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
-        using (await webMessageLock.LockAsync().ConfigureAwait(false))
-        {
-            IJsBridgeResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
 
-            if (result is not null && param.Callback is not null)
+        try
+        {
+            using (await webMessageLock.LockAsync().ConfigureAwait(false))
             {
-                await ExecuteCallbackScriptAsync(param.Callback, JsonSerializer.Serialize(result, result.GetType())).ConfigureAwait(false);
+                IJsBridgeResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
+
+                if (result is not null && param.Callback is not null)
+                {
+                    await ExecuteCallbackScriptAsync(param.Callback, JsonSerializer.Serialize(result, result.GetType())).ConfigureAwait(false);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            SentrySdk.CaptureException(ex);
         }
     }
 
@@ -478,17 +486,17 @@ internal class MiHoYoJSBridge
     private void OnDOMContentLoaded(CoreWebView2 coreWebView2, CoreWebView2DOMContentLoadedEventArgs args)
     {
         DOMContentLoaded(coreWebView2);
-        coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget(logger);
-        coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget(logger);
+        coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget();
+        coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget();
     }
 
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
     {
-        string uriHost = new Uri(args.Uri).Host;
+        string uriHost = args.Uri.ToUri().Host;
         ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
-            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget(logger);
+            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget();
         }
     }
 }

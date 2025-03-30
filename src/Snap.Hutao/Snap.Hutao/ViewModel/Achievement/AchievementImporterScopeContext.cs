@@ -21,6 +21,8 @@ internal sealed partial class AchievementImporterScopeContext
 
     public partial IClipboardProvider ClipboardProvider { get; }
 
+    public partial IServiceProvider ServiceProvider { get; }
+
     public partial IInfoBarService InfoBarService { get; }
 
     public partial ITaskContext TaskContext { get; }

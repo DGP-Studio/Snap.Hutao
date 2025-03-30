@@ -86,8 +86,8 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public Region Region
     {
-        get => GetOption(ref region, SettingEntry.AnnouncementRegion, Region.FromRegionString, Region.CNGF01).Value;
-        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, static v => v.ToStringOrEmpty());
+        get => GetOption(ref region, SettingEntry.AnnouncementRegion, Region.FromRegionString, Region.CNGF01);
+        set => SetOption(ref region, SettingEntry.AnnouncementRegion, value, NullableExtension.ToStringOrEmpty);
     }
 
     [field: AllowNull]

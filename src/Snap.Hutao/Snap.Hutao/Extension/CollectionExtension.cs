@@ -11,7 +11,8 @@ internal static class CollectionExtension
     public static int RemoveWhere<T>(this Collection<T> collection, Func<T, bool> shouldRemovePredicate)
     {
         int count = 0;
-        T[] array = [.. collection];
+        T[] array = GC.AllocateUninitializedArray<T>(collection.Count);
+        collection.CopyTo(array, 0);
         foreach (ref readonly T item in array.AsSpan())
         {
             if (shouldRemovePredicate(item))

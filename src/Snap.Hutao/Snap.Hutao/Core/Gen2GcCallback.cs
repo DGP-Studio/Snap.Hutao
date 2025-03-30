@@ -7,10 +7,15 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core;
 
+// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Gen2GcCallback.cs
 internal sealed class Gen2GcCallback : CriticalFinalizerObject
 {
     private readonly Func<bool>? callback0;
     private readonly Func<object, bool>? callback1;
+
+#if NET10_0_OR_GREATER
+    [Obsolete("WeakGCHandle is available in .NET 10.0 and later.")]
+#endif
     private GCHandle weakTargetObj;
 
     private Gen2GcCallback(Func<bool> callback)
@@ -89,7 +94,7 @@ internal sealed class Gen2GcCallback : CriticalFinalizerObject
 
     /// <summary>
     /// Schedule 'callback' to be called in the next GC.  If the callback returns true it is
-    /// rescheduled for the next Gen 2 GC.  Otherwise the callbacks stop.
+    /// rescheduled for the next Gen 2 GC. Otherwise, the callbacks stop.
     /// </summary>
     /// <param name="callback">callback</param>
     public static void Register(Func<bool> callback)
@@ -100,7 +105,7 @@ internal sealed class Gen2GcCallback : CriticalFinalizerObject
 
     /// <summary>
     /// Schedule 'callback' to be called in the next GC.  If the callback returns true it is
-    /// rescheduled for the next Gen 2 GC.  Otherwise the callbacks stop.
+    /// rescheduled for the next Gen 2 GC. Otherwise, the callbacks stop.
     ///
     /// NOTE: This callback will be kept alive until either the callback function returns false,
     /// or the target object dies.
@@ -109,7 +114,7 @@ internal sealed class Gen2GcCallback : CriticalFinalizerObject
     /// <param name="targetObj">target</param>
     public static void Register(Func<object, bool> callback, object targetObj)
     {
-        // Create a unreachable object that remembers the callback function and target object.
+        // Create an unreachable object that remembers the callback function and target object.
         _ = new Gen2GcCallback(callback, targetObj);
     }
 }

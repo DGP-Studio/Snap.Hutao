@@ -49,7 +49,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
         // 4. 全部资源下载完成后，根据操作信息项，进行文件替换
         //    处理顺序：备份/替换/新增
         //    替换操作等于 先备份国服文件，随后新增国际服文件
-        // 可能会存在大量相似代码，逻辑完成后再进行重构
+        // TODO: 可能会存在大量相似代码，逻辑完成后再进行重构
         ArgumentNullException.ThrowIfNull(context.SophonChunksOnly.CurrentBranch);
         ArgumentNullException.ThrowIfNull(context.SophonChunksOnly.TargetBranch);
 
@@ -292,7 +292,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
 
         if (File.Exists(cacheFile))
         {
-            if (operation.NewAsset.AssetSize == new FileInfo(cacheFile).Length)
+            if (operation.NewAsset.AssetSize == new System.IO.FileInfo(cacheFile).Length)
             {
                 if (operation.NewAsset.AssetHashMd5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                 {

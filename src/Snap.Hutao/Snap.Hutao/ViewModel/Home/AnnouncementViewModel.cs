@@ -16,8 +16,9 @@ namespace Snap.Hutao.ViewModel.Home;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 {
-    private readonly IHutaoAsAService hutaoAsAService;
     private readonly IAnnouncementService announcementService;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IHutaoAsAService hutaoAsAService;
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
@@ -33,8 +34,8 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     protected override ValueTask<bool> LoadOverrideAsync()
     {
         InitializeDashboard();
-        _ = InitializeInGameAnnouncementAsync();
-        _ = InitializeHutaoAnnouncementAsync();
+        InitializeInGameAnnouncementAsync().SafeForget();
+        InitializeHutaoAnnouncementAsync().SafeForget();
         UpdateGreetingText();
         return ValueTask.FromResult(true);
     }
@@ -104,27 +105,32 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardLaunchGamePresented, true))
         {
-            result.Add(new() { Card = new LaunchGameCard() });
+            result.Add(new() { Card = new LaunchGameCard(serviceProvider) });
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardGachaStatisticsPresented, true))
         {
-            result.Add(new() { Card = new GachaStatisticsCard() });
+            result.Add(new() { Card = new GachaStatisticsCard(serviceProvider) });
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardAchievementPresented, true))
         {
-            result.Add(new() { Card = new AchievementCard() });
+            result.Add(new() { Card = new AchievementCard(serviceProvider) });
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardDailyNotePresented, true))
         {
-            result.Add(new() { Card = new DailyNoteCard() });
+            result.Add(new() { Card = new DailyNoteCard(serviceProvider) });
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardCalendarPresented, true))
         {
-            result.Add(new() { Card = new CalendarCard() });
+            result.Add(new() { Card = new CalendarCard(serviceProvider) });
+        }
+
+        if (LocalSetting.Get(SettingKeys.IsHomeCardSignInPresented, true))
+        {
+            result.Add(new() { Card = new SignInCard(serviceProvider) });
         }
 
         Cards = result;

@@ -13,12 +13,13 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IServiceProvider serviceProvider;
     private readonly CultureOptions cultureOptions;
 
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
-        GachaLogUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogUrlDialog>().ConfigureAwait(false);
+        GachaLogUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogUrlDialog>(serviceProvider).ConfigureAwait(false);
         if (await dialog.GetInputUrlAsync().ConfigureAwait(false) is not (true, { } url))
         {
             return new(false, default);

@@ -27,24 +27,6 @@ internal static class RepositoryCollectionExtension
         return repository.Query(query1 => query(query1).ToImmutableArray());
     }
 
-    public static List<TEntity> List<TEntity>(this IRepository<TEntity> repository)
-        where TEntity : class
-    {
-        return repository.Query(query => query.ToList());
-    }
-
-    public static List<TEntity> List<TEntity>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate)
-        where TEntity : class
-    {
-        return repository.List(query => query.Where(predicate));
-    }
-
-    public static List<TResult> List<TEntity, TResult>(this IRepository<TEntity> repository, Func<IQueryable<TEntity>, IQueryable<TResult>> query)
-        where TEntity : class
-    {
-        return repository.Query(query1 => query(query1).ToList());
-    }
-
     // ObservableCollection<TEntity> is always not readonly.
     public static ObservableCollection<TEntity> ObservableCollection<TEntity>(this IRepository<TEntity> repository)
         where TEntity : class

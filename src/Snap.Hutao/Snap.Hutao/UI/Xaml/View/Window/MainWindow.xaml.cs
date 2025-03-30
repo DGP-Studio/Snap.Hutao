@@ -3,8 +3,8 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Windowing.Abstraction;
+using Snap.Hutao.ViewModel;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -16,22 +16,24 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 {
     public MainWindow(IServiceProvider serviceProvider)
     {
+        InitializeComponent();
+
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
-            presenter.PreferredMinimumSize = ScaledSizeInt32.CreateForWindow(1000, 600, this);
+            SizeInt32 minSize = ScaledSizeInt32.CreateForWindow(1000, 600, this);
+            presenter.PreferredMinimumWidth = minSize.Width;
+            presenter.PreferredMinimumHeight = minSize.Height;
         }
 
-        InitializeComponent();
-        this.InitializeController(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
+        TitleView.InitializeDataContext<TitleViewModel>(scope.ServiceProvider);
+        MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
     }
 
-    public FrameworkElement TitleBarCaptionAccess { get => TitleBarView.DragArea; }
+    public FrameworkElement TitleBarCaptionAccess { get => TitleView.DragArea; }
 
-    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => TitleBarView.Passthrough; }
+    public IEnumerable<FrameworkElement> TitleBarPassthrough { get => TitleView.Passthrough; }
 
-    public string PersistRectKey { get => SettingKeys.WindowRect; }
-
-    public string PersistScaleKey { get => SettingKeys.WindowScale; }
-
-    public SizeInt32 InitSize { get; } = new(1200, 741);
+    public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1200, 741, this); }
 }

@@ -3,6 +3,7 @@
 
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
@@ -44,7 +45,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             else if (state is GuideState.StaticResourceBegin)
             {
                 (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionStaticResourceBegin, false);
-                _ = DownloadStaticResourceAsync();
+                DownloadStaticResourceAsync().SafeForget();
             }
             else if (state is GuideState.Completed)
             {
@@ -172,12 +173,16 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     [Command("NextOrCompleteCommand")]
     private void NextOrComplete()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Increase guide state", "GuideViewModel.Command"));
+
         ++State;
     }
 
     [Command("SetDataFolderCommand")]
     private async Task SetDataFolderAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set data folder path", "GuideViewModel.Command"));
+
         if (await SettingStorageViewModel.InternalSetDataFolderAsync(fileSystemPickerInteraction, contentDialogFactory).ConfigureAwait(false))
         {
             AppInstance.Restart(string.Empty);
@@ -201,7 +206,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(true))
             {
-                taskContext.BeginInvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+                taskContext.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
             }
         }).ConfigureAwait(false);
 

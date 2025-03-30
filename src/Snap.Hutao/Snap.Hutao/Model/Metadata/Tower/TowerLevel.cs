@@ -16,13 +16,13 @@ internal sealed class TowerLevel
 
     public required uint MonsterLevel { get; init; }
 
-    public ImmutableArray<MonsterRelationshipId> FirstMonsters { get; init; }
+    public ImmutableArray<MonsterDescribeId> FirstMonsters { get; init; }
 
     public ImmutableArray<TowerWave> FirstWaves { get; init; }
 
     public NameDescription? FirstGadget { get; init; }
 
-    public ImmutableArray<MonsterRelationshipId> SecondMonsters { get; init; }
+    public ImmutableArray<MonsterDescribeId> SecondMonsters { get; init; }
 
     public ImmutableArray<TowerWave> SecondWaves { get; init; }
 

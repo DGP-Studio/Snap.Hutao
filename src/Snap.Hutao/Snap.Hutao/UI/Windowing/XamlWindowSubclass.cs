@@ -3,10 +3,13 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.UI.Input;
+using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.SystemServices;
 using Snap.Hutao.Win32.UI.Shell;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -89,8 +92,45 @@ internal sealed partial class XamlWindowSubclass : IDisposable
 
                     break;
                 }
+
+            case WM_MOUSEWHEEL:
+                {
+                    if (state.window is IXamlWindowMouseWheelHandler handler)
+                    {
+                        WPARAM2MOUSEWHEEL pWParam2 = *(WPARAM2MOUSEWHEEL*)&wParam;
+                        LPARAM2MOUSEWHEEL pLParam2 = *(LPARAM2MOUSEWHEEL*)&lParam;
+                        PointerPointProperties data = new(pWParam2.High, (MODIFIERKEYS_FLAGS)pWParam2.Low, pLParam2.Low, pLParam2.High);
+                        handler.OnMouseWheel(in data);
+                    }
+
+                    break;
+                }
         }
 
         return DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
+
+#pragma warning disable CA1823
+#pragma warning disable CS0169
+#pragma warning disable CS0649
+
+    // ReSharper disable once InconsistentNaming
+    private readonly struct WPARAM2MOUSEWHEEL
+    {
+        public readonly short Low;
+        public readonly short High;
+        private readonly int reserved;
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private readonly struct LPARAM2MOUSEWHEEL
+    {
+        public readonly short Low;
+        public readonly short High;
+        private readonly int reserved;
+    }
+
+#pragma warning restore CS0649
+#pragma warning restore CS0169
+#pragma warning restore CA1823
 }

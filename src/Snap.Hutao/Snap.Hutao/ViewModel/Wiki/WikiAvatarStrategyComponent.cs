@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Service;
@@ -23,6 +24,8 @@ internal sealed partial class WikiAvatarStrategyComponent
     [Command("BilibiliStrategyCommand")]
     private static async Task OpenBilibiliStrategyWebsiteAsync(Avatar? avatar)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Open strategy website", "WikiAvatarStrategyComponent.Command", [("target", "bilibili")]));
+
         if (avatar is null)
         {
             return;
@@ -35,6 +38,8 @@ internal sealed partial class WikiAvatarStrategyComponent
     [Command("ChineseStrategyCommand")]
     private async Task OpenChineseStrategyWebsiteAsync(Avatar? avatar)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Open strategy website", "WikiAvatarStrategyComponent.Command", [("target", "miyoushe")]));
+
         if (avatar is null)
         {
             return;
@@ -61,6 +66,8 @@ internal sealed partial class WikiAvatarStrategyComponent
     [Command("OverseaStrategyCommand")]
     private async Task OpenOverseaStrategyWebsiteAsync(Avatar? avatar)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Open strategy website", "WikiAvatarStrategyComponent.Command", [("target", "hoyolab")]));
+
         if (avatar is null)
         {
             return;

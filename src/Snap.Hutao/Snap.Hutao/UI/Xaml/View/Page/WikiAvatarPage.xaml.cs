@@ -10,7 +10,11 @@ internal sealed partial class WikiAvatarPage : ScopedPage
 {
     public WikiAvatarPage()
     {
-        InitializeWith<WikiAvatarViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<WikiAvatarViewModel>();
     }
 }

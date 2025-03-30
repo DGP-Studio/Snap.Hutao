@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI;
 using Snap.Hutao.Win32.System.WinRT;
+using System.Diagnostics;
 using System.IO;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
@@ -15,6 +16,8 @@ internal static class MonoChromeImageConverter
 {
     public static async ValueTask ConvertAndCopyToAsync(ElementTheme theme, Stream source, Stream destination)
     {
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+
         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(source.AsRandomAccessStream());
 
         // Always premultiplied to prevent some channels have a non-zero value when the alpha channel is zero
@@ -37,6 +40,8 @@ internal static class MonoChromeImageConverter
 
     private static void SynchronizedConvert(IMemoryBufferByteAccess byteAccess, byte background)
     {
+        Debug.Assert(Thread.CurrentThread.IsBackground);
+
         byteAccess.GetBuffer(out Span<Rgba32> span);
         foreach (ref Rgba32 pixel in span)
         {

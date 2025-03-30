@@ -29,7 +29,7 @@ internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
 
     public NameValue<TimeSpan>? SelectedCalendarServerTimeZoneOffset
     {
-        get => field ??= AppOptions.GetCalendarServerTimeZoneOffsetForSelectionOrDefault();
+        get => field ??= AppOptions.GetCurrentCalendarServerTimeZoneOffsetForSelectionOrDefault();
         set
         {
             if (SetProperty(ref field, value) && value is not null)

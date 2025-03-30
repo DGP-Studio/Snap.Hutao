@@ -5,7 +5,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -19,7 +18,6 @@ internal sealed partial class AuthClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
-    private readonly ILogger<BindingClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<ActionTicketWrapper>> GetActionTicketBySTokenAsync(string action, User user, CancellationToken token = default)
@@ -35,7 +33,7 @@ internal sealed partial class AuthClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.K2, true).ConfigureAwait(false);
 
         Response<ActionTicketWrapper>? resp = await builder
-            .SendAsync<Response<ActionTicketWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<ActionTicketWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -54,7 +52,7 @@ internal sealed partial class AuthClient
                 .Get();
 
             resp = await builder
-                .SendAsync<Response<ListWrapper<NameToken>>>(httpClient, logger, token)
+                .SendAsync<Response<ListWrapper<NameToken>>>(httpClient, token)
                 .ConfigureAwait(false);
         }
 

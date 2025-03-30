@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.ExceptionService;
@@ -10,13 +9,13 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
-using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
 
+[ConstructorGenerated(InitializeComponent = true)]
 [Injection(InjectAs.Singleton)]
 [SuppressMessage("", "SH001", Justification = "The App must be public")]
 public sealed partial class App : Application
@@ -41,30 +40,21 @@ public sealed partial class App : Application
     private readonly IAppActivation activation;
     private readonly ILogger<App> logger;
 
-    public App(IServiceProvider serviceProvider)
+    /// <summary>
+    /// Shortcut to get the <see cref="AppOptions"/> instance.
+    /// </summary>
+    internal partial AppOptions Options { get; }
+
+    partial void PostConstruct(IServiceProvider serviceProvider)
     {
-        logger = serviceProvider.GetRequiredService<ILogger<App>>();
-
-        // Load app resource
-        InitializeComponent();
-
         ExceptionHandlingSupport.Initialize(serviceProvider, this);
-
-        activation = serviceProvider.GetRequiredService<IAppActivation>();
-        this.serviceProvider = serviceProvider;
     }
 
+    [SuppressMessage("", "SA1202")]
     public new void Exit()
     {
         XamlApplicationLifetime.Exiting = true;
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting", "Hutao"));
-
-        if (XamlApplicationLifetime.LaunchedWithNotifyIcon)
-        {
-            Window window = serviceProvider.GetRequiredService<NotifyIconController>().XamlHost;
-            SpinWait.SpinUntil(() => VisualTreeHelper.GetOpenPopups(window).Count <= 0);
-        }
-
         base.Exit();
     }
 
@@ -79,7 +69,6 @@ public sealed partial class App : Application
 
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
-            Bootstrap.UseNamedPipeRedirection();
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
                 SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting on RedirectActivationTo", "Hutao"));
@@ -87,7 +76,7 @@ public sealed partial class App : Application
                 return;
             }
 
-            logger.LogInformation($"\e[33m{ConsoleBanner}\e[37m");
+            logger.LogInformation($"{ConsoleBanner}");
 
             FrameworkTheming.SetTheme(ThemeHelper.ElementToFramework(serviceProvider.GetRequiredService<AppOptions>().ElementTheme));
 
@@ -97,7 +86,9 @@ public sealed partial class App : Application
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Application failed in App.OnLaunched");
+            SentrySdk.CaptureException(ex);
+            SentrySdk.Flush();
+
             Process.GetCurrentProcess().Kill();
         }
     }

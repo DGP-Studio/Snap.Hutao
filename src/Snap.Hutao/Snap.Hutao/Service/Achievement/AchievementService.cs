@@ -55,7 +55,7 @@ internal sealed partial class AchievementService : IAchievementService
                 results.Add(AchievementView.Create(entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id), meta));
             }
 
-            IAdvancedCollectionView<AchievementView> collection = results.ToImmutable().AsAdvancedCollectionView();
+            IAdvancedCollectionView<AchievementView> collection = results.ToArray().AsAdvancedCollectionView();
             viewCollectionCache.TryAdd(innerId, collection);
             return collection;
         }
@@ -78,14 +78,15 @@ internal sealed partial class AchievementService : IAchievementService
             return ArchiveAddResultKind.ArchivesNotInitialized;
         }
 
-        if (archives.Source.Any(a => a.Name == newArchive.Name))
+        string archiveName = newArchive.Name;
+        if (archives.Source.Any(a => a.Name == archiveName))
         {
             return ArchiveAddResultKind.AlreadyExists;
         }
 
         await taskContext.SwitchToMainThreadAsync();
         archives.Add(newArchive);
-        archives.MoveCurrentTo(newArchive);
+        archives.MoveCurrentTo(newArchive); // Set current will insert archive to db
 
         return ArchiveAddResultKind.Added;
     }
@@ -94,14 +95,12 @@ internal sealed partial class AchievementService : IAchievementService
     {
         ArgumentNullException.ThrowIfNull(archives);
 
-        // Sync cache
         await taskContext.SwitchToMainThreadAsync();
         archives.Remove(archive);
+        archives.MoveCurrentToFirst();
 
-        // Invalidate cache
         viewCollectionCache.TryRemove(archive.InnerId, out _);
 
-        // Sync database
         await taskContext.SwitchToBackgroundAsync();
         achievementRepository.RemoveAchievementArchive(archive);
     }

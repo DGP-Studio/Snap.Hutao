@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
+
+message PatchManifest
+{
+    repeated FileData FileDatas = 1;
+    repeated DeleteFilesEntry DeleteFilesEntries = 2;
+}
+
+message FileData
+{
+    string FileName = 1;
+    int64 FileSize = 2;
+    string FileHash = 3;
+    repeated PatchesEntry PatchesEntries = 4;
+}
+
+message PatchesEntry
+{
+    string Key = 1;
+    PatchInfo PatchInfo = 2;
+}
+
+message PatchInfo
+{
+    string Id = 1;
+    string Tag = 2;
+    string BuildId = 3;
+    int64 PatchFileSize = 4;
+    string PatchesFileHash = 5;
+    int64 PatchStartOffset = 6;
+    int64 PatchLength = 7;
+    string OriginalFileName = 8;
+    int64 OriginalFileSize = 9;
+    string OriginalFileHash = 10;
+}
+
+message DeleteFilesEntry
+{
+    string Key = 1;
+    DeleteFiles DeleteFiles = 2;
+}
+
+message DeleteFiles
+{
+    repeated FileInfo Infos = 1;
+}
+
+message FileInfo
+{
+    string Name = 1;
+    int64 Size = 2;
+    string Hash = 3;
+}

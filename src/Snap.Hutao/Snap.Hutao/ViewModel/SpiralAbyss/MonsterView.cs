@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 internal sealed class MonsterView : INameIcon<Uri>
 {
-    private MonsterView(in MonsterRelationshipId id)
+    private MonsterView(in MonsterDescribeId id)
     {
         Name = $"Unknown {id}";
         Icon = StaticResourcesEndpoints.UIIconNone;
@@ -41,7 +41,7 @@ internal sealed class MonsterView : INameIcon<Uri>
 
     public bool AttackMonolith { get; }
 
-    public static MonsterView Default(in MonsterRelationshipId id)
+    public static MonsterView Default(in MonsterDescribeId id)
     {
         return new(id);
     }

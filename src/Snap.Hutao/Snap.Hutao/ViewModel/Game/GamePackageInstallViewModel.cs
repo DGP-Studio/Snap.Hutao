@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
@@ -57,19 +58,25 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
     [Command("StartCommand")]
     private async Task StartAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Start install operation", "GamePackageInstallViewModel.Command"));
+
         if (!IsInitialized)
         {
             return;
         }
 
-        LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
-        dialog.KnownSchemes = KnownLaunchSchemes.Values;
-        dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-        (bool isOk, GameInstallOptions gameInstallOptions) = await dialog.GetGameInstallOptionsAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        GameInstallOptions gameInstallOptions;
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            return;
+            LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            dialog.KnownSchemes = KnownLaunchSchemes.Values;
+            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
+            (bool isOk, gameInstallOptions) = await dialog.GetGameInstallOptionsAsync().ConfigureAwait(false);
+
+            if (!isOk)
+            {
+                return;
+            }
         }
 
         (IGameFileSystem gameFileSystem, LaunchScheme launchScheme) = gameInstallOptions;

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess.Yae;
 
-internal sealed class YaeData : IDisposable
+internal sealed partial class YaeData : IDisposable
 {
     private readonly IMemoryOwner<byte> owner;
     private readonly int contentLength;

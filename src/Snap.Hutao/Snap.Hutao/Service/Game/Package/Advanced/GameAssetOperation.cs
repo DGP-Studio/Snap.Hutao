@@ -39,9 +39,9 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         await VerifyManifestsAsync(context, build, conflictedAssetsBuilder.Add).ConfigureAwait(false);
 
-        if (context.Operation.GameChannelSDK is not null)
+        if (context.Operation.GameChannelSDK is { } channelSDK)
         {
-            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), context.Operation.GameChannelSDK.PackageVersionFileName);
+            string sdkPackageVersionFilePath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), channelSDK.PackageVersionFileName);
             if (!File.Exists(sdkPackageVersionFilePath))
             {
                 channelSdkConflicted = true;
@@ -58,7 +58,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                             ArgumentNullException.ThrowIfNull(item);
 
                             string path = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), item.RelativePath);
-                            if (!item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+                            if (!(File.Exists(path) && item.Md5.Equals(await Hash.FileToHexStringAsync(HashAlgorithmName.MD5, path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase)))
                             {
                                 channelSdkConflicted = true;
                                 break;

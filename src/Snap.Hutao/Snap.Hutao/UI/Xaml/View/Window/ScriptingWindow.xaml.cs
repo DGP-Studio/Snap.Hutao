@@ -15,8 +15,9 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
     {
         InitializeComponent();
 
-        RootGrid.InitializeDataContext<ScriptingViewModel>(serviceProvider);
-        this.InitializeController(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        RootGrid.InitializeDataContext<ScriptingViewModel>(scope.ServiceProvider);
+        this.InitializeController(scope.ServiceProvider);
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => DragableGrid; }
@@ -24,6 +25,4 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get; } = [];
 
     public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(800, 500, this); }
-
-    public SizeInt32 MinSize { get => ScaledSizeInt32.CreateForWindow(600, 200, this); }
 }

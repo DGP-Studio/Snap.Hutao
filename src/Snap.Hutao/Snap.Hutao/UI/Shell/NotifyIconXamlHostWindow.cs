@@ -38,6 +38,8 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
             presenter.SetBorderAndTitleBar(false, false);
         }
 
+        Closed += OnWindowClosed;
+
         this.InitializeController(serviceProvider);
     }
 
@@ -69,5 +71,15 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
     public void MoveAndResize(RECT icon)
     {
         AppWindow.MoveAndResize(RectInt32Convert.RectInt32(icon));
+    }
+
+    private void OnWindowClosed(object sender, WindowEventArgs args)
+    {
+        // https://github.com/DGP-Studio/Snap.Hutao/issues/2532
+        // Prevent the window closing when the application is not exiting.
+        if (!XamlApplicationLifetime.Exiting)
+        {
+            args.Handled = true;
+        }
     }
 }

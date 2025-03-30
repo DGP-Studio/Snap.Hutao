@@ -10,7 +10,11 @@ internal sealed partial class AvatarPropertyPage : ScopedPage
 {
     public AvatarPropertyPage()
     {
-        InitializeWith<AvatarPropertyViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<AvatarPropertyViewModel>();
     }
 }

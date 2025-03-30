@@ -1,0 +1,335 @@
+<UserControl
+    x:Class="Snap.Hutao.UI.Xaml.View.OverlayView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvo="using:Snap.Hutao.ViewModel.Overlay"
+    d:DataContext="{d:DesignInstance shvo:OverlayViewModel}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Grid
+        Padding="4"
+        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+        BackgroundSizing="OuterBorderEdge"
+        BorderBrush="{x:Null}"
+        BorderThickness="0"
+        ColumnSpacing="4"
+        CornerRadius="{ThemeResource OverlayCornerRadius}">
+
+        <Grid.Resources>
+            <SolidColorBrush
+                x:Key="SolidBackgroundFillColorBaseBrush"
+                Opacity="0.4"
+                Color="{ThemeResource SolidBackgroundFillColorBase}"/>
+
+            <SolidColorBrush x:Key="ToggleButtonForegroundChecked" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPointerOver" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPressed" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="ToggleButtonForegroundCheckedDisabled" Color="{ThemeResource TextFillColorPrimary}"/>
+
+            <SolidColorBrush x:Key="SplitButtonForegroundChecked" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundCheckedPointerOver" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundCheckedPressed" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundCheckedDisabled" Color="{ThemeResource TextFillColorPrimary}"/>
+
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryChecked" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryCheckedPointerOver" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryCheckedPressed" Color="{ThemeResource TextFillColorPrimary}"/>
+            <SolidColorBrush x:Key="SplitButtonForegroundSecondaryCheckedDisabled" Color="{ThemeResource TextFillColorPrimary}"/>
+
+            <SolidColorBrush
+                x:Key="ToggleButtonBackgroundChecked"
+                Opacity="0.4"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="ToggleButtonBackgroundCheckedPointerOver"
+                Opacity="0.36"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="ToggleButtonBackgroundCheckedPressed"
+                Opacity="0.32"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="ToggleButtonBackgroundCheckedDisabled"
+                Opacity="0.4"
+                Color="{ThemeResource AccentFillColorDisabled}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundChecked"
+                Opacity="0.4"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundCheckedPointerOver"
+                Opacity="0.36"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundCheckedPressed"
+                Opacity="0.32"
+                Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush
+                x:Key="SplitButtonBackgroundCheckedDisabled"
+                Opacity="0.4"
+                Color="{ThemeResource AccentFillColorDisabled}"/>
+
+            <shuxdcs:FrameRateStringConverter x:Key="FrameRateStringConverter"/>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <SplitButton
+            Grid.Column="0"
+            VerticalAlignment="Stretch"
+            BorderThickness="0"
+            Command="{Binding SwitchToNextCatalogCommand}">
+            <SplitButton.Content>
+                <FontIcon FontSize="16" Glyph="{Binding SelectedCatalog.Icon}"/>
+            </SplitButton.Content>
+            <SplitButton.Flyout>
+                <Flyout
+                    FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding0And2Style}"
+                    Placement="Bottom"
+                    ShouldConstrainToRootBounds="False">
+                    <ListView ItemsSource="{Binding Catalogs}" SelectedItem="{Binding SelectedCatalog, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon
+                                        Grid.Column="0"
+                                        FontSize="16"
+                                        Glyph="{Binding Icon}"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Flyout>
+            </SplitButton.Flyout>
+        </SplitButton>
+
+        <cwc:SwitchPresenter
+            Grid.Column="1"
+            ContentTransitions="{ThemeResource ContentThemeTransitions}"
+            Value="{Binding SelectedCatalog.Id}">
+            <cwc:Case Value="HotKey">
+                <Grid ColumnSpacing="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton
+                        Grid.Column="0"
+                        Padding="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
+                        IsEnabled="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=OneWay}"
+                        IsHitTestVisible="False">
+                        <Grid RowSpacing="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{shuxm:ResourceString Name=ViewTitleAutoClicking}"/>
+                            <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
+                        </Grid>
+                    </ToggleButton>
+                    <ToggleButton
+                        Grid.Column="1"
+                        Padding="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        IsChecked="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
+                        IsEnabled="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.IsEnabled, Mode=OneWay}"
+                        IsHitTestVisible="False">
+                        <Grid RowSpacing="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{shuxm:ResourceString Name=ViewTitleAutoPressing}"/>
+                            <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding HotKeyOptions.KeyPressRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
+                        </Grid>
+                    </ToggleButton>
+                </Grid>
+            </cwc:Case>
+            <cwc:Case Value="Island">
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <ToggleSplitButton
+                        Padding="4,2"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}">
+                        <ToggleSplitButton.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
+                                <ContentControl IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <Slider
+                                            Width="180"
+                                            Margin="12,0"
+                                            VerticalAlignment="Center"
+                                            LargeChange="10"
+                                            Maximum="720"
+                                            Minimum="-1"
+                                            SmallChange="1"
+                                            Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </ContentControl>
+
+                            </Flyout>
+                        </ToggleSplitButton.Flyout>
+                        <StackPanel Spacing="4">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontWeight="Bold"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="FPS"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{Binding LaunchOptions.TargetFps, Converter={StaticResource FrameRateStringConverter}}"/>
+                        </StackPanel>
+                    </ToggleSplitButton>
+
+                    <ToggleSplitButton
+                        Padding="4,2"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}">
+                        <ToggleSplitButton.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
+                                <ContentControl IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <Slider
+                                            Width="120"
+                                            Margin="12,0"
+                                            VerticalAlignment="Center"
+                                            LargeChange="10"
+                                            Maximum="100"
+                                            Minimum="0"
+                                            SmallChange="1"
+                                            Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
+                                        <ToggleButton
+                                            Padding="8"
+                                            VerticalAlignment="Stretch"
+                                            IsChecked="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
+                                            Style="{ThemeResource DefaultToggleButtonStyle}"
+                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}">
+                                            <FontIcon FontSize="16" Glyph="&#xF19D;"/>
+                                        </ToggleButton>
+                                        <ToggleButton
+                                            Padding="8"
+                                            VerticalAlignment="Stretch"
+                                            IsChecked="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
+                                            Style="{ThemeResource DefaultToggleButtonStyle}"
+                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}">
+                                            <FontIcon FontSize="16" Glyph="&#xEC9C;"/>
+                                        </ToggleButton>
+                                    </StackPanel>
+                                </ContentControl>
+                            </Flyout>
+                        </ToggleSplitButton.Flyout>
+                        <StackPanel Spacing="4">
+                            <FontIcon
+                                HorizontalAlignment="Center"
+                                FontSize="16"
+                                Glyph="&#xE890;"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{Binding LaunchOptions.TargetFov}"/>
+                        </StackPanel>
+                    </ToggleSplitButton>
+
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}">
+                        <Grid>
+                            <FontIcon FontSize="16" Glyph="&#xE805;"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayLaunchGameHideQuestBannerToolTip}">
+                        <Grid>
+                            <FontIcon FontSize="16" Glyph="&#xE81E;"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}">
+                        <Grid>
+                            <FontIcon FontSize="16" Glyph="&#xE89E;"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                    <ToggleButton
+                        Padding="8"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        IsChecked="{Binding LaunchOptions.DisableShowDamageText, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPverlayDisableShowDamageTextToolTip}">
+                        <Grid>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontWeight="Bold"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="99"/>
+                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                        </Grid>
+                    </ToggleButton>
+                </StackPanel>
+            </cwc:Case>
+        </cwc:SwitchPresenter>
+    </Grid>
+</UserControl>

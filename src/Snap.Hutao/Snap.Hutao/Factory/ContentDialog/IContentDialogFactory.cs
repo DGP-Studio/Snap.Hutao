@@ -18,7 +18,7 @@ internal interface IContentDialogFactory
 
     ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync([LocalizationRequired] string title);
 
-    ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
+    ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(IServiceProvider serviceProvider, params object[] parameters)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
 
     ValueContentDialogTask EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog);

@@ -16,7 +16,6 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 internal sealed partial class PassportClientOversea : IPassportClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<PassportClientOversea> logger;
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -34,7 +33,7 @@ internal sealed partial class PassportClientOversea : IPassportClient
             .PostJson(data);
 
         Response<UidCookieToken>? resp = await builder
-            .SendAsync<Response<UidCookieToken>>(httpClient, logger, token)
+            .SendAsync<Response<UidCookieToken>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -53,7 +52,7 @@ internal sealed partial class PassportClientOversea : IPassportClient
             .PostJson(data);
 
         Response<LTokenWrapper>? resp = await builder
-            .SendAsync<Response<LTokenWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<LTokenWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

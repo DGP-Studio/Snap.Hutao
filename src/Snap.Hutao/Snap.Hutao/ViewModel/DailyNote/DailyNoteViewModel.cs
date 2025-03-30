@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
@@ -29,6 +30,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IDailyNoteService dailyNoteService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -79,6 +81,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("TrackCurrentUserAndUidCommand")]
     private async Task TrackCurrentUserAndUidAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Add daily note", "DailyNoteViewModel.Command"));
+
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
@@ -100,12 +104,15 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("RefreshCommand")]
     private async Task RefreshAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh daily note", "DailyNoteViewModel.Command"));
         await dailyNoteService.RefreshDailyNotesAsync().ConfigureAwait(false);
     }
 
     [Command("StartGameFromDailyNoteCommand")]
     private async Task StartGameFromDailyNoteAsync(DailyNoteEntry? entry)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Start game", "DailyNoteViewModel.Command", [("uid", entry?.Uid ?? "<null>")]));
+
         if (entry is not null)
         {
             await navigationService
@@ -117,6 +124,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("RemoveDailyNoteCommand")]
     private async Task RemoveDailyNoteAsync(DailyNoteEntry? entry)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove daily note", "DailyNoteViewModel.Command"));
+
         if (entry is not null)
         {
             await dailyNoteService.RemoveDailyNoteAsync(entry).ConfigureAwait(false);
@@ -126,11 +135,13 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("ModifyNotificationCommand")]
     private async Task ModifyDailyNoteNotificationAsync(DailyNoteEntry? entry)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Modify daily note notification settings", "DailyNoteViewModel.Command"));
+
         if (entry is not null)
         {
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
-                DailyNoteNotificationDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteNotificationDialog>(entry).ConfigureAwait(true);
+                DailyNoteNotificationDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteNotificationDialog>(serviceProvider, entry).ConfigureAwait(true);
                 await contentDialogFactory.EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
 
                 await taskContext.SwitchToBackgroundAsync();
@@ -142,7 +153,9 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("ConfigDailyNoteWebhookUrlCommand")]
     private async Task ConfigDailyNoteWebhookUrlAsync()
     {
-        DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>().ConfigureAwait(true);
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Modify daily note webhook settings", "DailyNoteViewModel.Command"));
+
+        DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>(serviceProvider).ConfigureAwait(true);
         dialog.Text = DailyNoteOptions.WebhookUrl;
         (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 

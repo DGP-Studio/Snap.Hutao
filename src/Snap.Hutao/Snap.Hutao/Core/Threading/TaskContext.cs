@@ -12,7 +12,7 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
     public TaskContext()
     {
         DispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        DispatcherQueueSynchronizationContext synchronizationContext = new(DispatcherQueue);
+        PrivateSynchronizationContext synchronizationContext = new(DispatcherQueue);
         SynchronizationContext.SetSynchronizationContext(synchronizationContext);
         XamlApplicationLifetime.DispatcherQueueInitialized = true;
     }
@@ -44,13 +44,40 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
         DispatcherQueue.Invoke(action);
     }
 
-    public T InvokeOnMainThread<T>(Func<T> action)
+    public T InvokeOnMainThread<T>(Func<T> func)
     {
-        return DispatcherQueue.Invoke(action);
+        return DispatcherQueue.Invoke(func);
     }
 
     public void BeginInvokeOnMainThread(Action action)
     {
         DispatcherQueue.TryEnqueue(() => action());
+    }
+
+    private sealed class PrivateSynchronizationContext : SynchronizationContext
+    {
+        private readonly DispatcherQueue dispatcherQueue;
+
+        public PrivateSynchronizationContext(DispatcherQueue dispatcherQueue)
+        {
+            this.dispatcherQueue = dispatcherQueue;
+        }
+
+        public override void Post(SendOrPostCallback callback, object? state)
+        {
+            ArgumentNullException.ThrowIfNull(callback);
+            dispatcherQueue.TryEnqueue(() => callback(state));
+        }
+
+        public override void Send(SendOrPostCallback callback, object? state)
+        {
+            ArgumentNullException.ThrowIfNull(callback);
+            dispatcherQueue.Invoke(() => callback(state));
+        }
+
+        public override SynchronizationContext CreateCopy()
+        {
+            return new PrivateSynchronizationContext(dispatcherQueue);
+        }
     }
 }

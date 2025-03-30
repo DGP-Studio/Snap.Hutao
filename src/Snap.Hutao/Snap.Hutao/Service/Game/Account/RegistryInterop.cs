@@ -23,7 +23,6 @@ internal static class RegistryInterop
     {
         if (account is not null)
         {
-            // 存回注册表的字节需要 '\0' 结尾
             byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
             (string keyName, string valueName) = GetKeyValueName(account.Type);
             Registry.SetValue(keyName, valueName, target);

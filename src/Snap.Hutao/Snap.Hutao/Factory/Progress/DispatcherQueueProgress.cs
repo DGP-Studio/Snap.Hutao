@@ -26,7 +26,9 @@ internal class DispatcherQueueProgress<T> : IProgress<T>
         }
         else
         {
-            dispatcherQueue.TryEnqueue(() => handler(value));
+            // We should always wait for the report to finish
+            // If we use TryEnqueue, DispatcherQueue can queue the item far from now
+            dispatcherQueue.Invoke(DispatcherQueuePriority.High, () => handler(value));
         }
     }
 }

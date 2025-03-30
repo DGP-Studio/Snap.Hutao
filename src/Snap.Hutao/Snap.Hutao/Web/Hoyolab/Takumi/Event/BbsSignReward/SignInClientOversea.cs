@@ -19,7 +19,6 @@ internal sealed partial class SignInClientOversea : ISignInClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly CultureOptions cultureOptions;
-    private readonly ILogger<SignInClient> logger;
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -32,7 +31,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
             .Get();
 
         Response<SignInRewardInfo>? resp = await builder
-            .SendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
+            .SendAsync<Response<SignInRewardInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -46,7 +45,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
             .Get();
 
         Response<Reward>? resp = await builder
-            .SendAsync<Response<Reward>>(httpClient, logger, token)
+            .SendAsync<Response<Reward>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -60,7 +59,35 @@ internal sealed partial class SignInClientOversea : ISignInClient
             .PostJson(new SignInData(apiEndpoints, userAndUid.Uid));
 
         Response<SignInResult>? resp = await builder
-            .SendAsync<Response<SignInResult>>(httpClient, logger, token)
+            .SendAsync<Response<SignInResult>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<SignInRewardReSignInfo>> GetResignInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.LunaSolResignInfo(userAndUid.Uid, cultureOptions.LanguageCode))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .Get();
+
+        Response<SignInRewardReSignInfo>? resp = await builder
+            .SendAsync<Response<SignInRewardReSignInfo>>(httpClient, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<SignInResult>> ReSignAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.LunaSolReSign(cultureOptions.LanguageCode))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .PostJson(new SignInData(apiEndpoints, userAndUid.Uid));
+
+        Response<SignInResult>? resp = await builder
+            .SendAsync<Response<SignInResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

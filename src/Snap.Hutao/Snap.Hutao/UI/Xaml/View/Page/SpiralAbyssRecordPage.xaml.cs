@@ -10,7 +10,11 @@ internal sealed partial class SpiralAbyssRecordPage : ScopedPage
 {
     public SpiralAbyssRecordPage()
     {
-        InitializeWith<SpiralAbyssRecordViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<SpiralAbyssRecordViewModel>();
     }
 }

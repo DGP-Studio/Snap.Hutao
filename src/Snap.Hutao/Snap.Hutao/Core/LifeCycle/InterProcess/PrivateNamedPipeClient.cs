@@ -57,7 +57,7 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
             process.WaitForExit();
         }
 
-        SpinWait.SpinUntil(() =>
+        SpinWaitPolyfill.SpinUntil(response, static response =>
         {
             try
             {

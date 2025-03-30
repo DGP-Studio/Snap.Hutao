@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
@@ -20,8 +21,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
-    private ScrollViewer? rootScrollViewer;
-    private Border? gachaLogBorder;
+    private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
+    private readonly WeakReference<Border> weakGachaLogBorder = new(default!);
 
     public partial SettingGeetestViewModel Geetest { get; }
 
@@ -39,10 +40,10 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
 
     public partial SettingWebViewViewModel WebView { get; }
 
-    public void Initialize(ISettingScrollViewerAccessor accessor)
+    public void AttachXamlElement(ScrollViewer scrollViewer, Border gachaLogBorder)
     {
-        rootScrollViewer = accessor.ScrollViewer;
-        gachaLogBorder = accessor.GachaLogBorder;
+        weakScrollViewer.SetTarget(scrollViewer);
+        weakGachaLogBorder.SetTarget(gachaLogBorder);
     }
 
     public async ValueTask<bool> ReceiveAsync(INavigationExtraData data)
@@ -52,7 +53,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
             return false;
         }
 
-        if (rootScrollViewer is null || gachaLogBorder is null)
+        if (!weakScrollViewer.TryGetTarget(out ScrollViewer? scrollViewer) ||
+            !weakGachaLogBorder.TryGetTarget(out Border? gachaLogBorder))
         {
             return false;
         }
@@ -60,8 +62,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
         if (data.Data is UIGFImportExport)
         {
             await taskContext.SwitchToMainThreadAsync();
-            Point point = gachaLogBorder.TransformToVisual(rootScrollViewer).TransformPoint(new(0, 0));
-            rootScrollViewer.ChangeView(null, point.Y, null, true);
+            Point point = gachaLogBorder.TransformToVisual(scrollViewer).TransformPoint(new(0, 0));
+            scrollViewer.ChangeView(null, point.Y, null, true);
             return true;
         }
 
@@ -88,9 +90,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel, INavigat
     }
 
     [Command("CreateDesktopShortcutCommand")]
-    private async Task CreateDesktopShortcutForElevatedLaunchAsync()
+    private void CreateDesktopShortcutForElevatedLaunchAsync()
     {
-        if (await shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunchAsync().ConfigureAwait(false))
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Create desktop shortcut for elevated launch", "SettingViewModel.Command"));
+
+        if (shellLinkInterop.TryCreateDesktopShortcutForElevatedLaunch())
         {
             infoBarService.Success(SH.ViewModelSettingActionComplete);
         }

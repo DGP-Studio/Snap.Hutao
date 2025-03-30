@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Json.Converter;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization.Metadata;
 
@@ -11,13 +12,15 @@ internal static class JsonOptions
     public static readonly JsonSerializerOptions Default = new()
     {
         AllowTrailingCommas = true,
-        ReadCommentHandling = JsonCommentHandling.Skip,
+        Converters =
+        {
+            new InternStringConverter(),
+        },
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
         PropertyNameCaseInsensitive = true,
-        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-        WriteIndented = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
         TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
             Modifiers =
@@ -25,5 +28,7 @@ internal static class JsonOptions
                 JsonTypeInfoResolvers.ResolveEnumType,
             },
         },
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
+        WriteIndented = true,
     };
 }

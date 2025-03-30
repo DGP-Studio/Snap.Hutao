@@ -38,7 +38,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     public async ValueTask<bool> PrepareAsync(CancellationToken token = default)
     {
-        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem))
         {
             return false;
         }
@@ -56,9 +56,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
         offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
 
-        DebugReplaceOffsets(ref offsets);
-
-        if (!resume)
+        if (!resume && !GlobalSwitch.PreventCopyIslandDll)
         {
             try
             {
@@ -76,67 +74,58 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     public async ValueTask WaitForExitAsync(CancellationToken token = default)
     {
-        try
+        using (MemoryMappedFile file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024))
         {
-            using (MemoryMappedFile file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024))
+            using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
             {
-                using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
+                nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
+                InitializeIslandEnvironment(handle, in offsets, context.Options);
+                if (!resume)
                 {
-                    nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
-                    InitializeIslandEnvironment(handle, offsets, context.Options);
-                    if (!resume)
-                    {
-                        InitializeIsland(context.Process);
-                    }
+                    InitializeIsland(context.Process);
+                }
 
-                    using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
+                using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
+                {
+                    while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
                     {
-                        while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
+                        if (context.Process.HasExited)
                         {
-                            if (context.Process.HasExited)
-                            {
-                                break;
-                            }
+                            break;
+                        }
 
-                            IslandEnvironmentView view = UpdateIslandEnvironment(handle, context.Options);
+                        IslandEnvironmentView view = UpdateIslandEnvironment(handle, context.Options);
 
-                            if (view.State is IslandState.None or IslandState.Stopped)
+                        if (view.State is IslandState.None or IslandState.Stopped)
+                        {
+                            if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
                             {
-                                if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
+                                if (resume)
                                 {
-                                    HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
+                                    // https://github.com/DGP-Studio/Snap.Hutao/issues/2540
+                                    // Simply return if the game is running without island injected previously
+                                    return;
                                 }
+
+                                HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
                             }
-                            else
-                            {
-                                Interlocked.Exchange(ref accumulatedBadStateCount, 0);
-                            }
+                        }
+                        else
+                        {
+                            Interlocked.Exchange(ref accumulatedBadStateCount, 0);
                         }
                     }
                 }
             }
         }
-        finally
-        {
-            context.Logger.LogInformation("Exit PostUnlockAsync");
-        }
     }
 
-    [Conditional("DEBUG")]
-    private static void DebugReplaceOffsets(ref IslandFunctionOffsets offsets)
-    {
-        // offsets.OpenTeamPageAccordingly = 0x07CB71C0;
-    }
-
-    private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
+    private static unsafe void InitializeIslandEnvironment(nint handle, ref readonly IslandFunctionOffsets offsets, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
 
         pIslandEnvironment->FunctionOffsets = offsets;
-        pIslandEnvironment->HookingSetFieldOfView = options.HookingSetFieldOfView;
-        pIslandEnvironment->HookingOpenTeam = options.HookingOpenTeam;
-        pIslandEnvironment->HookingMickyWonderPartner2 = options.HookingMickyWonderPartner2;
-        pIslandEnvironment->HookingSetupQuestBanner = options.HookingSetupQuestBanner;
+        pIslandEnvironment->UsingTouchScreen = options.UsingTouchScreen;
 
         UpdateIslandEnvironment(handle, options);
     }
@@ -153,6 +142,8 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->TargetFrameRate = options.TargetFps;
         pIslandEnvironment->RemoveOpenTeamProgress = options.RemoveOpenTeamProgress;
         pIslandEnvironment->HideQuestBanner = options.HideQuestBanner;
+        pIslandEnvironment->DisableEventCameraMove = options.DisableEventCameraMove;
+        pIslandEnvironment->DisableShowDamageText = options.DisableShowDamageText;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }
@@ -163,6 +154,12 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         try
         {
             hModule = NativeLibrary.Load(dataFolderIslandPath);
+#if DEBUG
+            nint pIslandGetFunctionOffsetSize = NativeLibrary.GetExport((nint)(hModule & ~0x3L), "IslandGetFunctionOffsetsSize");
+            ulong size;
+            ((delegate* unmanaged[Stdcall]<ulong*, HRESULT>)pIslandGetFunctionOffsetSize)(&size);
+            Debug.Assert(size == (ulong)sizeof(IslandFunctionOffsets)); // FunctionOffsets size mismatch
+#endif
             nint pIslandGetWindowHook = NativeLibrary.GetExport((nint)(hModule & ~0x3L), "IslandGetWindowHook");
 
             HOOKPROC hookProc = default;

@@ -9,4 +9,6 @@ namespace Snap.Hutao.Web.Hoyolab.Downloader;
 internal interface ISophonClient
 {
     ValueTask<Response<SophonBuild>> GetBuildAsync(BranchWrapper branch, CancellationToken token = default);
+
+    ValueTask<Response<SophonPatchBuild>> GetPatchBuildAsync(BranchWrapper branch, CancellationToken token = default);
 }

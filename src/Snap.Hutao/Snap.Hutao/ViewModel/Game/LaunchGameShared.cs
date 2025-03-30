@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
@@ -27,6 +28,28 @@ internal sealed partial class LaunchGameShared
     private readonly IGameService gameService;
 
     private bool resuming;
+
+    public LaunchScheme? SilentGetGetCurrentLaunchSchemeFromConfigFile()
+    {
+        ChannelOptions options = gameService.GetChannelOptions();
+        if (options.ErrorKind is ChannelOptionsErrorKind.None)
+        {
+            try
+            {
+                return KnownLaunchSchemes.Values.Single(scheme => scheme.Equals(options));
+            }
+            catch (InvalidOperationException)
+            {
+                if (!IgnoredInvalidChannelOptions.Contains(options))
+                {
+                    // 后台收集
+                    HutaoException.Throw($"不支持的 ChannelOptions: {options}");
+                }
+            }
+        }
+
+        return default;
+    }
 
     public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile()
     {
@@ -75,6 +98,11 @@ internal sealed partial class LaunchGameShared
 
     public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
+        if (SilentGetGetCurrentLaunchSchemeFromConfigFile() is null)
+        {
+            return;
+        }
+
         if (LaunchGameLaunchExecution.IsAnyLaunchExecutionInvoking())
         {
             return;
@@ -116,6 +144,8 @@ internal sealed partial class LaunchGameShared
     [Command("HandleConfigurationFileNotFoundCommand")]
     private async Task HandleConfigurationFileNotFoundAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Generate config file", "LaunchGameShared.Command"));
+
         if (!launchOptions.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
         {
             return;
@@ -123,21 +153,25 @@ internal sealed partial class LaunchGameShared
 
         using (gameFileSystem)
         {
-            LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
-                .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
-                .ConfigureAwait(false);
-
-            bool isOversea = gameFileSystem.IsOversea();
-
-            await taskContext.SwitchToMainThreadAsync();
-
-            dialog.KnownSchemes = KnownLaunchSchemes.Values.Where(scheme => scheme.IsOversea == isOversea);
-            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-            (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
-
-            if (!isOk)
+            LaunchScheme launchScheme;
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                return;
+                LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
+                    .CreateInstanceAsync<LaunchGameConfigurationFixDialog>(scope.ServiceProvider)
+                    .ConfigureAwait(false);
+
+                bool isOversea = gameFileSystem.IsOversea();
+
+                await taskContext.SwitchToMainThreadAsync();
+
+                dialog.KnownSchemes = KnownLaunchSchemes.Values.Where(scheme => scheme.IsOversea == isOversea);
+                dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
+                (bool isOk, launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
+
+                if (!isOk)
+                {
+                    return;
+                }
             }
 
             gameFileSystem.TryFixConfigurationFile(launchScheme);
@@ -148,6 +182,7 @@ internal sealed partial class LaunchGameShared
     [Command("HandleGamePathNullOrEmptyCommand")]
     private void HandleGamePathNullOrEmpty()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Navigate to LaunchGamePage", "LaunchGameShared.Command"));
         navigationService.Navigate<LaunchGamePage>(INavigationCompletionSource.Default, true);
     }
 }

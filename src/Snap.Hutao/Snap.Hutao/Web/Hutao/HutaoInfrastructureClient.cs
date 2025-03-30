@@ -17,7 +17,6 @@ internal sealed partial class HutaoInfrastructureClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HutaoInfrastructureClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
@@ -27,9 +26,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(StaticResourcesEndpoints.StaticSize())
             .Get();
 
-        await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
-
-        HutaoResponse<StaticResourceSizeInformation>? resp = await builder.SendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<StaticResourceSizeInformation>? resp = await builder.SendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -39,9 +36,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(hutaoEndpointsFactory.Create().Ip())
             .Get();
 
-        await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
-
-        HutaoResponse<IPInformation>? resp = await builder.SendAsync<HutaoResponse<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<IPInformation>? resp = await builder.SendAsync<HutaoResponse<IPInformation>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -51,9 +46,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(hutaoEndpointsFactory.Create().PatchSnapHutao())
             .Get();
 
-        await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
-
-        HutaoResponse<HutaoPackageInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoPackageInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<HutaoPackageInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoPackageInformation>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -63,9 +56,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(hutaoEndpointsFactory.Create().PatchYaeAchievement())
             .Get();
 
-        await builder.InfrastructureSetTraceInfoAsync(hutaoUserOptions).ConfigureAwait(false);
-
-        HutaoResponse<YaeVersionInformation>? resp = await builder.SendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<YaeVersionInformation>? resp = await builder.SendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }

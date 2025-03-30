@@ -10,6 +10,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
@@ -119,12 +120,15 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset guide state", "TestViewModel.Command"));
         UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.Language);
     }
 
     [Command("ExceptionCommand")]
     private static void ThrowTestException()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Throw test exception", "TestViewModel.Command"));
+
         InvalidOperationException inner = new()
         {
             HResult = 0x12345678,
@@ -135,6 +139,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("FileOperationRenameCommand")]
     private static void FileOperationRename()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test file operation rename", "TestViewModel.Command"));
+
         string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         string source = Path.Combine(desktop, "TestFolder");
         DirectoryOperation.UnsafeRename(source, "TestFolder1");
@@ -143,6 +149,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Resize MainWindow", "TestViewModel.Command"));
+
         if (currentXamlWindowReference.Window is MainWindow mainWindow)
         {
             double scale = mainWindow.GetRasterizationScale();
@@ -153,6 +161,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("UploadAnnouncementCommand")]
     private async Task UploadAnnouncementAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Upload Hutao announcement", "TestViewModel.Command"));
+
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
@@ -169,6 +179,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("CompensationGachaLogServiceTimeCommand")]
     private async Task CompensationGachaLogServiceTimeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Compensation gachalog service time", "TestViewModel.Command"));
+
         ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
             "Hutao Cloud",
             $"Compensation Gacha Log Service Time For {GachaLogCompensationDays} Days?").ConfigureAwait(false);
@@ -192,6 +204,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("DesignationGachaLogServiceTimeCommand")]
     private async Task DesignationGachaLogServiceTimeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Designation gachalog service time", "TestViewModel.Command"));
+
         ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
             "Hutao Cloud",
             $"Designation Gacha Log Service Time To {GachaLogDesignationOptions.UserName} For {GachaLogDesignationOptions.Days} Days?").ConfigureAwait(false);
@@ -215,6 +229,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("CompensationCdnServiceTimeCommand")]
     private async Task CompensationCdnServiceTimeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Compensation CDN service time", "TestViewModel.Command"));
+
         ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
             "Hutao Cloud",
             $"Compensation CDN Service Time For {CdnCompensationDays} Days?").ConfigureAwait(false);
@@ -238,6 +254,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("DesignationCdnServiceTimeCommand")]
     private async Task DesignationCdnServiceTimeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Designation CDN service time", "TestViewModel.Command"));
+
         ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
             "Hutao Cloud",
             $"Designation CDN Service Time To {CdnDesignationOptions.UserName} For {CdnDesignationOptions.Days} Days?").ConfigureAwait(false);
@@ -261,6 +279,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ScreenCaptureCommand")]
     private async Task ScreenCaptureAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test screen capture", "TestViewModel.Command"));
+
         HWND hwnd = currentXamlWindowReference.GetWindowHandle();
         if (gameScreenCaptureService.TryStartCapture(hwnd, true, out GameScreenCaptureSession? session))
         {
@@ -278,6 +298,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("SendRandomInfoBarNotificationCommand")]
     private void SendRandomInfoBarNotification()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Send random infobar notification", "TestViewModel.Command"));
+
         infoBarService.PrepareInfoBarAndShow(builder => builder
             .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
             .SetTitle("Lorem ipsum dolor sit amet")
@@ -287,6 +309,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("CheckPathBelongsToSSDCommand")]
     private void CheckPathBelongsToSSD()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test SSD path", "TestViewModel.Command"));
+
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile("Pick any file!", default);
         if (isOk)
         {
@@ -298,6 +322,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("RunCodeCommand")]
     private async Task RunCodeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test run code", "TestViewModel.Command"));
+
         try
         {
             string script = """
@@ -312,15 +338,11 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("TestGamePackageOperationWindowCommand")]
-    private void TestGamePackageOperationWindow()
-    {
-        serviceProvider.GetRequiredService<GamePackageOperationWindow>().DataContext.TestProgress();
-    }
-
     [Command("ExtractGameBlocksCommand")]
     private async Task ExtractGameBlocksAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test extract game blocks", "TestViewModel.Command"));
+
         IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
         LaunchGameShared launchGameShared = serviceProvider.GetRequiredService<LaunchGameShared>();
         HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
@@ -401,6 +423,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ExtractGameExeCommand")]
     private async Task ExtractGameExeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test extract game executable", "TestViewModel.Command"));
+
         IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
         HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
 
@@ -462,6 +486,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("GenerateRedeemCodeCommand")]
     private async Task GenerateRedeemCodeAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Generate redeem code", "TestViewModel.Command"));
+
         RedeemCodeType type = RedeemCodeType.None;
         if (RedeemCodeGenerateOption.IsTimeLimited)
         {

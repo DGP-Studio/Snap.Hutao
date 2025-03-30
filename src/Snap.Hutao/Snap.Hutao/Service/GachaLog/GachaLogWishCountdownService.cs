@@ -74,7 +74,11 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
                 switch (itemId.StringLength())
                 {
                     case 8U:
-                        TrackAvatarItemId(context, idToCountdown, purpleAvatarCountdowns, gachaEvent, itemId);
+                        if (!AvatarIds.IsStandardWish(itemId))
+                        {
+                            TrackAvatarItemId(context, idToCountdown, purpleAvatarCountdowns, gachaEvent, itemId);
+                        }
+
                         break;
                     case 5U:
                         TrackWeaponItemId(context, idToCountdown, purpleWeaponCountdowns, gachaEvent, itemId);
@@ -100,7 +104,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
         if (countdown is null)
         {
             countdown = new(context.GetAvatar(itemId).GetOrCreateItem());
-            builder.Insert(0, countdown);
+            builder.Insert(0, countdown); // TODO: should add to the end, and reverse the list when completing
         }
 
         countdown.Histories.Add(new(gachaEvent));
@@ -112,7 +116,7 @@ internal sealed partial class GachaLogWishCountdownService : IGachaLogWishCountd
         if (countdown is null)
         {
             countdown = new(context.GetWeapon(itemId).GetOrCreateItem());
-            builder.Insert(0, countdown);
+            builder.Insert(0, countdown); // TODO: should add to the end, and reverse the list when completing
         }
 
         countdown.Histories.Add(new(gachaEvent));

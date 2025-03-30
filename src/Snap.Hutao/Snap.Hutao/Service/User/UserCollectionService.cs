@@ -85,6 +85,11 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
             return new(UserOptionResultKind.CookieInvalid, SH.ServiceUserProcessCookieRequestUserInfoFailed);
         }
 
+        if (newUser.UserGameRoles.Count is 0)
+        {
+            return new(UserOptionResultKind.GameRoleNotFound, SH.ServiceUserUserInfoContainsNoGameRole);
+        }
+
         await GetUsersAsync().ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(users);
 

@@ -21,7 +21,6 @@ internal sealed partial class HutaoRoleCombatClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HutaoRoleCombatClient> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
 
@@ -32,7 +31,7 @@ internal sealed partial class HutaoRoleCombatClient
             .Get();
 
         HutaoResponse<RoleCombatStatisticsItem>? resp = await builder
-            .SendAsync<HutaoResponse<RoleCombatStatisticsItem>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<RoleCombatStatisticsItem>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -78,7 +77,7 @@ internal sealed partial class HutaoRoleCombatClient
             .PostJson(record);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

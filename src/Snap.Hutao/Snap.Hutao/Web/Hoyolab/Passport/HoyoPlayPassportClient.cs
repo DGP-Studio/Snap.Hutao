@@ -17,7 +17,6 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HoyoPlayPassportClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -43,7 +42,7 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
             .PostJson(data);
 
         Response<AuthTicketWrapper>? resp = await builder
-            .SendAsync<Response<AuthTicketWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<AuthTicketWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -57,7 +56,7 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
             .PostJson(default(EmptyContent));
 
         Response<QrLogin>? resp = await builder
-            .SendAsync<Response<QrLogin>>(httpClient, logger, token)
+            .SendAsync<Response<QrLogin>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -76,7 +75,7 @@ internal sealed partial class HoyoPlayPassportClient : IHoyoPlayPassportClient
             .PostJson(data);
 
         Response<QrLoginResult>? resp = await builder
-            .SendAsync<Response<QrLoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<QrLoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

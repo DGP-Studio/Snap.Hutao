@@ -3,11 +3,4 @@
 
 namespace Snap.Hutao.Service.Game;
 
-internal interface IGameFileSystem : IDisposable
-{
-    string GameFilePath { get; }
-
-    GameAudioSystem Audio { get; }
-
-    bool IsDisposed { get; }
-}
+internal interface IGameFileSystem : IGameFileSystemView, IDisposable;

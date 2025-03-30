@@ -49,7 +49,12 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         serverStream.Dispose();
     }
 
-    public async ValueTask RunAsync()
+    public void Start()
+    {
+        RunAsync().SafeForget();
+    }
+
+    private async ValueTask RunAsync()
     {
         using (await serverLock.LockAsync().ConfigureAwait(false))
         {
@@ -63,6 +68,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                 }
                 catch (OperationCanceledException)
                 {
+                    break;
                 }
             }
         }

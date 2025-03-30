@@ -208,7 +208,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             stringBuilder.Append("Alt").Append(" + ");
         }
 
-        stringBuilder.Append(Key);
+        stringBuilder.Append(Key.ToString().Substring(3).Trim('_'));
 
         return stringBuilder.ToString();
     }

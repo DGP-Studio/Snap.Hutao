@@ -22,11 +22,12 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
         using (gameFileSystem)
         {
-            if (!File.Exists(gameFileSystem.GetGameConfigurationFilePath()))
+            string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
+            if (!File.Exists(configFilePath))
             {
                 // Try restore the configuration file if it does not exist
                 // The configuration file may be deleted by an incompatible launcher
-                gameConfigurationFileService.Restore(gameFileSystem.GetGameConfigurationFilePath(), gameFileSystem.IsOversea());
+                gameConfigurationFileService.Restore(configFilePath, gameFileSystem.IsOversea());
             }
 
             if (!File.Exists(gameFileSystem.GetScriptVersionFilePath()))
@@ -40,14 +41,14 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
                 }
             }
 
-            if (!File.Exists(gameFileSystem.GetGameConfigurationFilePath()))
+            if (!File.Exists(configFilePath))
             {
-                return ChannelOptions.ConfigurationFileNotFound(gameFileSystem.GetGameConfigurationFilePath());
+                return ChannelOptions.ConfigurationFileNotFound(configFilePath);
             }
 
             string? channel = default;
             string? subChannel = default;
-            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(gameFileSystem.GetGameConfigurationFilePath()).AsSpan())
+            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
             {
                 if (element is not IniParameter parameter)
                 {

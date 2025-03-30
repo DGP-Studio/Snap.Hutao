@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model.InterChange.GachaLog;
@@ -23,6 +24,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGachaLogRepository gachaLogRepository;
     private readonly JsonSerializerOptions jsonOptions;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IUIGFService uigfService;
 
@@ -31,6 +33,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     [Command("ImportUIGFJsonCommand")]
     private async Task ImportUIGFJsonAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Import UIGF file", "SettingGachaLogViewModel.Command"));
+
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
             SH.ViewModelGachaUIGFImportPickerTitile,
             [(SH.ViewModelGachaLogExportFileType, "*.json")]);
@@ -59,7 +63,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        UIGFImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<UIGFImportDialog>(uigf).ConfigureAwait(false);
+        UIGFImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<UIGFImportDialog>(serviceProvider, uigf).ConfigureAwait(false);
         (bool isOk2, HashSet<uint> uids) = await importDialog.GetSelectedUidsAsync().ConfigureAwait(false);
         if (!isOk2)
         {
@@ -99,6 +103,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
     [Command("ExportUIGFJsonCommand")]
     private async Task ExportUIGFJsonAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Export UIGF file", "SettingGachaLogViewModel.Command"));
+
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
             SH.ViewModelGachaLogUIGFExportPickerTitle,
             $"Snap Hutao UIGF.json",
@@ -110,7 +116,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
         }
 
         ImmutableArray<uint> allUids = gachaLogRepository.GetGachaArchiveUidImmutableArray().SelectAsArray(uint.Parse);
-        UIGFExportDialog exportDialog = await contentDialogFactory.CreateInstanceAsync<UIGFExportDialog>(allUids).ConfigureAwait(false);
+        UIGFExportDialog exportDialog = await contentDialogFactory.CreateInstanceAsync<UIGFExportDialog>(serviceProvider, allUids).ConfigureAwait(false);
 
         (bool isOk2, ImmutableArray<uint> uids) = await exportDialog.GetSelectedUidsAsync().ConfigureAwait(false);
         if (!isOk2)

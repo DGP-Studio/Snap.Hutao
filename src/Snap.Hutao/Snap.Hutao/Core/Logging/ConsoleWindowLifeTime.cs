@@ -9,8 +9,8 @@ namespace Snap.Hutao.Core.Logging;
 
 internal sealed partial class ConsoleWindowLifeTime : IDisposable
 {
-    public const bool DebugModeEnabled =
-#if IS_ALPHA_BUILD
+    private const bool DebugModeEnabled =
+#if IS_ALPHA_BUILD || IS_CANARY_BUILD
         true;
 #else
         false;

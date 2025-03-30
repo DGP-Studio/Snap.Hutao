@@ -10,7 +10,7 @@ internal static class NumberExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint StringLength(in this uint x)
     {
-        // Benchmarked and compared as a most optimized solution
+        // Benchmarked and compared as most optimized solution
         return (uint)(MathF.Log10(x) + 1);
     }
 }

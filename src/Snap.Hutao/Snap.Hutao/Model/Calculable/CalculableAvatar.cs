@@ -15,11 +15,11 @@ namespace Snap.Hutao.Model.Calculable;
 internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAvatar
 {
     // Only persists current level for non-view avatars
-    private readonly bool persistsLevel;
+    private readonly bool persistsCurrentLevel;
 
     private CalculableAvatar(Avatar avatar)
     {
-        persistsLevel = true;
+        persistsCurrentLevel = true;
 
         AvatarId = avatar.Id;
         LevelMin = 1;
@@ -34,7 +34,7 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     private CalculableAvatar(AvatarView avatar)
     {
-        persistsLevel = false;
+        persistsCurrentLevel = false;
 
         AvatarId = avatar.Id;
         LevelMin = avatar.LevelNumber;
@@ -43,6 +43,8 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
         Name = avatar.Name;
         Icon = avatar.Icon;
         Quality = avatar.Quality;
+
+        IsPromoted = BaseValueInfoConverter.GetPromoted(avatar.LevelNumber, avatar.PromoteLevel);
 
         LevelCurrent = LevelMin;
     }
@@ -61,10 +63,27 @@ internal sealed partial class CalculableAvatar : ObservableObject, ICalculableAv
 
     public QualityType Quality { get; }
 
+    [ObservableProperty]
+    public partial bool IsPromoted { get; set; }
+
+    public PromoteLevel PromoteLevel { get => BaseValueInfoConverter.GetPromoteLevel(LevelCurrent, LevelMax, IsPromoted); }
+
+    public bool IsPromotionAvailable
+    {
+        get => LevelCurrent is 20U or 40U or 50U or 60U or 70U or 80U;
+    }
+
     public uint LevelCurrent
     {
-        get => persistsLevel ? LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin) : field;
-        set => _ = persistsLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value);
+        get => persistsCurrentLevel ? LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin) : field;
+        set
+        {
+            if (persistsCurrentLevel ? SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v)) : SetProperty(ref field, value))
+            {
+                OnPropertyChanged(nameof(IsPromotionAvailable));
+                IsPromoted = false;
+            }
+        }
     }
 
     public uint LevelTarget

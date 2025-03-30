@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using System.Collections.Frozen;
@@ -252,6 +253,8 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     [Command("CancelCommand")]
     private async Task CancelAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cancel", "GamePackageOperationViewModel.Command"));
+
         Title = SH.ViewModelGamePakcageOperationCancelling;
         await gamePackageService.CancelOperationAsync().ConfigureAwait(true);
         IsFinished = true;

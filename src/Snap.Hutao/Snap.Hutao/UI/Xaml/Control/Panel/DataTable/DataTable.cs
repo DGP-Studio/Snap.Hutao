@@ -142,6 +142,6 @@ internal sealed partial class DataTable : Microsoft.UI.Xaml.Controls.Panel
             x += width + ColumnSpacing;
         }
 
-        return new(x - ColumnSpacing, finalSize.Height);
+        return new(Math.Max(0, x - ColumnSpacing), finalSize.Height);
     }
 }

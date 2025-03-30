@@ -11,16 +11,19 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
+using Snap.Hutao.UI.Content;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
-using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.Win32.Foundation;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;
+using WinRT;
 
 namespace Snap.Hutao.UI.Windowing;
 
@@ -29,6 +32,7 @@ namespace Snap.Hutao.UI.Windowing;
 internal sealed class XamlWindowController
 {
     private readonly Window window;
+    private readonly bool hasCustomSystemBackdrop;
     private readonly IServiceProvider serviceProvider;
     private readonly AppOptions appOptions;
 
@@ -38,7 +42,9 @@ internal sealed class XamlWindowController
     public XamlWindowController(Window window, IServiceProvider serviceProvider)
     {
         this.window = window;
+        Debug.Assert(serviceProvider is IServiceScope scope && ReferenceEquals(serviceProvider, scope));
         this.serviceProvider = serviceProvider;
+
         appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
         // Subclassing and NonRudeHWND are standard infrastructure.
@@ -68,13 +74,15 @@ internal sealed class XamlWindowController
             window.AppWindow.Resize(xamlWindow2.InitSize);
         }
 
-        string windowName = TypeNameHelper.GetTypeDisplayName(window);
-        byte[] data = CryptographicOperations.HashData(HashAlgorithmName.MD5, Encoding.UTF8.GetBytes(windowName));
-        Guid guid = MemoryMarshal.AsRef<Guid>(data);
-        window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
+        // window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
+        EnablePlacementPersistence(window);
+
+        ((FrameworkElement)window.Content).Loading += OnWindowContentLoading;
 
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
+
+        hasCustomSystemBackdrop = window.SystemBackdrop is not null;
 
         // SystemBackdrop
         UpdateSystemBackdrop(appOptions.BackdropType);
@@ -85,11 +93,51 @@ internal sealed class XamlWindowController
         window.Closed += OnWindowClosed;
     }
 
+    private static void EnablePlacementPersistence(Window window)
+    {
+        // Microsoft.UI.Windowing.dll
+        IAppWindowExperimental appWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.AsInterface<IAppWindowExperimental>();
+        appWindowExperimental.SetPlacementRestorationBehavior(65535); // PlacementRestorationBehavior.Default
+
+        string windowName = TypeNameHelper.GetTypeDisplayName(window);
+        byte[] data = CryptographicOperations.HashData(HashAlgorithmName.MD5, Encoding.UTF8.GetBytes(windowName));
+        Guid guid = MemoryMarshal.AsRef<Guid>(data);
+
+        ObjectReferenceValue guidValue = ABI.System.Nullable<Guid>.CreateMarshaler2(guid);
+        try
+        {
+            appWindowExperimental.SetPersistedStateId(ABI.System.Nullable<Guid>.CreateMarshaler2(guid).GetAbi());
+        }
+        finally
+        {
+            guidValue.Dispose();
+        }
+    }
+
+    private void OnWindowContentLoading(FrameworkElement element, object e)
+    {
+        element.Loading -= OnWindowContentLoading;
+        element.XamlRoot.ContentIsland.AppData = new XamlContext()
+        {
+            ServiceProvider = serviceProvider,
+        };
+    }
+
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
         if (args.Handled)
         {
             return;
+        }
+
+        if (window is IXamlWindowClosedHandler handler)
+        {
+            handler.OnWindowClosing(out bool cancel);
+            if (cancel)
+            {
+                args.Handled = true;
+                return;
+            }
         }
 
         if (XamlApplicationLifetime.LaunchedWithNotifyIcon && !XamlApplicationLifetime.Exiting)
@@ -137,14 +185,13 @@ internal sealed class XamlWindowController
         }
 
         // Dispose components
-        subclass?.Dispose();
-        windowNonRudeHWND?.Dispose();
+        subclass.Dispose();
+        windowNonRudeHWND.Dispose();
 
-        if (window is IXamlWindowClosedHandler xamlWindowClosed)
-        {
-            xamlWindowClosed.OnWindowClosed();
-        }
+        (window as IXamlWindowClosedHandler)?.OnWindowClosed();
 
+        // Dispose the service scope
+        ((IServiceScope)serviceProvider).Dispose();
         window.UninitializeController();
     }
 
@@ -164,6 +211,11 @@ internal sealed class XamlWindowController
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)
     {
+        if (hasCustomSystemBackdrop)
+        {
+            return true;
+        }
+
         window.SystemBackdrop = backdropType switch
         {
             BackdropType.Transparent => new TransparentBackdrop(),
@@ -211,4 +263,44 @@ internal sealed class XamlWindowController
     {
         XamlWindowRegionRects.Update(window);
     }
+}
+
+[SuppressMessage("", "SA1201")]
+[SuppressMessage("", "SYSLIB1096")]
+[Guid("04db96c7-deb6-5be4-bfdc-1bc0361c8a12")]
+[ComImport]
+[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+file interface IAppWindowExperimental
+{
+    [PreserveSig]
+    HRESULT GetIids(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT GetRuntimeClassName(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT GetTrustLevel(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT GetPersistedStateId(/* Ignored */);
+
+    // Api::IAppWindowExperimental::ExportAdapter$::put_PersistedStateId(Windows::Foundation::IReference<_GUID> *)
+    [PreserveSig]
+    HRESULT SetPersistedStateId(/* Windows::Foundation::IReference<_GUID>* */ nint value);
+
+    [PreserveSig]
+    HRESULT GetPlacementRestorationBehavior(/* Ignored */);
+
+    // Api::IAppWindowExperimental::ExportAdapter$::put_PlacementRestorationBehavior(Microsoft::UI::Windowing::PlacementRestorationBehavior)
+    [PreserveSig]
+    HRESULT SetPlacementRestorationBehavior(/* Microsoft::UI::Windowing::PlacementRestorationBehavior */ int value);
+
+    [PreserveSig]
+    HRESULT GetCurrentPlacement(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT SaveCurrentPlacement(/* Ignored */);
+
+    [PreserveSig]
+    HRESULT SetCurrentPlacement(/* Ignored */);
 }

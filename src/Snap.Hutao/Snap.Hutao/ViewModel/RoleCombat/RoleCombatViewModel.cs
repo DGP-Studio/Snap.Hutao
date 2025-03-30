@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
@@ -38,7 +39,7 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            _ = UpdateRoleCombatCollectionAsync(userAndUid);
+            UpdateRoleCombatCollectionAsync(userAndUid).SafeForget();
         }
         else
         {
@@ -98,6 +99,8 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     [Command("RefreshCommand")]
     private async Task RefreshAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh role combat record", "RoleCombatViewModel.Command"));
+
         if (metadataContext is null)
         {
             return;
@@ -129,6 +132,8 @@ internal sealed partial class RoleCombatViewModel : Abstraction.ViewModel, IReci
     [Command("UploadRoleCombatRecordCommand")]
     private async Task UploadRoleCombatRecordAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Upload role combat record", "RoleCombatViewModel.Command"));
+
         if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             using (IServiceScope scope = serviceProvider.CreateScope())

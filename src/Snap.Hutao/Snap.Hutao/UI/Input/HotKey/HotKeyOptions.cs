@@ -20,12 +20,14 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private static readonly WaitCallback RunMouseClickRepeatForever = MouseClickRepeatForever;
     private static readonly WaitCallback RunKeyPressRepeatForever = KeyPressRepeatForever;
 
+    private readonly ITaskContext taskContext;
     private readonly HotKeyMessageWindow hotKeyMessageWindow;
 
     private bool isDisposed;
 
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         hotKeyMessageWindow = HotKeyMessageWindow.Create(OnHotKeyPressed);
 
         HWND hwnd = hotKeyMessageWindow.Hwnd;
@@ -33,7 +35,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         // The registration logic of hotkeys is done in this class
         // However, the key combination & state is stored in different combination classes.
         // If different combination classes have same key combination, this will cause several issues.
-        // Registration/Unregistration is performed by the combination class.
         MouseClickRepeatForeverKeyCombination = new(
             serviceProvider,
             hwnd,
@@ -58,8 +59,9 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     [ObservableProperty]
     public partial HotKeyCombination KeyPressRepeatForeverKeyCombination { get; set; }
 
-    public void RegisterAll()
+    public async ValueTask RegisterAllAsync()
     {
+        await taskContext.SwitchToMainThreadAsync();
         MouseClickRepeatForeverKeyCombination.Register();
         KeyPressRepeatForeverKeyCombination.Register();
     }
@@ -173,14 +175,13 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             }
 
             // Since we are toggling off, we don't have to pass the callback
-            combination.Toggle(default!);
+#pragma warning disable SH007
+            SynchronizationContext.Current!.Send(state => ((HotKeyCombination)state!).Toggle(default!), combination);
+#pragma warning restore SH007
             return true;
         }
-        else
-        {
-            Marshal.ThrowExceptionForHR(hr);
-        }
 
+        Marshal.ThrowExceptionForHR(hr);
         return false;
     }
 

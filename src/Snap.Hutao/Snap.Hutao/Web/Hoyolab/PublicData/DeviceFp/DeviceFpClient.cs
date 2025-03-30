@@ -15,7 +15,6 @@ namespace Snap.Hutao.Web.Hoyolab.PublicData.DeviceFp;
 internal sealed partial class DeviceFpClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<DeviceFpClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -27,7 +26,7 @@ internal sealed partial class DeviceFpClient
             .PostJson(data);
 
         Response<DeviceFpWrapper>? resp = await builder
-            .SendAsync<Response<DeviceFpWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<DeviceFpWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

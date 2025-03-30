@@ -12,6 +12,7 @@ public sealed class DependencyInjectionTest
         .AddSingleton<IService, ServiceA>()
         .AddSingleton<IService, ServiceB>()
         .AddScoped<IScopedService, ServiceA>()
+        .AddTransient<IKeyedService, NoKeyService>()
         .AddKeyedTransient<IKeyedService, KeyedServiceA>("A")
         .AddKeyedTransient<IKeyedService, KeyedServiceB>("B")
         .AddTransient(typeof(IGenericService<>), typeof(GenericService<>))
@@ -63,7 +64,14 @@ public sealed class DependencyInjectionTest
         Assert.IsNotNull(services.GetRequiredKeyedService<IKeyedService>("A"));
         Assert.IsNotNull(services.GetRequiredKeyedService<IKeyedService>("B"));
 
-        Assert.AreEqual(0, services.GetServices<IKeyedService>().Count());
+        Assert.AreEqual(1, services.GetServices<IKeyedService>().Count());
+    }
+
+    [TestMethod]
+    public void NoKeyServiceCanBeResolved()
+    {
+        Assert.IsNotNull(services.GetRequiredKeyedService<IKeyedService>("A"));
+        Assert.IsNotNull(services.GetRequiredService<IKeyedService>());
     }
 
     [TestMethod]
@@ -130,6 +138,8 @@ public sealed class DependencyInjectionTest
     }
 
     private interface IKeyedService;
+
+    private sealed class NoKeyService : IKeyedService;
 
     private sealed class KeyedServiceA : IKeyedService;
 

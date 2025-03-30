@@ -408,11 +408,13 @@
                                                                     <TextBlock
                                                                         Margin="0,0,16,0"
                                                                         VerticalAlignment="Center"
-                                                                        Text="{Binding Defeat.Value}"/>
+                                                                        Text="{Binding Defeat.Value}"
+                                                                        TextTrimming="None"
+                                                                        TextWrapping="NoWrap"/>
                                                                     <shuxci:CachedImage
-                                                                        Width="48"
-                                                                        Height="48"
-                                                                        Margin="-8,-24,-8,-8"
+                                                                        Width="36"
+                                                                        Height="36"
+                                                                        Margin="-10,-20,-8,-10"
                                                                         Source="{Binding Defeat.SideIcon}"/>
                                                                 </StackPanel>
                                                             </cwc:SettingsCard>
@@ -422,11 +424,13 @@
                                                                     <TextBlock
                                                                         Margin="0,0,16,0"
                                                                         VerticalAlignment="Center"
-                                                                        Text="{Binding Damage.Value}"/>
+                                                                        Text="{Binding Damage.Value}"
+                                                                        TextTrimming="None"
+                                                                        TextWrapping="NoWrap"/>
                                                                     <shuxci:CachedImage
-                                                                        Width="48"
-                                                                        Height="48"
-                                                                        Margin="-8,-24,-8,-8"
+                                                                        Width="36"
+                                                                        Height="36"
+                                                                        Margin="-10,-20,-8,-10"
                                                                         Source="{Binding Damage.SideIcon}"/>
                                                                 </StackPanel>
                                                             </cwc:SettingsCard>
@@ -436,18 +440,24 @@
                                                                     <TextBlock
                                                                         Margin="0,0,16,0"
                                                                         VerticalAlignment="Center"
-                                                                        Text="{Binding TakeDamage.Value}"/>
+                                                                        Text="{Binding TakeDamage.Value}"
+                                                                        TextTrimming="None"
+                                                                        TextWrapping="NoWrap"/>
                                                                     <shuxci:CachedImage
-                                                                        Width="48"
-                                                                        Height="48"
-                                                                        Margin="-8,-24,-8,-8"
+                                                                        Width="36"
+                                                                        Height="36"
+                                                                        Margin="-10,-20,-8,-10"
                                                                         Source="{Binding TakeDamage.SideIcon}"/>
                                                                 </StackPanel>
                                                             </cwc:SettingsCard>
 
                                                             <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageRoleCombatCoinNumber}">
                                                                 <StackPanel Orientation="Horizontal">
-                                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Stat.CoinNumber}"/>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding Stat.CoinNumber}"
+                                                                        TextTrimming="None"
+                                                                        TextWrapping="NoWrap"/>
                                                                 </StackPanel>
                                                             </cwc:SettingsCard>
 
@@ -490,9 +500,9 @@
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <shuxci:CachedImage
-                                                                                Width="48"
-                                                                                Height="48"
-                                                                                Margin="-8,-24,-8,-8"
+                                                                                Width="36"
+                                                                                Height="36"
+                                                                                Margin="-10,-20,-8,-10"
                                                                                 Source="{Binding SideIcon}"/>
                                                                         </DataTemplate>
                                                                     </ItemsControl.ItemTemplate>

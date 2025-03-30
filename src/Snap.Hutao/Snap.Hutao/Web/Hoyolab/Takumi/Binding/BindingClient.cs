@@ -19,7 +19,6 @@ internal sealed partial class BindingClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<BindingClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesOverseaAwareAsync(User user, CancellationToken token = default)
@@ -51,7 +50,7 @@ internal sealed partial class BindingClient
             .Get();
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
-            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -65,7 +64,7 @@ internal sealed partial class BindingClient
             .Get();
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
-            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

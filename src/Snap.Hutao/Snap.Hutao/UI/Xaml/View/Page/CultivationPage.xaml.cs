@@ -10,7 +10,12 @@ internal sealed partial class CultivationPage : ScopedPage
 {
     public CultivationPage()
     {
-        InitializeWith<CultivationViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<CultivationViewModel>();
+        this.DataContext<CultivationViewModel>()?.AttachXamlElement(CultivateEntryItemsRepeater);
     }
 }

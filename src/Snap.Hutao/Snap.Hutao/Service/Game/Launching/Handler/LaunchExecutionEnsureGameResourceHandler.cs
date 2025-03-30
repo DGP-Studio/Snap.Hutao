@@ -21,11 +21,11 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutionDelegateHandler
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
+        if (!context.TryGetGameFileSystem(out IGameFileSystemView? gameFileSystem))
         {
             return;
         }
@@ -34,37 +34,38 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
 
         if (ShouldConvert(context, reference))
         {
-            IServiceProvider serviceProvider = context.ServiceProvider;
-            IContentDialogFactory contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-
-            LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
+            using (IServiceScope scope = context.ServiceProvider.CreateScope())
             {
-                IProgress<PackageConvertStatus> convertProgress = serviceProvider
-                    .GetRequiredService<IProgressFactory>()
-                    .CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
-
-                if (!await EnsureGameResourceAsync(context, reference, convertProgress).ConfigureAwait(false))
+                IContentDialogFactory contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
+                LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>(scope.ServiceProvider).ConfigureAwait(false);
+                using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
                 {
-                    // context.Result is set in EnsureGameResourceAsync
-                    return;
-                }
+                    IProgress<PackageConvertStatus> convertProgress = scope.ServiceProvider
+                        .GetRequiredService<IProgressFactory>()
+                        .CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
 
-                // If EnsureGameResourceAsync succeeded, The GameFileSystem is no longer valid.
-                if (!context.TryGetGameFileSystem(out gameFileSystem))
-                {
-                    return;
-                }
+                    if (!await EnsureGameResourceAsync(context, reference, convertProgress).ConfigureAwait(false))
+                    {
+                        // context.Result is set in EnsureGameResourceAsync
+                        return;
+                    }
 
-                await context.TaskContext.SwitchToMainThreadAsync();
-                context.PerformGamePathEntrySynchronization();
+                    // If EnsureGameResourceAsync succeeded, The GameFileSystem is no longer valid.
+                    if (!context.TryGetGameFileSystem(out gameFileSystem))
+                    {
+                        return;
+                    }
+
+                    await context.TaskContext.SwitchToMainThreadAsync();
+                    context.PerformGamePathEntrySynchronization();
+                }
             }
         }
 
         await next().ConfigureAwait(false);
     }
 
-    private static bool ShouldConvert(LaunchExecutionContext context, IGameFileSystem gameFileSystem)
+    private static bool ShouldConvert(LaunchExecutionContext context, IGameFileSystemView gameFileSystem)
     {
         // Configuration file changed
         if (context.ChannelOptionsChanged)
@@ -158,7 +159,7 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
                 await context.TaskContext.SwitchToMainThreadAsync();
                 context.UpdateGamePath(Path.Combine(gameFolder, executableName));
 
-                if (!context.TryGetGameFileSystem(out IGameFileSystem? newValue))
+                if (!context.TryGetGameFileSystem(out IGameFileSystemView? newValue))
                 {
                     return false;
                 }
@@ -281,22 +282,18 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
         }
     }
 
-    private sealed partial class UnsafeRelaxedGameFileSystemReference : IGameFileSystem
+    private sealed class UnsafeRelaxedGameFileSystemReference : IGameFileSystemView
     {
-        public UnsafeRelaxedGameFileSystemReference(IGameFileSystem value)
+        public UnsafeRelaxedGameFileSystemReference(IGameFileSystemView value)
         {
             Value = value;
         }
 
         [field: MaybeNull]
-        public IGameFileSystem Value
+        public IGameFileSystemView Value
         {
             private get;
-            set
-            {
-                field?.Dispose();
-                field = value;
-            }
+            set;
         }
 
         public string GameFilePath { get => Value.GameFilePath; }
@@ -304,10 +301,5 @@ internal sealed partial class LaunchExecutionEnsureGameResourceHandler : ILaunch
         public GameAudioSystem Audio { get => Value.Audio; }
 
         public bool IsDisposed { get => Value.IsDisposed; }
-
-        public void Dispose()
-        {
-            Value.Dispose();
-        }
     }
 }

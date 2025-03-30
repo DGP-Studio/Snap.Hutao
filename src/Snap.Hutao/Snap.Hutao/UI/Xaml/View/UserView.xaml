@@ -413,15 +413,6 @@
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
-                                AllowFocusOnInteraction="True"
-                                Command="{Binding ClaimSignInRewardCommand}"
-                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentGiftboxOpen}}"
-                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
-                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
-                            <AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
                                 Command="{Binding RefreshCookieTokenCommand}"
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentRefresh}}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>

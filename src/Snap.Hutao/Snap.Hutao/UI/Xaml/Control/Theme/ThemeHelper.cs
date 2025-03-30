@@ -25,7 +25,7 @@ internal static class ThemeHelper
         {
             ApplicationTheme.Light => Snap.Hutao.UI.Xaml.Theme.Light,
             ApplicationTheme.Dark => Snap.Hutao.UI.Xaml.Theme.Dark,
-            _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {applicationTheme}."),
+            _ => throw HutaoException.NotSupported($"Unexpected ApplicationTheme value: {applicationTheme}."),
         };
     }
 
@@ -35,7 +35,7 @@ internal static class ThemeHelper
         {
             ApplicationTheme.Light => Snap.Hutao.UI.Xaml.Theme.Dark,
             ApplicationTheme.Dark => Snap.Hutao.UI.Xaml.Theme.Light,
-            _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {applicationTheme}."),
+            _ => throw HutaoException.NotSupported($"Unexpected ApplicationTheme value: {applicationTheme}."),
         };
     }
 
@@ -45,7 +45,7 @@ internal static class ThemeHelper
         {
             ElementTheme.Light => ApplicationTheme.Light,
             ElementTheme.Dark => ApplicationTheme.Dark,
-            _ => Ioc.Default.GetRequiredService<App>().RequestedTheme,
+            _ => ((App)Application.Current).RequestedTheme,
         };
     }
 
@@ -66,7 +66,7 @@ internal static class ThemeHelper
 
     public static bool IsDarkMode(ElementTheme elementTheme)
     {
-        ApplicationTheme appTheme = Ioc.Default.GetRequiredService<App>().RequestedTheme;
+        ApplicationTheme appTheme = ((App)Application.Current).RequestedTheme;
         return IsDarkMode(elementTheme, appTheme);
     }
 

@@ -6,8 +6,11 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SA1310")]
 internal static class ConstValues
 {
+    public const uint WINEVENT_OUTOFCONTEXT = 0x00000000U;
     public const uint WM_NULL = 0x00000000U;
     public const uint DXGI_CREATE_FACTORY_DEBUG = 0x00000001U;
+    public const uint WINEVENT_SKIPOWNPROCESS = 0x00000002U;
+    public const uint EVENT_SYSTEM_FOREGROUND = 0x00000003U;
     public const uint NOTIFYICON_VERSION = 0x00000003U;
     public const uint NOTIFYICON_VERSION_4 = 0x00000004U;
     public const uint D3D11_SDK_VERSION = 0x00000007U;
@@ -28,6 +31,7 @@ internal static class ConstValues
     public const uint WM_LBUTTONUP = 0x00000202U;
     public const uint WM_RBUTTONDOWN = 0x00000204U;
     public const uint WM_RBUTTONUP = 0x00000205U;
+    public const uint WM_MOUSEWHEEL = 0x0000020AU;
     public const uint WM_HOTKEY = 0x00000312U;
     public const uint WM_DWMNCRENDERINGCHANGED = 0x0000031FU;
     public const uint NIN_SELECT = 0x00000400U;

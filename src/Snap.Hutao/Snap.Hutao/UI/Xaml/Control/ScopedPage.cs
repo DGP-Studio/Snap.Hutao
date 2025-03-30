@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.UI.Content;
 using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.UI.Xaml.Control;
@@ -13,15 +14,13 @@ namespace Snap.Hutao.UI.Xaml.Control;
 [SuppressMessage("", "CA1001")]
 internal partial class ScopedPage : Page
 {
-    private readonly CancellationTokenSource viewCancellationTokenSource = new();
-    private readonly IServiceScope pageScope;
-
-    private bool inFrame = true;
+    private readonly CancellationTokenSource viewCts = new();
+    private IServiceScope? scope;
 
     protected ScopedPage()
     {
+        Loading += OnLoading;
         Unloaded += OnUnloaded;
-        pageScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
     public virtual void UnloadObjectOverride(DependencyObject unloadableObject)
@@ -29,37 +28,23 @@ internal partial class ScopedPage : Page
         XamlMarkupHelper.UnloadObject(unloadableObject);
     }
 
-    /// <summary>
-    /// 初始化
-    /// 应当在 InitializeComponent() 前调用
-    /// </summary>
-    /// <typeparam name="TViewModel">视图模型类型</typeparam>
+    protected virtual void LoadingOverride()
+    {
+    }
+
     protected void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
-        try
+        ArgumentNullException.ThrowIfNull(scope);
+        TViewModel viewModel = scope.ServiceProvider.GetRequiredService<TViewModel>();
+        using (viewModel.DisposeLock.Enter())
         {
-            TViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
-            using (viewModel.DisposeLock.Enter())
-            {
-                viewModel.Resurrect();
-                viewModel.CancellationToken = viewCancellationTokenSource.Token;
-                viewModel.DeferContentLoader = new DeferContentLoader(this);
-            }
-
-            DataContext = viewModel;
+            viewModel.Resurrect();
+            viewModel.CancellationToken = viewCts.Token;
+            viewModel.DeferContentLoader = new DeferContentLoader(this);
         }
-        catch (Exception ex)
-        {
-            pageScope.ServiceProvider.GetRequiredService<ILogger<ScopedPage>>().LogError(ex, "Failed to initialize view model.");
-            throw;
-        }
-    }
 
-    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-    {
-        DisposeViewModel();
-        inFrame = false;
+        DataContext = viewModel;
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -68,16 +53,34 @@ internal partial class ScopedPage : Page
         {
             NavigationExtraDataSupport
                 .NotifyRecipientAsync(this, data)
-                .SafeForget(pageScope.ServiceProvider.GetRequiredService<ILogger<ScopedPage>>());
+                .SafeForget();
         }
+    }
+
+    private void OnLoading(FrameworkElement element, object e)
+    {
+        Loading -= OnLoading;
+        scope = element.XamlRoot.XamlContext().ServiceProvider.CreateScope();
+        LoadingOverride();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        if (inFrame)
+        // Cancel all tasks executed by the view model
+        viewCts.Cancel();
+        IViewModel viewModel = (IViewModel)DataContext;
+
+        // Wait to ensure viewmodel operation is completed
+        using (viewModel.DisposeLock.Enter())
         {
-            DisposeViewModel();
+            viewModel.Uninitialize();
         }
+
+        viewCts.Dispose();
+
+        // Dispose the scope
+        scope?.Dispose();
+        scope = default;
 
         if (this.IsDisposed())
         {
@@ -85,25 +88,5 @@ internal partial class ScopedPage : Page
         }
 
         Unloaded -= OnUnloaded;
-    }
-
-    private void DisposeViewModel()
-    {
-        using (viewCancellationTokenSource)
-        {
-            // Cancel all tasks executed by the view model
-            viewCancellationTokenSource.Cancel();
-            IViewModel viewModel = (IViewModel)DataContext;
-
-            // Wait to ensure viewmodel operation is completed
-            using (viewModel.DisposeLock.Enter())
-            {
-                viewModel.Uninitialize();
-
-                // Dispose the scope
-                pageScope.Dispose();
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
-            }
-        }
     }
 }

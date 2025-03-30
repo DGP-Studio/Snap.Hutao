@@ -29,7 +29,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     [SuppressMessage("", "SH003")]
     public async ValueTask<AnnouncementWrapper?> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken token = default)
     {
-        AnnouncementWrapper? wrapper = await memoryCache.GetOrCreateAsync($"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}.{languageCode}.{region}", entry =>
+        AnnouncementWrapper? wrapper = await memoryCache.GetOrCreateAsync($"{nameof(AnnouncementService)}.{nameof(AnnouncementWrapper)}.{languageCode}.{region}", entry =>
         {
             entry.SetSlidingExpiration(TimeSpan.FromMinutes(30L));
             return PrivateGetAnnouncementWrapperAsync(languageCode, region, token);

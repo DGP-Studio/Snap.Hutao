@@ -10,7 +10,11 @@ internal sealed partial class AchievementPage : ScopedPage
 {
     public AchievementPage()
     {
-        InitializeWith<AchievementViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<AchievementViewModel>();
     }
 }

@@ -18,8 +18,10 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
     private readonly NamedPipeServerStream serverStream;
     private readonly Process gameProcess;
 
-    private readonly CancellationTokenSource serverTokenSource = new();
-    private readonly AsyncLock serverLock = new();
+    private readonly CancellationTokenSource disposeCts = new();
+    private readonly AsyncLock disposeLock = new();
+
+    private volatile bool disposed;
 
     public YaeNamedPipeServer(IServiceProvider serviceProvider, Process gameProcess)
     {
@@ -27,30 +29,43 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
         this.gameProcess = gameProcess;
 
         // Yae is always running elevated, so we don't need to use ACL method.
+        Verify.Operation(HutaoRuntime.IsProcessElevated, "Snap Hutao must be elevated to use Yae.");
         serverStream = new(PipeName);
     }
 
     public async ValueTask DisposeAsync()
     {
-        await serverTokenSource.CancelAsync().ConfigureAwait(false);
-        using (await serverLock.LockAsync().ConfigureAwait(false))
+        if (disposed)
+        {
+            return;
+        }
+
+        disposed = true;
+
+        await disposeCts.CancelAsync().ConfigureAwait(false);
+        using (await disposeLock.LockAsync().ConfigureAwait(false))
         {
             // Discard
         }
 
-        serverTokenSource.Dispose();
+        disposeCts.Dispose();
         await serverStream.DisposeAsync().ConfigureAwait(false);
     }
 
-    public async ValueTask<ImmutableArray<YaeData>> GetDataArrayAsync()
+    public async ValueTask<ImmutableArray<YaeData>> GetDataArrayAsync(CancellationToken token = default)
     {
-        using (await serverLock.LockAsync().ConfigureAwait(false))
+        ObjectDisposedException.ThrowIf(disposed, "YaeNamedPipeServer is disposed.");
+
+        using (await disposeLock.LockAsync().ConfigureAwait(false))
         {
             try
             {
-                await serverStream.WaitForConnectionAsync(serverTokenSource.Token).ConfigureAwait(false);
-                logger.LogInformation("Client connected.");
-                return GetDataArray(serverStream);
+                using (CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(disposeCts.Token, token))
+                {
+                    await serverStream.WaitForConnectionAsync(cts.Token).ConfigureAwait(false);
+                    logger.LogInformation("Client connected.");
+                    return GetDataArray(serverStream);
+                }
             }
             catch (OperationCanceledException)
             {
@@ -92,7 +107,9 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
     private ImmutableArray<YaeData> GetDataArray(NamedPipeServerStream serverStream)
     {
-        // This method is never cancelable.
+        Debug.Assert(Thread.CurrentThread.IsBackground);
+
+        // This method is never cancellable.
         // Yae will prompt error message if the server is closed.
         ImmutableArray<YaeData>.Builder builder = ImmutableArray.CreateBuilder<YaeData>();
         while (!gameProcess.HasExited && serverStream.IsConnected)

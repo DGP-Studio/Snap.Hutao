@@ -17,7 +17,6 @@ internal sealed partial class HutaoDistributionClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HutaoPassportClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
@@ -30,7 +29,7 @@ internal sealed partial class HutaoDistributionClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<HutaoPackageMirror>? resp = await builder
-            .SendAsync<HutaoResponse<HutaoPackageMirror>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<HutaoPackageMirror>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

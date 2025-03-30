@@ -9,7 +9,7 @@ internal static class BuilderExtension
 {
     [DebuggerStepThrough]
     public static T Configure<T>(this T builder, Action<T> configure)
-        where T : IBuilder
+        where T : class, IBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
@@ -20,6 +20,7 @@ internal static class BuilderExtension
 
     [DebuggerStepThrough]
     public static unsafe T Configure<T>(this T builder, delegate*<T, void> configure)
+        where T : class, IBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
@@ -30,7 +31,7 @@ internal static class BuilderExtension
 
     [DebuggerStepThrough]
     public static T If<T>(this T builder, bool condition, Action<T> action)
-        where T : IBuilder
+        where T : class, IBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(action);
@@ -45,7 +46,7 @@ internal static class BuilderExtension
 
     [DebuggerStepThrough]
     public static unsafe T If<T>(this T builder, bool condition, delegate*<T, void> action)
-        where T : IBuilder
+        where T : class, IBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(action);
@@ -60,14 +61,14 @@ internal static class BuilderExtension
 
     [DebuggerStepThrough]
     public static T IfNot<T>(this T builder, bool condition, Action<T> action)
-        where T : IBuilder
+        where T : class, IBuilder
     {
         return builder.If(!condition, action);
     }
 
     [DebuggerStepThrough]
     public static unsafe T IfNot<T>(this T builder, bool condition, delegate*<T, void> action)
-        where T : IBuilder
+        where T : class, IBuilder
     {
         return builder.If(!condition, action);
     }

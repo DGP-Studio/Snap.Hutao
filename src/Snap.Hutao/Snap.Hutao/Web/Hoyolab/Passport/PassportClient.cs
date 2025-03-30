@@ -21,7 +21,6 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 internal sealed partial class PassportClient : IPassportClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<PassportClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -36,7 +35,7 @@ internal sealed partial class PassportClient : IPassportClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<UidCookieToken>? resp = await builder
-            .SendAsync<Response<UidCookieToken>>(httpClient, logger, token)
+            .SendAsync<Response<UidCookieToken>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -52,7 +51,7 @@ internal sealed partial class PassportClient : IPassportClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<LTokenWrapper>? resp = await builder
-            .SendAsync<Response<LTokenWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<LTokenWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -66,7 +65,7 @@ internal sealed partial class PassportClient : IPassportClient
             .PostJson(new Timestamp());
 
         Response<UserInfoWrapper>? resp = await builder
-            .SendAsync<Response<UserInfoWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<UserInfoWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -82,7 +81,7 @@ internal sealed partial class PassportClient : IPassportClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<LoginResult>? resp = await builder
-            .SendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -101,7 +100,7 @@ internal sealed partial class PassportClient : IPassportClient
             .PostJson(data);
 
         Response<LoginResult>? resp = await builder
-            .SendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -127,7 +126,7 @@ internal sealed partial class PassportClient : IPassportClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         (HttpResponseHeaders? headers, Response<MobileCaptcha>? resp) = await builder
-            .SendAsync<Response<MobileCaptcha>>(httpClient, logger, token)
+            .SendAsync<Response<MobileCaptcha>>(httpClient, token)
             .ConfigureAwait(false);
 
         IEnumerable<string>? values = default;
@@ -166,7 +165,7 @@ internal sealed partial class PassportClient : IPassportClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<LoginResult>? resp = await builder
-            .SendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<LoginResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

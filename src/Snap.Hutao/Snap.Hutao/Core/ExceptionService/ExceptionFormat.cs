@@ -13,12 +13,10 @@ internal static class ExceptionFormat
 
     public static string Format(Exception exception)
     {
-        StringBuilder builder = new();
-        Format(builder, exception);
-        return builder.ToString();
+        return Format(new(), exception).ToString();
     }
 
-    public static void Format(StringBuilder builder, Exception exception)
+    public static StringBuilder Format(StringBuilder builder, Exception exception)
     {
         builder.AppendLine("Exception Data:");
 
@@ -29,5 +27,7 @@ internal static class ExceptionFormat
 
         builder.AppendLine(SectionSeparator);
         builder.Append(exception);
+
+        return builder;
     }
 }

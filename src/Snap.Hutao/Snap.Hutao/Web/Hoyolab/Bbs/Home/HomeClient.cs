@@ -15,7 +15,6 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.Home;
 internal sealed partial class HomeClient : IHomeClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HomeClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -27,7 +26,7 @@ internal sealed partial class HomeClient : IHomeClient
             .Get();
 
         Response<NewHomeNewInfo>? resp = await builder
-            .SendAsync<Response<NewHomeNewInfo>>(httpClient, logger, token)
+            .SendAsync<Response<NewHomeNewInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

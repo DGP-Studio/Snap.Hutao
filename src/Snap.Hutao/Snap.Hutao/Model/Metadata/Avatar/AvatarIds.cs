@@ -105,6 +105,14 @@ internal static class AvatarIds
     public static readonly AvatarId Kinich = 10000101;
     public static readonly AvatarId Mualani = 10000102;
     public static readonly AvatarId Xilonen = 10000103;
+    public static readonly AvatarId Chasca = 10000104;
+    public static readonly AvatarId Olorun = 10000105;
+    public static readonly AvatarId Mavuika = 10000106;
+    public static readonly AvatarId Citlali = 10000107;
+    public static readonly AvatarId Lanyan = 10000108;
+    public static readonly AvatarId Mizuki = 10000109;
+    public static readonly AvatarId Iansan = 10000110;
+    public static readonly AvatarId Varesa = 10000111;
 
     private static readonly FrozenSet<AvatarId> StandardWishIds =
     [

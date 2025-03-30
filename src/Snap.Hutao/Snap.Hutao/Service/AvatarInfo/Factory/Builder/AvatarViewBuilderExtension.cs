@@ -3,13 +3,13 @@
 
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
 using MetadataSkill = Snap.Hutao.Model.Metadata.Avatar.Skill;
@@ -42,86 +42,94 @@ internal static class AvatarViewBuilderExtension
     }
 
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<MetadataSkill> talents, FrozenSet<SkillId> activatedIds)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
-        // TODO: talentIds should be immutable
-        return builder.SetConstellations(CreateConstellations(talents, activatedIds));
+        ImmutableArray<ConstellationView> views = talents.SelectAsArray(
+            static (talent, activatedIds) => new ConstellationViewBuilder()
+                .SetName(talent.Name)
+                .SetIcon(SkillIconConverter.IconNameToUri(talent.Icon))
+                .SetDescription(talent.Description)
+                .SetIsActivated(activatedIds.Contains(talent.Id))
+                .View,
+            activatedIds);
 
-        static ImmutableArray<ConstellationView> CreateConstellations(ImmutableArray<MetadataSkill> talents, FrozenSet<SkillId> activatedIds)
-        {
-            // TODO: use builder here
-            return talents.SelectAsArray(talent => new ConstellationView
-            {
-                Name = talent.Name,
-                Icon = SkillIconConverter.IconNameToUri(talent.Icon),
-                Description = talent.Description,
-                IsActivated = activatedIds.Contains(talent.Id),
-            });
-        }
+        return builder.SetConstellations(views);
     }
 
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, ImmutableArray<ConstellationView> constellations)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Constellations = constellations);
     }
 
     public static TBuilder SetElement<TBuilder>(this TBuilder builder, ElementType element)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Element = element);
     }
 
     public static TBuilder SetFetterLevel<TBuilder>(this TBuilder builder, uint level)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.FetterLevel = level);
     }
 
     public static TBuilder SetId<TBuilder>(this TBuilder builder, AvatarId id)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Id = id);
     }
 
     public static TBuilder SetLevelNumber<TBuilder>(this TBuilder builder, uint? levelNumber)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return levelNumber.TryGetValue(out uint value) ? builder.Configure(b => b.View.LevelNumber = value) : builder;
     }
 
     public static TBuilder SetName<TBuilder>(this TBuilder builder, string name)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Name = name);
     }
 
     public static TBuilder SetNameCard<TBuilder>(this TBuilder builder, Uri nameCard)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.NameCard = nameCard);
     }
 
-    public static TBuilder SetProperties<TBuilder>(this TBuilder builder, ImmutableArray<AvatarProperty> properties)
+    public static TBuilder SetPromoteLevel<TBuilder>(this TBuilder builder, PromoteLevel promoteLevel)
         where TBuilder : IAvatarViewBuilder
+    {
+        builder.View.PromoteLevel = promoteLevel;
+
+        bool[] promoteArray = new bool[6];
+        promoteArray.AsSpan(0, (int)(uint)promoteLevel).Fill(true);
+        builder.View.PromoteArray = ImmutableCollectionsMarshal.AsImmutableArray(promoteArray);
+
+        return builder;
+    }
+
+    public static TBuilder SetProperties<TBuilder>(this TBuilder builder, ImmutableArray<AvatarProperty> properties)
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Properties = properties);
     }
 
     public static TBuilder SetQuality<TBuilder>(this TBuilder builder, QualityType quality)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Quality = quality);
     }
 
     public static TBuilder SetRecommendedProperties<TBuilder>(this TBuilder builder, RecommendPropertiesView recommendProperties)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.RecommendedProperties = recommendProperties);
     }
 
     public static TBuilder SetRecommendedProperties<TBuilder>(this TBuilder builder, RecommendProperties recommendProperties)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         RecommendPropertiesView view = new()
         {
@@ -135,64 +143,25 @@ internal static class AvatarViewBuilderExtension
     }
 
     public static TBuilder SetReliquaries<TBuilder>(this TBuilder builder, ImmutableArray<ReliquaryView> reliquaries)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Reliquaries = reliquaries);
     }
 
     public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.SetRefreshTimeFormat(refreshTime == default ? defaultValue : format(refreshTime.ToLocalTime()));
     }
 
     public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, string formattedRefreshTime)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.FormattedRefreshTime = formattedRefreshTime);
     }
 
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<ProudSkill> proudSkills, FrozenDictionary<SkillId, SkillLevel> skillLevels, FrozenDictionary<SkillId, SkillLevel> extraLevels)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.SetSkills(CreateSkills(proudSkills, skillLevels, extraLevels));
-
-        static ImmutableArray<SkillView> CreateSkills(ImmutableArray<ProudSkill> proudSkills, FrozenDictionary<SkillId, SkillLevel> skillLevels, FrozenDictionary<SkillId, SkillLevel> extraLevels)
-        {
-            if (skillLevels is { Count: 0 })
-            {
-                return [];
-            }
-
-            Dictionary<SkillId, SkillLevel> nonExtraLeveledSkills = new(skillLevels);
-
-            // TODO: Test 达达利亚技能的影响
-            foreach ((SkillId skillId, SkillLevel extraLevel) in extraLevels)
-            {
-                nonExtraLeveledSkills.DecreaseByValue(skillId, extraLevel);
-            }
-
-            return proudSkills.SelectAsArray(proudSkill => new SkillView
-            {
-                Name = proudSkill.Name,
-                Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
-                Description = proudSkill.Description,
-                GroupId = proudSkill.GroupId,
-                Level = LevelFormat.Format(nonExtraLeveledSkills[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
-                LevelNumber = nonExtraLeveledSkills[proudSkill.Id],
-                Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillLevels[proudSkill.Id]),
-            });
-        }
-    }
-
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, ImmutableArray<SkillView> skills)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.View.Skills = skills);
-    }
-
     public static TBuilder SetWeapon<TBuilder>(this TBuilder builder, WeaponView? weapon)
-        where TBuilder : IAvatarViewBuilder
+        where TBuilder : class, IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Weapon = weapon);
     }

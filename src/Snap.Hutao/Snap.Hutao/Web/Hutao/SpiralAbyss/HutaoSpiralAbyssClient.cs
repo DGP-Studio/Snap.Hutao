@@ -24,7 +24,6 @@ internal sealed partial class HutaoSpiralAbyssClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
-    private readonly ILogger<HutaoSpiralAbyssClient> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
 
@@ -35,7 +34,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<bool>? resp = await builder
-            .SendAsync<HutaoResponse<bool>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<bool>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -48,7 +47,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<RankInfo>? resp = await builder
-            .SendAsync<HutaoResponse<RankInfo>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<RankInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -61,7 +60,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<Overview>? resp = await builder
-            .SendAsync<HutaoResponse<Overview>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<Overview>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -74,7 +73,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarAppearanceRank>>? resp = await builder
-            .SendAsync<HutaoResponse<List<AvatarAppearanceRank>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarAppearanceRank>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -87,7 +86,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarUsageRank>>? resp = await builder
-            .SendAsync<HutaoResponse<List<AvatarUsageRank>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarUsageRank>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -100,7 +99,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarCollocation>>? resp = await builder
-            .SendAsync<HutaoResponse<List<AvatarCollocation>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarCollocation>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -113,7 +112,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<WeaponCollocation>>? resp = await builder
-            .SendAsync<HutaoResponse<List<WeaponCollocation>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<WeaponCollocation>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -126,7 +125,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarConstellationInfo>>? resp = await builder
-            .SendAsync<HutaoResponse<List<AvatarConstellationInfo>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarConstellationInfo>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -139,7 +138,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<TeamAppearance>>? resp = await builder
-            .SendAsync<HutaoResponse<List<TeamAppearance>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<TeamAppearance>>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -200,7 +199,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .PostJson(playerRecord);
 
         HutaoResponse? resp = await builder
-            .SendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

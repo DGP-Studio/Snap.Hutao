@@ -31,15 +31,15 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
     private HashSet<string>? availableBackgroundPathSet;
 
-    public async ValueTask<ValueResult<bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous, CancellationToken token = default)
+    public async ValueTask<ValueResult</* shouldRefresh */ bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous, CancellationToken token = default)
     {
-        // The availableBackgroundSet will be empty if BackgroundImageType is None
         // backgroundImageOptions.Wallpaper will also be set in this method if web wallpaper type is selected
-        HashSet<string> availableBackgroundSet = await SkipOrInitAvailableBackgroundAsync(token).ConfigureAwait(false);
+        HashSet<string> availableBackgroundSet = await SkipOrInitAvailableBackgroundAsync(previous, token).ConfigureAwait(false);
 
+        // The availableBackgroundSet will be empty if BackgroundImageType is None
         if (availableBackgroundSet.Count <= 0)
         {
-            return new(true, default!);
+            return new(previous is not null, default!);
         }
 
         string path = System.Random.Shared.GetItems([.. availableBackgroundSet], 1)[0];
@@ -53,6 +53,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         if (!File.Exists(path))
         {
             Debugger.Break();
+            return new(false, default!);
         }
 
         using (FileStream fileStream = File.OpenRead(path))
@@ -90,7 +91,6 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             BackgroundImage background = new()
             {
                 Path = path,
-                ImageSource = new(path.ToUri()),
                 AccentColor = accentColor,
                 Luminance = accentColor.Luminance,
             };
@@ -99,7 +99,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         }
     }
 
-    private async ValueTask<HashSet<string>> SkipOrInitAvailableBackgroundAsync(CancellationToken token = default)
+    private async ValueTask<HashSet<string>> SkipOrInitAvailableBackgroundAsync(BackgroundImage? previous, CancellationToken token = default)
     {
         switch (appOptions.BackgroundImageType)
         {
@@ -115,6 +115,12 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                                 .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
                                 .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
                         ];
+
+                        // Why > 1: If only one file in the folder, don't change background
+                        if (previous is not null && availableBackgroundPathSet.Count > 1)
+                        {
+                            availableBackgroundPathSet.Remove(previous.Path);
+                        }
                     }
 
                     await taskContext.SwitchToMainThreadAsync();
@@ -137,16 +143,19 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         }
 
         return availableBackgroundPathSet ??= [];
+    }
 
-        async Task SetCurrentBackgroundPathSetAsync([RequireStaticDelegate] Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
+    private async ValueTask SetCurrentBackgroundPathSetAsync([RequireStaticDelegate] Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
+            HutaoWallpaperClient wallpaperClient = scope.ServiceProvider.GetRequiredService<HutaoWallpaperClient>();
             Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);
             if (response is { Data: { } wallpaper })
             {
                 if (wallpaper.Url is { } url)
                 {
-                    ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
+                    ValueFile file = await scope.ServiceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
                     if (!File.Exists(file))
                     {
                         Debugger.Break();

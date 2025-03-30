@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.System.Diagnostics.Debug;
-using Snap.Hutao.Win32.System.SystemService;
+using Snap.Hutao.Win32.System.SystemServices;
 using System.Diagnostics;
 using static Snap.Hutao.Win32.Kernel32;
 

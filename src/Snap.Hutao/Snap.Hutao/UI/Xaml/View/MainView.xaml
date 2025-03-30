@@ -17,6 +17,7 @@
 
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+        <shuxb:UninitializeDataContextOnUnloadedBehavior/>
         <shuxb:PeriodicInvokeCommandOrOnActualThemeChangedBehavior Command="{Binding UpdateBackgroundCommand}" Period="0:5:0"/>
     </mxi:Interaction.Behaviors>
 
@@ -132,7 +133,7 @@
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
-                <shuxv:UserView/>
+                <shuxv:UserView x:Name="UserView"/>
             </NavigationView.PaneFooter>
 
             <Frame x:Name="ContentFrame" ContentTransitions="{StaticResource NavigationThemeTransitions}"/>

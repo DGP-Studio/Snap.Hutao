@@ -4,6 +4,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing.Abstraction;
+using Snap.Hutao.ViewModel.Guide;
 using Windows.Graphics;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
@@ -13,9 +14,6 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowHasInitSize
 {
-    private const int MinWidth = 1000;
-    private const int MinHeight = 650;
-
     public GuideWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -23,16 +21,22 @@ internal sealed partial class GuideWindow : Microsoft.UI.Xaml.Window,
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsMaximizable = false;
-            double scale = this.GetRasterizationScale();
-            presenter.SetPreferredBounds(ScaledSizeInt32.CreateForWindow(1000, 650, this), ScaledSizeInt32.CreateForWindow(1200, 800, this));
+            SizeInt32 minSize = ScaledSizeInt32.CreateForWindow(1000, 650, this);
+            presenter.PreferredMinimumWidth = minSize.Width;
+            presenter.PreferredMinimumHeight = minSize.Height;
+            SizeInt32 maxSize = ScaledSizeInt32.CreateForWindow(1200, 800, this);
+            presenter.PreferredMaximumWidth = maxSize.Width;
+            presenter.PreferredMaximumHeight = maxSize.Height;
         }
 
-        this.InitializeController(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
+        GuideView.InitializeDataContext<GuideViewModel>(scope.ServiceProvider);
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => DraggableGrid; }
 
     public IEnumerable<FrameworkElement> TitleBarPassthrough { get => []; }
 
-    public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(MinWidth, MinHeight, this); }
+    public SizeInt32 InitSize { get => ScaledSizeInt32.CreateForWindow(1000, 650, this); }
 }

@@ -290,11 +290,6 @@
                     Header="Run Script Code"
                     IsClickEnabled="True"/>
 
-                <cwc:SettingsCard
-                    Command="{Binding TestGamePackageOperationWindowCommand}"
-                    Header="Test GamePackageOperationWindow"
-                    IsClickEnabled="True"/>
-
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Game Package"/>
                 <cwc:SettingsCard
                     Command="{Binding ExtractGameBlocksCommand}"

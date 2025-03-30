@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using JetBrains.Annotations;
+using Snap.Hutao.Core.IO.Http;
 using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Web.Hoyolab;
@@ -25,7 +26,8 @@ internal static partial class IocHttpClientConfiguration
                         SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
                         typedHandler.UseProxy = true;
                         typedHandler.Proxy = HttpProxyUsingSystemProxy.Instance;
-                    });
+                    })
+                    .AddHttpMessageHandler<RetryHttpHandler>();
             })
             .AddHttpClients();
 
@@ -35,9 +37,7 @@ internal static partial class IocHttpClientConfiguration
             {
                 SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
                 typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
-                typedHandler.UseProxy = true;
                 typedHandler.MaxConnectionsPerServer = 16;
-                typedHandler.Proxy = HttpProxyUsingSystemProxy.Instance;
             });
 
         return services;

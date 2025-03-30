@@ -7,9 +7,9 @@ namespace Snap.Hutao.UI.Xaml.View.Card;
 
 internal sealed partial class GachaStatisticsCard : Button
 {
-    public GachaStatisticsCard()
+    public GachaStatisticsCard(IServiceProvider serviceProvider)
     {
-        this.InitializeDataContext<ViewModel.GachaLog.GachaLogViewModelSlim>();
         InitializeComponent();
+        this.InitializeDataContext<ViewModel.GachaLog.GachaLogViewModelSlim>(serviceProvider);
     }
 }

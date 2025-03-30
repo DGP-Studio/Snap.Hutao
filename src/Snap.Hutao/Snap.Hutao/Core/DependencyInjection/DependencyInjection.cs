@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.Globalization;
 
 namespace Snap.Hutao.Core.DependencyInjection;
@@ -69,7 +70,14 @@ internal static class DependencyInjection
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
 
-        ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+        try
+        {
+            ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+        }
+        catch (COMException)
+        {
+            // 0x80070032 ERROR_NOT_SUPPORTED
+        }
 
         SH.Culture = cultureInfo;
         XamlApplicationLifetime.CultureInfoInitialized = true;

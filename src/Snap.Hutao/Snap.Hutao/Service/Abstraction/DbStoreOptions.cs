@@ -5,8 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using System.Collections.Immutable;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
@@ -54,13 +56,13 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            storage = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value ?? defaultValueFactory();
+            storage = GetValue(appDbContext, key) ?? defaultValueFactory();
         }
 
         return storage;
     }
 
-    protected bool GetOption(ref bool? storage, string key, bool defaultValue = false)
+    protected bool GetOption(ref bool? storage, string key, bool defaultValue)
     {
         return GetOption(ref storage, key, defaultValue ? TrueFunc : FalseFunc);
     }
@@ -121,7 +123,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return storage;
     }
 
-    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, Func<T> defaultValueFactory)
+    protected T GetOption<T>(ref T? storage, string key, [RequireStaticDelegate] Func<string, T> deserializer, Func<T> defaultValueFactory)
         where T : struct
     {
         if (storage is not null)
@@ -137,6 +139,23 @@ internal abstract partial class DbStoreOptions : ObservableObject
         }
 
         return storage.Value;
+    }
+
+    protected NameValue<T> GetOption<T>(ref NameValue<T>? storage, string key, ImmutableArray<NameValue<T>> array, [RequireStaticDelegate] Func<T, string> serializer, NameValue<T> defaultValue)
+    {
+        if (storage is not null)
+        {
+            return storage;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            string? value = GetValue(appDbContext, key);
+            storage = value is null ? defaultValue : array.Single(item => serializer(item.Value) == value);
+        }
+
+        return storage;
     }
 
     protected bool SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
@@ -174,5 +193,12 @@ internal abstract partial class DbStoreOptions : ObservableObject
         }
 
         return true;
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static string? GetValue(AppDbContext appDbContext, string key)
+    {
+        // This method is separated to avoid implicit capture of the key
+        return appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
     }
 }

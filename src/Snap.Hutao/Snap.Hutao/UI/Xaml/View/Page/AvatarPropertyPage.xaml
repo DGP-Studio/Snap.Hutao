@@ -477,6 +477,21 @@
                         Text="{Binding Value}"/>
                 </Grid>
             </DataTemplate>
+
+            <DataTemplate x:Key="PromoteArrayTemplate" x:DataType="x:Boolean">
+                <Grid>
+                    <BitmapIcon
+                        Width="12"
+                        Foreground="#FFFFFFFF"
+                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                        Visibility="{Binding}"/>
+                    <BitmapIcon
+                        Width="12"
+                        Foreground="#FF808080"
+                        UriSource="ms-appx:///Resource/Icon/UI_IconKira.png"
+                        Visibility="{Binding Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -526,6 +541,15 @@
                                     x:Name="ItemsPanelSelector"
                                     Margin="4,8,0,0"
                                     LocalSettingKeySuffixForCurrent="AvatarPropertyPage.Summary.Avatars"/>
+                                <shuxc:SizeRestrictedContentControl Margin="8,8,0,0">
+                                    <ComboBox
+                                        Height="32"
+                                        Padding="12,6,0,7"
+                                        DisplayMemberPath="Name"
+                                        ItemsSource="{Binding SortDescriptionKinds}"
+                                        SelectedItem="{Binding SortDescriptionKind, Mode=TwoWay}"
+                                        Style="{ThemeResource DefaultComboBoxStyle}"/>
+                                </shuxc:SizeRestrictedContentControl>
                                 <ToggleButton
                                     x:Name="RefreshTimeToggle"
                                     Margin="8,8,0,0"
@@ -604,6 +628,7 @@
                                         <ListView
                                             Grid.Row="0"
                                             Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                            shuxc:ListViewHelper.ScrollToTopAssociatedObject="{Binding SortDescriptionKind}"
                                             ItemTemplate="{StaticResource AvatarListViewTemplate}"
                                             ItemsSource="{Binding Summary.Avatars}"
                                             SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>
@@ -628,7 +653,7 @@
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
-                                        <ScrollViewer Visibility="{Binding Summary.Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                        <ScrollViewer shuxc:ScrollViewerHelper.ScrollToTopAssociatedObject="{Binding Summary.Avatars.CurrentItem}" Visibility="{Binding Summary.Avatars.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                             <StackPanel
                                                 MaxWidth="800"
                                                 Margin="16"
@@ -687,8 +712,13 @@
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                                         Text="{Binding Summary.Avatars.CurrentItem.Name}"/>
+                                                                    <ItemsControl
+                                                                        Margin="0,2,0,0"
+                                                                        ItemTemplate="{StaticResource PromoteArrayTemplate}"
+                                                                        ItemsPanel="{ThemeResource HorizontalStackPanelSpacing2Template}"
+                                                                        ItemsSource="{Binding Summary.Avatars.CurrentItem.PromoteArray}"/>
                                                                     <TextBlock
-                                                                        Margin="0,4,0,0"
+                                                                        Margin="0,2,0,0"
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource BaseTextBlockStyle}"
                                                                         Text="{Binding Summary.Avatars.CurrentItem.Level}"/>
@@ -762,8 +792,13 @@
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                                         Text="{Binding Name}"/>
+                                                                    <ItemsControl
+                                                                        Margin="0,2,0,0"
+                                                                        ItemTemplate="{StaticResource PromoteArrayTemplate}"
+                                                                        ItemsPanel="{ThemeResource HorizontalStackPanelSpacing2Template}"
+                                                                        ItemsSource="{Binding PromoteArray}"/>
                                                                     <TextBlock
-                                                                        Margin="0,4,0,0"
+                                                                        Margin="0,2,0,0"
                                                                         Foreground="#FFFFFFFF"
                                                                         Style="{StaticResource BaseTextBlockStyle}"
                                                                         Text="{Binding Level}"/>

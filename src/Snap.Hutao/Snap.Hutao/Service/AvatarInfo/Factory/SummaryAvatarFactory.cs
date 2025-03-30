@@ -52,6 +52,9 @@ internal sealed class SummaryAvatarFactory
             out FrozenSet<SkillId> activatedConstellations,
             out FrozenDictionary<SkillId, SkillLevel> extraLevels);
 
+        ImmutableArray<AvatarProperty> properties = character.SelectedProperties.SelectAsArray(FightPropertyFormat.ToAvatarProperty);
+        properties.SortInPlace(InGameAvatarPropertyComparer.Shared);
+
         AvatarView propertyAvatar = new AvatarViewBuilder()
             .SetId(avatar.Id)
             .SetName(avatar.Name)
@@ -61,13 +64,14 @@ internal sealed class SummaryAvatarFactory
             .SetConstellations(avatar.SkillDepot.Talents, activatedConstellations)
             .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents, character.Skills.ToFrozenDictionary(s => s.SkillId, s => s.Level), extraLevels)
             .SetFetterLevel(character.Base.Fetter)
-            .SetProperties([.. character.SelectedProperties.OrderBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).Select(FightPropertyFormat.ToAvatarProperty)])
+            .SetProperties(properties)
             .SetLevelNumber(character.Base.Level)
             .SetWeapon(CreateWeapon(character.Weapon))
             .SetRecommendedProperties(character.RecommendRelicProperty.RecommendProperties)
-            .SetReliquaries(character.Relics.SelectAsArray(relic => SummaryReliquaryFactory.Create(context, relic)))
+            .SetReliquaries(character.Relics.SelectAsArray(static (relic, context) => SummaryReliquaryFactory.Create(context, relic), context))
             .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)
+            .SetPromoteLevel(character.Base.PromoteLevel)
             .View;
 
         return propertyAvatar;
@@ -88,6 +92,7 @@ internal sealed class SummaryAvatarFactory
             levels.Add(depot.CompositeSkillsNoInherents[0].Id, 1);
         }
 
+        Verify.Operation(depot.Talents.Length == dataConstellations.Length, "Constellation count mismatch");
         foreach ((Model.Metadata.Avatar.Skill metaConstellation, Constellation dataConstellation) in depot.Talents.Zip(dataConstellations))
         {
             // Constellations are activated in order, so if the current constellation is
@@ -144,6 +149,7 @@ internal sealed class SummaryAvatarFactory
             .SetAffixName(metadataWeapon.Affix?.Name)
             .SetAffixDescription(metadataWeapon.Affix?.Descriptions.Single(a => a.Level == (detailedWeapon.AffixLevel - 1)).Description)
             .SetWeaponType(metadataWeapon.WeaponType)
+            .SetPromoteLevel(detailedWeapon.PromoteLevel)
             .View;
     }
 }

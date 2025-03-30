@@ -28,6 +28,7 @@
         Background="Transparent">
         <Grid.Resources>
             <Style x:Key="NotifyIconContextMenuFlyoutItemStyle" TargetType="MenuFlyoutItem">
+                <Setter Property="AllowFocusOnInteraction" Value="True"/>
                 <Setter Property="Background" Value="{ThemeResource MenuFlyoutItemBackground}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource MenuFlyoutItemBackgroundBrush}"/>
                 <Setter Property="BorderThickness" Value="{ThemeResource MenuFlyoutItemBorderThickness}"/>
@@ -231,7 +232,10 @@
                 HorizontalAlignment="Right"
                 Orientation="Horizontal"
                 Spacing="2">
-                <AppBarButton Command="{Binding ShowWindowCommand}" Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconViewLabel}">
+                <AppBarButton
+                    AllowFocusOnInteraction="True"
+                    Command="{Binding ShowWindowCommand}"
+                    Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconViewLabel}">
                     <AppBarButton.Icon>
                         <FontIcon
                             Width="20"
@@ -239,7 +243,10 @@
                             Glyph="&#xE80F;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Command="{Binding LaunchGameCommand}" Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconLaunchGameLabel}">
+                <AppBarButton
+                    AllowFocusOnInteraction="True"
+                    Command="{Binding LaunchGameCommand}"
+                    Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconLaunchGameLabel}">
                     <AppBarButton.Icon>
                         <FontIcon
                             Width="20"
@@ -247,7 +254,10 @@
                             Glyph="&#xE7FC;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Command="{Binding ExitCommand}" Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconExitLabel}">
+                <AppBarButton
+                    AllowFocusOnInteraction="True"
+                    Command="{Binding ExitCommand}"
+                    Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconExitLabel}">
                     <AppBarButton.Icon>
                         <FontIcon
                             Width="20"

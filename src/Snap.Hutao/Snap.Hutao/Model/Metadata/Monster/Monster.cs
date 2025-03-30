@@ -16,8 +16,6 @@ internal sealed partial class Monster : IAdvancedCollectionViewItem
 
     public required MonsterDescribeId DescribeId { get; init; }
 
-    public required MonsterRelationshipId RelationshipId { get; init; }
-
     public string? MonsterName { get; init; }
 
     public string? Name { get; init; }

@@ -10,7 +10,11 @@ internal sealed partial class GachaLogPage : ScopedPage
 {
     public GachaLogPage()
     {
-        InitializeWith<GachaLogViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<GachaLogViewModel>();
     }
 }

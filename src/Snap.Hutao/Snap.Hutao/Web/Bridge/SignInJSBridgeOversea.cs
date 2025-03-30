@@ -27,6 +27,6 @@ internal sealed class SignInJSBridgeOversea : MiHoYoJSBridge
 
     protected override void DOMContentLoaded(CoreWebView2 coreWebView2)
     {
-        coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget(Logger);
+        coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget();
     }
 }

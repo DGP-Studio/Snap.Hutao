@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Hutao.Response;
@@ -64,12 +65,19 @@ internal readonly struct TypedWishSummaryBuilderContext
         return new(this);
     }
 
-    public ValueTask<HutaoResponse<GachaDistribution>> GetGachaDistributionAsync()
+    public async ValueTask<HutaoResponse<GachaDistribution>?> GetGachaDistributionAsync(CancellationToken token = default)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
+            HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();
+            await hutaoUserOptions.RefreshUserInfoAsync(token).ConfigureAwait(false);
+            if (!hutaoUserOptions.IsHutaoCloudAllowed)
+            {
+                return default;
+            }
+
             HomaGachaLogClient client = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
-            return client.GetGachaDistributionAsync(DistributionType);
+            return await client.GetGachaDistributionAsync(DistributionType, token).ConfigureAwait(false);
         }
     }
 }

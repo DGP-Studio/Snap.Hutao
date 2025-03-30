@@ -44,13 +44,20 @@ internal sealed partial class MetadataOptions
         }
     }
 
+    public string GetTemplateEndpoint()
+    {
+        return hutaoEndpointsFactory.Create().MetadataTemplate();
+    }
+
     public string GetLocalizedLocalPath(string fileNameWithExtension)
     {
         return Path.Combine(LocalizedDataFolder, fileNameWithExtension);
     }
 
-    public string GetLocalizedRemoteFile(string fileNameWithExtension)
+    public string GetLocalizedRemoteFile(MetadataTemplate? templateInfo, string fileNameWithExtension)
     {
-        return hutaoEndpointsFactory.Create().Metadata(cultureOptions.LocaleName, fileNameWithExtension);
+        return templateInfo is { Template: { } template }
+            ? hutaoEndpointsFactory.Create().Metadata(template, cultureOptions.LocaleName, fileNameWithExtension)
+            : hutaoEndpointsFactory.Create().Metadata(cultureOptions.LocaleName, fileNameWithExtension);
     }
 }

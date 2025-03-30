@@ -6,6 +6,7 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
@@ -43,13 +44,24 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             return false;
         }
 
+        if (Path.GetDirectoryName(newFolderPath) is null)
+        {
+            await contentDialogFactory.CreateForConfirmAsync(
+                SH.ViewModelSettingStorageSetDataFolderTitle,
+                SH.ViewModelSettingStorageSetDataFolderDescription2)
+                .ConfigureAwait(false);
+
+            return false;
+        }
+
         Directory.CreateDirectory(newFolderPath);
         if (Directory.EnumerateFileSystemEntries(newFolderPath).Any())
         {
             ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
                 SH.ViewModelSettingStorageSetDataFolderTitle,
-                SH.ViewModelSettingStorageSetDataFolderDescription)
+                SH.FormatViewModelSettingStorageSetDataFolderDescription3(newFolderPath))
                 .ConfigureAwait(false);
+
             if (result is not ContentDialogResult.Primary)
             {
                 return false;
@@ -74,12 +86,15 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     [Command("OpenBackgroundImageFolderCommand")]
     private static async Task OpenBackgroundImageFolderAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Open background image folder", "SettingStorageViewModel.Command"));
         await Launcher.LaunchFolderPathAsync(HutaoRuntime.GetDataFolderBackgroundFolder());
     }
 
     [Command("SetDataFolderCommand")]
     private async Task SetDataFolderAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set data folder path", "SettingStorageViewModel.Command"));
+
         if (await InternalSetDataFolderAsync(fileSystemPickerInteraction, contentDialogFactory).ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
@@ -89,6 +104,8 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     [Command("DeleteServerCacheFolderCommand")]
     private async Task DeleteServerCacheFolderAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Delete server cache folder", "SettingStorageViewModel.Command"));
+
         ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
             SH.ViewModelSettingDeleteServerCacheFolderTitle,
             SH.ViewModelSettingDeleteServerCacheFolderContent)
@@ -116,6 +133,8 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     [Command("ResetStaticResourceCommand")]
     private async Task ResetStaticResource()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Reset static resource", "SettingStorageViewModel.Command"));
+
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelSettingResetStaticResourceProgress)
             .ConfigureAwait(false);

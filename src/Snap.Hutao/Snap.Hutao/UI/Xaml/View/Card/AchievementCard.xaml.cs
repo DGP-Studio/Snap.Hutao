@@ -7,9 +7,9 @@ namespace Snap.Hutao.UI.Xaml.View.Card;
 
 internal sealed partial class AchievementCard : Button
 {
-    public AchievementCard()
+    public AchievementCard(IServiceProvider serviceProvider)
     {
-        this.InitializeDataContext<ViewModel.Achievement.AchievementViewModelSlim>();
         InitializeComponent();
+        this.InitializeDataContext<ViewModel.Achievement.AchievementViewModelSlim>(serviceProvider);
     }
 }

@@ -4,8 +4,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Service;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
@@ -35,9 +35,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     private const string CategoryAchievement = "ACHIEVEMENT";
     private const string UrlActionImport = "/IMPORT";
 
-    private readonly ICurrentXamlWindowReference currentWindowReference;
+    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<AppActivation> logger;
     private readonly ITaskContext taskContext;
 
     private readonly AsyncLock activateLock = new();
@@ -45,31 +44,27 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public void Activate(HutaoActivationArguments args)
     {
-        if (Volatile.Read(ref isActivating) is 1)
-        {
-            return;
-        }
-
-        HandleActivationExclusivelyAsync(args).SafeForget(logger);
+        HandleActivationExclusivelyAsync(args).SafeForget();
 
         async ValueTask HandleActivationExclusivelyAsync(HutaoActivationArguments args)
         {
+            if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
+            {
+                return;
+            }
+
             using (await activateLock.LockAsync().ConfigureAwait(false))
             {
-                if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
-                {
-                    return;
-                }
-
                 await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
-                Interlocked.Exchange(ref isActivating, 0);
             }
+
+            Interlocked.Exchange(ref isActivating, 0);
         }
     }
 
     public void NotificationInvoked(AppNotificationManager manager, AppNotificationActivatedEventArgs args)
     {
-        HandleAppNotificationActivationAsync(args.Arguments.AsReadOnly(), false).SafeForget(logger);
+        HandleAppNotificationActivationAsync(args.Arguments.AsReadOnly(), false).SafeForget();
     }
 
     public void ActivateAndInitialize(HutaoActivationArguments args)
@@ -79,7 +74,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             return;
         }
 
-        ActivateAndInitializeAsync().SafeForget(logger);
+        ActivateAndInitializeAsync().SafeForget();
 
         async ValueTask ActivateAndInitializeAsync()
         {
@@ -101,18 +96,17 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        switch (currentWindowReference.Window)
+        switch (currentXamlWindowReference.Window)
         {
             case null:
             case MainWindow:
-                await WaitMainWindowOrCurrentAsync().ConfigureAwait(true);
-                await serviceProvider
-                    .GetRequiredService<INavigationService>()
-                    .NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true)
-                    .ConfigureAwait(false);
+                await WaitWindowAsync<MainWindow>().ConfigureAwait(true);
+                INavigationService navigationService = serviceProvider.GetRequiredService<INavigationService>();
+                await navigationService.NavigateAsync<LaunchGamePage>(LaunchGameWithUidData.CreateForUid(uid), true).ConfigureAwait(false);
                 return;
 
             default:
+                Debugger.Break(); // Should never happen
                 Process.GetCurrentProcess().Kill();
                 return;
         }
@@ -148,13 +142,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask UnsynchronizedHandleInitializationAsync()
     {
+        // Sentry IpAddress Traits, should always be configured
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             // Transient, we need the scope to manage its lifetime
-            await scope.ServiceProvider.GetRequiredService<SentryIpAddressConfigurator>().ConfigureAsync().ConfigureAwait(false);
+            await scope.ServiceProvider.GetRequiredService<SentryIpAddressTraits>().ConfigureAsync().ConfigureAwait(false);
         }
-
-        serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget(logger);
 
         // In guide
         if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) < GuideState.Completed)
@@ -162,15 +155,16 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             return;
         }
 
-        serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget(logger);
+        // Start named pipe server,
+        serviceProvider.GetRequiredService<PrivateNamedPipeServer>().Start();
+        Bootstrap.UseNamedPipeRedirection();
 
-        // RegisterHotKey should be called from main thread
-        await taskContext.SwitchToMainThreadAsync();
-        serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
-
-        if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
+        // Notify icon
+        App app = serviceProvider.GetRequiredService<App>();
+        if (app.Options.IsNotifyIconEnabled)
         {
-            serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+            await taskContext.SwitchToMainThreadAsync();
+            app.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
             lock (NotifyIconController.InitializationSyncRoot)
             {
                 _ = serviceProvider.GetRequiredService<NotifyIconController>();
@@ -178,13 +172,17 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             }
         }
 
-        serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget(logger);
-        serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget(logger);
+        // Services Initialization
+        await Task.WhenAll(
+        [
+            serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAllAsync().AsTask(),
+            serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().AsTask(),
+            serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().AsTask(),
+            serviceProvider.GetRequiredService<IMetadataService>().InitializeInternalAsync().AsTask(),
+            serviceProvider.GetRequiredService<IQuartzService>().StartAsync()
+        ]).ConfigureAwait(false);
 
-        if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
-        {
-            metadataServiceInitialization.InitializeInternalAsync().SafeForget(logger);
-        }
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Initialization completed", "Application"));
     }
 
     private async ValueTask HandleProtocolActivationAsync(Uri uri, bool isRedirectTo)
@@ -199,12 +197,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             case CategoryAchievement:
                 {
-                    await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
-                    if (currentWindowReference.Window is not MainWindow)
-                    {
-                        return;
-                    }
-
+                    await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
                     switch (action)
                     {
                         case UrlActionImport:
@@ -213,9 +206,10 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
                                 INavigationCompletionSource navigationAwaiter = new NavigationCompletionSource(AchievementViewModel.ImportUIAFFromClipboard);
 #pragma warning disable CA1849
-                                // We can't await here to navigate to Achievement Page, the Achievement
+                                // We can't await there to navigate to Achievement Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.
-                                // Which is initialized in the link:AppActivation.cs#L102
+                                // Which is initialized in there (AppActivation - Initialization) which is after Activation.
+                                // Thus await would cause a deadlock.
                                 // ReSharper disable once MethodHasAsyncOverload
                                 serviceProvider
                                     .GetRequiredService<INavigationService>()
@@ -240,12 +234,13 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         if (isRedirectTo)
         {
-            await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
+            // User launches the app
+            await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
             return;
         }
 
         // Increase launch times
-        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
+        LocalSetting.Update(SettingKeys.LaunchTimes, 0, static x => unchecked(x + 1));
 
         // If the guide is completed, we check if there's any unfulfilled resource category present.
         if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
@@ -258,23 +253,17 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         if (UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language) < GuideState.Completed)
         {
-            await taskContext.SwitchToMainThreadAsync();
-
-            GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
-            currentWindowReference.Window = guideWindow;
-
-            guideWindow.SwitchTo();
-            guideWindow.AppWindow.MoveInZOrderAtTop();
+            await WaitWindowAsync<GuideWindow>().ConfigureAwait(false);
             return;
         }
 
-        if (Version.Parse(LocalSetting.Get(SettingKeys.LastVersion, "0.0.0.0")) < HutaoRuntime.Version)
+        if (Version.Parse(LocalSetting.Update(SettingKeys.LastVersion, "0.0.0.0", $"{HutaoRuntime.Version}")) < HutaoRuntime.Version)
         {
+            // Note: If the user close MainWindow too quickly, and then exit app, he will never see the update log again.
             XamlApplicationLifetime.IsFirstRunAfterUpdate = true;
-            LocalSetting.Set(SettingKeys.LastVersion, $"{HutaoRuntime.Version}");
         }
 
-        await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
+        await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
     }
 
     private async ValueTask HandleAppNotificationActivationAsync(IReadOnlyDictionary<string, string> arguments, bool isRedirectTo)
@@ -293,21 +282,19 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         }
     }
 
-    private async ValueTask WaitMainWindowOrCurrentAsync()
+    private async ValueTask<Window> WaitWindowAsync<TWindow>()
+        where TWindow : Window
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        if (currentWindowReference.Window is { } window)
+        if (currentXamlWindowReference.Window is not { } window)
         {
-            window.SwitchTo();
-            window.AppWindow.MoveInZOrderAtTop();
-            return;
+            window = serviceProvider.GetRequiredService<TWindow>();
+            currentXamlWindowReference.Window = window;
         }
 
-        MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
-        currentWindowReference.Window = mainWindow;
-
-        mainWindow.SwitchTo();
-        mainWindow.AppWindow.MoveInZOrderAtTop();
+        window.SwitchTo();
+        window.AppWindow.MoveInZOrderAtTop();
+        return window;
     }
 }

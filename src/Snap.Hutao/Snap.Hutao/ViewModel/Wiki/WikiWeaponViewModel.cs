@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -134,6 +135,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     [Command("CultivateCommand")]
     private async Task CultivateAsync(Weapon? weapon)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cultivate", "WikiAvatarViewModel.Command"));
+
         if (weapon is null)
         {
             return;
@@ -145,13 +148,17 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        CalculableOptions options = new(null, weapon.ToCalculable());
-        CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
-
-        if (!isOk)
+        CultivatePromotionDeltaOptions deltaOptions;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            return;
+            CalculableOptions options = new(null, weapon.ToCalculable());
+            CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(scope.ServiceProvider, options).ConfigureAwait(false);
+            (bool isOk, deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+
+            if (!isOk)
+            {
+                return;
+            }
         }
 
         CalculateBatchConsumption? batchConsumption;
@@ -213,6 +220,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     [Command("FilterCommand")]
     private void ApplyFilter()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Filter weapons", "WikiAvatarViewModel.Command"));
+
         if (Weapons is null)
         {
             return;

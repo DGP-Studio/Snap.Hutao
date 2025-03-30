@@ -9,4 +9,6 @@ internal sealed class NameStringValue : NameValue<string>
         : base(name, value)
     {
     }
+
+    public static NameStringValue Default { get; } = new(SH.ModelNameValueDefaultName, SH.ModelNameValueDefaultDescription);
 }

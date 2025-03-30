@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Geetest;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -63,6 +64,8 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog, IPassport
     [Command("SendMobileCaptchaCommand")]
     public async Task SendMobileCaptchaAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Send captcha", "UserMobileCaptchaDialog.Command"));
+
         ArgumentNullException.ThrowIfNull(Mobile);
 
         using (IServiceScope scope = serviceProvider.CreateScope())

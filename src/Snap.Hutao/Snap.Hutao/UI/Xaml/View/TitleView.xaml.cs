@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.ViewModel;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
@@ -11,7 +10,6 @@ internal sealed partial class TitleView : UserControl
 {
     public TitleView()
     {
-        this.InitializeDataContext<TitleViewModel>();
         InitializeComponent();
     }
 

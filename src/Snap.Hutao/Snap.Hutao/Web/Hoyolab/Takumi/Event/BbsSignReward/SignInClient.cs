@@ -22,7 +22,6 @@ internal sealed partial class SignInClient : ISignInClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IGeetestService geetestService;
     private readonly CultureOptions cultureOptions;
-    private readonly ILogger<SignInClient> logger;
     [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -38,7 +37,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInRewardInfo>? resp = await builder
-            .SendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
+            .SendAsync<Response<SignInRewardInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -55,7 +54,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInRewardReSignInfo>? resp = await builder
-            .SendAsync<Response<SignInRewardReSignInfo>>(httpClient, logger, token)
+            .SendAsync<Response<SignInRewardReSignInfo>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -70,7 +69,7 @@ internal sealed partial class SignInClient : ISignInClient
             .Get();
 
         Response<Reward>? resp = await builder
-            .SendAsync<Response<Reward>>(httpClient, logger, token)
+            .SendAsync<Response<Reward>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -87,8 +86,30 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInResult>? resp = await builder
-            .SendAsync<Response<SignInResult>>(httpClient, logger, token)
+            .SendAsync<Response<SignInResult>>(httpClient, token)
             .ConfigureAwait(false);
+
+        if (resp is { Data: { Success: 1, Gt: { } gt, Challenge: { } originChallenge } })
+        {
+            if (await geetestService.TryVerifyGtChallengeAsync(gt, originChallenge, false, token).ConfigureAwait(false) is { } data)
+            {
+                builder
+                    .Resurrect()
+                    .SetHeader("x-rpc-signgame", "hk4e")
+                    .SetXrpcChallenge(data.Challenge, data.Validate);
+
+                await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+
+                resp = await builder
+                    .SendAsync<Response<SignInResult>>(httpClient, token)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                resp.ReturnCode = resp.Data.RiskCode;
+                resp.Message = SH.ServiceSignInRiskVerificationFailed;
+            }
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }
@@ -104,7 +125,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInResult>? resp = await builder
-            .SendAsync<Response<SignInResult>>(httpClient, logger, token)
+            .SendAsync<Response<SignInResult>>(httpClient, token)
             .ConfigureAwait(false);
 
         if (resp is { Data: { Success: 1, Gt: { } gt, Challenge: { } originChallenge } })
@@ -119,7 +140,7 @@ internal sealed partial class SignInClient : ISignInClient
                 await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
                 resp = await builder
-                    .SendAsync<Response<SignInResult>>(httpClient, logger, token)
+                    .SendAsync<Response<SignInResult>>(httpClient, token)
                     .ConfigureAwait(false);
             }
             else

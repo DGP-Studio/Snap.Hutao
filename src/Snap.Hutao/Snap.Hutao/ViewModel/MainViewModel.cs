@@ -4,6 +4,8 @@
 using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.UI.Xaml.Control.Theme;
@@ -12,24 +14,23 @@ using Snap.Hutao.UI.Xaml.Media.Animation;
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
-internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization
+[Injection(InjectAs.Transient)]
+internal sealed partial class MainViewModel : Abstraction.ViewModel
 {
+    private readonly WeakReference<Image> weakBackgroundImagePresenter = new(default!);
     private readonly AsyncLock backgroundImageLock = new();
 
     private readonly IBackgroundImageService backgroundImageService;
-    private readonly ILogger<MainViewModel> logger;
     private readonly ITaskContext taskContext;
 
     private BackgroundImage? previousBackgroundImage;
-    private Image? backgroundImagePresenter;
 
     public partial AppOptions AppOptions { get; }
 
-    public void Initialize(IBackgroundImagePresenterAccessor accessor)
+    public void AttachXamlElement(Image backgroundImagePresenter)
     {
-        backgroundImagePresenter = accessor.BackgroundImagePresenter;
-        _ = PrivateUpdateBackgroundAsync(true);
+        weakBackgroundImagePresenter.SetTarget(backgroundImagePresenter);
+        PrivateUpdateBackgroundAsync(true).SafeForget();
     }
 
     protected override ValueTask<bool> LoadOverrideAsync()
@@ -47,20 +48,21 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     {
         if (e.PropertyName is nameof(AppOptions.BackgroundImageType))
         {
-            _ = PrivateUpdateBackgroundAsync(false);
+            PrivateUpdateBackgroundAsync(false).SafeForget();
         }
     }
 
     [Command("UpdateBackgroundCommand")]
     private async Task UpdateBackgroundAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Update background image", "MainViewModel.Command"));
         await PrivateUpdateBackgroundAsync(false).ConfigureAwait(false);
     }
 
     [SuppressMessage("", "SH003")]
     private async Task PrivateUpdateBackgroundAsync(bool forceRefresh)
     {
-        if (backgroundImagePresenter is null)
+        if (!weakBackgroundImagePresenter.TryGetTarget(out Image? backgroundImagePresenter))
         {
             return;
         }
@@ -84,18 +86,13 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                     .StartAsync(backgroundImagePresenter)
                     .ConfigureAwait(true);
 
-                backgroundImagePresenter.Source = backgroundImage?.ImageSource;
+                backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
+
                 double targetOpacity = backgroundImage is not null
                     ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
                         ? 1 - backgroundImage.Luminance
                         : backgroundImage.Luminance
                     : 0;
-
-                logger.LogInformation(
-                    "Background image: [Accent color: {AccentColor}] [Luminance: {Luminance}] [Opacity: {TargetOpacity}]",
-                    backgroundImage?.AccentColor,
-                    backgroundImage?.Luminance,
-                    targetOpacity);
 
                 await AnimationBuilder
                     .Create()

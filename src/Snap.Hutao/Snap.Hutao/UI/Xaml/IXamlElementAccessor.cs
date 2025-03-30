@@ -3,4 +3,5 @@
 
 namespace Snap.Hutao.UI.Xaml;
 
+[Obsolete]
 internal interface IXamlElementAccessor;

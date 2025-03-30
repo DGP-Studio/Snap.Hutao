@@ -11,7 +11,7 @@ internal static class ProgressReportRateLimiter
     {
         return new(new()
         {
-            ReplenishmentPeriod = new TimeSpan(0, 0, 0, 0, replenishmentMilliSeconds),
+            ReplenishmentPeriod = TimeSpan.FromMilliseconds(replenishmentMilliSeconds),
             TokensPerPeriod = 1,
             AutoReplenishment = true,
             TokenLimit = 1,

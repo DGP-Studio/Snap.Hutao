@@ -69,9 +69,19 @@ internal static class LocalSetting
         }
     }
 
-    public static void Update<T>(string key, T defaultValue, Func<T, T> modifier)
+    public static T Update<T>(string key, T defaultValue, Func<T, T> modifier)
     {
         Debug.Assert(SupportedTypes.Contains(typeof(T)));
-        Set(key, modifier(Get(key, defaultValue)));
+        T oldValue = Get(key, defaultValue);
+        Set(key, modifier(oldValue));
+        return oldValue;
+    }
+
+    public static T Update<T>(string key, T defaultValue, T newValue)
+    {
+        Debug.Assert(SupportedTypes.Contains(typeof(T)));
+        T oldValue = Get(key, defaultValue);
+        Set(key, newValue);
+        return oldValue;
     }
 }

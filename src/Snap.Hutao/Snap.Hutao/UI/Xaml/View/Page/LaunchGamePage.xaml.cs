@@ -10,7 +10,11 @@ internal sealed partial class LaunchGamePage : ScopedPage
 {
     public LaunchGamePage()
     {
-        InitializeWith<LaunchGameViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<LaunchGameViewModel>();
     }
 }

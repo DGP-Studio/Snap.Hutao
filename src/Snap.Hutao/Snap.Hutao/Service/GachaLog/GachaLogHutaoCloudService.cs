@@ -76,7 +76,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         }
 
         Guid archiveId = archive.InnerId;
-        gachaLogRepository.AddGachaItemRange(array.SelectAsArray(i => Model.Entity.GachaItem.From(archiveId, i)));
+        gachaLogRepository.AddGachaItemRange(array.SelectAsArray(static (i, archiveId) => Model.Entity.GachaItem.From(archiveId, i), archiveId));
         return new(true, archive.InnerId);
     }
 

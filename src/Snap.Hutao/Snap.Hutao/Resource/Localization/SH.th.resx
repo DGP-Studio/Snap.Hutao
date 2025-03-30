@@ -261,6 +261,15 @@
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>รีเฟรชเมื่อ {0:MM.dd HH:mm:ss}</value>
   </data>
+  <data name="ModelEntityPrimitiveCultivateTypeAvatarAndSkill" xml:space="preserve">
+    <value>ตัวละคร</value>
+  </data>
+  <data name="ModelEntityPrimitiveCultivateTypeFurniture" xml:space="preserve">
+    <value>เฟอร์นิเจอร์</value>
+  </data>
+  <data name="ModelEntityPrimitiveCultivateTypeWeapon" xml:space="preserve">
+    <value>อาวุธ</value>
+  </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>ช่วงที่ {0}</value>
   </data>
@@ -1034,6 +1043,12 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>Snap Hutao ของคุณเก่าเกินไป โปรดอัปเดตโดยเร็วที่สุด</value>
   </data>
+  <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
+    <value>การลงชื่อเข้าใช้ชดเชยล้มเหลว, {0}</value>
+  </data>
+  <data name="ServiceReSignInSuccessRewardFormat" xml:space="preserve">
+    <value>การลงชื่อเข้าใช้ชดเชยสำเร็จ, {0}×{1}</value>
+  </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>การเช็คอินล้มเหลว, {0}</value>
   </data>
@@ -1063,6 +1078,9 @@
   </data>
   <data name="ServiceUserProcessInputCookieDialogTitle" xml:space="preserve">
     <value>กำลังดึงข้อมูลผู้ใช้ โปรดรอสักครู่...</value>
+  </data>
+  <data name="ServiceUserUserInfoContainsNoGameRole" xml:space="preserve">
+    <value>บัญชีนี้ยังไม่ได้เชื่อมโยงกับตัวละคร Genshin Impact</value>
   </data>
   <data name="ServiceYaeEmbeddedYaeErrorTitle" xml:space="preserve">
     <value>ข้อผิดพลาดของ Embedded Yae</value>
@@ -1117,6 +1135,12 @@
   </data>
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
     <value>เลือกบัญชีหรือเริ่มทันที</value>
+  </data>
+  <data name="ViewCardSignInClaimReSignInAction" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ชดเชย</value>
+  </data>
+  <data name="ViewCardSignInClaimSignInAction" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
     <value>เลเวล</value>
@@ -1225,6 +1249,9 @@
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>เพิ่มหรืออัปเดตเป็นชุดไปยังแผนการบำรุงปัจจุบัน</value>
+  </data>
+  <data name="ViewDialogCultivatePromotionDeltaPromoted" xml:space="preserve">
+    <value>ได้รับการเลื่อนขั้นแล้ว</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>เพิ่มหรืออัปเดตไปยังแผนการพัฒนาปัจจุบัน</value>
@@ -1652,6 +1679,33 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>ยังไม่ได้เปิดตู้โชว์ตัวละคร โปรดไปดำเนินการในเกมแล้วลองอีกครั้ง</value>
   </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindActivatedConstellationCount" xml:space="preserve">
+    <value>ลำดับชั้นการปลดล็อกกลุ่มดาว</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurAttack" xml:space="preserve">
+    <value>ลำดับพลังโจมตี</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindCurDefense" xml:space="preserve">
+    <value>ลำดับพลังป้องกัน</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindDefault" xml:space="preserve">
+    <value>ลำดับเริ่มต้น</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindElementMastery" xml:space="preserve">
+    <value>ลำดับความชำนาญธาตุ</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindFetterLevel" xml:space="preserve">
+    <value>ลำดับระดับมิตรภาพ</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindLevelNumber" xml:space="preserve">
+    <value>ลำดับระดับ</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindMaxHp" xml:space="preserve">
+    <value>ลำดับค่าพลังชีวิตสูงสุด</value>
+  </data>
+  <data name="ViewModelAvatarPropertySortDescriptionKindQuality" xml:space="preserve">
+    <value>ลำดับความหายาก</value>
+  </data>
   <data name="ViewModelAvatarPropertyTotalAvatarCountHint" xml:space="preserve">
     <value>มี {0} ตัวละคร</value>
   </data>
@@ -1922,6 +1976,15 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>สลับบัญชีล้มเหลว</value>
   </data>
+  <data name="ViewModelNotifyIconRestartAsElevatedErrorHint" xml:space="preserve">
+    <value>พบปัญหาขณะรีสตาร์ท Snap Hutao โปรดรีสตาร์ทด้วยตนเอง</value>
+  </data>
+  <data name="ViewModelOverlayCatalogHotKeyDisplayName" xml:space="preserve">
+    <value>คำแนะนำคีย์ลัด</value>
+  </data>
+  <data name="ViewModelOverlayCatalogIslandSwitchName" xml:space="preserve">
+    <value>สวิตช์เร็ว</value>
+  </data>
   <data name="ViewModelRoleCombatHeraldry" xml:space="preserve">
     <value>มาถึง {0} แล้ว</value>
   </data>
@@ -1967,8 +2030,29 @@
   <data name="ViewModelSettingStorageSetDataFolderDescription" xml:space="preserve">
     <value>โฟลเดอร์ที่เลือกไม่ว่างเปล่า ไฟล์ที่มีอยู่จะถูกเขียนทับ</value>
   </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription2" xml:space="preserve">
+    <value>ไม่ใช่ตำแหน่งโฟลเดอร์ข้อมูลที่ถูกต้อง โปรดเลือกอีกครั้ง</value>
+  </data>
+  <data name="ViewModelSettingStorageSetDataFolderDescription3" xml:space="preserve">
+    <value>โฟลเดอร์ที่เลือก '{0}' ไม่ว่างเปล่า ไฟล์ที่มีอยู่จะถูกเขียนทับ</value>
+  </data>
   <data name="ViewModelSettingStorageSetDataFolderTitle" xml:space="preserve">
     <value>คัดลอกไฟล์ข้อมูล</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogContent" xml:space="preserve">
+    <value>ต้องใช้ {0} เหรียญ MiHoYo, มี {1} เหรียญ MiHoYo ที่ใช้งานได้</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogContentOversea" xml:space="preserve">
+    <value>ต้องใช้ {0} บัตรลงชื่อเข้าใช้ชดเชย, มี {1} บัตรลงชื่อเข้าใช้ชดเชยที่ใช้งานได้</value>
+  </data>
+  <data name="ViewModelSignInReSignInDialogTitle" xml:space="preserve">
+    <value>แน่ใจหรือไม่ที่จะลงชื่อเข้าใช้ชดเชย?</value>
+  </data>
+  <data name="ViewModelSignInReSignInNotEnoughCoinMessage" xml:space="preserve">
+    <value>เหรียญ MiHoYo ไม่เพียงพอ</value>
+  </data>
+  <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
+    <value>{0} ลงชื่อเข้าใช้สะสม {1} วัน</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>ไดเรกทอรีข้อมูลปัจจุบัน '{0}' มีจุดแยกวิเคราะห์ (Reparse points) อย่างน้อยหนึ่งจุด ซึ่งอาจทำให้ฟังก์ชันบางอย่างที่ขึ้นอยู่กับโฟลเดอร์ข้อมูลทำงานไม่ถูกต้อง โปรดไปที่การตั้งค่าเพื่อเปลี่ยนเส้นทาง</value>
@@ -2003,6 +2087,9 @@
   <data name="ViewModelUserCookieCopied" xml:space="preserve">
     <value>คัดลอก Cookie ของผู้ใช้ [{0}] สำเร็จ</value>
   </data>
+  <data name="ViewModelUserEmptyGameRole" xml:space="preserve">
+    <value>บัญชีนี้ยังไม่ได้เชื่อมโยงกับตัวละคร Genshin Impact</value>
+  </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
     <value>Cookie นี้ไม่สมบูรณ์ การดำเนินการล้มเหลว</value>
   </data>
@@ -2032,6 +2119,9 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>ไม่มีข้อมูลกลยุทธ์สำหรับตัวละครนี้</value>
+  </data>
+  <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
+    <value>ลบคำแนะนำงานบนอินเทอร์เฟซแผนที่</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>สร้างไฟล์บันทึกใหม่</value>
@@ -2540,6 +2630,9 @@
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
     <value>เขียนทับสถานะเต็มหน้าจอเริ่มต้น</value>
   </data>
+  <data name="ViewPageLaunchGameAppearancePlatformTypeDescription" xml:space="preserve">
+    <value>เลือกประเภทแพลตฟอร์ม ประเภทที่แตกต่างกันจะส่งผลต่อวิธีการนำเสนอ UI ของเกม</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>เขียนทับความสูงหน้าจอเริ่มต้น</value>
   </data>
@@ -2591,6 +2684,12 @@
   <data name="ViewPageLaunchGameElevationDescription" xml:space="preserve">
     <value>การจัดการไฟล์เกม/การสลับเซิร์ฟเวอร์เกม/คุณสมบัติการแทรกต้องใช้สิทธิ์ผู้ดูแลระบบ</value>
   </data>
+  <data name="ViewPageLaunchGameEventCameraMoveColdSwitchHeader" xml:space="preserve">
+    <value>สวิตช์เย็นการถ่ายภาพระยะใกล้ของท่าไม้ตาย</value>
+  </data>
+  <data name="ViewPageLaunchGameEventCameraMoveHotSwitchHeader" xml:space="preserve">
+    <value>ลบการถ่ายภาพระยะใกล้ของท่าไม้ตาย</value>
+  </data>
   <data name="ViewPageLaunchGameFixLowFovSceneDescription" xml:space="preserve">
     <value>แก้ไขมุมมองสำหรับอินเทอร์เฟซพิเศษ เช่น การกำหนดค่าตัวละคร/ทีม/คำอธิษฐาน/Battle Pass</value>
   </data>
@@ -2611,6 +2710,9 @@
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>การแทรก</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
+    <value>ใช้การป้อนข้อมูลแบบสัมผัส</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>เรียกใช้บนจอแสดงผลที่ระบุ</value>
@@ -2810,11 +2912,20 @@
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>หน้าต่างเว็บแบบย่อ</value>
   </data>
+  <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
+    <value>เปลี่ยนทางลัดเพื่อสลับการแสดง/ซ่อนหน้าต่าง</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
+    <value>สลับแสดง/ซ่อน</value>
+  </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityDescription" xml:space="preserve">
     <value>ปรับความโปร่งแสงของหน้าต่าง เพื่อให้มีผลเมื่อเปิดหน้าต่างครั้งถัดไป</value>
   </data>
   <data name="ViewPageSettingCompactWebView2InactiveOpacityHeader" xml:space="preserve">
     <value>ความโปร่งแสงของหน้าต่าง</value>
+  </data>
+  <data name="ViewPageSettingCompactWebView2InformationDescription" xml:space="preserve">
+    <value>เปิดใช้งานไอคอนพื้นที่การแจ้งเตือนและเปิดหน้าต่างเว็บขนาดกะทัดรัดจากเมนูไอคอน</value>
   </data>
   <data name="ViewPageSettingCompactWebView2VideoFastForwardDescription" xml:space="preserve">
     <value>เปลี่ยนปุ่มลัดสำหรับควบคุมการกรอวิดีโอไปข้างหน้า</value>
@@ -2945,6 +3056,9 @@
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>เปิดเกม</value>
   </data>
+  <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้</value>
+  </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>ซ่อน</value>
   </data>
@@ -3023,8 +3137,20 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ปุ่มลัด</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
+    <value>ดู</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeDescription" xml:space="preserve">
+    <value>การตั้งค่าปุ่มในส่วนนี้ถูกกำหนดโดยรหัสคีย์เสมือน</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
+    <value>รหัสคีย์เสมือน</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>การตั้งค่าปุ่มลัดเดียวกันสำหรับฟังก์ชันต่างๆ อาจทำให้เกิดผลลัพธ์ที่ไม่คาดคิด และจำเป็นต้องดำเนินการเพิ่มเติมหรือรีสตาร์ทแอปพลิเคชันเพื่อให้กลับมาทำงานได้ตามปกติ</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
+    <value>หลังจากแทนที่แถบงานมาตรฐานด้วยเครื่องมือปรับแต่งระบบ การเปิดใช้งานไอคอนพื้นที่การแจ้งเตือนอาจทำให้: ไม่สามารถโต้ตอบกับไอคอนได้/ไม่สามารถสร้างไอคอนได้อย่างถูกต้อง/Explorer เกิดข้อผิดพลาดหลังรีสตาร์ท/แอปพลิเคชันเกิดข้อผิดพลาดเมื่อเริ่มต้น</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
     <value>แสดงไอคอนในพื้นที่แจ้งเตือนเพื่อให้สามารถทำงานเบื้องหลังได้ จะมีผลหลังจากการรีสตาร์ท</value>
@@ -3212,6 +3338,9 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>ก่อนการเลื่อนขั้น</value>
   </data>
+  <data name="ViewPverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>ลบตัวเลขความเสียหายในการต่อสู้</value>
+  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>โรงละครมายา</value>
   </data>
@@ -3301,6 +3430,12 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>อัปโหลดข้อมูล</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableContent" xml:space="preserve">
+    <value>อัปเดตทันทีหรือไม่?</value>
+  </data>
+  <data name="ViewTitileUpdatePackageAvailableTitle" xml:space="preserve">
+    <value>Snap Hutao {0} เวอร์ชันพร้อมใช้งานแล้ว</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>ดาวน์โหลดอัปเดตล้มเหลว</value>

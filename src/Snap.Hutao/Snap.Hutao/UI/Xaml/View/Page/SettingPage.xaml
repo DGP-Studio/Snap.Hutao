@@ -271,6 +271,11 @@
                                         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
+                                <InfoBar
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingNotifyIconCustomTaskBarWaring}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingNotifyIconDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingNotifyIconHeader}"
@@ -348,6 +353,12 @@
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
                                 <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutHeader}"/>
+                                <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeDescription}" Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeHeader}">
+                                    <HyperlinkButton
+                                        Content="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeAction}"
+                                        NavigateUri="https://learn.microsoft.com/windows/win32/inputdev/virtual-key-codes"
+                                        Style="{ThemeResource SettingHyperlinkButtonStyle}"/>
+                                </cwc:SettingsCard>
                                 <InfoBar
                                     Title="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutWarningDescription}"
                                     IsClosable="False"
@@ -477,6 +488,11 @@
                                     Margin="1,13,0,5"
                                     Style="{StaticResource SettingsCardHeaderTextBlockStyle}"
                                     Text="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2Header}"/>
+                                <InfoBar
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2InformationDescription}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Informational"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoPlayPauseDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2VideoPlayPauseHeader}"
@@ -547,6 +563,23 @@
                                     </StackPanel>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2HideDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2HideHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xED1A;}"
+                                    IsEnabled="{Binding RuntimeOptions.IsElevated}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <shuxc:Elevation Margin="0,0,16,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                        <shuxc:SizeRestrictedContentControl VerticalAlignment="Center">
+                                            <ComboBox
+                                                MinWidth="120"
+                                                VerticalAlignment="Center"
+                                                DisplayMemberPath="Name"
+                                                ItemsSource="{Binding HotKeyOptions.AllVirtualKeys}"
+                                                SelectedItem="{Binding LowLevelKeyOptions.WebView2HideKey, Mode=TwoWay}"/>
+                                        </shuxc:SizeRestrictedContentControl>
+                                    </StackPanel>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2InactiveOpacityDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingCompactWebView2InactiveOpacityHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE7B3;}"
@@ -609,6 +642,12 @@
                                         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewpageSettingHomeCardItemCalendarHeader}">
                                             <ToggleSwitch
                                                 IsOn="{Binding HomeCardOptions.IsHomeCardCalendarPresented, Mode=TwoWay}"
+                                                OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                                OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                        </cwc:SettingsCard>
+                                        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingHomeCardItemSignInHeader}">
+                                            <ToggleSwitch
+                                                IsOn="{Binding HomeCardOptions.IsHomeCardSignInPresented, Mode=TwoWay}"
                                                 OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
                                                 OnContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
                                         </cwc:SettingsCard>

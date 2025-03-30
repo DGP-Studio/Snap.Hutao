@@ -32,7 +32,11 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     public void Receive(UserRemovedMessage message)
     {
         // Database items have been deleted by cascade deleting.
-        taskContext.BeginInvokeOnMainThread(() => entries?.RemoveWhere(n => n.UserId == message.RemovedUser.InnerId));
+        if (entries is { } localEntries)
+        {
+            Guid userId = message.RemovedUser.InnerId;
+            taskContext.BeginInvokeOnMainThread(() => localEntries.RemoveWhere(n => n.UserId == userId));
+        }
     }
 
     public async ValueTask AddDailyNoteAsync(DailyNoteMetadataContext context, UserAndUid userAndUid, CancellationToken token = default)
@@ -48,19 +52,22 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Response<WebDailyNote> dailyNoteResponse = await GetDailyNoteAsync(scope, userAndUid, token).ConfigureAwait(false);
+            Response<WebDailyNote> dailyNoteResponse = await ScopedGetDailyNoteAsync(scope, userAndUid, token).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? data))
             {
                 newEntry.Update(data);
             }
         }
 
-        newEntry.UserGameRole = await userService.GetUserGameRoleByUidAsync(roleUid).ConfigureAwait(false);
-        newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
         dailyNoteRepository.AddDailyNoteEntry(newEntry);
 
+        newEntry.UserGameRole = await userService.GetUserGameRoleByUidAsync(roleUid).ConfigureAwait(false);
+        newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
+
         // Set navigation property before adding to the database will cause a corresponding insert operation.
+        // (Insert user to database, which is not expected)
         newEntry.User = userAndUid.User;
+
         await taskContext.SwitchToMainThreadAsync();
         entries?.Add(newEntry);
     }
@@ -108,7 +115,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         dailyNoteRepository.UpdateDailyNoteEntry(entry);
     }
 
-    private static async ValueTask<Response<WebDailyNote>> GetDailyNoteAsync(IServiceScope scope, UserAndUid userAndUid, CancellationToken token = default)
+    private static async ValueTask<Response<WebDailyNote>> ScopedGetDailyNoteAsync(IServiceScope scope, UserAndUid userAndUid, CancellationToken token = default)
     {
         IGameRecordClient gameRecordClient = scope.ServiceProvider
             .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
@@ -135,14 +142,16 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                     continue;
                 }
 
-                if (entries?.SingleOrDefault(e => e.UserId == dbEntry.UserId && e.Uid == dbEntry.Uid) is not { } cachedEntry)
+                Guid userId = dbEntry.UserId;
+                string uid = dbEntry.Uid;
+                if (entries?.SingleOrDefault(e => e.UserId == userId && e.Uid == uid) is not { } cachedEntry)
                 {
                     // This can only happen when the entry is removing from the collection.
                     // And the entry is not removed from the database yet. We just skip it.
                     continue;
                 }
 
-                Response<WebDailyNote> dailyNoteResponse = await GetDailyNoteAsync(scope, UserAndUid.From(dbEntry.User, dbEntry.Uid), token).ConfigureAwait(false);
+                Response<WebDailyNote> dailyNoteResponse = await ScopedGetDailyNoteAsync(scope, UserAndUid.From(dbEntry.User, uid), token).ConfigureAwait(false);
                 if (!ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? dailyNote))
                 {
                     continue;
@@ -156,7 +165,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 await dailyNoteNotificationOperation.SendAsync(dbEntry).ConfigureAwait(false);
                 dailyNoteRepository.UpdateDailyNoteEntry(dbEntry);
 
-                dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(dbEntry.Uid, dailyNote);
+                dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(uid, dailyNote);
 
                 // After everything is done, we copy the updated entry to the cached entry.
                 await taskContext.SwitchToMainThreadAsync();

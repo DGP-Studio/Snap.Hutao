@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.ViewModel.Game;
@@ -63,25 +64,27 @@ internal sealed partial class LaunchExecutionContext : IDisposable
     /// </summary>
     public System.Diagnostics.Process Process { get; set; } = default!;
 
-    public bool TryGetGameFileSystem([NotNullWhen(true)] out IGameFileSystem? gameFileSystem)
+    public bool TryGetGameFileSystem([NotNullWhen(true)] out IGameFileSystemView? gameFileSystemView)
     {
         lock (syncRoot)
         {
             ObjectDisposedException.ThrowIf(disposed, this);
             if (this.gameFileSystem is not null)
             {
-                gameFileSystem = this.gameFileSystem;
+                gameFileSystemView = this.gameFileSystem;
                 return true;
             }
 
-            if (!Options.TryGetGameFileSystem(out gameFileSystem))
+            if (!Options.TryGetGameFileSystem(out IGameFileSystem? gameFileSystem))
             {
                 Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
                 Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
+                gameFileSystemView = default;
                 return false;
             }
 
             this.gameFileSystem = gameFileSystem;
+            gameFileSystemView = gameFileSystem;
             return true;
         }
     }
@@ -91,10 +94,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
         lock (syncRoot)
         {
             ObjectDisposedException.ThrowIf(disposed, this);
-
-            // Invalidate game file system
-            gameFileSystem?.Dispose();
-            gameFileSystem = null;
+            DisposableMarshal.DisposeAndClear(ref gameFileSystem);
 
             if (ViewModel.TryGetTarget(out IViewModelSupportLaunchExecution? viewModel))
             {
@@ -108,10 +108,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
         lock (syncRoot)
         {
             ObjectDisposedException.ThrowIf(disposed, this);
-
-            // Invalidate game file system
-            gameFileSystem?.Dispose();
-            gameFileSystem = null;
+            DisposableMarshal.DisposeAndClear(ref gameFileSystem);
 
             Options.GamePath = gamePath;
             PerformGamePathEntrySynchronization();
@@ -128,8 +125,7 @@ internal sealed partial class LaunchExecutionContext : IDisposable
         lock (syncRoot)
         {
             disposed = true;
-            gameFileSystem?.Dispose();
-            gameFileSystem = null;
+            DisposableMarshal.DisposeAndClear(ref gameFileSystem);
         }
     }
 }

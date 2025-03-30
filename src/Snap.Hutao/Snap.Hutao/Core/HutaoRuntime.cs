@@ -59,51 +59,53 @@ internal static class HutaoRuntime
             .ToString();
 
         Debug.Assert(XamlApplicationLifetime.CultureInfoInitialized);
-        return SH.GetString(CultureInfo.CurrentCulture, name, Version);
+        string? displayName = SH.GetString(CultureInfo.CurrentCulture, name, Version);
+        return displayName is null ? null : string.Intern(displayName);
     }
 
     public static string GetDataFolderFile(string fileName)
     {
-        return Path.Combine(DataFolder, fileName);
+        return string.Intern(Path.Combine(DataFolder, fileName));
     }
 
     public static string GetDataFolderUpdateCacheFolderFile(string fileName)
     {
         string directory = Path.Combine(DataFolder, "UpdateCache");
         Directory.CreateDirectory(directory);
-        return Path.Combine(directory, fileName);
+        return string.Intern(Path.Combine(directory, fileName));
     }
 
     public static string GetDataFolderServerCacheFolder()
     {
         string directory = Path.Combine(DataFolder, "ServerCache");
         Directory.CreateDirectory(directory);
-        return directory;
+        return string.Intern(directory);
     }
 
     public static string GetDataFolderBackgroundFolder()
     {
         string directory = Path.Combine(DataFolder, "Background");
         Directory.CreateDirectory(directory);
-        return directory;
+        return string.Intern(directory);
     }
 
     public static string GetLocalCacheImageCacheFolder()
     {
         string directory = Path.Combine(LocalCache, "ImageCache");
         Directory.CreateDirectory(directory);
-        return directory;
+        return string.Intern(directory);
     }
 
     public static string GetDataFolderScreenshotFolder()
     {
         string directory = Path.Combine(DataFolder, "Screenshot");
         Directory.CreateDirectory(directory);
-        return directory;
+        return string.Intern(directory);
     }
 
     private static string InitializeDataFolder()
     {
+        // Delete the previous data folder if it exists
         try
         {
             string previousPath = LocalSetting.Get(SettingKeys.PreviousDataFolderToDelete, string.Empty);
@@ -120,6 +122,7 @@ internal static class HutaoRuntime
 #endif
         }
 
+        // Check if the preferred path is set
         string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
 
         if (!string.IsNullOrEmpty(preferredPath))
@@ -129,12 +132,13 @@ internal static class HutaoRuntime
         }
 
         const string FolderName
-#if IS_ALPHA_BUILD
+#if IS_ALPHA_BUILD || IS_CANARY_BUILD
         = "HutaoAlpha";
 #else
         = "Hutao";
 #endif
 
+        // Check if the old documents path exists
         string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         string oldPath = Path.GetFullPath(Path.Combine(myDocuments, FolderName));
         if (Directory.Exists(oldPath))
@@ -173,11 +177,11 @@ internal static class HutaoRuntime
         try
         {
             string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
-            return new(version, true);
+            return new(version, version, true);
         }
         catch (FileNotFoundException)
         {
-            return new(SH.CoreWebView2HelperVersionUndetected, false);
+            return new(string.Empty, SH.CoreWebView2HelperVersionUndetected, false);
         }
     }
 

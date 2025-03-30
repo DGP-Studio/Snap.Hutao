@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
@@ -39,10 +42,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly AvatarPropertyViewModelScopeContext scopeContext;
 
     private SummaryFactoryMetadataContext? metadataContext;
-    private Summary? summary;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    public Summary? Summary { get => summary; set => SetProperty(ref summary, value); }
+    public Summary? Summary { get; set => SetProperty(ref field, value); }
 
     public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
@@ -52,7 +54,30 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     public string TotalAvatarCount
     {
-        get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(summary?.Avatars.Count ?? 0);
+        get => SH.FormatViewModelAvatarPropertyTotalAvatarCountHint(Summary?.Avatars.Count ?? 0);
+    }
+
+    public ImmutableArray<NameValue<AvatarPropertySortDescriptionKind>> SortDescriptionKinds { get; } = ImmutableCollectionsNameValue.FromEnum<AvatarPropertySortDescriptionKind>(type => type.GetLocalizedDescription());
+
+    public NameValue<AvatarPropertySortDescriptionKind>? SortDescriptionKind
+    {
+        get => field ??= SortDescriptionKinds.FirstOrDefault();
+        set
+        {
+            if (value is not null && SetProperty(ref field, value))
+            {
+                using (Summary?.Avatars.DeferRefresh())
+                {
+                    Summary?.Avatars.SortDescriptions.Clear();
+                    foreach (ref readonly SortDescription sd in AvatarPropertySortDescriptions.Get(value.Value).AsSpan())
+                    {
+                        Summary?.Avatars.SortDescriptions.Add(sd);
+                    }
+                }
+
+                Summary?.Avatars.MoveCurrentToFirst();
+            }
+        }
     }
 
     public void Receive(UserAndUidChangedMessage message)
@@ -61,6 +86,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         {
             return;
         }
+
+        WeakReference<AvatarPropertyViewModel> weakThis = new(this);
 
         // 1. We need to wait for the view initialization (mainly for metadata context).
         // 2. We need to refresh summary data. otherwise, the view can be un-synced.
@@ -72,7 +99,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     return;
                 }
 
-                _ = PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, CancellationToken);
+                if (weakThis.TryGetTarget(out AvatarPropertyViewModel? viewModel) && !viewModel.IsViewDisposed)
+                {
+                    viewModel.PrivateRefreshAsync(userAndUid, RefreshOptionKind.None, viewModel.CancellationToken).SafeForget();
+                }
             },
             TaskScheduler.Current);
     }
@@ -105,6 +135,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromHoyolabGameRecordCommand")]
     private async Task RefreshByHoyolabGameRecordAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh", "AvatarPropertyViewModel.Command"));
+
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await PrivateRefreshAsync(userAndUid, RefreshOptionKind.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
@@ -170,6 +202,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("CultivateCommand")]
     private async Task CultivateAsync(AvatarView? avatar)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cultivate", "AvatarPropertyViewModel.Command"));
+
         if (avatar is null)
         {
             return;
@@ -189,7 +223,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
         CultivatePromotionDeltaDialog dialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
+            .CreateInstanceAsync<CultivatePromotionDeltaDialog>(scopeContext.ServiceProvider, options).ConfigureAwait(false);
         (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
         if (!isOk)
@@ -219,7 +253,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("BatchCultivateCommand")]
     private async Task BatchCultivateAsync()
     {
-        if (summary is not { Avatars: { } avatars })
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Batch cultivate", "AvatarPropertyViewModel.Command"));
+
+        if (Summary is not { Avatars: { } avatars })
         {
             return;
         }
@@ -231,7 +267,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         CultivatePromotionDeltaBatchDialog dialog = await scopeContext.ContentDialogFactory
-            .CreateInstanceAsync<CultivatePromotionDeltaBatchDialog>().ConfigureAwait(false);
+            .CreateInstanceAsync<CultivatePromotionDeltaBatchDialog>(scopeContext.ServiceProvider).ConfigureAwait(false);
         (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaBaselineAsync().ConfigureAwait(false);
 
         if (!isOk)
@@ -361,6 +397,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("ExportToTextCommand")]
     private async Task ExportToTextAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Export as text to ClipBoard", "AvatarPropertyViewModel.Command"));
+
         if (Summary is not { Avatars.CurrentItem: { } avatar })
         {
             return;
@@ -379,6 +417,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("FilterCommand")]
     private void ApplyFilter()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Filter", "AvatarPropertyViewModel.Command"));
+
         if (Summary is null)
         {
             return;

@@ -5,17 +5,11 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.View.Card;
 
-/// <summary>
-/// 启动游戏卡片
-/// </summary>
 internal sealed partial class LaunchGameCard : Button
 {
-    /// <summary>
-    /// 构造一个新的启动游戏卡片
-    /// </summary>
-    public LaunchGameCard()
+    public LaunchGameCard(IServiceProvider serviceProvider)
     {
-        this.InitializeDataContext<ViewModel.Game.LaunchGameViewModelSlim>();
         InitializeComponent();
+        this.InitializeDataContext<ViewModel.Game.LaunchGameViewModelSlim>(serviceProvider);
     }
 }

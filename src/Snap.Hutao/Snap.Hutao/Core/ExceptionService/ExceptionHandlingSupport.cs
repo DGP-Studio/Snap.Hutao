@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -37,11 +38,40 @@ internal sealed partial class ExceptionHandlingSupport
 
         // Handled has to be set to true, the control flow is returned after post
         e.Handled = true;
-        SynchronizationContext.Current?.Post((state) => ExceptionWindow.Show((SentryId)state!), id);
+
+#pragma warning disable SH007
+        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show(Ioc.Default, (SentryId)state!), id);
+#pragma warning restore SH007
+    }
+
+    private static void OnAppDomainFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
+    {
+        if (e.Exception is null)
+        {
+            return;
+        }
+
+        Exception exception = e.Exception;
+        string type = TypeNameHelper.GetTypeDisplayName(exception);
+        if (exception is OperationCanceledException)
+        {
+            return;
+        }
+
+        if (exception.TargetSite?.DeclaringType?.Assembly != typeof(App).Assembly)
+        {
+            return;
+        }
+
+        Debugger.Break();
     }
 
     private void Attach(Application app)
     {
+#if DEBUG
+        AppDomain.CurrentDomain.FirstChanceException += OnAppDomainFirstChanceException;
+#endif
+
         app.UnhandledException += OnAppUnhandledException;
         ConfigureDebugSettings(app);
     }
@@ -63,11 +93,11 @@ internal sealed partial class ExceptionHandlingSupport
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
-        logger.LogCritical("XAML 绑定失败:{Message}", e.Message);
+        logger.LogCritical("XAML Binding Failed:{Message}", e.Message);
     }
 
     private void OnXamlResourceReferenceFailed(DebugSettings sender, XamlResourceReferenceFailedEventArgs e)
     {
-        logger.LogCritical("XAML 资源引用失败:{Message}", e.Message);
+        logger.LogCritical("XAML Resource Reference Failed:{Message}", e.Message);
     }
 }

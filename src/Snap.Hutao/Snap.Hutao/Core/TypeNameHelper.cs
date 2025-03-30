@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 类型名称帮助类
 /// Directly copied from .NET Runtime library
+/// https://github.com/dotnet/runtime/blob/main/src/libraries/Common/src/Extensions/TypeNameHelper/TypeNameHelper.cs
 ///
 /// Licensed to the .NET Foundation under one or more agreements.
 /// The .NET Foundation licenses this file to you under the MIT license.

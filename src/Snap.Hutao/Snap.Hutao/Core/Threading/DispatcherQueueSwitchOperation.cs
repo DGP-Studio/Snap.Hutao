@@ -32,14 +32,14 @@ internal readonly struct DispatcherQueueSwitchOperation : IAwaitable<DispatcherQ
 
     public void OnCompleted(Action continuation)
     {
-        dispatcherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
+        dispatcherQueue.TryEnqueue(new(continuation));
     }
 
     public void UnsafeOnCompleted(Action continuation)
     {
         using (ExecutionContext.SuppressFlow())
         {
-            dispatcherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
+            dispatcherQueue.TryEnqueue(new(continuation));
         }
     }
 }

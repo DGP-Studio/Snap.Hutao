@@ -3,74 +3,38 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
-/// <summary>
-/// 实时便笺通用
-/// </summary>
 internal abstract class DailyNoteCommon
 {
-    /// <summary>
-    /// 当前派遣数
-    /// </summary>
     [JsonPropertyName("current_expedition_num")]
-    public int CurrentExpeditionNum { get; set; }
+    public int CurrentExpeditionNum { get; init; }
 
-    /// <summary>
-    /// 当前洞天宝钱
-    /// </summary>
     [JsonPropertyName("current_home_coin")]
-    public int CurrentHomeCoin { get; set; }
+    public int CurrentHomeCoin { get; init; }
 
-    /// <summary>
-    /// 当前树脂
-    /// </summary>
     [JsonPropertyName("current_resin")]
-    public int CurrentResin { get; set; }
+    public int CurrentResin { get; init; }
 
-    /// <summary>
-    /// 派遣
-    /// </summary>
     [JsonPropertyName("expeditions")]
-    public List<Expedition> Expeditions { get; set; } = default!;
+    public List<Expedition> Expeditions { get; init; } = default!;
 
-    /// <summary>
-    /// 委托完成数
-    /// </summary>
     [JsonPropertyName("finished_task_num")]
-    public int FinishedTaskNum { get; set; }
+    public int FinishedTaskNum { get; init; }
 
-    /// <summary>
-    /// 4次委托额外奖励是否领取
-    /// </summary>
     [JsonPropertyName("is_extra_task_reward_received")]
-    public bool IsExtraTaskRewardReceived { get; set; }
+    public bool IsExtraTaskRewardReceived { get; init; }
 
-    /// <summary>
-    /// 最大派遣数
-    /// </summary>
     [JsonPropertyName("max_expedition_num")]
-    public int MaxExpeditionNum { get; set; }
+    public int MaxExpeditionNum { get; init; }
 
-    /// <summary>
-    /// 最大洞天宝钱
-    /// </summary>
     [JsonPropertyName("max_home_coin")]
-    public int MaxHomeCoin { get; set; }
+    public int MaxHomeCoin { get; init; }
 
-    /// <summary>
-    /// 最大树脂
-    /// </summary>
     [JsonPropertyName("max_resin")]
-    public int MaxResin { get; set; }
+    public int MaxResin { get; init; }
 
-    /// <summary>
-    /// 树脂恢复时间的秒数
-    /// </summary>
     [JsonPropertyName("resin_recovery_time")]
-    public int ResinRecoveryTime { get; set; }
+    public int ResinRecoveryTime { get; init; }
 
-    /// <summary>
-    /// 委托总数
-    /// </summary>
     [JsonPropertyName("total_task_num")]
-    public int TotalTaskNum { get; set; }
+    public int TotalTaskNum { get; init; }
 }

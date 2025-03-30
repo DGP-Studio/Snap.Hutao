@@ -10,7 +10,11 @@ internal sealed partial class WikiWeaponPage : ScopedPage
 {
     public WikiWeaponPage()
     {
-        InitializeWith<WikiWeaponViewModel>();
         InitializeComponent();
+    }
+
+    protected override void LoadingOverride()
+    {
+        InitializeWith<WikiWeaponViewModel>();
     }
 }

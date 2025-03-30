@@ -11,7 +11,7 @@ internal interface IGameAccountService
 {
     GameAccount? DetectCurrentGameAccount(SchemeType schemeType);
 
-    ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType schemeType);
+    ValueTask<GameAccount?> DetectCurrentGameAccountAsync(SchemeType schemeType);
 
     ValueTask<IAdvancedCollectionView<GameAccount>> GetGameAccountCollectionAsync();
 

@@ -6,6 +6,7 @@ using Snap.Hutao.Win32.Registry;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.IO.Http.Proxy;
 
@@ -18,14 +19,13 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     private static readonly Uri ProxyTestDestination = "https://hut.ao".ToUri();
     private static readonly Lock SyncRoot = new();
 
-    private readonly RegistryWatcher watcher;
-
     private HttpProxyUsingSystemProxy()
     {
         UpdateInnerProxy();
 
-        watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
+        RegistryWatcher watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
         watcher.Start();
+        GCHandle.Alloc(watcher);
     }
 
     [field: MaybeNull]

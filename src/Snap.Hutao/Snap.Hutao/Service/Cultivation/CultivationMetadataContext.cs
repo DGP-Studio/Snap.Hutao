@@ -5,6 +5,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -21,11 +22,11 @@ internal class CultivationMetadataContext : ICultivationMetadataContext
 
     public Item GetAvatarItem(AvatarId avatarId)
     {
-        return IdAvatarMap[avatarId].GetOrCreateItem();
+        return this.GetAvatar(avatarId).GetOrCreateItem();
     }
 
     public Item GetWeaponItem(WeaponId weaponId)
     {
-        return IdWeaponMap[weaponId].GetOrCreateItem();
+        return this.GetWeapon(weaponId).GetOrCreateItem();
     }
 }

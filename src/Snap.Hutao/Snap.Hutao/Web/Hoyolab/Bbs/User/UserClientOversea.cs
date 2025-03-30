@@ -16,7 +16,6 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 internal sealed partial class UserClientOversea : IUserClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<UserClientOversea> logger;
     [FromKeyed(ApiEndpointsKind.Oversea)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
@@ -31,7 +30,7 @@ internal sealed partial class UserClientOversea : IUserClient
             .Get();
 
         Response<UserFullInfoWrapper>? resp = await builder
-            .SendAsync<Response<UserFullInfoWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<UserFullInfoWrapper>>(httpClient, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

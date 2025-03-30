@@ -16,8 +16,8 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 {
     private readonly AvatarInfoRepositoryOperation avatarInfoDbBulkOperation;
     private readonly IAvatarInfoRepository avatarInfoRepository;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<AvatarInfoService> logger;
-    private readonly ISummaryFactory summaryFactory;
 
     public async ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(SummaryFactoryMetadataContext context, UserAndUid userAndUid, RefreshOptionKind refreshOptionKind, CancellationToken token = default)
     {
@@ -39,11 +39,16 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
         }
     }
 
-    private async ValueTask<Summary> PrivateGetSummaryAsync(SummaryFactoryMetadataContext context, IEnumerable<EntityAvatarInfo> avatarInfos, CancellationToken token)
+    private async ValueTask<Summary> PrivateGetSummaryAsync(SummaryFactoryMetadataContext context, ImmutableArray<EntityAvatarInfo> avatarInfos, CancellationToken token)
     {
-        using (ValueStopwatch.MeasureExecution(logger))
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            return await summaryFactory.CreateAsync(context, avatarInfos, token).ConfigureAwait(false);
+            ISummaryFactory summaryFactory = scope.ServiceProvider.GetRequiredService<ISummaryFactory>();
+
+            using (ValueStopwatch.MeasureExecution(logger))
+            {
+                return await summaryFactory.CreateAsync(context, avatarInfos, token).ConfigureAwait(false);
+            }
         }
     }
 }

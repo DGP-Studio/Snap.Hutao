@@ -24,9 +24,9 @@ internal sealed class TaskContextWrapperForDispatcherQueue : ITaskContext
         dispatcherQueue.Invoke(action);
     }
 
-    public T InvokeOnMainThread<T>(Func<T> action)
+    public T InvokeOnMainThread<T>(Func<T> func)
     {
-        return dispatcherQueue.Invoke(action);
+        return dispatcherQueue.Invoke(func);
     }
 
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()

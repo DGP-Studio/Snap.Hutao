@@ -12,14 +12,14 @@ internal static class HttpHeadersBuilderExtension
 {
     [DebuggerStepThrough]
     public static T AddHeader<T>(this T builder, string name)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.AddHeader<T, HttpHeaders>(name, value: null);
     }
 
     [DebuggerStepThrough]
     public static TBuilder AddHeader<TBuilder, THeaders>(this TBuilder builder, string name)
-        where TBuilder : IHttpHeadersBuilder<THeaders>
+        where TBuilder : class, IHttpHeadersBuilder<THeaders>
         where THeaders : HttpHeaders
     {
         return builder.AddHeader<TBuilder, THeaders>(name, value: null);
@@ -27,14 +27,14 @@ internal static class HttpHeadersBuilderExtension
 
     [DebuggerStepThrough]
     public static T AddHeader<T>(this T builder, string name, string? value)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.AddHeader<T, HttpHeaders>(name, value);
     }
 
     [DebuggerStepThrough]
     public static TBuilder AddHeader<TBuilder, THeaders>(this TBuilder builder, string name, string? value)
-        where TBuilder : IHttpHeadersBuilder<THeaders>
+        where TBuilder : class, IHttpHeadersBuilder<THeaders>
         where THeaders : HttpHeaders
     {
         ArgumentNullException.ThrowIfNull(name);
@@ -43,14 +43,14 @@ internal static class HttpHeadersBuilderExtension
 
     [DebuggerStepThrough]
     public static T SetHeader<T>(this T builder, string name)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.SetHeader<T, HttpHeaders>(name);
     }
 
     [DebuggerStepThrough]
     public static TBuilder SetHeader<TBuilder, THeaders>(this TBuilder builder, string name)
-        where TBuilder : IHttpHeadersBuilder<THeaders>
+        where TBuilder : class, IHttpHeadersBuilder<THeaders>
         where THeaders : HttpHeaders
     {
         return builder.SetHeader<TBuilder, THeaders>(name, value: null);
@@ -58,14 +58,14 @@ internal static class HttpHeadersBuilderExtension
 
     [DebuggerStepThrough]
     public static T SetHeader<T>(this T builder, string name, string? value)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.SetHeader<T, HttpHeaders>(name, value);
     }
 
     [DebuggerStepThrough]
     public static TBuilder SetHeader<TBuilder, THeaders>(this TBuilder builder, string name, string? value)
-        where TBuilder : IHttpHeadersBuilder<THeaders>
+        where TBuilder : class, IHttpHeadersBuilder<THeaders>
         where THeaders : HttpHeaders
     {
         ArgumentNullException.ThrowIfNull(name);
@@ -75,21 +75,21 @@ internal static class HttpHeadersBuilderExtension
     }
 
     public static T SetReferer<T>(this T builder, string referer)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.SetHeader("Referer", referer);
     }
 
     [DebuggerStepThrough]
     public static T RemoveHeader<T>(this T builder, params string?[]? names)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.RemoveHeader<T, HttpHeaders>(names);
     }
 
     [DebuggerStepThrough]
     public static TBuilder RemoveHeader<TBuilder, THeaders>(this TBuilder builder, params string?[]? names)
-        where TBuilder : IHttpHeadersBuilder<THeaders>
+        where TBuilder : class, IHttpHeadersBuilder<THeaders>
         where THeaders : HttpHeaders
     {
         return builder.ConfigureHeaders<TBuilder, THeaders>(headers => headers.Remove(names));
@@ -97,14 +97,14 @@ internal static class HttpHeadersBuilderExtension
 
     [DebuggerStepThrough]
     public static T ClearHeaders<T>(this T builder)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.ClearHeaders<T, HttpHeaders>();
     }
 
     [DebuggerStepThrough]
     public static TBuilder ClearHeaders<TBuilder, THeaders>(this TBuilder builder)
-        where TBuilder : IHttpHeadersBuilder<THeaders>
+        where TBuilder : class, IHttpHeadersBuilder<THeaders>
         where THeaders : HttpHeaders
     {
         return builder.ConfigureHeaders<TBuilder, THeaders>(h => h.Clear());
@@ -112,14 +112,14 @@ internal static class HttpHeadersBuilderExtension
 
     [DebuggerStepThrough]
     public static T ConfigureHeaders<T>(this T builder, Action<HttpHeaders> configureHeaders)
-        where T : IHttpHeadersBuilder<HttpHeaders>
+        where T : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder.ConfigureHeaders<T, HttpHeaders>(configureHeaders);
     }
 
     [DebuggerStepThrough]
     public static TBuilder ConfigureHeaders<TBuilder, THeaders>(this TBuilder builder, Action<THeaders> configureHeaders)
-        where TBuilder : IHttpHeadersBuilder<THeaders>
+        where TBuilder : class, IHttpHeadersBuilder<THeaders>
         where THeaders : HttpHeaders
     {
         ArgumentNullException.ThrowIfNull(configureHeaders);

@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
@@ -77,6 +78,8 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
     [Command("PickGameDirectoryCommand")]
     private void PickGameDirectory()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Pick game directory", "LaunchGameInstallGameDialog.Command"));
+
         if (fileSystemPickerInteraction.PickFolder(SH.ViewDialogLaunchGameInstallGamePickDirectoryTitle) is (true, { } gameDirectory))
         {
             GameDirectory = gameDirectory;

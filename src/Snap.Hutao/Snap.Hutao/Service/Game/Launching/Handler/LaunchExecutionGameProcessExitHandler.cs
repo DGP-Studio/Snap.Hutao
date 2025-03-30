@@ -7,7 +7,7 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.Process.HasExited)
+        if (context.Process.IsRunning())
         {
             context.Progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
             try
@@ -16,7 +16,7 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
             }
             catch (Win32Exception)
             {
-                // Access denied，we are in non-elevaled process
+                // Access denied，we are in non-elevated process
                 // Just leave and let invoker spin wait
                 return;
             }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DataTransfer;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
@@ -26,6 +27,8 @@ internal partial class PackageSegment
     [Command("CopyPathCommand")]
     private async Task CopyPathToClipboardAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Copy url to ClipBoard", "PackageSegment.Command"));
+
         IServiceProvider serviceProvider = Ioc.Default;
         await serviceProvider.GetRequiredService<IClipboardProvider>().SetTextAsync(Url).ConfigureAwait(false);
         serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.WebGameResourcePathCopySucceed);

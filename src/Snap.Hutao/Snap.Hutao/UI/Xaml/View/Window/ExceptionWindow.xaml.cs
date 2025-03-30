@@ -5,6 +5,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Hutao;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -17,7 +18,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
 {
     private readonly SentryId id;
 
-    public ExceptionWindow(SentryId id)
+    public ExceptionWindow(IServiceProvider serviceProvider, SentryId id)
     {
         // Message pump will die if we introduce XamlWindowController
         InitializeComponent();
@@ -37,7 +38,7 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
         SizeInt32 size = new(800, 600);
         AppWindow.Resize(size.Scale(this.GetRasterizationScale()));
 
-        Ioc.Default.GetRequiredService<ICurrentXamlWindowReference>().Window?.Close();
+        serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().Window?.Close();
         Bindings.Update();
     }
 
@@ -47,24 +48,26 @@ internal sealed partial class ExceptionWindow : Microsoft.UI.Xaml.Window, INotif
 
     public string? Comment { get; set => SetProperty(ref field, value); }
 
-    public static void Show(SentryId id)
+    public static void Show(IServiceProvider serviceProvider, SentryId id)
     {
-        ExceptionWindow window = new(id);
+        ExceptionWindow window = new(serviceProvider, id);
         window.AppWindow.Show(true);
         window.AppWindow.MoveInZOrderAtTop();
     }
 
     [Command("CloseCommand")]
-    private void CloseWindow()
+    private async Task CloseWindow()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Close Window", "ExceptionWindow.Command"));
+
         Bindings.Update();
         if (!string.IsNullOrWhiteSpace(Comment))
         {
-            string email = Ioc.Default.GetRequiredService<HutaoUserOptions>().UserName ?? "Anonymous";
-            SentrySdk.CaptureUserFeedback(id, email, Comment);
+            string email = (await Ioc.Default.GetRequiredService<HutaoUserOptions>().GetActualUserNameAsync().ConfigureAwait(true)) ?? "Anonymous";
+            SentrySdk.CaptureFeedback(Comment, email);
         }
 
-        SentrySdk.Flush();
+        await SentrySdk.FlushAsync().ConfigureAwait(true);
         Close();
     }
 

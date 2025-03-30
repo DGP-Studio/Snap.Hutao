@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI.Input;
 using System.Collections;
 using Windows.ApplicationModel.DataTransfer;
@@ -339,7 +340,8 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     [Command("SelectAllTokensAndTextCommand")]
     public void SelectAllTokensAndText()
     {
-        _ = DispatcherQueue.EnqueueAsync(SelectAllTokensAndTextCore);
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Select all tokens and text", "AutoSuggestTokenBox.Command"));
+        DispatcherQueue.TryEnqueue(SelectAllTokensAndTextCore);
 
         void SelectAllTokensAndTextCore()
         {
@@ -683,12 +685,12 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                         }
 
                         // Need to wait for containerization
-                        _ = DispatcherQueue.EnqueueAsync(Containerization);
+                        DispatcherQueue.TryEnqueue(Containerization);
                     }
                 }
 
                 // Wait for removal of old items
-                _ = DispatcherQueue.EnqueueAsync(RemoveOldItems);
+                DispatcherQueue.TryEnqueue(RemoveOldItems);
             }
             else
             {
@@ -887,6 +889,7 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
     [Command("RemoveItemCommand")]
     private void RemoveToken(AutoSuggestTokenBoxItem item)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove token", "AutoSuggestTokenBox.Command"));
         RemoveToken(item, default);
     }
 
@@ -946,13 +949,13 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
         // Fix layout issue
         placeholder.Visibility = Visibility.Collapsed;
 
-        _ = CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
+        CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
         {
             int currentTokens = innerItemsSource.ItemsSource.Count;
             int maxTokens = MaximumTokens;
             placeholder.Visibility = currentTokens >= maxTokens
                 ? Visibility.Collapsed
                 : Visibility.Visible;
-        });
+        }).SafeForget();
     }
 }

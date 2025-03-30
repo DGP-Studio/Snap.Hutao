@@ -8,6 +8,7 @@ using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
@@ -71,6 +72,9 @@ internal sealed partial class UserViewModel : ObservableObject
                 taskContext.InvokeOnMainThread(Users.Refresh);
                 infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
                 break;
+            case UserOptionResultKind.GameRoleNotFound:
+                infoBarService.Information(SH.ViewModelUserEmptyGameRole);
+                break;
             default:
                 throw HutaoException.NotSupported();
         }
@@ -79,6 +83,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoadCommand")]
     private async Task LoadAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Load", "UserViewModel.Command"));
+
         try
         {
             Users = await userService.GetUsersAsync().ConfigureAwait(true);
@@ -92,39 +98,53 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("AddUserCommand")]
     private Task AddUserAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "Manual Input")]));
         return AddUserByManualInputCookieAsync(false).AsTask();
     }
 
     [Command("AddOverseaUserCommand")]
     private Task AddOverseaUserAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Manual Input")]));
         return AddUserByManualInputCookieAsync(true).AsTask();
     }
 
     [Command("LoginByPasswordOverseaCommand")]
     private async Task LoginByPasswordOverseaAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Password")]));
+
         await taskContext.SwitchToMainThreadAsync();
 
-        UserAccountPasswordDialog dialog = await contentDialogFactory
-            .CreateInstanceAsync<UserAccountPasswordDialog>()
-            .ConfigureAwait(false);
-        ValueResult<bool, LoginResult?> result = await dialog.LoginAsync(true).ConfigureAwait(false);
-
-        if (result.TryGetValue(out LoginResult? loginResult))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
-            HandleUserOptionResult(optionResult, uid);
+            UserAccountPasswordDialog dialog = await contentDialogFactory
+                .CreateInstanceAsync<UserAccountPasswordDialog>(scope.ServiceProvider)
+                .ConfigureAwait(false);
+            ValueResult<bool, LoginResult?> result = await dialog.LoginAsync(true).ConfigureAwait(false);
+
+            if (result.TryGetValue(out LoginResult? loginResult))
+            {
+                Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
+                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+                HandleUserOptionResult(optionResult, uid);
+            }
         }
     }
 
     [Command("LoginByThirdPartyOverseaCommand")]
     private async Task LoginByThirdPartyOverseaAsync(OverseaThirdPartyKind kind)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add oversea user", "UserViewModel.Command", [("source", "Third Party"), ("kind", kind.ToString())]));
+
         await taskContext.SwitchToMainThreadAsync();
+        if (currentXamlWindowReference.GetXamlRoot() is not { } xamlRoot)
+        {
+            return;
+        }
+
         OverseaThirdPartyLoginWebView2ContentProvider contentProvider = new(kind, cultureOptions.LanguageCode);
-        ShowWebView2WindowAction.Show(contentProvider, currentXamlWindowReference.GetXamlRoot());
+        ShowWebView2WindowAction.Show(contentProvider, xamlRoot);
 
         await taskContext.SwitchToBackgroundAsync();
         ThirdPartyToken? token = await contentProvider.GetResultAsync().ConfigureAwait(false);
@@ -143,8 +163,8 @@ internal sealed partial class UserViewModel : ObservableObject
 
         if (ResponseValidator.TryValidate(response, infoBarService, out LoginResult? loginResult))
         {
-            Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, true)).ConfigureAwait(false);
+            Cookie sTokenV2 = Cookie.FromLoginResult(loginResult);
+            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, true)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
     }
@@ -154,53 +174,63 @@ internal sealed partial class UserViewModel : ObservableObject
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
 
-        // Get cookie from user input
-        UserDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserDialog>().ConfigureAwait(false);
-        ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
-
-        // User confirms the input
-        if (result.TryGetValue(out string? rawCookie))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Cookie cookie = Cookie.Parse(rawCookie);
-            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
-            HandleUserOptionResult(optionResult, uid);
+            // Get cookie from user input
+            UserDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
+
+            // User confirms the input
+            if (result.TryGetValue(out string? rawCookie))
+            {
+                Cookie cookie = Cookie.Parse(rawCookie);
+                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
+                HandleUserOptionResult(optionResult, uid);
+            }
         }
     }
 
     [Command("LoginByQRCodeCommand")]
     private async Task LoginByQRCodeAsync()
     {
-        UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
-        (bool isOk, QrLoginResult? qrLoginResult) = await dialog.GetQrLoginResultAsync().ConfigureAwait(false);
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "QR Code")]));
 
-        if (!isOk)
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            return;
-        }
+            UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            (bool isOk, QrLoginResult? qrLoginResult) = await dialog.GetQrLoginResultAsync().ConfigureAwait(false);
 
-        Cookie stokenV2 = Cookie.FromQrLoginResult(qrLoginResult);
-        (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
-        HandleUserOptionResult(optionResult, uid);
+            if (!isOk)
+            {
+                return;
+            }
+
+            Cookie sTokenV2 = Cookie.FromQrLoginResult(qrLoginResult);
+            (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, false)).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
+        }
     }
 
     [Command("LoginByMobileCaptchaCommand")]
     private async Task LoginByMobileCaptchaAsync()
     {
-        UserMobileCaptchaDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserMobileCaptchaDialog>().ConfigureAwait(false);
-        if (!await dialog.GetMobileCaptchaAsync().ConfigureAwait(false))
-        {
-            return;
-        }
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Add chinese user", "UserViewModel.Command", [("source", "Mobile Captcha")]));
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            UserMobileCaptchaDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserMobileCaptchaDialog>(scope.ServiceProvider).ConfigureAwait(false);
+            if (!await dialog.GetMobileCaptchaAsync().ConfigureAwait(false))
+            {
+                return;
+            }
+
             IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
             Response<LoginResult> response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
 
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
             {
-                Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+                Cookie sTokenV2 = Cookie.FromLoginResult(loginResult);
+                (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, false)).ConfigureAwait(false);
                 HandleUserOptionResult(optionResult, uid);
             }
         }
@@ -209,6 +239,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RemoveUserCommand")]
     private async Task RemoveUserAsync(User? user)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove user", "UserViewModel.Command"));
+
         if (user is null)
         {
             return;
@@ -233,6 +265,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("CopyCookieCommand")]
     private async Task CopyCookieAsync(User? user)
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Copy cookie", "UserViewModel.Command"));
+
         try
         {
             ArgumentNullException.ThrowIfNull(user);
@@ -257,6 +291,8 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RefreshCookieTokenCommand")]
     private async Task RefreshCookieTokenAsync()
     {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh cookie token", "UserViewModel.Command"));
+
         if (Users?.CurrentItem is null)
         {
             return;
@@ -270,35 +306,5 @@ internal sealed partial class UserViewModel : ObservableObject
         {
             infoBarService.Warning(SH.ViewUserRefreshCookieTokenWarning);
         }
-    }
-
-    [Command("ClaimSignInRewardCommand")]
-    private async Task ClaimSignInRewardAsync()
-    {
-        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
-        {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
-            return;
-        }
-
-        (bool isOk, string message) = await signInService.ClaimRewardAsync(userAndUid).ConfigureAwait(false);
-
-        if (isOk)
-        {
-            infoBarService.Success(message);
-            return;
-        }
-
-        infoBarService.Warning(message);
-
-        // Manual webview
-        await taskContext.SwitchToMainThreadAsync();
-
-        MiHoYoJSBridgeWebView2ContentProvider provider = new()
-        {
-            SourceProvider = new SignInJSBridgeUriSourceProvider(),
-        };
-
-        ShowWebView2WindowAction.Show(provider, currentXamlWindowReference.GetXamlRoot());
     }
 }

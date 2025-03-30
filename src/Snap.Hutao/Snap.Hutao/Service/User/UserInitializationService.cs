@@ -154,7 +154,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         if (ResponseValidator.TryValidate(userGameRolesResponse, serviceProvider, out ListWrapper<UserGameRole>? wrapper))
         {
             user.UserGameRoles = wrapper.List.AsAdvancedCollectionView();
-            return user.UserGameRoles.Count > 0;
+            return true;
         }
 
         return false;
