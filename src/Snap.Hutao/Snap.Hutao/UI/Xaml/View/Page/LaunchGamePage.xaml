@@ -420,7 +420,7 @@
                                                         VerticalAlignment="Center"
                                                         DisplayMemberPath="Name"
                                                         ItemsSource="{Binding LowLevelKeyOptions.VirtualKeys}"
-                                                        SelectedItem="{Binding LowLevelKeyOptions.WebView2HideKey, Mode=TwoWay}"/>
+                                                        SelectedItem="{Binding LowLevelKeyOptions.OverlayHideKey, Mode=TwoWay}"/>
                                                 </shuxc:SizeRestrictedContentControl>
                                             </StackPanel>
                                         </cwc:SettingsCard>

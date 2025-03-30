@@ -85,9 +85,15 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             return;
         }
 
+        if (window.HideByHotKey)
+        {
+            return;
+        }
+
         if (pid == (uint)process.Id)
         {
             window.AppWindow.Show(false);
+            window.HideByEvent = false;
         }
         else
         {
@@ -97,6 +103,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
             }
 
             window.AppWindow.Hide();
+            window.HideByEvent = true;
         }
 
         lastEventTime = dwmsEventTime;
