@@ -23,7 +23,7 @@ internal sealed class SpiralAbyssMetadataContext : IMetadataContext,
 
     public ImmutableDictionary<TowerLevelGroupId, ImmutableArray<TowerLevel>> IdArrayTowerLevelMap { get; set; } = default!;
 
-    public ImmutableDictionary<MonsterRelationshipId, Monster> IdMonsterMap { get; set; } = default!;
+    public ImmutableDictionary<MonsterDescribeId, Monster> IdMonsterMap { get; set; } = default!;
 
     public ImmutableDictionary<AvatarId, Avatar> IdAvatarMap { get; set; } = default!;
 }

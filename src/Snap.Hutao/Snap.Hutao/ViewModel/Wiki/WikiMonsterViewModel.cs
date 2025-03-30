@@ -54,7 +54,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
                     monster.DropsView ??= monster.Drops?.SelectList(i => metadataContext.IdDisplayItemAndMaterialMap.GetValueOrDefault(i, Material.Default));
                 }
 
-                List<Monster> ordered = [.. metadataContext.Monsters.OrderBy(m => m.RelationshipId.Value)];
+                List<Monster> ordered = [.. metadataContext.Monsters.OrderBy(m => m.DescribeId.Value)];
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {

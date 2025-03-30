@@ -108,12 +108,6 @@
     "EqualityOperators": true
   },
   {
-    "Name": "MonsterRelationshipId",
-    "Documentation": "怪物关系 Id",
-    "Equatable": true,
-    "EqualityOperators": true
-  },
-  {
     "Name": "ProfilePictureId",
     "Documentation": "角色头像 Id",
     "Equatable": true,

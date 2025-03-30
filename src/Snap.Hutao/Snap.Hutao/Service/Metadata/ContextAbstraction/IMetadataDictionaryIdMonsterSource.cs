@@ -9,5 +9,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdMonsterSource
 {
-    ImmutableDictionary<MonsterRelationshipId, Monster> IdMonsterMap { get; set; }
+    ImmutableDictionary<MonsterDescribeId, Monster> IdMonsterMap { get; set; }
 }

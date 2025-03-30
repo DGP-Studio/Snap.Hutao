@@ -10,7 +10,6 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
-using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Control.Theme;

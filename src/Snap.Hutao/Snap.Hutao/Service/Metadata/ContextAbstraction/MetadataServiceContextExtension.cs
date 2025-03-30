@@ -120,7 +120,7 @@ internal static class MetadataServiceContextExtension
 
             if (context is IMetadataDictionaryIdMonsterSource dictionaryIdMonsterSource)
             {
-                dictionaryIdMonsterSource.IdMonsterMap = await metadataService.GetRelationshipIdToMonsterMapAsync(token).ConfigureAwait(false);
+                dictionaryIdMonsterSource.IdMonsterMap = await metadataService.GetDescribeIdToMonsterMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdReliquarySource dictionaryIdReliquarySource)

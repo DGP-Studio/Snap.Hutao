@@ -5,9 +5,9 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Monster;
 
-internal static class MonsterRelationship
+internal static class MonsterDescribe
 {
-    public static MonsterRelationshipId Normalize(in MonsterRelationshipId id)
+    public static MonsterDescribeId Normalize(in MonsterDescribeId id)
     {
         return (uint)id switch
         {

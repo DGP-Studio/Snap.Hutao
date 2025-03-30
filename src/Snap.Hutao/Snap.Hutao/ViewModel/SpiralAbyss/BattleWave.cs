@@ -27,7 +27,7 @@ internal sealed class BattleWave
 
     private static MonsterView CreateMonsterViewOrDefault(TowerMonster towerMonster, SpiralAbyssMetadataContext context)
     {
-        MonsterRelationshipId normalizedId = MonsterRelationship.Normalize(towerMonster.Id);
+        MonsterDescribeId normalizedId = MonsterDescribe.Normalize(towerMonster.Id);
         return context.IdMonsterMap.TryGetValue(normalizedId, out Monster? metadataMonster)
             ? MonsterView.From(towerMonster, metadataMonster)
             : MonsterView.Default(normalizedId);

@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Tower;
 
 internal sealed class TowerMonster
 {
-    public required MonsterRelationshipId Id { get; init; }
+    public required MonsterDescribeId Id { get; init; }
 
     public required uint Count { get; init; }
 

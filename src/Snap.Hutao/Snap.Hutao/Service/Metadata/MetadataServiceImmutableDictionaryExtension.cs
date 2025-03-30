@@ -219,11 +219,11 @@ internal static class MetadataServiceImmutableDictionaryExtension
             token);
     }
 
-    public static ValueTask<ImmutableDictionary<MonsterRelationshipId, Monster>> GetRelationshipIdToMonsterMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    public static ValueTask<ImmutableDictionary<MonsterDescribeId, Monster>> GetDescribeIdToMonsterMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<MonsterRelationshipId, Monster>(
+        return metadataService.FromCacheAsDictionaryAsync<MonsterDescribeId, Monster>(
             MetadataFileStrategies.Monster,
-            m => m.RelationshipId,
+            m => m.DescribeId,
             token);
     }
 
