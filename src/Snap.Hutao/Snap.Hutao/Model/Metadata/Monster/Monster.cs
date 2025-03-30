@@ -16,9 +16,6 @@ internal sealed partial class Monster : IAdvancedCollectionViewItem
 
     public required MonsterDescribeId DescribeId { get; init; }
 
-    [Obsolete("Remove at Snap Hutao 1.14.6")]
-    public uint RelationshipId { get; init; }
-
     public string? MonsterName { get; init; }
 
     public string? Name { get; init; }

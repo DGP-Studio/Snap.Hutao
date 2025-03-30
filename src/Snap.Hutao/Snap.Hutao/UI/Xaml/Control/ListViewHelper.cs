@@ -13,26 +13,42 @@ public sealed partial class ListViewHelper
 {
     private static void OnScrollToTopAssociatedObjectChanged(DependencyObject dp, DependencyPropertyChangedEventArgs args)
     {
-        if (dp.FindDescendant<ScrollViewer>() is not { IsLoaded: true } scrollViewer)
+        ListView listView = (ListView)dp;
+        if (listView is not { IsLoaded: true, ItemsPanelRoot: { IsLoaded: true } panel })
         {
             return;
         }
 
-        if (dp.FindDescendant<ItemsStackPanel>() is not { IsLoaded: true } itemsStackPanel)
+        LayoutUpdatedHandler handler = new(listView, args);
+        panel.LayoutUpdated += handler.Handle;
+    }
+
+    private sealed class LayoutUpdatedHandler
+    {
+        private readonly WeakReference<ListView> weakView;
+        private readonly WeakReference<DependencyPropertyChangedEventArgs> weakArgs;
+
+        public LayoutUpdatedHandler(ListView listView, DependencyPropertyChangedEventArgs args)
         {
-            return;
+            weakView = new(listView);
+            weakArgs = new(args);
         }
 
-        itemsStackPanel.LayoutUpdated += ItemsStackPanelOnLayoutUpdated;
-
-        void ItemsStackPanelOnLayoutUpdated(object? sender, object e)
+        public void Handle(object? sender, object e)
         {
-            if (args.OldValue != args.NewValue)
+            if (!weakArgs.TryGetTarget(out DependencyPropertyChangedEventArgs? args))
             {
-                scrollViewer.ChangeView(null, 0, null);
+                return;
             }
 
-            itemsStackPanel.LayoutUpdated -= ItemsStackPanelOnLayoutUpdated;
+            if (args.OldValue != args.NewValue)
+            {
+                if (weakView.TryGetTarget(out ListView? view))
+                {
+                    view.SmoothScrollIntoViewWithIndexAsync(0).SafeForget();
+                    view.ItemsPanelRoot.LayoutUpdated -= Handle;
+                }
+            }
         }
     }
 }
