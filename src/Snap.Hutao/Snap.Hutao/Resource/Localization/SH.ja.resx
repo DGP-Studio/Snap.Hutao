@@ -2053,7 +2053,7 @@
     <value>米游幣不足</value>
   </data>
   <data name="ViewModelSignInTotalSignInDaysHint" xml:space="preserve">
-    <value>{0} 月の累計ログイン日数 {1} 日</value>
+    <value>{0} の累計ログイン数 {1} 日</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
     <value>現在のデータディレクトリ '{0}' には1つ以上の再解析ポイント (Reparse points) が含まれている為、データフォルダに依存する一部の機能が正常に動作しなくなるかもしれない故、設定へパスを変更してください！</value>
