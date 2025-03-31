@@ -68,6 +68,7 @@ internal sealed partial class SettingEntry
     public const string LaunchUsingBetterGenshinImpactAutomation = "Launch.UseBetterGenshinImpactAutomation";
     public const string LaunchSetDiscordActivityWhenPlaying = "Launch.SetDiscordActivityWhenPlaying";
     public const string LaunchUsingHoyolabAccount = "Launch.UsingHoyolabAccount";
+    public const string LaunchUsingOverlay = "Launch.UsingOverlay";
 
     [Obsolete("不再区分解锁器类型，统一使用注入")]
     public const string LaunchUnlockerKind = "Launch.UnlockerKind";
