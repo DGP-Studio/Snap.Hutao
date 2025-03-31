@@ -3778,6 +3778,9 @@
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>認証に失敗しました。手動で認証するか「HoYoLAB - ツールボックス - 戦績」で確認してください。</value>
   </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>在请求 {0} 时遇到问题</value>
+  </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>リターンコード：{0} | メッセージ：{1}</value>
   </data>
