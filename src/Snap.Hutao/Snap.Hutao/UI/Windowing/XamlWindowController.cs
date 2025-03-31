@@ -31,6 +31,7 @@ namespace Snap.Hutao.UI.Windowing;
 [SuppressMessage("", "SA1204")]
 internal sealed class XamlWindowController
 {
+    private readonly Type windowType;
     private readonly Window window;
     private readonly bool hasCustomSystemBackdrop;
     private readonly IServiceProvider serviceProvider;
@@ -41,6 +42,7 @@ internal sealed class XamlWindowController
 
     public XamlWindowController(Window window, IServiceProvider serviceProvider)
     {
+        windowType = window.GetType();
         this.window = window;
         Debug.Assert(serviceProvider is IServiceScope scope && ReferenceEquals(serviceProvider, scope));
         this.serviceProvider = serviceProvider;
@@ -140,9 +142,12 @@ internal sealed class XamlWindowController
             }
         }
 
-        if (XamlApplicationLifetime.LaunchedWithNotifyIcon && !XamlApplicationLifetime.Exiting)
+        if (!XamlApplicationLifetime.Exiting)
         {
-            ICurrentXamlWindowReference currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
+            IServiceProviderIsKeyedService isKeyedService = serviceProvider.GetRequiredService<IServiceProviderIsKeyedService>();
+            ICurrentXamlWindowReference currentXamlWindowReference = isKeyedService.IsKeyedService(typeof(ICurrentXamlWindowReference), windowType)
+                ? serviceProvider.GetRequiredKeyedService<ICurrentXamlWindowReference>(windowType)
+                : serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
             if (currentXamlWindowReference.Window == window)
             {
                 // Only a CurrentWindow can show dialogs
@@ -155,21 +160,6 @@ internal sealed class XamlWindowController
                 }
 
                 currentXamlWindowReference.Window = default!;
-
-                // NotifyIcon Promotion should only be checked when it's a CurrentWindow
-                if (!NotifyIcon.IsPromoted(serviceProvider))
-                {
-                    try
-                    {
-                        new AppNotificationBuilder()
-                            .AddText(SH.CoreWindowingNotifyIconPromotedHint)
-                            .Show();
-                    }
-                    catch
-                    {
-                        // Ignore
-                    }
-                }
             }
 
             GC.Collect(GC.MaxGeneration);
