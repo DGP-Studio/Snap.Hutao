@@ -318,7 +318,7 @@
                         BorderThickness="0"
                         Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                         IsChecked="{Binding LaunchOptions.DisableShowDamageText, Mode=TwoWay}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPverlayDisableShowDamageTextToolTip}">
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayDisableShowDamageTextToolTip}">
                         <Grid>
                             <TextBlock
                                 HorizontalAlignment="Center"

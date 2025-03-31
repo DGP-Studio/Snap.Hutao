@@ -92,6 +92,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         SetForegroundWindow(parentHwnd);
 
         scopeLock.Wait();
+        scopeLock.Release();
         scopeLock.Dispose();
     }
 

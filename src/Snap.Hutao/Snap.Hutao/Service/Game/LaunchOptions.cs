@@ -338,6 +338,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         }
     }
 
+    public bool UsingOverlay
+    {
+        get => GetOption(ref fields.UsingOverlay, SettingEntry.LaunchUsingOverlay, false);
+        set => SetOption(ref fields.UsingOverlay, SettingEntry.LaunchUsingOverlay, value);
+    }
+
 #pragma warning disable CA1822
     public bool IsGameRunning { get => LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(); }
 #pragma warning restore CA1822
@@ -414,6 +420,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? DisableEventCameraMove;
         public bool? DisableShowDamageText;
         public bool? UsingTouchScreen;
+        public bool? UsingOverlay;
         public bool? IsMonitorEnabled;
         public PlatformType? PlatformType;
         public bool? IsPlatformTypeEnabled;

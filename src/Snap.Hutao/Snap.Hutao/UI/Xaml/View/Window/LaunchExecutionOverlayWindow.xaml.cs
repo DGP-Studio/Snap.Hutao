@@ -58,7 +58,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
         AppWindow.Resize(size);
-        if (!HideByHotKey)
+        if (HideByHotKey)
         {
             AppWindow.Hide();
         }
@@ -73,7 +73,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
 
     public bool PreventClose { get; set; } = true;
 
-    public bool HideByHotKey { get => !LocalSetting.Get(SettingKeys.OverlayWindowIsVisible, false); }
+    public bool HideByHotKey { get => !LocalSetting.Get(SettingKeys.OverlayWindowIsVisible, true); }
 
     public bool HideByEvent { get; set; }
 

@@ -15,6 +15,7 @@ internal delegate void InputLowLevelKeyboardSourceEventHandler(LowLevelKeyEventA
 
 internal static class InputLowLevelKeyboardSource
 {
+    private static readonly Lock SyncRoot = new();
     private static HHOOK keyboard;
     private static int refCount;
 
@@ -29,13 +30,16 @@ internal static class InputLowLevelKeyboardSource
     public static unsafe void Initialize()
     {
         Interlocked.Increment(ref refCount);
-        if (keyboard.Value is not 0)
+        lock (SyncRoot)
         {
-            return;
-        }
+            if (keyboard.Value is not 0)
+            {
+                return;
+            }
 
-        HOOKPROC.Create(&OnLowLevelKeyboardProcedure);
-        SetWindowsHookExW(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, HOOKPROC.Create(&OnLowLevelKeyboardProcedure), GetModuleHandleW("Snap.Hutao.dll"), 0U);
+            HOOKPROC.Create(&OnLowLevelKeyboardProcedure);
+            SetWindowsHookExW(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, HOOKPROC.Create(&OnLowLevelKeyboardProcedure), GetModuleHandleW("Snap.Hutao.dll"), 0U);
+        }
     }
 
     public static void Uninitialize()
@@ -45,12 +49,15 @@ internal static class InputLowLevelKeyboardSource
             return;
         }
 
-        if (keyboard.Value is not  0)
+        lock (SyncRoot)
         {
-            UnhookWindowsHookEx(keyboard);
-        }
+            if (keyboard.Value is not 0)
+            {
+                UnhookWindowsHookEx(keyboard);
+            }
 
-        keyboard = default!;
+            keyboard = default!;
+        }
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]

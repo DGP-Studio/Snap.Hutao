@@ -7,17 +7,17 @@ namespace Snap.Hutao.Core.LifeCycle;
 
 internal sealed class HutaoActivationArguments
 {
-    public bool IsRedirectTo { get; private set; }
+    public bool IsRedirectTo { get; set; }
 
-    public HutaoActivationKind Kind { get; private set; }
+    public HutaoActivationKind Kind { get; set; }
 
-    public Uri? ProtocolActivatedUri { get; private set; }
+    public Uri? ProtocolActivatedUri { get; set; }
 
-    public string? LaunchActivatedArguments { get; private set; }
+    public string? LaunchActivatedArguments { get; set; }
 
-    public IReadOnlyDictionary<string, string>? AppNotificationActivatedArguments { get; private set; }
+    public IReadOnlyDictionary<string, string>? AppNotificationActivatedArguments { get; set; }
 
-    public IReadOnlyDictionary<string, string>? AppNotificationActivatedUserInput { get; private set; }
+    public IReadOnlyDictionary<string, string>? AppNotificationActivatedUserInput { get; set; }
 
     public static HutaoActivationArguments FromAppActivationArguments(AppActivationArguments args, bool isRedirected = false)
     {
