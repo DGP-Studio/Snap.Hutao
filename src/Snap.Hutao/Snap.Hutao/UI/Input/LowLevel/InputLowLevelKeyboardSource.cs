@@ -15,7 +15,7 @@ internal delegate void InputLowLevelKeyboardSourceEventHandler(LowLevelKeyEventA
 
 internal static class InputLowLevelKeyboardSource
 {
-    private static readonly Lock syncRoot = new();
+    private static readonly Lock SyncRoot = new();
     private static HHOOK keyboard;
     private static int refCount;
 
@@ -30,7 +30,7 @@ internal static class InputLowLevelKeyboardSource
     public static unsafe void Initialize()
     {
         Interlocked.Increment(ref refCount);
-        lock (syncRoot)
+        lock (SyncRoot)
         {
             if (keyboard.Value is not 0)
             {
@@ -49,7 +49,7 @@ internal static class InputLowLevelKeyboardSource
             return;
         }
 
-        lock (syncRoot)
+        lock (SyncRoot)
         {
             if (keyboard.Value is not 0)
             {

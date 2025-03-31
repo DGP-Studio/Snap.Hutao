@@ -54,23 +54,27 @@ internal static class HttpRequestMessageBuilderExtension
             }
             catch (Exception ex)
             {
-                SentrySdk.CaptureException(ex, scope =>
+                if (!FormatException(messageBuilder, ex, builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri.GetLeftPart(UriPartial.Path)))
                 {
                     // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/SentryHttpFailedRequestHandler.cs
-                    scope.Request = new()
+                    SentryRequest request = new()
                     {
                         QueryString = builder.RequestUri?.Query,
                         Method = builder.Method.Method.ToUpperInvariant(),
                         Url = builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped),
                     };
 
-                    if (ExceptionAttachment.TryGetAttachment(ex, out SentryAttachment? attachment))
+                    SentrySdk.CaptureException(ex, scope =>
                     {
-                        scope.AddAttachment(attachment);
-                    }
-                });
+                        scope.Request = request;
 
-                ExceptionFormat.Format(messageBuilder, ex);
+                        if (ExceptionAttachment.TryGetAttachment(ex, out SentryAttachment? attachment))
+                        {
+                            scope.AddAttachment(attachment);
+                        }
+                    });
+                }
+
                 return new(context.Response?.Headers, default);
             }
             finally
@@ -124,23 +128,84 @@ internal static class HttpRequestMessageBuilderExtension
         }
     }
 
+    private static bool FormatException(StringBuilder builder, Exception ex, string? url)
+    {
+        if (ex is HttpRequestException httpRequestException)
+        {
+            builder.AppendLine(SH.FormatWebRequestBuilderExceptionDescription(url));
+
+            NetworkError networkError = HttpRequestExceptionToNetworkError(httpRequestException);
+            if (networkError is not NetworkError.OK)
+            {
+                builder.AppendLine(networkError.ToString());
+                builder.AppendLine(ex.Message);
+                return true;
+            }
+            else
+            {
+                if (httpRequestException.StatusCode is { } statusCode)
+                {
+                    if (((int)statusCode) is (< 200 or > 299))
+                    {
+                        builder.Append("HTTP ").Append((int)statusCode);
+                        if (Enum.IsDefined(statusCode))
+                        {
+                            builder.Append(' ').Append(statusCode);
+                        }
+
+                        return true;
+                    }
+                }
+            }
+        }
+
+        ExceptionFormat.Format(builder, ex);
+        return false;
+    }
+
     private static NetworkError HttpRequestExceptionToNetworkError(HttpRequestException ex)
     {
-        if (ex.HttpRequestError is HttpRequestError.ConnectionError)
+        switch (ex.HttpRequestError)
         {
-            switch (ex.InnerException)
-            {
-                case SocketException socketException:
-                    switch (socketException.SocketErrorCode)
-                    {
-                        case SocketError.TimedOut:
-                            return NetworkError.ERR_CONNECTION_TIMED_OUT;
-                        case SocketError.ConnectionRefused:
-                            return NetworkError.ERR_CONNECTION_REFUSED;
-                    }
+            case HttpRequestError.ConnectionError:
+                switch (ex.InnerException)
+                {
+                    case SocketException socketException:
+                        switch (socketException.SocketErrorCode)
+                        {
+                            case SocketError.ConnectionRefused:
+                                return NetworkError.ERR_CONNECTION_REFUSED;
+                            case SocketError.TimedOut:
+                                return NetworkError.ERR_CONNECTION_TIMED_OUT;
+                        }
 
-                    break;
-            }
+                        break;
+                }
+
+                break;
+
+            case HttpRequestError.SecureConnectionError:
+                switch (ex.InnerException)
+                {
+                    case IOException ioException:
+                        {
+                            switch (ioException.InnerException)
+                            {
+                                case SocketException socketException:
+                                    switch (socketException.SocketErrorCode)
+                                    {
+                                        case SocketError.ConnectionAborted:
+                                            return NetworkError.ERR_CONNECTION_ABORTED;
+                                    }
+
+                                    break;
+                            }
+                        }
+
+                        break;
+                }
+
+                break;
         }
 
         return NetworkError.OK;
