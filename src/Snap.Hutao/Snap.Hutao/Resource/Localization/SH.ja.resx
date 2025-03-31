@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -2121,6 +2121,9 @@
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>キャラクターの攻略情報は暫くありません</value>
   </data>
+  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>戦闘中のダメージ数を消去</value>
+  </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>マップ画面の任務指示を削除</value>
   </data>
@@ -2721,6 +2724,21 @@
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>ゲームオプション</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
+    <value>設定で通知領域アイコンを有効にする必要があります。正しく表示するには ボーダーレス ウィンドウを有効にする必要がある場合があります</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
+    <value>ゲームを起動した後、オーバーレイウィンドウで詳細な機能設定を調整できます。正しく表示するには ボーダーレス ウィンドウを有効にする必要がある場合があります</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
+    <value>オーバーレイ</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
+    <value>（ゲームとともに起動する）ゲーム内オーバーレイの示し/隠しのショートカットを設定します</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
+    <value>ゲーム内オーバーレイの表示/非表示</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>ゲームをインストールする</value>
@@ -3340,9 +3358,6 @@
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
-  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>戦闘中のダメージ数を消去</value>
-  </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想シアター</value>
   </data>
@@ -3762,6 +3777,9 @@
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>認証に失敗しました。手動で認証するか「HoYoLAB - ツールボックス - 戦績」で確認してください。</value>
+  </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>{0} をリクエスト中に問題が発生しました</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>リターンコード：{0} | メッセージ：{1}</value>
