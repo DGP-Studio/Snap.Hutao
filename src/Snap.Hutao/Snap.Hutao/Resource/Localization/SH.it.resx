@@ -3776,6 +3776,9 @@
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Verifica fallita, verifica manualmente o vai alla pagina "MiHoYo BBS - Cronologia di battaglia"</value>
   </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>在请求 {0} 时遇到问题</value>
+  </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Codice restituito: {0} | Messaggio: {1}</value>
   </data>
