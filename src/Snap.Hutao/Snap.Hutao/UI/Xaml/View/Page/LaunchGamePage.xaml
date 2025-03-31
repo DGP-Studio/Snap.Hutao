@@ -337,6 +337,7 @@
                                         </cwc:SettingsCard>
                                         <!--  悬浮窗  -->
                                         <cwc:SettingsExpander
+                                            shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.UsingOverlay}"
                                             Description="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayDescription}"
                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameOverlayHeader}"
                                             HeaderIcon="{shuxm:FontIcon Glyph=&#xEB91;}"
