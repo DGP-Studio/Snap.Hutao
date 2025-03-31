@@ -3776,6 +3776,9 @@
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Проверка не удалась. Пожалуйста, проверьте вручную или перейдите на страницу  &lt;текст>miHoYo BBS&lt;/текст> - Записи</value>
   </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>在请求 {0} 时遇到问题</value>
+  </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Код возврата: {0} | Сообщение: {1}</value>
   </data>
