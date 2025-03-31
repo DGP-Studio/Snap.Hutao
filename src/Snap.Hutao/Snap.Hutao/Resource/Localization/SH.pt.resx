@@ -3776,6 +3776,9 @@
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>A verificação falhou. Verifique manualmente ou consulte a página MiHoYo BBS - Meus personagens</value>
   </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>在请求 {0} 时遇到问题</value>
+  </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Código de retorno: {0} | Mensagem: {1}</value>
   </data>
