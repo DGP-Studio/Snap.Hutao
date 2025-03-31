@@ -456,35 +456,23 @@
                                                                 OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
                                                                 OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
                                                                 ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"/>
-                                                            <ContentControl
+                                                            <ToggleSwitch
                                                                 Grid.Row="1"
                                                                 Grid.Column="0"
-                                                                Grid.ColumnSpan="2"
-                                                                HorizontalAlignment="Stretch"
-                                                                HorizontalContentAlignment="Stretch"
-                                                                IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}">
-                                                                <Grid ColumnSpacing="16" RowSpacing="16">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition/>
-                                                                        <ColumnDefinition/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <ToggleSwitch
-                                                                        Grid.Column="0"
-                                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHotSwitchHeader}"
-                                                                        IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
-                                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
-                                                                    <NumberBox
-                                                                        Grid.Column="1"
-                                                                        Padding="10,8,6,6"
-                                                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}"
-                                                                        IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}"
-                                                                        Maximum="720"
-                                                                        Minimum="-1"
-                                                                        SpinButtonPlacementMode="Inline"
-                                                                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
-                                                                        Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
-                                                                </Grid>
-                                                            </ContentControl>
+                                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHotSwitchHeader}"
+                                                                IsOn="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
+                                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+                                                            <NumberBox
+                                                                Grid.Row="1"
+                                                                Grid.Column="1"
+                                                                Padding="10,8,6,6"
+                                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}"
+                                                                IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}"
+                                                                Maximum="720"
+                                                                Minimum="-1"
+                                                                SpinButtonPlacementMode="Inline"
+                                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
+                                                                Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
                                                             <ToggleSwitch
                                                                 Grid.Row="1"
                                                                 Grid.Column="2"
