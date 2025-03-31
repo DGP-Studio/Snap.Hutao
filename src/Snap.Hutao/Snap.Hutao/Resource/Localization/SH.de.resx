@@ -3776,6 +3776,9 @@
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Verifizierung fehlgeschlagen. Bitte manuell verifizieren oder die Seite „miHoYo BBS – Kampfchronik“ überprüfen.</value>
   </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>在请求 {0} 时遇到问题</value>
+  </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Status: {0} | Nachricht: {1}</value>
   </data>
