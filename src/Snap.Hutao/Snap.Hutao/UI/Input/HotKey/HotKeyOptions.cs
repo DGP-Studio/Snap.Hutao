@@ -28,7 +28,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        hotKeyMessageWindow = HotKeyMessageWindow.Create(OnHotKeyPressed);
+        hotKeyMessageWindow = taskContext.InvokeOnMainThread(() => HotKeyMessageWindow.Create(OnHotKeyPressed));
 
         HWND hwnd = hotKeyMessageWindow.Hwnd;
 
