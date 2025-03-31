@@ -189,7 +189,9 @@
             <cwc:Case Value="Island">
                 <ContentControl
                     HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
                     IsEnabled="{Binding LaunchOptions.IsIslandEnabled}">
                     <StackPanel Orientation="Horizontal" Spacing="4">
                         <ToggleSplitButton
