@@ -4,6 +4,7 @@
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.Service;
 using Snap.Hutao.Win32.Foundation;
 using static Snap.Hutao.Win32.User32;
 
@@ -13,6 +14,11 @@ internal static class NotifyIcon
 {
     public static bool IsPromoted(IServiceProvider serviceProvider)
     {
+        if (!XamlApplicationLifetime.LaunchedWithNotifyIcon)
+        {
+            return true;
+        }
+
         try
         {
             NotifyIconController notifyIconController = serviceProvider.LockAndGetRequiredService<NotifyIconController>(NotifyIconController.InitializationSyncRoot);
