@@ -3776,6 +3776,9 @@
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Verifikasi gagal. Harap verifikasi secara manual atau periksa halaman MiHoYo BBS - Battle Chronicle.</value>
   </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>在请求 {0} 时遇到问题</value>
+  </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Kode Kembali: {0} | Pesan: {1}</value>
   </data>
