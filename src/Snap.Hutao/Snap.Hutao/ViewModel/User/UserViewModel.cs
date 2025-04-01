@@ -37,7 +37,6 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
-    private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 

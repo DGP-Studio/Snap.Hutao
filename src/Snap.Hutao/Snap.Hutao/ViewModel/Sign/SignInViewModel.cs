@@ -9,6 +9,7 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Data;
@@ -30,6 +31,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
+    private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
@@ -204,33 +206,8 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             return;
         }
 
-        using (IServiceScope scope = ServiceProvider.CreateScope())
+        if (await signInService.ClaimSignInRewardAsync(userAndUid).ConfigureAwait(false))
         {
-            ISignInClient signInClient = scope.ServiceProvider
-                .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
-                .Create(userAndUid.IsOversea);
-
-            Response<SignInResult> resultResponse = await signInClient.SignAsync(userAndUid).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? result))
-            {
-                string message = resultResponse.Message;
-
-                if (resultResponse.ReturnCode is (int)KnownReturnCode.AlreadySignedIn)
-                {
-                    infoBarService.Success(message);
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(message))
-                {
-                    message = $"RiskCode: {result?.RiskCode}";
-                }
-
-                infoBarService.Error(SH.FormatServiceSignInClaimRewardFailedFormat(message));
-                await FallbackToWebView2SignInAsync().ConfigureAwait(false);
-                return;
-            }
-
             await UpdateSignInInfoAsync(userAndUid, postSign: true).ConfigureAwait(false);
         }
     }
@@ -254,58 +231,9 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             return;
         }
 
-        using (IServiceScope scope = ServiceProvider.CreateScope())
+        if (await signInService.ClaimResignInRewardAsync(userAndUid).ConfigureAwait(false))
         {
-            ISignInClient signInClient = scope.ServiceProvider
-                .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
-                .Create(userAndUid.IsOversea);
-
-            Response<SignInResult> resultResponse = await signInClient.ReSignAsync(userAndUid).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidateWithoutUINotification(resultResponse, out SignInResult? signInResult))
-            {
-                string message = resultResponse.Message;
-
-                if (resultResponse.ReturnCode is (int)KnownReturnCode.ResignQuotaUsedUp or (int)KnownReturnCode.PleaseSignInFirst or (int)KnownReturnCode.NoAvailableResignDate)
-                {
-                    infoBarService.Error(message);
-                    return;
-                }
-
-                if (resultResponse.ReturnCode is (int)KnownReturnCode.NotEnoughCoin)
-                {
-                    message = SH.ViewModelSignInReSignInNotEnoughCoinMessage;
-                    infoBarService.Error(message);
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(message))
-                {
-                    message = $"RiskCode: {signInResult?.RiskCode}";
-                }
-
-                infoBarService.Error(SH.FormatServiceReSignInClaimRewardFailedFormat(message));
-                await FallbackToWebView2SignInAsync().ConfigureAwait(false);
-                return;
-            }
-
             await UpdateSignInInfoAsync(userAndUid, postResign: true).ConfigureAwait(false);
         }
-    }
-
-    private async ValueTask FallbackToWebView2SignInAsync()
-    {
-        await taskContext.SwitchToMainThreadAsync();
-
-        if (currentXamlWindowReference.GetXamlRoot() is not { } xamlRoot)
-        {
-            return;
-        }
-
-        MiHoYoJSBridgeWebView2ContentProvider provider = new()
-        {
-            SourceProvider = new SignInJSBridgeUriSourceProvider(),
-        };
-
-        ShowWebView2WindowAction.Show(provider, xamlRoot);
     }
 }
