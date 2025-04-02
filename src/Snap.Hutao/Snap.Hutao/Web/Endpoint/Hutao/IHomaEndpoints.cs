@@ -11,7 +11,8 @@ internal interface IHomaEndpoints :
     IHomaSpiralAbyssEndpoints,
     IHomaRoleCombatEndpoints,
     IHomaDistributionEndpoints,
-    IHomaRedeemCodeEndpoints
+    IHomaRedeemCodeEndpoints,
+    IHomaStaticResourceEndpoints
 {
     public string HomaWebsite(string path)
     {
