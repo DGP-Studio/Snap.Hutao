@@ -238,7 +238,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             return;
         }
 
-        await serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().ConfigureAwait(false);
+        serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().SafeForget();
 
         // Increase launch times
         LocalSetting.Update(SettingKeys.LaunchTimes, 0, static x => unchecked(x + 1));
