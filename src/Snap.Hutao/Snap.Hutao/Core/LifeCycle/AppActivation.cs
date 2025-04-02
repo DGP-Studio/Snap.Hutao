@@ -176,7 +176,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         await Task.WhenAll(
         [
             serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAllAsync().AsTask(),
-            serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().AsTask(),
             serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().AsTask(),
             serviceProvider.GetRequiredService<IMetadataService>().InitializeInternalAsync().AsTask(),
             serviceProvider.GetRequiredService<IQuartzService>().StartAsync()
@@ -238,6 +237,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
             return;
         }
+
+        await serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().ConfigureAwait(false);
 
         // Increase launch times
         LocalSetting.Update(SettingKeys.LaunchTimes, 0, static x => unchecked(x + 1));

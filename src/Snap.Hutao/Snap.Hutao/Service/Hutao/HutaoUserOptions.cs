@@ -370,7 +370,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             await taskContext.SwitchToBackgroundAsync();
             UserInfo? userInfo;
-            ImageToken? imageToken;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 HutaoPassportClient passportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
@@ -379,15 +378,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out userInfo))
                 {
                     infoEvent.Set();
-                    return;
-                }
-
-                HutaoStaticResourceClient staticResourceClient = scope.ServiceProvider.GetRequiredService<HutaoStaticResourceClient>();
-                Response<ImageToken> imageTokenResponse = await staticResourceClient.GetAcceleratedImageTokenAsync(token).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(imageTokenResponse, scope.ServiceProvider, out imageToken))
-                {
-                    imageTokenEvent.Set();
                     return;
                 }
             }
@@ -406,7 +396,22 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
                 : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
 
-            imageTokenExpiration = new(imageToken.Token);
+            if (IsHutaoCdnAllowed)
+            {
+                using (IServiceScope scope = serviceProvider.CreateScope())
+                {
+                    HutaoStaticResourceClient staticResourceClient = scope.ServiceProvider.GetRequiredService<HutaoStaticResourceClient>();
+                    Response<ImageToken> imageTokenResponse = await staticResourceClient.GetAcceleratedImageTokenAsync(token).ConfigureAwait(false);
+
+                    if (!ResponseValidator.TryValidate(imageTokenResponse, scope.ServiceProvider, out ImageToken? imageToken))
+                    {
+                        imageTokenEvent.Set();
+                        return;
+                    }
+
+                    imageTokenExpiration = new(imageToken.Token);
+                }
+            }
 
             infoEvent.Set();
             imageTokenEvent.Set();
