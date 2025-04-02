@@ -380,15 +380,6 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     return;
                 }
 
-                HutaoStaticResourceClient staticResourceClient = scope.ServiceProvider.GetRequiredService<HutaoStaticResourceClient>();
-                Response<ImageToken> imageTokenResponse = await staticResourceClient.GetAcceleratedImageTokenAsync(token).ConfigureAwait(false);
-
-                if (!ResponseValidator.TryValidate(imageTokenResponse, scope.ServiceProvider, out ImageToken? imageToken))
-                {
-                    imageTokenEvent.Set();
-                    return;
-                }
-
                 await taskContext.SwitchToMainThreadAsync();
                 IsDeveloper = userInfo.IsLicensedDeveloper;
                 IsMaintainer = userInfo.IsMaintainer;
@@ -403,7 +394,19 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
                     : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
 
-                imageTokenExpiration = new(imageToken.Token);
+                if (IsHutaoCdnAllowed)
+                {
+                    HutaoStaticResourceClient staticResourceClient = scope.ServiceProvider.GetRequiredService<HutaoStaticResourceClient>();
+                    Response<ImageToken> imageTokenResponse = await staticResourceClient.GetAcceleratedImageTokenAsync(token).ConfigureAwait(false);
+
+                    if (!ResponseValidator.TryValidate(imageTokenResponse, scope.ServiceProvider, out ImageToken? imageToken))
+                    {
+                        imageTokenEvent.Set();
+                        return;
+                    }
+
+                    imageTokenExpiration = new(imageToken.Token);
+                }
 
                 infoEvent.Set();
                 imageTokenEvent.Set();
