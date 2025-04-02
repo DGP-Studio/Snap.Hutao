@@ -364,7 +364,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         await statisticsCts.CancelAsync().ConfigureAwait(false);
         statisticsCts = new();
         CancellationToken token = statisticsCts.Token;
-        ObservableCollection<StatisticsCultivateItem> statistics;
+        StatisticsCultivateItemCollection statistics;
         ResinStatistics resinStatistics;
         try
         {
@@ -378,15 +378,11 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         if (IncompleteFirst)
         {
-            statistics = statistics
-                .OrderBy(item => item.IsFinished)
-                .ThenByDescending(item => item.IsToday)
-                .ThenBy(item => item.Inner.Id, MaterialIdComparer.Shared)
-                .ToObservableCollection();
+            statistics.SortAsIncompleteFirst();
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        StatisticsItems = statistics.Where(static i => !i.CalculateOnly).ToObservableCollection();
+        StatisticsItems = statistics.ToObservableCollection();
         ResinStatistics = resinStatistics;
     }
 

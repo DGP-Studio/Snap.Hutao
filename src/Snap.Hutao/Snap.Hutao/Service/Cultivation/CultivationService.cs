@@ -90,12 +90,12 @@ internal sealed partial class CultivationService : ICultivationService
         }
     }
 
-    public async ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token)
+    public async ValueTask<StatisticsCultivateItemCollection> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
         return SynchronizedGetStatisticsCultivateItemCollection(cultivateProject, context);
 
-        ObservableCollection<StatisticsCultivateItem> SynchronizedGetStatisticsCultivateItemCollection(CultivateProject cultivateProject, ICultivationMetadataContext context)
+        StatisticsCultivateItemCollection SynchronizedGetStatisticsCultivateItemCollection(CultivateProject cultivateProject, ICultivationMetadataContext context)
         {
             Dictionary</* ItemId */ uint, StatisticsCultivateItem> resultItems = [];
             Guid projectId = cultivateProject.InnerId;
@@ -105,16 +105,16 @@ internal sealed partial class CultivationService : ICultivationService
                 foreach (ref readonly CultivateItem item in cultivationRepository.GetCultivateItemImmutableArrayByEntryId(entry.InnerId).AsSpan())
                 {
                     ref StatisticsCultivateItem? existedItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, item.ItemId, out _);
-                    if (existedItem is not null && !existedItem.CalculateOnly)
-                    {
-                        existedItem.Count += item.Count;
-                    }
-                    else
+                    if (existedItem is null || existedItem.CalculateOnly)
                     {
                         existedItem = StatisticsCultivateItem.Create(context.GetMaterial(item.ItemId), item, cultivateProject.ServerTimeZoneOffset);
                     }
+                    else
+                    {
+                        existedItem.Count += item.Count;
+                    }
 
-                    AddMaterialIngredients(item.ItemId);
+                    RecursiveAddMaterialIngredientsByMaterialId(cultivateProject, context, resultItems, item.ItemId);
                 }
             }
 
@@ -127,34 +127,11 @@ internal sealed partial class CultivationService : ICultivationService
                 }
             }
 
-            return resultItems.Select(static kvp => kvp.Value).OrderBy(item => item.Inner.Id, MaterialIdComparer.Shared).ToObservableCollection();
-
-            void AddMaterialIngredients(MaterialId materialId)
-            {
-                if (materialId == 104003U)
-                {
-                    ReadOnlySpan<MaterialId> books = [104001U, 104002U];
-                    foreach (ref readonly MaterialId id in books)
-                    {
-                        ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, id, out _);
-                        calcOnlyItem ??= StatisticsCultivateItem.Create(context.GetMaterial(id));
-                    }
-                }
-
-                if (context.ResultMaterialIdCombineMap.GetValueOrDefault(materialId) is { RecipeType: RecipeType.RECIPE_TYPE_COMBINE } combine)
-                {
-                    foreach (ref readonly IdCount idCount in combine.Materials.AsSpan())
-                    {
-                        ref StatisticsCultivateItem? calcOnlyItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, idCount.Id, out _);
-                        calcOnlyItem ??= StatisticsCultivateItem.Create(context.GetMaterial(idCount.Id));
-                        AddMaterialIngredients(idCount.Id);
-                    }
-                }
-            }
+            return new(resultItems);
         }
     }
 
-    public ValueTask<ResinStatistics> GetResinStatisticsAsync(ObservableCollection<StatisticsCultivateItem> statisticsCultivateItems, CancellationToken token)
+    public ValueTask<ResinStatistics> GetResinStatisticsAsync(StatisticsCultivateItemCollection statisticsCultivateItems, CancellationToken token)
     {
         return cultivationResinStatisticsService.GetResinStatisticsAsync(statisticsCultivateItems, token);
     }
@@ -299,5 +276,29 @@ internal sealed partial class CultivationService : ICultivationService
         }
 
         return true;
+    }
+
+    private static void RecursiveAddMaterialIngredientsByMaterialId(CultivateProject cultivateProject, ICultivationMetadataContext context, Dictionary<uint, StatisticsCultivateItem> resultItems, MaterialId materialId)
+    {
+        if (materialId == 104003U)
+        {
+            foreach (ref readonly MaterialId xpBookId in (ReadOnlySpan<MaterialId>)[104001U, 104002U])
+            {
+                ref StatisticsCultivateItem? bookItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, xpBookId, out _);
+                bookItem ??= StatisticsCultivateItem.Create(context.GetMaterial(xpBookId), cultivateProject.ServerTimeZoneOffset);
+            }
+
+            return;
+        }
+
+        if (context.ResultMaterialIdCombineMap.TryGetValue(materialId, out Combine? combine) && combine.RecipeType is RecipeType.RECIPE_TYPE_COMBINE)
+        {
+            foreach (ref readonly IdCount ingredient in combine.Materials.AsSpan())
+            {
+                ref StatisticsCultivateItem? ingredientItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, ingredient.Id, out _);
+                ingredientItem ??= StatisticsCultivateItem.Create(context.GetMaterial(ingredient.Id), cultivateProject.ServerTimeZoneOffset);
+                RecursiveAddMaterialIngredientsByMaterialId(cultivateProject, context, resultItems, ingredient.Id);
+            }
+        }
     }
 }

@@ -9,13 +9,14 @@ internal sealed class StatisticsCultivateItem
 {
     private readonly TimeSpan offset;
 
-    private StatisticsCultivateItem(Material inner)
+    private StatisticsCultivateItem(Material inner, TimeSpan offset)
     {
         Inner = inner;
+        this.offset = offset;
         CalculateOnly = true;
     }
 
-    private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity, in TimeSpan offset)
+    private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity, TimeSpan offset)
     {
         Inner = inner;
         Count = entity.Count;
@@ -36,12 +37,12 @@ internal sealed class StatisticsCultivateItem
 
     internal bool CalculateOnly { get; set; }
 
-    public static StatisticsCultivateItem Create(Material inner)
+    public static StatisticsCultivateItem Create(Material inner, TimeSpan offset)
     {
-        return new(inner);
+        return new(inner, offset);
     }
 
-    public static StatisticsCultivateItem Create(Material inner, Model.Entity.CultivateItem entity, in TimeSpan offset)
+    public static StatisticsCultivateItem Create(Material inner, Model.Entity.CultivateItem entity, TimeSpan offset)
     {
         return new(inner, entity, offset);
     }
