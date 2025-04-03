@@ -105,7 +105,7 @@ internal sealed partial class CultivationService : ICultivationService
                 foreach (ref readonly CultivateItem item in cultivationRepository.GetCultivateItemImmutableArrayByEntryId(entry.InnerId).AsSpan())
                 {
                     ref StatisticsCultivateItem? existedItem = ref CollectionsMarshal.GetValueRefOrAddDefault(resultItems, item.ItemId, out _);
-                    if (existedItem is null || existedItem.CalculateOnly)
+                    if (existedItem is null || existedItem.ExcludedFromPresentation)
                     {
                         existedItem = StatisticsCultivateItem.Create(context.GetMaterial(item.ItemId), item, cultivateProject.ServerTimeZoneOffset);
                     }

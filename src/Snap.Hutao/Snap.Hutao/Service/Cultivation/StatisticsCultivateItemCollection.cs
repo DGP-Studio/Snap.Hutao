@@ -1,6 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
-using Snap.Hutao.Core.ExceptionService;
+
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-internal sealed class StatisticsCultivateItemCollection : ICollection<StatisticsCultivateItem>
+internal sealed partial class StatisticsCultivateItemCollection : ICollection<StatisticsCultivateItem>
 {
     private readonly List<StatisticsCultivateItem> items = [];
 
@@ -60,10 +60,11 @@ internal sealed class StatisticsCultivateItemCollection : ICollection<Statistics
         List<StatisticsCultivateItem> results = [];
         foreach (ref readonly StatisticsCultivateItem item in CollectionsMarshal.AsSpan(items))
         {
-            if (item.CalculateOnly)
+            if (item.ExcludedFromPresentation)
             {
                 continue;
             }
+
             results.Add(item);
         }
 

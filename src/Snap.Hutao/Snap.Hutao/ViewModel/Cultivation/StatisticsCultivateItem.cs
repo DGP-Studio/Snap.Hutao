@@ -13,7 +13,7 @@ internal sealed class StatisticsCultivateItem
     {
         Inner = inner;
         this.offset = offset;
-        CalculateOnly = true;
+        ExcludedFromPresentation = true;
     }
 
     private StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity, TimeSpan offset)
@@ -35,7 +35,7 @@ internal sealed class StatisticsCultivateItem
 
     public bool IsToday { get => Inner.IsTodaysItem(offset, true); }
 
-    internal bool CalculateOnly { get; set; }
+    internal bool ExcludedFromPresentation { get; set; }
 
     public static StatisticsCultivateItem Create(Material inner, TimeSpan offset)
     {
