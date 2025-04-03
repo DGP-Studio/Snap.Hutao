@@ -135,7 +135,7 @@ internal static class VirtualKeys
             VIRTUAL_KEY.VK_OEM_8,
             VIRTUAL_KEY.VK_OEM_102,
             VIRTUAL_KEY.VK_PLAY,
-            VIRTUAL_KEY.VK__none_,
+            VIRTUAL_KEY.VK__none_, // VK__none_ must be the last one
         ];
     }
 

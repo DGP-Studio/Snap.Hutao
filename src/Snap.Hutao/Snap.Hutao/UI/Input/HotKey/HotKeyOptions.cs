@@ -173,9 +173,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             }
 
             // Since we are toggling off, we don't have to pass the callback
-#pragma warning disable SH007
-            SynchronizationContext.Current!.Send(state => ((HotKeyCombination)state!).Toggle(default!), combination);
-#pragma warning restore SH007
+            combination.Toggle(default!);
             return true;
         }
 
