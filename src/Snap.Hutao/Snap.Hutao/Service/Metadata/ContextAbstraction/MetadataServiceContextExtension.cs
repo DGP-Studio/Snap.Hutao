@@ -187,6 +187,11 @@ internal static class MetadataServiceContextExtension
             {
                 dictionaryNameWeaponSource.NameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
             }
+
+            if (context is IMetadataDictionaryResultMaterialIdCombineSource dictionaryResultMaterialIdCombineSource)
+            {
+                dictionaryResultMaterialIdCombineSource.ResultMaterialIdCombineMap = await metadataService.GetResultMaterialIdToCombineMapAsync(token).ConfigureAwait(false);
+            }
         }
 
         if (context is IMetadataSupportInitialization supportInitialization)

@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.ViewModel.Cultivation;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -41,12 +40,21 @@ internal sealed partial class CultivationResinStatisticsService : ICultivationRe
 
                 case 100U: // 经验
                     {
-                        StatisticsCultivateItem item = items.Single();
-                        Debug.Assert(item.Inner.RankLevel is QualityType.QUALITY_PURPLE, "经验书必须是紫色品质");
-                        if (!item.IsFinished)
+                        // TODO: Reduce enumeration
+                        if (items.SingleOrDefault(i => i.Inner.RankLevel is QualityType.QUALITY_PURPLE) is { IsFinished: false })
                         {
-                            double times = GetStatisticsCultivateItemTimes(item) * 20000D;
-                            statistics.BlossomOfRevelation.RawItemCount += times;
+                            foreach (StatisticsCultivateItem item in items)
+                            {
+                                double experience = item.Inner.RankLevel switch
+                                {
+                                    QualityType.QUALITY_GREEN => 1000D,
+                                    QualityType.QUALITY_BLUE => 5000D,
+                                    QualityType.QUALITY_PURPLE => 20000D,
+                                    _ => throw HutaoException.NotSupported(),
+                                };
+                                double times = GetStatisticsCultivateItemTimes(item) * experience;
+                                statistics.BlossomOfRevelation.RawItemCount += times;
+                            }
                         }
 
                         break;
