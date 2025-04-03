@@ -56,14 +56,12 @@ internal static class NotifyIconMethods
         return Delete(in data);
     }
 
-    public static unsafe RECT GetRect(Guid id, HWND hWND)
+    public static unsafe RECT GetRect(Guid id, HWND hwnd)
     {
-        NOTIFYICONIDENTIFIER identifier = new()
-        {
-            cbSize = (uint)sizeof(NOTIFYICONIDENTIFIER),
-            hWnd = hWND,
-            guidItem = id,
-        };
+        NOTIFYICONIDENTIFIER identifier = default;
+        identifier.cbSize = (uint)sizeof(NOTIFYICONIDENTIFIER);
+        identifier.hWnd = hwnd;
+        identifier.guidItem = id;
 
         Marshal.ThrowExceptionForHR(Shell_NotifyIconGetRect(ref identifier, out RECT rect));
         return rect;

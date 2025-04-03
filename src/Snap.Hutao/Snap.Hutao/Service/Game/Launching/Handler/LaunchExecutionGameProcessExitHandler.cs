@@ -22,7 +22,7 @@ internal sealed class LaunchExecutionGameProcessExitHandler : ILaunchExecutionDe
             }
         }
 
-        context.Logger.LogInformation("Game process exited with code {ExitCode}", context.Process.ExitCode);
+        // Accessing Process there is unsafe
         context.Progress.Report(new(LaunchPhase.ProcessExited, SH.ServiceGameLaunchPhaseProcessExited));
         await next().ConfigureAwait(false);
     }

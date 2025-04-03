@@ -6,12 +6,14 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using static Snap.Hutao.Win32.ConstValues;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
 
@@ -178,6 +180,18 @@ internal sealed partial class NotifyIconController : IDisposable
             return;
         }
 
-        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.X, point.Y), GetRect());
+        RECT rect;
+        try
+        {
+            rect = GetRect();
+        }
+        catch (Exception)
+        {
+            // Fallback to the mouse position
+            GetCursorPos(out POINT pos);
+            rect = new(pos.x - 8, pos.y - 8, pos.x + 8, pos.y + 8);
+        }
+
+        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.X, point.Y), rect);
     }
 }

@@ -4,7 +4,6 @@
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Graphics;
-using Snap.Hutao.Service;
 using Snap.Hutao.Win32.Foundation;
 using static Snap.Hutao.Win32.User32;
 
@@ -24,14 +23,14 @@ internal static class NotifyIcon
             NotifyIconController notifyIconController = serviceProvider.LockAndGetRequiredService<NotifyIconController>(NotifyIconController.InitializationSyncRoot);
 
             // Actual version should be above 24H2 (26100), which is 26120 without UniversalApiContract.
-            if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
+            if (UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
             {
                 return notifyIconController.GetIsPromoted();
             }
 
             // Shell_NotifyIconGetRect can return E_FAIL in multiple cases.
             RECT iconRect = notifyIconController.GetRect();
-            if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11))
+            if (UniversalApiContract.IsPresent(WindowsVersion.Windows11))
             {
                 RECT primaryRect = DisplayArea.Primary.OuterBounds.ToRECT();
                 return IntersectRect(out _, in primaryRect, in iconRect);
