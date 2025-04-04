@@ -74,6 +74,12 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         return IsLoggedIn ? UserName : default;
     }
 
+    public async ValueTask<bool> GetIsHutaoCloudAllowedAsync()
+    {
+        await infoEvent.WaitAsync().ConfigureAwait(false);
+        return IsHutaoCloudAllowed;
+    }
+
     public async ValueTask<bool> GetIsHutaoCdnAllowedAsync()
     {
         await infoEvent.WaitAsync().ConfigureAwait(false);
