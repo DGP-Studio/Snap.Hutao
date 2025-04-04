@@ -353,11 +353,23 @@
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
                                 <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutHeader}"/>
-                                <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeDescription}" Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeHeader}">
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xEDA7;}">
                                     <HyperlinkButton
                                         Content="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutVirtualKeyCodeAction}"
                                         NavigateUri="https://learn.microsoft.com/windows/win32/inputdev/virtual-key-codes"
                                         Style="{ThemeResource SettingHyperlinkButtonStyle}"/>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutInGameOnlyDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutInGameOnlyHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE7FC;}">
+                                    <ToggleSwitch
+                                        MinWidth="120"
+                                        VerticalAlignment="Center"
+                                        IsOn="{Binding HotKeyOptions.IsInGameOnly, Mode=TwoWay}"/>
                                 </cwc:SettingsCard>
                                 <InfoBar
                                     Title="{shuxm:ResourceString Name=ViewPageSettingKeyShortcutWarningDescription}"

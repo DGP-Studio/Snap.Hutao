@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Collections.Immutable;
@@ -24,11 +25,14 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private readonly HotKeyMessageWindow hotKeyMessageWindow;
 
     private bool isDisposed;
+    private bool isInGameOnly;
 
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         hotKeyMessageWindow = taskContext.InvokeOnMainThread(() => HotKeyMessageWindow.Create(OnHotKeyPressed));
+
+        isInGameOnly = LocalSetting.Get(SettingKeys.HotKeyRepeatForeverInGameOnly, false);
 
         HWND hwnd = hotKeyMessageWindow.Hwnd;
 
@@ -50,6 +54,18 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     }
 
     public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.HotKeyValues;
+
+    public bool IsInGameOnly
+    {
+        get => isInGameOnly;
+        set
+        {
+            if (SetProperty(ref isInGameOnly, value))
+            {
+                LocalSetting.Set(SettingKeys.HotKeyRepeatForeverInGameOnly, value);
+            }
+        }
+    }
 
     [ObservableProperty]
     public partial HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set; }
@@ -187,6 +203,11 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         {
             // We have user reported issue that the key is exactly VK__none_.
             // Under normal circumstances, this should not happen.
+            return;
+        }
+
+        if (IsInGameOnly && !LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
+        {
             return;
         }
 
