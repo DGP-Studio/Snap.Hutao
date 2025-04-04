@@ -1887,25 +1887,25 @@
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>最新バージョン: {0}</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>キャンセルされました</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
     <value>キャンセル中</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
     <value>インストール完了</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
     <value>ダウンロードが完了</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
     <value>修復完了</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
     <value>更新完了</value>
   </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
     <value>ゲーム完了、修正は必要ありません</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">

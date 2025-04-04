@@ -9,4 +9,5 @@ internal enum GamePackageOperationReportKind
     Install,
     Reset,
     Finish,
+    Abort,
 }
