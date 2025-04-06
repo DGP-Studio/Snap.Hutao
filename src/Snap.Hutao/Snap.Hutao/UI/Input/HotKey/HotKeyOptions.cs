@@ -56,7 +56,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         set => LocalSetting.Set(SettingKeys.HotKeyRepeatForeverInGameOnly, value);
     }
 
-    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.HotKeyValues;
+    public static ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get => Input.VirtualKeys.HotKeyValues; }
 
     [ObservableProperty]
     public partial HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set; }

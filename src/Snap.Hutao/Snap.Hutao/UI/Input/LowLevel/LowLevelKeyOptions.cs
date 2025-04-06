@@ -16,7 +16,7 @@ namespace Snap.Hutao.UI.Input.LowLevel;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class LowLevelKeyOptions : ObservableObject
 {
-    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.Values;
+    public static ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get => Input.VirtualKeys.Values; }
 
     [UsedImplicitly]
     public NameValue<VIRTUAL_KEY> WebView2VideoPlayPauseKey
@@ -29,7 +29,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, value.Value);
             }
         }
-    } = Input.VirtualKeys.First(UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, VIRTUAL_KEY.VK__none_));
+    } = Input.VirtualKeys.First(VirtualKeys, UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, VIRTUAL_KEY.VK__none_));
 
     [UsedImplicitly]
     public NameValue<VIRTUAL_KEY> WebView2VideoFastForwardKey
@@ -42,7 +42,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoFastForward, value.Value);
             }
         }
-    } = Input.VirtualKeys.First(UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoFastForward, VIRTUAL_KEY.VK__none_));
+    } = Input.VirtualKeys.First(VirtualKeys, UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoFastForward, VIRTUAL_KEY.VK__none_));
 
     [UsedImplicitly]
     public NameValue<VIRTUAL_KEY> WebView2VideoRewindKey
@@ -55,7 +55,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoRewind, value.Value);
             }
         }
-    } = Input.VirtualKeys.First(UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoRewind, VIRTUAL_KEY.VK__none_));
+    } = Input.VirtualKeys.First(VirtualKeys, UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2VideoRewind, VIRTUAL_KEY.VK__none_));
 
     [UsedImplicitly]
     public NameValue<VIRTUAL_KEY> WebView2HideKey
@@ -68,7 +68,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2Hide, value.Value);
             }
         }
-    } = Input.VirtualKeys.First(UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2Hide, VIRTUAL_KEY.VK__none_));
+    } = Input.VirtualKeys.First(VirtualKeys, UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardWebView2Hide, VIRTUAL_KEY.VK__none_));
 
     [UsedImplicitly]
     public NameValue<VIRTUAL_KEY> OverlayHideKey
@@ -81,5 +81,5 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardOverlayHide, value.Value);
             }
         }
-    } = Input.VirtualKeys.First(UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardOverlayHide, VIRTUAL_KEY.VK__none_));
+    } = Input.VirtualKeys.First(VirtualKeys, UnsafeLocalSetting.Get(SettingKeys.LowLevelKeyboardOverlayHide, VIRTUAL_KEY.VK__none_));
 }
