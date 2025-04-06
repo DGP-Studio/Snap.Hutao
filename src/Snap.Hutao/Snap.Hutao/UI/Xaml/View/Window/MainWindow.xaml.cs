@@ -49,6 +49,11 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosed()
     {
+        if (XamlApplicationLifetime.Exiting)
+        {
+            return;
+        }
+
         if (!NotifyIcon.IsPromoted(scope.ServiceProvider))
         {
             try
