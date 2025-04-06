@@ -242,7 +242,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
         }
         catch (Exception ex)
         {
-            SentrySdk.CaptureException(ex);
+            if (!HutaoException.ContainsMarker(ex))
+            {
+                SentrySdk.CaptureException(ex);
+            }
+
             return default;
         }
     }

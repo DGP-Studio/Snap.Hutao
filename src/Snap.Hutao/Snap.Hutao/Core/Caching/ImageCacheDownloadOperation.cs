@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
+using System.Text;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -64,15 +66,12 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                 }
                 catch (Exception ex)
                 {
-                    // HttpRequestException: COR_E_IO & IOException: COR_E_IO
-                    if (ex is HttpRequestException { HResult: unchecked((int)0x80131620), InnerException: IOException { HResult: unchecked((int)0x80131620) } })
+                    if (HttpRequestExceptionHandling.TryHandle(requestMessageBuilder, ex, out StringBuilder message))
                     {
-                        // The SSL connection could not be established, see inner exception.
-                        // Received an unexpected EOF or 0 bytes from the transport stream.
                         continue;
                     }
 
-                    throw;
+                    throw HutaoException.InvalidOperation(message.ToString(), ex);
                 }
 
                 using (responseMessage)
@@ -102,7 +101,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                     {
                         case HttpStatusCode.NotFound:
                             {
-                                return;
+                                throw HutaoException.InvalidOperation($"Unable to download file from '{uri.OriginalString}'", HutaoException.Marker);
                             }
 
                         case HttpStatusCode.TooManyRequests:

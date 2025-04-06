@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
@@ -72,10 +73,10 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                         {
                             await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             Remove(uri);
-                            SentrySdk.CaptureException(ex);
+                            throw;
                         }
                     }
                 }
