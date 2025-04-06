@@ -25,14 +25,11 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     private readonly HotKeyMessageWindow hotKeyMessageWindow;
 
     private bool isDisposed;
-    private bool isInGameOnly;
 
     public HotKeyOptions(IServiceProvider serviceProvider)
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         hotKeyMessageWindow = taskContext.InvokeOnMainThread(() => HotKeyMessageWindow.Create(OnHotKeyPressed));
-
-        isInGameOnly = LocalSetting.Get(SettingKeys.HotKeyRepeatForeverInGameOnly, false);
 
         HWND hwnd = hotKeyMessageWindow.Hwnd;
 
@@ -53,19 +50,13 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             100001);
     }
 
-    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.HotKeyValues;
-
-    public bool IsInGameOnly
+    public static bool IsInGameOnly
     {
-        get => isInGameOnly;
-        set
-        {
-            if (SetProperty(ref isInGameOnly, value))
-            {
-                LocalSetting.Set(SettingKeys.HotKeyRepeatForeverInGameOnly, value);
-            }
-        }
+        get => LocalSetting.Get(SettingKeys.HotKeyRepeatForeverInGameOnly, false);
+        set => LocalSetting.Set(SettingKeys.HotKeyRepeatForeverInGameOnly, value);
     }
+
+    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.HotKeyValues;
 
     [ObservableProperty]
     public partial HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set; }
