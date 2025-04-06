@@ -3156,10 +3156,10 @@
     <value>快速鍵</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
-    <value>快捷键仅在游戏启动后生效</value>
+    <value>快速鍵僅在遊戲啟動後生效</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
-    <value>游戏启动后生效</value>
+    <value>遊戲啟動後生效</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>查看</value>
