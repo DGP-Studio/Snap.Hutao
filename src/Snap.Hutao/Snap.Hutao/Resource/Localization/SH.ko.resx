@@ -3156,10 +3156,10 @@
     <value>단축키</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
-    <value>快捷键仅在游戏内生效</value>
+    <value>快捷键仅在游戏启动后生效</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
-    <value>仅游戏内生效</value>
+    <value>游戏启动后生效</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>보기</value>
