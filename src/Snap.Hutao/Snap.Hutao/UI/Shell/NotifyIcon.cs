@@ -13,11 +13,6 @@ internal static class NotifyIcon
 {
     public static bool IsPromoted(IServiceProvider serviceProvider)
     {
-        if (!XamlApplicationLifetime.LaunchedWithNotifyIcon)
-        {
-            return true;
-        }
-
         try
         {
             NotifyIconController notifyIconController = serviceProvider.LockAndGetRequiredService<NotifyIconController>(NotifyIconController.InitializationSyncRoot);

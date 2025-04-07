@@ -19,7 +19,6 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private bool? isNotifyIconEnabled;
     private bool? isEmptyHistoryWishVisible;
     private bool? isUnobtainedWishItemVisible;
     private BackdropType? backdropType;
@@ -30,12 +29,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
     private TimeSpan? calendarServerTimeZoneOffset;
-
-    public bool IsNotifyIconEnabled
-    {
-        get => GetOption(ref isNotifyIconEnabled, SettingEntry.IsNotifyIconEnabled, true);
-        set => SetOption(ref isNotifyIconEnabled, SettingEntry.IsNotifyIconEnabled, value);
-    }
+    private CloseButtonBehavior? closeButtonBehavior;
 
     public bool IsEmptyHistoryWishVisible
     {
@@ -129,5 +123,13 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, TimeSpan.Parse, ServerRegionTimeZone.CommonOffset);
         set => SetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, value, static v => v.ToString());
+    }
+
+    public ImmutableArray<NameValue<CloseButtonBehavior>> CloseButtonBehaviors { get; } = ImmutableCollectionsNameValue.FromEnum<CloseButtonBehavior>(type => type.GetLocalizedDescription());
+
+    public CloseButtonBehavior CloseButtonBehavior
+    {
+        get => GetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, Enum.Parse<CloseButtonBehavior>, CloseButtonBehavior.Minimize);
+        set => SetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, value, EnumToStringOrEmpty);
     }
 }

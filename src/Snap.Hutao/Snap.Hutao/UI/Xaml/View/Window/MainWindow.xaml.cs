@@ -4,8 +4,12 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications.Builder;
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Service;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing.Abstraction;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel;
 using Windows.Graphics;
 
@@ -18,6 +22,11 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowHasInitSize
 {
     private readonly IServiceScope scope;
+
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
+    private readonly App app;
 
     public MainWindow(IServiceProvider serviceProvider)
     {
@@ -34,6 +43,10 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
         this.InitializeController(scope.ServiceProvider);
         TitleView.InitializeDataContext<TitleViewModel>(scope.ServiceProvider);
         MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
+        contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
+        taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
+        appOptions = scope.ServiceProvider.GetRequiredService<AppOptions>();
+        app = scope.ServiceProvider.GetRequiredService<App>();
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleView.DragArea; }
@@ -44,6 +57,13 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
+        if (!XamlApplicationLifetime.Exiting && !LocalSetting.Get(SettingKeys.IsCloseButtonBehaviorSet, false))
+        {
+            SetCloseButtonBehaviorAsync().SafeForget();
+            cancel = true;
+            return;
+        }
+
         cancel = false;
     }
 
@@ -51,6 +71,12 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     {
         if (XamlApplicationLifetime.Exiting)
         {
+            return;
+        }
+
+        if (appOptions.CloseButtonBehavior is CloseButtonBehavior.Exit)
+        {
+            app.Exit();
             return;
         }
 
@@ -67,5 +93,23 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
                 // Ignore
             }
         }
+    }
+
+    private async ValueTask SetCloseButtonBehaviorAsync()
+    {
+        CloseButtonBehaviorSetDialog dialog = await contentDialogFactory
+            .CreateInstanceAsync<CloseButtonBehaviorSetDialog>(scope.ServiceProvider)
+            .ConfigureAwait(false);
+
+        (bool isOk, CloseButtonBehavior behavior) = await dialog.GetCloseButtonBehaviorAsync().ConfigureAwait(false);
+        if (!isOk)
+        {
+            return;
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        appOptions.CloseButtonBehavior = behavior;
+        LocalSetting.Set(SettingKeys.IsCloseButtonBehaviorSet, true);
+        Close();
     }
 }

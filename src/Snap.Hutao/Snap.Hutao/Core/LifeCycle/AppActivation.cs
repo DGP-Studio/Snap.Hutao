@@ -161,15 +161,11 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         // Notify icon
         App app = serviceProvider.GetRequiredService<App>();
-        if (app.Options.IsNotifyIconEnabled)
+        await taskContext.SwitchToMainThreadAsync();
+        app.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+        lock (NotifyIconController.InitializationSyncRoot)
         {
-            await taskContext.SwitchToMainThreadAsync();
-            app.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
-            lock (NotifyIconController.InitializationSyncRoot)
-            {
-                _ = serviceProvider.GetRequiredService<NotifyIconController>();
-                XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
-            }
+            _ = serviceProvider.GetRequiredService<NotifyIconController>();
         }
 
         // Services Initialization
