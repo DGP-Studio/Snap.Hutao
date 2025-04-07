@@ -192,7 +192,18 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                     easingMode: EasingMode.EaseInOut)
                 .StartAsync(target)
                 .ConfigureAwait(true);
-            target.Visibility = Visibility.Collapsed;
+            try
+            {
+                target.Visibility = Visibility.Collapsed;
+            }
+            catch (COMException ex)
+            {
+                if (ex.HResult != unchecked((int)0x8000FFFF))
+                {
+                    throw;
+                }
+            }
+
             target.Source = null;
         }
         else

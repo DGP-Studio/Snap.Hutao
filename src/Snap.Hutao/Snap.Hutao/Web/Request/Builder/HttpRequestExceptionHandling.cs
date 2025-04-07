@@ -5,11 +5,13 @@ using Snap.Hutao.Core.ExceptionService;
 using System.IO;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Security.Authentication;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
-internal static class HttpRequestExceptionHandling
+internal static partial class HttpRequestExceptionHandling
 {
     public static bool TryHandle(HttpRequestMessageBuilder builder, Exception ex, out StringBuilder message)
     {
@@ -90,8 +92,25 @@ internal static class HttpRequestExceptionHandling
                         {
                             case SocketError.ConnectionRefused:
                                 return NetworkError.ERR_CONNECTION_REFUSED;
+                            case SocketError.NetworkUnreachable:
+                                return NetworkError.ERR_CONNECTION_NETWORK_UNREACHABLE;
                             case SocketError.TimedOut:
                                 return NetworkError.ERR_CONNECTION_TIMED_OUT;
+                        }
+
+                        break;
+                }
+
+                break;
+
+            case HttpRequestError.NameResolutionError:
+                switch (ex.InnerException)
+                {
+                    case SocketException socketException:
+                        switch (socketException.SocketErrorCode)
+                        {
+                            case SocketError.HostNotFound:
+                                return NetworkError.ERROR_NAME_RESOLUTION_HOST_NOT_FOUND;
                         }
 
                         break;
@@ -102,6 +121,16 @@ internal static class HttpRequestExceptionHandling
             case HttpRequestError.SecureConnectionError:
                 switch (ex.InnerException)
                 {
+                    case AuthenticationException authenticationException:
+                        {
+                            if (authenticationException.Message is "The remote certificate is invalid according to the validation procedure: RemoteCertificateNameMismatch")
+                            {
+                                return NetworkError.ERR_SECURE_CONNECTION_REMOTE_CERTIFICATE_NAME_MISMATCH;
+                            }
+                        }
+
+                        break;
+
                     case IOException ioException:
                         {
                             switch (ioException.InnerException)
@@ -110,10 +139,13 @@ internal static class HttpRequestExceptionHandling
                                     switch (socketException.SocketErrorCode)
                                     {
                                         case SocketError.ConnectionAborted:
-                                            return NetworkError.ERR_CONNECTION_ABORTED;
+                                            return NetworkError.ERR_SECURE_CONNECTION_ABORTED;
                                     }
 
                                     break;
+
+                                case null:
+                                    return NetworkError.ERR_SECURE_CONNECTION_ERROR;
                             }
                         }
 
