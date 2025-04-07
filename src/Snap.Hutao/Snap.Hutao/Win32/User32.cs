@@ -207,6 +207,22 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static extern MESSAGEBOX_RESULT MessageBoxExW([Optional] HWND hWnd, [Optional] PCWSTR lpText, [Optional] PCWSTR lpCaption, MESSAGEBOX_STYLE uType, ushort wLanguageId);
+
+    [DebuggerStepThrough]
+    public static unsafe MESSAGEBOX_RESULT MessageBoxExW([Optional] HWND hWnd, ReadOnlySpan<char> text, [Optional] ReadOnlySpan<char> caption, MESSAGEBOX_STYLE uType, ushort wLanguageId)
+    {
+        fixed (char* lpText = text)
+        {
+            fixed (char* lpCaption = caption)
+            {
+                return MessageBoxExW(hWnd, lpText, lpCaption, uType, wLanguageId);
+            }
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static extern BOOL PostMessageW([Optional] HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
