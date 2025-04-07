@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Web.Request.Builder;
 

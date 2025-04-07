@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Win32;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Http.Proxy;
 using System.Runtime.CompilerServices;

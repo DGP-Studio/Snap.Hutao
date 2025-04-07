@@ -58,37 +58,6 @@ internal static class UniversalApiContract
 
         public string? Revision { get; }
 
-        public override string ToString()
-        {
-            return $"{Major}.{Minor}.{Build}.{Revision}";
-        }
-
-        public int CompareTo(Version? other)
-        {
-            if (other is null)
-            {
-                return 1;
-            }
-
-            int result;
-            result = ComparePart(Major, other.Major);
-            if (result != 0)
-            {
-                return result;
-            }
-            result = ComparePart(Minor, other.Minor);
-            if (result != 0)
-            {
-                return result;
-            }
-            result = ComparePart(Build, other.Build);
-            if (result != 0)
-            {
-                return result;
-            }
-            return ComparePart(Revision, other.Revision);
-        }
-
         public static bool operator <(Version? left, Version? right)
         {
             if (left is null && right is null)
@@ -119,10 +88,44 @@ internal static class UniversalApiContract
             return left.CompareTo(right) > 0;
         }
 
+        public override string ToString()
+        {
+            return $"{Major}.{Minor}.{Build}.{Revision}";
+        }
+
+        public int CompareTo(Version? other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            int result;
+            result = ComparePart(Major, other.Major);
+            if (result != 0)
+            {
+                return result;
+            }
+
+            result = ComparePart(Minor, other.Minor);
+            if (result != 0)
+            {
+                return result;
+            }
+
+            result = ComparePart(Build, other.Build);
+            if (result != 0)
+            {
+                return result;
+            }
+
+            return ComparePart(Revision, other.Revision);
+        }
+
         private static int ComparePart(string? a, string? b)
         {
-            int.TryParse(a, out int ia);
-            int.TryParse(b, out int ib);
+            _ = int.TryParse(a, out int ia);
+            _ = int.TryParse(b, out int ib);
             return ia.CompareTo(ib);
         }
     }
