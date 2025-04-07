@@ -54,7 +54,7 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
             maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
         }
 
-        return new(availableSize.Width, maxItemHeight);
+        return new(Math.Max(0, availableSize.Width), maxItemHeight);
     }
 
     protected override Size ArrangeOverride(Size finalSize)

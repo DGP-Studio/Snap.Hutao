@@ -24,7 +24,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
         get;
         set
         {
-            if (SetProperty(ref field, value) && value is not null)
+            if (value is not null && SetProperty(ref field, value))
             {
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoPlayPause, value.Value);
             }
@@ -37,7 +37,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
         get;
         set
         {
-            if (SetProperty(ref field, value) && value is not null)
+            if (value is not null && SetProperty(ref field, value))
             {
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoFastForward, value.Value);
             }
@@ -50,7 +50,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
         get;
         set
         {
-            if (SetProperty(ref field, value) && value is not null)
+            if (value is not null && SetProperty(ref field, value))
             {
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2VideoRewind, value.Value);
             }
@@ -63,7 +63,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
         get;
         set
         {
-            if (SetProperty(ref field, value) && value is not null)
+            if (value is not null && SetProperty(ref field, value))
             {
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardWebView2Hide, value.Value);
             }
@@ -76,7 +76,7 @@ internal sealed partial class LowLevelKeyOptions : ObservableObject
         get;
         set
         {
-            if (SetProperty(ref field, value) && value is not null)
+            if (value is not null && SetProperty(ref field, value))
             {
                 UnsafeLocalSetting.Set(SettingKeys.LowLevelKeyboardOverlayHide, value.Value);
             }

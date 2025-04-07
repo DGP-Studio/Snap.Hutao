@@ -96,7 +96,7 @@ internal sealed partial class NotifyIconController : IDisposable
             return string.Empty;
         }
 
-        // The GUID is stored in the registry as a string in the format {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
+        // The GUID is stored in the registry as a REG_SZ in the format {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
         string idString = id.ToString("B");
         using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Control Panel\NotifyIconSettings"))
         {

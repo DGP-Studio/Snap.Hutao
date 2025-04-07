@@ -11,6 +11,7 @@ namespace Snap.Hutao.UI.Shell;
 
 internal static class NotifyIconMethods
 {
+    // 0x80040005: FindWindowW("Shell_TrayWnd", NULL) failed and GetLastError is OK
     public static BOOL Add(ref readonly NOTIFYICONDATAW data)
     {
         return Shell_NotifyIconW(NOTIFY_ICON_MESSAGE.NIM_ADD, in data);

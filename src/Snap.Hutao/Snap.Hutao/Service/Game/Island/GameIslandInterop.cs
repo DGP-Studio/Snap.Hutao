@@ -89,7 +89,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                 {
                     while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
                     {
-                        if (context.Process.HasExited)
+                        if (!context.Process.IsRunning())
                         {
                             break;
                         }
