@@ -39,12 +39,12 @@ internal readonly struct GamePackageServiceContext
 
     public string EnsureAssetTargetDirectoryExists(string assetName)
     {
-        if (Operation.Kind is GamePackageOperationKind.ExtractBlk or GamePackageOperationKind.ExtractExe)
+        if (Operation.Kind is GamePackageOperationKind.ExtractBlocks or GamePackageOperationKind.ExtractExecutable)
         {
             assetName = Path.GetFileName(assetName);
         }
 
-        string targetPath = Path.Combine(Operation.ExtractOrGameDirectory, assetName);
+        string targetPath = Path.Combine(Operation.EffectiveGameDirectory, assetName);
 
         string? directory = Path.GetDirectoryName(targetPath);
         ArgumentNullException.ThrowIfNull(directory);

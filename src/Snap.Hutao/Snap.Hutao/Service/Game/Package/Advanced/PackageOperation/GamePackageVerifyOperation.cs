@@ -1,0 +1,14 @@
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
+
+[Injection(InjectAs.Transient, typeof(IGamePackageOperation), Key = GamePackageOperationKind.Verify)]
+internal sealed class GamePackageVerifyOperation : GamePackageOperation
+{
+    public override async ValueTask ExecuteAsync(GamePackageServiceContext context)
+    {
+        SophonDecodedBuild localBuild = context.Operation.LocalBuild;
+        await PrivateVerifyAndRepairAsync(context, localBuild, localBuild.TotalBytes, localBuild.TotalChunks).ConfigureAwait(false);
+    }
+}

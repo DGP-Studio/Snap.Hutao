@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
-namespace Snap.Hutao.Service.Game.Package.Advanced;
+namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
 [Injection(InjectAs.Transient, typeof(IDriverMediaTypeAwareFactory<IGameAssetOperation>))]
 [ConstructorGenerated(CallBaseConstructor = true)]

@@ -198,7 +198,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             GamePackageOperationKind.Install => SH.ViewModelGamePackageOperationCompleteInstall,
             GamePackageOperationKind.Verify => finish.Repaired ? SH.ViewModelGamePackageOperationCompleteRepair : SH.ViewModelGamePackageOperationSkipRepair,
             GamePackageOperationKind.Update => SH.ViewModelGamePackageOperationCompleteUpdate,
-            GamePackageOperationKind.ExtractBlk or GamePackageOperationKind.ExtractExe => "Extracted",
+            GamePackageOperationKind.ExtractBlocks or GamePackageOperationKind.ExtractExecutable => "Extracted",
             GamePackageOperationKind.Predownload => SH.ViewModelGamePackageOperationCompletePredownload,
             _ => throw HutaoException.NotSupported(),
         };

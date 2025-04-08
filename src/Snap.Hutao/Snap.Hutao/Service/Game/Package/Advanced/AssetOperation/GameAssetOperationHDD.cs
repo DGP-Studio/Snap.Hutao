@@ -9,7 +9,7 @@ using System.Buffers;
 using System.Collections.Immutable;
 using System.IO;
 
-namespace Snap.Hutao.Service.Game.Package.Advanced;
+namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]

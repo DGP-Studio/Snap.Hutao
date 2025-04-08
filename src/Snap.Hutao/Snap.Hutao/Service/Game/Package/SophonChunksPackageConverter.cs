@@ -18,6 +18,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
+using GameAssetOperation = Snap.Hutao.Service.Game.Package.Advanced.AssetOperation.GameAssetOperation;
 
 namespace Snap.Hutao.Service.Game.Package;
 

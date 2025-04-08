@@ -437,7 +437,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             GamePackageOperationContext context = new(
                 serviceProvider,
-                GamePackageOperationKind.ExtractBlk,
+                GamePackageOperationKind.ExtractBlocks,
                 gameFileSystem,
                 ExtractGameAssetBundles(localBuild),
                 ExtractGameAssetBundles(remoteBuild),
@@ -523,7 +523,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             GamePackageOperationContext context = new(
                 serviceProvider,
-                GamePackageOperationKind.ExtractExe,
+                GamePackageOperationKind.ExtractExecutable,
                 gameFileSystem,
                 default!,
                 ExtractGameExecutable(build),
