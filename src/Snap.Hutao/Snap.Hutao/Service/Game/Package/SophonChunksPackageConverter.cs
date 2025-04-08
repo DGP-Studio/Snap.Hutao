@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
@@ -18,7 +19,6 @@ using System.Buffers;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
-using GameAssetOperation = Snap.Hutao.Service.Game.Package.Advanced.AssetOperation.GameAssetOperation;
 
 namespace Snap.Hutao.Service.Game.Package;
 
