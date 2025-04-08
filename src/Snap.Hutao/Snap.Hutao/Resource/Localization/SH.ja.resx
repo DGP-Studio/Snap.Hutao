@@ -966,24 +966,24 @@
     <value>Unity ログファイル内にゲームパスが見つかりません</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
-    <value>资源包体大小: {0}
-所需空间: {1}
-可用空间: {2}</value>
+    <value>パッケージサイズ: {0}
+必要容量: {1}
+空き容量: {2}</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
-    <value>确认开始安装游戏</value>
+    <value>ゲームのインストールを開始します</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
-    <value>确认开始预下载</value>
+    <value>事前ダウンロードを開始します</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
-    <value>确认开始更新游戏</value>
+    <value>ゲームのアップデートを開始します</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>リストのデータ解析に失敗しました</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足</value>
+    <value>ディスク容量不足</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>ゲームをインストール中</value>
@@ -1896,28 +1896,28 @@
     <value>ローカルバージョン: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已取消</value>
+    <value>タスクは取消されました</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
+    <value>キャンセル済み</value>
   </data>
   <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>キャンセル中</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
+    <value>インストール完了</value>
   </data>
   <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>事前ダウンロード完了</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
     <value>修復完了</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
-    <value>更新完成</value>
+    <value>アップデート完了</value>
   </data>
   <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
+    <value>ゲームは完全な状態で、修復は必要ありません</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>バージョン {0} 事前ダウンロードを開始</value>
@@ -3175,10 +3175,10 @@
     <value>ショートカットキー</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
-    <value>快捷键仅在游戏启动后生效</value>
+    <value>ショートカットキーはゲーム起動後に有効になります</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
-    <value>游戏启动后生效</value>
+    <value>ゲーム起動後に有効になります</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>表示</value>
