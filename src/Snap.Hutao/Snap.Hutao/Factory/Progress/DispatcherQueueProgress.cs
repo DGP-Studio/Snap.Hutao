@@ -18,6 +18,7 @@ internal class DispatcherQueueProgress<T> : IProgress<T>
 
     public void Report(T value)
     {
+        // Avoid capture <this>
         Action<T> handler = this.handler;
 
         if (dispatcherQueue.HasThreadAccess)

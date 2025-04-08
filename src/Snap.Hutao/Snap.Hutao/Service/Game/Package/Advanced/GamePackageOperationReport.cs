@@ -88,4 +88,12 @@ internal abstract class GamePackageOperationReport
 
         public bool Repaired { get; }
     }
+
+    internal sealed class Abort : GamePackageOperationReport
+    {
+        public Abort()
+        {
+            Kind = GamePackageOperationReportKind.Abort;
+        }
+    }
 }

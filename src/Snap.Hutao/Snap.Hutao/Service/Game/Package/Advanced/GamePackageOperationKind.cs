@@ -10,6 +10,6 @@ internal enum GamePackageOperationKind
     Update,
     Predownload,
 
-    ExtractBlk,
-    ExtractExe,
+    ExtractBlocks,
+    ExtractExecutable,
 }

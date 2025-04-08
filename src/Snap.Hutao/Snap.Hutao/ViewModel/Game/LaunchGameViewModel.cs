@@ -35,7 +35,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     IRecipient<LaunchExecutionGameFileSystemExclusiveAccessChangedMessage>
 {
     private readonly IGameLocatorFactory gameLocatorFactory;
-    private readonly ILogger<LaunchGameViewModel> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameService gameService;

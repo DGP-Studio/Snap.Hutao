@@ -1886,25 +1886,25 @@
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>เวอร์ชันล่าสุด: {0}</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>ยกเลิกแล้ว</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
     <value>กำลังยกเลิก</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
     <value>ติดตั้งเสร็จสมบูรณ์</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
     <value>ดาวน์โหลดล่วงหน้าเสร็จสมบูรณ์</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
     <value>ซ่อมแซมเสร็จสมบูรณ์</value>
   </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
     <value>อัปเดตเสร็จสมบูรณ์</value>
   </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
     <value>เกมสมบูรณ์ ไม่จำเป็นต้องซ่อมแซม</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">

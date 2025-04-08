@@ -23,6 +23,10 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
+    private SophonDecodedBuild? localBuild;
+    private SophonDecodedBuild? remoteBuild;
+    private SophonDecodedBuild? predownloadBuild;
+
     public GameBranch? GameBranch { get; set => SetProperty(ref field, value); }
 
     public LaunchScheme? LaunchScheme { get; set => SetProperty(ref field, value); }
@@ -176,12 +180,20 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             if (gameFileSystem.TryGetGameVersion(out string? localVersion))
             {
                 LocalVersion = new(localVersion);
+                BranchWrapper localBranch = GameBranch.Main.GetTaggedCopy(localVersion);
+                localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
             }
 
             if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.GetPredownloadStatusPath()))
             {
                 File.Delete(gameFileSystem.GetPredownloadStatusPath());
             }
+
+            BranchWrapper remoteBranch = GameBranch.Main;
+            BranchWrapper predownloadBranch = GameBranch.PreDownload;
+
+            remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+            predownloadBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, predownloadBranch).ConfigureAwait(false);
         }
 
         return true;
@@ -204,34 +216,38 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(GameBranch);
-        ArgumentNullException.ThrowIfNull(LaunchScheme);
-        ArgumentNullException.ThrowIfNull(LocalVersion);
-
-        LaunchScheme targetLaunchScheme = LaunchScheme;
-
-        GameChannelSDKsWrapper? channelSDKsWrapper;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-            Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
-            {
-                return;
-            }
-        }
-
-        GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
-
         using (gameFileSystem)
         {
+            ArgumentNullException.ThrowIfNull(GameBranch);
+            ArgumentNullException.ThrowIfNull(LaunchScheme);
+            ArgumentNullException.ThrowIfNull(LocalVersion);
+
+            LaunchScheme targetLaunchScheme = LaunchScheme;
+
+            GameChannelSDKsWrapper? channelSDKsWrapper;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+                Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
+                {
+                    return;
+                }
+            }
+
+            GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
+
+            ArgumentNullException.ThrowIfNull(localBuild);
+            SophonDecodedBuild? remoteBuild = operationKind is GamePackageOperationKind.Predownload ? predownloadBuild : this.remoteBuild;
+            ArgumentNullException.ThrowIfNull(remoteBuild);
+
             GamePackageOperationContext context = new(
                 serviceProvider,
                 operationKind,
                 gameFileSystem,
-                GameBranch.Main.GetTaggedCopy(LocalVersion.ToString()),
-                operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
+                localBuild,
+                remoteBuild,
                 gameChannelSDK,
                 default);
 
