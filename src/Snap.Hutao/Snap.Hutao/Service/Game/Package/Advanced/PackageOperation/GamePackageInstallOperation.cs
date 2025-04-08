@@ -12,9 +12,9 @@ internal sealed class GamePackageInstallOperation : GamePackageOperation
     {
         SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
         int totalChunksCount = remoteBuild.TotalChunks;
-        long totalBytes = remoteBuild.TotalBytes;
+        long totalBytes = remoteBuild.UncompressedTotalBytes;
 
-        InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.SelectMany(m => m.ManifestProto.Assets.SelectMany(a => a.AssetChunks)));
+        InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.SelectMany(m => m.Data.Assets.SelectMany(a => a.AssetChunks)));
 
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedInstalling, totalChunksCount, totalBytes));
 

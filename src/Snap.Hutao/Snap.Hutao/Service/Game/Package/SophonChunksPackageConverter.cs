@@ -77,9 +77,9 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
     {
         foreach ((SophonDecodedManifest currentManifest, SophonDecodedManifest targetManifest) in currentDecodedBuild.Manifests.Zip(targetDecodedBuild.Manifests))
         {
-            foreach (AssetProperty targetAsset in targetManifest.ManifestProto.Assets)
+            foreach (AssetProperty targetAsset in targetManifest.Data.Assets)
             {
-                if (currentManifest.ManifestProto.Assets.FirstOrDefault(currentAsset => IsSameAsset(currentAsset, targetAsset)) is not { } currentAsset)
+                if (currentManifest.Data.Assets.FirstOrDefault(currentAsset => IsSameAsset(currentAsset, targetAsset)) is not { } currentAsset)
                 {
                     yield return PackageItemOperationForSophonChunks.Add(targetManifest.UrlPrefix, targetAsset);
                     continue;
@@ -102,9 +102,9 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
                 yield return PackageItemOperationForSophonChunks.ModifyOrReplace(targetManifest.UrlPrefix, currentAsset, targetAsset, diffChunks);
             }
 
-            foreach (AssetProperty currentAsset in currentManifest.ManifestProto.Assets)
+            foreach (AssetProperty currentAsset in currentManifest.Data.Assets)
             {
-                if (targetManifest.ManifestProto.Assets.FirstOrDefault(a => IsSameAsset(a, currentAsset)) is null)
+                if (targetManifest.Data.Assets.FirstOrDefault(a => IsSameAsset(a, currentAsset)) is null)
                 {
                     yield return PackageItemOperationForSophonChunks.Backup(currentAsset);
                 }

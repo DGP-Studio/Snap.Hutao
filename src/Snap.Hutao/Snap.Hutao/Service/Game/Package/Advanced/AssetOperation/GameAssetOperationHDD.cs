@@ -19,7 +19,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
     {
         foreach (SophonDecodedManifest manifest in remoteBuild.Manifests)
         {
-            IEnumerable<SophonAssetOperation> assets = manifest.ManifestProto.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, asset));
+            IEnumerable<SophonAssetOperation> assets = manifest.Data.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, asset));
             foreach (SophonAssetOperation asset in assets)
             {
                 await EnsureAssetAsync(context, asset).ConfigureAwait(false);
@@ -67,7 +67,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 
     protected override async ValueTask VerifyManifestAsync(GamePackageServiceContext context, SophonDecodedManifest manifest, Action<SophonAssetOperation> conflictHandler)
     {
-        foreach (AssetProperty asset in manifest.ManifestProto.Assets)
+        foreach (AssetProperty asset in manifest.Data.Assets)
         {
             await VerifyAssetAsync(context, new(manifest.UrlPrefix, asset), conflictHandler).ConfigureAwait(false);
         }

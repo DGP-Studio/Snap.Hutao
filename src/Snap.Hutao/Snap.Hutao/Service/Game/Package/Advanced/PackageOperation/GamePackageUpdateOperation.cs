@@ -24,7 +24,7 @@ internal sealed class GamePackageUpdateOperation : GamePackageOperation
         await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
-        await PrivateVerifyAndRepairAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
+        await PrivateVerifyAndRepairAsync(context, remoteBuild, remoteBuild.UncompressedTotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
 
         context.Operation.GameFileSystem.TryUpdateConfigurationFile(remoteBuild.Tag);
 

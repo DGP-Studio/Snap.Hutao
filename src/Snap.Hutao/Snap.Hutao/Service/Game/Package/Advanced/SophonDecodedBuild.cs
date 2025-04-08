@@ -2,19 +2,20 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed class SophonDecodedBuild
 {
     private static readonly Func<AssetProperty, int> SumAssetPropertyAssetChunks = property => property.AssetChunks.Count;
-    private static readonly Func<SophonDecodedManifest, int> SumSophonDecodedManifestAssets = manifest => manifest.ManifestProto.Assets.Sum(SumAssetPropertyAssetChunks);
+    private static readonly Func<SophonDecodedManifest, int> SumSophonDecodedManifestAssets = manifest => manifest.Data.Assets.Sum(SumAssetPropertyAssetChunks);
 
-    public SophonDecodedBuild(string tag, long downloadTotalBytes, long totalBytes, List<SophonDecodedManifest> manifests)
+    public SophonDecodedBuild(string tag, long downloadTotalBytes, long uncompressedTotalBytes, ImmutableArray<SophonDecodedManifest> manifests)
     {
         Tag = tag;
         DownloadTotalBytes = downloadTotalBytes;
-        TotalBytes = totalBytes;
+        UncompressedTotalBytes = uncompressedTotalBytes;
         Manifests = manifests;
     }
 
@@ -22,9 +23,12 @@ internal sealed class SophonDecodedBuild
 
     public long DownloadTotalBytes { get; }
 
-    public long TotalBytes { get; }
+    public long UncompressedTotalBytes { get; }
 
-    public List<SophonDecodedManifest> Manifests { get; }
+    /// <summary>
+    /// One main package and several audio packages followed up.
+    /// </summary>
+    public ImmutableArray<SophonDecodedManifest> Manifests { get; }
 
     public int TotalChunks { get => Manifests.Sum(SumSophonDecodedManifestAssets); }
 }

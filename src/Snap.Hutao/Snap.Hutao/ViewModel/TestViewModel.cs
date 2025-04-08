@@ -451,8 +451,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         {
             SophonDecodedManifest manifest = decodedBuild.Manifests.First();
             SophonManifestProto proto = new();
-            proto.Assets.AddRange(manifest.ManifestProto.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
-            return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.TotalBytes, [new(manifest.UrlPrefix, proto)]);
+            proto.Assets.AddRange(manifest.Data.Assets.Where(asset => AssetBundlesBlockRegex.IsMatch(asset.AssetName)));
+            return new(decodedBuild.Tag, decodedBuild.DownloadTotalBytes, decodedBuild.UncompressedTotalBytes, [new(manifest.UrlPrefix, proto)]);
         }
     }
 
@@ -537,7 +537,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         {
             SophonDecodedManifest manifest = decodedBuild.Manifests.First();
             SophonManifestProto proto = new();
-            proto.Assets.Add(manifest.ManifestProto.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
+            proto.Assets.Add(manifest.Data.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
             return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
         }
     }

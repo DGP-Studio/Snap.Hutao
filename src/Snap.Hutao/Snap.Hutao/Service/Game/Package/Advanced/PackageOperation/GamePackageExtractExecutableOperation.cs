@@ -10,9 +10,9 @@ internal sealed class GamePackageExtractExecutableOperation : GamePackageOperati
     {
         SophonDecodedBuild remoteBuild = context.Operation.RemoteBuild;
         int totalChunks = remoteBuild.TotalChunks;
-        long totalBytes = remoteBuild.TotalBytes;
+        long totalBytes = remoteBuild.UncompressedTotalBytes;
 
-        InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.Single().ManifestProto.Assets.SelectMany(a => a.AssetChunks));
+        InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.Single().Data.Assets.SelectMany(a => a.AssetChunks));
 
         context.Progress.Report(new GamePackageOperationReport.Reset("Extracting", totalChunks, totalBytes));
         await context.Operation.Asset.InstallAssetsAsync(context, remoteBuild).ConfigureAwait(false);

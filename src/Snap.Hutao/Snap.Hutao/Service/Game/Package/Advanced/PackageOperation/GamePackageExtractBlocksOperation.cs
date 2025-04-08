@@ -20,7 +20,7 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
 
         InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
-        context.Progress.Report(new GamePackageOperationReport.Reset("Copying", 0, localBuild.TotalChunks, localBuild.TotalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset("Copying", 0, localBuild.TotalChunks, localBuild.UncompressedTotalBytes));
         List<string> usefulChunks = diffAssets
             .Where(ao => ao.Kind is SophonAssetOperationKind.Modify)
             .Select(ao => Path.GetFileName(ao.OldAsset.AssetName))
@@ -36,7 +36,7 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
 
             string newFilePath = Path.Combine(context.Operation.EffectiveGameDirectory, fileName);
             File.Copy(file, newFilePath, true);
-            AssetProperty asset = localBuild.Manifests.Single().ManifestProto.Assets.Single(a => a.AssetName.Contains(fileName, StringComparison.OrdinalIgnoreCase));
+            AssetProperty asset = localBuild.Manifests.Single().Data.Assets.Single(a => a.AssetName.Contains(fileName, StringComparison.OrdinalIgnoreCase));
             context.Progress.Report(new GamePackageOperationReport.Install(asset.AssetSize, asset.AssetChunks.Count));
         }
 
