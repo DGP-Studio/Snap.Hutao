@@ -966,24 +966,24 @@
     <value>在 Unity 記錄檔中無法找到遊戲路徑</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
-    <value>资源包体大小: {0}
-所需空间: {1}
-可用空间: {2}</value>
+    <value>資源包體大小: {0}
+所需空間: {1}
+可用空間: {2}</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
-    <value>确认开始安装游戏</value>
+    <value>確認開始安裝遊戲</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
-    <value>确认开始预下载</value>
+    <value>確認開始預下載</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
-    <value>确认开始更新游戏</value>
+    <value>確認開始更新遊戲</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>清單資料解析失敗</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足</value>
+    <value>磁碟空間不足</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>正在安裝遊戲</value>
@@ -1895,7 +1895,7 @@
     <value>本地版本: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已取消</value>
+    <value>任務已取消</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>已取消</value>
