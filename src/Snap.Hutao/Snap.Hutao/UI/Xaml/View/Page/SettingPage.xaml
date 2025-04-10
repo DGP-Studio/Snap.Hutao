@@ -240,6 +240,7 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE790;}">
                                     <shuxc:SizeRestrictedContentControl>
                                         <ComboBox
+                                            shuxc:ComboBoxHelper.SystemBackdropWorkaround="True"
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.LazyElementThemes.Value}"
                                             SelectedItem="{Binding SelectedElementTheme, Mode=TwoWay}"/>

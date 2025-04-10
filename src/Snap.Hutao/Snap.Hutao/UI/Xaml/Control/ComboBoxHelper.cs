@@ -1,71 +1,116 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Hosting;
 using Snap.Hutao.Win32.Foundation;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Control;
 
+[SuppressMessage("", "SH001")]
 [DependencyProperty("SystemBackdropWorkaround", typeof(bool), false, nameof(OnSystemBackdropWorkaroundChanged), IsAttached = true, AttachedType = typeof(Microsoft.UI.Xaml.Controls.ComboBox))]
 public sealed partial class ComboBoxHelper
 {
+    private static readonly ConditionalWeakTable<Popup, DesktopAcrylicController> PopupDesktopAcrylicControllerTable = [];
+
     private static void OnSystemBackdropWorkaroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        if (sender is not Microsoft.UI.Xaml.Controls.ComboBox comboBox)
+        bool isEnabled = (bool)args.NewValue;
+        if (!isEnabled)
         {
-            ActivationFactory.Get("Microsoft.UI.Content.ContentExternalBackdropLink").As<IContentExternalBackdropLinkStatics>(new("46CAC6FB-BB51-510A-958D-E0EB4160F678"));
             return;
         }
+
+        if (sender is not ComboBox comboBox)
+        {
+            return;
+        }
+
+        comboBox.Loaded += OnComboBoxLoaded;
     }
-}
 
-[SuppressMessage("", "SA1201")]
-[SuppressMessage("", "SYSLIB1096")]
-[ComImport]
-[InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
-[Guid("1054BF83-B35B-5FDE-8DD7-AC3BB3E6CE27")]
-file unsafe interface IContentExternalBackdropLink
-{
-    [PreserveSig]
-    HRESULT GetIids(/* Ignored */);
+    private static void OnComboBoxLoaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is not ComboBox comboBox)
+        {
+            return;
+        }
 
-    [PreserveSig]
-    HRESULT GetRuntimeClassName(/* Ignored */);
+        comboBox.Loaded -= OnComboBoxLoaded;
 
-    [PreserveSig]
-    HRESULT GetTrustLevel(/* Ignored */);
+        if (comboBox.FindDescendant("Popup") is not Popup popup)
+        {
+            return;
+        }
 
-    [PreserveSig]
-    HRESULT DispatcherQueue(/* Microsoft.UI.Dispatching.DispatcherQueue** */ nint* value);
+        popup.Opened += OnPopupOpened;
+        if (!comboBox.IsEditable)
+        {
+            comboBox.IsDropDownOpen = true;
+        }
+    }
 
-    [PreserveSig]
-    HRESULT ExternalBackdropBorderMode(Microsoft.UI.Composition.CompositionBorderMode* value);
+    private static void OnPopupOpened(object? sender, object e)
+    {
+        if (sender is not Popup popup)
+        {
+            return;
+        }
 
-    [PreserveSig]
-    HRESULT ExternalBackdropBorderMode(Microsoft.UI.Composition.CompositionBorderMode value);
+        popup.Opened -= OnPopupOpened;
 
-    [PreserveSig]
-    HRESULT PlacementVisual(/* Microsoft.UI.Composition.Visual** */ nint* value);
-}
+        if (popup.FindName("PopupBorder") is not Border border)
+        {
+            return;
+        }
 
-[SuppressMessage("", "SA1201")]
-[SuppressMessage("", "SYSLIB1096")]
-[ComImport]
-[InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
-[Guid("46CAC6FB-BB51-510A-958D-E0EB4160F678")]
-file unsafe interface IContentExternalBackdropLinkStatics
-{
-    [PreserveSig]
-    HRESULT GetIids(/* Ignored */);
+        Vector2 size = border.ActualSize;
+        UIElement child = border.Child;
 
-    [PreserveSig]
-    HRESULT GetRuntimeClassName(/* Ignored */);
+        Grid rootGrid = new()
+        {
+            Width = size.X,
+            Height = size.Y,
+        };
 
-    [PreserveSig]
-    HRESULT GetTrustLevel(/* Ignored */);
+        border.Child = rootGrid;
 
-    [PreserveSig]
-    HRESULT Create(/* Microsoft.UI.Composition.Compositor* */ nint compositor, /* Microsoft.UI.Content.ContentExternalBackdropLink** */ nint* result);
+        Grid visualGrid = new();
+        rootGrid.Children.Add(visualGrid);
+        rootGrid.Children.Add(child);
+
+        Compositor compositor = ElementCompositionPreview.GetElementVisual(border).Compositor;
+        ContentExternalBackdropLink link = ContentExternalBackdropLink.Create(compositor);
+
+        link.ExternalBackdropBorderMode = CompositionBorderMode.Soft;
+
+        // Modify PlacementVisual
+        Visual placementVisual = link.PlacementVisual;
+        placementVisual.Size = size;
+        Vector2 cornerRadius = new(8, 8);
+        placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+        placementVisual.BorderMode = CompositionBorderMode.Soft;
+
+        ElementCompositionPreview.GetElementVisual(visualGrid).As<ContainerVisual>().Children.InsertAtTop(placementVisual);
+
+        DesktopAcrylicController controller = new();
+        controller.AddSystemBackdropTarget(link.As<ICompositionSupportsSystemBackdrop>());
+        controller.SetSystemBackdropConfiguration(new()
+        {
+            IsInputActive = true,
+        });
+
+        PopupDesktopAcrylicControllerTable.Add(popup, controller);
+        GC.KeepAlive(link);
+    }
 }
