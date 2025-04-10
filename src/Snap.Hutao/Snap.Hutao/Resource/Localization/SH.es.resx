@@ -966,24 +966,24 @@
     <value>No se encontró la ruta del juego en el archivo de registro de Unity</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
-    <value>资源包体大小: {0}
-所需空间: {1}
-可用空间: {2}</value>
+    <value>Tamaño del paquete: {0}
+Espacio requerido: {1}
+Espacio disponible: {2}</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
-    <value>确认开始安装游戏</value>
+    <value>Confirmar inicio de instalación</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
-    <value>确认开始预下载</value>
+    <value>Confirmar inicio de predescarga</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
-    <value>确认开始更新游戏</value>
+    <value>Confirmar inicio de actualización</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>Error al analizar los datos del manifiesto</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足</value>
+    <value>Espacio en disco insuficiente</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>Instalando el juego</value>
@@ -1895,28 +1895,28 @@
     <value>Versión local: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已取消</value>
+    <value>Tarea cancelada</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
+    <value>Cancelado</value>
   </data>
   <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>Cancelando</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
+    <value>Instalación completada</value>
   </data>
   <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>Predescarga completada</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
-    <value>修复完成</value>
+    <value>Reparación completada</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
-    <value>更新完成</value>
+    <value>Actualización completada</value>
   </data>
   <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
+    <value>Juego completo, no requiere reparación</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>La predescarga de la versión {0} ya está disponible</value>
@@ -2138,7 +2138,7 @@
     <value>No hay información de guía para este personaje</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>移除战斗伤害跳字</value>
+    <value>Eliminar texto de daño de combate flotante</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>Eliminar sugerencia de misión en la interfaz del mapa</value>
@@ -2741,13 +2741,13 @@
     <value>Opciones de juego</value>
   </data>
   <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
-    <value>需要在设置中启用通知区域图标，可能需要启用无边框窗口选项来正确显示</value>
+    <value>Necesitas habilitar el icono del área de notificación en la configuración, puede requerir el modo ventana sin bordes para una visualización correcta</value>
   </data>
   <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
-    <value>启动游戏后在悬浮窗中调整具体的功能设置，可能需要启用无边框窗口选项来正确的显示悬浮窗</value>
+    <value>Ajusta la configuración específica de las funciones en la superposición después de iniciar el juego. Es posible que necesites habilitar el modo ventana sin bordes para que la superposición se muestre correctamente</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
-    <value>悬浮窗</value>
+    <value>Superposición en el juego</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
     <value>Configurar el atajo para mostrar/ocultar la ventana flotante (se inicia con el juego)</value>
@@ -3173,10 +3173,10 @@
     <value>Teclas de acceso rápido</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
-    <value>快捷键仅在游戏启动后生效</value>
+    <value>Los atajos solo surten efecto después de iniciar el juego</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
-    <value>游戏启动后生效</value>
+    <value>Surtir efecto después de iniciar el juego</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>Ver</value>
@@ -3800,7 +3800,7 @@
     <value>Falló la verificación. Verifica manualmente o consulta la página de «miHoYo BBS - Crónica de batalla»</value>
   </data>
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
-    <value>在请求 {0} 时遇到问题</value>
+    <value>Hubo un problema al solicitar {0}</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Código de retorno: {0} | Mensaje: {1}</value>
