@@ -966,24 +966,24 @@
     <value>Không tìm thấy đường dẫn trò chơi trong tệp nhật ký Unity</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
-    <value>资源包体大小: {0}
-所需空间: {1}
-可用空间: {2}</value>
+    <value>Kích thước gói tài nguyên: {0}
+Dung lượng yêu cầu: {1}
+Dung lượng còn trống: {2}</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
-    <value>确认开始安装游戏</value>
+    <value>Xác nhận bắt đầu cài đặt trò chơi</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
-    <value>确认开始预下载</value>
+    <value>Xác nhận bắt đầu tải trước</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
-    <value>确认开始更新游戏</value>
+    <value>Xác nhận bắt đầu cập nhật trò chơi</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>Phân tích dữ liệu danh sách không thành công</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足</value>
+    <value>Dung lượng ổ đĩa không đủ</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>Đang cài đặt trò chơi</value>
@@ -1895,28 +1895,28 @@
     <value>Phiên bản cục bộ: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已取消</value>
+    <value>Thao tác đã bị hủy bỏ</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
+    <value>Đã hủy</value>
   </data>
   <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>Đang hủy</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
+    <value>Cài đặt hoàn tất</value>
   </data>
   <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>Tải trước hoàn tất</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
-    <value>修复完成</value>
+    <value>Sửa chữa hoàn tất</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
-    <value>更新完成</value>
+    <value>Cập nhật hoàn tất</value>
   </data>
   <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
+    <value>Trò chơi hoàn chỉnh, không cần sửa</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>Đã mở tải trước phiên bản {0}</value>
@@ -2138,7 +2138,7 @@
     <value>Chưa có thông tin hướng dẫn cho nhân vật này</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>移除战斗伤害跳字</value>
+    <value>Ẩn số sát thương hiển thị trong chiến đấu</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>Loại bỏ gợi ý nhiệm vụ trên giao diện bản đồ</value>
@@ -2741,13 +2741,13 @@
     <value>Tùy chọn game</value>
   </data>
   <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
-    <value>需要在设置中启用通知区域图标，可能需要启用无边框窗口选项来正确显示</value>
+    <value>Bạn cần bật biểu tượng khu vực thông báo trong cài đặt, và có thể cần bật tùy chọn cửa sổ không viền để hiển thị đúng cách</value>
   </data>
   <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
-    <value>启动游戏后在悬浮窗中调整具体的功能设置，可能需要启用无边框窗口选项来正确的显示悬浮窗</value>
+    <value>Điều chỉnh cài đặt chức năng cụ thể trong lớp phủ sau khi khởi chạy trò chơi, có thể cần bật tùy chọn cửa sổ không viền để hiển thị lớp phủ đúng cách</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
-    <value>悬浮窗</value>
+    <value>Lớp Phủ Trong Trò Chơi</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
     <value>Thiết lập phím tắt hiển thị/ẩn cửa sổ nổi (khởi chạy cùng trò chơi)</value>
@@ -3173,10 +3173,10 @@
     <value>Phím tắt</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
-    <value>快捷键仅在游戏启动后生效</value>
+    <value>Phím tắt chỉ có hiệu lực sau khi trò chơi khởi động</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
-    <value>游戏启动后生效</value>
+    <value>Có Hiệu Lực Sau Khi Khởi Động Trò Chơi</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>Xem</value>
@@ -3800,7 +3800,7 @@
     <value>Xác minh thất bại, vui lòng xác minh thủ công hoặc truy cập trang "MiHoYo BBS - Công cụ du hành - Nhật ký chiến đấu"</value>
   </data>
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
-    <value>在请求 {0} 时遇到问题</value>
+    <value>Gặp sự cố khi yêu cầu {0}</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Trạng thái: {0} | Thông tin: {1}</value>
