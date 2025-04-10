@@ -966,24 +966,24 @@
     <value>ไม่พบพาธเกมในไฟล์บันทึก Unity</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
-    <value>资源包体大小: {0}
-所需空间: {1}
-可用空间: {2}</value>
+    <value>ขนาดแพ็กเกจ: {0}
+พื้นที่ที่ต้องการ: {1}
+พื้นที่ว่าง: {2}</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
-    <value>确认开始安装游戏</value>
+    <value>ยืนยันเริ่มติดตั้งเกม</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
-    <value>确认开始预下载</value>
+    <value>ยืนยันเริ่มดาวน์โหลดล่วงหน้า</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
-    <value>确认开始更新游戏</value>
+    <value>ยืนยันเริ่มอัปเดตเกม</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>การแยกวิเคราะห์ข้อมูล Manifest ล้มเหลว</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足</value>
+    <value>พื้นที่ดิสก์ไม่เพียงพอ</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>กำลังติดตั้งเกม</value>
@@ -1895,28 +1895,28 @@
     <value>เวอร์ชันในเครื่อง: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已取消</value>
+    <value>การดำเนินการถูกยกเลิก</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
+    <value>ยกเลิกแล้ว</value>
   </data>
   <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>กำลังยกเลิก</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
+    <value>ติดตั้งเสร็จสิ้น</value>
   </data>
   <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>ดาวน์โหลดล่วงหน้าเสร็จสิ้น</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
-    <value>修复完成</value>
+    <value>ซ่อมแซมเสร็จสิ้น</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
-    <value>更新完成</value>
+    <value>อัปเดตเสร็จสมบูรณ์</value>
   </data>
   <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
+    <value>เกมสมบูรณ์ ไม่จำเป็นต้องซ่อมแซม</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>{0} เวอร์ชันเปิดให้ดาวน์โหลดล่วงหน้าแล้ว</value>
@@ -2138,7 +2138,7 @@
     <value>ไม่มีข้อมูลกลยุทธ์สำหรับตัวละครนี้</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>移除战斗伤害跳字</value>
+    <value>ซ่อนตัวเลขความเสียหายจากการต่อสู้</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>ลบคำแนะนำงานบนอินเทอร์เฟซแผนที่</value>
@@ -2741,13 +2741,13 @@
     <value>ตัวเลือกเกม</value>
   </data>
   <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
-    <value>需要在设置中启用通知区域图标，可能需要启用无边框窗口选项来正确显示</value>
+    <value>คุณต้องเปิดใช้งานไอคอนพื้นที่แจ้งเตือนในการตั้งค่า และอาจต้องใช้โหมดหน้าต่างไร้ขอบเพื่อให้แสดงผลได้อย่างถูกต้อง</value>
   </data>
   <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
-    <value>启动游戏后在悬浮窗中调整具体的功能设置，可能需要启用无边框窗口选项来正确的显示悬浮窗</value>
+    <value>ปรับการตั้งค่าฟังก์ชันเฉพาะในโอเวอร์เลย์หลังจากเปิดเกม คุณอาจต้องเปิดใช้งานโหมดหน้าต่างไร้ขอบเพื่อให้โอเวอร์เลย์แสดงผลอย่างถูกต้อง</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
-    <value>悬浮窗</value>
+    <value>โอเวอร์เลย์ในเกม</value>
   </data>
   <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
     <value>ตั้งค่าคีย์ลัดสำหรับแสดง/ซ่อนหน้าต่างลอย (เริ่มพร้อมเกม)</value>
@@ -3173,10 +3173,10 @@
     <value>ปุ่มลัด</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
-    <value>快捷键仅在游戏启动后生效</value>
+    <value>ปุ่มลัดจะมีผลหลังจากเกมเริ่มแล้วเท่านั้น</value>
   </data>
   <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
-    <value>游戏启动后生效</value>
+    <value>มีผลหลังเกมเริ่ม</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>ดู</value>
@@ -3800,7 +3800,7 @@
     <value>การตรวจสอบล้มเหลว โปรดตรวจสอบด้วยตนเองหรือไปที่หน้า "<text>米游社</text>-เครื่องมือเดินทาง-บันทึกกิจกรรม" เพื่อดู</value>
   </data>
   <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
-    <value>在请求 {0} 时遇到问题</value>
+    <value>พบปัญหาขณะร้องขอ {0}</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>สถานะ: {0} | ข้อความ: {1}</value>
