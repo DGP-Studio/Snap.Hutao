@@ -54,10 +54,6 @@ public sealed partial class ComboBoxHelper
         }
 
         popup.Opened += OnPopupOpened;
-        if (!comboBox.IsEditable)
-        {
-            comboBox.IsDropDownOpen = true;
-        }
     }
 
     private static void OnPopupOpened(object? sender, object e)
