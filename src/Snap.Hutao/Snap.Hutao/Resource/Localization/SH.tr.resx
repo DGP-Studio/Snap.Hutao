@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -965,11 +965,25 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Unity günlük dosyasında oyun yolu bulunamadı</value>
   </data>
+  <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
+    <value>Paket Boyutu: {0}
+Gerekli Alan: {1}
+Kullanılabilir Alan: {2}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
+    <value>Oyun Kurulumunu Başlatmayı Onayla</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
+    <value>Ön İndirmeyi Başlatmayı Onayla</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
+    <value>Oyunu Güncellemeyi Onayla</value>
+  </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>Manifest ayrıştırma başarısız oldu</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>Yetersiz disk alanı, {0} gerekiyor, kalan {1}</value>
+    <value>Yetersiz Disk Alanı</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>Oyun yükleniyor</value>
@@ -1880,32 +1894,35 @@
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Yerel sürüm: {0}</value>
   </data>
-  <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
-    <value>{0} sürüm ön indirmesi açıldı</value>
-  </data>
-  <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
-    <value>En son sürüm: {0}</value>
+  <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
+    <value>Görev İptal Edildi</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
-    <value>İptal edildi</value>
+    <value>İptal Edildi</value>
   </data>
   <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
-    <value>İptal ediliyor</value>
+    <value>İptal Ediliyor</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
-    <value>Kurulum tamamlandı</value>
+    <value>Kurulum Tamamlandı</value>
   </data>
   <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
-    <value>Ön indirme tamamlandı</value>
+    <value>Ön İndirme Tamamlandı</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
-    <value>Onarım tamamlandı</value>
+    <value>Onarım Tamamlandı</value>
   </data>
   <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
     <value>Güncelleme tamamlandı</value>
   </data>
   <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
-    <value>Oyun tam, onarıma gerek yok</value>
+    <value>Oyun tam, onarım gerekmez</value>
+  </data>
+  <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
+    <value>{0} sürüm ön indirmesi açıldı</value>
+  </data>
+  <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
+    <value>En son sürüm: {0}</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>Tamamla</value>
@@ -2119,6 +2136,9 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>Bu karakter için rehber bilgisi bulunmamaktadır</value>
+  </data>
+  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>Savaş hasarı metnini kaldır</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>Harita arayüzünden görev bildirimini kaldır</value>
@@ -2720,6 +2740,21 @@
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>Oyun Seçenekleri</value>
   </data>
+  <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
+    <value>Ayarlarda bildirim alanı simgesini etkinleştirmeniz gerekir, düzgün görüntüleme için kenarlıksız pencere seçeneğini etkinleştirmeniz gerekebilir</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
+    <value>Oyunu başlattıktan sonra belirli işlev ayarlarını yer paylaşımında düzenleyin, yer paylaşımının düzgün görüntülenmesi için kenarlıksız pencere seçeneğini etkinleştirmeniz gerekebilir</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
+    <value>Oyun İçi Arayüz</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
+    <value>Oyun içi yer paylaşımını göstermek/gizlemek için kısayol tuşunu ayarla<b>（</b></value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
+    <value>Oyun İçi Yer Paylaşımını Göster/Gizle</value>
+  </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Oyunu Yükle</value>
   </data>
@@ -3137,6 +3172,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Kısayol Tuşları</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
+    <value>Kısayollar yalnızca oyun başladıktan sonra etkili olur</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
+    <value>Oyun Başladıktan Sonra Etkili Olur</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>Görüntüle</value>
   </data>
@@ -3337,9 +3378,6 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Yükseliş Öncesi</value>
-  </data>
-  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>Savaş hasarı sayılarını devre dışı bırak</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Hayali Tiyatro</value>
@@ -3760,6 +3798,9 @@
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Doğrulama başarısız oldu, lütfen manuel olarak doğrulayın veya "MiHoYo BBS - Seyahat Araçları - Genshin Etkinlik Notları" sayfasına gidin</value>
+  </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>{0} istenirken bir sorun oluştu</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Durum: {0} | Mesaj: {1}</value>

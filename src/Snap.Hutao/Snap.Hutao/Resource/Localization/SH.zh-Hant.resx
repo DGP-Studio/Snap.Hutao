@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -139,7 +139,7 @@
     <value>完成</value>
   </data>
   <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
-    <value>確定</value>
+    <value>確認</value>
   </data>
   <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
     <value>儲存</value>
@@ -965,11 +965,25 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>在 Unity 記錄檔中無法找到遊戲路徑</value>
   </data>
+  <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
+    <value>資源包體大小: {0}
+所需空間: {1}
+可用空間: {2}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
+    <value>確認開始安裝遊戲</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
+    <value>確認開始預先下載</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
+    <value>確認開始更新遊戲</value>
+  </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>清單資料解析失敗</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁碟機空間不足，需要 {0}，剩餘 {1}</value>
+    <value>磁碟空間不足</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>正在安裝遊戲</value>
@@ -1767,7 +1781,7 @@
     <value>此操作不可逆，此計劃的養成物品與背包材料將會丟失</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
-    <value>確定要刪除目前計劃嗎？</value>
+    <value>確認要刪除目前計劃嗎？</value>
   </data>
   <data name="ViewModelCultivationResinStatisticsBlossomOfRevelationTitle" xml:space="preserve">
     <value>啟示之花</value>
@@ -1880,11 +1894,8 @@
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>本地版本: {0}</value>
   </data>
-  <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
-    <value>{0} 版本預先下載已開啟</value>
-  </data>
-  <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
-    <value>最新版本: {0}</value>
+  <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
+    <value>任務已取消</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>已取消</value>
@@ -1906,6 +1917,12 @@
   </data>
   <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
     <value>遊戲完整，無需修復</value>
+  </data>
+  <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
+    <value>{0} 版本預先下載已開啟</value>
+  </data>
+  <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
+    <value>最新版本: {0}</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>完成</value>
@@ -2119,6 +2136,9 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>暫無該角色的攻略資訊</value>
+  </data>
+  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>移除戰鬥傷害跳字</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>移除地圖介面任務提示</value>
@@ -2720,6 +2740,21 @@
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>遊戲選項</value>
   </data>
+  <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
+    <value>需要在設定中通知區域圖示，可能需要啟用無邊框視窗選項來正確顯示</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
+    <value>啟動遊戲後在懸浮窗中調整具體的功能設定，可能需要啟用無邊框視窗選項來正確的顯示懸浮窗</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
+    <value>懸浮窗</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
+    <value>設置懸浮窗（與遊戲一同啟動）的顯示/隱藏快捷鍵</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
+    <value>顯示/隱藏懸浮窗</value>
+  </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>安裝遊戲</value>
   </data>
@@ -2913,7 +2948,7 @@
     <value>緊湊網頁視窗</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideDescription" xml:space="preserve">
-    <value>更改切換視窗顯示 / 隱藏的快捷鍵</value>
+    <value>更改切換視窗顯示 / 隱藏的快速鍵</value>
   </data>
   <data name="ViewPageSettingCompactWebView2HideHeader" xml:space="preserve">
     <value>切換顯示 / 隱藏</value>
@@ -3137,6 +3172,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快速鍵</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
+    <value>快速鍵僅在遊戲啟動後生效</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
+    <value>遊戲啟動後生效</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>查看</value>
   </data>
@@ -3144,7 +3185,7 @@
     <value>本節內的按鍵設置均由虛擬鍵碼指定</value>
   </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeHeader" xml:space="preserve">
-    <value>虛擬鍵碼</value>
+    <value>虛擬按鍵碼</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
     <value>對不同的功能設定相同的快速鍵可能會導致非預期的結果，且需要額外的操作或重新啟動應用才能恢復正常</value>
@@ -3337,9 +3378,6 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
-  </data>
-  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>移除戰鬥傷害跳字</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>幻想真境劇詩</value>
@@ -3760,6 +3798,9 @@
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB - 工具箱 - 戰績」頁面查看。</value>
+  </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>在請求 {0} 時遇到問題</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>狀態：{0} | 資訊：{1}</value>
