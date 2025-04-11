@@ -14,6 +14,30 @@ internal sealed class HutaoException : Exception
     {
     }
 
+    /// <summary>
+    /// A unique exception instance used to mark an exception.
+    /// </summary>
+    public static HutaoException Marker { get; } = new("MARKER EXCEPTION", null);
+
+    public static bool ContainsMarker(Exception? exception)
+    {
+        while (true)
+        {
+            switch (exception)
+            {
+                case null:
+                    return false;
+                case HutaoException hutaoException:
+                    return ReferenceEquals(hutaoException, Marker);
+                case AggregateException aggregateException when aggregateException.InnerExceptions.Any(ContainsMarker):
+                    return true;
+                default:
+                    exception = exception.InnerException;
+                    break;
+            }
+        }
+    }
+
     [StackTraceHidden]
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]

@@ -1,29 +1,29 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using ABI.Microsoft.UI.Windowing;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Content;
-using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
-using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;
 using WinRT;
+using WinRT.Interop;
+using AppWindowTitleBar = Microsoft.UI.Windowing.AppWindowTitleBar;
 
 namespace Snap.Hutao.UI.Windowing;
 
@@ -97,29 +97,19 @@ internal sealed class XamlWindowController
 
     private static void EnablePlacementPersistence(Window window)
     {
-        // Microsoft.UI.Windowing.dll
-        IAppWindowExperimental appWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.AsInterface<IAppWindowExperimental>();
-        appWindowExperimental.SetPlacementRestorationBehavior(65535); // PlacementRestorationBehavior.Default
+        IObjectReference objRefAppWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.As<IUnknownVftbl>(IAppWindowExperimentalMethods.IID);
+        IAppWindowExperimentalMethods.set_PlacementRestorationBehavior(objRefAppWindowExperimental, PlacementRestorationBehavior.All);
 
         string windowName = TypeNameHelper.GetTypeDisplayName(window);
         byte[] data = CryptographicOperations.HashData(HashAlgorithmName.MD5, Encoding.UTF8.GetBytes(windowName));
         Guid guid = MemoryMarshal.AsRef<Guid>(data);
-
-        ObjectReferenceValue guidValue = ABI.System.Nullable<Guid>.CreateMarshaler2(guid);
-        try
-        {
-            appWindowExperimental.SetPersistedStateId(ABI.System.Nullable<Guid>.CreateMarshaler2(guid).GetAbi());
-        }
-        finally
-        {
-            guidValue.Dispose();
-        }
+        IAppWindowExperimentalMethods.set_PersistedStateId(objRefAppWindowExperimental, guid);
     }
 
     private void OnWindowContentLoading(FrameworkElement element, object e)
     {
         element.Loading -= OnWindowContentLoading;
-        element.XamlRoot.ContentIsland.AppData = new XamlContext()
+        element.XamlRoot.ContentIsland.AppData = new XamlContext
         {
             ServiceProvider = serviceProvider,
         };
@@ -161,8 +151,6 @@ internal sealed class XamlWindowController
 
                 currentXamlWindowReference.Window = default!;
             }
-
-            GC.Collect(GC.MaxGeneration);
         }
 
         // Detach events
@@ -253,44 +241,4 @@ internal sealed class XamlWindowController
     {
         XamlWindowRegionRects.Update(window);
     }
-}
-
-[SuppressMessage("", "SA1201")]
-[SuppressMessage("", "SYSLIB1096")]
-[Guid("04db96c7-deb6-5be4-bfdc-1bc0361c8a12")]
-[ComImport]
-[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-file interface IAppWindowExperimental
-{
-    [PreserveSig]
-    HRESULT GetIids(/* Ignored */);
-
-    [PreserveSig]
-    HRESULT GetRuntimeClassName(/* Ignored */);
-
-    [PreserveSig]
-    HRESULT GetTrustLevel(/* Ignored */);
-
-    [PreserveSig]
-    HRESULT GetPersistedStateId(/* Ignored */);
-
-    // Api::IAppWindowExperimental::ExportAdapter$::put_PersistedStateId(Windows::Foundation::IReference<_GUID> *)
-    [PreserveSig]
-    HRESULT SetPersistedStateId(/* Windows::Foundation::IReference<_GUID>* */ nint value);
-
-    [PreserveSig]
-    HRESULT GetPlacementRestorationBehavior(/* Ignored */);
-
-    // Api::IAppWindowExperimental::ExportAdapter$::put_PlacementRestorationBehavior(Microsoft::UI::Windowing::PlacementRestorationBehavior)
-    [PreserveSig]
-    HRESULT SetPlacementRestorationBehavior(/* Microsoft::UI::Windowing::PlacementRestorationBehavior */ int value);
-
-    [PreserveSig]
-    HRESULT GetCurrentPlacement(/* Ignored */);
-
-    [PreserveSig]
-    HRESULT SaveCurrentPlacement(/* Ignored */);
-
-    [PreserveSig]
-    HRESULT SetCurrentPlacement(/* Ignored */);
 }

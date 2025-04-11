@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
@@ -19,6 +20,8 @@ internal class CultivationMetadataContext : ICultivationMetadataContext
     public ImmutableDictionary<AvatarId, Model.Metadata.Avatar.Avatar> IdAvatarMap { get; set; } = default!;
 
     public ImmutableDictionary<WeaponId, Model.Metadata.Weapon.Weapon> IdWeaponMap { get; set; } = default!;
+
+    public ImmutableDictionary<MaterialId, Combine> ResultMaterialIdCombineMap { get; set; } = default!;
 
     public Item GetAvatarItem(AvatarId avatarId)
     {

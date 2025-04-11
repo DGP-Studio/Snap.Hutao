@@ -23,5 +23,5 @@ internal sealed class Combine
 
     public required ImmutableArray<IdCount> Materials { get; init; }
 
-    public required string EffectDescription { get; init; }
+    public string EffectDescription { get; init; } = default!;
 }

@@ -190,7 +190,7 @@ internal static class GameFileSystemExtension
         return false;
     }
 
-    public static void GenerateConfigurationFile(this IGameFileSystemView gameFileSystem, string version, LaunchScheme launchScheme)
+    public static void GenerateConfigurationFile(this IGameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         string content = $$$"""
@@ -209,7 +209,7 @@ internal static class GameFileSystemExtension
         File.WriteAllText(configFilePath, content);
     }
 
-    public static bool TryUpdateConfigurationFile(this IGameFileSystemView gameFileSystem, string version)
+    public static bool TryUpdateConfigurationFile(this IGameFileSystem gameFileSystem, string version)
     {
         bool updated = false;
         string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
@@ -235,7 +235,7 @@ internal static class GameFileSystemExtension
         return updated;
     }
 
-    public static bool TryFixConfigurationFile(this IGameFileSystemView gameFileSystem, LaunchScheme launchScheme)
+    public static bool TryFixConfigurationFile(this IGameFileSystem gameFileSystem, LaunchScheme launchScheme)
     {
         string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
         if (!File.Exists(scriptVersionFilePath))
@@ -249,7 +249,7 @@ internal static class GameFileSystemExtension
         return true;
     }
 
-    public static bool TryFixScriptVersion(this IGameFileSystemView gameFileSystem)
+    public static bool TryFixScriptVersion(this IGameFileSystem gameFileSystem)
     {
         string configFilePath = gameFileSystem.GetGameConfigurationFilePath();
         if (!File.Exists(configFilePath))

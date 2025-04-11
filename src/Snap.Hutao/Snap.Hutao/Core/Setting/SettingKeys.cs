@@ -28,6 +28,7 @@ internal static class SettingKeys
     public const string GuideState = "Major1Minor13Revision1GuideState";
     public const string StaticResourceImageQuality = "StaticResourceImageQuality";
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
+    public const string HotKeyRepeatForeverInGameOnly = "HotKeyRepeatForeverInGameOnly";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string HotKeyKeyPressRepeatForever = "HotKeyKeyPressRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled3";

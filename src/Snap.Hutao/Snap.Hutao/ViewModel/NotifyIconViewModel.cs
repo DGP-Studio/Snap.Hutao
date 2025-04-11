@@ -97,15 +97,21 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     [Command("ShowWindowCommand")]
     private void ShowWindow()
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Restart as elevated", "NotifyIconViewModel.Command"));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Show window", "NotifyIconViewModel.Command"));
 
         switch (currentXamlWindowReference.Window)
         {
             case MainWindow mainWindow:
                 {
-                    // MainWindow is activated, bring to foreground
-                    mainWindow.SwitchTo();
-                    mainWindow.AppWindow.MoveInZOrderAtTop();
+                    // While window is closing, currentXamlWindowReference can still retrieve the window,
+                    // just ignore it
+                    if (mainWindow.AppWindow is not null)
+                    {
+                        // MainWindow is activated, bring to foreground
+                        mainWindow.SwitchTo();
+                        mainWindow.AppWindow.MoveInZOrderAtTop();
+                    }
+
                     return;
                 }
 
@@ -114,11 +120,9 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
                     // MainWindow is closed, show it
                     MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
                     currentXamlWindowReference.Window = mainWindow;
-
-                    // TODO: Can actually be no any window is initialized
                     mainWindow.SwitchTo();
                     mainWindow.AppWindow.MoveInZOrderAtTop();
-                    break;
+                    return;
                 }
 
             default:

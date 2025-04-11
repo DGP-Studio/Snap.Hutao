@@ -331,31 +331,34 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     {
         using (await operationLock.LockAsync(nameof(PrivateRefreshUserInfoAsync)).ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
-            HutaoPassportClient passportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();
-            Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(userInfoResponse, serviceProvider, out UserInfo? userInfo))
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                await taskContext.SwitchToBackgroundAsync();
+                HutaoPassportClient passportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
+                Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out UserInfo? userInfo))
+                {
+                    infoEvent.Set();
+                    return;
+                }
+
+                await taskContext.SwitchToMainThreadAsync();
+                IsDeveloper = userInfo.IsLicensedDeveloper;
+                IsMaintainer = userInfo.IsMaintainer;
+
+                IsHutaoCloudAllowed = IsDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
+                CloudExpireAt = userInfo.GachaLogExpireAt > DateTimeOffset.Now
+                    ? $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}"
+                    : SH.ViewServiceHutaoUserCloudNotAllowedDescription;
+
+                IsHutaoCdnAllowed = IsDeveloper || userInfo.CdnExpireAt > DateTimeOffset.Now;
+                CdnExpireAt = userInfo.CdnExpireAt > DateTimeOffset.Now
+                    ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
+                    : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
+
                 infoEvent.Set();
-                return;
             }
-
-            await taskContext.SwitchToMainThreadAsync();
-            IsDeveloper = userInfo.IsLicensedDeveloper;
-            IsMaintainer = userInfo.IsMaintainer;
-
-            IsHutaoCloudAllowed = IsDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
-            CloudExpireAt = userInfo.GachaLogExpireAt > DateTimeOffset.Now
-                ? $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}"
-                : SH.ViewServiceHutaoUserCloudNotAllowedDescription;
-
-            IsHutaoCdnAllowed = IsDeveloper || userInfo.CdnExpireAt > DateTimeOffset.Now;
-            CdnExpireAt = userInfo.CdnExpireAt > DateTimeOffset.Now
-                ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
-                : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
-
-            infoEvent.Set();
         }
     }
 

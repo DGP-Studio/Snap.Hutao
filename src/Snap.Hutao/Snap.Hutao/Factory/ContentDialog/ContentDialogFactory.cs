@@ -34,7 +34,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         return await EnqueueAndShowAsync(dialog).ShowTask.ConfigureAwait(false);
     }
 
-    public async ValueTask<ContentDialogResult> CreateForConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close)
+    public async ValueTask<ContentDialogResult> CreateForConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close, bool isPrimaryButtonEnabled = true)
     {
         await TaskContext.SwitchToMainThreadAsync();
 
@@ -46,6 +46,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             DefaultButton = defaultButton,
             PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText,
             CloseButtonText = SH.ContentDialogCancelCloseButtonText,
+            IsPrimaryButtonEnabled = isPrimaryButtonEnabled,
             RequestedTheme = currentWindowReference.GetRequestedTheme(),
         };
 

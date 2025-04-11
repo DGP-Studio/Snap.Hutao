@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using static Snap.Hutao.Win32.User32;
@@ -21,6 +22,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     private static readonly ConcurrentDictionary<HotKeyParameter, Void> RegisteredHotKeys = [];
 
     private readonly IInfoBarService infoBarService;
+    private readonly ITaskContext taskContext;
 
     private readonly Lock syncRoot = new();
     private readonly HWND messageHwnd;
@@ -46,6 +48,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     public HotKeyCombination(IServiceProvider serviceProvider, HWND messageHwnd, string name, string settingKey, int hotKeyId)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
         this.messageHwnd = messageHwnd;
         this.name = name;
@@ -100,7 +103,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             if (SetProperty(ref modifiers, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
-                SaveAndRefresh();
+                SaveModifiersAndKeyThenRefresh();
             }
         }
     }
@@ -113,7 +116,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             if (SetProperty(ref key, value))
             {
                 OnPropertyChanged(nameof(DisplayName));
-                SaveAndRefresh();
+                SaveModifiersAndKeyThenRefresh();
             }
         }
     }
@@ -208,15 +211,18 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             stringBuilder.Append("Alt").Append(" + ");
         }
 
-        stringBuilder.Append(Key.ToString().Substring(3).Trim('_'));
+        stringBuilder.Append(Key.ToString()[3..].Trim('_'));
 
         return stringBuilder.ToString();
     }
 
     internal CancellationToken GetCurrentCancellationToken()
     {
-        ArgumentNullException.ThrowIfNull(cts);
-        return cts.Token;
+        lock (syncRoot)
+        {
+            ArgumentNullException.ThrowIfNull(cts);
+            return cts.Token;
+        }
     }
 
     internal bool CanToggle(HotKeyParameter parameter)
@@ -226,23 +232,26 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
 
     internal void Toggle(WaitCallback callback)
     {
-        lock (syncRoot)
+        taskContext.InvokeOnMainThread(() =>
         {
-            if (IsOn)
+            lock (syncRoot)
             {
-                // Turn off
-                cts?.Cancel();
-                cts = default;
-                IsOn = false;
+                if (IsOn)
+                {
+                    // Turn off
+                    cts?.Cancel();
+                    cts = default;
+                    IsOn = false;
+                }
+                else
+                {
+                    // Turn on
+                    cts = new();
+                    ThreadPool.QueueUserWorkItem(callback, this);
+                    IsOn = true;
+                }
             }
-            else
-            {
-                // Turn on
-                cts = new();
-                ThreadPool.QueueUserWorkItem(callback, this);
-                IsOn = true;
-            }
-        }
+        });
     }
 
     private bool Unregister()
@@ -257,14 +266,15 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             return true;
         }
 
-        cts?.Cancel();
-        cts = default;
-        IsOn = false;
-
         registered = !UnregisterHotKey(messageHwnd, hotKeyId);
         if (!registered)
         {
             RegisteredHotKeys.TryRemove(Parameter, out _);
+        }
+
+        if (IsOn)
+        {
+            Toggle(default!);
         }
 
         return registered;
@@ -293,9 +303,10 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         return true;
     }
 
-    private unsafe void SaveAndRefresh()
+    private unsafe void SaveModifiersAndKeyThenRefresh()
     {
         HotKeyParameter current = Parameter;
+        Debug.Assert(sizeof(HotKeyParameter) == sizeof(int));
         LocalSetting.Set(settingKey, *(int*)&current);
 
         Unregister();

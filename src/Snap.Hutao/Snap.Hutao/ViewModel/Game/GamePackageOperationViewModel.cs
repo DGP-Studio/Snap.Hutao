@@ -77,6 +77,9 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             case GamePackageOperationReport.Finish finish:
                 FinishProgress(finish);
                 break;
+            case GamePackageOperationReport.Abort:
+                AbortProgress();
+                break;
         }
     }
 
@@ -192,16 +195,22 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         Title = finish.OperationKind switch
         {
-            GamePackageOperationKind.Install => SH.ViewModelGamePakcageOperationCompleteInstall,
-            GamePackageOperationKind.Verify => finish.Repaired ? SH.ViewModelGamePakcageOperationCompleteRepair : SH.ViewModelGamePakcageOperationSkipRepair,
-            GamePackageOperationKind.Update => SH.ViewModelGamePakcageOperationCompleteUpdate,
-            GamePackageOperationKind.ExtractBlk or GamePackageOperationKind.ExtractExe => "Extracted",
-            GamePackageOperationKind.Predownload => SH.ViewModelGamePakcageOperationCompletePredownload,
+            GamePackageOperationKind.Install => SH.ViewModelGamePackageOperationCompleteInstall,
+            GamePackageOperationKind.Verify => finish.Repaired ? SH.ViewModelGamePackageOperationCompleteRepair : SH.ViewModelGamePackageOperationSkipRepair,
+            GamePackageOperationKind.Update => SH.ViewModelGamePackageOperationCompleteUpdate,
+            GamePackageOperationKind.ExtractBlocks or GamePackageOperationKind.ExtractExecutable => "Extracted",
+            GamePackageOperationKind.Predownload => SH.ViewModelGamePackageOperationCompletePredownload,
             _ => throw HutaoException.NotSupported(),
         };
 
         IsFinished = true;
         RefreshUI();
+    }
+
+    private void AbortProgress()
+    {
+        Title = SH.ViewModelGamePackageOperationAborted;
+        IsFinished = true;
     }
 
     private void RefreshUI()
@@ -255,9 +264,9 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Cancel", "GamePackageOperationViewModel.Command"));
 
-        Title = SH.ViewModelGamePakcageOperationCancelling;
+        Title = SH.ViewModelGamePackageOperationCancelling;
         await gamePackageService.CancelOperationAsync().ConfigureAwait(true);
         IsFinished = true;
-        Title = SH.ViewModelGamePakcageOperationCanceled;
+        Title = SH.ViewModelGamePackageOperationCanceled;
     }
 }

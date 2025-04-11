@@ -18,7 +18,6 @@ internal sealed class SentryExceptionProcessor : ISentryEventExceptionProcessor
             {
                 if (sentryEx.Mechanism is { } mechanism)
                 {
-                    mechanism.Data["HResult"] = $"0x{ex.HResult:X8}";
                     switch (ex)
                     {
                         case HttpRequestException httpRequestException:

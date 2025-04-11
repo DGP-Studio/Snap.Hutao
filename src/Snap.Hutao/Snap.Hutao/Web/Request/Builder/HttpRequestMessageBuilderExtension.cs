@@ -20,12 +20,19 @@ internal static class HttpRequestMessageBuilderExtension
         return builder;
     }
 
-    internal static async ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, CancellationToken token)
+    internal static ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, CancellationToken token)
+        where TResult : class
+    {
+        return SendAsync<TResult>(builder, httpClient, HttpCompletionOption.ResponseContentRead, token);
+    }
+
+    internal static async ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, HttpCompletionOption completionOption, CancellationToken token)
         where TResult : class
     {
         HttpContext context = new()
         {
             HttpClient = httpClient,
+            CompletionOption = completionOption,
             RequestAborted = token,
         };
 
@@ -54,27 +61,7 @@ internal static class HttpRequestMessageBuilderExtension
             }
             catch (Exception ex)
             {
-                if (!FormatException(messageBuilder, ex, builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri.GetLeftPart(UriPartial.Path)))
-                {
-                    // https://github.com/getsentry/sentry-dotnet/blob/main/src/Sentry/SentryHttpFailedRequestHandler.cs
-                    SentryRequest request = new()
-                    {
-                        QueryString = builder.RequestUri?.Query,
-                        Method = builder.Method.Method.ToUpperInvariant(),
-                        Url = builder.RequestUri is null ? default : new UriBuilder(builder.RequestUri).Uri.GetComponents(UriComponents.HttpRequestUrl, UriFormat.Unescaped),
-                    };
-
-                    SentrySdk.CaptureException(ex, scope =>
-                    {
-                        scope.Request = request;
-
-                        if (ExceptionAttachment.TryGetAttachment(ex, out SentryAttachment? attachment))
-                        {
-                            scope.AddAttachment(attachment);
-                        }
-                    });
-                }
-
+                HttpRequestExceptionHandling.TryHandle(messageBuilder, builder, ex);
                 return new(context.Response?.Headers, default);
             }
             finally
@@ -93,7 +80,7 @@ internal static class HttpRequestMessageBuilderExtension
         try
         {
             context.Request = builder.HttpRequestMessage;
-            context.Response = await context.HttpClient.SendAsync(context.Request, context.RequestAborted).ConfigureAwait(false);
+            context.Response = await context.HttpClient.SendAsync(context.Request, context.CompletionOption, context.RequestAborted).ConfigureAwait(false);
             context.Response.EnsureSuccessStatusCode();
         }
         catch (Exception ex)
@@ -126,88 +113,5 @@ internal static class HttpRequestMessageBuilderExtension
         catch (SocketException)
         {
         }
-    }
-
-    private static bool FormatException(StringBuilder builder, Exception ex, string? url)
-    {
-        if (ex is HttpRequestException httpRequestException)
-        {
-            builder.AppendLine(SH.FormatWebRequestBuilderExceptionDescription(url));
-
-            NetworkError networkError = HttpRequestExceptionToNetworkError(httpRequestException);
-            if (networkError is not NetworkError.OK)
-            {
-                builder.AppendLine(networkError.ToString());
-                builder.AppendLine(ex.Message);
-                return true;
-            }
-            else
-            {
-                if (httpRequestException.StatusCode is { } statusCode)
-                {
-                    if (((int)statusCode) is (< 200 or > 299))
-                    {
-                        builder.Append("HTTP ").Append((int)statusCode);
-                        if (Enum.IsDefined(statusCode))
-                        {
-                            builder.Append(' ').Append(statusCode);
-                        }
-
-                        return true;
-                    }
-                }
-            }
-        }
-
-        ExceptionFormat.Format(builder, ex);
-        return false;
-    }
-
-    private static NetworkError HttpRequestExceptionToNetworkError(HttpRequestException ex)
-    {
-        switch (ex.HttpRequestError)
-        {
-            case HttpRequestError.ConnectionError:
-                switch (ex.InnerException)
-                {
-                    case SocketException socketException:
-                        switch (socketException.SocketErrorCode)
-                        {
-                            case SocketError.ConnectionRefused:
-                                return NetworkError.ERR_CONNECTION_REFUSED;
-                            case SocketError.TimedOut:
-                                return NetworkError.ERR_CONNECTION_TIMED_OUT;
-                        }
-
-                        break;
-                }
-
-                break;
-
-            case HttpRequestError.SecureConnectionError:
-                switch (ex.InnerException)
-                {
-                    case IOException ioException:
-                        {
-                            switch (ioException.InnerException)
-                            {
-                                case SocketException socketException:
-                                    switch (socketException.SocketErrorCode)
-                                    {
-                                        case SocketError.ConnectionAborted:
-                                            return NetworkError.ERR_CONNECTION_ABORTED;
-                                    }
-
-                                    break;
-                            }
-                        }
-
-                        break;
-                }
-
-                break;
-        }
-
-        return NetworkError.OK;
     }
 }

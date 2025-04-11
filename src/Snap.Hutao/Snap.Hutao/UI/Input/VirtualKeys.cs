@@ -135,14 +135,14 @@ internal static class VirtualKeys
             VIRTUAL_KEY.VK_OEM_8,
             VIRTUAL_KEY.VK_OEM_102,
             VIRTUAL_KEY.VK_PLAY,
-            VIRTUAL_KEY.VK__none_,
+            VIRTUAL_KEY.VK__none_, // VK__none_ must be the last one
         ];
     }
 
-    public static NameValue<VIRTUAL_KEY> First(VIRTUAL_KEY value)
+    public static NameValue<VIRTUAL_KEY> First(ImmutableArray<NameValue<VIRTUAL_KEY>> array, VIRTUAL_KEY value)
     {
         // The value may come from the result of a method call, so this method
         // is intentionally made to avoid multiple calls to compute input value
-        return Values.First(n => n.Value == value);
+        return array.First(n => n.Value == value);
     }
 }

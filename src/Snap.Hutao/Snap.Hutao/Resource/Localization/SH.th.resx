@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -965,11 +965,25 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>ไม่พบพาธเกมในไฟล์บันทึก Unity</value>
   </data>
+  <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
+    <value>ขนาดแพ็กเกจ: {0}
+พื้นที่ที่ต้องการ: {1}
+พื้นที่ว่าง: {2}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
+    <value>ยืนยันเริ่มติดตั้งเกม</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
+    <value>ยืนยันเริ่มดาวน์โหลดล่วงหน้า</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
+    <value>ยืนยันเริ่มอัปเดตเกม</value>
+  </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>การแยกวิเคราะห์ข้อมูล Manifest ล้มเหลว</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>พื้นที่ดิสก์ไม่เพียงพอ ต้องการ {0} เหลือ {1}</value>
+    <value>พื้นที่ดิสก์ไม่เพียงพอ</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>กำลังติดตั้งเกม</value>
@@ -1452,7 +1466,7 @@
     <value>กำลังแปลงไคลเอนต์เกม</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.&gt;สแกนคิวอาร์โค้ด</value>
+    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.>สแกนคิวอาร์โค้ด</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
     <value>เพื่อให้แน่ใจว่าผู้เปิดใช้งานฟังก์ชันมีความสามารถในการตัดสินใจอย่างอิสระ เราจะอัปเดตเงื่อนไขการเปิดใช้งานฟังก์ชันเหล่านี้เป็นระยะ หากคุณเป็นผู้สร้างเนื้อหา โปรดอย่าแบ่งปันวิธีการเปิดใช้งานเฉพาะกับผู้ชมของคุณ</value>
@@ -1880,32 +1894,35 @@
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>เวอร์ชันในเครื่อง: {0}</value>
   </data>
+  <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
+    <value>การดำเนินการถูกยกเลิก</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
+    <value>ยกเลิกแล้ว</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
+    <value>กำลังยกเลิก</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
+    <value>ติดตั้งเสร็จสิ้น</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
+    <value>ดาวน์โหลดล่วงหน้าเสร็จสิ้น</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
+    <value>ซ่อมแซมเสร็จสิ้น</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
+    <value>อัปเดตเสร็จสมบูรณ์</value>
+  </data>
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
+    <value>เกมสมบูรณ์ ไม่จำเป็นต้องซ่อมแซม</value>
+  </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>{0} เวอร์ชันเปิดให้ดาวน์โหลดล่วงหน้าแล้ว</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>เวอร์ชันล่าสุด: {0}</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
-    <value>ยกเลิกแล้ว</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>กำลังยกเลิก</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
-    <value>ติดตั้งเสร็จสมบูรณ์</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>ดาวน์โหลดล่วงหน้าเสร็จสมบูรณ์</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
-    <value>ซ่อมแซมเสร็จสมบูรณ์</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
-    <value>อัปเดตเสร็จสมบูรณ์</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
-    <value>เกมสมบูรณ์ ไม่จำเป็นต้องซ่อมแซม</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>เสร็จสิ้น</value>
@@ -2019,7 +2036,7 @@
     <value>พื้นที่ดิสก์ที่ใช้ไป: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0&gt;无感验证&lt;/0&gt;สำเร็จ</value>
+    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0>无感验证&lt;/0>สำเร็จ</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>กำลังรีเซ็ตทรัพยากรภาพ</value>
@@ -2119,6 +2136,9 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>ไม่มีข้อมูลกลยุทธ์สำหรับตัวละครนี้</value>
+  </data>
+  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>ซ่อนตัวเลขความเสียหายจากการต่อสู้</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>ลบคำแนะนำงานบนอินเทอร์เฟซแผนที่</value>
@@ -2720,6 +2740,21 @@
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>ตัวเลือกเกม</value>
   </data>
+  <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
+    <value>คุณต้องเปิดใช้งานไอคอนพื้นที่แจ้งเตือนในการตั้งค่า และอาจต้องใช้โหมดหน้าต่างไร้ขอบเพื่อให้แสดงผลได้อย่างถูกต้อง</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
+    <value>ปรับการตั้งค่าฟังก์ชันเฉพาะในโอเวอร์เลย์หลังจากเปิดเกม คุณอาจต้องเปิดใช้งานโหมดหน้าต่างไร้ขอบเพื่อให้โอเวอร์เลย์แสดงผลอย่างถูกต้อง</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
+    <value>โอเวอร์เลย์ในเกม</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
+    <value>ตั้งค่าคีย์ลัดสำหรับแสดง/ซ่อนหน้าต่างลอย (เริ่มพร้อมเกม)</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
+    <value>แสดง/ซ่อนหน้าต่างลอย</value>
+  </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>ติดตั้งเกม</value>
   </data>
@@ -3137,6 +3172,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ปุ่มลัด</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
+    <value>ปุ่มลัดจะมีผลหลังจากเกมเริ่มแล้วเท่านั้น</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
+    <value>มีผลหลังเกมเริ่ม</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>ดู</value>
   </data>
@@ -3337,9 +3378,6 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>ก่อนการเลื่อนขั้น</value>
-  </data>
-  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>ลบตัวเลขความเสียหายในการต่อสู้</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>โรงละครมายา</value>
@@ -3760,6 +3798,9 @@
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>การตรวจสอบล้มเหลว โปรดตรวจสอบด้วยตนเองหรือไปที่หน้า "<text>米游社</text>-เครื่องมือเดินทาง-บันทึกกิจกรรม" เพื่อดู</value>
+  </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>พบปัญหาขณะร้องขอ {0}</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>สถานะ: {0} | ข้อความ: {1}</value>

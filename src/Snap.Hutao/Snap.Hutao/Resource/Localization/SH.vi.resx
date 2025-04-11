@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -884,7 +884,7 @@
     <value>Không thể lấy lịch sử cầu nguyện trên cloud</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>Yêu cầu xác thực &lt;0&gt; thất bại</value>
+    <value>Yêu cầu xác thực &lt;0> thất bại</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
     <value>Đường dẫn trò chơi Genshin Impact chưa được thiết lập hoặc thiết lập không đúng</value>
@@ -965,11 +965,25 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Không tìm thấy đường dẫn trò chơi trong tệp nhật ký Unity</value>
   </data>
+  <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
+    <value>Kích thước gói tài nguyên: {0}
+Dung lượng yêu cầu: {1}
+Dung lượng còn trống: {2}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
+    <value>Xác nhận bắt đầu cài đặt trò chơi</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
+    <value>Xác nhận bắt đầu tải trước</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
+    <value>Xác nhận bắt đầu cập nhật trò chơi</value>
+  </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>Phân tích dữ liệu danh sách không thành công</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>Không đủ dung lượng ổ đĩa, cần {0}, còn lại {1}</value>
+    <value>Dung lượng ổ đĩa không đủ</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>Đang cài đặt trò chơi</value>
@@ -1880,32 +1894,35 @@
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Phiên bản cục bộ: {0}</value>
   </data>
+  <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
+    <value>Thao tác đã bị hủy bỏ</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
+    <value>Đã hủy</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
+    <value>Đang hủy</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
+    <value>Cài đặt hoàn tất</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
+    <value>Tải trước hoàn tất</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
+    <value>Sửa chữa hoàn tất</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
+    <value>Cập nhật hoàn tất</value>
+  </data>
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
+    <value>Trò chơi hoàn chỉnh, không cần sửa</value>
+  </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>Đã mở tải trước phiên bản {0}</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>Phiên bản mới nhất: {0}</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
-    <value>Đã hủy bỏ</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>Đang hủy</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
-    <value>Cài đặt hoàn tất</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>Tải trước hoàn tất</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
-    <value>Sửa chữa hoàn tất</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
-    <value>Cập nhật hoàn tất</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
-    <value>Game hoàn chỉnh, không cần sửa chữa</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>Hoàn thành</value>
@@ -2119,6 +2136,9 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>Chưa có thông tin hướng dẫn cho nhân vật này</value>
+  </data>
+  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>Ẩn số sát thương hiển thị trong chiến đấu</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>Loại bỏ gợi ý nhiệm vụ trên giao diện bản đồ</value>
@@ -2720,6 +2740,21 @@
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>Tùy chọn game</value>
   </data>
+  <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
+    <value>Bạn cần bật biểu tượng khu vực thông báo trong cài đặt, và có thể cần bật tùy chọn cửa sổ không viền để hiển thị đúng cách</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
+    <value>Điều chỉnh cài đặt chức năng cụ thể trong lớp phủ sau khi khởi chạy trò chơi, có thể cần bật tùy chọn cửa sổ không viền để hiển thị lớp phủ đúng cách</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
+    <value>Lớp Phủ Trong Trò Chơi</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
+    <value>Thiết lập phím tắt hiển thị/ẩn cửa sổ nổi (khởi chạy cùng trò chơi)</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
+    <value>Hiển thị/Ẩn cửa sổ nổi</value>
+  </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Cài đặt trò chơi</value>
   </data>
@@ -3137,6 +3172,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Phím tắt</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
+    <value>Phím tắt chỉ có hiệu lực sau khi trò chơi khởi động</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
+    <value>Có Hiệu Lực Sau Khi Khởi Động Trò Chơi</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>Xem</value>
   </data>
@@ -3337,9 +3378,6 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Trước đột phá</value>
-  </data>
-  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>Loại bỏ chữ nhảy sát thương chiến đấu</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Thơ Kịch Ảo Ảnh Chân Cảnh</value>
@@ -3760,6 +3798,9 @@
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Xác minh thất bại, vui lòng xác minh thủ công hoặc truy cập trang "MiHoYo BBS - Công cụ du hành - Nhật ký chiến đấu"</value>
+  </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>Gặp sự cố khi yêu cầu {0}</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Trạng thái: {0} | Thông tin: {1}</value>

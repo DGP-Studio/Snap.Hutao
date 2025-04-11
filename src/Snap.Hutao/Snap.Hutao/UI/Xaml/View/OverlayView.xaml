@@ -187,148 +187,155 @@
                 </Grid>
             </cwc:Case>
             <cwc:Case Value="Island">
-                <StackPanel Orientation="Horizontal" Spacing="4">
-                    <ToggleSplitButton
-                        Padding="4,2"
-                        VerticalAlignment="Stretch"
-                        BorderThickness="0"
-                        IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}">
-                        <ToggleSplitButton.Flyout>
-                            <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
-                                <ContentControl IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}">
-                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <Slider
-                                            Width="180"
-                                            Margin="12,0"
-                                            VerticalAlignment="Center"
-                                            LargeChange="10"
-                                            Maximum="720"
-                                            Minimum="-1"
-                                            SmallChange="1"
-                                            Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                </ContentControl>
+                <ContentControl
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    IsEnabled="{Binding LaunchOptions.IsIslandEnabled}">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <ToggleSplitButton
+                            Padding="4,2"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            IsChecked="{Binding LaunchOptions.IsSetTargetFrameRateEnabled, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFpsHeader}">
+                            <ToggleSplitButton.Flyout>
+                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
+                                    <ContentControl IsEnabled="{Binding LaunchOptions.IsSetTargetFrameRateEnabled}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <Slider
+                                                Width="180"
+                                                Margin="12,0"
+                                                VerticalAlignment="Center"
+                                                LargeChange="10"
+                                                Maximum="720"
+                                                Minimum="-1"
+                                                SmallChange="1"
+                                                Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                    </ContentControl>
 
-                            </Flyout>
-                        </ToggleSplitButton.Flyout>
-                        <StackPanel Spacing="4">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontWeight="Bold"
-                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                Text="FPS"/>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                Text="{Binding LaunchOptions.TargetFps, Converter={StaticResource FrameRateStringConverter}}"/>
-                        </StackPanel>
-                    </ToggleSplitButton>
+                                </Flyout>
+                            </ToggleSplitButton.Flyout>
+                            <StackPanel Spacing="4">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="FPS"/>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{Binding LaunchOptions.TargetFps, Converter={StaticResource FrameRateStringConverter}}"/>
+                            </StackPanel>
+                        </ToggleSplitButton>
 
-                    <ToggleSplitButton
-                        Padding="4,2"
-                        VerticalAlignment="Stretch"
-                        BorderThickness="0"
-                        IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}">
-                        <ToggleSplitButton.Flyout>
-                            <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
-                                <ContentControl IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}">
-                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <Slider
-                                            Width="120"
-                                            Margin="12,0"
-                                            VerticalAlignment="Center"
-                                            LargeChange="10"
-                                            Maximum="100"
-                                            Minimum="0"
-                                            SmallChange="1"
-                                            Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
-                                        <ToggleButton
-                                            Padding="8"
-                                            VerticalAlignment="Stretch"
-                                            IsChecked="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
-                                            Style="{ThemeResource DefaultToggleButtonStyle}"
-                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}">
-                                            <FontIcon FontSize="16" Glyph="&#xF19D;"/>
-                                        </ToggleButton>
-                                        <ToggleButton
-                                            Padding="8"
-                                            VerticalAlignment="Stretch"
-                                            IsChecked="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
-                                            Style="{ThemeResource DefaultToggleButtonStyle}"
-                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}">
-                                            <FontIcon FontSize="16" Glyph="&#xEC9C;"/>
-                                        </ToggleButton>
-                                    </StackPanel>
-                                </ContentControl>
-                            </Flyout>
-                        </ToggleSplitButton.Flyout>
-                        <StackPanel Spacing="4">
-                            <FontIcon
-                                HorizontalAlignment="Center"
-                                FontSize="16"
-                                Glyph="&#xE890;"/>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                Text="{Binding LaunchOptions.TargetFov}"/>
-                        </StackPanel>
-                    </ToggleSplitButton>
+                        <ToggleSplitButton
+                            Padding="4,2"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            IsChecked="{Binding LaunchOptions.IsSetFieldOfViewEnabled, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}">
+                            <ToggleSplitButton.Flyout>
+                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding4Style}" ShouldConstrainToRootBounds="False">
+                                    <ContentControl IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <Slider
+                                                Width="120"
+                                                Margin="12,0"
+                                                VerticalAlignment="Center"
+                                                LargeChange="10"
+                                                Maximum="100"
+                                                Minimum="0"
+                                                SmallChange="1"
+                                                Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
+                                            <ToggleButton
+                                                Padding="8"
+                                                VerticalAlignment="Stretch"
+                                                IsChecked="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
+                                                Style="{ThemeResource DefaultToggleButtonStyle}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneHeader}">
+                                                <FontIcon FontSize="16" Glyph="&#xF19D;"/>
+                                            </ToggleButton>
+                                            <ToggleButton
+                                                Padding="8"
+                                                VerticalAlignment="Stretch"
+                                                IsChecked="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
+                                                Style="{ThemeResource DefaultToggleButtonStyle}"
+                                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}">
+                                                <FontIcon FontSize="16" Glyph="&#xEC9C;"/>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                    </ContentControl>
+                                </Flyout>
+                            </ToggleSplitButton.Flyout>
+                            <StackPanel Spacing="4">
+                                <FontIcon
+                                    HorizontalAlignment="Center"
+                                    FontSize="16"
+                                    Glyph="&#xE890;"/>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{Binding LaunchOptions.TargetFov}"/>
+                            </StackPanel>
+                        </ToggleSplitButton>
 
-                    <ToggleButton
-                        Padding="8"
-                        VerticalAlignment="Stretch"
-                        BorderThickness="0"
-                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                        IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}">
-                        <Grid>
-                            <FontIcon FontSize="16" Glyph="&#xE805;"/>
-                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
-                        </Grid>
-                    </ToggleButton>
-                    <ToggleButton
-                        Padding="8"
-                        VerticalAlignment="Stretch"
-                        BorderThickness="0"
-                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                        IsChecked="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayLaunchGameHideQuestBannerToolTip}">
-                        <Grid>
-                            <FontIcon FontSize="16" Glyph="&#xE81E;"/>
-                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
-                        </Grid>
-                    </ToggleButton>
-                    <ToggleButton
-                        Padding="8"
-                        VerticalAlignment="Stretch"
-                        BorderThickness="0"
-                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                        IsChecked="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}">
-                        <Grid>
-                            <FontIcon FontSize="16" Glyph="&#xE89E;"/>
-                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
-                        </Grid>
-                    </ToggleButton>
-                    <ToggleButton
-                        Padding="8"
-                        VerticalAlignment="Stretch"
-                        BorderThickness="0"
-                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                        IsChecked="{Binding LaunchOptions.DisableShowDamageText, Mode=TwoWay}"
-                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayDisableShowDamageTextToolTip}">
-                        <Grid>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontWeight="Bold"
-                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                Text="99"/>
-                            <FontIcon FontSize="16" Glyph="&#xE894;"/>
-                        </Grid>
-                    </ToggleButton>
-                </StackPanel>
+                        <ToggleButton
+                            Padding="8"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            IsChecked="{Binding LaunchOptions.RemoveOpenTeamProgress, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameRemoveOpenTeamProgressHeader}">
+                            <Grid>
+                                <FontIcon FontSize="16" Glyph="&#xE805;"/>
+                                <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                            </Grid>
+                        </ToggleButton>
+                        <ToggleButton
+                            Padding="8"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            IsChecked="{Binding LaunchOptions.HideQuestBanner, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayLaunchGameHideQuestBannerToolTip}">
+                            <Grid>
+                                <FontIcon FontSize="16" Glyph="&#xE81E;"/>
+                                <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                            </Grid>
+                        </ToggleButton>
+                        <ToggleButton
+                            Padding="8"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            IsChecked="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}">
+                            <Grid>
+                                <FontIcon FontSize="16" Glyph="&#xE89E;"/>
+                                <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                            </Grid>
+                        </ToggleButton>
+                        <ToggleButton
+                            Padding="8"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            IsChecked="{Binding LaunchOptions.DisableShowDamageText, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewOverlayDisableShowDamageTextToolTip}">
+                            <Grid>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="99"/>
+                                <FontIcon FontSize="16" Glyph="&#xE894;"/>
+                            </Grid>
+                        </ToggleButton>
+                    </StackPanel>
+                </ContentControl>
             </cwc:Case>
         </cwc:SwitchPresenter>
     </Grid>

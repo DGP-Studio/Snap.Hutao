@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
@@ -105,12 +106,27 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
         ArgumentNullException.ThrowIfNull(branch);
 
+        ContentDialog fetchManifestDialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
+            .ConfigureAwait(false);
+
+        SophonDecodedBuild? build;
+        using (await contentDialogFactory.BlockAsync(fetchManifestDialog).ConfigureAwait(false))
+        {
+            build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch.Main).ConfigureAwait(false);
+            if (build is null)
+            {
+                infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                return;
+            }
+        }
+
         GamePackageOperationContext context = new(
             serviceProvider,
             GamePackageOperationKind.Install,
             gameFileSystem,
             default!,
-            branch.Main,
+            build,
             gameChannelSDK,
             default);
 

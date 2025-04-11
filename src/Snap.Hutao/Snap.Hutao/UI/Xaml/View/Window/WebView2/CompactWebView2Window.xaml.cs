@@ -138,16 +138,14 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        try
+        if (scopeLock.Wait(TimeSpan.Zero))
         {
-            scopeLock.Wait(TimeSpan.Zero);
             scopeLock.Release();
             cancel = false;
+            return;
         }
-        catch
-        {
-            cancel = true;
-        }
+
+        cancel = true;
     }
 
     public void OnWindowClosed()
@@ -280,16 +278,17 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         if (key == lowLevelKeyOptions.WebView2HideKey.Value)
         {
+            AppWindow appWindow = AppWindow;
             taskContext.InvokeOnMainThread(() =>
             {
-                if (AppWindow.IsVisible)
+                if (appWindow.IsVisible)
                 {
-                    AppWindow.Hide();
+                    appWindow.Hide();
                 }
                 else
                 {
-                    AppWindow.Show(false);
-                    AppWindow.MoveInZOrderAtTop();
+                    appWindow.Show(false);
+                    appWindow.MoveInZOrderAtTop();
                 }
             });
             return;

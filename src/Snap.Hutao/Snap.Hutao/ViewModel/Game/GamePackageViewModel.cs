@@ -1,7 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
@@ -17,6 +19,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
@@ -204,34 +207,54 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(GameBranch);
-        ArgumentNullException.ThrowIfNull(LaunchScheme);
-        ArgumentNullException.ThrowIfNull(LocalVersion);
-
-        LaunchScheme targetLaunchScheme = LaunchScheme;
-
-        GameChannelSDKsWrapper? channelSDKsWrapper;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-            Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
-
-            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
-            {
-                return;
-            }
-        }
-
-        GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
-
         using (gameFileSystem)
         {
+            ArgumentNullException.ThrowIfNull(GameBranch);
+            ArgumentNullException.ThrowIfNull(LaunchScheme);
+            ArgumentNullException.ThrowIfNull(LocalVersion);
+
+            LaunchScheme targetLaunchScheme = LaunchScheme;
+
+            GameChannelSDKsWrapper? channelSDKsWrapper;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+                Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
+
+                if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
+                {
+                    return;
+                }
+            }
+
+            GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
+
+            ArgumentNullException.ThrowIfNull(GameBranch);
+
+            ContentDialog fetchManifestDialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
+                .ConfigureAwait(false);
+
+            SophonDecodedBuild? localBuild;
+            SophonDecodedBuild? remoteBuild;
+            using (await contentDialogFactory.BlockAsync(fetchManifestDialog).ConfigureAwait(false))
+            {
+                BranchWrapper localBranch = GameBranch.Main.GetTaggedCopy(LocalVersion.ToString());
+                localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
+
+                BranchWrapper remoteBranch = operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main;
+                remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+            }
+
+            ArgumentNullException.ThrowIfNull(localBuild);
+            ArgumentNullException.ThrowIfNull(remoteBuild);
+
             GamePackageOperationContext context = new(
                 serviceProvider,
                 operationKind,
                 gameFileSystem,
-                GameBranch.Main.GetTaggedCopy(LocalVersion.ToString()),
-                operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
+                localBuild,
+                remoteBuild,
                 gameChannelSDK,
                 default);
 

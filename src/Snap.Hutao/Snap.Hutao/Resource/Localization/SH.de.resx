@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -965,11 +965,25 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Spielpfad in der Unity-Protokolldatei nicht gefunden</value>
   </data>
+  <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
+    <value>Paketgröße: {0}
+Benötigter Speicherplatz: {1}
+Verfügbarer Speicherplatz: {2}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartInstallTitle" xml:space="preserve">
+    <value>Start der Spielinstallation bestätigen</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartPredownloadTitle" xml:space="preserve">
+    <value>Start des Vorab-Downloads bestätigen</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedConfirmStartUpdateTitle" xml:space="preserve">
+    <value>Start des Spielupdates bestätigen</value>
+  </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>Manifest-Datenanalyse fehlgeschlagen</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>Nicht genügend Speicherplatz, benötigt {0}, verbleibend {1}</value>
+    <value>Nicht genügend Speicherplatz</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>Spiel wird installiert</value>
@@ -1880,32 +1894,35 @@
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Lokale Version: {0}</value>
   </data>
+  <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
+    <value>Aufgabe abgebrochen</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
+    <value>Abgebrochen</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCancelling" xml:space="preserve">
+    <value>Wird abgebrochen</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteInstall" xml:space="preserve">
+    <value>Installation abgeschlossen</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompletePredownload" xml:space="preserve">
+    <value>Vorab-Download abgeschlossen</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteRepair" xml:space="preserve">
+    <value>Reparatur abgeschlossen</value>
+  </data>
+  <data name="ViewModelGamePackageOperationCompleteUpdate" xml:space="preserve">
+    <value>Aktualisierung abgeschlossen</value>
+  </data>
+  <data name="ViewModelGamePackageOperationSkipRepair" xml:space="preserve">
+    <value>Spiel vollständig, keine Reparatur erforderlich</value>
+  </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
     <value>{0} Version Vorab-Download ist jetzt verfügbar</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>Neueste Version: {0}</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
-    <value>Abgebrochen</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>Wird abgebrochen</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
-    <value>Installation abgeschlossen</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>Vorab-Download abgeschlossen</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
-    <value>Reparatur abgeschlossen</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
-    <value>Update abgeschlossen</value>
-  </data>
-  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
-    <value>Spiel ist vollständig, keine Reparatur erforderlich</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>Fertig</value>
@@ -2119,6 +2136,9 @@
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>Für diesen Charakter sind keine Strategieinformationen vorhanden</value>
+  </data>
+  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
+    <value>Kampfschadenszahlen entfernen</value>
   </data>
   <data name="ViewOverlayLaunchGameHideQuestBannerToolTip" xml:space="preserve">
     <value>Quest-Banner-Tipp auf der Karte entfernen</value>
@@ -2720,6 +2740,21 @@
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>Spieloptionen</value>
   </data>
+  <data name="ViewPageLaunchGameOverlayDescription" xml:space="preserve">
+    <value>Du musst das Symbol im Benachrichtigungsbereich in den Einstellungen aktivieren, und möglicherweise ist der randlose Fenstermodus für eine korrekte Anzeige erforderlich</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayDescriptionHint" xml:space="preserve">
+    <value>Passe spezifische Funktionseinstellungen im Overlay nach dem Starten des Spiels an. Möglicherweise musst du den randlosen Fenstermodus aktivieren, damit das Overlay korrekt angezeigt wird</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHeader" xml:space="preserve">
+    <value>In-Game-Overlay</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideDescription" xml:space="preserve">
+    <value>Tastenkombination zum Ein-\/Ausschalten des Overlays (mit Spielstart) festlegen</value>
+  </data>
+  <data name="ViewPageLaunchGameOverlayHideHeader" xml:space="preserve">
+    <value>Overlay ein-\/ausschalten</value>
+  </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
     <value>Spiel installieren</value>
   </data>
@@ -3137,6 +3172,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>Tastenkombinationen</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyDescription" xml:space="preserve">
+    <value>Tastenkürzel werden erst nach dem Spielstart wirksam</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutInGameOnlyHeader" xml:space="preserve">
+    <value>Nach Spielstart wirksam</value>
+  </data>
   <data name="ViewPageSettingKeyShortcutVirtualKeyCodeAction" xml:space="preserve">
     <value>Ansehen</value>
   </data>
@@ -3337,9 +3378,6 @@
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>Vor Aufstieg</value>
-  </data>
-  <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
-    <value>Schadenszahlen deaktivieren</value>
   </data>
   <data name="ViewRoleCombatHeader" xml:space="preserve">
     <value>Imaginarium Theater</value>
@@ -3760,6 +3798,9 @@
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Verifizierung fehlgeschlagen. Bitte manuell verifizieren oder die Seite „miHoYo BBS – Kampfchronik“ überprüfen.</value>
+  </data>
+  <data name="WebRequestBuilderExceptionDescription" xml:space="preserve">
+    <value>Problem bei der Anforderung von {0}</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Status: {0} | Nachricht: {1}</value>

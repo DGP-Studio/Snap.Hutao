@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using static Snap.Hutao.Win32.ConstValues;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
 
@@ -95,7 +96,7 @@ internal sealed partial class NotifyIconController : IDisposable
             return string.Empty;
         }
 
-        // The GUID is stored in the registry as a string in the format {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
+        // The GUID is stored in the registry as a REG_SZ in the format {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
         string idString = id.ToString("B");
         using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Control Panel\NotifyIconSettings"))
         {
@@ -178,6 +179,18 @@ internal sealed partial class NotifyIconController : IDisposable
             return;
         }
 
-        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.X, point.Y), GetRect());
+        RECT rect;
+        try
+        {
+            rect = GetRect();
+        }
+        catch (Exception)
+        {
+            // Fallback to the mouse position
+            GetCursorPos(out POINT pos);
+            rect = new(pos.x - 8, pos.y - 8, pos.x + 8, pos.y + 8);
+        }
+
+        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.X, point.Y), rect);
     }
 }

@@ -42,7 +42,12 @@ internal sealed partial class ShowWebView2WindowAction : DependencyObject, IActi
 
     public void ShowAt(XamlRoot xamlRoot)
     {
-        WebView2Window window = new(xamlRoot.XamlContext().ServiceProvider, xamlRoot.ContentIslandEnvironment.AppWindowId, ContentProvider);
+        if (xamlRoot.XamlContext() is not { } xamlContext)
+        {
+            return;
+        }
+
+        WebView2Window window = new(xamlContext.ServiceProvider, xamlRoot.ContentIslandEnvironment.AppWindowId, ContentProvider);
         window.Activate();
     }
 }

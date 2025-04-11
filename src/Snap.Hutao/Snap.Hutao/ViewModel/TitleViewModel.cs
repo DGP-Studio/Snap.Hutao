@@ -84,11 +84,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
             if (installUpdateUserConsentResult is ContentDialogResult.Primary)
             {
-                if (await updateService.LaunchUpdaterAsync().ConfigureAwait(false))
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    app.Exit();
-                }
+                await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
             }
         }
     }

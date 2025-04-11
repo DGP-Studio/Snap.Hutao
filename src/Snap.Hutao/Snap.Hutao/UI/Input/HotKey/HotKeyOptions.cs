@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Collections.Immutable;
@@ -49,7 +50,13 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             100001);
     }
 
-    public ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get; } = Input.VirtualKeys.HotKeyValues;
+    public static bool IsInGameOnly
+    {
+        get => LocalSetting.Get(SettingKeys.HotKeyRepeatForeverInGameOnly, false);
+        set => LocalSetting.Set(SettingKeys.HotKeyRepeatForeverInGameOnly, value);
+    }
+
+    public static ImmutableArray<NameValue<VIRTUAL_KEY>> VirtualKeys { get => Input.VirtualKeys.HotKeyValues; }
 
     [ObservableProperty]
     public partial HotKeyCombination MouseClickRepeatForeverKeyCombination { get; set; }
@@ -173,9 +180,7 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
             }
 
             // Since we are toggling off, we don't have to pass the callback
-#pragma warning disable SH007
-            SynchronizationContext.Current!.Send(state => ((HotKeyCombination)state!).Toggle(default!), combination);
-#pragma warning restore SH007
+            combination.Toggle(default!);
             return true;
         }
 
@@ -189,6 +194,11 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         {
             // We have user reported issue that the key is exactly VK__none_.
             // Under normal circumstances, this should not happen.
+            return;
+        }
+
+        if (IsInGameOnly && !LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning())
+        {
             return;
         }
 

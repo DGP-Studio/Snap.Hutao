@@ -16,6 +16,7 @@ internal static class ProcessExtension
         catch (InvalidOperationException)
         {
             // No process is associated with this object.
+            // 句柄无效。 (0x80070006 (E_HANDLE))
             return false;
         }
     }

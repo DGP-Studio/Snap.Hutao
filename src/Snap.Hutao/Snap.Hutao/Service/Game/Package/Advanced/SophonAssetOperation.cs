@@ -8,6 +8,10 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed class SophonAssetOperation
 {
+    private SophonAssetOperation()
+    {
+    }
+
     public SophonAssetOperationKind Kind { get; private init; }
 
     public string UrlPrefix { get; private init; } = default!;

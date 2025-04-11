@@ -192,7 +192,18 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                     easingMode: EasingMode.EaseInOut)
                 .StartAsync(target)
                 .ConfigureAwait(true);
-            target.Visibility = Visibility.Collapsed;
+            try
+            {
+                target.Visibility = Visibility.Collapsed;
+            }
+            catch (COMException ex)
+            {
+                if (ex.HResult != unchecked((int)0x8000FFFF))
+                {
+                    throw;
+                }
+            }
+
             target.Source = null;
         }
         else
@@ -209,7 +220,10 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
 
     private async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        IImageCache imageCache = XamlRoot.XamlContext().ServiceProvider.GetRequiredService<IImageCache>();
+        if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IImageCache>() is not { } imageCache)
+        {
+            return default;
+        }
 
         try
         {
@@ -242,7 +256,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
         }
         catch (Exception ex)
         {
-            SentrySdk.CaptureException(ex);
+            if (!HutaoException.ContainsMarker(ex))
+            {
+                SentrySdk.CaptureException(ex);
+            }
+
             return default;
         }
     }
@@ -312,6 +330,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Copy image to Clipboard", "CachedImage.Command", [("source_name", SourceName)]));
 
+        if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IClipboardProvider>() is not { } clipboardProvider)
+        {
+            return;
+        }
+
         if (Image is { Source: BitmapImage bitmap })
         {
             using (FileStream netStream = File.OpenRead(bitmap.UriSource.LocalPath))
@@ -325,7 +348,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                         BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, memory);
                         encoder.SetSoftwareBitmap(softwareBitmap);
                         await encoder.FlushAsync();
-                        await XamlRoot.XamlContext().ServiceProvider.GetRequiredService<IClipboardProvider>().SetBitmapAsync(memory).ConfigureAwait(false);
+                        await clipboardProvider.SetBitmapAsync(memory).ConfigureAwait(false);
                     }
                 }
             }

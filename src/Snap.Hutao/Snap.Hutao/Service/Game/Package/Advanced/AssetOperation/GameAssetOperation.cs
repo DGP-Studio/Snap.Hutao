@@ -14,7 +14,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 
-namespace Snap.Hutao.Service.Game.Package.Advanced;
+namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
 [ConstructorGenerated]
 internal abstract partial class GameAssetOperation : IGameAssetOperation
@@ -166,7 +166,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     protected static ValueTask DeleteAssetAsync(GamePackageServiceContext context, AssetProperty asset)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
-        string assetPath = Path.Combine(context.Operation.ExtractOrGameDirectory, asset.AssetName);
+        string assetPath = Path.Combine(context.Operation.EffectiveGameDirectory, asset.AssetName);
 
         if (asset.AssetType is 0x40)
         {

@@ -71,16 +71,14 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        try
+        if (scopeLock.Wait(TimeSpan.Zero))
         {
-            scopeLock.Wait(TimeSpan.Zero);
             scopeLock.Release();
             cancel = false;
+            return;
         }
-        catch
-        {
-            cancel = true;
-        }
+
+        cancel = true;
     }
 
     public void OnWindowClosed()

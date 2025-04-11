@@ -72,10 +72,10 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                         {
                             await downloadOperation.DownloadFileAsync(uri, cacheFile.DefaultFileFullPath).ConfigureAwait(false);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             Remove(uri);
-                            SentrySdk.CaptureException(ex);
+                            throw;
                         }
                     }
                 }

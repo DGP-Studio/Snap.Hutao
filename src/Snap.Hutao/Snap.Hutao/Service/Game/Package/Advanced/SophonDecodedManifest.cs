@@ -7,13 +7,13 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed class SophonDecodedManifest
 {
-    public SophonDecodedManifest(string urlPrefix, SophonManifestProto sophonManifestProto)
+    public SophonDecodedManifest(string urlPrefix, SophonManifestProto sophonData)
     {
         UrlPrefix = string.Intern(urlPrefix);
-        ManifestProto = sophonManifestProto;
+        Data = sophonData;
     }
 
     public string UrlPrefix { get; }
 
-    public SophonManifestProto ManifestProto { get; }
+    public SophonManifestProto Data { get; }
 }

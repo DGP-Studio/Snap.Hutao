@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
@@ -76,9 +77,9 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
     {
         foreach ((SophonDecodedManifest currentManifest, SophonDecodedManifest targetManifest) in currentDecodedBuild.Manifests.Zip(targetDecodedBuild.Manifests))
         {
-            foreach (AssetProperty targetAsset in targetManifest.ManifestProto.Assets)
+            foreach (AssetProperty targetAsset in targetManifest.Data.Assets)
             {
-                if (currentManifest.ManifestProto.Assets.FirstOrDefault(currentAsset => IsSameAsset(currentAsset, targetAsset)) is not { } currentAsset)
+                if (currentManifest.Data.Assets.FirstOrDefault(currentAsset => IsSameAsset(currentAsset, targetAsset)) is not { } currentAsset)
                 {
                     yield return PackageItemOperationForSophonChunks.Add(targetManifest.UrlPrefix, targetAsset);
                     continue;
@@ -101,9 +102,9 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
                 yield return PackageItemOperationForSophonChunks.ModifyOrReplace(targetManifest.UrlPrefix, currentAsset, targetAsset, diffChunks);
             }
 
-            foreach (AssetProperty currentAsset in currentManifest.ManifestProto.Assets)
+            foreach (AssetProperty currentAsset in currentManifest.Data.Assets)
             {
-                if (targetManifest.ManifestProto.Assets.FirstOrDefault(a => IsSameAsset(a, currentAsset)) is null)
+                if (targetManifest.Data.Assets.FirstOrDefault(a => IsSameAsset(a, currentAsset)) is null)
                 {
                     yield return PackageItemOperationForSophonChunks.Backup(currentAsset);
                 }
@@ -241,7 +242,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
             Response<SophonBuild> response = await client.GetBuildAsync(branch).ConfigureAwait(false);
             if (!ResponseValidator.TryValidate(response, serviceProvider, out build))
             {
-                return default!;
+                return default;
             }
         }
 
@@ -261,7 +262,7 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
 
                     inMemoryManifestStream.Position = 0;
                     SophonDecodedManifest decodedManifest = new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream));
-                    return new(sophonManifest.Stats.UncompressedSize, [decodedManifest]);
+                    return new(build.Tag, sophonManifest.Stats.CompressedSize, sophonManifest.Stats.UncompressedSize, [decodedManifest]);
                 }
             }
         }
