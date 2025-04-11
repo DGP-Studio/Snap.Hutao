@@ -1,7 +1,9 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
@@ -17,15 +19,12 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
-
-    private SophonDecodedBuild? localBuild;
-    private SophonDecodedBuild? remoteBuild;
-    private SophonDecodedBuild? predownloadBuild;
 
     public GameBranch? GameBranch { get; set => SetProperty(ref field, value); }
 
@@ -180,20 +179,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             if (gameFileSystem.TryGetGameVersion(out string? localVersion))
             {
                 LocalVersion = new(localVersion);
-                BranchWrapper localBranch = GameBranch.Main.GetTaggedCopy(localVersion);
-                localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
             }
 
             if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.GetPredownloadStatusPath()))
             {
                 File.Delete(gameFileSystem.GetPredownloadStatusPath());
             }
-
-            BranchWrapper remoteBranch = GameBranch.Main;
-            BranchWrapper predownloadBranch = GameBranch.PreDownload;
-
-            remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
-            predownloadBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, predownloadBranch).ConfigureAwait(false);
         }
 
         return true;
@@ -238,8 +229,24 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
             GameChannelSDK? gameChannelSDK = channelSDKsWrapper.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
 
+            ArgumentNullException.ThrowIfNull(GameBranch);
+
+            ContentDialog fetchManifestDialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
+                .ConfigureAwait(false);
+
+            SophonDecodedBuild? localBuild;
+            SophonDecodedBuild? remoteBuild;
+            using (await contentDialogFactory.BlockAsync(fetchManifestDialog).ConfigureAwait(false))
+            {
+                BranchWrapper localBranch = GameBranch.Main.GetTaggedCopy(LocalVersion.ToString());
+                localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
+
+                BranchWrapper remoteBranch = operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main;
+                remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+            }
+
             ArgumentNullException.ThrowIfNull(localBuild);
-            SophonDecodedBuild? remoteBuild = operationKind is GamePackageOperationKind.Predownload ? predownloadBuild : this.remoteBuild;
             ArgumentNullException.ThrowIfNull(remoteBuild);
 
             GamePackageOperationContext context = new(
