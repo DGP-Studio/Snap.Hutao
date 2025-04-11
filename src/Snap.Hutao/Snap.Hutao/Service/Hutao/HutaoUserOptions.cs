@@ -383,6 +383,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out UserInfo? userInfo))
                 {
                     infoEvent.Set();
+                    imageTokenEvent.Set();
                     return;
                 }
 
@@ -405,13 +406,10 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     HutaoStaticResourceClient staticResourceClient = scope.ServiceProvider.GetRequiredService<HutaoStaticResourceClient>();
                     Response<ImageToken> imageTokenResponse = await staticResourceClient.GetAcceleratedImageTokenAsync(token).ConfigureAwait(false);
 
-                    if (!ResponseValidator.TryValidate(imageTokenResponse, scope.ServiceProvider, out ImageToken? imageToken))
+                    if (ResponseValidator.TryValidate(imageTokenResponse, scope.ServiceProvider, out ImageToken? imageToken))
                     {
-                        imageTokenEvent.Set();
-                        return;
+                        imageTokenExpiration = new(imageToken.Token);
                     }
-
-                    imageTokenExpiration = new(imageToken.Token);
                 }
 
                 infoEvent.Set();
