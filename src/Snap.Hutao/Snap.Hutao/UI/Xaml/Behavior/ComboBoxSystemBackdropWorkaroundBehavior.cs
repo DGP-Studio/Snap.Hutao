@@ -34,6 +34,7 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
         }
 
         popup.Opened += OnPopupOpened;
+        popup.ActualThemeChanged += OnSystemBackdropThemeSourceActualThemeChanged;
 
         if (!comboBox.IsEditable)
         {
@@ -48,6 +49,7 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
         if (popup is not null)
         {
             popup.Opened -= OnPopupOpened;
+            popup.ActualThemeChanged -= OnSystemBackdropThemeSourceActualThemeChanged;
         }
 
         return base.Uninitialize();
@@ -111,8 +113,14 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
             Visual placementVisual = backdropLink.PlacementVisual;
             placementVisual.Size = size;
             placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+        }
+    }
 
-            systemBackdropConfiguration.Theme = ThemeHelper.ElementToSystemBackdrop(popup.ActualTheme);
+    private void OnSystemBackdropThemeSourceActualThemeChanged(FrameworkElement sender, object args)
+    {
+        if (systemBackdropConfiguration is not null)
+        {
+            systemBackdropConfiguration.Theme = ThemeHelper.ElementToSystemBackdrop(sender.ActualTheme);
         }
     }
 }
