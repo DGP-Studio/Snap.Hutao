@@ -106,7 +106,6 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
             };
 
             desktopAcrylicController = new();
-            desktopAcrylicController.Kind = DesktopAcrylicKind.Thin;
             desktopAcrylicController.SetSystemBackdropConfiguration(systemBackdropConfiguration);
             desktopAcrylicController.AddSystemBackdropTarget(backdropLink.As<ICompositionSupportsSystemBackdrop>());
 
