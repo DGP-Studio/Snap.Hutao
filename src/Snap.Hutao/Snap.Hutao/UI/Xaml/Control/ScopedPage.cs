@@ -60,7 +60,9 @@ internal partial class ScopedPage : Page
     private void OnLoading(FrameworkElement element, object e)
     {
         Loading -= OnLoading;
-        scope = element.XamlRoot.XamlContext().ServiceProvider.CreateScope();
+        XamlContext? context = element.XamlRoot.XamlContext();
+        ArgumentNullException.ThrowIfNull(context);
+        scope = context.ServiceProvider.CreateScope();
         LoadingOverride();
     }
 

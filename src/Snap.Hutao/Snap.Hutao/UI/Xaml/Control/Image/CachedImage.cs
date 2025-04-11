@@ -220,7 +220,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
 
     private async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IImageCache>() is not IImageCache imageCache)
+        if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IImageCache>() is not { } imageCache)
         {
             return default;
         }
@@ -330,6 +330,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Copy image to Clipboard", "CachedImage.Command", [("source_name", SourceName)]));
 
+        if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IClipboardProvider>() is not { } clipboardProvider)
+        {
+            return;
+        }
+
         if (Image is { Source: BitmapImage bitmap })
         {
             using (FileStream netStream = File.OpenRead(bitmap.UriSource.LocalPath))
@@ -343,7 +348,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                         BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, memory);
                         encoder.SetSoftwareBitmap(softwareBitmap);
                         await encoder.FlushAsync();
-                        await XamlRoot.XamlContext().ServiceProvider.GetRequiredService<IClipboardProvider>().SetBitmapAsync(memory).ConfigureAwait(false);
+                        await clipboardProvider.SetBitmapAsync(memory).ConfigureAwait(false);
                     }
                 }
             }
