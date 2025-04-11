@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Hosting;
+using Snap.Hutao.Core;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using System.Numerics;
 using WinRT;
@@ -51,6 +52,9 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
             popup.Opened -= OnPopupOpened;
             popup.ActualThemeChanged -= OnSystemBackdropThemeSourceActualThemeChanged;
         }
+
+        DisposableMarshal.DisposeAndClear(ref backdropLink);
+        DisposableMarshal.DisposeAndClear(ref desktopAcrylicController);
 
         return base.Uninitialize();
     }
