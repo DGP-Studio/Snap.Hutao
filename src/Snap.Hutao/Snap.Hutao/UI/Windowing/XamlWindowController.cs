@@ -153,8 +153,6 @@ internal sealed class XamlWindowController
 
                 currentXamlWindowReference.Window = default!;
             }
-
-            GC.Collect(GC.MaxGeneration);
         }
 
         // Detach events

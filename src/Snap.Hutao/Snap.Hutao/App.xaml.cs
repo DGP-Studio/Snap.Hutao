@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
@@ -55,7 +56,9 @@ public sealed partial class App : Application
     {
         XamlApplicationLifetime.Exiting = true;
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting", "Hutao"));
-        base.Exit();
+
+        // Force Queue the actual Exit call to the UI thread
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(() => base.Exit());
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)

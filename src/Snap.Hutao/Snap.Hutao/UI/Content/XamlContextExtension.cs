@@ -8,13 +8,13 @@ namespace Snap.Hutao.UI.Content;
 
 internal static class XamlContextExtension
 {
-    public static XamlContext? XamlContext(this ContentIsland contentIsland)
+    public static XamlContext? XamlContext(this ContentIsland? contentIsland)
     {
-        return contentIsland.AppData as XamlContext;
+        return contentIsland?.AppData as XamlContext;
     }
 
     public static XamlContext? XamlContext(this XamlRoot xamlRoot)
     {
-        return xamlRoot.ContentIsland.AppData as XamlContext;
+        return xamlRoot.ContentIsland?.AppData as XamlContext;
     }
 }
