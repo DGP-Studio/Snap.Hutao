@@ -20,8 +20,8 @@ namespace Snap.Hutao.UI.Xaml.Behavior;
 internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<ComboBox>
 {
     private Popup? popup;
-    private ContentExternalBackdropLink? link;
-    private DesktopAcrylicController? controller;
+    private ContentExternalBackdropLink? backdropLink;
+    private DesktopAcrylicController? desktopAcrylicController;
     private SystemBackdropConfiguration? systemBackdropConfiguration;
     private bool connected;
 
@@ -82,11 +82,11 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
             rootGrid.Children.Add(visualGrid);
             rootGrid.Children.Add(child);
 
-            link = ContentExternalBackdropLink.Create(compositor);
-            link.ExternalBackdropBorderMode = CompositionBorderMode.Soft;
+            backdropLink = ContentExternalBackdropLink.Create(compositor);
+            backdropLink.ExternalBackdropBorderMode = CompositionBorderMode.Soft;
 
             // Modify PlacementVisual
-            Visual placementVisual = link.PlacementVisual;
+            Visual placementVisual = backdropLink.PlacementVisual;
             placementVisual.Size = size;
             placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
             placementVisual.BorderMode = CompositionBorderMode.Soft;
@@ -99,16 +99,16 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
                 Theme = ThemeHelper.ElementToSystemBackdrop(popup.ActualTheme),
             };
 
-            controller = new();
-            controller.SetSystemBackdropConfiguration(systemBackdropConfiguration);
-            controller.AddSystemBackdropTarget(link.As<ICompositionSupportsSystemBackdrop>());
+            desktopAcrylicController = new();
+            desktopAcrylicController.SetSystemBackdropConfiguration(systemBackdropConfiguration);
+            desktopAcrylicController.AddSystemBackdropTarget(backdropLink.As<ICompositionSupportsSystemBackdrop>());
 
             popup.IsOpen = false;
         }
-        else if (link is not null && systemBackdropConfiguration is not null)
+        else if (backdropLink is not null && systemBackdropConfiguration is not null)
         {
             // Update PlacementVisual
-            Visual placementVisual = link.PlacementVisual;
+            Visual placementVisual = backdropLink.PlacementVisual;
             placementVisual.Size = size;
             placementVisual.Clip = compositor.CreateRectangleClip(0, 0, size.X, size.Y, cornerRadius, cornerRadius, cornerRadius, cornerRadius);
 
