@@ -220,7 +220,10 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
 
     private async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        IImageCache imageCache = XamlRoot.XamlContext().ServiceProvider.GetRequiredService<IImageCache>();
+        if (XamlRoot.XamlContext()?.ServiceProvider.GetRequiredService<IImageCache>() is not IImageCache imageCache)
+        {
+            return default;
+        }
 
         try
         {

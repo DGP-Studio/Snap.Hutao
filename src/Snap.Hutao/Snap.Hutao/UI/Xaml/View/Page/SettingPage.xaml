@@ -242,7 +242,11 @@
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.LazyElementThemes.Value}"
-                                            SelectedItem="{Binding SelectedElementTheme, Mode=TwoWay}"/>
+                                            SelectedItem="{Binding SelectedElementTheme, Mode=TwoWay}">
+                                            <mxi:Interaction.Behaviors>
+                                                <shuxb:ComboBoxSystemBackdropWorkaroundBehavior/>
+                                            </mxi:Interaction.Behaviors>
+                                        </ComboBox>
                                     </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsExpander
