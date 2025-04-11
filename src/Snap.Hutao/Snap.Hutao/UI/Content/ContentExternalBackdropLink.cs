@@ -80,8 +80,10 @@ internal sealed class ContentExternalBackdropLink : IDisposable, ICompositionSup
         }
     }
 
-    private IntPtr ThisPtr { get => inner?.ThisPtr ?? ((IWinRTObject)this).NativeObject.ThisPtr; }
+    // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
+    private nint ThisPtr { get => inner?.ThisPtr ?? ((IWinRTObject)this).NativeObject.ThisPtr; }
 
+    // ReSharper disable once ConvertToAutoPropertyWhenPossible
     private IObjectReference ObjRefMicrosoftUIContentIContentExternalBackdropLink { get => inner; }
 
     private IObjectReference ObjRefSystemIDisposable => objRefSystemIDisposable ?? MakeObjRefSystemIDisposable();
@@ -130,9 +132,9 @@ internal sealed class ContentExternalBackdropLink : IDisposable, ICompositionSup
 
     public void Dispose() => ABI.System.IDisposableMethods.Dispose(ObjRefSystemIDisposable);
 
-    CustomQueryInterfaceResult ICustomQueryInterface.GetInterface(ref Guid iid, out IntPtr ppv)
+    CustomQueryInterfaceResult ICustomQueryInterface.GetInterface(ref Guid iid, out nint ppv)
     {
-        ppv = IntPtr.Zero;
+        ppv = 0;
         if (IsOverridableInterface(iid) || IID.IID_IInspectable == iid)
         {
             return CustomQueryInterfaceResult.NotHandled;
@@ -170,10 +172,13 @@ internal sealed class ContentExternalBackdropLink : IDisposable, ICompositionSup
         return additionalTypeData;
     }
 
+    // ReSharper disable once MemberCanBeMadeStatic.Local
+    // ReSharper disable once UnusedParameter.Local
     private bool IsOverridableInterface(Guid iid)
     {
         return false;
     }
 
+    // ReSharper disable once UnusedType.Local
     private struct InterfaceTag<TInterface>;
 }

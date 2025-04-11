@@ -35,7 +35,7 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
         }
 
         popup.Opened += OnPopupOpened;
-        popup.ActualThemeChanged += OnSystemBackdropThemeSourceActualThemeChanged;
+        popup.ActualThemeChanged += OnPopupActualThemeChanged;
 
         if (!comboBox.IsEditable)
         {
@@ -50,7 +50,7 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
         if (popup is not null)
         {
             popup.Opened -= OnPopupOpened;
-            popup.ActualThemeChanged -= OnSystemBackdropThemeSourceActualThemeChanged;
+            popup.ActualThemeChanged -= OnPopupActualThemeChanged;
         }
 
         DisposableMarshal.DisposeAndClear(ref backdropLink);
@@ -120,7 +120,7 @@ internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : Behavio
         }
     }
 
-    private void OnSystemBackdropThemeSourceActualThemeChanged(FrameworkElement sender, object args)
+    private void OnPopupActualThemeChanged(FrameworkElement sender, object args)
     {
         if (systemBackdropConfiguration is not null)
         {
