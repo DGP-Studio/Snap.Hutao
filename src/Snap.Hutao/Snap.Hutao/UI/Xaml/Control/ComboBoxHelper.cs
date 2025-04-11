@@ -21,8 +21,6 @@ namespace Snap.Hutao.UI.Xaml.Control;
 [DependencyProperty("SystemBackdropWorkaround", typeof(bool), false, nameof(OnSystemBackdropWorkaroundChanged), IsAttached = true, AttachedType = typeof(Microsoft.UI.Xaml.Controls.ComboBox))]
 public sealed partial class ComboBoxHelper
 {
-    private static readonly ConditionalWeakTable<Popup, DesktopAcrylicController> PopupDesktopAcrylicControllerTable = [];
-
     private static void OnSystemBackdropWorkaroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         bool isEnabled = (bool)args.NewValue;
@@ -54,6 +52,10 @@ public sealed partial class ComboBoxHelper
         }
 
         popup.Opened += OnPopupOpened;
+        if (!comboBox.IsEditable)
+        {
+            comboBox.IsDropDownOpen = true;
+        }
     }
 
     private static void OnPopupOpened(object? sender, object e)
@@ -73,11 +75,7 @@ public sealed partial class ComboBoxHelper
         Vector2 size = border.ActualSize;
         UIElement child = border.Child;
 
-        Grid rootGrid = new()
-        {
-            Width = size.X,
-            Height = size.Y,
-        };
+        Grid rootGrid = new();
 
         border.Child = rootGrid;
 
@@ -87,6 +85,7 @@ public sealed partial class ComboBoxHelper
 
         Compositor compositor = ElementCompositionPreview.GetElementVisual(border).Compositor;
         ContentExternalBackdropLink link = ContentExternalBackdropLink.Create(compositor);
+        GCHandle.Alloc(link);
 
         link.ExternalBackdropBorderMode = CompositionBorderMode.Soft;
 
@@ -100,13 +99,11 @@ public sealed partial class ComboBoxHelper
         ElementCompositionPreview.GetElementVisual(visualGrid).As<ContainerVisual>().Children.InsertAtTop(placementVisual);
 
         DesktopAcrylicController controller = new();
+        GCHandle.Alloc(controller);
         controller.AddSystemBackdropTarget(link.As<ICompositionSupportsSystemBackdrop>());
         controller.SetSystemBackdropConfiguration(new()
         {
             IsInputActive = true,
         });
-
-        PopupDesktopAcrylicControllerTable.Add(popup, controller);
-        GC.KeepAlive(link);
     }
 }
