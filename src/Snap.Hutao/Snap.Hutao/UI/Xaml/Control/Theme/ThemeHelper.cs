@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.ExceptionService;
 
@@ -8,6 +9,17 @@ namespace Snap.Hutao.UI.Xaml.Control.Theme;
 
 internal static class ThemeHelper
 {
+    public static SystemBackdropTheme ElementToSystemBackdrop(ElementTheme elementTheme)
+    {
+        return elementTheme switch
+        {
+            ElementTheme.Default => SystemBackdropTheme.Default,
+            ElementTheme.Light => SystemBackdropTheme.Light,
+            ElementTheme.Dark => SystemBackdropTheme.Dark,
+            _ => throw HutaoException.NotSupported($"Unexpected ElementTheme value: {elementTheme}."),
+        };
+    }
+
     public static Snap.Hutao.UI.Xaml.Theme ElementToFramework(ElementTheme elementTheme)
     {
         return elementTheme switch
