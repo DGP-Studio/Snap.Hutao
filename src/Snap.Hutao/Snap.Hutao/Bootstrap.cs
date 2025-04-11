@@ -119,7 +119,16 @@ public static partial class Bootstrap
     {
         if (new UniversalApiContract.Version("10", "0", "19045", "5371") > UniversalApiContract.WindowsVersion)
         {
-            User32.MessageBoxExW(default, "Snap Hutao 无法在版本低于 10.0.19045.5371 的 Windows 上运行，请更新系统", "警告", MESSAGEBOX_STYLE.MB_OK, 0);
+            string message = """
+                Snap Hutao 无法在版本低于 10.0.19045.5371 的 Windows 上运行，请更新系统
+                Snap Hutao cannot run on Windows versions lower than 10.0.19045.5371. Please update your system.
+                """;
+            User32.MessageBoxExW(
+                default,
+                message,
+                "Warning | 警告",
+                MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONERROR,
+                0);
             return false;
         }
 

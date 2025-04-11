@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
@@ -89,6 +89,8 @@ internal static partial class HttpRequestExceptionHandling
                     case SocketException socketException:
                         switch (socketException.SocketErrorCode)
                         {
+                            case SocketError.AccessDenied:
+                                return NetworkError.ERR_CONNECTION_ACCESS_DENIED;
                             case SocketError.ConnectionRefused:
                                 return NetworkError.ERR_CONNECTION_REFUSED;
                             case SocketError.NetworkUnreachable:

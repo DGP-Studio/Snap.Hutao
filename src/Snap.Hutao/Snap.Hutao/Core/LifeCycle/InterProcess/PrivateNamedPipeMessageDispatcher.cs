@@ -23,6 +23,6 @@ internal sealed partial class PrivateNamedPipeMessageDispatcher
     {
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         App app = serviceProvider.GetRequiredService<App>();
-        taskContext.BeginInvokeOnMainThread(app.Exit);
+        taskContext.InvokeOnMainThread(app.Exit);
     }
 }

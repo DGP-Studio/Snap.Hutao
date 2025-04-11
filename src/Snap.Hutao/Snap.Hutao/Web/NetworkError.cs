@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Web;
@@ -6,6 +6,7 @@ namespace Snap.Hutao.Web;
 // ReSharper disable InconsistentNaming
 internal enum NetworkError
 {
+    ERR_CONNECTION_ACCESS_DENIED,
     ERR_CONNECTION_REFUSED,
     ERR_CONNECTION_NETWORK_UNREACHABLE,
     ERR_CONNECTION_TIMED_OUT,

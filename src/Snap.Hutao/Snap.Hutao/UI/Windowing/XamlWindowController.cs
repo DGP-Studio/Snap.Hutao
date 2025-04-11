@@ -16,7 +16,6 @@ using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
-using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -25,7 +24,6 @@ using Windows.UI;
 using WinRT;
 using WinRT.Interop;
 using AppWindowTitleBar = Microsoft.UI.Windowing.AppWindowTitleBar;
-using IAppWindowExperimental = Microsoft.UI.Windowing.IAppWindowExperimental;
 
 namespace Snap.Hutao.UI.Windowing;
 
