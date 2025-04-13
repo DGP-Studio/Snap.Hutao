@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Text;
+using WinRT.Snap_HutaoVtableClasses;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
@@ -141,6 +142,8 @@ internal static partial class HttpRequestExceptionHandling
                                     {
                                         case SocketError.ConnectionAborted:
                                             return NetworkError.ERR_SECURE_CONNECTION_ABORTED;
+                                        case SocketError.ConnectionReset:
+                                            return NetworkError.ERR_SECURE_CONNECTION_RESET;
                                     }
 
                                     break;

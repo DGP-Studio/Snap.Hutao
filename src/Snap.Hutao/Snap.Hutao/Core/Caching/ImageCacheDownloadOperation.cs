@@ -11,7 +11,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
-using System.Text;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -41,6 +40,11 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                 await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
             }
         }
+
+        if (!File.Exists(baseFile))
+        {
+            throw HutaoException.InvalidOperation($"Unable to download file from '{uri.OriginalString}'", HutaoException.Marker);
+        }
     }
 
     private async ValueTask DownloadFileUsingHttpClientAsync(HttpClient httpClient, Uri uri, string baseFile)
@@ -66,12 +70,12 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                 }
                 catch (Exception ex)
                 {
-                    if (HttpRequestExceptionHandling.TryHandle(requestMessageBuilder, ex, out StringBuilder message))
+                    if (HttpRequestExceptionHandling.TryHandle(requestMessageBuilder, ex, out _))
                     {
                         continue;
                     }
 
-                    throw HutaoException.InvalidOperation(message.ToString(), ex);
+                    throw;
                 }
 
                 using (responseMessage)

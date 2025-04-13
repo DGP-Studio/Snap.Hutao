@@ -195,6 +195,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
             try
             {
                 target.Visibility = Visibility.Collapsed;
+                target.Source = null;
             }
             catch (COMException ex)
             {
@@ -203,8 +204,6 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                     throw;
                 }
             }
-
-            target.Source = null;
         }
         else
         {
