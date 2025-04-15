@@ -2738,7 +2738,7 @@
     <value>使用觸控輸入</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
-    <value>在指定的顯示器上運行</value>
+    <value>在指定的顯示器上執行</value>
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>遊戲選項</value>
