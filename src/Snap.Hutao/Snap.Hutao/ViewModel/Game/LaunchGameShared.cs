@@ -103,7 +103,7 @@ internal sealed partial class LaunchGameShared
             return;
         }
 
-        if (LaunchGameLaunchExecution.IsAnyLaunchExecutionInvoking())
+        if (LaunchExecutionInvoker.IsAnyLaunchExecutionInvoking())
         {
             return;
         }

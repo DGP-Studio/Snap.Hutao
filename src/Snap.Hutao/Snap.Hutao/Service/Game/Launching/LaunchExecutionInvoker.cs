@@ -5,14 +5,22 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Launching.Handler;
+using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
 internal abstract class LaunchExecutionInvoker
 {
+    private static readonly ConcurrentDictionary<LaunchExecutionInvoker, Void> Invokers = [];
+
     private bool invoked;
 
     protected Queue<ILaunchExecutionDelegateHandler> Handlers { get; } = [];
+
+    public static bool IsAnyLaunchExecutionInvoking()
+    {
+        return !Invokers.IsEmpty;
+    }
 
     public async ValueTask<LaunchExecutionResult> InvokeAsync(LaunchExecutionContext context)
     {
@@ -20,6 +28,7 @@ internal abstract class LaunchExecutionInvoker
 
         try
         {
+            Invokers.TryAdd(this, default);
             context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(false));
             await RecursiveInvokeHandlerAsync(context, 0).ConfigureAwait(false);
             return context.Result;
@@ -27,13 +36,18 @@ internal abstract class LaunchExecutionInvoker
         finally
         {
             await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-            unsafe
-            {
-                SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
-            }
 
-            context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
-            context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(true));
+            Invokers.TryRemove(this, out _);
+            if (Invokers.IsEmpty)
+            {
+                unsafe
+                {
+                    SpinWaitPolyfill.SpinWhile(&LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning);
+                }
+
+                context.ServiceProvider.GetRequiredService<IMessenger>().Send<LaunchExecutionProcessStatusChangedMessage>();
+                context.ServiceProvider.GetRequiredService<IMessenger>().Send(new LaunchExecutionGameFileSystemExclusiveAccessChangedMessage(true));
+            }
         }
     }
 
