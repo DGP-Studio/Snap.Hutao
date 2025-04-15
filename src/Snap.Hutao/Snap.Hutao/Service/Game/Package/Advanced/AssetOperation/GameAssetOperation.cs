@@ -131,7 +131,22 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
             return;
         }
 
-        using (SafeFileHandle fileHandle = File.OpenHandle(assetPath))
+        SafeFileHandle fileHandle;
+        try
+        {
+            fileHandle = File.OpenHandle(assetPath);
+        }
+        catch (IOException ex)
+        {
+            if (ex.HResult is unchecked((int)0x80070570))
+            {
+                context.Progress.Report(new GamePackageOperationReport.Abort(SH.ServiceGamePackageAdvancedAssetOperationDiskCorrupted));
+            }
+
+            throw;
+        }
+
+        using (fileHandle)
         {
             // Reading same file can't be done in parallel
             for (int i = 0; i < chunks.Count; i++)
