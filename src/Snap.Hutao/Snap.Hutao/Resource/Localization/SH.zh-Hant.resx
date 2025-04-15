@@ -178,7 +178,7 @@
     <value>啟動遊戲</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已進入後台運行</value>
+    <value>胡桃已進入後台執行</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
     <value>視窗</value>
@@ -921,7 +921,7 @@
     <value>下載遊戲資源索引</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
-    <value>遊戲處理程序運行中</value>
+    <value>遊戲處理程序執行中</value>
   </data>
   <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
     <value>請選擇遊戲路徑</value>
@@ -930,7 +930,7 @@
     <value>下載遊戲資源索引失敗: {0}</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeClientNotElevated" xml:space="preserve">
-    <value>使用 Embedded Yae 前，需要胡桃以系統管理員權限運行</value>
+    <value>使用 Embedded Yae 前，需要胡桃以系統管理員權限執行</value>
   </data>
   <data name="ServiceGameLaunchingHandlerEmbeddedYaeIslandNotEnabled" xml:space="preserve">
     <value>使用 Embedded Yae 前，需要您了解相關風險並在「啟動遊戲」頁面開啟注入功能</value>
@@ -957,7 +957,7 @@
     <value>遊戲本體</value>
   </data>
   <data name="ServiceGameLocatorUnityLogCannotOpenRead" xml:space="preserve">
-    <value>遊戲運行中，無法讀取 Unity 記錄檔</value>
+    <value>遊戲執行中，無法讀取 Unity 記錄檔</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>找不到 Unity 記錄檔</value>
@@ -966,7 +966,7 @@
     <value>在 Unity 記錄檔中無法找到遊戲路徑</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>檢測到硬碟錯誤，請執行 chkdsk 修復</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>資源包體大小: {0}
@@ -1898,7 +1898,7 @@
     <value>本地版本: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>任務已中斷，{0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>已取消</value>
