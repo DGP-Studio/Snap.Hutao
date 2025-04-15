@@ -966,7 +966,7 @@
     <value>Game path not found in Unity log file</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>A hard drive error has been detected, run chkdsk to fix it</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Package Size: {0}
@@ -1898,7 +1898,7 @@ Space Available: {2}</value>
     <value>Local version: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>Task interrupted, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Cancelled</value>
