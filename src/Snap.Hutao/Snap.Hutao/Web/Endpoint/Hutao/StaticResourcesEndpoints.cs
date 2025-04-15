@@ -5,6 +5,11 @@ namespace Snap.Hutao.Web.Endpoint.Hutao;
 
 internal static class StaticResourcesEndpoints
 {
+// TODO: Wait for evaluation of ADAPT_NEW_STATIC_ENDPOINT
+#if ADAPT_NEW_STATIC_ENDPOINT
+    public static string PreviousRoot { get => "https://api.snapgenshin.com"; }
+#endif
+
     public static string Root { get => "https://api.qhy04.com/hutaoimg"; }
 
     public static Uri UIIconNone { get; } = StaticRaw("Bg", "UI_Icon_None.png").ToUri();

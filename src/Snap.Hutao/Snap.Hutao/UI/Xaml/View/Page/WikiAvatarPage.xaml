@@ -796,7 +796,7 @@
                                                                     <shuxci:CachedImage
                                                                         Grid.RowSpan="2"
                                                                         Grid.Column="0"
-                                                                        Source="https://api.snapgenshin.com/static/raw/AvatarIconCircle/UI_AvatarIcon_71045_Circle.png"
+                                                                        Source="{StaticResource UI_AvatarIcon_71045_Circle}"
                                                                         Stretch="Uniform"/>
                                                                 </Grid>
                                                             </Grid>

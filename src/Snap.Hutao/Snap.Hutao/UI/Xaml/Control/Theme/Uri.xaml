@@ -13,32 +13,35 @@
     <x:String x:Key="IconGame">https://launcher-webstatic.mihoyo.com/launcher-public/2024/04/15/9ebf1bc5af2d83ca5fca21adb49cf341_2571779162329842818.png</x:String>
 
     <!--  AvatarCard  -->
-    <x:String x:Key="UI_AvatarIcon_Costume_Card">https://api.snapgenshin.com/static/raw/AvatarCard/UI_AvatarIcon_Costume_Card.png</x:String>
+    <x:String x:Key="UI_AvatarIcon_Costume_Card">https://api.qhy04.com/hutaoimg/static/raw/AvatarCard/UI_AvatarIcon_Costume_Card.png</x:String>
+
+    <!--  AvatarIconCircle  -->
+    <x:String x:Key="UI_AvatarIcon_71045_Circle">https://api.qhy04.com/hutaoimg/static/raw/AvatarIconCircle/UI_AvatarIcon_71045_Circle.png</x:String>
 
     <!--  Bg  -->
-    <x:String x:Key="UI_ItemIcon_None">https://api.snapgenshin.com/static/raw/Bg/UI_ItemIcon_None.png</x:String>
+    <x:String x:Key="UI_ItemIcon_None">https://api.qhy04.com/hutaoimg/static/raw/Bg/UI_ItemIcon_None.png</x:String>
 
     <!--  Mark  -->
-    <x:String x:Key="UI_MarkQuest_Events_Proce">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Events_Proce.png</x:String>
-    <x:String x:Key="UI_MarkQuest_Events_Start">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Events_Start.png</x:String>
-    <x:String x:Key="UI_MarkQuest_Main_Proce">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Main_Proce.png</x:String>
-    <x:String x:Key="UI_MarkQuest_Main_Start">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Main_Start.png</x:String>
-    <x:String x:Key="UI_MarkTower">https://api.snapgenshin.com/static/raw/Mark/UI_MarkTower.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Events_Proce">https://api.qhy04.com/hutaoimg/static/raw/Mark/UI_MarkQuest_Events_Proce.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Events_Start">https://api.qhy04.com/hutaoimg/static/raw/Mark/UI_MarkQuest_Events_Start.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Main_Proce">https://api.qhy04.com/hutaoimg/static/raw/Mark/UI_MarkQuest_Main_Proce.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Main_Start">https://api.qhy04.com/hutaoimg/static/raw/Mark/UI_MarkQuest_Main_Start.png</x:String>
+    <x:String x:Key="UI_MarkTower">https://api.qhy04.com/hutaoimg/static/raw/Mark/UI_MarkTower.png</x:String>
 
     <!--  ItemIcon  -->
-    <x:String x:Key="UI_ItemIcon_204">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_204.png</x:String>
-    <x:String x:Key="UI_ItemIcon_210">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_210.png</x:String>
-    <x:String x:Key="UI_ItemIcon_220021">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_220021.png</x:String>
+    <x:String x:Key="UI_ItemIcon_204">https://api.qhy04.com/hutaoimg/static/raw/ItemIcon/UI_ItemIcon_204.png</x:String>
+    <x:String x:Key="UI_ItemIcon_210">https://api.qhy04.com/hutaoimg/static/raw/ItemIcon/UI_ItemIcon_210.png</x:String>
+    <x:String x:Key="UI_ItemIcon_220021">https://api.qhy04.com/hutaoimg/static/raw/ItemIcon/UI_ItemIcon_220021.png</x:String>
 
     <!--  EmotionIcon  -->
-    <x:String x:Key="UI_EmotionIcon52">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon52.png</x:String>
-    <x:String x:Key="UI_EmotionIcon71">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon71.png</x:String>
-    <x:String x:Key="UI_EmotionIcon89">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon89.png</x:String>
-    <x:String x:Key="UI_EmotionIcon250">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon250.png</x:String>
-    <x:String x:Key="UI_EmotionIcon271">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon271.png</x:String>
-    <x:String x:Key="UI_EmotionIcon272">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon272.png</x:String>
-    <x:String x:Key="UI_EmotionIcon293">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon293.png</x:String>
-    <x:String x:Key="UI_EmotionIcon433">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon433.png</x:String>
-    <x:String x:Key="UI_EmotionIcon445">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon445.png</x:String>
-    <x:String x:Key="UI_EmotionIcon585">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon585.png</x:String>
+    <x:String x:Key="UI_EmotionIcon52">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon52.png</x:String>
+    <x:String x:Key="UI_EmotionIcon71">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon71.png</x:String>
+    <x:String x:Key="UI_EmotionIcon89">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon89.png</x:String>
+    <x:String x:Key="UI_EmotionIcon250">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon250.png</x:String>
+    <x:String x:Key="UI_EmotionIcon271">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon271.png</x:String>
+    <x:String x:Key="UI_EmotionIcon272">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon272.png</x:String>
+    <x:String x:Key="UI_EmotionIcon293">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon293.png</x:String>
+    <x:String x:Key="UI_EmotionIcon433">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon433.png</x:String>
+    <x:String x:Key="UI_EmotionIcon445">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon445.png</x:String>
+    <x:String x:Key="UI_EmotionIcon585">https://api.qhy04.com/hutaoimg/static/raw/EmotionIcon/UI_EmotionIcon585.png</x:String>
 </ResourceDictionary>

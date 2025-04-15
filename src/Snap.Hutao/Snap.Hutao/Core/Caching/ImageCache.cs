@@ -147,7 +147,12 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
         public static string GetCacheFileName(string url)
         {
-            return Hash.ToHexString(HashAlgorithmName.SHA1, url);
+            return Hash.ToHexString(HashAlgorithmName.SHA1, url
+// TODO: Wait for evaluation of ADAPT_NEW_STATIC_ENDPOINT
+#if ADAPT_NEW_STATIC_ENDPOINT
+                .Replace(StaticResourcesEndpoints.Root, StaticResourcesEndpoints.PreviousRoot, StringComparison.OrdinalIgnoreCase)
+#endif
+            );
         }
 
         public string GetThemedFileFullPath(ElementTheme theme)
