@@ -31,6 +31,8 @@ internal sealed partial class AppOptions : DbStoreOptions
     private TimeSpan? calendarServerTimeZoneOffset;
     private CloseButtonBehavior? closeButtonBehavior;
 
+    public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
+
     public bool IsEmptyHistoryWishVisible
     {
         get => GetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, false);

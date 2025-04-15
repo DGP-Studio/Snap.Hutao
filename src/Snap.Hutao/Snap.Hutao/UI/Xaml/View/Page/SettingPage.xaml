@@ -275,10 +275,17 @@
                                         <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
+                                <InfoBar
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"
+                                    Visibility="{Binding AppOptions.NotifyIconCreated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                 <cwc:SettingsCard
                                     Description="{shuxm:ResourceString Name=ViewPageSettingAppearanceCloseButtonBehaviorDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingAppearanceCloseButtonBehaviorHeader}"
-                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE894;}">
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE894;}"
+                                    IsEnabled="{Binding AppOptions.NotifyIconCreated, Converter={StaticResource BoolNegationConverter}}">
                                     <shuxc:SizeRestrictedContentControl>
                                         <ComboBox
                                             DisplayMemberPath="Name"

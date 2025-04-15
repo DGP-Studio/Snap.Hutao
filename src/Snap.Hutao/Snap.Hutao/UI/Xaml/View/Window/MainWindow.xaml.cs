@@ -57,7 +57,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        if (!XamlApplicationLifetime.Exiting && !LocalSetting.Get(SettingKeys.IsCloseButtonBehaviorSet, false))
+        if (!XamlApplicationLifetime.Exiting && XamlApplicationLifetime.NotifyIconCreated && !LocalSetting.Get(SettingKeys.IsCloseButtonBehaviorSet, false))
         {
             SetCloseButtonBehaviorAsync().SafeForget();
             cancel = true;
@@ -74,7 +74,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        if (appOptions.CloseButtonBehavior is CloseButtonBehavior.Exit)
+        if (!XamlApplicationLifetime.NotifyIconCreated || appOptions.CloseButtonBehavior is CloseButtonBehavior.Exit)
         {
             app.Exit();
             return;

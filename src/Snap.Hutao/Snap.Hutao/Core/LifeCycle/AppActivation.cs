@@ -165,7 +165,14 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         app.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
         lock (NotifyIconController.InitializationSyncRoot)
         {
-            _ = serviceProvider.GetRequiredService<NotifyIconController>();
+            try
+            {
+                _ = serviceProvider.GetRequiredService<NotifyIconController>();
+                XamlApplicationLifetime.NotifyIconCreated = true;
+            }
+            catch (Exception)
+            {
+            }
         }
 
         // Services Initialization

@@ -2347,6 +2347,9 @@
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
     <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
   </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
+    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+  </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>在我游玩原神时不通知我</value>
   </data>
@@ -2967,6 +2970,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>缓存 文件夹</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>紧凑网页窗口</value>
