@@ -42,7 +42,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     private readonly AsyncLock activateLock = new();
     private int isActivating;
 
-    public void Activate(HutaoActivationArguments args)
+    public void RedirectedActivate(HutaoActivationArguments args)
     {
         HandleActivationExclusivelyAsync(args).SafeForget();
 
@@ -234,7 +234,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         if (isRedirectTo)
         {
-            // User launches the app
             await WaitWindowAsync<MainWindow>().ConfigureAwait(false);
             return;
         }
@@ -294,7 +293,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         }
 
         window.SwitchTo();
-        window.AppWindow.MoveInZOrderAtTop();
+        window.AppWindow?.MoveInZOrderAtTop();
         return window;
     }
 }

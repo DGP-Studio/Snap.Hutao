@@ -95,7 +95,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                         logger.LogInformation("Redirect activation: [Kind:{Kind}] [Arguments:{Arguments}]", hutaoArgs.Kind, hutaoArgs.LaunchActivatedArguments);
                     }
 
-                    messageDispatcher.RedirectActivation(hutaoArgs);
+                    messageDispatcher.RedirectedActivation(hutaoArgs);
                     break;
 
                 case (PipePacketType.Request, PipePacketCommand.BetterGenshinImpactToSnapHutaoRequest):

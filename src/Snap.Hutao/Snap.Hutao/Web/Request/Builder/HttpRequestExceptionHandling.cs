@@ -96,6 +96,8 @@ internal static partial class HttpRequestExceptionHandling
                                 return NetworkError.ERR_CONNECTION_REFUSED;
                             case SocketError.NetworkUnreachable:
                                 return NetworkError.ERR_CONNECTION_NETWORK_UNREACHABLE;
+                            case SocketError.NoData:
+                                return NetworkError.ERR_CONNECTION_NO_DATA;
                             case SocketError.TimedOut:
                                 return NetworkError.ERR_CONNECTION_TIMED_OUT;
                         }
@@ -120,6 +122,20 @@ internal static partial class HttpRequestExceptionHandling
 
                 break;
 
+            case HttpRequestError.ResponseEnded:
+                switch (ex.InnerException)
+                {
+                    case HttpIOException httpIOException:
+                        switch (httpIOException.HttpRequestError)
+                        {
+                            case HttpRequestError.ResponseEnded:
+                                return NetworkError.ERR_RESPONSE_ENDED;
+                        }
+
+                        break;
+                }
+
+                break;
             case HttpRequestError.SecureConnectionError:
                 switch (ex.InnerException)
                 {

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
@@ -333,10 +334,12 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
+
                 await taskContext.SwitchToBackgroundAsync();
                 HutaoPassportClient passportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
-
+                HutaoException.OperationCanceledIf(scopeIsDisposed, string.Empty);
                 if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out UserInfo? userInfo))
                 {
                     infoEvent.Set();

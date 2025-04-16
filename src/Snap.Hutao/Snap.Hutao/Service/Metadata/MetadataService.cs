@@ -157,7 +157,18 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false);
 
         // Save metadataFile
-        using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName)))
+        FileStream metaFileStream;
+        try
+        {
+            metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName));
+        }
+        catch (IOException)
+        {
+            // The process cannot access the file '?' because it is being used by another process
+            return false;
+        }
+
+        using (metaFileStream)
         {
             await JsonSerializer
                 .SerializeAsync(metaFileStream, metadataFileHashes, options, token)

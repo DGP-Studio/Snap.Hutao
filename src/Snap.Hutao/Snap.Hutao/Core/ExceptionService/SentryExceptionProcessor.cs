@@ -23,6 +23,9 @@ internal sealed class SentryExceptionProcessor : ISentryEventExceptionProcessor
                         case HttpRequestException httpRequestException:
                             mechanism.Data["HttpRequestError"] = $"{httpRequestException.HttpRequestError}";
                             break;
+                        case HttpIOException httpIOException:
+                            mechanism.Data["HttpRequestError"] = $"{httpIOException.HttpRequestError}";
+                            break;
                         case SocketException socketException:
                             mechanism.Data["SocketErrorCode"] = $"{socketException.SocketErrorCode}";
                             break;

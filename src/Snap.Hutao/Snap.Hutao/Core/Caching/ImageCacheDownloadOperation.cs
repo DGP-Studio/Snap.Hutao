@@ -93,7 +93,17 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                             ArgumentException.ThrowIfNullOrEmpty(directoryName);
                             Directory.CreateDirectory(directoryName);
 
-                            using (FileStream fileStream = File.Create(baseFile))
+                            FileStream fileStream;
+                            try
+                            {
+                                fileStream = File.Create(baseFile);
+                            }
+                            catch (IOException ex)
+                            {
+                                throw HutaoException.InvalidOperation($"Unable to create file at '{baseFile}'", HutaoException.Marker);
+                            }
+
+                            using (fileStream)
                             {
                                 await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
                                 return;

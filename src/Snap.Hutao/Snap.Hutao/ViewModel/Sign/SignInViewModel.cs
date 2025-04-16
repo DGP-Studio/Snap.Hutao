@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
@@ -25,7 +26,6 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 {
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
 
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
@@ -111,11 +111,14 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             SignInRewardReSignInfo? resignInfo;
             using (IServiceScope scope = ServiceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed serviceScopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
+
                 ISignInClient signInClient = scope.ServiceProvider
                     .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
                     .Create(userAndUid.IsOversea);
 
                 Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User).ConfigureAwait(false);
+                HutaoException.OperationCanceledIf(serviceScopeIsDisposed, string.Empty);
                 if (!ResponseValidator.TryValidate(rewardResponse, scope.ServiceProvider, out reward))
                 {
                     infoBarService.Error(SH.ServiceSignInRewardListRequestFailed);
@@ -123,6 +126,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
                 }
 
                 Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid).ConfigureAwait(false);
+                HutaoException.OperationCanceledIf(serviceScopeIsDisposed, string.Empty);
                 if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider, out info))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
@@ -130,6 +134,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
                 }
 
                 Response<SignInRewardReSignInfo> resignInfoResponse = await signInClient.GetResignInfoAsync(userAndUid).ConfigureAwait(false);
+                HutaoException.OperationCanceledIf(serviceScopeIsDisposed, string.Empty);
                 if (!ResponseValidator.TryValidate(resignInfoResponse, scope.ServiceProvider, out resignInfo))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);

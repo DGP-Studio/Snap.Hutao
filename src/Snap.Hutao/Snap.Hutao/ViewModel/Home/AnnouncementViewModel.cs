@@ -60,7 +60,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     {
         try
         {
-            ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync().ConfigureAwait(false);
+            ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync(CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             HutaoAnnouncements = hutaoAnnouncements;
             DeferContentLoader?.Load("HutaoAnnouncementControl");

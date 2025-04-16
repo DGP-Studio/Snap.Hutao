@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Web.Response;
@@ -36,9 +37,10 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
             ImmutableArray<HutaoAnnouncement> array;
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
                 Response<ImmutableArray<HutaoAnnouncement>> response = await hutaoAsAServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
-
+                HutaoException.OperationCanceledIf(scopeIsDisposed, string.Empty);
                 if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out array))
                 {
                     return [];

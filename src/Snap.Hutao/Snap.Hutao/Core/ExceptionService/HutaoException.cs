@@ -109,7 +109,7 @@ internal sealed class HutaoException : Exception
 
     [StackTraceHidden]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static void NotSupportedIf(bool condition, string? message = default, Exception? innerException = default)
+    public static void NotSupportedIf([DoesNotReturnIf(true)] bool condition, string? message = default, Exception? innerException = default)
     {
         if (condition)
         {
@@ -123,5 +123,25 @@ internal sealed class HutaoException : Exception
     public static OperationCanceledException OperationCanceled(string message, Exception? innerException = default)
     {
         throw new OperationCanceledException(message, innerException);
+    }
+
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void OperationCanceledIf([DoesNotReturnIf(true)] bool condition, string message, Exception? innerException = default)
+    {
+        if (condition)
+        {
+            throw new OperationCanceledException(message, innerException);
+        }
+    }
+
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void OperationCanceledIf(IServiceScopeIsDisposed serviceScopeIsDisposed, string message, Exception? innerException = default)
+    {
+        if (serviceScopeIsDisposed.IsDisposed)
+        {
+            throw new OperationCanceledException(message, innerException);
+        }
     }
 }
