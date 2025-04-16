@@ -966,7 +966,7 @@
     <value>Unity ログファイル内にゲームパスが見つかりません</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>ハードディスクのエラーが検出されました。chkdsk を実行して修復してください</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>パッケージサイズ: {0}
@@ -1899,7 +1899,7 @@
     <value>ローカルバージョン: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>タスクが中断されました、{0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>キャンセル済み</value>
