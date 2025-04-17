@@ -40,8 +40,8 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
                 IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
                 Response<ImmutableArray<HutaoAnnouncement>> response = await hutaoAsAServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
-                HutaoException.OperationCanceledIf(scopeIsDisposed, string.Empty);
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out array))
+
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out array))
                 {
                     return [];
                 }

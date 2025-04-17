@@ -36,6 +36,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             IGameRecordClient gameRecordClient = serviceProvider
@@ -52,7 +53,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 .GetCharacterListAsync(userAndUid, token)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(listResponse, serviceProvider, out ListWrapper<Character>? charactersWrapper))
+            if (!ResponseValidator.TryValidate(listResponse, serviceProvider, scopeIsDisposed, out ListWrapper<Character>? charactersWrapper))
             {
                 return avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(uid);
             }
@@ -62,7 +63,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 .GetCharacterDetailAsync(userAndUid, characterIds, token)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, out ListWrapper<DetailedCharacter>? detailsWrapper))
+            if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, scopeIsDisposed, out ListWrapper<DetailedCharacter>? detailsWrapper))
             {
                 return avatarInfoRepository.GetAvatarInfoImmutableArrayByUid(uid);
             }

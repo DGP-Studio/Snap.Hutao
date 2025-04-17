@@ -29,7 +29,7 @@ internal sealed partial class MetadataService : IMetadataService
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
-    private readonly IServiceScopeIsDisposed serviceScopeIsDisposed;
+    private readonly IRootServiceProviderIsDisposed rootServiceProviderIsDisposed;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
@@ -174,9 +174,17 @@ internal sealed partial class MetadataService : IMetadataService
 
         using (metaFileStream)
         {
-            await JsonSerializer
-                .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
-                .ConfigureAwait(false);
+            try
+            {
+                await JsonSerializer
+                    .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
+                    .ConfigureAwait(false);
+            }
+            catch(UnauthorizedAccessException)
+            {
+                // Access to the path '?' is denied.
+                return false;
+            }
         }
 
         fileNames = checkResult.SucceedFiles.ToFrozenSet();
@@ -254,7 +262,7 @@ internal sealed partial class MetadataService : IMetadataService
     [SuppressMessage("", "SH003")]
     private async ValueTask<MetadataCheckResult> CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
     {
-        MetadataDownloadContext context = new(serviceScopeIsDisposed, serviceScopeFactory, metadataOptions, template);
+        MetadataDownloadContext context = new(rootServiceProviderIsDisposed, serviceScopeFactory, metadataOptions, template);
 
         await Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
@@ -292,8 +300,7 @@ internal sealed partial class MetadataService : IMetadataService
 
     private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
     {
-        HutaoException.OperationCanceledIf(context.ServiceScopeIsDisposed, string.Empty);
-        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope())
+        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope(context.RootServiceProviderIsDisposed))
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
@@ -332,15 +339,15 @@ internal sealed partial class MetadataService : IMetadataService
         private readonly Lock syncRoot = new();
         private readonly Dictionary<string, bool> results = [];
 
-        public MetadataDownloadContext(IServiceScopeIsDisposed serviceScopeIsDisposed, IServiceScopeFactory serviceScopeFactory, MetadataOptions options, MetadataTemplate? template)
+        public MetadataDownloadContext(IRootServiceProviderIsDisposed rootServiceProviderIsDisposed, IServiceScopeFactory serviceScopeFactory, MetadataOptions options, MetadataTemplate? template)
         {
-            ServiceScopeIsDisposed = serviceScopeIsDisposed;
+            RootServiceProviderIsDisposed = rootServiceProviderIsDisposed;
             ServiceScopeFactory = serviceScopeFactory;
             Options = options;
             Template = template;
         }
 
-        public IServiceScopeIsDisposed ServiceScopeIsDisposed { get; }
+        public IRootServiceProviderIsDisposed RootServiceProviderIsDisposed { get; }
 
         public IServiceScopeFactory ServiceScopeFactory { get; }
 

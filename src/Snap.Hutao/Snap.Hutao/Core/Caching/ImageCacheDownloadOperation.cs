@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -43,7 +42,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
         if (!File.Exists(baseFile))
         {
-            throw HutaoException.InvalidOperation($"Unable to download file from '{uri.OriginalString}'", HutaoException.Marker);
+            throw InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'");
         }
     }
 
@@ -100,12 +99,22 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                             }
                             catch (IOException ex)
                             {
-                                throw HutaoException.InvalidOperation($"Unable to create file at '{baseFile}'", HutaoException.Marker);
+                                throw InternalImageCacheException.Throw($"Unable to create file at '{baseFile}'", ex);
                             }
 
                             using (fileStream)
                             {
-                                await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                                try
+                                {
+                                    await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                                }
+                                catch(IOException ex)
+                                {
+                                    // Received an unexpected EOF or 0 bytes from the transport stream.
+                                    // Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。. SocketException: ConnectionReset
+                                    throw InternalImageCacheException.Throw("Unable to copy stream content to file", ex);
+                                }
+
                                 return;
                             }
                         }
@@ -115,7 +124,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                     {
                         case HttpStatusCode.NotFound:
                             {
-                                throw HutaoException.InvalidOperation($"Unable to download file from '{uri.OriginalString}'", HutaoException.Marker);
+                                throw InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'");
                             }
 
                         case HttpStatusCode.TooManyRequests:

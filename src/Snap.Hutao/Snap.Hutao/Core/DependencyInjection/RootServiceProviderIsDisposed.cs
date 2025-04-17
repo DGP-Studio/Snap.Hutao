@@ -3,8 +3,8 @@
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
-[Injection(InjectAs.Scoped, typeof(IServiceScopeIsDisposed))]
-internal sealed partial class ServiceScopeIsDisposed : IServiceScopeIsDisposed, IDisposable
+[Injection(InjectAs.Singleton, typeof(IRootServiceProviderIsDisposed))]
+internal sealed partial class RootServiceProviderIsDisposed : IRootServiceProviderIsDisposed, IDisposable
 {
     private volatile bool isDisposed;
 

@@ -73,6 +73,12 @@ internal static class HttpRequestExceptionHandling
                     return true;
                 }
             }
+
+            if (httpRequestException.Message is "Response status code does not indicate success: 418 (I'm a Teapot).")
+            {
+                builder.Append("HTTP 418");
+                return true;
+            }
         }
 
         ExceptionFormat.Format(builder, ex);
@@ -113,13 +119,18 @@ internal static class HttpRequestExceptionHandling
                         switch (socketException.SocketErrorCode)
                         {
                             case SocketError.HostNotFound:
-                                return NetworkError.ERROR_NAME_RESOLUTION_HOST_NOT_FOUND;
+                                return NetworkError.ERR_NAME_RESOLUTION_HOST_NOT_FOUND;
                         }
 
                         break;
                 }
 
                 break;
+
+            case HttpRequestError.ProxyTunnelError:
+                {
+                    return NetworkError.ERR_PROXY_TUNNEL_ERROR;
+                }
 
             case HttpRequestError.ResponseEnded:
                 switch (ex.InnerException)
@@ -135,15 +146,13 @@ internal static class HttpRequestExceptionHandling
                 }
 
                 break;
+
             case HttpRequestError.SecureConnectionError:
                 switch (ex.InnerException)
                 {
-                    case AuthenticationException authenticationException:
+                    case AuthenticationException:
                         {
-                            if (authenticationException.Message is "The remote certificate is invalid according to the validation procedure: RemoteCertificateNameMismatch")
-                            {
-                                return NetworkError.ERR_SECURE_CONNECTION_REMOTE_CERTIFICATE_NAME_MISMATCH;
-                            }
+                            return NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR;
                         }
 
                         break;

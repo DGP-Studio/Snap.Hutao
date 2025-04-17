@@ -157,10 +157,11 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoRedeemCodeClient hutaoRedeemCodeClient = scope.ServiceProvider.GetRequiredService<HutaoRedeemCodeClient>();
                 HutaoResponse<RedeemUseResult> response = await hutaoRedeemCodeClient.UseRedeemCodeAsync(new(code), token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed))
                 {
                     return;
                 }
@@ -177,10 +178,11 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse<string> response = await hutaoPassportClient.LoginAsync(username, password, token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out string? authToken))
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     UserName = SH.ViewServiceHutaoUserLoginFailHint;
@@ -205,10 +207,11 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse<string> response = await hutaoPassportClient.RegisterAsync(username, password, verifyCode, token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out string? authToken))
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     UserName = SH.ViewServiceHutaoUserLoginFailHint;
@@ -229,10 +232,11 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse response = await hutaoPassportClient.UnregisterAsync(username, password, verifyCode, token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed))
                 {
                     return;
                 }
@@ -257,10 +261,11 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse<string> response = await hutaoPassportClient.ResetUserNameAsync(username, newUserName, verifyCode, newVerifyCode, token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out string? authToken))
                 {
                     return;
                 }
@@ -277,10 +282,11 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 HutaoResponse<string> response = await hutaoPassportClient.ResetPasswordAsync(username, password, verifyCode, token).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out string? authToken))
+                if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out string? authToken))
                 {
                     return;
                 }
@@ -339,8 +345,8 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 await taskContext.SwitchToBackgroundAsync();
                 HutaoPassportClient passportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
                 Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(token).ConfigureAwait(false);
-                HutaoException.OperationCanceledIf(scopeIsDisposed, string.Empty);
-                if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out UserInfo? userInfo))
+
+                if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, scopeIsDisposed, out UserInfo? userInfo))
                 {
                     infoEvent.Set();
                     return;

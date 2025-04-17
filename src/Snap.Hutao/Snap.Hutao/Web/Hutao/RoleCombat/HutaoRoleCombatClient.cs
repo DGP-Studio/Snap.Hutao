@@ -20,6 +20,7 @@ namespace Snap.Hutao.Web.Hutao.RoleCombat;
 internal sealed partial class HutaoRoleCombatClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IServiceScopeIsDisposed serviceScopeIsDisposed;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
@@ -48,7 +49,7 @@ internal sealed partial class HutaoRoleCombatClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(playerInfoResponse, serviceProvider))
+        if (!ResponseValidator.TryValidate(playerInfoResponse, serviceProvider, serviceScopeIsDisposed))
         {
             return default;
         }
@@ -57,7 +58,7 @@ internal sealed partial class HutaoRoleCombatClient
             .GetRoleCombatAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(roleCombatResponse, serviceProvider, out Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat? roleCombat))
+        if (!ResponseValidator.TryValidate(roleCombatResponse, serviceProvider, serviceScopeIsDisposed, out Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat? roleCombat))
         {
             return default;
         }

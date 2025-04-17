@@ -4,6 +4,7 @@
 using AngleSharp;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
@@ -86,13 +87,14 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         AnnouncementWrapper? wrapper;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             AnnouncementClient announcementClient = scope.ServiceProvider.GetRequiredService<AnnouncementClient>();
 
             Response<AnnouncementWrapper> announcementWrapperResponse = await announcementClient
                 .GetAnnouncementsAsync(languageCode, region, cancellationToken)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(announcementWrapperResponse, scope.ServiceProvider, out wrapper))
+            if (!ResponseValidator.TryValidate(announcementWrapperResponse, scope.ServiceProvider, scopeIsDisposed, out wrapper))
             {
                 return default;
             }
@@ -101,7 +103,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 .GetAnnouncementContentsAsync(languageCode, region, cancellationToken)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(announcementContentResponse, scope.ServiceProvider, out ListWrapper<AnnouncementContent>? contentsWrapper))
+            if (!ResponseValidator.TryValidate(announcementContentResponse, scope.ServiceProvider, scopeIsDisposed, out ListWrapper<AnnouncementContent>? contentsWrapper))
             {
                 return default;
             }

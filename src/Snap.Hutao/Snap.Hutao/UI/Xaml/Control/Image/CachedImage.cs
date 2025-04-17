@@ -235,6 +235,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
             // Ignored
             throw;
         }
+        catch (InternalImageCacheException)
+        {
+            // Ignored
+            throw;
+        }
         catch (COMException)
         {
             try
@@ -251,11 +256,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
         }
         catch (Exception ex)
         {
-            if (!HutaoException.ContainsMarker(ex))
-            {
-                SentrySdk.CaptureException(ex);
-            }
-
+            SentrySdk.CaptureException(ex);
             return default;
         }
     }
@@ -278,32 +279,32 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
             sourceCts = new();
             CancellationToken token = sourceCts.Token;
 
-            using (await sourceLock.LockAsync().ConfigureAwait(true))
+            try
             {
-                // Remove old ImageSource from tree
-                await ImageAttachUriSourceWithAnimationAsync(Image, default, placeholder).ConfigureAwait(true);
-
-                if (source is null)
+                using (await sourceLock.LockAsync().ConfigureAwait(true))
                 {
-                    return;
-                }
+                    // Remove old ImageSource from tree
+                    await ImageAttachUriSourceWithAnimationAsync(Image, default, placeholder).ConfigureAwait(true);
 
-                if (source as Uri is not { } uri)
-                {
-                    if (!Uri.TryCreate(source as string ?? source.ToString(), UriKind.RelativeOrAbsolute, out uri))
+                    if (source is null)
                     {
-                        await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
                         return;
                     }
-                }
 
-                if (!IsHttpUri(uri) && !uri.IsAbsoluteUri)
-                {
-                    uri = new("ms-appx:///" + uri.OriginalString.TrimStart('/'));
-                }
+                    if (source as Uri is not { } uri)
+                    {
+                        if (!Uri.TryCreate(source as string ?? source.ToString(), UriKind.RelativeOrAbsolute, out uri))
+                        {
+                            await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
+                            return;
+                        }
+                    }
 
-                try
-                {
+                    if (!IsHttpUri(uri) && !uri.IsAbsoluteUri)
+                    {
+                        uri = new("ms-appx:///" + uri.OriginalString.TrimStart('/'));
+                    }
+
                     Uri? targetUri = uri.Scheme is "ms-appx" ? uri : await ProvideCachedResourceAsync(uri, token).ConfigureAwait(true);
                     if (!token.IsCancellationRequested)
                     {
@@ -311,20 +312,24 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                         await ImageAttachUriSourceWithAnimationAsync(Image, targetUri, placeholder).ConfigureAwait(true);
                     }
                 }
-                catch (OperationCanceledException)
+            }
+            catch (OperationCanceledException)
+            {
+                // Ignored
+            }
+            catch
+            {
+                if (!IsLoaded)
                 {
-                    // Ignored
+                    return;
                 }
-                catch (Exception)
-                {
-                    if (!IsLoaded)
-                    {
-                        return;
-                    }
 
+                if (!placeholder)
+                {
                     await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
                 }
             }
+
         }
         catch (COMException ex)
         {

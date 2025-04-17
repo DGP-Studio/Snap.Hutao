@@ -159,15 +159,19 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> LoadOverrideAsync()
     {
-        HutaoInfrastructureClient hutaoInfrastructureClient = serviceProvider.GetRequiredService<HutaoInfrastructureClient>();
-        HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
-        if (ResponseValidator.TryValidate(response, serviceProvider, out StaticResourceSizeInformation? sizeInformation))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            StaticResourceOptions.SizeInformation = sizeInformation;
-        }
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
+            HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
+            HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out StaticResourceSizeInformation? sizeInformation))
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                StaticResourceOptions.SizeInformation = sizeInformation;
+            }
 
-        return true;
+            return true;
+        }
     }
 
     [Command("NextOrCompleteCommand")]

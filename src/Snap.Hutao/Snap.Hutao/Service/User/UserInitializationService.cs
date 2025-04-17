@@ -62,7 +62,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         return null;
     }
 
-    private static async ValueTask<bool> TrySetUserLTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserLTokenAsync(IServiceProvider serviceProvider, IServiceScopeIsDisposed scopeIsDisposed, ViewModel.User.User user, CancellationToken token)
     {
         if (user.LToken is not null)
         {
@@ -77,7 +77,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetLTokenBySTokenAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (ResponseValidator.TryValidate(lTokenResponse, serviceProvider, out LTokenWrapper? wrapper))
+        if (ResponseValidator.TryValidate(lTokenResponse, serviceProvider, scopeIsDisposed, out LTokenWrapper? wrapper))
         {
             user.LToken = new()
             {
@@ -90,7 +90,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         return false;
     }
 
-    private static async ValueTask<bool> TrySetUserCookieTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserCookieTokenAsync(IServiceProvider serviceProvider, IServiceScopeIsDisposed scopeIsDisposed, ViewModel.User.User user, CancellationToken token)
     {
         if (user.Entity.CookieTokenLastUpdateTime > DateTimeOffset.UtcNow - TimeSpan.FromDays(1))
         {
@@ -108,7 +108,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetCookieAccountInfoBySTokenAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (ResponseValidator.TryValidate(cookieTokenResponse, serviceProvider, out UidCookieToken? uidCookieToken))
+        if (ResponseValidator.TryValidate(cookieTokenResponse, serviceProvider, scopeIsDisposed, out UidCookieToken? uidCookieToken))
         {
             user.CookieToken = new()
             {
@@ -124,7 +124,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         return false;
     }
 
-    private static async ValueTask<bool> TrySetUserUserInfoAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserUserInfoAsync(IServiceProvider serviceProvider, IServiceScopeIsDisposed scopeIsDisposed, ViewModel.User.User user, CancellationToken token)
     {
         IUserClient userClient = serviceProvider
             .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
@@ -134,7 +134,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetUserFullInfoAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (ResponseValidator.TryValidate(response, serviceProvider, out UserFullInfoWrapper? wrapper))
+        if (ResponseValidator.TryValidate(response, serviceProvider, scopeIsDisposed, out UserFullInfoWrapper? wrapper))
         {
             user.UserInfo = wrapper.UserInfo;
             return true;
@@ -143,7 +143,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         return false;
     }
 
-    private static async ValueTask<bool> TrySetUserUserGameRolesAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserUserGameRolesAsync(IServiceProvider serviceProvider, IServiceScopeIsDisposed scopeIsDisposed, ViewModel.User.User user, CancellationToken token)
     {
         BindingClient bindingClient = serviceProvider.GetRequiredService<BindingClient>();
 
@@ -151,7 +151,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             .GetUserGameRolesOverseaAwareAsync(user.Entity, token)
             .ConfigureAwait(false);
 
-        if (ResponseValidator.TryValidate(userGameRolesResponse, serviceProvider, out ListWrapper<UserGameRole>? wrapper))
+        if (ResponseValidator.TryValidate(userGameRolesResponse, serviceProvider, scopeIsDisposed, out ListWrapper<UserGameRole>? wrapper))
         {
             user.UserGameRoles = wrapper.List.AsAdvancedCollectionView();
             return true;
@@ -175,24 +175,25 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IServiceProvider serviceProvider = scope.ServiceProvider;
 
-            if (!await TrySetUserLTokenAsync(serviceProvider, user, token).ConfigureAwait(false))
+            if (!await TrySetUserLTokenAsync(serviceProvider, scopeIsDisposed, user, token).ConfigureAwait(false))
             {
                 return false;
             }
 
-            if (!await TrySetUserCookieTokenAsync(serviceProvider, user, token).ConfigureAwait(false))
+            if (!await TrySetUserCookieTokenAsync(serviceProvider, scopeIsDisposed, user, token).ConfigureAwait(false))
             {
                 return false;
             }
 
-            if (!await TrySetUserUserInfoAsync(serviceProvider, user, token).ConfigureAwait(false))
+            if (!await TrySetUserUserInfoAsync(serviceProvider, scopeIsDisposed, user, token).ConfigureAwait(false))
             {
                 return false;
             }
 
-            if (!await TrySetUserUserGameRolesAsync(serviceProvider, user, token).ConfigureAwait(false))
+            if (!await TrySetUserUserGameRolesAsync(serviceProvider, scopeIsDisposed, user, token).ConfigureAwait(false))
             {
                 return false;
             }

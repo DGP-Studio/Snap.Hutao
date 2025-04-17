@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
@@ -19,6 +20,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
+    private readonly IRootServiceProviderIsDisposed rootServiceProviderIsDisposed;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
@@ -146,12 +148,13 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         }
 
         GameBranchesWrapper? branchesWrapper;
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope(rootServiceProviderIsDisposed))
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
             Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out branchesWrapper))
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, scopeIsDisposed, out branchesWrapper))
             {
                 return false;
             }
@@ -219,10 +222,11 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             GameChannelSDKsWrapper? channelSDKsWrapper;
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
                 Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
 
-                if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
+                if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, scopeIsDisposed, out channelSDKsWrapper))
                 {
                     return;
                 }

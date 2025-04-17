@@ -144,4 +144,14 @@ internal sealed class HutaoException : Exception
             throw new OperationCanceledException(message, innerException);
         }
     }
+
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void OperationCanceledIf(IRootServiceProviderIsDisposed rootServiceProviderIsDisposed, string message, Exception? innerException = default)
+    {
+        if (rootServiceProviderIsDisposed.IsDisposed)
+        {
+            throw new OperationCanceledException(message, innerException);
+        }
+    }
 }

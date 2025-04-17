@@ -31,7 +31,8 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     private readonly int hotKeyId;
 
 #pragma warning disable CA2213
-    private CancellationTokenSource? cts = new();
+    // Make volatile to prevent the callback getting a null cts.
+    private volatile CancellationTokenSource? cts = new();
 #pragma warning restore CA2213
 
     private bool registered;
@@ -211,7 +212,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
             stringBuilder.Append("Alt").Append(" + ");
         }
 
-        stringBuilder.Append(Key.ToString()[3..].Trim('_'));
+        stringBuilder.Append(Key.ToString().AsSpan()[3..].Trim('_'));
 
         return stringBuilder.ToString();
     }
@@ -236,7 +237,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         {
             lock (syncRoot)
             {
-                if (IsOn)
+                if (IsOn || cts is null)
                 {
                     // Turn off
                     cts?.Cancel();

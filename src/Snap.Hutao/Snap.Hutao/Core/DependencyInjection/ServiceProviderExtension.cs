@@ -7,6 +7,18 @@ namespace Snap.Hutao.Core.DependencyInjection;
 
 internal static class ServiceProviderExtension
 {
+    public static IServiceScope CreateScope(this IServiceProvider provider, IIsDisposed isDisposed)
+    {
+        isDisposed.TryThrow();
+        return provider.CreateScope();
+    }
+
+    public static IServiceScope CreateScope(this IServiceScopeFactory factory, IIsDisposed isDisposed)
+    {
+        isDisposed.TryThrow();
+        return factory.CreateScope();
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsDisposed(this IServiceProvider? serviceProvider, bool treatNullAsDisposed = true)
     {
