@@ -1,9 +1,9 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
-[Injection(InjectAs.Scoped, typeof(IServiceScopeIsDisposed))]
+[Injection(InjectAs.Transient, typeof(IServiceScopeIsDisposed))]
 internal sealed partial class ServiceScopeIsDisposed : IServiceScopeIsDisposed, IDisposable
 {
     private volatile bool isDisposed;

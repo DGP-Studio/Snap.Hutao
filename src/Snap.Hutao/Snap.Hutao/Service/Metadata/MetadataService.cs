@@ -12,7 +12,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
-using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
@@ -24,7 +23,7 @@ namespace Snap.Hutao.Service.Metadata;
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class MetadataService : IMetadataService, IMetadataServiceInitialization
+internal sealed partial class MetadataService : IMetadataService
 {
     private const string MetaFileName = "Meta.json";
 
