@@ -78,6 +78,42 @@ internal sealed partial class MetadataService : IMetadataService
             : await FromCacheOrSingleFile<T>(strategy, cacheKey, token).ConfigureAwait(false);
     }
 
+    private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
+    {
+        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope(context.RootServiceProviderIsDisposed))
+        {
+            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            {
+                IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(context.Options.GetLocalizedRemoteFile(context.Template, fileFullName)).Get();
+
+                using (HttpRequestMessage message = builder.HttpRequestMessage)
+                {
+                    // We have too much line endings now, should cache the response.
+                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                    {
+                        Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+                        // Write stream while convert LF to CRLF
+                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
+                        {
+                            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
+                            {
+                                await readerWriter.WriteAsync(line).ConfigureAwait(false);
+
+                                if (!readerWriter.Reader.EndOfStream)
+                                {
+                                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private async ValueTask<ImmutableArray<T>> FromCacheOrSingleFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
         where T : class
     {
@@ -180,7 +216,7 @@ internal sealed partial class MetadataService : IMetadataService
                     .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
                     .ConfigureAwait(false);
             }
-            catch(UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 // Access to the path '?' is denied.
                 return false;
@@ -296,42 +332,6 @@ internal sealed partial class MetadataService : IMetadataService
         }).ConfigureAwait(false);
 
         return context.ToResult();
-    }
-
-    private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
-    {
-        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope(context.RootServiceProviderIsDisposed))
-        {
-            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
-            {
-                IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(context.Options.GetLocalizedRemoteFile(context.Template, fileFullName)).Get();
-
-                using (HttpRequestMessage message = builder.HttpRequestMessage)
-                {
-                    // We have too much line endings now, should cache the response.
-                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
-                    {
-                        Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-
-                        // Write stream while convert LF to CRLF
-                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
-                        {
-                            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-                            {
-                                await readerWriter.WriteAsync(line).ConfigureAwait(false);
-
-                                if (!readerWriter.Reader.EndOfStream)
-                                {
-                                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private sealed class MetadataDownloadContext

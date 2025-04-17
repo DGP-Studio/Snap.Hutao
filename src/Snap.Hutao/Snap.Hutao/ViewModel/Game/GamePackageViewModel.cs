@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
@@ -247,7 +246,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 BranchWrapper localBranch = GameBranch.Main.GetTaggedCopy(LocalVersion.ToString());
                 localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
 
-                BranchWrapper remoteBranch = operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main;
+                BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main;
                 remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
             }
 

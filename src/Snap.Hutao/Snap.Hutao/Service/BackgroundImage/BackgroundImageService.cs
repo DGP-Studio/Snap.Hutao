@@ -56,7 +56,18 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             return new(false, default!);
         }
 
-        using (FileStream fileStream = File.OpenRead(path))
+        FileStream fileStream;
+        try
+        {
+            fileStream = File.OpenRead(path);
+        }
+        catch (IOException)
+        {
+            // The process cannot access the file '?' because it is being used by another process.
+            return new(false, default!);
+        }
+
+        using (fileStream)
         {
             Rgba32 accentColor;
             try

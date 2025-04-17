@@ -329,7 +329,6 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control
                     await SetSourceAsync(PlaceholderSource, true).ConfigureAwait(true);
                 }
             }
-
         }
         catch (COMException ex)
         {

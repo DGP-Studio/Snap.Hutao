@@ -29,6 +29,9 @@ internal sealed class SentryExceptionProcessor : ISentryEventExceptionProcessor
                         case SocketException socketException:
                             mechanism.Data["SocketErrorCode"] = $"{socketException.SocketErrorCode}";
                             break;
+                        case Win32Exception win32Exception:
+                            mechanism.Data["NativeErrorCode"] = $"{win32Exception.NativeErrorCode}";
+                            break;
                     }
                 }
             }

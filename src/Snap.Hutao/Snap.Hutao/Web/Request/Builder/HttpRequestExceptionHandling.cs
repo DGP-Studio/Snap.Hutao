@@ -97,6 +97,8 @@ internal static class HttpRequestExceptionHandling
                         {
                             case SocketError.AccessDenied:
                                 return NetworkError.ERR_CONNECTION_ACCESS_DENIED;
+                            case SocketError.ConnectionAborted:
+                                return NetworkError.ERR_CONNECTION_ABORTED;
                             case SocketError.ConnectionRefused:
                                 return NetworkError.ERR_CONNECTION_REFUSED;
                             case SocketError.NetworkUnreachable:
@@ -150,12 +152,16 @@ internal static class HttpRequestExceptionHandling
             case HttpRequestError.SecureConnectionError:
                 switch (ex.InnerException)
                 {
-                    case AuthenticationException:
+                    case AuthenticationException authenticationException:
                         {
-                            return NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR;
-                        }
+                            switch (authenticationException.InnerException)
+                            {
+                                case null:
+                                    return NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR;
+                            }
 
-                        break;
+                            break;
+                        }
 
                     case IOException ioException:
                         {
@@ -175,6 +181,36 @@ internal static class HttpRequestExceptionHandling
                                 case null:
                                     return NetworkError.ERR_SECURE_CONNECTION_ERROR;
                             }
+                        }
+
+                        break;
+                }
+
+                break;
+
+            case HttpRequestError.Unknown:
+                switch (ex.InnerException)
+                {
+                    case IOException ioException:
+                        switch (ioException.InnerException)
+                        {
+                            case SocketException socketException:
+                                switch (socketException.SocketErrorCode)
+                                {
+                                    case SocketError.ConnectionAborted:
+                                        return NetworkError.ERR_UNKNOWN_CONNECTION_ABORTED;
+                                    case SocketError.ConnectionReset:
+                                        return NetworkError.ERR_UNKNOWN_CONNECTION_RESET;
+                                }
+
+                                break;
+                            case Win32Exception win32Exception:
+                                switch (win32Exception.NativeErrorCode)
+                                {
+                                    // TODO
+                                }
+
+                                break;
                         }
 
                         break;
