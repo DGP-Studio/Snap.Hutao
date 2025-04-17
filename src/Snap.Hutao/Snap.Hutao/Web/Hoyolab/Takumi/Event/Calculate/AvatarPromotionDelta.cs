@@ -56,7 +56,7 @@ internal sealed class AvatarPromotionDelta
             AvatarId = avatar.Id,
             AvatarLevelCurrent = 1,
             AvatarLevelTarget = 90,
-            SkillList = avatar.SkillDepot.CompositeSkillsNoInherents.SelectAsArray(skill => new PromotionDelta
+            SkillList = avatar.SkillDepot.CompositeSkillsNoInherents.SelectAsArray(static skill => new PromotionDelta
             {
                 Id = skill.GroupId,
                 LevelCurrent = 1,

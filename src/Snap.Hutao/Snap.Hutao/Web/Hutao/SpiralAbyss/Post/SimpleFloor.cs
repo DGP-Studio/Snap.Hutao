@@ -18,5 +18,5 @@ internal sealed class SimpleFloor
 
     public int Star { get; set; }
 
-    public IEnumerable<SimpleLevel> Levels { get; set; } = default!;
+    public IEnumerable<SimpleLevel> Levels { get; set; }
 }

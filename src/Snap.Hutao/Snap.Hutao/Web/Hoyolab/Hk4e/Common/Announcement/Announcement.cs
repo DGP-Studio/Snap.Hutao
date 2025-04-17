@@ -34,7 +34,7 @@ internal sealed class Announcement : AnnouncementContent
 
     public bool ShouldShowTimePercent
     {
-        get => ShouldShowTimeDescription && (TimePercent is > 0 and < 1);
+        get => ShouldShowTimeDescription && TimePercent is > 0 and < 1;
     }
 
     public double TimePercent

@@ -111,13 +111,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
     private void OnCurrentUserChanged(object? sender, object? args)
     {
-        if (users is null)
-        {
-            messenger.Send(UserAndUidChangedMessage.Empty);
-            return;
-        }
-
-        if (users.CurrentItem is null)
+        if (users?.CurrentItem is null)
         {
             messenger.Send(UserAndUidChangedMessage.Empty);
             return;

@@ -58,7 +58,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Navigate to passport page", "HutaoCloudViewModel.Command"));
 
-        await navigationService.NavigateAsync<HutaoPassportPage>(INavigationCompletionSource.Default, true);
+        await navigationService.NavigateAsync<HutaoPassportPage>(INavigationCompletionSource.Default, true).ConfigureAwait(false);
     }
 
     [Command("UploadCommand")]

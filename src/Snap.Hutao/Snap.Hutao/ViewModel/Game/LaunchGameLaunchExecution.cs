@@ -4,7 +4,6 @@
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.User;
-using System.Collections.Concurrent;
 
 namespace Snap.Hutao.ViewModel.Game;
 

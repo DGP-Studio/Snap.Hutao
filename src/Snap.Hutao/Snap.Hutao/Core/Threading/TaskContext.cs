@@ -73,7 +73,7 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
                 {
                     callback(state);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionHelpers.ReportUnhandledError(ex);
                 }
@@ -89,7 +89,7 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
                 {
                     callback(state);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionHelpers.ReportUnhandledError(ex);
                 }

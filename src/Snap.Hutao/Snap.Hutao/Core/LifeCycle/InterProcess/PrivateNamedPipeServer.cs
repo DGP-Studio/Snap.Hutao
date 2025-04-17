@@ -80,7 +80,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         {
             serverStream.ReadPacket(out PipePacketHeader header);
             logger.LogInformation("Pipe packet: [Type:{Type}] [Command:{Command}]", header.Type, header.Command);
-            switch ((header.Type, header.Command))
+            switch (header.Type, header.Command)
             {
                 case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
                     ElevationStatusResponse resp = new(HutaoRuntime.IsProcessElevated, Environment.ProcessId);

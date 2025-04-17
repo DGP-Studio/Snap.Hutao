@@ -18,7 +18,7 @@ using WinRT;
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
 [SuppressMessage("", "CA1001")]
-internal sealed partial class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<ComboBox>
+internal sealed class ComboBoxSystemBackdropWorkaroundBehavior : BehaviorBase<ComboBox>
 {
     private Popup? popup;
     private ContentExternalBackdropLink? backdropLink;

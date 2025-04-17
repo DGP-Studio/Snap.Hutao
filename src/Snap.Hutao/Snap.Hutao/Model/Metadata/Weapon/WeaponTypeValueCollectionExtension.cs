@@ -10,6 +10,6 @@ internal static class WeaponTypeValueCollectionExtension
 {
     public static ImmutableArray<PropertyCurveValue> ToPropertyCurveValues(this WeaponTypeValueCollection collection)
     {
-        return collection.Array.SelectAsArray(curve => new PropertyCurveValue(curve.Type, curve.Value, curve.InitValue));
+        return collection.Array.SelectAsArray(static curve => new PropertyCurveValue(curve.Type, curve.Value, curve.InitValue));
     }
 }

@@ -43,7 +43,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
 
     private WikiWeaponMetadataContext? metadataContext;
-    private FrozenDictionary<string, SearchToken>? availableTokens;
 
     public IAdvancedCollectionView<Weapon>? Weapons
     {
@@ -70,7 +69,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
     public string? FilterToken { get; set => SetProperty(ref field, value); }
 
-    public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
+    public FrozenDictionary<string, SearchToken>? AvailableTokens { get; private set; }
 
     /// <inheritdoc/>
     protected override async ValueTask<bool> LoadOverrideAsync()
@@ -96,7 +95,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 FilterTokens = [];
 
-                availableTokens = FrozenDictionary.ToFrozenDictionary(
+                AvailableTokens = FrozenDictionary.ToFrozenDictionary(
                 [
                     .. metadataContext.Weapons.Select((weapon, index) => KeyValuePair.Create(weapon.Name, new SearchToken(SearchTokenKind.Weapon, weapon.Name, index, sideIconUri: EquipIconConverter.IconNameToUri(weapon.Icon)))),
                     .. IntrinsicFrozen.FightPropertyNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.FightProperty, nv.Name, (int)nv.Value))),

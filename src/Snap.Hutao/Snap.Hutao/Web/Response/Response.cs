@@ -47,7 +47,7 @@ internal class Response : ICommonResponse<Response>
         string message = SH.FormatWebResponseRequestExceptionFormat(callerName, TypeNameHelper.GetTypeDisplayName(typeof(TResponse)));
         response ??= TResponse.CreateDefault(InternalFailure, message);
 
-        if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
+        if ((KnownReturnCode)response.ReturnCode is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
         {
             response.Message = SH.FormatWebResponseRefreshCookieHintFormat(response.Message);
         }

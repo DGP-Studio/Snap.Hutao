@@ -299,7 +299,7 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
             return;
         }
 
-        if (IsCaretAtStart && (e.Key is VirtualKey.Back or VirtualKey.Left))
+        if (IsCaretAtStart && e.Key is VirtualKey.Back or VirtualKey.Left)
         {
             // if the back key is pressed and there is any selection in the text box then the text box can handle it
             if ((e.Key is VirtualKey.Left && isSelectedFocusOnFirstCharacter) || autoSuggestTextBox.SelectionLength is 0)
@@ -353,8 +353,8 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
     private void OnAutoSuggestTextBoxSelectionChanging(TextBox sender, TextBoxSelectionChangingEventArgs args)
     {
         isSelectedFocusOnFirstCharacter = args is { SelectionLength: > 0, SelectionStart: 0 } && sender.SelectionStart > 0;
-        isSelectedFocusOnLastCharacter = (args.SelectionStart + args.SelectionLength == sender.Text.Length)
-            && (sender.SelectionStart + sender.SelectionLength != sender.Text.Length);
+        isSelectedFocusOnLastCharacter = args.SelectionStart + args.SelectionLength == sender.Text.Length
+            && sender.SelectionStart + sender.SelectionLength != sender.Text.Length;
     }
 
     private void OnAutoSuggestTextBoxTextChanging(TextBox sender, TextBoxTextChangingEventArgs args)

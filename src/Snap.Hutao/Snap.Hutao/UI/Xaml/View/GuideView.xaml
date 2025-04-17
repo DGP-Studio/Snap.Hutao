@@ -142,7 +142,6 @@
                         Spacing="16"/>
                     <StackPanel
                         Grid.Row="2"
-                        Grid.Column="1"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="8">

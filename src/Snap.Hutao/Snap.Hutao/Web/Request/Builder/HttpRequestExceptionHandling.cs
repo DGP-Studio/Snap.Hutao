@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
-internal static partial class HttpRequestExceptionHandling
+internal static class HttpRequestExceptionHandling
 {
     public static bool TryHandle(HttpRequestMessageBuilder builder, Exception ex, out StringBuilder message)
     {
@@ -62,7 +62,7 @@ internal static partial class HttpRequestExceptionHandling
 
             if (httpRequestException.StatusCode is { } statusCode)
             {
-                if (((int)statusCode) is (< 200 or > 299))
+                if ((int)statusCode is < 200 or > 299)
                 {
                     builder.Append("HTTP ").Append((int)statusCode);
                     if (Enum.IsDefined(statusCode))

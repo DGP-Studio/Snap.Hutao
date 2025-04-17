@@ -17,7 +17,7 @@ internal sealed partial class UIGFExportDialog : ContentDialog
         InitializeComponent();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
 
-        Selections = uids.SelectAsArray(item => new UIGFUidSelection(item));
+        Selections = uids.SelectAsArray(static item => new UIGFUidSelection(item));
     }
 
     public async ValueTask<ValueResult<bool, ImmutableArray<uint>>> GetSelectedUidsAsync()

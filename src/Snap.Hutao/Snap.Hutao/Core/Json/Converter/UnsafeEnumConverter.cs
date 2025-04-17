@@ -104,8 +104,6 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
                 }
 
                 break;
-            default:
-                throw new JsonException();
         }
 
         throw new JsonException();

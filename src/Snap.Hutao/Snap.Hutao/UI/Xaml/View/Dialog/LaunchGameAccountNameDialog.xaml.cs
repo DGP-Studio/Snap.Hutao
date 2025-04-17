@@ -16,6 +16,6 @@ internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
     {
         ContentDialogResult result = await contentDialogFactory.EnqueueAndShowAsync(this).ShowTask.ConfigureAwait(false);
         await contentDialogFactory.TaskContext.SwitchToMainThreadAsync();
-        return new(result is ContentDialogResult.Primary && (!string.IsNullOrEmpty(Text)), Text);
+        return new(result is ContentDialogResult.Primary && !string.IsNullOrEmpty(Text), Text);
     }
 }

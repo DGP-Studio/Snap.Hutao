@@ -614,13 +614,15 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         public int Days { get; set; }
     }
 
-    internal sealed class RedeemCodeGenerateOptions : ObservableObject
+    internal sealed partial class RedeemCodeGenerateOptions : ObservableObject
     {
         public uint Count { get; set; }
 
-        public bool IsTimeLimited { get; set => SetProperty(ref field, value); }
+        [ObservableProperty]
+        public partial bool IsTimeLimited { get; set; }
 
-        public bool IsTimesLimited { get; set => SetProperty(ref field, value); }
+        [ObservableProperty]
+        public partial bool IsTimesLimited { get; set; }
 
         public RedeemCodeTargetServiceType ServiceType { get; set; }
 

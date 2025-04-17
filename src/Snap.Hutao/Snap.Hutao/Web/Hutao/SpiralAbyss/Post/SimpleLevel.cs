@@ -18,5 +18,5 @@ internal sealed class SimpleLevel
 
     public int Star { get; set; }
 
-    public IEnumerable<SimpleBattle> Battles { get; set; } = default!;
+    public IEnumerable<SimpleBattle> Battles { get; set; }
 }

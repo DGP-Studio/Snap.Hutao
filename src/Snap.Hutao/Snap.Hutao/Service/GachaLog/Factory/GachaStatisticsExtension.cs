@@ -24,7 +24,7 @@ internal static class GachaStatisticsExtension
         // Mark the IsGuarantee
         foreach (ref readonly SummaryItem item in CollectionsMarshal.AsSpan(summaryItems))
         {
-            if (item.IsUp && (!isPreviousUp))
+            if (item.IsUp && !isPreviousUp)
             {
                 item.IsGuarantee = true;
             }

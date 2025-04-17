@@ -31,7 +31,7 @@ internal static class ListExtension
     public static T? BinarySearch<TItem, T>(this List<T> list, TItem item, Func<TItem, T, int> compare)
         where T : class
     {
-        return SpanExtension.BinarySearch(CollectionsMarshal.AsSpan(list), item, compare);
+        return CollectionsMarshal.AsSpan(list).BinarySearch(item, compare);
     }
 
     [Pure]

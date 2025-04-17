@@ -130,7 +130,7 @@ internal sealed partial class CalculateClient
 
     public async ValueTask<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, ImmutableArray<Item> items, CancellationToken token)
     {
-        ListWrapper<IdCount> data = new() { List = items.SelectAsArray(i => new IdCount { Id = i.Id, Count = i.Num }) };
+        ListWrapper<IdCount> data = new() { List = items.SelectAsArray(static i => new IdCount { Id = i.Id, Count = i.Num }) };
 
         IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(user.IsOversea);
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()

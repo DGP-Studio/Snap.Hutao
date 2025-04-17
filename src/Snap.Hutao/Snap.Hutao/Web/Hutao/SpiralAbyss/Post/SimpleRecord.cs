@@ -13,7 +13,7 @@ internal sealed class SimpleRecord
         Uid = uid;
         Identity = "Snap Hutao"; // hardcoded Identity name
         SpiralAbyss = new(spiralAbyss);
-        Avatars = characters.SelectAsArray(a => new SimpleAvatar(a));
+        Avatars = characters.SelectAsArray(static a => new SimpleAvatar(a));
         ReservedUserName = reservedUserName;
     }
 
