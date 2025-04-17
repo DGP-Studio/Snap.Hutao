@@ -16,13 +16,14 @@ internal static class KnownLaunchSchemes
 
     private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelDefault = new LaunchSchemeBilibili(SubChannelType.Default);
     private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelOfficialCompat = new LaunchSchemeBilibili(SubChannelType.Official, false);
-    private static readonly LaunchScheme ServerGlobalChannelBilibiliSubChannel14Compat = new LaunchSchemeBilibili((SubChannelType)14, false);
+    private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelGoogleCompat = new LaunchSchemeBilibili(SubChannelType.Google, false);
 
     private static readonly LaunchScheme ServerGlobalChannelDefaultSubChannelDefaultCompat = new LaunchSchemeOversea(ChannelType.Default, SubChannelType.Default, false);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelDefault = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Default);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelOfficial = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Official);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelEpic = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Epic);
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelGoogle = new LaunchSchemeOversea(ChannelType.Official, SubChannelType.Google);
+    private static readonly LaunchScheme ServerGlobalChannelBilibiliSubChannel14Compat = new LaunchSchemeOversea(ChannelType.Bili, (SubChannelType)14, false);
 
     public static ImmutableArray<LaunchScheme> Values { get; } =
     [
@@ -34,12 +35,13 @@ internal static class KnownLaunchSchemes
 
         ServerChineseChannelBilibiliSubChannelDefault,
         ServerChineseChannelBilibiliSubChannelOfficialCompat,
-        ServerGlobalChannelBilibiliSubChannel14Compat,
+        ServerChineseChannelBilibiliSubChannelGoogleCompat,
 
         ServerGlobalChannelDefaultSubChannelDefaultCompat,
         ServerGlobalChannelOfficialSubChannelDefault,
         ServerGlobalChannelOfficialSubChannelOfficial,
         ServerGlobalChannelOfficialSubChannelEpic,
         ServerGlobalChannelOfficialSubChannelGoogle,
+        ServerGlobalChannelBilibiliSubChannel14Compat,
     ];
 }

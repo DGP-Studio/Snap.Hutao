@@ -12,6 +12,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
@@ -29,6 +30,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
+    private readonly IServiceScopeIsDisposed serviceScopeIsDisposed;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
@@ -154,7 +156,10 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             return false;
         }
 
-        await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false);
+        if (await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false) is not { NoError: true } checkResult)
+        {
+            return false;
+        }
 
         // Save metadataFile
         FileStream metaFileStream;
@@ -175,7 +180,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 .ConfigureAwait(false);
         }
 
-        fileNames = [.. metadataFileHashes.Select(entry => entry.Key)];
+        fileNames = checkResult.SucceedFiles.ToFrozenSet();
         return true;
     }
 
@@ -248,41 +253,54 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     }
 
     [SuppressMessage("", "SH003")]
-    private Task CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
+    private async ValueTask<MetadataCheckResult> CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
     {
-        return Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
+        MetadataDownloadContext context = new(serviceScopeIsDisposed, serviceScopeFactory, metadataOptions, template);
+
+        await Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
-            (string fileName, string hash) = pair;
+            (string fileName, string metaHash) = pair;
             string fileFullName = $"{fileName}.json";
-            string fileFullPath = metadataOptions.GetLocalizedLocalPath(fileFullName);
+            string fileFullPath = context.Options.GetLocalizedLocalPath(fileFullName);
             if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            bool skip = false;
             if (File.Exists(fileFullPath))
             {
-                skip = hash == await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                string fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
+                {
+                    context.SetResult(fileName, true);
+                    return;
+                }
             }
 
-            if (!skip)
+            try
             {
-                logger.LogInformation("{Hash} of {File} not matched, begin downloading", nameof(XxHash64), fileFullName);
-                await DownloadMetadataSourceFilesAsync(template, fileFullName, token).ConfigureAwait(true);
+                await DownloadMetadataSourceFilesAsync(context, fileFullName, token).ConfigureAwait(true);
             }
-        });
+            catch (Exception)
+            {
+                // No matter what exception, we set the result to false
+                context.SetResult(fileName, false);
+            }
+        }).ConfigureAwait(false);
+
+        return context.ToResult();
     }
 
-    private async ValueTask DownloadMetadataSourceFilesAsync(MetadataTemplate? template, string fileFullName, CancellationToken token)
+    private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        HutaoException.OperationCanceledIf(context.ServiceScopeIsDisposed, string.Empty);
+        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope())
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
             {
                 IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, fileFullName)).Get();
+                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(context.Options.GetLocalizedRemoteFile(context.Template, fileFullName)).Get();
 
                 using (HttpRequestMessage message = builder.HttpRequestMessage)
                 {
@@ -292,7 +310,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                         Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
                         // Write stream while convert LF to CRLF
-                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(metadataOptions.GetLocalizedLocalPath(fileFullName))))
+                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
                         {
                             while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
                             {
@@ -308,7 +326,75 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 }
             }
         }
+    }
 
-        logger.LogInformation("Download {file} completed", fileFullName);
+    private sealed class MetadataDownloadContext
+    {
+        private readonly Lock syncRoot = new();
+        private readonly Dictionary<string, bool> results = [];
+
+        public MetadataDownloadContext(IServiceScopeIsDisposed serviceScopeIsDisposed, IServiceScopeFactory serviceScopeFactory, MetadataOptions options, MetadataTemplate? template)
+        {
+            ServiceScopeIsDisposed = serviceScopeIsDisposed;
+            ServiceScopeFactory = serviceScopeFactory;
+            Options = options;
+            Template = template;
+        }
+
+        public IServiceScopeIsDisposed ServiceScopeIsDisposed { get; }
+
+        public IServiceScopeFactory ServiceScopeFactory { get; }
+
+        public MetadataOptions Options { get; }
+
+        public MetadataTemplate? Template { get; }
+
+        public void SetResult(string fileName, bool result)
+        {
+            lock (syncRoot)
+            {
+                results.Add(fileName, result);
+            }
+        }
+
+        public MetadataCheckResult ToResult()
+        {
+            lock (syncRoot)
+            {
+                return new(results);
+            }
+        }
+    }
+
+    private sealed class MetadataCheckResult
+    {
+        private readonly ImmutableDictionary<string, bool> results;
+
+        public MetadataCheckResult(Dictionary<string, bool> results)
+        {
+            this.results = results.ToImmutableDictionary();
+        }
+
+        public bool NoError
+        {
+            get
+            {
+                return results.All(r => r.Value);
+            }
+        }
+
+        public IEnumerable<string> SucceedFiles
+        {
+            get
+            {
+                foreach ((string fileName, bool result) in results)
+                {
+                    if (result)
+                    {
+                        yield return fileName;
+                    }
+                }
+            }
+        }
     }
 }
