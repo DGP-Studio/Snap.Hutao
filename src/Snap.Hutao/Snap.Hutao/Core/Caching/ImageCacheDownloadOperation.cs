@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Request.Builder;
@@ -29,6 +30,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly HutaoUserOptions hutaoUserOptions;
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
@@ -56,6 +58,8 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
             .SetRequestUri(uri)
             .SetStaticResourceControlHeadersIfRequired()
             .Get();
+
+        await requestMessageBuilder.SetStaticResourceAuthorizationHeaderIfRequired(hutaoUserOptions).ConfigureAwait(false);
 
         while (retryCount < 3)
         {

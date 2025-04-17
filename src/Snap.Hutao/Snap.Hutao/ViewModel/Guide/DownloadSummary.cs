@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -28,6 +29,7 @@ internal sealed partial class DownloadSummary : ObservableObject
     ];
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IImageCache imageCache;
@@ -43,6 +45,7 @@ internal sealed partial class DownloadSummary : ObservableObject
         httpClient = serviceProvider.GetRequiredService<HttpClient>();
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(HutaoRuntime.UserAgent);
         imageCache = serviceProvider.GetRequiredService<IImageCache>();
+        hutaoUserOptions = serviceProvider.GetRequiredService<HutaoUserOptions>();
 
         this.serviceProvider = serviceProvider;
 
@@ -74,6 +77,8 @@ internal sealed partial class DownloadSummary : ObservableObject
                     .SetRequestUri(fileUrl)
                     .SetStaticResourceControlHeaders()
                     .Get();
+
+                await builder.SetStaticResourceAuthorizationHeaderIfRequired(hutaoUserOptions).ConfigureAwait(false);
 
                 TimeSpan delay = default;
                 using (HttpRequestMessage message = builder.HttpRequestMessage)

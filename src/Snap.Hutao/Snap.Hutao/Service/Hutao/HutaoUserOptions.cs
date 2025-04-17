@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Redeem;
 using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Hutao.StaticResource;
 using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -24,8 +25,10 @@ internal sealed partial class HutaoUserOptions : ObservableObject
     private readonly AsyncKeyedLock<string> operationLock = new();
     private readonly AsyncManualResetEvent loginEvent = new();
     private readonly AsyncManualResetEvent infoEvent = new();
+    private readonly AsyncManualResetEvent imageTokenEvent = new();
 
-    private AuthTokenExpiration authTokenExpiration;
+    private TokenExpiration authTokenExpiration;
+    private TokenExpiration imageTokenExpiration;
 
     [ObservableProperty]
     public partial bool IsLoggedIn { get; set; }
@@ -72,6 +75,12 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         return IsLoggedIn ? UserName : default;
     }
 
+    public async ValueTask<bool> GetIsHutaoCloudAllowedAsync()
+    {
+        await infoEvent.WaitAsync().ConfigureAwait(false);
+        return IsHutaoCloudAllowed;
+    }
+
     public async ValueTask<bool> GetIsHutaoCdnAllowedAsync()
     {
         await infoEvent.WaitAsync().ConfigureAwait(false);
@@ -104,6 +113,34 @@ internal sealed partial class HutaoUserOptions : ObservableObject
         }
     }
 
+    public async ValueTask<string?> GetImageTokenAsync(CancellationToken token = default)
+    {
+        using (await operationLock.LockAsync(nameof(GetImageTokenAsync)).ConfigureAwait(false))
+        {
+            await infoEvent.WaitAsync().ConfigureAwait(false);
+
+            if (!IsLoggedIn || !IsHutaoCloudAllowed)
+            {
+                return default;
+            }
+
+            await imageTokenEvent.WaitAsync().ConfigureAwait(false);
+
+            if (imageTokenExpiration.ExpireAt < DateTimeOffset.UtcNow)
+            {
+                // Re-initialize to refresh the token
+                await InitializeAsync(token).ConfigureAwait(false);
+            }
+
+            if (!IsLoggedIn || !IsHutaoCloudAllowed)
+            {
+                return default;
+            }
+
+            return imageTokenExpiration.Token;
+        }
+    }
+
     public async ValueTask InitializeAsync(CancellationToken token = default)
     {
         using (await operationLock.LockAsync(nameof(InitializeAsync)).ConfigureAwait(false))
@@ -115,11 +152,13 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             {
                 loginEvent.Set();
                 infoEvent.Set();
+                imageTokenEvent.Set();
                 return;
             }
 
             loginEvent.Reset();
             infoEvent.Reset();
+            imageTokenEvent.Reset();
             await LoginAsync(username, password, true, token).ConfigureAwait(false);
         }
     }
@@ -143,6 +182,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
             }
 
             infoEvent.Reset();
+            imageTokenEvent.Reset();
 
             if (await GetAuthTokenAsync(token).ConfigureAwait(false) is not null)
             {
@@ -186,6 +226,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     UserName = SH.ViewServiceHutaoUserLoginFailHint;
                     loginEvent.Set();
                     infoEvent.Set();
+                    imageTokenEvent.Set();
                     return;
                 }
 
@@ -214,6 +255,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     UserName = SH.ViewServiceHutaoUserLoginFailHint;
                     loginEvent.Set();
                     infoEvent.Set();
+                    imageTokenEvent.Set();
                     return;
                 }
 
@@ -317,6 +359,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
 
             await taskContext.SwitchToMainThreadAsync();
             authTokenExpiration = default;
+            imageTokenExpiration = default;
             UserName = default;
             IsLoggedIn = false;
             IsDeveloper = false;
@@ -343,6 +386,7 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                 if (!ResponseValidator.TryValidate(userInfoResponse, scope.ServiceProvider, out UserInfo? userInfo))
                 {
                     infoEvent.Set();
+                    imageTokenEvent.Set();
                     return;
                 }
 
@@ -360,17 +404,29 @@ internal sealed partial class HutaoUserOptions : ObservableObject
                     ? $"{userInfo.CdnExpireAt:yyyy.MM.dd HH:mm:ss}"
                     : SH.ViewServiceHutaoUserCdnNotAllowedDescription;
 
+                if (IsHutaoCdnAllowed)
+                {
+                    HutaoStaticResourceClient staticResourceClient = scope.ServiceProvider.GetRequiredService<HutaoStaticResourceClient>();
+                    Response<ImageToken> imageTokenResponse = await staticResourceClient.GetAcceleratedImageTokenAsync(token).ConfigureAwait(false);
+
+                    if (ResponseValidator.TryValidate(imageTokenResponse, scope.ServiceProvider, out ImageToken? imageToken))
+                    {
+                        imageTokenExpiration = new(imageToken.Token);
+                    }
+                }
+
                 infoEvent.Set();
+                imageTokenEvent.Set();
             }
         }
     }
 
-    private readonly struct AuthTokenExpiration
+    private readonly struct TokenExpiration
     {
         public readonly string Token;
         public readonly DateTimeOffset ExpireAt;
 
-        public AuthTokenExpiration(string token)
+        public TokenExpiration(string token)
         {
             Token = token;
             ExpireAt = DateTimeOffset.Now + TimeSpan.FromHours(2);
