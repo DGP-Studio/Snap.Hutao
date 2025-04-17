@@ -261,6 +261,7 @@ internal class MiHoYoJSBridge
         UserFullInfoWrapper? wrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IUserClient userClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
                 .Create(userAndUid.IsOversea);
@@ -269,7 +270,7 @@ internal class MiHoYoJSBridge
                 .GetUserFullInfoAsync(userAndUid.User)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out wrapper))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out wrapper))
             {
                 return new();
             }

@@ -302,7 +302,7 @@
                     IsClickEnabled="True">
                     <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
                         <CheckBox Content="IsOversea" IsChecked="{Binding ExtractExeOptions.IsOversea, Mode=TwoWay}"/>
-                        <CheckBox Content="IsPredownload" IsChecked="{Binding ExtractExeOptions.IsPredownload, Mode=TwoWay}"/>
+                        <CheckBox Content="IsPredownload" IsChecked="{Binding ExtractExeOptions.IsPreDownload, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
 

@@ -23,12 +23,6 @@ internal static class ResponseValidator
         return new TypedResponseValidator<TData>(infoBarService).TryValidate(response, out data);
     }
 
-    [Obsolete]
-    public static bool TryValidate<TData>(Response<TData> response, IServiceProvider serviceProvider, [NotNullWhen(true)] out TData? data)
-    {
-        return serviceProvider.GetRequiredService<ITypedResponseValidator<TData>>().TryValidate(response, out data);
-    }
-
     public static bool TryValidate<TData>(Response<TData> response, IServiceProvider serviceProvider, IIsDisposed isDisposed, [NotNullWhen(true)] out TData? data)
     {
         isDisposed.TryThrow();

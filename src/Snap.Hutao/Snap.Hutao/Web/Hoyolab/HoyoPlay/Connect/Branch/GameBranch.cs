@@ -9,5 +9,5 @@ internal sealed class GameBranch : GameIndexedObject
     public BranchWrapper Main { get; set; } = default!;
 
     [JsonPropertyName("pre_download")]
-    public BranchWrapper PreDownload { get; set; } = default!;
+    public BranchWrapper? PreDownload { get; set; }
 }

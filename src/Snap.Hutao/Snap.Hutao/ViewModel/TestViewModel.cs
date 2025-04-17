@@ -340,8 +340,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         try
         {
             string script = """
-                return 1 + 1;
-                """;
+                            return 1 + 1;
+                            """;
             object? result = await CSharpScript.EvaluateAsync(script, ScriptOptions.Default).ConfigureAwait(false);
             logger.LogInformation("Run Code Result: '{Result}'", result);
         }
@@ -358,10 +358,11 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
-            LaunchGameShared launchGameShared = serviceProvider.GetRequiredService<LaunchGameShared>();
-            HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
-            LaunchOptions launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
+            IGamePackageService gamePackageService = scope.ServiceProvider.GetRequiredService<IGamePackageService>();
+            LaunchGameShared launchGameShared = scope.ServiceProvider.GetRequiredService<LaunchGameShared>();
+            HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+            LaunchOptions launchOptions = scope.ServiceProvider.GetRequiredService<LaunchOptions>();
 
             if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
             {
@@ -369,7 +370,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
 
             Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, scopeIsDisposed, out GameBranchesWrapper? branchesWrapper))
             {
                 return;
             }
@@ -381,7 +382,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
             if (gameBranch.PreDownload is null)
             {
-                infoBarService.Warning("Predownload not available");
+                infoBarService.Warning("PreDownload not available");
                 return;
             }
 
@@ -404,13 +405,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 }
 
                 string message = $"""
-                    Local: {localVersion}
-                    Remote: {gameBranch.PreDownload.Tag}
-                    Extract Directory: {extractDirectory}
+                                  Local: {localVersion}
+                                  Remote: {gameBranch.PreDownload.Tag}
+                                  Extract Directory: {extractDirectory}
 
-                    Please ensure local game is integrated.
-                    We need some of old blocks to patch up.
-                    """;
+                                  Please ensure local game is integrated.
+                                  We need some of old blocks to patch up.
+                                  """;
 
                 ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
                         "Extract Game Blocks",
@@ -469,84 +470,88 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test extract game executable", "TestViewModel.Command"));
 
-        IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
-        HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
-
-        // TODO: Refactor
-        LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(s => s.IsOversea == ExtractExeOptions.IsOversea);
-
-        Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-        if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            return;
-        }
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
+            IGamePackageService gamePackageService = serviceProvider.GetRequiredService<IGamePackageService>();
+            HoyoPlayClient hoyoPlayClient = serviceProvider.GetRequiredService<HoyoPlayClient>();
 
-        if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is not { } gameBranch)
-        {
-            return;
-        }
+            // TODO: Refactor
+            LaunchScheme launchScheme = KnownLaunchSchemes.Values.First(s => s.IsOversea == ExtractExeOptions.IsOversea);
 
-        BranchWrapper branch = ExtractExeOptions.IsPredownload ? gameBranch.PreDownload : gameBranch.Main;
-
-        if (branch is null)
-        {
-            infoBarService.Warning("Predownload not available");
-            return;
-        }
-
-        if (fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks") is not (true, { } extractDirectory))
-        {
-            return;
-        }
-
-        string message = $"""
-            Version: {branch.Tag}
-            IsOversea: {ExtractExeOptions.IsOversea}
-            Extract Directory: {extractDirectory}
-            """;
-
-        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
-                "Extract Game Blocks",
-                message)
-            .ConfigureAwait(false);
-
-        if (result is ContentDialogResult.Primary)
-        {
-            IGameFileSystem gameFileSystem = GameFileSystem.CreateForPackageOperation(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
-
-            ContentDialog dialog = await contentDialogFactory
-                .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
-                .ConfigureAwait(false);
-
-            SophonDecodedBuild? build;
-            using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
+            Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, scopeIsDisposed, out GameBranchesWrapper? branchesWrapper))
             {
-                build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch).ConfigureAwait(false);
-                if (build is null)
-                {
-                    infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
-                    return;
-                }
+                return;
             }
 
-            GamePackageOperationContext context = new(
-                serviceProvider,
-                GamePackageOperationKind.ExtractExecutable,
-                gameFileSystem,
-                default!,
-                ExtractGameExecutable(build),
-                default,
-                default);
+            if (branchesWrapper.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is not { } gameBranch)
+            {
+                return;
+            }
 
-            await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
-        }
+            BranchWrapper? branch = ExtractExeOptions.IsPreDownload ? gameBranch.PreDownload : gameBranch.Main;
 
-        SophonDecodedBuild ExtractGameExecutable(SophonDecodedBuild decodedBuild)
-        {
-            SophonDecodedManifest manifest = decodedBuild.Manifests.First();
-            SophonManifestProto proto = new();
-            proto.Assets.Add(manifest.Data.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
-            return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
+            if (branch is null)
+            {
+                infoBarService.Warning("PreDownload not available");
+                return;
+            }
+
+            if (fileSystemPickerInteraction.PickFolder("Select directory to extract the game blks") is not (true, { } extractDirectory))
+            {
+                return;
+            }
+
+            string message = $"""
+                Version: {branch.Tag}
+                IsOversea: {ExtractExeOptions.IsOversea}
+                Extract Directory: {extractDirectory}
+                """;
+
+            ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+                    "Extract Game Blocks",
+                    message)
+                .ConfigureAwait(false);
+
+            if (result is ContentDialogResult.Primary)
+            {
+                IGameFileSystem gameFileSystem = GameFileSystem.CreateForPackageOperation(Path.Combine(extractDirectory, ExtractExeOptions.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName));
+
+                ContentDialog dialog = await contentDialogFactory
+                    .CreateForIndeterminateProgressAsync(SH.UIXamlViewSpecializedSophonProgressDefault)
+                    .ConfigureAwait(false);
+
+                SophonDecodedBuild? build;
+                using (await contentDialogFactory.BlockAsync(dialog).ConfigureAwait(false))
+                {
+                    build = await gamePackageService.DecodeManifestsAsync(gameFileSystem, branch).ConfigureAwait(false);
+                    if (build is null)
+                    {
+                        infoBarService.Error(SH.ServiceGamePackageAdvancedDecodeManifestFailed);
+                        return;
+                    }
+                }
+
+                GamePackageOperationContext context = new(
+                    serviceProvider,
+                    GamePackageOperationKind.ExtractExecutable,
+                    gameFileSystem,
+                    default!,
+                    ExtractGameExecutable(build),
+                    default,
+                    default);
+
+                await gamePackageService.ExecuteOperationAsync(context).ConfigureAwait(false);
+            }
+
+            SophonDecodedBuild ExtractGameExecutable(SophonDecodedBuild decodedBuild)
+            {
+                SophonDecodedManifest manifest = decodedBuild.Manifests.First();
+                SophonManifestProto proto = new();
+                proto.Assets.Add(manifest.Data.Assets.Single(a => GameExecutableFileRegex.IsMatch(a.AssetName)));
+                return new(decodedBuild.Tag, proto.Assets.Sum(a => a.AssetChunks.Sum(c => c.ChunkSize)), proto.Assets.Sum(a => a.AssetSize), [new(manifest.UrlPrefix, proto)]);
+            }
         }
     }
 
@@ -591,9 +596,10 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
             HutaoResponse<RedeemGenerateResult> response = await hutaoAsAServiceClient.GenerateRedeemCodesAsync(request).ConfigureAwait(false);
-            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out RedeemGenerateResult? generateResponse))
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out RedeemGenerateResult? generateResponse))
             {
                 string message = $"""
                     {response.Message}
@@ -612,7 +618,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         public bool IsOversea { get; set; }
 
-        public bool IsPredownload { get; set; }
+        public bool IsPreDownload { get; set; }
     }
 
     internal sealed class DesignationOptions
