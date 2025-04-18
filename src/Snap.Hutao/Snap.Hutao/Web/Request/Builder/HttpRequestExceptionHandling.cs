@@ -97,6 +97,8 @@ internal static class HttpRequestExceptionHandling
                         {
                             case SocketError.AccessDenied:
                                 return NetworkError.ERR_CONNECTION_ACCESS_DENIED;
+                            case SocketError.AddressAlreadyInUse:
+                                return NetworkError.ERR_CONNECTION_ADDRESS_ALREADY_IN_USE;
                             case SocketError.ConnectionAborted:
                                 return NetworkError.ERR_CONNECTION_ABORTED;
                             case SocketError.ConnectionRefused:

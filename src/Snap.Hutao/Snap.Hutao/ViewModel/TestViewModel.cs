@@ -405,13 +405,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 }
 
                 string message = $"""
-                                  Local: {localVersion}
-                                  Remote: {gameBranch.PreDownload.Tag}
-                                  Extract Directory: {extractDirectory}
+                    Local: {localVersion}
+                    Remote: {gameBranch.PreDownload.Tag}
+                    Extract Directory: {extractDirectory}
 
-                                  Please ensure local game is integrated.
-                                  We need some of old blocks to patch up.
-                                  """;
+                    Please ensure local game is integrated.
+                    We need some of old blocks to patch up.
+                    """;
 
                 ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
                         "Extract Game Blocks",
