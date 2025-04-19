@@ -14,6 +14,7 @@ internal static class AvatarPromotionDeltaExtension
             AvatarId = avatar.Id,
             AvatarLevelCurrent = Math.Min(avatar.LevelNumber, source.AvatarLevelTarget),
             AvatarLevelTarget = source.AvatarLevelTarget,
+            AvatarPromoteLevel = avatar.PromoteLevel,
         };
 
         if (avatar.Skills is not [{ } skillViewA, { } skillViewE, { } skillViewQ, ..] ||
