@@ -32,6 +32,7 @@ internal static class SettingKeys
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string HotKeyKeyPressRepeatForever = "HotKeyKeyPressRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled3";
+    public const string IsCloseButtonBehaviorSet = "IsCloseButtonBehaviorSet";
     #endregion
 
     #region Overlay

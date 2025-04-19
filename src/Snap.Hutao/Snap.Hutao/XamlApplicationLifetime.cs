@@ -10,7 +10,7 @@ internal static class XamlApplicationLifetime
 
     public static bool CultureInfoInitialized { get; set; }
 
-    public static bool LaunchedWithNotifyIcon { get; set; }
+    public static bool NotifyIconCreated { get; set; }
 
     public static bool IsFirstRunAfterUpdate { get; set; }
 

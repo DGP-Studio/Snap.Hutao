@@ -21,7 +21,7 @@ internal sealed class LaunchExecutionOverlayHandler : ILaunchExecutionDelegateHa
 
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (XamlApplicationLifetime.LaunchedWithNotifyIcon && HutaoRuntime.IsProcessElevated && context.Options.UsingOverlay)
+        if (HutaoRuntime.IsProcessElevated && context.Options.UsingOverlay)
         {
             await context.TaskContext.SwitchToMainThreadAsync();
 

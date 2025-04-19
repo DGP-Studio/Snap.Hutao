@@ -14,7 +14,7 @@ internal sealed partial class SettingEntry
     public const string Culture = "Culture";
     public const string FirstDayOfWeek = "FirstDayOfWeek";
 
-    public const string IsNotifyIconEnabled = "IsNotifyIconEnabled";
+    public const string CloseButtonBehavior = "CloseButtonBehavior";
     public const string SystemBackdropType = "SystemBackdropType";
     public const string ElementTheme = "ElementTheme";
     public const string BackgroundImageType = "BackgroundImageType";
@@ -105,4 +105,7 @@ internal sealed partial class SettingEntry
 
     [Obsolete("不再使用")]
     public const string LaunchHookingShowDamageText = "Launch.HookingShowDamageText";
+
+    [Obsolete("不再使用")]
+    public const string IsNotifyIconEnabled = "IsNotifyIconEnabled";
 }

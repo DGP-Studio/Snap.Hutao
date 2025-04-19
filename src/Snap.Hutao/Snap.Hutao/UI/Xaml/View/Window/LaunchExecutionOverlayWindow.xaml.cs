@@ -54,8 +54,8 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         IServiceScope scope = serviceProvider.CreateScope();
         this.InitializeController(scope.ServiceProvider);
         RootView.InitializeDataContext<OverlayViewModel>(scope.ServiceProvider);
-        lowLevelKeyOptions = serviceProvider.GetRequiredService<LowLevelKeyOptions>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        lowLevelKeyOptions = scope.ServiceProvider.GetRequiredService<LowLevelKeyOptions>();
+        taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
 
         AppWindow.Resize(size);
         if (HideByHotKey)
