@@ -29,7 +29,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
     private TimeSpan? calendarServerTimeZoneOffset;
-    private CloseButtonBehavior? closeButtonBehavior;
+    private LastWindowCloseBehavior? closeButtonBehavior;
 
     public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
 
@@ -127,11 +127,11 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, value, static v => v.ToString());
     }
 
-    public ImmutableArray<NameValue<CloseButtonBehavior>> CloseButtonBehaviors { get; } = ImmutableCollectionsNameValue.FromEnum<CloseButtonBehavior>(type => type.GetLocalizedDescription());
+    public ImmutableArray<NameValue<LastWindowCloseBehavior>> LastWindowCloseBehaviors { get; } = ImmutableCollectionsNameValue.FromEnum<LastWindowCloseBehavior>(LastWindowCloseBehaviorExtension.GetLocalizedDescription);
 
-    public CloseButtonBehavior CloseButtonBehavior
+    public LastWindowCloseBehavior LastWindowCloseBehavior
     {
-        get => GetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, Enum.Parse<CloseButtonBehavior>, CloseButtonBehavior.Minimize);
+        get => GetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, Enum.Parse<LastWindowCloseBehavior>, LastWindowCloseBehavior.EnsureNotifyIconCreated);
         set => SetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, value, EnumToStringOrEmpty);
     }
 }

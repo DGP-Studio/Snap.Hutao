@@ -172,8 +172,11 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             }
             catch (Exception)
             {
+                // Ignore
             }
         }
+
+        await taskContext.SwitchToBackgroundAsync();
 
         // Services Initialization
         await Task.WhenAll(

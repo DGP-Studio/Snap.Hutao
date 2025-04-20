@@ -5,11 +5,9 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing.Abstraction;
-using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel;
 using Windows.Graphics;
 
@@ -21,11 +19,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowHasInitSize
 {
-    private readonly IServiceScope scope;
-
-    private readonly IContentDialogFactory contentDialogFactory;
-    private readonly ITaskContext taskContext;
-    private readonly AppOptions appOptions;
+    private readonly LastWindowCloseBehaviorTraits closeBehaviorTraits;
     private readonly App app;
 
     public MainWindow(IServiceProvider serviceProvider)
@@ -39,13 +33,11 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             presenter.PreferredMinimumHeight = minSize.Height;
         }
 
-        scope = serviceProvider.CreateScope();
+        IServiceScope scope = serviceProvider.CreateScope();
         this.InitializeController(scope.ServiceProvider);
         TitleView.InitializeDataContext<TitleViewModel>(scope.ServiceProvider);
         MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
-        contentDialogFactory = scope.ServiceProvider.GetRequiredService<IContentDialogFactory>();
-        taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
-        appOptions = scope.ServiceProvider.GetRequiredService<AppOptions>();
+        closeBehaviorTraits = scope.ServiceProvider.GetRequiredService<LastWindowCloseBehaviorTraits>();
         app = scope.ServiceProvider.GetRequiredService<App>();
     }
 
@@ -59,7 +51,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     {
         if (!XamlApplicationLifetime.Exiting && XamlApplicationLifetime.NotifyIconCreated && !LocalSetting.Get(SettingKeys.IsCloseButtonBehaviorSet, false))
         {
-            SetCloseButtonBehaviorAsync().SafeForget();
+            closeBehaviorTraits.SetAsync(this).SafeForget();
             cancel = true;
             return;
         }
@@ -74,13 +66,13 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        if (!XamlApplicationLifetime.NotifyIconCreated || appOptions.CloseButtonBehavior is CloseButtonBehavior.Exit)
+        if (!XamlApplicationLifetime.NotifyIconCreated || app.Options.LastWindowCloseBehavior is LastWindowCloseBehavior.ExitApplication)
         {
             app.Exit();
             return;
         }
 
-        if (!NotifyIcon.IsPromoted(scope.ServiceProvider))
+        if (this.TryGetAssociatedServiceProvider(out IServiceProvider serviceProvider) && !NotifyIcon.IsPromoted(serviceProvider))
         {
             try
             {
@@ -93,23 +85,5 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
                 // Ignore
             }
         }
-    }
-
-    private async ValueTask SetCloseButtonBehaviorAsync()
-    {
-        CloseButtonBehaviorSetDialog dialog = await contentDialogFactory
-            .CreateInstanceAsync<CloseButtonBehaviorSetDialog>(scope.ServiceProvider)
-            .ConfigureAwait(false);
-
-        (bool isOk, CloseButtonBehavior behavior) = await dialog.GetCloseButtonBehaviorAsync().ConfigureAwait(false);
-        if (!isOk)
-        {
-            return;
-        }
-
-        await taskContext.SwitchToMainThreadAsync();
-        appOptions.CloseButtonBehavior = behavior;
-        LocalSetting.Set(SettingKeys.IsCloseButtonBehaviorSet, true);
-        Close();
     }
 }
