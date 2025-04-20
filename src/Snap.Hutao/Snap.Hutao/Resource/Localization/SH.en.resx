@@ -809,10 +809,10 @@
     <value>No Wallpaper</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出胡桃</value>
+    <value>Exit Snap Hutao</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>Minimize to tray</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Failed to send notification</value>
@@ -1250,13 +1250,13 @@ Space Available: {2}</value>
     <value>Import achievements data for current archive</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>You may change this behavior later in settings</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
     <value>Features like Realtime Notes data refresh requires Snap Hutao running in background</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>Close Window</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Character Target Level</value>
