@@ -523,11 +523,11 @@
                                             </cwcont:HeaderedContentControl.Header>
                                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
                                                 <InfoBar
-                                                    Title="{shuxm:ResourceString Name=ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint}"
+                                                    Title="{shuxm:ResourceString Name=ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint}"
                                                     IsClosable="False"
                                                     IsOpen="True"
                                                     Severity="Warning"
-                                                    Visibility="{Binding AppOptions.IsNotifyIconEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                    Visibility="{Binding AppOptions.NotifyIconCreated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                 <cwcont:SettingsCard
                                                     Description="{shuxm:ResourceString Name=ViewPageDailyNoteSettingAutoRefreshDescription}"
                                                     Header="{shuxm:ResourceString Name=ViewPageDailyNoteSettingAutoRefresh}"

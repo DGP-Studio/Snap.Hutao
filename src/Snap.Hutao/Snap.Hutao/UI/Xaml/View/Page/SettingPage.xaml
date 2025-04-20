@@ -276,15 +276,22 @@
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                                 <InfoBar
-                                    Title="{shuxm:ResourceString Name=ViewPageSettingNotifyIconCustomTaskBarWaring}"
+                                    Title="{shuxm:ResourceString Name=ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning}"
                                     IsClosable="False"
                                     IsOpen="True"
-                                    Severity="Warning"/>
+                                    Severity="Warning"
+                                    Visibility="{Binding AppOptions.NotifyIconCreated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                 <cwc:SettingsCard
-                                    Description="{shuxm:ResourceString Name=ViewPageSettingNotifyIconDescription}"
-                                    Header="{shuxm:ResourceString Name=ViewPageSettingNotifyIconHeader}"
-                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE91C;}">
-                                    <ToggleSwitch IsOn="{Binding AppOptions.IsNotifyIconEnabled, Mode=TwoWay}"/>
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingAppearanceCloseButtonBehaviorDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingAppearanceCloseButtonBehaviorHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE894;}"
+                                    IsEnabled="{Binding AppOptions.NotifyIconCreated, Converter={StaticResource BoolNegationConverter}}">
+                                    <shuxc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.LastWindowCloseBehaviors}"
+                                            SelectedItem="{Binding SelectedLastWindowCloseBehavior, Mode=TwoWay}"/>
+                                    </shuxc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                             </StackPanel>
                         </Border>

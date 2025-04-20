@@ -84,4 +84,16 @@ internal sealed partial class SettingAppearanceViewModel : Abstraction.ViewModel
             }
         }
     }
+
+    public NameValue<LastWindowCloseBehavior>? SelectedLastWindowCloseBehavior
+    {
+        get => field ??= AppOptions.LastWindowCloseBehaviors.Single(t => t.Value == AppOptions.LastWindowCloseBehavior);
+        set
+        {
+            if (SetProperty(ref field, value) && value is not null)
+            {
+                AppOptions.LastWindowCloseBehavior = value.Value;
+            }
+        }
+    }
 }

@@ -355,6 +355,14 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL UnregisterClassW(PCWSTR lpClassName, [Optional] HINSTANCE hInstance);
 
+    public static unsafe BOOL UnregisterClassW(ReadOnlySpan<char> className, [Optional] HINSTANCE hInstance)
+    {
+        fixed (char* lpClassName = className)
+        {
+            return UnregisterClassW(lpClassName, hInstance);
+        }
+    }
+
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL UnregisterHotKey([Optional] HWND hWnd, int id);
