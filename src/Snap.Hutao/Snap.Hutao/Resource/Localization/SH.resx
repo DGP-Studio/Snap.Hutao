@@ -809,10 +809,10 @@
     <value>无背景图片</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出程序</value>
+    <value>退出胡桃</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到托盘</value>
+    <value>最小化到通知区域图标</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>应用通知发送失败</value>
@@ -1250,13 +1250,13 @@
     <value>为当前存档导入成就</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>你也可以稍后在设置中修改关闭按钮行为</value>
+    <value>稍后可以在设置中修改此行为</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
     <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>退出</value>
+    <value>关闭窗口</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>角色目标等级</value>

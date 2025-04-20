@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -60,6 +61,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
         if (Hwnd == default)
         {
             Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            HutaoException.Throw("Failed to create NotifyIconMessageWindow");
         }
 
         WindowTable.TryAdd(Hwnd, this);
@@ -97,6 +99,11 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnWindowProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam)
     {
+        if (uMsg is WM_CREATE or WM_NCCREATE)
+        {
+            return BOOL.TRUE;
+        }
+
         if (XamlApplicationLifetime.Exiting || !WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window) || window.disposed)
         {
             return BOOL.FALSE;

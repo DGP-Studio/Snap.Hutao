@@ -28,6 +28,7 @@
         </RadioButtons>
         <TextBlock
             Grid.Row="2"
+            Opacity="0.8"
             Style="{ThemeResource CaptionTextBlockStyle}"
             Text="{shuxm:ResourceString Name=ViewDialogCloseButtonBehaviorSetDialogCaption}"/>
     </Grid>
