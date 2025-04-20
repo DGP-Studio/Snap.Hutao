@@ -5,13 +5,13 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Security.Principal;
-using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using WinRT;
+using static Snap.Hutao.Win32.User32;
 
 // Visible to test project.
 [assembly: InternalsVisibleTo("Snap.Hutao.Test")]
@@ -119,7 +119,7 @@ public static partial class Bootstrap
                 Snap Hutao 无法在版本低于 10.0.19045.5371 的 Windows 上运行，请更新系统。
                 Snap Hutao cannot run on Windows versions earlier than 10.0.19045.5371. Please update your system.
                 """;
-            User32.MessageBoxExW(
+            MessageBoxExW(
                 default,
                 Message,
                 "Warning | 警告",

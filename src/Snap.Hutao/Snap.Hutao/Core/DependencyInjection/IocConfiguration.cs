@@ -5,6 +5,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
@@ -24,24 +26,35 @@ internal static class IocConfiguration
             string dbFile = HutaoRuntime.GetDataFolderFile("Userdata.db");
             string sqlConnectionString = $"Data Source={dbFile}";
 
-            using (AppDbContext context = AppDbContext.Create(serviceProvider, sqlConnectionString))
+            try
             {
-                IEnumerable<string> pendingMigrations;
-                try
+                using (AppDbContext context = AppDbContext.Create(serviceProvider, sqlConnectionString))
                 {
-                    pendingMigrations = context.Database.GetPendingMigrations();
+                    if (context.Database.GetPendingMigrations().Any())
+                    {
+                        serviceProvider.GetRequiredService<ILogger<AppDbContext>>().LogInformation("[Database] Performing AppDbContext Migrations");
+                        context.Database.Migrate();
+                    }
                 }
-                catch (SqliteException ex)
-                {
-                    ex.Data.Add("FilePath", dbFile);
-                    throw;
-                }
-
-                if (pendingMigrations.Any())
-                {
-                    serviceProvider.GetRequiredService<ILogger<AppDbContext>>().LogInformation("[Database] Performing AppDbContext Migrations");
-                    context.Database.Migrate();
-                }
+            }
+            catch (SqliteException ex)
+            {
+                ex.Data.Add("FilePath", dbFile);
+                string message = $"""
+                    Snap Hutao 在执行数据库迁移时发生错误。
+                    Snap Hutao encountered an error while performing database migration.
+                    
+                    Database at '{dbFile}'
+                    
+                    {ex.Message}
+                    """;
+                MessageBoxExW(
+                    default,
+                    message,
+                    "Warning | 警告",
+                    MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONERROR,
+                    0);
+                throw;
             }
 
             builder
