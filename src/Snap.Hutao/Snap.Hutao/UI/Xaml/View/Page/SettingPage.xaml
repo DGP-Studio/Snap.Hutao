@@ -285,7 +285,7 @@
                                     Description="{shuxm:ResourceString Name=ViewPageSettingAppearanceCloseButtonBehaviorDescription}"
                                     Header="{shuxm:ResourceString Name=ViewPageSettingAppearanceCloseButtonBehaviorHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE894;}"
-                                    IsEnabled="{Binding AppOptions.NotifyIconCreated, Converter={StaticResource BoolNegationConverter}}">
+                                    IsEnabled="{Binding AppOptions.NotifyIconCreated}">
                                     <shuxc:SizeRestrictedContentControl>
                                         <ComboBox
                                             DisplayMemberPath="Name"
