@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -808,6 +808,12 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>배경화면 없음</value>
   </data>
+  <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
+    <value>退出胡桃</value>
+  </data>
+  <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
+    <value>最小化到通知区域图标</value>
+  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>애플리케이션 알림 전송 실패</value>
   </data>
@@ -964,6 +970,9 @@
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Unity 로그 파일에서 게임 경로를 찾을 수 없습니다</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
+    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>리소스 패키지 크기: {0}
@@ -1239,6 +1248,15 @@
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>현재 아카이브 업적 가져오기</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
+    <value>稍后可以在设置中修改此行为</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
+    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
+    <value>关闭窗口</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>캐릭터 목표 레벨</value>
@@ -1894,6 +1912,9 @@
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>로컬 버전: {0}</value>
   </data>
+  <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
+    <value>任务已中断，{0}</value>
+  </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>취소됨</value>
   </data>
@@ -2325,6 +2346,9 @@
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
     <value>알림 영역 아이콘이 비활성화되어 있어 창을 닫은 후 자동 새로 고침이 실행되지 않습니다.</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
+    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>원신을 플레이 할 때 알리지 않음</value>
@@ -2905,6 +2929,12 @@
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>총 공연 시간</value>
   </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
+    <value>更改关闭按钮的行为</value>
+  </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
+    <value>关闭按钮行为</value>
+  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>귀하에게 적합한 한 주의 첫날을 선택하세요</value>
   </data>
@@ -2940,6 +2970,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>캐시 폴더</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>축소 웹 페이지 창</value>
