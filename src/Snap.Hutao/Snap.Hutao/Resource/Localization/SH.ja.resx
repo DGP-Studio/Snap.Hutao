@@ -809,10 +809,10 @@
     <value>背景画像を設定しない</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出胡桃</value>
+    <value>胡桃を終了</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>通知領域アイコンに最小化</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>アプリ通知の送信に失敗しました</value>
@@ -1251,13 +1251,13 @@
     <value>アーカイブにアチーブメントをインポート</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>この動作は後で設定で変更できます</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
-    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+    <value>リアルタイムノートの自動更新などの機能には、胡桃をバックグラウンドで実行しておく必要があります</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>ウィンドウを閉じる</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>キャラクター目標レベル</value>
@@ -2349,7 +2349,7 @@
     <value>通知領域アイコンを無効にすると、ウィンドウを閉じた後、自動更新が実行されなくなります</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
-    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+    <value>通知領域アイコンの作成に失敗したため、自動更新は、ウィンドウを閉じた後に実行されません</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>原神をプレイ中に通知しない</value>
@@ -2932,10 +2932,10 @@
     <value>公演時間</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
-    <value>更改关闭按钮的行为</value>
+    <value>閉じるボタンの動作を変更します</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
-    <value>关闭按钮行为</value>
+    <value>閉じるボタン動作</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>都合の良い週の開始日を選んでください</value>
@@ -2974,7 +2974,7 @@
     <value>キャッシュ フォルダー</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
-    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
+    <value>通知領域アイコンの作成に失敗したため、閉じるボタンの動作を変更できません</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>コンパクトウェブ</value>
