@@ -58,7 +58,7 @@ public sealed partial class App : Application
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting", "Hutao"));
 
         // Force Queue the actual Exit call to the UI thread
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(base.Exit);
+        base.Exit();
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
