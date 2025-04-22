@@ -322,7 +322,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     public ImmutableArray<AspectRatio> AspectRatios
     {
-        get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
+        get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, static raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
         set => SetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, value, static v => JsonSerializer.Serialize(v));
     }
 
