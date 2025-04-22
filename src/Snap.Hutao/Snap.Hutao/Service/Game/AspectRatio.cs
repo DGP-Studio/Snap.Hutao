@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Service.Game;
 
-[JsonConverter(typeof(AspectRatioConverter))]
 internal sealed class AspectRatio : IEquatable<AspectRatio>
 {
     public AspectRatio(double width, double height)
