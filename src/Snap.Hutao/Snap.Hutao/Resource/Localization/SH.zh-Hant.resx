@@ -178,7 +178,7 @@
     <value>啟動遊戲</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已進入後台執行</value>
+    <value>胡桃已進入背景執行</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
     <value>視窗</value>
@@ -812,7 +812,7 @@
     <value>退出胡桃</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>最小化到通知區域圖示</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>應用通知傳送失敗</value>
@@ -1250,13 +1250,13 @@
     <value>為目前存檔匯入成就</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>稍後可以在設定中修改此行為</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
-    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+    <value>即時便箋自動重新整理等功能需要胡桃保持背景執行</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>關閉視窗</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>角色目標等級</value>
@@ -2348,7 +2348,7 @@
     <value>未啟用通知區域圖示，關閉視窗後自動重新整理將不會執行</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
-    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+    <value>通知區域圖示建立失敗，關閉視窗後自動重新整理將不會執行</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>在我遊玩原神時不通知我</value>
@@ -2930,10 +2930,10 @@
     <value>演出總時長</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
-    <value>更改关闭按钮的行为</value>
+    <value>更改關閉按鈕的行為</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
-    <value>关闭按钮行为</value>
+    <value>關閉按鈕行為</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>選擇適合你的一週中的首日</value>
@@ -2972,7 +2972,7 @@
     <value>快取 資料夾</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
-    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
+    <value>通知區域圖示建立失敗，無法調整關閉按鈕行為</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>緊湊網頁視窗</value>
@@ -3224,7 +3224,7 @@
     <value>使用系統美化工具取代系統標準工作列後啟用通知區域圖示可能會導致：無法與圖示互動/無法正常建立圖示/重新啟動工作管理員後崩潰/啟動程序後崩潰</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
-    <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
+    <value>在通知區域顯示圖示，以允許執行背景任務，重新啟動後生效</value>
   </data>
   <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
     <value>通知區域圖示</value>
