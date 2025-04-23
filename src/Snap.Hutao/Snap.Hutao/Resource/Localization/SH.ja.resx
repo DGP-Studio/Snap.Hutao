@@ -974,6 +974,9 @@
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
     <value>ハードディスクのエラーが検出されました。chkdsk を実行して修復してください</value>
   </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+  </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>パッケージサイズ: {0}
 必要容量: {1}
