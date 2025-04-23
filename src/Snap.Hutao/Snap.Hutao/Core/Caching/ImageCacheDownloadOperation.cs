@@ -91,7 +91,14 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                         {
                             string? directoryName = Path.GetDirectoryName(baseFile);
                             ArgumentException.ThrowIfNullOrEmpty(directoryName);
-                            Directory.CreateDirectory(directoryName);
+                            try
+                            {
+                                Directory.CreateDirectory(directoryName);
+                            }
+                            catch (DirectoryNotFoundException)
+                            {
+                                throw InternalImageCacheException.Throw($"Unable to create folder at '{directoryName}'");
+                            }
 
                             FileStream fileStream;
                             try
