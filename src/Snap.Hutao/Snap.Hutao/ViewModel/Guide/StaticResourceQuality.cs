@@ -7,7 +7,7 @@ namespace Snap.Hutao.ViewModel.Guide;
 internal enum StaticResourceQuality
 {
     [LocalizationKey(nameof(SH.ViewModelGuideStaticResourceQualityRaw))]
-    Raw,
+    Original,
 
     [LocalizationKey(nameof(SH.ViewModelGuideStaticResourceQualityHigh))]
     High,

@@ -5,15 +5,15 @@ namespace Snap.Hutao.Web.Hutao;
 
 internal sealed class StaticResourceSizeInformation
 {
-    [JsonPropertyName("raw_full")]
-    public long RawFull { get; set; }
+    [JsonPropertyName("original_full")]
+    public long OriginalFull { get; init; }
 
-    [JsonPropertyName("raw_minimum")]
-    public long RawMinimum { get; set; }
+    [JsonPropertyName("original_minimum")]
+    public long OriginalMinimum { get; init; }
 
     [JsonPropertyName("tiny_full")]
-    public long HighFull { get; set; }
+    public long HighFull { get; init; }
 
     [JsonPropertyName("tiny_minimum")]
-    public long HighMinimum { get; set; }
+    public long HighMinimum { get; init; }
 }

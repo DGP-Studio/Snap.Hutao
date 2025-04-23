@@ -99,11 +99,6 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         {
             await taskContext.SwitchToBackgroundAsync();
 
-            if (ServiceProvider.IsDisposed())
-            {
-                return;
-            }
-
             Reward? reward;
             SignInRewardInfo? info;
             SignInRewardReSignInfo? resignInfo;

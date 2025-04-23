@@ -57,12 +57,7 @@ internal sealed class AspectRatioConverter : JsonConverter<AspectRatio>
 
     public override AspectRatio Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        AspectRatio? value = JsonSerializer.Deserialize<AspectRatio>(ref reader, options);
-        if (value is null)
-        {
-            throw new JsonException();
-        }
-
+        AspectRatio value = JsonSerializer.Deserialize<AspectRatio>(ref reader, options) ?? throw new JsonException();
         if (AspectRatioPool.TryGetValue(value, out AspectRatio? cached))
         {
             return cached;

@@ -20,6 +20,7 @@ using Snap.Hutao.ViewModel.Achievement;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.Guide;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
@@ -87,6 +88,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
                 await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
                 await UnsynchronizedHandleInitializationAsync().ConfigureAwait(false);
+                XamlApplicationLifetime.ActivationAndInitializationCompleted = true;
                 Interlocked.Exchange(ref isActivating, 0);
             }
         }
@@ -155,14 +157,23 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             return;
         }
 
-        // Start named pipe server,
+        // Start named pipe server
         serviceProvider.GetRequiredService<PrivateNamedPipeServer>().Start();
         Bootstrap.UseNamedPipeRedirection();
 
         // Notify icon
         App app = serviceProvider.GetRequiredService<App>();
         await taskContext.SwitchToMainThreadAsync();
-        app.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+        try
+        {
+            app.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+        }
+        catch (COMException ex) when (ex.HResult == unchecked((int)0x8001010E))
+        {
+            // The given object has already been closed / disposed and may no longer be used.
+            Process.GetCurrentProcess().Kill();
+        }
+
         lock (NotifyIconController.InitializationSyncRoot)
         {
             try

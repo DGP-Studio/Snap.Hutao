@@ -4,6 +4,7 @@
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -380,6 +381,17 @@ internal class MiHoYoJSBridge
     {
     }
 
+    private static void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Navigate to uri", "WebView2 MiHoYoJSBridge", [("Uri", args.Uri)]));
+        string uriHost = args.Uri.ToUri().Host;
+        ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
+        if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
+        {
+            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget();
+        }
+    }
+
     private async ValueTask<string> ExecuteCallbackScriptAsync(string callback, string? payload = null)
     {
         if (string.IsNullOrEmpty(callback))
@@ -489,15 +501,5 @@ internal class MiHoYoJSBridge
         DOMContentLoaded(coreWebView2);
         coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget();
         coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget();
-    }
-
-    private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
-    {
-        string uriHost = args.Uri.ToUri().Host;
-        ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
-        if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
-        {
-            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget();
-        }
     }
 }

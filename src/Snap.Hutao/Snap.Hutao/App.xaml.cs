@@ -56,8 +56,7 @@ public sealed partial class App : Application
     {
         XamlApplicationLifetime.Exiting = true;
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateInfo("Application exiting", "Hutao"));
-
-        // Force Queue the actual Exit call to the UI thread
+        SpinWait.SpinUntil(static () => XamlApplicationLifetime.ActivationAndInitializationCompleted);
         base.Exit();
     }
 

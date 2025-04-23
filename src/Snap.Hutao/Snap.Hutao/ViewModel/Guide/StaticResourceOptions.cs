@@ -17,7 +17,7 @@ internal sealed partial class StaticResourceOptions : ObservableObject
 
     public NameValue<StaticResourceQuality>? ImageQuality
     {
-        get => field ??= ImageQualities.First(q => q.Value == UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageQuality, StaticResourceQuality.Raw));
+        get => field ??= ImageQualities.First(q => q.Value == UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageQuality, StaticResourceQuality.Original));
         set
         {
             if (SetProperty(ref field, value) && value is not null)
@@ -62,8 +62,8 @@ internal sealed partial class StaticResourceOptions : ObservableObject
         {
             long result = (ImageQuality?.Value, ImageArchive?.Value) switch
             {
-                (StaticResourceQuality.Raw, StaticResourceArchive.Full) => SizeInformation.RawFull,
-                (StaticResourceQuality.Raw, StaticResourceArchive.Minimum) => SizeInformation.RawMinimum,
+                (StaticResourceQuality.Original, StaticResourceArchive.Full) => SizeInformation.OriginalFull,
+                (StaticResourceQuality.Original, StaticResourceArchive.Minimum) => SizeInformation.OriginalMinimum,
                 (StaticResourceQuality.High, StaticResourceArchive.Full) => SizeInformation.HighFull,
                 (StaticResourceQuality.High, StaticResourceArchive.Minimum) => SizeInformation.HighMinimum,
                 _ => 0,

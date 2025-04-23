@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Bridge.Model;
@@ -68,7 +69,17 @@ internal static class BridgeShare
 
     private static ValueTask ShareFromImageBase64Async(BridgeShareContext context, string base64ImageData)
     {
-        return ShareFromRawPixelDataAsync(context, Base64Url.DecodeFromChars(base64ImageData));
+        byte[] data;
+        try
+        {
+            data = Base64Url.DecodeFromChars(base64ImageData);
+        }
+        catch (Exception ex)
+        {
+            ExceptionAttachment.SetAttachment(ex, "Image_Base64.txt", base64ImageData);
+            throw;
+        }
+        return ShareFromRawPixelDataAsync(context, data);
     }
 
     private static ValueTask ShareFromRawPixelDataAsync(BridgeShareContext context, byte[] rawPixelData)
