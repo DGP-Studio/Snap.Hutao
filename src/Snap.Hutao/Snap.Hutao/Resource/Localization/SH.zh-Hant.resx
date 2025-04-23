@@ -974,6 +974,9 @@
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
     <value>檢測到硬碟錯誤，請執行 chkdsk 修復</value>
   </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+  </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>資源包體大小: {0}
 所需空間: {1}
