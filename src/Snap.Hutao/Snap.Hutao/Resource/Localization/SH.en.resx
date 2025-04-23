@@ -974,6 +974,9 @@
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
     <value>A hard drive error has been detected, run chkdsk to fix it</value>
   </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+  </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Package Size: {0}
 Space Required: {1}
