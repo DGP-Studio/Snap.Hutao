@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
@@ -29,7 +30,8 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         this.AddExStyleToolWindow();
 
         AppWindow.Title = "SnapHutaoNotifyIconXamlHost";
-        AppWindow.IsShownInSwitchers = false;
+        AppWindow.SafeIsShowInSwitchers(false);
+
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsMaximizable = false;

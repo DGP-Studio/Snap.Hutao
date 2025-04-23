@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Input;
 using Snap.Hutao.UI.Input.LowLevel;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.ViewModel.Overlay;
@@ -29,7 +30,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
         InitializeComponent();
 
         AppWindow.Title = "SnapHutaoLaunchExecutionOverlay";
-        AppWindow.IsShownInSwitchers = false;
+        AppWindow.SafeIsShowInSwitchers(false);
 
         SizeInt32 size = ScaledSizeInt32.CreateForWindow(386, 56, this);
 

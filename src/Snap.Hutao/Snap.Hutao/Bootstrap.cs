@@ -113,7 +113,7 @@ public static partial class Bootstrap
 
     private static bool OSPlatformSupported()
     {
-        if (new UniversalApiContract.Version("10", "0", "19045", "5371") > UniversalApiContract.WindowsVersion)
+        if (!UniversalApiContract.IsCurrentWindowsVersionSupported.Value)
         {
             const string Message = """
                 Snap Hutao 无法在版本低于 10.0.19045.5371 的 Windows 上运行，请更新系统。

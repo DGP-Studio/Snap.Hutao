@@ -76,7 +76,6 @@ internal static class HttpRequestMessageBuilderExtension
 
     internal static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpContext context)
     {
-        string? baseUrl = builder.HttpRequestMessage.RequestUri?.GetLeftPart(UriPartial.Path);
         try
         {
             context.Request = builder.HttpRequestMessage;
@@ -85,7 +84,6 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (Exception ex)
         {
-            ExceptionFingerprint.SetFingerprint(ex, baseUrl);
             context.Exception = ExceptionDispatchInfo.Capture(ex);
         }
     }

@@ -16,8 +16,11 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
+using Snap.Hutao.Win32.Foundation;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
+using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Web.Bridge;
 
@@ -420,7 +423,20 @@ internal class MiHoYoJSBridge
             return string.Empty;
         }
 
-        return await coreWebView2.ExecuteScriptAsync(js);
+        try
+        {
+            return await coreWebView2.ExecuteScriptAsync(js);
+        }
+        catch (COMException ex)
+        {
+            if (ex.HResult == HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_INVALID_STATE))
+            {
+                // 组或资源的状态不是执行请求操作的正确状态。
+                return String.Empty;
+            }
+
+            throw;
+        }
     }
 
     // ReSharper disable once AsyncVoidMethod
