@@ -809,10 +809,10 @@
     <value>Kein Hintergrundbild</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出胡桃</value>
+    <value>Snap Hutao beenden</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>In Infobereich minimieren</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Senden der App-Benachrichtigung fehlgeschlagen</value>
@@ -972,10 +972,10 @@
     <value>Spielpfad in der Unity-Protokolldatei nicht gefunden</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>Ein Festplattenfehler wurde erkannt. Führen Sie chkdsk zur Reparatur aus.</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
-    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+    <value>Festplattenverlust erkannt, bitte Hardwareverbindung prüfen</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Paketgröße: {0}
@@ -1253,13 +1253,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Erfolgsdaten für aktuelles Archiv importieren</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>Sie können dieses Verhalten später in den Einstellungen ändern</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
-    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+    <value>Funktionen wie die automatische Aktualisierung der Echtzeitnotizen erfordern, dass Snap Hutao im Hintergrund ausgeführt wird.</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>Fenster schließen</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Ziellevel des Charakters</value>
@@ -1916,7 +1916,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Lokale Version: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>Aufgabe unterbrochen, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Abgebrochen</value>
@@ -2351,7 +2351,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Das Benachrichtigungssymbol ist deaktiviert, die automatische Aktualisierung wird nach dem Schließen des Fensters nicht ausgeführt.</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
-    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+    <value>Erstellung des Symbols im Benachrichtigungsbereich fehlgeschlagen. Die automatische Aktualisierung wird nach dem Schließen des Fensters nicht ausgeführt.</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Mich nicht benachrichtigen, wenn ich Genshin spiele</value>
@@ -2933,10 +2933,10 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Gesamtdauer der Aufführung</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
-    <value>更改关闭按钮的行为</value>
+    <value>Verhalten der Schließen-Schaltfläche ändern</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
-    <value>关闭按钮行为</value>
+    <value>Verhalten der Schließen-Schaltfläche</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Wähle den ersten Tag deiner Woche</value>
@@ -2975,7 +2975,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Cache-Ordner</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
-    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
+    <value>Erstellung des Symbols im Benachrichtigungsbereich fehlgeschlagen, das Verhalten der Schließen-Schaltfläche kann nicht geändert werden.</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Kompaktes Seitenfenster</value>
