@@ -809,10 +809,10 @@
     <value>Tanpa Gambar Latar</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出胡桃</value>
+    <value>Keluar dari Snap Hutao</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>Minimalkan ke baki</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Kegagalan pengiriman pemberitahuan aplikasi</value>
@@ -972,10 +972,10 @@
     <value>Path Game tidak ditemukan di berkas Unity log</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>Terdeteksi galat diska keras, jalankan chkdsk untuk memperbaikinya</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
-    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+    <value>Hard disk hilang terdeteksi, harap periksa koneksi perangkat keras</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Ukuran Paket Sumber Daya: {0}
@@ -1253,13 +1253,13 @@ Ruang Tersedia: {2}</value>
     <value>Impor data Achievements untuk arsip saat ini</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>Anda dapat mengubah perilaku ini nanti di pengaturan</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
-    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+    <value>Fitur seperti penyegaran data Realtime Notes memerlukan Snap Hutao berjalan di latar belakang</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>Tutup Jendela</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Target Level Karakter</value>
@@ -1916,7 +1916,7 @@ Ruang Tersedia: {2}</value>
     <value>Versi lokal: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>Tugas terganggu, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Dibatalkan</value>
@@ -2351,7 +2351,7 @@ Ruang Tersedia: {2}</value>
     <value>Ikon area notifikasi belum diaktifkan, penyegaran otomatis tidak akan berjalan setelah jendela ditutup</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
-    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+    <value>Pembuatan ikon area notifikasi gagal, penyegaran otomatis tidak akan berjalan setelah jendela ditutup</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Jangan ganggu selama bermain Genshin</value>
@@ -2933,10 +2933,10 @@ Ruang Tersedia: {2}</value>
     <value>Total Durasi Pertunjukan</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
-    <value>更改关闭按钮的行为</value>
+    <value>Ubah perilaku tombol tutup</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
-    <value>关闭按钮行为</value>
+    <value>Perilaku Tombol Tutup</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Pilih hari pertama dalam seminggu yang sesuai untuk Anda</value>
@@ -2975,7 +2975,7 @@ Ruang Tersedia: {2}</value>
     <value>Berkas Cache</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
-    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
+    <value>Pembuatan ikon area notifikasi gagal, tidak dapat mengubah perilaku tombol tutup</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Jendela Halaman Ringkas</value>
