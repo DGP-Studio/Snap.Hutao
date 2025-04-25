@@ -809,10 +809,10 @@
     <value>Sem papel de parede</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出胡桃</value>
+    <value>Sair do Snap Hutao</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>Minimizar para a bandeja</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Falha ao enviar notificação do aplicativo</value>
@@ -972,10 +972,10 @@
     <value>Caminho do jogo não encontrado no arquivo de log do Unity</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>Foi detectado um erro no disco rígido, execute o chkdsk para corrigi-lo</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
-    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+    <value>Disco rígido não detectado, verifique a conexão do hardware</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Tamanho do pacote: {0}
@@ -1253,13 +1253,13 @@ Espaço disponível: {2}</value>
     <value>Importar dados de conquistas para o arquivo atual</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>Você pode alterar este comportamento mais tarde nas configurações</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
-    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+    <value>Recursos como a atualização automática das Anotações em Tempo Real exigem que o Snap Hutao seja executado em segundo plano</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>Fechar Janela</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Nível alvo do personagem</value>
@@ -1916,7 +1916,7 @@ Espaço disponível: {2}</value>
     <value>Versão local: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>Tarefa interrompida, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Cancelado</value>
@@ -2351,7 +2351,7 @@ Espaço disponível: {2}</value>
     <value>O ícone da área de notificação está desativado, a atualização automática não será executada após o fecho do Snap Hutao</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
-    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+    <value>Falha ao criar o ícone da área de notificação, a atualização automática não será executada após fechar a janela</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Não incomodar durante o Genshin</value>
@@ -2933,10 +2933,10 @@ Espaço disponível: {2}</value>
     <value>Duração Total</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
-    <value>更改关闭按钮的行为</value>
+    <value>Alterar o comportamento do botão Fechar</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
-    <value>关闭按钮行为</value>
+    <value>Comportamento do Botão Fechar</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Selecione o primeiro dia da semana que for mais adequado para você</value>
@@ -2975,7 +2975,7 @@ Espaço disponível: {2}</value>
     <value>Pasta de cache</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
-    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
+    <value>Falha ao criar o ícone da área de notificação, não é possível alterar o comportamento do botão Fechar</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Janela de Página Compacta</value>
