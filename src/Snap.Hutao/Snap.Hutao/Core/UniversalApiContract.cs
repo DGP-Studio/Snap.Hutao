@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core;
 
 internal static class UniversalApiContract
 {
-    public static LazySlim<bool> IsCurrentWindowsVersionSupported { get; } = new(() => new Version("10", "0", "19045", "5371") > WindowsVersion);
+    public static LazySlim<bool> IsCurrentWindowsVersionSupported { get; } = new(() => new Version("10", "0", "19045", "5371") <= WindowsVersion);
 
     public static Version? WindowsVersion
     {
@@ -88,6 +88,36 @@ internal static class UniversalApiContract
             }
 
             return left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(Version? left, Version? right)
+        {
+            if (left is null && right is null)
+            {
+                return true;
+            }
+
+            if (left is null)
+            {
+                return false;
+            }
+
+            return left.CompareTo(right) >= 0;
+        }
+
+        public static bool operator <=(Version? left, Version? right)
+        {
+            if (left is null && right is null)
+            {
+                return true;
+            }
+
+            if (left is null)
+            {
+                return true;
+            }
+
+            return left.CompareTo(right) <= 0;
         }
 
         public override string ToString()
