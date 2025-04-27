@@ -13,37 +13,6 @@ namespace Snap.Hutao.Win32;
 internal static class AdvApi32
 {
     [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.1.2600")]
-    public static extern unsafe BOOL ConvertSidToStringSidW(PSID Sid, PWSTR* StringSid);
-
-    public static unsafe BOOL ConvertSidToStringSidW(PSID Sid, out PWSTR StringSid)
-    {
-        fixed (PWSTR* pStringSid = &StringSid)
-        {
-            return ConvertSidToStringSidW(Sid, pStringSid);
-        }
-    }
-
-    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.1.2600")]
-    public static extern unsafe BOOL ConvertStringSidToSidW(PCWSTR StringSid, PSID* Sid);
-
-    public static unsafe BOOL ConvertStringSidToSidW(ReadOnlySpan<char> StringSid, out PSID Sid)
-    {
-        fixed (char* pStringSid = StringSid)
-        {
-            fixed (PSID* pSid = &Sid)
-            {
-                return ConvertStringSidToSidW(pStringSid, pSid);
-            }
-        }
-    }
-
-    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.1.2600")]
-    public static extern BOOL EqualSid(PSID pSid1, PSID pSid2);
-
-    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern WIN32_ERROR RegCloseKey(HKEY hKey);
 
