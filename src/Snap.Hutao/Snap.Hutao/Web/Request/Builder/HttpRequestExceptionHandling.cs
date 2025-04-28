@@ -56,7 +56,16 @@ internal static class HttpRequestExceptionHandling
             if (networkError is not NetworkError.OK)
             {
                 builder.AppendLine(networkError.ToString());
-                builder.AppendLine(ex.Message);
+                switch (networkError)
+                {
+                    case NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR:
+                        builder.AppendLine(ex.InnerException?.Message); // AuthenticationException has more details
+                        break;
+                    default:
+                        builder.AppendLine(ex.Message);
+                        break;
+                }
+
                 return true;
             }
 
