@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 using WinRT;
@@ -20,6 +21,7 @@ internal sealed unsafe class HutaoNativeRegistryNotification
 
     public void Start(HutaoNativeRegistryNotificationCallback callback, nint userData)
     {
+        HutaoException.NotSupportedIf(objRef is null, "IHutaoNativeRegistryNotification.Start is not supported");
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Start(objRef.ThisPtr, callback, userData));
     }
 

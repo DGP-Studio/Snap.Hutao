@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 using WinRT;
@@ -32,6 +33,7 @@ internal sealed unsafe class HutaoNative
 
     public HutaoNativeLoopbackSupport MakeLoopbackSupport()
     {
+        HutaoException.NotSupportedIf(objRef is null, "IHutaoNative.MakeLoopbackSupport is not supported");
         nint pv = default;
         Marshal.ThrowExceptionForHR(objRef.Vftbl.MakeLoopbackSupport(objRef.ThisPtr, (HutaoNativeLoopbackSupport.Vftbl**)&pv));
         return new(ObjectReference<HutaoNativeLoopbackSupport.Vftbl>.Attach(ref pv, typeof(HutaoNativeLoopbackSupport).GUID));
@@ -39,6 +41,7 @@ internal sealed unsafe class HutaoNative
 
     public HutaoNativeRegistryNotification MakeRegistryNotification(ReadOnlySpan<char> keyPath)
     {
+        HutaoException.NotSupportedIf(objRef is null, "IHutaoNative.MakeRegistryNotification is not supported");
         fixed (char* keyPathPtr = keyPath)
         {
             nint pv = default;
