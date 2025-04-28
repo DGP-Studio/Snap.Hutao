@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using System.Net.Http;
-using System.Net.Mime;
 
 namespace Snap.Hutao.Web.Request.Builder;
 

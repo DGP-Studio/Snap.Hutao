@@ -3,24 +3,20 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Win32;
-using Snap.Hutao.Win32.Foundation;
-using System.Runtime.InteropServices;
-using WinRT;
 
 namespace Snap.Hutao.Core.IO.Http.Loopback;
 
 [Injection(InjectAs.Singleton)]
 internal sealed partial class LoopbackSupport : ObservableObject
 {
-    private readonly ObjectReference<HutaoNative.IHutaoNativeLoopbackSupport> native;
+    private readonly HutaoNativeLoopbackSupport native;
     private readonly string hutaoContainerStringSid;
 
     public LoopbackSupport(IServiceProvider serviceProvider)
     {
-        Marshal.ThrowExceptionForHR(HutaoNative.Instance.MakeLoopbackSupport(out native));
-        Marshal.ThrowExceptionForHR(native.IsEnabled(HutaoRuntime.FamilyName, out ReadOnlySpan<char> sid, out BOOL enabled));
+        native = HutaoNative.Instance.MakeLoopbackSupport();
+        IsLoopbackEnabled = native.IsEnabled(HutaoRuntime.FamilyName, out ReadOnlySpan<char> sid);
         hutaoContainerStringSid = sid.ToString();
-        IsLoopbackEnabled = enabled;
     }
 
     [ObservableProperty]
@@ -28,7 +24,7 @@ internal sealed partial class LoopbackSupport : ObservableObject
 
     public void EnableLoopback()
     {
-        Marshal.ThrowExceptionForHR(native.Enable(hutaoContainerStringSid));
+        native.Enable(hutaoContainerStringSid);
         IsLoopbackEnabled = true;
     }
 }

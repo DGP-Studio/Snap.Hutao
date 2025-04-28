@@ -432,7 +432,7 @@ internal class MiHoYoJSBridge
             if (ex.HResult == HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_INVALID_STATE))
             {
                 // 组或资源的状态不是执行请求操作的正确状态。
-                return String.Empty;
+                return string.Empty;
             }
 
             throw;

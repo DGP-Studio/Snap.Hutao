@@ -8,79 +8,51 @@ using WinRT.Interop;
 
 namespace Snap.Hutao.Win32;
 
-internal static unsafe class HutaoNative
+[Guid("d00f73ff-a1c7-4091-8cb6-d90991dd40cb")]
+internal sealed unsafe class HutaoNative
 {
-    public static ref readonly Guid IIDHutaoNative
-    {
-        get => ref MemoryMarshal.AsRef<Guid>([0xFF, 0x73, 0x0F, 0xD0, 0xC7, 0xA1, 0x91, 0x40, 0x8C, 0xB6, 0xD9, 0x09, 0x91, 0xDD, 0x40, 0xCB]);
-    }
+    private readonly ObjectReference<Vftbl> objRef;
 
-    public static ref readonly Guid IIDHutaoNativeLoopbackSupport
+    public HutaoNative(ObjectReference<Vftbl> objRef)
     {
-        get => ref MemoryMarshal.AsRef<Guid>([0xE4, 0xAC, 0x07, 0x86, 0x3C, 0x31, 0x26, 0x4C, 0xB1, 0xFB, 0xCA, 0x11, 0x17, 0x3B, 0x69, 0x53]);
+        this.objRef = objRef;
     }
 
     [field: MaybeNull]
-    public static ObjectReference<IHutaoNative> Instance
+    public static HutaoNative Instance
     {
-        get => LazyInitializer.EnsureInitialized(ref field, () =>
+        get => LazyInitializer.EnsureInitialized(ref field, static () =>
         {
-            HutaoCreateInstance(out ObjectReference<IHutaoNative> result);
-            return result;
+#if DEBUG
+            HutaoNativeMethods.HutaoInitializeDiagnostics();
+#endif
+            return HutaoNativeMethods.HutaoCreateInstance();
         });
     }
 
-    [DllImport("Snap.Hutao.Native.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static extern HRESULT HutaoCreateInstance(IHutaoNative** ppv);
-
-    public static HRESULT HutaoCreateInstance(out ObjectReference<IHutaoNative> v)
+    public HutaoNativeLoopbackSupport MakeLoopbackSupport()
     {
         nint pv = default;
-        HRESULT hr = HutaoCreateInstance((IHutaoNative**)&pv);
-        v = ObjectReference<IHutaoNative>.Attach(ref pv, IIDHutaoNative);
-        return hr;
+        Marshal.ThrowExceptionForHR(objRef.Vftbl.MakeLoopbackSupport(objRef.ThisPtr, (HutaoNativeLoopbackSupport.Vftbl**)&pv));
+        return new(ObjectReference<HutaoNativeLoopbackSupport.Vftbl>.Attach(ref pv, typeof(HutaoNativeLoopbackSupport).GUID));
     }
 
-    public static HRESULT MakeLoopbackSupport(this ObjectReference<IHutaoNative> objRef, out ObjectReference<IHutaoNativeLoopbackSupport> v)
+    public HutaoNativeRegistryNotification MakeRegistryNotification(ReadOnlySpan<char> keyPath)
     {
-        nint pv = default;
-        HRESULT hr = objRef.Vftbl.MakeLoopbackSupport(objRef.ThisPtr, (IHutaoNativeLoopbackSupport**)&pv);
-        v = ObjectReference<IHutaoNativeLoopbackSupport>.Attach(ref pv, IIDHutaoNativeLoopbackSupport);
-        return hr;
-    }
-
-    public static HRESULT IsEnabled(this ObjectReference<IHutaoNativeLoopbackSupport> objRef, ReadOnlySpan<char> familyName, out ReadOnlySpan<char> sid, out BOOL enabled)
-    {
-        fixed (char* pFamilyName = familyName)
+        fixed (char* keyPathPtr = keyPath)
         {
-            PWSTR pSid = default;
-            fixed (BOOL* pEnabled = &enabled)
-            {
-                HRESULT hr = objRef.Vftbl.IsEnabled(objRef.ThisPtr, pFamilyName, &pSid, pEnabled);
-                sid = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pSid);
-                return hr;
-            }
+            nint pv = default;
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.MakeRegistryNotification(objRef.ThisPtr, keyPathPtr, (HutaoNativeRegistryNotification.Vftbl**)&pv));
+            return new(ObjectReference<HutaoNativeRegistryNotification.Vftbl>.Attach(ref pv, typeof(HutaoNativeRegistryNotification).GUID));
         }
     }
 
-    public static HRESULT Enable(this ObjectReference<IHutaoNativeLoopbackSupport> objRef, ReadOnlySpan<char> sid)
+    internal readonly struct Vftbl
     {
-        fixed (char* pSid = sid)
-        {
-            return objRef.Vftbl.Enable(objRef.ThisPtr, pSid);
-        }
-    }
-
-    internal readonly struct IHutaoNative
-    {
+#pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
-        internal readonly delegate* unmanaged[Stdcall]<nint, IHutaoNativeLoopbackSupport**, HRESULT> MakeLoopbackSupport;
-    }
-
-    internal readonly struct IHutaoNativeLoopbackSupport
-    {
-        internal readonly IUnknownVftbl IUnknownVftbl;
-        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, PWSTR*, BOOL*, HRESULT> IsEnabled;
-        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> Enable;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeLoopbackSupport.Vftbl**, HRESULT> MakeLoopbackSupport;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HutaoNativeRegistryNotification.Vftbl**, HRESULT> MakeRegistryNotification;
+#pragma warning restore CS0649
     }
 }

@@ -79,6 +79,7 @@ internal static class BridgeShare
             ExceptionAttachment.SetAttachment(ex, "Image_Base64.txt", base64ImageData);
             throw;
         }
+
         return ShareFromRawPixelDataAsync(context, data);
     }
 
