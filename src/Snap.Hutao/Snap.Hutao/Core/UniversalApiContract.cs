@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core;
 
 internal static class UniversalApiContract
 {
-    public static LazySlim<bool> IsCurrentWindowsVersionSupported { get; } = new(() => new Version("10", "0", "19045", "5371") > WindowsVersion);
+    public static LazySlim<bool> IsCurrentWindowsVersionSupported { get; } = new(() => new Version("10", "0", "19045", "5371") < WindowsVersion);
 
     public static Version? WindowsVersion
     {
