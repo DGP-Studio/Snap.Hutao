@@ -50,6 +50,7 @@ internal sealed class AspectRatio : IEquatable<AspectRatio>
     }
 }
 
+[SuppressMessage("", "SA1402")]
 internal sealed class AspectRatioConverter : JsonConverter<AspectRatio>
 {
     // AspectRatio is marshaled to WinRT as nint, so we should cache instances and reuse them.

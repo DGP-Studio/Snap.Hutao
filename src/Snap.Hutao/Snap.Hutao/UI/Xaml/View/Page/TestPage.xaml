@@ -260,10 +260,6 @@
                 </Expander>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Testing"/>
-                <cwc:SettingsCard
-                    Command="{Binding ScreenCaptureCommand}"
-                    Header="Screen Capture Test"
-                    IsClickEnabled="True"/>
 
                 <cwc:SettingsCard
                     Command="{Binding FileOperationRenameCommand}"

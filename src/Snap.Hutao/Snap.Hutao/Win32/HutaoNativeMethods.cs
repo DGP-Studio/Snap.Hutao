@@ -27,7 +27,7 @@ internal static unsafe class HutaoNativeMethods
     private static extern HRESULT HutaoCreateInstance(HutaoNative.Vftbl** ppv);
 
     [DllImport("Snap.Hutao.Native.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    private static extern HRESULT HutaoInitializeWilCallbacks(delegate* unmanaged[Stdcall]<FailureInfo*,void> loggingCallback, delegate* unmanaged[Stdcall]<FailureInfo*, PWSTR, ulong, void> messageCallback);
+    private static extern HRESULT HutaoInitializeWilCallbacks(delegate* unmanaged[Stdcall]<FailureInfo*, void> loggingCallback, delegate* unmanaged[Stdcall]<FailureInfo*, PWSTR, ulong, void> messageCallback);
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilLoggingImpl(FailureInfo* failure)
@@ -42,6 +42,9 @@ internal static unsafe class HutaoNativeMethods
         Debug.WriteLine(span.ToString());
     }
 
+#pragma warning disable CS0649
+
+    // ReSharper disable InconsistentNaming
     private enum FailureType
     {
         // THROW_...
@@ -69,7 +72,9 @@ internal static unsafe class HutaoNativeMethods
     private struct CallContextInfo
     {
         // incrementing ID for this call context (unique across an individual module load within process)
+
         public long contextId;
+
 
         // the explicit name given to this context
         public PCSTR contextName;
@@ -123,4 +128,7 @@ internal static unsafe class HutaoNativeMethods
         // The return address of the function that includes the macro
         public nint callerReturnAddress;
     }
+
+    // ReSharper restore InconsistentNaming
+#pragma warning restore CS0649
 }

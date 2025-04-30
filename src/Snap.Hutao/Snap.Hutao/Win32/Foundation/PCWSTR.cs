@@ -3,7 +3,6 @@
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Snap.Hutao.Win32.Foundation;
 
