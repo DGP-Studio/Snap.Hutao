@@ -25,7 +25,7 @@ internal sealed unsafe class HutaoNative
         get => LazyInitializer.EnsureInitialized(ref field, static () =>
         {
 #if DEBUG
-            HutaoNativeMethods.HutaoInitializeDiagnostics();
+            HutaoNativeMethods.HutaoInitializeWilCallbacks();
 #endif
             return HutaoNativeMethods.HutaoCreateInstance();
         });
@@ -50,12 +50,21 @@ internal sealed unsafe class HutaoNative
         }
     }
 
+    public HutaoNativeWindowSubclass MakeWindowSubclass(HWND hWnd, HutaoNativeWindowSubclassCallback callback, nint userData)
+    {
+        HutaoException.NotSupportedIf(objRef is null, "IHutaoNative.MakeWindowSubclass is not supported");
+        nint pv = default;
+        Marshal.ThrowExceptionForHR(objRef.Vftbl.MakeWindowSubclass(objRef.ThisPtr, hWnd, callback, userData, (HutaoNativeWindowSubclass.Vftbl**)&pv));
+        return new(ObjectReference<HutaoNativeWindowSubclass.Vftbl>.Attach(ref pv, typeof(HutaoNativeWindowSubclass).GUID));
+    }
+
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeLoopbackSupport.Vftbl**, HRESULT> MakeLoopbackSupport;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HutaoNativeRegistryNotification.Vftbl**, HRESULT> MakeRegistryNotification;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HWND, HutaoNativeWindowSubclassCallback, nint, HutaoNativeWindowSubclass.Vftbl**, HRESULT> MakeWindowSubclass;
 #pragma warning restore CS0649
     }
 }

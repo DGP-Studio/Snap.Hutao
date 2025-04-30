@@ -11,9 +11,6 @@ namespace Snap.Hutao.Win32;
 
 internal static unsafe class HutaoNativeMethods
 {
-    [DllImport("Snap.Hutao.Native.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    private static extern HRESULT HutaoCreateInstance(HutaoNative.Vftbl** ppv);
-
     public static HutaoNative HutaoCreateInstance()
     {
         nint pv = default;
@@ -21,18 +18,109 @@ internal static unsafe class HutaoNativeMethods
         return new(ObjectReference<HutaoNative.Vftbl>.Attach(ref pv, typeof(HutaoNative).GUID));
     }
 
-    [DllImport("Snap.Hutao.Native.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    private static extern HRESULT HutaoInitializeDiagnostics(delegate* unmanaged[Stdcall]<PCWSTR, void> logger);
-
-    public static void HutaoInitializeDiagnostics()
+    public static void HutaoInitializeWilCallbacks()
     {
-        Marshal.ThrowExceptionForHR(HutaoInitializeDiagnostics(&DebugWriteLine));
+        Marshal.ThrowExceptionForHR(HutaoInitializeWilCallbacks(&WilLoggingImpl, &WilMessageImpl));
+    }
+
+    [DllImport("Snap.Hutao.Native.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT HutaoCreateInstance(HutaoNative.Vftbl** ppv);
+
+    [DllImport("Snap.Hutao.Native.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT HutaoInitializeWilCallbacks(delegate* unmanaged[Stdcall]<FailureInfo*,void> loggingCallback, delegate* unmanaged[Stdcall]<FailureInfo*, PWSTR, ulong, void> messageCallback);
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+    private static void WilLoggingImpl(FailureInfo* failure)
+    {
+        Debug.WriteLine("Snap::Hutao::Native");
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static void DebugWriteLine(PCWSTR str)
+    private static void WilMessageImpl(FailureInfo* failure, PWSTR pszDebugMessage, ulong cchDebugMessage)
     {
-        ReadOnlySpan<char> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(str);
+        ReadOnlySpan<char> span = new(pszDebugMessage, (int)cchDebugMessage);
         Debug.WriteLine(span.ToString());
+    }
+
+    private enum FailureType
+    {
+        // THROW_...
+        Exception,
+
+        // RETURN_..._LOG or RETURN_..._MSG
+        Return,
+
+        // LOG_...
+        Log,
+
+        // FAIL_FAST_...
+        FailFast,
+    }
+
+    private enum FailureFlags
+    {
+        None = 0x00,
+        RequestFailFast = 0x01,
+        RequestSuppressTelemetry = 0x02,
+        RequestDebugBreak = 0x04,
+        NtStatus = 0x08,
+    }
+
+    private struct CallContextInfo
+    {
+        // incrementing ID for this call context (unique across an individual module load within process)
+        public long contextId;
+
+        // the explicit name given to this context
+        public PCSTR contextName;
+
+        // [optional] Message that can be associated with the call context
+        public PCWSTR contextMessage;
+    }
+
+    private struct FailureInfo
+    {
+        public FailureType type;
+        public FailureFlags flags;
+        public HRESULT hr;
+        public NTSTATUS status;
+
+        // incrementing ID for this specific failure (unique across an individual module load within process)
+        public long failureId;
+
+        // Message is only present for _MSG logging (it's the Sprintf message)
+        public PCWSTR pszMessage;
+
+        // the thread this failure was originally encountered on
+        public uint threadId;
+
+        // [debug only] Capture code from the macro
+        public PCSTR pszCode;
+
+        // [debug only] The function name
+        public PCSTR pszFunction;
+        public PCWSTR pszFile;
+        public uint ulineNumber;
+
+        // How many failures of 'type' have been reported in this module so far
+        public int cFailureCount;
+
+        // General breakdown of the call context stack that generated this failure
+        public PCSTR pszCallContext;
+
+        // The outermost (first seen) call context
+        public CallContextInfo callContextOriginating;
+
+        // The most recently seen call context
+        public CallContextInfo callContextCurrent;
+
+        // The module where the failure originated
+        public PCSTR pszModule;
+
+        // The return address to the point that called the macro
+        public nint returnAddress;
+
+        // The return address of the function that includes the macro
+        public nint callerReturnAddress;
     }
 }
