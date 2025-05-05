@@ -809,10 +809,10 @@
     <value>Sin fondo de pantalla</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出胡桃</value>
+    <value>Salir de Snap Hutao</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>Minimizar a la bandeja del sistema</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Error al enviar la notificación</value>
@@ -972,10 +972,10 @@
     <value>No se encontró la ruta del juego en el archivo de registro de Unity</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>Se ha detectado un error en el disco duro, ejecute chkdsk para repararlo</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
-    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+    <value>Se ha detectado la pérdida del disco duro, compruebe la conexión del hardware</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Tamaño del paquete: {0}
@@ -1253,13 +1253,13 @@ Espacio disponible: {2}</value>
     <value>Importar datos de logros para el archivo actual</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>Puedes cambiar este comportamiento más tarde en la configuración</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
-    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+    <value>Funciones como la actualización automática de notas en tiempo real requieren que Snap Hutao se ejecute en segundo plano</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>Cerrar ventana</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Nivel objetivo del personaje</value>
@@ -1916,7 +1916,7 @@ Espacio disponible: {2}</value>
     <value>Versión local: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>Tarea interrumpida, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Cancelado</value>
@@ -2351,7 +2351,7 @@ Espacio disponible: {2}</value>
     <value>El icono del área de notificación está deshabilitado, la actualización automática no se ejecutará después de cerrar Snap Hutao</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
-    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+    <value>Fallo al crear el icono del área de notificación, la actualización automática no se realizará después de cerrar la ventana</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>No molestar mientras juego a Genshin Impact</value>
@@ -2933,10 +2933,10 @@ Espacio disponible: {2}</value>
     <value>Duración Total</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
-    <value>更改关闭按钮的行为</value>
+    <value>Cambiar el comportamiento del botón de cerrar</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
-    <value>关闭按钮行为</value>
+    <value>Comportamiento del botón de cerrar</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Selecciona el primer día de la semana</value>
@@ -2975,7 +2975,7 @@ Espacio disponible: {2}</value>
     <value>Carpeta de caché</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
-    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
+    <value>Fallo al crear el icono del área de notificación, no se puede cambiar el comportamiento del botón de cerrar</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Ventana de página compacta</value>
