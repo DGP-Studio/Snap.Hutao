@@ -809,10 +809,10 @@
     <value>Duvar Kağıdı Yok</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
-    <value>退出胡桃</value>
+    <value>Snap Hutao'dan Çık</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>Bildirim alanı simgesine küçült</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Uygulama bildirimi gönderme başarısız</value>
@@ -972,10 +972,10 @@
     <value>Unity günlük dosyasında oyun yolu bulunamadı</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
-    <value>检测到硬盘错误，请运行 chkdsk 修复</value>
+    <value>Sabit disk hatası tespit edildi, düzeltmek için chkdsk çalıştırın</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
-    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+    <value>Sabit disk bulunamadı, lütfen donanım bağlantılarını kontrol edin</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Paket Boyutu: {0}
@@ -1253,13 +1253,13 @@ Kullanılabilir Alan: {2}</value>
     <value>Mevcut arşiv için başarım verilerini içe aktar</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>Bu davranışı daha sonra ayarlardan değiştirebilirsiniz</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
-    <value>实时便笺自动刷新等功能需要胡桃保持后台运行</value>
+    <value>Gerçek zamanlı notların otomatik yenilenmesi gibi özellikler için Snap Hutao'nun arka planda çalışması gerekiyor</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>Pencereyi Kapat</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Karakter Hedef Seviyesi</value>
@@ -1916,7 +1916,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Yerel sürüm: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>任务已中断，{0}</value>
+    <value>Görev kesintiye uğradı, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>İptal Edildi</value>
@@ -2351,7 +2351,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Bildirim alanı simgesi devre dışı, Snap Hutao kapatıldıktan sonra otomatik yenileme çalışmayacak</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
-    <value>通知区域图标创建失败，关闭窗口后自动刷新将不会执行</value>
+    <value>Bildirim alanı simgesi oluşturulamadı, pencere kapatıldıktan sonra otomatik yenileme yapılmayacak</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Genshin oynarken beni rahatsız etme</value>
@@ -2933,10 +2933,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Toplam Süre</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
-    <value>更改关闭按钮的行为</value>
+    <value>Kapatma düğmesinin davranışını değiştir</value>
   </data>
   <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
-    <value>关闭按钮行为</value>
+    <value>Kapatma Düğmesi Davranışı</value>
   </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Haftanın ilk gününü seçin</value>
@@ -2975,7 +2975,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Önbellek Klasörü</value>
   </data>
   <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
-    <value>通知区域图标创建失败，无法调整关闭按钮行为</value>
+    <value>Bildirim alanı simgesi oluşturulamadı, kapatma düğmesi davranışı değiştirilemiyor</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Kompakt Sayfa Penceresi</value>
