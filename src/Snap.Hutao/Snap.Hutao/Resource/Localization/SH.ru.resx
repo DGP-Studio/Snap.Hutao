@@ -812,7 +812,7 @@
     <value>Выйти из Snap Hutao</value>
   </data>
   <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
-    <value>最小化到通知区域图标</value>
+    <value>Свернуть в значок области уведомлений</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Сбой отправки уведомления приложения</value>
@@ -975,7 +975,7 @@
     <value>Обнаружена ошибка жёсткого диска, запустите chkdsk для исправления.</value>
   </data>
   <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
-    <value>检测到硬盘丢失，请检查硬件连接情况</value>
+    <value>Обнаружена потеря жесткого диска, проверьте подключение оборудования</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Размер пакета ресурсов: {0}\nТребуемое место: {1}\nДоступное место: {2}</value>
@@ -1251,13 +1251,13 @@
     <value>Импорт данных о достижениях в текущий архив</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
-    <value>稍后可以在设置中修改此行为</value>
+    <value>Это можно изменить позже в настройках</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
     <value>Функции, такие как автоматическое обновление Заметок в реальном времени, требуют, чтобы Snap Hutao работал в фоновом режиме.</value>
   </data>
   <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
-    <value>关闭窗口</value>
+    <value>Закрыть окно</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Целевой уровень персонажа</value>
