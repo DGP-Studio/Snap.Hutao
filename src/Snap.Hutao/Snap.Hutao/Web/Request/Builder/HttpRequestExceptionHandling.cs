@@ -114,6 +114,8 @@ internal static class HttpRequestExceptionHandling
                                 return NetworkError.ERR_CONNECTION_REFUSED;
                             case SocketError.NetworkUnreachable:
                                 return NetworkError.ERR_CONNECTION_NETWORK_UNREACHABLE;
+                            case SocketError.NoBufferSpaceAvailable:
+                                return NetworkError.ERR_CONNECTION_NO_BUFFER_SPACE_AVAILABLE;
                             case SocketError.NoData:
                                 return NetworkError.ERR_CONNECTION_NO_DATA;
                             case SocketError.TimedOut:
