@@ -1069,6 +1069,9 @@ Espaço disponível: {2}</value>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>Sua versão do Snap Hutao é muito desatualizada. Por favor, atualize o mais rápido possível.</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>游戏资源操作失败</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Falha ao fazer check-in de compensação, {0}</value>
   </data>
