@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using System.Net.Http;
-using System.Net.Mime;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
@@ -29,11 +28,8 @@ internal sealed class HttpContentSerializationException : Exception
 
         HttpContentSerializationException exception = new(GetDefaultMessage(), innerException);
 
-        // Cache the content in array, in case the response disposed.
-        ByteAttachmentContent attachmentContent = new(await content.ReadAsByteArrayAsync().ConfigureAwait(false));
-        SentryAttachment attachment = new(AttachmentType.Default, attachmentContent, "content.txt", MediaTypeNames.Text.Plain);
-        ExceptionAttachment.SetAttachment(exception, attachment);
-
+        // Read the content into array, in case the response disposed.
+        ExceptionAttachment.SetAttachment(exception, "content.txt", await content.ReadAsByteArrayAsync().ConfigureAwait(false));
         return exception;
     }
 

@@ -29,7 +29,7 @@ internal sealed class SimpleAvatar
     /// <summary>
     /// 圣遗物套装Id
     /// </summary>
-    public IEnumerable<ReliquarySetId> ReliquarySetIds { get; set; } = default!;
+    public IEnumerable<ReliquarySetId> ReliquarySetIds { get; set; }
 
     /// <summary>
     /// 命座

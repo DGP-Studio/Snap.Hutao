@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32.Foundation;
 using static Snap.Hutao.Win32.User32;
@@ -13,9 +14,9 @@ internal static class NotifyIcon
 {
     public static bool IsPromoted(IServiceProvider serviceProvider)
     {
-        if (!XamlApplicationLifetime.LaunchedWithNotifyIcon)
+        if (!XamlApplicationLifetime.NotifyIconCreated)
         {
-            return true;
+            throw HutaoException.InvalidOperation("Unexpected NotifyIcon IsPromoted call, Check NotifyIconCreated first.");
         }
 
         try

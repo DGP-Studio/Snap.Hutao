@@ -16,5 +16,5 @@ internal sealed class SimpleBattle
 
     public int Index { get; set; }
 
-    public IEnumerable<AvatarId> Avatars { get; set; } = default!;
+    public IEnumerable<AvatarId> Avatars { get; set; }
 }

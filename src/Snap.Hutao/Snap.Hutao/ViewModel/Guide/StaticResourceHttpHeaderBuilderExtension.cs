@@ -15,14 +15,8 @@ internal static class StaticResourceHttpHeaderBuilderExtension
         where TBuilder : class, IHttpHeadersBuilder<HttpHeaders>
     {
         return builder
-            .SetHeader("x-hutao-quality", $"{UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageQuality, StaticResourceQuality.Raw)}")
+            .SetHeader("x-hutao-quality", $"{UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageQuality, StaticResourceQuality.Original)}")
             .SetHeader("x-hutao-archive", $"{UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageArchive, StaticResourceArchive.Full)}");
-    }
-
-    public static TBuilder SetStaticResourceControlHeadersIf<TBuilder>(this TBuilder builder, bool condition)
-        where TBuilder : class, IHttpHeadersBuilder<HttpHeaders>
-    {
-        return condition ? builder.SetStaticResourceControlHeaders() : builder;
     }
 
     public static TBuilder SetStaticResourceControlHeadersIfRequired<TBuilder>(this TBuilder builder)

@@ -47,10 +47,11 @@ internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
 
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
 
             HutaoResponse response = await hutaoPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.Registration).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed))
             {
                 return;
             }

@@ -5,13 +5,13 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Security.Principal;
-using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using WinRT;
+using static Snap.Hutao.Win32.User32;
 
 // Visible to test project.
 [assembly: InternalsVisibleTo("Snap.Hutao.Test")]
@@ -35,6 +35,7 @@ public static partial class Bootstrap
     [ModuleInitializer]
     internal static void InitializeModule()
     {
+        // UndockedRegFreeWinRT
         // Set base directory env var for PublishSingleFile support (referenced by SxS redirection)
         Environment.SetEnvironmentVariable("MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY", AppContext.BaseDirectory);
 
@@ -47,9 +48,6 @@ public static partial class Bootstrap
 
     [LibraryImport("Microsoft.WindowsAppRuntime.dll", EntryPoint = "WindowsAppRuntime_EnsureIsLoaded")]
     private static partial int WindowsAppRuntimeEnsureIsLoaded();
-
-    [LibraryImport("Microsoft.ui.xaml.dll")]
-    private static partial void XamlCheckProcessRequirements();
 
     [STAThread]
     private static void Main(string[] args)
@@ -83,8 +81,6 @@ public static partial class Bootstrap
             Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
             Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
 
-            Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
-            XamlCheckProcessRequirements();
             ComWrappersSupport.InitializeComWrappers();
 
             // By adding the using statement, we can dispose the injected services when closing
@@ -117,13 +113,13 @@ public static partial class Bootstrap
 
     private static bool OSPlatformSupported()
     {
-        if (new UniversalApiContract.Version("10", "0", "19045", "5371") > UniversalApiContract.WindowsVersion)
+        if (!UniversalApiContract.IsCurrentWindowsVersionSupported.Value)
         {
             const string Message = """
                 Snap Hutao 无法在版本低于 10.0.19045.5371 的 Windows 上运行，请更新系统。
-                Snap Hutao cannot run on Windows versions lower than 10.0.19045.5371. Please update your system.
+                Snap Hutao cannot run on Windows versions earlier than 10.0.19045.5371. Please update your system.
                 """;
-            User32.MessageBoxExW(
+            MessageBoxExW(
                 default,
                 Message,
                 "Warning | 警告",

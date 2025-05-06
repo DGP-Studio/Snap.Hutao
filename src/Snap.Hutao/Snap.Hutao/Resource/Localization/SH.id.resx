@@ -808,6 +808,12 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>Tanpa Gambar Latar</value>
   </data>
+  <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
+    <value>Keluar dari Snap Hutao</value>
+  </data>
+  <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
+    <value>Minimalkan ke baki</value>
+  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Kegagalan pengiriman pemberitahuan aplikasi</value>
   </data>
@@ -964,6 +970,12 @@
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Path Game tidak ditemukan di berkas Unity log</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
+    <value>Terdeteksi galat diska keras, jalankan chkdsk untuk memperbaikinya</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>Hard disk hilang terdeteksi, harap periksa koneksi perangkat keras</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Ukuran Paket Sumber Daya: {0}
@@ -1239,6 +1251,15 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>Impor data Achievements untuk arsip saat ini</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
+    <value>Anda dapat mengubah perilaku ini nanti di pengaturan</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
+    <value>Fitur seperti penyegaran data Realtime Notes memerlukan Snap Hutao berjalan di latar belakang</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
+    <value>Tutup Jendela</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Target Level Karakter</value>
@@ -1895,7 +1916,7 @@ Ruang Tersedia: {2}</value>
     <value>Versi lokal: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>Tugas dibatalkan</value>
+    <value>Tugas terganggu, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Dibatalkan</value>
@@ -2328,6 +2349,9 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
     <value>Ikon area notifikasi belum diaktifkan, penyegaran otomatis tidak akan berjalan setelah jendela ditutup</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
+    <value>Pembuatan ikon area notifikasi gagal, penyegaran otomatis tidak akan berjalan setelah jendela ditutup</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Jangan ganggu selama bermain Genshin</value>
@@ -2908,6 +2932,12 @@ Ruang Tersedia: {2}</value>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>Total Durasi Pertunjukan</value>
   </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
+    <value>Ubah perilaku tombol tutup</value>
+  </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
+    <value>Perilaku Tombol Tutup</value>
+  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Pilih hari pertama dalam seminggu yang sesuai untuk Anda</value>
   </data>
@@ -2943,6 +2973,9 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Berkas Cache</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>Pembuatan ikon area notifikasi gagal, tidak dapat mengubah perilaku tombol tutup</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Jendela Halaman Ringkas</value>

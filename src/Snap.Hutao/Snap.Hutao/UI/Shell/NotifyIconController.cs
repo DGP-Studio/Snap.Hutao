@@ -19,6 +19,8 @@ namespace Snap.Hutao.UI.Shell;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class NotifyIconController : IDisposable
 {
+    private static bool constructed;
+
     private readonly Lock syncRoot = new();
 
     private readonly IContentDialogFactory contentDialogFactory;
@@ -26,13 +28,20 @@ internal sealed partial class NotifyIconController : IDisposable
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly NotifyIconMessageWindow messageWindow;
     private readonly System.Drawing.Icon icon;
-    private readonly string registryKey;
+    private readonly string? registryKey;
     private readonly Guid id;
 
     private bool disposed;
 
     public NotifyIconController(IServiceProvider serviceProvider)
     {
+        if (Interlocked.Exchange(ref constructed, true))
+        {
+            // Actively prevent multiple constructions, if this happens, it's definitely a bug.
+            // For example: the below part of the ctor throws an exception.
+            throw new InvalidOperationException("NotifyIconController is already constructed.");
+        }
+
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
         lazyMenu = new(() => new(serviceProvider));
 
@@ -53,7 +62,13 @@ internal sealed partial class NotifyIconController : IDisposable
 
         CreateNotifyIcon();
 
-        registryKey = InitializeNotifyIconRegistryKey(id);
+        try
+        {
+            registryKey = InitializeNotifyIconRegistryKey(id);
+        }
+        catch (HutaoException)
+        {
+        }
     }
 
     public static Lock InitializationSyncRoot { get; } = new();
@@ -85,6 +100,12 @@ internal sealed partial class NotifyIconController : IDisposable
 
     public bool GetIsPromoted()
     {
+        if (string.IsNullOrEmpty(registryKey))
+        {
+            // If the registry key is not available, we assume that the icon is not promoted.
+            return false;
+        }
+
         ObjectDisposedException.ThrowIf(disposed, this);
         return Registry.GetValue(registryKey, "IsPromoted", 0) is 1;
     }
@@ -118,7 +139,7 @@ internal sealed partial class NotifyIconController : IDisposable
             }
         }
 
-        throw HutaoException.NotSupported();
+        throw HutaoException.NotSupported("Unable to find NotifyIcon registry key", HutaoException.Marker);
     }
 
     private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)

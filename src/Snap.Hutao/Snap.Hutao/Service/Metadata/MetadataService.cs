@@ -23,12 +23,13 @@ namespace Snap.Hutao.Service.Metadata;
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class MetadataService : IMetadataService, IMetadataServiceInitialization
+internal sealed partial class MetadataService : IMetadataService
 {
     private const string MetaFileName = "Meta.json";
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
+    private readonly IRootServiceProviderIsDisposed rootServiceProviderIsDisposed;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
@@ -75,6 +76,42 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         return strategy.IsScattered
             ? await FromCacheOrScatteredFile<T>(strategy, cacheKey, token).ConfigureAwait(false)
             : await FromCacheOrSingleFile<T>(strategy, cacheKey, token).ConfigureAwait(false);
+    }
+
+    private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
+    {
+        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope(context.RootServiceProviderIsDisposed))
+        {
+            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            {
+                IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(context.Options.GetLocalizedRemoteFile(context.Template, fileFullName)).Get();
+
+                using (HttpRequestMessage message = builder.HttpRequestMessage)
+                {
+                    // We have too much line endings now, should cache the response.
+                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                    {
+                        Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+                        // Write stream while convert LF to CRLF
+                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(context.Options.GetLocalizedLocalPath(fileFullName))))
+                        {
+                            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
+                            {
+                                await readerWriter.WriteAsync(line).ConfigureAwait(false);
+
+                                if (!readerWriter.Reader.EndOfStream)
+                                {
+                                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private async ValueTask<ImmutableArray<T>> FromCacheOrSingleFile<T>(MetadataFileStrategy strategy, string cacheKey, CancellationToken token)
@@ -154,17 +191,39 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             return false;
         }
 
-        await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false);
-
-        // Save metadataFile
-        using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName)))
+        if (await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false) is not { NoError: true } checkResult)
         {
-            await JsonSerializer
-                .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
-                .ConfigureAwait(false);
+            return false;
         }
 
-        fileNames = [.. metadataFileHashes.Select(entry => entry.Key)];
+        // Save metadataFile
+        FileStream metaFileStream;
+        try
+        {
+            metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName));
+        }
+        catch (IOException)
+        {
+            // The process cannot access the file '?' because it is being used by another process
+            return false;
+        }
+
+        using (metaFileStream)
+        {
+            try
+            {
+                await JsonSerializer
+                    .SerializeAsync(metaFileStream, metadataFileHashes, options, token)
+                    .ConfigureAwait(false);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // Access to the path '?' is denied.
+                return false;
+            }
+        }
+
+        fileNames = checkResult.SucceedFiles.ToFrozenSet();
         return true;
     }
 
@@ -195,7 +254,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         try
         {
             ImmutableDictionary<string, string>? metadataFileHashes;
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceScopeFactory.CreateScope(rootServiceProviderIsDisposed))
             {
                 IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
                 using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
@@ -237,67 +296,111 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     }
 
     [SuppressMessage("", "SH003")]
-    private Task CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
+    private async ValueTask<MetadataCheckResult> CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
     {
-        return Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
+        MetadataDownloadContext context = new(rootServiceProviderIsDisposed, serviceScopeFactory, metadataOptions, template);
+
+        await Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
-            (string fileName, string hash) = pair;
+            (string fileName, string metaHash) = pair;
             string fileFullName = $"{fileName}.json";
-            string fileFullPath = metadataOptions.GetLocalizedLocalPath(fileFullName);
+            string fileFullPath = context.Options.GetLocalizedLocalPath(fileFullName);
             if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            bool skip = false;
             if (File.Exists(fileFullPath))
             {
-                skip = hash == await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                string fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
+                {
+                    context.SetResult(fileName, true);
+                    return;
+                }
             }
 
-            if (!skip)
+            try
             {
-                logger.LogInformation("{Hash} of {File} not matched, begin downloading", nameof(XxHash64), fileFullName);
-                await DownloadMetadataSourceFilesAsync(template, fileFullName, token).ConfigureAwait(true);
+                await DownloadMetadataSourceFilesAsync(context, fileFullName, token).ConfigureAwait(true);
             }
-        });
+            catch (Exception)
+            {
+                // No matter what exception, we set the result to false
+                context.SetResult(fileName, false);
+            }
+        }).ConfigureAwait(false);
+
+        return context.ToResult();
     }
 
-    private async ValueTask DownloadMetadataSourceFilesAsync(MetadataTemplate? template, string fileFullName, CancellationToken token)
+    private sealed class MetadataDownloadContext
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        private readonly Lock syncRoot = new();
+        private readonly Dictionary<string, bool> results = [];
+
+        public MetadataDownloadContext(IRootServiceProviderIsDisposed rootServiceProviderIsDisposed, IServiceScopeFactory serviceScopeFactory, MetadataOptions options, MetadataTemplate? template)
         {
-            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            RootServiceProviderIsDisposed = rootServiceProviderIsDisposed;
+            ServiceScopeFactory = serviceScopeFactory;
+            Options = options;
+            Template = template;
+        }
+
+        public IRootServiceProviderIsDisposed RootServiceProviderIsDisposed { get; }
+
+        public IServiceScopeFactory ServiceScopeFactory { get; }
+
+        public MetadataOptions Options { get; }
+
+        public MetadataTemplate? Template { get; }
+
+        public void SetResult(string fileName, bool result)
+        {
+            lock (syncRoot)
             {
-                IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, fileFullName)).Get();
+                results.Add(fileName, result);
+            }
+        }
 
-                using (HttpRequestMessage message = builder.HttpRequestMessage)
+        public MetadataCheckResult ToResult()
+        {
+            lock (syncRoot)
+            {
+                return new(results);
+            }
+        }
+    }
+
+    private sealed class MetadataCheckResult
+    {
+        private readonly ImmutableDictionary<string, bool> results;
+
+        public MetadataCheckResult(Dictionary<string, bool> results)
+        {
+            this.results = results.ToImmutableDictionary();
+        }
+
+        public bool NoError
+        {
+            get
+            {
+                return results.All(r => r.Value);
+            }
+        }
+
+        public IEnumerable<string> SucceedFiles
+        {
+            get
+            {
+                foreach ((string fileName, bool result) in results)
                 {
-                    // We have too much line endings now, should cache the response.
-                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                    if (result)
                     {
-                        Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-
-                        // Write stream while convert LF to CRLF
-                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(metadataOptions.GetLocalizedLocalPath(fileFullName))))
-                        {
-                            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-                            {
-                                await readerWriter.WriteAsync(line).ConfigureAwait(false);
-
-                                if (!readerWriter.Reader.EndOfStream)
-                                {
-                                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
-                                }
-                            }
-                        }
+                        yield return fileName;
                     }
                 }
             }
         }
-
-        logger.LogInformation("Download {file} completed", fileFullName);
     }
 }

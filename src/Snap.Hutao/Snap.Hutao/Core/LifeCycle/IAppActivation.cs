@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 
 internal interface IAppActivation
 {
-    void Activate(HutaoActivationArguments args);
+    void RedirectedActivate(HutaoActivationArguments args);
 
     void NotificationInvoked(AppNotificationManager manager, AppNotificationActivatedEventArgs args);
 

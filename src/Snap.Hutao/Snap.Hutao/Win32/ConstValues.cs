@@ -9,6 +9,7 @@ internal static class ConstValues
     public const uint WINEVENT_OUTOFCONTEXT = 0x00000000U;
     public const uint WM_NULL = 0x00000000U;
     public const uint DXGI_CREATE_FACTORY_DEBUG = 0x00000001U;
+    public const uint WM_CREATE = 0x00000001U;
     public const uint WINEVENT_SKIPOWNPROCESS = 0x00000002U;
     public const uint EVENT_SYSTEM_FOREGROUND = 0x00000003U;
     public const uint NOTIFYICON_VERSION = 0x00000003U;
@@ -19,6 +20,7 @@ internal static class ConstValues
     public const uint WM_ACTIVATEAPP = 0x0000001CU;
     public const uint WM_GETMINMAXINFO = 0x00000024U;
     public const uint WM_CONTEXTMENU = 0x0000007BU;
+    public const uint WM_NCCREATE = 0x00000081U;
     public const uint WM_NCHITTEST = 0x00000084U;
     public const uint WM_NCLBUTTONDBLCLK = 0x000000A3U;
     public const uint WM_NCRBUTTONDOWN = 0x000000A4U;

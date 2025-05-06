@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Enka.Model;
 internal sealed class EnkaResponse
 {
     [JsonPropertyName("playerInfo")]
-    public PlayerInfo? PlayerInfo { get; set; } = default!;
+    public PlayerInfo? PlayerInfo { get; set; }
 
     [JsonPropertyName("ttl")]
     public int? TimeToLive { get; set; }

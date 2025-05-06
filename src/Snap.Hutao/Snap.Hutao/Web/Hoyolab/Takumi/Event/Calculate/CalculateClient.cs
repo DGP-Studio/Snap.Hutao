@@ -17,6 +17,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 internal sealed partial class CalculateClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IServiceScopeIsDisposed serviceScopeIsDisposed;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
 
@@ -77,7 +78,7 @@ internal sealed partial class CalculateClient
 
             Response.Response.DefaultIfNull(ref resp);
 
-            if (ResponseValidator.TryValidate(resp, serviceProvider, out ListWrapper<Avatar>? listWrapper))
+            if (ResponseValidator.TryValidate(resp, serviceProvider, serviceScopeIsDisposed, out ListWrapper<Avatar>? listWrapper))
             {
                 avatars.AddRange(listWrapper.List);
             }
@@ -130,7 +131,7 @@ internal sealed partial class CalculateClient
 
     public async ValueTask<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, ImmutableArray<Item> items, CancellationToken token)
     {
-        ListWrapper<IdCount> data = new() { List = items.SelectAsArray(i => new IdCount { Id = i.Id, Count = i.Num }) };
+        ListWrapper<IdCount> data = new() { List = items.SelectAsArray(static i => new IdCount { Id = i.Id, Count = i.Num }) };
 
         IApiEndpoints apiEndpoints = apiEndpointsFactory.Create(user.IsOversea);
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -164,7 +165,7 @@ internal sealed partial class CalculateClient
 
         Response.Response.DefaultIfNull(ref resp);
 
-        if (ResponseValidator.TryValidate(resp, serviceProvider, out ListWrapper<Avatar>? listWrapper))
+        if (ResponseValidator.TryValidate(resp, serviceProvider, serviceScopeIsDisposed, out ListWrapper<Avatar>? listWrapper))
         {
             return listWrapper.List;
         }
@@ -190,7 +191,7 @@ internal sealed partial class CalculateClient
 
         Response.Response.DefaultIfNull(ref resp);
 
-        if (ResponseValidator.TryValidate(resp, serviceProvider, out ListWrapper<Weapon>? listWrapper))
+        if (ResponseValidator.TryValidate(resp, serviceProvider, serviceScopeIsDisposed, out ListWrapper<Weapon>? listWrapper))
         {
             return listWrapper.List;
         }

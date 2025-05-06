@@ -77,8 +77,8 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             case GamePackageOperationReport.Finish finish:
                 FinishProgress(finish);
                 break;
-            case GamePackageOperationReport.Abort:
-                AbortProgress();
+            case GamePackageOperationReport.Abort abort:
+                AbortProgress(abort);
                 break;
         }
     }
@@ -207,9 +207,9 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         RefreshUI();
     }
 
-    private void AbortProgress()
+    private void AbortProgress(GamePackageOperationReport.Abort abort)
     {
-        Title = SH.ViewModelGamePackageOperationAborted;
+        Title = SH.FormatViewModelGamePackageOperationAborted(abort.Reason);
         IsFinished = true;
     }
 

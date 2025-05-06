@@ -216,6 +216,7 @@ internal sealed partial class UserViewModel : ObservableObject
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             UserMobileCaptchaDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserMobileCaptchaDialog>(scope.ServiceProvider).ConfigureAwait(false);
             if (!await dialog.GetMobileCaptchaAsync().ConfigureAwait(false))
             {
@@ -225,7 +226,7 @@ internal sealed partial class UserViewModel : ObservableObject
             IPassportClient passportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IPassportClient>>().Create(false);
             Response<LoginResult> response = await passportClient.LoginByMobileCaptchaAsync(dialog).ConfigureAwait(false);
 
-            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out LoginResult? loginResult))
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out LoginResult? loginResult))
             {
                 Cookie sTokenV2 = Cookie.FromLoginResult(loginResult);
                 (UserOptionResultKind optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(sTokenV2, false)).ConfigureAwait(false);

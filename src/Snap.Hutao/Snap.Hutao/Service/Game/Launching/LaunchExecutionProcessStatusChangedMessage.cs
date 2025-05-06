@@ -3,4 +3,5 @@
 
 namespace Snap.Hutao.Service.Game.Launching;
 
+// Send after game process status changed
 internal sealed class LaunchExecutionProcessStatusChangedMessage;

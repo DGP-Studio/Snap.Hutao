@@ -23,4 +23,19 @@ internal static class AppWindowExtension
         appWindow.Move(pView->Position);
         appWindow.Resize(pView->Size);
     }
+
+    public static void SafeIsShowInSwitchers(this AppWindow appWindow, bool value)
+    {
+        try
+        {
+            // Some users uses a custom task bar and which dosen't implements ITaskbarList
+            // WinUI use ITaskbarList.AddTab & .DeleteTab to show/hide tab as of now (WASDK 1.7)
+            // At Microsoft.UI.Windowing.dll
+            appWindow.IsShownInSwitchers = value;
+        }
+        catch (NotImplementedException)
+        {
+            // SetShownInSwitchers failed.
+        }
+    }
 }

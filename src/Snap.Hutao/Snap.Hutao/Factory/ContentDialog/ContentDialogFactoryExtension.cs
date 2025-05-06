@@ -11,7 +11,7 @@ internal static class ContentDialogFactoryExtension
     {
         ValueContentDialogTask dialogTask = contentDialogFactory.EnqueueAndShowAsync(contentDialog);
         await dialogTask.QueueTask.ConfigureAwait(false);
-        contentDialog.DispatcherQueue.TryEnqueue(() => contentDialog.Focus(FocusState.Programmatic));
+        contentDialog.DispatcherQueue.Invoke(() => contentDialog.Focus(FocusState.Programmatic));
         return new(contentDialog);
     }
 }

@@ -4,6 +4,7 @@
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -15,8 +16,11 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
+using Snap.Hutao.Win32.Foundation;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
+using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Web.Bridge;
 
@@ -261,6 +265,7 @@ internal class MiHoYoJSBridge
         UserFullInfoWrapper? wrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IUserClient userClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
                 .Create(userAndUid.IsOversea);
@@ -269,7 +274,7 @@ internal class MiHoYoJSBridge
                 .GetUserFullInfoAsync(userAndUid.User)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out wrapper))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out wrapper))
             {
                 return new();
             }
@@ -379,6 +384,17 @@ internal class MiHoYoJSBridge
     {
     }
 
+    private static void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
+    {
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Navigate to uri", "WebView2 MiHoYoJSBridge", [("Uri", args.Uri)]));
+        string uriHost = args.Uri.ToUri().Host;
+        ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
+        if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
+        {
+            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget();
+        }
+    }
+
     private async ValueTask<string> ExecuteCallbackScriptAsync(string callback, string? payload = null)
     {
         if (string.IsNullOrEmpty(callback))
@@ -407,7 +423,20 @@ internal class MiHoYoJSBridge
             return string.Empty;
         }
 
-        return await coreWebView2.ExecuteScriptAsync(js);
+        try
+        {
+            return await coreWebView2.ExecuteScriptAsync(js);
+        }
+        catch (COMException ex)
+        {
+            if (ex.HResult == HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_INVALID_STATE))
+            {
+                // 组或资源的状态不是执行请求操作的正确状态。
+                return string.Empty;
+            }
+
+            throw;
+        }
     }
 
     // ReSharper disable once AsyncVoidMethod
@@ -488,15 +517,5 @@ internal class MiHoYoJSBridge
         DOMContentLoaded(coreWebView2);
         coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget();
         coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget();
-    }
-
-    private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
-    {
-        string uriHost = args.Uri.ToUri().Host;
-        ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
-        if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
-        {
-            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget();
-        }
     }
 }

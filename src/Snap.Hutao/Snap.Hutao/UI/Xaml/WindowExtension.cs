@@ -25,9 +25,16 @@ internal static class WindowExtension
         WindowControllers.Add(window, windowController);
     }
 
-    public static bool IsControllerInitialized(Window window)
+    public static bool TryGetAssociatedServiceProvider(this Window window, out IServiceProvider serviceProvider)
     {
-        return WindowControllers.TryGetValue(window, out _);
+        if (WindowControllers.TryGetValue(window, out XamlWindowController? controller))
+        {
+            serviceProvider = controller.ServiceProvider;
+            return true;
+        }
+
+        serviceProvider = default!;
+        return false;
     }
 
     public static bool IsControllerInitialized<TWindow>()

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.UI.Xaml.Behavior;
 
-internal sealed partial class UninitializeDataContextOnUnloadedBehavior : BehaviorBase<FrameworkElement>
+internal sealed class UninitializeDataContextOnUnloadedBehavior : BehaviorBase<FrameworkElement>
 {
     protected override bool Uninitialize()
     {

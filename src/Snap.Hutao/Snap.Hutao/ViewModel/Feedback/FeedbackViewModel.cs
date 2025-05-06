@@ -29,7 +29,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
 
-    public HttpProxyUsingSystemProxy DynamicHttpProxy { get => HttpProxyUsingSystemProxy.Instance; }
+    public static HttpProxyUsingSystemProxy DynamicHttpProxy { get => HttpProxyUsingSystemProxy.Instance; }
 
     public partial RuntimeOptions RuntimeOptions { get; }
 

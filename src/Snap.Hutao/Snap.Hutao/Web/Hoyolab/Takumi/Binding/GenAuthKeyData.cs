@@ -16,10 +16,10 @@ internal sealed class GenAuthKeyData
     }
 
     [JsonPropertyName("auth_appid")]
-    public string AuthAppId { get; set; } = default!;
+    public string AuthAppId { get; set; }
 
     [JsonPropertyName("game_biz")]
-    public string GameBiz { get; set; } = default!;
+    public string GameBiz { get; set; }
 
     [JsonPropertyName("game_uid")]
     public int GameUid { get; set; }

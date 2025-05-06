@@ -31,9 +31,9 @@ internal static class PhysicalDriver
         {
             return DangerousGetIsSolidState(path);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            SentrySdk.CaptureException(ex);
+            // 0x80070001
             return null;
         }
     }

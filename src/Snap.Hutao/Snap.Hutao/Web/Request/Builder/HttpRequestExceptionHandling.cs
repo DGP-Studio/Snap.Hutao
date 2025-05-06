@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Request.Builder;
 
-internal static partial class HttpRequestExceptionHandling
+internal static class HttpRequestExceptionHandling
 {
     public static bool TryHandle(HttpRequestMessageBuilder builder, Exception ex, out StringBuilder message)
     {
@@ -56,13 +56,22 @@ internal static partial class HttpRequestExceptionHandling
             if (networkError is not NetworkError.OK)
             {
                 builder.AppendLine(networkError.ToString());
-                builder.AppendLine(ex.Message);
+                switch (networkError)
+                {
+                    case NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR:
+                        builder.AppendLine(ex.InnerException?.Message); // AuthenticationException has more details
+                        break;
+                    default:
+                        builder.AppendLine(ex.Message);
+                        break;
+                }
+
                 return true;
             }
 
             if (httpRequestException.StatusCode is { } statusCode)
             {
-                if (((int)statusCode) is (< 200 or > 299))
+                if ((int)statusCode is < 200 or > 299)
                 {
                     builder.Append("HTTP ").Append((int)statusCode);
                     if (Enum.IsDefined(statusCode))
@@ -72,6 +81,12 @@ internal static partial class HttpRequestExceptionHandling
 
                     return true;
                 }
+            }
+
+            if (httpRequestException.Message is "Response status code does not indicate success: 418 (I'm a Teapot).")
+            {
+                builder.Append("HTTP 418");
+                return true;
             }
         }
 
@@ -91,10 +106,18 @@ internal static partial class HttpRequestExceptionHandling
                         {
                             case SocketError.AccessDenied:
                                 return NetworkError.ERR_CONNECTION_ACCESS_DENIED;
+                            case SocketError.AddressAlreadyInUse:
+                                return NetworkError.ERR_CONNECTION_ADDRESS_ALREADY_IN_USE;
+                            case SocketError.ConnectionAborted:
+                                return NetworkError.ERR_CONNECTION_ABORTED;
                             case SocketError.ConnectionRefused:
                                 return NetworkError.ERR_CONNECTION_REFUSED;
                             case SocketError.NetworkUnreachable:
                                 return NetworkError.ERR_CONNECTION_NETWORK_UNREACHABLE;
+                            case SocketError.NoBufferSpaceAvailable:
+                                return NetworkError.ERR_CONNECTION_NO_BUFFER_SPACE_AVAILABLE;
+                            case SocketError.NoData:
+                                return NetworkError.ERR_CONNECTION_NO_DATA;
                             case SocketError.TimedOut:
                                 return NetworkError.ERR_CONNECTION_TIMED_OUT;
                         }
@@ -111,7 +134,27 @@ internal static partial class HttpRequestExceptionHandling
                         switch (socketException.SocketErrorCode)
                         {
                             case SocketError.HostNotFound:
-                                return NetworkError.ERROR_NAME_RESOLUTION_HOST_NOT_FOUND;
+                                return NetworkError.ERR_NAME_RESOLUTION_HOST_NOT_FOUND;
+                        }
+
+                        break;
+                }
+
+                break;
+
+            case HttpRequestError.ProxyTunnelError:
+                {
+                    return NetworkError.ERR_PROXY_TUNNEL_ERROR;
+                }
+
+            case HttpRequestError.ResponseEnded:
+                switch (ex.InnerException)
+                {
+                    case HttpIOException httpIOException:
+                        switch (httpIOException.HttpRequestError)
+                        {
+                            case HttpRequestError.ResponseEnded:
+                                return NetworkError.ERR_RESPONSE_ENDED;
                         }
 
                         break;
@@ -124,13 +167,14 @@ internal static partial class HttpRequestExceptionHandling
                 {
                     case AuthenticationException authenticationException:
                         {
-                            if (authenticationException.Message is "The remote certificate is invalid according to the validation procedure: RemoteCertificateNameMismatch")
+                            switch (authenticationException.InnerException)
                             {
-                                return NetworkError.ERR_SECURE_CONNECTION_REMOTE_CERTIFICATE_NAME_MISMATCH;
+                                case null:
+                                    return NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR;
                             }
-                        }
 
-                        break;
+                            break;
+                        }
 
                     case IOException ioException:
                         {
@@ -141,6 +185,8 @@ internal static partial class HttpRequestExceptionHandling
                                     {
                                         case SocketError.ConnectionAborted:
                                             return NetworkError.ERR_SECURE_CONNECTION_ABORTED;
+                                        case SocketError.ConnectionReset:
+                                            return NetworkError.ERR_SECURE_CONNECTION_RESET;
                                     }
 
                                     break;
@@ -148,6 +194,36 @@ internal static partial class HttpRequestExceptionHandling
                                 case null:
                                     return NetworkError.ERR_SECURE_CONNECTION_ERROR;
                             }
+                        }
+
+                        break;
+                }
+
+                break;
+
+            case HttpRequestError.Unknown:
+                switch (ex.InnerException)
+                {
+                    case IOException ioException:
+                        switch (ioException.InnerException)
+                        {
+                            case SocketException socketException:
+                                switch (socketException.SocketErrorCode)
+                                {
+                                    case SocketError.ConnectionAborted:
+                                        return NetworkError.ERR_UNKNOWN_CONNECTION_ABORTED;
+                                    case SocketError.ConnectionReset:
+                                        return NetworkError.ERR_UNKNOWN_CONNECTION_RESET;
+                                }
+
+                                break;
+                            case Win32Exception win32Exception:
+                                switch (win32Exception.NativeErrorCode)
+                                {
+                                    // TODO
+                                }
+
+                                break;
                         }
 
                         break;

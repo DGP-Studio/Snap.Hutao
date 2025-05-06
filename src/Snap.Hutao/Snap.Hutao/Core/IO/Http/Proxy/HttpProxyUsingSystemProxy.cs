@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Win32.Registry;
+using Snap.Hutao.Win32;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.IO.Http.Proxy;
@@ -19,13 +20,15 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     private static readonly Uri ProxyTestDestination = "https://hut.ao".ToUri();
     private static readonly Lock SyncRoot = new();
 
-    private HttpProxyUsingSystemProxy()
+    // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+    private readonly HutaoNativeRegistryNotification native;
+
+    private unsafe HttpProxyUsingSystemProxy()
     {
         UpdateInnerProxy();
 
-        RegistryWatcher watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
-        watcher.Start();
-        GCHandle.Alloc(watcher);
+        native = HutaoNative.Instance.MakeRegistryNotification(ProxySettingPath);
+        native.Start(HutaoNativeRegistryNotificationCallback.Create(&OnSystemProxySettingsChanged), 0);
     }
 
     [field: MaybeNull]
@@ -91,6 +94,15 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         return constructSystemProxyMethod;
     }
 
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+    private static void OnSystemProxySettingsChanged(nint userData)
+    {
+        Instance.UpdateInnerProxy();
+
+        Debug.Assert(XamlApplicationLifetime.DispatcherQueueInitialized, "DispatcherQueue not initialized");
+        SynchronizationContext.Current?.Post(static _ => Instance.OnPropertyChanged(nameof(CurrentProxyUri)), default);
+    }
+
     [MemberNotNull(nameof(InnerProxy))]
     private void UpdateInnerProxy()
     {
@@ -98,13 +110,5 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         ArgumentNullException.ThrowIfNull(proxy);
 
         InnerProxy = proxy;
-    }
-
-    private void OnSystemProxySettingsChanged()
-    {
-        UpdateInnerProxy();
-
-        Debug.Assert(XamlApplicationLifetime.DispatcherQueueInitialized, "DispatcherQueue not initialized");
-        SynchronizationContext.Current?.Post(_ => OnPropertyChanged(nameof(CurrentProxyUri)), default);
     }
 }

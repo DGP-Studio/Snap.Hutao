@@ -19,7 +19,6 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private bool? isNotifyIconEnabled;
     private bool? isEmptyHistoryWishVisible;
     private bool? isUnobtainedWishItemVisible;
     private BackdropType? backdropType;
@@ -30,12 +29,9 @@ internal sealed partial class AppOptions : DbStoreOptions
     private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
     private TimeSpan? calendarServerTimeZoneOffset;
+    private LastWindowCloseBehavior? closeButtonBehavior;
 
-    public bool IsNotifyIconEnabled
-    {
-        get => GetOption(ref isNotifyIconEnabled, SettingEntry.IsNotifyIconEnabled, true);
-        set => SetOption(ref isNotifyIconEnabled, SettingEntry.IsNotifyIconEnabled, value);
-    }
+    public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
 
     public bool IsEmptyHistoryWishVisible
     {
@@ -129,5 +125,13 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, TimeSpan.Parse, ServerRegionTimeZone.CommonOffset);
         set => SetOption(ref calendarServerTimeZoneOffset, SettingEntry.CalendarServerTimeZoneOffset, value, static v => v.ToString());
+    }
+
+    public ImmutableArray<NameValue<LastWindowCloseBehavior>> LastWindowCloseBehaviors { get; } = ImmutableCollectionsNameValue.FromEnum<LastWindowCloseBehavior>(LastWindowCloseBehaviorExtension.GetLocalizedDescription);
+
+    public LastWindowCloseBehavior LastWindowCloseBehavior
+    {
+        get => GetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, Enum.Parse<LastWindowCloseBehavior>, LastWindowCloseBehavior.EnsureNotifyIconCreated);
+        set => SetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, value, EnumToStringOrEmpty);
     }
 }

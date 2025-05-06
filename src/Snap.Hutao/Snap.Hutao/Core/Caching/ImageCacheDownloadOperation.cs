@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -11,7 +10,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
-using System.Text;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -29,17 +27,23 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
     ]);
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IRootServiceProviderIsDisposed rootServiceProviderIsDisposed;
     private readonly IServiceScopeFactory serviceScopeFactory;
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        using (IServiceScope scope = serviceScopeFactory.CreateScope(rootServiceProviderIsDisposed))
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
             {
                 await DownloadFileUsingHttpClientAsync(httpClient, uri, baseFile).ConfigureAwait(false);
             }
+        }
+
+        if (!File.Exists(baseFile))
+        {
+            throw InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'");
         }
     }
 
@@ -66,12 +70,12 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                 }
                 catch (Exception ex)
                 {
-                    if (HttpRequestExceptionHandling.TryHandle(requestMessageBuilder, ex, out StringBuilder message))
+                    if (HttpRequestExceptionHandling.TryHandle(requestMessageBuilder, ex, out _))
                     {
                         continue;
                     }
 
-                    throw HutaoException.InvalidOperation(message.ToString(), ex);
+                    throw;
                 }
 
                 using (responseMessage)
@@ -87,11 +91,41 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                         {
                             string? directoryName = Path.GetDirectoryName(baseFile);
                             ArgumentException.ThrowIfNullOrEmpty(directoryName);
-                            Directory.CreateDirectory(directoryName);
-
-                            using (FileStream fileStream = File.Create(baseFile))
+                            try
                             {
-                                await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                                Directory.CreateDirectory(directoryName);
+                            }
+                            catch (DirectoryNotFoundException)
+                            {
+                                throw InternalImageCacheException.Throw($"Unable to create folder at '{directoryName}'");
+                            }
+
+                            FileStream fileStream;
+                            try
+                            {
+                                fileStream = File.Create(baseFile);
+                            }
+                            catch (IOException ex)
+                            {
+                                // The process cannot access the file '?' because it is being used by another process.
+                                throw InternalImageCacheException.Throw($"Unable to create file at '{baseFile}'", ex);
+                            }
+
+                            using (fileStream)
+                            {
+                                try
+                                {
+                                    await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                                }
+                                catch (IOException ex)
+                                {
+                                    // Received an unexpected EOF or 0 bytes from the transport stream.
+                                    // Unable to read data from the transport connection: 远程主机强迫关闭了一个现有的连接。. SocketException: ConnectionReset
+                                    // Unable to read data from the transport connection: 你的主机中的软件中止了一个已建立的连接。. SocketException: ConnectionAborted
+                                    // HttpIOException: The response ended prematurely. (ResponseEnded)
+                                    throw InternalImageCacheException.Throw("Unable to copy stream content to file", ex);
+                                }
+
                                 return;
                             }
                         }
@@ -101,7 +135,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                     {
                         case HttpStatusCode.NotFound:
                             {
-                                throw HutaoException.InvalidOperation($"Unable to download file from '{uri.OriginalString}'", HutaoException.Marker);
+                                throw InternalImageCacheException.Throw($"Unable to download file from '{uri.OriginalString}'");
                             }
 
                         case HttpStatusCode.TooManyRequests:

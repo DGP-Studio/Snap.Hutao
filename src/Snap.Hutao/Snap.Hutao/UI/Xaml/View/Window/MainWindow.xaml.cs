@@ -4,6 +4,8 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications.Builder;
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Service;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel;
@@ -17,7 +19,8 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowHasInitSize
 {
-    private readonly IServiceScope scope;
+    private readonly LastWindowCloseBehaviorTraits closeBehaviorTraits;
+    private readonly App app;
 
     public MainWindow(IServiceProvider serviceProvider)
     {
@@ -30,10 +33,12 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             presenter.PreferredMinimumHeight = minSize.Height;
         }
 
-        scope = serviceProvider.CreateScope();
+        IServiceScope scope = serviceProvider.CreateScope();
         this.InitializeController(scope.ServiceProvider);
         TitleView.InitializeDataContext<TitleViewModel>(scope.ServiceProvider);
         MainView.InitializeDataContext<MainViewModel>(scope.ServiceProvider);
+        closeBehaviorTraits = scope.ServiceProvider.GetRequiredService<LastWindowCloseBehaviorTraits>();
+        app = scope.ServiceProvider.GetRequiredService<App>();
     }
 
     public FrameworkElement TitleBarCaptionAccess { get => TitleView.DragArea; }
@@ -44,6 +49,13 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
+        if (!XamlApplicationLifetime.Exiting && XamlApplicationLifetime.NotifyIconCreated && !LocalSetting.Get(SettingKeys.IsCloseButtonBehaviorSet, false))
+        {
+            closeBehaviorTraits.SetAsync(this).SafeForget();
+            cancel = true;
+            return;
+        }
+
         cancel = false;
     }
 
@@ -54,7 +66,13 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        if (!NotifyIcon.IsPromoted(scope.ServiceProvider))
+        if (!XamlApplicationLifetime.NotifyIconCreated || app.Options.LastWindowCloseBehavior is LastWindowCloseBehavior.ExitApplication)
+        {
+            app.Exit();
+            return;
+        }
+
+        if (this.TryGetAssociatedServiceProvider(out IServiceProvider serviceProvider) && !NotifyIcon.IsPromoted(serviceProvider))
         {
             try
             {

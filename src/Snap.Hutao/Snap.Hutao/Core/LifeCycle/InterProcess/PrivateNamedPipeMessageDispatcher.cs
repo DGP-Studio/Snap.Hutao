@@ -9,20 +9,20 @@ internal sealed partial class PrivateNamedPipeMessageDispatcher
 {
     private readonly IServiceProvider serviceProvider;
 
-    public void RedirectActivation(HutaoActivationArguments? args)
+    public void RedirectedActivation(HutaoActivationArguments? args)
     {
         if (args is null)
         {
             return;
         }
 
-        serviceProvider.GetRequiredService<IAppActivation>().Activate(args);
+        serviceProvider.GetRequiredService<IAppActivation>().RedirectedActivate(args);
     }
 
     public void ExitApplication()
     {
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         App app = serviceProvider.GetRequiredService<App>();
-        taskContext.InvokeOnMainThread(app.Exit);
+        taskContext.BeginInvokeOnMainThread(app.Exit);
     }
 }

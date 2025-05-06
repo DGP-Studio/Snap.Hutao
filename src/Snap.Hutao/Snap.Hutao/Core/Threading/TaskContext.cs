@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using WinRT;
 
 namespace Snap.Hutao.Core.Threading;
 
@@ -66,13 +67,33 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
         public override void Post(SendOrPostCallback callback, object? state)
         {
             ArgumentNullException.ThrowIfNull(callback);
-            dispatcherQueue.TryEnqueue(() => callback(state));
+            dispatcherQueue.TryEnqueue(() =>
+            {
+                try
+                {
+                    callback(state);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionHelpers.ReportUnhandledError(ex);
+                }
+            });
         }
 
         public override void Send(SendOrPostCallback callback, object? state)
         {
             ArgumentNullException.ThrowIfNull(callback);
-            dispatcherQueue.Invoke(() => callback(state));
+            dispatcherQueue.Invoke(() =>
+            {
+                try
+                {
+                    callback(state);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionHelpers.ReportUnhandledError(ex);
+                }
+            });
         }
 
         public override SynchronizationContext CreateCopy()

@@ -13,6 +13,9 @@ internal sealed partial class HutaoDiagnostics : IHutaoDiagnostics
 {
     private readonly IServiceProvider serviceProvider;
 
+    /// <summary>
+    /// <see cref="Core.Setting.LocalSetting"/>
+    /// </summary>
     public ApplicationDataContainer LocalSetting { get => ApplicationData.Current.LocalSettings; }
 
     public async ValueTask<int> ExecuteSqlAsync(string sql)

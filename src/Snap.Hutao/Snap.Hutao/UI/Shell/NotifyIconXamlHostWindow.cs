@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.UI.Windowing;
+using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
@@ -17,7 +19,7 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
 
-internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackground
+internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackground, IXamlWindowClosedHandler
 {
     public NotifyIconXamlHostWindow(IServiceProvider serviceProvider)
     {
@@ -28,7 +30,8 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         this.AddExStyleToolWindow();
 
         AppWindow.Title = "SnapHutaoNotifyIconXamlHost";
-        AppWindow.IsShownInSwitchers = false;
+        AppWindow.SafeIsShowInSwitchers(false);
+
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsMaximizable = false;
@@ -37,8 +40,6 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
             presenter.IsAlwaysOnTop = true;
             presenter.SetBorderAndTitleBar(false, false);
         }
-
-        Closed += OnWindowClosed;
 
         this.InitializeController(serviceProvider);
     }
@@ -73,13 +74,14 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         AppWindow.MoveAndResize(RectInt32Convert.RectInt32(icon));
     }
 
-    private static void OnWindowClosed(object sender, WindowEventArgs args)
+    public void OnWindowClosing(out bool cancel)
     {
         // https://github.com/DGP-Studio/Snap.Hutao/issues/2532
         // Prevent the window closing when the application is not exiting.
-        if (!XamlApplicationLifetime.Exiting)
-        {
-            args.Handled = true;
-        }
+        cancel = !XamlApplicationLifetime.Exiting;
+    }
+
+    public void OnWindowClosed()
+    {
     }
 }

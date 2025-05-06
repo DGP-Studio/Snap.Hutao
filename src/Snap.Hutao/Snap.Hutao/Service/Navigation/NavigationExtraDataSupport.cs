@@ -1,4 +1,4 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -19,11 +19,42 @@ internal static class NavigationExtraDataSupport
 
     public static async Task NotifyRecipientAsync(object? target, INavigationExtraData extra)
     {
-        if (target is FrameworkElement { DataContext: INavigationRecipient recipient } && extra.Data is not null)
+        if (target is FrameworkElement frameworkElement)
         {
-            await recipient.ReceiveAsync(extra).ConfigureAwait(false);
+            await new FrameworkElementLoaded(frameworkElement).WaitAsync().ConfigureAwait(true); // Accessing DataContext requires MainThread
+
+            if (frameworkElement is { DataContext: INavigationRecipient recipient } && extra.Data is not null)
+            {
+                await recipient.ReceiveAsync(extra).ConfigureAwait(false);
+            }
         }
 
         extra.NotifyNavigationCompleted();
+    }
+
+    internal sealed class FrameworkElementLoaded
+    {
+        private readonly FrameworkElement element;
+        private readonly TaskCompletionSource loadTcs = new();
+
+        public FrameworkElementLoaded(FrameworkElement element)
+        {
+            this.element = element;
+            if (!element.IsLoaded)
+            {
+                element.Loaded += OnLoaded;
+            }
+        }
+
+        public Task WaitAsync()
+        {
+            return element.IsLoaded ? Task.CompletedTask : loadTcs.Task;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            element.Loaded -= OnLoaded;
+            loadTcs.TrySetResult();
+        }
     }
 }

@@ -82,13 +82,14 @@ internal sealed partial class InventoryService : IInventoryService
         BatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
 
             Response<BatchConsumption> resp = await calculateClient
                 .BatchComputeAsync(userAndUid, deltas, true)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, out batchConsumption))
+            if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, scopeIsDisposed, out batchConsumption))
             {
                 return;
             }
@@ -97,7 +98,7 @@ internal sealed partial class InventoryService : IInventoryService
         if (batchConsumption is { OverallConsume: { IsDefault: false } items })
         {
             inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
-            inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectAsArray(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
+            inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectAsArray(static (item, project) => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum)), project));
         }
     }
 

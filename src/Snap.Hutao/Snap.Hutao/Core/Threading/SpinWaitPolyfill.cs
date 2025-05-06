@@ -17,6 +17,15 @@ internal static class SpinWaitPolyfill
         }
     }
 
+    public static unsafe void SpinWhile<T>(T state, delegate*<T, bool> condition)
+    {
+        SpinWait spinner = default;
+        while (condition(state))
+        {
+            spinner.SpinOnce();
+        }
+    }
+
     public static void SpinUntil<T>(T state, [RequireStaticDelegate] Func<T, bool> condition)
     {
         SpinWait spinner = default;

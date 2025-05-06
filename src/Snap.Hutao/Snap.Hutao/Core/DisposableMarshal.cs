@@ -8,10 +8,12 @@ internal static class DisposableMarshal
     public static void DisposeAndClear<T>(ref T? disposable)
         where T : class, IDisposable
     {
-        if (disposable is not null)
-        {
-            disposable.Dispose();
-            disposable = null;
-        }
+        Interlocked.Exchange(ref disposable, null)?.Dispose();
+    }
+
+    public static void DisposeAndExchange<T>(ref T? disposable, T? newDisposable)
+        where T : class, IDisposable
+    {
+        Interlocked.Exchange(ref disposable, newDisposable)?.Dispose();
     }
 }

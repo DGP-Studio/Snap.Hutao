@@ -861,7 +861,6 @@
                                                         </shuxcc:VerticalCard.Top>
                                                         <shuxcc:VerticalCard.Bottom>
                                                             <Grid HorizontalAlignment="Stretch">
-
                                                                 <ItemsControl
                                                                     Margin="8"
                                                                     VerticalAlignment="Center"
@@ -878,6 +877,7 @@
                                                         HorizontalAlignment="Right"
                                                         VerticalAlignment="Bottom"
                                                         Source="ms-appx:///Resource/Icon/UI_Icon_RelicType3.png"/>
+
                                                     <shuxcc:VerticalCard Grid.Column="1">
                                                         <shuxcc:VerticalCard.Top>
                                                             <TextBlock

@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Response;
 using System.IO;
@@ -76,7 +75,6 @@ internal static class HttpRequestMessageBuilderExtension
 
     internal static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpContext context)
     {
-        string? baseUrl = builder.HttpRequestMessage.RequestUri?.GetLeftPart(UriPartial.Path);
         try
         {
             context.Request = builder.HttpRequestMessage;
@@ -85,7 +83,6 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (Exception ex)
         {
-            ExceptionFingerprint.SetFingerprint(ex, baseUrl);
             context.Exception = ExceptionDispatchInfo.Capture(ex);
         }
     }

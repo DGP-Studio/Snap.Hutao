@@ -81,21 +81,22 @@ internal sealed partial class UserService : IUserService
 
     public async ValueTask<bool> RefreshCookieTokenAsync(EntityUser user)
     {
-        Response<UidCookieToken> cookieTokenResponse;
+        UidCookieToken? uidCookieToken;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IPassportClient passportClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
                 .Create(user.IsOversea);
 
-            cookieTokenResponse = await passportClient
+            Response<UidCookieToken> cookieTokenResponse = await passportClient
                 .GetCookieAccountInfoBySTokenAsync(user)
                 .ConfigureAwait(false);
-        }
 
-        if (!ResponseValidator.TryValidate(cookieTokenResponse, serviceProvider, out UidCookieToken? uidCookieToken))
-        {
-            return false;
+            if (!ResponseValidator.TryValidate(cookieTokenResponse, scope.ServiceProvider, scopeIsDisposed, out uidCookieToken))
+            {
+                return false;
+            }
         }
 
         string cookieToken = uidCookieToken.CookieToken;

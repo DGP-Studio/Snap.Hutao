@@ -96,32 +96,23 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
     {
         foreach ((SophonDecodedManifest localManifest, SophonDecodedManifest remoteManifest) in localDecodedBuild.Manifests.Zip(remoteDecodedBuild.Manifests))
         {
-            Dictionary<string, AssetProperty> localAssets = localManifest.Data.Assets.ToDictionary(l => l.AssetName, StringComparer.OrdinalIgnoreCase);
-
-            // Enumerate all assets in the remote manifest
             foreach (AssetProperty remoteAsset in remoteManifest.Data.Assets)
             {
-                // Local asset not found, add it
-                if (!localAssets.TryGetValue(remoteAsset.AssetName, out AssetProperty? localAsset))
+                if (localManifest.Data.Assets.FirstOrDefault(localAsset => localAsset.AssetName.Equals(remoteAsset.AssetName, StringComparison.OrdinalIgnoreCase)) is not { } localAsset)
                 {
                     yield return SophonAssetOperation.AddOrRepair(remoteManifest.UrlPrefix, remoteAsset);
                     continue;
                 }
 
-                // Local asset is the same as remote asset, skip it
                 if (localAsset.AssetHashMd5.Equals(remoteAsset.AssetHashMd5, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
 
-                Dictionary<string, AssetChunk> localChunks = localAsset.AssetChunks.ToDictionary(l => l.ChunkDecompressedHashMd5, StringComparer.OrdinalIgnoreCase);
-
-                // Local asset must be different from remote asset(md5 not equal)
-                // So there must be some chunks that are different
                 ImmutableArray<SophonChunk>.Builder diffChunks = ImmutableArray.CreateBuilder<SophonChunk>();
                 foreach (AssetChunk chunk in remoteAsset.AssetChunks)
                 {
-                    if (!localChunks.TryGetValue(chunk.ChunkDecompressedHashMd5, out _))
+                    if (localAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
                     {
                         diffChunks.Add(new(remoteManifest.UrlPrefix, chunk));
                     }
@@ -130,11 +121,9 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
                 yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, localAsset, remoteAsset, diffChunks.ToImmutable());
             }
 
-            Dictionary<string, AssetProperty> remoteAssets = remoteManifest.Data.Assets.ToDictionary(l => l.AssetName, StringComparer.OrdinalIgnoreCase);
-
             foreach (AssetProperty localAsset in localManifest.Data.Assets)
             {
-                if (!remoteAssets.TryGetValue(localAsset.AssetName, out _))
+                if (remoteManifest.Data.Assets.FirstOrDefault(a => a.AssetName.Equals(localAsset.AssetName, StringComparison.OrdinalIgnoreCase)) is null)
                 {
                     yield return SophonAssetOperation.Delete(localAsset);
                 }

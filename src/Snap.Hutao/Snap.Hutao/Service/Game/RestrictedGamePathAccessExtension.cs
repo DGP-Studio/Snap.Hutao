@@ -13,13 +13,7 @@ internal static class RestrictedGamePathAccessExtension
     {
         string gamePath = access.GamePath;
 
-        if (string.IsNullOrEmpty(gamePath))
-        {
-            fileSystem = default;
-            return false;
-        }
-
-        if (!access.GamePathLock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
+        if (string.IsNullOrEmpty(gamePath) || !access.GamePathLock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
         {
             fileSystem = default;
             return false;

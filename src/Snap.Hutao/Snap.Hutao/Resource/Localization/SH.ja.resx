@@ -808,6 +808,12 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>背景画像を設定しない</value>
   </data>
+  <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
+    <value>胡桃を終了</value>
+  </data>
+  <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
+    <value>通知領域アイコンに最小化</value>
+  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>アプリ通知の送信に失敗しました</value>
   </data>
@@ -964,6 +970,12 @@
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Unity ログファイル内にゲームパスが見つかりません</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
+    <value>ハードディスクのエラーが検出されました。chkdsk を実行して修復してください</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>ハードディスクが見つかりません。ハードウェアの接続状況を確認してください。</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>パッケージサイズ: {0}
@@ -1240,6 +1252,15 @@
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>アーカイブにアチーブメントをインポート</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
+    <value>この動作は後で設定で変更できます</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
+    <value>リアルタイムノートの自動更新などの機能には、胡桃をバックグラウンドで実行しておく必要があります</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
+    <value>ウィンドウを閉じる</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>キャラクター目標レベル</value>
@@ -1896,7 +1917,7 @@
     <value>ローカルバージョン: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>タスクは取消されました</value>
+    <value>タスクが中断されました、{0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>キャンセル済み</value>
@@ -2329,6 +2350,9 @@
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
     <value>通知領域アイコンを無効にすると、ウィンドウを閉じた後、自動更新が実行されなくなります</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
+    <value>通知領域アイコンの作成に失敗したため、自動更新は、ウィンドウを閉じた後に実行されません</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>原神をプレイ中に通知しない</value>
@@ -2910,6 +2934,12 @@
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>公演時間</value>
   </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
+    <value>閉じるボタンの動作を変更します</value>
+  </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
+    <value>閉じるボタン動作</value>
+  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>都合の良い週の開始日を選んでください</value>
   </data>
@@ -2945,6 +2975,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>キャッシュ フォルダー</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>通知領域アイコンの作成に失敗したため、閉じるボタンの動作を変更できません</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>コンパクトウェブ</value>

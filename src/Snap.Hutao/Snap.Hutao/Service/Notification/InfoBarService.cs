@@ -10,23 +10,28 @@ namespace Snap.Hutao.Service.Notification;
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
 internal sealed partial class InfoBarService : IInfoBarService
 {
-    private readonly ILogger<InfoBarService> logger;
+    private readonly Lock syncRoot = new();
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<InfoBarOptions>? collection;
-
+    [field: MaybeNull]
     public ObservableCollection<InfoBarOptions> Collection
     {
-        get => collection ??= [];
+        get
+        {
+            if (field is null)
+            {
+                lock (syncRoot)
+                {
+                    field ??= [];
+                }
+            }
+
+            return field;
+        }
     }
 
     public void PrepareInfoBarAndShow(Action<IInfoBarOptionsBuilder> configure)
     {
-        if (collection is null)
-        {
-            return;
-        }
-
         PrivatePrepareInfoBarAndShowAsync(configure).SafeForget();
     }
 
@@ -36,7 +41,11 @@ internal sealed partial class InfoBarService : IInfoBarService
 
         await taskContext.SwitchToMainThreadAsync();
 
-        ArgumentNullException.ThrowIfNull(collection);
-        collection.Insert(0, builder.Options);
+        if (XamlApplicationLifetime.Exiting)
+        {
+            return;
+        }
+
+        Collection.Insert(0, builder.Options);
     }
 }

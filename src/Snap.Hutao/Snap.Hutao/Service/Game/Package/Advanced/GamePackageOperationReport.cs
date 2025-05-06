@@ -91,9 +91,12 @@ internal abstract class GamePackageOperationReport
 
     internal sealed class Abort : GamePackageOperationReport
     {
-        public Abort()
+        public Abort(string reason)
         {
             Kind = GamePackageOperationReportKind.Abort;
+            Reason = reason;
         }
+
+        public string Reason { get; }
     }
 }

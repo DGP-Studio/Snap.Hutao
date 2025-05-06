@@ -74,7 +74,7 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
                 continue;
             }
 
-            child.Arrange(new(offset, 0, (++index == visibleItemsCount) ? finalSize.Width - offset : maxItemWidth, maxItemHeight));
+            child.Arrange(new(offset, 0, ++index == visibleItemsCount ? finalSize.Width - offset : maxItemWidth, maxItemHeight));
             offset += maxItemWidth + Spacing;
         }
 

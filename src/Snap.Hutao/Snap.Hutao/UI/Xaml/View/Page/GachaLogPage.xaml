@@ -278,7 +278,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <shuxc:StandardView HideCondition="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}" ShowCondition="{Binding Statistics, Converter={StaticResource EmptyObjectToBoolConverter}}">
+    <shuxc:StandardView HideCondition="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}" ShowCondition="{Binding Archives.CurrentItem, Converter={StaticResource EmptyObjectToBoolConverter}}">
         <shuxc:StandardView.EmptyContent>
             <Border
                 HorizontalAlignment="Center"

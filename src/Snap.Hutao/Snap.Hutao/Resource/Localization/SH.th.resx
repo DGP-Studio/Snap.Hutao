@@ -808,6 +808,12 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>ไม่มีภาพพื้นหลัง</value>
   </data>
+  <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
+    <value>ออกจาก Snap Hutao</value>
+  </data>
+  <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
+    <value>ย่อไปที่ไอคอนในพื้นที่แจ้งเตือน</value>
+  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>ส่งการแจ้งเตือนแอปพลิเคชันล้มเหลว</value>
   </data>
@@ -964,6 +970,12 @@
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>ไม่พบพาธเกมในไฟล์บันทึก Unity</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
+    <value>ตรวจพบข้อผิดพลาดของฮาร์ดดิสก์ โปรดเรียกใช้ chkdsk เพื่อแก้ไข</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>ตรวจพบการสูญหายของฮาร์ดดิสก์ โปรดตรวจสอบการเชื่อมต่อฮาร์ดแวร์</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>ขนาดแพ็กเกจ: {0}
@@ -1239,6 +1251,15 @@
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>นำเข้าข้อมูลความสำเร็จสำหรับที่เก็บถาวรปัจจุบัน</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
+    <value>คุณสามารถเปลี่ยนพฤติกรรมนี้ได้ในภายหลังในการตั้งค่า</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
+    <value>คุณสมบัติเช่นการรีเฟรชข้อมูลโน้ตแบบเรียลไทม์ต้องการให้ Snap Hutao ทำงานในพื้นหลัง</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
+    <value>ปิดหน้าต่าง</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>ระดับเป้าหมายตัวละคร</value>
@@ -1895,7 +1916,7 @@
     <value>เวอร์ชันในเครื่อง: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>การดำเนินการถูกยกเลิก</value>
+    <value>งานถูกขัดจังหวะ, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>ยกเลิกแล้ว</value>
@@ -2328,6 +2349,9 @@
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
     <value>ไม่ได้เปิดใช้งานไอคอนพื้นที่แจ้งเตือน การรีเฟรชอัตโนมัติจะไม่ทำงานหลังจากปิดหน้าต่าง</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
+    <value>การสร้างไอคอนในพื้นที่แจ้งเตือนล้มเหลว การรีเฟรชอัตโนมัติจะไม่ทำงานหลังจากปิดหน้าต่าง</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>ไม่ต้องแจ้งเตือนเมื่อฉันเล่น Genshin Impact</value>
@@ -2908,6 +2932,12 @@
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>ระยะเวลาการแสดงทั้งหมด</value>
   </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
+    <value>เปลี่ยนพฤติกรรมของปุ่มปิด</value>
+  </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
+    <value>พฤติกรรมของปุ่มปิด</value>
+  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>เลือกวันแรกของสัปดาห์ที่เหมาะกับคุณ</value>
   </data>
@@ -2943,6 +2973,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>โฟลเดอร์แคช</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>การสร้างไอคอนในพื้นที่แจ้งเตือนล้มเหลว ไม่สามารถเปลี่ยนพฤติกรรมของปุ่มปิด</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>หน้าต่างเว็บแบบย่อ</value>

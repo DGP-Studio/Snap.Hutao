@@ -91,6 +91,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         IAdvancedDbCollectionView<GachaArchive> localArchives = await GetArchiveCollectionAsync().ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();
         localArchives.Remove(archive);
+        localArchives.MoveCurrentToFirst();
     }
 
     public async ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default)

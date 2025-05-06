@@ -235,12 +235,13 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
         SophonBuild? build;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             ISophonClient client = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
                 .Create(scheme.IsOversea);
 
             Response<SophonBuild> response = await client.GetBuildAsync(branch).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(response, serviceProvider, out build))
+            if (!ResponseValidator.TryValidate(response, serviceProvider, scopeIsDisposed, out build))
             {
                 return default;
             }

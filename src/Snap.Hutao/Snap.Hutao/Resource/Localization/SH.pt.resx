@@ -808,6 +808,12 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>Sem papel de parede</value>
   </data>
+  <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
+    <value>Sair do Snap Hutao</value>
+  </data>
+  <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
+    <value>Minimizar para a bandeja</value>
+  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Falha ao enviar notificação do aplicativo</value>
   </data>
@@ -964,6 +970,12 @@
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Caminho do jogo não encontrado no arquivo de log do Unity</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
+    <value>Foi detectado um erro no disco rígido, execute o chkdsk para corrigi-lo</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>Disco rígido não detectado, verifique a conexão do hardware</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Tamanho do pacote: {0}
@@ -1239,6 +1251,15 @@ Espaço disponível: {2}</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>Importar dados de conquistas para o arquivo atual</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
+    <value>Você pode alterar este comportamento mais tarde nas configurações</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
+    <value>Recursos como a atualização automática das Anotações em Tempo Real exigem que o Snap Hutao seja executado em segundo plano</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
+    <value>Fechar Janela</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Nível alvo do personagem</value>
@@ -1895,7 +1916,7 @@ Espaço disponível: {2}</value>
     <value>Versão local: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>Tarefa cancelada</value>
+    <value>Tarefa interrompida, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Cancelado</value>
@@ -2328,6 +2349,9 @@ Espaço disponível: {2}</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
     <value>O ícone da área de notificação está desativado, a atualização automática não será executada após o fecho do Snap Hutao</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
+    <value>Falha ao criar o ícone da área de notificação, a atualização automática não será executada após fechar a janela</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Não incomodar durante o Genshin</value>
@@ -2908,6 +2932,12 @@ Espaço disponível: {2}</value>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>Duração Total</value>
   </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
+    <value>Alterar o comportamento do botão Fechar</value>
+  </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
+    <value>Comportamento do Botão Fechar</value>
+  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Selecione o primeiro dia da semana que for mais adequado para você</value>
   </data>
@@ -2943,6 +2973,9 @@ Espaço disponível: {2}</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Pasta de cache</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>Falha ao criar o ícone da área de notificação, não é possível alterar o comportamento do botão Fechar</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Janela de Página Compacta</value>

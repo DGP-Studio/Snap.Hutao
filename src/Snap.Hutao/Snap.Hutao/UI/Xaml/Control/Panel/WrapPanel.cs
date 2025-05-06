@@ -95,7 +95,7 @@ internal sealed partial class WrapPanel : Microsoft.UI.Xaml.Controls.Panel
             }
 
             Size desiredMeasure = child.DesiredSize;
-            if ((desiredMeasure.Width + position.X + padding.Right) > parentMeasure.Width)
+            if (desiredMeasure.Width + position.X + padding.Right > parentMeasure.Width)
             {
                 // next row!
                 position.X = padding.Left;

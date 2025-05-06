@@ -68,14 +68,6 @@ internal static class LoggerFactoryExtension
 
             options.SetBeforeSend(@event =>
             {
-                if (@event.Exception is { } exception)
-                {
-                    if (ExceptionFingerprint.TryGetFingerprint(exception, out string? fingerprint))
-                    {
-                        @event.SetFingerprint("{{ default }}", fingerprint);
-                    }
-                }
-
                 Sentry.Protocol.OperatingSystem operatingSystem = @event.Contexts.OperatingSystem;
                 operatingSystem.Build = UniversalApiContract.WindowsVersion?.Build;
                 operatingSystem.Name = "Windows";

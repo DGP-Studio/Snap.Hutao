@@ -34,7 +34,6 @@ internal sealed class XamlWindowController
     private readonly Type windowType;
     private readonly Window window;
     private readonly bool hasCustomSystemBackdrop;
-    private readonly IServiceProvider serviceProvider;
     private readonly AppOptions appOptions;
 
     private readonly XamlWindowSubclass subclass;
@@ -45,7 +44,7 @@ internal sealed class XamlWindowController
         windowType = window.GetType();
         this.window = window;
         Debug.Assert(serviceProvider is IServiceScope scope && ReferenceEquals(serviceProvider, scope));
-        this.serviceProvider = serviceProvider;
+        ServiceProvider = serviceProvider;
 
         appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
@@ -77,7 +76,7 @@ internal sealed class XamlWindowController
         }
 
         // window.AppWindow.EnablePlacementPersistence(guid, window is MainWindow, default, PlacementPersistenceBehaviorFlags.Default, windowName);
-        EnablePlacementPersistence(window);
+        EnablePlacementRestoration(window);
 
         ((FrameworkElement)window.Content).Loading += OnWindowContentLoading;
 
@@ -95,7 +94,11 @@ internal sealed class XamlWindowController
         window.Closed += OnWindowClosed;
     }
 
-    private static void EnablePlacementPersistence(Window window)
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal IServiceProvider ServiceProvider { get; }
+
+    private static void EnablePlacementRestoration(Window window)
     {
         IObjectReference objRefAppWindowExperimental = ((IWinRTObject)window.AppWindow).NativeObject.As<IUnknownVftbl>(IAppWindowExperimentalMethods.IID);
         IAppWindowExperimentalMethods.set_PlacementRestorationBehavior(objRefAppWindowExperimental, PlacementRestorationBehavior.All);
@@ -111,7 +114,7 @@ internal sealed class XamlWindowController
         element.Loading -= OnWindowContentLoading;
         element.XamlRoot.ContentIsland.AppData = new XamlContext
         {
-            ServiceProvider = serviceProvider,
+            ServiceProvider = ServiceProvider,
         };
     }
 
@@ -134,16 +137,16 @@ internal sealed class XamlWindowController
 
         if (!XamlApplicationLifetime.Exiting)
         {
-            IServiceProviderIsKeyedService isKeyedService = serviceProvider.GetRequiredService<IServiceProviderIsKeyedService>();
+            IServiceProviderIsKeyedService isKeyedService = ServiceProvider.GetRequiredService<IServiceProviderIsKeyedService>();
             ICurrentXamlWindowReference currentXamlWindowReference = isKeyedService.IsKeyedService(typeof(ICurrentXamlWindowReference), windowType)
-                ? serviceProvider.GetRequiredKeyedService<ICurrentXamlWindowReference>(windowType)
-                : serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
+                ? ServiceProvider.GetRequiredKeyedService<ICurrentXamlWindowReference>(windowType)
+                : ServiceProvider.GetRequiredService<ICurrentXamlWindowReference>();
             if (currentXamlWindowReference.Window == window)
             {
                 // Only a CurrentWindow can show dialogs
                 // Some users might try to close the window while a dialog is showing
                 // If not LaunchedWithNotifyIcon: the process should be terminated anyway.
-                if (serviceProvider.GetRequiredService<IContentDialogFactory>().IsDialogShowing)
+                if (ServiceProvider.GetRequiredService<IContentDialogFactory>().IsDialogShowing)
                 {
                     args.Handled = true;
                     return;
@@ -169,7 +172,7 @@ internal sealed class XamlWindowController
         (window as IXamlWindowClosedHandler)?.OnWindowClosed();
 
         // Dispose the service scope
-        ((IServiceScope)serviceProvider).Dispose();
+        ((IServiceScope)ServiceProvider).Dispose();
         window.UninitializeController();
     }
 

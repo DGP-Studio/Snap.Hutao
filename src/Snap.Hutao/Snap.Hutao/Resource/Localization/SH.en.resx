@@ -808,6 +808,12 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>No Wallpaper</value>
   </data>
+  <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
+    <value>Exit Snap Hutao</value>
+  </data>
+  <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
+    <value>Minimize to tray</value>
+  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Failed to send notification</value>
   </data>
@@ -964,6 +970,12 @@
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Game path not found in Unity log file</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
+    <value>A hard drive error has been detected, run chkdsk to fix it</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>Hard drive not detected. Please check the hardware connection.</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Package Size: {0}
@@ -1239,6 +1251,15 @@ Space Available: {2}</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>Import achievements data for current archive</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
+    <value>You may change this behavior later in settings</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
+    <value>Features like Realtime Notes data refresh requires Snap Hutao running in background</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
+    <value>Close Window</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Character Target Level</value>
@@ -1895,7 +1916,7 @@ Space Available: {2}</value>
     <value>Local version: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>Operation aborted</value>
+    <value>Task interrupted, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>Cancelled</value>
@@ -2327,6 +2348,9 @@ Space Available: {2}</value>
     <value>Refresh</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
+    <value>Notification area icon is disabled, auto-refresh will not be executed after Snap Hutao is closed</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
     <value>Notification area icon is disabled, auto-refresh will not be executed after Snap Hutao is closed</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
@@ -2908,6 +2932,12 @@ Space Available: {2}</value>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>Total Duration</value>
   </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
+    <value>Change the behavior of the close button</value>
+  </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
+    <value>Close Button Behavior</value>
+  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Select the first day of your week</value>
   </data>
@@ -2943,6 +2973,9 @@ Space Available: {2}</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Cache Folder</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>Notification area icon creation failed, unable to change close button behavior</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Compact Page Window</value>

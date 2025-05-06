@@ -4,19 +4,11 @@
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.User;
-using System.Collections.Concurrent;
 
 namespace Snap.Hutao.ViewModel.Game;
 
 internal static class LaunchGameLaunchExecution
 {
-    private static readonly ConcurrentDictionary<LaunchExecutionInvoker, Void> Invokers = [];
-
-    public static bool IsAnyLaunchExecutionInvoking()
-    {
-        return !Invokers.IsEmpty;
-    }
-
     public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution viewModel, UserAndUid? userAndUid)
     {
         // Force use root scope
@@ -24,7 +16,6 @@ internal static class LaunchGameLaunchExecution
         {
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
             DefaultLaunchExecutionInvoker invoker = new();
-            Invokers.TryAdd(invoker, default);
             try
             {
                 using (LaunchExecutionContext context = new(scope.ServiceProvider, viewModel, userAndUid))
@@ -40,10 +31,6 @@ internal static class LaunchGameLaunchExecution
             catch (Exception ex)
             {
                 infoBarService.Error(ex);
-            }
-            finally
-            {
-                Invokers.TryRemove(invoker, out _);
             }
         }
     }

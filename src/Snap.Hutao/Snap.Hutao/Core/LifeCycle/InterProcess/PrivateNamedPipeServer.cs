@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using Snap.Hutao.Core.Security.Principal;
+using System.IO;
 using System.IO.Pipes;
 using System.Security.AccessControl;
 
@@ -66,6 +67,17 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                     logger.LogInformation("Pipe session created");
                     RunPacketSession(serverStream, serverTokenSource.Token);
                 }
+                catch (IOException)
+                {
+                    try
+                    {
+                        serverStream.Disconnect();
+                    }
+                    catch
+                    {
+                        // Ignored
+                    }
+                }
                 catch (OperationCanceledException)
                 {
                     break;
@@ -80,7 +92,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         {
             serverStream.ReadPacket(out PipePacketHeader header);
             logger.LogInformation("Pipe packet: [Type:{Type}] [Command:{Command}]", header.Type, header.Command);
-            switch ((header.Type, header.Command))
+            switch (header.Type, header.Command)
             {
                 case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
                     ElevationStatusResponse resp = new(HutaoRuntime.IsProcessElevated, Environment.ProcessId);
@@ -95,7 +107,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                         logger.LogInformation("Redirect activation: [Kind:{Kind}] [Arguments:{Arguments}]", hutaoArgs.Kind, hutaoArgs.LaunchActivatedArguments);
                     }
 
-                    messageDispatcher.RedirectActivation(hutaoArgs);
+                    messageDispatcher.RedirectedActivation(hutaoArgs);
                     break;
 
                 case (PipePacketType.Request, PipePacketCommand.BetterGenshinImpactToSnapHutaoRequest):

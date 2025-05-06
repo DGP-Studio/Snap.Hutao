@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -17,15 +18,17 @@ namespace Snap.Hutao.UI.Shell;
 [SuppressMessage("", "SA1310")]
 internal sealed partial class NotifyIconMessageWindow : IDisposable
 {
+    // ReSharper disable once InconsistentNaming
     public const uint WM_NOTIFYICON_CALLBACK = 0x444U;
     private const string WindowClassName = "SnapHutaoNotifyIconMessageWindowClass";
 
     private static readonly ConcurrentDictionary<HWND, NotifyIconMessageWindow> WindowTable = [];
 
+    // ReSharper disable once InconsistentNaming
     [SuppressMessage("", "SA1306")]
-    private readonly uint WM_TASKBARCREATED;
+    private readonly uint WM_TASKBAR_CREATED;
 
-    private bool disposed;
+    private volatile bool disposed;
 
     public unsafe NotifyIconMessageWindow()
     {
@@ -51,13 +54,14 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
         }
 
         // https://learn.microsoft.com/zh,cn/windows/win32/shell/taskbar#taskbar,creation,notification
-        WM_TASKBARCREATED = RegisterWindowMessageW("TaskbarCreated");
+        WM_TASKBAR_CREATED = RegisterWindowMessageW("TaskbarCreated");
 
         Hwnd = CreateWindowExW(0, WindowClassName, WindowClassName, 0, 0, 0, 0, 0, default, default, default, default);
 
         if (Hwnd == default)
         {
             Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            HutaoException.Throw("Failed to create NotifyIconMessageWindow");
         }
 
         WindowTable.TryAdd(Hwnd, this);
@@ -76,7 +80,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
 
     public HWND Hwnd { get; }
 
-    public unsafe void Dispose()
+    public void Dispose()
     {
         if (disposed)
         {
@@ -87,11 +91,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
 
         DestroyWindow(Hwnd);
         WindowTable.TryRemove(Hwnd, out _);
-
-        fixed (char* className = WindowClassName)
-        {
-            UnregisterClassW(className);
-        }
+        UnregisterClassW(WindowClassName);
 
         GC.SuppressFinalize(this);
     }
@@ -99,19 +99,18 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnWindowProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam)
     {
-        if (!WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window) || XamlApplicationLifetime.Exiting)
+        if (uMsg is WM_CREATE or WM_NCCREATE)
         {
-            return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+            return BOOL.TRUE;
         }
 
-        if (window.disposed)
+        if (XamlApplicationLifetime.Exiting || !WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window) || window.disposed)
         {
             return BOOL.FALSE;
         }
 
-        if (uMsg == window.WM_TASKBARCREATED)
+        if (uMsg == window.WM_TASKBAR_CREATED)
         {
-            // TODO: Re-add the notify icon.
             window.TaskbarCreated?.Invoke(window);
         }
 
@@ -163,6 +162,7 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
         return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }
 
+    // ReSharper disable once InconsistentNaming
     private readonly struct LPARAM2
     {
 #pragma warning disable CS0649

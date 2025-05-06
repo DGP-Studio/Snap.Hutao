@@ -808,6 +808,12 @@
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>Duvar Kağıdı Yok</value>
   </data>
+  <data name="ServiceCloseButtonBehaviorTypeExit" xml:space="preserve">
+    <value>Snap Hutao'dan Çık</value>
+  </data>
+  <data name="ServiceCloseButtonBehaviorTypeMinimize" xml:space="preserve">
+    <value>Bildirim alanı simgesine küçült</value>
+  </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
     <value>Uygulama bildirimi gönderme başarısız</value>
   </data>
@@ -964,6 +970,12 @@
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Unity günlük dosyasında oyun yolu bulunamadı</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationDiskCorrupted" xml:space="preserve">
+    <value>Sabit disk hatası tespit edildi, düzeltmek için chkdsk çalıştırın</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedAssetOperationNoSuchDevice" xml:space="preserve">
+    <value>Sabit disk bulunamadı, lütfen donanım bağlantılarını kontrol edin</value>
   </data>
   <data name="ServiceGamePackageAdvancedConfirmMessage" xml:space="preserve">
     <value>Paket Boyutu: {0}
@@ -1239,6 +1251,15 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>Mevcut arşiv için başarım verilerini içe aktar</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogCaption" xml:space="preserve">
+    <value>Bu davranışı daha sonra ayarlardan değiştirebilirsiniz</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogHint" xml:space="preserve">
+    <value>Gerçek zamanlı notların otomatik yenilenmesi gibi özellikler için Snap Hutao'nun arka planda çalışması gerekiyor</value>
+  </data>
+  <data name="ViewDialogCloseButtonBehaviorSetDialogTitle" xml:space="preserve">
+    <value>Pencereyi Kapat</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>Karakter Hedef Seviyesi</value>
@@ -1895,7 +1916,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Yerel sürüm: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
-    <value>Görev İptal Edildi</value>
+    <value>Görev kesintiye uğradı, {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationCanceled" xml:space="preserve">
     <value>İptal Edildi</value>
@@ -2328,6 +2349,9 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
     <value>Bildirim alanı simgesi devre dışı, Snap Hutao kapatıldıktan sonra otomatik yenileme çalışmayacak</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconFailedToCreateHint" xml:space="preserve">
+    <value>Bildirim alanı simgesi oluşturulamadı, pencere kapatıldıktan sonra otomatik yenileme yapılmayacak</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Genshin oynarken beni rahatsız etme</value>
@@ -2908,6 +2932,12 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewPageRoleCombatTotalBattleTime" xml:space="preserve">
     <value>Toplam Süre</value>
   </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorDescription" xml:space="preserve">
+    <value>Kapatma düğmesinin davranışını değiştir</value>
+  </data>
+  <data name="ViewPageSettingAppearanceCloseButtonBehaviorHeader" xml:space="preserve">
+    <value>Kapatma Düğmesi Davranışı</value>
+  </data>
   <data name="ViewPageSettingApperanceFirstDayOfWeekDescription" xml:space="preserve">
     <value>Haftanın ilk gününü seçin</value>
   </data>
@@ -2943,6 +2973,9 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Önbellek Klasörü</value>
+  </data>
+  <data name="ViewPageSettingCloseButtonBehaviorNotifyIconFailedToCreateWarning" xml:space="preserve">
+    <value>Bildirim alanı simgesi oluşturulamadı, kapatma düğmesi davranışı değiştirilemiyor</value>
   </data>
   <data name="ViewPageSettingCompactWebView2Header" xml:space="preserve">
     <value>Kompakt Sayfa Penceresi</value>

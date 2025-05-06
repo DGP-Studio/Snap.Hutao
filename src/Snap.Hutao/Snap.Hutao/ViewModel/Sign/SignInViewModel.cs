@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -25,7 +24,6 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 {
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
 
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
@@ -101,36 +99,33 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
         {
             await taskContext.SwitchToBackgroundAsync();
 
-            if (ServiceProvider.IsDisposed())
-            {
-                return;
-            }
-
             Reward? reward;
             SignInRewardInfo? info;
             SignInRewardReSignInfo? resignInfo;
             using (IServiceScope scope = ServiceProvider.CreateScope())
             {
+                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
+
                 ISignInClient signInClient = scope.ServiceProvider
                     .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
                     .Create(userAndUid.IsOversea);
 
                 Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(rewardResponse, scope.ServiceProvider, out reward))
+                if (!ResponseValidator.TryValidate(rewardResponse, scope.ServiceProvider, scopeIsDisposed, out reward))
                 {
                     infoBarService.Error(SH.ServiceSignInRewardListRequestFailed);
                     return;
                 }
 
                 Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider, out info))
+                if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider, scopeIsDisposed, out info))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
                     return;
                 }
 
                 Response<SignInRewardReSignInfo> resignInfoResponse = await signInClient.GetResignInfoAsync(userAndUid).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(resignInfoResponse, scope.ServiceProvider, out resignInfo))
+                if (!ResponseValidator.TryValidate(resignInfoResponse, scope.ServiceProvider, scopeIsDisposed, out resignInfo))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
                     return;
