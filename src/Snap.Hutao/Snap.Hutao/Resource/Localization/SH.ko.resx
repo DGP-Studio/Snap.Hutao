@@ -1069,6 +1069,9 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>호두 버전이 낮습니다. 업데이트 해주세요</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>游戏资源操作失败</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>추가 체크인 실패, {0}</value>
   </data>
