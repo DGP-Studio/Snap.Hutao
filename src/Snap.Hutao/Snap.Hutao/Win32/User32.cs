@@ -128,6 +128,10 @@ internal static class User32
     public static extern HDC GetDC([Optional] HWND hWnd);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern uint GetDoubleClickTime();
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows10.0.14393")]
     public static extern uint GetDpiForWindow(HWND hwnd);
 

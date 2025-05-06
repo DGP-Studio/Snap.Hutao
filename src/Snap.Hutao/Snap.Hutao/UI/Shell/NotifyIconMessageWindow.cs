@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32.Foundation;
@@ -23,6 +24,8 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
     private const string WindowClassName = "SnapHutaoNotifyIconMessageWindowClass";
 
     private static readonly ConcurrentDictionary<HWND, NotifyIconMessageWindow> WindowTable = [];
+
+    private static DispatcherTimer? leftClickTimer;
 
     // ReSharper disable once InconsistentNaming
     [SuppressMessage("", "SA1306")]
@@ -73,6 +76,8 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
     }
 
     public Action<NotifyIconMessageWindow>? TaskbarCreated { get; init; }
+
+    public Action<NotifyIconMessageWindow>? MainWindowRequested { get; init; }
 
     public Action<NotifyIconMessageWindow, PointUInt16>? ContextMenuRequested { get; init; }
 
@@ -129,21 +134,39 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
                     // X: wParam2.X Y: wParam2.Y Low: WM_MOUSEMOVE
                     break;
                 case WM_LBUTTONDOWN:
+                    leftClickTimer?.Stop();
+                    leftClickTimer = new()
+                    {
+                        Interval = TimeSpan.FromMilliseconds(GetDoubleClickTime()),
+                    };
+                    leftClickTimer.Tick += (_, _) =>
+                    {
+                        leftClickTimer.Stop();
+                        leftClickTimer = null;
+                        window.IconSelected?.Invoke(window, wParam2);
+                    };
+                    leftClickTimer.Start();
+                    break;
                 case WM_LBUTTONUP:
+                    break;
+                case WM_LBUTTONDBLCLK:
+                    leftClickTimer?.Stop();
+                    leftClickTimer = null;
+                    window.MainWindowRequested?.Invoke(window);
                     break;
                 case WM_RBUTTONDOWN:
                 case WM_RBUTTONUP:
                     break;
-                case NIN_SELECT:
-                    // X: wParam2.X Y: wParam2.Y Low: NIN_SELECT
-                    window.IconSelected?.Invoke(window, wParam2);
-                    break;
-                case NIN_POPUPOPEN:
-                    // X: wParam2.X Y: 0? Low: NIN_POPUPOPEN
-                    break;
-                case NIN_POPUPCLOSE:
-                    // X: wParam2.X Y: 0? Low: NIN_POPUPCLOSE
-                    break;
+                // case NIN_SELECT:
+                //     // X: wParam2.X Y: wParam2.Y Low: NIN_SELECT
+                //     window.IconSelected?.Invoke(window, wParam2);
+                //     break;
+                // case NIN_POPUPOPEN:
+                //     // X: wParam2.X Y: 0? Low: NIN_POPUPOPEN
+                //     break;
+                // case NIN_POPUPCLOSE:
+                //     // X: wParam2.X Y: 0? Low: NIN_POPUPCLOSE
+                //     break;
             }
         }
 #if DEBUG

@@ -1,11 +1,15 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.Win32;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -23,10 +27,12 @@ internal sealed partial class NotifyIconController : IDisposable
 
     private readonly Lock syncRoot = new();
 
+    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LazySlim<NotifyIconContextMenu> lazyMenu;
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly NotifyIconMessageWindow messageWindow;
+    private readonly IServiceProvider serviceProvider;
     private readonly System.Drawing.Icon icon;
     private readonly string? registryKey;
     private readonly Guid id;
@@ -42,7 +48,9 @@ internal sealed partial class NotifyIconController : IDisposable
             throw new InvalidOperationException("NotifyIconController is already constructed.");
         }
 
+        currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
+        this.serviceProvider = serviceProvider;
         lazyMenu = new(() => new(serviceProvider));
 
         string iconPath = InstalledLocation.GetAbsolutePath("Assets/Logo.ico");
@@ -56,6 +64,7 @@ internal sealed partial class NotifyIconController : IDisposable
         messageWindow = new()
         {
             TaskbarCreated = OnRecreateNotifyIconRequested,
+            MainWindowRequested = OnMainWindowRequested,
             ContextMenuRequested = OnContextMenuRequested,
             IconSelected = OnContextMenuRequested,
         };
@@ -213,5 +222,54 @@ internal sealed partial class NotifyIconController : IDisposable
         }
 
         xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.X, point.Y), rect);
+    }
+
+    private void OnMainWindowRequested(NotifyIconMessageWindow window)
+    {
+        if (disposed)
+        {
+            return;
+        }
+
+        if (XamlApplicationLifetime.Exiting)
+        {
+            Debugger.Break();
+            return;
+        }
+
+        switch (currentXamlWindowReference.Window)
+        {
+            case MainWindow mainWindow:
+            {
+                // While window is closing, currentXamlWindowReference can still retrieve the window,
+                // just ignore it
+                if (mainWindow.AppWindow is not null)
+                {
+                    // MainWindow is activated, bring to foreground
+                    mainWindow.SwitchTo();
+                    mainWindow.AppWindow.MoveInZOrderAtTop();
+                }
+
+                return;
+            }
+
+            case null:
+            {
+                // MainWindow is closed, show it
+                MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+                currentXamlWindowReference.Window = mainWindow;
+                mainWindow.SwitchTo();
+                mainWindow.AppWindow.MoveInZOrderAtTop();
+                return;
+            }
+
+            default:
+            {
+                Window otherWindow = currentXamlWindowReference.Window;
+                otherWindow.SwitchTo();
+                otherWindow.AppWindow.MoveInZOrderAtTop();
+                return;
+            }
+        }
     }
 }
