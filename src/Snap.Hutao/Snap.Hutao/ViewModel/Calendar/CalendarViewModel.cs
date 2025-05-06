@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Core.Linq;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -54,15 +53,15 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
             weekDays = await CreateWeekDays(serverTimeZoneOffset).ConfigureAwait(false);
         }
 
+        DateTime effectiveToday = DateTimeOffset.Now.ToOffset(serverTimeZoneOffset).Date;
         await taskContext.SwitchToMainThreadAsync();
 
         WeekDays = weekDays;
-        DateTime effectiveToday = DateTimeOffset.Now.ToOffset(serverTimeZoneOffset).Date;
         WeekDays.MoveCurrentTo(WeekDays.Source.SingleOrDefault(d => d.Date == effectiveToday));
         IsInitialized = true;
     }
 
-    private static CalendarDay CreateCalendarDay(DateTimeOffset date, CalendarMetadataContext2 context, IReadOnlyDictionary<DayOfWeek, ImmutableArray<CalendarMaterial>> dailyMaterials)
+    private static CalendarDay CreateCalendarDay(DateTimeOffset date, CalendarMetadataContext2 context2, IReadOnlyDictionary<DayOfWeek, ImmutableArray<CalendarMaterial>> dailyMaterials)
     {
         DateTimeFormatInfo formatInfo = CultureInfo.CurrentCulture.DateTimeFormat;
 
@@ -71,7 +70,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
             Date = date,
             DayInMonth = date.Day,
             DayName = formatInfo.GetAbbreviatedDayName(date.DayOfWeek),
-            BirthDayAvatars = [.. context.AvatarBirthdays[new((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem<Item>())],
+            BirthDayAvatars = [.. context2.AvatarBirthdays[new((uint)date.Month, (uint)date.Day)].Select(a => a.ToItem<Item>())],
             Materials = dailyMaterials.GetValueOrDefault(date.DayOfWeek, []),
         };
     }
@@ -104,14 +103,16 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
             group.Add(weapon.ToItem<CalendarItem>());
         }
 
-        return results.ToLookup();
+        return results
+            .SelectMany(kvp => kvp.Value.Select(item => KeyValuePair.Create(kvp.Key, item)))
+            .ToLookup(d => d.Key, d => d.Value);
     }
 
-    private static IEnumerable<CalendarMaterial> EnumerateMaterials(IReadOnlySet<RotationalMaterialIdEntry> entries, CalendarMetadataContext2 context)
+    private static IEnumerable<CalendarMaterial> EnumerateMaterials(IReadOnlySet<RotationalMaterialIdEntry> entries, CalendarMetadataContext2 context2)
     {
         foreach (RotationalMaterialIdEntry entry in entries)
         {
-            if (!context.MetadataContext.IdMaterialMap.TryGetValue(entry.Highest, out Material? material))
+            if (!context2.MetadataContext.IdMaterialMap.TryGetValue(entry.Highest, out Material? material))
             {
                 continue;
             }
@@ -120,7 +121,7 @@ internal sealed partial class CalendarViewModel : Abstraction.ViewModelSlim<Cult
             {
                 Inner = material,
                 InnerEntry = entry,
-                Items = [.. context.MaterialItems[entry.Highest].OrderByDescending(i => i.Quality)],
+                Items = [.. context2.MaterialItems[entry.Highest].OrderByDescending(i => i.Quality)],
                 Highlight = false,
             };
         }

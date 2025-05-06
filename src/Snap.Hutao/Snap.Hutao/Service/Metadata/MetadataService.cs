@@ -323,6 +323,7 @@ internal sealed partial class MetadataService : IMetadataService
             try
             {
                 await DownloadMetadataSourceFilesAsync(context, fileFullName, token).ConfigureAwait(true);
+                context.SetResult(fileName, true);
             }
             catch (Exception)
             {
@@ -383,10 +384,7 @@ internal sealed partial class MetadataService : IMetadataService
 
         public bool NoError
         {
-            get
-            {
-                return results.All(r => r.Value);
-            }
+            get => results.All(r => r.Value);
         }
 
         public IEnumerable<string> SucceedFiles

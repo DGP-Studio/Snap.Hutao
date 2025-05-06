@@ -24,6 +24,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
 {
     private readonly WeakReference<ScrollViewer> weakScrollViewer = new(default!);
 
+    private readonly IServiceScopeIsDisposed serviceScopeIsDisposed;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
@@ -102,7 +103,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             Reward? reward;
             SignInRewardInfo? info;
             SignInRewardReSignInfo? resignInfo;
-            using (IServiceScope scope = ServiceProvider.CreateScope())
+            using (IServiceScope scope = ServiceProvider.CreateScope(serviceScopeIsDisposed))
             {
                 IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
 
