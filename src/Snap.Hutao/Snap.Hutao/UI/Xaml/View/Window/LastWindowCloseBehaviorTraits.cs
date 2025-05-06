@@ -29,7 +29,7 @@ internal sealed partial class LastWindowCloseBehaviorTraits
 
         await taskContext.SwitchToMainThreadAsync();
         appOptions.LastWindowCloseBehavior = behavior;
-        LocalSetting.Set(SettingKeys.IsCloseButtonBehaviorSet, true);
+        LocalSetting.Set(SettingKeys.IsLastWindowCloseBehaviorSet, true);
         window.Close();
     }
 }

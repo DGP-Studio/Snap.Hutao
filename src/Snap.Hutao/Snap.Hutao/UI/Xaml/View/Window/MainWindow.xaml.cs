@@ -49,7 +49,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
 
     public void OnWindowClosing(out bool cancel)
     {
-        if (!XamlApplicationLifetime.Exiting && XamlApplicationLifetime.NotifyIconCreated && !LocalSetting.Get(SettingKeys.IsCloseButtonBehaviorSet, false))
+        if (!XamlApplicationLifetime.Exiting && XamlApplicationLifetime.NotifyIconCreated && !LocalSetting.Get(SettingKeys.IsLastWindowCloseBehaviorSet, false))
         {
             closeBehaviorTraits.SetAsync(this).SafeForget();
             cancel = true;

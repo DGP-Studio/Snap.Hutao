@@ -14,7 +14,7 @@ internal sealed partial class SettingEntry
     public const string Culture = "Culture";
     public const string FirstDayOfWeek = "FirstDayOfWeek";
 
-    public const string CloseButtonBehavior = "CloseButtonBehavior";
+    public const string LastWindowCloseBehavior = "LastWindowCloseBehavior";
     public const string SystemBackdropType = "SystemBackdropType";
     public const string ElementTheme = "ElementTheme";
     public const string BackgroundImageType = "BackgroundImageType";
