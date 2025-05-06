@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.LifeCycle.InterProcess.BetterGenshinImpact;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using Snap.Hutao.Core.Security.Principal;
+using System.IO;
 using System.IO.Pipes;
 using System.Security.AccessControl;
 
@@ -65,6 +66,17 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                     await serverStream.WaitForConnectionAsync(serverTokenSource.Token).ConfigureAwait(false);
                     logger.LogInformation("Pipe session created");
                     RunPacketSession(serverStream, serverTokenSource.Token);
+                }
+                catch (IOException)
+                {
+                    try
+                    {
+                        serverStream.Disconnect();
+                    }
+                    catch
+                    {
+                        // Ignored
+                    }
                 }
                 catch (OperationCanceledException)
                 {

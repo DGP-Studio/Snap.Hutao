@@ -356,6 +356,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Snap.Hutao.Native" Version="0.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.2.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -400,5 +404,8 @@
     <Page Update="UI\Xaml\View\Page\HutaoPassportPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml" />
   </ItemGroup>
 </Project>

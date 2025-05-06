@@ -10,73 +10,60 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.SystemServices;
-using Snap.Hutao.Win32.UI.Shell;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static Snap.Hutao.Win32.ComCtl32;
 using static Snap.Hutao.Win32.ConstValues;
 
 namespace Snap.Hutao.UI.Windowing;
 
 internal sealed partial class XamlWindowSubclass : IDisposable
 {
-    private const int WindowSubclassId = 101;
-
+    private readonly HutaoNativeWindowSubclass native;
     private readonly Window window;
 
-    // We have to explicitly hold a reference to SUBCLASSPROC
-    private SUBCLASSPROC windowProc;
     private GCHandle unmanagedAccess;
 
-    public XamlWindowSubclass(Window window)
+    public unsafe XamlWindowSubclass(Window window)
     {
         this.window = window;
+        unmanagedAccess = GCHandle.Alloc(this);
+        HutaoNativeWindowSubclassCallback callback = HutaoNativeWindowSubclassCallback.Create(&OnSubclassProcedure);
+        native = HutaoNative.Instance.MakeWindowSubclass(window.GetWindowHandle(), callback, GCHandle.ToIntPtr(unmanagedAccess));
     }
 
-    public unsafe bool Initialize()
+    public void Initialize()
     {
-        windowProc = SUBCLASSPROC.Create(&OnSubclassProcedure);
-        unmanagedAccess = GCHandle.Alloc(this);
-        return SetWindowSubclass(window.GetWindowHandle(), windowProc, WindowSubclassId, (nuint)GCHandle.ToIntPtr(unmanagedAccess));
+        native.Attach();
     }
 
     public void Dispose()
     {
-        RemoveWindowSubclass(window.GetWindowHandle(), windowProc, WindowSubclassId);
-        windowProc = default!;
+        native.Detach();
         unmanagedAccess.Free();
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
+    private static unsafe BOOL OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nint access, LRESULT* result)
     {
         if (XamlApplicationLifetime.Exiting)
         {
-            return default;
+            return BOOL.FALSE;
         }
 
-        XamlWindowSubclass? state = GCHandle.FromIntPtr((nint)dwRefData).Target as XamlWindowSubclass;
+        XamlWindowSubclass? state = GCHandle.FromIntPtr(access).Target as XamlWindowSubclass;
         ArgumentNullException.ThrowIfNull(state);
 
         switch (uMsg)
         {
-            case WM_PAINT:
-                {
-                    DwmApi.DwmFlush();
-                    break;
-                }
-
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
-                {
-                    return default;
-                }
+                return BOOL.FALSE;
 
             case WM_NCLBUTTONDBLCLK:
                 {
                     if (state.window.AppWindow.Presenter is OverlappedPresenter { IsMaximizable: false })
                     {
-                        return default;
+                        return BOOL.FALSE;
                     }
 
                     break;
@@ -87,7 +74,8 @@ internal sealed partial class XamlWindowSubclass : IDisposable
                     if (state.window is IWindowNeedEraseBackground ||
                         state.window.SystemBackdrop is IBackdropNeedEraseBackground)
                     {
-                        return (int)BOOL.TRUE;
+                        *result = BOOL.TRUE;
+                        return BOOL.FALSE;
                     }
 
                     break;
@@ -107,7 +95,7 @@ internal sealed partial class XamlWindowSubclass : IDisposable
                 }
         }
 
-        return DefSubclassProc(hwnd, uMsg, wParam, lParam);
+        return BOOL.TRUE;
     }
 
 #pragma warning disable CA1823

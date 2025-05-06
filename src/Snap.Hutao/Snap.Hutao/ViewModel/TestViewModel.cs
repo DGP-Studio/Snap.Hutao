@@ -15,7 +15,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Automation.ScreenCapture;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
@@ -30,7 +29,6 @@ using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Web.Hutao.Redeem;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
-using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -43,7 +41,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
-    private readonly IGameScreenCaptureService gameScreenCaptureService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
     private readonly IServiceProvider serviceProvider;
@@ -285,25 +282,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             if (ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed))
             {
                 infoBarService.Success(response.Message);
-            }
-        }
-    }
-
-    [Command("ScreenCaptureCommand")]
-    private async Task ScreenCaptureAsync()
-    {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test screen capture", "TestViewModel.Command"));
-
-        HWND hwnd = currentXamlWindowReference.GetWindowHandle();
-        if (gameScreenCaptureService.TryStartCapture(hwnd, true, out GameScreenCaptureSession? session))
-        {
-            using (session)
-            {
-                while (true)
-                {
-                    await session.RequestFrameAsync().ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
-                }
             }
         }
     }

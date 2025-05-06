@@ -58,17 +58,32 @@ internal sealed class YaeNamedPipeServer : IAsyncDisposable
 
         using (await disposeLock.LockAsync().ConfigureAwait(false))
         {
-            try
+            while (true)
             {
-                using (CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(disposeCts.Token, token))
+                try
                 {
-                    await serverStream.WaitForConnectionAsync(cts.Token).ConfigureAwait(false);
-                    logger.LogInformation("Client connected.");
-                    return GetDataArray(serverStream);
+                    using (CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(disposeCts.Token, token))
+                    {
+                        await serverStream.WaitForConnectionAsync(cts.Token).ConfigureAwait(false);
+                        logger.LogInformation("Client connected.");
+                        return GetDataArray(serverStream);
+                    }
                 }
-            }
-            catch (OperationCanceledException)
-            {
+                catch (IOException)
+                {
+                    try
+                    {
+                        serverStream.Disconnect();
+                    }
+                    catch
+                    {
+                        // Ignore
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
             }
         }
 
