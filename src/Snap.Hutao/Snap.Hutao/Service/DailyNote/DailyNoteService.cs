@@ -52,9 +52,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             Response<WebDailyNote> dailyNoteResponse = await ScopedGetDailyNoteAsync(scope, userAndUid, token).ConfigureAwait(false);
-            if (ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, scopeIsDisposed, out WebDailyNote? data))
+            if (ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? data))
             {
                 newEntry.Update(data);
             }
@@ -134,7 +133,6 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             DailyNoteWebhookOperation dailyNoteWebhookOperation = serviceProvider.GetRequiredService<DailyNoteWebhookOperation>();
 
             foreach (DailyNoteEntry dbEntry in dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser())
@@ -154,7 +152,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 }
 
                 Response<WebDailyNote> dailyNoteResponse = await ScopedGetDailyNoteAsync(scope, UserAndUid.From(dbEntry.User, uid), token).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, scopeIsDisposed, out WebDailyNote? dailyNote))
+                if (!ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? dailyNote))
                 {
                     continue;
                 }

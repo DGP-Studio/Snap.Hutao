@@ -29,7 +29,7 @@ internal static class DependencyInjection
 
         if (!Lock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
         {
-            HutaoException.OperationCanceled("Root ServiceProvider has been disposed");
+            HutaoException.OperationCanceled("Root ServiceProvider is disposing");
         }
 
         return releaser;

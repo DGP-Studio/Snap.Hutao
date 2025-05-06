@@ -29,7 +29,6 @@ internal sealed partial class MetadataService : IMetadataService
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
-    private readonly IRootServiceProviderIsDisposed rootServiceProviderIsDisposed;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
@@ -80,7 +79,7 @@ internal sealed partial class MetadataService : IMetadataService
 
     private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
     {
-        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope(context.RootServiceProviderIsDisposed))
+        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope(true))
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
@@ -129,8 +128,10 @@ internal sealed partial class MetadataService : IMetadataService
             try
             {
                 ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
-                rootServiceProviderIsDisposed.TryThrow();
-                return MemoryCache.Set(cacheKey, result);
+                using (DependencyInjection.DisposeDeferral())
+                {
+                    return MemoryCache.Set(cacheKey, result);
+                }
             }
             catch (Exception ex)
             {
@@ -255,16 +256,19 @@ internal sealed partial class MetadataService : IMetadataService
         try
         {
             ImmutableDictionary<string, string>? metadataFileHashes;
-            using (IServiceScope scope = serviceScopeFactory.CreateScope(rootServiceProviderIsDisposed))
+            using (DependencyInjection.DisposeDeferral())
             {
-                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+                using (IServiceScope scope = serviceScopeFactory.CreateScope())
                 {
-                    IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                    HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, MetaFileName)).Get();
+                    IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+                    using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+                    {
+                        IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+                        HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, MetaFileName)).Get();
 
-                    // Download meta check file
-                    metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, token).ConfigureAwait(false);
+                        // Download meta check file
+                        metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, token).ConfigureAwait(false);
+                    }
                 }
             }
 
@@ -299,7 +303,7 @@ internal sealed partial class MetadataService : IMetadataService
     [SuppressMessage("", "SH003")]
     private async ValueTask<MetadataCheckResult> CheckMetadataSourceFilesAsync(MetadataTemplate? template, ImmutableDictionary<string, string> metaHashMap, CancellationToken token)
     {
-        MetadataDownloadContext context = new(rootServiceProviderIsDisposed, serviceScopeFactory, metadataOptions, template);
+        MetadataDownloadContext context = new(serviceScopeFactory, metadataOptions, template);
 
         await Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
@@ -341,15 +345,12 @@ internal sealed partial class MetadataService : IMetadataService
         private readonly Lock syncRoot = new();
         private readonly Dictionary<string, bool> results = [];
 
-        public MetadataDownloadContext(IRootServiceProviderIsDisposed rootServiceProviderIsDisposed, IServiceScopeFactory serviceScopeFactory, MetadataOptions options, MetadataTemplate? template)
+        public MetadataDownloadContext(IServiceScopeFactory serviceScopeFactory, MetadataOptions options, MetadataTemplate? template)
         {
-            RootServiceProviderIsDisposed = rootServiceProviderIsDisposed;
             ServiceScopeFactory = serviceScopeFactory;
             Options = options;
             Template = template;
         }
-
-        public IRootServiceProviderIsDisposed RootServiceProviderIsDisposed { get; }
 
         public IServiceScopeFactory ServiceScopeFactory { get; }
 

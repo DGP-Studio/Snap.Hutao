@@ -165,11 +165,10 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         CalculateBatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
             Response<CalculateBatchConsumption> response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out batchConsumption))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out batchConsumption))
             {
                 return;
             }

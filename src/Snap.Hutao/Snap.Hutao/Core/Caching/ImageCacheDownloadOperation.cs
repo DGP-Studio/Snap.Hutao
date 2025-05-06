@@ -27,12 +27,11 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
     ]);
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IRootServiceProviderIsDisposed rootServiceProviderIsDisposed;
     private readonly IServiceScopeFactory serviceScopeFactory;
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope(rootServiceProviderIsDisposed))
+        using (IServiceScope scope = serviceScopeFactory.CreateScope(true))
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
@@ -143,6 +142,11 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                                 TimeSpan delay = responseMessage.Headers.RetryAfter?.Delta ?? DelayFromRetryCount[retryCount];
                                 await Task.Delay(delay).ConfigureAwait(false);
                                 break;
+                            }
+
+                        default:
+                            {
+                                throw InternalImageCacheException.Throw($"Unexpected HTTP status code {responseMessage.StatusCode}");
                             }
                     }
                 }

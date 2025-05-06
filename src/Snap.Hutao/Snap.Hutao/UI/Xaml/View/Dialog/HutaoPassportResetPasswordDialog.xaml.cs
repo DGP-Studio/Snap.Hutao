@@ -48,11 +48,10 @@ internal sealed partial class HutaoPassportResetPasswordDialog : ContentDialog
 
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
 
             HutaoResponse response = await hutaoPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.ResetPassword).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider))
             {
                 return;
             }

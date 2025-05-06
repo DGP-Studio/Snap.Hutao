@@ -60,11 +60,10 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         ImmutableArray<Web.Hutao.GachaLog.GachaItem> array;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
             Response<ImmutableArray<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, scopeIsDisposed, out array))
+            if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, out array))
             {
                 return new(false, default);
             }
@@ -95,11 +94,10 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         GachaEventStatistics? raw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
             Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out raw))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out raw))
             {
                 return new(false, default!);
             }
@@ -131,10 +129,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
             Response<EndIds> resp = await homaGachaLogClient.GetEndIdsAsync(uid, token).ConfigureAwait(false);
-            ResponseValidator.TryValidate(resp, scope.ServiceProvider, scopeIsDisposed, out EndIds? raw);
+            ResponseValidator.TryValidate(resp, scope.ServiceProvider, out EndIds? raw);
             return raw;
         }
     }

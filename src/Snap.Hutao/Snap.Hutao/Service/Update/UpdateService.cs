@@ -25,7 +25,6 @@ internal sealed partial class UpdateService : IUpdateService
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
             await taskContext.SwitchToBackgroundAsync();
 
@@ -34,7 +33,7 @@ internal sealed partial class UpdateService : IUpdateService
 
             CheckUpdateResult checkUpdateResult = new();
 
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out HutaoPackageInformation? packageInformation))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out HutaoPackageInformation? packageInformation))
             {
                 checkUpdateResult.Kind = CheckUpdateResultKind.VersionApiInvalidResponse;
                 return checkUpdateResult;

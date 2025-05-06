@@ -161,10 +161,9 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
             HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
-            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out StaticResourceSizeInformation? sizeInformation))
+            if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out StaticResourceSizeInformation? sizeInformation))
             {
                 await taskContext.SwitchToMainThreadAsync();
                 StaticResourceOptions.SizeInformation = sizeInformation;

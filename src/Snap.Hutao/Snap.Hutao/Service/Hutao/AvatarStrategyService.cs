@@ -30,11 +30,10 @@ internal sealed partial class AvatarStrategyService : IAvatarStrategyService
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
                 HutaoStrategyClient strategyClient = scope.ServiceProvider.GetRequiredService<HutaoStrategyClient>();
                 Response<ImmutableDictionary<AvatarId, Strategy>> response = await strategyClient.GetStrategyItemAsync(avatarId).ConfigureAwait(false);
 
-                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out ImmutableDictionary<AvatarId, Strategy>? dictionary))
+                if (ResponseValidator.TryValidate(response, scope.ServiceProvider, out ImmutableDictionary<AvatarId, Strategy>? dictionary))
                 {
                     if (!dictionary.TryGetValue(avatarId, out Strategy? data))
                     {

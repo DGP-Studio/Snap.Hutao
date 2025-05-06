@@ -37,11 +37,10 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
             Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, scopeIsDisposed, out GameBranchesWrapper? branchesWrapper))
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out GameBranchesWrapper? branchesWrapper))
             {
                 return false;
             }
@@ -87,17 +86,16 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
         GameChannelSDKsWrapper? channelSDKsWrapper;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
             Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, scopeIsDisposed, out branchesWrapper))
+            if (!ResponseValidator.TryValidate(branchResp, serviceProvider, out branchesWrapper))
             {
                 return;
             }
 
             Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(launchScheme).ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, scopeIsDisposed, out channelSDKsWrapper))
+            if (!ResponseValidator.TryValidate(sdkResp, serviceProvider, out channelSDKsWrapper))
             {
                 return;
             }

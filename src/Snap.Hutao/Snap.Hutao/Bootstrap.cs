@@ -84,7 +84,7 @@ public static partial class Bootstrap
             ComWrappersSupport.InitializeComWrappers();
 
             // By adding the using statement, we can dispose the injected services when closing
-            using (DependencyInjection.Initialize())
+            using (ServiceProvider serviceProvider = DependencyInjection.Initialize())
             {
                 Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
 
