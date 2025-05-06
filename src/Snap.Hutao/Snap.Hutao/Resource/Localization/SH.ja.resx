@@ -1070,6 +1070,9 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>あなたの胡桃バージョンは古すぎて、できるだけ早く更新してください！</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>游戏资源操作失败</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>埋め合せログインに失敗しました、{0}</value>
   </data>
