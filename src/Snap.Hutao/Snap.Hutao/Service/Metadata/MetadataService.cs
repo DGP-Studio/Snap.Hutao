@@ -129,6 +129,7 @@ internal sealed partial class MetadataService : IMetadataService
             try
             {
                 ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
+                rootServiceProviderIsDisposed.TryThrow();
                 return MemoryCache.Set(cacheKey, result);
             }
             catch (Exception ex)

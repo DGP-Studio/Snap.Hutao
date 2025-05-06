@@ -93,6 +93,8 @@ public static partial class Bootstrap
                 // In a Desktop app this runs a message pump internally,
                 // and does not return until the application shuts down.
                 Application.Start(AppInitializationCallback);
+                XamlApplicationLifetime.Exited = true;
+                DependencyInjection.WaitForDispose();
             }
         }
     }

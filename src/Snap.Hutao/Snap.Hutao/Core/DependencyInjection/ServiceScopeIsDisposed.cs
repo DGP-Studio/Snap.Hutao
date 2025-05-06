@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
+[Obsolete("Use DependencyInjection.DisposeDeferral instead")]
 [Injection(InjectAs.Scoped, typeof(IServiceScopeIsDisposed))]
 internal sealed partial class ServiceScopeIsDisposed : IServiceScopeIsDisposed, IDisposable
 {

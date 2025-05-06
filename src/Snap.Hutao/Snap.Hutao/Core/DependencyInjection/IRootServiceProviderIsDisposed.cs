@@ -3,4 +3,5 @@
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
+[Obsolete("Use DependencyInjection.DisposeDeferral instead")]
 internal interface IRootServiceProviderIsDisposed : IIsDisposed;

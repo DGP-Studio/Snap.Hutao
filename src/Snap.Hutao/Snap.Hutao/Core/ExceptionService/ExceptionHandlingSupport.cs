@@ -39,6 +39,11 @@ internal sealed partial class ExceptionHandlingSupport
         // Handled has to be set to true, the control flow is returned after post
         e.Handled = true;
 
+        if (XamlApplicationLifetime.Exited)
+        {
+            return;
+        }
+
 #pragma warning disable SH007
         SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show(Ioc.Default, (SentryId)state!), id);
 #pragma warning restore SH007

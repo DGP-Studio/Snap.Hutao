@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
+[Obsolete("Use DependencyInjection.DisposeDeferral instead")]
 [Injection(InjectAs.Singleton, typeof(IRootServiceProviderIsDisposed))]
 internal sealed partial class RootServiceProviderIsDisposed : IRootServiceProviderIsDisposed, IDisposable
 {

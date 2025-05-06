@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -17,6 +18,28 @@ namespace Snap.Hutao.Core.DependencyInjection;
 
 internal static class DependencyInjection
 {
+    private static readonly AsyncReaderWriterLock Lock = new();
+
+    public static IDisposable DisposeDeferral()
+    {
+        if (XamlApplicationLifetime.Exited)
+        {
+            HutaoException.OperationCanceled("Application has exited");
+        }
+
+        if (!Lock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
+        {
+            HutaoException.OperationCanceled("Root ServiceProvider has been disposed");
+        }
+
+        return releaser;
+    }
+
+    public static void WaitForDispose()
+    {
+        Lock.WriterLockAsync().GetAwaiter().GetResult().Dispose();
+    }
+
     public static ServiceProvider Initialize()
     {
         ServiceProvider serviceProvider = new ServiceCollection()

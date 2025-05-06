@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
+[Obsolete("Use DependencyInjection.DisposeDeferral instead")]
 internal interface IIsDisposed
 {
     bool IsDisposed { get; }

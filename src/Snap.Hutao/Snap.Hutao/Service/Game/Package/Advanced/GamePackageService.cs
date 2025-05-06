@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
@@ -82,13 +83,9 @@ internal sealed partial class GamePackageService : IGamePackageService
                         await operation.ExecuteAsync(serviceContext).ConfigureAwait(false);
                         result = true;
                     }
-                    catch (OperationCanceledException)
-                    {
-                        result = false;
-                    }
                     catch (Exception ex)
                     {
-                        SentrySdk.CaptureException(ex);
+                        serviceProvider.GetRequiredService<IInfoBarService>().Error(ex, SH.ServicePackageAdvancedExecuteOperationFailedTitle);
                         result = false;
                     }
                     finally

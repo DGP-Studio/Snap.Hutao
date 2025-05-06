@@ -17,4 +17,6 @@ internal static class XamlApplicationLifetime
     public static bool IsFirstRunAfterUpdate { get => Volatile.Read(ref field); set => Volatile.Write(ref field, value); }
 
     public static bool Exiting { get => Volatile.Read(ref field); set => Volatile.Write(ref field, value); }
+
+    public static bool Exited { get => Volatile.Read(ref field); set => Volatile.Write(ref field, value); }
 }

@@ -5,8 +5,10 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
+[Obsolete("Use DependencyInjection.DisposeDeferral instead")]
 internal static class IsDisposedExtension
 {
+    [Obsolete("Use DependencyInjection.DisposeDeferral instead")]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void TryThrow(this IIsDisposed isDisposed)
     {
