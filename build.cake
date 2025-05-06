@@ -244,8 +244,6 @@ Task("Remove unused files")
     Information("Removing unused files...");
 
     Information("Removing xbf...");
-    System.IO.Directory.Delete(System.IO.Path.Combine(binPath, "Service"), true);
-    System.IO.Directory.Delete(System.IO.Path.Combine(binPath, "UI"), true);
     System.IO.File.Delete(System.IO.Path.Combine(binPath, "App.xbf"));
 
     Information("Removing appxrecipe...");

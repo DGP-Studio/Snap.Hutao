@@ -29,7 +29,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
     private TimeSpan? calendarServerTimeZoneOffset;
-    private LastWindowCloseBehavior? closeButtonBehavior;
+    private LastWindowCloseBehavior? lastWindowCloseBehavior;
 
     public static bool NotifyIconCreated { get => XamlApplicationLifetime.NotifyIconCreated; }
 
@@ -131,7 +131,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public LastWindowCloseBehavior LastWindowCloseBehavior
     {
-        get => GetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, Enum.Parse<LastWindowCloseBehavior>, LastWindowCloseBehavior.EnsureNotifyIconCreated);
-        set => SetOption(ref closeButtonBehavior, SettingEntry.CloseButtonBehavior, value, EnumToStringOrEmpty);
+        get => GetOption(ref lastWindowCloseBehavior, SettingEntry.LastWindowCloseBehavior, Enum.Parse<LastWindowCloseBehavior>, LastWindowCloseBehavior.EnsureNotifyIconCreated);
+        set => SetOption(ref lastWindowCloseBehavior, SettingEntry.LastWindowCloseBehavior, value, EnumToStringOrEmpty);
     }
 }
