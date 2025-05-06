@@ -19,25 +19,6 @@ internal static class ServiceProviderExtension
         return factory.CreateScope();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsDisposed(this IServiceProvider? serviceProvider, bool treatNullAsDisposed = true)
-    {
-        if (serviceProvider is null)
-        {
-            return treatNullAsDisposed;
-        }
-
-        try
-        {
-            _ = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-            return false;
-        }
-        catch (ObjectDisposedException)
-        {
-            return true;
-        }
-    }
-
     public static TService LockAndGetRequiredService<TService>(this IServiceProvider serviceProvider, Lock locker)
         where TService : notnull
     {

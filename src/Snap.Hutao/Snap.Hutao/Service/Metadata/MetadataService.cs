@@ -254,7 +254,7 @@ internal sealed partial class MetadataService : IMetadataService
         try
         {
             ImmutableDictionary<string, string>? metadataFileHashes;
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceScopeFactory.CreateScope(rootServiceProviderIsDisposed))
             {
                 IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
                 using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
