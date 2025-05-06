@@ -86,10 +86,16 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                     return;
                 }
 
-                await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
-                await UnsynchronizedHandleInitializationAsync().ConfigureAwait(false);
-                XamlApplicationLifetime.ActivationAndInitializationCompleted = true;
-                Interlocked.Exchange(ref isActivating, 0);
+                try
+                {
+                    await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
+                    await UnsynchronizedHandleInitializationAsync().ConfigureAwait(false);
+                }
+                finally
+                {
+                    XamlApplicationLifetime.ActivationAndInitializationCompleted = true;
+                    Interlocked.Exchange(ref isActivating, 0);
+                }
             }
         }
     }
