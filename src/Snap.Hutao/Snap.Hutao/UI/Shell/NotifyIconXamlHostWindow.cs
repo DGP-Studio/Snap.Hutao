@@ -41,7 +41,8 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
             presenter.SetBorderAndTitleBar(false, false);
         }
 
-        this.InitializeController(serviceProvider);
+        IServiceScope scope = serviceProvider.CreateScope();
+        this.InitializeController(scope.ServiceProvider);
     }
 
     public void ShowFlyoutAt(FlyoutBase flyout, Point point, RECT icon)

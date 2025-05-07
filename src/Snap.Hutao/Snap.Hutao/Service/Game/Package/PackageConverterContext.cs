@@ -17,7 +17,6 @@ internal readonly struct PackageConverterContext
     public readonly CommonReferences Common;
     public readonly ParallelOptions ParallelOptions;
 
-    public readonly ScatteredFilesOnlyReferences ScatterFilesOnly;
     public readonly SophonChunksOnlyReferences SophonChunksOnly;
 
     public readonly string ServerCacheFolder;
@@ -43,16 +42,6 @@ internal readonly struct PackageConverterContext
     {
         Common = common;
         SophonChunksOnly = new(currentBranch, targetBranch);
-    }
-
-    public PackageConverterContext(CommonReferences common, GamePackage gamePackage)
-        : this(common)
-    {
-        Common = common;
-        ScatterFilesOnly = new(gamePackage);
-
-        ScatteredFilesUrl = gamePackage.Main.Major.ResourceListUrl;
-        PkgVersionUrl = $"{ScatteredFilesUrl}/pkg_version";
     }
 
     private PackageConverterContext(CommonReferences common)
@@ -132,16 +121,6 @@ internal readonly struct PackageConverterContext
             TargetScheme = targetScheme;
             GameFileSystem = gameFileSystem;
             Progress = progress;
-        }
-    }
-
-    internal readonly struct ScatteredFilesOnlyReferences
-    {
-        public readonly GamePackage? TargetPackage;
-
-        public ScatteredFilesOnlyReferences(GamePackage? targetPackage)
-        {
-            TargetPackage = targetPackage;
         }
     }
 

@@ -21,18 +21,6 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
 
     public partial AppOptions AppOptions { get; }
 
-    public NameValue<PackageConverterType>? SelectedPackageConverterType
-    {
-        get => field ??= AppOptions.PackageConverterTypes.Single(t => t.Value == AppOptions.PackageConverterType);
-        set
-        {
-            if (SetProperty(ref field, value) && value is not null)
-            {
-                AppOptions.PackageConverterType = value.Value;
-            }
-        }
-    }
-
     public int KiloBytesPerSecondLimit
     {
         get => AppOptions.DownloadSpeedLimitPerSecondInKiloByte;
