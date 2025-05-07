@@ -314,11 +314,6 @@ internal sealed partial class SophonChunksPackageConverter : PackageConverter
 
     private async ValueTask EnsureAssetAsync(PackageConverterContext context, PackageItemOperationForSophonChunks asset)
     {
-        if (asset.NewAsset.AssetType is 64)
-        {
-            return;
-        }
-
         IEnumerable<SophonChunk> chunks = asset.Kind switch
         {
             PackageItemOperationKind.Add => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)),
