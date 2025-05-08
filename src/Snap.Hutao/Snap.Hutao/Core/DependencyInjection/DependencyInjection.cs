@@ -40,9 +40,9 @@ internal static class DependencyInjection
         Lock.WriterLockAsync().GetAwaiter().GetResult().Dispose();
     }
 
-    public static ServiceProvider Initialize()
+    public static Implementation.ServiceProvider Initialize()
     {
-        ServiceProvider serviceProvider = new ServiceCollection()
+        IServiceCollection services = new ServiceCollection()
 
             // Microsoft extension
             .AddLogging(builder =>
@@ -68,8 +68,9 @@ internal static class DependencyInjection
             .AddConfiguredHttpClients()
 
             // Discrete services
-            .AddSingleton<IMessenger, WeakReferenceMessenger>()
-            .BuildServiceProvider(true);
+            .AddSingleton<IMessenger, WeakReferenceMessenger>();
+
+        Implementation.ServiceProvider serviceProvider = Implementation.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(services, true, true);
 
         Ioc.Default.ConfigureServices(serviceProvider);
 

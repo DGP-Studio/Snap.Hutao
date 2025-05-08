@@ -72,9 +72,7 @@ internal static unsafe class HutaoNativeMethods
     private struct CallContextInfo
     {
         // incrementing ID for this call context (unique across an individual module load within process)
-
         public long contextId;
-
 
         // the explicit name given to this context
         public PCSTR contextName;

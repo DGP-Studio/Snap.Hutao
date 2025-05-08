@@ -106,16 +106,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     [MemberNotNull(nameof(InnerProxy))]
     private void UpdateInnerProxy()
     {
-        IWebProxy? proxy;
-        try
-        {
-            proxy = LazyConstructSystemProxyMethod.Value.Invoke(default, default) as IWebProxy;
-        }
-        catch (TargetInvocationException ex)
-        {
-            throw ex.InnerException ?? throw new InvalidOperationException("Failed to construct system proxy");
-        }
-
+        IWebProxy? proxy = LazyConstructSystemProxyMethod.Value.Invoke(default, BindingFlags.DoNotWrapExceptions, default, default, default) as IWebProxy;
         ArgumentNullException.ThrowIfNull(proxy);
         InnerProxy = proxy;
     }

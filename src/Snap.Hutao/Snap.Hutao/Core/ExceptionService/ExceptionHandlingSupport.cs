@@ -63,10 +63,10 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
-        if (exception.TargetSite?.DeclaringType?.Assembly != typeof(App).Assembly)
-        {
-            return;
-        }
+        //if (exception.TargetSite?.DeclaringType?.Assembly != typeof(App).Assembly)
+        //{
+        //    return;
+        //}
 
         Debugger.Break();
     }
