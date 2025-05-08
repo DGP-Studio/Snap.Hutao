@@ -24,12 +24,10 @@ internal sealed class CallSiteValidator : CallSiteVisitor<CallSiteValidator.Call
             Type serviceType = callSite.ServiceType;
             if (serviceType == scopedService)
             {
-                throw new InvalidOperationException(
-                    $"Cannot resolve {nameof(ServiceLifetime.Scoped).ToLowerInvariant()} service '{callSite.ServiceType}' from root provider.");
+                throw new InvalidOperationException($"Cannot resolve {nameof(ServiceLifetime.Scoped).ToLowerInvariant()} service '{callSite.ServiceType}' from root provider.");
             }
 
-            throw new InvalidOperationException(
-                $"Cannot resolve '{callSite.ServiceType}' from root provider because it requires {nameof(ServiceLifetime.Scoped).ToLowerInvariant()} service '{scopedService}'.");
+            throw new InvalidOperationException($"Cannot resolve '{callSite.ServiceType}' from root provider because it requires {nameof(ServiceLifetime.Scoped).ToLowerInvariant()} service '{scopedService}'.");
         }
     }
 

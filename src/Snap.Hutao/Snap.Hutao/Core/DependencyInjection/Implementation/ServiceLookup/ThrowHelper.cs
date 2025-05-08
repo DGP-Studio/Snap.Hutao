@@ -8,9 +8,9 @@ internal static class ThrowHelper
 {
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    internal static void ThrowObjectDisposedException()
+    internal static void ThrowObjectDisposedException(bool isRootScope)
     {
-        throw new ObjectDisposedException(nameof(IServiceProvider));
+        throw new ServiceProviderDisposedException(isRootScope);
     }
 
     [DoesNotReturn]

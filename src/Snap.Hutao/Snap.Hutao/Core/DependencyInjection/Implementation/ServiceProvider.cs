@@ -139,6 +139,20 @@ public sealed class ServiceProvider : IServiceProvider, IKeyedServiceProvider, I
         return Root.DisposeAsync();
     }
 
+    internal object? GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+    {
+        if (disposed)
+        {
+            ThrowHelper.ThrowObjectDisposedException(true);
+        }
+
+        ServiceAccessor serviceAccessor = serviceAccessors.GetOrAdd(serviceIdentifier, createServiceAccessor);
+        OnResolve(serviceAccessor.CallSite, serviceProviderEngineScope);
+        object? result = serviceAccessor.RealizedService?.Invoke(serviceProviderEngineScope);
+        Debug.Assert(result is null || CallSiteFactory.IsService(serviceIdentifier));
+        return result;
+    }
+
     internal object? GetKeyedService(Type serviceType, object? serviceKey, ServiceProviderEngineScope serviceProviderEngineScope)
     {
         if (serviceKey == KeyedService.AnyKey)
@@ -170,23 +184,19 @@ public sealed class ServiceProvider : IServiceProvider, IKeyedServiceProvider, I
         return service;
     }
 
-    internal bool IsDisposed()
-    {
-        return disposed;
-    }
-
-    internal object? GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+    internal IServiceScope CreateScope()
     {
         if (disposed)
         {
-            ThrowHelper.ThrowObjectDisposedException();
+            ThrowHelper.ThrowObjectDisposedException(true);
         }
 
-        ServiceAccessor serviceAccessor = serviceAccessors.GetOrAdd(serviceIdentifier, createServiceAccessor);
-        OnResolve(serviceAccessor.CallSite, serviceProviderEngineScope);
-        object? result = serviceAccessor.RealizedService?.Invoke(serviceProviderEngineScope);
-        Debug.Assert(result is null || CallSiteFactory.IsService(serviceIdentifier));
-        return result;
+        return new ServiceProviderEngineScope(this, isRootScope: false);
+    }
+
+    internal bool IsDisposed()
+    {
+        return disposed;
     }
 
     internal void ReplaceServiceAccessor(ServiceCallSite callSite, Func<ServiceProviderEngineScope, object?> accessor)
@@ -196,16 +206,6 @@ public sealed class ServiceProvider : IServiceProvider, IKeyedServiceProvider, I
             CallSite = callSite,
             RealizedService = accessor,
         };
-    }
-
-    internal IServiceScope CreateScope()
-    {
-        if (disposed)
-        {
-            ThrowHelper.ThrowObjectDisposedException();
-        }
-
-        return new ServiceProviderEngineScope(this, isRootScope: false);
     }
 
     private void DisposeCore()
@@ -220,8 +220,14 @@ public sealed class ServiceProvider : IServiceProvider, IKeyedServiceProvider, I
 
     private void OnResolve(ServiceCallSite? callSite, IServiceScope scope)
     {
-        if (callSite != null)
+        if (callSite is not null)
         {
+            if (scope is ServiceProviderEngineScope { IsRootScope: false } engine && callSite.ServiceType == typeof(IServiceProvider))
+            {
+                Debugger.Break();
+            }
+
+            Debug.WriteLine($"Service: [{TypeNameHelper.GetTypeDisplayName(callSite.ServiceType)}@{(callSite.ImplementationType is null ? "<null>" : TypeNameHelper.GetTypeDisplayName(callSite.ImplementationType))}] resolved from {(((ServiceProviderEngineScope)scope).IsRootScope ? "Root" : "Scoped")}ServiceProvider.");
             callSiteValidator?.ValidateResolution(callSite, scope, Root);
         }
     }

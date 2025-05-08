@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.DependencyInjection.Implementation.ServiceLookup;
 
 [DebuggerDisplay("{DebuggerToString(),nq}")]
 [DebuggerTypeProxy(typeof(ServiceProviderEngineScopeDebugView))]
-internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvider, IKeyedServiceProvider, IAsyncDisposable, IServiceScopeFactory
+internal sealed partial class ServiceProviderEngineScope : IServiceScope, IServiceProvider, IKeyedServiceProvider, IAsyncDisposable, IServiceScopeFactory
 {
     private bool disposed;
     private List<object>? disposables;
@@ -41,7 +41,7 @@ internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvid
     {
         if (disposed)
         {
-            ThrowHelper.ThrowObjectDisposedException();
+            ThrowHelper.ThrowObjectDisposedException(IsRootScope);
         }
 
         return RootProvider.GetService(ServiceIdentifier.FromServiceType(serviceType), this);
@@ -51,7 +51,7 @@ internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvid
     {
         if (disposed)
         {
-            ThrowHelper.ThrowObjectDisposedException();
+            ThrowHelper.ThrowObjectDisposedException(IsRootScope);
         }
 
         return RootProvider.GetKeyedService(serviceType, serviceKey, this);
@@ -61,7 +61,7 @@ internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvid
     {
         if (disposed)
         {
-            ThrowHelper.ThrowObjectDisposedException();
+            ThrowHelper.ThrowObjectDisposedException(IsRootScope);
         }
 
         return RootProvider.GetRequiredKeyedService(serviceType, serviceKey, this);
@@ -76,7 +76,7 @@ internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvid
     {
         List<object>? toDispose = BeginDispose();
 
-        if (toDispose != null)
+        if (toDispose is not null)
         {
             for (int i = toDispose.Count - 1; i >= 0; i--)
             {
@@ -189,7 +189,7 @@ internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvid
                 Task.Run(() => ((IAsyncDisposable)localService).DisposeAsync().AsTask()).GetAwaiter().GetResult();
             }
 
-            ThrowHelper.ThrowObjectDisposedException();
+            ThrowHelper.ThrowObjectDisposedException(IsRootScope);
         }
 
         return service;
