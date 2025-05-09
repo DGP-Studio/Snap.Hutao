@@ -45,7 +45,7 @@ internal sealed partial class ExceptionHandlingSupport
         }
 
 #pragma warning disable SH007
-        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show(Ioc.Default, (SentryId)state!), id);
+        SynchronizationContext.Current!.Post(static state => ExceptionWindow.Show((SentryId)state!), id);
 #pragma warning restore SH007
     }
 

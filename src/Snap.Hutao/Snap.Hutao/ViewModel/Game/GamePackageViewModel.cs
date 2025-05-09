@@ -146,7 +146,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         }
 
         GameBranchesWrapper? branchesWrapper;
-        using (IServiceScope scope = serviceProvider.CreateScope(true))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
             Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);

@@ -18,28 +18,6 @@ namespace Snap.Hutao.Core.DependencyInjection;
 
 internal static class DependencyInjection
 {
-    private static readonly AsyncReaderWriterLock Lock = new();
-
-    public static IDisposable DisposeDeferral()
-    {
-        if (XamlApplicationLifetime.Exited)
-        {
-            HutaoException.OperationCanceled("Application has exited");
-        }
-
-        if (!Lock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
-        {
-            HutaoException.OperationCanceled("Root ServiceProvider is disposing");
-        }
-
-        return releaser;
-    }
-
-    public static void WaitForDispose()
-    {
-        Lock.WriterLockAsync().GetAwaiter().GetResult().Dispose();
-    }
-
     public static Implementation.ServiceProvider Initialize()
     {
         IServiceCollection services = new ServiceCollection()

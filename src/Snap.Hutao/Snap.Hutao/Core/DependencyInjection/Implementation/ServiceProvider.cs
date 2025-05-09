@@ -222,11 +222,6 @@ public sealed class ServiceProvider : IServiceProvider, IKeyedServiceProvider, I
     {
         if (callSite is not null)
         {
-            if (scope is ServiceProviderEngineScope { IsRootScope: false } engine && callSite.ServiceType == typeof(IServiceProvider))
-            {
-                Debugger.Break();
-            }
-
             Debug.WriteLine($"Service: [{TypeNameHelper.GetTypeDisplayName(callSite.ServiceType)}@{(callSite.ImplementationType is null ? "<null>" : TypeNameHelper.GetTypeDisplayName(callSite.ImplementationType))}] resolved from {(((ServiceProviderEngineScope)scope).IsRootScope ? "Root" : "Scoped")}ServiceProvider.");
             callSiteValidator?.ValidateResolution(callSite, scope, Root);
         }
@@ -241,7 +236,7 @@ public sealed class ServiceProvider : IServiceProvider, IKeyedServiceProvider, I
 
         try
         {
-            ServiceCallSite? callSite = CallSiteFactory.GetCallSite(descriptor, new CallSiteChain());
+            ServiceCallSite? callSite = CallSiteFactory.GetCallSite(descriptor, new());
             if (callSite != null)
             {
                 OnCreate(callSite);
@@ -255,7 +250,7 @@ public sealed class ServiceProvider : IServiceProvider, IKeyedServiceProvider, I
 
     private ServiceAccessor CreateServiceAccessor(ServiceIdentifier serviceIdentifier)
     {
-        ServiceCallSite? callSite = CallSiteFactory.GetCallSite(serviceIdentifier, new CallSiteChain());
+        ServiceCallSite? callSite = CallSiteFactory.GetCallSite(serviceIdentifier, new());
         if (callSite != null)
         {
             OnCreate(callSite);

@@ -79,7 +79,7 @@ internal sealed partial class MetadataService : IMetadataService
 
     private static async ValueTask DownloadMetadataSourceFilesAsync(MetadataDownloadContext context, string fileFullName, CancellationToken token)
     {
-        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope(true))
+        using (IServiceScope scope = context.ServiceScopeFactory.CreateScope())
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
@@ -128,10 +128,7 @@ internal sealed partial class MetadataService : IMetadataService
             try
             {
                 ImmutableArray<T> result = await JsonSerializer.DeserializeAsync<ImmutableArray<T>>(fileStream, options, token).ConfigureAwait(false);
-                using (DependencyInjection.DisposeDeferral())
-                {
-                    return MemoryCache.Set(cacheKey, result);
-                }
+                return MemoryCache.Set(cacheKey, result);
             }
             catch (Exception ex)
             {
@@ -256,19 +253,16 @@ internal sealed partial class MetadataService : IMetadataService
         try
         {
             ImmutableDictionary<string, string>? metadataFileHashes;
-            using (DependencyInjection.DisposeDeferral())
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
+                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
                 {
-                    IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-                    using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
-                    {
-                        IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
-                        HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, MetaFileName)).Get();
+                    IHttpRequestMessageBuilderFactory requestBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+                    HttpRequestMessageBuilder builder = requestBuilderFactory.Create(metadataOptions.GetLocalizedRemoteFile(template, MetaFileName)).Get();
 
-                        // Download meta check file
-                        metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, token).ConfigureAwait(false);
-                    }
+                    // Download meta check file
+                    metadataFileHashes = await builder.SendAsync<ImmutableDictionary<string, string>>(httpClient, token).ConfigureAwait(false);
                 }
             }
 

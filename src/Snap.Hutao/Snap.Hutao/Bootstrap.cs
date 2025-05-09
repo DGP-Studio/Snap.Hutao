@@ -94,7 +94,6 @@ public static partial class Bootstrap
                 // and does not return until the application shuts down.
                 Application.Start(AppInitializationCallback);
                 XamlApplicationLifetime.Exited = true;
-                DependencyInjection.WaitForDispose();
             }
         }
     }
