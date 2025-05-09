@@ -53,7 +53,7 @@ internal static class HttpRequestExceptionHandling
             builder.AppendLine(SH.FormatWebRequestBuilderExceptionDescription(url));
 
             NetworkError networkError = HttpRequestExceptionToNetworkError(httpRequestException);
-            if (networkError is not NetworkError.OK)
+            if (networkError is not NetworkError.NULL)
             {
                 builder.AppendLine(networkError.ToString());
                 switch (networkError)
@@ -81,12 +81,6 @@ internal static class HttpRequestExceptionHandling
 
                     return true;
                 }
-            }
-
-            if (httpRequestException.Message is "Response status code does not indicate success: 418 (I'm a Teapot).")
-            {
-                builder.Append("HTTP 418");
-                return true;
             }
         }
 
@@ -169,6 +163,16 @@ internal static class HttpRequestExceptionHandling
                         {
                             switch (authenticationException.InnerException)
                             {
+                                case Win32Exception win32Exception:
+                                    switch (win32Exception.NativeErrorCode)
+                                    {
+                                        // 无法连接到本地安全机构 SEC_E_INTERNAL_ERROR
+                                        case unchecked((int)0x80090304):
+                                            return NetworkError.ERR_SECURE_CONNECTION_SEC_E_INTERNAL_ERROR;
+                                    }
+
+                                    break;
+
                                 case null:
                                     return NetworkError.ERR_SECURE_CONNECTION_AUTHENTICATION_ERROR;
                             }
@@ -224,6 +228,9 @@ internal static class HttpRequestExceptionHandling
                                 }
 
                                 break;
+
+                            case null:
+                                return NetworkError.ERR_UNKNOWN;
                         }
 
                         break;
@@ -232,6 +239,6 @@ internal static class HttpRequestExceptionHandling
                 break;
         }
 
-        return NetworkError.OK;
+        return NetworkError.NULL;
     }
 }

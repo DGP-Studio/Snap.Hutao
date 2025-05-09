@@ -1,4 +1,4 @@
-![HutaoRepoBanner3-en](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/7289da68-59cf-409b-bd85-4b5a01d0c091)
+![HutaoBanner](https://github.com/user-attachments/assets/976e057c-f01e-486b-9fa0-04744ae96f99)
 
 
 胡桃工具箱是一款以 MIT 协议开源的原神工具箱，专为现代化 Windows 平台设计，旨在改善桌面端玩家的游戏体验。通过将既有的官方资源与开发团队设计的全新功能相结合，提供了一套完整且实用的工具集，且无需依赖任何移动设备。它不对游戏客户端进行任何破坏性修改以确保工具箱的安全性
@@ -39,6 +39,9 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 
 * [向我们提交 PR / Make Pull Requests](https://hut.ao/development/contribute.html)
 * [为我们更新文档 / Enhance our Document](https://github.com/DGP-Studio/Snap.Hutao.Docs)
+* 通过 [DeepWiKi](https://deepwiki.com/DGP-Studio/Snap.Hutao) 了解项目结构 / Understand Project Structure with [DeepWiKi](https://deepwiki.com/DGP-Studio/Snap.Hutao)
+  *  [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/DGP-Studio/Snap.Hutao)
+
 
 ## 特别感谢 / Special Thanks
 

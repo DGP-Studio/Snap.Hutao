@@ -31,7 +31,6 @@ internal static class ListExtension
     public static T? BinarySearch<TItem, T>(this List<T> list, TItem item, Func<TItem, T, int> compare)
         where T : class
     {
-
 #if NET10_0_OR_GREATER
         return CollectionsMarshal.AsSpan(list).BinarySearch(item, compare);
 #error Remove this when .NET 10.0 is available

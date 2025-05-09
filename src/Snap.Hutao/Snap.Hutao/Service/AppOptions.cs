@@ -6,7 +6,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.BackgroundImage;
-using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;

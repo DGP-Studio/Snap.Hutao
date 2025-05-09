@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.DependencyInjection.Implementation;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -102,7 +103,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             Reward? reward;
             SignInRewardInfo? info;
             SignInRewardReSignInfo? resignInfo;
-            using (IServiceScope scope = ServiceProvider.CreateScope(true))
+            using (IServiceScope scope = ServiceProvider.CreateScope())
             {
                 ISignInClient signInClient = scope.ServiceProvider
                     .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
@@ -159,6 +160,10 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             ScrollToCurrentOrNextAward(postSign || postResign);
 
             IsInitialized = true;
+        }
+        catch (ServiceProviderDisposedException)
+        {
+            // Ignore
         }
         finally
         {

@@ -31,7 +31,7 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
-        using (IServiceScope scope = serviceScopeFactory.CreateScope(true))
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCacheDownloadOperation)))
