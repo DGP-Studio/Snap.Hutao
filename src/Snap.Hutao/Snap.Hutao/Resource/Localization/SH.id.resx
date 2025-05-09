@@ -1069,6 +1069,9 @@ Ruang Tersedia: {2}</value>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>Versi Snap Hutao Anda terlalu rendah. Harap perbarui secepat mungkin.</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>游戏资源操作失败</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Gagal melakukan check-in ulang, {0}</value>
   </data>

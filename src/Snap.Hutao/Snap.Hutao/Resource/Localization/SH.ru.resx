@@ -1067,6 +1067,9 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>Ваша версия Snap Hutao устарела. Пожалуйста, обновите приложение</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>游戏资源操作失败</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Не удалось выполнить повторную регистрацию, {0}</value>
   </data>
