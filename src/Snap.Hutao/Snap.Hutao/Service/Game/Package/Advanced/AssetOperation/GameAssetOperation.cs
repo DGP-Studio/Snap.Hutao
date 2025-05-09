@@ -116,12 +116,9 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         CancellationToken token = context.CancellationToken;
         token.ThrowIfCancellationRequested();
         string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.AssetProperty.AssetName);
-
-        if (asset.AssetProperty.AssetType is 0x40)
-        {
-            Directory.CreateDirectory(assetPath);
-            return;
-        }
+        string? assetDirectory = Path.GetDirectoryName(assetPath);
+        ArgumentNullException.ThrowIfNull(assetDirectory);
+        Directory.CreateDirectory(assetDirectory);
 
         RepeatedField<AssetChunk> chunks = asset.AssetProperty.AssetChunks;
 
@@ -189,14 +186,6 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         context.CancellationToken.ThrowIfCancellationRequested();
         string assetPath = Path.Combine(context.Operation.EffectiveGameDirectory, asset.AssetName);
 
-        if (asset.AssetType is 0x40)
-        {
-            if (Directory.Exists(assetPath))
-            {
-                Directory.Delete(assetPath, true);
-            }
-        }
-
         if (File.Exists(assetPath))
         {
             File.Delete(assetPath);
@@ -263,12 +252,9 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         CancellationToken token = context.CancellationToken;
         token.ThrowIfCancellationRequested();
         string assetPath = Path.Combine(context.Operation.GameFileSystem.GetGameDirectory(), asset.NewAsset.AssetName);
-
-        if (asset.NewAsset.AssetType is 0x40)
-        {
-            Directory.CreateDirectory(assetPath);
-            return;
-        }
+        string? assetDirectory = Path.GetDirectoryName(assetPath);
+        ArgumentNullException.ThrowIfNull(assetDirectory);
+        Directory.CreateDirectory(assetDirectory);
 
         IReadOnlyList<SophonChunk> chunks = asset.Kind switch
         {

@@ -237,7 +237,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         {
             lock (syncRoot)
             {
-                if (IsOn || cts is null)
+                if (IsOn)
                 {
                     // Turn off
                     cts?.Cancel();

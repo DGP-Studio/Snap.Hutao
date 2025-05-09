@@ -61,7 +61,6 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IHoyoPlayPassportClient hoyoPlayPassportClient = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IHoyoPlayPassportClient>>().Create(isOversea);
             (string? rawSession, Response<LoginResult> response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
 
@@ -70,7 +69,7 @@ internal sealed partial class UserAccountPasswordDialog : ContentDialog, IPasspo
                 (_, response) = await hoyoPlayPassportClient.LoginByPasswordAsync(this).ConfigureAwait(false);
             }
 
-            bool ok = ResponseValidator.TryValidate(response, serviceProvider, scopeIsDisposed, out LoginResult? result);
+            bool ok = ResponseValidator.TryValidate(response, serviceProvider, out LoginResult? result);
             return new(ok, result);
         }
     }

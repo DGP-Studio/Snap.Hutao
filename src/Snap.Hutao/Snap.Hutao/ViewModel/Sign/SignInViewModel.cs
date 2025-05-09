@@ -104,28 +104,26 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             SignInRewardReSignInfo? resignInfo;
             using (IServiceScope scope = ServiceProvider.CreateScope())
             {
-                IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
-
                 ISignInClient signInClient = scope.ServiceProvider
                     .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
                     .Create(userAndUid.IsOversea);
 
                 Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(rewardResponse, scope.ServiceProvider, scopeIsDisposed, out reward))
+                if (!ResponseValidator.TryValidate(rewardResponse, scope.ServiceProvider, out reward))
                 {
                     infoBarService.Error(SH.ServiceSignInRewardListRequestFailed);
                     return;
                 }
 
                 Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider, scopeIsDisposed, out info))
+                if (!ResponseValidator.TryValidate(infoResponse, scope.ServiceProvider, out info))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
                     return;
                 }
 
                 Response<SignInRewardReSignInfo> resignInfoResponse = await signInClient.GetResignInfoAsync(userAndUid).ConfigureAwait(false);
-                if (!ResponseValidator.TryValidate(resignInfoResponse, scope.ServiceProvider, scopeIsDisposed, out resignInfo))
+                if (!ResponseValidator.TryValidate(resignInfoResponse, scope.ServiceProvider, out resignInfo))
                 {
                     infoBarService.Error(SH.ServiceSignInInfoRequestFailed);
                     return;

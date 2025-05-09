@@ -386,11 +386,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         await taskContext.SwitchToBackgroundAsync();
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
             Response<GamePackagesWrapper> response = await hoyoPlayClient.GetPackagesAsync(value).ConfigureAwait(false);
 
-            if (ResponseValidator.TryValidate(response, serviceProvider, scopeIsDisposed, out GamePackagesWrapper? wrapper))
+            if (ResponseValidator.TryValidate(response, serviceProvider, out GamePackagesWrapper? wrapper))
             {
                 await taskContext.SwitchToMainThreadAsync();
                 GamePackage = wrapper.GamePackages.Single();

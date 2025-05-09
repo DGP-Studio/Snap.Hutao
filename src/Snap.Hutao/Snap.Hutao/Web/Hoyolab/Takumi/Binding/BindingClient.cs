@@ -17,7 +17,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 internal sealed partial class BindingClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IServiceScopeIsDisposed serviceScopeIsDisposed;
     private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
@@ -34,7 +33,7 @@ internal sealed partial class BindingClient
             .GetActionTicketBySTokenAsync("game_role", user, token)
             .ConfigureAwait(false);
 
-        if (ResponseValidator.TryValidate(actionTicketResponse, serviceProvider, serviceScopeIsDisposed, out ActionTicketWrapper? wrapper))
+        if (ResponseValidator.TryValidate(actionTicketResponse, serviceProvider, out ActionTicketWrapper? wrapper))
         {
             string actionTicket = wrapper.Ticket;
             return await GetUserGameRolesByActionTicketAsync(actionTicket, user, token).ConfigureAwait(false);

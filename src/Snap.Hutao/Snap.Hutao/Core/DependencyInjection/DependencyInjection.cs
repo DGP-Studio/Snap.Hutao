@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -17,9 +18,9 @@ namespace Snap.Hutao.Core.DependencyInjection;
 
 internal static class DependencyInjection
 {
-    public static ServiceProvider Initialize()
+    public static Implementation.ServiceProvider Initialize()
     {
-        ServiceProvider serviceProvider = new ServiceCollection()
+        IServiceCollection services = new ServiceCollection()
 
             // Microsoft extension
             .AddLogging(builder =>
@@ -45,8 +46,9 @@ internal static class DependencyInjection
             .AddConfiguredHttpClients()
 
             // Discrete services
-            .AddSingleton<IMessenger, WeakReferenceMessenger>()
-            .BuildServiceProvider(true);
+            .AddSingleton<IMessenger, WeakReferenceMessenger>();
+
+        Implementation.ServiceProvider serviceProvider = Implementation.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(services, true, true);
 
         Ioc.Default.ConfigureServices(serviceProvider);
 

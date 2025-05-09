@@ -84,7 +84,7 @@ public static partial class Bootstrap
             ComWrappersSupport.InitializeComWrappers();
 
             // By adding the using statement, we can dispose the injected services when closing
-            using (DependencyInjection.Initialize())
+            using (Core.DependencyInjection.Implementation.ServiceProvider serviceProvider = DependencyInjection.Initialize())
             {
                 Thread.CurrentThread.Name = "Snap Hutao Application Main Thread";
 
@@ -93,6 +93,7 @@ public static partial class Bootstrap
                 // In a Desktop app this runs a message pump internally,
                 // and does not return until the application shuts down.
                 Application.Start(AppInitializationCallback);
+                XamlApplicationLifetime.Exited = true;
             }
         }
     }

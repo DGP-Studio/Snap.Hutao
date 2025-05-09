@@ -32,6 +32,7 @@ internal static class ConstValues
     public const uint WM_MOUSEMOVE = 0x00000200U;
     public const uint WM_LBUTTONDOWN = 0x00000201U;
     public const uint WM_LBUTTONUP = 0x00000202U;
+    public const uint WM_LBUTTONDBLCLK = 0x00000203U;
     public const uint WM_RBUTTONDOWN = 0x00000204U;
     public const uint WM_RBUTTONUP = 0x00000205U;
     public const uint WM_MOUSEWHEEL = 0x0000020AU;

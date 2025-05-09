@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
@@ -111,38 +110,22 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
         {
             PackageConverterContext.CommonReferences common = new(httpClient, context.CurrentScheme, context.TargetScheme, reference, progress);
             PackageConverterContext packageConverterContext;
-            PackageConverterType type = context.ServiceProvider.GetRequiredService<AppOptions>().PackageConverterType;
-            switch (type)
+            if (await TryGetCurrentBranchesAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } currentBranches))
             {
-                case PackageConverterType.ScatteredFiles:
-                    if (await TryGetPackagesAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } gamePackages))
-                    {
-                        return false;
-                    }
-
-                    packageConverterContext = new(common, gamePackages.GamePackages.Single());
-                    break;
-                case PackageConverterType.SophonChunks:
-                    if (await TryGetCurrentBranchesAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } currentBranches))
-                    {
-                        return false;
-                    }
-
-                    if (await TryGetTargetBranchesAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } targetBranches))
-                    {
-                        return false;
-                    }
-
-                    packageConverterContext = new(
-                        common,
-                        currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main,
-                        targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main);
-                    break;
-                default:
-                    throw HutaoException.NotSupported();
+                return false;
             }
 
-            IPackageConverter packageConverter = context.ServiceProvider.GetRequiredKeyedService<IPackageConverter>(type);
+            if (await TryGetTargetBranchesAsync(hoyoPlayClient, context).ConfigureAwait(false) is not (true, { } targetBranches))
+            {
+                return false;
+            }
+
+            packageConverterContext = new(
+                common,
+                currentBranches.GameBranches.Single(b => b.Game.Id == context.CurrentScheme.GameId).Main,
+                targetBranches.GameBranches.Single(b => b.Game.Id == context.TargetScheme.GameId).Main);
+
+            IPackageConverter packageConverter = context.ServiceProvider.GetRequiredService<IPackageConverter>();
 
             if (context.TargetScheme.IsOversea ^ reference.IsOversea())
             {

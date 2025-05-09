@@ -8,10 +8,12 @@ using Snap.Hutao.Core.Threading.RateLimiting;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Package.Advanced.PackageOperation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
+using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.IO;
@@ -82,13 +84,17 @@ internal sealed partial class GamePackageService : IGamePackageService
                         await operation.ExecuteAsync(serviceContext).ConfigureAwait(false);
                         result = true;
                     }
-                    catch (OperationCanceledException)
-                    {
-                        result = false;
-                    }
                     catch (Exception ex)
                     {
-                        SentrySdk.CaptureException(ex);
+                        if (ex is HttpRequestException httpRequestException)
+                        {
+                            if (HttpRequestExceptionHandling.HttpRequestExceptionToNetworkError(httpRequestException) is Web.NetworkError.NULL)
+                            {
+                                SentrySdk.CaptureException(ex);
+                            }
+                        }
+
+                        serviceProvider.GetRequiredService<IInfoBarService>().Error(ex, SH.ServicePackageAdvancedExecuteOperationFailedTitle);
                         result = false;
                     }
                     finally
@@ -127,13 +133,12 @@ internal sealed partial class GamePackageService : IGamePackageService
         SophonBuild? build;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             Response<SophonBuild> response = await scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
                 .Create(gameFileSystem.IsOversea())
                 .GetBuildAsync(branch, token)
                 .ConfigureAwait(false);
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out build))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out build))
             {
                 return default;
             }

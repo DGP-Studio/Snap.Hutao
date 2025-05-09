@@ -106,9 +106,8 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
     [MemberNotNull(nameof(InnerProxy))]
     private void UpdateInnerProxy()
     {
-        IWebProxy? proxy = LazyConstructSystemProxyMethod.Value.Invoke(default, default) as IWebProxy;
+        IWebProxy? proxy = LazyConstructSystemProxyMethod.Value.Invoke(default, BindingFlags.DoNotWrapExceptions, default, default, default) as IWebProxy;
         ArgumentNullException.ThrowIfNull(proxy);
-
         InnerProxy = proxy;
     }
 }

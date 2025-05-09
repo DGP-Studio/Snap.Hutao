@@ -82,14 +82,13 @@ internal sealed partial class InventoryService : IInventoryService
         BatchConsumption? batchConsumption;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
 
             Response<BatchConsumption> resp = await calculateClient
                 .BatchComputeAsync(userAndUid, deltas, true)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, scopeIsDisposed, out batchConsumption))
+            if (!ResponseValidator.TryValidate(resp, scope.ServiceProvider, out batchConsumption))
             {
                 return;
             }

@@ -74,7 +74,6 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? webSpiralAbyss;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
 
             Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClientFactory
@@ -82,7 +81,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
                 .GetSpiralAbyssAsync(userAndUid, schedule)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out webSpiralAbyss))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out webSpiralAbyss))
             {
                 return;
             }

@@ -23,7 +23,6 @@ namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 internal sealed partial class HutaoSpiralAbyssClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IServiceScopeIsDisposed serviceScopeIsDisposed;
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
@@ -156,7 +155,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(playerInfoResponse, serviceProvider, serviceScopeIsDisposed))
+        if (!ResponseValidator.TryValidate(playerInfoResponse, serviceProvider))
         {
             return default;
         }
@@ -165,7 +164,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetCharacterListAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(listResponse, serviceProvider, serviceScopeIsDisposed, out ListWrapper<Character>? charactersWrapper))
+        if (!ResponseValidator.TryValidate(listResponse, serviceProvider, out ListWrapper<Character>? charactersWrapper))
         {
             return default;
         }
@@ -174,7 +173,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetCharacterDetailAsync(userAndUid, charactersWrapper.List.SelectAsArray(static c => c.Id), token)
             .ConfigureAwait(false);
 
-        if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, serviceScopeIsDisposed, out ListWrapper<DetailedCharacter>? detailsWrapper))
+        if (!ResponseValidator.TryValidate(detailResponse, serviceProvider, out ListWrapper<DetailedCharacter>? detailsWrapper))
         {
             return default;
         }
@@ -183,7 +182,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetSpiralAbyssAsync(userAndUid, ScheduleType.Current, token)
             .ConfigureAwait(false);
 
-        if (ResponseValidator.TryValidate(spiralAbyssResponse, serviceProvider, serviceScopeIsDisposed, out Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss))
+        if (ResponseValidator.TryValidate(spiralAbyssResponse, serviceProvider, out Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss))
         {
             HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
             string? userName = await options.GetActualUserNameAsync().ConfigureAwait(false);

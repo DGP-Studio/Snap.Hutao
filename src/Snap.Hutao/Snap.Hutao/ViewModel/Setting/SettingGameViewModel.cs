@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Notification;
 using System.IO;
 
@@ -20,18 +18,6 @@ internal sealed partial class SettingGameViewModel : Abstraction.ViewModel
     private readonly LaunchOptions launchOptions;
 
     public partial AppOptions AppOptions { get; }
-
-    public NameValue<PackageConverterType>? SelectedPackageConverterType
-    {
-        get => field ??= AppOptions.PackageConverterTypes.Single(t => t.Value == AppOptions.PackageConverterType);
-        set
-        {
-            if (SetProperty(ref field, value) && value is not null)
-            {
-                AppOptions.PackageConverterType = value.Value;
-            }
-        }
-    }
 
     public int KiloBytesPerSecondLimit
     {

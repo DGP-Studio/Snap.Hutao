@@ -84,7 +84,6 @@ internal sealed partial class UserService : IUserService
         UidCookieToken? uidCookieToken;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IPassportClient passportClient = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
                 .Create(user.IsOversea);
@@ -93,7 +92,7 @@ internal sealed partial class UserService : IUserService
                 .GetCookieAccountInfoBySTokenAsync(user)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(cookieTokenResponse, scope.ServiceProvider, scopeIsDisposed, out uidCookieToken))
+            if (!ResponseValidator.TryValidate(cookieTokenResponse, scope.ServiceProvider, out uidCookieToken))
             {
                 return false;
             }

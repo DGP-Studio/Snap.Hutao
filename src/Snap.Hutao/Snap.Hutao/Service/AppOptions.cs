@@ -6,7 +6,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.BackgroundImage;
-using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
@@ -26,7 +25,6 @@ internal sealed partial class AppOptions : DbStoreOptions
     private BackgroundImageType? backgroundImageType;
     private Region? region;
     private int? downloadSpeedLimitPerSecondInKiloByte;
-    private PackageConverterType? packageConverterType;
     private BridgeShareSaveType? bridgeShareSaveType;
     private TimeSpan? calendarServerTimeZoneOffset;
     private LastWindowCloseBehavior? lastWindowCloseBehavior;
@@ -97,14 +95,6 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, 0);
         set => SetOption(ref downloadSpeedLimitPerSecondInKiloByte, SettingEntry.DownloadSpeedLimitPerSecondInKiloByte, value);
-    }
-
-    public ImmutableArray<NameValue<PackageConverterType>> PackageConverterTypes { get; } = ImmutableCollectionsNameValue.FromEnum<PackageConverterType>();
-
-    public PackageConverterType PackageConverterType
-    {
-        get => GetOption(ref packageConverterType, SettingEntry.PackageConverterType, Enum.Parse<PackageConverterType>, PackageConverterType.ScatteredFiles);
-        set => SetOption(ref packageConverterType, SettingEntry.PackageConverterType, value, EnumToStringOrEmpty);
     }
 
     public ImmutableArray<NameValue<BridgeShareSaveType>> BridgeShareSaveTypes { get; } = ImmutableCollectionsNameValue.FromEnum<BridgeShareSaveType>(type => type.GetLocalizedDescription());

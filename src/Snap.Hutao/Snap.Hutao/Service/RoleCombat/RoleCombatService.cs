@@ -53,7 +53,6 @@ internal sealed partial class RoleCombatService : IRoleCombatService
         Web.Hoyolab.Takumi.GameRecord.RoleCombat.RoleCombat? webRoleCombat;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            IServiceScopeIsDisposed scopeIsDisposed = scope.ServiceProvider.GetRequiredService<IServiceScopeIsDisposed>();
             IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>();
 
             // Request the index first
@@ -67,7 +66,7 @@ internal sealed partial class RoleCombatService : IRoleCombatService
                 .GetRoleCombatAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, scopeIsDisposed, out webRoleCombat))
+            if (!ResponseValidator.TryValidate(response, scope.ServiceProvider, out webRoleCombat))
             {
                 return;
             }
