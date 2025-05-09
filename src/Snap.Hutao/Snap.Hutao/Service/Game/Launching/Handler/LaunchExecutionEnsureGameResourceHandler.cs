@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;

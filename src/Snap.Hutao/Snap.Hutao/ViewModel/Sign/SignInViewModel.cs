@@ -102,7 +102,7 @@ internal sealed partial class SignInViewModel : Abstraction.ViewModelSlim, IReci
             Reward? reward;
             SignInRewardInfo? info;
             SignInRewardReSignInfo? resignInfo;
-            using (IServiceScope scope = ServiceProvider.CreateScope(true))
+            using (IServiceScope scope = ServiceProvider.CreateScope())
             {
                 ISignInClient signInClient = scope.ServiceProvider
                     .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()

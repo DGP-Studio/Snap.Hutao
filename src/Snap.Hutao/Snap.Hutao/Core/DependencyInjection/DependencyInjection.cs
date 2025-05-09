@@ -18,31 +18,9 @@ namespace Snap.Hutao.Core.DependencyInjection;
 
 internal static class DependencyInjection
 {
-    private static readonly AsyncReaderWriterLock Lock = new();
-
-    public static IDisposable DisposeDeferral()
+    public static Implementation.ServiceProvider Initialize()
     {
-        if (XamlApplicationLifetime.Exited)
-        {
-            HutaoException.OperationCanceled("Application has exited");
-        }
-
-        if (!Lock.TryReaderLock(out AsyncReaderWriterLock.Releaser releaser))
-        {
-            HutaoException.OperationCanceled("Root ServiceProvider is disposing");
-        }
-
-        return releaser;
-    }
-
-    public static void WaitForDispose()
-    {
-        Lock.WriterLockAsync().GetAwaiter().GetResult().Dispose();
-    }
-
-    public static ServiceProvider Initialize()
-    {
-        ServiceProvider serviceProvider = new ServiceCollection()
+        IServiceCollection services = new ServiceCollection()
 
             // Microsoft extension
             .AddLogging(builder =>
@@ -68,8 +46,9 @@ internal static class DependencyInjection
             .AddConfiguredHttpClients()
 
             // Discrete services
-            .AddSingleton<IMessenger, WeakReferenceMessenger>()
-            .BuildServiceProvider(true);
+            .AddSingleton<IMessenger, WeakReferenceMessenger>();
+
+        Implementation.ServiceProvider serviceProvider = Implementation.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(services, true, true);
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
