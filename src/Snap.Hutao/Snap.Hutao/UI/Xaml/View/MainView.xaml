@@ -51,11 +51,11 @@
             x:Name="NavView"
             Margin="0,0,0,0"
             shuxc:NavigationViewHelper.PaneCornerRadius="0"
-            CompactPaneLength="48"
+            CompactPaneLength="45"
             IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
             IsEnabled="{Binding ElementName=ContentFrame, Path=Content.DataContext.IsInitialized, Mode=OneWay}"
             IsPaneOpen="True"
-            OpenPaneLength="192"
+            OpenPaneLength="205"
             PaneDisplayMode="Left"
             UseLayoutRounding="False">
 
