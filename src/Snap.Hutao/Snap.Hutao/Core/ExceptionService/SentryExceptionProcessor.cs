@@ -30,7 +30,7 @@ internal sealed class SentryExceptionProcessor : ISentryEventExceptionProcessor
                             mechanism.Data["SocketErrorCode"] = $"{socketException.SocketErrorCode}";
                             break;
                         case Win32Exception win32Exception:
-                            mechanism.Data["NativeErrorCode"] = $"{win32Exception.NativeErrorCode}";
+                            mechanism.Data["NativeErrorCode"] = $"0x{win32Exception.NativeErrorCode:X8}";
                             break;
                     }
                 }

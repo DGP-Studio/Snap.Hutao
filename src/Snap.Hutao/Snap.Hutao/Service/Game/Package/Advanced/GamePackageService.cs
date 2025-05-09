@@ -13,6 +13,7 @@ using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
+using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.IO;
@@ -85,6 +86,14 @@ internal sealed partial class GamePackageService : IGamePackageService
                     }
                     catch (Exception ex)
                     {
+                        if (ex is HttpRequestException httpRequestException)
+                        {
+                            if (HttpRequestExceptionHandling.HttpRequestExceptionToNetworkError(httpRequestException) is Web.NetworkError.NULL)
+                            {
+                                SentrySdk.CaptureException(ex);
+                            }
+                        }
+
                         serviceProvider.GetRequiredService<IInfoBarService>().Error(ex, SH.ServicePackageAdvancedExecuteOperationFailedTitle);
                         result = false;
                     }
