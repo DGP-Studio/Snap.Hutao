@@ -15,7 +15,7 @@ internal abstract partial class DriverMediaTypeAwareFactory<TService, TServiceSS
 
     public virtual TService Create(string path)
     {
-        return (PhysicalDriver.GetIsSolidState(path) ?? false)
+        return (PhysicalDrive.GetIsSolidState(path) ?? false)
             ? serviceProvider.GetRequiredService<TServiceSSD>()
             : serviceProvider.GetRequiredService<TServiceHDD>();
     }

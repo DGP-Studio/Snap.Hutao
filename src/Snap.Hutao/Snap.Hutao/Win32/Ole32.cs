@@ -36,19 +36,4 @@ internal static class Ole32
     [DllImport("OLE32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern unsafe void CoTaskMemFree([Optional] void* pv);
-
-    [DllImport("OLE32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static extern unsafe HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, uint cHandles, HANDLE* pHandles, uint* lpdwindex);
-
-    [DebuggerStepThrough]
-    public static unsafe HRESULT CoWaitForMultipleObjects(CWMO_FLAGS dwFlags, uint dwTimeout, ReadOnlySpan<HANDLE> handles, out uint dwindex)
-    {
-        fixed (HANDLE* pHandles = handles)
-        {
-            fixed (uint* lpdwindex = &dwindex)
-            {
-                return CoWaitForMultipleObjects((uint)dwFlags, dwTimeout, (uint)handles.Length, pHandles, lpdwindex);
-            }
-        }
-    }
 }

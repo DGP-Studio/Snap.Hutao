@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Notification;
@@ -52,7 +51,6 @@ internal static class DependencyInjection
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
-        serviceProvider.InitializeConsoleWindow();
         serviceProvider.InitializeCulture();
         serviceProvider.InitializeNotification();
 
@@ -87,12 +85,6 @@ internal static class DependencyInjection
         ILogger<CultureOptions> logger = serviceProvider.GetRequiredService<ILogger<CultureOptions>>();
         logger.LogDebug("System Culture: \e[1m\e[36m{System}\e[37m", cultureOptions.SystemCulture);
         logger.LogDebug("Current Culture: \e[1m\e[36m{Current}\e[37m", cultureInfo);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void InitializeConsoleWindow(this IServiceProvider serviceProvider)
-    {
-        _ = serviceProvider.GetRequiredService<ConsoleWindowLifeTime>();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

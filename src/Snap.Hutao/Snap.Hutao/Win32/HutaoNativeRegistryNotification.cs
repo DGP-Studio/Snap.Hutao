@@ -21,7 +21,6 @@ internal sealed unsafe class HutaoNativeRegistryNotification
 
     public void Start(HutaoNativeRegistryNotificationCallback callback, nint userData)
     {
-        HutaoException.NotSupportedIf(objRef is null, "IHutaoNativeRegistryNotification.Start is not supported");
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Start(objRef.ThisPtr, callback, userData));
     }
 
