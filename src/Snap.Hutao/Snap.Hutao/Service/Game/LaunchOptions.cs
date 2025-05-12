@@ -10,12 +10,10 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
-using Snap.Hutao.Win32.Graphics.Gdi;
+using Snap.Hutao.Win32;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using static Snap.Hutao.Win32.Gdi32;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -358,16 +356,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     private static int InitializeScreenFps()
     {
-        HDC dc = default;
-        try
-        {
-            dc = GetDC();
-            return GetDeviceCaps(dc, GET_DEVICE_CAPS_INDEX.VREFRESH);
-        }
-        finally
-        {
-            _ = ReleaseDC(default, dc);
-        }
+        return HutaoNative.Instance.MakeDeviceCapabilities().GetPrimaryScreenVerticalRefreshRate();
     }
 
     private static ImmutableArray<NameValue<int>> InitializeMonitors()

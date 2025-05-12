@@ -72,7 +72,7 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
     private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        ((LaunchGameInstallGameDialog)sender).IsParallelSupported = PhysicalDriver.GetIsSolidState((string)args.NewValue) ?? false;
+        ((LaunchGameInstallGameDialog)sender).IsParallelSupported = PhysicalDrive.GetIsSolidState((string)args.NewValue) ?? false;
     }
 
     [Command("PickGameDirectoryCommand")]

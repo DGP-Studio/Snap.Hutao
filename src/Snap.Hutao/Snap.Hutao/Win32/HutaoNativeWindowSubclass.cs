@@ -21,13 +21,11 @@ internal sealed unsafe class HutaoNativeWindowSubclass
 
     public void Attach()
     {
-        HutaoException.NotSupportedIf(objRef is null, "IHutaoNativeWindowSubclass.Attach is not supported");
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Attach(objRef.ThisPtr));
     }
 
     public void Detach()
     {
-        HutaoException.NotSupportedIf(objRef is null, "IHutaoNativeWindowSubclass.Detach is not supported");
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Detach(objRef.ThisPtr));
     }
 

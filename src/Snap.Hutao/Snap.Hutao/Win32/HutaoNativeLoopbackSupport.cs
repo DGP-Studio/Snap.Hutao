@@ -21,7 +21,6 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
 
     public BOOL IsEnabled(ReadOnlySpan<char> familyName, out ReadOnlySpan<char> sid)
     {
-        HutaoException.NotSupportedIf(objRef is null, "IHutaoNativeLoopbackSupport.IsEnabled is not supported");
         fixed (char* pFamilyName = familyName)
         {
             PWSTR pSid = default;
@@ -34,7 +33,6 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
 
     public void Enable(ReadOnlySpan<char> sid)
     {
-        HutaoException.NotSupportedIf(objRef is null, "IHutaoNativeLoopbackSupport.Enable is not supported");
         fixed (char* pSid = sid)
         {
             Marshal.ThrowExceptionForHR(objRef.Vftbl.Enable(objRef.ThisPtr, pSid));

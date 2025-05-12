@@ -300,7 +300,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile("Pick any file!", default);
         if (isOk)
         {
-            bool isSolidState = PhysicalDriver.DangerousGetIsSolidState(file);
+            bool isSolidState = PhysicalDrive.DangerousGetIsSolidState(file);
             infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
         }
     }

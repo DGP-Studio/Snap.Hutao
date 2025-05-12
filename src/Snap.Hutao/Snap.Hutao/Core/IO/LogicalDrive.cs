@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Snap.Hutao.Core.IO;
 
-internal static class LogicalDriver
+internal static class LogicalDrive
 {
     public static long GetAvailableFreeSpace(string path)
     {

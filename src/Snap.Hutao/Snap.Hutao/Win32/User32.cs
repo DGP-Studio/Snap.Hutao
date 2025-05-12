@@ -17,25 +17,8 @@ namespace Snap.Hutao.Win32;
 internal static class User32
 {
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.1.2600")]
-    public static extern BOOL AttachThreadInput(uint idAttach, uint idAttachTo, BOOL fAttach);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern LRESULT CallNextHookEx([Optional] HHOOK hhk, int nCode, WPARAM wParam, LPARAM lParam);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe BOOL ClientToScreen(HWND hWnd, POINT* lpPoint);
-
-    [DebuggerStepThrough]
-    public static unsafe BOOL ClientToScreen(HWND hWnd, ref POINT point)
-    {
-        fixed (POINT* lpPoint = &point)
-        {
-            return ClientToScreen(hWnd, lpPoint);
-        }
-    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
@@ -125,10 +108,6 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern HDC GetDC([Optional] HWND hWnd);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
     public static extern uint GetDoubleClickTime();
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
@@ -142,19 +121,6 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern nint GetWindowLongPtrW(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe BOOL GetWindowPlacement(HWND hWnd, WINDOWPLACEMENT* lpwndpl);
-
-    [DebuggerStepThrough]
-    public static unsafe BOOL GetWindowPlacement(HWND hWnd, ref WINDOWPLACEMENT wndpl)
-    {
-        fixed (WINDOWPLACEMENT* lpwndpl = &wndpl)
-        {
-            return GetWindowPlacement(hWnd, lpwndpl);
-        }
-    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
@@ -227,37 +193,11 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL PostMessageW([Optional] HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
     public static extern BOOL PostThreadMessageW(uint idThread, uint Msg, WPARAM wParam, LPARAM lParam);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe BOOL PtInRect(RECT* lprc, POINT pt);
-
-    [DebuggerStepThrough]
-    public static unsafe BOOL PtInRect(ref readonly RECT rc, POINT pt)
-    {
-        fixed (RECT* lprc = &rc)
-        {
-            return PtInRect(lprc, pt);
-        }
-    }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
     public static extern unsafe ushort RegisterClassW(WNDCLASSW* lpWndClass);
-
-    [DebuggerStepThrough]
-    public static unsafe ushort RegisterClassW(ref readonly WNDCLASSW lpWndClass)
-    {
-        fixed (WNDCLASSW* pWndClass = &lpWndClass)
-        {
-            return RegisterClassW(pWndClass);
-        }
-    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
@@ -275,10 +215,6 @@ internal static class User32
             return RegisterWindowMessageW(lpString);
         }
     }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern int ReleaseDC([Optional] HWND hWnd, HDC hDC);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
