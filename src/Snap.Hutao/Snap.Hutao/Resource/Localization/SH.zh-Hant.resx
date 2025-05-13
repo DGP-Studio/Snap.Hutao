@@ -1070,7 +1070,7 @@
     <value>你的胡桃版本過低，請盡快升級</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>遊戲資源操作失敗</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>補簽失敗，{0}</value>
