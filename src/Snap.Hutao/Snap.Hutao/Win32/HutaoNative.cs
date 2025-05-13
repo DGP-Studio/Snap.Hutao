@@ -13,11 +13,13 @@ namespace Snap.Hutao.Win32;
 internal sealed unsafe class HutaoNative
 {
     private readonly ObjectReference<Vftbl2>? objRef2;
+    private readonly ObjectReference<Vftbl3>? objRef3;
 
     public HutaoNative(ObjectReference<Vftbl> objRef)
     {
         ObjRef = objRef;
         objRef.TryAs(new("338487ee-9592-4171-89dd-1e6b9edb2c8e"), out objRef2);
+        objRef.TryAs(new("135face1-3184-4d12-b4d0-21ffb6a88d25"), out objRef3);
     }
 
     [field: MaybeNull]
@@ -35,6 +37,8 @@ internal sealed unsafe class HutaoNative
     private ObjectReference<Vftbl> ObjRef { get; }
 
     private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
+
+    private ObjectReference<Vftbl3>? ObjRef3 { get => objRef3; }
 
     public HutaoNativeLoopbackSupport MakeLoopbackSupport()
     {
@@ -76,6 +80,14 @@ internal sealed unsafe class HutaoNative
         return new(ObjectReference<HutaoNativePhysicalDrive.Vftbl>.Attach(ref pv, typeof(HutaoNativePhysicalDrive).GUID));
     }
 
+    public HutaoNativeInputLowLevelKeyboardSource MakeInputLowLevelKeyboardSource()
+    {
+        HutaoException.NotSupportedIf(ObjRef3 is null, "IHutaoNative3 is not supported");
+        nint pv = default;
+        Marshal.ThrowExceptionForHR(ObjRef3.Vftbl.MakeInputLowLevelKeyboardSource(ObjRef3.ThisPtr, (HutaoNativeInputLowLevelKeyboardSource.Vftbl**)&pv));
+        return new(ObjectReference<HutaoNativeInputLowLevelKeyboardSource.Vftbl>.Attach(ref pv, typeof(HutaoNativeInputLowLevelKeyboardSource).GUID));
+    }
+
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649
@@ -92,6 +104,14 @@ internal sealed unsafe class HutaoNative
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeDeviceCapabilities.Vftbl**, HRESULT> MakeLoopbackSupport;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativePhysicalDrive.Vftbl**, HRESULT> MakePhysicalDrive;
+#pragma warning restore CS0649
+    }
+
+    private readonly struct Vftbl3
+    {
+#pragma warning disable CS0649
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeInputLowLevelKeyboardSource.Vftbl**, HRESULT> MakeInputLowLevelKeyboardSource;
 #pragma warning restore CS0649
     }
 }

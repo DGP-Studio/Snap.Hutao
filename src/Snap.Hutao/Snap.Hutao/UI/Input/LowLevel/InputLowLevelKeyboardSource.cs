@@ -1,13 +1,12 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.Kernel32;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.LowLevel;
 
@@ -15,10 +14,6 @@ internal delegate void InputLowLevelKeyboardSourceEventHandler(LowLevelKeyEventA
 
 internal static class InputLowLevelKeyboardSource
 {
-    private static readonly Lock SyncRoot = new();
-    private static HHOOK keyboard;
-    private static int refCount;
-
     public static event InputLowLevelKeyboardSourceEventHandler? KeyDown;
 
     public static event InputLowLevelKeyboardSourceEventHandler? KeyUp;
@@ -27,67 +22,42 @@ internal static class InputLowLevelKeyboardSource
 
     public static event InputLowLevelKeyboardSourceEventHandler? SystemKeyUp;
 
-    public static unsafe void Initialize()
+    [field: MaybeNull]
+    private static HutaoNativeInputLowLevelKeyboardSource Native
     {
-        Interlocked.Increment(ref refCount);
-        lock (SyncRoot)
-        {
-            if (keyboard.Value is not 0)
-            {
-                return;
-            }
-
-            HOOKPROC.Create(&OnLowLevelKeyboardProcedure);
-            SetWindowsHookExW(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, HOOKPROC.Create(&OnLowLevelKeyboardProcedure), GetModuleHandleW("Snap.Hutao.dll"), 0U);
-        }
+        get => LazyInitializer.EnsureInitialized(ref field, HutaoNative.Instance.MakeInputLowLevelKeyboardSource);
     }
 
-    public static void Uninitialize()
+    public static unsafe void Initialize()
     {
-        if (Interlocked.Decrement(ref refCount) is not 0)
-        {
-            return;
-        }
+        Native.Attach(HutaoNativeInputLowLevelKeyboardSourceCallback.Create(&ProcessLowLevelKeyboard));
+    }
 
-        lock (SyncRoot)
-        {
-            if (keyboard.Value is not 0)
-            {
-                UnhookWindowsHookEx(keyboard);
-            }
-
-            keyboard = default!;
-        }
+    public static unsafe void Uninitialize()
+    {
+        Native.Detach(HutaoNativeInputLowLevelKeyboardSourceCallback.Create(&ProcessLowLevelKeyboard));
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static unsafe LRESULT OnLowLevelKeyboardProcedure(int nCode, WPARAM wParam, LPARAM lParam)
+    private static unsafe BOOL ProcessLowLevelKeyboard(uint param, KBDLLHOOKSTRUCT* data)
     {
-        if (nCode >= 0)
+        LowLevelKeyEventArgs args = new(*data);
+        switch (param)
         {
-            LowLevelKeyEventArgs args = new(*(KBDLLHOOKSTRUCT*)lParam);
-            switch ((uint)wParam)
-            {
-                case WM_KEYDOWN:
-                    KeyDown?.Invoke(args);
-                    break;
-                case WM_KEYUP:
-                    KeyUp?.Invoke(args);
-                    break;
-                case WM_SYSKEYDOWN:
-                    SystemKeyDown?.Invoke(args);
-                    break;
-                case WM_SYSKEYUP:
-                    SystemKeyUp?.Invoke(args);
-                    break;
-            }
-
-            if (args.Handled)
-            {
-                return BOOL.TRUE;
-            }
+            case WM_KEYDOWN:
+                KeyDown?.Invoke(args);
+                break;
+            case WM_KEYUP:
+                KeyUp?.Invoke(args);
+                break;
+            case WM_SYSKEYDOWN:
+                SystemKeyDown?.Invoke(args);
+                break;
+            case WM_SYSKEYUP:
+                SystemKeyUp?.Invoke(args);
+                break;
         }
 
-        return CallNextHookEx(keyboard, nCode, wParam, lParam);
+        return args.Handled;
     }
 }
