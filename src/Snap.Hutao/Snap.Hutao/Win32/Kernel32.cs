@@ -14,17 +14,4 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern WIN32_ERROR GetLastError();
-
-    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.1.2600")]
-    public static extern HMODULE GetModuleHandleW([Optional] PCWSTR lpModuleName);
-
-    [DebuggerStepThrough]
-    public static unsafe HMODULE GetModuleHandleW(ReadOnlySpan<char> moduleName)
-    {
-        fixed (char* lpModuleName = moduleName)
-        {
-            return GetModuleHandleW(lpModuleName);
-        }
-    }
 }
