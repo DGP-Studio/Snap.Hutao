@@ -13,6 +13,7 @@ internal static class FrameworkTheming
         Marshal.ThrowExceptionForHR(FrameworkThemingSetTheme(theme));
     }
 
+    [SuppressMessage("", "SYSLIB1054")]
     [DllImport("Snap.Hutao.Native.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT FrameworkThemingSetTheme(Theme theme);
 }
