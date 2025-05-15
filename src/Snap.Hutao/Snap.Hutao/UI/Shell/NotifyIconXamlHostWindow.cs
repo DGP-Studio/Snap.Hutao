@@ -14,7 +14,6 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using Windows.Foundation;
 using WinRT.Interop;
-using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
@@ -25,9 +24,9 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
     {
         Content = new Border();
 
-        this.AddExStyleLayered();
-        SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
-        this.AddExStyleToolWindow();
+        this.AddExtendedStyleLayered();
+        this.SetLayeredWindowTransparency(0);
+        this.AddExtendedStyleToolWindow();
 
         AppWindow.Title = "SnapHutaoNotifyIconXamlHost";
         AppWindow.SafeIsShowInSwitchers(false);

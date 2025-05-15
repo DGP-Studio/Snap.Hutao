@@ -47,7 +47,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
             presenter.PreferredMaximumHeight = size.Height;
         }
 
-        this.AddExStyleLayered();
+        this.AddExtendedStyleLayered();
         this.RemoveStyleOverlappedWindow();
 
         SystemBackdrop = new TransparentBackdrop();

@@ -13,12 +13,14 @@ internal sealed unsafe class HutaoNative
 {
     private readonly ObjectReference<Vftbl2>? objRef2;
     private readonly ObjectReference<Vftbl3>? objRef3;
+    private readonly ObjectReference<Vftbl4>? objRef4;
 
     public HutaoNative(ObjectReference<Vftbl> objRef)
     {
         ObjRef = objRef;
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
         objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
+        objRef.TryAs(typeof(Vftbl4).GUID, out objRef4);
     }
 
     [field: MaybeNull]
@@ -27,7 +29,7 @@ internal sealed unsafe class HutaoNative
         get => LazyInitializer.EnsureInitialized(ref field, static () =>
         {
 #if DEBUG
-            HutaoNativeMethods.HutaoInitializeWilCallbacks();
+            HutaoNativeWilCallbacks.HutaoInitializeWilCallbacks();
 #endif
             return HutaoNativeMethods.HutaoCreateInstance();
         });
@@ -38,6 +40,8 @@ internal sealed unsafe class HutaoNative
     private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
 
     private ObjectReference<Vftbl3>? ObjRef3 { get => objRef3; }
+
+    private ObjectReference<Vftbl4>? ObjRef4 { get => objRef4; }
 
     public HutaoNativeLoopbackSupport MakeLoopbackSupport()
     {
@@ -87,6 +91,14 @@ internal sealed unsafe class HutaoNative
         return new(ObjectReference<HutaoNativeInputLowLevelKeyboardSource.Vftbl>.Attach(ref pv, typeof(HutaoNativeInputLowLevelKeyboardSource.Vftbl).GUID));
     }
 
+    public HutaoNativeFileSystem MakeFileSystem()
+    {
+        HutaoException.NotSupportedIf(ObjRef4 is null, "IHutaoNative4 is not supported");
+        nint pv = default;
+        Marshal.ThrowExceptionForHR(ObjRef4.Vftbl.MakeFileSystem(ObjRef4.ThisPtr, (HutaoNativeFileSystem.Vftbl**)&pv));
+        return new(ObjectReference<HutaoNativeFileSystem.Vftbl>.Attach(ref pv, typeof(HutaoNativeFileSystem.Vftbl).GUID));
+    }
+
     [Guid("d00f73ff-a1c7-4091-8cb6-d90991dd40cb")]
     internal readonly struct Vftbl
     {
@@ -114,6 +126,15 @@ internal sealed unsafe class HutaoNative
 #pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeInputLowLevelKeyboardSource.Vftbl**, HRESULT> MakeInputLowLevelKeyboardSource;
+#pragma warning restore CS0649
+    }
+
+    [Guid("27942fbe-322f-4157-9b8c-a38fdb827b05")]
+    private readonly struct Vftbl4
+    {
+#pragma warning disable CS0649
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeFileSystem.Vftbl**, HRESULT> MakeFileSystem;
 #pragma warning restore CS0649
     }
 }

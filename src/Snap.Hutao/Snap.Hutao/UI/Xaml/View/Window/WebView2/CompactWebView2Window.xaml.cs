@@ -14,13 +14,10 @@ using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
-using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
-using static Snap.Hutao.Win32.Macros;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
@@ -187,12 +184,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
         {
             if (enter)
             {
-                this.RemoveExStyleLayered();
+                this.RemoveExtendedStyleLayered();
             }
             else
             {
-                this.AddExStyleLayered();
-                SetLayeredWindowAttributes(this.GetWindowHandle(), RGB(0, 0, 0), opacity, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+                this.AddExtendedStyleLayered();
+                this.SetLayeredWindowTransparency(opacity);
             }
         }
     }
