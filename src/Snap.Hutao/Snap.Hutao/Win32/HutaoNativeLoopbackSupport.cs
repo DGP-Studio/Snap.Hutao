@@ -9,7 +9,6 @@ using WinRT.Interop;
 
 namespace Snap.Hutao.Win32;
 
-[Guid("8607ace4-313c-4c26-b1fb-ca11173b6953")]
 internal sealed unsafe class HutaoNativeLoopbackSupport
 {
     private readonly ObjectReference<Vftbl> objRef;
@@ -39,6 +38,7 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         }
     }
 
+    [Guid("8607ace4-313c-4c26-b1fb-ca11173b6953")]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

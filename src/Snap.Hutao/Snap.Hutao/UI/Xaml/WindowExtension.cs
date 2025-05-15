@@ -124,34 +124,6 @@ internal static class WindowExtension
         SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
     }
 
-    public static void RemoveExStyleClientEdge(this Window window)
-    {
-        HWND hwnd = WindowNative.GetWindowHandle(window);
-        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-        style &= ~(nint)WINDOW_EX_STYLE.WS_EX_CLIENTEDGE;
-        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
-        if (result is 0)
-        {
-            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
-        }
-
-        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
-    }
-
-    public static void RemoveStyleDialogFrame(this Window window)
-    {
-        HWND hwnd = WindowNative.GetWindowHandle(window);
-        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
-        style &= ~(nint)WINDOW_STYLE.WS_DLGFRAME;
-        nint result = SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style);
-        if (result is 0)
-        {
-            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
-        }
-
-        SetWindowPos(hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_NOMOVE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE);
-    }
-
     public static void RemoveStyleOverlappedWindow(this Window window)
     {
         HWND hwnd = WindowNative.GetWindowHandle(window);

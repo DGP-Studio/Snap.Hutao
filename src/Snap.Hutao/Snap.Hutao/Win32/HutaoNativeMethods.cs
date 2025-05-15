@@ -16,7 +16,7 @@ internal static unsafe class HutaoNativeMethods
     {
         nint pv = default;
         Marshal.ThrowExceptionForHR(HutaoCreateInstance((HutaoNative.Vftbl**)&pv));
-        return new(ObjectReference<HutaoNative.Vftbl>.Attach(ref pv, typeof(HutaoNative).GUID));
+        return new(ObjectReference<HutaoNative.Vftbl>.Attach(ref pv, typeof(HutaoNative.Vftbl).GUID));
     }
 
     public static void HutaoInitializeWilCallbacks()

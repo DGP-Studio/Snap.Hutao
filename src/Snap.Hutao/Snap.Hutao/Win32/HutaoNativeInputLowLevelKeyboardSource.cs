@@ -8,7 +8,6 @@ using WinRT.Interop;
 
 namespace Snap.Hutao.Win32;
 
-[Guid("8628902f-835c-4293-8580-794ec9bccb98")]
 internal sealed unsafe class HutaoNativeInputLowLevelKeyboardSource
 {
     private readonly ObjectReference<Vftbl> objRef;
@@ -28,6 +27,7 @@ internal sealed unsafe class HutaoNativeInputLowLevelKeyboardSource
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Detach(objRef.ThisPtr, callback));
     }
 
+    [Guid("8628902f-835c-4293-8580-794ec9bccb98")]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

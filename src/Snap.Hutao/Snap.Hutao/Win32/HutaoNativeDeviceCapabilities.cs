@@ -8,7 +8,6 @@ using WinRT.Interop;
 
 namespace Snap.Hutao.Win32;
 
-[Guid("338487ee-9592-4171-89dd-1e6b9edb2c8e")]
 internal sealed unsafe class HutaoNativeDeviceCapabilities
 {
     private readonly ObjectReference<Vftbl> objRef;
@@ -25,6 +24,7 @@ internal sealed unsafe class HutaoNativeDeviceCapabilities
         return refreshRate;
     }
 
+    [Guid("338487ee-9592-4171-89dd-1e6b9edb2c8e")]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

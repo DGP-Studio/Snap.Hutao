@@ -8,7 +8,6 @@ using WinRT.Interop;
 
 namespace Snap.Hutao.Win32;
 
-[Guid("9631921e-a6ca-4150-9939-99b5467b2fd6")]
 internal sealed unsafe class HutaoNativeWindowSubclass
 {
     private readonly ObjectReference<Vftbl> objRef;
@@ -28,6 +27,7 @@ internal sealed unsafe class HutaoNativeWindowSubclass
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Detach(objRef.ThisPtr));
     }
 
+    [Guid("9631921e-a6ca-4150-9939-99b5467b2fd6")]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

@@ -9,7 +9,6 @@ using WinRT.Interop;
 
 namespace Snap.Hutao.Win32;
 
-[Guid("d00f73ff-a1c7-4091-8cb6-d90991dd40cb")]
 internal sealed unsafe class HutaoNative
 {
     private readonly ObjectReference<Vftbl2>? objRef2;
@@ -18,8 +17,8 @@ internal sealed unsafe class HutaoNative
     public HutaoNative(ObjectReference<Vftbl> objRef)
     {
         ObjRef = objRef;
-        objRef.TryAs(new("338487ee-9592-4171-89dd-1e6b9edb2c8e"), out objRef2);
-        objRef.TryAs(new("135face1-3184-4d12-b4d0-21ffb6a88d25"), out objRef3);
+        objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
+        objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
     }
 
     [field: MaybeNull]
@@ -44,7 +43,7 @@ internal sealed unsafe class HutaoNative
     {
         nint pv = default;
         Marshal.ThrowExceptionForHR(ObjRef.Vftbl.MakeLoopbackSupport(ObjRef.ThisPtr, (HutaoNativeLoopbackSupport.Vftbl**)&pv));
-        return new(ObjectReference<HutaoNativeLoopbackSupport.Vftbl>.Attach(ref pv, typeof(HutaoNativeLoopbackSupport).GUID));
+        return new(ObjectReference<HutaoNativeLoopbackSupport.Vftbl>.Attach(ref pv, typeof(HutaoNativeLoopbackSupport.Vftbl).GUID));
     }
 
     public HutaoNativeRegistryNotification MakeRegistryNotification(ReadOnlySpan<char> keyPath)
@@ -53,7 +52,7 @@ internal sealed unsafe class HutaoNative
         {
             nint pv = default;
             Marshal.ThrowExceptionForHR(ObjRef.Vftbl.MakeRegistryNotification(ObjRef.ThisPtr, keyPathPtr, (HutaoNativeRegistryNotification.Vftbl**)&pv));
-            return new(ObjectReference<HutaoNativeRegistryNotification.Vftbl>.Attach(ref pv, typeof(HutaoNativeRegistryNotification).GUID));
+            return new(ObjectReference<HutaoNativeRegistryNotification.Vftbl>.Attach(ref pv, typeof(HutaoNativeRegistryNotification.Vftbl).GUID));
         }
     }
 
@@ -61,7 +60,7 @@ internal sealed unsafe class HutaoNative
     {
         nint pv = default;
         Marshal.ThrowExceptionForHR(ObjRef.Vftbl.MakeWindowSubclass(ObjRef.ThisPtr, hWnd, callback, userData, (HutaoNativeWindowSubclass.Vftbl**)&pv));
-        return new(ObjectReference<HutaoNativeWindowSubclass.Vftbl>.Attach(ref pv, typeof(HutaoNativeWindowSubclass).GUID));
+        return new(ObjectReference<HutaoNativeWindowSubclass.Vftbl>.Attach(ref pv, typeof(HutaoNativeWindowSubclass.Vftbl).GUID));
     }
 
     public HutaoNativeDeviceCapabilities MakeDeviceCapabilities()
@@ -69,7 +68,7 @@ internal sealed unsafe class HutaoNative
         HutaoException.NotSupportedIf(ObjRef2 is null, "IHutaoNative2 is not supported");
         nint pv = default;
         Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.MakeLoopbackSupport(ObjRef2.ThisPtr, (HutaoNativeDeviceCapabilities.Vftbl**)&pv));
-        return new(ObjectReference<HutaoNativeDeviceCapabilities.Vftbl>.Attach(ref pv, typeof(HutaoNativeDeviceCapabilities).GUID));
+        return new(ObjectReference<HutaoNativeDeviceCapabilities.Vftbl>.Attach(ref pv, typeof(HutaoNativeDeviceCapabilities.Vftbl).GUID));
     }
 
     public HutaoNativePhysicalDrive MakePhysicalDrive()
@@ -77,7 +76,7 @@ internal sealed unsafe class HutaoNative
         HutaoException.NotSupportedIf(ObjRef2 is null, "IHutaoNative2 is not supported");
         nint pv = default;
         Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.MakePhysicalDrive(ObjRef2.ThisPtr, (HutaoNativePhysicalDrive.Vftbl**)&pv));
-        return new(ObjectReference<HutaoNativePhysicalDrive.Vftbl>.Attach(ref pv, typeof(HutaoNativePhysicalDrive).GUID));
+        return new(ObjectReference<HutaoNativePhysicalDrive.Vftbl>.Attach(ref pv, typeof(HutaoNativePhysicalDrive.Vftbl).GUID));
     }
 
     public HutaoNativeInputLowLevelKeyboardSource MakeInputLowLevelKeyboardSource()
@@ -85,9 +84,10 @@ internal sealed unsafe class HutaoNative
         HutaoException.NotSupportedIf(ObjRef3 is null, "IHutaoNative3 is not supported");
         nint pv = default;
         Marshal.ThrowExceptionForHR(ObjRef3.Vftbl.MakeInputLowLevelKeyboardSource(ObjRef3.ThisPtr, (HutaoNativeInputLowLevelKeyboardSource.Vftbl**)&pv));
-        return new(ObjectReference<HutaoNativeInputLowLevelKeyboardSource.Vftbl>.Attach(ref pv, typeof(HutaoNativeInputLowLevelKeyboardSource).GUID));
+        return new(ObjectReference<HutaoNativeInputLowLevelKeyboardSource.Vftbl>.Attach(ref pv, typeof(HutaoNativeInputLowLevelKeyboardSource.Vftbl).GUID));
     }
 
+    [Guid("d00f73ff-a1c7-4091-8cb6-d90991dd40cb")]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649
@@ -98,6 +98,7 @@ internal sealed unsafe class HutaoNative
 #pragma warning restore CS0649
     }
 
+    [Guid("338487ee-9592-4171-89dd-1e6b9edb2c8e")]
     private readonly struct Vftbl2
     {
 #pragma warning disable CS0649
@@ -107,6 +108,7 @@ internal sealed unsafe class HutaoNative
 #pragma warning restore CS0649
     }
 
+    [Guid("135face1-3184-4d12-b4d0-21ffb6a88d25")]
     private readonly struct Vftbl3
     {
 #pragma warning disable CS0649
