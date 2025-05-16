@@ -20,6 +20,4 @@ internal static unsafe class HutaoNativeMethods
 
     [DllImport(DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT HutaoCreateInstance(HutaoNative.Vftbl** ppv);
-
-
 }

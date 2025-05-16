@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 
 namespace Snap.Hutao.Core.IO;
@@ -77,5 +78,20 @@ internal static class FileSystem
     public static void CreateLink(string fileLocation, string arguments, string iconLocation, string fileName)
     {
         Native.CreateLink(fileLocation, arguments, iconLocation, fileName);
+    }
+
+    public static bool PickFile(HWND hWnd, string? title, string? defaultFileName, string? fileFilterName, string? fileFilterType, out string? path)
+    {
+        return Native.PickFile(hWnd, title, defaultFileName, fileFilterName, fileFilterType, out path);
+    }
+
+    public static bool SaveFile(HWND hWnd, string? title, string? defaultFileName, string? fileFilterName, string? fileFilterType, out string? path)
+    {
+        return Native.SaveFile(hWnd, title, defaultFileName, fileFilterName, fileFilterType, out path);
+    }
+
+    public static bool PickFolder(HWND hWnd, string? title, out string? path)
+    {
+        return Native.PickFolder(hWnd, title, out path);
     }
 }

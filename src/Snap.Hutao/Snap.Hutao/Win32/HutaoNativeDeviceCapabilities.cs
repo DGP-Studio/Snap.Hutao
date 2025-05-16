@@ -1,6 +1,6 @@
-﻿// Copyright (c) DGP Studio. All rights reserved.
+// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
-using Snap.Hutao.Core.ExceptionService;
+
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 using WinRT;

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 using System.Runtime.InteropServices;
@@ -12,16 +13,20 @@ namespace Snap.Hutao.Win32;
 internal sealed unsafe class HutaoNativeFileSystem
 {
     private readonly ObjectReference<Vftbl2>? objRef2;
+    private readonly ObjectReference<Vftbl3>? objRef3;
 
     public HutaoNativeFileSystem(ObjectReference<Vftbl> objRef)
     {
         ObjRef = objRef;
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
+        objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
     }
 
     private ObjectReference<Vftbl> ObjRef { get; }
 
-    private ObjectReference<Vftbl2>? ObjRef2 { get=> objRef2; }
+    private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
+
+    private ObjectReference<Vftbl3>? ObjRef3 { get => objRef3; }
 
     public void RenameItem(ReadOnlySpan<char> filePath, ReadOnlySpan<char> newName)
     {
@@ -163,6 +168,7 @@ internal sealed unsafe class HutaoNativeFileSystem
 
     public void CreateLink(ReadOnlySpan<char> fileLocation, ReadOnlySpan<char> arguments, ReadOnlySpan<char> iconLocation, ReadOnlySpan<char> fileName)
     {
+        HutaoException.ThrowIf(ObjRef2 is null, "IHutaoFileSystem2 is not supported");
         fixed (char* pFileLocation = fileLocation)
         {
             fixed (char* pArguments = arguments)
@@ -171,10 +177,67 @@ internal sealed unsafe class HutaoNativeFileSystem
                 {
                     fixed (char* pFileName = fileName)
                     {
-                        Marshal.ThrowExceptionForHR(ObjRef2!.Vftbl.CreateLink(ObjRef2.ThisPtr, pFileLocation, pArguments, pIconLocation, pFileName));
+                        Marshal.ThrowExceptionForHR(ObjRef2.Vftbl.CreateLink(ObjRef2.ThisPtr, pFileLocation, pArguments, pIconLocation, pFileName));
                     }
                 }
             }
+        }
+    }
+
+    public BOOL PickFile(HWND hwnd, ReadOnlySpan<char> title, ReadOnlySpan<char> defaultFileName, ReadOnlySpan<char> fileFilterName, ReadOnlySpan<char> fileFilterType, out string? path)
+    {
+        HutaoException.ThrowIf(ObjRef3 is null, "IHutaoFileSystem3 is not supported");
+        fixed (char* pTitle = title)
+        {
+            fixed (char* pDefaultFileName = defaultFileName)
+            {
+                fixed (char* pFileFilterName = fileFilterName)
+                {
+                    fixed (char* pFileFilterType = fileFilterType)
+                    {
+                        BOOL picked;
+                        nint pPath = default;
+                        Marshal.ThrowExceptionForHR(ObjRef3!.Vftbl.PickFile(ObjRef3.ThisPtr, hwnd, pTitle, pDefaultFileName, pFileFilterName, pFileFilterType, &picked, (HutaoString.Vftbl**)&pPath));
+                        path = HutaoString.AttachAbi(ref pPath).Get();
+                        return picked;
+                    }
+                }
+            }
+        }
+    }
+
+    public BOOL SaveFile(HWND hwnd, ReadOnlySpan<char> title, ReadOnlySpan<char> defaultFileName, ReadOnlySpan<char> fileFilterName, ReadOnlySpan<char> fileFilterType, out string? path)
+    {
+        HutaoException.ThrowIf(ObjRef3 is null, "IHutaoFileSystem3 is not supported");
+        fixed (char* pTitle = title)
+        {
+            fixed (char* pDefaultFileName = defaultFileName)
+            {
+                fixed (char* pFileFilterName = fileFilterName)
+                {
+                    fixed (char* pFileFilterType = fileFilterType)
+                    {
+                        BOOL picked;
+                        nint pPath = default;
+                        Marshal.ThrowExceptionForHR(ObjRef3!.Vftbl.SaveFile(ObjRef3.ThisPtr, hwnd, pTitle, pDefaultFileName, pFileFilterName, pFileFilterType, &picked, (HutaoString.Vftbl**)&pPath));
+                        path = HutaoString.AttachAbi(ref pPath).Get();
+                        return picked;
+                    }
+                }
+            }
+        }
+    }
+
+    public BOOL PickFolder(HWND hwnd, ReadOnlySpan<char> title, out string? path)
+    {
+        HutaoException.ThrowIf(ObjRef3 is null, "IHutaoFileSystem3 is not supported");
+        fixed (char* pTitle = title)
+        {
+            BOOL picked;
+            nint pPath = default;
+            Marshal.ThrowExceptionForHR(ObjRef3!.Vftbl.PickFolder(ObjRef3.ThisPtr, hwnd, pTitle, &picked, (HutaoString.Vftbl**)&pPath));
+            path = HutaoString.AttachAbi(ref pPath).Get();
+            return picked;
         }
     }
 
@@ -204,6 +267,17 @@ internal sealed unsafe class HutaoNativeFileSystem
 #pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, PCWSTR, PCWSTR, PCWSTR, HRESULT> CreateLink;
+#pragma warning restore CS0649
+    }
+
+    [Guid("6dbcfc5c-2555-44db-af9d-2a2628cf726e")]
+    private readonly struct Vftbl3
+    {
+#pragma warning disable CS0649
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HWND, PCWSTR, PCWSTR, PCWSTR, PCWSTR, BOOL*, HutaoString.Vftbl**, HRESULT> PickFile;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HWND, PCWSTR, PCWSTR, PCWSTR, PCWSTR, BOOL*, HutaoString.Vftbl**, HRESULT> SaveFile;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HWND, PCWSTR, BOOL*, HutaoString.Vftbl**, HRESULT> PickFolder;
 #pragma warning restore CS0649
     }
 }

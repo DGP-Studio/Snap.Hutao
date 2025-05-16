@@ -10,12 +10,6 @@ namespace Snap.Hutao.Win32;
 internal static class Macros
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool SUCCEEDED(HRESULT hr)
-    {
-        return hr >= 0;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static HRESULT HRESULT_FROM_WIN32(WIN32_ERROR x)
     {
         // 0x80000000 or 0x80070000 | LOWBYTE(x)

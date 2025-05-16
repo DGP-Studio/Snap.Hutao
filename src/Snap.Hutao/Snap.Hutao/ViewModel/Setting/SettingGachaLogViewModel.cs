@@ -37,7 +37,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
 
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
             SH.ViewModelGachaUIGFImportPickerTitile,
-            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
+            SH.ViewModelGachaLogExportFileType,
+            "*.json");
 
         if (!isOk)
         {
@@ -108,7 +109,8 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
             SH.ViewModelGachaLogUIGFExportPickerTitle,
             $"Snap Hutao UIGF.json",
-            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
+            SH.ViewModelGachaLogExportFileType,
+            "*.json");
 
         if (!isOk)
         {

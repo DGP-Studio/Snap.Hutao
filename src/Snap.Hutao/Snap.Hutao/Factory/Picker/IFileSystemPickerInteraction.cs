@@ -8,9 +8,9 @@ namespace Snap.Hutao.Factory.Picker;
 
 internal interface IFileSystemPickerInteraction
 {
-    ValueResult<bool, ValueFile> PickFile([LocalizationRequired] string? title, string? defaultFileName, (string Name, string Type)[]? filters);
+    ValueResult<bool, ValueFile> PickFile([LocalizationRequired] string? title, string? defaultFileName, string? filterName, string? filterType);
 
-    ValueResult<bool, string> PickFolder([LocalizationRequired] string? title);
+    ValueResult<bool, ValueFile> SaveFile([LocalizationRequired] string? title, string? defaultFileName, string? filterName, string? filterType);
 
-    ValueResult<bool, ValueFile> SaveFile([LocalizationRequired] string? title, string? defaultFileName, (string Name, string Type)[]? filters);
+    ValueResult<bool, string?> PickFolder([LocalizationRequired] string? title);
 }

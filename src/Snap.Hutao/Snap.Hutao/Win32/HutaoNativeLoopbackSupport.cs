@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 using WinRT;
@@ -18,14 +17,14 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         this.objRef = objRef;
     }
 
-    public BOOL IsEnabled(ReadOnlySpan<char> familyName, out ReadOnlySpan<char> sid)
+    public BOOL IsEnabled(ReadOnlySpan<char> familyName, out string? sid)
     {
         fixed (char* pFamilyName = familyName)
         {
-            PWSTR pSid = default;
+            nint pSid = default;
             BOOL enabled = default;
-            Marshal.ThrowExceptionForHR(objRef.Vftbl.IsEnabled(objRef.ThisPtr, pFamilyName, &pSid, &enabled));
-            sid = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pSid);
+            Marshal.ThrowExceptionForHR(objRef.Vftbl.IsEnabled(objRef.ThisPtr, pFamilyName, (HutaoString.Vftbl**)&pSid, &enabled));
+            sid = HutaoString.AttachAbi(ref pSid).Get();
             return enabled;
         }
     }
@@ -43,7 +42,7 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
     {
 #pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
-        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, PWSTR*, BOOL*, HRESULT> IsEnabled;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HutaoString.Vftbl**, BOOL*, HRESULT> IsEnabled;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, HRESULT> Enable;
 #pragma warning restore CS0649
     }

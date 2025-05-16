@@ -63,7 +63,8 @@ internal sealed partial class AchievementImporter
 
         ValueResult<bool, ValueFile> pickerResult = scopeContext.FileSystemPickerInteraction.PickFile(
             SH.ServiceAchievementUIAFImportPickerTitile,
-            [(SH.ServiceAchievementUIAFImportPickerFilterText, "*.json")]);
+            SH.ServiceAchievementUIAFImportPickerFilterText,
+            "*.json");
 
         if (!pickerResult.TryGetValue(out ValueFile file))
         {

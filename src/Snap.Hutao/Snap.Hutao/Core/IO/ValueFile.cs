@@ -17,9 +17,9 @@ internal readonly struct ValueFile
         return value.value;
     }
 
-    public static implicit operator ValueFile(string value)
+    public static implicit operator ValueFile(string? value)
     {
-        return new(value);
+        return new(value!);
     }
 
     [SuppressMessage("", "CA1307")]
