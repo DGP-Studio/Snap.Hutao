@@ -73,4 +73,9 @@ internal static class FileSystem
     {
         Native.DeleteItemWithOptions(path, options);
     }
+
+    public static void CreateLink(string fileLocation, string arguments, string iconLocation, string fileName)
+    {
+        Native.CreateLink(fileLocation, arguments, iconLocation, fileName);
+    }
 }

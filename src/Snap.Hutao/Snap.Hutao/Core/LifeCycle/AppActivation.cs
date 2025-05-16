@@ -79,23 +79,23 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         async ValueTask ActivateAndInitializeAsync()
         {
-            using (await activateLock.LockAsync().ConfigureAwait(false))
+            try
             {
-                if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
+                using (await activateLock.LockAsync().ConfigureAwait(false))
                 {
-                    return;
-                }
+                    if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
+                    {
+                        return;
+                    }
 
-                try
-                {
                     await UnsynchronizedHandleActivationAsync(args).ConfigureAwait(false);
                     await UnsynchronizedHandleInitializationAsync().ConfigureAwait(false);
                 }
-                finally
-                {
-                    XamlApplicationLifetime.ActivationAndInitializationCompleted = true;
-                    Interlocked.Exchange(ref isActivating, 0);
-                }
+            }
+            finally
+            {
+                XamlApplicationLifetime.ActivationAndInitializationCompleted = true;
+                Interlocked.Exchange(ref isActivating, 0);
             }
         }
     }
