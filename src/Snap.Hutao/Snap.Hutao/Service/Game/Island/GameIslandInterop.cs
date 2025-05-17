@@ -144,6 +144,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->HideQuestBanner = options.HideQuestBanner;
         pIslandEnvironment->DisableEventCameraMove = options.DisableEventCameraMove;
         pIslandEnvironment->DisableShowDamageText = options.DisableShowDamageText;
+        pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }

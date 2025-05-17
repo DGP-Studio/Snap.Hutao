@@ -23,4 +23,5 @@ internal struct IslandEnvironment
     public BOOL DisableEventCameraMove;
     public BOOL DisableShowDamageText;
     public BOOL UsingTouchScreen;
+    public BOOL RedirectCombineEntry;
 }

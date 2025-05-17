@@ -58,6 +58,7 @@ internal sealed partial class SettingEntry
     public const string LaunchDisableEventCameraMove = "Launch.DisableEventCameraMove";
     public const string LaunchDisableShowDamageText = "Launch.DisableShowDamageText";
     public const string LaunchUsingTouchScreen = "Launch.UsingTouchScreen";
+    public const string LaunchRedirectCombineEntry = "Launch.RedirectCombineEntry";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
     public const string LaunchPlatformType = "Launch.PlatformType";

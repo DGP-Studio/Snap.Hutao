@@ -318,6 +318,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.UsingTouchScreen, SettingEntry.LaunchUsingTouchScreen, value);
     }
 
+    public bool RedirectCombineEntry
+    {
+        get => GetOption(ref fields.RedirectCombineEntry, SettingEntry.LaunchRedirectCombineEntry, false);
+        set => SetOption(ref fields.RedirectCombineEntry, SettingEntry.LaunchRedirectCombineEntry, value);
+    }
+
     public ImmutableArray<AspectRatio> AspectRatios
     {
         get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, static raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
@@ -409,6 +415,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? DisableEventCameraMove;
         public bool? DisableShowDamageText;
         public bool? UsingTouchScreen;
+        public bool? RedirectCombineEntry;
         public bool? UsingOverlay;
         public bool? IsMonitorEnabled;
         public PlatformType? PlatformType;
