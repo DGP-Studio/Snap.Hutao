@@ -32,6 +32,8 @@ internal static unsafe class HutaoNativeWilCallbacks
     }
 
 #pragma warning disable CS0649
+#pragma warning disable SA1201
+#pragma warning disable SA1307
 
     // ReSharper disable InconsistentNaming
     private enum FailureType
@@ -117,5 +119,7 @@ internal static unsafe class HutaoNativeWilCallbacks
     }
 
     // ReSharper restore InconsistentNaming
+#pragma warning restore SA1307
+#pragma warning restore SA1201
 #pragma warning restore CS0649
 }

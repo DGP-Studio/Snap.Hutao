@@ -9,4 +9,4 @@ internal enum HutaoNativeNotifyIconCallbackKind
     ContextMenu = 1,
     LeftButtonDown = 2,
     LeftButtonDoubleClick = 3,
-};
+}

@@ -9,7 +9,6 @@ namespace Snap.Hutao.Win32;
 
 internal static unsafe class HutaoNativeMethods
 {
-    public const string DllName = "Snap.Hutao.Native.dll";
     // ReSharper disable InconsistentNaming
     public const string IID_IHutaoString = "F1F44E9E-858D-4746-B44E-213A1DDA4510";
 
@@ -28,7 +27,9 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNative4 = "27942FBE-322F-4157-9B8C-A38FDB827B05";
     public const string IID_IHutaoNativeNotifyIcon = "C2203FA4-BB97-47E0-8F72-C96879E4CB11";
     public const string IID_IHutaoNative5 = "7B4D20F1-4DAD-492E-8485-B4701A2ED19B";
+
     // ReSharper restore InconsistentNaming
+    public const string DllName = "Snap.Hutao.Native.dll";
 
     public static HutaoNative HutaoCreateInstance()
     {

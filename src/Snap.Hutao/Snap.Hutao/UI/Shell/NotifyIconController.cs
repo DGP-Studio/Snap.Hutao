@@ -82,6 +82,29 @@ internal sealed partial class NotifyIconController : IDisposable
         return native.IsPromoted();
     }
 
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+    private static void OnNotifyIconCallback(HutaoNativeNotifyIconCallbackKind kind, RECT icon, POINT point, nint data)
+    {
+        if (GCHandle.FromIntPtr(data).Target is not NotifyIconController controller)
+        {
+            return;
+        }
+
+        switch (kind)
+        {
+            case HutaoNativeNotifyIconCallbackKind.TaskbarCreated:
+                controller.OnRecreateNotifyIconRequested();
+                break;
+            case HutaoNativeNotifyIconCallbackKind.ContextMenu:
+            case HutaoNativeNotifyIconCallbackKind.LeftButtonDown:
+                controller.OnContextMenuRequested(icon, point);
+                break;
+            case HutaoNativeNotifyIconCallbackKind.LeftButtonDoubleClick:
+                controller.OnWindowRequested();
+                break;
+        }
+    }
+
     private void OnRecreateNotifyIconRequested()
     {
         if (disposed || XamlApplicationLifetime.Exiting)
@@ -154,29 +177,6 @@ internal sealed partial class NotifyIconController : IDisposable
 
                 return;
             }
-        }
-    }
-
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static void OnNotifyIconCallback(HutaoNativeNotifyIconCallbackKind kind, RECT icon, POINT point, nint data)
-    {
-        if (GCHandle.FromIntPtr(data).Target is not NotifyIconController controller)
-        {
-            return;
-        }
-
-        switch (kind)
-        {
-            case HutaoNativeNotifyIconCallbackKind.TaskbarCreated:
-                controller.OnRecreateNotifyIconRequested();
-                break;
-            case HutaoNativeNotifyIconCallbackKind.ContextMenu:
-            case HutaoNativeNotifyIconCallbackKind.LeftButtonDown:
-                controller.OnContextMenuRequested(icon, point);
-                break;
-            case HutaoNativeNotifyIconCallbackKind.LeftButtonDoubleClick:
-                controller.OnWindowRequested();
-                break;
         }
     }
 }
