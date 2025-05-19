@@ -241,7 +241,7 @@ internal sealed unsafe class HutaoNativeFileSystem
         }
     }
 
-    [Guid("fdd58117-0c7f-44d8-a7a2-8b1766474a93")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeFileSystem)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649
@@ -261,7 +261,7 @@ internal sealed unsafe class HutaoNativeFileSystem
 #pragma warning restore CS0649
     }
 
-    [Guid("62616943-38e6-4bbb-84d1-dab847cb2145")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeFileSystem2)]
     private readonly struct Vftbl2
     {
 #pragma warning disable CS0649
@@ -270,7 +270,7 @@ internal sealed unsafe class HutaoNativeFileSystem
 #pragma warning restore CS0649
     }
 
-    [Guid("6dbcfc5c-2555-44db-af9d-2a2628cf726e")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeFileSystem3)]
     private readonly struct Vftbl3
     {
 #pragma warning disable CS0649

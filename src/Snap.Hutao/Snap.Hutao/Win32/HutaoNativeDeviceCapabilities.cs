@@ -24,7 +24,7 @@ internal sealed unsafe class HutaoNativeDeviceCapabilities
         return refreshRate;
     }
 
-    [Guid("338487ee-9592-4171-89dd-1e6b9edb2c8e")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeDeviceCapabilities)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

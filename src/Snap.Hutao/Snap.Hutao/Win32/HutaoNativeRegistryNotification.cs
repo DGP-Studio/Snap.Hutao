@@ -22,7 +22,7 @@ internal sealed unsafe class HutaoNativeRegistryNotification
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Start(objRef.ThisPtr, callback, userData));
     }
 
-    [Guid("ef118e91-8ad9-4c27-997d-daf8910b34be")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeRegistryNotification)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

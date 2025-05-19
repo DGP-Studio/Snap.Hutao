@@ -14,6 +14,7 @@ internal sealed unsafe class HutaoNative
     private readonly ObjectReference<Vftbl2>? objRef2;
     private readonly ObjectReference<Vftbl3>? objRef3;
     private readonly ObjectReference<Vftbl4>? objRef4;
+    private readonly ObjectReference<Vftbl5>? objRef5;
 
     public HutaoNative(ObjectReference<Vftbl> objRef)
     {
@@ -21,6 +22,7 @@ internal sealed unsafe class HutaoNative
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
         objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
         objRef.TryAs(typeof(Vftbl4).GUID, out objRef4);
+        objRef.TryAs(typeof(Vftbl5).GUID, out objRef5);
     }
 
     [field: MaybeNull]
@@ -42,6 +44,8 @@ internal sealed unsafe class HutaoNative
     private ObjectReference<Vftbl3>? ObjRef3 { get => objRef3; }
 
     private ObjectReference<Vftbl4>? ObjRef4 { get => objRef4; }
+
+    private ObjectReference<Vftbl5>? ObjRef5 { get => objRef5; }
 
     public HutaoNativeLoopbackSupport MakeLoopbackSupport()
     {
@@ -99,7 +103,21 @@ internal sealed unsafe class HutaoNative
         return new(ObjectReference<HutaoNativeFileSystem.Vftbl>.Attach(ref pv, typeof(HutaoNativeFileSystem.Vftbl).GUID));
     }
 
-    [Guid("d00f73ff-a1c7-4091-8cb6-d90991dd40cb")]
+    public HutaoNativeNotifyIcon MakeNotifyIcon(ReadOnlySpan<char> iconPath, ref readonly Guid id)
+    {
+        HutaoException.NotSupportedIf(ObjRef5 is null, "IHutaoNative5 is not supported");
+        fixed (char* pIconPath = iconPath)
+        {
+            fixed (Guid* pId = &id)
+            {
+                nint pv = default;
+                Marshal.ThrowExceptionForHR(ObjRef5.Vftbl.MakeNotifyIcon(ObjRef5.ThisPtr, pIconPath, pId, (HutaoNativeNotifyIcon.Vftbl**)&pv));
+                return new(ObjectReference<HutaoNativeNotifyIcon.Vftbl>.Attach(ref pv, typeof(HutaoNativeNotifyIcon.Vftbl).GUID));
+            }
+        }
+    }
+
+    [Guid(HutaoNativeMethods.IID_IHutaoNative)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649
@@ -110,7 +128,7 @@ internal sealed unsafe class HutaoNative
 #pragma warning restore CS0649
     }
 
-    [Guid("338487ee-9592-4171-89dd-1e6b9edb2c8e")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNative2)]
     private readonly struct Vftbl2
     {
 #pragma warning disable CS0649
@@ -120,7 +138,7 @@ internal sealed unsafe class HutaoNative
 #pragma warning restore CS0649
     }
 
-    [Guid("135face1-3184-4d12-b4d0-21ffb6a88d25")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNative3)]
     private readonly struct Vftbl3
     {
 #pragma warning disable CS0649
@@ -129,12 +147,21 @@ internal sealed unsafe class HutaoNative
 #pragma warning restore CS0649
     }
 
-    [Guid("27942fbe-322f-4157-9b8c-a38fdb827b05")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNative4)]
     private readonly struct Vftbl4
     {
 #pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeFileSystem.Vftbl**, HRESULT> MakeFileSystem;
+#pragma warning restore CS0649
+    }
+
+    [Guid(HutaoNativeMethods.IID_IHutaoNative5)]
+    private readonly struct Vftbl5
+    {
+#pragma warning disable CS0649
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, Guid*, HutaoNativeNotifyIcon.Vftbl**, HRESULT> MakeNotifyIcon;
 #pragma warning restore CS0649
     }
 }

@@ -27,7 +27,7 @@ internal sealed unsafe class HutaoNativeWindowSubclass
         Marshal.ThrowExceptionForHR(objRef.Vftbl.Detach(objRef.ThisPtr));
     }
 
-    [Guid("9631921e-a6ca-4150-9939-99b5467b2fd6")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeWindowSubclass)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

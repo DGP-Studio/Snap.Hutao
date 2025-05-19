@@ -27,7 +27,7 @@ internal sealed unsafe class HutaoNativePhysicalDrive
         return isSSD;
     }
 
-    [Guid("f90535d7-aff6-4008-ba8c-15c47fc9660d")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativePhysicalDrive)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

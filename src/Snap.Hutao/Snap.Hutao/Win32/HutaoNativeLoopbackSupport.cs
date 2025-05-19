@@ -37,7 +37,7 @@ internal sealed unsafe class HutaoNativeLoopbackSupport
         }
     }
 
-    [Guid("8607ace4-313c-4c26-b1fb-ca11173b6953")]
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeLoopbackSupport)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649

@@ -45,73 +45,7 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe BOOL EqualRect(RECT* lprc1, RECT* lprc2);
-
-    [DebuggerStepThrough]
-    public static unsafe BOOL EqualRect(ref readonly RECT rc1, ref readonly RECT rc2)
-    {
-        fixed (RECT* lprc1 = &rc1)
-        {
-            fixed (RECT* lprc2 = &rc2)
-            {
-                return EqualRect(lprc1, lprc2);
-            }
-        }
-    }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern HWND FindWindowExW([Optional] HWND hWndParent, [Optional] HWND hWndChildAfter, [Optional] PCWSTR lpszClass, [Optional] PCWSTR lpszWindow);
-
-    [DebuggerStepThrough]
-    public static unsafe HWND FindWindowExW([Optional] HWND hWndParent, [Optional] HWND hWndChildAfter, [Optional] string? szClass, [Optional] string? szWindow)
-    {
-        fixed (char* lpszClass = szClass)
-        {
-            fixed (char* lpszWindow = szWindow)
-            {
-                return FindWindowExW(hWndParent, hWndChildAfter, lpszClass, lpszWindow);
-            }
-        }
-    }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe BOOL GetCursorPos(POINT* lpPoint);
-
-    [DebuggerStepThrough]
-    public static unsafe BOOL GetCursorPos(out POINT point)
-    {
-        fixed (POINT* lpPoint = &point)
-        {
-            return GetCursorPos(lpPoint);
-        }
-    }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern uint GetDoubleClickTime();
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows10.0.14393")]
-    public static extern uint GetDpiForWindow(HWND hwnd);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
     public static extern HWND GetForegroundWindow();
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe BOOL GetWindowRect(HWND hWnd, RECT* lpRect);
-
-    [DebuggerStepThrough]
-    public static unsafe BOOL GetWindowRect(HWND hWnd, out RECT rect)
-    {
-        fixed (RECT* lpRect = &rect)
-        {
-            return GetWindowRect(hWnd, lpRect);
-        }
-    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
@@ -123,25 +57,6 @@ internal static class User32
         fixed (uint* lpdwProcessId = &dwProcessId)
         {
             return GetWindowThreadProcessId(hWnd, lpdwProcessId);
-        }
-    }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe BOOL IntersectRect([Out] RECT* lprcDst, RECT* lprcSrc1, RECT* lprcSrc2);
-
-    [DebuggerStepThrough]
-    public static unsafe BOOL IntersectRect(out RECT rcDst, ref readonly RECT rcSrc1, ref readonly RECT rcSrc2)
-    {
-        fixed (RECT* lprcDst = &rcDst)
-        {
-            fixed (RECT* lprcSrc1 = &rcSrc1)
-            {
-                fixed (RECT* lprcSrc2 = &rcSrc2)
-                {
-                    return IntersectRect(lprcDst, lprcSrc1, lprcSrc2);
-                }
-            }
         }
     }
 
@@ -172,19 +87,6 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
     public static extern BOOL RegisterHotKey([Optional] HWND hWnd, int id, HOT_KEY_MODIFIERS fsModifiers, uint vk);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern uint RegisterWindowMessageW(PCWSTR lpString);
-
-    [DebuggerStepThrough]
-    public static unsafe uint RegisterWindowMessageW(string @string)
-    {
-        fixed (char* lpString = @string)
-        {
-            return RegisterWindowMessageW(lpString);
-        }
-    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
@@ -248,18 +150,6 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL UnhookWinEvent(HWINEVENTHOOK hWinEventHook);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL UnregisterClassW(PCWSTR lpClassName, [Optional] HINSTANCE hInstance);
-
-    public static unsafe BOOL UnregisterClassW(ReadOnlySpan<char> className, [Optional] HINSTANCE hInstance)
-    {
-        fixed (char* lpClassName = className)
-        {
-            return UnregisterClassW(lpClassName, hInstance);
-        }
-    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]

@@ -29,7 +29,7 @@ internal sealed unsafe class HutaoString
         return buffer.Value == null ? null : MemoryMarshal.CreateReadOnlySpanFromNullTerminated(buffer).ToString();
     }
 
-    [Guid("f1f44e9e-858d-4746-b44e-213a1dda4510")]
+    [Guid(HutaoNativeMethods.IID_IHutaoString)]
     internal readonly struct Vftbl
     {
 #pragma warning disable CS0649
