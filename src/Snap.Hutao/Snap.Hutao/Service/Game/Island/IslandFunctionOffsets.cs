@@ -36,4 +36,8 @@ internal struct IslandFunctionOffsets
     public uint ShowOneDamageTextEx;
     [JsonInclude]
     public uint SwitchInputDeviceToTouchScreen;
+    [JsonInclude]
+    public uint MickeyWonderCombineEntryMethod;
+    [JsonInclude]
+    public uint MickeyWonderCombineEntryMethodPartner;
 }

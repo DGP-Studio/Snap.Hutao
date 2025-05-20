@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Discord.GameSDK.ABI;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -152,7 +153,15 @@ internal static class DiscordController
             @params.client_id = clientId;
             @params.flags = (uint)DiscordCreateFlags.Default;
             IDiscordCore* ptr = default;
-            Methods.DiscordCreate(3, &@params, &ptr);
+            try
+            {
+                Methods.DiscordCreate(3, &@params, &ptr);
+            }
+            catch (DllNotFoundException)
+            {
+                // Critical program integrity error
+                Process.GetCurrentProcess().Kill();
+            }
 
             currentClientId = clientId;
             discordCorePtr = ptr;

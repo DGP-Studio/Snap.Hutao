@@ -1093,6 +1093,9 @@
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>签到成功，{0}×{1}</value>
   </data>
+  <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
+    <value>不支持的物品, Id: {0}</value>
+  </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>发现新版本 {0}</value>
   </data>
@@ -2757,6 +2760,12 @@
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryDescription" xml:space="preserve">
+    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryHeader" xml:space="preserve">
+    <value>重定向合成</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>使用触摸输入</value>

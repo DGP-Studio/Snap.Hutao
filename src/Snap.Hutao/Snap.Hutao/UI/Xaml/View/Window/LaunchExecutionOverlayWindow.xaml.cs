@@ -47,7 +47,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
             presenter.PreferredMaximumHeight = size.Height;
         }
 
-        this.AddExStyleLayered();
+        this.AddExtendedStyleLayered();
         this.RemoveStyleOverlappedWindow();
 
         SystemBackdrop = new TransparentBackdrop();
@@ -91,7 +91,7 @@ internal sealed partial class LaunchExecutionOverlayWindow : Microsoft.UI.Xaml.W
     public void OnWindowClosed()
     {
         InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
-        InputLowLevelKeyboardSource.Initialize();
+        InputLowLevelKeyboardSource.Uninitialize();
     }
 
     private void OnLowLevelKeyDown(LowLevelKeyEventArgs args)

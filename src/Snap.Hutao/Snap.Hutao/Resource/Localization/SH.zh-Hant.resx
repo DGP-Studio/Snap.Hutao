@@ -1069,6 +1069,9 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>你的胡桃版本過低，請盡快升級</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>遊戲資源操作失敗</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>補簽失敗，{0}</value>
   </data>
@@ -1089,6 +1092,9 @@
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>簽到成功，{0}×{1}</value>
+  </data>
+  <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
+    <value>不支持的物品, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>發現新版本 {0}</value>
@@ -2754,6 +2760,12 @@
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryDescription" xml:space="preserve">
+    <value>在物品詳情中點擊可合成數量時直接打開合成頁面而不是地圖</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryHeader" xml:space="preserve">
+    <value>重新導向合成</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>使用觸控輸入</value>

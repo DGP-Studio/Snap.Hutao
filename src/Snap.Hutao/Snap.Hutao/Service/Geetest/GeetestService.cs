@@ -62,7 +62,7 @@ internal sealed partial class GeetestService : IGeetestService
             return default;
         }
 
-        Response<VerificationResult> verifyResponse = await cardClient.VerifyVerificationAsync(user, headers, registration.Challenge, data.Validate, token).ConfigureAwait(false);
+        Response<VerificationResult> verifyResponse = await cardClient.VerifyVerificationAsync(user, headers, data.Challenge, data.Validate, token).ConfigureAwait(false);
         if (!ResponseValidator.TryValidate(verifyResponse, infoBarService, out VerificationResult? result))
         {
             return default;

@@ -40,6 +40,8 @@ internal static class IocConfiguration
             catch (SqliteException ex)
             {
                 ex.Data.Add("FilePath", dbFile);
+                ex.SetSentryMechanism("DependencyInjection.DatabaseMigration", handled: true);
+
                 string message = $"""
                     Snap Hutao 在执行数据库迁移时发生错误。
                     Snap Hutao encountered an error while performing database migration.

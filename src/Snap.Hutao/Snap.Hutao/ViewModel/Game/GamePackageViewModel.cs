@@ -7,11 +7,13 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Response;
 using System.IO;
+using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -240,11 +242,19 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             SophonDecodedBuild? remoteBuild;
             using (await contentDialogFactory.BlockAsync(fetchManifestDialog).ConfigureAwait(false))
             {
-                BranchWrapper localBranch = GameBranch.Main.GetTaggedCopy(LocalVersion.ToString());
-                localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
+                try
+                {
+                    BranchWrapper localBranch = GameBranch.Main.GetTaggedCopy(LocalVersion.ToString());
+                    localBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, localBranch).ConfigureAwait(false);
 
-                BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main;
-                remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+                    BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main;
+                    remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
+                }
+                catch (HttpRequestException ex)
+                {
+                    serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
+                    return;
+                }
             }
 
             ArgumentNullException.ThrowIfNull(localBuild);

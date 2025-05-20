@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
@@ -36,6 +37,14 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
             if (!uids.Contains(entry.Uid))
             {
                 continue;
+            }
+
+            foreach (Hk4eItem item in entry.List)
+            {
+                if (item.ItemId is 0)
+                {
+                    throw HutaoException.Throw(SH.FormatServiceUIGFImportInvalidItem(item.Id));
+                }
             }
 
             GachaArchive? archive = gachaLogRepository.GetGachaArchiveByUid($"{entry.Uid}");

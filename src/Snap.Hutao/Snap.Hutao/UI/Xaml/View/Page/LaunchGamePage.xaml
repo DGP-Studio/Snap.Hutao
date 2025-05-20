@@ -455,6 +455,7 @@
                                                             OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
                                                             OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"/>
+
                                                         <ToggleSwitch
                                                             Grid.Row="1"
                                                             Grid.Column="0"
@@ -479,6 +480,7 @@
                                                             IsEnabled="{Binding LaunchOptions.IsSetFieldOfViewEnabled}"
                                                             IsOn="{Binding LaunchOptions.FixLowFovScene, Mode=TwoWay}"
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameFixLowFovSceneDescription}"/>
+
                                                         <ToggleSwitch
                                                             Grid.Row="2"
                                                             Grid.Column="0"
@@ -497,6 +499,7 @@
                                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameEventCameraMoveHotSwitchHeader}"
                                                             IsOn="{Binding LaunchOptions.DisableEventCameraMove, Mode=TwoWay}"
                                                             ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameHotSwitchDescription}"/>
+
                                                         <ToggleSwitch
                                                             Grid.Row="3"
                                                             Grid.Column="0"
@@ -506,6 +509,12 @@
                                                         <ToggleSwitch
                                                             Grid.Row="3"
                                                             Grid.Column="1"
+                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirecCombineEntryHeader}"
+                                                            IsOn="{Binding LaunchOptions.RedirectCombineEntry, Mode=TwoWay}"
+                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirecCombineEntryDescription}"/>
+                                                        <ToggleSwitch
+                                                            Grid.Row="3"
+                                                            Grid.Column="2"
                                                             Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandUsingTouchScreenHeader}"
                                                             IsEnabled="{Binding LaunchOptions.IsGameRunning, Converter={StaticResource BoolNegationConverter}}"
                                                             IsOn="{Binding LaunchOptions.UsingTouchScreen, Mode=TwoWay}"/>
@@ -696,41 +705,6 @@
                         </Border>
                     </StackPanel>
                 </ScrollViewer>
-            </PivotItem>
-            <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameResourceHeader}">
-                <Grid>
-                    <ScrollViewer Visibility="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolConverter}}">
-                        <StackPanel>
-                            <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <shuxvs:LaunchGameResourceExpander
-                                        cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                        DataContext="{Binding GamePackage.PreDownload.Major, Mode=OneWay}"
-                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameResourcePreDownloadHeader}"
-                                        IsEnabled="{Binding FallbackValue=False, Converter={StaticResource EmptyObjectToBoolConverter}}"
-                                        IsExpanded="{Binding FallbackValue=False, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneTime}"/>
-                                </Border>
-                            </Border>
-                            <ItemsControl
-                                Margin="0,0,0,0"
-                                ItemTemplate="{StaticResource GameResourceTemplate}"
-                                ItemsSource="{Binding GamePackage.PreDownload.Patches, Mode=OneWay}"/>
-                            <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <shuxvs:LaunchGameResourceExpander
-                                        cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                        DataContext="{Binding GamePackage.Main.Major, Mode=OneWay}"
-                                        Header="{shuxm:ResourceString Name=ViewPageLaunchGameResourceLatestHeader}"/>
-                                </Border>
-                            </Border>
-                            <ItemsControl
-                                Margin="0,0,0,16"
-                                ItemTemplate="{StaticResource GameResourceTemplate}"
-                                ItemsSource="{Binding GamePackage.Main.Patches, Mode=OneWay}"/>
-                        </StackPanel>
-                    </ScrollViewer>
-                    <shuxc:Loading IsLoading="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
-                </Grid>
             </PivotItem>
         </Pivot>
     </shuxc:StandardView>

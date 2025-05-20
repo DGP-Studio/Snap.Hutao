@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.DependencyInjection.Implementation;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
@@ -125,16 +126,23 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     {
         if (Options.IsHutaoCloudAllowed)
         {
-            Response<ImmutableArray<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(resp, infoBarService, out ImmutableArray<GachaEntry> entries))
+            try
             {
-                ObservableCollection<HutaoCloudEntryOperationViewModel> collection = entries
-                    .SelectAsArray(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
-                    .ToObservableCollection();
+                Response<ImmutableArray<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 
-                await taskContext.SwitchToMainThreadAsync();
-                UidOperations = collection;
+                if (ResponseValidator.TryValidate(resp, infoBarService, out ImmutableArray<GachaEntry> entries))
+                {
+                    ObservableCollection<HutaoCloudEntryOperationViewModel> collection = entries
+                        .SelectAsArray(static (entry, vm) => new HutaoCloudEntryOperationViewModel(entry, vm.RetrieveCommand, vm.DeleteCommand), this)
+                        .ToObservableCollection();
+
+                    await taskContext.SwitchToMainThreadAsync();
+                    UidOperations = collection;
+                }
+            }
+            catch (ServiceProviderDisposedException)
+            {
+                // Ignored
             }
         }
     }

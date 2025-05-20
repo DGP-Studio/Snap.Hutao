@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Service.Game;
 
+[JsonConverter(typeof(AspectRatioConverter))]
 internal sealed class AspectRatio : IEquatable<AspectRatio>
 {
     public AspectRatio(double width, double height)
@@ -13,10 +14,8 @@ internal sealed class AspectRatio : IEquatable<AspectRatio>
         Height = height;
     }
 
-    [JsonPropertyName("width")]
     public double Width { get; }
 
-    [JsonPropertyName("height")]
     public double Height { get; }
 
     public override string ToString()
@@ -53,23 +52,71 @@ internal sealed class AspectRatio : IEquatable<AspectRatio>
 [SuppressMessage("", "SA1402")]
 internal sealed class AspectRatioConverter : JsonConverter<AspectRatio>
 {
+    public const string WidthPropertyName = "width";
+    public const string HeightPropertyName = "height";
+
     // AspectRatio is marshaled to WinRT as nint, so we should cache instances and reuse them.
-    private static readonly ConcurrentDictionary<AspectRatio, AspectRatio> AspectRatioPool = [];
+    private static readonly ConcurrentDictionary<(double Width, double Height), AspectRatio> AspectRatioPool = [];
 
     public override AspectRatio Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        AspectRatio value = JsonSerializer.Deserialize<AspectRatio>(ref reader, options) ?? throw new JsonException();
-        if (AspectRatioPool.TryGetValue(value, out AspectRatio? cached))
+        if (reader.TokenType is not JsonTokenType.StartObject)
+        {
+            throw new JsonException();
+        }
+
+        double? width = null;
+        double? height = null;
+
+        while (reader.Read())
+        {
+            if (reader.TokenType is JsonTokenType.EndObject)
+            {
+                break;
+            }
+
+            if (reader.TokenType is not JsonTokenType.PropertyName)
+            {
+                throw new JsonException();
+            }
+
+            string propertyName = reader.GetString()!;
+            reader.Read();
+
+            switch (propertyName)
+            {
+                case WidthPropertyName:
+                    width = reader.GetDouble();
+                    break;
+                case HeightPropertyName:
+                    height = reader.GetDouble();
+                    break;
+                default:
+                    reader.Skip();
+                    break;
+            }
+        }
+
+        if (width is null || height is null)
+        {
+            throw new JsonException("Missing required properties for AspectRatio");
+        }
+
+        if (AspectRatioPool.TryGetValue((width.Value, height.Value), out AspectRatio? cached))
         {
             return cached;
         }
 
-        AspectRatioPool.TryAdd(value, value);
+        AspectRatio value = new(width.Value, height.Value);
+        AspectRatioPool.TryAdd((width.Value, height.Value), value);
         return value;
     }
 
     public override void Write(Utf8JsonWriter writer, AspectRatio value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, options);
+        writer.WriteStartObject();
+        writer.WriteNumber(WidthPropertyName, value.Width);
+        writer.WriteNumber(HeightPropertyName, value.Height);
+        writer.WriteEndObject();
     }
 }

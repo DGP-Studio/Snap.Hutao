@@ -65,8 +65,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         EnableWindow(parentHwnd, false);
         base.Activate();
 
-        double dpi = Math.Round(GetDpiForWindow(parentHwnd) / 96D, 2, MidpointRounding.AwayFromZero);
-        AppWindow.MoveThenResize(contentProvider.InitializePosition(AppWindow.GetFromWindowId(parentWindowId).GetRect(), dpi));
+        AppWindow.MoveThenResize(contentProvider.InitializePosition(AppWindow.GetFromWindowId(parentWindowId).GetRect(), this.GetRasterizationScale()));
     }
 
     public void OnWindowClosing(out bool cancel)

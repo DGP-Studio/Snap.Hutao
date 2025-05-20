@@ -15,8 +15,8 @@ internal sealed partial class LoopbackSupport : ObservableObject
     public LoopbackSupport(IServiceProvider serviceProvider)
     {
         native = HutaoNative.Instance.MakeLoopbackSupport();
-        IsLoopbackEnabled = native.IsEnabled(HutaoRuntime.FamilyName, out ReadOnlySpan<char> sid);
-        hutaoContainerStringSid = sid.ToString();
+        IsLoopbackEnabled = native.IsEnabled(HutaoRuntime.FamilyName, out string? sid);
+        hutaoContainerStringSid = sid ?? string.Empty;
     }
 
     [ObservableProperty]

@@ -297,10 +297,10 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Test SSD path", "TestViewModel.Command"));
 
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile("Pick any file!", default);
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile("Pick any file!", default, default);
         if (isOk)
         {
-            bool isSolidState = PhysicalDriver.DangerousGetIsSolidState(file);
+            bool isSolidState = PhysicalDrive.DangerousGetIsSolidState(file);
             infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
         }
     }

@@ -144,6 +144,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->HideQuestBanner = options.HideQuestBanner;
         pIslandEnvironment->DisableEventCameraMove = options.DisableEventCameraMove;
         pIslandEnvironment->DisableShowDamageText = options.DisableShowDamageText;
+        pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }
@@ -154,13 +155,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         try
         {
             hModule = NativeLibrary.Load(dataFolderIslandPath);
-#if DEBUG
-            nint pIslandGetFunctionOffsetSize = NativeLibrary.GetExport((nint)(hModule & ~0x3L), "IslandGetFunctionOffsetsSize");
-            ulong size;
-            ((delegate* unmanaged[Stdcall]<ulong*, HRESULT>)pIslandGetFunctionOffsetSize)(&size);
-            Debug.Assert(size == (ulong)sizeof(IslandFunctionOffsets)); // FunctionOffsets size mismatch
-#endif
-            nint pIslandGetWindowHook = NativeLibrary.GetExport((nint)(hModule & ~0x3L), "IslandGetWindowHook");
+            nint pIslandGetWindowHook = NativeLibrary.GetExport((nint)(hModule & ~0x3L), "DllGetWindowsHookForHutao");
 
             HOOKPROC hookProc = default;
             ((delegate* unmanaged[Stdcall]<HOOKPROC*, HRESULT>)pIslandGetWindowHook)(&hookProc);

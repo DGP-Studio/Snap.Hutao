@@ -220,7 +220,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         (bool isOk, ValueFile file) = scopeContext.FileSystemPickerInteraction.SaveFile(
             SH.ViewModelAchievementUIAFExportPickerTitle,
             $"{Archives.CurrentItem.Name}.json",
-            [(SH.ViewModelAchievementExportFileType, "*.json")]);
+            SH.ViewModelAchievementExportFileType,
+            "*.json");
 
         if (!isOk)
         {

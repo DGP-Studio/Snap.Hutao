@@ -1069,6 +1069,9 @@ Espacio disponible: {2}</value>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>Tu versión de Snap Hutao es demasiado antigua, actualiza lo antes posible</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>游戏资源操作失败</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Fallo en la compensación de registro, {0}</value>
   </data>
@@ -1089,6 +1092,9 @@ Espacio disponible: {2}</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>Registro exitoso, {0}×{1}</value>
+  </data>
+  <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
+    <value>不支持的物品, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Nueva versión {0} disponible</value>
@@ -2754,6 +2760,12 @@ Espacio disponible: {2}</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>Inyección</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryDescription" xml:space="preserve">
+    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryHeader" xml:space="preserve">
+    <value>重定向合成</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Usar entrada táctil</value>

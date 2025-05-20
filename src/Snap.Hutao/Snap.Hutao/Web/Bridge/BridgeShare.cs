@@ -127,7 +127,7 @@ internal static class BridgeShare
 
     private static async ValueTask SaveAsFileAsync(BridgeShareContext context, InMemoryRandomAccessStream stream)
     {
-        (bool isOk, ValueFile file) = context.FileSystemPickerInteraction.SaveFile(SH.WebBridgeShareFilePickerTitle, "share.png", [("PNG", "*.png")]);
+        (bool isOk, ValueFile file) = context.FileSystemPickerInteraction.SaveFile(SH.WebBridgeShareFilePickerTitle, "share.png", "PNG", "*.png");
         if (!isOk)
         {
             return;

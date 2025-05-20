@@ -21,9 +21,6 @@ using Snap.Hutao.UI.Input.LowLevel;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
-using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.IO;
 
@@ -81,8 +78,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public IAdvancedCollectionView<GameAccount>? GameAccountsView { get; set => SetProperty(ref field, value); }
 
     public GameAccount? SelectedGameAccount { get => GameAccountsView?.CurrentItem; }
-
-    public GamePackage? GamePackage { get; set => SetProperty(ref field, value); }
 
     /// <summary>
     /// Update this property will also:
@@ -377,23 +372,5 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         // Update GameAccountsView
         await taskContext.SwitchToMainThreadAsync();
         GameAccountsView.Filter = GameAccountFilter.CreateFilter(SelectedScheme?.GetSchemeType());
-
-        if (value is null)
-        {
-            return;
-        }
-
-        await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-            Response<GamePackagesWrapper> response = await hoyoPlayClient.GetPackagesAsync(value).ConfigureAwait(false);
-
-            if (ResponseValidator.TryValidate(response, serviceProvider, out GamePackagesWrapper? wrapper))
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                GamePackage = wrapper.GamePackages.Single();
-            }
-        }
     }
 }

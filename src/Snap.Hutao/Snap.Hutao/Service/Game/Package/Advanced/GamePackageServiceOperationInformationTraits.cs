@@ -43,7 +43,7 @@ internal sealed partial class GamePackageServiceOperationInformationTraits
         };
 
         long actualTotalBytes = installTotalBytes + (1024L * 1024L * 1024L); // 1 GB for temp files
-        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.EffectiveGameDirectory);
+        long availableBytes = LogicalDrive.GetAvailableFreeSpace(context.EffectiveGameDirectory);
 
         string formattedDownloadTotalBytes = Converters.ToFileSizeString(downloadTotalBytes);
         string formattedTotalBytes = Converters.ToFileSizeString(actualTotalBytes);

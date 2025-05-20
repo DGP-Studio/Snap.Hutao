@@ -2,21 +2,18 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.Win32;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
 
@@ -31,15 +28,13 @@ internal sealed partial class NotifyIconController : IDisposable
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LazySlim<NotifyIconContextMenu> lazyMenu;
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
-    private readonly NotifyIconMessageWindow messageWindow;
     private readonly IServiceProvider serviceProvider;
-    private readonly System.Drawing.Icon icon;
-    private readonly string? registryKey;
-    private readonly Guid id;
+    private readonly HutaoNativeNotifyIcon native;
+    private GCHandle handle;
 
     private bool disposed;
 
-    public NotifyIconController(IServiceProvider serviceProvider)
+    public unsafe NotifyIconController(IServiceProvider serviceProvider)
     {
         if (Interlocked.Exchange(ref constructed, true))
         {
@@ -54,35 +49,17 @@ internal sealed partial class NotifyIconController : IDisposable
         lazyMenu = new(() => new(serviceProvider));
 
         string iconPath = InstalledLocation.GetAbsolutePath("Assets/Logo.ico");
-
-        icon = new(iconPath);
-        id = MemoryMarshal.AsRef<Guid>(MD5.HashData(Encoding.UTF8.GetBytes(iconPath)).AsSpan());
+        Guid id = MemoryMarshal.AsRef<Guid>(MD5.HashData(Encoding.UTF8.GetBytes(iconPath)).AsSpan());
+        native = HutaoNative.Instance.MakeNotifyIcon(iconPath, in id);
 
         xamlHostWindow = new(serviceProvider);
         xamlHostWindow.MoveAndResize(default);
 
-        messageWindow = new()
-        {
-            TaskbarCreated = OnRecreateNotifyIconRequested,
-            MainWindowRequested = OnMainWindowRequested,
-            ContextMenuRequested = OnContextMenuRequested,
-            IconSelected = OnContextMenuRequested,
-        };
-
-        CreateNotifyIcon();
-
-        try
-        {
-            registryKey = InitializeNotifyIconRegistryKey(id);
-        }
-        catch (HutaoException)
-        {
-        }
+        handle = GCHandle.Alloc(this);
+        native.Create(HutaoNativeNotifyIconCallback.Create(&OnNotifyIconCallback), GCHandle.ToIntPtr(handle), "Snap Hutao");
     }
 
     public static Lock InitializationSyncRoot { get; } = new();
-
-    public Microsoft.UI.Xaml.Window XamlHost { get => xamlHostWindow; }
 
     public void Dispose()
     {
@@ -94,102 +71,51 @@ internal sealed partial class NotifyIconController : IDisposable
         lock (syncRoot)
         {
             disposed = true;
-
-            messageWindow.Dispose();
-            NotifyIconMethods.Delete(id);
-            icon.Dispose();
+            native.Destroy();
+            handle.Free();
         }
     }
 
-    public RECT GetRect()
+    public bool IsPromoted()
     {
         ObjectDisposedException.ThrowIf(disposed, this);
-        return NotifyIconMethods.GetRect(id, messageWindow.Hwnd);
+        return native.IsPromoted();
     }
 
-    public bool GetIsPromoted()
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+    private static void OnNotifyIconCallback(HutaoNativeNotifyIconCallbackKind kind, RECT icon, POINT point, nint data)
     {
-        if (string.IsNullOrEmpty(registryKey))
-        {
-            // If the registry key is not available, we assume that the icon is not promoted.
-            return false;
-        }
-
-        ObjectDisposedException.ThrowIf(disposed, this);
-        return Registry.GetValue(registryKey, "IsPromoted", 0) is 1;
-    }
-
-    private static string InitializeNotifyIconRegistryKey(Guid id)
-    {
-        if (!UniversalApiContract.IsPresent(WindowsVersion.Windows11Version24H2))
-        {
-            return string.Empty;
-        }
-
-        // The GUID is stored in the registry as a REG_SZ in the format {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
-        string idString = id.ToString("B");
-        using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Control Panel\NotifyIconSettings"))
-        {
-            ArgumentNullException.ThrowIfNull(key);
-            foreach (ref readonly string subKeyName in key.GetSubKeyNames().AsSpan())
-            {
-                using (RegistryKey? subKey = key.OpenSubKey(subKeyName))
-                {
-                    if (subKey?.GetValue("IconGuid") is not string iconGuid)
-                    {
-                        continue;
-                    }
-
-                    if (string.Equals(iconGuid, idString, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return $@"HKEY_CURRENT_USER\Control Panel\NotifyIconSettings\{subKeyName}";
-                    }
-                }
-            }
-        }
-
-        throw HutaoException.NotSupported("Unable to find NotifyIcon registry key", HutaoException.Marker);
-    }
-
-    private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)
-    {
-        if (disposed)
+        if (GCHandle.FromIntPtr(data).Target is not NotifyIconController controller)
         {
             return;
         }
 
-        NotifyIconMethods.Delete(id);
-        if (!NotifyIconMethods.Add(id, window.Hwnd, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
+        switch (kind)
         {
-            HutaoException.InvalidOperation("Failed to recreate NotifyIcon");
-        }
-
-        if (!NotifyIconMethods.SetVersion(id, NOTIFYICON_VERSION_4))
-        {
-            HutaoException.InvalidOperation("Failed to set NotifyIcon version");
+            case HutaoNativeNotifyIconCallbackKind.TaskbarCreated:
+                controller.OnRecreateNotifyIconRequested();
+                break;
+            case HutaoNativeNotifyIconCallbackKind.ContextMenu:
+            case HutaoNativeNotifyIconCallbackKind.LeftButtonDown:
+                controller.OnContextMenuRequested(icon, point);
+                break;
+            case HutaoNativeNotifyIconCallbackKind.LeftButtonDoubleClick:
+                controller.OnWindowRequested();
+                break;
         }
     }
 
-    private void CreateNotifyIcon()
+    private void OnRecreateNotifyIconRequested()
     {
-        if (disposed)
+        if (disposed || XamlApplicationLifetime.Exiting)
         {
             return;
         }
 
-        NotifyIconMethods.Delete(id);
-        if (!NotifyIconMethods.Add(id, messageWindow.Hwnd, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, icon.Handle))
-        {
-            HutaoException.InvalidOperation("Failed to create NotifyIcon");
-        }
-
-        if (!NotifyIconMethods.SetVersion(id, NOTIFYICON_VERSION_4))
-        {
-            HutaoException.InvalidOperation("Failed to set NotifyIcon version");
-        }
+        native.Recreate("Snap Hutao");
     }
 
-    private void OnContextMenuRequested(NotifyIconMessageWindow window, PointUInt16 point)
+    private void OnContextMenuRequested(RECT icon, POINT point)
     {
         if (disposed)
         {
@@ -209,22 +135,10 @@ internal sealed partial class NotifyIconController : IDisposable
             return;
         }
 
-        RECT rect;
-        try
-        {
-            rect = GetRect();
-        }
-        catch (Exception)
-        {
-            // Fallback to the mouse position
-            GetCursorPos(out POINT pos);
-            rect = new(pos.x - 8, pos.y - 8, pos.x + 8, pos.y + 8);
-        }
-
-        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.X, point.Y), rect);
+        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new(point.x, point.y), icon);
     }
 
-    private void OnMainWindowRequested(NotifyIconMessageWindow window)
+    private void OnWindowRequested()
     {
         if (disposed)
         {
@@ -239,20 +153,6 @@ internal sealed partial class NotifyIconController : IDisposable
 
         switch (currentXamlWindowReference.Window)
         {
-            case MainWindow mainWindow:
-            {
-                // While window is closing, currentXamlWindowReference can still retrieve the window,
-                // just ignore it
-                if (mainWindow.AppWindow is not null)
-                {
-                    // MainWindow is activated, bring to foreground
-                    mainWindow.SwitchTo();
-                    mainWindow.AppWindow.MoveInZOrderAtTop();
-                }
-
-                return;
-            }
-
             case null:
             {
                 // MainWindow is closed, show it
@@ -265,9 +165,16 @@ internal sealed partial class NotifyIconController : IDisposable
 
             default:
             {
-                Window otherWindow = currentXamlWindowReference.Window;
-                otherWindow.SwitchTo();
-                otherWindow.AppWindow.MoveInZOrderAtTop();
+                Window window = currentXamlWindowReference.Window;
+
+                // While window is closing, currentXamlWindowReference can still retrieve the window,
+                // just ignore it
+                if (window.AppWindow is not null)
+                {
+                    window.SwitchTo();
+                    window.AppWindow.MoveInZOrderAtTop();
+                }
+
                 return;
             }
         }

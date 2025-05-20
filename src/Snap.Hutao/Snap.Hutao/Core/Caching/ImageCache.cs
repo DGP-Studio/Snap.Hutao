@@ -108,12 +108,19 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             return;
         }
 
-        using (FileStream sourceStream = File.OpenRead(cacheFile.DefaultFileFullPath))
+        try
         {
-            using (FileStream themeStream = File.Create(cacheFile.GetThemedFileFullPath(theme)))
+            using (FileStream sourceStream = File.OpenRead(cacheFile.DefaultFileFullPath))
             {
-                await MonoChromeImageConverter.ConvertAndCopyToAsync(theme, sourceStream, themeStream).ConfigureAwait(false);
+                using (FileStream themeStream = File.Create(cacheFile.GetThemedFileFullPath(theme)))
+                {
+                    await MonoChromeImageConverter.ConvertAndCopyToAsync(theme, sourceStream, themeStream).ConfigureAwait(false);
+                }
             }
+        }
+        catch (IOException ex)
+        {
+            throw InternalImageCacheException.Throw("Failed to convert image", ex);
         }
     }
 

@@ -10,12 +10,10 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
-using Snap.Hutao.Win32.Graphics.Gdi;
+using Snap.Hutao.Win32;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using static Snap.Hutao.Win32.Gdi32;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -320,6 +318,12 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         set => SetOption(ref fields.UsingTouchScreen, SettingEntry.LaunchUsingTouchScreen, value);
     }
 
+    public bool RedirectCombineEntry
+    {
+        get => GetOption(ref fields.RedirectCombineEntry, SettingEntry.LaunchRedirectCombineEntry, false);
+        set => SetOption(ref fields.RedirectCombineEntry, SettingEntry.LaunchRedirectCombineEntry, value);
+    }
+
     public ImmutableArray<AspectRatio> AspectRatios
     {
         get => GetOption(ref fields.AspectRatios, SettingEntry.AspectRatios, static raw => JsonSerializer.Deserialize<ImmutableArray<AspectRatio>>(raw), []);
@@ -358,16 +362,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
 
     private static int InitializeScreenFps()
     {
-        HDC dc = default;
-        try
-        {
-            dc = GetDC();
-            return GetDeviceCaps(dc, GET_DEVICE_CAPS_INDEX.VREFRESH);
-        }
-        finally
-        {
-            _ = ReleaseDC(default, dc);
-        }
+        return HutaoNative.Instance.MakeDeviceCapabilities().GetPrimaryScreenVerticalRefreshRate();
     }
 
     private static ImmutableArray<NameValue<int>> InitializeMonitors()
@@ -420,6 +415,7 @@ internal sealed partial class LaunchOptions : DbStoreOptions,
         public bool? DisableEventCameraMove;
         public bool? DisableShowDamageText;
         public bool? UsingTouchScreen;
+        public bool? RedirectCombineEntry;
         public bool? UsingOverlay;
         public bool? IsMonitorEnabled;
         public PlatformType? PlatformType;

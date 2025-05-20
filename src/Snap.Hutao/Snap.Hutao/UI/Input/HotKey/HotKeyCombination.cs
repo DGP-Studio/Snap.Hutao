@@ -221,8 +221,7 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
     {
         lock (syncRoot)
         {
-            ArgumentNullException.ThrowIfNull(cts);
-            return cts.Token;
+            return cts?.Token ?? new(true);
         }
     }
 

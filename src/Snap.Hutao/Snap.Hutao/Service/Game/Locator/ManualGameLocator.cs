@@ -16,7 +16,8 @@ internal sealed partial class ManualGameLocator : IGameLocator
     {
         (bool isPickerOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
             SH.ServiceGameLocatorFileOpenPickerCommitText,
-            [(SH.ServiceGameLocatorPickerFilterText, $"{GameConstants.YuanShenFileName};{GameConstants.GenshinImpactFileName}")]);
+            SH.ServiceGameLocatorPickerFilterText,
+            $"{GameConstants.YuanShenFileName};{GameConstants.GenshinImpactFileName}");
 
         if (isPickerOk)
         {

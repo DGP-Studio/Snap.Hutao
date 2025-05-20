@@ -72,7 +72,7 @@ internal sealed partial class MainWindow : Microsoft.UI.Xaml.Window,
             return;
         }
 
-        if (this.TryGetAssociatedServiceProvider(out IServiceProvider serviceProvider) && !NotifyIcon.IsPromoted(serviceProvider))
+        if (this.TryGetAssociatedServiceProvider(out IServiceProvider serviceProvider) && !serviceProvider.GetRequiredService<NotifyIconController>().IsPromoted())
         {
             try
             {
