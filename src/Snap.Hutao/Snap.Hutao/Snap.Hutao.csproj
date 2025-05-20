@@ -343,7 +343,7 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3240.44" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.3916" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.14.0" />
     <PackageReference Include="Sentry.Extensions.Logging" Version="5.7.0" />
@@ -356,7 +356,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.Native" Version="0.0.14">
+    <PackageReference Include="Snap.Hutao.Native" Version="0.0.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
