@@ -1093,6 +1093,9 @@
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>체크인 성공, {0}×{1}</value>
   </data>
+  <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
+    <value>不支持的物品, Id: {0}</value>
+  </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>새 버전 {0}을(를) 찾았습니다</value>
   </data>
