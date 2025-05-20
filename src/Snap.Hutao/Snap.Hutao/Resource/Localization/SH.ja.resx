@@ -1070,6 +1070,9 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>あなたの胡桃バージョンは古すぎて、できるだけ早く更新してください！</value>
   </data>
+  <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
+    <value>ゲームリソースの操作に失敗しました</value>
+  </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>埋め合せログインに失敗しました、{0}</value>
   </data>
@@ -1090,6 +1093,9 @@
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>ログインボーナスを獲得しました。{0}×{1}</value>
+  </data>
+  <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
+    <value>不支持的物品, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>新しいバージョン {0} が利用できます</value>
@@ -2756,6 +2762,12 @@
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryDescription" xml:space="preserve">
+    <value>アイテム詳細で「合成可能数」をクリックした時、マップではなく「合成台」を直接に開きます</value>
+  </data>
+  <data name="ViewPageLaunchGameIslandRedirecCombineEntryHeader" xml:space="preserve">
+    <value>合成リダイレクト</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>タッチ入力を使用</value>
