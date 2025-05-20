@@ -1093,6 +1093,9 @@ Espaço disponível: {2}</value>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>Check-in bem-sucedido, {0} x {1}</value>
   </data>
+  <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
+    <value>不支持的物品, Id: {0}</value>
+  </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Uma nova versão {0} está disponível.</value>
   </data>
