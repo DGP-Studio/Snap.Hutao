@@ -41,7 +41,7 @@ internal static class SelectableExtension
                 {
                     if (e.Current.IsSelected)
                     {
-                        HutaoException.InvalidOperation("Multiple item is selected.");
+                        return default;
                     }
                 }
 

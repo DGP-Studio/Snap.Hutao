@@ -201,9 +201,16 @@ internal sealed partial class MetadataService : IMetadataService
         {
             metaFileStream = File.Create(metadataOptions.GetLocalizedLocalPath(MetaFileName));
         }
-        catch (IOException)
+        catch (IOException ex)
         {
             // The process cannot access the file '?' because it is being used by another process
+            infoBarService.Error(ex);
+            return false;
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            // Access to the path '?' is denied.
+            infoBarService.Error(ex);
             return false;
         }
 
