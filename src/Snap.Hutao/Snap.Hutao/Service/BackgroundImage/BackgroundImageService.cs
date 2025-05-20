@@ -166,13 +166,15 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             {
                 if (wallpaper.Url is { } url)
                 {
-                    ValueFile file = await scope.ServiceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
-                    if (!File.Exists(file))
+                    try
                     {
-                        Debugger.Break();
+                        ValueFile file = await scope.ServiceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
+                        availableBackgroundPathSet = [file];
                     }
-
-                    availableBackgroundPathSet = [file];
+                    catch (InternalImageCacheException)
+                    {
+                        availableBackgroundPathSet = [];
+                    }
                 }
 
                 await taskContext.SwitchToMainThreadAsync();

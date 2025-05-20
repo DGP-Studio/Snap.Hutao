@@ -169,6 +169,10 @@ internal static class HttpRequestExceptionHandling
                                         // 无法连接到本地安全机构 SEC_E_INTERNAL_ERROR
                                         case unchecked((int)0x80090304):
                                             return NetworkError.ERR_SECURE_CONNECTION_SEC_E_INTERNAL_ERROR;
+
+                                        // 接收到的消息异常，或格式不正确 SEC_E_ILLEGAL_MESSAGE
+                                        case unchecked((int)0x80090326):
+                                            return NetworkError.ERR_SECURE_CONNECTION_SEC_E_ILLEGAL_MESSAGE;
                                     }
 
                                     break;
@@ -221,10 +225,17 @@ internal static class HttpRequestExceptionHandling
                                 }
 
                                 break;
+
                             case Win32Exception win32Exception:
                                 switch (win32Exception.NativeErrorCode)
                                 {
-                                    // TODO
+                                    // 为验证提供的消息或签名已被更改 SEC_E_MESSAGE_ALTERED
+                                    case unchecked((int)0x8009030F):
+                                        return NetworkError.ERR_UNKNOWN_SEC_E_MESSAGE_ALTERED;
+
+                                    // 无法解密指定的数据 SEC_E_DECRYPT_FAILURE
+                                    case unchecked((int)0x80090330):
+                                        return NetworkError.ERR_UNKNOWN_SEC_E_DECRYPT_FAILURE;
                                 }
 
                                 break;

@@ -118,9 +118,9 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 }
             }
         }
-        catch (FileNotFoundException ex)
+        catch (IOException ex)
         {
-            throw InternalImageCacheException.Throw("DefaultFileFullPath not found", ex);
+            throw InternalImageCacheException.Throw("Failed to convert image", ex);
         }
     }
 

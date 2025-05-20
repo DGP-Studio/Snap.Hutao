@@ -3,9 +3,13 @@
 
 using System.Collections.Concurrent;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Test.IncomingFeature;
 
-[JsonConverter(typeof(AspectRatioConverter))]
+public class AspectRatioJsonTest
+{
+
+}
+
 internal sealed class AspectRatio : IEquatable<AspectRatio>
 {
     public AspectRatio(double width, double height)
@@ -14,8 +18,10 @@ internal sealed class AspectRatio : IEquatable<AspectRatio>
         Height = height;
     }
 
+    [JsonPropertyName("width")]
     public double Width { get; }
 
+    [JsonPropertyName("height")]
     public double Height { get; }
 
     public override string ToString()
@@ -52,9 +58,6 @@ internal sealed class AspectRatio : IEquatable<AspectRatio>
 [SuppressMessage("", "SA1402")]
 internal sealed class AspectRatioConverter : JsonConverter<AspectRatio>
 {
-    public const string WidthPropertyName = "width";
-    public const string HeightPropertyName = "height";
-
     // AspectRatio is marshaled to WinRT as nint, so we should cache instances and reuse them.
     private static readonly ConcurrentDictionary<(double Width, double Height), AspectRatio> AspectRatioPool = [];
 
@@ -70,12 +73,12 @@ internal sealed class AspectRatioConverter : JsonConverter<AspectRatio>
 
         while (reader.Read())
         {
-            if (reader.TokenType is JsonTokenType.EndObject)
+            if (reader.TokenType == JsonTokenType.EndObject)
             {
                 break;
             }
 
-            if (reader.TokenType is not JsonTokenType.PropertyName)
+            if (reader.TokenType != JsonTokenType.PropertyName)
             {
                 throw new JsonException();
             }
@@ -85,10 +88,10 @@ internal sealed class AspectRatioConverter : JsonConverter<AspectRatio>
 
             switch (propertyName)
             {
-                case WidthPropertyName:
+                case "width":
                     width = reader.GetDouble();
                     break;
-                case HeightPropertyName:
+                case "height":
                     height = reader.GetDouble();
                     break;
                 default:
@@ -115,8 +118,8 @@ internal sealed class AspectRatioConverter : JsonConverter<AspectRatio>
     public override void Write(Utf8JsonWriter writer, AspectRatio value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
-        writer.WriteNumber(WidthPropertyName, value.Width);
-        writer.WriteNumber(HeightPropertyName, value.Height);
+        writer.WriteNumber("width", value.Width);
+        writer.WriteNumber("height", value.Height);
         writer.WriteEndObject();
     }
 }
