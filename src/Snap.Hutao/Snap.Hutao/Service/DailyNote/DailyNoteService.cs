@@ -11,6 +11,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
 namespace Snap.Hutao.Service.DailyNote;
@@ -35,7 +36,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         if (entries is { } localEntries)
         {
             Guid userId = message.RemovedUser.InnerId;
-            taskContext.BeginInvokeOnMainThread(() => localEntries.RemoveWhere(n => n.UserId == userId));
+            taskContext.InvokeOnMainThread(() => localEntries.RemoveWhere(n => n.UserId == userId));
         }
     }
 
@@ -55,6 +56,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             Response<WebDailyNote> dailyNoteResponse = await ScopedGetDailyNoteAsync(scope, userAndUid, token).ConfigureAwait(false);
             if (ResponseValidator.TryValidate(dailyNoteResponse, serviceProvider, out WebDailyNote? data))
             {
+                await taskContext.SwitchToMainThreadAsync();
                 newEntry.Update(data);
             }
         }
@@ -103,7 +105,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     {
         await taskContext.SwitchToMainThreadAsync();
         ArgumentNullException.ThrowIfNull(entries);
-        entries.Remove(entry);
+        Debug.Assert(entries.Remove(entry));
 
         await taskContext.SwitchToBackgroundAsync();
         dailyNoteRepository.DeleteDailyNoteEntryById(entry.InnerId);

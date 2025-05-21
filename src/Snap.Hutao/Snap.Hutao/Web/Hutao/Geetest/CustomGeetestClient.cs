@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Globalization;
 using System.Net.Http;
+using System.Text;
 
 namespace Snap.Hutao.Web.Hutao.Geetest;
 
@@ -25,7 +27,9 @@ internal sealed partial class CustomGeetestClient
         string url;
         try
         {
-            url = string.Format(CultureInfo.CurrentCulture, template, gt, challenge);
+            CompositeFormat format = CompositeFormat.Parse(template);
+            HutaoException.ThrowIf(format.MinimumArgumentCount < 2, "At least 2 arguments are required for composite format.");
+            url = string.Format(CultureInfo.CurrentCulture, format.Format, gt, challenge);
         }
         catch (FormatException)
         {

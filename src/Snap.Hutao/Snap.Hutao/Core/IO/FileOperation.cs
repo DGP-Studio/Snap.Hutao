@@ -7,6 +7,28 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class FileOperation
 {
+    public static void Copy(string source, string destination, bool overwrite)
+    {
+        try
+        {
+            File.Copy(source, destination, overwrite);
+        }
+        catch (IOException ex)
+        {
+            // ERROR_ENCRYPTION_FAILED
+            if (ex.HResult is unchecked((int)0x80071770))
+            {
+                using (FileStream sourceStream = File.OpenRead(source))
+                {
+                    using (FileStream destinationStream = new(destination, overwrite ? FileMode.Create : FileMode.CreateNew))
+                    {
+                        sourceStream.CopyTo(destinationStream);
+                    }
+                }
+            }
+        }
+    }
+
     public static bool Move(string sourceFileName, string destFileName, bool overwrite)
     {
         if (!File.Exists(sourceFileName))

@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Page;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
@@ -25,7 +26,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
     private DailyNoteMetadataContext? metadataContext;
 
     [ObservableProperty]
-    public partial ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get; set; }
+    public partial ImmutableArray<DailyNoteEntry> DailyNoteEntries { get; set; }
 
     /// <inheritdoc/>
     protected override async Task LoadAsync()
@@ -45,7 +46,10 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
                 .ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
-            DailyNoteEntries = entries;
+
+            // We must make a copy of the entries collection to avoid the following exception:
+            // Element is already the child of another element.
+            DailyNoteEntries = [.. entries]; 
             IsInitialized = true;
         }
         catch (HutaoException ex)

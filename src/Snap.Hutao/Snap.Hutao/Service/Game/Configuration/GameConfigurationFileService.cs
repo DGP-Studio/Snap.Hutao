@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.IO;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
@@ -17,7 +18,7 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
         if (File.Exists(source))
         {
             string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
-            File.Copy(source, Path.Combine(serverCacheFolder, isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName), true);
+            FileOperation.Copy(source, Path.Combine(serverCacheFolder, isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName), true);
         }
     }
 
@@ -39,6 +40,6 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
             return;
         }
 
-        File.Copy(source, destination, true);
+        FileOperation.Copy(source, destination, true);
     }
 }
