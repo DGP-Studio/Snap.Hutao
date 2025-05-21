@@ -10,6 +10,7 @@ using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -79,7 +80,20 @@ internal sealed partial class NotifyIconController : IDisposable
     public bool IsPromoted()
     {
         ObjectDisposedException.ThrowIf(disposed, this);
-        return native.IsPromoted();
+        try
+        {
+            return native.IsPromoted();
+        }
+        catch (Exception ex)
+        {
+            // If the lpValue registry value does not exist, the function returns ERROR_FILE_NOT_FOUND
+            if (ex is not (FileNotFoundException or COMException))
+            {
+                SentrySdk.CaptureException(ex);
+            }
+
+            return false;
+        }
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]

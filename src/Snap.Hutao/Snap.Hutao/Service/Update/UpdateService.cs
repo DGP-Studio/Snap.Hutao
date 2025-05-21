@@ -9,6 +9,7 @@ using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.Diagnostics;
+using System.IO;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -61,11 +62,20 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    public async ValueTask<bool> LaunchUpdaterAsync()
+    public async ValueTask<ValueResult<bool, Exception>> LaunchUpdaterAsync()
     {
         string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
 
-        InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
+        try
+        {
+            InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
+        }
+        catch (IOException ex)
+        {
+            // The process cannot access the file '?' because it is being used by another process.
+            return new(false, ex);
+        }
+
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -85,12 +95,12 @@ internal sealed partial class UpdateService : IUpdateService
                     UseShellExecute = true,
                 });
 
-                return true;
+                return new(true, default!);
             }
             catch (Exception ex)
             {
                 serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
-                return false;
+                return new(false, ex);
             }
         }
     }

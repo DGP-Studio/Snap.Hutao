@@ -84,7 +84,10 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
             if (installUpdateUserConsentResult is ContentDialogResult.Primary)
             {
-                await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+                if (await updateService.LaunchUpdaterAsync().ConfigureAwait(false) is (false, { } ex))
+                {
+                    infoBarService.Error(ex);
+                }
             }
         }
     }
