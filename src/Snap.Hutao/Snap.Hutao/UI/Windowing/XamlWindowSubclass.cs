@@ -38,7 +38,15 @@ internal sealed partial class XamlWindowSubclass : IDisposable
 
     public void Dispose()
     {
-        native.Detach();
+        try
+        {
+            native.Detach();
+        }
+        catch (COMException)
+        {
+            // 0x80004005 E_FAIL
+        }
+
         unmanagedAccess.Free();
     }
 
