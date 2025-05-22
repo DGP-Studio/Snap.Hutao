@@ -7,9 +7,10 @@ namespace Snap.Hutao.UI.Input.HotKey;
 
 internal readonly struct HotKeyParameter
 {
-    // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 4
+    // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 8
     public readonly ushort NativeModifiers;
     public readonly VIRTUAL_KEY NativeKey;
+    private readonly int padding;
 
     public HotKeyParameter(HOT_KEY_MODIFIERS modifiers, VIRTUAL_KEY key)
     {

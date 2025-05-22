@@ -71,7 +71,15 @@ internal sealed partial class NotifyIconController : IDisposable
         lock (syncRoot)
         {
             disposed = true;
-            native.Destroy();
+            try
+            {
+                native.Destroy();
+            }
+            catch (Exception ex)
+            {
+                SentrySdk.CaptureException(ex);
+            }
+
             handle.Free();
         }
     }
