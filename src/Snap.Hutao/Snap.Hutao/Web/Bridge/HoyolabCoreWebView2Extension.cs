@@ -14,8 +14,14 @@ internal static class HoyolabCoreWebView2Extension
         return webView.DeleteCookiesAsync(isOversea ? ".hoyolab.com" : ".mihoyo.com");
     }
 
-    public static CoreWebView2 SetMobileUserAgent(this CoreWebView2 webView, bool isOversea)
+    [return:NotNullIfNotNull(nameof(webView))]
+    public static CoreWebView2? SetMobileUserAgent(this CoreWebView2? webView, bool isOversea)
     {
+        if (webView is null)
+        {
+            return webView;
+        }
+
         return isOversea
             ? webView.SetMobileUserAgentOversea()
             : webView.SetMobileUserAgentChinese();
@@ -33,8 +39,14 @@ internal static class HoyolabCoreWebView2Extension
         return webView;
     }
 
-    public static CoreWebView2 SetCookie(this CoreWebView2 webView, Cookie? cookieToken = null, Cookie? lToken = null, bool isOversea = false)
+    [return:NotNullIfNotNull(nameof(webView))]
+    public static CoreWebView2? SetCookie(this CoreWebView2? webView, Cookie? cookieToken = null, Cookie? lToken = null, bool isOversea = false)
     {
+        if (webView is null)
+        {
+            return webView;
+        }
+
         CoreWebView2CookieManager cookieManager = webView.CookieManager;
 
         if (cookieToken is not null)
@@ -42,13 +54,13 @@ internal static class HoyolabCoreWebView2Extension
             cookieManager
                 .AddMihoyoCookie(Cookie.ACCOUNT_ID, cookieToken, isOversea)
                 .AddMihoyoCookie(Cookie.COOKIE_TOKEN, cookieToken, isOversea);
-        }
 
-        if (lToken is not null)
-        {
-            cookieManager
-                .AddMihoyoCookie(Cookie.LTUID, lToken, isOversea)
-                .AddMihoyoCookie(Cookie.LTOKEN, lToken, isOversea);
+            if (lToken is not null)
+            {
+                cookieManager
+                    .AddMihoyoCookie(Cookie.LTUID, lToken, isOversea)
+                    .AddMihoyoCookie(Cookie.LTOKEN, lToken, isOversea);
+            }
         }
 
         return webView;

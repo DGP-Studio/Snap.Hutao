@@ -516,6 +516,9 @@
                 </Grid>
 
             </cwc:Case>
+
+            <!--  Complete - empty case for fallback  -->
+            <cwc:Case Value="{shuxm:UInt32 Value=7}"/>
         </cwc:SwitchPresenter>
         <Grid Grid.Row="1">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

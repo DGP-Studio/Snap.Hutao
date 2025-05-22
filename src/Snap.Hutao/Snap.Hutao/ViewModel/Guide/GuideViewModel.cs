@@ -61,6 +61,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
         set
         {
+            value = Math.Clamp(value, 0, (uint)GuideState.Completed);
             LocalSetting.Set(SettingKeys.GuideState, value);
             OnPropertyChanged();
         }

@@ -70,12 +70,14 @@ internal partial class ScopedPage : Page
     {
         // Cancel all tasks executed by the view model
         viewCts.Cancel();
-        IViewModel viewModel = (IViewModel)DataContext;
 
-        // Wait to ensure viewmodel operation is completed
-        using (viewModel.DisposeLock.Enter())
+        if (DataContext is IViewModel viewModel)
         {
-            viewModel.Uninitialize();
+            // Wait to ensure viewmodel operation is completed
+            using (viewModel.DisposeLock.Enter())
+            {
+                viewModel.Uninitialize();
+            }
         }
 
         viewCts.Dispose();
