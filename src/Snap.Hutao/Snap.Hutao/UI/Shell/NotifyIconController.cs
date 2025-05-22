@@ -57,7 +57,6 @@ internal sealed partial class NotifyIconController : IDisposable
         xamlHostWindow.MoveAndResize(default);
 
         handle = GCHandle.Alloc(this);
-        native.Create(HutaoNativeNotifyIconCallback.Create(&OnNotifyIconCallback), GCHandle.ToIntPtr(handle), "Snap Hutao");
     }
 
     public static Lock InitializationSyncRoot { get; } = new();
@@ -75,6 +74,11 @@ internal sealed partial class NotifyIconController : IDisposable
             native.Destroy();
             handle.Free();
         }
+    }
+
+    public unsafe void Create()
+    {
+        native.Create(HutaoNativeNotifyIconCallback.Create(&OnNotifyIconCallback), GCHandle.ToIntPtr(handle), "Snap Hutao");
     }
 
     public bool IsPromoted()

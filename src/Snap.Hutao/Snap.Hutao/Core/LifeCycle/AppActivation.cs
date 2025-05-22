@@ -184,12 +184,15 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             try
             {
-                _ = serviceProvider.GetRequiredService<NotifyIconController>();
+                serviceProvider.GetRequiredService<NotifyIconController>().Create();
                 XamlApplicationLifetime.NotifyIconCreated = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Ignore
+                if (ex is not InvalidOperationException)
+                {
+                    SentrySdk.CaptureException(ex);
+                }
             }
         }
 
