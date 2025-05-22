@@ -12,7 +12,6 @@ internal static class CurrentXamlWindowReferenceExtension
 {
     public static XamlRoot? GetXamlRoot(this ICurrentXamlWindowReference reference)
     {
-        ArgumentNullException.ThrowIfNull(reference.Window);
         return reference.Window?.Content?.XamlRoot;
     }
 

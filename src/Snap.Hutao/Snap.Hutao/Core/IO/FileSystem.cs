@@ -4,6 +4,7 @@
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
+using System.IO;
 
 namespace Snap.Hutao.Core.IO;
 
@@ -93,5 +94,10 @@ internal static class FileSystem
     public static bool PickFolder(HWND hWnd, string? title, out string? path)
     {
         return Native.PickFolder(hWnd, title, out path);
+    }
+
+    public static void CopyFileAllowDecryptedDestination(string existingFileName, string newFileName, bool overwrite)
+    {
+        Native.CopyFileAllowDecryptedDestination(existingFileName, newFileName, overwrite);
     }
 }

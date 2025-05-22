@@ -24,6 +24,7 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNativeFileSystem = "FDD58117-0C7F-44D8-A7A2-8B1766474A93";
     public const string IID_IHutaoNativeFileSystem2 = "62616943-38e6-4bbb-84d1-dab847cb2145";
     public const string IID_IHutaoNativeFileSystem3 = "6DBCFC5C-2555-44DB-AF9D-2A2628CF726E";
+    public const string IID_IHutaoNativeFileSystem4 = "FB4825F4-3A7F-47A1-8923-32933CB7DE92";
     public const string IID_IHutaoNative4 = "27942FBE-322F-4157-9B8C-A38FDB827B05";
     public const string IID_IHutaoNativeNotifyIcon = "C2203FA4-BB97-47E0-8F72-C96879E4CB11";
     public const string IID_IHutaoNative5 = "7B4D20F1-4DAD-492E-8485-B4701A2ED19B";

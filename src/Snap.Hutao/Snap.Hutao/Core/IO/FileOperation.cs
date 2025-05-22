@@ -18,13 +18,11 @@ internal static class FileOperation
             // ERROR_ENCRYPTION_FAILED
             if (ex.HResult is unchecked((int)0x80071770))
             {
-                using (FileStream sourceStream = File.OpenRead(source))
-                {
-                    using (FileStream destinationStream = new(destination, overwrite ? FileMode.Create : FileMode.CreateNew))
-                    {
-                        sourceStream.CopyTo(destinationStream);
-                    }
-                }
+                FileSystem.CopyFileAllowDecryptedDestination(Path.GetFullPath(source), Path.GetFullPath(destination), overwrite);
+            }
+            else
+            {
+                throw;
             }
         }
     }

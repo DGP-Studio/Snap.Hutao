@@ -14,12 +14,14 @@ internal sealed unsafe class HutaoNativeFileSystem
 {
     private readonly ObjectReference<Vftbl2>? objRef2;
     private readonly ObjectReference<Vftbl3>? objRef3;
+    private readonly ObjectReference<Vftbl4>? objRef4;
 
     public HutaoNativeFileSystem(ObjectReference<Vftbl> objRef)
     {
         ObjRef = objRef;
         objRef.TryAs(typeof(Vftbl2).GUID, out objRef2);
         objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
+        objRef.TryAs(typeof(Vftbl4).GUID, out objRef4);
     }
 
     private ObjectReference<Vftbl> ObjRef { get; }
@@ -27,6 +29,8 @@ internal sealed unsafe class HutaoNativeFileSystem
     private ObjectReference<Vftbl2>? ObjRef2 { get => objRef2; }
 
     private ObjectReference<Vftbl3>? ObjRef3 { get => objRef3; }
+
+    private ObjectReference<Vftbl4>? ObjRef4 { get => objRef4; }
 
     public void RenameItem(ReadOnlySpan<char> filePath, ReadOnlySpan<char> newName)
     {
@@ -241,6 +245,18 @@ internal sealed unsafe class HutaoNativeFileSystem
         }
     }
 
+    public void CopyFileAllowDecryptedDestination(ReadOnlySpan<char> existingFileName, ReadOnlySpan<char> newFileName, BOOL overwrite)
+    {
+        HutaoException.ThrowIf(ObjRef4 is null, "IHutaoFileSystem4 is not supported");
+        fixed (char* pExistingFileName = existingFileName)
+        {
+            fixed (char* pNewFileName = newFileName)
+            {
+                Marshal.ThrowExceptionForHR(ObjRef4!.Vftbl.CopyFileAllowDecryptedDestination(ObjRef4.ThisPtr, pExistingFileName, pNewFileName, overwrite));
+            }
+        }
+    }
+
     [Guid(HutaoNativeMethods.IID_IHutaoNativeFileSystem)]
     internal readonly struct Vftbl
     {
@@ -278,6 +294,15 @@ internal sealed unsafe class HutaoNativeFileSystem
         internal readonly delegate* unmanaged[Stdcall]<nint, HWND, PCWSTR, PCWSTR, PCWSTR, PCWSTR, BOOL*, HutaoString.Vftbl**, HRESULT> PickFile;
         internal readonly delegate* unmanaged[Stdcall]<nint, HWND, PCWSTR, PCWSTR, PCWSTR, PCWSTR, BOOL*, HutaoString.Vftbl**, HRESULT> SaveFile;
         internal readonly delegate* unmanaged[Stdcall]<nint, HWND, PCWSTR, BOOL*, HutaoString.Vftbl**, HRESULT> PickFolder;
+#pragma warning restore CS0649
+    }
+
+    [Guid(HutaoNativeMethods.IID_IHutaoNativeFileSystem4)]
+    private readonly struct Vftbl4
+    {
+#pragma warning disable CS0649
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, PCWSTR, BOOL, HRESULT> CopyFileAllowDecryptedDestination;
 #pragma warning restore CS0649
     }
 }

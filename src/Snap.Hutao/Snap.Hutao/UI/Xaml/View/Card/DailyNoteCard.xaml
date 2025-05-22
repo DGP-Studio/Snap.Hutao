@@ -109,7 +109,7 @@
 
     <Grid>
         <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid Visibility="{Binding DailyNoteEntries.Length, FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource Int32ToVisibilityConverter}}">
+            <Grid Visibility="{Binding DailyNoteEntries.Count, FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource Int32ToVisibilityConverter}}">
                 <FlipView
                     x:Name="RootFlipView"
                     Background="{x:Null}"
@@ -120,14 +120,14 @@
                     Height="16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    NumberOfPages="{Binding DailyNoteEntries.Length, FallbackValue={x:Null}}"
+                    NumberOfPages="{Binding DailyNoteEntries.Count, FallbackValue={x:Null}}"
                     SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"/>
             </Grid>
 
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Visibility="{Binding DailyNoteEntries.Length, FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                Visibility="{Binding DailyNoteEntries.Count, FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                 <Image
                     Width="80"
                     Height="80"

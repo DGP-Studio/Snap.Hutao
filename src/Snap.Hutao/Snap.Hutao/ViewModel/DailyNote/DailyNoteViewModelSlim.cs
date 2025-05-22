@@ -25,8 +25,9 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
 
     private DailyNoteMetadataContext? metadataContext;
 
+    // This property must be a reference type
     [ObservableProperty]
-    public partial ImmutableArray<DailyNoteEntry> DailyNoteEntries { get; set; }
+    public partial List<DailyNoteEntry>? DailyNoteEntries { get; set; }
 
     /// <inheritdoc/>
     protected override async Task LoadAsync()
@@ -49,7 +50,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
 
             // We must make a copy of the entries collection to avoid the following exception:
             // Element is already the child of another element.
-            DailyNoteEntries = [.. entries]; 
+            DailyNoteEntries = [.. entries];
             IsInitialized = true;
         }
         catch (HutaoException ex)
