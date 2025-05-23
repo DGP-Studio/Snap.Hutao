@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Accessibility;
-using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -15,30 +14,6 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class User32
 {
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [Optional] PCWSTR lpClassName, [Optional] PCWSTR lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [Optional] HWND hWndParent, [Optional] HMENU hMenu, [Optional] HINSTANCE hInstance, [Optional] void* lpParam);
-
-    [DebuggerStepThrough]
-    public static unsafe HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [Optional] string className, [Optional] string windowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [Optional] HWND hWndParent, [Optional] HMENU hMenu, [Optional] HINSTANCE hInstance, [Optional] void* lpParam)
-    {
-        fixed (char* lpClassName = className)
-        {
-            fixed (char* lpWindowName = windowName)
-            {
-                return CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-            }
-        }
-    }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern LRESULT DefWindowProcW(HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL DestroyWindow(HWND hWnd);
-
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL EnableWindow([In] HWND hWnd, [In] BOOL bEnable);
@@ -82,14 +57,6 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe ushort RegisterClassW(WNDCLASSW* lpWndClass);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows6.0.6000")]
-    public static extern BOOL RegisterHotKey([Optional] HWND hWnd, int id, HOT_KEY_MODIFIERS fsModifiers, uint vk);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
     public static extern HANDLE RemovePropW(HWND hWnd, PCWSTR lpString);
 
     [DebuggerStepThrough]
@@ -98,19 +65,6 @@ internal static class User32
         fixed (char* lpString = @string)
         {
             return RemovePropW(hWnd, lpString);
-        }
-    }
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern unsafe uint SendInput(uint cInputs, INPUT* pInputs, int cbSize);
-
-    [DebuggerStepThrough]
-    public static unsafe uint SendInput(ReadOnlySpan<INPUT> inputs, int cbSize)
-    {
-        fixed (INPUT* pInputs = inputs)
-        {
-            return SendInput((uint)inputs.Length, pInputs, cbSize);
         }
     }
 
@@ -150,8 +104,4 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL UnhookWinEvent(HWINEVENTHOOK hWinEventHook);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL UnregisterHotKey([Optional] HWND hWnd, int id);
 }

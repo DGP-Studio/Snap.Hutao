@@ -15,6 +15,7 @@ internal sealed unsafe class HutaoNative
     private readonly ObjectReference<Vftbl3>? objRef3;
     private readonly ObjectReference<Vftbl4>? objRef4;
     private readonly ObjectReference<Vftbl5>? objRef5;
+    private readonly ObjectReference<Vftbl6>? objRef6;
 
     public HutaoNative(ObjectReference<Vftbl> objRef)
     {
@@ -23,6 +24,7 @@ internal sealed unsafe class HutaoNative
         objRef.TryAs(typeof(Vftbl3).GUID, out objRef3);
         objRef.TryAs(typeof(Vftbl4).GUID, out objRef4);
         objRef.TryAs(typeof(Vftbl5).GUID, out objRef5);
+        objRef.TryAs(typeof(Vftbl6).GUID, out objRef6);
     }
 
     [field: MaybeNull]
@@ -46,6 +48,8 @@ internal sealed unsafe class HutaoNative
     private ObjectReference<Vftbl4>? ObjRef4 { get => objRef4; }
 
     private ObjectReference<Vftbl5>? ObjRef5 { get => objRef5; }
+
+    private ObjectReference<Vftbl6>? ObjRef6 { get => objRef6; }
 
     public HutaoNativeLoopbackSupport MakeLoopbackSupport()
     {
@@ -117,6 +121,14 @@ internal sealed unsafe class HutaoNative
         }
     }
 
+    public HutaoNativeHotKeyAction MakeHotKeyAction(HutaoNativeHotKeyActionKind kind, HutaoNativeHotKeyActionCallback callback, nint userData)
+    {
+        HutaoException.NotSupportedIf(ObjRef6 is null, "IHutaoNative6 is not supported");
+        nint pv = default;
+        Marshal.ThrowExceptionForHR(ObjRef6.Vftbl.MakeHotKeyAction(ObjRef6.ThisPtr, kind, callback, userData, (HutaoNativeHotKeyAction.Vftbl**)&pv));
+        return new(ObjectReference<HutaoNativeHotKeyAction.Vftbl>.Attach(ref pv, typeof(HutaoNativeHotKeyAction.Vftbl).GUID));
+    }
+
     [Guid(HutaoNativeMethods.IID_IHutaoNative)]
     internal readonly struct Vftbl
     {
@@ -162,6 +174,15 @@ internal sealed unsafe class HutaoNative
 #pragma warning disable CS0649
         internal readonly IUnknownVftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<nint, PCWSTR, Guid*, HutaoNativeNotifyIcon.Vftbl**, HRESULT> MakeNotifyIcon;
+#pragma warning restore CS0649
+    }
+
+    [Guid(HutaoNativeMethods.IID_IHutaoNative6)]
+    private readonly struct Vftbl6
+    {
+#pragma warning disable CS0649
+        internal readonly IUnknownVftbl IUnknownVftbl;
+        internal readonly delegate* unmanaged[Stdcall]<nint, HutaoNativeHotKeyActionKind, HutaoNativeHotKeyActionCallback, nint, HutaoNativeHotKeyAction.Vftbl**, HRESULT> MakeHotKeyAction;
 #pragma warning restore CS0649
     }
 }

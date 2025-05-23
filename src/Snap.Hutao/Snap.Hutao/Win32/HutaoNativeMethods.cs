@@ -28,6 +28,8 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNative4 = "27942FBE-322F-4157-9B8C-A38FDB827B05";
     public const string IID_IHutaoNativeNotifyIcon = "C2203FA4-BB97-47E0-8F72-C96879E4CB11";
     public const string IID_IHutaoNative5 = "7B4D20F1-4DAD-492E-8485-B4701A2ED19B";
+    public const string IID_IHutaoNativeHotKeyAction = "8C776674-9910-4721-A764-97BDB791F719";
+    public const string IID_IHutaoNative6 = "B68CABFA-C55A-49FA-8C51-21615C594E2B";
 
     // ReSharper restore InconsistentNaming
     public const string DllName = "Snap.Hutao.Native.dll";

@@ -21,7 +21,7 @@ internal static unsafe class HutaoNativeWilCallbacks
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilLoggingImpl(FailureInfo* failure)
     {
-        Debug.WriteLine("Snap::Hutao::Native");
+        Debug.WriteLine($"Snap::Hutao::Native:{failure->type}|{failure->flags}|{failure->hr}|{failure->status}|{failure->failureId}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszMessage)}|{failure->threadId}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszCode).ToString()}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFunction).ToString()}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFile).ToString()}|{failure->ulineNumber}");
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]

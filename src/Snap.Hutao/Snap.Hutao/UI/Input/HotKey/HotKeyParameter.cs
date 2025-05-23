@@ -10,7 +10,10 @@ internal readonly struct HotKeyParameter
     // DO NOT MODIFY: The size of this struct must be sizeof(LPARAM) or 8
     public readonly ushort NativeModifiers;
     public readonly VIRTUAL_KEY NativeKey;
+
+#pragma warning disable CS0169
     private readonly int padding;
+#pragma warning restore CS0169
 
     public HotKeyParameter(HOT_KEY_MODIFIERS modifiers, VIRTUAL_KEY key)
     {
@@ -18,12 +21,17 @@ internal readonly struct HotKeyParameter
         NativeKey = key;
     }
 
-    public readonly HOT_KEY_MODIFIERS Modifiers
+    public static HotKeyParameter Default
+    {
+        get => new(default, VIRTUAL_KEY.VK__none_);
+    }
+
+    public HOT_KEY_MODIFIERS Modifiers
     {
         get => (HOT_KEY_MODIFIERS)NativeModifiers;
     }
 
-    public readonly VIRTUAL_KEY Key
+    public VIRTUAL_KEY Key
     {
         get => NativeKey;
     }
