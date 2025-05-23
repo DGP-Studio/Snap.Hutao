@@ -11,10 +11,7 @@ using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using Windows.Foundation;
-using WinRT.Interop;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
 
@@ -51,9 +48,7 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         icon.right += 8;
         icon.bottom += 8;
 
-        HWND hwnd = WindowNative.GetWindowHandle(this);
-        ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_NORMAL);
-        SetForegroundWindow(hwnd);
+        this.SwitchTo();
 
         if (AppWindow is null || Content?.XamlRoot is null /*ERROR_XAMLROOT_REQUIRED*/)
         {

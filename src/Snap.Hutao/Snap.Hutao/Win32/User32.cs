@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.UI.Accessibility;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -16,24 +15,7 @@ internal static class User32
 {
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL EnableWindow([In] HWND hWnd, [In] BOOL bEnable);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern HWND GetForegroundWindow();
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
     public static extern unsafe uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] uint* lpdwProcessId);
-
-    [DebuggerStepThrough]
-    public static unsafe uint GetWindowThreadProcessId(HWND hWnd, out uint dwProcessId)
-    {
-        fixed (uint* lpdwProcessId = &dwProcessId)
-        {
-            return GetWindowThreadProcessId(hWnd, lpdwProcessId);
-        }
-    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
@@ -70,10 +52,6 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL SetForegroundWindow(HWND hWnd);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
     public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [Optional] HANDLE hData);
 
     [DebuggerStepThrough]
@@ -92,16 +70,4 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern HHOOK SetWindowsHookExW(WINDOWS_HOOK_ID idHook, HOOKPROC lpfn, [Optional] HINSTANCE hmod, uint dwThreadId);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern HWINEVENTHOOK SetWinEventHook(uint eventMin, uint eventMax, HMODULE hmodWinEventProc, WINEVENTPROC pfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL ShowWindow(HWND hWnd, SHOW_WINDOW_CMD nCmdShow);
-
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL UnhookWinEvent(HWINEVENTHOOK hWinEventHook);
 }

@@ -46,6 +46,11 @@ internal static unsafe class WindowUtilities
         return scale;
     }
 
+    public static void SetWindowIsEnabled(HWND hWnd, BOOL isEnabled)
+    {
+        Marshal.ThrowExceptionForHR(WindowUtilitiesSetWindowIsEnabled(hWnd, isEnabled));
+    }
+
     [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesSwitchToWindow(HWND hWnd);
@@ -73,4 +78,8 @@ internal static unsafe class WindowUtilities
     [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesGetRasterizationScaleForWindow(HWND hWnd, float* scale);
+
+    [SuppressMessage("", "SYSLIB1054")]
+    [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT WindowUtilitiesSetWindowIsEnabled(HWND hWnd, BOOL isEnabled);
 }

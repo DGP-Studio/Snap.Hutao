@@ -61,8 +61,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     public new void Activate()
     {
         HWND parentHwnd = Win32Interop.GetWindowFromWindowId(parentWindowId);
-        WindowExtension.SwitchTo(parentHwnd);
-        EnableWindow(parentHwnd, false);
+        WindowUtilities.SwitchToWindow(parentHwnd);
+        WindowUtilities.SetWindowIsEnabled(parentHwnd, false);
         base.Activate();
 
         AppWindow.MoveThenResize(contentProvider.InitializePosition(AppWindow.GetFromWindowId(parentWindowId).GetRect(), this.GetRasterizationScale()));
@@ -83,10 +83,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     public void OnWindowClosed()
     {
         HWND parentHwnd = Win32Interop.GetWindowFromWindowId(parentWindowId);
-        EnableWindow(parentHwnd, true);
-
-        // Reactive parent window
-        SetForegroundWindow(parentHwnd);
+        WindowUtilities.SetWindowIsEnabled(parentHwnd, true);
+        WindowUtilities.SwitchToWindow(parentHwnd);
 
         scopeLock.Wait();
         scopeLock.Release();
