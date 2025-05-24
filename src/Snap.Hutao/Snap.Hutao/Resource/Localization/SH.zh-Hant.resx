@@ -1094,7 +1094,7 @@
     <value>簽到成功，{0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>不支援的物品, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>發現新版本 {0}</value>
