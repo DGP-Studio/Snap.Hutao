@@ -60,8 +60,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
         catch (Win32Exception ex)
         {
-            // 组或资源的状态不是执行请求操作的正确状态
-            if (ex.HResult == HRESULT.E_FAIL)
+            // E_FAIL 组或资源的状态不是执行请求操作的正确状态
+            if (ex.HResult is unchecked((int)0x80004005))
             {
                 try
                 {

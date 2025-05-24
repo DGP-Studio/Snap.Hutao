@@ -5,7 +5,9 @@ namespace Snap.Hutao.Win32.Foundation;
 
 internal readonly struct HWND
 {
+#pragma warning disable CS0649
     public readonly nint Value;
+#pragma warning restore CS0649
 
     public static unsafe implicit operator HWND(nint value)
     {

@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
+// ReSharper disable InconsistentNaming
 [Flags]
 internal enum FILEOPERATION_FLAGS : uint
 {

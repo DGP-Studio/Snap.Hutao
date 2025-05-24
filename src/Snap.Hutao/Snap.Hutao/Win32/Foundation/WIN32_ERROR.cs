@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
+// ReSharper disable InconsistentNaming
 [SuppressMessage("", "CA1069")]
 internal enum WIN32_ERROR : uint
 {

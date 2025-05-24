@@ -3,7 +3,10 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
+// ReSharper disable InconsistentNaming
 internal readonly struct NTSTATUS
 {
+#pragma warning disable CS0649
     public readonly int Value;
+#pragma warning restore CS0649
 }

@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 
+// ReSharper disable InconsistentNaming
 [Flags]
 internal enum HOT_KEY_MODIFIERS : uint
 {

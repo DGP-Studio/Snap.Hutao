@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.Diagnostics.Debug;
 
+// ReSharper disable InconsistentNaming
 [SuppressMessage("", "CA1069")]
 internal enum FACILITY_CODE : uint
 {

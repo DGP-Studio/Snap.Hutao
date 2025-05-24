@@ -36,5 +36,3 @@ internal readonly struct BOOL
         return value != 0;
     }
 }
-
-// ReSharper restore InconsistentNaming

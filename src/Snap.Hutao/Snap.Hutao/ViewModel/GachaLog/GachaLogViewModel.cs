@@ -187,7 +187,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
         catch (COMException ex)
         {
-            if (ex.HResult == HRESULT.E_ASYNC_OPERATION_NOT_STARTED)
+            // E_ASYNC_OPERATION_NOT_STARTED
+            if (ex.HResult is unchecked((int)0x80000019))
             {
                 infoBarService.Error(ex);
                 return;
