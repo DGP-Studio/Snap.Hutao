@@ -167,6 +167,17 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         return stringBuilder.ToString();
     }
 
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+    private static void OnAction(BOOL isOn, nint data)
+    {
+        if (GCHandle.FromIntPtr(data).Target is not HotKeyCombination combination)
+        {
+            return;
+        }
+
+        combination.IsOn = isOn;
+    }
+
     private bool UpdateModifiers()
     {
         HOT_KEY_MODIFIERS modifiers = default;
@@ -195,16 +206,5 @@ internal sealed partial class HotKeyCombination : ObservableObject, IDisposable
         HotKeyParameter current = new(Modifiers, Key);
         LocalSetting.Set(settingKey, *(long*)&current);
         native?.Update(modifiers, (uint)key);
-    }
-
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-    private static void OnAction(BOOL isOn, nint data)
-    {
-        if (GCHandle.FromIntPtr(data).Target is not HotKeyCombination combination)
-        {
-            return;
-        }
-
-        combination.IsOn = isOn;
     }
 }

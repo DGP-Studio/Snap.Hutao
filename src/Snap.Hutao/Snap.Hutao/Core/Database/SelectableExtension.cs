@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database.Abstraction;
-using Snap.Hutao.Core.ExceptionService;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;

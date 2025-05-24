@@ -66,7 +66,6 @@ internal sealed partial class Cookie
         {
             cookieMap.TryAdd(STUID, loginResult.UserInfo.Aid);
             cookieMap.TryAdd(MID, loginResult.UserInfo.Mid);
-
         }
 
         if (loginResult.Token is not null)

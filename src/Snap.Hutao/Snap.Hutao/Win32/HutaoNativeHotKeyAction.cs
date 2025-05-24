@@ -18,11 +18,6 @@ internal sealed unsafe class HutaoNativeHotKeyAction
         this.objRef = objRef;
     }
 
-    public static void InitializeBeforeSwitchCallback(HutaoNativeHotKeyBeforeSwitchCallback callback)
-    {
-        Marshal.ThrowExceptionForHR(HutaoNativeHotKeyInitializeBeforeSwitchCallback(callback));
-    }
-
     public BOOL IsEnabled
     {
         get
@@ -36,6 +31,11 @@ internal sealed unsafe class HutaoNativeHotKeyAction
         {
             Marshal.ThrowExceptionForHR(objRef.Vftbl.SetIsEnabled(objRef.ThisPtr, value));
         }
+    }
+
+    public static void InitializeBeforeSwitchCallback(HutaoNativeHotKeyBeforeSwitchCallback callback)
+    {
+        Marshal.ThrowExceptionForHR(HutaoNativeHotKeyInitializeBeforeSwitchCallback(callback));
     }
 
     public void Update(HOT_KEY_MODIFIERS modifiers, uint vk)

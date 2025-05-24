@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.UI.Xaml.View.Window;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 

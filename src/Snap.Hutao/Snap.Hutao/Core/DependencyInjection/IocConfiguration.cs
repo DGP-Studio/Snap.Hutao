@@ -5,8 +5,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using static Snap.Hutao.Win32.User32;
+using Snap.Hutao.Win32;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
@@ -50,12 +49,7 @@ internal static class IocConfiguration
                     
                     {ex.Message}
                     """;
-                MessageBoxExW(
-                    default,
-                    message,
-                    "Warning | 警告",
-                    MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONERROR,
-                    0);
+                HutaoNative.Instance.ShowErrorMessage("Warning | 警告", message);
                 throw;
             }
 

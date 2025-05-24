@@ -15,20 +15,28 @@ internal static unsafe class HutaoNativeWilCallbacks
         Marshal.ThrowExceptionForHR(HutaoInitializeWilCallbacks(&WilLoggingImpl, &WilMessageImpl));
     }
 
+    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT HutaoInitializeWilCallbacks(delegate* unmanaged[Stdcall]<FailureInfo*, void> loggingCallback, delegate* unmanaged[Stdcall]<FailureInfo*, PWSTR, ulong, void> messageCallback);
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilLoggingImpl(FailureInfo* failure)
     {
-        Debug.WriteLine($"Snap::Hutao::Native:{failure->type}|{failure->flags}|{failure->hr}|{failure->status}|{failure->failureId}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszMessage)}|{failure->threadId}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszCode).ToString()}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFunction).ToString()}|{MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFile).ToString()}|{failure->ulineNumber}");
+        Debug.WriteLine($"""
+            Snap::Hutao::Native:{failure->type}|{failure->flags}|{failure->hr}|{failure->status}|{failure->failureId}
+            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszMessage).ToString()}
+            {failure->threadId}
+            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszCode).ToString()}
+            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFunction).ToString()}
+            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFile).ToString()}
+            {failure->ulineNumber}
+            """);
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilMessageImpl(FailureInfo* failure, PWSTR pszDebugMessage, ulong cchDebugMessage)
     {
-        ReadOnlySpan<char> span = new(pszDebugMessage, (int)cchDebugMessage);
-        Debug.WriteLine(span.ToString());
+        Debug.WriteLine(new ReadOnlySpan<char>(pszDebugMessage, (int)cchDebugMessage).ToString());
     }
 
 #pragma warning disable CS0649

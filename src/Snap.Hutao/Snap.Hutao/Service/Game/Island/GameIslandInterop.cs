@@ -5,16 +5,8 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
-using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.Kernel32;
-using static Snap.Hutao.Win32.Macros;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game.Island;
 
@@ -82,7 +74,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                 InitializeIslandEnvironment(handle, in offsets, context.Options);
                 if (!resume)
                 {
-                    InitializeIsland(context.Process);
+                    DllInjectionUtilities.InjectUsingWindowsHook(dataFolderIslandPath, "DllGetWindowsHookForHutao", context.Process.Id);
                 }
 
                 using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
@@ -147,39 +139,5 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         pIslandEnvironment->RedirectCombineEntry = options.RedirectCombineEntry;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
-    }
-
-    private unsafe void InitializeIsland(Process gameProcess)
-    {
-        HANDLE hModule = default;
-        try
-        {
-            hModule = NativeLibrary.Load(dataFolderIslandPath);
-            nint pIslandGetWindowHook = NativeLibrary.GetExport((nint)(hModule & ~0x3L), "DllGetWindowsHookForHutao");
-
-            HOOKPROC hookProc = default;
-            ((delegate* unmanaged[Stdcall]<HOOKPROC*, HRESULT>)pIslandGetWindowHook)(&hookProc);
-
-            SpinWait.SpinUntil(() => gameProcess.MainWindowHandle is not 0);
-            uint threadId = GetWindowThreadProcessId(gameProcess.MainWindowHandle, default);
-            HHOOK hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, hModule, threadId);
-            if (hHook.Value is 0)
-            {
-                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
-                HutaoException.Throw("SetWindowsHookExW returned 'NULL' but no Error is presented");
-            }
-
-            if (!PostThreadMessageW(threadId, WM_NULL, default, default))
-            {
-                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
-                HutaoException.Throw("PostThreadMessageW returned 'FALSE' but no Error is presented");
-            }
-        }
-        finally
-        {
-            // NEVER UNHOOK: Will cause the dll unload in game process
-            // UnhookWindowsHookEx(hHook);
-            NativeLibrary.Free(hModule);
-        }
     }
 }

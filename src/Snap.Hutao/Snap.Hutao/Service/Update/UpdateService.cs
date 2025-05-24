@@ -76,7 +76,6 @@ internal sealed partial class UpdateService : IUpdateService
             return new(false, ex);
         }
 
-
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HutaoUserOptions hutaoUserOptions = scope.ServiceProvider.GetRequiredService<HutaoUserOptions>();

@@ -9,7 +9,6 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Page;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;

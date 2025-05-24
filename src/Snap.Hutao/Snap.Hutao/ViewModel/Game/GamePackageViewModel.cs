@@ -28,8 +28,6 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
-    // public GameBranch? GameBranch { get; set => SetProperty(ref field, value); }
-
     public Version? LocalVersion
     {
         get;
