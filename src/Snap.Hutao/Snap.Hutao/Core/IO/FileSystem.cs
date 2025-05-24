@@ -4,7 +4,6 @@
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
-using System.IO;
 
 namespace Snap.Hutao.Core.IO;
 

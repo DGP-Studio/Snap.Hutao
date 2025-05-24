@@ -5,6 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Snap.Hutao.Win32;
 
@@ -23,12 +24,12 @@ internal static unsafe class HutaoNativeWilCallbacks
     private static void WilLoggingImpl(FailureInfo* failure)
     {
         Debug.WriteLine($"""
-            Snap::Hutao::Native:{failure->type}|{failure->flags}|{failure->hr}|{failure->status}|{failure->failureId}
+            Snap::Hutao::Native:{failure->type}|{failure->flags}|{failure->hr}|{failure->status.Value}|{failure->failureId}
             {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszMessage).ToString()}
             {failure->threadId}
-            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszCode).ToString()}
-            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFunction).ToString()}
-            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFile).ToString()}
+            {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszCode))}
+            {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFunction))}
+            {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFile))}
             {failure->ulineNumber}
             """);
     }
@@ -101,7 +102,7 @@ internal static unsafe class HutaoNativeWilCallbacks
 
         // [debug only] The function name
         public PCSTR pszFunction;
-        public PCWSTR pszFile;
+        public PCSTR pszFile;
         public uint ulineNumber;
 
         // How many failures of 'type' have been reported in this module so far
