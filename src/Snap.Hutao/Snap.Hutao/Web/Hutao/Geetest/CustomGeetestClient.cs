@@ -28,7 +28,12 @@ internal sealed partial class CustomGeetestClient
         try
         {
             CompositeFormat format = CompositeFormat.Parse(template);
-            HutaoException.ThrowIf(format.MinimumArgumentCount < 2, "At least 2 arguments are required for composite format.");
+            if (format.MinimumArgumentCount < 2)
+            {
+                // If there are less than 2 arguments, we cannot format the string correctly.
+                return GeetestResponse.InternalFailure;
+            }
+
             url = string.Format(CultureInfo.CurrentCulture, format.Format, gt, challenge);
         }
         catch (FormatException)

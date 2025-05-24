@@ -3,13 +3,9 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
-// RAIIFree: CloseHandle
-// InvalidHandleValue: -1, 0
 [SuppressMessage("", "SA1310")]
 internal readonly struct HANDLE
 {
-    public static readonly HANDLE INVALID_HANDLE_VALUE = -1;
-
     public readonly nint Value;
 
     public static unsafe implicit operator HANDLE(nint value)
