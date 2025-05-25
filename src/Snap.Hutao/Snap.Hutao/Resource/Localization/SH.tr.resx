@@ -1051,6 +1051,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Lütfen çanta eşyalarını senkronize etmek için başka yöntemler kullanın</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>一个或多个元数据文件下载失败：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Önbelleğe alınmış meta veri dosyası bulunamadı</value>
   </data>
