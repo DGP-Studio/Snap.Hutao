@@ -1051,6 +1051,9 @@ Ruang Tersedia: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Silakan gunakan metode lain untuk menyinkronkan item tas</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>一个或多个元数据文件下载失败：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Tidak dapat menemukan berkas metadata yang di-cache</value>
   </data>
