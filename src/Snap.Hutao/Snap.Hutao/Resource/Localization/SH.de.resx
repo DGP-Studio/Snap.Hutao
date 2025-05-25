@@ -1051,6 +1051,9 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Bitte verwende andere Methoden, um Rucksackgegenstände zu synchronisieren</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>一个或多个元数据文件下载失败：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Zwischengespeicherte Metadatendatei konnte nicht gefunden werden</value>
   </data>
