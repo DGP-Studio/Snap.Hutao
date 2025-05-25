@@ -1051,6 +1051,9 @@
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>請使用其他方法同步背包物品</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>一个或多个元数据文件下载失败：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>無法找到快取的後設資料檔案</value>
   </data>
