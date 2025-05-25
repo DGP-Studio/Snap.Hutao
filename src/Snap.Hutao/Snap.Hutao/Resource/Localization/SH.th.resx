@@ -1051,6 +1051,9 @@
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>โปรดใช้วิธีการอื่นเพื่อซิงค์ไอเทมในกระเป๋า</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>一个或多个元数据文件下载失败：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>ไม่พบไฟล์ข้อมูลเมตาที่แคชไว้</value>
   </data>
