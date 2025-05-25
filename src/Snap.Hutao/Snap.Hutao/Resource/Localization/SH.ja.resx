@@ -1095,7 +1095,7 @@
     <value>ログインボーナスを獲得しました。{0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>サポートされていないアイテム, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>新しいバージョン {0} が利用できます</value>
