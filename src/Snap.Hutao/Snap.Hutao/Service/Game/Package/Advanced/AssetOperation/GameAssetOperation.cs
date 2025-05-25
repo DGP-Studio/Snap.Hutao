@@ -8,13 +8,11 @@ using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
-using Snap.Hutao.Win32.Foundation;
 using System.Buffers;
 using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
-using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced.AssetOperation;
 
@@ -137,13 +135,17 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         }
         catch (IOException ex)
         {
-            if (ex.HResult == HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_FILE_CORRUPT))
+            switch (ex.HResult)
             {
-                context.Progress.Report(new GamePackageOperationReport.Abort(SH.ServiceGamePackageAdvancedAssetOperationDiskCorrupted));
-            }
-            else if (ex.HResult == HRESULT_FROM_WIN32(WIN32_ERROR.ERROR_NO_SUCH_DEVICE))
-            {
-                context.Progress.Report(new GamePackageOperationReport.Abort(SH.ServiceGamePackageAdvancedAssetOperationNoSuchDevice));
+                // ERROR_FILE_CORRUPT
+                case unchecked((int)0x80070570):
+                    context.Progress.Report(new GamePackageOperationReport.Abort(SH.ServiceGamePackageAdvancedAssetOperationDiskCorrupted));
+                    break;
+
+                // ERROR_NO_SUCH_DEVICE
+                case unchecked((int)0x800701B1):
+                    context.Progress.Report(new GamePackageOperationReport.Abort(SH.ServiceGamePackageAdvancedAssetOperationNoSuchDevice));
+                    break;
             }
 
             throw;

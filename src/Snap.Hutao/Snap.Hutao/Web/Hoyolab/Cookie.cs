@@ -61,12 +61,17 @@ internal sealed partial class Cookie
             return new();
         }
 
-        SortedDictionary<string, string> cookieMap = new()
+        SortedDictionary<string, string> cookieMap = new();
+        if (loginResult.UserInfo is not null)
         {
-            [STUID] = loginResult.UserInfo.Aid,
-            [STOKEN] = loginResult.Token.Token,
-            [MID] = loginResult.UserInfo.Mid,
-        };
+            cookieMap.TryAdd(STUID, loginResult.UserInfo.Aid);
+            cookieMap.TryAdd(MID, loginResult.UserInfo.Mid);
+        }
+
+        if (loginResult.Token is not null)
+        {
+            cookieMap.TryAdd(STOKEN, loginResult.Token.Token);
+        }
 
         return new(cookieMap);
     }

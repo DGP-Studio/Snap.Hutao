@@ -3,6 +3,8 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.Win32;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 
@@ -17,6 +19,13 @@ internal sealed partial class ExceptionHandlingSupport
     public static void Initialize(IServiceProvider serviceProvider, Application app)
     {
         serviceProvider.GetRequiredService<ExceptionHandlingSupport>().Attach(app);
+    }
+
+    public static DbException KillProcessOnDbException(DbException exception)
+    {
+        HutaoNative.Instance.ShowErrorMessage("Warning | 警告", exception.Message);
+        Process.GetCurrentProcess().Kill();
+        throw exception;
     }
 
     private static void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -68,6 +77,7 @@ internal sealed partial class ExceptionHandlingSupport
             return;
         }
 
+        string a = exception.ToString();
         Debugger.Break();
     }
 

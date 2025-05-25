@@ -4,6 +4,7 @@
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Pipes;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
@@ -20,29 +21,37 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
             return false;
         }
 
-        clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.RequestElevationStatus);
-        clientStream.ReadPacket(out PipePacketHeader _, out ElevationStatusResponse? response);
-        ArgumentNullException.ThrowIfNull(response);
-
-        // Prefer elevated instance
-        if (HutaoRuntime.IsProcessElevated && !response.IsElevated)
+        try
         {
-            // Notify previous instance to exit
-            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.Exit);
-            clientStream.Flush();
-            WaitPreviousProcessExit(response);
+            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.RequestElevationStatus);
+            clientStream.ReadPacket(out PipePacketHeader _, out ElevationStatusResponse? response);
+            ArgumentNullException.ThrowIfNull(response);
 
-            // Retain the elevated instance
+            // Prefer elevated instance
+            if (HutaoRuntime.IsProcessElevated && !response.IsElevated)
+            {
+                // Notify previous instance to exit
+                clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.Exit);
+                clientStream.Flush();
+                WaitPreviousProcessExit(response);
+
+                // Retain the elevated instance
+                return false;
+            }
+
+            // Redirect to previous instance
+            HutaoActivationArguments hutaoArgs = HutaoActivationArguments.FromAppActivationArguments(args, isRedirected: true);
+            clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.RedirectActivation, hutaoArgs);
+            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
+            clientStream.Flush();
+
+            return true;
+        }
+        catch (IOException)
+        {
+            // Pipe is broken.
             return false;
         }
-
-        // Redirect to previous instance
-        HutaoActivationArguments hutaoArgs = HutaoActivationArguments.FromAppActivationArguments(args, isRedirected: true);
-        clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.RedirectActivation, hutaoArgs);
-        clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
-        clientStream.Flush();
-
-        return true;
     }
 
     public void Dispose()

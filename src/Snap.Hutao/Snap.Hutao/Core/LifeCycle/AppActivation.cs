@@ -184,12 +184,15 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             try
             {
-                _ = serviceProvider.GetRequiredService<NotifyIconController>();
+                serviceProvider.GetRequiredService<NotifyIconController>().Create();
                 XamlApplicationLifetime.NotifyIconCreated = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Ignore
+                if (ex is not InvalidOperationException)
+                {
+                    SentrySdk.CaptureException(ex);
+                }
             }
         }
 
@@ -198,7 +201,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         // Services Initialization
         await Task.WhenAll(
         [
-            serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAllAsync().AsTask(),
+            serviceProvider.GetRequiredService<HotKeyOptions>().InitializeAsync().AsTask(),
             serviceProvider.GetRequiredService<HutaoUserOptions>().InitializeAsync().AsTask(),
             serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().AsTask(),
             serviceProvider.GetRequiredService<IMetadataService>().InitializeInternalAsync().AsTask(),

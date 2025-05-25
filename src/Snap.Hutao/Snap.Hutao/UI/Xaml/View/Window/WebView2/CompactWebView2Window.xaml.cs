@@ -199,7 +199,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Go back", "CompactWebView2Window.Command"));
 
-        if (WebView.CoreWebView2.CanGoBack)
+        if (WebView?.CoreWebView2 is { CanGoBack: true })
         {
             WebView.CoreWebView2.GoBack();
         }
@@ -209,7 +209,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private void Refresh()
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Refresh", "CompactWebView2Window.Command"));
-        WebView.CoreWebView2.Reload();
+        WebView?.CoreWebView2?.Reload();
     }
 
     [Command("StopRefreshCommand")]

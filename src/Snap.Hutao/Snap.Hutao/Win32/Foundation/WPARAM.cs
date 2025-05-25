@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
+// ReSharper disable InconsistentNaming
 internal readonly struct WPARAM
 {
     public readonly nuint Value;
@@ -23,7 +24,7 @@ internal readonly struct WPARAM
         return *(WPARAM*)&data;
     }
 
-    public static unsafe implicit operator WPARAM(ushort value)
+    public static implicit operator WPARAM(ushort value)
     {
         return new(value);
     }

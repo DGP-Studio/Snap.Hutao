@@ -3,6 +3,7 @@
 
 using Snap.Discord.GameSDK.ABI;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -156,6 +157,11 @@ internal static class DiscordController
             try
             {
                 Methods.DiscordCreate(3, &@params, &ptr);
+            }
+            catch (FileNotFoundException)
+            {
+                // Critical program integrity error
+                Process.GetCurrentProcess().Kill();
             }
             catch (DllNotFoundException)
             {

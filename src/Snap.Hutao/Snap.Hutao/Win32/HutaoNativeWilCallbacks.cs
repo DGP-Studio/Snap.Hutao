@@ -4,7 +4,9 @@
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Snap.Hutao.Win32;
 
@@ -15,20 +17,21 @@ internal static unsafe class HutaoNativeWilCallbacks
         Marshal.ThrowExceptionForHR(HutaoInitializeWilCallbacks(&WilLoggingImpl, &WilMessageImpl));
     }
 
+    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT HutaoInitializeWilCallbacks(delegate* unmanaged[Stdcall]<FailureInfo*, void> loggingCallback, delegate* unmanaged[Stdcall]<FailureInfo*, PWSTR, ulong, void> messageCallback);
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilLoggingImpl(FailureInfo* failure)
     {
-        Debug.WriteLine("Snap::Hutao::Native");
+        SentrySdk.CaptureException(new HutaoNativeException(*failure));
+        SentrySdk.Flush();
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilMessageImpl(FailureInfo* failure, PWSTR pszDebugMessage, ulong cchDebugMessage)
     {
-        ReadOnlySpan<char> span = new(pszDebugMessage, (int)cchDebugMessage);
-        Debug.WriteLine(span.ToString());
+        Debug.WriteLine(new ReadOnlySpan<char>(pszDebugMessage, (int)cchDebugMessage).ToString());
     }
 
 #pragma warning disable CS0649
@@ -36,7 +39,7 @@ internal static unsafe class HutaoNativeWilCallbacks
 #pragma warning disable SA1307
 
     // ReSharper disable InconsistentNaming
-    private enum FailureType
+    internal enum FailureType
     {
         // THROW_...
         Exception,
@@ -51,7 +54,7 @@ internal static unsafe class HutaoNativeWilCallbacks
         FailFast,
     }
 
-    private enum FailureFlags
+    internal enum FailureFlags
     {
         None = 0x00,
         RequestFailFast = 0x01,
@@ -60,7 +63,7 @@ internal static unsafe class HutaoNativeWilCallbacks
         NtStatus = 0x08,
     }
 
-    private struct CallContextInfo
+    internal struct CallContextInfo
     {
         // incrementing ID for this call context (unique across an individual module load within process)
         public long contextId;
@@ -72,7 +75,7 @@ internal static unsafe class HutaoNativeWilCallbacks
         public PCWSTR contextMessage;
     }
 
-    private struct FailureInfo
+    internal struct FailureInfo
     {
         public FailureType type;
         public FailureFlags flags;
@@ -93,7 +96,7 @@ internal static unsafe class HutaoNativeWilCallbacks
 
         // [debug only] The function name
         public PCSTR pszFunction;
-        public PCWSTR pszFile;
+        public PCSTR pszFile;
         public uint ulineNumber;
 
         // How many failures of 'type' have been reported in this module so far
@@ -122,4 +125,21 @@ internal static unsafe class HutaoNativeWilCallbacks
 #pragma warning restore SA1307
 #pragma warning restore SA1201
 #pragma warning restore CS0649
+
+    internal sealed class HutaoNativeException : Exception
+    {
+        public HutaoNativeException(FailureInfo info)
+            : base(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszMessage).ToString())
+        {
+            Data["Type"] = info.type;
+            Data["Flags"] = info.flags;
+            HResult = info.hr;
+            Data["Code"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszCode)); // Debug only
+            Data["Module"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszModule));
+            Data["ReturnAddress"] = $"0x{info.returnAddress:X16}";
+            Data["CallerReturnAddress"] = $"0x{info.callerReturnAddress:X16}";
+
+            ExceptionDispatchInfo.SetRemoteStackTrace(this, $"at <AnomymousMethod> in {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile))}:line {info.ulineNumber}");
+        }
+    }
 }

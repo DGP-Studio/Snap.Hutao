@@ -3,14 +3,13 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
-// RAIIFree: CloseHandle
-// InvalidHandleValue: -1, 0
+// ReSharper disable InconsistentNaming
 [SuppressMessage("", "SA1310")]
 internal readonly struct HANDLE
 {
-    public static readonly HANDLE INVALID_HANDLE_VALUE = -1;
-
+#pragma warning disable CS0649
     public readonly nint Value;
+#pragma warning restore CS0649
 
     public static unsafe implicit operator HANDLE(nint value)
     {

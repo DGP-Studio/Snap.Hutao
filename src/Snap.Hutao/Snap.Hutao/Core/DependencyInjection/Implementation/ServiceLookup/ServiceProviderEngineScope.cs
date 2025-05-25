@@ -80,14 +80,13 @@ internal sealed partial class ServiceProviderEngineScope : IServiceScope, IServi
         {
             for (int i = toDispose.Count - 1; i >= 0; i--)
             {
-                if (toDispose[i] is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
-                else
+                if (toDispose[i] is not IDisposable disposable)
                 {
                     throw new InvalidOperationException($"'{TypeNameHelper.GetTypeDisplayName(toDispose[i])}' type only implements IAsyncDisposable. Use DisposeAsync to dispose the container.");
                 }
+
+                disposable.Dispose();
+                GC.KeepAlive(disposable);
             }
         }
     }

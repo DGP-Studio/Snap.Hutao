@@ -9,7 +9,6 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.UI;
 using Snap.Hutao.Web.Hutao.Wallpaper;
 using Snap.Hutao.Web.Response;
-using Snap.Hutao.Win32.Foundation;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using System.IO;
@@ -87,7 +86,8 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 }
 
                 // 0xC00D36BE MF_E_INVALID_FILE_FORMAT: Throw to let user know which file is invalid
-                if (comException.HResult != HRESULT.E_FAIL)
+                // E_FAIL
+                if (comException.HResult is not unchecked((int)0x80004005))
                 {
                     comException.Data.Add("FilePath", path);
                     comException.Data.Add("HResult", $"0x{comException.HResult:X8}");

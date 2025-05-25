@@ -34,7 +34,7 @@ internal sealed partial class TempFileStream : Stream
     public static TempFileStream CopyFrom(string file, FileMode mode, FileAccess access)
     {
         string path = Path.GetTempFileName();
-        File.Copy(file, path, true);
+        FileOperation.Copy(file, path, true);
         return new(path, mode, access);
     }
 

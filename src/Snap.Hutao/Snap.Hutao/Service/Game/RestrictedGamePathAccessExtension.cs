@@ -44,7 +44,7 @@ internal static class RestrictedGamePathAccessExtension
         // We need update the entries when game path not in the entries.
         if (!access.GamePathLock.TryWriterLock(out AsyncReaderWriterLock.Releaser releaser))
         {
-            throw HutaoException.InvalidOperation("Cannot get game path entries while it is being used.");
+            throw HutaoException.InvalidOperation("Cannot set game path entries while it is being used.");
         }
 
         using (releaser)

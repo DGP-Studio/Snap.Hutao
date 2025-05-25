@@ -10,9 +10,7 @@ using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.InteropServices;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
@@ -33,7 +31,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
         this.parentWindowId = parentWindowId;
 
         // Make sure this window has a parent window before we make modal
-        SetWindowLongPtrW(this.GetWindowHandle(), WINDOW_LONG_PTR_INDEX.GWLP_HWNDPARENT, Win32Interop.GetWindowFromWindowId(parentWindowId));
+        WindowUtilities.SetWindowOwner(this.GetWindowHandle(), Win32Interop.GetWindowFromWindowId(parentWindowId));
+
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsModal = true;
@@ -61,8 +60,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     public new void Activate()
     {
         HWND parentHwnd = Win32Interop.GetWindowFromWindowId(parentWindowId);
-        WindowExtension.SwitchTo(parentHwnd);
-        EnableWindow(parentHwnd, false);
+        WindowUtilities.SwitchToWindow(parentHwnd);
+        WindowUtilities.SetWindowIsEnabled(parentHwnd, false);
         base.Activate();
 
         AppWindow.MoveThenResize(contentProvider.InitializePosition(AppWindow.GetFromWindowId(parentWindowId).GetRect(), this.GetRasterizationScale()));
@@ -83,10 +82,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
     public void OnWindowClosed()
     {
         HWND parentHwnd = Win32Interop.GetWindowFromWindowId(parentWindowId);
-        EnableWindow(parentHwnd, true);
-
-        // Reactive parent window
-        SetForegroundWindow(parentHwnd);
+        WindowUtilities.SetWindowIsEnabled(parentHwnd, true);
+        WindowUtilities.SwitchToWindow(parentHwnd);
 
         scopeLock.Wait();
         scopeLock.Release();

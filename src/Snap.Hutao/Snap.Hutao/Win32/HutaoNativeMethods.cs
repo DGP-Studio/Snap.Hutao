@@ -15,6 +15,7 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNativeLoopbackSupport = "8607ACE4-313C-4C26-B1FB-CA11173B6953";
     public const string IID_IHutaoNativeRegistryNotification = "EF118E91-8AD9-4C27-997D-DAF8910B34BE";
     public const string IID_IHutaoNativeWindowSubclass = "9631921E-A6CA-4150-9939-99B5467B2FD6";
+    public const string IID_IHutaoNativeWindowNonRude = "A0AD4485-702B-44B6-B48E-F82240EBBAEF";
     public const string IID_IHutaoNative = "D00F73FF-A1C7-4091-8CB6-D90991DD40CB";
     public const string IID_IHutaoNativeDeviceCapabilities = "1920EFA1-9953-4260-AFB1-35B1672758C1";
     public const string IID_IHutaoNativePhysicalDrive = "F90535D7-AFF6-4008-BA8C-15C47FC9660D";
@@ -24,9 +25,13 @@ internal static unsafe class HutaoNativeMethods
     public const string IID_IHutaoNativeFileSystem = "FDD58117-0C7F-44D8-A7A2-8B1766474A93";
     public const string IID_IHutaoNativeFileSystem2 = "62616943-38e6-4bbb-84d1-dab847cb2145";
     public const string IID_IHutaoNativeFileSystem3 = "6DBCFC5C-2555-44DB-AF9D-2A2628CF726E";
+    public const string IID_IHutaoNativeFileSystem4 = "FB4825F4-3A7F-47A1-8923-32933CB7DE92";
     public const string IID_IHutaoNative4 = "27942FBE-322F-4157-9B8C-A38FDB827B05";
     public const string IID_IHutaoNativeNotifyIcon = "C2203FA4-BB97-47E0-8F72-C96879E4CB11";
     public const string IID_IHutaoNative5 = "7B4D20F1-4DAD-492E-8485-B4701A2ED19B";
+    public const string IID_IHutaoNativeHotKeyAction = "8C776674-9910-4721-A764-97BDB791F719";
+    public const string IID_IHutaoNative6 = "B68CABFA-C55A-49FA-8C51-21615C594E2B";
+    public const string IID_IHutaoPrivate = "1A6980D9-EB36-4E3E-86E7-3665C57C6E8D";
 
     // ReSharper restore InconsistentNaming
     public const string DllName = "Snap.Hutao.Native.dll";

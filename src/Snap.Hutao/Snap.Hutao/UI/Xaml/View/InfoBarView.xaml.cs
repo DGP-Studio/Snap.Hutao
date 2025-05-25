@@ -8,6 +8,7 @@ using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
@@ -56,7 +57,15 @@ internal sealed partial class InfoBarView : UserControl
                     if (ShowButtonBorder is not null && VisualTreeHelper.GetParent(ShowButtonBorder) is not null &&
                         InfoBarItemsBorder is not null && VisualTreeHelper.GetParent(InfoBarItemsBorder) is not null)
                     {
-                        await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                        try
+                        {
+                            await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                        }
+                        catch (COMException)
+                        {
+                            // 0x8000FFFF Catastrophic failure
+                            // Happened when the app is exiting
+                        }
                     }
                 }
 
@@ -75,7 +84,15 @@ internal sealed partial class InfoBarView : UserControl
                     if (InfoBarItemsBorder is not null && VisualTreeHelper.GetParent(InfoBarItemsBorder) is not null &&
                         ShowButtonBorder is not null && VisualTreeHelper.GetParent(ShowButtonBorder) is not null)
                     {
-                        await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                        try
+                        {
+                            await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                        }
+                        catch (COMException)
+                        {
+                            // 0x8000FFFF Catastrophic failure
+                            // Happened when the app is exiting
+                        }
                     }
                 }
 

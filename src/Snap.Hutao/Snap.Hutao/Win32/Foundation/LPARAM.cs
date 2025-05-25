@@ -3,9 +3,12 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
+// ReSharper disable InconsistentNaming
 internal readonly struct LPARAM
 {
+#pragma warning disable CS0649
     public readonly nint Value;
+#pragma warning restore CS0649
 
     public static unsafe implicit operator void*(LPARAM value)
     {

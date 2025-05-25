@@ -3,9 +3,11 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.UI.Xaml.Data;
+using System.Data.Common;
 
 namespace Snap.Hutao.Core.Database;
 
@@ -45,11 +47,19 @@ internal sealed partial class AdvancedDbCollectionView<TEntity> : AdvancedCollec
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
 
-            if (currentItem is not null)
+            try
             {
-                dbContext.Set<TEntity>().UpdateAndSave(currentItem);
+                dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
+
+                if (currentItem is not null)
+                {
+                    dbContext.Set<TEntity>().UpdateAndSave(currentItem);
+                }
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
             }
         }
     }
@@ -112,11 +122,19 @@ internal sealed partial class AdvancedDbCollectionView<TEntityAccess, TEntity> :
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
 
-            if (currentItem is not null)
+            try
             {
-                dbContext.Set<TEntity>().UpdateAndSave(currentItem.Entity);
+                dbContext.Set<TEntity>().ExecuteUpdate(static update => update.SetProperty(entity => entity.IsSelected, false));
+
+                if (currentItem is not null)
+                {
+                    dbContext.Set<TEntity>().UpdateAndSave(currentItem.Entity);
+                }
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
             }
         }
     }

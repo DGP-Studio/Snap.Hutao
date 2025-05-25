@@ -29,9 +29,8 @@ internal static class SettingKeys
     public const string StaticResourceImageQuality = "StaticResourceImageQuality";
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyRepeatForeverInGameOnly = "HotKeyRepeatForeverInGameOnly";
-    public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
-    public const string HotKeyKeyPressRepeatForever = "HotKeyKeyPressRepeatForever";
-    public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled3";
+    public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever2";
+    public const string HotKeyKeyPressRepeatForever = "HotKeyKeyPressRepeatForever2";
     public const string IsLastWindowCloseBehaviorSet = "IsLastWindowCloseBehaviorSet";
     #endregion
 
@@ -109,10 +108,19 @@ internal static class SettingKeys
     public const string IsAllocConsoleDebugModeEnabledLegacy2 = "IsAllocConsoleDebugModeEnabled2";
 
     [Obsolete]
+    public const string IsAllocConsoleDebugModeEnabledLegacy3 = "IsAllocConsoleDebugModeEnabled3";
+
+    [Obsolete]
     public const string AllowExtractGameBlks = "AllowExtractGameBlks";
 
     [Obsolete("第一次重置悬浮窗初始状态")]
     public const string OverlayWindowIsVisibleLegacy1 = "OverlayWindowIsVisible";
+
+    [Obsolete]
+    public const string HotKeyMouseClickRepeatForeverLegacy1 = "HotKeyMouseClickRepeatForever";
+
+    [Obsolete]
+    public const string HotKeyKeyPressRepeatForeverLegacy1 = "HotKeyKeyPressRepeatForever";
 
     #endregion
 }

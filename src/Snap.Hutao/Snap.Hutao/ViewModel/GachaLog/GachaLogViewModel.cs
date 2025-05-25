@@ -19,7 +19,6 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Setting;
-using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
@@ -187,7 +186,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
         catch (COMException ex)
         {
-            if (ex.HResult == HRESULT.E_ASYNC_OPERATION_NOT_STARTED)
+            // E_ASYNC_OPERATION_NOT_STARTED
+            if (ex.HResult is unchecked((int)0x80000019))
             {
                 infoBarService.Error(ex);
                 return;

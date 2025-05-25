@@ -11,6 +11,7 @@ using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
+using System.Data.Common;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -32,7 +33,14 @@ internal sealed partial class GachaLogService : IGachaLogService
     {
         using (await archivesLock.LockAsync().ConfigureAwait(false))
         {
-            archives ??= gachaLogRepository.GetGachaArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
+            try
+            {
+                archives ??= gachaLogRepository.GetGachaArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
         }
 
         return archives;
@@ -42,7 +50,16 @@ internal sealed partial class GachaLogService : IGachaLogService
     {
         using (ValueStopwatch.MeasureExecution(logger))
         {
-            ImmutableArray<GachaItem> items = gachaLogRepository.GetGachaItemImmutableArrayByArchiveId(archive.InnerId);
+            ImmutableArray<GachaItem> items;
+            try
+            {
+                items = gachaLogRepository.GetGachaItemImmutableArrayByArchiveId(archive.InnerId);
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
+
             return await gachaStatisticsFactory.CreateAsync(context, items).ConfigureAwait(false);
         }
     }

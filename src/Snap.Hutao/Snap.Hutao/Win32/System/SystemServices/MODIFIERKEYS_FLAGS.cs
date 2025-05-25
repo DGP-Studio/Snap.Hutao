@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.SystemServices;
 
+// ReSharper disable InconsistentNaming
 [Flags]
 internal enum MODIFIERKEYS_FLAGS : uint
 {

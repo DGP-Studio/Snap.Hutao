@@ -94,4 +94,9 @@ internal static class FileSystem
     {
         return Native.PickFolder(hWnd, title, out path);
     }
+
+    public static void CopyFileAllowDecryptedDestination(string existingFileName, string newFileName, bool overwrite)
+    {
+        Native.CopyFileAllowDecryptedDestination(existingFileName, newFileName, overwrite);
+    }
 }

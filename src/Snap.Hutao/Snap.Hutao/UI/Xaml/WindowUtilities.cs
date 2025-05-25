@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.UI.Xaml;
 
+[SuppressMessage("", "SYSLIB1054")]
 internal static unsafe class WindowUtilities
 {
     public static void SwitchToWindow(HWND hWnd)
@@ -46,31 +47,40 @@ internal static unsafe class WindowUtilities
         return scale;
     }
 
-    [SuppressMessage("", "SYSLIB1054")]
+    public static void SetWindowIsEnabled(HWND hWnd, BOOL isEnabled)
+    {
+        Marshal.ThrowExceptionForHR(WindowUtilitiesSetWindowIsEnabled(hWnd, isEnabled));
+    }
+
+    public static void SetWindowOwner(HWND hWnd, HWND hWndOwner)
+    {
+        Marshal.ThrowExceptionForHR(WindowUtilitiesSetWindowOwner(hWnd, hWndOwner));
+    }
+
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesSwitchToWindow(HWND hWnd);
 
-    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesAddExtendedStyleLayered(HWND hWnd);
 
-    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesRemoveExtendedStyleLayered(HWND hWnd);
 
-    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesSetLayeredWindowTransparency(HWND hWnd, byte opacity);
 
-    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesAddExtendedStyleToolWindow(HWND hWnd);
 
-    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesRemoveStyleOverlappedWindow(HWND hWnd);
 
-    [SuppressMessage("", "SYSLIB1054")]
     [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT WindowUtilitiesGetRasterizationScaleForWindow(HWND hWnd, float* scale);
+
+    [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT WindowUtilitiesSetWindowIsEnabled(HWND hWnd, BOOL isEnabled);
+
+    [DllImport(HutaoNativeMethods.DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern HRESULT WindowUtilitiesSetWindowOwner(HWND hWnd, HWND hWndOwner);
 }

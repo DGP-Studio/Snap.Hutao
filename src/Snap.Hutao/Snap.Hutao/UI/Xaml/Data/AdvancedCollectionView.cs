@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Collections;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Core;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -678,7 +679,16 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         }
 
         OnCurrentChangedOverride();
-        CurrentChanged?.Invoke(this, default!);
+        try
+        {
+            CurrentChanged?.Invoke(this, default!);
+        }
+        catch (Exception ex)
+        {
+            ex.Data["CollectionElementType"] = TypeNameHelper.GetTypeDisplayName(typeof(T));
+            throw;
+        }
+
         OnPropertyChanged(nameof(CurrentItem));
     }
 

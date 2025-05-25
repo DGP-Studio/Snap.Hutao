@@ -5,13 +5,12 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Security.Principal;
-using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using Snap.Hutao.Win32;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using WinRT;
-using static Snap.Hutao.Win32.User32;
 
 // Visible to test project.
 [assembly: InternalsVisibleTo("Snap.Hutao.Test")]
@@ -114,18 +113,13 @@ public static partial class Bootstrap
 
     private static bool OSPlatformSupported()
     {
-        if (!UniversalApiContract.IsCurrentWindowsVersionSupported.Value)
+        if (!HutaoNative.Instance.IsCurrentWindowsVersionSupported())
         {
             const string Message = """
-                Snap Hutao 无法在版本低于 10.0.19045.5371 的 Windows 上运行，请更新系统。
-                Snap Hutao cannot run on Windows versions earlier than 10.0.19045.5371. Please update your system.
+                Snap Hutao 无法在非 Windows 10 或 Windows 11 上运行，请更新系统。
+                Snap Hutao cannot run on non-Windows 10 or Windows 11. Please update your system.
                 """;
-            MessageBoxExW(
-                default,
-                Message,
-                "Warning | 警告",
-                MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONERROR,
-                0);
+            HutaoNative.Instance.ShowErrorMessage("Warning | 警告", Message);
             return false;
         }
 

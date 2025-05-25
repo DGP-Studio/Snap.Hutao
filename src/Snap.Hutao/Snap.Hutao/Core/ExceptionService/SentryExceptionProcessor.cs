@@ -5,6 +5,7 @@ using Sentry.Extensibility;
 using Sentry.Protocol;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -20,6 +21,9 @@ internal sealed class SentryExceptionProcessor : ISentryEventExceptionProcessor
                 {
                     switch (ex)
                     {
+                        case COMException comException:
+                            mechanism.Data["ErrorCode"] = $"0x{comException.ErrorCode:X8}";
+                            break;
                         case HttpRequestException httpRequestException:
                             mechanism.Data["HttpRequestError"] = $"{httpRequestException.HttpRequestError}";
                             break;

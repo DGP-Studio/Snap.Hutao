@@ -5,13 +5,36 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.UI.Xaml;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
 internal abstract partial class ViewModel : ObservableObject, IViewModel
 {
-    public bool IsInitialized { get; set => SetProperty(ref field, value); }
+    public bool IsInitialized
+    {
+        get;
+        set
+        {
+            try
+            {
+                SetProperty(ref field, value);
+            }
+            catch (COMException ex)
+            {
+                if (ex.HResult == unchecked((int)0x8000FFFF))
+                {
+                    Debug.Assert(XamlApplicationLifetime.Exiting);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+    }
 
     public CancellationToken CancellationToken { get; set; }
 

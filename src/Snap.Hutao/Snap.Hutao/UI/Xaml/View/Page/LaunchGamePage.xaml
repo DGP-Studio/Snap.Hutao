@@ -509,9 +509,9 @@
                                                         <ToggleSwitch
                                                             Grid.Row="3"
                                                             Grid.Column="1"
-                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirecCombineEntryHeader}"
+                                                            Header="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryHeader}"
                                                             IsOn="{Binding LaunchOptions.RedirectCombineEntry, Mode=TwoWay}"
-                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirecCombineEntryDescription}"/>
+                                                            ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageLaunchGameIslandRedirectCombineEntryDescription}"/>
                                                         <ToggleSwitch
                                                             Grid.Row="3"
                                                             Grid.Column="2"

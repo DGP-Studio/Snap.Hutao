@@ -7,6 +7,7 @@ using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Globalization;
 using System.Net.Http;
+using System.Text;
 
 namespace Snap.Hutao.Web.Hutao.Geetest;
 
@@ -25,7 +26,14 @@ internal sealed partial class CustomGeetestClient
         string url;
         try
         {
-            url = string.Format(CultureInfo.CurrentCulture, template, gt, challenge);
+            CompositeFormat format = CompositeFormat.Parse(template);
+            if (format.MinimumArgumentCount < 2)
+            {
+                // If there are less than 2 arguments, we cannot format the string correctly.
+                return GeetestResponse.InternalFailure;
+            }
+
+            url = string.Format(CultureInfo.CurrentCulture, format.Format, gt, challenge);
         }
         catch (FormatException)
         {

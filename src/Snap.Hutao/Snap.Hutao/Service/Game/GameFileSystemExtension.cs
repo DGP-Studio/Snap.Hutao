@@ -258,13 +258,26 @@ internal static class GameFileSystemExtension
         }
 
         string? version = default;
-        foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
+        try
         {
-            if (element is IniParameter { Key: "game_version" } parameter)
+            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
             {
-                version = parameter.Value;
-                break;
+                if (element is IniParameter { Key: "game_version" } parameter)
+                {
+                    version = parameter.Value;
+                    break;
+                }
             }
+        }
+        catch (IOException ex)
+        {
+            // ERROR_NO_SUCH_DEVICE 指定不存在的设备
+            if (ex.HResult is unchecked((int)0x800701B1))
+            {
+                return false;
+            }
+
+            throw;
         }
 
         string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();

@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Collections.Immutable;
 using System.IO;
@@ -35,7 +36,7 @@ internal sealed class GamePackageExtractBlocksOperation : GamePackageOperation
             }
 
             string newFilePath = Path.Combine(context.Operation.EffectiveGameDirectory, fileName);
-            File.Copy(file, newFilePath, true);
+            FileOperation.Copy(file, newFilePath, true);
             AssetProperty asset = localBuild.Manifests.Single().Data.Assets.Single(a => a.AssetName.Contains(fileName, StringComparison.OrdinalIgnoreCase));
             context.Progress.Report(new GamePackageOperationReport.Install(asset.AssetSize, asset.AssetChunks.Count));
         }

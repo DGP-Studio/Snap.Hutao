@@ -26,7 +26,7 @@ internal sealed unsafe class HutaoString
     {
         PCWSTR buffer;
         Marshal.ThrowExceptionForHR(objRef.Vftbl.GetBuffer(objRef.ThisPtr, &buffer));
-        return buffer.Value == null ? null : MemoryMarshal.CreateReadOnlySpanFromNullTerminated(buffer).ToString();
+        return buffer.Value is null ? null : MemoryMarshal.CreateReadOnlySpanFromNullTerminated(buffer).ToString();
     }
 
     [Guid(HutaoNativeMethods.IID_IHutaoString)]

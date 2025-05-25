@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
+// ReSharper disable InconsistentNaming
 [SuppressMessage("", "SA1307")]
 internal struct RECT
 {
