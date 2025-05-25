@@ -1051,6 +1051,9 @@ Espacio disponible: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Utiliza otros métodos para sincronizar los objetos de la mochila</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>一个或多个元数据文件下载失败：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>No se puede encontrar el archivo de metadatos en caché</value>
   </data>
