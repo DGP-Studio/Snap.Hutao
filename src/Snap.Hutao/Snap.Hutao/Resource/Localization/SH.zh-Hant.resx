@@ -2764,10 +2764,10 @@
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
   </data>
-  <data name="ViewPageLaunchGameIslandRedirecCombineEntryDescription" xml:space="preserve">
+  <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>在物品詳情中點擊可合成數量時直接打開合成頁面而不是地圖</value>
   </data>
-  <data name="ViewPageLaunchGameIslandRedirecCombineEntryHeader" xml:space="preserve">
+  <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
     <value>重新導向合成</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
