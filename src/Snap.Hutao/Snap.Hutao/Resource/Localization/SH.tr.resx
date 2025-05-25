@@ -1052,7 +1052,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Lütfen çanta eşyalarını senkronize etmek için başka yöntemler kullanın</value>
   </data>
   <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
-    <value>一个或多个元数据文件下载失败：{0}</value>
+    <value>Bir veya daha fazla meta veri dosyası indirilemedi: {0}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Önbelleğe alınmış meta veri dosyası bulunamadı</value>
@@ -1073,7 +1073,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Snap Hutao sürümünüz eski, lütfen en kısa sürede güncelleyin</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>Oyun kaynağı işlemi başarısız oldu</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Telafi girişi başarısız oldu, {0}</value>
@@ -1097,7 +1097,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Giriş başarılı, {0} × {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>Desteklenmeyen eşya, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Yeni bir {0} sürümü mevcut.</value>
@@ -2764,10 +2764,10 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>Enjeksiyon</value>
   </data>
-  <data name="ViewPageLaunchGameIslandRedirecCombineEntryDescription" xml:space="preserve">
+  <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
     <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
   </data>
-  <data name="ViewPageLaunchGameIslandRedirecCombineEntryHeader" xml:space="preserve">
+  <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
     <value>重定向合成</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
