@@ -1,9 +1,13 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.Achievement;
+using Snap.Hutao.Win32;
 using System.Collections.Immutable;
+using System.Data.Common;
+using System.Diagnostics;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -27,7 +31,17 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
     private ImmutableArray<AchievementStatistics> SynchronizedGetAchievementStatistics(AchievementServiceMetadataContext context)
     {
         ImmutableArray<AchievementStatistics>.Builder results = ImmutableArray.CreateBuilder<AchievementStatistics>();
-        foreach (ref readonly AchievementArchive archive in achievementRepository.GetAchievementArchiveImmutableArray().AsSpan())
+        ReadOnlySpan<AchievementArchive> span;
+        try
+        {
+            span = achievementRepository.GetAchievementArchiveImmutableArray().AsSpan();
+        }
+        catch (DbException ex)
+        {
+            throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+        }
+
+        foreach (ref readonly AchievementArchive archive in span)
         {
             int finishedCount = achievementRepository.GetFinishedAchievementCountByArchiveId(archive.InnerId);
             int totalCount = context.IdAchievementMap.Count;

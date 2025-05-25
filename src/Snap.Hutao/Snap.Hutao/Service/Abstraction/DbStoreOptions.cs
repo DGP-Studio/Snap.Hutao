@@ -3,12 +3,17 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using JetBrains.Annotations;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Win32;
 using System.Collections.Immutable;
+using System.Data.Common;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
@@ -116,7 +121,16 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
+            string? value;
+            try
+            {
+                value = GetValue(appDbContext, key);
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
+
             storage = value is null ? defaultValueFactory() : deserializer(value);
         }
 
@@ -134,7 +148,16 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
+            string? value;
+            try
+            {
+                value = GetValue(appDbContext, key);
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
+
             storage = value is null ? defaultValueFactory() : deserializer(value);
         }
 
@@ -151,7 +174,16 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value = GetValue(appDbContext, key);
+            string? value;
+            try
+            {
+                value = GetValue(appDbContext, key);
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
+
             storage = value is null ? defaultValue : array.Single(item => serializer(item.Value) == value);
         }
 
@@ -188,8 +220,16 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
-            appDbContext.Settings.AddAndSave(new(key, serializer(value)));
+
+            try
+            {
+                appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
+                appDbContext.Settings.AddAndSave(new(key, serializer(value)));
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
         }
 
         return true;

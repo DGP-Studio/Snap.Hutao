@@ -1,6 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Metadata;
@@ -8,6 +9,7 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Enka;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using System.Data.Common;
 
 namespace Snap.Hutao.Service.User;
 
@@ -65,8 +67,15 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
             // to handle transaction over multiple DbContext
             lock (syncRoot)
             {
-                uidProfilePictureRepository.DeleteUidProfilePictureByUid(userGameRole.GameUid);
-                uidProfilePictureRepository.UpdateUidProfilePicture(profilePicture);
+                try
+                {
+                    uidProfilePictureRepository.DeleteUidProfilePictureByUid(userGameRole.GameUid);
+                    uidProfilePictureRepository.UpdateUidProfilePicture(profilePicture);
+                }
+                catch (DbException ex)
+                {
+                    throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+                }
             }
 
             await TryAttachProfilePictureToUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false);

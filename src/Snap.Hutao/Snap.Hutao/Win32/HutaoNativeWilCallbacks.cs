@@ -4,6 +4,7 @@
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -23,15 +24,7 @@ internal static unsafe class HutaoNativeWilCallbacks
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static void WilLoggingImpl(FailureInfo* failure)
     {
-        Debug.WriteLine($"""
-            Snap::Hutao::Native:{failure->type}|{failure->flags}|{failure->hr}|{failure->status.Value}|{failure->failureId}
-            {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszMessage).ToString()}
-            {failure->threadId}
-            {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszCode))}
-            {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFunction))}
-            {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(failure->pszFile))}
-            {failure->ulineNumber}
-            """);
+        SentrySdk.CaptureException(new HutaoNativeException(*failure));
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
@@ -45,7 +38,7 @@ internal static unsafe class HutaoNativeWilCallbacks
 #pragma warning disable SA1307
 
     // ReSharper disable InconsistentNaming
-    private enum FailureType
+    internal enum FailureType
     {
         // THROW_...
         Exception,
@@ -60,7 +53,7 @@ internal static unsafe class HutaoNativeWilCallbacks
         FailFast,
     }
 
-    private enum FailureFlags
+    internal enum FailureFlags
     {
         None = 0x00,
         RequestFailFast = 0x01,
@@ -69,7 +62,7 @@ internal static unsafe class HutaoNativeWilCallbacks
         NtStatus = 0x08,
     }
 
-    private struct CallContextInfo
+    internal struct CallContextInfo
     {
         // incrementing ID for this call context (unique across an individual module load within process)
         public long contextId;
@@ -81,7 +74,7 @@ internal static unsafe class HutaoNativeWilCallbacks
         public PCWSTR contextMessage;
     }
 
-    private struct FailureInfo
+    internal struct FailureInfo
     {
         public FailureType type;
         public FailureFlags flags;
@@ -131,4 +124,30 @@ internal static unsafe class HutaoNativeWilCallbacks
 #pragma warning restore SA1307
 #pragma warning restore SA1201
 #pragma warning restore CS0649
+
+    internal sealed class HutaoNativeException : Exception
+    {
+        public HutaoNativeException(FailureInfo info)
+            : base(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszMessage).ToString())
+        {
+            Data["Type"] = info.type;
+            Data["Flags"] = info.flags;
+            HResult = info.hr;
+            Data["FailureId"] = info.failureId;
+            Data["ThreadId"] = info.threadId;
+            Data["Code"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszCode));
+            Data["Function"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFunction));
+            Data["File"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile));
+            Data["LineNumber"] = info.ulineNumber;
+            Data["FailureCount"] = info.cFailureCount;
+            Data["CallContext"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszCallContext));
+            Data["CallContextOriginating"] = $"{Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextOriginating.contextName))} ({info.callContextOriginating.contextId}) - {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextOriginating.contextMessage).ToString()}";
+            Data["CallContextCurrent"] = $"{Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextCurrent.contextName))} ({info.callContextCurrent.contextId}) - {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextCurrent.contextMessage).ToString()}";
+            Data["Module"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszModule));
+            Data["ReturnAddress"] = $"0x{info.returnAddress:X16}";
+            Data["CallerReturnAddress"] = $"0x{info.callerReturnAddress:X16}";
+
+            ExceptionDispatchInfo.SetRemoteStackTrace(this, $"at {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile))}:{info.ulineNumber}");
+        }
+    }
 }

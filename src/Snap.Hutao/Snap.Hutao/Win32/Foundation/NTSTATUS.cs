@@ -9,4 +9,9 @@ internal readonly struct NTSTATUS
 #pragma warning disable CS0649
     public readonly int Value;
 #pragma warning restore CS0649
+
+    public override string ToString()
+    {
+        return $"0x{Value:X8}";
+    }
 }
