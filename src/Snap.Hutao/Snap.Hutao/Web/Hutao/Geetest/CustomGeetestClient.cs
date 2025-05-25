@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;

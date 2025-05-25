@@ -19,7 +19,6 @@ using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Setting;
-using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.GachaLog;

@@ -328,9 +328,14 @@ internal sealed partial class MetadataService : IMetadataService
                 }
                 catch (IOException ex)
                 {
-                    // 0x80070185 ERROR_CLOUD_FILE_UNSUCCESSFUL
-                    context.SetResult(fileName, true);
-                    return;
+                    // ERROR_CLOUD_FILE_UNSUCCESSFUL
+                    if (ex.HResult is unchecked((int)0x80070185))
+                    {
+                        context.SetResult(fileName, false);
+                        return;
+                    }
+
+                    throw;
                 }
 
                 if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))

@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Model.Entity.Database;

@@ -9,7 +9,6 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.UI;
 using Snap.Hutao.Web.Hutao.Wallpaper;
 using Snap.Hutao.Web.Response;
-using Snap.Hutao.Win32.Foundation;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using System.IO;

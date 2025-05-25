@@ -4,10 +4,8 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.Achievement;
-using Snap.Hutao.Win32;
 using System.Collections.Immutable;
 using System.Data.Common;
-using System.Diagnostics;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;

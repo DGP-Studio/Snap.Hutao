@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 

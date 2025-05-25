@@ -134,21 +134,12 @@ internal static unsafe class HutaoNativeWilCallbacks
             Data["Type"] = info.type;
             Data["Flags"] = info.flags;
             HResult = info.hr;
-            Data["FailureId"] = info.failureId;
-            Data["ThreadId"] = info.threadId;
-            Data["Code"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszCode));
-            Data["Function"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFunction));
-            Data["File"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile));
-            Data["LineNumber"] = info.ulineNumber;
-            Data["FailureCount"] = info.cFailureCount;
-            Data["CallContext"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszCallContext));
-            Data["CallContextOriginating"] = $"{Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextOriginating.contextName))} ({info.callContextOriginating.contextId}) - {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextOriginating.contextMessage).ToString()}";
-            Data["CallContextCurrent"] = $"{Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextCurrent.contextName))} ({info.callContextCurrent.contextId}) - {MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.callContextCurrent.contextMessage).ToString()}";
+            Data["Code"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszCode)); // Debug only
             Data["Module"] = Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszModule));
             Data["ReturnAddress"] = $"0x{info.returnAddress:X16}";
             Data["CallerReturnAddress"] = $"0x{info.callerReturnAddress:X16}";
 
-            ExceptionDispatchInfo.SetRemoteStackTrace(this, $"at {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile))}:{info.ulineNumber}");
+            ExceptionDispatchInfo.SetRemoteStackTrace(this, $"at <AnomymousMethod> in {Encoding.UTF8.GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(info.pszFile))}:line {info.ulineNumber}");
         }
     }
 }

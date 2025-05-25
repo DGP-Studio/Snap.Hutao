@@ -7,9 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.UI.Xaml.Data;
-using Snap.Hutao.Win32;
 using System.Data.Common;
-using System.Diagnostics;
 
 namespace Snap.Hutao.Core.Database;
 
