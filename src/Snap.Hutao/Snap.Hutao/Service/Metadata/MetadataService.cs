@@ -190,8 +190,11 @@ internal sealed partial class MetadataService : IMetadataService
             return false;
         }
 
-        if (await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false) is not { NoError: true } checkResult)
+        MetadataCheckResult checkResult = await CheckMetadataSourceFilesAsync(template, metadataFileHashes, token).ConfigureAwait(false);
+        if (checkResult is not { NoError: true })
         {
+            string failedFiles = string.Join(",\r\n", checkResult.FailedFiles);
+            infoBarService.Error(SH.FormatServiceMetadataDownloadSourceFilesFailed(failedFiles));
             return false;
         }
 
@@ -318,7 +321,18 @@ internal sealed partial class MetadataService : IMetadataService
 
             if (File.Exists(fileFullPath))
             {
-                string fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                string fileHash;
+                try
+                {
+                    fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                }
+                catch (IOException ex)
+                {
+                    // 0x80070185 ERROR_CLOUD_FILE_UNSUCCESSFUL
+                    context.SetResult(fileName, true);
+                    return;
+                }
+
                 if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
                 {
                     context.SetResult(fileName, true);
@@ -397,6 +411,20 @@ internal sealed partial class MetadataService : IMetadataService
                 foreach ((string fileName, bool result) in results)
                 {
                     if (result)
+                    {
+                        yield return fileName;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<string> FailedFiles
+        {
+            get
+            {
+                foreach ((string fileName, bool result) in results)
+                {
+                    if (!result)
                     {
                         yield return fileName;
                     }

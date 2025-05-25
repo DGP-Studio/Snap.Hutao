@@ -1,10 +1,13 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+
 namespace Snap.Hutao.Win32.Foundation;
 
 // ReSharper disable InconsistentNaming
-internal readonly struct PWSTR
+internal readonly partial struct PWSTR
 {
 #pragma warning disable CS0649
     public readonly unsafe char* Value;
@@ -20,3 +23,14 @@ internal readonly struct PWSTR
         return *(char**)&value;
     }
 }
+
+#if DEBUG
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
+internal readonly partial struct PWSTR
+{
+    public unsafe string DebuggerDisplay
+    {
+        get => MemoryMarshal.CreateReadOnlySpanFromNullTerminated(Value).ToString();
+    }
+}
+#endif
