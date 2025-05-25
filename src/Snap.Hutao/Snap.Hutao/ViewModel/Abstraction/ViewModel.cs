@@ -24,7 +24,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
             }
             catch (COMException ex)
             {
-                if (ex.ErrorCode == unchecked((int)0x8000FFFF))
+                if (ex.HResult == unchecked((int)0x8000FFFF))
                 {
                     Debug.Assert(XamlApplicationLifetime.Exiting);
                 }
