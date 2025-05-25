@@ -1051,6 +1051,9 @@ Espace disponible : {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Veuillez utiliser une autre méthode pour synchroniser les objets du sac à dos</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>一个或多个元数据文件下载失败：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Impossible de trouver le fichier de métadonnées mis en cache</value>
   </data>
