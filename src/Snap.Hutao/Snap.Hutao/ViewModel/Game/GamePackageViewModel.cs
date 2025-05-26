@@ -220,7 +220,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                     BranchWrapper? remoteBranch = operationKind is GamePackageOperationKind.Predownload ? branch.PreDownload : branch.Main;
                     remoteBuild = await gamePackageService.DecodeManifestsAsync(gameFileSystem, remoteBranch).ConfigureAwait(false);
                 }
-                catch (HttpRequestException ex)
+                catch (Exception ex)
                 {
                     serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
                     return;

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.DailyNote;
@@ -11,6 +12,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Diagnostics;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
@@ -80,7 +82,16 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         {
             if (entries is null)
             {
-                ImmutableArray<DailyNoteEntry> entryList = dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser();
+                ImmutableArray<DailyNoteEntry> entryList;
+                try
+                {
+                    entryList = dailyNoteRepository.GetDailyNoteEntryImmutableArrayIncludingUser();
+                }
+                catch (DbException ex)
+                {
+                    throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+                }
+
                 foreach (DailyNoteEntry entry in entryList)
                 {
                     entry.UserGameRole = await userService.GetUserGameRoleByUidAsync(entry.Uid).ConfigureAwait(false);

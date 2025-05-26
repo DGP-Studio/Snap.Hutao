@@ -22,10 +22,22 @@ internal static class HttpRequestMessageBuilderExtension
     internal static ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, CancellationToken token)
         where TResult : class
     {
-        return SendAsync<TResult>(builder, httpClient, HttpCompletionOption.ResponseContentRead, token);
+        return SendAsync<TResult>(builder, httpClient, HttpCompletionOption.ResponseContentRead, true, token);
     }
 
-    internal static async ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, HttpCompletionOption completionOption, CancellationToken token)
+    internal static ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, bool logException, CancellationToken token)
+        where TResult : class
+    {
+        return SendAsync<TResult>(builder, httpClient, HttpCompletionOption.ResponseContentRead, logException, token);
+    }
+
+    internal static ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, HttpCompletionOption completionOption, CancellationToken token)
+        where TResult : class
+    {
+        return SendAsync<TResult>(builder, httpClient, completionOption, true, token);
+    }
+
+    internal static async ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, HttpCompletionOption completionOption, bool logException, CancellationToken token)
         where TResult : class
     {
         HttpContext context = new()
@@ -33,6 +45,7 @@ internal static class HttpRequestMessageBuilderExtension
             HttpClient = httpClient,
             CompletionOption = completionOption,
             RequestAborted = token,
+            LogException = logException,
         };
 
         using (context)
@@ -60,7 +73,11 @@ internal static class HttpRequestMessageBuilderExtension
             }
             catch (Exception ex)
             {
-                HttpRequestExceptionHandling.TryHandle(messageBuilder, builder, ex);
+                if (logException)
+                {
+                    HttpRequestExceptionHandling.TryHandle(messageBuilder, builder, ex);
+                }
+
                 return new(context.Response?.Headers, default);
             }
             finally

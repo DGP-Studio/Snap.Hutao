@@ -269,6 +269,10 @@ internal static class GameFileSystemExtension
                 }
             }
         }
+        catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
         catch (IOException ex)
         {
             // ERROR_NO_SUCH_DEVICE 指定不存在的设备

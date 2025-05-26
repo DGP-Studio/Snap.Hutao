@@ -232,7 +232,6 @@ internal static class HttpRequestExceptionHandling
                                     // 为验证提供的消息或签名已被更改 SEC_E_MESSAGE_ALTERED
                                     case unchecked((int)0x8009030F):
                                         return NetworkError.ERR_UNKNOWN_SEC_E_MESSAGE_ALTERED;
-
                                     // 无法解密指定的数据 SEC_E_DECRYPT_FAILURE
                                     case unchecked((int)0x80090330):
                                         return NetworkError.ERR_UNKNOWN_SEC_E_DECRYPT_FAILURE;

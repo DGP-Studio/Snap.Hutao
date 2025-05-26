@@ -11,6 +11,7 @@ using Snap.Hutao.ViewModel.Achievement;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
+using System.Data.Common;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -34,7 +35,14 @@ internal sealed partial class AchievementService : IAchievementService
     {
         using (await archivesLock.LockAsync().ConfigureAwait(false))
         {
-            return archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
+            try
+            {
+                return archives ??= achievementRepository.GetAchievementArchiveCollection().AsAdvancedDbCollectionView(serviceProvider);
+            }
+            catch (DbException ex)
+            {
+                throw ExceptionHandlingSupport.KillProcessOnDbException(ex);
+            }
         }
     }
 

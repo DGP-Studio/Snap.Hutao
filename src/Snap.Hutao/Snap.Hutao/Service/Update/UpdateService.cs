@@ -64,7 +64,16 @@ internal sealed partial class UpdateService : IUpdateService
 
     public async ValueTask<ValueResult<bool, Exception>> LaunchUpdaterAsync()
     {
-        string updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        string updaterTargetPath;
+        try
+        {
+            updaterTargetPath = HutaoRuntime.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            // Access to the path '?' is denied.
+            return new(false, ex);
+        }
 
         try
         {

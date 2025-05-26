@@ -98,7 +98,20 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToBackgroundAsync();
             StaticResource.FailAll();
-            Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
+            try
+            {
+                Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
+            }
+            catch (IOException ex)
+            {
+                if (ex.HResult is unchecked((int)0x80070020)) // ERROR_SHARING_VIOLATION
+                {
+                    return;
+                }
+
+                SentrySdk.CaptureException(ex);
+            }
+
             UnsafeLocalSetting.Set(SettingKeys.GuideState, GuideState.StaticResourceBegin);
         }
 

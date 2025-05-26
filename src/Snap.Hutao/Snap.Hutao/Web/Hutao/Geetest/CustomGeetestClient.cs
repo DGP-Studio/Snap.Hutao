@@ -50,7 +50,7 @@ internal sealed partial class CustomGeetestClient
             .Get();
 
         GeetestResponse? resp = await builder
-            .SendAsync<GeetestResponse>(httpClient, token)
+            .SendAsync<GeetestResponse>(httpClient, false, token)
             .ConfigureAwait(false);
 
         return resp ?? GeetestResponse.InternalFailure;

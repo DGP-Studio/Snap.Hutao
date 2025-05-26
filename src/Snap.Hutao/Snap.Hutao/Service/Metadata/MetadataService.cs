@@ -312,41 +312,42 @@ internal sealed partial class MetadataService : IMetadataService
         await Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
             (string fileName, string metaHash) = pair;
-            string fileFullName = $"{fileName}.json";
-            string fileFullPath = context.Options.GetLocalizedLocalPath(fileFullName);
-            if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            if (File.Exists(fileFullPath))
-            {
-                string fileHash;
-                try
-                {
-                    fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
-                }
-                catch (IOException ex)
-                {
-                    // ERROR_CLOUD_FILE_UNSUCCESSFUL
-                    if (ex.HResult is unchecked((int)0x80070185))
-                    {
-                        context.SetResult(fileName, false);
-                        return;
-                    }
-
-                    throw;
-                }
-
-                if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
-                {
-                    context.SetResult(fileName, true);
-                    return;
-                }
-            }
 
             try
             {
+                string fileFullName = $"{fileName}.json";
+                string fileFullPath = context.Options.GetLocalizedLocalPath(fileFullName);
+                if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                if (File.Exists(fileFullPath))
+                {
+                    string fileHash;
+                    try
+                    {
+                        fileHash = await XxHash64.HashFileAsync(fileFullPath, token).ConfigureAwait(true);
+                    }
+                    catch (IOException ex)
+                    {
+                        // ERROR_CLOUD_FILE_UNSUCCESSFUL
+                        if (ex.HResult is unchecked((int)0x80070185))
+                        {
+                            context.SetResult(fileName, false);
+                            return;
+                        }
+
+                        throw;
+                    }
+
+                    if (string.Equals(metaHash, fileHash, StringComparison.OrdinalIgnoreCase))
+                    {
+                        context.SetResult(fileName, true);
+                        return;
+                    }
+                }
+
                 await DownloadMetadataSourceFilesAsync(context, fileFullName, token).ConfigureAwait(true);
                 context.SetResult(fileName, true);
             }

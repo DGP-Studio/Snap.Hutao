@@ -49,7 +49,8 @@ internal sealed class PullPrediction
         ImmutableArray<double> baseFunction = ToProbabilityFunction(distribution, typedWishSummary.GuaranteeOrangeThreshold);
 
         // n - 89/79
-        ImmutableArray<double> function = GetConditionalProbabilityFunction(baseFunction.AsSpan()[typedWishSummary.LastOrangePull..]);
+        int lastOrangePull = Math.Clamp(typedWishSummary.LastOrangePull, 0, baseFunction.Length - 1);
+        ImmutableArray<double> function = GetConditionalProbabilityFunction(baseFunction.AsSpan()[lastOrangePull..]);
         ReadOnlySpan<double> functionSpan = function.AsSpan();
 
         double nextProbability = functionSpan[0];
