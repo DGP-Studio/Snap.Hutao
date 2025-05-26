@@ -9,6 +9,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Setting;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
@@ -26,6 +27,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
     public uint State
@@ -187,7 +189,14 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set data folder path", "GuideViewModel.Command"));
 
-        if (await SettingStorageViewModel.InternalSetDataFolderAsync(fileSystemPickerInteraction, contentDialogFactory).ConfigureAwait(false))
+        SettingStorageSetDataFolderOperation operation = new()
+        {
+            FileSystemPickerInteraction = fileSystemPickerInteraction,
+            ContentDialogFactory = contentDialogFactory,
+            InfoBarService = infoBarService,
+        };
+
+        if (await operation.TryExecuteAsync().ConfigureAwait(false))
         {
             AppInstance.Restart(string.Empty);
         }

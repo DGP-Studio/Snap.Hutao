@@ -31,9 +31,9 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
     public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
-    internal static async ValueTask<bool> InternalSetDataFolderAsync(IFileSystemPickerInteraction fileSystemPickerInteraction, IContentDialogFactory contentDialogFactory)
+    internal static async ValueTask<bool> InternalSetDataFolderAsync(SettingStorageSetDataFolderOperation operation)
     {
-        if (!fileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolderPath))
+        if (!operation.FileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolderPath))
         {
             return false;
         }
@@ -46,7 +46,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
         if (Path.GetDirectoryName(newFolderPath) is null)
         {
-            await contentDialogFactory.CreateForConfirmAsync(
+            await operation.ContentDialogFactory.CreateForConfirmAsync(
                 SH.ViewModelSettingStorageSetDataFolderTitle,
                 SH.ViewModelSettingStorageSetDataFolderDescription2)
                 .ConfigureAwait(false);
@@ -57,7 +57,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         Directory.CreateDirectory(newFolderPath);
         if (Directory.EnumerateFileSystemEntries(newFolderPath).Any())
         {
-            ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            ContentDialogResult result = await operation.ContentDialogFactory.CreateForConfirmCancelAsync(
                 SH.ViewModelSettingStorageSetDataFolderTitle,
                 SH.FormatViewModelSettingStorageSetDataFolderDescription3(newFolderPath))
                 .ConfigureAwait(false);
@@ -75,7 +75,8 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
         }
         catch (Exception ex)
         {
-            HutaoException.Throw("Copy DataFolder failed", ex);
+            operation.InfoBarService.Error(ex);
+            return false;
         }
 
         LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolderPath);
@@ -95,7 +96,14 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Set data folder path", "SettingStorageViewModel.Command"));
 
-        if (await InternalSetDataFolderAsync(fileSystemPickerInteraction, contentDialogFactory).ConfigureAwait(false))
+        SettingStorageSetDataFolderOperation operation = new()
+        {
+            FileSystemPickerInteraction = fileSystemPickerInteraction,
+            ContentDialogFactory = contentDialogFactory,
+            InfoBarService = infoBarService,
+        };
+
+        if (await operation.TryExecuteAsync().ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
         }

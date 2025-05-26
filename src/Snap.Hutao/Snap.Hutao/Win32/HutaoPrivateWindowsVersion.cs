@@ -10,8 +10,8 @@ internal readonly struct HutaoPrivateWindowsVersion
     public readonly uint Build;
     public readonly uint Revision;
 
-    public static implicit operator Version(HutaoPrivateWindowsVersion version)
+    public override string ToString()
     {
-        return new((int)version.Major, (int)version.Minor, (int)version.Build, (int)version.Revision);
+        return $"{Major}.{Minor}.{Build}.{Revision}";
     }
 }

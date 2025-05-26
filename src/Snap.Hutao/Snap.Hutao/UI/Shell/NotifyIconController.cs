@@ -99,7 +99,7 @@ internal sealed partial class NotifyIconController : IDisposable
         catch (Exception ex)
         {
             // If the lpValue registry value does not exist, the function returns ERROR_FILE_NOT_FOUND
-            if (ex is not (FileNotFoundException or COMException))
+            if (ex is not (FileNotFoundException or COMException or ObjectDisposedException))
             {
                 SentrySdk.CaptureException(ex);
             }
