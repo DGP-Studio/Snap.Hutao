@@ -31,59 +31,6 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
 
     public SettingFolderViewModel? DataFolderView { get; set => SetProperty(ref field, value); }
 
-    internal static async ValueTask<bool> InternalSetDataFolderAsync(SettingStorageSetDataFolderOperation operation)
-    {
-        if (!operation.FileSystemPickerInteraction.PickFolder().TryGetValue(out string? newFolderPath))
-        {
-            return false;
-        }
-
-        string oldFolderPath = HutaoRuntime.DataFolder;
-        if (Path.GetFullPath(oldFolderPath).Equals(Path.GetFullPath(newFolderPath), StringComparison.OrdinalIgnoreCase))
-        {
-            return false;
-        }
-
-        if (Path.GetDirectoryName(newFolderPath) is null)
-        {
-            await operation.ContentDialogFactory.CreateForConfirmAsync(
-                SH.ViewModelSettingStorageSetDataFolderTitle,
-                SH.ViewModelSettingStorageSetDataFolderDescription2)
-                .ConfigureAwait(false);
-
-            return false;
-        }
-
-        Directory.CreateDirectory(newFolderPath);
-        if (Directory.EnumerateFileSystemEntries(newFolderPath).Any())
-        {
-            ContentDialogResult result = await operation.ContentDialogFactory.CreateForConfirmCancelAsync(
-                SH.ViewModelSettingStorageSetDataFolderTitle,
-                SH.FormatViewModelSettingStorageSetDataFolderDescription3(newFolderPath))
-                .ConfigureAwait(false);
-
-            if (result is not ContentDialogResult.Primary)
-            {
-                return false;
-            }
-        }
-
-        try
-        {
-            StorageFolder oldFolder = await StorageFolder.GetFolderFromPathAsync(oldFolderPath);
-            await oldFolder.CopyAsync(newFolderPath).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            operation.InfoBarService.Error(ex);
-            return false;
-        }
-
-        LocalSetting.Set(SettingKeys.PreviousDataFolderToDelete, oldFolderPath);
-        LocalSetting.Set(SettingKeys.DataFolderPath, newFolderPath);
-        return true;
-    }
-
     [Command("OpenBackgroundImageFolderCommand")]
     private static async Task OpenBackgroundImageFolderAsync()
     {
