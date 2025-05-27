@@ -3121,26 +3121,26 @@ Space Available: {2}</value>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>Calendar Server</value>
   </data>
-  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
   </data>
-  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Dashboard card</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>Calendar</value>
+  <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日历</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Realtime Notes</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>Wish History</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>Game Launcher</value>
+  <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>Launch</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Check-in</value>
@@ -3151,7 +3151,7 @@ Space Available: {2}</value>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>Show</value>
   </data>
-  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeHeader" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
