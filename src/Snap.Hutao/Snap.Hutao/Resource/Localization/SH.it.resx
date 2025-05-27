@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -902,6 +902,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Nessun URL disponibile trovato</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
+    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>L'URL fornito non è valido</value>
   </data>
@@ -1051,6 +1054,9 @@ Spazio disponibile: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Si prega di utilizzare altri metodi per sincronizzare gli oggetti dello zaino</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>Uno o più file di metadati non sono stati scaricati: {0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Impossibile trovare il file di metadati nella cache</value>
   </data>
@@ -1070,7 +1076,7 @@ Spazio disponibile: {2}</value>
     <value>La tua versione di Snap Hutao è obsoleta, aggiorna al più presto</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>Operazione sulle risorse di gioco fallita</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Ripristino del check-in fallito, {0}</value>
@@ -1094,7 +1100,7 @@ Spazio disponibile: {2}</value>
     <value>Accesso riuscito, {0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>Oggetto non supportato, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Trovata nuova versione {0}</value>
@@ -3116,25 +3122,25 @@ Spazio disponibile: {2}</value>
     <value>Server calendario</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>Gestisci le schede nella dashboard della pagina principale</value>
+    <value>管理主页仪表板中的卡片</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
-    <value>Scheda dashboard</value>
+    <value>主页卡片</value>
   </data>
   <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>Gestione degli obiettivi</value>
+    <value>成就管理</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>Calendario</value>
+    <value>日历</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>Note in tempo reale</value>
+    <value>实时便笺</value>
   </data>
   <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>Cronologia dei desideri</value>
+    <value>祈愿记录</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>Avvia gioco</value>
+    <value>启动游戏</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Check-in</value>
@@ -3146,7 +3152,7 @@ Spazio disponibile: {2}</value>
     <value>Mostra</value>
   </data>
   <data name="ViewPageSettingHomeHeader" xml:space="preserve">
-    <value>Home</value>
+    <value>主页</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
     <value>Scadenza CDN di Hutao Cloud</value>
