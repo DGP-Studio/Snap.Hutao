@@ -16,7 +16,6 @@ using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
-using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
@@ -36,26 +35,25 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             GuideState state = UnsafeLocalSetting.Get(SettingKeys.GuideState, GuideState.Language);
 
-            if (state is GuideState.Document)
+            switch (state)
             {
-                IsTermOfServiceAgreed = false;
-                IsPrivacyPolicyAgreed = false;
-                IsIssueReportAgreed = false;
-                IsOpenSourceLicenseAgreed = false;
-                (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionNext, false);
-            }
-            else if (state is GuideState.StaticResourceBegin)
-            {
-                (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionStaticResourceBegin, false);
-                DownloadStaticResourceAsync().SafeForget();
-            }
-            else if (state is GuideState.Completed)
-            {
-                (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionComplete, true);
-            }
-            else
-            {
-                (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionNext, true);
+                case GuideState.Document:
+                    IsTermOfServiceAgreed = false;
+                    IsPrivacyPolicyAgreed = false;
+                    IsIssueReportAgreed = false;
+                    IsOpenSourceLicenseAgreed = false;
+                    (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionNext, false);
+                    break;
+                case GuideState.StaticResourceBegin:
+                    (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionStaticResourceBegin, false);
+                    DownloadStaticResourceAsync().SafeForget();
+                    break;
+                case GuideState.Completed:
+                    (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionComplete, true);
+                    break;
+                default:
+                    (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionNext, true);
+                    break;
             }
 
             return (uint)state;
@@ -81,9 +79,9 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public partial StaticResourceOptions StaticResourceOptions { get; }
 
-    public NameValue<CultureInfo>? SelectedCulture
+    public NameCultureInfoValue? SelectedCulture
     {
-        get => field ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
+        get => field ??= Selection.Initialize(CultureOptions.Cultures, CultureOptions.CurrentCulture);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
@@ -96,7 +94,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public NameValue<Region>? SelectedRegion
     {
-        get => field ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
+        get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
@@ -176,6 +174,14 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
+    private static ObservableCollection<DownloadSummary> GetUnfulfilledCategoryCollection(IServiceProvider serviceProvider)
+    {
+        return StaticResource
+            .GetUnfulfilledCategorySet()
+            .Select(category => new DownloadSummary(serviceProvider, category))
+            .ToObservableCollection();
+    }
+
     [Command("NextOrCompleteCommand")]
     private void NextOrComplete()
     {
@@ -210,11 +216,9 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     [SuppressMessage("", "SH003")]
     private async Task DownloadStaticResourceAsync()
     {
-        DownloadSummaries = StaticResource
-            .GetUnfulfilledCategorySet()
-            .Select(category => new DownloadSummary(serviceProvider, category))
-            .ToObservableCollection();
+        DownloadSummaries = GetUnfulfilledCategoryCollection(serviceProvider);
 
+        // Pass a collection copy, so that we can remove element in loop
         await Parallel.ForEachAsync([.. DownloadSummaries], async (summary, token) =>
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(true))

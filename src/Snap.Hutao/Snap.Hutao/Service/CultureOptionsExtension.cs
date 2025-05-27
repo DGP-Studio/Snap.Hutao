@@ -1,18 +1,12 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model;
 using System.Globalization;
 
 namespace Snap.Hutao.Service;
 
 internal static class CultureOptionsExtension
 {
-    public static NameValue<CultureInfo>? GetCurrentCultureForSelectionOrDefault(this CultureOptions options)
-    {
-        return options.Cultures.SingleOrDefault(c => c.Value.Equals(options.CurrentCulture));
-    }
-
     public static bool LanguageCodeFitsCurrentLocale(this CultureOptions options, string? languageCode)
     {
         if (string.IsNullOrEmpty(languageCode))

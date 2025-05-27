@@ -17,7 +17,7 @@ internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
 
     public NameValue<Region>? SelectedRegion
     {
-        get => field ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
+        get => field ??= Selection.Initialize(AppOptions.LazyRegions, AppOptions.Region);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
@@ -29,7 +29,7 @@ internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
 
     public NameValue<TimeSpan>? SelectedCalendarServerTimeZoneOffset
     {
-        get => field ??= AppOptions.GetCurrentCalendarServerTimeZoneOffsetForSelectionOrDefault();
+        get => field ??= Selection.Initialize(AppOptions.LazyCalendarServerTimeZoneOffsets, AppOptions.CalendarServerTimeZoneOffset);
         set
         {
             if (SetProperty(ref field, value) && value is not null)
