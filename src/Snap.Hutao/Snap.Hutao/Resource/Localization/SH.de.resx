@@ -3121,26 +3121,26 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>Kalender Server</value>
   </data>
-  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
-    <value>Karten im Home-Dashboard verwalten</value>
+  <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
+    <value>管理主页仪表板中的卡片</value>
   </data>
-  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
-    <value>Dashboard-Karte</value>
+  <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
+    <value>主页卡片</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>Erfolge verwalten</value>
+  <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+    <value>成就管理</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>Kalender</value>
+  <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日历</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>Echtzeitnotizen</value>
+  <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+    <value>实时便笺</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>Wunschhistorie</value>
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>祈愿记录</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>Spiel starten</value>
+  <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>启动游戏</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Anmeldung</value>
@@ -3151,8 +3151,8 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>Anzeigen</value>
   </data>
-  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
-    <value>Startseite</value>
+  <data name="ViewPageSettingHomeHeader" xml:space="preserve">
+    <value>主页</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
     <value>Ablaufzeit des Snap Hutao Cloud-CDN</value>
