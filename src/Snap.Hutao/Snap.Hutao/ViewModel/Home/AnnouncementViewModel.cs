@@ -105,34 +105,34 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardLaunchGamePresented, true))
         {
-            result.Add(new() { Card = new LaunchGameCard(serviceProvider) });
+            result.Add(CardReference.Create(new LaunchGameCard(serviceProvider), SettingKeys.HomeCardLaunchGameOrder));
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardGachaStatisticsPresented, true))
         {
-            result.Add(new() { Card = new GachaStatisticsCard(serviceProvider) });
+            result.Add(CardReference.Create(new GachaStatisticsCard(serviceProvider), SettingKeys.HomeCardGachaStatisticsOrder));
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardAchievementPresented, true))
         {
-            result.Add(new() { Card = new AchievementCard(serviceProvider) });
+            result.Add(CardReference.Create(new AchievementCard(serviceProvider), SettingKeys.HomeCardAchievementOrder));
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardDailyNotePresented, true))
         {
-            result.Add(new() { Card = new DailyNoteCard(serviceProvider) });
+            result.Add(CardReference.Create(new DailyNoteCard(serviceProvider), SettingKeys.HomeCardDailyNoteOrder));
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardCalendarPresented, true))
         {
-            result.Add(new() { Card = new CalendarCard(serviceProvider) });
+            result.Add(CardReference.Create(new CalendarCard(serviceProvider), SettingKeys.HomeCardCalendarOrder));
         }
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardSignInPresented, true))
         {
-            result.Add(new() { Card = new SignInCard(serviceProvider) });
+            result.Add(CardReference.Create(new SignInCard(serviceProvider), SettingKeys.HomeCardSignInOrder));
         }
 
-        Cards = result;
+        Cards = result.SortBy(r => r.Order);
     }
 }

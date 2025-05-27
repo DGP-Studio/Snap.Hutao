@@ -216,6 +216,7 @@
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
+
     <StackPanel
         Margin="0,0,0,-2"
         Padding="0,0,0,0"

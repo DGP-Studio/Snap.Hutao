@@ -3115,25 +3115,25 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>Takvim Sunucusu</value>
   </data>
-  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
     <value>Ana sayfa gösterge panelindeki kartları yönetin</value>
   </data>
-  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Ana Sayfa Kartları</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>Başarım Yönetimi</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
     <value>Takvim</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Gerçek Zamanlı Notlar</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>Dilek Kayıtları</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>Oyunu Başlat</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
@@ -3145,7 +3145,7 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>Göster</value>
   </data>
-  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeHeader" xml:space="preserve">
     <value>Ana Sayfa</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">

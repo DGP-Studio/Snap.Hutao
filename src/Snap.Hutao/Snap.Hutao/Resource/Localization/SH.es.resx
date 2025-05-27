@@ -3115,25 +3115,25 @@ Espacio disponible: {2}</value>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>Servidor de calendario</value>
   </data>
-  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
     <value>Administrar las tarjetas en el panel de inicio</value>
   </data>
-  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Tarjeta del panel</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>Logros</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
     <value>Calendario</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Notas en tiempo real</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>Historial de gachapón</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>Lanzador de juegos</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
@@ -3145,7 +3145,7 @@ Espacio disponible: {2}</value>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>Mostrar</value>
   </data>
-  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeHeader" xml:space="preserve">
     <value>Inicio</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">

@@ -57,6 +57,13 @@
                 <Setter Property="Padding" Value="0"/>
             </Style>
             <Style
+                x:Name="NoneSelectionListViewItemStyleMarginTop3"
+                BasedOn="{StaticResource DefaultListViewItemStyle}"
+                TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0,3,0,0"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+            <Style
                 x:Name="NoneSelectionGridViewItemStyle"
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"
                 TargetType="GridViewItem">

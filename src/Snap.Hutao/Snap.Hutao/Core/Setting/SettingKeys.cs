@@ -6,14 +6,7 @@ namespace Snap.Hutao.Core.Setting;
 internal static class SettingKeys
 {
     #region MainWindow
-    public const string WindowRect = "WindowRect";
-    public const string WindowScale = "WindowScale";
-    public const string GuideWindowRect = "GuideWindowRect";
-    public const string GuideWindowScale = "GuideWindowScale";
-    public const string CompactWebView2WindowRect = "CompactWebView2WindowRect";
-    public const string CompactWebView2WindowScale = "CompactWebView2WindowScale";
     public const string IsNavPaneOpen = "IsNavPaneOpen";
-    public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
     #endregion
 
     #region Infrastructure
@@ -63,11 +56,22 @@ internal static class SettingKeys
 
     #region HomeCard Dashboard
     public const string IsHomeCardLaunchGamePresented = "IsHomeCardLaunchGamePresented";
+    public const string HomeCardLaunchGameOrder = "HomeCardLaunchGameOrder";
+
     public const string IsHomeCardGachaStatisticsPresented = "IsHomeCardGachaStatisticsPresented";
+    public const string HomeCardGachaStatisticsOrder = "HomeCardGachaStatisticsOrder";
+
     public const string IsHomeCardAchievementPresented = "IsHomeCardAchievementPresented";
+    public const string HomeCardAchievementOrder = "HomeCardAchievementOrder";
+
     public const string IsHomeCardDailyNotePresented = "IsHomeCardDailyNotePresented";
+    public const string HomeCardDailyNoteOrder = "HomeCardDailyNoteOrder";
+
     public const string IsHomeCardCalendarPresented = "IsHomeCardCalendarPresented";
+    public const string HomeCardCalendarOrder = "HomeCardCalendarOrder";
+
     public const string IsHomeCardSignInPresented = "IsHomeCardSignInPresented";
+    public const string HomeCardSignInOrder = "HomeCardSignInOrder";
     #endregion
 
     #region Compact WebView2
@@ -122,5 +126,25 @@ internal static class SettingKeys
     [Obsolete]
     public const string HotKeyKeyPressRepeatForeverLegacy1 = "HotKeyKeyPressRepeatForever";
 
+    [Obsolete]
+    public const string WindowRect = "WindowRect";
+
+    [Obsolete]
+    public const string WindowScale = "WindowScale";
+
+    [Obsolete]
+    public const string GuideWindowRect = "GuideWindowRect";
+
+    [Obsolete]
+    public const string GuideWindowScale = "GuideWindowScale";
+
+    [Obsolete]
+    public const string CompactWebView2WindowRect = "CompactWebView2WindowRect";
+
+    [Obsolete]
+    public const string CompactWebView2WindowScale = "CompactWebView2WindowScale";
+
+    [Obsolete]
+    public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
     #endregion
 }

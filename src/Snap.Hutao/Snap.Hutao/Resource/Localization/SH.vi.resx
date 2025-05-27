@@ -3115,25 +3115,25 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>Máy chủ Lịch</value>
   </data>
-  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
     <value>Quản lý thẻ trên bảng điều khiển trang chủ</value>
   </data>
-  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Thẻ trang chủ</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>Quản lý thành tựu</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
     <value>Lịch</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Ghi chú thời gian thực</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>Lịch sử cầu nguyện</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>Trình khởi chạy</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
@@ -3145,7 +3145,7 @@ Dung lượng còn trống: {2}</value>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>Hiện</value>
   </data>
-  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeHeader" xml:space="preserve">
     <value>Trang chủ</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
