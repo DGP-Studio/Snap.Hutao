@@ -3121,25 +3121,25 @@
   <data name="ViewPageSettingHomeCalendarServerTimeZoneOffsetHeader" xml:space="preserve">
     <value>캘린더 서버</value>
   </data>
-  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
-    <value>홈 대시보드에서 카드를 관리합니다.</value>
+  <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
+    <value>管理主页仪表板中的卡片</value>
   </data>
-  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
-    <value>대시보드 카드</value>
+  <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
+    <value>主页卡片</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>업적 관리</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>달력</value>
+  <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
+    <value>日历</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>실시간 메모</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>기원 기록</value>
   </data>
-  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>게임 시작</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
@@ -3151,7 +3151,7 @@
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
     <value>표시</value>
   </data>
-  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+  <data name="ViewPageSettingHomeHeader" xml:space="preserve">
     <value>홈페이지</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
