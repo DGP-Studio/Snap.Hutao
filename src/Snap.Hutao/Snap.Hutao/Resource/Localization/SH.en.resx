@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -902,6 +902,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>No available URL found</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
+    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>The URL provided is invalid</value>
   </data>
@@ -1051,6 +1054,9 @@ Space Available: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Please use other ways to sync the package items</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>One or more metadata files failed to download: {0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
   </data>
@@ -1070,7 +1076,7 @@ Space Available: {2}</value>
     <value>Your Snap Hutao is outdated. Please update as soon as possible.</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>Game resource operation failed</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Make up check-in failed, {0}</value>
@@ -1094,7 +1100,7 @@ Space Available: {2}</value>
     <value>Check-in successfully, {0} x {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>Unsupported Item ID: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>A new version {0} is available.</value>
@@ -1917,6 +1923,15 @@ Space Available: {2}</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>Import UIGF JSON file</value>
+  </data>
+  <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
+    <value>获取游戏版本配置失败</value>
+  </data>
+  <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
+    <value>获取游戏渠道 SDK 失败</value>
+  </data>
+  <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
+    <value>本地游戏配置 [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Local version: {0}</value>
@@ -2762,10 +2777,10 @@ Space Available: {2}</value>
     <value>Injection</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Click the craftable quantity in the item details to open the crafting page directly instead of the map</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Crafting Redirect</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Use Touch Input</value>
@@ -3125,7 +3140,7 @@ Space Available: {2}</value>
     <value>Achievements</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>Calendar</value>
+    <value>日历</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Realtime Notes</value>
@@ -3134,7 +3149,7 @@ Space Available: {2}</value>
     <value>Wish History</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>Game Launcher</value>
+    <value>Launch</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Check-in</value>
