@@ -124,7 +124,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("RemoveDailyNoteCommand")]
     private async Task RemoveDailyNoteAsync(DailyNoteEntry? entry)
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Remove daily note", "DailyNoteViewModel.Command"));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Remove daily note", "DailyNoteViewModel.Command", [("uid", entry?.Uid ?? "<null>")]));
 
         if (entry is not null)
         {
@@ -135,7 +135,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("ModifyNotificationCommand")]
     private async Task ModifyDailyNoteNotificationAsync(DailyNoteEntry? entry)
     {
-        SentrySdk.AddBreadcrumb(BreadcrumbFactory.CreateUI("Modify daily note notification settings", "DailyNoteViewModel.Command"));
+        SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Modify daily note notification settings", "DailyNoteViewModel.Command", [("uid", entry?.Uid ?? "<null>")]));
 
         if (entry is not null)
         {

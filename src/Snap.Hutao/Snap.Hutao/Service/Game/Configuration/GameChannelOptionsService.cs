@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO.Ini;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game.Configuration;
@@ -48,7 +50,23 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
             string? channel = default;
             string? subChannel = default;
-            foreach (ref readonly IniElement element in IniSerializer.DeserializeFromFile(configFilePath).AsSpan())
+
+            ReadOnlySpan<IniElement> elements;
+            try
+            {
+                elements = IniSerializer.DeserializeFromFile(configFilePath).AsSpan();
+            }
+            catch (IOException ex)
+            {
+                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NOT_READY))
+                {
+                    return ChannelOptions.GameContentCorrupted(gameFileSystem.GetGameDirectory());
+                }
+
+                throw;
+            }
+
+            foreach (ref readonly IniElement element in elements)
             {
                 if (element is not IniParameter parameter)
                 {

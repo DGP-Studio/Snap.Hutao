@@ -1,6 +1,8 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO;
@@ -15,8 +17,7 @@ internal static class FileOperation
         }
         catch (IOException ex)
         {
-            // ERROR_ENCRYPTION_FAILED
-            if (ex.HResult is unchecked((int)0x80071770))
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_ENCRYPTION_FAILED))
             {
                 FileSystem.CopyFileAllowDecryptedDestination(Path.GetFullPath(source), Path.GetFullPath(destination), overwrite);
             }

@@ -43,6 +43,14 @@ internal static unsafe class HutaoNativeMethods
         return new(ObjectReference<HutaoNative.Vftbl>.Attach(ref pv, typeof(HutaoNative.Vftbl).GUID));
     }
 
+    public static BOOL IsWin32(HRESULT hr, WIN32_ERROR error)
+    {
+        return HutaoHResultIsWin32(hr, error);
+    }
+
     [DllImport(DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     private static extern HRESULT HutaoCreateInstance(HutaoNative.Vftbl** ppv);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    private static extern BOOL HutaoHResultIsWin32(HRESULT hr, WIN32_ERROR error);
 }

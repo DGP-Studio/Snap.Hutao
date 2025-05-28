@@ -4,6 +4,8 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -268,6 +270,14 @@ internal static class GameFileSystemExtension
                     break;
                 }
             }
+
+            string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
+            string? directory = Path.GetDirectoryName(scriptVersionFilePath);
+            ArgumentNullException.ThrowIfNull(directory);
+
+            Directory.CreateDirectory(directory);
+            File.WriteAllText(scriptVersionFilePath, version);
+            return true;
         }
         catch (UnauthorizedAccessException)
         {
@@ -275,21 +285,12 @@ internal static class GameFileSystemExtension
         }
         catch (IOException ex)
         {
-            // ERROR_NO_SUCH_DEVICE 指定不存在的设备
-            if (ex.HResult is unchecked((int)0x800701B1))
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NO_SUCH_DEVICE))
             {
                 return false;
             }
 
             throw;
         }
-
-        string scriptVersionFilePath = gameFileSystem.GetScriptVersionFilePath();
-        string? directory = Path.GetDirectoryName(scriptVersionFilePath);
-        ArgumentNullException.ThrowIfNull(directory);
-
-        Directory.CreateDirectory(directory);
-        File.WriteAllText(scriptVersionFilePath, version);
-        return true;
     }
 }

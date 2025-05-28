@@ -11,6 +11,8 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
 using Windows.System;
 
@@ -100,9 +102,18 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             {
                 Directory.Delete(Path.Combine(HutaoRuntime.LocalCache, nameof(ImageCache)), true);
             }
+            catch (DirectoryNotFoundException ex)
+            {
+                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_PATH_NOT_FOUND))
+                {
+                    return;
+                }
+
+                SentrySdk.CaptureException(ex);
+            }
             catch (IOException ex)
             {
-                if (ex.HResult is unchecked((int)0x80070020)) // ERROR_SHARING_VIOLATION
+                if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_SHARING_VIOLATION))
                 {
                     return;
                 }

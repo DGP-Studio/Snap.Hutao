@@ -12,6 +12,8 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using Snap.Hutao.Win32;
+using Snap.Hutao.Win32.Foundation;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.IO;
@@ -331,8 +333,7 @@ internal sealed partial class MetadataService : IMetadataService
                     }
                     catch (IOException ex)
                     {
-                        // ERROR_CLOUD_FILE_UNSUCCESSFUL
-                        if (ex.HResult is unchecked((int)0x80070185))
+                        if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_CLOUD_FILE_UNSUCCESSFUL))
                         {
                             context.SetResult(fileName, false);
                             return;

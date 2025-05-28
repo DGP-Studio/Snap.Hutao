@@ -86,6 +86,11 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
                     .StartAsync(backgroundImagePresenter)
                     .ConfigureAwait(true);
 
+                if (XamlApplicationLifetime.Exiting)
+                {
+                    return;
+                }
+
                 backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
 
                 double targetOpacity = backgroundImage is not null

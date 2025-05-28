@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
@@ -17,8 +18,7 @@ internal sealed class LaunchExecutionGameProcessStartHandler : ILaunchExecutionD
         }
         catch (Win32Exception ex)
         {
-            // E_FAIL
-            if (ex.HResult is unchecked((int)0x80004005))
+            if (ex.HResult is HRESULT.E_FAIL)
             {
                 return;
             }

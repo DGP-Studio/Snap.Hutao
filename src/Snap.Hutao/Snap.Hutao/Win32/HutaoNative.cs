@@ -53,6 +53,11 @@ internal sealed unsafe class HutaoNative
 
     private ObjectReference<Vftbl6>? ObjRef6 { get => objRef6; }
 
+    public static BOOL IsWin32(HRESULT hr, WIN32_ERROR error)
+    {
+        return HutaoNativeMethods.IsWin32(hr, error);
+    }
+
     public BOOL IsCurrentWindowsVersionSupported()
     {
         HutaoException.NotSupportedIf(ObjRefPrivate is null, "IHutaoPrivate is not supported");
