@@ -643,9 +643,21 @@
                                     ItemContainerStyle="{StaticResource NoneSelectionListViewItemStyleMarginTop3}"
                                     ItemsSource="{Binding HomeCards}"
                                     SelectionMode="None">
+                                    <ListView.Header>
+                                        <InfoBar
+                                            Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"
+                                            Margin="4,0,4,3"
+                                            IsClosable="True"
+                                            IsOpen="True"
+                                            Severity="Warning"
+                                            Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    </ListView.Header>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <cwc:SettingsCard Header="{Binding Name}">
+                                                <cwc:SettingsCard.HeaderIcon>
+                                                    <FontIcon Glyph="&#xEC8F;" Opacity="0.5"/>
+                                                </cwc:SettingsCard.HeaderIcon>
                                                 <ToggleSwitch
                                                     IsOn="{Binding IsPresented, Mode=TwoWay}"
                                                     OffContent="{shuxm:ResourceString Name=ViewPageSettingHomeCardOff}"
