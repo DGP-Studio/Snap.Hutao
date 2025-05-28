@@ -3133,7 +3133,7 @@
     <value>カレンダーサーバー</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>ホームのダッシュボードでカードを管理する</value>
+    <value>管理主页仪表板中的卡片，拖动进行排序</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>ホームカード</value>
