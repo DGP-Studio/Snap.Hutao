@@ -3131,7 +3131,7 @@ Ruang Tersedia: {2}</value>
     <value>Server Kalender</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>Mengelola Cards di dasbor utama</value>
+    <value>管理主页仪表板中的卡片，拖动进行排序</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Card Dashbaord</value>
