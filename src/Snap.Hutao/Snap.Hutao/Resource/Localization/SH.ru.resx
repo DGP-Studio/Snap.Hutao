@@ -3129,7 +3129,7 @@
     <value>Сервер календаря</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片</value>
+    <value>管理主页仪表板中的卡片，拖动进行排序</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>主页卡片</value>
