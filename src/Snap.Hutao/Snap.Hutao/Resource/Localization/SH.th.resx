@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -902,6 +902,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>ไม่พบ URL ที่ใช้งานได้</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
+    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>URL ที่ระบุไม่ถูกต้อง</value>
   </data>
@@ -1051,6 +1054,9 @@
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>โปรดใช้วิธีการอื่นเพื่อซิงค์ไอเทมในกระเป๋า</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>ไฟล์เมตาดาต้าหนึ่งไฟล์ขึ้นไปดาวน์โหลดล้มเหลว：{0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>ไม่พบไฟล์ข้อมูลเมตาที่แคชไว้</value>
   </data>
@@ -1070,7 +1076,7 @@
     <value>Snap Hutao ของคุณเก่าเกินไป โปรดอัปเดตโดยเร็วที่สุด</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>การดำเนินการทรัพยากรเกมล้มเหลว</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>การลงชื่อเข้าใช้ชดเชยล้มเหลว, {0}</value>
@@ -1094,7 +1100,7 @@
     <value>เช็คอินสำเร็จ, {0} × {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>ไอเท็มไม่รองรับ, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>พบเวอร์ชันใหม่ {0}</value>
@@ -1493,7 +1499,7 @@
     <value>กำลังแปลงไคลเอนต์เกม</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.&gt;สแกนคิวอาร์โค้ด</value>
+    <value>ใช้แอป&lt;米游社. Term doesn't have a defined translation. Please translate it yourself.>สแกนคิวอาร์โค้ด</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
     <value>เพื่อให้แน่ใจว่าผู้เปิดใช้งานฟังก์ชันมีความสามารถในการตัดสินใจอย่างอิสระ เราจะอัปเดตเงื่อนไขการเปิดใช้งานฟังก์ชันเหล่านี้เป็นระยะ หากคุณเป็นผู้สร้างเนื้อหา โปรดอย่าแบ่งปันวิธีการเปิดใช้งานเฉพาะกับผู้ชมของคุณ</value>
@@ -1918,6 +1924,15 @@
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>นำเข้าไฟล์ UIGF JSON</value>
   </data>
+  <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
+    <value>获取游戏版本配置失败</value>
+  </data>
+  <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
+    <value>获取游戏渠道 SDK 失败</value>
+  </data>
+  <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
+    <value>本地游戏配置 [{0}]</value>
+  </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>เวอร์ชันในเครื่อง: {0}</value>
   </data>
@@ -2063,7 +2078,7 @@
     <value>พื้นที่ดิสก์ที่ใช้ไป: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0&gt;无感验证&lt;/0&gt;สำเร็จ</value>
+    <value>กำหนดค่า URL แบบผสมสำหรับการตรวจสอบแบบ&lt;0>无感验证&lt;/0>สำเร็จ</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
     <value>กำลังรีเซ็ตทรัพยากรภาพ</value>
@@ -3116,25 +3131,25 @@
     <value>เซิร์ฟเวอร์ปฏิทิน</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>จัดการการ์ดในแดชบอร์ดหน้าแรก</value>
+    <value>管理主页仪表板中的卡片</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
-    <value>การ์ดแดชบอร์ด</value>
+    <value>主页卡片</value>
   </data>
   <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>การจัดการความสำเร็จ</value>
+    <value>成就管理</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>ปฏิทิน</value>
+    <value>日历</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>บันทึกประจำวันแบบเรียลไทม์</value>
+    <value>实时便笺</value>
   </data>
   <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>บันทึกการอธิษฐาน</value>
+    <value>祈愿记录</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>เปิดเกม</value>
+    <value>启动游戏</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>ลงชื่อเข้าใช้</value>
@@ -3146,7 +3161,7 @@
     <value>แสดง</value>
   </data>
   <data name="ViewPageSettingHomeHeader" xml:space="preserve">
-    <value>หน้าหลัก</value>
+    <value>主页</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
     <value>เวลาหมดอายุ CDN ของ Hutao Cloud</value>
