@@ -31,8 +31,6 @@ internal sealed partial class SettingHomeViewModel : Abstraction.ViewModel
         HomeCards = new SettingHomeCardObservableCollection(viewModels);
     }
 
-    public HomeCardOptions HomeCardOptions { get; } = new();
-
     public partial AppOptions AppOptions { get; }
 
     public partial RuntimeOptions RuntimeOptions { get; }

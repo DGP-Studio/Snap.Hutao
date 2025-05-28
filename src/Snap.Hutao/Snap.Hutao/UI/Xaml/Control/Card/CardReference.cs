@@ -14,6 +14,6 @@ internal sealed class CardReference
 
     public static CardReference Create(Button card, string order)
     {
-        return new() { Card = card, Order = LocalSetting.Get(order, 0)};
+        return new() { Card = card, Order = LocalSetting.Get(order, 0) };
     }
 }

@@ -10,7 +10,7 @@ internal sealed class SettingHomeCardViewModel : ObservableObject
     private readonly string presentKey;
     private readonly string orderKey;
 
-    public SettingHomeCardViewModel(string name,string presentKey, string orderKey)
+    public SettingHomeCardViewModel(string name, string presentKey, string orderKey)
     {
         Name = name;
         this.presentKey = presentKey;

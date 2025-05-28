@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
@@ -13,7 +12,6 @@ using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
 using System.IO;
-using Windows.Storage;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;

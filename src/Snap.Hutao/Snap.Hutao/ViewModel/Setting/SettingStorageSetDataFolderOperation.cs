@@ -16,7 +16,7 @@ internal sealed class SettingStorageSetDataFolderOperation
 {
     public required IFileSystemPickerInteraction FileSystemPickerInteraction { private get; init; }
 
-    public required IContentDialogFactory ContentDialogFactory { private get;init; }
+    public required IContentDialogFactory ContentDialogFactory { private get; init; }
 
     public required IInfoBarService InfoBarService { private get; init; }
 

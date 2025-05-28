@@ -4,7 +4,6 @@
 using Snap.Hutao.Win32.Foundation;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 

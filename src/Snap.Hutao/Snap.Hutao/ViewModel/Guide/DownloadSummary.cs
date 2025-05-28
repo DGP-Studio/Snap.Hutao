@@ -5,7 +5,6 @@ using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Notification;
@@ -129,7 +128,7 @@ internal sealed partial class DownloadSummary : ObservableObject
             }
             else
             {
-                infoBarService.Error(ex,SH.ViewModelWelcomeDownloadSummaryException);
+                infoBarService.Error(ex, SH.ViewModelWelcomeDownloadSummaryException);
             }
 
             await taskContext.SwitchToMainThreadAsync();

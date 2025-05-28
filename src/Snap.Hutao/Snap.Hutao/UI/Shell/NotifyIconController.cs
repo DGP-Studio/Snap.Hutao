@@ -180,29 +180,29 @@ internal sealed partial class NotifyIconController : IDisposable
         switch (currentXamlWindowReference.Window)
         {
             case null:
-            {
-                // MainWindow is closed, show it
-                MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
-                currentXamlWindowReference.Window = mainWindow;
-                mainWindow.SwitchTo();
-                mainWindow.AppWindow.MoveInZOrderAtTop();
-                return;
-            }
-
-            default:
-            {
-                Window window = currentXamlWindowReference.Window;
-
-                // While window is closing, currentXamlWindowReference can still retrieve the window,
-                // just ignore it
-                if (window.AppWindow is not null)
                 {
-                    window.SwitchTo();
-                    window.AppWindow.MoveInZOrderAtTop();
+                    // MainWindow is closed, show it
+                    MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+                    currentXamlWindowReference.Window = mainWindow;
+                    mainWindow.SwitchTo();
+                    mainWindow.AppWindow.MoveInZOrderAtTop();
+                    return;
                 }
 
-                return;
-            }
+            default:
+                {
+                    Window window = currentXamlWindowReference.Window;
+
+                    // While window is closing, currentXamlWindowReference can still retrieve the window,
+                    // just ignore it
+                    if (window.AppWindow is not null)
+                    {
+                        window.SwitchTo();
+                        window.AppWindow.MoveInZOrderAtTop();
+                    }
+
+                    return;
+                }
         }
     }
 }
