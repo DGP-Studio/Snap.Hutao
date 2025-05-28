@@ -3131,7 +3131,7 @@ Space Available: {2}</value>
     <value>Calendar Server</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>Manage cards on home dashboard</value>
+    <value>管理主页仪表板中的卡片，拖动进行排序</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Dashboard card</value>
