@@ -14,7 +14,7 @@ internal sealed partial class HutaoEndpointsFactory : IHutaoEndpointsFactory
 
     public IHutaoEndpoints Create()
     {
-#if RELEASE && !IS_ALPHA_BUILD
+#if RELEASE && (!IS_ALPHA_BUILD || !IS_CARARY_BUILD)
         return serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.Release);
 #elif DEBUG && FORCE_USE_RELEASE_ENDPOINT
         return serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.Release);

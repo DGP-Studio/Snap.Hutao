@@ -14,8 +14,6 @@ internal sealed partial class HttpContext : IDisposable
 
     public HttpCompletionOption CompletionOption { get; init; } = HttpCompletionOption.ResponseContentRead;
 
-    public bool LogException { get; set; } = true;
-
     public HttpRequestMessage? Request { get; set; }
 
     public HttpResponseMessage? Response { get; set; }

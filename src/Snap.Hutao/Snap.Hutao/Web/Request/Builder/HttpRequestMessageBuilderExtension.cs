@@ -45,7 +45,6 @@ internal static class HttpRequestMessageBuilderExtension
             HttpClient = httpClient,
             CompletionOption = completionOption,
             RequestAborted = token,
-            LogException = logException,
         };
 
         using (context)
