@@ -14,7 +14,7 @@ namespace Snap.Hutao.Web.Bridge;
 
 internal static class BridgeShare
 {
-    public static async ValueTask<IJsBridgeResult?> ShareAsync(JsParam<SharePayload> param, BridgeShareContext context)
+    public static async ValueTask<IJsBridgeResult> ShareAsync(JsParam<SharePayload> param, BridgeShareContext context)
     {
         SharePayload payload = param.Payload;
         switch (payload.Type)
@@ -72,7 +72,7 @@ internal static class BridgeShare
         byte[] data;
         try
         {
-            data = Base64Url.DecodeFromChars(base64ImageData);
+            data = Convert.FromBase64String(base64ImageData);
         }
         catch (Exception ex)
         {
