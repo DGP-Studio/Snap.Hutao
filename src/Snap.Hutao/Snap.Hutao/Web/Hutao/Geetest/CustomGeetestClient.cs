@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using System.Collections.Frozen;
 using System.Globalization;
 using System.Net.Http;
 using System.Text;
@@ -15,13 +16,35 @@ namespace Snap.Hutao.Web.Hutao.Geetest;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class CustomGeetestClient
 {
+    private static readonly FrozenSet<string> ImpossibleHosts =
+    [
+        "webstatic.mihoyo.com",
+        "www.miyoushe.com",
+    ];
+
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
     private readonly HttpClient httpClient;
 
     public async ValueTask<GeetestResponse> VerifyAsync(string gt, string challenge, CancellationToken token)
     {
         string template = appOptions.GeetestCustomCompositeUrl;
+
+        try
+        {
+            UriBuilder uriBuilder = new(template);
+            if (ImpossibleHosts.Contains(uriBuilder.Host))
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                appOptions.GeetestCustomCompositeUrl = string.Empty;
+                return GeetestResponse.InternalFailure;
+            }
+        }
+        catch
+        {
+            return GeetestResponse.InternalFailure;
+        }
 
         string url;
         try
