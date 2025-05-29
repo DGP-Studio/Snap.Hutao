@@ -116,8 +116,8 @@ public static partial class Bootstrap
         if (!HutaoNative.Instance.IsCurrentWindowsVersionSupported())
         {
             const string Message = """
-                Snap Hutao 无法在非 Windows 10 或 Windows 11 上运行，请更新系统。
-                Snap Hutao cannot run on non-Windows 10 or Windows 11. Please update your system.
+                Snap Hutao 无法在版本低于 10.0.19045.5371 的 Windows 上运行，请更新系统。
+                Snap Hutao cannot run on Windows versions earlier than 10.0.19045.5371. Please update your system.
                 """;
             HutaoNative.Instance.ShowErrorMessage("Warning | 警告", Message);
             return false;

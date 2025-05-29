@@ -29,10 +29,11 @@ internal sealed partial class TransparentBackdrop : SystemBackdrop, IBackdropNee
 
     internal Windows.UI.Composition.Compositor Compositor
     {
+        // ReSharper disable once InconsistentlySynchronizedField
         get => LazyInitializer.EnsureInitialized(ref compositor, ref compositorLock, () =>
         {
             DispatcherQueue.EnsureSystemDispatcherQueue();
-            return new Windows.UI.Composition.Compositor();
+            return new();
         });
     }
 

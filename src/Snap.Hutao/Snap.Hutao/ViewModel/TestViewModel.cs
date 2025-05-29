@@ -18,7 +18,7 @@ using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.Guide;

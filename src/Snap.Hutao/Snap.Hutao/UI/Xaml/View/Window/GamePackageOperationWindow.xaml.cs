@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Game.Package.Advanced;
+using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Game;
 using Windows.Graphics;

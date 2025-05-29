@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.CompilerServices;
 using WinRT.Interop;
 
-namespace Snap.Hutao.UI.Xaml;
+namespace Snap.Hutao.UI.Windowing;
 
 internal static class WindowExtension
 {

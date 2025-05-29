@@ -6,11 +6,11 @@ using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.UI.Windowing;
 
-internal sealed partial class XamlWindowNonRudeHWND : IDisposable
+internal sealed partial class XamlWindowNonRude : IDisposable
 {
     private readonly HutaoNativeWindowNonRude native;
 
-    public XamlWindowNonRudeHWND(HWND hwnd)
+    public XamlWindowNonRude(HWND hwnd)
     {
         native = HutaoNative.Instance.MakeWindowNonRude(hwnd);
         native.Attach();

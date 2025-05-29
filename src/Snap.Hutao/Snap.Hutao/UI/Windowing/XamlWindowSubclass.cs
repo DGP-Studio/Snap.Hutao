@@ -3,9 +3,9 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.UI.Input;
 using Snap.Hutao.UI.Windowing.Abstraction;
-using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
@@ -21,14 +21,14 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     private readonly HutaoNativeWindowSubclass native;
     private readonly Window window;
 
-    private GCHandle unmanagedAccess;
+    private GCHandle handle;
 
     public unsafe XamlWindowSubclass(Window window)
     {
         this.window = window;
-        unmanagedAccess = GCHandle.Alloc(this);
+        handle = GCHandle.Alloc(this);
         HutaoNativeWindowSubclassCallback callback = HutaoNativeWindowSubclassCallback.Create(&OnSubclassProcedure);
-        native = HutaoNative.Instance.MakeWindowSubclass(window.GetWindowHandle(), callback, GCHandle.ToIntPtr(unmanagedAccess));
+        native = HutaoNative.Instance.MakeWindowSubclass(window.GetWindowHandle(), callback, GCHandle.ToIntPtr(handle));
     }
 
     public void Initialize()
@@ -47,9 +47,10 @@ internal sealed partial class XamlWindowSubclass : IDisposable
             // 0x80004005 E_FAIL
         }
 
-        unmanagedAccess.Free();
+        handle.Free();
     }
 
+    /// <returns>Whether to call DefSubclassProc</returns>
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe BOOL OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nint access, LRESULT* result)
     {
@@ -123,6 +124,13 @@ internal sealed partial class XamlWindowSubclass : IDisposable
     {
         public readonly short Low;
         public readonly short High;
+        private readonly int reserved;
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private readonly struct LPARAM2NCHITTEST
+    {
+        public readonly PointInt16 Point;
         private readonly int reserved;
     }
 

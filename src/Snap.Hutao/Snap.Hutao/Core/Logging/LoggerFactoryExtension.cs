@@ -10,16 +10,6 @@ namespace Snap.Hutao.Core.Logging;
 
 internal static class LoggerFactoryExtension
 {
-    public static ILoggingBuilder AddConsoleWindow(this ILoggingBuilder builder)
-    {
-        builder.AddSimpleConsole(options =>
-        {
-            options.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fff ";
-        });
-
-        return builder;
-    }
-
     public static ILoggingBuilder AddSentryTelemetry(this ILoggingBuilder builder)
     {
         return builder.AddSentry(options =>

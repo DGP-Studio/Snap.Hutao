@@ -5,7 +5,7 @@ using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 
-namespace Snap.Hutao.UI.Xaml;
+namespace Snap.Hutao.UI.Windowing;
 
 [SuppressMessage("", "SYSLIB1054")]
 internal static unsafe class WindowUtilities
