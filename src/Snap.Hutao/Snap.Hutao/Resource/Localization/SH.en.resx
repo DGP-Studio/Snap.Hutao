@@ -903,7 +903,7 @@
     <value>No available URL found</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
-    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+    <value>An issue occurred while copying the web cache to the temporary folder, insufficient permissions</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>The URL provided is invalid</value>
@@ -918,7 +918,7 @@
     <value>Unsupported Item ID: {0}</value>
   </data>
   <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
-    <value>Bilibili 渠道服不支持账号功能</value>
+    <value>Bilibili server does not support account features</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Account {0} already exists</value>
@@ -1928,13 +1928,13 @@ Space Available: {2}</value>
     <value>Import UIGF JSON file</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
-    <value>获取游戏版本配置失败</value>
+    <value>Failed to get game version configuration</value>
   </data>
   <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
-    <value>获取游戏渠道 SDK 失败</value>
+    <value>Failed to get game channel SDK</value>
   </data>
   <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
-    <value>本地游戏配置 [{0}]</value>
+    <value>Local game configuration [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Local version: {0}</value>
@@ -3134,7 +3134,7 @@ Space Available: {2}</value>
     <value>Calendar Server</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片，拖动进行排序</value>
+    <value>Manage cards on home dashboard, drag to sort</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Dashboard card</value>
@@ -3143,7 +3143,7 @@ Space Available: {2}</value>
     <value>Achievements</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Calendar</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Realtime Notes</value>
