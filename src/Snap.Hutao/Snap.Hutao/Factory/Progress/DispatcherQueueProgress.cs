@@ -33,3 +33,35 @@ internal class DispatcherQueueProgress<T> : IProgress<T>
         }
     }
 }
+
+internal class DispatcherQueueProgress<T, TState> : IProgress<T>
+{
+    private readonly DispatcherQueue dispatcherQueue;
+    private readonly Action<T, TState> handler;
+    private readonly TState state;
+
+    public DispatcherQueueProgress(Action<T, TState> handler, TState state, DispatcherQueue dispatcherQueue)
+    {
+        this.dispatcherQueue = dispatcherQueue;
+        this.handler = handler;
+        this.state = state;
+    }
+
+    public void Report(T value)
+    {
+        // Avoid capture <this>
+        Action<T, TState> handler = this.handler;
+        TState state = this.state;
+
+        if (dispatcherQueue.HasThreadAccess)
+        {
+            handler(value, state);
+        }
+        else
+        {
+            // We should always wait for the report to finish
+            // If we use TryEnqueue, DispatcherQueue can queue the item far from now
+            dispatcherQueue.Invoke(DispatcherQueuePriority.High, () => handler(value, state));
+        }
+    }
+}

@@ -7,10 +7,7 @@ internal enum LaunchPhase
 {
     ProcessInitializing,
     ProcessStarted,
-    UnlockingFps,
-    UnlockFpsSucceed,
-    UnlockFpsFailed,
-
+    IslandStaging,
     WaitingForExit,
     ProcessExited,
 }

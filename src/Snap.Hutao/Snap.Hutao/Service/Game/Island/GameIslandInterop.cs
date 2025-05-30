@@ -7,6 +7,8 @@ using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Launching;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using System.Net;
+using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Island;
 
@@ -40,13 +42,22 @@ internal sealed class GameIslandInterop : IGameIslandInterop
             return false;
         }
 
-        IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
-        if (await featureService.GetGameIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
+        try
         {
-            return false;
+            IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
+            IslandFeature? feature = await featureService.GetGameIslandFeatureAsync(gameVersion).ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(feature);
+            offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
         }
+        catch (HttpRequestException ex)
+        {
+            if (ex.StatusCode is HttpStatusCode.NotFound)
+            {
+                throw HutaoException.NotSupported(SH.ServiceGameIslandFeature404);
+            }
 
-        offsets = context.TargetScheme.IsOversea ? feature.Oversea : feature.Chinese;
+            throw;
+        }
 
         if (!resume && !GlobalSwitch.PreventCopyIslandDll)
         {

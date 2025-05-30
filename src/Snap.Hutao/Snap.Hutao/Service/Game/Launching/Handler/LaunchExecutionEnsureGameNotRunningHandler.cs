@@ -41,8 +41,6 @@ internal sealed class LaunchExecutionEnsureGameNotRunningHandler : ILaunchExecut
     {
         if (IsGameRunning(out Process? process))
         {
-            context.Logger.LogInformation("Game process detected, id: {Id}", process.Id);
-
             context.Result.Kind = LaunchExecutionResultKind.GameProcessRunning;
             context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGameIsRunning;
             return;

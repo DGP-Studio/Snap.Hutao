@@ -11,7 +11,6 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandler : ILau
     {
         if (context.Process.IsRunning() && context.Options.UsingBetterGenshinImpactAutomation)
         {
-            context.Logger.LogInformation("Using BetterGI to automate gameplay");
             await LaunchBetterGenshinImpactAsync(context).ConfigureAwait(false);
         }
 

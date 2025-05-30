@@ -932,6 +932,9 @@
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>下载游戏资源索引</value>
   </data>
+  <data name="ServiceGameIslandFeature404" xml:space="preserve">
+    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+  </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>游戏进程运行中</value>
   </data>

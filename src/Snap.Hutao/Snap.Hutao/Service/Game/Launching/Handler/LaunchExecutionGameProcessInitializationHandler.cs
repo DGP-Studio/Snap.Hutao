@@ -33,7 +33,7 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
             commandLine = new CommandLineBuilder()
                 .AppendIf(launchOptions.IsBorderless, "-popupwindow")
                 .AppendIf(launchOptions.IsExclusive, "-window-mode", "exclusive")
-                .Append("-screen-fullscreen", launchOptions.IsFullScreen ? 1 : 0)
+                .Append("-screen-fullscreen", launchOptions.IsFullScreen ? "1" : "0")
                 .AppendIf(launchOptions.IsScreenWidthEnabled, "-screen-width", launchOptions.ScreenWidth)
                 .AppendIf(launchOptions.IsScreenHeightEnabled, "-screen-height", launchOptions.ScreenHeight)
                 .AppendIf(launchOptions.IsMonitorEnabled, "-monitor", launchOptions.Monitor.Value)
