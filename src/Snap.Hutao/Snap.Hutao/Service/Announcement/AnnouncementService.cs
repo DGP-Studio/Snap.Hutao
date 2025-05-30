@@ -145,6 +145,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // Workaround for some long-term activities
         // Why does the project team extend the fucking end time for the fucking activity?
         versionStartTimes.TryAdd("5.0", new(2024, 8, 28, 6, 0, 0, offset));
+        versionStartTimes.TryAdd("5.5", new(2025, 3, 26, 6, 0, 0, offset));
 
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
