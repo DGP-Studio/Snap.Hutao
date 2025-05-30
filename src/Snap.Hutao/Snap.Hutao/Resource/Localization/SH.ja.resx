@@ -1623,13 +1623,13 @@
     <value>インストール後、胡桃を再起動し、効果が正常かどうかを確認してください</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>上のアイコンに文字化けがある場合は、どうぞこちらへ</value>
+    <value>上のアイコンに文字化けがある場合は、こちらから</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
     <value>アイコンフォントをダウンロード、自動的にインストールします</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>WebView2 ランタイム情報が検出されない場合は、どうぞこちらへ</value>
+    <value>WebView2 ランタイム情報が検出されない場合は、こちらから</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
     <value>ランタイムをダウンロード、自動的にインストールします</value>
@@ -1650,7 +1650,7 @@
     <value>リソース</value>
   </data>
   <data name="ViewGuideStepStaticResourceDownloadIncompleteHint" xml:space="preserve">
-    <value>* 画像を表示する際に自動で補完を試みるから、ファイルのダウンロードに失敗した場合でも心配ありません</value>
+    <value>* 画像を表示する際に自動で補完を行います。ファイルのダウンロードに失敗しても問題はありません。</value>
   </data>
   <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
     <value>画像アセットの設定</value>
@@ -2469,7 +2469,7 @@
     <value>このUidのクラウドバックアップをダウンロードする</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>毎期の深境螺旋記録を初回アップロードすると、3 日間の利用期限を無料に獲得できます</value>
+    <value>毎期の深境螺旋記録を初回アップロードすると、3 日間の利用期限を無料で獲得できます</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>螺旋の記録をアップロード</value>
@@ -2719,10 +2719,10 @@
     <value>起動のパラメーター</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>ゲーム起動後 Better GI を開始してみ、自動化任務しようとします</value>
+    <value>ゲーム起動後 Better GI を開始し、任務の自動化を行います。</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>自動化任務</value>
+    <value>任務自動化</value>
   </data>
   <data name="ViewPageLaunchGameBypass31Dash4302Description" xml:space="preserve">
     <value>エラーコード 31-4302 があった場合はこのオプションを有効にしてください</value>
@@ -2734,7 +2734,7 @@
     <value>ゲームの起動後に変更できません。</value>
   </data>
   <data name="ViewPageLaunchGameDangerousDescriptionHint" xml:space="preserve">
-    <value>注入機能は非常に危険で、重大な結果をもたらす可能性があるため、是非とも慎重に使用してください！</value>
+    <value>注入機能は非常に危険で、重大な結果をもたらす可能性があるため、慎重に使用してください！</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
     <value>照明レンダリングの霧を除去する</value>
@@ -2779,7 +2779,7 @@
     <value>ゲーム起動後にリアルタイムで切り替えることができます</value>
   </data>
   <data name="ViewPageLaunchGameInjectionDescription" xml:space="preserve">
-    <value>メッセージモジュールをゲームに注入し、高度だが危険な機能を実現します</value>
+    <value>メッセージモジュールをゲームに注入し、危険ですが高度な機能を実現します。</value>
   </data>
   <data name="ViewPageLaunchGameInjectionHeader" xml:space="preserve">
     <value>注入</value>
@@ -2830,7 +2830,7 @@
     <value>ゲームを修復</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
-    <value>ゲームの開始後に Starward を起動してみ、プレイ時間の統計を行おうとします。</value>
+    <value>ゲームの開始後に Starward を起動し、プレイ時間の計測を行います。</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
     <value>プレイ時間</value>
@@ -3256,7 +3256,7 @@
     <value>仮想キーコード</value>
   </data>
   <data name="ViewPageSettingKeyShortcutWarningDescription" xml:space="preserve">
-    <value>異なる機能に同じショートカットキーを設定すると、予期せぬ結果を招く場合が可能で、正常に戻すには追加の操作やアプリの再起動が必要になるかもしれません</value>
+    <value>同じショートカットキーに複数の機能を設定すると予期せぬ動作が発生し、正常状態に戻すために追加の操作やアプリの再起動が必要になる可能性があります</value>
   </data>
   <data name="ViewPageSettingNotifyIconCustomTaskBarWaring" xml:space="preserve">
     <value>美化のためカストマイズツールを使用して標準のタスクバーを置き換えた場合、通知領域アイコンを有効にすると：アイコンとの操作ができない/正常にアイコンを作成できない/エクスプローラーを再起動すると固まる/プログラムの起動後にクラッシュする等の問題が発生する可能性があります</value>
@@ -3310,7 +3310,7 @@
     <value>共有の保存モード</value>
   </data>
   <data name="ViewPageSettingSpeedLimitDescription" xml:space="preserve">
-    <value>0は無制限速度</value>
+    <value>0は速度無制限</value>
   </data>
   <data name="ViewPageSettingSpeedLimitHeader" xml:space="preserve">
     <value>ダウンロード速度制限</value>
@@ -3349,10 +3349,10 @@
     <value>UIGF ファイルの古いバージョンを更新</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>まだ引かないのアイテムは「祈願履歴-キャラクター」と「祈願履歴-武器」に表示されます。</value>
+    <value>引いていないアイテムを「祈願履歴-キャラクター」と「祈願履歴-武器」に表示します。</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
-    <value>未引きの祈願アイテム</value>
+    <value>未抽選の祈願アイテム</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 ランタイム</value>
