@@ -903,7 +903,7 @@
     <value>利用可能な URL が見つかりません</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
-    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+    <value>ウェブキャッシュを一時フォルダーにコピー中に問題が発生しました、権限不足</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>提供された URL が無効です</value>
@@ -918,7 +918,7 @@
     <value>サポートされていない Item Id：{0}</value>
   </data>
   <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
-    <value>Bilibili 渠道服不支持账号功能</value>
+    <value>Bilibili サーバーはアカウント機能をサポートしていません</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>名前は {0} のアカウントは既に存在します</value>
@@ -933,7 +933,7 @@
     <value>ゲームリソースのインデックスをダウンロード</value>
   </data>
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
-    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+    <value>注入の配置情報の取得に失敗しました、現在のゲームバージョンはサポートされていません</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>ゲームは実行中です</value>
@@ -1932,13 +1932,13 @@
     <value>UIGF JSON ファイルをインポート</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
-    <value>获取游戏版本配置失败</value>
+    <value>ゲームバージョン設定の取得に失敗しました</value>
   </data>
   <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
-    <value>获取游戏渠道 SDK 失败</value>
+    <value>ゲームチャンネル SDK の取得に失敗しました</value>
   </data>
   <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
-    <value>本地游戏配置 [{0}]</value>
+    <value>ローカルゲーム設定 [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>ローカルバージョン: {0}</value>
@@ -3139,7 +3139,7 @@
     <value>カレンダーサーバー</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片，拖动进行排序</value>
+    <value>ホームのダッシュボードでカードを管理し、ドラッグして並べ替えます</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>ホームカード</value>
@@ -3148,7 +3148,7 @@
     <value>アチーブメント</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>カレンダー</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
