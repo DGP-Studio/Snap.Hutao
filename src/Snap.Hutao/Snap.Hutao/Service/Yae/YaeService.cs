@@ -77,7 +77,7 @@ internal sealed partial class YaeService : IYaeService
                         AchievementFieldId? fieldId = default;
                         if (!string.IsNullOrEmpty(version))
                         {
-                            fieldId = await featureService.GetAchievementFieldIdFeatureAsync("");
+                            fieldId = await featureService.GetAchievementFieldIdFeatureAsync(version);
                         }
 
                         uiaf = AchievementParser.Parse(data.Bytes, fieldId);

@@ -44,6 +44,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
         if (schemeType is SchemeType.ChineseBilibili)
         {
+            infoBarService.Warning(SH.ServiceGameAccountBilibiliNotSupported);
             return default;
         }
 
