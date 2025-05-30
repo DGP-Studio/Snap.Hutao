@@ -933,7 +933,7 @@
     <value>Download game resource index</value>
   </data>
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
-    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+    <value>Failed to get injection configuration information, the current game version is not yet supported</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Game in process</value>
