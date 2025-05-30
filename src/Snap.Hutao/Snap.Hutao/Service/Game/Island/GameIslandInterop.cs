@@ -41,7 +41,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
         }
 
         IFeatureService featureService = context.ServiceProvider.GetRequiredService<IFeatureService>();
-        if (await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
+        if (await featureService.GetGameIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
         {
             return false;
         }

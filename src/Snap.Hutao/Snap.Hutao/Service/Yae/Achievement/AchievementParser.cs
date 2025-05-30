@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Yae.Achievement;
 
 internal static class AchievementParser
 {
-    public static UIAF? Parse(ByteString bytes)
+    public static UIAF? Parse(ByteString bytes, AchievementFieldId? fieldId = default)
     {
         using (CodedInputStream stream = bytes.CreateCodedInput())
         {
@@ -63,31 +63,39 @@ internal static class AchievementParser
 
             if (dataList.Count > 20)
             {
-                // :                                                                   ↓ 2020-09-15 04:15:14
-                (int timestampField, int count) = dataList.CountByKey(value => value > 1600114514).MaxBy(kvp => kvp.Value);
+                FieldConverter converter;
+                if (fieldId is not null)
+                {
+                    converter = new(fieldId.Id, fieldId.CurrentProgress, fieldId.Status, fieldId.FinishTimestamp);
+                }
+                else
+                {
+                    // :                                                                   ↓ 2020-09-15 04:15:14
+                    (int timestampField, int count) = dataList.CountByKey(value => value > 1600114514).MaxBy(kvp => kvp.Value);
 
-                // :                                           FINISHED ↓     ↓ REWARD_TAKEN
-                int statusField = dataList.CountByKey(value => value is 2U or 3U).First(kvp => kvp.Value == count).Key;
+                    // :                                           FINISHED ↓     ↓ REWARD_TAKEN
+                    int statusField = dataList.CountByKey(value => value is 2U or 3U).First(kvp => kvp.Value == count).Key;
 
-                // :                                                  ↓ id: 8xxxx
-                int achievementIdField = dataList.CountByKey(value => (value / 10000) % 10 == 8).MaxBy(kvp => kvp.Value).Key;
+                    // :                                                  ↓ id: 8xxxx
+                    int achievementIdField = dataList.CountByKey(value => (value / 10000) % 10 == 8).MaxBy(kvp => kvp.Value).Key;
 
-                HashSet<int> excludedFields = [timestampField, statusField, achievementIdField];
+                    HashSet<int> excludedFields = [timestampField, statusField, achievementIdField];
 
-                (int currentField, _) = dataList
-                    .Where(data => data[statusField] is 2U or 3U)
-                    .Select(data => data.WithKeysRemoved(excludedFields).ToArray())
-                    .Where(data => data.Length == 2 && data[0].Value != data[1].Value)
-                    .CountBy(a => a[0].Value > a[1].Value ? (a[0].Key, a[1].Key) : (a[1].Key, a[0].Key))
-                    .MaxBy(p => p.Value)
-                    .Key;
+                    (int currentField, _) = dataList
+                        .Where(data => data[statusField] is 2U or 3U)
+                        .Select(data => data.WithKeysRemoved(excludedFields).ToArray())
+                        .Where(data => data.Length == 2 && data[0].Value != data[1].Value)
+                        .CountBy(a => a[0].Value > a[1].Value ? (a[0].Key, a[1].Key) : (a[1].Key, a[0].Key))
+                        .MaxBy(p => p.Value)
+                        .Key;
 
-                FieldConverter converter = new(achievementIdField, currentField, statusField, timestampField);
+                    converter = new(achievementIdField, currentField, statusField, timestampField);
+                }
 
                 return new()
                 {
                     Info = UIAFInfo.CreateForEmbeddedYae(),
-                    List = [.. dataList.Select(data => converter.Convert(data))],
+                    List = [.. dataList.Select(converter.Convert)],
                 };
             }
 

@@ -2,10 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Yae.Achievement;
 
 namespace Snap.Hutao.Service.Feature;
 
 internal interface IFeatureService
 {
-    ValueTask<IslandFeature?> GetIslandFeatureAsync(string tag);
+    ValueTask<IslandFeature?> GetGameIslandFeatureAsync(string tag);
+
+    ValueTask<AchievementFieldId?> GetAchievementFieldIdFeatureAsync(string tag);
 }

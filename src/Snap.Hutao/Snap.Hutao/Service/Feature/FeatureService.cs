@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Island;
+using Snap.Hutao.Service.Yae.Achievement;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -19,9 +20,9 @@ internal sealed partial class FeatureService : IFeatureService
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IMemoryCache memoryCache;
 
-    public async ValueTask<IslandFeature?> GetIslandFeatureAsync(string tag)
+    public async ValueTask<IslandFeature?> GetGameIslandFeatureAsync(string tag)
     {
-        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.IslandFeature.{tag}", async entry =>
+        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.GameIslandFeature.{tag}", async entry =>
         {
             entry.SetSlidingExpiration(TimeSpan.FromMinutes(5));
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
@@ -31,6 +32,23 @@ internal sealed partial class FeatureService : IFeatureService
                 {
                     string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_Compact2_{tag}");
                     return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
+                }
+            }
+        }).ConfigureAwait(false);
+    }
+
+    public async ValueTask<AchievementFieldId?> GetAchievementFieldIdFeatureAsync(string tag)
+    {
+        return await memoryCache.GetOrCreateAsync($"{nameof(FeatureService)}.AchievementFieldIdFeature.{tag}", async entry =>
+        {
+            entry.SetSlidingExpiration(TimeSpan.FromHours(6));
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            {
+                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(FeatureService)))
+                {
+                    string url = hutaoEndpointsFactory.Create().Feature($"AchievementFieldId_{tag}");
+                    return await httpClient.GetFromJsonAsync<AchievementFieldId>(url).ConfigureAwait(false);
                 }
             }
         }).ConfigureAwait(false);

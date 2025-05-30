@@ -29,7 +29,7 @@ internal sealed partial class LaunchGameShared
 
     private bool resuming;
 
-    public LaunchScheme? SilentGetGetCurrentLaunchSchemeFromConfigFile()
+    public LaunchScheme? SilentGetCurrentLaunchSchemeFromConfigFile()
     {
         ChannelOptions options = gameService.GetChannelOptions();
         if (options.ErrorKind is ChannelOptionsErrorKind.None)
@@ -98,7 +98,7 @@ internal sealed partial class LaunchGameShared
 
     public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
-        if (SilentGetGetCurrentLaunchSchemeFromConfigFile() is null)
+        if (SilentGetCurrentLaunchSchemeFromConfigFile() is null)
         {
             return;
         }
