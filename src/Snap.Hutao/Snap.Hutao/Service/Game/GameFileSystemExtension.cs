@@ -105,7 +105,7 @@ internal static class GameFileSystemExtension
             return dataDirectory;
         }
 
-        string dataDirectoryName = gameFileSystem.IsOversea() ? GameConstants.GenshinImpactData : GameConstants.YuanShenData;
+        string dataDirectoryName = gameFileSystem.IsExecutableOversea() ? GameConstants.GenshinImpactData : GameConstants.YuanShenData;
         dataDirectory = string.Intern(Path.Combine(gameFileSystem.GetGameDirectory(), dataDirectoryName));
         GameFileSystemDataDirectories.Add(gameFileSystem, dataDirectory);
         return dataDirectory;
@@ -153,7 +153,7 @@ internal static class GameFileSystemExtension
         return predownloadStatusPath;
     }
 
-    public static bool IsOversea(this IGameFileSystemView gameFileSystem)
+    public static bool IsExecutableOversea(this IGameFileSystemView gameFileSystem)
     {
         ObjectDisposedException.ThrowIf(gameFileSystem.IsDisposed, gameFileSystem);
 

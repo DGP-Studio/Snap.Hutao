@@ -50,15 +50,7 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
         if (!resume && !GlobalSwitch.PreventCopyIslandDll)
         {
-            try
-            {
-                InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
-            }
-            catch
-            {
-                context.Logger.LogError("Failed to copy island file.");
-                throw;
-            }
+            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
         }
 
         return true;
@@ -66,7 +58,27 @@ internal sealed class GameIslandInterop : IGameIslandInterop
 
     public async ValueTask WaitForExitAsync(CancellationToken token = default)
     {
-        using (MemoryMappedFile file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024))
+        MemoryMappedFile file;
+        if (resume)
+        {
+            try
+            {
+                file = MemoryMappedFile.OpenExisting(IslandEnvironmentName);
+            }
+            catch (FileNotFoundException)
+            {
+                // https://github.com/DGP-Studio/Snap.Hutao/issues/2540
+                // Simply return if the game is running without island injected previously
+                // We do not inject the island to process that not started by us.
+                return;
+            }
+        }
+        else
+        {
+            file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024);
+        }
+
+        using (file)
         {
             using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
             {
@@ -92,13 +104,6 @@ internal sealed class GameIslandInterop : IGameIslandInterop
                         {
                             if (Interlocked.Increment(ref accumulatedBadStateCount) >= 10)
                             {
-                                if (resume)
-                                {
-                                    // https://github.com/DGP-Studio/Snap.Hutao/issues/2540
-                                    // Simply return if the game is running without island injected previously
-                                    return;
-                                }
-
                                 HutaoException.Throw($"UnlockerIsland in bad state for too long, last state: {view.State}");
                             }
                         }

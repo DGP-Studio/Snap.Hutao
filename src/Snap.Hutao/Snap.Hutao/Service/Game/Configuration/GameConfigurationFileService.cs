@@ -18,7 +18,8 @@ internal sealed class GameConfigurationFileService : IGameConfigurationFileServi
         if (File.Exists(source))
         {
             string serverCacheFolder = HutaoRuntime.GetDataFolderServerCacheFolder();
-            FileOperation.Copy(source, Path.Combine(serverCacheFolder, isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName), true);
+            string configFileName = isOversea ? BackupOverseaConfigurationFileName : BackupChineseConfigurationFileName;
+            FileOperation.Copy(source, Path.Combine(serverCacheFolder, configFileName), true);
         }
     }
 

@@ -50,6 +50,11 @@ internal readonly struct ChannelOptions
         return new(ChannelOptionsErrorKind.GamePathNullOrEmpty, string.Empty);
     }
 
+    public static ChannelOptions GamePathInvalid(string directory)
+    {
+        return new(ChannelOptionsErrorKind.GamePathInvalid, directory);
+    }
+
     public static ChannelOptions GameContentCorrupted(string directory)
     {
         return new(ChannelOptionsErrorKind.GameContentCorrupted, directory);
@@ -58,11 +63,10 @@ internal readonly struct ChannelOptions
     public override string ToString()
     {
         return $$"""
-            { ChannelType: {{Channel}}, SubChannel: {{SubChannel}}, IsOversea: {{IsOversea}}}
+            { Channel: {{Channel}}, SubChannel: {{SubChannel}}, IsOversea: {{IsOversea}} }
             """;
     }
 
-    // DO NOT DELETE, used in HashSet
     public override int GetHashCode()
     {
         return HashCode.Combine(Channel, SubChannel, IsOversea);

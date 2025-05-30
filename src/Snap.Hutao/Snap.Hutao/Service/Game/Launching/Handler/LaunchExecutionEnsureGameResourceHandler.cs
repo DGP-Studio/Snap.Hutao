@@ -72,7 +72,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             return true;
         }
 
-        if (context.TargetScheme.IsOversea ^ gameFileSystem.IsOversea())
+        if (context.TargetScheme.IsOversea ^ gameFileSystem.IsExecutableOversea())
         {
             return true;
         }
@@ -127,7 +127,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
             IPackageConverter packageConverter = context.ServiceProvider.GetRequiredService<IPackageConverter>();
 
-            if (context.TargetScheme.IsOversea ^ reference.IsOversea())
+            if (context.TargetScheme.IsOversea ^ reference.IsExecutableOversea())
             {
                 if (!await packageConverter.EnsureGameResourceAsync(packageConverterContext).ConfigureAwait(false))
                 {

@@ -58,7 +58,7 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
         //
         // We should backup config file every time we launch the game due to the possibility of the game version outdated.
         context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>()
-            .Backup(gameFileSystem.GetGameConfigurationFilePath(), gameFileSystem.IsOversea());
+            .Backup(gameFileSystem.GetGameConfigurationFilePath(), gameFileSystem.IsExecutableOversea());
 
         await next().ConfigureAwait(false);
     }

@@ -44,8 +44,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
         if (schemeType is SchemeType.ChineseBilibili)
         {
-            infoBarService.Warning(SH.ServiceGameAccountBilibiliNotSupported);
-            return default;
+            throw HutaoException.NotSupported(SH.ServiceGameAccountBilibiliNotSupported);
         }
 
         string? registrySdk = RegistryInterop.Get(schemeType);
@@ -64,6 +63,7 @@ internal sealed partial class GameAccountService : IGameAccountService
             LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>(scope.ServiceProvider).ConfigureAwait(false);
             if (await dialog.GetInputNameAsync().ConfigureAwait(false) is not (true, { } name))
             {
+                // User cancelled the dialog
                 return default;
             }
 
@@ -73,7 +73,7 @@ internal sealed partial class GameAccountService : IGameAccountService
                 return default;
             }
 
-            account = GameAccount.From(name, registrySdk, schemeType);
+            account = GameAccount.Create(name, registrySdk, schemeType);
         }
 
         await taskContext.SwitchToBackgroundAsync();
@@ -91,7 +91,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
         if (schemeType is SchemeType.ChineseBilibili)
         {
-            return default;
+            throw HutaoException.NotSupported(SH.ServiceGameAccountBilibiliNotSupported);
         }
 
         string? registrySdk = RegistryInterop.Get(schemeType);

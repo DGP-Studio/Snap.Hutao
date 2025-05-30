@@ -19,7 +19,20 @@ internal static class FileOperation
         {
             if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_ENCRYPTION_FAILED))
             {
-                FileSystem.CopyFileAllowDecryptedDestination(Path.GetFullPath(source), Path.GetFullPath(destination), overwrite);
+                try
+                {
+                    FileSystem.CopyFileAllowDecryptedDestination(Path.GetFullPath(source), Path.GetFullPath(destination), overwrite);
+                }
+                catch (Exception)
+                {
+                    using (FileStream srcStream = File.Open(source, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        using (FileStream destStream = new(destination, overwrite ? FileMode.Create : FileMode.CreateNew))
+                        {
+                            srcStream.CopyTo(destStream);
+                        }
+                    }
+                }
             }
             else
             {

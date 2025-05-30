@@ -160,7 +160,7 @@ internal sealed partial class LaunchGameShared
                     .CreateInstanceAsync<LaunchGameConfigurationFixDialog>(scope.ServiceProvider)
                     .ConfigureAwait(false);
 
-                bool isOversea = gameFileSystem.IsOversea();
+                bool isOversea = gameFileSystem.IsExecutableOversea();
 
                 await taskContext.SwitchToMainThreadAsync();
 
