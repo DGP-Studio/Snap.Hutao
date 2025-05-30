@@ -917,6 +917,9 @@
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Nicht unterstützte Item-ID: {0}</value>
   </data>
+  <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
+    <value>Bilibili 渠道服不支持账号功能</value>
+  </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Das Konto mit dem Namen {0} ist bereits vorhanden</value>
   </data>
