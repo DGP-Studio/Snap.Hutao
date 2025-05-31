@@ -269,6 +269,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
+        if (!HutaoRuntime.IsProcessElevated)
+        {
+            await contentDialogFactory.CreateForConfirmAsync(SH.ViewModelYaeProcessNotElevatedTitle, SH.ViewModelYaeProcessNotElevatedDescription).ConfigureAwait(false);
+            return;
+        }
+
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
             RefreshOptions options = RefreshOptions.CreateForEmbeddedYae(Projects.CurrentItem, yaeService, launchGameViewModel);

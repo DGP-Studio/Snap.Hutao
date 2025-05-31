@@ -244,6 +244,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         SentrySdk.AddBreadcrumb(BreadcrumbFactory2.CreateUI("Import UIAF", "AchievementViewModel.Command", [("source", "Embedded Yae")]));
 
+        if (!HutaoRuntime.IsProcessElevated)
+        {
+            await scopeContext.ContentDialogFactory.CreateForConfirmAsync(SH.ViewModelYaeProcessNotElevatedTitle, SH.ViewModelYaeProcessNotElevatedDescription).ConfigureAwait(false);
+            return;
+        }
+
         if (await scopeContext.AchievementImporter.FromEmbeddedYaeAsync(scopeContext).ConfigureAwait(false))
         {
             await UpdateAchievementsAsync(Archives?.CurrentItem).ConfigureAwait(false);
