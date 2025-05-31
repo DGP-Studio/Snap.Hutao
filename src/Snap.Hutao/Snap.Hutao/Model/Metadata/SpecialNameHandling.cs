@@ -18,7 +18,7 @@ internal static partial class SpecialNameHandling
     private static partial Regex LayoutRegex { get; }
 
     // Use this regex to query special names in metadata
-    // "#(?!.*(?:F#|M#|NON_BREAK_SPACE|REALNAME\[ID\(1\)(\|HOSTONLY\(true\)|)\]|\{LAYOUT_MOBILE#.+?\}\{LAYOUT_PC#.+?\}\{LAYOUT_PS#.+?\})).*
+    // "#(?!.*(?:[A-Z0-9]{8}|SPACE|F#|M#|NON_BREAK_SPACE|REALNAME\[ID\(1\)(\|HOSTONLY\(true\)|)\]|\{INPUT_ACTION_TYPE|\{LAYOUT_MOBILE#.+?\}|\{LAYOUT_PC#.+?\}|\{LAYOUT_PS#.+?\})).*
     public static string Handle(string input)
     {
         if (string.IsNullOrEmpty(input) || input.AsSpan()[0] is not '#')
@@ -26,6 +26,9 @@ internal static partial class SpecialNameHandling
             return input;
         }
 
+        // {PLAYERAVATAR#SEXPRO[INFO_MALE_PRONOUN_BROTHER|INFO_FEMALE_PRONOUN_SISTERA]}
+        // {SPACE}
+        // {INPUT_ACTION_TYPE#??}
         StringBuilder resultBuilder = new(input);
         resultBuilder
             .Replace("{MATEAVATAR#SEXPRO[INFO_MALE_PRONOUN_BOYFIRST|INFO_FEMALE_PRONOUN_GIRLFIRST]}", SH.MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst)

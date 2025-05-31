@@ -9,6 +9,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shmma="using:Snap.Hutao.Model.Metadata.Avatar"
     xmlns:shmmi="using:Snap.Hutao.Model.Metadata.Item"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
@@ -33,6 +34,8 @@
             CollapsedValue="{shuxm:Int32 Value=2}"
             VisibleValue="{shuxm:Int32 Value=1}"/>
 
+        <shux:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
+
         <DataTemplate x:Key="SkillDataTemplate" x:DataType="shmma:ProudSkill">
             <Grid Margin="0,16,0,0" ColumnSpacing="16">
                 <Grid.ColumnDefinitions>
@@ -43,6 +46,7 @@
                     Grid.ColumnSpan="{Binding ElementName=ProudSelector, Path=Visibility, Converter={StaticResource VisibilityToColumnSpanConverter}}"
                     VerticalAlignment="Top"
                     Description="{Binding Description}"
+                    LinkContext="{Binding DataContext.LinkContext, Source={StaticResource BindingProxy}}"
                     TextStyle="{StaticResource BodyTextBlockStyle}"/>
                 <shuxvs:DescParamComboBox
                     x:Name="ProudSelector"
@@ -58,6 +62,7 @@
             <shuxct:DescriptionTextBlock
                 Margin="0,12,0,0"
                 Description="{Binding Description}"
+                LinkContext="{Binding DataContext.LinkContext, Source={StaticResource BindingProxy}}"
                 TextStyle="{StaticResource BodyTextBlockStyle}"/>
         </DataTemplate>
 

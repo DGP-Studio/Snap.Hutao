@@ -3,14 +3,14 @@
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
-internal abstract class MiHoYoXmlElementSyntax : MiHoYoSyntaxNode
+internal abstract class MiHoYoXmlLikeElementSyntax : MiHoYoSyntaxNode
 {
-    public MiHoYoXmlElementSyntax(MiHoYoSyntaxKind kind, string text, int start, int end)
+    protected MiHoYoXmlLikeElementSyntax(MiHoYoSyntaxKind kind, string text, int start, int end)
         : base(kind, text, start, end)
     {
     }
 
-    public MiHoYoXmlElementSyntax(MiHoYoSyntaxKind kind, string text, in TextPosition position)
+    protected MiHoYoXmlLikeElementSyntax(MiHoYoSyntaxKind kind, string text, in TextPosition position)
         : base(kind, text, position)
     {
     }

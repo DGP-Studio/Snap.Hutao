@@ -93,6 +93,14 @@ internal static class MetadataServiceImmutableDictionaryExtension
         return result;
     }
 
+    public static ValueTask<ImmutableDictionary<HyperLinkNameId, HyperLinkName>> GetIdToHyperLinkNameMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<HyperLinkNameId, HyperLinkName>(
+            MetadataFileStrategies.HyperLinkName,
+            h => h.Id,
+            token);
+    }
+
     public static ValueTask<ImmutableDictionary<MaterialId, Material>> GetIdToMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheAsDictionaryAsync<MaterialId, Material>(

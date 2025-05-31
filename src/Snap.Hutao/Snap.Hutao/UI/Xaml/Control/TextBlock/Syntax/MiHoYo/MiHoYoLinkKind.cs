@@ -3,12 +3,10 @@
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
-internal enum MiHoYoSyntaxKind
+internal enum MiHoYoLinkKind
 {
     None,
-    Root,
-    PlainText,
-    ColorText,
-    ItalicText,
-    LinkText,
+    Name,
+    Skill,
+    Inherent,
 }

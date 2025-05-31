@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 

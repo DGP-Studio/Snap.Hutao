@@ -84,6 +84,12 @@
     "EqualityOperators": true
   },
   {
+    "Name": "HyperLinkNameId",
+    "Documentation": "超链接名称 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
     "Name": "Level",
     "Documentation": "等级 1 - 90",
     "Equatable": true,

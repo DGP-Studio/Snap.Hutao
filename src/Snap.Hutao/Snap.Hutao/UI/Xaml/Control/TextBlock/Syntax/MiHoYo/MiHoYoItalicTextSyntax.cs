@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
-internal sealed class MiHoYoItalicTextSyntax : MiHoYoXmlElementSyntax
+internal sealed class MiHoYoItalicTextSyntax : MiHoYoXmlLikeElementSyntax
 {
     public MiHoYoItalicTextSyntax(string text, int start, int end)
         : base(MiHoYoSyntaxKind.ItalicText, text, start, end)

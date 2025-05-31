@@ -15,6 +15,7 @@ internal sealed class WikiAvatarMetadataContext : IMetadataContext,
     IMetadataDictionaryLevelAvaterGrowCurveSource,
     IMetadataDictionaryIdDictionaryLevelAvatarPromoteSource,
     IMetadataDictionaryIdMaterialSource,
+    IMetadataDictionaryIdHyperLinkNameSource,
     IMetadataArrayAvatarSource
 {
     public ImmutableDictionary<Level, TypeValueCollection<GrowCurveType, float>> LevelDictionaryAvatarGrowCurveMap { get; set; } = default!;
@@ -23,5 +24,7 @@ internal sealed class WikiAvatarMetadataContext : IMetadataContext,
 
     public ImmutableDictionary<MaterialId, Material> IdMaterialMap { get; set; } = default!;
 
-    public ImmutableArray<Avatar> Avatars { get; set; } = default!;
+    public ImmutableDictionary<HyperLinkNameId, HyperLinkName> IdHyperLinkNameMap { get; set; } = default!;
+
+    public ImmutableArray<Avatar> Avatars { get; set; }
 }

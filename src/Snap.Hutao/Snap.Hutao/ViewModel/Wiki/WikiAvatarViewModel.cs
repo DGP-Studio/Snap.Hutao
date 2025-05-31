@@ -59,6 +59,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public BaseValueInfo? BaseValueInfo { get; set => SetProperty(ref field, value); }
 
+    public LinkMetadataContext? LinkContext { get; set => SetProperty(ref field, value); }
+
     public ObservableCollection<SearchToken>? FilterTokens { get; set => SetProperty(ref field, value); }
 
     public string? FilterToken { get; set => SetProperty(ref field, value); }
@@ -115,6 +117,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private void OnCurrentAvatarChanged(object? sender, object? e)
     {
         UpdateBaseValueInfo(Avatars?.CurrentItem);
+        UpdateLinkContext(Avatars?.CurrentItem);
         Avatars?.CurrentItem?.CostumesView?.MoveCurrentToFirst();
     }
 
@@ -216,6 +219,22 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         };
 
         BaseValueInfo = new(avatar.MaxLevel, avatar.GrowCurves.ToPropertyCurveValues(avatar.BaseValue), context);
+    }
+
+    private void UpdateLinkContext(Avatar? avatar)
+    {
+        if (avatar is null || metadataContext is null)
+        {
+            LinkContext = null;
+            return;
+        }
+
+        LinkContext = new()
+        {
+            IdNameMap = metadataContext.IdHyperLinkNameMap,
+            Inherents = avatar.SkillDepot.Inherents,
+            Skills = avatar.SkillDepot.CompositeSkillsNoInherents,
+        };
     }
 
     [Command("FilterCommand")]
