@@ -2185,6 +2185,12 @@
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>ไม่มีข้อมูลกลยุทธ์สำหรับตัวละครนี้</value>
   </data>
+  <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
+    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
+    <value>胡桃进程权限不足</value>
+  </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>ซ่อนตัวเลขความเสียหายจากการต่อสู้</value>
   </data>
