@@ -3,11 +3,13 @@
 
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote.NotifySuppression;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -85,10 +87,19 @@ internal sealed partial class DailyNoteNotificationOperation
                 </actions>
             </toast>
             """;
-        AppNotification notification = new(rawXml)
+        AppNotification notification;
+        try
         {
-            ExpiresOnReboot = true,
-        };
+            notification = new(rawXml)
+            {
+                ExpiresOnReboot = true,
+            };
+        }
+        catch (COMException ex)
+        {
+            ExceptionAttachment.SetAttachment(ex, "RawXml", rawXml);
+            throw;
+        }
 
         if (options.IsSilentWhenPlayingGame && gameService.IsGameRunning())
         {
@@ -102,7 +113,7 @@ internal sealed partial class DailyNoteNotificationOperation
         }
         catch (Exception ex)
         {
-            ex.AddData("RawXml", rawXml);
+            ExceptionAttachment.SetAttachment(ex, "RawXml", rawXml);
             infoBarService.Error(ex, SH.ServiceDailyNoteNotificationSendExceptionTitle);
         }
     }
