@@ -2008,6 +2008,9 @@ Spazio disponibile: {2}</value>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>L'utente e il server di gioco selezionati non corrispondono, riprova.</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
+    <value>读取游戏配置文件时遇到问题：{0}</value>
+  </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Impossibile leggere il file di configurazione del gioco: {0}. Il file potrebbe non esistere o le autorizzazioni potrebbero essere insufficienti</value>
   </data>
@@ -2016,6 +2019,9 @@ Spazio disponibile: {2}</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
     <value>Accesso non riuscito con utente 米游社 / HoYoLAB. Riprova ad accedere</value>
+  </data>
+  <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
+    <value>无效的游戏路径，请检查硬件连接</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Passaggio al server fallito</value>
