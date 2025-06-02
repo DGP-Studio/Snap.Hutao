@@ -2187,10 +2187,10 @@
     <value>キャラクターの攻略情報は暫くありません</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
-    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+    <value>Embedded Yae は管理者権限で起動し、ゲームに注入する必要があります</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃进程权限不足</value>
+    <value>胡桃プロセスの権限が不足です</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>戦闘中のダメージ数を消去</value>
