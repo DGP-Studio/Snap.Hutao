@@ -2008,6 +2008,9 @@ Verfügbarer Speicherplatz: {2}</value>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>Der aktuell ausgewählte Benutzer und der Spieleserver stimmen nicht überein. Bitte wähle erneut aus.</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
+    <value>读取游戏配置文件时遇到问题：{0}</value>
+  </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Spielekonfigurationsdatei kann nicht gelesen werden: {0}, Datei ist möglicherweise nicht vorhanden oder es fehlen Berechtigungen</value>
   </data>
@@ -2016,6 +2019,9 @@ Verfügbarer Speicherplatz: {2}</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
     <value>Anmeldung mit dem Konto von 米游社 / HoYoLAB fehlgeschlagen, bitte melde dich erneut an</value>
+  </data>
+  <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
+    <value>无效的游戏路径，请检查硬件连接</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Serverwechsel fehlgeschlagen</value>
