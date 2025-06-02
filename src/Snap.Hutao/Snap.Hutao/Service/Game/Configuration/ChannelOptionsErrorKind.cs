@@ -8,6 +8,7 @@ internal enum ChannelOptionsErrorKind
     None,
     ConfigurationFileNotFound,
     GamePathNullOrEmpty,
-    GamePathInvalid,
+    DeviceNotFound,
     GameContentCorrupted,
+    SharingViolation,
 }

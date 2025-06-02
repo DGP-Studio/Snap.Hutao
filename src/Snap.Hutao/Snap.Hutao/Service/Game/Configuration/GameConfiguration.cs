@@ -18,9 +18,16 @@ internal static class GameConfiguration
         }
         catch (IOException ex)
         {
-            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NOT_READY))
+            // The process cannot access the file '?' because it is being used by another process.
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_SHARING_VIOLATION))
             {
-                return ChannelOptions.GamePathInvalid(gameFileSystem.GetGameDirectory());
+                return ChannelOptions.SharingViolation(configFilePath);
+            }
+
+            if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NOT_READY) ||
+                HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_NO_SUCH_DEVICE))
+            {
+                return ChannelOptions.DeviceNotFound(gameFileSystem.GetGameDirectory());
             }
 
             throw;

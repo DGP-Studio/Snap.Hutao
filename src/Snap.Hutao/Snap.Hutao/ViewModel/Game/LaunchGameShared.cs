@@ -29,9 +29,10 @@ internal sealed partial class LaunchGameShared
 
     private bool resuming;
 
-    public LaunchScheme? SilentGetCurrentLaunchSchemeFromConfigFile()
+    public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile(bool showInfo = true)
     {
         ChannelOptions options = gameService.GetChannelOptions();
+
         if (options.ErrorKind is ChannelOptionsErrorKind.None)
         {
             try
@@ -40,55 +41,40 @@ internal sealed partial class LaunchGameShared
             }
             catch (InvalidOperationException)
             {
-                if (!IgnoredInvalidChannelOptions.Contains(options))
-                {
-                    // 后台收集
-                    HutaoException.Throw($"不支持的 ChannelOptions: {options}");
-                }
+                // 后台收集
+                HutaoException.Throw($"不支持的 ChannelOptions: {options}");
             }
         }
 
-        return default;
-    }
-
-    public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile()
-    {
-        ChannelOptions options = gameService.GetChannelOptions();
+        if (!showInfo)
+        {
+            return default;
+        }
 
         switch (options.ErrorKind)
         {
-            case ChannelOptionsErrorKind.None:
-                try
-                {
-                    return KnownLaunchSchemes.Values.Single(scheme => scheme.Equals(options));
-                }
-                catch (InvalidOperationException)
-                {
-                    if (!IgnoredInvalidChannelOptions.Contains(options))
-                    {
-                        // 后台收集
-                        HutaoException.Throw($"不支持的 ChannelOptions: {options}");
-                    }
-                }
-
-                break;
             case ChannelOptionsErrorKind.ConfigurationFileNotFound:
                 infoBarService.Warning(
-                    $"{options.ErrorKind}",
+                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
                     SH.FormatViewModelLaunchGameConfigurationFileNotFound(options.FilePath),
                     SH.ViewModelLaunchGameFixConfigurationFileButtonText,
                     HandleConfigurationFileNotFoundCommand);
                 break;
             case ChannelOptionsErrorKind.GamePathNullOrEmpty:
                 infoBarService.Warning(
-                    $"{options.ErrorKind}",
+                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
                     SH.ViewModelLaunchGameGamePathNullOrEmpty,
                     SH.ViewModelLaunchGameSetGamePathButtonText,
                     HandleGamePathNullOrEmptyCommand);
                 break;
+            case ChannelOptionsErrorKind.DeviceNotFound:
+                infoBarService.Warning(
+                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
+                    SH.ViewModelLaunchGameDeviceNotFound);
+                break;
             case ChannelOptionsErrorKind.GameContentCorrupted:
                 infoBarService.Warning(
-                    $"{options.ErrorKind}",
+                    SH.FormatViewModelLaunchGameConfigurationFailed(options.ErrorKind),
                     SH.FormatViewModelLaunchGameContentCorrupted(options.FilePath));
                 break;
         }
@@ -98,7 +84,7 @@ internal sealed partial class LaunchGameShared
 
     public async ValueTask ResumeLaunchExecutionAsync(IViewModelSupportLaunchExecution viewModel)
     {
-        if (SilentGetCurrentLaunchSchemeFromConfigFile() is null)
+        if (GetCurrentLaunchSchemeFromConfigFile(false) is null)
         {
             return;
         }
