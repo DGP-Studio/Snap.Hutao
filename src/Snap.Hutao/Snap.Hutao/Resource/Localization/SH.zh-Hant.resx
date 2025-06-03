@@ -803,7 +803,7 @@
     <value>官方啟動器桌布</value>
   </data>
   <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
-    <value>本地隨機圖片</value>
+    <value>本機隨機圖片</value>
   </data>
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>無背景圖片</value>
@@ -903,7 +903,7 @@
     <value>找不到可用的 URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
-    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+    <value>複製網頁快取到暫存資料夾時發生問題，權限不足</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>提供的 URL 無效</value>
@@ -918,7 +918,7 @@
     <value>不支援的 Item Id：{0}</value>
   </data>
   <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
-    <value>Bilibili 渠道服不支持账号功能</value>
+    <value>Bilibili 渠道服不支援賬號功能</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>名稱為 {0} 的帳號已存在</value>
@@ -933,7 +933,7 @@
     <value>下載遊戲資源索引</value>
   </data>
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
-    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+    <value>獲取注入配置資訊失敗，尚未支援當前遊戲版本</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>遊戲處理程序執行中</value>
@@ -1031,7 +1031,7 @@
     <value>取代：{0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
-    <value>在讀取本地 Package Version 時遇到問題，修復遊戲可能會有所幫助</value>
+    <value>在讀取本機 Package Version 時遇到問題，修復遊戲可能會有所幫助</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>重新命名資料資料夾名稱失敗</value>
@@ -1061,7 +1061,7 @@
     <value>請使用其他方法同步背包物品</value>
   </data>
   <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
-    <value>一个或多个元数据文件下载失败：{0}</value>
+    <value>一個或多個後設資料檔案下載失敗：{0}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>無法找到快取的後設資料檔案</value>
@@ -1931,16 +1931,16 @@
     <value>匯入 UIGF JSON 檔案</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
-    <value>获取游戏版本配置失败</value>
+    <value>獲取遊戲版本配置失敗</value>
   </data>
   <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
-    <value>获取游戏渠道 SDK 失败</value>
+    <value>獲取遊戲渠道 SDK 失敗</value>
   </data>
   <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
-    <value>本地游戏配置 [{0}]</value>
+    <value>本機遊戲配置 [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
-    <value>本地版本: {0}</value>
+    <value>本機版本: {0}</value>
   </data>
   <data name="ViewModelGamePackageOperationAborted" xml:space="preserve">
     <value>任務已中斷，{0}</value>
@@ -2009,7 +2009,7 @@
     <value>目前選取使用者與遊戲伺服器不匹配，請重新選擇</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
-    <value>读取游戏配置文件时遇到问题：{0}</value>
+    <value>讀取遊戲配置檔案時遇到問題：{0}</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>無法讀取遊戲設定檔案: {0}，可能是檔案不存在或權限不足</value>
@@ -2021,7 +2021,7 @@
     <value>使用 米遊社 / HoYoLAB 使用者登入失敗，請重新登入</value>
   </data>
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
-    <value>无效的游戏路径，请检查硬件连接</value>
+    <value>無效的遊戲路徑，請檢查硬體連接</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2192,10 +2192,10 @@
     <value>暫無該角色的攻略資訊</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
-    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+    <value>Embedded Yae 需要系統管理員權限以啟動並注入到遊戲</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃进程权限不足</value>
+    <value>胡桃處理程序權限不足</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>移除戰鬥傷害跳字</value>
@@ -3014,7 +3014,7 @@
     <value>背景圖片</value>
   </data>
   <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
-    <value>目前背景為本地圖片，如遇版權問題由使用者個人負責</value>
+    <value>目前背景為本機圖片，如遇版權問題由使用者個人負責</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>快取 資料夾</value>
@@ -3149,7 +3149,7 @@
     <value>日曆伺服器</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片，拖动进行排序</value>
+    <value>管理主頁儀表板中的卡片，拖動進行排序</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>主頁卡片</value>
