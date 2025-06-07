@@ -104,6 +104,7 @@ internal sealed partial class SettingStorageViewModel : Abstraction.ViewModel
             }
             catch (DirectoryNotFoundException ex)
             {
+                // Could not find a part of the path '.*?'.
                 if (HutaoNative.IsWin32(ex.HResult, WIN32_ERROR.ERROR_PATH_NOT_FOUND))
                 {
                     return;

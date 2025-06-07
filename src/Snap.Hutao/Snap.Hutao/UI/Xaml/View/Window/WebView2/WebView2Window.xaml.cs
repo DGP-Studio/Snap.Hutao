@@ -143,7 +143,6 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
                 }
                 catch (SEHException ex)
                 {
-                    SentrySdk.CaptureException(ex);
                     return;
                 }
 

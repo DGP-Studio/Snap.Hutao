@@ -109,7 +109,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             contents = contentsWrapper.List;
         }
 
-        Dictionary<int, string> contentMap = contents.ToDictionary(id => id.AnnId, content => content.Content);
+        Dictionary<int, string> contentMap = contents.ToDictionaryIgnoringDuplicateKeys(id => id.AnnId, content => content.Content);
 
         // 将活动公告置于前方
         wrapper.List = wrapper.List.Reverse();

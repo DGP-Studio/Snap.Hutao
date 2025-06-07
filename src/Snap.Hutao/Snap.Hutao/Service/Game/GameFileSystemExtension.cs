@@ -281,6 +281,7 @@ internal static class GameFileSystemExtension
         }
         catch (UnauthorizedAccessException)
         {
+            // Access to the path '.*?' is denied.
             return false;
         }
         catch (IOException ex)

@@ -14,9 +14,9 @@ internal sealed class RoundView
         RoundId = SH.FormatViewModelRoleCombatRound(data.RoundId);
         IsGetMedal = data.IsGetMedal;
         FinishTimeString = $"{FinishTime:yyyy.MM.dd HH:mm:ss}";
-        Enemies = data.Enemies.Select(EnemyView.From).ToList();
-        Avatars = data.Avatars.Select(avatar => AvatarView.From(avatar, context.IdAvatarMap[avatar.AvatarId])).ToList();
-        ChoiceCards = data.ChoiceCards.Select(BuffView.From).ToList();
+        Enemies = data.Enemies.Select(EnemyView.Create).ToList();
+        Avatars = data.Avatars.Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId])).ToList();
+        ChoiceCards = data.ChoiceCards.Select(BuffView.Create).ToList();
         SplendourSummary = data.SplendourBuff.Summary.Description.Replace("\\n", "\n", StringComparison.OrdinalIgnoreCase);
         SplendourBuffs = data.SplendourBuff.Buffs.Select(SplendourBuffView.From).ToList();
     }

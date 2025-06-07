@@ -98,7 +98,15 @@ internal sealed partial class InfoBarView : UserControl
 
                 if (VisibilityRoot is not null)
                 {
-                    VisibilityRoot.Visibility = Visibility.Collapsed;
+                    try
+                    {
+                        VisibilityRoot.Visibility = Visibility.Collapsed;
+                    }
+                    catch (COMException)
+                    {
+                        // 0x8000FFFF Catastrophic failure
+                        // Happened when the app is exiting
+                    }
                 }
             }
         }
@@ -116,10 +124,18 @@ internal sealed partial class InfoBarView : UserControl
         [SuppressMessage("", "SH003")]
         async Task RemoveInfoBarsAsync()
         {
-            while (InfoBars.Count > 0)
+            try
             {
-                InfoBars.RemoveLast();
-                await Task.Delay(50).ConfigureAwait(true);
+                while (InfoBars.Count > 0)
+                {
+                    InfoBars.RemoveLast();
+                    await Task.Delay(50).ConfigureAwait(true);
+                }
+            }
+            catch (COMException)
+            {
+                // 0x8000FFFF Catastrophic failure
+                // Happened when the app is exiting
             }
         }
     }

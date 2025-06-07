@@ -20,7 +20,7 @@ internal sealed class BuffView
 
     public string Description { get; }
 
-    public static BuffView From(RoleCombatBuff roleCombatBuff)
+    public static BuffView Create(RoleCombatBuff roleCombatBuff)
     {
         return new(roleCombatBuff);
     }

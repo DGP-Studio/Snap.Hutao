@@ -67,6 +67,8 @@ internal sealed partial class YaeService : IYaeService
             }
 
             UIAF? uiaf = default;
+
+            // System.NullReferenceException
             foreach (YaeData data in receiver.Array)
             {
                 using (data)
@@ -77,7 +79,7 @@ internal sealed partial class YaeService : IYaeService
                         AchievementFieldId? fieldId = default;
                         if (!string.IsNullOrEmpty(version))
                         {
-                            fieldId = await featureService.GetAchievementFieldIdFeatureAsync(version);
+                            fieldId = await featureService.GetAchievementFieldIdFeatureAsync(version).ConfigureAwait(false);
                         }
 
                         uiaf = AchievementParser.Parse(data.Bytes, fieldId);
@@ -85,6 +87,7 @@ internal sealed partial class YaeService : IYaeService
                 }
             }
 
+            GC.KeepAlive(receiver);
             return uiaf;
         }
     }

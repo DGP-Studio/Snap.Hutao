@@ -10,18 +10,18 @@ namespace Snap.Hutao.ViewModel.RoleCombat;
 
 internal class AvatarView : INameIconSide<Uri>
 {
-    protected AvatarView(RoleCombatAvatar roleCombatAvatar, Avatar metaAvatar)
-        : this(metaAvatar)
-    {
-        Type = roleCombatAvatar.AvatarType;
-    }
-
     protected AvatarView(Avatar metaAvatar)
     {
         Name = metaAvatar.Name;
         Icon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.Icon);
         SideIcon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.SideIcon);
         Quality = metaAvatar.Quality;
+    }
+
+    private AvatarView(RoleCombatAvatar roleCombatAvatar, Avatar metaAvatar)
+        : this(metaAvatar)
+    {
+        Type = roleCombatAvatar.AvatarType;
     }
 
     public string Name { get; }
@@ -34,12 +34,12 @@ internal class AvatarView : INameIconSide<Uri>
 
     public RoleCombatAvatarType Type { get; }
 
-    public static AvatarView From(Avatar metaAvatar)
+    public static AvatarView Create(Avatar metaAvatar)
     {
         return new(metaAvatar);
     }
 
-    public static AvatarView From(RoleCombatAvatar roleCombatAvatar, Avatar metaAvatar)
+    public static AvatarView Create(RoleCombatAvatar roleCombatAvatar, Avatar metaAvatar)
     {
         return new(roleCombatAvatar, metaAvatar);
     }

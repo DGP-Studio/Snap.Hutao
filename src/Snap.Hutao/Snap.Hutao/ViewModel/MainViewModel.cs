@@ -84,13 +84,14 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
                         easingType: EasingType.Quartic,
                         easingMode: EasingMode.EaseInOut)
                     .StartAsync(backgroundImagePresenter)
-                    .ConfigureAwait(true);
+                    .ConfigureAwait(false);
 
                 if (XamlApplicationLifetime.Exiting)
                 {
                     return;
                 }
 
+                await taskContext.SwitchToMainThreadAsync();
                 backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
 
                 double targetOpacity = backgroundImage is not null
@@ -107,7 +108,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
                         easingType: EasingType.Quartic,
                         easingMode: EasingMode.EaseInOut)
                     .StartAsync(backgroundImagePresenter)
-                    .ConfigureAwait(true);
+                    .ConfigureAwait(false);
             }
         }
     }

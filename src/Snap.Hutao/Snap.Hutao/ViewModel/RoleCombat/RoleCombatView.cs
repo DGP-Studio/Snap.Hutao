@@ -26,14 +26,16 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
         Stat = roleCombatData.Stat;
         Difficulty = roleCombatData.Stat.DifficultyId.GetLocalizedDescription();
         FormattedHeraldry = SH.FormatViewModelRoleCombatHeraldry(MaxRound);
-        BackupAvatars = roleCombatData.Detail.BackupAvatars
-            .OrderByDescending(avatar => avatar.AvatarType)
-            .ThenByDescending(avatar => avatar.Rarity)
-            .ThenByDescending(avatar => avatar.Element)
-            .ThenByDescending(avatar => avatar.AvatarId.Value)
-            .Select(avatar => AvatarView.From(avatar, context.IdAvatarMap[avatar.AvatarId]))
-            .ToList();
-        Rounds = roleCombatData.Detail.RoundsData.SelectList(r => RoundView.From(r, offset, context));
+        BackupAvatars =
+        [
+            .. roleCombatData.Detail.BackupAvatars
+                .OrderByDescending(static avatar => avatar.AvatarType)
+                .ThenByDescending(static avatar => avatar.Rarity)
+                .ThenByDescending(static avatar => avatar.Element)
+                .ThenByDescending(static avatar => avatar.AvatarId.Value)
+                .Select(avatar => AvatarView.Create(avatar, context.IdAvatarMap[avatar.AvatarId]))
+        ];
+        Rounds = [.. roleCombatData.Detail.RoundsData.Select(r => RoundView.From(r, offset, context))];
         TotalBattleTimes = roleCombatData.Detail.FightStatistic.TotalUseTime;
 
         if (roleCombatData.Detail.FightStatistic.IsShowBattleStats)
@@ -50,11 +52,11 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
     private RoleCombatView(RoleCombatSchedule roleCombatSchedule, RoleCombatMetadataContext context)
     {
         ScheduleId = roleCombatSchedule.Id;
-        TimeFormatted = $"{roleCombatSchedule.Begin:yyyy.MM.dd HH:mm} - {roleCombatSchedule.End:yyyy.MM.dd HH:mm}";
+        FormattedTime = $"{roleCombatSchedule.Begin:yyyy.MM.dd HH:mm} - {roleCombatSchedule.End:yyyy.MM.dd HH:mm}";
 
         Elements = roleCombatSchedule.Elements;
-        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectAsArray(id => AvatarView.From(context.IdAvatarMap[id]));
-        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectAsArray(id => AvatarView.From(context.IdAvatarMap[id]));
+        SpecialAvatars = roleCombatSchedule.SpecialAvatars.SelectAsArray(static (id, map) => AvatarView.Create(map[id]), context.IdAvatarMap);
+        InitialAvatars = roleCombatSchedule.InitialAvatars.SelectAsArray(static (id, map) => AvatarView.Create(map[id]), context.IdAvatarMap);
     }
 
     public uint ScheduleId { get; }
@@ -63,7 +65,7 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public RoleCombatEntry? Entity { get; }
 
-    public string TimeFormatted { get; }
+    public string FormattedTime { get; }
 
     public ImmutableArray<ElementType> Elements { get; }
 
@@ -79,15 +81,15 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public string FormattedHeraldry { get; } = default!;
 
-    public List<AvatarView> BackupAvatars { get; } = [];
+    public ImmutableArray<AvatarView> BackupAvatars { get; } = [];
 
-    public List<RoundView> Rounds { get; } = [];
+    public ImmutableArray<RoundView> Rounds { get; } = [];
 
     public string MaxRound { get => Stat is not null ? SH.FormatViewModelRoleCombatRound(Stat.MaxRoundId) : default!; }
 
     public int TotalBattleTimes { get; }
 
-    public string TotalBattleTimesFormatted { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
+    public string FormattedTotalBattleTimes { get => $"{TimeSpan.FromSeconds(TotalBattleTimes):hh':'mm':'ss}"; }
 
     public List<AvatarDamage> Shortest { get; } = default!;
 
@@ -97,12 +99,12 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     public AvatarDamage? TakeDamage { get; }
 
-    public static RoleCombatView From(RoleCombatEntry entity, RoleCombatMetadataContext context)
+    public static RoleCombatView Create(RoleCombatEntry entity, RoleCombatMetadataContext context)
     {
         return new(entity, context);
     }
 
-    public static RoleCombatView From(RoleCombatEntry? entity, RoleCombatSchedule meta, RoleCombatMetadataContext context)
+    public static RoleCombatView Create(RoleCombatEntry? entity, RoleCombatSchedule meta, RoleCombatMetadataContext context)
     {
         return entity is not null ? new(entity, context) : new(meta, context);
     }
@@ -114,6 +116,11 @@ internal sealed partial class RoleCombatView : IEntityAccess<RoleCombatEntry?>, 
 
     private static AvatarDamage? ToAvatarDamage(RoleCombatAvatarDamage avatarDamage, RoleCombatMetadataContext context)
     {
-        return new AvatarDamage(avatarDamage.Value, context.IdAvatarMap[avatarDamage.AvatarId]);
+        if (avatarDamage is not { AvatarId.Value: not 0U })
+        {
+            return default;
+        }
+
+        return new(avatarDamage.Value, context.IdAvatarMap[avatarDamage.AvatarId]);
     }
 }

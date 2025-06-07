@@ -10,12 +10,12 @@ internal static class LevelFormat
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Format(uint value)
     {
-        return $"Lv.{value}";
+        return $"Lv. {value}";
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Format(uint value, uint extra)
     {
-        return extra > 0 ? $"Lv.{value + extra} ({value} +{extra})" : $"Lv.{value}";
+        return extra > 0 ? $"Lv. {value + extra} ({value} +{extra})" : $"Lv. {value}";
     }
 }

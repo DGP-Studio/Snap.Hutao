@@ -39,7 +39,7 @@ internal sealed partial class RoleCombatService : IRoleCombatService
             FrozenDictionary<uint, RoleCombatEntry> entryMap = roleCombatRepository.GetRoleCombatEntryMapByUid(userAndUid.Uid.Value);
 
             ObservableCollection<RoleCombatView> result = context.IdRoleCombatScheduleMap.Values
-                .Select(sch => RoleCombatView.From(entryMap.GetValueOrDefault(sch.Id), sch, context))
+                .Select(sch => RoleCombatView.Create(entryMap.GetValueOrDefault(sch.Id), sch, context))
                 .OrderByDescending(e => e.ScheduleId)
                 .ToObservableCollection();
 
@@ -117,6 +117,6 @@ internal sealed partial class RoleCombatService : IRoleCombatService
 
         await taskContext.SwitchToMainThreadAsync();
         roleCombats.RemoveAt(index);
-        roleCombats.Insert(index, RoleCombatView.From(targetEntry, context));
+        roleCombats.Insert(index, RoleCombatView.Create(targetEntry, context));
     }
 }

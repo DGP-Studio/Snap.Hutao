@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 namespace Snap.Hutao.ViewModel.RoleCombat;
@@ -12,7 +13,7 @@ internal sealed class EnemyView : INameIcon<Uri>
     {
         Name = roleCombatEnemy.Name;
         Icon = roleCombatEnemy.Icon.ToUri();
-        Level = $"Lv. {roleCombatEnemy.Level}";
+        Level = LevelFormat.Format(roleCombatEnemy.Level);
     }
 
     public string Name { get; }
@@ -21,7 +22,7 @@ internal sealed class EnemyView : INameIcon<Uri>
 
     public string Level { get; }
 
-    public static EnemyView From(RoleCombatEnemy roleCombatEnemy)
+    public static EnemyView Create(RoleCombatEnemy roleCombatEnemy)
     {
         return new(roleCombatEnemy);
     }
