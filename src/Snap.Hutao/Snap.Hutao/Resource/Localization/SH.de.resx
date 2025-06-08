@@ -903,7 +903,7 @@
     <value>Keine verfügbare URL gefunden</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
-    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+    <value>Beim Kopieren des Webcaches in den temporären Ordner ist ein Problem aufgetreten, unzureichende Berechtigungen</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Die angegebene URL ist ungültig</value>
@@ -918,7 +918,7 @@
     <value>Nicht unterstützte Item-ID: {0}</value>
   </data>
   <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
-    <value>Bilibili 渠道服不支持账号功能</value>
+    <value>Bilibili-Kanalserver unterstützt keine Kontofunktionen</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Das Konto mit dem Namen {0} ist bereits vorhanden</value>
@@ -933,7 +933,7 @@
     <value>Spiele-Ressourcenindex herunterladen</value>
   </data>
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
-    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+    <value>Abrufen der Injektionskonfigurationsinformationen fehlgeschlagen, aktuelle Spielversion wird noch nicht unterstützt</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Spiel wird ausgeführt</value>
@@ -1931,13 +1931,13 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>UIGF-JSON-Datei importieren</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
-    <value>获取游戏版本配置失败</value>
+    <value>Abrufen der Spielversionskonfiguration fehlgeschlagen</value>
   </data>
   <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
-    <value>获取游戏渠道 SDK 失败</value>
+    <value>Abrufen des Spielkanal-SDK fehlgeschlagen</value>
   </data>
   <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
-    <value>本地游戏配置 [{0}]</value>
+    <value>Lokale Spielkonfiguration [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Lokale Version: {0}</value>
@@ -2009,7 +2009,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Der aktuell ausgewählte Benutzer und der Spieleserver stimmen nicht überein. Bitte wähle erneut aus.</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
-    <value>读取游戏配置文件时遇到问题：{0}</value>
+    <value>Problem beim Lesen der Spielkonfigurationsdatei: {0}</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Spielekonfigurationsdatei kann nicht gelesen werden: {0}, Datei ist möglicherweise nicht vorhanden oder es fehlen Berechtigungen</value>
@@ -2021,7 +2021,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Anmeldung mit dem Konto von 米游社 / HoYoLAB fehlgeschlagen, bitte melde dich erneut an</value>
   </data>
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
-    <value>无效的游戏路径，请检查硬件连接</value>
+    <value>Ungültiger Spielpfad, bitte überprüfen Sie die Hardwareverbindung</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Serverwechsel fehlgeschlagen</value>
@@ -2192,10 +2192,10 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Für diesen Charakter sind keine Strategieinformationen vorhanden</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
-    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+    <value>Embedded Yae benötigt Administratorrechte, um das Spiel zu starten und einzuspritzen</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃进程权限不足</value>
+    <value>Unzureichende Berechtigungen für den Hutao-Prozess</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Kampfschadenszahlen entfernen</value>
@@ -2795,10 +2795,10 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Injektion</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Klicken Sie auf die Anzahl der herstellbaren Gegenstände in den Artikeldetails, um direkt zur Herstellungsseite anstatt zur Karte zu gelangen</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Weiterleitung zur Herstellung</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Touch-Eingabe verwenden</value>
@@ -3149,25 +3149,25 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Kalender Server</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片，拖动进行排序</value>
+    <value>Verwalten Sie Karten im Dashboard der Startseite, ziehen Sie sie zur Neuanordnung</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
-    <value>主页卡片</value>
+    <value>Startseitenkarten</value>
   </data>
   <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>成就管理</value>
+    <value>Errungenschaften verwalten</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Kalender</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>Echtzeit-Notiz</value>
   </data>
   <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>祈愿记录</value>
+    <value>Wunschliste</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Spiel starten</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Anmeldung</value>
@@ -3179,7 +3179,7 @@ Verfügbarer Speicherplatz: {2}</value>
     <value>Anzeigen</value>
   </data>
   <data name="ViewPageSettingHomeHeader" xml:space="preserve">
-    <value>主页</value>
+    <value>Startseite</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
     <value>Ablaufzeit des Snap Hutao Cloud-CDN</value>
