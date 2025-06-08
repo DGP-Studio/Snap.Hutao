@@ -46,7 +46,7 @@ internal static class DependencyInjection
             // Discrete services
             .AddSingleton<IMessenger, WeakReferenceMessenger>();
 
-        ServiceProvider serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true});
+        ServiceProvider serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
 
         Ioc.Default.ConfigureServices(serviceProvider);
 

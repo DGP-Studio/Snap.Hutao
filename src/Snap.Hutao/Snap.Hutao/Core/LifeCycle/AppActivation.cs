@@ -321,7 +321,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             {
                 window = serviceProvider.GetRequiredService<TWindow>();
             }
-            catch (COMException ex)
+            catch (COMException)
             {
                 if (XamlApplicationLifetime.Exiting)
                 {

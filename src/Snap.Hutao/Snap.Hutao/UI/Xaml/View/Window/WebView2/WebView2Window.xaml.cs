@@ -141,7 +141,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window,
                 {
                     await WebView.EnsureCoreWebView2Async();
                 }
-                catch (SEHException ex)
+                catch (SEHException)
                 {
                     return;
                 }

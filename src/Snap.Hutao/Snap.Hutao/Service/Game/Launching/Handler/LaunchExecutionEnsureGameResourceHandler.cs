@@ -173,7 +173,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
     private static ValueTask<ValueResult<bool, GameBranchesWrapper>> TryGetTargetBranchesAsync(HoyoPlayClient hoyoPlayClient, LaunchExecutionContext context)
     {
-        return TryGetAsync(hoyoPlayClient, context.Result, context.TargetScheme,static (client, scheme) => client.GetBranchesAsync(scheme));
+        return TryGetAsync(hoyoPlayClient, context.Result, context.TargetScheme, static (client, scheme) => client.GetBranchesAsync(scheme));
     }
 
     private static ValueTask<ValueResult<bool, GameChannelSDKsWrapper>> TryGetChannelSdkAsync(HoyoPlayClient hoyoPlayClient, LaunchExecutionContext context)

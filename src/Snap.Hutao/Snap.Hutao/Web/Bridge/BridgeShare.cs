@@ -5,7 +5,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Bridge.Model;
-using System.Buffers.Text;
 using System.IO;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
