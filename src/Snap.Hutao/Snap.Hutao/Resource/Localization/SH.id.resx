@@ -903,7 +903,7 @@
     <value>Tidak dapat menemukan URL yang tersedia</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
-    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+    <value>Masalah terjadi saat menyalin cache web ke folder sementara, izin tidak cukup</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>URL yang diberikan tidak valid</value>
@@ -918,7 +918,7 @@
     <value>ID Item tidak didukung: {0}</value>
   </data>
   <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
-    <value>Bilibili 渠道服不支持账号功能</value>
+    <value>Server saluran Bilibili tidak mendukung fitur akun</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Akun dengan nama {0} sudah ada</value>
@@ -933,7 +933,7 @@
     <value>Unduh indeks sumber daya game</value>
   </data>
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
-    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+    <value>Gagal mendapatkan informasi konfigurasi injeksi, versi game saat ini belum didukung</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Proses game sedang berjalan</value>
@@ -1931,13 +1931,13 @@ Ruang Tersedia: {2}</value>
     <value>Impor berkas Json UIGF</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
-    <value>获取游戏版本配置失败</value>
+    <value>Gagal mendapatkan konfigurasi versi game</value>
   </data>
   <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
-    <value>获取游戏渠道 SDK 失败</value>
+    <value>Gagal mendapatkan SDK saluran game</value>
   </data>
   <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
-    <value>本地游戏配置 [{0}]</value>
+    <value>Konfigurasi game lokal [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Versi lokal: {0}</value>
@@ -2009,7 +2009,7 @@ Ruang Tersedia: {2}</value>
     <value>Pengguna dan server game yang dipilih saat ini tidak cocok, silakan pilih lagi</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
-    <value>读取游戏配置文件时遇到问题：{0}</value>
+    <value>Masalah yang ditemui saat membaca file konfigurasi game: {0}</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Tidak dapat membaca file konfigurasi game: {0}, file mungkin tidak ada atau kurang izin pengguna</value>
@@ -2021,7 +2021,7 @@ Ruang Tersedia: {2}</value>
     <value>Gagal masuk menggunakan pengguna miyoushe / HoYoLAB, silakan masuk kembali</value>
   </data>
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
-    <value>无效的游戏路径，请检查硬件连接</value>
+    <value>Path game tidak valid, periksa koneksi perangkat keras</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Konversi server gagal</value>
@@ -2192,10 +2192,10 @@ Ruang Tersedia: {2}</value>
     <value>Belum ada informasi panduan untuk karakter ini</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
-    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+    <value>Embedded Yae memerlukan izin administrator untuk memulai dan menyuntikkan ke dalam game</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃进程权限不足</value>
+    <value>Proses Hutao tidak memiliki izin yang cukup</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Hilangkan tampilan angka damage pertempuran</value>
@@ -2795,10 +2795,10 @@ Ruang Tersedia: {2}</value>
     <value>Injekt</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Klik jumlah yang dapat disintesis di detail item untuk langsung membuka halaman sintesis alih-alih peta</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Alihkan ke sintesis</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Gunakan Input Sentuh</value>
@@ -3149,7 +3149,7 @@ Ruang Tersedia: {2}</value>
     <value>Server Kalender</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片，拖动进行排序</value>
+    <value>Mengelola Cards di dasbor utama</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Card Dashbaord</value>
@@ -3158,7 +3158,7 @@ Ruang Tersedia: {2}</value>
     <value>Achievements</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Kalender</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Catatan Realtime</value>
