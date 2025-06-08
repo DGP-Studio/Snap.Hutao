@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -902,6 +902,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Tidak dapat menemukan URL yang tersedia</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
+    <value>Masalah terjadi saat menyalin cache web ke folder sementara, izin tidak cukup</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>URL yang diberikan tidak valid</value>
   </data>
@@ -914,6 +917,9 @@
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>ID Item tidak didukung: {0}</value>
   </data>
+  <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
+    <value>Server saluran Bilibili tidak mendukung fitur akun</value>
+  </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>Akun dengan nama {0} sudah ada</value>
   </data>
@@ -925,6 +931,9 @@
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>Unduh indeks sumber daya game</value>
+  </data>
+  <data name="ServiceGameIslandFeature404" xml:space="preserve">
+    <value>Gagal mendapatkan informasi konfigurasi injeksi, versi game saat ini belum didukung</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Proses game sedang berjalan</value>
@@ -1051,6 +1060,9 @@ Ruang Tersedia: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Silakan gunakan metode lain untuk menyinkronkan item tas</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>Satu atau lebih file metadata gagal diunduh: {0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Tidak dapat menemukan berkas metadata yang di-cache</value>
   </data>
@@ -1070,7 +1082,7 @@ Ruang Tersedia: {2}</value>
     <value>Versi Snap Hutao Anda terlalu rendah. Harap perbarui secepat mungkin.</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>Operasi sumber daya game gagal</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Gagal melakukan check-in ulang, {0}</value>
@@ -1094,7 +1106,7 @@ Ruang Tersedia: {2}</value>
     <value>Check-in Sukses, {0} x {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>Item tidak didukung, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Versi terbau {0} sudah tersedia.</value>
@@ -1918,6 +1930,15 @@ Ruang Tersedia: {2}</value>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>Impor berkas Json UIGF</value>
   </data>
+  <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
+    <value>Gagal mendapatkan konfigurasi versi game</value>
+  </data>
+  <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
+    <value>Gagal mendapatkan SDK saluran game</value>
+  </data>
+  <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
+    <value>Konfigurasi game lokal [{0}]</value>
+  </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Versi lokal: {0}</value>
   </data>
@@ -1987,6 +2008,9 @@ Ruang Tersedia: {2}</value>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>Pengguna dan server game yang dipilih saat ini tidak cocok, silakan pilih lagi</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
+    <value>Masalah yang ditemui saat membaca file konfigurasi game: {0}</value>
+  </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Tidak dapat membaca file konfigurasi game: {0}, file mungkin tidak ada atau kurang izin pengguna</value>
   </data>
@@ -1995,6 +2019,9 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
     <value>Gagal masuk menggunakan pengguna miyoushe / HoYoLAB, silakan masuk kembali</value>
+  </data>
+  <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
+    <value>Path game tidak valid, periksa koneksi perangkat keras</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Konversi server gagal</value>
@@ -2163,6 +2190,12 @@ Ruang Tersedia: {2}</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>Belum ada informasi panduan untuk karakter ini</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
+    <value>Embedded Yae memerlukan izin administrator untuk memulai dan menyuntikkan ke dalam game</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
+    <value>Proses Hutao tidak memiliki izin yang cukup</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Hilangkan tampilan angka damage pertempuran</value>
@@ -2762,10 +2795,10 @@ Ruang Tersedia: {2}</value>
     <value>Injekt</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Klik jumlah yang dapat disintesis di detail item untuk langsung membuka halaman sintesis alih-alih peta</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Alihkan ke sintesis</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Gunakan Input Sentuh</value>
@@ -3134,7 +3167,7 @@ Ruang Tersedia: {2}</value>
     <value>Riwayat Wish</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>Game Launcher</value>
+    <value>Luncurkan</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Check-in</value>

@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -902,6 +902,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Não é possível encontrar o URL disponível</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
+    <value>Ocorreu um problema ao copiar o cache da web para a pasta temporária, permissões insuficientes</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>URL inválido fornecido</value>
   </data>
@@ -914,6 +917,9 @@
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>ID de item não suportado: {0}</value>
   </data>
+  <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
+    <value>O servidor Bilibili não suporta funções de conta</value>
+  </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>A conta {0} já existe</value>
   </data>
@@ -925,6 +931,9 @@
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>Consultando informações de recursos do jogo</value>
+  </data>
+  <data name="ServiceGameIslandFeature404" xml:space="preserve">
+    <value>Falha ao obter informações de configuração de injeção, a versão atual do jogo ainda não é suportada</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Jogo em andamento</value>
@@ -1051,6 +1060,9 @@ Espaço disponível: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Use outro método para sincronizar os itens da mochila</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>Falha ao baixar um ou mais arquivos de metadados: {0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Não foi possível localizar o arquivo de metadados em cache</value>
   </data>
@@ -1070,7 +1082,7 @@ Espaço disponível: {2}</value>
     <value>Sua versão do Snap Hutao é muito desatualizada. Por favor, atualize o mais rápido possível.</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>Falha ao operar nos recursos do jogo</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Falha ao fazer check-in de compensação, {0}</value>
@@ -1094,7 +1106,7 @@ Espaço disponível: {2}</value>
     <value>Check-in bem-sucedido, {0} x {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>Item não suportado, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Uma nova versão {0} está disponível.</value>
@@ -1918,6 +1930,15 @@ Espaço disponível: {2}</value>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>Importar arquivo UIGF Json</value>
   </data>
+  <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
+    <value>Falha ao obter a configuração da versão do jogo</value>
+  </data>
+  <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
+    <value>Falha ao obter o SDK do canal do jogo</value>
+  </data>
+  <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
+    <value>Configuração local do jogo [{0}]</value>
+  </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Versão local: {0}</value>
   </data>
@@ -1987,6 +2008,9 @@ Espaço disponível: {2}</value>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>O usuário selecionado atualmente e o servidor de jogo não correspondem. Selecione novamente</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
+    <value>Problema encontrado ao ler o arquivo de configuração do jogo: {0}</value>
+  </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Não foi possível ler o arquivo de configuração do jogo: {0}, o arquivo pode não existir por falta de permissão do usuário</value>
   </data>
@@ -1995,6 +2019,9 @@ Espaço disponível: {2}</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
     <value>Falha ao iniciar sessão com o usuário 米游社 / HoYoLAB. Por favor, inicie sessão novamente</value>
+  </data>
+  <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
+    <value>Caminho do jogo inválido, verifique a conexão do hardware</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Falha ao converter o servidor</value>
@@ -2163,6 +2190,12 @@ Espaço disponível: {2}</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>Não há informações de guia para este personagem</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
+    <value>O Embedded Yae requer privilégios de administrador para iniciar e injetar no jogo</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
+    <value>Permissões insuficientes do processo Hutao</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Remover texto flutuante de dano de combate</value>
@@ -2762,10 +2795,10 @@ Espaço disponível: {2}</value>
     <value>Injeção</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Ao clicar na quantidade sintetizável nos detalhes do item, abra diretamente a página de síntese em vez do mapa</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Redirecionar síntese</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Usar Entrada por Toque</value>
@@ -3128,13 +3161,13 @@ Espaço disponível: {2}</value>
     <value>Calendário</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>Lembrete em tempo real</value>
+    <value>Lembretes</value>
   </data>
   <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>Histórico de orações</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>Inicializador</value>
+    <value>Iniciar</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Check-in</value>

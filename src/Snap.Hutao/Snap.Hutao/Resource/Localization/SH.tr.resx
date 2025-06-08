@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -902,6 +902,9 @@
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Kullanılabilir URL bulunamadı</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
+    <value>Web önbelleğini geçici klasöre kopyalarken sorun oluştu, yetersiz izin</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Sağlanan URL geçersiz</value>
   </data>
@@ -914,6 +917,9 @@
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Desteklenmeyen Öğe Kimliği: {0}</value>
   </data>
+  <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
+    <value>Bilibili kanal sunucusu hesap özelliklerini desteklemiyor</value>
+  </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>{0} adlı hesap zaten var</value>
   </data>
@@ -925,6 +931,9 @@
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>Oyun kaynak dizinini indir</value>
+  </data>
+  <data name="ServiceGameIslandFeature404" xml:space="preserve">
+    <value>Enjeksiyon yapılandırma bilgileri alınamadı, mevcut oyun sürümü henüz desteklenmiyor</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Oyun çalışıyor</value>
@@ -1051,6 +1060,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ServiceInventoryRefreshByEmbeddedYaeErrorMessage" xml:space="preserve">
     <value>Lütfen çanta eşyalarını senkronize etmek için başka yöntemler kullanın</value>
   </data>
+  <data name="ServiceMetadataDownloadSourceFilesFailed" xml:space="preserve">
+    <value>Bir veya daha fazla meta veri dosyası indirilemedi: {0}</value>
+  </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Önbelleğe alınmış meta veri dosyası bulunamadı</value>
   </data>
@@ -1070,7 +1082,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Snap Hutao sürümünüz eski, lütfen en kısa sürede güncelleyin</value>
   </data>
   <data name="ServicePackageAdvancedExecuteOperationFailedTitle" xml:space="preserve">
-    <value>游戏资源操作失败</value>
+    <value>Oyun kaynağı işlemi başarısız oldu</value>
   </data>
   <data name="ServiceReSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Telafi girişi başarısız oldu, {0}</value>
@@ -1094,7 +1106,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Giriş başarılı, {0} × {1}</value>
   </data>
   <data name="ServiceUIGFImportInvalidItem" xml:space="preserve">
-    <value>不支持的物品, Id: {0}</value>
+    <value>Desteklenmeyen eşya, Id: {0}</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
     <value>Yeni bir {0} sürümü mevcut.</value>
@@ -1918,6 +1930,15 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>UIGF JSON dosyasını içe aktar</value>
   </data>
+  <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
+    <value>Oyun sürüm yapılandırması alınamadı</value>
+  </data>
+  <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
+    <value>Oyun kanalı SDK alınamadı</value>
+  </data>
+  <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
+    <value>Yerel Oyun Yapılandırması [{0}]</value>
+  </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Yerel sürüm: {0}</value>
   </data>
@@ -1987,6 +2008,9 @@ Kullanılabilir Alan: {2}</value>
   <data name="ViewModelLaunchGameAccountAndServerNotMatch" xml:space="preserve">
     <value>Şu anda seçilen kullanıcı ve oyun sunucusu eşleşmiyor, lütfen yeniden seçin</value>
   </data>
+  <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
+    <value>Oyun yapılandırma dosyası okunurken sorun oluştu: {0}</value>
+  </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Oyun yapılandırma dosyası okunamıyor: {0}, dosya mevcut olmayabilir veya yetersiz izinlere sahip olabilir</value>
   </data>
@@ -1995,6 +2019,9 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewModelLaunchGameCreateAuthTicketFailed" xml:space="preserve">
     <value>米游社 / HoYoLAB kullanıcısı ile oturum açma başarısız oldu, lütfen tekrar oturum açın</value>
+  </data>
+  <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
+    <value>Geçersiz oyun yolu, lütfen donanım bağlantısını kontrol edin</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Sunucu değiştirme başarısız</value>
@@ -2163,6 +2190,12 @@ Kullanılabilir Alan: {2}</value>
   </data>
   <data name="ViewModelWikiAvatarStrategyNotFound" xml:space="preserve">
     <value>Bu karakter için rehber bilgisi bulunmamaktadır</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
+    <value>Gömülü Yae, oyunu başlatmak ve enjekte etmek için yönetici izinleri gerektirir</value>
+  </data>
+  <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
+    <value>Hu Tao işlemi yetersiz izin</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Savaş hasarı metnini kaldır</value>
@@ -2762,10 +2795,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Enjeksiyon</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Eşya detaylarında sentezlenebilir miktara tıklandığında harita yerine doğrudan sentez sayfasını aç</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Sentezi Yönlendir</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Dokunmatik giriş kullan</value>
@@ -3116,22 +3149,22 @@ Kullanılabilir Alan: {2}</value>
     <value>Takvim Sunucusu</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>Ana sayfa gösterge panelindeki kartları yönetin</value>
+    <value>Ana sayfa kontrol panelindeki kartları yönetin, sıralamak için sürükleyin</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Ana Sayfa Kartları</value>
   </data>
   <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>Başarım Yönetimi</value>
+    <value>Başarı Yönetimi</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
     <value>Takvim</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>Gerçek Zamanlı Notlar</value>
+    <value>Gerçek Zamanlı Not</value>
   </data>
   <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>Dilek Kayıtları</value>
+    <value>Dilek Kaydı</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>Oyunu Başlat</value>
