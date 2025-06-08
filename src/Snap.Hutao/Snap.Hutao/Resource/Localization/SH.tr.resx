@@ -903,7 +903,7 @@
     <value>Kullanılabilir URL bulunamadı</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
-    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+    <value>Web önbelleğini geçici klasöre kopyalarken sorun oluştu, yetersiz izin</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Sağlanan URL geçersiz</value>
@@ -918,7 +918,7 @@
     <value>Desteklenmeyen Öğe Kimliği: {0}</value>
   </data>
   <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
-    <value>Bilibili 渠道服不支持账号功能</value>
+    <value>Bilibili kanal sunucusu hesap özelliklerini desteklemiyor</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>{0} adlı hesap zaten var</value>
@@ -933,7 +933,7 @@
     <value>Oyun kaynak dizinini indir</value>
   </data>
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
-    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+    <value>Enjeksiyon yapılandırma bilgileri alınamadı, mevcut oyun sürümü henüz desteklenmiyor</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Oyun çalışıyor</value>
@@ -1931,13 +1931,13 @@ Kullanılabilir Alan: {2}</value>
     <value>UIGF JSON dosyasını içe aktar</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
-    <value>获取游戏版本配置失败</value>
+    <value>Oyun sürüm yapılandırması alınamadı</value>
   </data>
   <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
-    <value>获取游戏渠道 SDK 失败</value>
+    <value>Oyun kanalı SDK alınamadı</value>
   </data>
   <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
-    <value>本地游戏配置 [{0}]</value>
+    <value>Yerel Oyun Yapılandırması [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Yerel sürüm: {0}</value>
@@ -2009,7 +2009,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Şu anda seçilen kullanıcı ve oyun sunucusu eşleşmiyor, lütfen yeniden seçin</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
-    <value>读取游戏配置文件时遇到问题：{0}</value>
+    <value>Oyun yapılandırma dosyası okunurken sorun oluştu: {0}</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Oyun yapılandırma dosyası okunamıyor: {0}, dosya mevcut olmayabilir veya yetersiz izinlere sahip olabilir</value>
@@ -2021,7 +2021,7 @@ Kullanılabilir Alan: {2}</value>
     <value>米游社 / HoYoLAB kullanıcısı ile oturum açma başarısız oldu, lütfen tekrar oturum açın</value>
   </data>
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
-    <value>无效的游戏路径，请检查硬件连接</value>
+    <value>Geçersiz oyun yolu, lütfen donanım bağlantısını kontrol edin</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Sunucu değiştirme başarısız</value>
@@ -2192,10 +2192,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Bu karakter için rehber bilgisi bulunmamaktadır</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
-    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+    <value>Gömülü Yae, oyunu başlatmak ve enjekte etmek için yönetici izinleri gerektirir</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃进程权限不足</value>
+    <value>Hu Tao işlemi yetersiz izin</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Savaş hasarı metnini kaldır</value>
@@ -2795,10 +2795,10 @@ Kullanılabilir Alan: {2}</value>
     <value>Enjeksiyon</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Eşya detaylarında sentezlenebilir miktara tıklandığında harita yerine doğrudan sentez sayfasını aç</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Sentezi Yönlendir</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Dokunmatik giriş kullan</value>
@@ -3149,25 +3149,25 @@ Kullanılabilir Alan: {2}</value>
     <value>Takvim Sunucusu</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片，拖动进行排序</value>
+    <value>Ana sayfa kontrol panelindeki kartları yönetin, sıralamak için sürükleyin</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
-    <value>主页卡片</value>
+    <value>Ana Sayfa Kartları</value>
   </data>
   <data name="ViewPageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>成就管理</value>
+    <value>Başarı Yönetimi</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Takvim</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>Gerçek Zamanlı Not</value>
   </data>
   <data name="ViewPageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>祈愿记录</value>
+    <value>Dilek Kaydı</value>
   </data>
   <data name="ViewPageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Oyunu Başlat</value>
   </data>
   <data name="ViewPageSettingHomeCardItemSignInHeader" xml:space="preserve">
     <value>Giriş</value>
@@ -3179,7 +3179,7 @@ Kullanılabilir Alan: {2}</value>
     <value>Göster</value>
   </data>
   <data name="ViewPageSettingHomeHeader" xml:space="preserve">
-    <value>主页</value>
+    <value>Ana Sayfa</value>
   </data>
   <data name="ViewPageSettingHutaoPassportCdnExpiredAtHeader" xml:space="preserve">
     <value>Snap Hutao Bulutu CDN Geçerlilik Bitiş Zamanı</value>
