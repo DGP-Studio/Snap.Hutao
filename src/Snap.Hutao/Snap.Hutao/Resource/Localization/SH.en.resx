@@ -2009,7 +2009,7 @@ Space Available: {2}</value>
     <value>The currently selected user and game server do not match. Please re-select</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
-    <value>读取游戏配置文件时遇到问题：{0}</value>
+    <value>An issue was encountered while reading the game configuration file: {0}</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Unable to read game config file: {0}, file may be not exist or insufficient permission</value>
@@ -2021,7 +2021,7 @@ Space Available: {2}</value>
     <value>Login failed with MiYouShe/HoYooLAB user. Please login again</value>
   </data>
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
-    <value>无效的游戏路径，请检查硬件连接</value>
+    <value>Invalid game path, please check the hardware connection</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
@@ -2192,10 +2192,10 @@ Space Available: {2}</value>
     <value>No character guides found</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
-    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+    <value>Embedded Yae requires administrator privileges to start and inject into the game</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃进程权限不足</value>
+    <value>Snap Hutao has insufficient permissions</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Disable Damage Numbers</value>
