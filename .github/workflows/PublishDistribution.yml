@@ -21,3 +21,10 @@ jobs:
           repo: qhy040404/CN-Overwriter
           ref: main
           token: "${{ secrets.RUNNER_CHECK_TOKEN }}"
+      - uses: benc-uk/workflow-dispatch@v1.2.4
+        with:
+          workflow: Build
+          repo: DGP-Studio/hutao-installer
+          ref: main
+          token: "${{ secrets.RUNNER_CHECK_TOKEN }}"
+          inputs: '{ "only-offline": true }'
