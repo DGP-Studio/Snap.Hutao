@@ -94,6 +94,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
                         return;
                     }
 
+                    await taskContext.SwitchToMainThreadAsync();
                     backgroundImagePresenter.Source = backgroundImage is null ? null : new BitmapImage(backgroundImage.Path.ToUri());
 
                     double targetOpacity = backgroundImage is not null
