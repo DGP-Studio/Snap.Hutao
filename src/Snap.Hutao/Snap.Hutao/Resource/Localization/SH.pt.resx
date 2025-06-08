@@ -903,7 +903,7 @@
     <value>Não é possível encontrar o URL disponível</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCopyWebCacheUnauthorizedAccess" xml:space="preserve">
-    <value>复制网页缓存到临时文件夹时发生问题，权限不足</value>
+    <value>Ocorreu um problema ao copiar o cache da web para a pasta temporária, permissões insuficientes</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>URL inválido fornecido</value>
@@ -918,7 +918,7 @@
     <value>ID de item não suportado: {0}</value>
   </data>
   <data name="ServiceGameAccountBilibiliNotSupported" xml:space="preserve">
-    <value>Bilibili 渠道服不支持账号功能</value>
+    <value>O servidor Bilibili não suporta funções de conta</value>
   </data>
   <data name="ServiceGameAccountDetectInputNameAlreadyExists" xml:space="preserve">
     <value>A conta {0} já existe</value>
@@ -933,7 +933,7 @@
     <value>Consultando informações de recursos do jogo</value>
   </data>
   <data name="ServiceGameIslandFeature404" xml:space="preserve">
-    <value>获取注入配置信息失败，尚未支持当前游戏版本</value>
+    <value>Falha ao obter informações de configuração de injeção, a versão atual do jogo ainda não é suportada</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>Jogo em andamento</value>
@@ -1931,13 +1931,13 @@ Espaço disponível: {2}</value>
     <value>Importar arquivo UIGF Json</value>
   </data>
   <data name="ViewModelGamePackageGetGameBranchFailed" xml:space="preserve">
-    <value>获取游戏版本配置失败</value>
+    <value>Falha ao obter a configuração da versão do jogo</value>
   </data>
   <data name="ViewModelGamePackageGetGameChannelSDKFailed" xml:space="preserve">
-    <value>获取游戏渠道 SDK 失败</value>
+    <value>Falha ao obter o SDK do canal do jogo</value>
   </data>
   <data name="ViewModelGamePackageLocalLaunchScheme" xml:space="preserve">
-    <value>本地游戏配置 [{0}]</value>
+    <value>Configuração local do jogo [{0}]</value>
   </data>
   <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
     <value>Versão local: {0}</value>
@@ -2009,7 +2009,7 @@ Espaço disponível: {2}</value>
     <value>O usuário selecionado atualmente e o servidor de jogo não correspondem. Selecione novamente</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFailed" xml:space="preserve">
-    <value>读取游戏配置文件时遇到问题：{0}</value>
+    <value>Problema encontrado ao ler o arquivo de configuração do jogo: {0}</value>
   </data>
   <data name="ViewModelLaunchGameConfigurationFileNotFound" xml:space="preserve">
     <value>Não foi possível ler o arquivo de configuração do jogo: {0}, o arquivo pode não existir por falta de permissão do usuário</value>
@@ -2021,7 +2021,7 @@ Espaço disponível: {2}</value>
     <value>Falha ao iniciar sessão com o usuário 米游社 / HoYoLAB. Por favor, inicie sessão novamente</value>
   </data>
   <data name="ViewModelLaunchGameDeviceNotFound" xml:space="preserve">
-    <value>无效的游戏路径，请检查硬件连接</value>
+    <value>Caminho do jogo inválido, verifique a conexão do hardware</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Falha ao converter o servidor</value>
@@ -2192,10 +2192,10 @@ Espaço disponível: {2}</value>
     <value>Não há informações de guia para este personagem</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedDescription" xml:space="preserve">
-    <value>Embedded Yae 需要管理员权限以启动并注入到游戏</value>
+    <value>O Embedded Yae requer privilégios de administrador para iniciar e injetar no jogo</value>
   </data>
   <data name="ViewModelYaeProcessNotElevatedTitle" xml:space="preserve">
-    <value>胡桃进程权限不足</value>
+    <value>Permissões insuficientes do processo Hutao</value>
   </data>
   <data name="ViewOverlayDisableShowDamageTextToolTip" xml:space="preserve">
     <value>Remover texto flutuante de dano de combate</value>
@@ -2795,10 +2795,10 @@ Espaço disponível: {2}</value>
     <value>Injeção</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryDescription" xml:space="preserve">
-    <value>在物品详情中点击可合成数量时直接打开合成页面而不是地图</value>
+    <value>Ao clicar na quantidade sintetizável nos detalhes do item, abra diretamente a página de síntese em vez do mapa</value>
   </data>
   <data name="ViewPageLaunchGameIslandRedirectCombineEntryHeader" xml:space="preserve">
-    <value>重定向合成</value>
+    <value>Redirecionar síntese</value>
   </data>
   <data name="ViewPageLaunchGameIslandUsingTouchScreenHeader" xml:space="preserve">
     <value>Usar Entrada por Toque</value>
@@ -3149,7 +3149,7 @@ Espaço disponível: {2}</value>
     <value>Servidor do Calendário</value>
   </data>
   <data name="ViewPageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片，拖动进行排序</value>
+    <value>Gerenciar cartões no painel inicial</value>
   </data>
   <data name="ViewPageSettingHomeCardHeader" xml:space="preserve">
     <value>Cartão do painel</value>
@@ -3158,7 +3158,7 @@ Espaço disponível: {2}</value>
     <value>Conquistas</value>
   </data>
   <data name="ViewPageSettingHomeCardItemCalendarHeader" xml:space="preserve">
-    <value>日历</value>
+    <value>Calendário</value>
   </data>
   <data name="ViewPageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
     <value>Lembretes</value>
